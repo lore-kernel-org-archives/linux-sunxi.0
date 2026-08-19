@@ -1,113 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C3B231A3B;
-	Wed, 19 Aug 2026 12:39:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA743AB292;
+	Wed, 19 Aug 2026 13:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787143198; cv=none; b=Z0BTych8K3nJ5vNAXGnoBuyv2T51JjG1yriTLm9gQFOwUbx4TRAm66xKhPSW4YAHc3NnftEyed/2ZVxmf9vzcw3g5QvOcEgqK0VqcPwbGjpfijzxsSadiDzFvNnhuUGrlygHzyOHTTyijp6J/zcIWUA7/sy5kwd0OwZdhQRqEgQ=
+	t=1787147296; cv=none; b=j6U+8METcB1XGvZtURYIDvLvV/M203Sv3C/mVQT3dAquRUBsPOrWQ2BSZgIf9B8EH87xQs0DJGlj5RDW9TC5dy5Brdz27Fj8WbhqglGSiAAZFFqCUfs4UgMt5kzgiGn7qsgw+6FJ6Kl8oBGWb2Wurw+U8ZLdjcBxFSZO55Utm6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787143198; c=relaxed/simple;
-	bh=ruv5OdGmv4N7Ly2D1QGdtILwN/1UWKjgBvC9MXV+Tlw=;
+	s=arc-20240116; t=1787147296; c=relaxed/simple;
+	bh=3mEfbSoQ5PqFo6MXopYthzuZIsLshO1DrjAkHXLOBBA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fw/IYRhBlHwOAKxpmGdhP4UniF92Q6XVI6C+FdHkYZBzwsLOha4r7y9WcWuaxjwz58umi1KOgWXUh/C92JOJiIiQ7tUO4g2VGnE42UE6+I/30OjvPJONxgoJGKJs08wOzfa8ZtizBbF+uQc/tk4uSIHwHwydKnoDBHvzn5URxU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VtBBz7Ik; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=BkQZVudBvDwUzimOGy9qosBXGCKC2AT82HRsZa6Gv0N5j6bYKXGOH7Q+4mjjoKdqxTPzzsDq/F7I6V2Px/ndKKtFERWvIdADdnKXgqvOOtjTOA2SgoeYrBnNkosDFtx2J6wZIoGrU82SIxjtJnQ2uLN9XFFTIwPV6LA4vSWpP1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=lyxHHwl0; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VtBBz7Ik"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7224E1F000E9;
-	Wed, 19 Aug 2026 12:39:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787143196;
-	bh=TrqogX1d6CpIK5BDZbM8rityiqPvUCn4X4SVNR7vuNE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VtBBz7IkyQGjgipDTIQOj5OCMWFgrUj+acs8oItZKYvEr75rnCeV8/XJ+U9iGm24g
-	 DkFpC+/1CnABHexazonHnlpILJpVHksKmmrCJsvmFLL4MDkXLyXiIniD5ZebeWxTKW
-	 gRqv/FOKoaVZzjnu8PGW3BuHw/eXkXQLNlcsN3w02eZNa0TAHdCU9ISc/sEjZnLWY2
-	 cldj4zUIVwApLixp1Y9ZrcGLrzdSDAimOIbGXBeFBc7UQeDcB8J4Azr8iz/iiAEUMu
-	 fV8FtMh3rHmwPkKvlvb+0F/WSYagtKKbml3Kp4mHYYjCTDVQuMhJmEzQC+JnGqwGv+
-	 qmYvzXTfEisfg==
-Date: Wed, 19 Aug 2026 14:39:55 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Andy Yan <andy.yan@rock-chips.com>, Algea Cao <algea.cao@rock-chips.com>, 
-	Daniel Stone <daniels@collabora.com>, Liu Ying <victor.liu@nxp.com>, Phong LE <ple@baylibre.com>, 
-	kernel@collabora.com, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
-	Diederik de Haas <diederik@cknow-tech.com>
-Subject: Re: [PATCH v10 21/69] drm/display: hdmi-state-helper: Pass acquire
- ctx to hotplug helpers
-Message-ID: <20260819-huge-congenial-rottweiler-32ec85@houat>
-References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
- <20260731-dw-hdmi-qp-scramb-v10-21-294364b2cf15@collabora.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="lyxHHwl0"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=lhuJm5bU8coWF+IIzOxJmec7Ug+YIsKGfOtibniuIro=; b=lyxHHwl0o6jOPCBP+/vlesRMcX
+	gJrFoI/qEtjf9ABnm0xeqWnhXU0o9ZVPgKC1blN8uMjCc78pXLUwcsoNh5C8mFvypXzdgX6kk0h3p
+	9mftZnPy7mupjQOVjyRkTjCPoI47RWp5ZetpZk0NAAUW+t9l3TnvG75Xs1unKxN5wgu0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wwgeB-000c9n-8D; Wed, 19 Aug 2026 15:48:03 +0200
+Date: Wed, 19 Aug 2026 15:48:03 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Roman Riabenko <roman@riabenko.com>
+Cc: wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+	andre.przywara@arm.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] arm64: dts: allwinner: sun50i-a64-olinuxino: Add RX delay
+Message-ID: <e9c26d2a-2426-43b7-8c68-89cc52a2c7cb@lunn.ch>
+References: <20260815005316.28998-1-roman@riabenko.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="3rp65omxlgvr2kuq"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-21-294364b2cf15@collabora.com>
+In-Reply-To: <20260815005316.28998-1-roman@riabenko.com>
 
+On Sat, Aug 15, 2026 at 03:53:16AM +0300, Roman Riabenko wrote:
+> The Ethernet on Olimex A64-OlinuXino computers requires an RX delay
+> greater than 0. If the value is not set or is 0, packet loss in the
+> downlink direction is severe enough to interfere with downloads and
+> disrupt software installation.
+> 
+> The range of acceptable values is wide. The vendor has been applying
+> 200 ps in its downstream DTs since 2021. This patch matches that
+> common practice.
+> 
+> Signed-off-by: Roman Riabenko <roman@riabenko.com>
+> ---
+>  arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts
+> index fd3794678c33..6c8b79c257b9 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts
+> @@ -106,6 +106,7 @@ &emac {
+>  	phy-handle = <&ext_rgmii_phy>;
+>  	phy-supply = <&reg_dcdc1>;
+>  	allwinner,tx-delay-ps = <600>;
+> +	allwinner,rx-delay-ps = <200>;
+>  	status = "okay";
+>  };
 
---3rp65omxlgvr2kuq
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v10 21/69] drm/display: hdmi-state-helper: Pass acquire
- ctx to hotplug helpers
-MIME-Version: 1.0
+The full node is:
 
-On Fri, Jul 31, 2026 at 07:19:28PM +0300, Cristian Ciocaltea wrote:
-> In preparation for supporting SCDC status synchronization on hotplug
-> events, extend drm_atomic_helper_connector_hdmi_hotplug() and
-> drm_atomic_helper_connector_hdmi_update() to take a struct
-> drm_modeset_acquire_ctx argument.  This will be used when a CRTC reset
-> is required.
->=20
-> Additionally, change their return type from void to int to allow
-> propagation of errors such as -EDEADLK caused by lock contention.
->=20
-> Update existing callers accordingly.  Note that in the VC4 case, the
-> return code is ignored, as it cannot fail: being in the .detect_ctx()
-> call path, the connection mutex is already held through ctx, and it
-> bails out early because the driver relies on a local SCDC
-> state-management implementation, and therefore does not yet expose the
-> scrambler capability through the common helpers.
->=20
-> Similarly, introduce drm_atomic_helper_connector_hdmi_force_ctx() as the
-> HDMI connector implementation of the .force_ctx() callback.  Since
-> migrating from the .force() callback is somewhat more involved, its
-> users will be migrated incrementally, after which
-> drm_atomic_helper_connector_hdmi_force() will be removed.
+&emac {
+        pinctrl-names = "default";
+        pinctrl-0 = <&rgmii_pins>;
+        phy-mode = "rgmii";
+        phy-handle = <&ext_rgmii_phy>;
+        phy-supply = <&reg_dcdc1>;
+        allwinner,tx-delay-ps = <600>;
+        status = "okay";
+};
 
-The force_ctx introduction should be a separate patch. Once split, you have=
- (for both patches)
+Please take a read of:
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+https://elixir.bootlin.com/linux/v6.15/source/Documentation/devicetree/bindings/net/ethernet-controller.yaml#L287
 
-Maxime
+phy-mode of "rgmii" is questionable. Does the PCB have extra long
+clock lines?
 
---3rp65omxlgvr2kuq
-Content-Type: application/pgp-signature; name="signature.asc"
+600/200ps is actually very small. It should be around 2000.
 
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaoWkFgAKCRAnX84Zoj2+
-dpxbAYDWvy2abaZ7cn62e+VobqiL0fNN+KQJAQuPE0h2SP0dGhzSQgFdt2m/iR0K
-3guVa5UBf2cSjZ7ytgMSlTJ7y1BKsyj7fN6s0Us/VWsxeZ2vyt78eqeZNxsKcWVx
-MjW7AWoLWw==
-=63Wj
------END PGP SIGNATURE-----
-
---3rp65omxlgvr2kuq--
+	  Andrew
