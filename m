@@ -1,98 +1,294 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA743AB292;
-	Wed, 19 Aug 2026 13:48:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0533130F95C
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 Aug 2026 19:33:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787147296; cv=none; b=j6U+8METcB1XGvZtURYIDvLvV/M203Sv3C/mVQT3dAquRUBsPOrWQ2BSZgIf9B8EH87xQs0DJGlj5RDW9TC5dy5Brdz27Fj8WbhqglGSiAAZFFqCUfs4UgMt5kzgiGn7qsgw+6FJ6Kl8oBGWb2Wurw+U8ZLdjcBxFSZO55Utm6Q=
+	t=1787167989; cv=none; b=dk4NWQpNZg6PhVnMuSvY7QUBOHvR4qEUCTxze6GYEm0+LSpM7LvVKzyaF3bBzcKwHF5wLQ2k9yzkZ4O+aBfAjlPifDQsrYaqzfXEEd2kv8FrYQFTL/nptBR7r+U6oDbtj0JOOUcMUvIXYzU2qVXPQvron5qv0fCmximXDGZ7Xt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787147296; c=relaxed/simple;
-	bh=3mEfbSoQ5PqFo6MXopYthzuZIsLshO1DrjAkHXLOBBA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BkQZVudBvDwUzimOGy9qosBXGCKC2AT82HRsZa6Gv0N5j6bYKXGOH7Q+4mjjoKdqxTPzzsDq/F7I6V2Px/ndKKtFERWvIdADdnKXgqvOOtjTOA2SgoeYrBnNkosDFtx2J6wZIoGrU82SIxjtJnQ2uLN9XFFTIwPV6LA4vSWpP1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=lyxHHwl0; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1787167989; c=relaxed/simple;
+	bh=kMADfvqJCByjsFL1DUPu5iKZB2BEvuf6N8n0yN3fRPk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=caAhDNxodSAM9izaF+umxM7weAGOzW2n3B2y4A47sQ4kEgYzVDXI6TrxN81uot7PPKDObwv/RJHAhprkO5jTFNx4Mm99lYZIRoh9DfuefzebQppyPqma6pSA82VA3YLA3Dbx/uNvbQWPrSd7xHOSmBUjl9BCyqf82cmwMXYUwGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=AfieMMHy; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="lyxHHwl0"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=lhuJm5bU8coWF+IIzOxJmec7Ug+YIsKGfOtibniuIro=; b=lyxHHwl0o6jOPCBP+/vlesRMcX
-	gJrFoI/qEtjf9ABnm0xeqWnhXU0o9ZVPgKC1blN8uMjCc78pXLUwcsoNh5C8mFvypXzdgX6kk0h3p
-	9mftZnPy7mupjQOVjyRkTjCPoI47RWp5ZetpZk0NAAUW+t9l3TnvG75Xs1unKxN5wgu0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wwgeB-000c9n-8D; Wed, 19 Aug 2026 15:48:03 +0200
-Date: Wed, 19 Aug 2026 15:48:03 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Roman Riabenko <roman@riabenko.com>
-Cc: wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
-	andre.przywara@arm.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] arm64: dts: allwinner: sun50i-a64-olinuxino: Add RX delay
-Message-ID: <e9c26d2a-2426-43b7-8c68-89cc52a2c7cb@lunn.ch>
-References: <20260815005316.28998-1-roman@riabenko.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="AfieMMHy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1787167985;
+	bh=kMADfvqJCByjsFL1DUPu5iKZB2BEvuf6N8n0yN3fRPk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=AfieMMHyQRL41XURO2bGZmSkHtWHDEqArDkWGOzwH0lmBC4AGvhlwJtDrivKTBnuL
+	 wPb14+7hfG1pMLefN7/7N2hUvTKiADLWmO+1NGzZsYfDApIEqMSfPqgog4e5qZbT7C
+	 OKBWrkTdPxvBVZhDTxvmvT1GeUCH/H1PB5vHhQBIWOjPDl6VmNh0bQN0TFNTdSnjVd
+	 zCypTcUTwMvKoi9+xQW0WzK95ZYA/jNdtG+zKmQY3oPrhf2XpUzX7YMTpNEUvB1gTE
+	 8YDnrtVCxKIoBq0Kbh04FViWnXcRy/213kxt7xnKHX9ubX9vmLUar5iqPcNZ2LlP4t
+	 37SUeCXvk10EQ==
+Received: from [100.64.0.241] (unknown [100.64.0.241])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id E4CD517E0110;
+	Wed, 19 Aug 2026 21:33:04 +0200 (CEST)
+Message-ID: <ad65a396-02fb-4816-b978-e3a0c46688b2@collabora.com>
+Date: Wed, 19 Aug 2026 22:33:04 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260815005316.28998-1-roman@riabenko.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 07/69] drm/connector: Add HDMI 2.0 scrambler
+ infrastructure
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Algea Cao <algea.cao@rock-chips.com>, Daniel Stone <daniels@collabora.com>,
+ Liu Ying <victor.liu@nxp.com>, Phong LE <ple@baylibre.com>,
+ kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ Maud Spierings <maud_spierings@hotmail.com>,
+ Diederik de Haas <diederik@cknow-tech.com>
+References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
+ <20260731-dw-hdmi-qp-scramb-v10-7-294364b2cf15@collabora.com>
+ <20260819-amigurumi-lorikeet-of-infinity-fd8c2d@houat>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <20260819-amigurumi-lorikeet-of-infinity-fd8c2d@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Aug 15, 2026 at 03:53:16AM +0300, Roman Riabenko wrote:
-> The Ethernet on Olimex A64-OlinuXino computers requires an RX delay
-> greater than 0. If the value is not set or is 0, packet loss in the
-> downlink direction is severe enough to interfere with downloads and
-> disrupt software installation.
+On 8/19/26 1:12 PM, Maxime Ripard wrote:
+> On Fri, Jul 31, 2026 at 07:19:14PM +0300, Cristian Ciocaltea wrote:
+>> Add the connector-level infrastructure to support HDMI 2.0 scrambling:
+>>
+>> - A drm_connector_hdmi_scrambler_supported() helper to report whether
+>>   the source supports the scrambling capability, based on the presence
+>>   of the newly introduced .scrambler_{enable|disable}() callbacks in
+>>   drm_connector_hdmi_funcs are mandatory
+>> - A scrambler_needed flag to be managed by the hdmi state helpers based
+>>   on the negotiated TMDS character rate and the source/sink scrambling
+>>   capabilities
+>> - A scrambler_enabled flag to track whether scrambling is currently
+>>   active
+>> - A delayed work item (scdc_work) to monitor sink-side scrambling status
+>>   and retry the setup if the sink resets it
+>> - A scdc_work_initialized flag to support lazy initialization of the
+>>   work item on the first scrambling enable and guard the teardown paths
+>>
+>> These are intended to be used by SCDC scrambling helpers to coordinate
+>> scrambling setup and teardown between the source driver and the DRM
+>> core.
+>>
+>> Tested-by: Maud Spierings <maud_spierings@hotmail.com>
+>> Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # NanoPC-T6 LTS, Rock 5B
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>>  drivers/gpu/drm/drm_connector.c | 31 ++++++++++++---
+>>  include/drm/drm_connector.h     | 83 +++++++++++++++++++++++++++++++++++++++++
+>>  2 files changed, 109 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+>> index 4721cdeafc84..a18410faf040 100644
+>> --- a/drivers/gpu/drm/drm_connector.c
+>> +++ b/drivers/gpu/drm/drm_connector.c
+>> @@ -622,12 +622,29 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+>>  	 * default with the actual controller capability. A value of zero keeps
+>>  	 * the limit inferred from supported_hdmi_ver.
+>>  	 */
+>> -	if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_2_0)
+>> +	if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_2_0) {
+>> +		if (!hdmi_funcs->scrambler_enable || !hdmi_funcs->scrambler_disable) {
+>> +			drm_err(dev, "Scrambler callbacks missing for HDMI 2.x\n");
+>> +			return -EINVAL;
+>> +		}
+>> +
+>>  		connector->hdmi.max_tmds_char_rate = HDMI_2_0_TMDS_CHAR_RATE_MAX_HZ;
+>> -	else if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_3)
+>> -		connector->hdmi.max_tmds_char_rate = HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ;
+>> -	else if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_0)
+>> -		connector->hdmi.max_tmds_char_rate = HDMI_1_0_TMDS_CHAR_RATE_MAX_HZ;
+>> +	} else {
+>> +		/*
+>> +		 * Scrambler callbacks are only valid for connectors advertising
+>> +		 * HDMI 2.0 capability. drm_connector_hdmi_scrambler_supported()
+>> +		 * relies on their presence to report scrambling support.
+>> +		 */
+>> +		if (hdmi_funcs->scrambler_enable || hdmi_funcs->scrambler_disable) {
+>> +			drm_err(dev, "Scrambler callbacks unexpected for HDMI 1.x\n");
+>> +			return -EINVAL;
+>> +		}
+>> +
+>> +		if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_3)
+>> +			connector->hdmi.max_tmds_char_rate = HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ;
+>> +		else if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_0)
+>> +			connector->hdmi.max_tmds_char_rate = HDMI_1_0_TMDS_CHAR_RATE_MAX_HZ;
+>> +	}
 > 
-> The range of acceptable values is wide. The vendor has been applying
-> 200 ps in its downstream DTs since 2021. This patch matches that
-> common practice.
+> I'd put it into a separate test (possibly earlier). Merging both the
+> tmds rate default and the scrambler callbacks check makes it messier
+> than it would be if we had two separate tests.
+
+Ack. How about the following?
+
+	if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_2_0)
+		connector->hdmi.max_tmds_char_rate = HDMI_2_0_TMDS_CHAR_RATE_MAX_HZ;
+	else if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_3)
+		connector->hdmi.max_tmds_char_rate = HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ;
+	else if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_0)
+		connector->hdmi.max_tmds_char_rate = HDMI_1_0_TMDS_CHAR_RATE_MAX_HZ;
+
+	if (hdmi_funcs->supported_tmds_char_rate) {
+		if (hdmi_funcs->supported_tmds_char_rate > connector->hdmi.max_tmds_char_rate) {
+			drm_err(dev, "Enforced max_tmds_char_rate exceeds %llu spec limit\n",
+				connector->hdmi.max_tmds_char_rate);
+			return -EINVAL;
+		}
+
+		connector->hdmi.max_tmds_char_rate = hdmi_funcs->supported_tmds_char_rate;
+	}
+
+	if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_2_0) {
+		if (!hdmi_funcs->scrambler_enable || !hdmi_funcs->scrambler_disable) {
+			drm_err(dev, "Scrambler callbacks missing for HDMI 2.x\n");
+			return -EINVAL;
+		}
+	} else {
+		/*
+		 * Scrambler callbacks are only valid for connectors advertising
+		 * HDMI 2.0 capability. drm_connector_hdmi_scrambler_supported()
+		 * relies on their presence to report scrambling support.
+		 */
+		if (hdmi_funcs->scrambler_enable || hdmi_funcs->scrambler_disable) {
+			drm_err(dev, "Scrambler callbacks unexpected for HDMI 1.x\n");
+			return -EINVAL;
+		}
+	}
+
+>>  	if (hdmi_funcs->supported_tmds_char_rate) {
+>>  		if (hdmi_funcs->supported_tmds_char_rate > connector->hdmi.max_tmds_char_rate) {
+>> @@ -635,6 +652,7 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+>>  				connector->hdmi.max_tmds_char_rate);
+>>  			return -EINVAL;
+>>  		}
+>> +
+>>  		connector->hdmi.max_tmds_char_rate = hdmi_funcs->supported_tmds_char_rate;
+>>  	}
+
+[...]
+
+>> +	/**
+>> +	 * @scdc_work: Work item currently used to monitor sink-side scrambling
+>> +	 * status and retry setup if the sink resets it.
+>> +	 */
+>> +	struct delayed_work scdc_work;
+>> +
+>> +	/**
+>> +	 * @scdc_work_initialized: Tracks whether @scdc_work has been set up via
+>> +	 * INIT_DELAYED_WORK(). The work item is initialized lazily on the first
+>> +	 * scrambling enable, so this guards the teardown paths against touching
+>> +	 * an uninitialized work item.
+>> +	 */
+>> +	bool scdc_work_initialized;
+>> +
 > 
-> Signed-off-by: Roman Riabenko <roman@riabenko.com>
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts
-> index fd3794678c33..6c8b79c257b9 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts
-> @@ -106,6 +106,7 @@ &emac {
->  	phy-handle = <&ext_rgmii_phy>;
->  	phy-supply = <&reg_dcdc1>;
->  	allwinner,tx-delay-ps = <600>;
-> +	allwinner,rx-delay-ps = <200>;
->  	status = "okay";
->  };
+> Why should we track whether it's initialized or not? I'd always
+> initialize it, but only ever schedule something if we're using the
+> scrambler.
 
-The full node is:
+Having this initialized in the connector would lead to a module dependency
+cycle.
 
-&emac {
-        pinctrl-names = "default";
-        pinctrl-0 = <&rgmii_pins>;
-        phy-mode = "rgmii";
-        phy-handle = <&ext_rgmii_phy>;
-        phy-supply = <&reg_dcdc1>;
-        allwinner,tx-delay-ps = <600>;
-        status = "okay";
-};
+Currently the work function lives in drm_hdmi_helper.c, which is built into
+drm_display_helper module:
 
-Please take a read of:
+static void drm_connector_hdmi_scdc_work(struct work_struct *work)
+{
+	[...]
+	if (READ_ONCE(connector->hdmi.scrambler_enabled) &&
+	    !drm_scdc_get_scrambling_status(connector))
+		drm_connector_hdmi_try_scrambling_setup(connector);
+	[...]
+}
 
-https://elixir.bootlin.com/linux/v6.15/source/Documentation/devicetree/bindings/net/ethernet-controller.yaml#L287
+int drm_connector_hdmi_enable_scrambling(struct drm_connector *connector,
+					 const struct drm_connector_state *conn_state)
+{
 
-phy-mode of "rgmii" is questionable. Does the PCB have extra long
-clock lines?
+	[...]
+	if (!hdmi->scdc_work_initialized) {
+		INIT_DELAYED_WORK(&hdmi->scdc_work,
+				  drm_connector_hdmi_scdc_work);
+		hdmi->scdc_work_initialized = true;
+	}
+	[...]
+}
 
-600/200ps is actually very small. It should be around 2000.
+If we move INIT_DELAYED_WORK() into the connector (i.e. in drm.ko), the work
+function has to be reachable from there.  The following attempts to accomplish
+that would fail:
 
-	  Andrew
+- Keep the work function in drm_hdmi_helper.c and export it from
+  drm_display_helper.
+
+- Move the work function into drm_connector.c and export 
+  drm_connector_hdmi_try_scrambling_setup(), or a wrapper function, from 
+  drm_display_helper.
+
+Either way drm module ends up depending on drm_display_helper, which already 
+depends on drm:
+
+  depmod: ERROR: Cycle detected: drm_display_helper -> drm -> drm_display_helper
+
+My previous approach provided the work function in the connector, and a callback 
+set by the scrambling helper:
+
+/* Part of drm module */
+
+struct drm_connector_hdmi {
+	[...]
+	void (*scdc_cb)(struct drm_connector *connector);
+	[...]
+}
+
+static void drm_connector_hdmi_scdc_work(struct work_struct *work)
+{
+	[...]
+	if (hdmi->scdc_cb)
+		hdmi->scdc_cb(connector);
+	[...]
+}
+
+/* Part of drm_display_helper */
+
+int drm_connector_hdmi_enable_scrambling()
+{
+	[...]
+	hdmi->scdc_cb = drm_scdc_monitor_scrambler;
+	[...]
+}
+
+Since it didn't get positive feedback, I ended up with lazy initialization
+instead.  I think it's the better of the two, as it keeps all the implementation
+logic inside the helper module rather than splitting it across drm and
+drm_display_helper.
+
+Thanks,
+Cristian
