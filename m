@@ -1,68 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD4B42AF91;
-	Thu, 20 Aug 2026 11:25:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE1B36215E
+	for <linux-sunxi@lists.linux.dev>; Thu, 20 Aug 2026 14:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787225116; cv=none; b=DWnD1xErgt7uLB99NrJPtVMDDV16o8pxTVoBwxZxunTHknZVLDemJAcgejoH6eTMr7F/EEE37sGyBnDsuZQqm4P2ENnXTOGt84OD8huO70NO5rF6Ey4yvLyBU3Yqs+sOhz/nnG/hsvqluKe27vP9pt4bVhWUS2gVKevYkPCF2EE=
+	t=1787237060; cv=none; b=CD6i9vjtOiOj7roH2MH9MuddKrgKVmRSJyvZDa6q9gvuRB0bPdV4+t/mQhXHCuoM+xDxvYyiyOoWcBdb2DHobnLe5B7gMvTHGAjJgQUrQDo33zx4FZWMMSwAVxpRlJhFMm29ScPHQkdCF6C8MaZEOUkcISvrM5YH/zUabWgrBzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787225116; c=relaxed/simple;
-	bh=uXCsRx2gpHphwD5vA8dz8s6UFkUjR25U3djlrwNwVt0=;
-	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=FF9UeTT2urCCfhheHTLQxM1ezP3AeBxLZCiqkzGM5q6AaGJxFLJoQDG/FD6gOzzNYzlS53fzLU6YslPc22QkbGXxZT1P6cRMt3ERabncZ5VfB3SSA11i3DGMvz1K49+vrJqiqD6MoTpshtNZAaXfm33tyIEgOzPoYRQ9FrtpRXo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W+DnkccL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787237060; c=relaxed/simple;
+	bh=r+P77I8193wL11BA4etBba+tHuwbkrJlDBvncLxVpGQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qi/7jTCHKJWb05Ce/a1J9uwEqDLOfxdFJlc3SpbYYeTEpFZUEcYWzzJkKPPGbhwhJVKh22arq4J7FH9P/AJtHAslyY1PFEgnX6et++0nKroO39zuPGVE3ZpT8oGXeuNBYIHwHSlTDbF5FQsyl3E1aG4n6ZQYg8ckYkAwssuvKis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=NefOKIfS; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W+DnkccL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D1351F00A3D;
-	Thu, 20 Aug 2026 11:25:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787225106;
-	bh=/c60mbhcS4U8Xf5+mb+pxutuXKJgTlFQK+FGzZ5Hvz4=;
-	h=Date:From:To:Subject:In-Reply-To:References:Cc;
-	b=W+DnkccLOEc6tIO8oUfiNSsEn7nL4BbZyzMM0gkpESvZTwqE1AzRr4jJ9Vvfm20bt
-	 UH1bmjPw8cfFwxORVQu6WFahYiAr8MQHe344cSU09qUZPolOh4Qdsob7ugBXS/Jsa5
-	 gfcYFcKDJnXwpit4NFiXKv/T2PIPkymFykvLDicUU6xcLB1Trpj++/Bksy6ettMbq3
-	 sSg7lzOXdDDr2tLgJqq1iKWVmSzHw7DKokvmeAJX+qZmiDZwpteum98hTChkS7CteH
-	 rz/d+ndoAtWjcImdNQeC5iy0Sv7cDF6zwx9xtOIeQVy/M0/v4D0RJBedhTLINhLCXR
-	 E0ehyYHNLoXEw==
-Message-ID: <b413cfa2a6229fe0883d1a3116d9e88c@kernel.org>
-Date: Thu, 20 Aug 2026 11:25:04 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
-Subject: Re: [PATCH v10 44/69] drm/vc4: hdmi: Convert to
- drmm_connector_hdmi_init()
-In-Reply-To: <20260731-dw-hdmi-qp-scramb-v10-44-294364b2cf15@collabora.com>
-References: <20260731-dw-hdmi-qp-scramb-v10-44-294364b2cf15@collabora.com>
-Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, "Algea
- Cao" <algea.cao@rock-chips.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "Andy
- Yan" <andy.yan@rock-chips.com>, "Chen-Yu Tsai" <wens@kernel.org>, "Daniel
- Stone" <daniels@collabora.com>, "Dave Stevenson" <dave.stevenson@raspberrypi.com>, "David
- Airlie" <airlied@gmail.com>, =?utf-8?b?SGVpa28gU3TDvGJuZXI=?= <heiko@sntech.de>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, "Jonas Karlman" <jonas@kwiboo.se>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Liu Ying" <victor.liu@nxp.com>, "Luca
- Ceresoli" <luca.ceresoli@bootlin.com>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime
- Ripard" <mripard@kernel.org>, =?utf-8?b?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Phong LE" <ple@baylibre.com>, "Raspberry
- Pi Kernel Maintenance" <kernel-list@raspberrypi.com>, "Robert Foss" <rfoss@kernel.org>, "Samuel
- Holland" <samuel@sholland.org>, "Sandy Huang" <hjc@rock-chips.com>, "Simona
- Vetter" <simona@ffwll.ch>, "Thomas Zimmermann" <tzimmermann@suse.de>
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="NefOKIfS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1787237049;
+	bh=r+P77I8193wL11BA4etBba+tHuwbkrJlDBvncLxVpGQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NefOKIfS0kIidLqvfhuoMts5ws8TZGCYbHJqJh4sVaTgdEmAPdB/q3PG1EQE7iO6Q
+	 cqzxuAlfR/yeZQUEGjPHZEWKmSZgDulSW2iKPRJ+iF9A7+hEBLIEQ+l+8a/siAVHNP
+	 NIKC/+wYm4AzpxAOVjCaX7gNhl1daeuLJmpKq3v2HKeNeyusj1UH/0IfUENchgCjUV
+	 Dpx/zSzJyt6pb+0nmJNzi7hlzT6n4dGhSCcCYnqGResiqWiZezuXDzelZ9pRFGV/Uy
+	 o9DZmjNZ0B0wTETIZmU3mI/Z2smzQ868bW/dgUZU0u0KzCMKzKFwTM34gL5KctSngW
+	 ikVQS5skLw1+A==
+Received: from [100.64.0.241] (unknown [100.64.0.241])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id AC31117E0756;
+	Thu, 20 Aug 2026 16:44:08 +0200 (CEST)
+Message-ID: <774c38bd-6569-4aff-9fbc-a4e017840a55@collabora.com>
+Date: Thu, 20 Aug 2026 17:44:08 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 22/69] drm/display: hdmi-state-helper: Sync SCDC state
+ on hotplug
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Algea Cao <algea.cao@rock-chips.com>, Daniel Stone <daniels@collabora.com>,
+ Liu Ying <victor.liu@nxp.com>, Phong LE <ple@baylibre.com>,
+ kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ Maud Spierings <maud_spierings@hotmail.com>,
+ Diederik de Haas <diederik@cknow-tech.com>
+References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
+ <20260731-dw-hdmi-qp-scramb-v10-22-294364b2cf15@collabora.com>
+ <20260820-accomplished-curly-bandicoot-cc36ba@houat>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <20260820-accomplished-curly-bandicoot-cc36ba@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, 31 Jul 2026 19:19:51 +0300, Cristian Ciocaltea wrote:
-> Switch driver over to the new drmm_connector_hdmi_init() signature. The
-> vendor, product, supported_formats and max_bpc values previously passed
-> as arguments are now provided through struct drm_connector_hdmi_funcs,
-> together with the new supported_hdmi_ver field.
+On 8/20/26 11:53 AM, Maxime Ripard wrote:
+> On Fri, Jul 31, 2026 at 07:19:29PM +0300, Cristian Ciocaltea wrote:
+>> drm_atomic_helper_connector_hdmi_hotplug() does not currently
+>> synchronize SCDC status on hotplug events, leaving the scrambler state
+>> potentially inconsistent after (re)connect.
+>>
+>> Hook drm_connector_hdmi_sync_scdc() into both the connect and disconnect
+>> paths, replacing the existing TODOs around missing scrambler handling.
+>>
+>> Tested-by: Maud Spierings <maud_spierings@hotmail.com>
+>> Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # NanoPC-T6 LTS, Rock 5B
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 23 ++++++++++++++---------
+>>  1 file changed, 14 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+>> index 4a93c279c9a7..3377ea936120 100644
+>> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+>> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
+>> @@ -1205,13 +1205,16 @@ drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector,
+>>  					enum drm_connector_status status)
+>>  {
+>>  	const struct drm_edid *drm_edid;
+>> +	int ret = 0;
+>>  
+>>  	if (status == connector_status_disconnected) {
+>> -		// TODO: also handle scramber, HDMI sink disconnected.
+>> -		drm_connector_hdmi_audio_plugged_notify(connector, false);
+>> -		drm_edid_connector_update(connector, NULL);
+>> -		drm_connector_cec_phys_addr_invalidate(connector);
+>> -		return 0;
+>> +		ret = drm_connector_hdmi_sync_scdc(connector, false, ctx);
+>> +		if (ret != -EDEADLK) {
+>> +			drm_connector_hdmi_audio_plugged_notify(connector, false);
+>> +			drm_edid_connector_update(connector, NULL);
+>> +			drm_connector_cec_phys_addr_invalidate(connector);
+>> +		}
 > 
-> 
-> [ ... ]
+> If there's a deadlock, shouldn't we restart the whole sequence there?
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+In that case we do already propagate -EDEADLK and let the callers
+(drm_helper_probe_detect_ctx(), drm_helper_probe_single_connector_modes())
+to ensure the sequence is restarted.
 
-Thanks!
-Maxime
+> Ie, we should return ret all the time anyway? And if we do that, we
+> should return ret for drm_edid_connector_update() too.
+
+Per .detect_ctx() contract, implementations shall return a drm_connector_status
+value or -EDEADLK only.  On the other hand, .force_ctx() accepts any error code,
+but the probe helpers just log it.  Hence returning anything else wouldn't
+really have an impact on the functionality.
+
+Returning errors from drm_edid_connector_update() would potentially override
+non-deadlock ones from sync_scdc().  Since both helpers already log their own
+failures, I think it isn't worth the trouble.
+
+> Either way, a comment on why we're doing it this way would be nice.
+
+Indeed.  Would the following be too verbose?
+
+/*
+ * The SCDC resync may reset the CRTC, which might involve aquiring
+ * modeset locks.  If that fails, -EDEADLK is reported and the callers
+ * passing a non-NULL @ctx drop the locks and restart the sequence
+ * - see drm_helper_probe_detect_ctx() and
+ * drm_helper_probe_single_connector_modes().
+ *
+ * The resync runs first, and the audio and CEC helpers only once the
+ * link state has settled: the CRTC reset is a blocking commit, so on
+ * success the pipeline is already up again, while on -EDEADLK nothing
+ * has been resynced yet and the pending retry redoes everything.  This
+ * keeps userspace from acting upon a link that is about to be reset.
+ *
+ * -EDEADLK is the only status gating the helpers below, as it is the
+ * sole one guaranteeing a new run.  The other failures are merely
+ * reported: .force_ctx() accepts any error code and the probe helpers
+ * just log it, while .detect_ctx() has to swallow it, being only
+ * allowed to return a drm_connector_status value or -EDEADLK.
+ * Propagating the status of drm_edid_connector_update() on top would
+ * therefore only make it compete with an earlier resync failure over a
+ * value that triggers no recovery, the more so as both helpers already
+ * log their own errors.
+ */
+
+Thanks,
+Cristian
