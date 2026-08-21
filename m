@@ -1,172 +1,119 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745D02EEE61
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 Aug 2026 07:15:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4313FFFA5
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Aug 2026 07:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787296548; cv=none; b=c2ACECZA34jwmj5zYVbThRV2727NEY4v9yJ7UuHV+grkNDXafOxF5Z9XiKy9hyMhBuHvZrp4CKTvsChfAq+pAYtfrdYOgMIQipCO6yGDkmIBmjTrQQaV+ygnx0ZO1j0ckSJkbRI4zHwfszdsuMEGIKgi9H8roYJZc7XdCGtGl6c=
+	t=1787297046; cv=none; b=JHAQO6NlMxxaT7gN6R7H5mK5/k39DMHtDL/CNK/zpIkKvC6DzVMhbKOAWAqdVQOdhTxh5GJStW5IdOV3P9cTt/0oeXifk13ry+3FlBEAVzv46gHS7h3Oer1MRs3kMuZkgfulQBlJ9zOc3dD+6CbRh0MSBuMns8LV6qUxLo900dM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787296548; c=relaxed/simple;
-	bh=zwqKtimarOKIQOKNb2cLRFiqzKqX3Yzbc4o9OiUepYA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iOzDSaauHTVjuiSBTvZNSwImL1seoRmeMd9i8Szp9jTT1uaYnOFVhUS1qvvWZaje9Cf5wRYfQjsNWgrL33l3XMfVl3iLdjxXJAIv4uUYP/3ylEL2oJ9pId6bkKvYSkwxI17yEKijtP1cWBuQkz5JCbr8QOLy4zo6bP37h7pIEHA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WBTp8wzI; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787297046; c=relaxed/simple;
+	bh=ewQ6iyu7T9R3D1Lyms1mPFw5do7Qp8eUf1hh8ijWLtc=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=CTgw+uIDamki+MwXTgF2TEYYSjR4NIVP/L8dW4RYB7w2OTbfOWn+vDSspPJugepC/MhvTu5BBQJEyYq9fY02hJCiMGdbx5tbkZH6GB4XGFd2Wz8i9zpUk21EcOdSBcPaP9SVW6u+C39WIAeN8m6XRrrE1Zaf5OoJAwy/gXf+pCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MCS2d7ze; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WBTp8wzI"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-382ef647e20so664242a91.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 21 Aug 2026 00:15:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787296546; x=1787901346; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9Y/Hk1ij4iIeeDeCgZ2taRMrjGJza1klMebG4Wvu7x0=;
-        b=WBTp8wzIVGNucqduP1pbDHLiWFjSUEjCEv9gZRIsvEf/Di7gw9X8/3fLQ9zm27qYWC
-         E8UMKXoYsu0CwywQcxx4seoxR8pxlDvXXAw+B01WOljcGr4FivIO0se66g6CrQ+jgMvm
-         OtB5ELCOh6uuPf5NHA/xKAqXKygvjIqN5vE3Zf3opfbvUCnl2J0EulnP0dtFjWorPV+M
-         agmGX0ZRQrvv8hZHHirqGiV2HEzd1sSR/YmdDwMLe1Dhi2uQ7meo3fByvrKlTZO2U0r2
-         wpETMcWzBlDYr2jh1GQLyOHAyQosVD/+duQfuqIjrn2zJKUx9Vb3t+Otj1Dceo7JyBtf
-         gTgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787296546; x=1787901346;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=9Y/Hk1ij4iIeeDeCgZ2taRMrjGJza1klMebG4Wvu7x0=;
-        b=HBq08jQeJKSWtNd/ltqjm8XHz3B6n+3ORt5NB5KS9STQMQlg0PqzQ+VC0gfFbQUkHe
-         blbI07uGRtNrJwbeoAUm32kFK3W3B+gxIhRavZMFgADNJoqY7epVHR7kpGamg30hi9fk
-         qB0ETfvCcC9WSbAm/EtMstnPhQULwnh+bBMsaVBvspDwu3KRfUFaXnQp2Z/zitvW8MFO
-         sOC1Awqfgv32Yqb0q5BJGKzFwHKL19pr5lfKgtNs8zIMwPn+W0H4ErxJ+xAMGIPG7jZV
-         hKje+u6oH0BaJ1KTwWqUthhDa3ZRcNyPC3UqVvjyQxNtXm/R3mpj0lxNYANegO8V9aEU
-         y6qw==
-X-Forwarded-Encrypted: i=1; AHgh+RpQlUuDY5JS3xQkseYDScZFWP+M0bcu1QYqKn8ioq2apIVuHIKll6v9GY7+q47s6bTFFWVVHTiwMeO2CQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++lSOCeLiM8P7bod4HDRFWwB+GIBy5wCoLYesj5EELSGyD4cbm4v
-	HAUH0kq4AD6lIztRt6tGSOKFSKV9AuggNXXLzoksG6Yg5lkYLm0U+7o=
-X-Gm-Gg: AR+sD13io9izMRY6wMgyyRVWh09DfqITKaiZJa0KNJXHkFRP+MR/L/i7TKJ6Sitp1Wb
-	FPReya0JaFx/LPrjOgslwKH9nDoTy9ll8sAWHpVGub2uOHmAlnuzGK53tmXAvoKxZRTZ/jYDCNn
-	7JP4LGu3bvTIm8J2vaBU5/njiWYKkWlrlRtdwge479B0SKrYXJ9UcLI8IufEgjY1N1pin9ZXeCO
-	aZxG5O9z8MGsq+91Xr0NPT5P+gL81ajrTmxZ6eBZIPVPVMoyGS0uT8hyv6vwbd5A0v2FJ2DlR5t
-	Iw1wfrTg1R6zy2R+zRpUoQjZi0GJzJsiIiqxW+J2dc4sSduB9eCfOn4dGhSh0KZ+PA0ijJSmnoY
-	3VXOHpN6WPk+9Bmk5b/uogD5/gwpf8+Wrv+5U9pojCKmIoHcGPCaeGCHG5Rv3mgNAjU/Xon45rH
-	wfr1N0/qnc/+ogC4j7U5dV5PqKvdNnh26VbhBbTiNZ379xoLg1wVQfC9GmRwaUv07PHFIzJSV07
-	I1xcoerZH85Jw==
-X-Received: by 2002:a17:90a:da87:b0:38e:2860:253f with SMTP id 98e67ed59e1d1-395c3731c29mr8394315a91.12.1787296545832;
-        Fri, 21 Aug 2026 00:15:45 -0700 (PDT)
-Received: from DL2XHKPB4.dl.net ([103.63.104.162])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-395c4c194d2sm1951676a91.15.2026.08.21.00.15.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 00:15:45 -0700 (PDT)
-From: Triet Hoang <triet.hoang.dev@gmail.com>
-To: sean@mess.org
-Cc: mchehab@kernel.org,
-	neil.armstrong@linaro.org,
-	khilman@baylibre.com,
-	jbrunet@baylibre.com,
-	martin.blumenstingl@googlemail.com,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Triet Hoang <triet.hoang.dev@gmail.com>
-Subject: [PATCH] media: rc: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
-Date: Fri, 21 Aug 2026 14:15:33 +0700
-Message-ID: <20260821071533.215821-1-triet.hoang.dev@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MCS2d7ze"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5F001F000E9;
+	Fri, 21 Aug 2026 07:24:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1787297045;
+	bh=+D+0qgBaAp4Lhw/H/2MaR9l6LVKXMe7xTX1Wu+7ofBQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=MCS2d7zeLkq8f/BYkkLuOH7lsKtxZw0fVezKYEGaVikfwkseeE2HAhjjOob+4VFLX
+	 VY6ggKMfA6grojdoFRXyTtqE06QzkTGglK/6SJflTYXGJgp60CTBMvACrruAtbolTM
+	 ZcIMdxHqUsRJImIXxxIWawxfrNbDOSEwheQIOhoLvi/0b8gk/kqULXHmjrRnyeNMQu
+	 IafgJU+SBO9IsbYKLqiCmUdvn0fMdn56K1FVrynRY47s4YGbbMsPo3bOZgqXZ9iHV4
+	 cXpBdGl0ajez8eYvF43LLPxJh1pd9MpJ68P1t18XSZ+9m25ueS7aJYVlfHSthsNhcA
+	 mdXfwuB/Jp0Og==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] media: rc: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Triet Hoang" <triet.hoang.dev@gmail.com>
+Cc: linux-amlogic@lists.infradead.org, media-ci@linuxtv.org, linux-sunxi@lists.linux.dev, neil.armstrong@linaro.org
+In-Reply-To: <20260821071533.215821-1-triet.hoang.dev@gmail.com>
+References: <20260821071533.215821-1-triet.hoang.dev@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 21 Aug 2026 07:24:04 +0000
+Message-Id: <20260821072404.D5F001F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Convert the deprecated SIMPLE_DEV_PM_OPS
-to DEFINE_SIMPLE_DEV_PM_OPS
-and pm_sleep_ptr().
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
 
-This lets us drop the __maybe_unused annotations
-from its suspend and resume callbacks,
-also reduces kernel size in case CONFIG_PM or
-CONFIG_PM_SLEEP is disabled.
+New issues:
+- [Low] Incorrect PM wrapper macro used for the dev_pm_ops structure pointe=
+r.
 
-Signed-off-by: Triet Hoang <triet.hoang.dev@gmail.com>
----
- drivers/media/rc/meson-ir.c  | 6 +++---
- drivers/media/rc/sunxi-cir.c | 8 ++++----
- 2 files changed, 7 insertions(+), 7 deletions(-)
+Pre-existing issues:
+- [Critical] This problem wasn't introduced by this patch, but there is a u=
+se-after-free of the RC device on driver removal and probe error paths due =
+to an active devres-managed IRQ handler.
+--
 
-diff --git a/drivers/media/rc/meson-ir.c b/drivers/media/rc/meson-ir.c
-index 272ebb0d97c8..795b38ca864a 100644
---- a/drivers/media/rc/meson-ir.c
-+++ b/drivers/media/rc/meson-ir.c
-@@ -567,7 +567,7 @@ static void meson_ir_shutdown(struct platform_device *pdev)
- 	spin_unlock_irqrestore(&ir->lock, flags);
- }
- 
--static __maybe_unused int meson_ir_resume(struct device *dev)
-+static int meson_ir_resume(struct device *dev)
- {
- 	struct meson_ir *ir = dev_get_drvdata(dev);
- 
-@@ -579,7 +579,7 @@ static __maybe_unused int meson_ir_resume(struct device *dev)
- 	return 0;
- }
- 
--static __maybe_unused int meson_ir_suspend(struct device *dev)
-+static int meson_ir_suspend(struct device *dev)
- {
- 	struct meson_ir *ir = dev_get_drvdata(dev);
- 	unsigned long flags;
-@@ -591,7 +591,7 @@ static __maybe_unused int meson_ir_suspend(struct device *dev)
- 	return 0;
- }
- 
--static SIMPLE_DEV_PM_OPS(meson_ir_pm_ops, meson_ir_suspend, meson_ir_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(meson_ir_pm_ops, meson_ir_suspend, meson_ir_resume);
- 
- static const struct meson_ir_param meson6_ir_param = {
- 	.support_hw_decoder = false,
-diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
-index 28e840a7e5b8..7fd48c510143 100644
---- a/drivers/media/rc/sunxi-cir.c
-+++ b/drivers/media/rc/sunxi-cir.c
-@@ -236,19 +236,19 @@ static void sunxi_ir_hw_exit(struct device *dev)
- 	reset_control_assert(ir->rst);
- }
- 
--static int __maybe_unused sunxi_ir_suspend(struct device *dev)
-+static int sunxi_ir_suspend(struct device *dev)
- {
- 	sunxi_ir_hw_exit(dev);
- 
- 	return 0;
- }
- 
--static int __maybe_unused sunxi_ir_resume(struct device *dev)
-+static int sunxi_ir_resume(struct device *dev)
- {
- 	return sunxi_ir_hw_init(dev);
- }
- 
--static SIMPLE_DEV_PM_OPS(sunxi_ir_pm_ops, sunxi_ir_suspend, sunxi_ir_resume);
-+static DEFINE_SIMPLE_DEV_PM_OPS(sunxi_ir_pm_ops, sunxi_ir_suspend, sunxi_ir_resume);
- 
- static int sunxi_ir_probe(struct platform_device *pdev)
- {
-@@ -422,7 +422,7 @@ static struct platform_driver sunxi_ir_driver = {
- 	.driver = {
- 		.name = SUNXI_IR_DEV,
- 		.of_match_table = sunxi_ir_match,
--		.pm = &sunxi_ir_pm_ops,
-+		.pm = pm_sleep_ptr(&sunxi_ir_pm_ops),
- 	},
- };
- 
--- 
-2.53.0
+--- Patch [1]: [PATCH] media: rc: Convert to DEFINE_SIMPLE_DEV_PM_OPS() ---
+commit 5ad013ce47b901f4bd8a53a1c02b222a8df6858a
+Author: Triet Hoang <triet.hoang.dev@gmail.com>
 
+media: rc: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+
+Convert the deprecated SIMPLE_DEV_PM_OPS to DEFINE_SIMPLE_DEV_PM_OPS
+and pm_sleep_ptr(). This lets us drop the __maybe_unused annotations
+from its suspend and resume callbacks, also reduces kernel size in
+case CONFIG_PM or CONFIG_PM_SLEEP is disabled.
+
+> diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
+> index 28e840a7e5b8c..7fd48c510143d 100644
+> --- a/drivers/media/rc/sunxi-cir.c
+> +++ b/drivers/media/rc/sunxi-cir.c
+
+[ ... ]
+
+> @@ -422,7 +422,7 @@ static struct platform_driver sunxi_ir_driver =3D {
+>  	.driver =3D {
+>  		.name =3D SUNXI_IR_DEV,
+>  		.of_match_table =3D sunxi_ir_match,
+> -		.pm =3D &sunxi_ir_pm_ops,
+> +		.pm =3D pm_sleep_ptr(&sunxi_ir_pm_ops),
+
+[Severity: Low]
+Does this code use the correct wrapper macro for a dev_pm_ops structure
+pointer? Since sunxi_ir_pm_ops is a structure pointer rather than a sleep
+callback, should it use pm_ptr() instead of pm_sleep_ptr()?
+
+>  	},
+>  };
+
+[Severity: Critical]
+This is a pre-existing issue, but could there be a use-after-free of the RC
+device on driver removal and probe error paths?
+
+The driver initializes a devres-managed IRQ in sunxi_ir_probe():
+
+	ret =3D devm_request_irq(dev, ir->irq, sunxi_ir_irq, 0, SUNXI_IR_DEV, ir);
+
+On probe failure or during sunxi_ir_remove(), the driver manually calls
+rc_unregister_device() and rc_free_device(), freeing the RC device memory:
+
+exit_unregister_dev:
+	rc_unregister_device(ir->rc);
+exit_free_dev:
+	rc_free_device(ir->rc);
+
+Because devres cleanup has not yet run, the IRQ remains active. If an
+interrupt fires or is already in-flight on another CPU during this window,
+would sunxi_ir_irq() dereference the freed ir->rc?
+
+	ir_raw_event_overflow(ir->rc);
+
+Also, could this read from disabled hardware if an interrupt fires after
+sunxi_ir_hw_exit() is called?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260821071533.2158=
+21-1-triet.hoang.dev@gmail.com?part=3D1
