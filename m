@@ -1,297 +1,227 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E397389104
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 Aug 2026 19:04:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227A233A032
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 Aug 2026 04:56:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787339060; cv=none; b=C6CmE5ceuScp2hM0bIXEmlaey5yBqW7vBtqZ0e8ScEnuaEYxN0IzWX8vKuJU7/MeYbgw3AKT5GfBUH/BoP1/R8YBwVJuNtlEnyciFkagCNsPY8HkwBBpDGVPvkP2v5JECuyuEyTwtp6e1AeIEit79YG6rbPvAp+PCJFvu8qJVRE=
+	t=1787374613; cv=none; b=gVZzvBugo+dKcYD6cg8eoEYpYBNszfLMDZkeKX9U4UpSCLjeClXVN/rTDr00gTlhyfJQIBofXMs4PZlnz1EDd2iAwHHz4r8voqxrrYb0Gfe3OTnhTodtBgEAGzD/MNjWje15fyz0Hpg7TTvohJkX43jMOTkl3Ilb+MAp632j7Vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787339060; c=relaxed/simple;
-	bh=cN5Hs9aM4CuZ8hZeHA2SARcebndBk/+YrYkHHDZUcVU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TjrcY6q0uIxOTFJlxnrZeGCH3a5rlBzxM6c3gfTBtNlQ049eO34XAJsF4j6GCqPrZhQifZlJocGxojPFqq5Wa3mCLc8df/0NdSRRvzIsXMpdqqgQB3N573o5zR9VwmB6r/XvZ8bay+AlcWvegh8OjtAOQjTV8peBfnobRf05lTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=khkXNBX6; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1787374613; c=relaxed/simple;
+	bh=fP+qKtTIcy8MzuED25rxZArV9yzQPv2a5Db5TPPQjsg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RRcfDEI04JTbYS03Y8qO/sN+rk9RywcZ9f9/yG3dZZaD0O2oiRx0C4b3LDqifz8l2DGmXw2fZgtl8tYdLyrGgoPohhYRB8QyBLmlrvhVXO+f9BIvWmuDDf82AznO95e/jTZgJVmPuRJoLBICY88JRQjmQ0MaTpcJd4xwv+uhrnQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JXhqKNdq; arc=none smtp.client-ip=209.85.221.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="khkXNBX6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1787339056;
-	bh=cN5Hs9aM4CuZ8hZeHA2SARcebndBk/+YrYkHHDZUcVU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=khkXNBX6sWtLZfrhTSmeCVE3JEH9h/eGNSQrGIEje28CaGN/O5Ehrzuvnpi9+S+QX
-	 DKU67k24l0uiI35O8jJNN9OLZEWXoL8djBD5Be0xXmmuWckxZHckvXC4q8+bxgfbQl
-	 XODweuAFo902lFXPEetHqy69BKWQQ0I1kE+HlU2LMrWZmul8azParAkOYnjR/zB+oD
-	 rEhzLR842XhXTZjgxZMCLLbCZDczoTBEAEqyK39rhDKp7cu1vJ4RYA4YTWAsODI977
-	 owV9hud6LGhSo6mK9YGHoX+ithEversZiAX8zIwbnZguXrROEAS6eCPxdBCjO/QvFX
-	 uOUNop/4BeG4Q==
-Received: from [100.64.0.241] (unknown [100.64.0.241])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 58D9317E07FD;
-	Fri, 21 Aug 2026 21:04:15 +0200 (CEST)
-Message-ID: <28743613-22ec-4208-ad55-d018764bf846@collabora.com>
-Date: Fri, 21 Aug 2026 22:04:14 +0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JXhqKNdq"
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5bf9466412fso1676123e0c.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 21 Aug 2026 21:56:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787374611; x=1787979411; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=X7uhZqj8EhSGPrmJQzoEFJmHOmX4H/O39nsiw9Yu8Bo=;
+        b=JXhqKNdqHtE3bFe3sPSHNGb4PYgGo8Ndx4vuBd4z/KiZIb2S0Y1XM6zz+G+LIg+TZM
+         0Mbp+juertiM1+i5OTaTJALy1eZDTBFYMnDTh6fNsZnCVTZbkA4KACfFsErcWCMbSmOp
+         thKKrPIVWYMDnxAfpyJWoFWIxRdgdWFtqrywhFWghq/pup7BKfsAUotaPUmSEyizOBdV
+         b8G9UxQIjRwyrEbV0T42B5b6UBG0QOK20DpwIJlGPx3RBASnxOjVx9sc82RFYuUOiPqf
+         lRc9nFivmbnboDzFHcuFht/aRFku68zICbE+82d3eVdkx5iMZ0fPnhfwTgYf+49koQr4
+         sxWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787374611; x=1787979411;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=X7uhZqj8EhSGPrmJQzoEFJmHOmX4H/O39nsiw9Yu8Bo=;
+        b=TGDJ4hMBsOwdgj1gWtAMiSB8M45DHEWjkOeBVM2tNV/Morr8heSxDrtNUREMuQ01A2
+         PESuXjzBJsZZSBjKkBcxKJuvBhO9p+XV7SUIP2/TZFbShtEjwkMP5xr9GAgIHHHTRIkV
+         egFQGPqcL0Pi3oeaneyLLakzJdhvB60nFgGC5XNXgmoe1ikdXV7Yw/A6HtDz2g8e3xid
+         XPJcnOeBTmKazltEKGStAsouDbeR9kltIUFIGrQq2VqmywlSwDVDLifKEHJDhRCjepPx
+         R1s/dSxP2JLh79JbnpYobG70IQVgAv/DHBl3JcmmRS9M1KjXOVJqgIUiszCHF+C7Jmyz
+         SErQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoFiuGMXrRClw4nkKO+fKLUMs4tC2ZDucMEa0lyjj5zztFIx0CKOclmW0hTC2w+7CEUckoz4hXZ3sy4BA==@lists.linux.dev
+X-Gm-Message-State: AFuF++mIWHFyhmL/cqdmOaw/FD8mLR87a1j+tBfhmFlzzuZ0aOAwMWzJ
+	/g8d48b4fqgiuTxYQtz0oyF4PzV/+tssVqIdf1ygoBNGIb8+WcdSRy5V
+X-Gm-Gg: AR+sD10b7EzPe1uPl9nmMuTg9df0UAoZsNDv0+ah0Ln1/DdiJ9m8apADrsgAQABuc78
+	Cqn+HM1mxYyQSfaXH3xpM2oUH4xk4AyxW36ua418xUGLVSPZqzHK6/HM334zn1e09Y6brG2MVPR
+	NkbgLIBEvSx9XDhxL1kfrcwg/5uoPamGpzx9DQRoV9eMHAZNjT2SZoPuyqTPJquVOmaw3LwtDqf
+	LVeotikrkiGRZo4mLyOt8PEzLctGLu7yxkJlFCZT0MP/NL+r/cHF2tO30tJM+yMYA7jV90isXMy
+	fC973jj/IrNjX1KI/Xl/53ICUXNRZohdEI+ZkyyfCVpYJqj2drwLBONNUJhHIuRT1QUsbVqLzdP
+	9CmQMkbsF97AByAfHHtHR6vfebfXehVXx8jQc7glMJaiZLf6y3S4sEMbuDM5DMwl2QC6V4zS2zk
+	1OakmIWanbop0MfhFcCVQnCKzW1j6JftvwQNnlqleLy+71Y5I3jBJf5PHt0A1C15Hq42nJz8j/c
+	8xlHbL/cggq4f2F0dgXZtvHhY2cypvZlUKnyI8S2Nnsyp8nJJFMki56M1p1+ne8R+cGVktqUWDo
+	Swk3NqjxSX70ca0VoJB2xd7e0VzBT7x2TnXu4A==
+X-Received: by 2002:a05:6122:311f:b0:5bd:8c84:59aa with SMTP id 71dfb90a1353d-5c5ff847130mr4814260e0c.8.1787374610916;
+        Fri, 21 Aug 2026 21:56:50 -0700 (PDT)
+Received: from localhost.localdomain ([2803:9810:4a6f:808:807d:a3e1:35a2:f6f6])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c5e2619f16sm10674273e0c.5.2026.08.21.21.56.44
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 21 Aug 2026 21:56:49 -0700 (PDT)
+From: Pedro Santos <hartmnn.p@gmail.com>
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-kernel@vger.kernel.org,
+	Pedro Santos <hartmnn.p@gmail.com>
+Subject: [PATCH net] net: stmmac: dwmac-sun8i: reset the EMAC when opening, not when probing
+Date: Sat, 22 Aug 2026 01:56:41 -0300
+Message-ID: <20260822045641.19282-1-hartmnn.p@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 07/69] drm/connector: Add HDMI 2.0 scrambler
- infrastructure
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Algea Cao <algea.cao@rock-chips.com>, Daniel Stone <daniels@collabora.com>,
- Liu Ying <victor.liu@nxp.com>, Phong LE <ple@baylibre.com>,
- kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
- Maud Spierings <maud_spierings@hotmail.com>,
- Diederik de Haas <diederik@cknow-tech.com>
-References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
- <20260731-dw-hdmi-qp-scramb-v10-7-294364b2cf15@collabora.com>
- <20260819-amigurumi-lorikeet-of-infinity-fd8c2d@houat>
- <ad65a396-02fb-4816-b978-e3a0c46688b2@collabora.com>
- <20260820-gorgeous-adder-of-reading-5a93f3@houat>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <20260820-gorgeous-adder-of-reading-5a93f3@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/20/26 7:56 PM, Maxime Ripard wrote:
-> On Wed, Aug 19, 2026 at 10:33:04PM +0300, Cristian Ciocaltea wrote:
->> On 8/19/26 1:12 PM, Maxime Ripard wrote:
->>> On Fri, Jul 31, 2026 at 07:19:14PM +0300, Cristian Ciocaltea wrote:
->>>> Add the connector-level infrastructure to support HDMI 2.0 scrambling:
->>>>
->>>> - A drm_connector_hdmi_scrambler_supported() helper to report whether
->>>>   the source supports the scrambling capability, based on the presence
->>>>   of the newly introduced .scrambler_{enable|disable}() callbacks in
->>>>   drm_connector_hdmi_funcs are mandatory
->>>> - A scrambler_needed flag to be managed by the hdmi state helpers based
->>>>   on the negotiated TMDS character rate and the source/sink scrambling
->>>>   capabilities
->>>> - A scrambler_enabled flag to track whether scrambling is currently
->>>>   active
->>>> - A delayed work item (scdc_work) to monitor sink-side scrambling status
->>>>   and retry the setup if the sink resets it
->>>> - A scdc_work_initialized flag to support lazy initialization of the
->>>>   work item on the first scrambling enable and guard the teardown paths
->>>>
->>>> These are intended to be used by SCDC scrambling helpers to coordinate
->>>> scrambling setup and teardown between the source driver and the DRM
->>>> core.
->>>>
->>>> Tested-by: Maud Spierings <maud_spierings@hotmail.com>
->>>> Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # NanoPC-T6 LTS, Rock 5B
->>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->>>> ---
->>>>  drivers/gpu/drm/drm_connector.c | 31 ++++++++++++---
->>>>  include/drm/drm_connector.h     | 83 +++++++++++++++++++++++++++++++++++++++++
->>>>  2 files changed, 109 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
->>>> index 4721cdeafc84..a18410faf040 100644
->>>> --- a/drivers/gpu/drm/drm_connector.c
->>>> +++ b/drivers/gpu/drm/drm_connector.c
->>>> @@ -622,12 +622,29 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
->>>>  	 * default with the actual controller capability. A value of zero keeps
->>>>  	 * the limit inferred from supported_hdmi_ver.
->>>>  	 */
->>>> -	if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_2_0)
->>>> +	if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_2_0) {
->>>> +		if (!hdmi_funcs->scrambler_enable || !hdmi_funcs->scrambler_disable) {
->>>> +			drm_err(dev, "Scrambler callbacks missing for HDMI 2.x\n");
->>>> +			return -EINVAL;
->>>> +		}
->>>> +
->>>>  		connector->hdmi.max_tmds_char_rate = HDMI_2_0_TMDS_CHAR_RATE_MAX_HZ;
->>>> -	else if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_3)
->>>> -		connector->hdmi.max_tmds_char_rate = HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ;
->>>> -	else if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_0)
->>>> -		connector->hdmi.max_tmds_char_rate = HDMI_1_0_TMDS_CHAR_RATE_MAX_HZ;
->>>> +	} else {
->>>> +		/*
->>>> +		 * Scrambler callbacks are only valid for connectors advertising
->>>> +		 * HDMI 2.0 capability. drm_connector_hdmi_scrambler_supported()
->>>> +		 * relies on their presence to report scrambling support.
->>>> +		 */
->>>> +		if (hdmi_funcs->scrambler_enable || hdmi_funcs->scrambler_disable) {
->>>> +			drm_err(dev, "Scrambler callbacks unexpected for HDMI 1.x\n");
->>>> +			return -EINVAL;
->>>> +		}
->>>> +
->>>> +		if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_3)
->>>> +			connector->hdmi.max_tmds_char_rate = HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ;
->>>> +		else if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_0)
->>>> +			connector->hdmi.max_tmds_char_rate = HDMI_1_0_TMDS_CHAR_RATE_MAX_HZ;
->>>> +	}
->>>
->>> I'd put it into a separate test (possibly earlier). Merging both the
->>> tmds rate default and the scrambler callbacks check makes it messier
->>> than it would be if we had two separate tests.
->>
->> Ack. How about the following?
->>
->> 	if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_2_0)
->> 		connector->hdmi.max_tmds_char_rate = HDMI_2_0_TMDS_CHAR_RATE_MAX_HZ;
->> 	else if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_3)
->> 		connector->hdmi.max_tmds_char_rate = HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ;
->> 	else if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_0)
->> 		connector->hdmi.max_tmds_char_rate = HDMI_1_0_TMDS_CHAR_RATE_MAX_HZ;
->>
->> 	if (hdmi_funcs->supported_tmds_char_rate) {
->> 		if (hdmi_funcs->supported_tmds_char_rate > connector->hdmi.max_tmds_char_rate) {
->> 			drm_err(dev, "Enforced max_tmds_char_rate exceeds %llu spec limit\n",
->> 				connector->hdmi.max_tmds_char_rate);
->> 			return -EINVAL;
->> 		}
->>
->> 		connector->hdmi.max_tmds_char_rate = hdmi_funcs->supported_tmds_char_rate;
->> 	}
->>
->> 	if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_2_0) {
->> 		if (!hdmi_funcs->scrambler_enable || !hdmi_funcs->scrambler_disable) {
->> 			drm_err(dev, "Scrambler callbacks missing for HDMI 2.x\n");
->> 			return -EINVAL;
->> 		}
->> 	} else {
->> 		/*
->> 		 * Scrambler callbacks are only valid for connectors advertising
->> 		 * HDMI 2.0 capability. drm_connector_hdmi_scrambler_supported()
->> 		 * relies on their presence to report scrambling support.
->> 		 */
->> 		if (hdmi_funcs->scrambler_enable || hdmi_funcs->scrambler_disable) {
->> 			drm_err(dev, "Scrambler callbacks unexpected for HDMI 1.x\n");
->> 			return -EINVAL;
->> 		}
->> 	}
-> 
-> I don't think we need the else clause at all. It's not valid, but it's
-> also not creating any issue.
+sun8i_dwmac_reset() asserts EMAC_BASIC_CTL1.SOFT_RST and polls for the
+hardware to clear it. That bit only clears once the MAC has a running
+receive clock, which on external-PHY boards is driven by the PHY.
 
-As discussed a while ago, we used to have a scrambler_supported flag, inferred
-from supported_hdmi_ver, which allowed helpers to verify the capability when
-needed.  That flag has now been removed and replaced by
-drm_connector_hdmi_scrambler_supported(), which relies exclusively on the
-presence of the scrambler callbacks to report whether the capability is
-supported. 
+Bringing the interface down powers the PHY down: phy_detach() calls
+phy_suspend(), which for a PHY without wake-on-LAN ends in BMCR_PDOWN.
+Boards that wire no reset line to their PHY, and share its supply with
+other always-on consumers, have nothing that undoes that. On the Orange
+Pi Zero 3 the Motorcomm YT8531 reset is, in the words of the board's
+upstream author, "hardwired via a simple RC circuit, so there is no
+GPIO", and phy-supply points at a regulator-always-on rail shared with
+four GPIO banks and the SD card.
 
-If we don't ensure that these callbacks are *not* set for HDMI 1.x cases, one
-could set supported_hdmi_ver to HDMI_VERSION_1_4, for example, while still
-providing the scrambler_{enable,disable} funcs.  This would lead to an
-inconsistency between the maximum TMDS character rate inferred from
-supported_hdmi_ver and the capability reported by
-drm_connector_hdmi_scrambler_supported().
+So after a warm reboot the PHY comes back still powered down. Probe
+asserts SOFT_RST, no receive clock arrives, and the reset never
+completes. Read off an affected board at boot, before anything touched
+the PHY: BMCR 0x1800 (PDOWN set) and EMAC_BASIC_CTL1 0x08000001, still
+set after polling for ten seconds -- so raising the 100 ms timeout does
+not help. Probe fails with -ETIMEDOUT and the interface never appears.
 
-> I'd move that second check earlier together with the infoframe callbacks
-> checks and so on too.
+That the interface teardown is what does it can be shown directly. A
+reboot via sysrq-b, which skips both the ifdown and device_shutdown(),
+comes up with PDOWN clear and resets fine; taking the interface down
+first and then using sysrq-b -- so the driver's own shutdown path still
+never runs -- reproduces the failure.
 
-Ack.
+The driver already has the right place for the reset.
+sun8i_dwmac_dma_reset() is registered as stmmac_dma_ops->reset and is
+documented as "reset the EMAC", but only zeroes a few registers. stmmac
+calls it from stmmac_init_dma_engine(), under stmmac_hw_setup(), whose
+only two callers are __stmmac_open() and stmmac_resume() -- both of which
+run after stmmac_init_phy() has attached and resumed the PHY. Doing the
+soft reset there means the receive clock is running by construction, for
+every PHY, whether or not a PHY driver is bound, without the MAC driver
+reaching into phylib.
 
->>>>  	if (hdmi_funcs->supported_tmds_char_rate) {
->>>>  		if (hdmi_funcs->supported_tmds_char_rate > connector->hdmi.max_tmds_char_rate) {
->>>> @@ -635,6 +652,7 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
->>>>  				connector->hdmi.max_tmds_char_rate);
->>>>  			return -EINVAL;
->>>>  		}
->>>> +
->>>>  		connector->hdmi.max_tmds_char_rate = hdmi_funcs->supported_tmds_char_rate;
->>>>  	}
->>
->> [...]
->>
->>>> +	/**
->>>> +	 * @scdc_work: Work item currently used to monitor sink-side scrambling
->>>> +	 * status and retry setup if the sink resets it.
->>>> +	 */
->>>> +	struct delayed_work scdc_work;
->>>> +
->>>> +	/**
->>>> +	 * @scdc_work_initialized: Tracks whether @scdc_work has been set up via
->>>> +	 * INIT_DELAYED_WORK(). The work item is initialized lazily on the first
->>>> +	 * scrambling enable, so this guards the teardown paths against touching
->>>> +	 * an uninitialized work item.
->>>> +	 */
->>>> +	bool scdc_work_initialized;
->>>> +
->>>
->>> Why should we track whether it's initialized or not? I'd always
->>> initialize it, but only ever schedule something if we're using the
->>> scrambler.
->>
->> Having this initialized in the connector would lead to a module dependency
->> cycle.
->>
->> Currently the work function lives in drm_hdmi_helper.c, which is built into
->> drm_display_helper module:
->>
->> static void drm_connector_hdmi_scdc_work(struct work_struct *work)
->> {
->> 	[...]
->> 	if (READ_ONCE(connector->hdmi.scrambler_enabled) &&
->> 	    !drm_scdc_get_scrambling_status(connector))
->> 		drm_connector_hdmi_try_scrambling_setup(connector);
->> 	[...]
->> }
->>
->> int drm_connector_hdmi_enable_scrambling(struct drm_connector *connector,
->> 					 const struct drm_connector_state *conn_state)
->> {
->>
->> 	[...]
->> 	if (!hdmi->scdc_work_initialized) {
->> 		INIT_DELAYED_WORK(&hdmi->scdc_work,
->> 				  drm_connector_hdmi_scdc_work);
->> 		hdmi->scdc_work_initialized = true;
->> 	}
->> 	[...]
->> }
->>
->> If we move INIT_DELAYED_WORK() into the connector (i.e. in drm.ko), the work
->> function has to be reachable from there.  The following attempts to accomplish
->> that would fail:
->>
->> - Keep the work function in drm_hdmi_helper.c and export it from
->>   drm_display_helper.
->>
->> - Move the work function into drm_connector.c and export 
->>   drm_connector_hdmi_try_scrambling_setup(), or a wrapper function, from 
->>   drm_display_helper.
-> 
-> An alternative could be to move drm_connector_hdmi_init to
-> drm_hdmi_helper.c, no?
+sun8i is the only stmmac variant that soft-resets at probe rather than in
+the reset hook; this brings it into line with the others.
 
-I haven't considered this option so far, as I believe it would also require some
-refactoring to get right - for example, moving HDMI-related initialization from
-the generic drm_connector_init_only() to drm_connector_hdmi_init(), and
-splitting drm_connector_cleanup() into a dedicated drm_connector_hdmi_cleanup()
-utility.
+sun8i_dwmac_reset() stays for the mdio-mux switch callback, which needs a
+reset after changing the syscon and cannot use the hook.
 
-> But yeah, if we can't let's keep it like that
+Tested on an Orange Pi Zero 3 (H618, YT8531, rgmii-rxid). Five warm
+reboots: no EMAC reset timeout, interface up at 1Gbps each time. One cold
+boot with power physically cycled, to cover the path this moves for
+boards that never hit the bug: same result. 20000 and 5000 1472-byte
+frames respectively, no loss, every MAC error counter at zero.
 
-Should I proceed with this refactoring, or would it be better to postpone it
-until I send out the HDMI 2.1 patches, to avoid expanding this series even
-further?
+Fixes: 9f93ac8d4085 ("net-next: stmmac: Add dwmac-sun8i")
+Signed-off-by: Pedro Santos <hartmnn.p@gmail.com>
+---
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 49 ++++++++++++-------
+ 1 file changed, 30 insertions(+), 19 deletions(-)
 
-Thanks,
-Cristian
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index 48c52eb..748ebab 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -272,8 +272,34 @@ static const struct emac_variant emac_variant_h6 = {
+ /* sun8i_dwmac_dma_reset() - reset the EMAC
+  * Called from stmmac via stmmac_dma_ops->reset
+  */
++static int sun8i_dwmac_soft_reset(void __iomem *ioaddr)
++{
++	u32 v;
++
++	v = readl(ioaddr + EMAC_BASIC_CTL1);
++	writel(v | 0x01, ioaddr + EMAC_BASIC_CTL1);
++
++	/* The timeout was previously set to 10ms, but some board (OrangePI0)
++	 * need more if no cable plugged. 100ms seems OK
++	 */
++	return readl_poll_timeout(ioaddr + EMAC_BASIC_CTL1, v,
++				  !(v & 0x01), 100, 100000);
++}
++
+ static int sun8i_dwmac_dma_reset(void __iomem *ioaddr)
+ {
++	int err;
++
++	/* The MAC soft reset only completes once the PHY is driving the RX
++	 * clock. Doing it here rather than at probe means phylib has already
++	 * attached and resumed the PHY, so the clock is running by
++	 * construction -- including after a warm reboot that left the PHY
++	 * powered down.
++	 */
++	err = sun8i_dwmac_soft_reset(ioaddr);
++	if (err)
++		return err;
++
+ 	writel(0, ioaddr + EMAC_RX_CTL1);
+ 	writel(0, ioaddr + EMAC_TX_CTL1);
+ 	writel(0, ioaddr + EMAC_RX_FRM_FLT);
+@@ -740,23 +766,12 @@ static void sun8i_dwmac_flow_ctrl(struct mac_device_info *hw,
+ 
+ static int sun8i_dwmac_reset(struct stmmac_priv *priv)
+ {
+-	u32 v;
+-	int err;
+-
+-	v = readl(priv->ioaddr + EMAC_BASIC_CTL1);
+-	writel(v | 0x01, priv->ioaddr + EMAC_BASIC_CTL1);
++	int err = sun8i_dwmac_soft_reset(priv->ioaddr);
+ 
+-	/* The timeout was previously set to 10ms, but some board (OrangePI0)
+-	 * need more if no cable plugged. 100ms seems OK
+-	 */
+-	err = readl_poll_timeout(priv->ioaddr + EMAC_BASIC_CTL1, v,
+-				 !(v & 0x01), 100, 100000);
+-
+-	if (err) {
++	if (err)
+ 		dev_err(priv->device, "EMAC reset timeout\n");
+-		return err;
+-	}
+-	return 0;
++
++	return err;
+ }
+ 
+ /* Search in mdio-mux node for internal PHY node and get its clk/reset */
+@@ -1217,10 +1232,6 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
+ 			dev_err(&pdev->dev, "Failed to register mux\n");
+ 			goto dwmac_mux;
+ 		}
+-	} else {
+-		ret = sun8i_dwmac_reset(priv);
+-		if (ret)
+-			goto dwmac_remove;
+ 	}
+ 
+ 	pm_runtime_put(&pdev->dev);
+-- 
+2.50.1 (Apple Git-155)
+
