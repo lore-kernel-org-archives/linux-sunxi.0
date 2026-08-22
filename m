@@ -1,213 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1FB175A9D
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 Aug 2026 13:47:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240983C1414;
+	Sat, 22 Aug 2026 14:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787406447; cv=none; b=b9DgGN1wKb/wc7Rh1TnDqpfcueXi7HBz6f/T5WXcykKFkhzvlpc+7DBwKitdFNwHmssL7C5mreKI+dJ6TNV67lNz9/NSB/sMeT+1I9WpZWO6J6aUtpF/axQx3wldJ+ai3vRLVl/s11kFPGHr8+sg7HWDhrBU/GsPw3YJWORD2ss=
+	t=1787410432; cv=none; b=s1yo4lFMPab9sldyeGet78hqBWUksBILFcMiYoiA0YAkl9R2T9CLr0e400BFYlnzrn6dfabdmj8BRcb0IqAiMkdEOHX3V8LZz6FP4EF+R0hmsq6AlTzh2DsTHchmXxXB+gdRFO6AugRlICo6bh20VEOiYZ0/S3ZluGSEyhEU00A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787406447; c=relaxed/simple;
-	bh=L6rX9M4acDnxkvQVftI4/ft83riiTPrStCBTGwYQ8ys=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cd3IwZjm3VEf+jpdtVsg3e4hsvddohC60DkEaSVau7wHU2RhGp2pCq69CaYSPHolDfj/GfFh3tNGiX1IC5tpYUae0REjty8FbYxytiscHtzXP+XLLqLdSfbcUhfjQexKHWXl91JPCybOFi80OtwQJohRKFdTJRS63Yn+Iz5OwoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EAF9SGgH; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787410432; c=relaxed/simple;
+	bh=a1UqV8eW/rcQCsp7QFKxeuZ3nHuWrvNTZ8mRiqZwORM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WdmzlpUDU8YqbzU2UafGOXGqw7PifS3appsDG2KVLhfiua/edxGuaufTiCWB8cbrPn1XNpKQoNW0cMSU9+8TwYUQqkX3mt9IqBpe++omxvcRBiE7KZoZ13yKfJ/nGSw4xg/7H4lUh8xy+WRUVy4Zq20aURHqXSjCUWC/O7OsbyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=mu/ff3JL; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EAF9SGgH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 313871F00AC4
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 Aug 2026 13:47:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787406446;
-	bh=rNiQIaeGv6fReKS3E9ERO5rwoY38CfVv6u8jPT0yorY=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=EAF9SGgHh0o7b487yXWY0fnEE04QhjEINRhOUokxAGEjoCtrbopZvCkSMz1tLxDJB
-	 Gavm/Eie5QkLNWyDU1xqwgs3qZJvI9aqTNk+f1Abv+fVsQP+sIf6WosDYd3kC9G3RH
-	 rMNVymsr56znMOnjfLXSzAXog42hjbCCpWbnsfSvJE0D3mhnDTs0B9oSQfV5oK0VlM
-	 kkZkZseAaEoOu4fsqdTM9kFP7FyFLdK77bGjvzKc0bz+pH5wb4SKB6jYo3gdiEg3lH
-	 t1+f6TOy96PFnh1dTAWonX+IbuLQ0MJq+fgCARYEEo+elIXw/wjRAZaHQfHo0H6xJU
-	 bXkSIFIRGtPQg==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-39c908d6cb6so21669591fa.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 22 Aug 2026 06:47:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RrknY8qCYqdlqLHo+GdE07DKJcrRHKtfPtrQ961fWzlcMvNQzS5Y7mW4leRDcHVs7WQhfn0VK40aZ+sLw==@lists.linux.dev
-X-Gm-Message-State: AFuF++nzRc529yGrubq6LzjAUw4t4Q2R93s9Qi+jwjHOBqjTcSNU0Nz4
-	U5i8sB3VnnlCYGJGv9Z40+Yh9iosJk/STNB2Lu/PQqbuJAdzu+f3RD1P2lrEBUypnhHpckF0KGv
-	NZ0aSwTY0XZhlglN5d3/NNw/Sm8A5whQ=
-X-Received: by 2002:a2e:bd11:0:b0:39f:bc94:eba6 with SMTP id
- 38308e7fff4ca-3a1c1ec43d8mr13126731fa.14.1787406444589; Sat, 22 Aug 2026
- 06:47:24 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="mu/ff3JL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=BmBVOGClBFtfsWf4aThmoEaYBh3pYi94hNgT36QdLtg=; b=mu/ff3JLIfokluYcBS+ivQUdda
+	22CLPQ9nZYxTsvEucsUVEV467v/gg2FMWU/u4cj6oPQW25uoxe5X1IIX0mJXitQmWGUKaLdnRQjHJ
+	p1OXu7UPEYSkaksGKhWngVn+xxqBmwMEvAsP2UCOY6IhADzD0F6ZsOWFhGcoelb5lMOI=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wxn6G-0012Rd-1q; Sat, 22 Aug 2026 16:53:36 +0200
+Date: Sat, 22 Aug 2026 16:53:36 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Roman Riabenko <roman@riabenko.com>
+Cc: wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+	andre.przywara@arm.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] arm64: dts: allwinner: a64: olinuxino: Fix phy-mode
+Message-ID: <b37fa1dd-862f-48ac-98c9-4556c2bf3f94@lunn.ch>
+References: <20260822052353.22881-1-roman@riabenko.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAGb2v640LRCYpRq8omyRirD4CUSd2mjm72EJ9FtWvZe=Vovg1A@mail.gmail.com>
- <15d76cad-2c02-48cf-8071-b7b60e854298@app.fastmail.com> <CAGb2v64cNU+dyuGUwNk2xNN9CJZVXPTJE_u9YrZUp9XwfNGSvg@mail.gmail.com>
- <c599d74d-81e9-4310-b739-7bdb2c43de2c@app.fastmail.com>
-In-Reply-To: <c599d74d-81e9-4310-b739-7bdb2c43de2c@app.fastmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sat, 22 Aug 2026 21:47:12 +0800
-X-Gmail-Original-Message-ID: <CAGb2v656c+7VfPhA6K58qXJvMJRm2geXD8GEzdUQvO5ApCSMbA@mail.gmail.com>
-X-Gm-Features: AcwNN1WQyLFHbedA4lod8DRY1tPmbNPgs9n1CtBruCA_2842ze7QlHzyCfr7Irs
-Message-ID: <CAGb2v656c+7VfPhA6K58qXJvMJRm2geXD8GEzdUQvO5ApCSMbA@mail.gmail.com>
-Subject: Re: Bug: PHYS_OFFSET no longer points to DRAM physical starting
- address with CONFIG_ARM64_VA_BITS_52
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, lkml@vger.kernel.org, 
-	Jernej Skrabec <jernej@kernel.org>, 
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, =?UTF-8?Q?Andr=C3=A9_Przywara?= <andre.przywara@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260822052353.22881-1-roman@riabenko.com>
 
-On Sat, Aug 22, 2026 at 9:40=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org> wr=
-ote:
->
->
->
-> On Sat, 22 Aug 2026, at 16:28, Chen-Yu Tsai wrote:
-> > On Sat, Aug 22, 2026 at 8:50=E2=80=AFPM Ard Biesheuvel <ardb@kernel.org=
-> wrote:
-> >>
-> >> Hello Chen-Yu,
-> >>
-> >> On Sat, 22 Aug 2026, at 15:39, Chen-Yu Tsai wrote:
-> >> > Hi,
-> >> >
-> >> > On the Allwinner H6 & H616 SoC (and likely others), if running a ker=
-nel
-> >> > compiled with CONFIG_ARM64_VA_BITS_52 and CONFIG_ARM64_PA_BITS_52,
-> >> > PHYS_OFFSET no longer points to the start of DRAM (0x40000000) but i=
-nstead
-> >> > points to 0xfff1000040000000.
-> >> >
-> >> >
-> >> > I've observed this for quite some time but hadn't really nailed down=
- what
-> >> > was going on. For context: the IOMMU on these SoCs can only do 32-bi=
-t
-> >> > addresses, and that's pretty fine since the SoC only supports up to =
-4 GB
-> >> > DRAM. However the DRAM starts at 1GB offset in the physical address =
-space.
-> >> > We want to be able to map the highest 1GB I/O virtual address space =
-and
-> >> > thus need to check if the physical address is within 4GB without the
-> >> > offset. Having only 32-bits addressing, the address will wrap around=
- fine.
-> >> > So we check the address against PHYS_OFFSE, which breaks with the ma=
-ngled
-> >> > address.
-> >> >
-> >> >
-> >> > I suspect this is the result of the following commits:
-> >> >
-> >> >     7bc1a0f9e176 arm64: mm: use single quantity to represent the PA =
-to
-> >> > VA translation
-> >> >     9684ec186f8f arm64: Enable LPA2 at boot if supported by the syst=
-em
-> >> >
-> >> > The first commit introduces a negative (wrapped around) offset to
-> >> > memstart_addr (PHYS_OFFSET) to work around mapping restrictions, and=
- the
-> >> > second commit makes the offset dependent on hardware.
-> >> >
-> >> >
-> >> > I hope that Ard and the maintainers can look into it and make PHYS_O=
-FFSET
-> >> > always point to the physical start of DRAM.
-> >> >
-> >>
-> >> On what basis are you claiming that PHYS_OFFSET must always point to t=
-he
-> >> start of physical, non-secure DRAM?
-> >
-> > AFAIK we've been using this since armv7 in our older drivers to deal wi=
-th
-> > PA <-> IOVA offsets. This was then concentrated into one interconnect
-> > driver: drivers/soc/sunxi/sunxi_mbus.c
-> >
-> > The driver applies PHYS_OFFSET as the DMA address offset for a class of
-> > devices when the system is using an older device tree that lacks interc=
-onnect
-> > properties.
-> >
->
-> That sounds like a hack to me tbh.
+On Sat, Aug 22, 2026 at 08:23:53AM +0300, Roman Riabenko wrote:
+> The 'rgmii' mode does not appear to describe the RGMII timing in Olimex
+> A64-OlinuXino boards. The PCB layout shows that the clock and data
+> traces have roughly the same lengths for both RX and TX and, thus, do
+> not appear to implement the 2 ns RGMII delay or introduce any
+> significant delay.
+> 
+> According to the KSZ9031RNX datasheet, the PHY adds a typical 1.2 ns RX
+> delay and no TX delay by default. The 'rgmii-id' mode causes the PHY
+> driver to enable appropriate internal RGMII delays.
+> 
+> Packet loss in the downlink direction is observed with the 'rgmii' mode
+> and is severe enough to interfere with downloads and disrupt software
+> installation. No packet loss is observed with 'rgmii-id'.
+> 
+> Adjusting the TX delay in the DT was found to be unnecessary with
+> 'rgmii-id'.
 
-There was little documentation around the actual interconnect, and the offs=
-et
-only really caused issues for devices with 2 GB DRAM, which was quite rare
-back in the day. So the driver "workarounds" were added as issues were foun=
-d.
+Nice, thanks for doing a proper analysis.
 
-> >
-> > There's also Documentation/admin-guide/kdump/vmcoreinfo.rst which state=
-s:
-> >
-> > ARM64
-> > =3D=3D=3D=3D=3D
-> >
-> > PHYS_OFFSET
-> > -----------
-> >
-> > Indicates the physical address of the start of memory. Similar to
-> > kimage_voffset, which is used to translate virtual to physical
-> > addresses.
-> >
->
-> This information is inaccurate. kimage_voffset is the offset between the
-> kernel mapping in the vmalloc space and the associated physical memory.
-> It has nothing to do with PHYS_OFFSET or with the start of memory.
->
-> >> On arm64, PHYS_OFFSET is the physical address of the start of memory,
-> >> where 'start of memory' =3D=3D PAGE_OFFSET, i.e., the start of the lin=
-ear
-> >> map. When running a 52-bit VA kernel on hardware that is not LPA2 capa=
-ble,
-> >> the hardware does not support mapping memory at PAGE_OFFSET, so it is =
-moved
-> >> upward in the linear map.
-> >
-> > So it held true until 52-bit VA support was introduced?
-> >
->
-> It still holds true.
+> Signed-off-by: Roman Riabenko <roman@riabenko.com>
 
-Well, yes. I guess I meant the physical start of the linear map =3D=3D PHYS=
-_OFFSET.
+  Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-> >> I don't quite follow why you need to compare with PHYS_OFFSET in your =
-IOMMU
-> >> driver: could you elaborate?
-> >
-> > Our IOMMU only supports 32-bit of address space. On our SoCs, DRAM phys=
-ically
-> > starts at 0x40000000 (1 GB offset), meaning any physical DRAM above 3GB
-> > would wrap around. However putting this number in drivers was discourag=
-ed
-> > in the past and we were told to use PHYS_OFFSET (on ARMv7) instead. Als=
-o,
-> > in the past there was this one chip that put DRAM at a different offset=
-,
-> > so using a fixed number in the driver won't always work.
-> >
-> > Right now we're just blocking any physical address above 32 bits. Ideal=
-ly
-> > we want to allow up to "start of DRAM + 4GB". So we need to know the DR=
-AM
-> > start address. (And we probably want to block anything below start of D=
-RAM
-> > as well.)
-> >
->
-> Should you be using memblock_start_of_DRAM() instead perhaps?
-
-That seems like the thing we want. Thanks for the pointer, and sorry for th=
-e
-noise.
-
-
-ChenYu
+    Andrew
