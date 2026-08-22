@@ -1,87 +1,57 @@
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lab.riabenko.com (lab.riabenko.com [185.143.146.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227A233A032
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 Aug 2026 04:56:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969D1493631;
+	Sat, 22 Aug 2026 05:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.143.146.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787374613; cv=none; b=gVZzvBugo+dKcYD6cg8eoEYpYBNszfLMDZkeKX9U4UpSCLjeClXVN/rTDr00gTlhyfJQIBofXMs4PZlnz1EDd2iAwHHz4r8voqxrrYb0Gfe3OTnhTodtBgEAGzD/MNjWje15fyz0Hpg7TTvohJkX43jMOTkl3Ilb+MAp632j7Vc=
+	t=1787376312; cv=none; b=bHE+P4VTxWiURCwTJt4T5U9Qct5mkJarNYBn4d/jhcDAGTmNU5VsIh6bX4Rmth6uuz0ds9qZJunbeyazUQVmDkDm4x49UaDxjr4+Ml6sKGOajKtX3tKdhILRQl7jSnkFURxzgzGv1z7uGhvGBq4VV2quN3uPu6UxBHIai03g4Vk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787374613; c=relaxed/simple;
-	bh=fP+qKtTIcy8MzuED25rxZArV9yzQPv2a5Db5TPPQjsg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RRcfDEI04JTbYS03Y8qO/sN+rk9RywcZ9f9/yG3dZZaD0O2oiRx0C4b3LDqifz8l2DGmXw2fZgtl8tYdLyrGgoPohhYRB8QyBLmlrvhVXO+f9BIvWmuDDf82AznO95e/jTZgJVmPuRJoLBICY88JRQjmQ0MaTpcJd4xwv+uhrnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JXhqKNdq; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787376312; c=relaxed/simple;
+	bh=kvycTdF/5T2MuwzUdYZ0MLY8SBTi7jlE3IA1zDcfl5A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=K3CEJ0k/MAxfeNBDIB0Xhd8enDVy7TGXoTLPJp/+iJHnytCjg5ZOLJUlyhtlli1mTqdgBO2NANYG4fkiGhmchaSvZ3SjFu1sIeXRh32UJAGXyid+dyLPa7vnXY038Z7mavBZ73Zb6NDKSJp/3jnflfJ+iijGCBcxNDOkzBwCJkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=riabenko.com; spf=pass smtp.mailfrom=riabenko.com; dkim=pass (2048-bit key) header.d=riabenko.com header.i=@riabenko.com header.b=T3JuoMR9; arc=none smtp.client-ip=185.143.146.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=riabenko.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riabenko.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JXhqKNdq"
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5bf9466412fso1676123e0c.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 21 Aug 2026 21:56:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787374611; x=1787979411; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=X7uhZqj8EhSGPrmJQzoEFJmHOmX4H/O39nsiw9Yu8Bo=;
-        b=JXhqKNdqHtE3bFe3sPSHNGb4PYgGo8Ndx4vuBd4z/KiZIb2S0Y1XM6zz+G+LIg+TZM
-         0Mbp+juertiM1+i5OTaTJALy1eZDTBFYMnDTh6fNsZnCVTZbkA4KACfFsErcWCMbSmOp
-         thKKrPIVWYMDnxAfpyJWoFWIxRdgdWFtqrywhFWghq/pup7BKfsAUotaPUmSEyizOBdV
-         b8G9UxQIjRwyrEbV0T42B5b6UBG0QOK20DpwIJlGPx3RBASnxOjVx9sc82RFYuUOiPqf
-         lRc9nFivmbnboDzFHcuFht/aRFku68zICbE+82d3eVdkx5iMZ0fPnhfwTgYf+49koQr4
-         sxWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787374611; x=1787979411;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=X7uhZqj8EhSGPrmJQzoEFJmHOmX4H/O39nsiw9Yu8Bo=;
-        b=TGDJ4hMBsOwdgj1gWtAMiSB8M45DHEWjkOeBVM2tNV/Morr8heSxDrtNUREMuQ01A2
-         PESuXjzBJsZZSBjKkBcxKJuvBhO9p+XV7SUIP2/TZFbShtEjwkMP5xr9GAgIHHHTRIkV
-         egFQGPqcL0Pi3oeaneyLLakzJdhvB60nFgGC5XNXgmoe1ikdXV7Yw/A6HtDz2g8e3xid
-         XPJcnOeBTmKazltEKGStAsouDbeR9kltIUFIGrQq2VqmywlSwDVDLifKEHJDhRCjepPx
-         R1s/dSxP2JLh79JbnpYobG70IQVgAv/DHBl3JcmmRS9M1KjXOVJqgIUiszCHF+C7Jmyz
-         SErQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoFiuGMXrRClw4nkKO+fKLUMs4tC2ZDucMEa0lyjj5zztFIx0CKOclmW0hTC2w+7CEUckoz4hXZ3sy4BA==@lists.linux.dev
-X-Gm-Message-State: AFuF++mIWHFyhmL/cqdmOaw/FD8mLR87a1j+tBfhmFlzzuZ0aOAwMWzJ
-	/g8d48b4fqgiuTxYQtz0oyF4PzV/+tssVqIdf1ygoBNGIb8+WcdSRy5V
-X-Gm-Gg: AR+sD10b7EzPe1uPl9nmMuTg9df0UAoZsNDv0+ah0Ln1/DdiJ9m8apADrsgAQABuc78
-	Cqn+HM1mxYyQSfaXH3xpM2oUH4xk4AyxW36ua418xUGLVSPZqzHK6/HM334zn1e09Y6brG2MVPR
-	NkbgLIBEvSx9XDhxL1kfrcwg/5uoPamGpzx9DQRoV9eMHAZNjT2SZoPuyqTPJquVOmaw3LwtDqf
-	LVeotikrkiGRZo4mLyOt8PEzLctGLu7yxkJlFCZT0MP/NL+r/cHF2tO30tJM+yMYA7jV90isXMy
-	fC973jj/IrNjX1KI/Xl/53ICUXNRZohdEI+ZkyyfCVpYJqj2drwLBONNUJhHIuRT1QUsbVqLzdP
-	9CmQMkbsF97AByAfHHtHR6vfebfXehVXx8jQc7glMJaiZLf6y3S4sEMbuDM5DMwl2QC6V4zS2zk
-	1OakmIWanbop0MfhFcCVQnCKzW1j6JftvwQNnlqleLy+71Y5I3jBJf5PHt0A1C15Hq42nJz8j/c
-	8xlHbL/cggq4f2F0dgXZtvHhY2cypvZlUKnyI8S2Nnsyp8nJJFMki56M1p1+ne8R+cGVktqUWDo
-	Swk3NqjxSX70ca0VoJB2xd7e0VzBT7x2TnXu4A==
-X-Received: by 2002:a05:6122:311f:b0:5bd:8c84:59aa with SMTP id 71dfb90a1353d-5c5ff847130mr4814260e0c.8.1787374610916;
-        Fri, 21 Aug 2026 21:56:50 -0700 (PDT)
-Received: from localhost.localdomain ([2803:9810:4a6f:808:807d:a3e1:35a2:f6f6])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c5e2619f16sm10674273e0c.5.2026.08.21.21.56.44
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 21 Aug 2026 21:56:49 -0700 (PDT)
-From: Pedro Santos <hartmnn.p@gmail.com>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Corentin Labbe <clabbe.montjoie@gmail.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	netdev@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=riabenko.com header.i=@riabenko.com header.b="T3JuoMR9"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=riabenko.com; s=selector; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:From:Sender:Reply-To:Subject:Date:
+	Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=5WH5D0JtSfK72vdeI0nhh2PL53o2bVvJzV3Cx+3KNFU=; b=T3JuoMR9ELdbyGbSwz1h2H7w0d
+	8r576PZcWwLwV9x67G5rGYNtHRfValfZ7J+GcWdPMKC/z+SOKEoruLQRsTM4P0HyFt71TYiKb/mmr
+	ju5hiy2a4u4+du8GrSsvNOpjYIt+W4BVZYIUwjvyQJX4Oyq+I4AfwZktqHO/nTMCQM8QJsgF68j9r
+	imfSVJYP9SYAADXdsJni6gJk4anBkdQP2h1PNwfkNjSS11AB5AQl8n70YXx1VGw5M40whcBdWXCTH
+	QXJsI+ULEzMq1RrGxV0h+mGubY13r9wttE0UTLvjCfkmd4Z/hW/bbzqNKLM7QfBX3gss9f8/RC4tc
+	lkW3BqWA==;
+Received: from librecmc.lan ([192.168.10.1] helo=desk.lan)
+	by mini.riabenko.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <roman@riabenko.com>)
+	id 1wxeDt-0000000005R-1xxc;
+	Sat, 22 Aug 2026 08:24:53 +0300
+From: Roman Riabenko <roman@riabenko.com>
+To: andrew@lunn.ch,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org
+Cc: andre.przywara@arm.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com,
 	linux-kernel@vger.kernel.org,
-	Pedro Santos <hartmnn.p@gmail.com>
-Subject: [PATCH net] net: stmmac: dwmac-sun8i: reset the EMAC when opening, not when probing
-Date: Sat, 22 Aug 2026 01:56:41 -0300
-Message-ID: <20260822045641.19282-1-hartmnn.p@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	Roman Riabenko <roman@riabenko.com>
+Subject: [PATCH v2] arm64: dts: allwinner: a64: olinuxino: Fix phy-mode
+Date: Sat, 22 Aug 2026 08:23:53 +0300
+Message-ID: <20260822052353.22881-1-roman@riabenko.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -90,138 +60,44 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-sun8i_dwmac_reset() asserts EMAC_BASIC_CTL1.SOFT_RST and polls for the
-hardware to clear it. That bit only clears once the MAC has a running
-receive clock, which on external-PHY boards is driven by the PHY.
+The 'rgmii' mode does not appear to describe the RGMII timing in Olimex
+A64-OlinuXino boards. The PCB layout shows that the clock and data
+traces have roughly the same lengths for both RX and TX and, thus, do
+not appear to implement the 2 ns RGMII delay or introduce any
+significant delay.
 
-Bringing the interface down powers the PHY down: phy_detach() calls
-phy_suspend(), which for a PHY without wake-on-LAN ends in BMCR_PDOWN.
-Boards that wire no reset line to their PHY, and share its supply with
-other always-on consumers, have nothing that undoes that. On the Orange
-Pi Zero 3 the Motorcomm YT8531 reset is, in the words of the board's
-upstream author, "hardwired via a simple RC circuit, so there is no
-GPIO", and phy-supply points at a regulator-always-on rail shared with
-four GPIO banks and the SD card.
+According to the KSZ9031RNX datasheet, the PHY adds a typical 1.2 ns RX
+delay and no TX delay by default. The 'rgmii-id' mode causes the PHY
+driver to enable appropriate internal RGMII delays.
 
-So after a warm reboot the PHY comes back still powered down. Probe
-asserts SOFT_RST, no receive clock arrives, and the reset never
-completes. Read off an affected board at boot, before anything touched
-the PHY: BMCR 0x1800 (PDOWN set) and EMAC_BASIC_CTL1 0x08000001, still
-set after polling for ten seconds -- so raising the 100 ms timeout does
-not help. Probe fails with -ETIMEDOUT and the interface never appears.
+Packet loss in the downlink direction is observed with the 'rgmii' mode
+and is severe enough to interfere with downloads and disrupt software
+installation. No packet loss is observed with 'rgmii-id'.
 
-That the interface teardown is what does it can be shown directly. A
-reboot via sysrq-b, which skips both the ifdown and device_shutdown(),
-comes up with PDOWN clear and resets fine; taking the interface down
-first and then using sysrq-b -- so the driver's own shutdown path still
-never runs -- reproduces the failure.
+Adjusting the TX delay in the DT was found to be unnecessary with
+'rgmii-id'.
 
-The driver already has the right place for the reset.
-sun8i_dwmac_dma_reset() is registered as stmmac_dma_ops->reset and is
-documented as "reset the EMAC", but only zeroes a few registers. stmmac
-calls it from stmmac_init_dma_engine(), under stmmac_hw_setup(), whose
-only two callers are __stmmac_open() and stmmac_resume() -- both of which
-run after stmmac_init_phy() has attached and resumed the PHY. Doing the
-soft reset there means the receive clock is running by construction, for
-every PHY, whether or not a PHY driver is bound, without the MAC driver
-reaching into phylib.
-
-sun8i is the only stmmac variant that soft-resets at probe rather than in
-the reset hook; this brings it into line with the others.
-
-sun8i_dwmac_reset() stays for the mdio-mux switch callback, which needs a
-reset after changing the syscon and cannot use the hook.
-
-Tested on an Orange Pi Zero 3 (H618, YT8531, rgmii-rxid). Five warm
-reboots: no EMAC reset timeout, interface up at 1Gbps each time. One cold
-boot with power physically cycled, to cover the path this moves for
-boards that never hit the bug: same result. 20000 and 5000 1472-byte
-frames respectively, no loss, every MAC error counter at zero.
-
-Fixes: 9f93ac8d4085 ("net-next: stmmac: Add dwmac-sun8i")
-Signed-off-by: Pedro Santos <hartmnn.p@gmail.com>
+Signed-off-by: Roman Riabenko <roman@riabenko.com>
 ---
- .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 49 ++++++++++++-------
- 1 file changed, 30 insertions(+), 19 deletions(-)
+ arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index 48c52eb..748ebab 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -272,8 +272,34 @@ static const struct emac_variant emac_variant_h6 = {
- /* sun8i_dwmac_dma_reset() - reset the EMAC
-  * Called from stmmac via stmmac_dma_ops->reset
-  */
-+static int sun8i_dwmac_soft_reset(void __iomem *ioaddr)
-+{
-+	u32 v;
-+
-+	v = readl(ioaddr + EMAC_BASIC_CTL1);
-+	writel(v | 0x01, ioaddr + EMAC_BASIC_CTL1);
-+
-+	/* The timeout was previously set to 10ms, but some board (OrangePI0)
-+	 * need more if no cable plugged. 100ms seems OK
-+	 */
-+	return readl_poll_timeout(ioaddr + EMAC_BASIC_CTL1, v,
-+				  !(v & 0x01), 100, 100000);
-+}
-+
- static int sun8i_dwmac_dma_reset(void __iomem *ioaddr)
- {
-+	int err;
-+
-+	/* The MAC soft reset only completes once the PHY is driving the RX
-+	 * clock. Doing it here rather than at probe means phylib has already
-+	 * attached and resumed the PHY, so the clock is running by
-+	 * construction -- including after a warm reboot that left the PHY
-+	 * powered down.
-+	 */
-+	err = sun8i_dwmac_soft_reset(ioaddr);
-+	if (err)
-+		return err;
-+
- 	writel(0, ioaddr + EMAC_RX_CTL1);
- 	writel(0, ioaddr + EMAC_TX_CTL1);
- 	writel(0, ioaddr + EMAC_RX_FRM_FLT);
-@@ -740,23 +766,12 @@ static void sun8i_dwmac_flow_ctrl(struct mac_device_info *hw,
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts
+index fd3794678c33..8cb2381e21da 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts
+@@ -102,10 +102,9 @@ &ehci1 {
+ &emac {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&rgmii_pins>;
+-	phy-mode = "rgmii";
++	phy-mode = "rgmii-id";
+ 	phy-handle = <&ext_rgmii_phy>;
+ 	phy-supply = <&reg_dcdc1>;
+-	allwinner,tx-delay-ps = <600>;
+ 	status = "okay";
+ };
  
- static int sun8i_dwmac_reset(struct stmmac_priv *priv)
- {
--	u32 v;
--	int err;
--
--	v = readl(priv->ioaddr + EMAC_BASIC_CTL1);
--	writel(v | 0x01, priv->ioaddr + EMAC_BASIC_CTL1);
-+	int err = sun8i_dwmac_soft_reset(priv->ioaddr);
- 
--	/* The timeout was previously set to 10ms, but some board (OrangePI0)
--	 * need more if no cable plugged. 100ms seems OK
--	 */
--	err = readl_poll_timeout(priv->ioaddr + EMAC_BASIC_CTL1, v,
--				 !(v & 0x01), 100, 100000);
--
--	if (err) {
-+	if (err)
- 		dev_err(priv->device, "EMAC reset timeout\n");
--		return err;
--	}
--	return 0;
-+
-+	return err;
- }
- 
- /* Search in mdio-mux node for internal PHY node and get its clk/reset */
-@@ -1217,10 +1232,6 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
- 			dev_err(&pdev->dev, "Failed to register mux\n");
- 			goto dwmac_mux;
- 		}
--	} else {
--		ret = sun8i_dwmac_reset(priv);
--		if (ret)
--			goto dwmac_remove;
- 	}
- 
- 	pm_runtime_put(&pdev->dev);
 -- 
-2.50.1 (Apple Git-155)
+2.54.0
 
