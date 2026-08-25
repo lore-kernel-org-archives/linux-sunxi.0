@@ -1,165 +1,205 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8786C3D25D0
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Aug 2026 14:10:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3AF486E60
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Aug 2026 15:11:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787667052; cv=none; b=DrLtQPJ8YV8MD4uvZv7nFMfkiXtd9Qc7sxoZxreuMRZ3pQx7hoYhi2MD5k7JO5B8fO3tYL9icU0qAyDn0iv8Vaa7d0wGk4sEGuy+zWU1rmLK126GopvV+It0ODAKXp02XSRoggnqMIeumVyhET8CRbi6WN/eutyOUI4vSzQhGug=
+	t=1787670721; cv=none; b=ebrziNNI+EBFuMIoKYiS4mlq7A+oAaNrSzwmqBOj/1VnO0I0LZLkSGisDs2sw+B+t5tCDxodUj18R9grdKsrbeY9FSMZ2QdHM6G/Iy7RmN4pXHetWewPdQkolojL60hjOGFT9Y57/RkCr9smAEAx8hapV1+QYaQToJLOK5U6zEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787667052; c=relaxed/simple;
-	bh=1A8fABCFuifqVIEGjwCpU3ptFnX5HKfPD+BMzGnAtrw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Lo9lt7RS5BFi1hIk1ufYhyGI45h32A7U4eDnO4tlFhjN75blk71jGp3TGF6F31Uf7loUAK9jWPkKXQH1LE253uEWTueSqPvamv6nmUUJDM3QY97oNZiCz9J9Kx22FgfAhr3lJfgF0GyEguu5Rdx/GEtzUHHXwHlo9eWbNlyHegw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p1/86vpv; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787670721; c=relaxed/simple;
+	bh=VSfhDbGuaO6bj6wZHF4WXo8dJZaWBr1sYjz3PhauiKg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=jRhdsLz7BmMVAASBhQSdpYp5/lRpse1pyHSxRZbAATcxpYFUCfBRKX4pzI43P4GfrISea9R9eB28MEG8sWeuu/020soRe/dt1Rrsparzgw/s6np5XlXNFqjR5owz+5TJ4idzoEL2V9q06D6GQO1nIFP+YB3sjtG97JKx5a2ZKjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cmNwOCPW; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p1/86vpv"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3966791a6eeso69086a91.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 25 Aug 2026 07:10:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787667051; x=1788271851; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9ZIjmuEHE9Rlk5riwplSnnGgEFCzgmjA3IFA8anx86U=;
-        b=p1/86vpvMfXWDth37c520GOHB2OBfZKALtRLQq7GqbTeKuGQ349KOivf1x+ubLlSyd
-         nR7FWE1IE/A5+QZIUxEkGmXes63pq865aKEWaWnQL6VbQp4FRcsNSW8QpFDixDXVmj/j
-         nTjmhxhjSEktddsWLjzuT64mRFZl61zu7YubXynI+4Jr6FCxJ89U4fiwNM8GUP+boevd
-         WDGYZDSNhtfLbFLF4swZMwNbCphTJQmp3uokTRRkX7YJDWzQt5XsXuFhK+x9aNvh5iXY
-         M7Q25dbLdx6Uh/ojvqOueMO3tA+YrfiltbbaUQFt328F+P4953XPFiLx0rEOASeccw4a
-         /kMA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cmNwOCPW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787670715;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=l2TAxOwHRDlM6cSmZF0xTyxxMoyKXBFa/St1ecjf+fY=;
+	b=cmNwOCPW0pCLo1vgxbiI8024BSzxbFhi3JiPy5Bv8SJO4i3CWLe8pnJoGKFUOrad+B/b/+
+	ss0febDjN34CvxqR7kDJPsYhRohx65REzsx6IYHVayw4b9b70DhLTuDcUesPRiEXiPUqHm
+	uTFVlFozsf2xG5Uyv+HbX3OiX5QSvDo=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-413-011Q-UjJOfGN8Q24pwGszQ-1; Tue, 25 Aug 2026 11:11:53 -0400
+X-MC-Unique: 011Q-UjJOfGN8Q24pwGszQ-1
+X-Mimecast-MFC-AGG-ID: 011Q-UjJOfGN8Q24pwGszQ_1787670712
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-51c0e702df8so67494801cf.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 25 Aug 2026 08:11:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787667051; x=1788271851;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=9ZIjmuEHE9Rlk5riwplSnnGgEFCzgmjA3IFA8anx86U=;
-        b=N0VqHxcKxxfnRG6iKU1sLXDemsNLWk5SigDqYw4i+cxjbUEn64i+0hbFbEHtLcAm9V
-         uUY7GsFdUzLsbEATb5tNeEJnkHGDXI9yWVlJSQ6squvK3wyHRHi42mkZAzzZbezy0VoP
-         00JxCSYRlbdZgFvlgFGAN4l8E0NOZInW0peMXicBYn41O2OkYsEUTpUeuCYgQ+3GFJdX
-         DPU9rjh95RATz9XH5XGOTWr5bxWuswpyUMivGz9ijiIEOWDjF+265I+TVSUpDGdM56Dk
-         QmZFxcB0OgYaIaiYGS/1/XzPibOGXHUlG/rsli+WCuF6SKh880kHZDskDJF0HAkVXBWh
-         2cXg==
-X-Forwarded-Encrypted: i=1; AHgh+Rp+DU5KQNCgnXYLH9Oi0Kz/GgofIkjWeGJhgBDVTmw7q+ZfnEsyI+PvUhrM4acM9tAX9OPUWqKAW/YpKQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++lbupBvZuCahbouOOrWP4Br4K2Wlgn3oCn1Hl7Q0mJNWEp/EOxe
-	s2a0Spknq6wWBz7bQjXZYq4K82UjBBv1Zprc7ze7acR5c1RR+fOEQwiI
-X-Gm-Gg: AR+sD11cYTRM3h8uavcm213/8T8ZxEo/TxmClP7Ttw/8/Qx3NJzldrFctRWualYMbQs
-	MYRsLkgyl5juMDsL3Ui9z2UvGzzPBiX1W8G+aDqinSciNb4/d8Ti5MG00BDU6r1OvWCMdhD+89o
-	mPVzkaYG/XtKb/Rk57SWRouulCy+LZa+eXMcmjlCbvKvXwrD8rdCGOvgmiEkEyQh1i//W6Vv2uN
-	2Xa+ArYwiTaDIpu84VTjPaimWkhs9cZLmRTF7Jgdc3K8J/VFpV52TnnURRjh55ylMnU5dJIKFRH
-	Pd1AkzAiECUkyy1btUzlE49Snk5o6lMHzjm6STGfw8p3A68thBBTGFKOA5+R6T2jWlAd5725APR
-	qXHhsFg7fmPsbbGgVWsYsGOp1afXYBP7qVirW1FDtvbHuMJMltVymrL900qC283YDs90dA4utXX
-	HFoayfOJV2EU1TUfpM6SbpRobbIQGN+++yJgMWXzEmZ2gP6Jz5zsEHJnEe5qhuFB/g4X5j4iSMF
-	8h4zG3poNu/xAI=
-X-Received: by 2002:a17:90b:5844:b0:393:1d92:db5 with SMTP id 98e67ed59e1d1-395c35e1199mr72431253a91.10.1787667050000;
-        Tue, 25 Aug 2026 07:10:50 -0700 (PDT)
-Received: from DESKTOP-E2NGI2F ([103.155.185.60])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f909a51fsm34020361eec.4.2026.08.25.07.10.46
+        d=1e100.net; s=20251104; t=1787670712; x=1788275512;
+        h=user-agent:in-reply-to:content-transfer-encoding
+         :content-disposition:content-type:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=l2TAxOwHRDlM6cSmZF0xTyxxMoyKXBFa/St1ecjf+fY=;
+        b=bqIk9GpHGTAi/idYYb0f70vf4r5VOaiTUliu7cl3i0JY9fkQLo+ke1gVfgDI2ma4nj
+         r8ccZA39sbidYgYvphd2Av8I8+KP+1PZJDYcekzFVKqzS8CII6yTPhqI/RnJTamFm2Xf
+         lG85U3IC1ya8T9gfsl9It6fgkAPcdRiR72l4+J4/lvAFL7K5uW5ycWPy3RMmFor25NGy
+         RR1PtcgBb+HUlNx9EE+rUgCi+tvFhqjRTqnct6Cxy9ivylRZDMGuFABhparIp4uBFyJi
+         HZdQfgvnnnkBaMa5HaoQ4du5k43TUDLfY4q/Sa1LvbjZMv9UVmgqBLHg58Ozt4yAis3N
+         Gmyg==
+X-Forwarded-Encrypted: i=1; AHgh+Rpjrpn3CjOxPFcgf739z9UWK4PBx6e9C8p2B+DR0OxzlxQClu4M/m9C6VgGfzWmqSlDsmtxXSJURJD7sg==@lists.linux.dev
+X-Gm-Message-State: AFuF++ljCt7WzsD4AscT+58jRCYBbjbtJmn+Man++woyEBnhCSDt/v74
+	69SLZJZ39vs1IpdYGUETN0UDaxINN1+k+TqeBKL7VYzFKdDXL4OygrixM2yl8ubqZKw/Jt/sk9Q
+	gGBv6cPMYByjy0FvB2m6LqbGA/uto21VjjNl7BdhaaR59n4nKp4ibjQAsoB40swca
+X-Gm-Gg: AR+sD10RG7YF1Szo30b/WX+evMTrrJM9vXCzgkg7eNqS0IxgVJdMGHL7XT9wpK25eIy
+	oDhFGLGe4g8gEalYO4fYD9pDKI6knOK57xIwNBiGEp51lFvhQqEpT28ak3JFlBFiML7r7+LdSKc
+	zSI/H47uCAERZFdnrGe9tT42zyHEqzYDCC/7KbzBEsU2f6YfuJYAy3qlk/4HEiGWedCslXauWui
+	R28FNCVLn3BzVct1zrIxO1Z7wkrarKYrfh0eOOY5t6lIUj3jTQfcDs+KPQsVC5qZ7X7AKmgQF7u
+	DQd2F+KPuG4wNtY+CDSTQoye9sPKSJekxDgcaDhUZkbkAyqFntRRF4OD/dryLn3hi5tl1d8BymR
+	Hl8RiZsUwdaMJyM7v0pYyCtTti2hQ3d7dFDI=
+X-Received: by 2002:ac8:7d13:0:b0:52d:3d46:bfd0 with SMTP id d75a77b69052e-52df5a4a41emr343136201cf.32.1787670712384;
+        Tue, 25 Aug 2026 08:11:52 -0700 (PDT)
+X-Received: by 2002:ac8:7d13:0:b0:52d:3d46:bfd0 with SMTP id d75a77b69052e-52df5a4a41emr343134781cf.32.1787670711664;
+        Tue, 25 Aug 2026 08:11:51 -0700 (PDT)
+Received: from redhat.com (c-73-183-53-213.hsd1.pa.comcast.net. [73.183.53.213])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52e09aad030sm71209161cf.15.2026.08.25.08.11.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 07:10:49 -0700 (PDT)
-From: Sushanto <seditorofficial@gmail.com>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>,
+        Tue, 25 Aug 2026 08:11:50 -0700 (PDT)
+Date: Tue, 25 Aug 2026 11:11:47 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+Cc: Ryan Chen <ryan_chen@aspeedtech.com>, Joel Stanley <joel@jms.id.au>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Billy Tsai <billy_tsai@aspeedtech.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Taichi Sugaya <sugaya.taichi@socionext.com>,
+	Takao Orito <orito.takao@socionext.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Avi Fishman <avifishman70@gmail.com>,
+	Tomer Maimon <tmaimon77@gmail.com>,
+	Tali Perry <tali.perry1@gmail.com>,
+	Patrick Venture <venture@google.com>, Nancy Yuen <yuenn@google.com>,
+	Benjamin Fair <benjaminfair@google.com>,
+	Sudeep Holla <sudeep.holla@kernel.org>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	David Lechner <david@lechnology.com>,
+	Abel Vesa <abelvesa@kernel.org>, Peng Fan <peng.fan@nxp.com>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Santosh Shilimkar <ssantosh@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Emilio =?iso-8859-1?Q?L=F3pez?= <emilio@elopez.com.ar>,
+	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	alsa-devel@alsa-project.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Sushanto <seditorofficial@gmail.com>
-Subject: [PATCH] ASoC: sun4i-codec: Fix OF node reference leaks for analog controls
-Date: Tue, 25 Aug 2026 20:10:35 +0600
-Message-ID: <20260825141035.784-1-seditorofficial@gmail.com>
-X-Mailer: git-send-email 2.55.0.windows.4
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Ulf Hansson <ulfh@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Michal Simek <michal.simek@amd.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-clk@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	openbmc@lists.ozlabs.org, arm-scmi@vger.kernel.org,
+	imx@lists.linux.dev, linux-mips@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, soc@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 00/45] clk: Make sure clk_init_data is fully initialized
+ (part two)
+Message-ID: <ao2ws3ZA-o8ZVjTh@redhat.com>
+References: <cover.1787239813.git.geert+renesas@glider.be>
+ <3074509.irdbgypaU6@diego>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <3074509.irdbgypaU6@diego>
+User-Agent: Mutt/2.4.0 (2026-06-19)
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: riBEoxpOjz-oA7uoHeucUKXLyDMRGSYh_dqwTIIWMO4_1787670712
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-The device node obtained from of_parse_phandle() for
-"allwinner,codec-analog-controls" in sun8i_a23_codec_create_card(),
-sun8i_h3_codec_create_card(), and sun8i_v3s_codec_create_card()
-has its reference count incremented by of_parse_phandle().
+Hi Heiko,
 
-However, the driver fails to drop this reference count when
-sun4i_codec_create_link() fails, when snd_soc_register_card() fails
-in sun4i_codec_probe(), or when the driver is removed in
-sun4i_codec_remove().
+On Mon, Aug 24, 2026 at 11:11:32PM +0200, Heiko Stübner wrote:
+> Am Freitag, 21. August 2026, 10:53:10 Mitteleuropäische Sommerzeit schrieb Geert Uytterhoeven:
+> > 	Hi all,
+> > 
+> > The clk_init_data structure contains several mutually-exclusive members
+> > for different methods to specify the possible parents of a clock,
+> > prompting drivers to initialize only the members they need.  However,
+> > not initializing all members may cause subtle issues, which are only
+> > exposed when CONFIG_INIT_STACK_ALL_PATTERN or CONFIG_INIT_STACK_NONE is
+> > enabled.
+> > 
+> > Hence this series aims to make sure all members are fully initialized,
+> > to avoid such bugs, and to prevent future breakage when converting
+> > drivers to a different method for specifying the parents.
+> > 
+> > Part One[1] fixed all cases that I identified to be real bugs, in
+> > response to a crash I saw on BeagleBone Black.
+> > 
+> > This series is the clock subpart of Part Two, which fixes remaining
+> > cases that are currently harmless.  These are still fragile, and may
+> > cause future breakage when converting drivers to a different method for
+> > specifying the parents.
+> > 
+> > Thanks for your comments!
+> 
+> I guess more a handling question, how do you expect this series to be
+> applied?
+> 
+> I.e. each clk-arch-maintainer, or in one big thing by the core clock
+> maintainers? Just wondering if I should pick the Rockchip patch
+> or just let the whole series get applied by the clock maintainers.
 
-Fix this by adding the missing of_node_put(aux_dev.dlc.of_node) calls
-in these error paths and in sun4i_codec_remove().
+Before you pick up anything, let's see if Stephen picks up this series
+the next few days before he sends his pull to Linus.
 
-Fixes: 08289086b0ab ("ASoC: sun4i-codec: Add support for A23 codec")
-Signed-off-by: Sushanto <seditorofficial@gmail.com>
----
- sound/soc/sunxi/sun4i-codec.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+Next development cycle, Jerome Brunet and I will be clk co-maintainers
+[1] and will start collecting patches then. If Stephen doesn't pick up
+this whole series this week, then pick up the patch(es) relevant for
+your tree and send Jerome and I pull as usual. That's just in case
+there's other patches that come in during the next development cycle to
+these files and to avoid merge conflicts. I don't have a strong opinion
+about this though, and could be convinced to take the whole series for
+simplicity.
 
-diff --git a/sound/soc/sunxi/sun4i-codec.c b/sound/soc/sunxi/sun4i-codec.c
-index 835dc3404..b10c2beac 100644
---- a/sound/soc/sunxi/sun4i-codec.c
-+++ b/sound/soc/sunxi/sun4i-codec.c
-@@ -1429,8 +1429,11 @@ static struct snd_soc_card *sun8i_a23_codec_create_card(struct device *dev)
- 	}
- 
- 	card->dai_link = sun4i_codec_create_link(dev, &card->num_links);
--	if (!card->dai_link)
-+	if (!card->dai_link) {
-+		of_node_put(aux_dev.dlc.of_node);
-+		aux_dev.dlc.of_node = NULL;
- 		return ERR_PTR(-ENOMEM);
-+	}
- 
- 	card->dev		= dev;
- 	card->owner		= THIS_MODULE;
-@@ -1468,8 +1471,11 @@ static struct snd_soc_card *sun8i_h3_codec_create_card(struct device *dev)
- 	}
- 
- 	card->dai_link = sun4i_codec_create_link(dev, &card->num_links);
--	if (!card->dai_link)
-+	if (!card->dai_link) {
-+		of_node_put(aux_dev.dlc.of_node);
-+		aux_dev.dlc.of_node = NULL;
- 		return ERR_PTR(-ENOMEM);
-+	}
- 
- 	card->dev		= dev;
- 	card->owner		= THIS_MODULE;
-@@ -1507,8 +1513,11 @@ static struct snd_soc_card *sun8i_v3s_codec_create_card(struct device *dev)
- 	}
- 
- 	card->dai_link = sun4i_codec_create_link(dev, &card->num_links);
--	if (!card->dai_link)
-+	if (!card->dai_link) {
-+		of_node_put(aux_dev.dlc.of_node);
-+		aux_dev.dlc.of_node = NULL;
- 		return ERR_PTR(-ENOMEM);
-+	}
- 
- 	card->dev		= dev;
- 	card->owner		= THIS_MODULE;
-@@ -1808,6 +1817,8 @@ static int sun4i_codec_probe(struct platform_device *pdev)
- 	ret = snd_soc_register_card(card);
- 	if (ret) {
- 		dev_err_probe(&pdev->dev, ret, "Failed to register our card\n");
-+		of_node_put(aux_dev.dlc.of_node);
-+		aux_dev.dlc.of_node = NULL;
- 		goto err_assert_reset;
- 	}
- 
-@@ -1830,6 +1841,8 @@ static int sun4i_codec_remove(struct platform_device *pdev)
- 	if (scodec->rst)
- 		reset_control_assert(scodec->rst);
- 	clk_disable_unprepare(scodec->clk_apb);
-+	of_node_put(aux_dev.dlc.of_node);
-+	aux_dev.dlc.of_node = NULL;
- 
- 	return 0;
- }
--- 
-2.55.0.windows.4
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/commit/?h=clk-next&id=8bc7ceadce1f362a8b0e88075ef3d926b286c01c
+
+Brian
 
