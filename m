@@ -1,40 +1,33 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F853F326F
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Aug 2026 10:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D30E3357CE9
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Aug 2026 10:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787653596; cv=none; b=fxpTQcioEscch8IghE7TgLbKmPsl0lZG7SJ6LiAeuUbrtF2y8tBoW6UvBjZfBYxxKxzg/nkXsW9deKfhykLjAmRSqsUeI3GgZNnwWC3wDy5XH7wmf0zY/M0b0guZxfR1bgzonOmAhPsjjnDv6qUNOBbL6wTGwH6+s8AxUaBc57A=
+	t=1787653937; cv=none; b=oCPvWx7T7/i4/S4c4xwgx7Bu2BzBM5OgYOkrXipM5eBc63RIzAbOL09S+ih8/G4x71vzpsBRPtG35IdB1Sp9ZZg3jkyNsdudZiN4uJrXQ+dLZ6uup+KmTvaw1CQvyzVzVU1wur+TCGRADE3Z1NXx7FCTSH1ehNWjFfrbSmAjg1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787653596; c=relaxed/simple;
-	bh=wdwDOSk5hX6BER010tdloX7TyIracwF8Sfqo/V+QHdc=;
+	s=arc-20240116; t=1787653937; c=relaxed/simple;
+	bh=Tsxi2Q13JLZntOlrs0aLxbld635jIPf+JkdjCgc9bSI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZefIZK7zruQnGMQ8+DZzNF7O6JcuGCFFdz8YaBnARc5zxD5BK1Yijgv33Qj0r2EPe7S+k9CTd1Xtovn/Uyo4jza+rbHUIU/eWkVsAW1IWk1eH4kyJ0lV9SjcADmwYcar/Hl36YwsteioA7burtR2MJrxeEyC2mjVCcQVrl/ctFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=bTxbJf5f; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 In-Reply-To:Content-Type; b=jHqJ9q1IZD67hiARLgNcLJFtzck3JK3YYwfBrnyunIcr/gzPuEzRM/ZizHIybCOCSFBFO7uBrvOtdW3NIrgrh5k3R+aObJ8izd3wRLaCp5MXpC3+xo43kUx6m+IJSQ9j26nDqJaCK7CJFJLLsMdrhbDLCzKQnJva+OTOzXOfaws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=QOv1dLDf; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="bTxbJf5f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1787653591;
-	bh=wdwDOSk5hX6BER010tdloX7TyIracwF8Sfqo/V+QHdc=;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="QOv1dLDf"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5A3F71BF7;
+	Tue, 25 Aug 2026 03:32:11 -0700 (PDT)
+Received: from [10.1.31.148] (e142021.arm.com [10.1.31.148])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E6B313F7D8;
+	Tue, 25 Aug 2026 03:32:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1787653935; bh=Tsxi2Q13JLZntOlrs0aLxbld635jIPf+JkdjCgc9bSI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bTxbJf5fS32zFSecAaSleGRbfLnJKIjWUgmVnz7TLVMEdem/S0w4d6UBoDPhm7sUg
-	 mnbrQwdKnlIrP8veP+1xkVGKCZQ/843/WX01n1joRiW7rUcazDBFpTMKVSSQa0cPu8
-	 PJpjvsxkgYEB+mJNjIFPRkHY2SU44/hj+RhStHRgzT/0+NPGiPcByxBQwWC5CDdXnb
-	 WZx8cpQTFBQnEgRU8Vy+1yObkV3UmLsFQEEo0xNhsEE0K+Or+DRJAggCo8mQgJ8b91
-	 NMGSVeP6wkjJ0gPx2tqvWqOgtmLZGvxpg4/8ZMacCPZ1/bYYw7dfOaO/J1T2w/pYjE
-	 ktV6450DXU1Pw==
-Received: from [100.64.0.241] (unknown [100.64.0.241])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id E097D17E084E;
-	Tue, 25 Aug 2026 12:26:30 +0200 (CEST)
-Message-ID: <0e66c987-866a-4166-a850-14e7d03ea69f@collabora.com>
-Date: Tue, 25 Aug 2026 13:26:30 +0300
+	b=QOv1dLDfG0UNmyJ2VQE0AaDZv92EGE1qm9y4Pu6MsK7wVPVj1aCwzqS/FNSWwCgWW
+	 WfzFzRkRshkDtapxyPO9JsOUefIZmjasDM3mxAeWKtnRaFM9wzM+mGWdRNPPi0BC4P
+	 mSdooJGvXr2GnbdxqCZIpzQ8fHkAPqy+i8N6HvRk=
+Message-ID: <95b5fee4-70e8-4b2d-96fa-bce267ff13f5@arm.com>
+Date: Tue, 25 Aug 2026 11:32:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,153 +35,64 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 22/69] drm/display: hdmi-state-helper: Sync SCDC state
- on hotplug
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Algea Cao <algea.cao@rock-chips.com>, Daniel Stone <daniels@collabora.com>,
- Liu Ying <victor.liu@nxp.com>, Phong LE <ple@baylibre.com>,
- kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
- Maud Spierings <maud_spierings@hotmail.com>,
- Diederik de Haas <diederik@cknow-tech.com>
-References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
- <20260731-dw-hdmi-qp-scramb-v10-22-294364b2cf15@collabora.com>
- <20260820-accomplished-curly-bandicoot-cc36ba@houat>
- <774c38bd-6569-4aff-9fbc-a4e017840a55@collabora.com>
- <20260825-potoo-of-imaginary-unity-7b0999@penduick>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <20260825-potoo-of-imaginary-unity-7b0999@penduick>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH net] net: ethernet: sun4i-emac: Fix IRQ error handling
+To: phucduc.bui@gmail.com, Andrew Lunn <andrew+netdev@lunn.ch>,
+ davem@davemloft.net, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>, Linus Walleij <linusw@kernel.org>,
+ Kees Cook <kees@kernel.org>,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+ Arnd Bergmann <arnd@arndb.de>, Stefan Roese <sr@denx.de>,
+ Maxime Ripard <mripard@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org
+References: <20260824100901.31675-1-phucduc.bui@gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20260824100901.31675-1-phucduc.bui@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/25/26 12:25 PM, Maxime Ripard wrote:
-> On Thu, Aug 20, 2026 at 05:44:08PM +0300, Cristian Ciocaltea wrote:
->> On 8/20/26 11:53 AM, Maxime Ripard wrote:
->>> On Fri, Jul 31, 2026 at 07:19:29PM +0300, Cristian Ciocaltea wrote:
->>>> drm_atomic_helper_connector_hdmi_hotplug() does not currently
->>>> synchronize SCDC status on hotplug events, leaving the scrambler state
->>>> potentially inconsistent after (re)connect.
->>>>
->>>> Hook drm_connector_hdmi_sync_scdc() into both the connect and disconnect
->>>> paths, replacing the existing TODOs around missing scrambler handling.
->>>>
->>>> Tested-by: Maud Spierings <maud_spierings@hotmail.com>
->>>> Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # NanoPC-T6 LTS, Rock 5B
->>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->>>> ---
->>>>  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 23 ++++++++++++++---------
->>>>  1 file changed, 14 insertions(+), 9 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
->>>> index 4a93c279c9a7..3377ea936120 100644
->>>> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
->>>> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
->>>> @@ -1205,13 +1205,16 @@ drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector,
->>>>  					enum drm_connector_status status)
->>>>  {
->>>>  	const struct drm_edid *drm_edid;
->>>> +	int ret = 0;
->>>>  
->>>>  	if (status == connector_status_disconnected) {
->>>> -		// TODO: also handle scramber, HDMI sink disconnected.
->>>> -		drm_connector_hdmi_audio_plugged_notify(connector, false);
->>>> -		drm_edid_connector_update(connector, NULL);
->>>> -		drm_connector_cec_phys_addr_invalidate(connector);
->>>> -		return 0;
->>>> +		ret = drm_connector_hdmi_sync_scdc(connector, false, ctx);
->>>> +		if (ret != -EDEADLK) {
->>>> +			drm_connector_hdmi_audio_plugged_notify(connector, false);
->>>> +			drm_edid_connector_update(connector, NULL);
->>>> +			drm_connector_cec_phys_addr_invalidate(connector);
->>>> +		}
->>>
->>> If there's a deadlock, shouldn't we restart the whole sequence there?
->>
->> In that case we do already propagate -EDEADLK and let the callers
->> (drm_helper_probe_detect_ctx(), drm_helper_probe_single_connector_modes())
->> to ensure the sequence is restarted.
->>
->>> Ie, we should return ret all the time anyway? And if we do that, we
->>> should return ret for drm_edid_connector_update() too.
->>
->> Per .detect_ctx() contract, implementations shall return a drm_connector_status
->> value or -EDEADLK only.  On the other hand, .force_ctx() accepts any error code,
->> but the probe helpers just log it.  Hence returning anything else wouldn't
->> really have an impact on the functionality.
->>
->> Returning errors from drm_edid_connector_update() would potentially override
->> non-deadlock ones from sync_scdc().  Since both helpers already log their own
->> failures, I think it isn't worth the trouble.
->>
->>> Either way, a comment on why we're doing it this way would be nice.
->>
->> Indeed.  Would the following be too verbose?
->>
->> /*
->>  * The SCDC resync may reset the CRTC, which might involve aquiring
->>  * modeset locks.  If that fails, -EDEADLK is reported and the callers
->>  * passing a non-NULL @ctx drop the locks and restart the sequence
->>  * - see drm_helper_probe_detect_ctx() and
->>  * drm_helper_probe_single_connector_modes().
->>  *
->>  * The resync runs first, and the audio and CEC helpers only once the
->>  * link state has settled: the CRTC reset is a blocking commit, so on
->>  * success the pipeline is already up again, while on -EDEADLK nothing
->>  * has been resynced yet and the pending retry redoes everything.  This
->>  * keeps userspace from acting upon a link that is about to be reset.
->>  *
->>  * -EDEADLK is the only status gating the helpers below, as it is the
->>  * sole one guaranteeing a new run.  The other failures are merely
->>  * reported: .force_ctx() accepts any error code and the probe helpers
->>  * just log it, while .detect_ctx() has to swallow it, being only
->>  * allowed to return a drm_connector_status value or -EDEADLK.
->>  * Propagating the status of drm_edid_connector_update() on top would
->>  * therefore only make it compete with an earlier resync failure over a
->>  * value that triggers no recovery, the more so as both helpers already
->>  * log their own errors.
->>  */
-> 
-> You can tell your LLM to be more terse :)
+Hi,
 
-That's actually the shortened form :-)
+On 8/24/26 12:09, phucduc.bui@gmail.com wrote:
+> From: bui duc phuc <phucduc.bui@gmail.com>
+> 
+> irq_of_parse_and_map() returns 0 when parsing or mapping an IRQ fails.
+> The current code checks for -ENXIO and therefore does not detect the
+> failure.
+> 
+> Check for a zero return value and convert it to -ENXIO.
 
-> 
-> Something like the following would be enough:
-> 
->   /*
->    * detect_ctx can only ever return an status or EDEADLK. Handle deadlocks, and report any !EDEADLK error.
->    */
->   ret = drm_connector_hdmi_sync_scdc(connector, false, ctx);
->   if (ret)
->      if (ret == -EDEADLK) {
->      	return ret;
->      } else {
->        drm_warn(connector->dev, "ignored error");
->      }
-> 
->   drm_connector_hdmi_audio_plugged_notify(connector, false);                                                                                                                                                                                                    
->   ret = drm_edid_connector_update(connector, NULL);
->   if (ret)
->        drm_warn(connector->dev, "ignored error");
->   drm_connector_cec_phys_addr_invalidate(connector);                                                                                                                                                                                                            
+Yes, the return value is the IRQ number, or 0 in case of a missing IRQ.
 
-Ack.
+> Fixes: 492205050d77 ("net: Add EMAC ethernet driver found on Allwinner A10 SoC's")
+> Signed-off-by: bui duc phuc <phucduc.bui@gmail.com>
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
 Thanks,
-Cristian
+Andre
+
+> ---
+>   drivers/net/ethernet/allwinner/sun4i-emac.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/allwinner/sun4i-emac.c b/drivers/net/ethernet/allwinner/sun4i-emac.c
+> index 42174249ef61..942454e29488 100644
+> --- a/drivers/net/ethernet/allwinner/sun4i-emac.c
+> +++ b/drivers/net/ethernet/allwinner/sun4i-emac.c
+> @@ -996,9 +996,9 @@ static int emac_probe(struct platform_device *pdev)
+>   	/* fill in parameters for net-dev structure */
+>   	ndev->base_addr = (unsigned long)db->membase;
+>   	ndev->irq = irq_of_parse_and_map(np, 0);
+> -	if (ndev->irq == -ENXIO) {
+> +	if (!ndev->irq) {
+>   		netdev_err(ndev, "No irq resource\n");
+> -		ret = ndev->irq;
+> +		ret = -ENXIO;
+>   		goto out_iounmap;
+>   	}
+>   
+
