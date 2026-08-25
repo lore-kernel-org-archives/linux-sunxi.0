@@ -1,130 +1,276 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23283E7BCC
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Aug 2026 10:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787655319; cv=pass; b=dJV6G9r6uLP0Fz5ELXK50brgLOWLSL5svi9qB8eIubWfPn7oyCMjMF5fGfzTCV276CfntJLy+TQ3RtxU502fQT3qAGDu3XfsCTc5Y0w8DspaBJUNIjxAuWVndHqAguMO26T8hr0JbTP+vvdQ+vLGMOkXBqdlMp9Xh5V+3rzr8DU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787655319; c=relaxed/simple;
-	bh=YjhBNYLp1+JOi4PAwGzdbKWKT1rkCzEPvCpcv+Z302c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jAV9qBm8+UFgIdOJBsyM90zWmWD0GCbIiVQcmFZyzYxlCbK2Qobo7M80YMXEKMn2QXG4e0lrBedTZP1HJxU4UksGLrUefY5z3IWxFdAXK3m/Zq1mkhKHTzfjomfkOu/zS1C+PzhwRj5fVFqvI++TtGwYCqG/nm5gIcqenf/G2rE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f3NM8rJh; arc=pass smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5613F9A10
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Aug 2026 12:41:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1787661696; cv=none; b=LkP4NETWBdIR5fe3m0aO/vnacuZUpXo/Jy1UIvh8SwlmO7cTUoAeX/UtbUdmDH72WdvZK/UweUaPknkBCXwFIzPiRimwtHltE3R1Llq7AT7/V0WwLm+iFjGfxeLMuSI8vBy9w2OZoszu76AxxB0FOXdJAi0IU79py9tjhrZhCmc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1787661696; c=relaxed/simple;
+	bh=iMp5GpN6/U9igSQL5wYc6AzZa2yF6+l/LN+CLRuICME=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:content-type; b=twEdiIoWlygyUfG68XhCFTtLBH2v8g5Zy5uz/K9TUIwl+DAcHFP7eKOsO9KgrbruuNUK1flPTjnTEIa6aXjBy6lJxH3KBn9yQ939xSUrjGoy5v+4Qq4D/RADWERFpIc65thKNT/6dcKyKXpdPQRWPMf/8P87PMykFAGRcSOKsf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iWa3RA6s; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f3NM8rJh"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-84e84a6c4bfso662836b3a.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 25 Aug 2026 03:55:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787655317; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NkDxNElh83XPdOBShAism3FSZkH16UuiOjjTSjM/ZhIS7ruYG3tpp+Krqs13+kczGb
-         J9gztkx3EY4t3bhuBT6she50zBoy1tta2YscVL0hRUJ02L6jMj5OXLV74Aaky0tlEdu8
-         PH62SfUJM5pEHs2ABs5cs2CFCTTr2DSe3S2VveJWFMEEazS+neuXwN1Ina6dpL/BZlKN
-         j0jnoJKccqhIOHMvRDsQQgnzNMHQ+pv8Ph/S9CcqtyUq8Ai6b+Fe90zA20k94puLlA3W
-         IygCJ4sRjU0S8Ir9XUW3UiCbDICkvDpfQVfgPig0bclqNIbB+cDZm2WeoNtm+CO7wBQ3
-         qUHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=0HHXpTM+gQhoNIJQAMx/pYhBXi6CPIRaEt/OoWjkNVY=;
-        fh=DHjdiazyXdowSKc8QFJ0cQPiw6JytCzKGsbsz5/ouWo=;
-        b=RIfQTpea27n1F0VSSdB0BvXEi1MJ+CK7T0Mg9FxWd+9IWOiTd2jpH0HALldZGNMXM+
-         AJrxhpBDHoHdGasRVN6fiGcDB0MaCDtiLMMfjmVwzsxsbI6kLZgvuuROOHCSwn2gjVFz
-         /E3PAcPQOnmOozv8ugRpNpMTHT6PpiOJZE1jMlHa2d6XpQceTCuOuG8Jpk6TBPR9Kzp6
-         Wr0rqTdh8urc0YJk7yRwoqmV7ZdpACJ1PI/g7hFM90dP495ThMTCYyQvscWiBaq23Yyf
-         uBt26Qzf99jSUObrEVwwI2l3jMhH/06x8Ez+qnDeaRm5oh2MKKtBZ72H/707grMTWUpL
-         p7Rw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787655317; x=1788260117; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0HHXpTM+gQhoNIJQAMx/pYhBXi6CPIRaEt/OoWjkNVY=;
-        b=f3NM8rJhKrAzDDvVgwdUVLAzrRfqBx75HeWdonpxiLJYgpzXqggy9Y3rM8wJOgG1Ty
-         2ee25IGcUhn1vmJ1L2aeAGn0bSv2jdmbdKlTUS9l+cKEBfHFnchmA6bG4ilScHpDlLBE
-         3BRJGTFbWddjeMZNjtOV3qACjJsrxz0uIHaKn8O+FDCawSrQIHDXQe7GVnpaU1787QpP
-         k7yP7XoVZKYLnz+lCkjaGtYTgz1cQXCqRmrMJQhPaAnnxxMMVJAba+nVCIkZqxXoGQ9y
-         ZfeNb4rse8syM0rjQSPH5y9ZFqrjBL49fyt60oKCPu4sCnfTsMNf8gY2mIUhP5Stbaxb
-         i4ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787655317; x=1788260117;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=0HHXpTM+gQhoNIJQAMx/pYhBXi6CPIRaEt/OoWjkNVY=;
-        b=tBtYhUEBLrcs34L1latWlxecN1U6SX++QMIbC9n+Onjft52v2RN6WJm6+Z3Hke/TlV
-         uXpSZXAQ9off/jQbK9KxfDCX58QI6YYrYOWB2ugWhQAE6hd5aFvNNGtBMs1mx9ppKct+
-         4xA5ARuYsyMWfZFrdLthdCJ2YphV0nj2bKc6O0NLZHQplMwAT5sXJsJJGw5kvGtN40p5
-         sJQNuaOtiTmnP1W8ML/P49SRaqpDIqrYqWlmxFfK9RoTf8cKdAgejdGNTJSgRBCf3wln
-         4ev3ItbTu8V4rRfX40q51jeAlKPm97bz/o31oPzz6CwJjIx7B8UA1vWg/9dAehiMo3w2
-         hDug==
-X-Gm-Message-State: AFuF++nx5Yx9HucMYvWcjOHs5PJPHmw7Fh27odnvgJ7qYXGqYUCLD/hE
-	KsEndHrARRmMoTUDcJmft22GxJklxp8O16UDFPRFHDsTs3Xal2naw69NW0FYNbolnlZxx4Hf72D
-	nQapmA/gDrLGFinktqgVh2piMKWsXcBWlMxym
-X-Gm-Gg: AR+sD13zwtJMitQx3VQ+pGR5N9xj++TWxRshpaLa6C3jVdvlgFIZR9auMM7nO/YBky3
-	tyqd5fi2K82i18oozflmAGB3QMEFgrX5X0VxssNW0F9Av7YOBpq/8E6ls3iG6KOFexFjHKlBzgI
-	PXgeQwp3fAGiV9g9vLR0FeFihOelQ9XuGueUK7wkb8CDTjrBGhIPVbqqr387T4RbXg8HgjGK+g9
-	Raf2xAhQgyvIMXWJdjhtqhBR2uKExAN8slD891p4Sjzlc9Fp/+GwDqb7aDwwZqu4uW8PX4Mo0iy
-	bU1jMCRXv+0IiWK2sW33hjZv7PP+gOt/nou4m30sLVPXws1xccfLN+uETLb7BmM6LyfQu0WDQps
-	q+fhbzGUj/e5YR4GlTQVZG1Miq6++EJBwTCdjjek/9R2Pouxol3Ozdll9
-X-Received: by 2002:a05:6a00:18a1:b0:84a:32ba:a262 with SMTP id
- d2e1a72fcca58-8523baee6a0mr6196886b3a.7.1787655317063; Tue, 25 Aug 2026
- 03:55:17 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iWa3RA6s"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1787661692;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xyj2t2ZPJet7pQNjQ/Ax+H9J0fk7chnHKPGRi/WPS70=;
+	b=iWa3RA6sEacwB/85tMdSeWtuiJA2MZxmax/yQkOf9NpchqbpffgLjZyvvcXRcjHChigvpf
+	VjGr4DcYhRvHniC5jWts52wsyXBOkMJC0ZTaA9NzN7SWciHMrfTeFSgTaX7FlgKSjUvJgE
+	lh/KA7VolhU6IYl2NdbqF4hg8Q1RgmU=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-170-kVtEiiVEOIqlkY40LMcG6w-1; Tue,
+ 25 Aug 2026 08:41:28 -0400
+X-MC-Unique: kVtEiiVEOIqlkY40LMcG6w-1
+X-Mimecast-MFC-AGG-ID: kVtEiiVEOIqlkY40LMcG6w_1787661683
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C71D91955DDF;
+	Tue, 25 Aug 2026 12:41:22 +0000 (UTC)
+Received: from gerbillo.redhat.com (unknown [10.44.48.127])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 20396362;
+	Tue, 25 Aug 2026 12:41:15 +0000 (UTC)
+From: Paolo Abeni <pabeni@redhat.com>
+To: hartmnn.p@gmail.com
+Cc: maxime.chevallier@bootlin.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	andre.przywara@arm.com,
+	clabbe.montjoie@gmail.com,
+	mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com,
+	netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net] net: stmmac: dwmac-sun8i: reset the EMAC when opening, not when probing
+Date: Tue, 25 Aug 2026 14:41:11 +0200
+Message-ID: <20260825124111.178799-1-pabeni@redhat.com>
+In-Reply-To: <20260822045641.19282-1-hartmnn.p@gmail.com>
+References: <20260822045641.19282-1-hartmnn.p@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260824100901.31675-1-phucduc.bui@gmail.com> <20260825100929.5F3D51F000E9@smtp.kernel.org>
-In-Reply-To: <20260825100929.5F3D51F000E9@smtp.kernel.org>
-From: Bui Duc Phuc <phucduc.bui@gmail.com>
-Date: Tue, 25 Aug 2026 17:55:06 +0700
-X-Gm-Features: AcwNN1XO-UxS2toBrwsjemVQr3JZE7SN6j1yX-KK_iflO1nCuB3BirBvu27LfcM
-Message-ID: <CAABR9nE5eWgOXEnpquG+KoLPL+KC93_2cgv3gNVsWDEfyA9d_g@mail.gmail.com>
-Subject: Re: [PATCH net] net: ethernet: sun4i-emac: Fix IRQ error handling
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
+X-Mimecast-MFC-PROC-ID: WSOVQ1E7pnhATG6pwfxO3O0TBtbBkYKgLU6d9U_bIEc_1787661683
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+content-type: text/plain; charset="US-ASCII"; x-default=true
 
-> Pre-existing issues:
-> - [High] Unconditional call to `dma_release_channel(db->rx_chan)` in the `emac_probe()` error path can cause a kernel panic if DMA configuration fails.
-> - [High] The driver unconditionally enables MAC interrupts during system resume, even if the network interface was logically down, which can permanently break the interface.
-> --
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+Full review at: https://netdev-ai.bots.linux.dev/sashiko/
+---
+net: stmmac: dwmac-sun8i: reset the EMAC when opening, not when probing
 
-Both issues are pre-existing and are not introduced by this patch.
-I will keep the scope of this patch limited to IRQ error handling and
-will not address these issues here.
+The EMAC soft reset is moved out of sun8i_dwmac_probe() and into the
+stmmac_dma_ops->reset hook, so it runs from stmmac_init_dma_engine()
+instead of at probe time.  A new helper sun8i_dwmac_soft_reset() holds the
+assert-and-poll sequence, and sun8i_dwmac_reset() is kept as a thin
+wrapper for the mdio-mux switch callback.
 
-For the first issue, the cleanup could be separated so that
-dma_release_channel() is only reached after
-successful DMA configuration:
----------------------------------------------------------
--       if (emac_configure_dma(db))
-+       ret = emac_configure_dma(db);
-+       if (ret) {
-               netdev_info(ndev, "configure dma failed. disable dma.\n");
-+              goto out_dispose_mapping;
-+       }
-...
-       if (IS_ERR(db->clk)) {
-               ret = PTR_ERR(db->clk);
--              goto out_dispose_mapping;
-+              goto out_release_dma;
-       }
-...
-+out_release_dma:
-+       dma_release_channel(db->rx_chan);
- out_dispose_mapping:
-       irq_dispose_mapping(ndev->irq);
--      dma_release_channel(db->rx_chan);
-------------------------------------------------------------
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> index 48c52eb96233..748ebabd933c 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> @@ -272,8 +272,34 @@ static const struct emac_variant emac_variant_h6 = {
+>  /* sun8i_dwmac_dma_reset() - reset the EMAC
+>   * Called from stmmac via stmmac_dma_ops->reset
+>   */
+> +static int sun8i_dwmac_soft_reset(void __iomem *ioaddr)
 
-I will not include this change in the current patch.
-These issues would be better addressed and tested by someone with
-access to the hardware.
+[Severity: Low]
+This isn't a bug, but the existing header block now sits above the wrong
+function.  Neither statement in it holds for sun8i_dwmac_soft_reset():
+the ops table binds .reset = sun8i_dwmac_dma_reset, and the new helper
+has a second caller, sun8i_dwmac_reset(), used by the mdio-mux switch
+callback.  sun8i_dwmac_dma_reset() is then the only dma ops callback in
+this file without a header comment naming it, unlike
+sun8i_dwmac_dma_init() just below.  Should the comment move down with the
+function it describes?
+
+> +{
+> +	u32 v;
+> +
+> +	v = readl(ioaddr + EMAC_BASIC_CTL1);
+> +	writel(v | 0x01, ioaddr + EMAC_BASIC_CTL1);
+> +
+> +	/* The timeout was previously set to 10ms, but some board (OrangePI0)
+> +	 * need more if no cable plugged. 100ms seems OK
+> +	 */
+> +	return readl_poll_timeout(ioaddr + EMAC_BASIC_CTL1, v,
+> +				  !(v & 0x01), 100, 100000);
+> +}
+
+[Severity: Medium]
+Is 100 ms still enough in the new context?  The comment above the poll
+was written for a probe-time reset, where the PHY had been powered and
+clocking since boot.
+
+In the new call site the PHY may have left BMCR_PDOWN only microseconds
+earlier.  __stmmac_open() and stmmac_resume() both do:
+
+	phylink_prepare_resume(priv->phylink);
+	...
+	ret = stmmac_hw_setup(dev);
+
+and phylink_prepare_resume() itself says:
+
+	/* IEEE 802.3 22.2.4.1.5 allows PHYs to stop their receive clock
+	 * when PDOWN is set. ... Note that 802.3 allows PHYs 500ms before
+	 * the clock meets requirements. We do not implement this delay.
+	 */
+	if (pl->config->mac_requires_rxc && phydev && phydev->suspended)
+		phy_resume(phydev);
+
+Only stmmac_reset_queues_param() and descriptor clearing sit between
+phy_resume() and stmmac_init_dma_engine() -> sun8i_dwmac_dma_reset(), so
+on a PHY that is slow to restart RXC after power-down the poll can expire
+and stmmac_hw_setup() returns -ETIMEDOUT on ifup, MTU change and system
+resume.
+
+The other stmmac variants that soft-reset in this hook allow more
+headroom: 200 ms in dwmac_lib.c, 1 s in dwmac4_lib.c and dwmac-imx.c, 2 s
+in dwmac-loongson.c.  Would raising the budget here be reasonable?
+
+>  static int sun8i_dwmac_dma_reset(void __iomem *ioaddr)
+>  {
+> +	int err;
+> +
+> +	/* The MAC soft reset only completes once the PHY is driving the RX
+> +	 * clock. Doing it here rather than at probe means phylib has already
+> +	 * attached and resumed the PHY, so the clock is running by
+> +	 * construction -- including after a warm reboot that left the PHY
+> +	 * powered down.
+> +	 */
+
+[Severity: Medium]
+Is the stated precondition accurate for all callers of the hook?  The
+commit message says:
+
+  "stmmac calls it from stmmac_init_dma_engine(), under stmmac_hw_setup(),
+   whose only two callers are __stmmac_open() and stmmac_resume() -- both
+   of which run after stmmac_init_phy() has attached and resumed the PHY."
+
+stmmac_resume() does not call stmmac_init_phy() at all, and __stmmac_open()
+is also reached from stmmac_change_mtu() and the XDP re-open path without
+going through stmmac_open() -> stmmac_init_phy().
+
+What actually guarantees a running receive clock before stmmac_hw_setup()
+on those paths is phylink_prepare_resume(), added by commit 06232cb44bc8e
+three weeks before this patch:
+
+	phylink_prepare_resume(priv->phylink);
+
+	stmmac_reset_queues_param(priv);
+
+	ret = stmmac_hw_setup(dev);
+
+In the current tree the behaviour is fine, since stmmac sets
+mac_requires_rxc unconditionally, so phylink_prepare_resume() does resume
+a suspended PHY first.  But the patch carries Fixes: 9f93ac8d4085 (2017).
+In a stable tree without 06232cb44bc8e, would sun8i_dwmac_dma_reset()
+assert SOFT_RST with an external PHY still in BMCR_PDOWN on every resume
+and every MTU change, turning a probe-time failure into a resume and
+MTU-change failure?
+
+Could the commit message name phylink_prepare_resume() as the actual
+dependency, and note it explicitly for backporters?
+
+> +	err = sun8i_dwmac_soft_reset(ioaddr);
+> +	if (err)
+> +		return err;
+> +
+>  	writel(0, ioaddr + EMAC_RX_CTL1);
+>  	writel(0, ioaddr + EMAC_TX_CTL1);
+>  	writel(0, ioaddr + EMAC_RX_FRM_FLT);
+> @@ -740,23 +766,12 @@ static void sun8i_dwmac_flow_ctrl(struct mac_device_info *hw,
+>  
+>  static int sun8i_dwmac_reset(struct stmmac_priv *priv)
+>  {
+> -	u32 v;
+> -	int err;
+> -
+> -	v = readl(priv->ioaddr + EMAC_BASIC_CTL1);
+> -	writel(v | 0x01, priv->ioaddr + EMAC_BASIC_CTL1);
+> +	int err = sun8i_dwmac_soft_reset(priv->ioaddr);
+
+[Severity: Medium]
+This isn't a problem introduced by this patch -- the mdio-mux reset call
+site predates it -- but does the failure mode survive there for the
+H3/V3s variants, the only ones with soc_has_internal_phy = true?
+
+The commit message mentions the retained caller:
+
+  "sun8i_dwmac_reset() stays for the mdio-mux switch callback, which needs
+   a reset after changing the syscon and cannot use the hook."
+
+That callback still runs at probe time.  mdio_mux_read() invokes the
+switch callback before forwarding the first MDIO transfer:
+
+drivers/net/mdio/mdio-mux.c:mdio_mux_read() {
+	...
+	r = pb->switch_fn(pb->current_child, cb->bus_number, pb->switch_data);
+	if (r)
+		goto out;
+	...
+}
+
+so during sun8i_dwmac_probe() -> sun8i_dwmac_register_mdio_mux() ->
+mdio_mux_init() -> of_mdiobus_register(), the callback runs with
+current_child == -1, selects the external child, unpowers the internal
+PHY and calls sun8i_dwmac_reset() -> sun8i_dwmac_soft_reset() before
+phylib has attached or resumed the external PHY.
+
+On a board whose external PHY came back from a warm reboot in BMCR_PDOWN
+-- the scenario in the commit message -- would the poll return -ETIMEDOUT,
+switch_fn fail, mdio_mux_read() abort, and the external PHY never be
+discovered?
+
+The new comment in sun8i_dwmac_dma_reset() states that phylib has already
+attached and resumed the PHY, which this second caller of the same helper
+does not honour.
+
+>  
+> -	/* The timeout was previously set to 10ms, but some board (OrangePI0)
+> -	 * need more if no cable plugged. 100ms seems OK
+> -	 */
+> -	err = readl_poll_timeout(priv->ioaddr + EMAC_BASIC_CTL1, v,
+> -				 !(v & 0x01), 100, 100000);
+> -
+> -	if (err) {
+> +	if (err)
+>  		dev_err(priv->device, "EMAC reset timeout\n");
+> -		return err;
+> -	}
+> -	return 0;
+> +
+> +	return err;
+>  }
+
+[ ... ]
+-- 
+This is an AI-generated review.
+
