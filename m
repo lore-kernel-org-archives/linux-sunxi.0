@@ -1,144 +1,322 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11163D47A3
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 Aug 2026 10:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E003EE1E9
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 Aug 2026 10:11:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787652571; cv=none; b=BrQZqjOe3XPUSehqqrqT93Xierp++BmNSJDRa8XPssJx8PXfYKRhWYX5W1HNT08lE3PYVuoEYbFK7729odX5zGH6Wx9j3GiywfF5QoFO8kjxp6DBahMnG2RcRF7fIN6hvHs3mLetf0RgrxkTc2H1dijdmig7m/DV3jKKttTyiqg=
+	t=1787652694; cv=none; b=P5AV5EW17s7wR0vrILtByYN+r5LTLnGChHZWzkWe7/g9V9TRaE7QqzcIA64j3K8qBfZliKaM7S/MuLYrgsncFk+gQ0mIWjeRXTb8I+O5oGbUF25AOKHKCpLHyMF2W916DDfi2T3X6u1B05xQlZt/qpNidKEmcvA4x/WEsJ3HxBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787652571; c=relaxed/simple;
-	bh=46cyJQi/cjeFUUETTdN2AqDb6g5b1h0Fi8I69ld2UsQ=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=kH5ZWpAkjLQ8kCQZ5LNhxPTQA8obdaZxP5+HJTdnfIfGnfjDykPwq6Ipgss9+Blyfiolo0vJWTqxstj2Hy1hMTJKMiZV8CB50XbHLdjNOvTWSVEPhDEMsqdmwlwoj8XHBQIHA31PYWwqm+WawDPyCSCiSkzqkmNdtaJtSoFRSXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SofHWOYD; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787652694; c=relaxed/simple;
+	bh=74kfx+TSZjh1UvS1SuSdXKvSRfkyYXLZ9SQesLcllbY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P7AOO7IM5HYBnq1X8d/6oKQFy5175xONPPRjov8e0w+UB3FUw1+Y9XnuZe2h0gq5pEXz0yrDn/hcWArLQnxjD/HvrriHxKZgNB7SGDdJlhIJ2msCp1759o9WRiqRk2kmBMEO/mgqFyuMPDot3c9stRAGrJiBJOqAp3friBiUMAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=R7d/f5oF; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SofHWOYD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F3D51F000E9;
-	Tue, 25 Aug 2026 10:09:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787652569;
-	bh=sQW+LVnQkBn/WgkvK10WAOYqeej8DJ7EoRbAVdKFc90=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=SofHWOYDNh06WUgpx2m8qD1RgD3fJmGoqHYXF8ESPit46Kw3n+8qzgGxukHVivWP7
-	 oEwRWnfnwcdmjZ4A3W0/eIfSqwCFpcpIDypbTQRnlI70tJTXdCMLNV3yxMbx24Cu7n
-	 vDUASlfcB/IyDwiVtKMHIt02u3jpSQVTJh57rrIA47pZzTsY5M89ixFFt7nhzav+Az
-	 EhFwzbRHuZwDsbaZL7yD8wTHSNpoTLNw2Zj0/1prWf37EypHhjYx7dAmFHUUoff1PD
-	 DA0XSaHhWghLSoTK9gXR1Wxu5oUCZfdPkV4jt8EuAJgOdJA3B45r8HAGgMk0k4vXP2
-	 yfqsYhUtghUfQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net] net: ethernet: sun4i-emac: Fix IRQ error handling
-Reply-To: sashiko-reviews@lists.linux.dev
-To: phucduc.bui@gmail.com
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260824100901.31675-1-phucduc.bui@gmail.com>
-References: <20260824100901.31675-1-phucduc.bui@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 25 Aug 2026 10:09:28 +0000
-Message-Id: <20260825100929.5F3D51F000E9@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="R7d/f5oF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1787652689;
+	bh=74kfx+TSZjh1UvS1SuSdXKvSRfkyYXLZ9SQesLcllbY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=R7d/f5oFo+LWQ1cl9S/cgdq962NlLhk/iC3E0ctB9qXAZk1b8BR1aaoPpNdOX4fNp
+	 ZxT0oFFGr51ew6xqT2i+01b/gCOJq0FA99XFBqnf3rGYR7Yt7FuU1PX5SZTpLViMBE
+	 qSMiXmenEb+eUnwsB4SwlIiPUpvWYDCd0VvxypZJzmGt/wEb0NiVAVA/ZJPLPWlTVa
+	 9F0kF6HnViOTPrbuyBA1Bvf6kTX6mtXGuDH4lDRWX6xm17V6u9irW/U9yjxvPFlSvr
+	 78je/eUcNDTJEwtPZ5DhDErPAW85CEaCY4QINDlW3J6qfXdk264LdjZohmFIAW2qBu
+	 q5Oc0e7f4PvZA==
+Received: from [100.64.0.241] (unknown [100.64.0.241])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8935A17E05A5;
+	Tue, 25 Aug 2026 12:11:28 +0200 (CEST)
+Message-ID: <32b98f2f-ca32-4ced-ab48-bee2d50f21d4@collabora.com>
+Date: Tue, 25 Aug 2026 13:11:27 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 07/69] drm/connector: Add HDMI 2.0 scrambler
+ infrastructure
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Algea Cao <algea.cao@rock-chips.com>, Daniel Stone <daniels@collabora.com>,
+ Liu Ying <victor.liu@nxp.com>, Phong LE <ple@baylibre.com>,
+ kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ Maud Spierings <maud_spierings@hotmail.com>,
+ Diederik de Haas <diederik@cknow-tech.com>
+References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
+ <20260731-dw-hdmi-qp-scramb-v10-7-294364b2cf15@collabora.com>
+ <20260819-amigurumi-lorikeet-of-infinity-fd8c2d@houat>
+ <ad65a396-02fb-4816-b978-e3a0c46688b2@collabora.com>
+ <20260820-gorgeous-adder-of-reading-5a93f3@houat>
+ <28743613-22ec-4208-ad55-d018764bf846@collabora.com>
+ <20260825-massive-jolly-agama-a95e3d@penduick>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <20260825-massive-jolly-agama-a95e3d@penduick>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
+On 8/25/26 12:29 PM, Maxime Ripard wrote:
+> On Fri, Aug 21, 2026 at 10:04:14PM +0300, Cristian Ciocaltea wrote:
+>> On 8/20/26 7:56 PM, Maxime Ripard wrote:
+>>> On Wed, Aug 19, 2026 at 10:33:04PM +0300, Cristian Ciocaltea wrote:
+>>>> On 8/19/26 1:12 PM, Maxime Ripard wrote:
+>>>>> On Fri, Jul 31, 2026 at 07:19:14PM +0300, Cristian Ciocaltea wrote:
+>>>>>> Add the connector-level infrastructure to support HDMI 2.0 scrambling:
+>>>>>>
+>>>>>> - A drm_connector_hdmi_scrambler_supported() helper to report whether
+>>>>>>   the source supports the scrambling capability, based on the presence
+>>>>>>   of the newly introduced .scrambler_{enable|disable}() callbacks in
+>>>>>>   drm_connector_hdmi_funcs are mandatory
+>>>>>> - A scrambler_needed flag to be managed by the hdmi state helpers based
+>>>>>>   on the negotiated TMDS character rate and the source/sink scrambling
+>>>>>>   capabilities
+>>>>>> - A scrambler_enabled flag to track whether scrambling is currently
+>>>>>>   active
+>>>>>> - A delayed work item (scdc_work) to monitor sink-side scrambling status
+>>>>>>   and retry the setup if the sink resets it
+>>>>>> - A scdc_work_initialized flag to support lazy initialization of the
+>>>>>>   work item on the first scrambling enable and guard the teardown paths
+>>>>>>
+>>>>>> These are intended to be used by SCDC scrambling helpers to coordinate
+>>>>>> scrambling setup and teardown between the source driver and the DRM
+>>>>>> core.
+>>>>>>
+>>>>>> Tested-by: Maud Spierings <maud_spierings@hotmail.com>
+>>>>>> Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # NanoPC-T6 LTS, Rock 5B
+>>>>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>>>>>> ---
+>>>>>>  drivers/gpu/drm/drm_connector.c | 31 ++++++++++++---
+>>>>>>  include/drm/drm_connector.h     | 83 +++++++++++++++++++++++++++++++++++++++++
+>>>>>>  2 files changed, 109 insertions(+), 5 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+>>>>>> index 4721cdeafc84..a18410faf040 100644
+>>>>>> --- a/drivers/gpu/drm/drm_connector.c
+>>>>>> +++ b/drivers/gpu/drm/drm_connector.c
+>>>>>> @@ -622,12 +622,29 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+>>>>>>  	 * default with the actual controller capability. A value of zero keeps
+>>>>>>  	 * the limit inferred from supported_hdmi_ver.
+>>>>>>  	 */
+>>>>>> -	if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_2_0)
+>>>>>> +	if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_2_0) {
+>>>>>> +		if (!hdmi_funcs->scrambler_enable || !hdmi_funcs->scrambler_disable) {
+>>>>>> +			drm_err(dev, "Scrambler callbacks missing for HDMI 2.x\n");
+>>>>>> +			return -EINVAL;
+>>>>>> +		}
+>>>>>> +
+>>>>>>  		connector->hdmi.max_tmds_char_rate = HDMI_2_0_TMDS_CHAR_RATE_MAX_HZ;
+>>>>>> -	else if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_3)
+>>>>>> -		connector->hdmi.max_tmds_char_rate = HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ;
+>>>>>> -	else if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_0)
+>>>>>> -		connector->hdmi.max_tmds_char_rate = HDMI_1_0_TMDS_CHAR_RATE_MAX_HZ;
+>>>>>> +	} else {
+>>>>>> +		/*
+>>>>>> +		 * Scrambler callbacks are only valid for connectors advertising
+>>>>>> +		 * HDMI 2.0 capability. drm_connector_hdmi_scrambler_supported()
+>>>>>> +		 * relies on their presence to report scrambling support.
+>>>>>> +		 */
+>>>>>> +		if (hdmi_funcs->scrambler_enable || hdmi_funcs->scrambler_disable) {
+>>>>>> +			drm_err(dev, "Scrambler callbacks unexpected for HDMI 1.x\n");
+>>>>>> +			return -EINVAL;
+>>>>>> +		}
+>>>>>> +
+>>>>>> +		if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_3)
+>>>>>> +			connector->hdmi.max_tmds_char_rate = HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ;
+>>>>>> +		else if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_0)
+>>>>>> +			connector->hdmi.max_tmds_char_rate = HDMI_1_0_TMDS_CHAR_RATE_MAX_HZ;
+>>>>>> +	}
+>>>>>
+>>>>> I'd put it into a separate test (possibly earlier). Merging both the
+>>>>> tmds rate default and the scrambler callbacks check makes it messier
+>>>>> than it would be if we had two separate tests.
+>>>>
+>>>> Ack. How about the following?
+>>>>
+>>>> 	if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_2_0)
+>>>> 		connector->hdmi.max_tmds_char_rate = HDMI_2_0_TMDS_CHAR_RATE_MAX_HZ;
+>>>> 	else if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_3)
+>>>> 		connector->hdmi.max_tmds_char_rate = HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ;
+>>>> 	else if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_1_0)
+>>>> 		connector->hdmi.max_tmds_char_rate = HDMI_1_0_TMDS_CHAR_RATE_MAX_HZ;
+>>>>
+>>>> 	if (hdmi_funcs->supported_tmds_char_rate) {
+>>>> 		if (hdmi_funcs->supported_tmds_char_rate > connector->hdmi.max_tmds_char_rate) {
+>>>> 			drm_err(dev, "Enforced max_tmds_char_rate exceeds %llu spec limit\n",
+>>>> 				connector->hdmi.max_tmds_char_rate);
+>>>> 			return -EINVAL;
+>>>> 		}
+>>>>
+>>>> 		connector->hdmi.max_tmds_char_rate = hdmi_funcs->supported_tmds_char_rate;
+>>>> 	}
+>>>>
+>>>> 	if (hdmi_funcs->supported_hdmi_ver >= HDMI_VERSION_2_0) {
+>>>> 		if (!hdmi_funcs->scrambler_enable || !hdmi_funcs->scrambler_disable) {
+>>>> 			drm_err(dev, "Scrambler callbacks missing for HDMI 2.x\n");
+>>>> 			return -EINVAL;
+>>>> 		}
+>>>> 	} else {
+>>>> 		/*
+>>>> 		 * Scrambler callbacks are only valid for connectors advertising
+>>>> 		 * HDMI 2.0 capability. drm_connector_hdmi_scrambler_supported()
+>>>> 		 * relies on their presence to report scrambling support.
+>>>> 		 */
+>>>> 		if (hdmi_funcs->scrambler_enable || hdmi_funcs->scrambler_disable) {
+>>>> 			drm_err(dev, "Scrambler callbacks unexpected for HDMI 1.x\n");
+>>>> 			return -EINVAL;
+>>>> 		}
+>>>> 	}
+>>>
+>>> I don't think we need the else clause at all. It's not valid, but it's
+>>> also not creating any issue.
+>>
+>> As discussed a while ago, we used to have a scrambler_supported flag, inferred
+>> from supported_hdmi_ver, which allowed helpers to verify the capability when
+>> needed.  That flag has now been removed and replaced by
+>> drm_connector_hdmi_scrambler_supported(), which relies exclusively on the
+>> presence of the scrambler callbacks to report whether the capability is
+>> supported. 
+>>
+>> If we don't ensure that these callbacks are *not* set for HDMI 1.x cases, one
+>> could set supported_hdmi_ver to HDMI_VERSION_1_4, for example, while still
+>> providing the scrambler_{enable,disable} funcs.  This would lead to an
+>> inconsistency between the maximum TMDS character rate inferred from
+>> supported_hdmi_ver and the capability reported by
+>> drm_connector_hdmi_scrambler_supported().
+> 
+> This is the problem then. scrambler is mandatory for HDMI2.0, and
+> HDMI1.4 will never reach HDMI2.0 TMDS rates.
+> 
+> scrambler supported is HDMI 2.0 and scrambler_enable and
+> scrambler_disable are set. if HDMI 1.4 is used, then the scrambler must
+> not be supported, ever.
 
-Pre-existing issues:
-- [High] Unconditional call to `dma_release_channel(db->rx_chan)` in the `e=
-mac_probe()` error path can cause a kernel panic if DMA configuration fails.
-- [High] The driver unconditionally enables MAC interrupts during system re=
-sume, even if the network interface was logically down, which can permanent=
-ly break the interface.
---
+I'll drop that 'else' branch and have scrambler_supported() return false for
+anything below HDMI 2.0, hence ignoring scrambler_{enable,disable} callbacks
+presence in the non-HDMI2.0 cases:
 
---- Patch [1]: [PATCH net] net: ethernet: sun4i-emac: Fix IRQ error handlin=
-g ---
-commit aeff88d2fcbccbc3cb84803b3c45048b12777cd3
-Author: bui duc phuc <phucduc.bui@gmail.com>
-
-net: ethernet: sun4i-emac: Fix IRQ error handling
-
-irq_of_parse_and_map() returns 0 when parsing or mapping an IRQ fails.
-The current code checks for -ENXIO and therefore does not detect the
-failure.
-
-Check for a zero return value and convert it to -ENXIO.
-
-> diff --git a/drivers/net/ethernet/allwinner/sun4i-emac.c b/drivers/net/et=
-hernet/allwinner/sun4i-emac.c
-> index 42174249ef61d..942454e294882 100644
-> --- a/drivers/net/ethernet/allwinner/sun4i-emac.c
-> +++ b/drivers/net/ethernet/allwinner/sun4i-emac.c
-> @@ -996,9 +996,9 @@ static int emac_probe(struct platform_device *pdev)
->  	/* fill in parameters for net-dev structure */
->  	ndev->base_addr =3D (unsigned long)db->membase;
->  	ndev->irq =3D irq_of_parse_and_map(np, 0);
-> -	if (ndev->irq =3D=3D -ENXIO) {
-> +	if (!ndev->irq) {
->  		netdev_err(ndev, "No irq resource\n");
-> -		ret =3D ndev->irq;
-> +		ret =3D -ENXIO;
->  		goto out_iounmap;
->  	}
-> =20
-
-[Severity: High]
-This isn't a bug introduced by this patch, but is there a pre-existing panic
-risk during error handling later in emac_probe()?
-
-If emac_configure_dma() fails, it explicitly sets db->rx_chan to NULL:
-
-drivers/net/ethernet/allwinner/sun4i-emac.c:emac_configure_dma() {
-    ...
-    db->rx_chan =3D NULL;
-    ...
+drm_connector_hdmi_scrambler_supported(const struct drm_connector *connector)
+{
+	return connector->hdmi.funcs &&
+		connector->hdmi.funcs->supported_hdmi_ver >= HDMI_VERSION_2_0;
 }
 
-If a subsequent initialization step such as devm_clk_get() fails, the probe
-error path unconditionally calls dma_release_channel():
+>>> I'd move that second check earlier together with the infoframe callbacks
+>>> checks and so on too.
+>>
+>> Ack.
+>>
+>>>>>>  	if (hdmi_funcs->supported_tmds_char_rate) {
+>>>>>>  		if (hdmi_funcs->supported_tmds_char_rate > connector->hdmi.max_tmds_char_rate) {
+>>>>>> @@ -635,6 +652,7 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+>>>>>>  				connector->hdmi.max_tmds_char_rate);
+>>>>>>  			return -EINVAL;
+>>>>>>  		}
+>>>>>> +
+>>>>>>  		connector->hdmi.max_tmds_char_rate = hdmi_funcs->supported_tmds_char_rate;
+>>>>>>  	}
+>>>>
+>>>> [...]
+>>>>
+>>>>>> +	/**
+>>>>>> +	 * @scdc_work: Work item currently used to monitor sink-side scrambling
+>>>>>> +	 * status and retry setup if the sink resets it.
+>>>>>> +	 */
+>>>>>> +	struct delayed_work scdc_work;
+>>>>>> +
+>>>>>> +	/**
+>>>>>> +	 * @scdc_work_initialized: Tracks whether @scdc_work has been set up via
+>>>>>> +	 * INIT_DELAYED_WORK(). The work item is initialized lazily on the first
+>>>>>> +	 * scrambling enable, so this guards the teardown paths against touching
+>>>>>> +	 * an uninitialized work item.
+>>>>>> +	 */
+>>>>>> +	bool scdc_work_initialized;
+>>>>>> +
+>>>>>
+>>>>> Why should we track whether it's initialized or not? I'd always
+>>>>> initialize it, but only ever schedule something if we're using the
+>>>>> scrambler.
+>>>>
+>>>> Having this initialized in the connector would lead to a module dependency
+>>>> cycle.
+>>>>
+>>>> Currently the work function lives in drm_hdmi_helper.c, which is built into
+>>>> drm_display_helper module:
+>>>>
+>>>> static void drm_connector_hdmi_scdc_work(struct work_struct *work)
+>>>> {
+>>>> 	[...]
+>>>> 	if (READ_ONCE(connector->hdmi.scrambler_enabled) &&
+>>>> 	    !drm_scdc_get_scrambling_status(connector))
+>>>> 		drm_connector_hdmi_try_scrambling_setup(connector);
+>>>> 	[...]
+>>>> }
+>>>>
+>>>> int drm_connector_hdmi_enable_scrambling(struct drm_connector *connector,
+>>>> 					 const struct drm_connector_state *conn_state)
+>>>> {
+>>>>
+>>>> 	[...]
+>>>> 	if (!hdmi->scdc_work_initialized) {
+>>>> 		INIT_DELAYED_WORK(&hdmi->scdc_work,
+>>>> 				  drm_connector_hdmi_scdc_work);
+>>>> 		hdmi->scdc_work_initialized = true;
+>>>> 	}
+>>>> 	[...]
+>>>> }
+>>>>
+>>>> If we move INIT_DELAYED_WORK() into the connector (i.e. in drm.ko), the work
+>>>> function has to be reachable from there.  The following attempts to accomplish
+>>>> that would fail:
+>>>>
+>>>> - Keep the work function in drm_hdmi_helper.c and export it from
+>>>>   drm_display_helper.
+>>>>
+>>>> - Move the work function into drm_connector.c and export 
+>>>>   drm_connector_hdmi_try_scrambling_setup(), or a wrapper function, from 
+>>>>   drm_display_helper.
+>>>
+>>> An alternative could be to move drm_connector_hdmi_init to
+>>> drm_hdmi_helper.c, no?
+>>
+>> I haven't considered this option so far, as I believe it would also require some
+>> refactoring to get right - for example, moving HDMI-related initialization from
+>> the generic drm_connector_init_only() to drm_connector_hdmi_init(), and
+>> splitting drm_connector_cleanup() into a dedicated drm_connector_hdmi_cleanup()
+>> utility.
+>>
+>>> But yeah, if we can't let's keep it like that
+>>
+>> Should I proceed with this refactoring, or would it be better to postpone it
+>> until I send out the HDMI 2.1 patches, to avoid expanding this series even
+>> further?
+> 
+> we can postpone it if you prefer, or even to a separate series
 
-drivers/net/ethernet/allwinner/sun4i-emac.c:emac_probe() {
-    ...
-out_dispose_mapping:
-    irq_dispose_mapping(ndev->irq);
-    dma_release_channel(db->rx_chan);
-    ...
-}
+Sounds good!
 
-Will dma_release_channel() dereference the null channel pointer (via
-chan->client_count) without checking for a null value first?
-
-[Severity: High]
-This is also a pre-existing issue, but does emac_resume() unconditionally
-enable mac interrupts even if the network interface is down?
-
-If the system goes to sleep while the interface is logically down (meaning
-emac_open() was never called and no irq handler is registered), the resume
-handler still calls emac_init_device():
-
-drivers/net/ethernet/allwinner/sun4i-emac.c:emac_resume() {
-    ...
-    emac_init_device(ndev);
-    ...
-}
-
-Which in turn enables hardware interrupts:
-
-drivers/net/ethernet/allwinner/sun4i-emac.c:emac_init_device() {
-    ...
-    writel(reg_val, db->membase + EMAC_INT_CTL_REG);
-    ...
-}
-
-If the hardware subsequently asserts an interrupt (for example, from broadc=
-ast
-packets) but no handler is registered, will this cause an interrupt storm t=
-hat
-forces the generic irq subsystem to permanently disable the interrupt line?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260824100901.3167=
-5-1-phucduc.bui@gmail.com?part=3D1
+Thanks,
+Cristian
