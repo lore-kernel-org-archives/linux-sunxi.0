@@ -1,80 +1,81 @@
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F2F3B058E
-	for <linux-sunxi@lists.linux.dev>; Wed, 26 Aug 2026 23:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCADA30648C
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Aug 2026 23:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787785668; cv=none; b=fxcHBJ2LzLPR7a+CXPQXGoOK/ql8v0QCISDlme/MMOapPAdGqibVfyopRoJyYTtxEWDHTdmOQXxs6ALur05qiETX0FdkmGbgmPQxlbHtP1jdZ104jtGcKFo3uZxD1lEaPHhiqTziofpNLINg/KrZSSVYcsNg7FNsrvDBs4wri6k=
+	t=1787785797; cv=none; b=rsDXv3G7A03yOtn8oYuD4/YK78MS4gaX9A0pxzjSxVs2RgMkdgP/5Lc+DC15IslaVNBvgrDFYSTya59t7gLjiAaU5cD2E73pxHoH91++3TSHeynVCEjOeH2NGkEVQbcZ/9jlLX81YKGp6xs/or/AbcZhOxzmMm6t6uZrYZp7+G8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787785668; c=relaxed/simple;
-	bh=6EgQ4h8sCnpkkI8smYfsOfZ3mX7SDEKGdmQqZFbaaew=;
+	s=arc-20240116; t=1787785797; c=relaxed/simple;
+	bh=ieQZ0ZJLMkaYypZKk4REVcl+38yii0go1+lUmv8JC94=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WB2mm8K0bXIw5gDwD3WnhP2PLwVYX+YzSgYqowmJbOj12J06pIlXD7k5HyOuqf+XxfUGJiXB1EQyAzxtDJ726cL2BHI6spSN8D88Vpayh8HCIG6X6Zql1k9bYsJCSZJ0X9K/zk2Mfe/T1A/PhYDzL7WNwt2j6KlVmXM8EZNJgiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kzTtHU9W; arc=none smtp.client-ip=209.85.222.51
+	 MIME-Version; b=bBAEDQUzgwlUlKlRrJvaj0c1J/S0YXMj8aMUzAnxP9N0RWw+A/q7+kVCBH00RCx3Knwe2ySTOn6sATrJm9LG57gkRc4WeyFkPjvfvdtetsAw8SwrUoqIVrMW7SdbDAMhPDm8Mwr/SyMYtSuCLlFfRk0zrbvg16Irm/ZZ7Lb3gC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jNFD4Ept; arc=none smtp.client-ip=209.85.221.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kzTtHU9W"
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-97c441e66f0so806582241.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 26 Aug 2026 16:07:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jNFD4Ept"
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-5bfb5e20a90so1275508e0c.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 26 Aug 2026 16:09:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787785666; x=1788390466; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1787785794; x=1788390594; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Xz31B2dhBshUWYNwR3Q8xs3ULxEyjpdBo/IUGet1XKc=;
-        b=kzTtHU9WtqqOao0uhKRHJgfbTAGF2k9V6KZrRsorb1se50IcecfE9V8+CupieuxHed
-         75o35SS3xtnEcd6YL27d7HjFIXwx0rgp74vhm5y0U4SkcM757h4y4L/6PQf/tnGt8joH
-         bIZlBZauazqYKLusNk9LwMdBn+/2TK8zDSNoU2ql3xXVL2oxtUn4gK35P92XYE16EmyL
-         mEf9HyJkmM3BuQJkS7ik2f1NvfSrKupEN9pHx3Vlfw2Mw/yC+F0q/mNKMrcIlmx4eFS/
-         OUips/y2FKal0dcRC/rdgPR4LVs73WemXwWvnMjN2JLMHQptacMaT/doludtocvkroy5
-         yuMg==
+        bh=rBDSwIVuGClC2U8jcOy/ySqyjLGwgvu0rHcFGCcBek4=;
+        b=jNFD4Ept7KrSfARS67npsZN4IVVlhd6Hogiti3NjMEr31Ny05kGAAlpp27qJyJGa4B
+         smM475tWTLkBODOTwhn8ll7qOE5lq2qsry6cauRyx/AZPrYICoVXduuKj74KVv8Pe+Aw
+         p18Z57zcOZinsGUNWJOpWgvWiA+RGuON3FUaioK0xpVQzLs85UpVDrxOwG7s0YcSixxO
+         KmYBt6iMrm7yxFIYBrOLzlG2HUV+MtZB9uhN36hdHx2N2jwBgZuGc1H+xg3i+moEhApj
+         5qtNhTV5sgJPpMfQxPbeTEoThvNZ2UYIWGmlt+/rlUOpXMblCLXQ4CmRDPKw7kXu4a9H
+         Fiqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787785666; x=1788390466;
+        d=1e100.net; s=20251104; t=1787785794; x=1788390594;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Xz31B2dhBshUWYNwR3Q8xs3ULxEyjpdBo/IUGet1XKc=;
-        b=mztAf6vrBbA9ssf27qSfnH7yxgCd2ai3D0UuiVr2ee5nSchUJjxVYXLoWT5kGKn6qh
-         31/v/6ipeFzVsaclpQkInZQHss+kch8EyQMNtqVUf8IcAd73GP+gAqg6deTUdIW0Xo6J
-         v9iDap0KpH1p7OyezTtvhWGn1fs2smXLkq+Soty19kKo+Jb3gm/dSPvayEQC9Dbvf+8s
-         gPwbhrs487buMmhhFVus5LseGF6I2lqRgQrtOwRjR8UCIxqKgcw2xrtBYaVOVCGOEiNr
-         nzFBLtA2XntTH08y6lMuKZB97HTYcGYWmb0KqiRIRkszPWiEAmq4DyhTr9ZArsJ6YmFB
-         13Kg==
-X-Forwarded-Encrypted: i=1; AHgh+RoQJjxfznb38OdFT4TxqkA5ONF7MbEENeMFtAIajDwtKrO/7sVstWgzGgY2V8LevPs9yKYW9DXhAtvv5w==@lists.linux.dev
-X-Gm-Message-State: AFuF++n2tQ0BukLqxO9oYqnixl0R3uMbI4OyX6x4gDAWOBO6v5Owwhq8
-	GjfuOTARVQGxAU9SER2hFtmpnijfLMTaOV5xnKOn900uRVXQYuxCb1ds
-X-Gm-Gg: AR+sD105YIGHcPDtzOPYBOunV+WjvVoH7pvU3vVwI0G+B3tPWx+gbZxj4UfNmRMdnmC
-	+HSwvoeMby2DnX34vhqyPg3bQb78kEc9pW9nQRqcHuY9vCp0jpplUffqkZhaJvoVOjtT3FVTmLs
-	NRYcskPelUrL0AbukqdR21r0jmesocIQen2kwclrwgaREeoYYWPFHVvIIkbbQlBCQNxdtuRMCfV
-	6/bgpM2zDAPyr21XnD4BXHOGrq8SYR3q0mwR247xhTocouyduYyiYTwGBfFt/EFVQYlgqGrmHs1
-	GzIF+QZemfpU39Sb1XkpWyJ/gQAhoVKtSeNpwV8MhM4yYxYJVeom8mYTYAbHl2GBIAlxZRJdorb
-	pnDF6awmsdcnpQrVerMfrC+76iw7kSP1tZfa1TE/Oy/o/kc1CqMdKkAg4yYjiFS2sFv82ImF+5A
-	s7/6yj6hmIDyGuFmBo4z83oLhRGEJ7xhTfnqQKE6u4MrEh3C/1RXdvqcDY3GlkGVX/CfHrrAFg/
-	DTni2nBHM7mhCKm4DzyGMe8aqqv6ifnN0ZLVOcAxSikAJ9q6jVFIRwdwUNX5MSv3QAJfZ/oICLd
-	L1YLZKM=
-X-Received: by 2002:a05:6102:162a:b0:77b:28c1:210e with SMTP id ada2fe7eead31-782bf9bca7cmr4267611137.1.1787785666335;
-        Wed, 26 Aug 2026 16:07:46 -0700 (PDT)
+        bh=rBDSwIVuGClC2U8jcOy/ySqyjLGwgvu0rHcFGCcBek4=;
+        b=rsOWPdyYSuEZACvqT3tDtPxMo9NVRauWFtLmni97TxjobbYoDfKnORNcCbNKKdmYA3
+         16pcwH1hG+gXbxsCtK0Fbt3xOs4MXl7DnaWcWxGLCb8mdOpyzecAIRfg+DcsoMLuA/Yr
+         PMrIdwwmpf2sDATyPegh2btNf+49aeWi/ieA9nx8qAW/PPpYnzefBMx4S4vG+/Qqed7B
+         AaXcgKqYwhJxh+mWXBETzoEOpi0A5jsj5z3xLFaAKzOD7zDI4jJ0zqWdAMXCKnOp2WF1
+         jSl9Fg40d40P7SEjTudKeAeJ2Duyxa7ssP8iSdXCLAPBit2UtnKeU4gno/rLi/i3+8ov
+         WKTA==
+X-Forwarded-Encrypted: i=1; AHgh+Rp1Qng0eCa+zdOhwfrMCTwwGlgxMnrXwo8seItWp7YsSlxTBsXWq4AKKmDB2yE287ifrkWA5w5kY53/RA==@lists.linux.dev
+X-Gm-Message-State: AFuF++nwQmTbbJ97AGUDhpX0QPm5b5iR+BLqXnwzEXErlFZG2Ya+urQP
+	dykrscbBl4sscML7PWXc7l4cfriVdnGPSwrtYarxQJjWwhuAYq7qchFr
+X-Gm-Gg: AR+sD11lWRW6u6qJQNLHXqTrEL/Q1i3tUVXsjKancrCKQiluGWoj8pTl141We4Bjlk6
+	2PSQud75ZTg4PLJqj2TWVC2M/3M/3R2OIXf0Ls3hGn0h+3bFHaeZpZ3i9L4TIfrjNVqvIMQdDQq
+	2M2k6L0frcA06Zn2UdQV15OTo4n+qW8TOkm0ZoJk2p1j0xB24EDpDKtsPIi0cY+5aEWxgZeVI64
+	hsoskElOnBxuSaVWs9MMoAiSiB5Qo+CXXuEWlGuzssfE22f17Kh+ns1LisajUHL0upKJr2nJ8p9
+	qONtvrWa4kvnO6w4lxNheCW9V4i0K5vrXIwVNbruFWUDSN0CQGwBH5MZYP+DQCoAKw3ROePGuFy
+	JBGZlHgHzhJBwkVHcLYHL/yA5YERgECXu1wi90qEbNIn5rbkMZAy1wzEO0LBsz+KcpYhM8pImqP
+	DtJbe0VK/nCVoyHKle8FXBHmTrvnXc4rBER53gBiM8FCT93YJ8dYEFRjcGNz5YKVzu//VlaONo3
+	0K6S1eFgncs4WJiCo2syY8frLnoQmfXv8wBeg4/W3EpVUtKA4caTzord8JsIsUZXKP4Syg=
+X-Received: by 2002:a05:6122:1826:b0:5bf:d3cd:3d64 with SMTP id 71dfb90a1353d-5c65b56d0c8mr4542431e0c.0.1787785794612;
+        Wed, 26 Aug 2026 16:09:54 -0700 (PDT)
 Received: from MaquinaLab.. ([179.179.239.222])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-97cbe0ae5d2sm3311701241.2.2026.08.26.16.07.42
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c65fe7d777sm2727980e0c.6.2026.08.26.16.09.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2026 16:07:45 -0700 (PDT)
+        Wed, 26 Aug 2026 16:09:54 -0700 (PDT)
 From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>,
+To: Enzo Adriano <enzo.adriano.code@gmail.com>
+Cc: Junhui Liu <junhui.liu@pigmoral.tech>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-gpio@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Subject: Re: [RFC PATCH 0/9] pinctrl: sunxi: Allwinner A733 support
-Date: Wed, 26 Aug 2026 20:07:16 -0300
-Message-ID: <20260826230720.466026-1-vinicius.eduardo.pedrosa@gmail.com>
+Subject: Re: [PATCH 0/4] arm64: dts: allwinner: add A733/Cubie A7S DTS support
+Date: Wed, 26 Aug 2026 20:09:40 -0300
+Message-ID: <20260826230942.466219-1-vinicius.eduardo.pedrosa@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250821004232.8134-1-andre.przywara@arm.com>
-References: <20250821004232.8134-1-andre.przywara@arm.com>
+In-Reply-To: <20260613-a733-dts-v1-public-ready-v1-0-7787c94681db@gmail.com>
+References: <20260613-a733-dts-v1-public-ready-v1-0-7787c94681db@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -83,44 +84,47 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Andre,
+Hi Enzo,
 
-This series no longer applies to mainline. Patch 1/9 fails on current
-master (45c13f3f9e3b), for two separate reasons - one of them from
-outside the series, which is why I am reporting it rather than just
-fixing it locally.
+Two findings from building this series locally on top of the A733 CCU v2,
+plus one note for the DTSI move you already agreed to with Jernej. Both
+findings reproduce on your own Cubie A7S DTB. Junhui and Jerome on Cc.
 
-Applying the series in order:
+1. Schema evidence for the clock list Jerome already questioned.
 
-  [RFC PATCH 1/9] pinctrl: sunxi: rename SUNXI_PINCTRL_NEW_REG_LAYOUT
-    error: patch failed: drivers/pinctrl/sunxi/pinctrl-sunxi.c:1521
-    error: patch failed: drivers/pinctrl/sunxi/pinctrl-sunxi.h:88
+Jerome raised the xtal rate and the naming of the node feeding the CCU. A
+full CHECK_DTBS=y run - the whole schema set, not a selected binding -
+rejects that node outright:
 
-The blocking one is your own patch 2/9. It merged as 42e06688c6cb
-("pinctrl: sunxi: pass down flags to pinctrl routines") without 1/9, so
-sunxi_pinctrl_init_with_flags() now reads
+  sun60i-a733-cubie-a7s.dtb: clock-controller@2002000
+  (allwinner,sun60i-a733-ccu):
+    clock-names: ['hosc', 'losc', 'iosc'] is too short
+    clocks: [[3], [4], [5]] is too short
+      from schema: allwinner,sun60i-a733-ccu.yaml
 
-	pctl->flags = flags;
+The posted binding wants more clock entries than the DTSI supplies. This
+may be the same problem Jerome described rather than a second one, and
+whatever resolves his point probably resolves this too. I am sending the
+diagnostic because it gives you a check that either passes or does not.
 
-where 1/9 still expects
+2. /soc raises a W=1 warning.
 
-	pctl->variant = flags & SUNXI_PINCTRL_VARIANT_MASK;
+  sun60i-a733.dtsi:116.6-197.4: Warning (unit_address_vs_reg): /soc: node
+  has a reg or ranges property, but no unit name
 
-as context. A 3-way merge does not resolve it - both sides touch
-adjacent lines, so it conflicts.
+It is the only diagnostic this series adds over an unmodified tree in my
+W=1 comparison - 499 unique diagnostics before, 500 after.
 
-The second is unrelated to your work. 70f8915ea4e9 ("pinctrl: sunxi: fix
-gpiochip_lock_as_irq() failure when pinmux is unknown") inserted
-SUN4I_FUNC_DISABLED_OLD/NEW into 1/9's header hunk context, and added a
-fifth use of SUNXI_PINCTRL_NEW_REG_LAYOUT, in
-sunxi_pinctrl_irq_request_resources(). The header hunk merges cleanly
-with -3, but that new use is not covered by the rename, so the tree then
-fails to build with an undeclared identifier.
+3. When the UART0 pins move into the DTSI, they will need
+allwinner,pinmux.
 
-Patches 3/9 through 9/9 apply cleanly once 1/9 is resolved.
+allwinner,sun55i-a523-pinctrl.yaml has listed allwinner,pinmux under
+required since d626d248caae, and the A733 compatible joins that schema in
+the pinctrl RFC. uart0_pb9_pb10_pins currently sets only pins and
+function. Nothing catches it today, because the A733 compatible has no
+schema yet - but it will fail validation once the pinctrl series lands,
+which is likely around when you send v2.
 
-Static reproduction only - no A733 hardware here, so nothing in this
-message says anything about whether the series works. I am not sending a
-rebase: which shape 1/9 should take now that 2/9 is in is your call.
+Static evidence only - no A733 hardware here.
 
 Vinicius
