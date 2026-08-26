@@ -1,68 +1,68 @@
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1502E7394
-	for <linux-sunxi@lists.linux.dev>; Wed, 26 Aug 2026 02:40:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD602EEE7C
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Aug 2026 02:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787712047; cv=none; b=XaCSgUgYiOlmTT1dCtMqkWBWt+t0ydy5dEIjiREnm9BFaTQOnJ7aRY/37nDt4QsHG45Kv4NWsW9XFYoEgQaI0M3stuT8t5RwifRYuxSWK4ZqAyH4zvqdulUkGoG9y9KxbfqS4Esf9x9gwEPwh+G6Xyl/D4F4tO1ooGpowIS1AOU=
+	t=1787712048; cv=none; b=PHZtEWZDfFFpR12kMU/ZmRjmY9keGXJhoKMArveISWoe1j13jjmHKcLiFQBNVOWB02FGOZRuSlDxZrE2ZweztQ7qyGjgEwZIgs5Dtd9OsnTBiGBUsg9DisuOjvlsnGj1LIDrHrkSZJ+VgmKqWpqsnHY51wbEXuuvOr4zgBzh+1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787712047; c=relaxed/simple;
-	bh=6+ewAXqjW78W01kuIRgLZxa+1D1OKS1tJVFYiHwc4QM=;
+	s=arc-20240116; t=1787712048; c=relaxed/simple;
+	bh=xXHRUhCMZY1UP0UimNCUgmYKZUE5pAtrJ+aeGai+WZg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=g1ONkc+428NBhd+KnHKfvHirX/bikreCgfUVLt7CB3Ja007SEw49maK+UBfJn7AMwvBw+efy2xU9WKThzcxE0tI3u8GgoG063+aBNksig6zk9g8qhZ2C2ZX77H5HlEy1W+2p1Mi0LF8xcR5RFZyp6PYtQ27bNlgwNHrA93aO8dY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cpTBy7f/; arc=none smtp.client-ip=209.85.128.182
+	 In-Reply-To:To:Cc; b=c0x0lyX/aVmb7HBneXes5ppfbkgP9ZUHiao8bLtMTeaxClKauGQizugXqXMAGr9tCC1Tc1Fnxr1zMOngSyxvuMz8bYa8a9FIUEO7yHAuw/mhJQHugac+zNU/9p7BHC7te0TDQUpNRorVU/IW1M63Y3vCAKn5Wu8/ZV2twn1BSb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qbNXufER; arc=none smtp.client-ip=209.85.128.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cpTBy7f/"
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-836d2861a39so7342517b3.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 25 Aug 2026 19:40:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qbNXufER"
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-81f36179d72so6288647b3.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 25 Aug 2026 19:40:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787712043; x=1788316843; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1787712044; x=1788316844; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=5RAoTdggxobD2oaFa5ZIipVOPvbxRenYgCW3U/I11VY=;
-        b=cpTBy7f/vSJ2w5nDSZ+Z1ZVljEXI4LmFn8LHeQLIAXq9Yt79LfYHclKv915q/13E6g
-         Z9ZXGMGVq7snghnC97XWYFioPeGYKr4dUDMes0vCG4YCKW6wUMcyS2THsT7+nrsVs8Kp
-         OxbfWmiQRzp2aqOMLTqzMTkkaZECNw8xj8Ha7I9TT5wiPfs8Fi0p6UH9jMksgy2p4YzC
-         RWhNVh8IEiApjVqzkQONESyflab21I38r2hWnkZ4wRivUQ6lGJDGfC/m3xbh2BUBl4d/
-         CP+KTHnTZKQAWYkOVvejTc7jFLIqUtP/KiKMJBJ3aUeQ2YhxXCGMaYStaRRHTgi2oe4c
-         F5Fg==
+        bh=xBvIvGQQ8iDlLx9swcmCcNkQZffmEu12jGQ+ci/lSXc=;
+        b=qbNXufERLaH6xupQ5TrMN/CO4hPhLPIiD4DpRbKcfJvOTrGgrySJNaPBi2oD/Va/fR
+         YtrsL12NAtKJmmdJmz+Y20l3F60lfl21W+Y/krQnzHQIls1qvsY2/fkYqL4qvUulDbQp
+         rEM4g+x5VfsK7QTC8nC6svyC6o6BUW44qVKiY7sheFAXpZ2N5umwAOltgMfdUhgD+ZU0
+         /3w48BPKieAKl7lTs0qkNJofTy6TAhCw+IiZ3m5/qYVWgu2lidCYgk2BZOB7MK11zSso
+         CTn/bk0mR/Bq0K3Tlc6DjgK1CKXpewrvqR5D6ZV+NYrycbH02Dk+5/hKO6hEm/M3TSJh
+         SkDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787712043; x=1788316843;
+        d=1e100.net; s=20251104; t=1787712044; x=1788316844;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5RAoTdggxobD2oaFa5ZIipVOPvbxRenYgCW3U/I11VY=;
-        b=T/ygOX+8UN6BKlZdP5dNqySowYfWH2/QRHhNZ7BipB0w6XdAlDtLHsDWC16DhjybZ7
-         uCrj4cxwmG7yYmGr9AUiWHeHLyoYJJM/7gFIR6OiObxy+apSKqkcgYgsLANkxla3QvDp
-         ZgQaSsYB1SnY0nRAtaTQSvwF5rAoqoWjkP2TR70zz0DBwtVfyIJJtDEXIresEC0KEuGF
-         3dS7ZY0QGWdizKKUOY1Wx4b3bhZQdhHV6NjrAOUtpydhHi07Z3421Xqh0nlAeeROPPXS
-         XFQiMUS3/ODYlq6AEIxAhfYcLunuouR5KdBiX3O7QB2CIil1y9TWXST1q1lZ+ktN9ovU
-         EeqQ==
-X-Forwarded-Encrypted: i=1; AHgh+RojeUEFH4hUGPUQE4vNzQA8nHYWLYUqYF61J2h5nHlix8/Si2+ECbFIyQQqM0JvfKhqdlY92el5RoaMow==@lists.linux.dev
-X-Gm-Message-State: AFuF++nZC7882kXvtv1VMH27iL2eAftSHuT/YZ+O0cFiLZnEuV9YquPK
-	iiZKpcc6rVdZFNAlgFDSRwk01Ia8/biodpwHXAZnuZmRCzbOMsNSbU6y
-X-Gm-Gg: AR+sD111tD0yLsWZSY8IqPtfH9ltR6q6f+PY4ua/naV9w/eb30uhMQmXmmfxbBNSuAD
-	MtgorN+HAPVEpGd/0Q5wHmMC3+14A72BnqirsRkWMGXp7YuTHpprWGWtnypWg4HbrlOwPSihhfp
-	pkBTx+BE4gm99oSAwDmcy6kNC7QwKQoLWLNi/utjLS3rpjXZCugUugFD/+WYFgiLb6o4hnlg4vA
-	GflNTvcZK6EagKK72mT33LdDWAiD/2lWhIiX67kOXdeS4uYtaR99Zb2k5snVKseOpP8F1PbrP55
-	pj0hwrI4/wpOCQ7iZFosygJcDc6NTJO0E2OLG2SqaiBzLP5uaDHEty7Z396L+OGjBjphwuoKJyl
-	m8B2+e6AcF1MzT6M1kY8JJPtHYfcmnnQTQOJwdU0k1euKXiw6G9DFmtTdXW9lqiIsY8pfMEgXQF
-	jzhdaXXhaCd4wD5FV1d2IzRlCh/xx3l7jrhYSkzh8ONgqDm3YEhM3n9MsitGvSVA==
-X-Received: by 2002:a05:690c:6311:b0:816:b469:cd12 with SMTP id 00721157ae682-8573cad05f0mr16824987b3.8.1787712043065;
-        Tue, 25 Aug 2026 19:40:43 -0700 (PDT)
+        bh=xBvIvGQQ8iDlLx9swcmCcNkQZffmEu12jGQ+ci/lSXc=;
+        b=X/9v7HhDr/o3ez5jJNSpipvSdOeu/yCZ0P2WzmqvKEFovkFGU6rv78kPYCKKAIp3bC
+         XWqfFO1nFjrW0R548upjHfD5Wonx8VAkDCohfrkK3/k45yhMmuL7JICNzTXLd6FnGBCO
+         R51K019F8eShvZxWXZAM5o6DHMmn4xNtZR0heH1Pv/zOPtqk6/dfL1p/sNIW0RJGIjaz
+         pJ+ow2zoAr8LA7d2tCpWc/UabrXE6H2j9ZcVz6opfgGnFVuopFxWl1OChAJTPyK8U0Iq
+         UifnXJCyS8O0IuqzGIaYShCpx12r/LgpIkKNgcAtFa+f2af5xD3RDEvPLGKksO9q18Kq
+         EmpA==
+X-Forwarded-Encrypted: i=1; AHgh+Rqvxnb0RHQi9VloYGZTVBlHkD5mHRNVmlLpSREdS8uYIg2WGLp0cDrtND3pQCpr73ZqoAf/EmrQ7D35xQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++kiKs2ytAcduKTZ7LXoOtD/hPV/N6BV+MYtbrjvs0tK10g8ioYT
+	ULXGRaVZ/8efubVZzLvQt94Upi7ZQtfQAjQCRBDBESdO+UBk8pT5Cvut4dOjpT7f
+X-Gm-Gg: AR+sD10UIwUuX+CFgs0cX7IsSQXuxszXZSTMoxgxSO2yiGWWO2EMfKohM7bGv/pje90
+	aaqAaW8G3usq+gjX57Me+ipPBSx9RASZL8TQMM7LCvcnUOH5sM3RjT9FAJI9xVywwVmfBJ5HWyo
+	WuwndfiyuNaVymF48YcIprFqqdgMdev6ZkcbLYdaPtOYBZy9edVcQZoYdB/FKoOxJTuMD3S6Rwn
+	U9aSX8g0VQTWKe8mKT+7QB7bwybOKZO2cnxf34eOgz1s/Iy7EMpp0l14PRLflZBQLGqC4WYDBhj
+	gj0L4fCOISuim74QIDsj6vDhpvEBOptDcK1Yims/twsCXIZDiTKoWbCeNglBgPe2pYZM2pib/OX
+	j89V91HCXtY3+TbvMW31O72vowf/PV65eEMzV0SF6r4vlSMd6PbFfOHziSuFxH49wTqKXcwQKLo
+	JFRpTKu5REGo++vs2wOxW956OGIM4yIWT/Zv7ZO2JVwpfZsOac6SHRSXcLFdih9g==
+X-Received: by 2002:a05:690c:c3ce:b0:845:ddf4:a39e with SMTP id 00721157ae682-85740497985mr13245667b3.30.1787712044566;
+        Tue, 25 Aug 2026 19:40:44 -0700 (PDT)
 Received: from [172.17.0.2] ([138.28.231.64])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-857053839fdsm9976087b3.10.2026.08.25.19.40.41
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-857053839fdsm9976087b3.10.2026.08.25.19.40.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 19:40:42 -0700 (PDT)
+        Tue, 25 Aug 2026 19:40:44 -0700 (PDT)
 From: Yuanshen Cao <alex.caoys@gmail.com>
-Date: Wed, 26 Aug 2026 02:40:29 +0000
-Subject: [PATCH v5 3/5] dmaengine: sun6i-dma: Add num_channels_per_reg for
- flexible interrupt mapping
+Date: Wed, 26 Aug 2026 02:40:30 +0000
+Subject: [PATCH v5 4/5] dt-bindings: dmaengine: sun50i-a64-dma: Add
+ allwinner,sun60i-a733-dma compatible string
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260826-sun60i-a733-dma-v5-3-abc5229b441e@gmail.com>
+Message-Id: <20260826-sun60i-a733-dma-v5-4-abc5229b441e@gmail.com>
 References: <20260826-sun60i-a733-dma-v5-0-abc5229b441e@gmail.com>
 In-Reply-To: <20260826-sun60i-a733-dma-v5-0-abc5229b441e@gmail.com>
 To: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
@@ -81,124 +81,47 @@ To: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>
 Cc: dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, Yuanshen Cao <alex.caoys@gmail.com>
+ devicetree@vger.kernel.org, Yuanshen Cao <alex.caoys@gmail.com>, 
+ Frank Li <Frank.Li@nxp.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailer: b4 0.16.0
 
-The `sun6i-dma` driver previously assumed a fixed number of channels
-per interrupt register. For example, `sun6i_kill_tasklet` was hardcoded
-to disable interrupts only for registers 0 and 1. `DMA_MAX_CHANNELS` was
-also not in used previously, and the old SoCs never has more than 16
-channels.
+Add `allwinner,sun60i-a733-dma` to the list of compatible strings for the
+`sun50i-a64-dma` dtbinding documentation.
 
-The A733 has a different interrupt structure where the number of
-channels per register may differ. Add `num_channels_per_reg` to `struct
-sun6i_dma_config` to make the interrupt handling logic handware-agnostic
-Update `sun6i_dma_interrupt`, `sun6i_dma_start_desc`, and
-`sun6i_kill_tasklet` to use this value.
+While the A733 DMA controller shares many similarities with the sun50i-a64
+DMA controller, it requires a specific configuration due to differences in:
+- Interrupt register layout and mapping.
+- Number of channels per interrupt register.
+- Support for higher (32G) address widths in LLI parameters.
 
-Additionally, set `DMA_MAX_CHANNELS` to 16 to ensure loops over
-interrupts are correctly bounded, aligning with the hardware
-specifications.
-
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Signed-off-by: Yuanshen Cao <alex.caoys@gmail.com>
 ---
- drivers/dma/sun6i-dma.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-index 1ffd870d9594..ffb63212bea7 100644
---- a/drivers/dma/sun6i-dma.c
-+++ b/drivers/dma/sun6i-dma.c
-@@ -32,14 +32,13 @@
- #define DMA_IRQ_PKG			BIT(1)
- #define DMA_IRQ_QUEUE			BIT(2)
+diff --git a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
+index c3e14eb6cfff..1cc3304b7414 100644
+--- a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
++++ b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
+@@ -25,6 +25,7 @@ properties:
+           - allwinner,sun50i-a64-dma
+           - allwinner,sun50i-a100-dma
+           - allwinner,sun50i-h6-dma
++          - allwinner,sun60i-a733-dma
+       - items:
+           - const: allwinner,sun8i-r40-dma
+           - const: allwinner,sun50i-a64-dma
+@@ -70,6 +71,7 @@ if:
+           - allwinner,sun20i-d1-dma
+           - allwinner,sun50i-a100-dma
+           - allwinner,sun50i-h6-dma
++          - allwinner,sun60i-a733-dma
  
--#define DMA_IRQ_CHAN_NR			8
- #define DMA_IRQ_CHAN_WIDTH		4
- 
- 
- #define DMA_STAT		0x30
- 
- /* Offset between DMA_IRQ_EN and DMA_IRQ_STAT limits number of channels */
--#define DMA_MAX_CHANNELS	(DMA_IRQ_CHAN_NR * 0x10 / 4)
-+#define DMA_MAX_CHANNELS	16
- 
- /*
-  * sun8i specific registers
-@@ -58,6 +57,8 @@
- #define DMA_IRQ_EN_OFFSET_A31		0x00
- #define DMA_IRQ_STAT_OFFSET_A31		0x10
- 
-+#define DMA_IRQ_CHAN_NR_A31		8
-+
- /*
-  * Channels specific registers
-  */
-@@ -154,6 +155,7 @@ struct sun6i_dma_config {
- 	u32 irq_stride;
- 	u32 irq_en_offset;
- 	u32 irq_stat_offset;
-+	u32 num_channels_per_reg;
- };
- 
- /*
-@@ -268,7 +270,7 @@ static inline void sun6i_dma_dump_com_regs(struct sun6i_dma_dev *sdev)
- {
- 	int i;
- 
--	for (i = 0; i < 2; i++) {
-+	for (i = 0; i < DIV_ROUND_UP(sdev->num_pchans, sdev->cfg->num_channels_per_reg); i++) {
- 		dev_dbg(sdev->slave.dev, "Common register:\n"
- 			"chan num %d\n"
- 			"\tmask(%04x): 0x%08x\n"
-@@ -489,8 +491,8 @@ static int sun6i_dma_start_desc(struct sun6i_vchan *vchan)
- 
- 	sun6i_dma_dump_lli(vchan, pchan->desc->v_lli, pchan->desc->p_lli);
- 
--	irq_reg = pchan->idx / DMA_IRQ_CHAN_NR;
--	irq_offset = pchan->idx % DMA_IRQ_CHAN_NR;
-+	irq_reg = pchan->idx / sdev->cfg->num_channels_per_reg;
-+	irq_offset = pchan->idx % sdev->cfg->num_channels_per_reg;
- 
- 	vchan->irq_type = vchan->cyclic ? DMA_IRQ_PKG : DMA_IRQ_QUEUE;
- 
-@@ -582,7 +584,7 @@ static irqreturn_t sun6i_dma_interrupt(int irq, void *dev_id)
- 	int i, j, ret = IRQ_NONE;
- 	u32 status;
- 
--	for (i = 0; i < sdev->num_pchans / DMA_IRQ_CHAN_NR; i++) {
-+	for (i = 0; i < sdev->num_pchans / sdev->cfg->num_channels_per_reg; i++) {
- 		status = sun6i_read_irq_stat(sdev, i);
- 		if (!status)
- 			continue;
-@@ -592,7 +594,7 @@ static irqreturn_t sun6i_dma_interrupt(int irq, void *dev_id)
- 
- 		sun6i_write_irq_stat(sdev, i, status);
- 
--		for (j = 0; (j < DMA_IRQ_CHAN_NR) && status; j++) {
-+		for (j = 0; (j < sdev->cfg->num_channels_per_reg) && status; j++) {
- 			pchan = sdev->pchans + j;
- 			vchan = pchan->vchan;
- 			if (vchan && (status & vchan->irq_type)) {
-@@ -1110,7 +1112,7 @@ static inline void sun6i_kill_tasklet(struct sun6i_dma_dev *sdev)
- 	int i;
- 
- 	/* Disable all interrupts from DMA */
--	for (i = 0; i < 2; i++)
-+	for (i = 0; i < DMA_MAX_CHANNELS / sdev->cfg->num_channels_per_reg; i++)
- 		sun6i_write_irq_en(sdev, i, 0);
- 
- 	/* Prevent spurious interrupts from scheduling the tasklet */
-@@ -1138,7 +1140,8 @@ static inline void sun6i_dma_free(struct sun6i_dma_dev *sdev)
- #define SUN6I_DMA_IRQ_A31_COMMON_CFG	\
- 	.irq_stride      = DMA_IRQ_STRIDE_A31,	\
- 	.irq_en_offset   = DMA_IRQ_EN_OFFSET_A31,	\
--	.irq_stat_offset = DMA_IRQ_STAT_OFFSET_A31,
-+	.irq_stat_offset = DMA_IRQ_STAT_OFFSET_A31,	\
-+	.num_channels_per_reg = DMA_IRQ_CHAN_NR_A31,
- 
- /*
-  * For A31:
+ then:
+   properties:
 
 -- 
 2.55.0
