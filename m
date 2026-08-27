@@ -1,81 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9295B380FDE;
-	Thu, 27 Aug 2026 08:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0406542CB17
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 Aug 2026 09:32:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787818265; cv=none; b=g1QcAgMUel5eEwMklYa0dQ7Y+nxbNzceUrz0TR/4BVtxuNYWT3mN0SDRIuXbyL0/zjWvdom3WINnRJDzfMow7H2FiSMjqK11YvFq4FdVUK6Fjh+th7Wkm5UIWZkMhwr7GgCh2P2IaaXVEwkMCdukYyTXyyh6GLWIPH1SG3muyVk=
+	t=1787823160; cv=none; b=jmhlbn8/1d7fc7BoF2SEbH5202YHSWWSPM2JZgi9ztf5A+gEpcjN1tbQwVzFRr5/QMLGlwIoRGAO3Q8LflAze4jGajD3G/qrpei8rvmiGKQvs/ikHYT2lk5F8tek6bJarvjuogf12ayXX3fIagG9xYImnRN95fmq53BOBUksZVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787818265; c=relaxed/simple;
-	bh=bxhnAPZCY5DW4eFRZDPe7yLHv6R0ofl8xh/MPWZq9PE=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=fTZFk9gfZ66tn/rTCCEX7fXZ9c9Xgc7ZAsNJDKiMHaw05AX9FtyQ2t0+U7t04bOy+4F0ZcXbjtCuc07pKDGEvDMAr3d2a199L6c2+Pq1hbZBcKZtpQqTvM5UqX96LYJ0xYjsNPPNiPD53lFIJFd5W+ZgK8XGUc05az8Kkp12sRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K8rppW3A; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787823160; c=relaxed/simple;
+	bh=/jQKC5c4QuzmnMd3rNtZOojeHxgRfSkVz0sN1uXukLQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z2a/VMvL6xxZygJCbq0nii5yJFmi+ZTNiq+PdPEU8fjZRs3zUr6lSa/JXGp4IoOv7aVBGY23HVDGAzNbd8zPJX6R3jtD7krfIF/dH7hdIsY1hgEb7wRWP02PM3H6b7CnRHpx2QPuPey+NJyOxKHyP2oCSlJmMr2EcCmK+A4RIkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=vN/VHaNX; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K8rppW3A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99E971F000E9;
-	Thu, 27 Aug 2026 08:11:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1787818260;
-	bh=+MwTcniFgsQyj/mh+HBBLh8w4RBABQD8nqYNKGZKxGU=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=K8rppW3ABdUDNXrK6Q7jT8E+OfMviBE+EPcrDRVdF8nvH61z4tOpwpzhH1mIZqVEW
-	 0YlYdIVc7HXFKeek3Cu77gsBKHUnyQzO0+18UhO5l8yyGg0L996u0CHk+T1BoE+8VP
-	 Ue93xqJYJVxpfX4YnKFPkzGdDTOSuZBxt78p7Xf/2ZRsCf8kWDPBtJkxH8Bm3GxR9R
-	 sO0dv6iFxWB0hf0lBZy1slylRLtWW9wHSRb49d+kNmkPVIFw9/h8bzUDJpatg87GX8
-	 1qtMk8zA+BPZQTxm1lp/YVVzTAB+ak4lOilFKxyUGX8xYIY0WDmzLXZKwaON5RotdZ
-	 RWq09+78fpGAw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 939493809A12;
-	Thu, 27 Aug 2026 08:10:07 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="vN/VHaNX"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7739E1691;
+	Thu, 27 Aug 2026 02:32:18 -0700 (PDT)
+Received: from [10.33.8.86] (unknown [10.33.8.86])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4B40A3F66F;
+	Thu, 27 Aug 2026 02:32:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1787823142; bh=/jQKC5c4QuzmnMd3rNtZOojeHxgRfSkVz0sN1uXukLQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=vN/VHaNXhp4COXH68SRPu1t14JLKJWmIksxvptxoITc63AX6/9o8C1I8RzbOXxBU7
+	 bFP7dPxNiuO2OtNsNolpSPxJOFCrOAcPZrjjtB3XKe6XRb3lYWLLtGxOybCmtDhRZH
+	 fC/BLYwfHXaEXOmEIELKMdkt7EqTIz40hayPwKvY=
+Message-ID: <bb7eada0-19fe-4602-a2e7-554e914b8205@arm.com>
+Date: Thu, 27 Aug 2026 10:32:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] net: ethernet: sun4i-emac: Fix IRQ error handling
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178781820640.1094636.14217098118734046137.git-patchwork-notify@kernel.org>
-Date: Thu, 27 Aug 2026 08:10:06 +0000
-References: <20260824100901.31675-1-phucduc.bui@gmail.com>
-In-Reply-To: <20260824100901.31675-1-phucduc.bui@gmail.com>
-To: Bui Duc Phuc <phucduc.bui@gmail.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, wens@kernel.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, linusw@kernel.org,
- kees@kernel.org, bartosz.golaszewski@oss.qualcomm.com, arnd@arndb.de,
- sr@denx.de, mripard@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/9] pinctrl: sunxi: Allwinner A733 support
+To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-gpio@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20250821004232.8134-1-andre.przywara@arm.com>
+ <20260826230720.466026-1-vinicius.eduardo.pedrosa@gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20260826230720.466026-1-vinicius.eduardo.pedrosa@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello:
+Hi,
 
-This patch was applied to netdev/net.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Mon, 24 Aug 2026 17:09:01 +0700 you wrote:
-> From: bui duc phuc <phucduc.bui@gmail.com>
+On 8/27/26 01:07, Vinicius Pedrosa wrote:
+> Hi Andre,
 > 
-> irq_of_parse_and_map() returns 0 when parsing or mapping an IRQ fails.
-> The current code checks for -ENXIO and therefore does not detect the
-> failure.
+> This series no longer applies to mainline. Patch 1/9 fails on current
+
+Yes, naturally, this series is quite old, and we had some changes and 
+fixes in pinctrl meanwhile.
+I didn't find time in the last cycles, but will send an update *after*
+-rc1 is released. So just a bit more patience ...
+
+Cheers,
+Andre
+
+P.S. What was the particular purpose of you sending this email? I can't 
+help to feel this is AI generated, isn't it? But the breakage is 
+obvious, and as you can imagine I am well aware of my patch having been 
+merged, and other patches in the vicinity which I authored or reviewed 
+conflicting. In fact I regularly rebase my branches on every -rc1, I 
+just didn't get around to send a new version.
+
+> master (45c13f3f9e3b), for two separate reasons - one of them from
+> outside the series, which is why I am reporting it rather than just
+> fixing it locally.
 > 
-> Check for a zero return value and convert it to -ENXIO.
+> Applying the series in order:
 > 
-> [...]
-
-Here is the summary with links:
-  - [net] net: ethernet: sun4i-emac: Fix IRQ error handling
-    https://git.kernel.org/netdev/net/c/991c2be78257
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+>    [RFC PATCH 1/9] pinctrl: sunxi: rename SUNXI_PINCTRL_NEW_REG_LAYOUT
+>      error: patch failed: drivers/pinctrl/sunxi/pinctrl-sunxi.c:1521
+>      error: patch failed: drivers/pinctrl/sunxi/pinctrl-sunxi.h:88
+> 
+> The blocking one is your own patch 2/9. It merged as 42e06688c6cb
+> ("pinctrl: sunxi: pass down flags to pinctrl routines") without 1/9, so
+> sunxi_pinctrl_init_with_flags() now reads
+> 
+> 	pctl->flags = flags;
+> 
+> where 1/9 still expects
+> 
+> 	pctl->variant = flags & SUNXI_PINCTRL_VARIANT_MASK;
+> 
+> as context. A 3-way merge does not resolve it - both sides touch
+> adjacent lines, so it conflicts.
+> 
+> The second is unrelated to your work. 70f8915ea4e9 ("pinctrl: sunxi: fix
+> gpiochip_lock_as_irq() failure when pinmux is unknown") inserted
+> SUN4I_FUNC_DISABLED_OLD/NEW into 1/9's header hunk context, and added a
+> fifth use of SUNXI_PINCTRL_NEW_REG_LAYOUT, in
+> sunxi_pinctrl_irq_request_resources(). The header hunk merges cleanly
+> with -3, but that new use is not covered by the rename, so the tree then
+> fails to build with an undeclared identifier.
+> 
+> Patches 3/9 through 9/9 apply cleanly once 1/9 is resolved.
+> 
+> Static reproduction only - no A733 hardware here, so nothing in this
+> message says anything about whether the series works. I am not sending a
+> rebase: which shape 1/9 should take now that 2/9 is in is your call.
+> 
+> Vinicius
 
