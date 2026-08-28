@@ -1,190 +1,246 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCFB03D7D72
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 Aug 2026 23:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E6D3B52EA
+	for <linux-sunxi@lists.linux.dev>; Fri, 28 Aug 2026 04:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787874193; cv=none; b=i0sOQrdd/pWXLUpA37sQNnNbWoWYCyekD1CTr8XcytunY3ZV/FAoivpHX0Rr/oiwVI6HdMrXQpJuqlHTv7xePry7FuMeFs2VrQz8x5P32jLMly1THB+MNrCZI8OHn0YryxJM0t/umVG6jCDUBZrZbNBMld33VS14RtppAoN05DQ=
+	t=1787891141; cv=none; b=IwbZiB8VMLusD9k+wUa/eYA+eT0VYaSZwTMxsV9YPfktpx3gpPmi4SHmVReT4xbJ9rjEo7ywD3t49NkoQzAyqqrtqbeTGkZmPMABFF6S2SwjhTYRpaTdl3gekf7HT0GlxlsYBX29fSPdjoaoWT+TgLVv2u8Eu6kxhoAnCAn+Hzw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787874193; c=relaxed/simple;
-	bh=seGeJVUaBY4csPp307lVbWcygAp1HQ7VLHvAmGqgjqk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=EpeIFdgoNH9simBQ0/gszUAMsWSgaeVZ0TSXUXnrP112w+6+J6Ylm+qclTME+i8gLkJglzlHXixYJqGq7wq2ORLPP39A+33FMPONahCXGOSYPs8trlJtJmesSkYxTjifglWhlUhIicNhdoiu6WwG9a81bqRbxJmBIjWtJTpojfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r5TDAK3w; arc=none smtp.client-ip=209.85.167.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1787891141; c=relaxed/simple;
+	bh=cRpGeWrUAthIO+j+Pbfd+uhCuhiMAW/Ve2veefEkteI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Rd/3wDjk3nwbcnRo1Px6MeDVV2XgR9F4KJrY/zQAlvZ8AjfTr5FqVnuxGlJkKqQ/Ozna5GhX6IF7cui0UsKiUz+jrfR3EdLeVHiARKCxtMGmoINvgiJpWyu+RFc+F6oHQPtx9Xr99XRCUzYbLFNuc8FFAG1LoqjnlD3QjPUoZr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sIc2+qOv; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r5TDAK3w"
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-4a451915d8aso461409b6e.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 27 Aug 2026 16:43:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sIc2+qOv"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3968e063f84so548791a91.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 27 Aug 2026 21:25:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787874190; x=1788478990; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=zVdJjWb3UpbdKuHlq3/PIvwY2V+KiCYJBGO2pCIZorA=;
-        b=r5TDAK3w64HSJU1vGw0+8gWjd7JMSH4Xb5i8ddP8nsBlEneHNj36bpcC15vnjJerQH
-         3PKlgnISEJ0OxgNiHumagNQVgsEnX2SF3y9BOC1nrP1vYvmnUhFiQ3J1xRoII70m3F3n
-         mP3lEi+RMx0PvjeccNEsN1kjEs5OZgRvusxuv43cNh0TQYIwcfXQjqGMsshZRR1YXykj
-         UkU0CJH+VvvyRmzl3L+QhWpONQplIxQMCJj9vQym9/BKbSo0yJgksIGfNIapD3Yg3Ko8
-         IjXEGo8B7S12NJ0IZLhfffqI5dJLQH+wYkZEAzQNcQ0goyLP/Pvv4xFvRcgfyk2luDHz
-         Deog==
+        d=gmail.com; s=20251104; t=1787891139; x=1788495939; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2iLLyWC6nrOMFW7D3x/zOmB5QAqAJCqqQG7pB75N2Jc=;
+        b=sIc2+qOvVA/keajjb2VUb/moFic/BLI0CwU8S57hTeYtLFCStJPaUdJ+GgSH3DUsUW
+         qoI20f6vDwpoS1R3rodmdPUVABur7T7L3nRoYmpzYhp8pRK8kuz2MSbxRi+z2NRBlNXz
+         +wrFiJfNweu4Lap3CpsEv96GpZ4CShYxNS1LA7znZtkDpXfvYSy8mqA8XK6WjjFgT5P4
+         u8wKjPnVTUjXA0yPB6b0QBDjmadHBskuQnwtnn5bWGGRlXj+FPoqzD/Qs/l0E5lOjkuz
+         efL7z6Czt8KKecRxKpmt1oZHqxBawJe13ha0rGEHKF6B9/IW/BZ6BPbHuGlwmwgwGUqY
+         J54g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787874190; x=1788478990;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=zVdJjWb3UpbdKuHlq3/PIvwY2V+KiCYJBGO2pCIZorA=;
-        b=eex+s1BuWEI2rq68vz80mKovoA7aScQug1U6UCo4A8z3TcYOxz94jN0ilb4wsZUv8R
-         GD5CAhMkeBx+mArv3YOO2qUKqOiCUvbkRyEa0drvctZ/kJ/U4GKewll5EBG6B2UtIcHf
-         6aaGttSmHrPxkwWQDOx+qptrF7IYgioBhfD0sDOr0RZl+dYl/PniJMU9uA4rRI4BlRyO
-         B7BhDfdvpRyzm+LJpvFYtZtQa53OST8ZhY+jYDcTDLi39vo5EeDD9LlLSYSckexWSjtg
-         WWBfbImNdwY3gZgKfYP4PPwMWqNUSQZaleJ+Lg6QeewwCaP3xJHV8MRoDEEWvLOL05iz
-         8IIA==
-X-Forwarded-Encrypted: i=1; AHgh+Rp2fccTJLb7SwZWdW5/MyVPCsoX5Ksy45+LQeWPSpg/GEvh275zdyt+Vg3a6p9Y9qFCEqerQgVPahvaMw==@lists.linux.dev
-X-Gm-Message-State: AFuF++nvoauO2TIxD9ODEftz0G4SKirPAVKiFoStqAw+BO0rMRzU0Rh0
-	VN9YsbcxKsvp9e7wEqagFRWDU2HsjJef3J06IiHxNrfWEFzFgBT7tOj6
-X-Gm-Gg: AR+sD11CVZrvTKebCBLJt8PtjyN+mNCaKuD4VZiyRxVzUd4/jNDziGNK22hb1/ipux3
-	ImEVZkX7UwaCZK2qyinpLubvYdGnV6yNRVYtsZ/7h1zIOjmiS1ep7S6AyuApaRGARPAvuVqvyrI
-	BiU46JyDkz2Q+0Ov3HAFlCzJIht6K36bATod0dDcIvRIFa2TL+HUmBGSqddpa/ym7wpBx298poF
-	DMk50jmlegaAAgmlcdjU4+SEuFSxTHRccNCCvejJrTZaMHAbUVNmxqtZ6Y1bfZXzLGdDtHtpjMG
-	PV4h9Dwf4apyFImYZt2JvpqFG4hN6ww8FWpQ5A3TPFWKViYr9jJc5BcQkaPEk9OXzcGs6JnA56o
-	aYylqXioUgVKt12556VvFmihoUwa46cOl8+RDmFn8Kbgq5QEnPwQharRjv1G/R+NTLZXvAk5TTJ
-	6Px+jv3Wm93ZAg5LSWRBUrcr8rmbbiMn7plqk8AzgHEmn07CID9sxgvXE6ZL8bFToSOLXWKGDbI
-	c9emOPfpxK9w6qiN1jHRezu/VV8OvqD892RJ8zDJUzhuYPACROSLF3DlhyLj06jjMBLE/PSwAg5
-	2sejyeW1M4CpR4ABHRmSpvacQe45D1L6r8zvsOPB72LnSOEKghMX9clnUVo0TlZhuKk/h7br8LT
-	VlDPc/nTzs7kqi6nXwA==
-X-Received: by 2002:a05:6808:1308:b0:4b2:21e2:82d5 with SMTP id 5614622812f47-4b3981256e5mr3096321b6e.10.1787874190443;
-        Thu, 27 Aug 2026 16:43:10 -0700 (PDT)
-Received: from [127.0.1.1] (184-96-151-165.hlrn.qwest.net. [184.96.151.165])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4b36abbdb56sm5279979b6e.17.2026.08.27.16.43.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 16:43:09 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Thu, 27 Aug 2026 17:42:51 -0600
-Subject: [PATCH] watchdog: sunxi_wdt: preserve boot-enabled watchdog
+        d=1e100.net; s=20251104; t=1787891139; x=1788495939;
+        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=2iLLyWC6nrOMFW7D3x/zOmB5QAqAJCqqQG7pB75N2Jc=;
+        b=UqlWQ+0cNog0ldasoh6Vw6SieKbewd80TAcPsHVqbpNRC2TQXeQn9Tlrd8U0OVY/PZ
+         8f5ibS+WWjPkiBWXLuOZfkNHViBv7C1gHvIYfvORT3eQmDJztHQgXJDkt3a1F43mS5Re
+         ePsWp1hFPaEhhz7rfmnsfpQM05b8KZ4yqSBdpCLbv3qHvkWvfGNe740n+bPjrW4j7loN
+         GWdqvGA3MS5DCvreBR5Oai8NlvRk4KQnR3eFmZV8E4/rFjLctvl4PhcxheT2G2WPsbLh
+         LTWBn8eKzl6OmEiE8Ua8ePr1asmlWSfVuQ1f0saOl+gRqrPF8ZrlhrHzotdbEkaW5wmc
+         8uCQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoOpXGEDXtoQsl6tPaspn5olGLUZZ+vVhTPzTVZeW8FiEjm8zufWET2vpOY7KtY2YXOyP9b0KyoAKEPpA==@lists.linux.dev
+X-Gm-Message-State: AFuF++mJ55r8BJtoA1FOWn1yBZ6ybDq3vTliBCjq00iywMSGS9yemmdk
+	Aky76EdspOjpNiM7PZbHeYPm+emfRC7d0nrCMHtoIicNO6Ah2V2eySpm
+X-Gm-Gg: AR+sD11dwUBxEC7sXCHeNKo5WbWcYbQgqD4Yj/JTS+0PHHXXUeZMRVE/pJ9yu4gNJe+
+	XKR/7YcrCtelEUlGjYVey9i5H2psirT+unrQMuRb7A21NqLGETFvvZkzNySnDXu+rwkcmlC3q+X
+	5mjn30W5Vw2E93mig3tNltJZ8Oplce4PXAmN+LHKncQYhLACcz8y7D2YRF1N0WITy1VZ4y87yNP
+	YXnC5cdWhL+gmAf6VMVdh+YouT+nh8Vx5LykkfPHrb8dnvTZmg67FComCaG05Wd3uqywYCXG8H7
+	wJnL1OUqiPtHzvsMYr9lAgmcTBAJTr9m2LdN9w5ZYgBP/FGl/eidKAM6b/t6ESqadDCp3z70Xkm
+	MiUGJLgHwTyLuaYNzX3UZb0D6oyskXkzbEYrf9rVj8qXTF709TaawCiF4ti8VsQMo/bP+1E5S8k
+	HPtyCTKWQaWX+51N8l/cSjBGN9p7ko5qb8uxyZraddmOfDmW9HKC8YDPfAK+mooF0GZ7Jpk43WS
+	rE75rbnUKxB4DywhBqXV0IrjhA960px3QORKA==
+X-Received: by 2002:a17:90a:e7cd:b0:395:f0e8:9e13 with SMTP id 98e67ed59e1d1-396d0e71ad7mr7322515a91.7.1787891139532;
+        Thu, 27 Aug 2026 21:25:39 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3286f7bc825sm1604156eec.9.2026.08.27.21.25.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Aug 2026 21:25:38 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <1f04a4bc-f43d-4a97-9703-29cd254ff322@roeck-us.net>
+Date: Thu, 27 Aug 2026 21:25:37 -0700
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260827-submit-sunxi-wdt-boot-enabled-v1-v1-1-d16f934cc809@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNQQ6CMBCF4auQWTsJNIrVqxgWtDPIEG1NW5GEc
- HdHWb18m/+tkDkJZ7hWKySeJUsMiuZQgR/7cGcUUoOpTVtbc8b8dk8pOmER/FBBF2NBDr17MOH
- c4OXoqXVs7YkMaOaVeJDlf3HrdmtjYl9+Xdi2L4+MHriEAAAA
-X-Change-ID: 20260827-submit-sunxi-wdt-boot-enabled-v1-94cd6be885d2
-To: Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Guenter Roeck <linux@roeck-us.net>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Carlo Caione <carlo.caione@gmail.com>, 
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] watchdog: sunxi_wdt: preserve boot-enabled watchdog
+To: James Hilliard <james.hilliard1@gmail.com>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Carlo Caione <carlo.caione@gmail.com>,
  Maxime Ripard <mripard@kernel.org>
-Cc: Wim Van Sebroeck <wim@iguana.be>, linux-watchdog@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
- James Hilliard <james.hilliard1@gmail.com>
-X-Mailer: b4 0.15.2
+Cc: Wim Van Sebroeck <wim@iguana.be>, linux-watchdog@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260827-submit-sunxi-wdt-boot-enabled-v1-v1-1-d16f934cc809@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260827-submit-sunxi-wdt-boot-enabled-v1-v1-1-d16f934cc809@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-sunxi_wdt_probe() unconditionally stops the watchdog even when firmware
-left it running. This opens an unprotected interval during boot and
-prevents CONFIG_WATCHDOG_HANDLE_BOOT_ENABLED from taking over the active
-watchdog.
+On 8/27/26 16:42, James Hilliard wrote:
+> sunxi_wdt_probe() unconditionally stops the watchdog even when firmware
+> left it running. This opens an unprotected interval during boot and
+> prevents CONFIG_WATCHDOG_HANDLE_BOOT_ENABLED from taking over the active
+> watchdog.
+> 
+> Detect an enabled watchdog and decode its programmed interval. Preserve
+> that timeout while setting the Linux reset mode and pinging the watchdog;
+> use the configured timeout only when the hardware interval cannot be
+> represented. The enable bit remains set throughout. Mark it as
+> hardware-running before registration so the watchdog core services it
+> until userspace takes control. Keep the existing stop operation when the
+> watchdog was disabled.
+> 
+> Fixes: d00680ed0026 ("watchdog: sunxi: New watchdog driver for Allwinner A10/A13")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> ---
+>   drivers/watchdog/sunxi_wdt.c | 47 +++++++++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 46 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/watchdog/sunxi_wdt.c b/drivers/watchdog/sunxi_wdt.c
+> index b6c761acc3de..1f3da1d47fa5 100644
+> --- a/drivers/watchdog/sunxi_wdt.c
+> +++ b/drivers/watchdog/sunxi_wdt.c
+> @@ -128,6 +128,38 @@ static int sunxi_wdt_ping(struct watchdog_device *wdt_dev)
+>   	return 0;
+>   }
+>   
+> +static bool sunxi_wdt_is_running(struct watchdog_device *wdt_dev)
+> +{
+> +	struct sunxi_wdt_dev *sunxi_wdt = watchdog_get_drvdata(wdt_dev);
+> +	const struct sunxi_wdt_reg *regs = sunxi_wdt->wdt_regs;
+> +
+> +	return readl(sunxi_wdt->wdt_base + regs->wdt_mode) & WDT_MODE_EN;
+> +}
+> +
+> +static unsigned int sunxi_wdt_get_timeout(struct watchdog_device *wdt_dev)
+> +{
+> +	struct sunxi_wdt_dev *sunxi_wdt = watchdog_get_drvdata(wdt_dev);
+> +	const struct sunxi_wdt_reg *regs = sunxi_wdt->wdt_regs;
+> +	unsigned int timeout;
+> +	u32 interval;
+> +
+> +	interval = readl(sunxi_wdt->wdt_base + regs->wdt_mode);
+> +	interval >>= regs->wdt_timeout_shift;
+> +	interval &= WDT_TIMEOUT_MASK;
+> +	/* The 0.5-second interval cannot be represented by wdt_dev->timeout. */
+> +	if (!interval)
+> +		return 0;
+> +
 
-Detect an enabled watchdog and decode its programmed interval. Preserve
-that timeout while setting the Linux reset mode and pinging the watchdog;
-use the configured timeout only when the hardware interval cannot be
-represented. The enable bit remains set throughout. Mark it as
-hardware-running before registration so the watchdog core services it
-until userspace takes control. Keep the existing stop operation when the
-watchdog was disabled.
+Why 0 and not 1 ? If I understand correctly, this sets the timeout
+to  WDT_MAX_TIMEOUT or 16 seconds. It is not immediately obvious why
+that would be desirable.
 
-Fixes: d00680ed0026 ("watchdog: sunxi: New watchdog driver for Allwinner A10/A13")
-Cc: stable@vger.kernel.org
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
- drivers/watchdog/sunxi_wdt.c | 47 +++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 46 insertions(+), 1 deletion(-)
+> +	for (timeout = WDT_MIN_TIMEOUT;
+> +	     timeout < ARRAY_SIZE(wdt_timeout_map); timeout++) {
+> +		if (wdt_timeout_map[timeout] == interval)
+> +			return timeout;
+> +	}
+> +
+> +	/* Reserved interval encoding. */
+> +	return 0;
+> +}
+> +
+>   static int sunxi_wdt_set_timeout(struct watchdog_device *wdt_dev,
+>   		unsigned int timeout)
+>   {
+> @@ -259,6 +291,7 @@ static int sunxi_wdt_probe(struct platform_device *pdev)
+>   {
+>   	struct device *dev = &pdev->dev;
+>   	struct sunxi_wdt_dev *sunxi_wdt;
+> +	unsigned int running_timeout;
+>   	int err;
+>   
+>   	sunxi_wdt = devm_kzalloc(dev, sizeof(*sunxi_wdt), GFP_KERNEL);
+> @@ -286,7 +319,19 @@ static int sunxi_wdt_probe(struct platform_device *pdev)
+>   
+>   	watchdog_set_drvdata(&sunxi_wdt->wdt_dev, sunxi_wdt);
+>   
+> -	sunxi_wdt_stop(&sunxi_wdt->wdt_dev);
+> +	if (sunxi_wdt_is_running(&sunxi_wdt->wdt_dev)) {
+> +		running_timeout = sunxi_wdt_get_timeout(&sunxi_wdt->wdt_dev);
+> +		if (running_timeout)
+> +			sunxi_wdt->wdt_dev.timeout = running_timeout;
+> +
+> +		err = sunxi_wdt_start(&sunxi_wdt->wdt_dev);
+> +		if (err)
+> +			return err;
+> +
+> +		set_bit(WDOG_HW_RUNNING, &sunxi_wdt->wdt_dev.status);
+> +	} else {
+> +		sunxi_wdt_stop(&sunxi_wdt->wdt_dev);
 
-diff --git a/drivers/watchdog/sunxi_wdt.c b/drivers/watchdog/sunxi_wdt.c
-index b6c761acc3de..1f3da1d47fa5 100644
---- a/drivers/watchdog/sunxi_wdt.c
-+++ b/drivers/watchdog/sunxi_wdt.c
-@@ -128,6 +128,38 @@ static int sunxi_wdt_ping(struct watchdog_device *wdt_dev)
- 	return 0;
- }
- 
-+static bool sunxi_wdt_is_running(struct watchdog_device *wdt_dev)
-+{
-+	struct sunxi_wdt_dev *sunxi_wdt = watchdog_get_drvdata(wdt_dev);
-+	const struct sunxi_wdt_reg *regs = sunxi_wdt->wdt_regs;
-+
-+	return readl(sunxi_wdt->wdt_base + regs->wdt_mode) & WDT_MODE_EN;
-+}
-+
-+static unsigned int sunxi_wdt_get_timeout(struct watchdog_device *wdt_dev)
-+{
-+	struct sunxi_wdt_dev *sunxi_wdt = watchdog_get_drvdata(wdt_dev);
-+	const struct sunxi_wdt_reg *regs = sunxi_wdt->wdt_regs;
-+	unsigned int timeout;
-+	u32 interval;
-+
-+	interval = readl(sunxi_wdt->wdt_base + regs->wdt_mode);
-+	interval >>= regs->wdt_timeout_shift;
-+	interval &= WDT_TIMEOUT_MASK;
-+	/* The 0.5-second interval cannot be represented by wdt_dev->timeout. */
-+	if (!interval)
-+		return 0;
-+
-+	for (timeout = WDT_MIN_TIMEOUT;
-+	     timeout < ARRAY_SIZE(wdt_timeout_map); timeout++) {
-+		if (wdt_timeout_map[timeout] == interval)
-+			return timeout;
-+	}
-+
-+	/* Reserved interval encoding. */
-+	return 0;
-+}
-+
- static int sunxi_wdt_set_timeout(struct watchdog_device *wdt_dev,
- 		unsigned int timeout)
- {
-@@ -259,6 +291,7 @@ static int sunxi_wdt_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct sunxi_wdt_dev *sunxi_wdt;
-+	unsigned int running_timeout;
- 	int err;
- 
- 	sunxi_wdt = devm_kzalloc(dev, sizeof(*sunxi_wdt), GFP_KERNEL);
-@@ -286,7 +319,19 @@ static int sunxi_wdt_probe(struct platform_device *pdev)
- 
- 	watchdog_set_drvdata(&sunxi_wdt->wdt_dev, sunxi_wdt);
- 
--	sunxi_wdt_stop(&sunxi_wdt->wdt_dev);
-+	if (sunxi_wdt_is_running(&sunxi_wdt->wdt_dev)) {
-+		running_timeout = sunxi_wdt_get_timeout(&sunxi_wdt->wdt_dev);
-+		if (running_timeout)
-+			sunxi_wdt->wdt_dev.timeout = running_timeout;
-+
-+		err = sunxi_wdt_start(&sunxi_wdt->wdt_dev);
-+		if (err)
-+			return err;
-+
-+		set_bit(WDOG_HW_RUNNING, &sunxi_wdt->wdt_dev.status);
-+	} else {
-+		sunxi_wdt_stop(&sunxi_wdt->wdt_dev);
-+	}
- 
- 	watchdog_stop_on_reboot(&sunxi_wdt->wdt_dev);
- 	err = devm_watchdog_register_device(dev, &sunxi_wdt->wdt_dev);
+Why is this necessary ? The watchdog is known to be stopped, why
+stop it again ?
 
----
-base-commit: 1b78070aaef63512688aebfbc82365ef9d6660f1
-change-id: 20260827-submit-sunxi-wdt-boot-enabled-v1-94cd6be885d2
+Thanks,
+Guenter
 
-Best regards,
---  
-James Hilliard <james.hilliard1@gmail.com>
+> +	}
+>   
+>   	watchdog_stop_on_reboot(&sunxi_wdt->wdt_dev);
+>   	err = devm_watchdog_register_device(dev, &sunxi_wdt->wdt_dev);
+> 
+> ---
+> base-commit: 1b78070aaef63512688aebfbc82365ef9d6660f1
+> change-id: 20260827-submit-sunxi-wdt-boot-enabled-v1-94cd6be885d2
+> 
+> Best regards,
+> --
+> James Hilliard <james.hilliard1@gmail.com>
 
