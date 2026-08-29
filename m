@@ -1,110 +1,163 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC8E463B85
-	for <linux-sunxi@lists.linux.dev>; Fri, 28 Aug 2026 14:40:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BA236606A
+	for <linux-sunxi@lists.linux.dev>; Sat, 29 Aug 2026 19:41:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787928061; cv=none; b=svd8uYMu2YYDLxVRgulMIqpCcvUXVLgKOOaULUXTU4IfoqDfUJ6GzZRhKwzsNkseoxa1FsVnaIpOpMRjTf/IASy3jZgeC1+AqZjj193BANSWX0w5S+JMKoBxr3UECYv3ztn3jGkIu7mS8fMVkhvPMyrzX4uemZlIo/Ys4md5QjM=
+	t=1788032499; cv=none; b=tRymu2yB5CM0eawDzUUxdEG4mT0sFTu+7sQE+TRRQ6ZHR5eBYOQpBSi5qmfxBnjXzI8TW/6jonCnDiDBU3SnwCWFYIBp0Mfj4y0CTNTZT6UpxV1d1cXj3Uo113SWC6m93qAJvtatjibujDrLvTqKC1teUrgn8rHJ1R6HHzBJEHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787928061; c=relaxed/simple;
-	bh=8bS40oV4jEPLs9Cs2elpr2P5JyOnyCM4culKHiPewYs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s7w4Oq7Ooe/0I19iXf7lK8cHsR8Na9FV/s9jxv9rt/J3zh+FfvqF4O0eHgPCFIVUoZpaZ2Y6MTG0TpRT9Gn5n7ZTRpZuIGyVvOyNyyLjromuP5LoqTsPq/KS/ssz7iHkN8qiX/Dd0rY8F+6Yj3v+c1GjMq2kLK3DbDk0Q/VQEHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iXIjeDI4; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788032499; c=relaxed/simple;
+	bh=k8n/bi2g8bb5SMtULjvD127VMpit1jAkK54KyWSdN6Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S1hz07LimmLN0iLLTxM48SBlbymZ8PMEVH/vzCflp5zAWlq6ZWcszFeAYVMiIBgmIu1ttHVMQY2chYHnxXCoMo8HAkvfZngVdhY5eK1OELoUMH5SO0FZqAzXfSz4ID3k/p1c3XPSJmu4gmkHUVqHLCCXdXo8nPU0qFJfgwLFxUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=W1fHASae; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=RmvS2k0K; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iXIjeDI4"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-39675172593so826842a91.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 28 Aug 2026 07:40:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="W1fHASae";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="RmvS2k0K"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67TGxOQa1742845
+	for <linux-sunxi@lists.linux.dev>; Sat, 29 Aug 2026 19:41:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=uvvVmWWmWkOAQN9Xye2DpALciJSXKEk3Wdr
+	0rRgOknU=; b=W1fHASaeVreLYR8e0aAhG+oZ4kbfH0cC/6kqLiOExVdlkiKN/tw
+	5UW+9KESK1c7B+YpLNybQ6m4/pDM1ZWhNAw7WVBat6Ni1j6BcPzzroObh8NEPhMV
+	UURUQYEW9ea1ktwz1ivYzU2LqzQyhIzCbu44lpuMtLANlBAQEJczODPggbdnz/pn
+	J33EjK1vf3sV4IxnHPyNg7ZWNO9ilXN+rdafgTe/AMzVRFA8Ym3jrfbGyFFAp8Yp
+	9+6EMCSVtdOcL+fCKZaqGxFmebX4iex6GU/1PXlR+7SIWYu6Bn+r9vbthlFdXRds
+	OYnsQehtSl+fUFGCTq/WSoZC40nCr2otBfg==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gbrq81g5s-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sunxi@lists.linux.dev>; Sat, 29 Aug 2026 19:41:36 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-52ff14b1c02so42826421cf.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 29 Aug 2026 12:41:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787928059; x=1788532859; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=bTIogw4TSRkuHDeXsegqU7KIhcr5PJJOjQw48d6uweM=;
-        b=iXIjeDI4xX2lg+oXJjc+IKs7n6dBC2ooo0BDD4Xz0ULi3Z/6aYvJU4jqOsOQMPsunN
-         ZEpyDBBeBmPQ+GPUFuujpzsGwHlEJqw6V45lKeDkjF3MR6T+8N8pJSXZFkiVYrWs3lfQ
-         FtyLo8kYBQW2v7HUJrdUWUJhhlsR+e+akde94B7jI+ZJDr2uMLr8SvIRrcxiS+dGm8y8
-         ppzX3BO8L7w3ftAnIAqIrEnsrOs7AdIk5cQqwRT86KQoDFQO5A+8qdbOSrHzTByElk8L
-         8e+PGwhNAnRgqVRqb5EIeX33A0ZtyZ6AoGkv30o46/3X2noH+pAcRZ8ul3TLbDgBXm7a
-         TFpw==
+        d=oss.qualcomm.com; s=google; t=1788032495; x=1788637295; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=uvvVmWWmWkOAQN9Xye2DpALciJSXKEk3Wdr0rRgOknU=;
+        b=RmvS2k0KjaoMMh9MmylURdQ+wy7bMvYnYPTC22NM5wTHMyjcoWWkziQScGiiIl2GoE
+         Tk+cbk/iAH9494JvmTFUJRX7uj8iEQNmTwR4UH5mFc+WlWrj0AYVe78fAqmtsMZjY5Rg
+         70jjBTQ7FrhJrmH8zzgZ7LYVH6snltXh5jQhjnfgKxn890KtEJEuGzvBf4vrhN4p3jbt
+         AIhL1IaqmvT/wnXOOMwNfjtvIBFhzy/i+61fkz8SvFa600jlJwn4Qv6/gb58YBFGBm3i
+         8/muqWswuRAApOS3NRPdrmFj/RqgsCDncQZcqpTu3bU4dkb8dNDb+xn7laG75r72YEQt
+         DKdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787928059; x=1788532859;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bTIogw4TSRkuHDeXsegqU7KIhcr5PJJOjQw48d6uweM=;
-        b=dol1jSqjiYVj0rVtBVowZbj0bHPgnd6k2X3EvQ8/6gQ9lqcXYObQv3nUDyjqAudCy8
-         9w1h7FAzlS3L4d6rm5Cfgc5Y2gstMajOijK+3r6LeFgoy6KPxnlK6MstCgRBvWM6jgG/
-         1lkkXhQsuY1f7ygCCNkbi8snRJB3MY7/rdCTwu4gARcRyoJvZPkYqnc2zaEmEOG2QHSV
-         7IXpTd2aRn+uANInRIfc4ComiSbvHvugPCH4teR0ebYoEtUolSNJvH5b9yrmyC7M92DU
-         lkdPox2ButaiwVb0qa2Z9AccSwVoRrDZLpuUV/0sWseGfEp7gIi/RxOTwYTSfKKP97EY
-         X7hg==
-X-Forwarded-Encrypted: i=1; AHgh+Rp2w4nnI4qh7o4/SCBJQGLb682LAAcS5W/sytElEioK4Gj8+QVuSAypyOWy0sxZMFQvH3SxHP5oQNT7WQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++n6fa4kYmSta50cdbGxQSaOQ47z6ZCOMNYXVWOw82j0kcb/ni03
-	K8NI0AOjt8uXZd6TM0foyts3td3A45c1bD9jny49BVDUeOxzuVXUKcCq
-X-Gm-Gg: AR+sD13Xlte78SU/E46VMw4kGjQ5BcI2gsxKsD4iDVwjhMqtsY/o5381VCcC7V/t6Ij
-	heZIT3t0uqbVjaHy0P16hVnF5rzRkYBQJZHvxHywY4gmqlmTPimwx6F5d/5PIZ1kWqYVqsn7t+M
-	LhDrvRRxKkApwUaXJn8Qbz5pqtLMBxuU4Hd0rtqGZKcg/pEuTA3N4NtCbcy4kQW25wVxQwH3vck
-	/pK8SN0+IfuAyTM/ARxhiUiCZnZr7diCViUMV6TaKKIOPvIA4wORxGD1170Jq5jSs8yVeZeIijt
-	VBZddRg9G8rbuZ+zYXZXYK4MJwc/xYZHcYqp/MLboM34wrelD/mPRk7lR+1r4ZuSoCrd1ThjjWh
-	wlsYfPJ3pSGyOe7SKShkrh61CZI1YKe8qLuxFoJtYcOsY0WQSuRBeMB4A11owU9lmhHqBd63xav
-	tqIfo3xyQGop64JnSxzrvuqiEbiQti/ASdFTrQg4B9YFr7RI9gVE+5kyFjBqttMeNuN8hmaTYAe
-	Q==
-X-Received: by 2002:a17:90b:5284:b0:38e:bfe:81e9 with SMTP id 98e67ed59e1d1-396d0e5f5ffmr15894627a91.1.1787928058655;
-        Fri, 28 Aug 2026 07:40:58 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3286f9e3cf8sm6759748eec.24.2026.08.28.07.40.57
+        d=1e100.net; s=20251104; t=1788032495; x=1788637295;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=uvvVmWWmWkOAQN9Xye2DpALciJSXKEk3Wdr0rRgOknU=;
+        b=V6Px4kjjToU4Ir9JZqRS6+/iNt9Bcp0u52hyLfsFr/SAHApwOKWQjoJxRP6+uyzzIW
+         XeaHKT54haAyHP+y/WfMywv8fgYK+MrWsrdjIqflN1YZtzVcp1x9Bb69AT1Mb2YXT+pm
+         HRZDVUm1NOzruUG/JmuSJfdfkNggnI5jx+3A9/AanPsA/ur1uGHKVa+mhn+WkA3qnPly
+         5vzCuZxp0IrvXls2g9NO/lcEZrp0NaZGVTunmdh914ockeZ5H80AA+1/mQ3MlYX1lhEj
+         cE+gpaUjfyTJ95pyc0vKgC1LWT/S+O4S44R+foianmhIUIajwlx9PX0yPJF+NRW62qQ6
+         hDkQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr2km1B6RlAg0IslcOYEL+ewdyeJM32sy5WeNANsCdBiguduyrYn7HUpr/VTn2hRwCEkuIwXCjHvlgpuA==@lists.linux.dev
+X-Gm-Message-State: AFuF++lhDr9gdFzljWw/bPdyf4wv+gB4s6urFQap1kFfHlJRcKrfYOr3
+	EXXMAGgSPWzneKmQsjSj+WB7wF3ri4JOrqZGqp3iYnj/QiHmc/g68uNDe+kMhpRuSjtPX6lEg35
+	SR9u+U2qxeRgC3YEwrShkK2s/ve30ypM8mcRnaBirep2v7c76RtdfaZBC5jZXYl37vA==
+X-Gm-Gg: AR+sD134MEmiTi/t+odmPbw7RnX6rra99FSzRGQzCYTyhNbm93ga31dFwr3ERPuhRdx
+	E1JD5jwijoNqoJzq42PdDsaAXPuTTODbdVQ65so1A0vntcIpPLl4WUoi3xkj+4GcEIUoPWhhrek
+	wjTA9npbl7KPJvQKyAFawPU8Q5SibFqBqYF85BPMedVlfvkY3/jNzrdNJIhuK4EN7Xg9z74x25l
+	bIRaY582eXYf9GKaEL1AoqW6xBKcFk29Bzg0fPJf+mh8hE3GNqyTVrqAcA1Z7SL4Uk60KfirOX3
+	KhW6yTTJ/NRtVkqoETQTCLiBzOybdUSxKc3DQCoHLRsG6e0YSe2Hy737kbgk2oZ05oyvweHN6Zn
+	VMi9mDlJ/Dmp6X7k=
+X-Received: by 2002:ac8:5cc7:0:b0:528:3b83:3483 with SMTP id d75a77b69052e-52fb94d4677mr210911431cf.23.1788032495577;
+        Sat, 29 Aug 2026 12:41:35 -0700 (PDT)
+X-Received: by 2002:ac8:5cc7:0:b0:528:3b83:3483 with SMTP id d75a77b69052e-52fb94d4677mr210911061cf.23.1788032495180;
+        Sat, 29 Aug 2026 12:41:35 -0700 (PDT)
+Received: from quoll ([178.197.219.214])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48435b024fbsm2499802f8f.29.2026.08.29.12.41.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 07:40:58 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 28 Aug 2026 07:40:56 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Carlo Caione <carlo.caione@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Wim Van Sebroeck <wim@iguana.be>, linux-watchdog@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] watchdog: sunxi_wdt: preserve boot-enabled watchdog
-Message-ID: <e1332541-1751-4a9f-92b6-60636ffa0a99@roeck-us.net>
-References: <20260827-submit-sunxi-wdt-boot-enabled-v1-v2-1-610d37dccc97@gmail.com>
+        Sat, 29 Aug 2026 12:41:34 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH] ARM: dts: allwinner: sun7i-a20: Replace spaces indentation with tabs
+Date: Sat, 29 Aug 2026 21:41:32 +0200
+Message-ID: <20260829194131.108039-2-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260827-submit-sunxi-wdt-boot-enabled-v1-v2-1-610d37dccc97@gmail.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=950; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=k8n/bi2g8bb5SMtULjvD127VMpit1jAkK54KyWSdN6Q=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBqkzXr8Tf8bT7OCyOkAuUb/kCNtsQh7oAUs4V8i
+ RtE3/I/EL6JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCapM16wAKCRDBN2bmhouD
+ 1wivEACM2xUyoCqIPlXoVuxlyn/QJ8FHgmm/6tDcsawf2Fro+zfY2Y5Y89LOQJgHY6a72n/xnjM
+ GGoOYSZWlWJgFRa64oN8BwBfmy8BFSyB2USpUX9Sa88PGWwIBjH38PhTuge0fIfpCfL5k8k+SLD
+ FuRz+nBWes8h7zDU0xpdV+QHLisd4U/ImjoJX4vUrY2UWNZnizuZMrJlhrrSsdL9zagFS7JnOuP
+ 57YB7SPsi6ECqgW0HIEWw7u7sH93bQsox8wp5BS+O/eQSAHMGclJ1iLiMgMAgC+hV7nehLSvJvW
+ MTu1ZUWE+mjB98z+QiJveQef/Hk8it7QZvjALMURpOc8ynbF/Ye4VpVAHlWP6Uhy4FONU4E+P5u
+ G0VZOkGNNdM6UqTwiajiMbmsD0twLMgPWmr/WzrWCtLAmUbXtCLtK1qWms8q+C94Wak+a0mBVRp
+ f15zFI2CB1VY8zsABi94X3USYoMPKiTDfrTZ1mFNEXyLJNVecleBVFyCNhmYSSpSmlLiu6afEm8
+ tA4r4umx2V0nG+RkO2Wz1yiivT8HdoSkMeQpfb4JZE+rUAD0Sm0FPaY8IFCFvjGQcNuxnPYCNXr
+ L7wE/I0NO3OIXPODIWa5bvsIduxiwsrg2xzuOMTEJUWPDHusoc6fhOluRDpn4V8NKptOZVuGylb THyxiCiWRXx2t9g==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: TJ-OrIM0qFiaxazzAefSfKnkXEPpXBTW
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI5MDE3MSBTYWx0ZWRfXyj40JR/X028z
+ hUcGjUK6PM2W0S98EHN4PeWh3iMzi6xqFYG9CgdfKu2ed3hohRUDYNLU9GjqlYFJZ3IzbeWg2e1
+ moWQvPxtNqt3I5jC9JRHFO9qi4o8QME=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI5MDE3MSBTYWx0ZWRfX/GMS4RaAA6a2
+ Vwzb9f7scn3aJfqz0nk8iIxLJrOQQcKy6jr/2JJl6cqtfYDE6sQsrnkIXZElEM6iAoHMO/KAw0u
+ 1d2q2h7eQ05OFdhVai12s2fmnrCIlpXrbRwga/hvpALLd2GFgjVPpoKMV7pjvZ92yDVdhWKBwRI
+ iv8GbBl2RsSeisT1nEPvNhVjgfUaMLCaTq7Yyj3j6hcIg7neBcH5kb13qVUn1jshf5pI5vnqnkL
+ Ap6Ogw4OsTW+469bSDwMPZrzrjQ7cIPywEiIKEIJ7AsEXlahQV0+yCIPPOJjuTbEBCQazqLgr8c
+ Dumbon7SfDSxlCZGDnMWxkw1Tph9ej2wpW3uUFZiSmxuCNvKL4tCO1MBKoCktLrl85k6OTKH1Z4
+ jnFV6Fn72U1rjnCS0yMr9dLPeMj2U8KPBO4AaVGynDCgfcZGOK+ga7gfZmK+Mbr7RsOg3FdFmOa
+ dZKwO9zgk350z4VDcNw==
+X-Authority-Analysis: v=2.4 cv=ZOPnX37b c=1 sm=1 tr=0 ts=6a9335f0 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=+bKQE0WJfmhK2875HamI0Q==:17
+ a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8
+ a=JjGN2f0IYHD0VWcqIQwA:9 a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-ORIG-GUID: TJ-OrIM0qFiaxazzAefSfKnkXEPpXBTW
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-29_05,2026-08-27_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 adultscore=0 bulkscore=0 impostorscore=0 phishscore=0
+ clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608290171
 
-On Thu, Aug 27, 2026 at 10:42:31PM -0600, James Hilliard wrote:
-> sunxi_wdt_probe() unconditionally stops the watchdog even when firmware
-> left it running. This opens an unprotected interval during boot and
-> prevents CONFIG_WATCHDOG_HANDLE_BOOT_ENABLED from taking over the active
-> watchdog.
-> 
-> Detect an enabled watchdog and decode its programmed interval. Preserve
-> representable timeouts, and round the 0.5-second interval up to the
-> minimum representable one-second timeout. Use the configured timeout for
-> reserved interval encodings. Set the Linux reset mode and ping the
-> watchdog without clearing its enable bit, then mark it hardware-running
-> before registration so the watchdog core services it until userspace
-> takes control. Leave disabled watchdogs untouched.
-> 
-> Fixes: d00680ed0026 ("watchdog: sunxi: New watchdog driver for Allwinner A10/A13")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+Replace excessive spaces for aligning indentation into tabs.  This will
+be reported by dt-style-check ("[mixed-indent-chars] too many space
+characters in indent (more than 7)").
 
-Applied.
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+---
+ arch/arm/boot/dts/allwinner/sun7i-a20.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-Guenter
+diff --git a/arch/arm/boot/dts/allwinner/sun7i-a20.dtsi b/arch/arm/boot/dts/allwinner/sun7i-a20.dtsi
+index 5f44f09c5545..adb9ee57ac11 100644
+--- a/arch/arm/boot/dts/allwinner/sun7i-a20.dtsi
++++ b/arch/arm/boot/dts/allwinner/sun7i-a20.dtsi
+@@ -873,7 +873,7 @@ gmac_mii_pins: gmac-mii-pins {
+ 			gmac_rgmii_pins: gmac-rgmii-pins {
+ 				pins = "PA0", "PA1", "PA2",
+ 				       "PA3", "PA4", "PA5", "PA6",
+-				        "PA7", "PA8", "PA10",
++				       "PA7", "PA8", "PA10",
+ 				       "PA11", "PA12", "PA13",
+ 				       "PA15", "PA16";
+ 				function = "gmac";
+-- 
+2.53.0
+
