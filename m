@@ -1,163 +1,166 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99BA236606A
-	for <linux-sunxi@lists.linux.dev>; Sat, 29 Aug 2026 19:41:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B1442E8FA;
+	Mon, 31 Aug 2026 13:36:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788032499; cv=none; b=tRymu2yB5CM0eawDzUUxdEG4mT0sFTu+7sQE+TRRQ6ZHR5eBYOQpBSi5qmfxBnjXzI8TW/6jonCnDiDBU3SnwCWFYIBp0Mfj4y0CTNTZT6UpxV1d1cXj3Uo113SWC6m93qAJvtatjibujDrLvTqKC1teUrgn8rHJ1R6HHzBJEHc=
+	t=1788183395; cv=none; b=R44sq6RE59GlOGY0yEbw2RP94GYrsh4/gjQ1weNvSQUgdCB5sZv58xGKvM2c8CV5mu+qNY/iNDdRW4r1gE5wEU3ZDTzHOpL0CLEo/ZM6cEEBhqEKPSVjYOnGWCMWLNJeZpodyVDdEu11MbW0DiBph1XLtTFQ7jv7obp8SU5V9PI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788032499; c=relaxed/simple;
-	bh=k8n/bi2g8bb5SMtULjvD127VMpit1jAkK54KyWSdN6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S1hz07LimmLN0iLLTxM48SBlbymZ8PMEVH/vzCflp5zAWlq6ZWcszFeAYVMiIBgmIu1ttHVMQY2chYHnxXCoMo8HAkvfZngVdhY5eK1OELoUMH5SO0FZqAzXfSz4ID3k/p1c3XPSJmu4gmkHUVqHLCCXdXo8nPU0qFJfgwLFxUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=W1fHASae; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=RmvS2k0K; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1788183395; c=relaxed/simple;
+	bh=3d2wE4iPk/eSRIKBUJMr1Vert2gthTCrW2UXhnx95p4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dD0DD9xQiC3uzOWpMNluZckbv9WDXbuDq2jfiYTG0ppx1FHM/top8kJx2V0JsskKvmdBPqC1Iw3fx4if4/cSGyKWzrwfgOgViuaHmQhvkgIenzsLTJHyqxS2vSHJlmWsyE6MgN+/TzsZJ9jFRNaBhtNUMR9I0UuSRhTzsDITxEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fa7a1Q3Y; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="W1fHASae";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="RmvS2k0K"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67TGxOQa1742845
-	for <linux-sunxi@lists.linux.dev>; Sat, 29 Aug 2026 19:41:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=uvvVmWWmWkOAQN9Xye2DpALciJSXKEk3Wdr
-	0rRgOknU=; b=W1fHASaeVreLYR8e0aAhG+oZ4kbfH0cC/6kqLiOExVdlkiKN/tw
-	5UW+9KESK1c7B+YpLNybQ6m4/pDM1ZWhNAw7WVBat6Ni1j6BcPzzroObh8NEPhMV
-	UURUQYEW9ea1ktwz1ivYzU2LqzQyhIzCbu44lpuMtLANlBAQEJczODPggbdnz/pn
-	J33EjK1vf3sV4IxnHPyNg7ZWNO9ilXN+rdafgTe/AMzVRFA8Ym3jrfbGyFFAp8Yp
-	9+6EMCSVtdOcL+fCKZaqGxFmebX4iex6GU/1PXlR+7SIWYu6Bn+r9vbthlFdXRds
-	OYnsQehtSl+fUFGCTq/WSoZC40nCr2otBfg==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gbrq81g5s-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sunxi@lists.linux.dev>; Sat, 29 Aug 2026 19:41:36 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-52ff14b1c02so42826421cf.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 29 Aug 2026 12:41:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1788032495; x=1788637295; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uvvVmWWmWkOAQN9Xye2DpALciJSXKEk3Wdr0rRgOknU=;
-        b=RmvS2k0KjaoMMh9MmylURdQ+wy7bMvYnYPTC22NM5wTHMyjcoWWkziQScGiiIl2GoE
-         Tk+cbk/iAH9494JvmTFUJRX7uj8iEQNmTwR4UH5mFc+WlWrj0AYVe78fAqmtsMZjY5Rg
-         70jjBTQ7FrhJrmH8zzgZ7LYVH6snltXh5jQhjnfgKxn890KtEJEuGzvBf4vrhN4p3jbt
-         AIhL1IaqmvT/wnXOOMwNfjtvIBFhzy/i+61fkz8SvFa600jlJwn4Qv6/gb58YBFGBm3i
-         8/muqWswuRAApOS3NRPdrmFj/RqgsCDncQZcqpTu3bU4dkb8dNDb+xn7laG75r72YEQt
-         DKdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788032495; x=1788637295;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uvvVmWWmWkOAQN9Xye2DpALciJSXKEk3Wdr0rRgOknU=;
-        b=V6Px4kjjToU4Ir9JZqRS6+/iNt9Bcp0u52hyLfsFr/SAHApwOKWQjoJxRP6+uyzzIW
-         XeaHKT54haAyHP+y/WfMywv8fgYK+MrWsrdjIqflN1YZtzVcp1x9Bb69AT1Mb2YXT+pm
-         HRZDVUm1NOzruUG/JmuSJfdfkNggnI5jx+3A9/AanPsA/ur1uGHKVa+mhn+WkA3qnPly
-         5vzCuZxp0IrvXls2g9NO/lcEZrp0NaZGVTunmdh914ockeZ5H80AA+1/mQ3MlYX1lhEj
-         cE+gpaUjfyTJ95pyc0vKgC1LWT/S+O4S44R+foianmhIUIajwlx9PX0yPJF+NRW62qQ6
-         hDkQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rr2km1B6RlAg0IslcOYEL+ewdyeJM32sy5WeNANsCdBiguduyrYn7HUpr/VTn2hRwCEkuIwXCjHvlgpuA==@lists.linux.dev
-X-Gm-Message-State: AFuF++lhDr9gdFzljWw/bPdyf4wv+gB4s6urFQap1kFfHlJRcKrfYOr3
-	EXXMAGgSPWzneKmQsjSj+WB7wF3ri4JOrqZGqp3iYnj/QiHmc/g68uNDe+kMhpRuSjtPX6lEg35
-	SR9u+U2qxeRgC3YEwrShkK2s/ve30ypM8mcRnaBirep2v7c76RtdfaZBC5jZXYl37vA==
-X-Gm-Gg: AR+sD134MEmiTi/t+odmPbw7RnX6rra99FSzRGQzCYTyhNbm93ga31dFwr3ERPuhRdx
-	E1JD5jwijoNqoJzq42PdDsaAXPuTTODbdVQ65so1A0vntcIpPLl4WUoi3xkj+4GcEIUoPWhhrek
-	wjTA9npbl7KPJvQKyAFawPU8Q5SibFqBqYF85BPMedVlfvkY3/jNzrdNJIhuK4EN7Xg9z74x25l
-	bIRaY582eXYf9GKaEL1AoqW6xBKcFk29Bzg0fPJf+mh8hE3GNqyTVrqAcA1Z7SL4Uk60KfirOX3
-	KhW6yTTJ/NRtVkqoETQTCLiBzOybdUSxKc3DQCoHLRsG6e0YSe2Hy737kbgk2oZ05oyvweHN6Zn
-	VMi9mDlJ/Dmp6X7k=
-X-Received: by 2002:ac8:5cc7:0:b0:528:3b83:3483 with SMTP id d75a77b69052e-52fb94d4677mr210911431cf.23.1788032495577;
-        Sat, 29 Aug 2026 12:41:35 -0700 (PDT)
-X-Received: by 2002:ac8:5cc7:0:b0:528:3b83:3483 with SMTP id d75a77b69052e-52fb94d4677mr210911061cf.23.1788032495180;
-        Sat, 29 Aug 2026 12:41:35 -0700 (PDT)
-Received: from quoll ([178.197.219.214])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48435b024fbsm2499802f8f.29.2026.08.29.12.41.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Aug 2026 12:41:34 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: [PATCH] ARM: dts: allwinner: sun7i-a20: Replace spaces indentation with tabs
-Date: Sat, 29 Aug 2026 21:41:32 +0200
-Message-ID: <20260829194131.108039-2-krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fa7a1Q3Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 016D61F000E9;
+	Mon, 31 Aug 2026 13:36:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788183394;
+	bh=3d2wE4iPk/eSRIKBUJMr1Vert2gthTCrW2UXhnx95p4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Fa7a1Q3YoUsfdoMvZbQAiBxdeh/TNaAy2cWmN+gHJtD0G5fAKj07cg5+8PsqlLHGz
+	 A1PAQuTvFk3cBiBuBnU9BX06M7lLnfqiM9pOLnHs/A2YOWF6hTp4V8VTsE2c/GmSFo
+	 URF1s+nDBwrxxWO45AdqLpYaq6wzMJThp7iMOVVQEGXgXFPN8CtiP/WnqMUZqdnyKW
+	 EQDpd7/10qJ2kUHSiXAJKr/GRWQLdNSiDsyIUkC44uOO8x+JESPpssnyKwOnT03CZH
+	 1TMqMRafZA0VRWtpwFEEpq9yiXTseAFhl04jX5wKhiXF3DXtIzYeLnD80tcC/prJs1
+	 YmW1jKy9yiPhA==
+Date: Mon, 31 Aug 2026 15:36:29 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, Janne Grunau <j@jannau.net>, 
+	Sasha Finkelstein <k@chaosmail.tech>, asahi@lists.linux.dev, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	amd-gfx@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>, 
+	Russell King <linux@armlinux.org.uk>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Inki Dae <inki.dae@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Peter Griffin <peter.griffin@linaro.org>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, linux-samsung-soc@vger.kernel.org, 
+	Alison Wang <alison.wang@nxp.com>, Stefan Agner <stefan@agner.ch>, 
+	Ruben Wauters <rubenru09@aol.com>, Tian Tao <tiantao6@hisilicon.com>, 
+	Xinwei Kong <kong.kongxinwei@hisilicon.com>, Yongbang Shi <shiyongbang@huawei.com>, 
+	John Stultz <jstultz@google.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Xinliang Liu <xinliang.liu@linaro.org>, Yongqin Liu <yongqin.liu@linaro.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Saurabh Sengar <ssengar@linux.microsoft.com>, linux-hyperv@vger.kernel.org, Fabio Estevam <festevam@gmail.com>, 
+	Frank Li <Frank.Li@nxp.com>, Liu Ying <victor.liu@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, imx@lists.linux.dev, 
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, Lucas Stach <l.stach@pengutronix.de>, 
+	Paul Cercueil <paul@crapouillou.net>, linux-mips@vger.kernel.org, 
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, linux-amlogic@lists.infradead.org, 
+	Abhinav Kumar <abhinav.kumar@linux.dev>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Jessica Zhang <jesszhan0024@gmail.com>, Marijn Suijten <marijn.suijten@somainline.org>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org, 
+	linux-arm-msm@vger.kernel.org, Marek Vasut <marex@denx.de>, Dave Airlie <airlied@redhat.com>, 
+	Gerd Hoffmann <kraxel@redhat.com>, spice-devel@lists.freedesktop.org, 
+	virtualization@lists.linux.dev, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	linux-renesas-soc@vger.kernel.org, Marcus Folkesson <marcus.folkesson@gmail.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+	Orson Zhai <orsonzhai@gmail.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	Raphael Gallais-Pou <rgallaispou@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Yannick Fertre <yannick.fertre@foss.st.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	linux-sunxi@lists.linux.dev, Jyri Sarha <jyri.sarha@iki.fi>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Aditya Garg <gargaditya08@proton.me>, 
+	Aun-Ali Zaidi <admin@kodeit.net>, LiangCheng Wang <zaq14760@gmail.com>, 
+	Alex Lanzano <lanzano.alex@gmail.com>, Hans de Goede <hansg@kernel.org>, 
+	Icenowy Zheng <zhengxingda@iscas.ac.cn>, Chia-I Wu <olvaffe@gmail.com>, 
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>, Gurchetan Singh <gurchetansingh@chromium.org>, 
+	Michal Simek <michal.simek@amd.com>, Javier Martinez Canillas <javierm@redhat.com>, 
+	Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+	Rodrigo Siqueira <siqueira@igalia.com>, Jocelyn Falempe <jfalempe@redhat.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Dharma Balasubiramani <dharma.b@microchip.com>, Manikandan Muralidharan <manikandan.m@microchip.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Huacai Chen <chenhuacai@kernel.org>, Jianmin Lv <lvjianmin@loongson.cn>, 
+	Mingcong Bai <jeffbai@aosc.io>, Qianhai Wu <wuqianhai@loongson.cn>, 
+	Xi Ruoyao <xry111@xry111.site>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Lyude Paul <lyude@redhat.com>, nouveau@lists.freedesktop.org, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Magnus Damm <magnus.damm@gmail.com>, Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
+	Andy Yan <andy.yan@rock-chips.com>, Sandy Huang <hjc@rock-chips.com>, 
+	linux-rockchip@lists.infradead.org, Iker Pedrosa <ikerpedrosam@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Thierry Reding <thierry.reding@kernel.org>, linux-tegra@vger.kernel.org, 
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, Haneen Mohammed <hamohammed.sa@gmail.com>, 
+	Louis Chauvet <louis.chauvet@bootlin.com>, Melissa Wen <melissa.srw@gmail.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Zack Rusin <zack.rusin@broadcom.com>
+Subject: Re: [PATCH 00/70] drm/crtc: Convert all drivers to
+ atomic_create_state and remove reset
+Message-ID: <apWDRq8YOTwvGuSf@houat>
+References: <20260821-drm-no-more-crtc-reset-v1-0-fb793475c05a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=950; i=krzysztof.kozlowski@oss.qualcomm.com;
- h=from:subject; bh=k8n/bi2g8bb5SMtULjvD127VMpit1jAkK54KyWSdN6Q=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBqkzXr8Tf8bT7OCyOkAuUb/kCNtsQh7oAUs4V8i
- RtE3/I/EL6JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCapM16wAKCRDBN2bmhouD
- 1wivEACM2xUyoCqIPlXoVuxlyn/QJ8FHgmm/6tDcsawf2Fro+zfY2Y5Y89LOQJgHY6a72n/xnjM
- GGoOYSZWlWJgFRa64oN8BwBfmy8BFSyB2USpUX9Sa88PGWwIBjH38PhTuge0fIfpCfL5k8k+SLD
- FuRz+nBWes8h7zDU0xpdV+QHLisd4U/ImjoJX4vUrY2UWNZnizuZMrJlhrrSsdL9zagFS7JnOuP
- 57YB7SPsi6ECqgW0HIEWw7u7sH93bQsox8wp5BS+O/eQSAHMGclJ1iLiMgMAgC+hV7nehLSvJvW
- MTu1ZUWE+mjB98z+QiJveQef/Hk8it7QZvjALMURpOc8ynbF/Ye4VpVAHlWP6Uhy4FONU4E+P5u
- G0VZOkGNNdM6UqTwiajiMbmsD0twLMgPWmr/WzrWCtLAmUbXtCLtK1qWms8q+C94Wak+a0mBVRp
- f15zFI2CB1VY8zsABi94X3USYoMPKiTDfrTZ1mFNEXyLJNVecleBVFyCNhmYSSpSmlLiu6afEm8
- tA4r4umx2V0nG+RkO2Wz1yiivT8HdoSkMeQpfb4JZE+rUAD0Sm0FPaY8IFCFvjGQcNuxnPYCNXr
- L7wE/I0NO3OIXPODIWa5bvsIduxiwsrg2xzuOMTEJUWPDHusoc6fhOluRDpn4V8NKptOZVuGylb THyxiCiWRXx2t9g==
-X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: TJ-OrIM0qFiaxazzAefSfKnkXEPpXBTW
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI5MDE3MSBTYWx0ZWRfXyj40JR/X028z
- hUcGjUK6PM2W0S98EHN4PeWh3iMzi6xqFYG9CgdfKu2ed3hohRUDYNLU9GjqlYFJZ3IzbeWg2e1
- moWQvPxtNqt3I5jC9JRHFO9qi4o8QME=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI5MDE3MSBTYWx0ZWRfX/GMS4RaAA6a2
- Vwzb9f7scn3aJfqz0nk8iIxLJrOQQcKy6jr/2JJl6cqtfYDE6sQsrnkIXZElEM6iAoHMO/KAw0u
- 1d2q2h7eQ05OFdhVai12s2fmnrCIlpXrbRwga/hvpALLd2GFgjVPpoKMV7pjvZ92yDVdhWKBwRI
- iv8GbBl2RsSeisT1nEPvNhVjgfUaMLCaTq7Yyj3j6hcIg7neBcH5kb13qVUn1jshf5pI5vnqnkL
- Ap6Ogw4OsTW+469bSDwMPZrzrjQ7cIPywEiIKEIJ7AsEXlahQV0+yCIPPOJjuTbEBCQazqLgr8c
- Dumbon7SfDSxlCZGDnMWxkw1Tph9ej2wpW3uUFZiSmxuCNvKL4tCO1MBKoCktLrl85k6OTKH1Z4
- jnFV6Fn72U1rjnCS0yMr9dLPeMj2U8KPBO4AaVGynDCgfcZGOK+ga7gfZmK+Mbr7RsOg3FdFmOa
- dZKwO9zgk350z4VDcNw==
-X-Authority-Analysis: v=2.4 cv=ZOPnX37b c=1 sm=1 tr=0 ts=6a9335f0 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=+bKQE0WJfmhK2875HamI0Q==:17
- a=Sv0fKeRqtYgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8
- a=JjGN2f0IYHD0VWcqIQwA:9 a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-ORIG-GUID: TJ-OrIM0qFiaxazzAefSfKnkXEPpXBTW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-29_05,2026-08-27_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0
- priorityscore=1501 adultscore=0 bulkscore=0 impostorscore=0 phishscore=0
- clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608290171
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="eainbiqt42xdkeio"
+Content-Disposition: inline
+In-Reply-To: <20260821-drm-no-more-crtc-reset-v1-0-fb793475c05a@kernel.org>
 
-Replace excessive spaces for aligning indentation into tabs.  This will
-be reported by dt-style-check ("[mixed-indent-chars] too many space
-characters in indent (more than 7)").
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
----
- arch/arm/boot/dts/allwinner/sun7i-a20.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--eainbiqt42xdkeio
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 00/70] drm/crtc: Convert all drivers to
+ atomic_create_state and remove reset
+MIME-Version: 1.0
 
-diff --git a/arch/arm/boot/dts/allwinner/sun7i-a20.dtsi b/arch/arm/boot/dts/allwinner/sun7i-a20.dtsi
-index 5f44f09c5545..adb9ee57ac11 100644
---- a/arch/arm/boot/dts/allwinner/sun7i-a20.dtsi
-+++ b/arch/arm/boot/dts/allwinner/sun7i-a20.dtsi
-@@ -873,7 +873,7 @@ gmac_mii_pins: gmac-mii-pins {
- 			gmac_rgmii_pins: gmac-rgmii-pins {
- 				pins = "PA0", "PA1", "PA2",
- 				       "PA3", "PA4", "PA5", "PA6",
--				        "PA7", "PA8", "PA10",
-+				       "PA7", "PA8", "PA10",
- 				       "PA11", "PA12", "PA13",
- 				       "PA15", "PA16";
- 				function = "gmac";
--- 
-2.53.0
+On Fri, Aug 21, 2026 at 04:38:36PM +0200, Maxime Ripard wrote:
+> This is a follow-up to the plane reset removal series, and part of a
+> larger effort to remove the reset hook from all KMS objects.
+>=20
+> The CRTC reset hook is overloaded: it is called both at probe time to
+> create the initial software state and during suspend/resume to reset
+> hardware and software state. These two roles have different
+> requirements, and the reset hook is not fallible, making error
+> handling difficult for the initial state allocation path.
+>=20
+> While reset has the semantics to reset both the software and hardware
+> state, the vast majority of implementations and all the helpers only
+> reset the software state, making them equivalent to
+> atomic_create_state in practice. The atomic_create_state hook makes
+> this explicit: it only allocates and initializes a pristine state
+> without any side effect, and returns the state pointer or an ERR_PTR
+> on failure.
+>=20
+> This series converts all CRTC drivers tree-wide from the reset hook to
+> atomic_create_state, then removes the reset hook from struct
+> drm_crtc_funcs entirely. Two drivers (tilcdc and loongson) had actual
+> hardware reset logic mixed into their reset hook; those are moved to
+> CRTC creation instead. The conversions were done using a combination of
+> Coccinelle semantic patches and manual adjustments.
+>=20
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
+
+Applied patches 1,3-14,16-28,31-41,43,45-49,52-62,64-68 to drm-misc-next
+
+Maxime
+
+--eainbiqt42xdkeio
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCapWDXQAKCRAnX84Zoj2+
+dtnDAYDvbcHtYOX7CuJCyNGSb99Ed+Livj62dMg0nsp864oeIMVzqxGBJIKgPp8Z
+RCHnUyUBfAxvXYJDr3LaH94QifMoTvJPOgPapZRwWXp6VAygmOgZF8WFxC9cEp2h
+0/QjaJymHA==
+=mCUP
+-----END PGP SIGNATURE-----
+
+--eainbiqt42xdkeio--
