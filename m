@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954324570C3
-	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 20:03:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F4C444A41D
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 20:05:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788293017; cv=none; b=eoioasW/lzTR+aM0T95Km46+hV8lM/lsKRX0enqsmBKM3hgt9DEKnAVK1DVwKp5yT9rWRFWVvxvwk2N/faAwfhznHc3XWPRifx0fQpmGlMs6vahRFZYpNTgbYfuBSUo5695iWndNsJSOivpUIZqqi2lPkWBjUR8Zc6E3cIDVBoM=
+	t=1788293135; cv=none; b=gjiF0b3J5WN4xJ52OFg9bzT3u0cU4yNPZZ2wNFw2mlkIPiLJqGaqWOyomcjP4aAYyJG+Muk7XJQFc75Eb846/oEEaglPhmlgObld76AkWGg5w8XleQhTwOCRBakKes/vIb8d3Y9UNb1BbhF5peEbuBwhT3XzC5NiwHYOt5v9hyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788293017; c=relaxed/simple;
-	bh=leiUNKYBPbis6v/tLNcSBEl3kG3/E8Wv4Ty7009v228=;
+	s=arc-20240116; t=1788293135; c=relaxed/simple;
+	bh=sE/L2hTmxiyYvxmgn0oPCq/C77OcSaFeIs/TMjMCgMU=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=o6iwBG2hxFeLFT8TLl+LfOpCcNiKkm0rxCpdUpvfN2LBSGtA0Y11SagpoBN58P3DBVy8OVQ2yc/yyEor/L4WJBrXLney0lq3s/YgDpLaVZYkT/sgp6ZO+KtTCMcljR3Wkzl0jIjEb1VPeJSGuybMAwbplXj6IF4nK9JXmY1y+oQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MZVzWoKz; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=krlSK9xj9O8p0fh7JI7DFpSbJ6LdAupNDBr6csXMtSoIAg7BtKrzDEC6aBjATEkCnWhMFkGTNwotHW3cdD+cKtg/ic+E48rWYmBSu5Ewr2GwUNa/BYPOrdl9gnGnPgskQSiXMLVjdDKabezZw4mLjS2LS8QuzA3SJdJmi0H4ngs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h4wy0lSx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MZVzWoKz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE7101F000E9;
-	Tue,  1 Sep 2026 20:03:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h4wy0lSx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9081B1F000E9;
+	Tue,  1 Sep 2026 20:05:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788293016;
-	bh=XSbxaalQOrhIJoAwc2588+xTulo9F1QIUWiQ3fjk/Fg=;
+	s=k20260515; t=1788293133;
+	bh=SUKt+SUuV54NYqXuS4/Co5XK8uh/SiR7pbQUU7xi8pI=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=MZVzWoKzT1lwJqnf6LU1NeZ3igmQrfO8kM2Zb23ISrpohZDStaViVn/QaE/yMjwfg
-	 yg+zxYFZX1fDXwKlU+6hu0o8XVYFj0cTjxFnzwZ9RBGFBoULF189VkQSE4otI1Rylj
-	 DyBGk8EpwzVw4xdvZeTMMUKaTTpyCW9jwfVHef2qqSC8QTKciTgsOS4Y1OHY+mwvuu
-	 HryuPMheQjX/bT1P0vFpDwqJCovZcmX3pjwAX416s5R24kj6kLl57dHUWtB02x9C9B
-	 yqRCEY0485GpcAJhgOWHxxL2dCXUVgAHn8TNllz2gjTDSANG3Udy0VggP24tnJjWBP
-	 /winTENFaBVAQ==
+	b=h4wy0lSxpuKS6oNCixPc8hHzYUqkPgzW4woF7/KioH1vTBIAguavh9xi6N/Q3DNOJ
+	 /HVwFhGnI9M9q44sCMn8yquHe1y3rTS+XKL3bU9goymTRuKreAsnzIxhBj8FFBwS2Z
+	 +lWfLI9IjQBH7Is9reo9bYXHfdp1P0sU2VErzPZVL1niV3cBoxffirD2EcaJN0WuEn
+	 cefqIpnY9GcQLLAHmjY8DUP6f1Y8CJIUSyF8yx/YYGUabcWTUAza9+MojSNXO/dOUc
+	 pb9fMw8PNxgfs7/fvLfrQuwaNBwNwoTXenh1kiztMrmmnIrOEzmFF0xK7GrOkQYzyH
+	 GxQcqHUaNJbfg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v11 39/74] drm/rockchip: dw_hdmi_qp: Control the HPD IRQ
- line via the bridge HPD ops
+Subject: Re: [PATCH v11 40/74] drm/rockchip: dw_hdmi_qp: Use
+ dw_hdmi_qp_hpd_notify() for HPD reports
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
 Cc: linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org
-In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-39-bc12954a0688@collabora.com>
+In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-40-bc12954a0688@collabora.com>
 References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
- <20260901-dw-hdmi-qp-scramb-v11-39-bc12954a0688@collabora.com>
+ <20260901-dw-hdmi-qp-scramb-v11-40-bc12954a0688@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 01 Sep 2026 20:03:34 +0000
-Message-Id: <20260901200335.EE7101F000E9@smtp.kernel.org>
+Date: Tue, 01 Sep 2026 20:05:33 +0000
+Message-Id: <20260901200533.9081B1F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -49,69 +49,82 @@ Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
 
 Pre-existing issues:
-- [High] devm_request_threaded_irq() is improperly used in a component bind=
-() callback, causing resource leaks on unbind() and -EBUSY failures on re-b=
-ind.
+- [High] Lifetime mismatch between drmm_ allocated state and devm_ managed =
+resources causes Use-After-Free and resource leaks.
 --
 
-commit 227c25b0617d912242b79d253aafb0a1dcfaa430
+commit 4f79590505cad08e229d9cf38e2f40905ce2991c
 Author: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Subject: drm/rockchip: dw_hdmi_qp: Control the HPD IRQ line via the bridge =
-HPD ops
 
-The commit changes the HPD IRQ to be requested with IRQF_NO_AUTOEN and mana=
-ges
-its state explicitly through the bridge HPD ops. It also removes the IRQF_S=
-HARED
-flag since there are no other users of this IRQ.
+drm/rockchip: dw_hdmi_qp: Use dw_hdmi_qp_hpd_notify() for HPD reports
+   =20
+Notify only the affected connector instead of polling all of them, and
+ensure .detect_ctx() runs on reconnect to recover SCDC state.
 
 > diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu=
 /drm/rockchip/dw_hdmi_qp-rockchip.c
-> index ecf12403101da..1c547016ee009 100644
+> index 1c547016ee009..f2a1ea8dfefa5 100644
 > --- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
 > +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
 [ ... ]
-> @@ -688,14 +709,14 @@ static int dw_hdmi_qp_rockchip_bind(struct device *=
-dev, struct device *master,
->  	if (plat_data.cec_irq < 0)
->  		return plat_data.cec_irq;
+> @@ -398,14 +397,8 @@ static void dw_hdmi_qp_rk3588_hpd_work(struct work_s=
+truct *work)
+>  	struct rockchip_hdmi_qp *hdmi =3D container_of(work,
+>  						     struct rockchip_hdmi_qp,
+>  						     hpd_work.work);
+> -	struct drm_device *drm =3D hdmi->encoder.encoder.dev;
+> -	bool changed;
 > =20
-> -	irq =3D platform_get_irq_byname(pdev, "hpd");
-> -	if (irq < 0)
-> -		return irq;
-> +	hdmi->hpd_irq =3D platform_get_irq_byname(pdev, "hpd");
-> +	if (hdmi->hpd_irq < 0)
-> +		return hdmi->hpd_irq;
-> =20
-> -	ret =3D devm_request_threaded_irq(dev, irq,
-> +	ret =3D devm_request_threaded_irq(dev, hdmi->hpd_irq,
->  					cfg->ctrl_ops->hardirq_callback,
->  					cfg->ctrl_ops->irq_callback,
-> -					IRQF_SHARED, "dw-hdmi-qp-hpd",
-> +					IRQF_NO_AUTOEN, "dw-hdmi-qp-hpd",
->  					hdmi);
->  	if (ret)
->  		return ret;
+> -	if (drm) {
+> -		changed =3D drm_helper_hpd_irq_event(drm);
+> -		if (changed)
+> -			dev_dbg(hdmi->dev, "connector status changed\n");
+> -	}
+> +	dw_hdmi_qp_hpd_notify(hdmi->hdmi);
+>  }
 
 [Severity: High]
-This isn't a bug introduced by this patch, but dropping the IRQF_SHARED flag
-here exposes a pre-existing resource leak as a hard failure during re-bind.
+This is a pre-existing issue, but can the hpd_work or IRQ handler outlive t=
+he
+hdmi structure, leading to a use-after-free here?
 
-Because devm_request_threaded_irq() is used in the component bind() callback
-(dw_hdmi_qp_rockchip_bind()), the IRQ allocation is tied to the platform
-device, not the component lifecycle. When the component is unbound (e.g., v=
-ia
-sysfs or DRM master unbind), the IRQ is not freed.
+The hdmi structure is allocated with DRM device lifetime in
+dw_hdmi_qp_rockchip_bind():
 
-Previously, with IRQF_SHARED, a subsequent re-bind would succeed despite
-leaking another registration. Now that IRQF_SHARED is removed, if a user
-unbinds and then re-binds the component, won't devm_request_threaded_irq()
-fail with -EBUSY, breaking the display driver until a full module reload?
+	hdmi =3D drmm_kzalloc(drm, sizeof(*hdmi), GFP_KERNEL);
 
-Could this be fixed by using request_threaded_irq() and explicitly freeing =
-it
-in the component unbind() callback?
+However, the IRQ is registered with platform device lifetime:
+
+	ret =3D devm_request_threaded_irq(dev, hdmi->hpd_irq,
+					cfg->ctrl_ops->hardirq_callback,
+					cfg->ctrl_ops->irq_callback,
+					IRQF_NO_AUTOEN, "dw-hdmi-qp-hpd",
+					hdmi);
+
+During a component unbind (e.g. via sysfs or EPROBE_DEFER),
+dw_hdmi_qp_rockchip_unbind() does not explicitly disable the IRQ or unregis=
+ter
+the bridge:
+
+static void dw_hdmi_qp_rockchip_unbind(struct device *dev,
+				       struct device *master,
+				       void *data)
+{
+	struct rockchip_hdmi_qp *hdmi =3D dev_get_drvdata(dev);
+
+	dev_set_drvdata(dev, NULL);
+
+	cancel_delayed_work_sync(&hdmi->hpd_work);
+}
+
+If the DRM device is freed, the hdmi structure is also freed. But because d=
+evm_
+resources are tied to the platform device (which isn't removed during a
+component unbind), the IRQ remains active.
+
+If a hotplug event fires afterwards, won't it dereference the freed hdmi
+pointer and cause a panic?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260901-dw-hdmi-qp=
--scramb-v11-0-bc12954a0688@collabora.com?part=3D39
+-scramb-v11-0-bc12954a0688@collabora.com?part=3D40
