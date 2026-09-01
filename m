@@ -1,281 +1,113 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F364AA01F
-	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 18:51:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC4A20D4F0
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 19:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788288703; cv=none; b=o/dJgavJvUfy3GndROYekFd+YekJ+GVHgR6ZmbY64iW+q+TrepWZalqTqQ+jQoitStjS8xYMa9C6u2wPePViGhppB6KGRGniypmK3a/yY22U5kStukfj3QoLgE/NIsQjMytb3ddodEkQpt0rXV4uzsb93G8vI1jhs4nmbT1eKvE=
+	t=1788289642; cv=none; b=udOdsxUwmQsLAfyxWvfN2fvFp2uuLBFHacqhvAC0iUljji15Sl4InOi99jCS98nAhOPeeBhCTH2X1C782Itt2I9Kf9+wKoi3lWhHJinEXA2uBAGkBr1dV+v5qIKKm/Lul4svuobGMudIhqeeDfQjIi9YS+pazrYTGZVs/zeS1eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788288703; c=relaxed/simple;
-	bh=cihigF4VnR53Ld2/oM7OfeYgsP2+G6E2xvoDukRhIWk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=I9eH9TRc70gqiI/FbMbSOZhMdTWNe5rcm55qZpGXxAS4sYkxx8+rga54m2dHtW0rmNj8RZs6BqWlwXI3w5oYXxBSfx76d4U0o53PQUCxUoe/ktALGQ9abUnPRRMXFjosNVQLq5vF4qhinDFzzTqLeq10KSMtZ40aNIr6HjyGIdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=IkpTEUb6; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1788289642; c=relaxed/simple;
+	bh=YMhQfM+VZ4vW2UH3xpl2Vn1Nos3aKda4EdGTlBOl0qI=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=KcZ1gM6RVwV4mhc8X1G9Qp48Zdg8WKLWPOyeZ+LJUerdfis381gncXnDbh6273izkQ0qylybMlDQ5jKV5Hanjrj3hydQ0WlJz1efunWgzKJ6LFNrdZGIGGPgQCnrKXt/NESPDbi1OJ+dr8MjEsQsg1/4Y6XQhFFhbSnHjbxipgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B7rDSaVd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="IkpTEUb6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1788288695;
-	bh=cihigF4VnR53Ld2/oM7OfeYgsP2+G6E2xvoDukRhIWk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=IkpTEUb6bF0P7+vfKu6YN5lXXxM1DUVGzB+Yuadf0Kr5klRniY5bc/k97wSFu5aLF
-	 5uXVeEItUgakdpz+080O6B84iGh9YnK9IVrMYv3+Gh0E2KC3bxctEQMSXqxg9+ZTLH
-	 x795Dco/PhLNHuz9pJPJt1cSRiPlYy+FhRwJfBdcHBxyCd7oZrlsSpV952u5SFHNS+
-	 j1XQo0Qi8YM7ImZYEle6mfBHBA0rx9PEwpOmTRyyqIVGKa8aWtAi8+UPdzvZ0lGccx
-	 +G+QN5aAxOga9DfwngAr+NuJS/GbErWNh6wZAkRNDRrqquvYILeztOWG87qG9Cc+ne
-	 gy3IXM928jFsw==
-Received: from localhost (unknown [100.64.0.241])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7B59717E3CAB;
-	Tue, 01 Sep 2026 20:51:35 +0200 (CEST)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 01 Sep 2026 21:51:38 +0300
-Subject: [PATCH v11 74/74] drm/tests: hdmi: Add SPD InfoFrame
- vendor/product coverage
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B7rDSaVd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EB631F000E9;
+	Tue,  1 Sep 2026 19:07:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788289641;
+	bh=4P3BM0dOlz3Y4asZq0ovct0hFO2d66ps8HtQlFL3pPQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=B7rDSaVdNxneUYWTEi1IttDl8hAK0lCS+N73h0ijRMdmvF38Cbk1002bw+J6Qo2JO
+	 U8S9oS7BeDWjwQvui/0nj2tN757Ud0UWcD+yhfyU0iY0k2yuMkP4P1t2j5cizy+9Ac
+	 pMjIzh7+/ihMPOEP+Ck2p/6nWeT0/g/hIqsWG4u5ENX28SN3rXReGRovsEzzx0ZYxn
+	 /LqMTeJfDKEmNFeNno12qzmn4mh0XDMsvaKHOKqF5deEFCzhvvbyaaZLoDRUUdNAY3
+	 jgrfjtAdp8DwOWEjaQikcMxm6fdflLJTeD792eVtLNMoB6Z/aDUl9evyfGUyl6ac3b
+	 kmVEDA2IpKIYQ==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v11 02/74] drm/connector: hdmi: Handle reset() state
+ allocation failure
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
+Cc: linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org
+In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-2-bc12954a0688@collabora.com>
+References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
+ <20260901-dw-hdmi-qp-scramb-v11-2-bc12954a0688@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 01 Sep 2026 19:07:20 +0000
+Message-Id: <20260901190721.2EB631F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260901-dw-hdmi-qp-scramb-v11-74-bc12954a0688@collabora.com>
-References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
-In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Dmitry Baryshkov <lumag@kernel.org>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Chen-Yu Tsai <wens@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Raphael Gallais-Pou <rgallaispou@gmail.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Algea Cao <algea.cao@rock-chips.com>, 
- Daniel Stone <daniels@collabora.com>, Liu Ying <victor.liu@nxp.com>, 
- Phong LE <ple@baylibre.com>, Helge Deller <deller@gmx.de>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
- linux-fbdev@vger.kernel.org
-X-Mailer: b4 0.15.2
 
-The vendor and product strings provided through struct
-drm_connector_hdmi_funcs end up in the SPD InfoFrame, whose fields are
-defined by the HDMI specification as fixed-size: 8 bytes for the vendor
-name and 16 bytes for the product description, padded with zeros and
-left without any trailing NUL when a name spans the whole field.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
 
-Nothing exercises that so far, since the SPD InfoFrame is only generated
-for connectors implementing the related hooks, which none of the
-existing test funcs provides.
+Pre-existing issues:
+- [High] The newly added NULL check for `connector->state` in `drmm_connect=
+or_hdmi_init()` fails to prevent crashes on memory allocation failure for m=
+ain HDMI drivers (e.g., `vc4`, `sun4i`) and the testing infrastructure, bec=
+ause their `reset` hooks unconditionally dereference the state before retur=
+ning.
+--
 
-Add a connector variant supplying those hooks, along with parametrized
-tests covering both the padded and the exact length cases.
+commit 424f1b968bca06b1916973328efd3feb5a119e0e
+Author: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 164 ++++++++++++++++++++-
- 1 file changed, 163 insertions(+), 1 deletion(-)
+drm/connector: hdmi: Handle reset() state allocation failure
 
-diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-index 68b442c32a2a..415d82e75eaa 100644
---- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-@@ -3205,6 +3205,167 @@ static void drm_test_check_infoframes(struct kunit *test)
- 	drm_modeset_acquire_fini(&ctx);
- }
- 
-+struct drm_hdmi_spd_infoframe_test {
-+	const char *name;
-+	const char *vendor;
-+	const char *product;
-+	unsigned char expected_vendor[HDMI_SPD_INFOFRAME_VENDOR_LEN];
-+	unsigned char expected_product[HDMI_SPD_INFOFRAME_PRODUCT_LEN];
-+};
-+
-+static const struct drm_hdmi_spd_infoframe_test drm_hdmi_spd_infoframe_tests[] = {
-+	{
-+		.name = "shorter-than-field",
-+		.vendor = "Vend",
-+		.product = "Prod",
-+		.expected_vendor = { 'V', 'e', 'n', 'd' },
-+		.expected_product = { 'P', 'r', 'o', 'd' },
-+	},
-+	{
-+		.name = "whole-field",
-+		.vendor = "VendorVe",
-+		.product = "ProductProductPr",
-+		.expected_vendor = {
-+			'V', 'e', 'n', 'd', 'o', 'r', 'V', 'e',
-+		},
-+		.expected_product = {
-+			'P', 'r', 'o', 'd', 'u', 'c', 't',
-+			'P', 'r', 'o', 'd', 'u', 'c', 't',
-+			'P', 'r',
-+		},
-+	},
-+};
-+
-+static void drm_hdmi_spd_infoframe_desc(const struct drm_hdmi_spd_infoframe_test *t,
-+					char *desc)
-+{
-+	strscpy(desc, t->name, KUNIT_PARAM_DESC_SIZE);
-+}
-+
-+KUNIT_ARRAY_PARAM(drm_hdmi_spd_infoframe, drm_hdmi_spd_infoframe_tests,
-+		  drm_hdmi_spd_infoframe_desc);
-+
-+/*
-+ * The SPD InfoFrame is only generated for connectors implementing the
-+ * related hooks, hence the SPD tests cannot rely on the plain dummy funcs.
-+ */
-+static const struct drm_connector_hdmi_funcs dummy_connector_hdmi_spd_funcs = {
-+	.vendor = "Vendor",
-+	.product = "Product",
-+	.supported_hdmi_ver = HDMI_VERSION_1_4,
-+	.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
-+	.max_bpc = 8,
-+	.avi = {
-+		.clear_infoframe = accept_infoframe_clear_infoframe,
-+		.write_infoframe = accept_infoframe_write_infoframe,
-+	},
-+	.spd = {
-+		.clear_infoframe = accept_infoframe_clear_infoframe,
-+		.write_infoframe = accept_infoframe_write_infoframe,
-+	},
-+	.hdmi = {
-+		.clear_infoframe = accept_infoframe_clear_infoframe,
-+		.write_infoframe = accept_infoframe_write_infoframe,
-+	},
-+};
-+
-+/*
-+ * Test that the vendor and product names end up in the SPD InfoFrame padded
-+ * with zeros, and without any trailing NUL when spanning the whole field.
-+ */
-+static void drm_test_check_spd_infoframe(struct kunit *test)
-+{
-+	const struct drm_hdmi_spd_infoframe_test *param = test->param_value;
-+	struct drm_connector_hdmi_funcs hdmi_funcs = dummy_connector_hdmi_spd_funcs;
-+	struct drm_atomic_helper_connector_hdmi_priv *priv;
-+	struct drm_modeset_acquire_ctx ctx;
-+	struct drm_connector_state *conn_state;
-+	struct drm_crtc_state *crtc_state;
-+	struct drm_atomic_commit *state;
-+	struct drm_display_mode *preferred;
-+	struct hdmi_spd_infoframe *frame;
-+	struct drm_connector *conn;
-+	struct drm_device *drm;
-+	struct drm_crtc *crtc;
-+	int ret;
-+
-+	hdmi_funcs.vendor = param->vendor;
-+	hdmi_funcs.product = param->product;
-+
-+	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
-+				&hdmi_funcs,
-+				test_edid_hdmi_1080p_rgb_max_200mhz);
-+	KUNIT_ASSERT_NOT_NULL(test, priv);
-+
-+	drm = &priv->drm;
-+	crtc = priv->crtc;
-+	conn = &priv->connector;
-+
-+	preferred = find_preferred_mode(conn);
-+	KUNIT_ASSERT_NOT_NULL(test, preferred);
-+
-+	drm_modeset_acquire_init(&ctx, 0);
-+
-+retry_conn_enable:
-+	ret = drm_kunit_helper_enable_crtc_connector(test, drm,
-+						     crtc, conn,
-+						     preferred,
-+						     &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	state = drm_kunit_helper_atomic_state_alloc(test, drm, &ctx);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
-+
-+retry_crtc_state:
-+	crtc_state = drm_atomic_get_crtc_state(state, crtc);
-+	if (PTR_ERR(crtc_state) == -EDEADLK) {
-+		drm_atomic_commit_clear(state);
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_crtc_state;
-+	}
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
-+
-+	crtc_state->mode_changed = true;
-+
-+	ret = drm_atomic_check_only(state);
-+	if (ret == -EDEADLK) {
-+		drm_atomic_commit_clear(state);
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_crtc_state;
-+	}
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = drm_atomic_commit(state);
-+	if (ret == -EDEADLK) {
-+		drm_atomic_commit_clear(state);
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_crtc_state;
-+	}
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	conn_state = conn->state;
-+	KUNIT_ASSERT_NOT_NULL(test, conn_state);
-+	KUNIT_ASSERT_TRUE(test, conn_state->hdmi.infoframes.spd.set);
-+
-+	frame = &conn_state->hdmi.infoframes.spd.data.spd;
-+
-+	KUNIT_EXPECT_MEMEQ(test, frame->vendor, param->expected_vendor,
-+			   sizeof(frame->vendor));
-+	KUNIT_EXPECT_MEMEQ(test, frame->product, param->expected_product,
-+			   sizeof(frame->product));
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
-+}
-+
- static int reject_infoframe_write_infoframe(struct drm_connector *connector,
- 					    const u8 *buffer, size_t len)
- {
-@@ -3723,9 +3884,10 @@ static void drm_test_check_reject_audio_infoframe(struct kunit *test)
- 	drm_modeset_acquire_fini(&ctx);
- }
- 
--
- static struct kunit_case drm_atomic_helper_connector_hdmi_infoframes_tests[] = {
- 	KUNIT_CASE(drm_test_check_infoframes),
-+	KUNIT_CASE_PARAM(drm_test_check_spd_infoframe,
-+			 drm_hdmi_spd_infoframe_gen_params),
- 	KUNIT_CASE(drm_test_check_reject_avi_infoframe),
- 	KUNIT_CASE(drm_test_check_reject_hdr_infoframe_bpc_8),
- 	KUNIT_CASE(drm_test_check_reject_hdr_infoframe_bpc_10),
+This commit adds a check for connector->state after calling the reset
+callback in drmm_connector_hdmi_init() to avoid a NULL pointer dereference
+if memory allocation fails.
 
--- 
-2.55.0
+Link: https://lore.kernel.org/all/20260723015306.C94241F000E9@smtp.kernel.o=
+rg/
 
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
+tor.c
+> index 8b4baed060f3a..0e39431e85b20 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -628,6 +628,8 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+>  		connector->state =3D state;
+>  	} else if (connector->funcs->reset) {
+>  		connector->funcs->reset(connector);
+> +		if (!connector->state)
+> +			return -ENOMEM;
+
+[Severity: High]
+This isn't a bug introduced by this patch, but doesn't the system crash
+before it can even reach this new check on memory allocation failure?
+
+If drm_atomic_helper_connector_reset() fails to allocate memory, it sets
+connector->state to NULL. Several driver-specific reset hooks then
+immediately dereference it by unconditionally passing it to
+__drm_atomic_helper_connector_hdmi_state_init().
+
+For example, in drivers/gpu/drm/vc4/vc4_hdmi.c:vc4_hdmi_connector_reset():
+
+	drm_atomic_helper_connector_reset(connector);
+	__drm_atomic_helper_connector_hdmi_state_init(connector, connector->state);
+
+The sun4i driver has the exact same pattern in sun4i_hdmi_connector_reset(),
+and the testing infrastructure will also panic the KUnit framework in
+dummy_hdmi_connector_reset() from
+drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c under the same condition=
+s.
+
+Could these driver reset hooks be updated to handle the NULL state graceful=
+ly,
+so that this new check can successfully prevent the panic?
+
+>  	}
+> =20
+>  	drm_connector_attach_max_bpc_property(connector, 8, max_bpc);
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260901-dw-hdmi-qp=
+-scramb-v11-0-bc12954a0688@collabora.com?part=3D2
