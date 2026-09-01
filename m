@@ -1,168 +1,142 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708353B6BF4
-	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 19:40:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23BFC3C872C
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 19:46:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788291622; cv=none; b=B+UlCq/aG+UwhOmalasxIBOXZ5wLeaHD030g50JfK3NzTUXGmfYVrLeJqYCFtckvTADW8l9zdflfs2vywWTYxwnD5EwnbcWBLXWM0th7VCtbODCAzh+fMVsUdUcb9XeVnzbGxusernOyQcUKQIVdW6gZYrWU44jDkSn3jEPNaAo=
+	t=1788291975; cv=none; b=iIInOU/0Kb6WX1ncdtIa5aRv4SgL+TxuJ8mbvnH/Y3ZrtHlS9e1vnjGFv2lpRBhezQU/cDldYkREYehmWAECFBVL8L92nW45ht2fp+/0GmAf/EeHSj1ZrULa+2M8vcvc8XZLK6BqKpzQYS9umTn0Ka0FJ8i9xqvzKpPbISwwWs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788291622; c=relaxed/simple;
-	bh=GDUXyLgXkadgBe2zyV9F2U2fHWOX/nd5mNg/PopBiJs=;
+	s=arc-20240116; t=1788291975; c=relaxed/simple;
+	bh=Y2W2ndZy7y0sIMhphe5/8mg5C5WjKlQ0kEt5R8Rx3ZE=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=THUylYx7OsLSFsvIdmewA9QYP6Y5gwu/bFDPbgXTrawlifcw5U2rz8nFAGEyfnoeQ9cX937chYetsbmdJpgmToMNVS0QItqtJYaeyMbeDRIdZIcA2edxHp79BOYDEO78deku4DOP8/UkqIOwCfJyqOtzGyLOD1p6Mr/gh0Ij4CQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fMUC8fFr; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=ZoZXITCh9zccr5Q1sPBYjkh1pc3HFZNFHo/NtzBmjE9nyjyCtkTuJwbgM905H6EhDIEBjrQvnL65Jp8wEcs3uF9xaiDtELworwrfwBlDl/D4yVnTiIGqCwpIBlOOxwrfzgQnKptS2zdgvaR0wA61OrPa7I+brFNtFwKwVU8EnD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fzxPf5mO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fMUC8fFr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E67CF1F00A3D;
-	Tue,  1 Sep 2026 19:40:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fzxPf5mO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 950791F000E9;
+	Tue,  1 Sep 2026 19:46:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788291621;
-	bh=pKO/S7vhDWGbW+d7wsYJ1EgRoQypdpBvCGPu8UEUpag=;
+	s=k20260515; t=1788291973;
+	bh=AgG7q+Wpp5pk3m6aHknPSw+mMXq/O75YSIjGSxRlHdQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=fMUC8fFryW+xepn8bjNMWwUHOaSEc00ZS72GK/z9O6nNZvlgp+qrN7ZMmMHsRU22u
-	 V9e1IOUI/53kVmSlii8C4R77I1dxp2o280GnKl3z1c/fjM5lgQgKy/sfML7wt3U2Mm
-	 0qHGtX41XLvUh3yH77+V5DhinA+urDSKeB3/rTNIg2cfP4NYahYMlCa17SQFu+nXBR
-	 CRVzQi/uXpjZw071/vt17EgEbKtwOGo5UhTBV4hpd4lZHWdHTa/RTN0A0JT7wUYzng
-	 vpsM7WngdthH86zU5dYhaq5P5yMu/XPmVhotjzgdfw5X6m810LAKf0fqpnai+zwUGo
-	 L2ZsdYhlrrB4g==
+	b=fzxPf5mOJQOoxWGywYcYxjtsvG1KF+OXQSLY28iIUrIA5TANw1gcFY0vxTrdYOm2L
+	 85f6sZcxCqG5PovJunr8wY1u2SfZnEtXc3af9HSZAL8tUBM+S2u+ALzubVTaLjj868
+	 t0JgGX4ADm5iAUXDq9lwwEjrmI7xZZWuSj/FH9woWVuVM5slpRys9eLsOMnFwr+HRM
+	 aPf3GVgF5vyGNIf8W4zBYH6fR7W2kLYRNmxNqSCQYhAou+7Hjvv30iYGaTEJOzhkEn
+	 bUnqop+HknVaksrFSgE/42mhpWlp0mgSp0vDYoIalK1S09m8PHEHYJfhIXG70J9sQy
+	 /8LoqjORChagg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v11 23/74] drm/display: hdmi-state-helper: Sync SCDC
- state on hotplug
+Subject: Re: [PATCH v11 31/74] drm/rockchip: dw_hdmi_qp: Fix invalid drvdata
+ access in PM ops
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
-Cc: linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org
-In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-23-bc12954a0688@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-31-bc12954a0688@collabora.com>
 References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
- <20260901-dw-hdmi-qp-scramb-v11-23-bc12954a0688@collabora.com>
+ <20260901-dw-hdmi-qp-scramb-v11-31-bc12954a0688@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 01 Sep 2026 19:40:19 +0000
-Message-Id: <20260901194020.E67CF1F00A3D@smtp.kernel.org>
+Date: Tue, 01 Sep 2026 19:46:13 +0000
+Message-Id: <20260901194613.950791F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] Missing error reporting for drm_edid_connector_update() on the c=
-onnect path, contradicting the commit message.
-- [Low] The SCDC sync call on the disconnect path is a guaranteed no-op, le=
-aving the scrambler state unhandled and introducing dead error-handling cod=
-e.
+
+Pre-existing issues:
+- [High] Using `devm_*` APIs in the component `bind` callback coupled with =
+a `drmm_` allocated context causes resource leaks on bind retries and use-a=
+fter-free vulnerabilities.
 --
 
-commit 41a712cbfad2ca468ecdd91cc77914f264d5dce6
+commit 78a45b3c5f7568988aeb46e28d8dcd405d6b493f
 Author: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-drm/display: hdmi-state-helper: Sync SCDC state on hotplug
+drm/rockchip: dw_hdmi_qp: Fix invalid drvdata access in PM ops
 
-This commit attempts to synchronize SCDC status on hotplug events by hooking
-drm_connector_hdmi_sync_scdc() into the connect and disconnect paths. It al=
-so
-aims to report errors from drm_edid_connector_update() for consistency.
+This commit defers publishing the driver data until the component bind
+callback completes successfully, and clears it during unbind. This ensures
+that the PM callbacks can rely on a single null check to avoid accessing
+invalid or freed state.
 
-> diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gp=
-u/drm/display/drm_hdmi_state_helper.c
-> index 8045b1d17d6ec..1e269b203b987 100644
-> --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> @@ -1362,12 +1362,29 @@ drm_atomic_helper_connector_hdmi_update(struct dr=
-m_connector *connector,
->  					enum drm_connector_status status)
->  {
->  	const struct drm_edid *drm_edid;
-> +	int ret;
+Closes: https://lore.kernel.org/all/20260702151550.8E14D1F000E9@smtp.kernel=
+.org/
+Closes: https://lore.kernel.org/all/20260723014811.1F9F01F000E9@smtp.kernel=
+.org/
+
+> diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu=
+/drm/rockchip/dw_hdmi_qp-rockchip.c
+> index 9c4cf68d79d50..646a4cb968309 100644
+> --- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+> +++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+> @@ -683,8 +683,6 @@ static int dw_hdmi_qp_rockchip_bind(struct device *de=
+v, struct device *master,
+>  	if (ret)
+>  		return dev_err_probe(hdmi->dev, ret, "Failed to init encoder");
 > =20
->  	if (status =3D=3D connector_status_disconnected) {
-> -		// TODO: also handle scramber, HDMI sink disconnected.
-> +		/*
-> +		 * .detect_ctx() can only ever return a drm_connector_status or
-> +		 * -EDEADLK. Handle deadlocks, and report any !EDEADLK error.
-> +		 */
-> +		ret =3D drm_connector_hdmi_sync_scdc(connector, false, ctx);
-> +		if (ret) {
-> +			if (ret =3D=3D -EDEADLK)
-> +				return ret;
-> +
-> +			drm_warn(connector->dev, "Ignored SCDC sync error: %d\n", ret);
-> +		}
+> -	platform_set_drvdata(pdev, hdmi);
+> -
 
-[Severity: Low]
-Does this actually handle the scrambler state on disconnect?
+[Severity: High]
+This is a pre-existing issue, but does using devm_ allocations in a compone=
+nt
+bind callback risk resource leaks and use-after-free bugs?
 
-If we look at drm_connector_hdmi_sync_scdc(), passing false for the plugged
-parameter causes it to return 0 immediately:
+The component bind function registers resources like clocks, GPIO, PHY, and
+IRQs using devm_ APIs on the component's platform device (dev). Since these
+resources are tied to the platform device's lifetime, they won't be freed
+when the component is unbound or when bind fails and is retried.
 
-int drm_connector_hdmi_sync_scdc(struct drm_connector *connector, bool plug=
-ged,
-				 struct drm_modeset_acquire_ctx *ctx)
-{
-	...
-	if (!connector || !plugged || !ctx)
-		return 0;
+For example, earlier in dw_hdmi_qp_rockchip_bind():
 
-Since ret will always be 0, the error handling block here is dead code, and=
- the
-scrambler state remains unhandled on the disconnect path.
+	ret =3D devm_request_threaded_irq(dev, hdmi->hpd_irq,
+					cfg->ctrl_ops->hardirq_callback,
+					cfg->ctrl_ops->irq_callback,
+					IRQF_NO_AUTOEN, "dw-hdmi-qp-hpd",
+					hdmi);
 
-> +
->  		drm_connector_hdmi_audio_plugged_notify(connector, false);
-> -		drm_edid_connector_update(connector, NULL);
-> +
-> +		ret =3D drm_edid_connector_update(connector, NULL);
-> +		if (ret)
-> +			drm_warn(connector->dev, "Ignored EDID update error: %d\n", ret);
-> +
->  		drm_connector_cec_phys_addr_invalidate(connector);
-> +
->  		return 0;
->  	}
-> =20
+This registers the IRQ against the platform device's lifetime, but passes
+the hdmi pointer as context. The hdmi structure is allocated using
+drmm_kzalloc(), which ties it to the DRM master device's lifetime.
+
+If the DRM master is unbound or fails to probe, hdmi is freed, but the IRQ
+remains registered. If an interrupt fires after the master is unbound, can
+the active IRQ handler in dw_hdmi_qp_rk3588_irq() dereference the freed
+hdmi pointer?
+
+Furthermore, do error paths after IRQ registration return without canceling
+the delayed work or freeing the devm_ resources, accumulating leaks on
+repeated bind failures?
+
+>  	hdmi->hdmi =3D dw_hdmi_qp_bind(pdev, encoder, &plat_data);
+>  	if (IS_ERR(hdmi->hdmi))
+>  		return dev_err_probe(hdmi->dev, PTR_ERR(hdmi->hdmi),
 
 [ ... ]
 
-> @@ -1381,7 +1398,18 @@ drm_atomic_helper_connector_hdmi_update(struct drm=
-_connector *connector,
->  	drm_edid_free(drm_edid);
-
-[Severity: Medium]
-The commit message states that errors from drm_edid_connector_update() will=
- be
-reported for consistency.
-
-However, in drm_atomic_helper_connector_hdmi_update(), the return value of =
-the
-drm_edid_connector_update() call on the connect path (which happens just be=
-fore
-the drm_edid_free() call in the snippet above) is still being ignored:
-
-	drm_edid_connector_update(connector, drm_edid);
-	drm_edid_free(drm_edid);
-
-Should we also add error reporting to this path to match the stated intent?
-
+> @@ -704,6 +704,8 @@ static void dw_hdmi_qp_rockchip_unbind(struct device =
+*dev,
+>  {
+>  	struct rockchip_hdmi_qp *hdmi =3D dev_get_drvdata(dev);
 > =20
->  	if (status =3D=3D connector_status_connected) {
-> -		// TODO: also handle scramber, HDMI sink is now connected.
-> +		/*
-> +		 * .detect_ctx() can only ever return a drm_connector_status or
-> +		 * -EDEADLK. Handle deadlocks, and report any !EDEADLK error.
-> +		 */
-> +		ret =3D drm_connector_hdmi_sync_scdc(connector, true, ctx);
-> +		if (ret) {
-> +			if (ret =3D=3D -EDEADLK)
-> +				return ret;
+> +	dev_set_drvdata(dev, NULL);
 > +
-> +			drm_warn(connector->dev, "Ignored SCDC sync error: %d\n", ret);
-> +		}
-> +
->  		drm_connector_hdmi_audio_plugged_notify(connector, true);
->  		drm_connector_cec_phys_addr_set(connector);
->  	}
+>  	cancel_delayed_work_sync(&hdmi->hpd_work);
+>  }
+
+[Severity: High]
+This is also a pre-existing issue, but does cleaning up the delayed work
+here still leave the IRQ registered against the platform device?
+
+Because devm_request_threaded_irq() was used, the IRQ isn't freed during
+unbind. Could a subsequent interrupt trigger a use-after-free by queuing
+the work embedded within the already freed hdmi struct?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260901-dw-hdmi-qp=
--scramb-v11-0-bc12954a0688@collabora.com?part=3D23
+-scramb-v11-0-bc12954a0688@collabora.com?part=3D31
