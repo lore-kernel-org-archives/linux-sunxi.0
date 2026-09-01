@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8FD4A0EEC
-	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 18:50:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84064A0EF6
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 18:50:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788288652; cv=none; b=HEgjXRF74SbVMN7U8eDV+rBmbT7IxexQjLohfkX4ShQKT3io0kW7PPK2F503YFiB/I6uJkcyyPEisuWblVPaRmYGWnU2YLrlU1bKj4oSN98vW3qT1yDIYPASNa3zdNJAJ2TV9kTfGKzmwOL9liFlh3boR50clLgPvRRMFe/D05M=
+	t=1788288654; cv=none; b=CxD6ilIBMT7VX04Zy2/005meoO6n77hjBnX8gfHopZ3GdrTkYP+qIl2gIGoulwdF+39oYClZzKTb+xHVgxgQcz5EkfTFJO4a3bUwKCOZE1Qk3OZ4r0e6yYtWhg26QV22XwJY7Q3Nw4QrzdWWaiMvIEg+IWE6PcvU7dxxeEu9VW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788288652; c=relaxed/simple;
-	bh=8ZpsUznPm2VnhV+ei8G+M2HW8IhOZe+pjdpRGniTqQA=;
+	s=arc-20240116; t=1788288654; c=relaxed/simple;
+	bh=FBzckI23H5DYUC2fgN1hQr/tvawmRAaCLybpPifECK0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dZXasyddHLeh91u1kOGV6P0H3l4yvCzv/5AQCIjnWYrubA9JdNnMTRUKbxusjhjAshXcYh8Ud7hVOWujezZ2JBkUulHGstRbyBVKdyfPRkNGGIupoffwWrEAiXy+SdDt3TZMzKIf+YtOm6OxeYneFPiSZKvUJ6bRBzXgxMFmhy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=CUd7OD/U; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=K/WWkN5eLVCI2APzEqs6Oa5PYU3vXhOUtCqvmo9Y8wfU/zVc2QzRzqa3k5g+YGz280YalbIq/VU1X57K0r2hDjbSUl6zb6SIofKkf3ukmyKqbnEI3BZAbty2wyQFjYxLeoBwXYi9zAxx0g75LkH3ZsomDnE4KouBXxHwA7hy0V8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=eyvBQ953; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CUd7OD/U"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="eyvBQ953"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1788288647;
-	bh=8ZpsUznPm2VnhV+ei8G+M2HW8IhOZe+pjdpRGniTqQA=;
+	s=mail; t=1788288650;
+	bh=FBzckI23H5DYUC2fgN1hQr/tvawmRAaCLybpPifECK0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=CUd7OD/U1UiWKhz1RFGknqxx5New2fGjDtM1QLgcmF8bxImOuhlNcPQHn1mY7JWGC
-	 kK6KDhB3pUF/cRpvkksJEhXQrq3wImuA4AkdgcCD02sfdYyzT/4nULAdbJ7dt2X+hF
-	 2d2aewJB9ig0G6hUL7nOYfjHV4B3SZEpG75UdC89dAasDD18OhKHV4Ufo/f7BxKB3r
-	 F+OHIkzojwKs3WxUYVJ11BcYLYEQApURxoaZOf6xOhDN0fLaJW2dsEBQp77cENX2L2
-	 MQ54HNl1/HNlBzsQFIK0hmw/dOKT+NBe69AFyGVRsY67hxVw8Tz/TUt1OuLCHERP+f
-	 tdi4jobw+awmQ==
+	b=eyvBQ9535XiqSaP4elS2GOEHVT/+FqLzgiskBu5/HBmeAUIMgOv7E+9Bby5tkaTyD
+	 Q7rszzADi6sIb9zgk6zZ+qEWROy8HGNSeA9Pv59D8AR6PlFnU0OJz/sNeQvr+eWseP
+	 IJWFcfvBtMbEYta4hXAdRkTfFNLeQT4o/6lBN8e4rEUPwC97Q87+vrXVlBqFaqTIS6
+	 ndHWnz8C5RdC9ZmJIZ7UCejiycN/dt+gMa4GD/BeuMzQ0UvkGTj5rrao7fIT9pCIW8
+	 t0zqw1uXbnzMUQ6Q+doegX5ROwh37bdK2+lsLQwSMUsdBfX9KwFRgHlalOv04V0HFT
+	 gazA6jd2ofOGQ==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B634617E157A;
-	Tue, 01 Sep 2026 20:50:47 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id EE58317E3606;
+	Tue, 01 Sep 2026 20:50:49 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 01 Sep 2026 21:50:33 +0300
-Subject: [PATCH v11 09/74] drm/display: scdc-helper: Add helper to set SCDC
- version information
+Date: Tue, 01 Sep 2026 21:50:36 +0300
+Subject: [PATCH v11 12/74] drm/bridge: Fix unlocked list_del in
+ drm_bridge_add()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260901-dw-hdmi-qp-scramb-v11-9-bc12954a0688@collabora.com>
+Message-Id: <20260901-dw-hdmi-qp-scramb-v11-12-bc12954a0688@collabora.com>
 References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
 In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -70,127 +70,43 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
- linux-fbdev@vger.kernel.org, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Maud Spierings <maud_spierings@hotmail.com>, 
- Diederik de Haas <diederik@cknow-tech.com>
+ linux-fbdev@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>
 X-Mailer: b4 0.15.2
 
-The HDMI 2.x specs mandate that compliant Sink devices report their SCDC
-version in the Sink Version register, which reads as 1 on any
-SCDC-capable sink.
+When re-adding a bridge that was previously removed, drm_bridge_add()
+drops it from bridge_lingering_list without holding bridge_lock.
 
-There is also a dedicated Source Version register.  Writing it is not
-compulsory, but the spec advises that compliant Source devices do so, in
-which case the value must be 1.
+Both bridge_list and bridge_lingering_list are protected by bridge_lock,
+as they are concurrently modified by drm_bridge_remove() and
+__drm_bridge_free(), and walked by the debugfs 'bridges' file.  Running
+the list_empty() test and the list_del_init() outside of the lock may
+therefore corrupt either list.
 
-Add drm_scdc_set_source_version() to follow this recommendation.  The
-Sink Version register is read first, both to log the advertised SCDC
-version and to guard against non-conformant devices: a sink reporting
-version 0 is either not SCDC-version-aware or broken, so writing the
-source version gains nothing and risks upsetting such hardware.  In that
-case the write is skipped.
+Perform both under bridge_lock.
 
-The source version is passed as a parameter rather than hardcoded, as
-future spec revisions may define additional rules for the allowable
-version values.  The written value is additionally clamped to the sink's
-reported version so the source never advertises a version the sink does
-not understand.
-
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Tested-by: Maud Spierings <maud_spierings@hotmail.com>
-Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # NanoPC-T6 LTS, Rock 5B
+Fixes: 17805a15d175 ("drm/bridge: add list of removed refcounted bridges")
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://lore.kernel.org/all/20260723015004.1F5711F000E9@smtp.kernel.org/
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/display/drm_scdc_helper.c | 50 +++++++++++++++++++++++++++++--
- include/drm/display/drm_scdc_helper.h     |  2 ++
- 2 files changed, 49 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/drm_bridge.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/display/drm_scdc_helper.c b/drivers/gpu/drm/display/drm_scdc_helper.c
-index 1e7c41d4f926..74388481fc55 100644
---- a/drivers/gpu/drm/display/drm_scdc_helper.c
-+++ b/drivers/gpu/drm/display/drm_scdc_helper.c
-@@ -22,12 +22,13 @@
-  */
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index afaae272347c..2c457ad74f3b 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -454,8 +454,10 @@ void drm_bridge_add(struct drm_bridge *bridge)
+ 	 * in bridge_lingering_list. Remove it or bridge_lingering_list will be
+ 	 * corrupted when adding this bridge to bridge_list below.
+ 	 */
++	mutex_lock(&bridge_lock);
+ 	if (!list_empty(&bridge->list))
+ 		list_del_init(&bridge->list);
++	mutex_unlock(&bridge_lock);
  
- #include <linux/bitfield.h>
--#include <linux/export.h>
--#include <linux/i2c.h>
--#include <linux/slab.h>
- #include <linux/debugfs.h>
- #include <linux/delay.h>
-+#include <linux/export.h>
-+#include <linux/i2c.h>
-+#include <linux/minmax.h>
- #include <linux/overflow.h>
-+#include <linux/slab.h>
- 
- #include <drm/display/drm_scdc_helper.h>
- #include <drm/drm_connector.h>
-@@ -306,6 +307,49 @@ bool drm_scdc_set_high_tmds_clock_ratio(struct drm_connector *connector,
- }
- EXPORT_SYMBOL(drm_scdc_set_high_tmds_clock_ratio);
- 
-+/**
-+ * drm_scdc_set_source_version - set SCDC source version on the sink
-+ * @connector: connector
-+ * @ver: source version to advertise (per spec, 1)
-+ *
-+ * Reads the sink version for diagnostics and as a guard, then writes
-+ * the source version unless the sink reports version 0.
-+ *
-+ * Returns:
-+ * 0 on success or when skipped; a negative error code when either
-+ * the read or the write failed.
-+ */
-+int drm_scdc_set_source_version(struct drm_connector *connector, u8 ver)
-+{
-+	u8 sink_ver;
-+	int ret;
-+
-+	ret = drm_scdc_readb(connector->ddc, SCDC_SINK_VERSION, &sink_ver);
-+	if (ret) {
-+		drm_scdc_dbg(connector, "Failed to read SCDC_SINK_VERSION: %d\n", ret);
-+		return ret;
-+	}
-+
-+	drm_scdc_dbg(connector, "Sink reported SCDC ver. %u\n", sink_ver);
-+
-+	/*
-+	 * Only advertise our source version to sinks that report a
-+	 * non-zero sink version.  A sink reporting version 0 is either
-+	 * not SCDC-version-aware or non-conformant; writing the source
-+	 * version gains nothing and may upset broken hardware.
-+	 */
-+	if (sink_ver) {
-+		ret = drm_scdc_writeb(connector->ddc, SCDC_SOURCE_VERSION,
-+				      min_t(u8, sink_ver, ver));
-+		if (ret)
-+			drm_scdc_dbg(connector,
-+				     "Failed to write SCDC_SOURCE_VERSION: %d\n", ret);
-+	}
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(drm_scdc_set_source_version);
-+
- static void
- drm_scdc_parse_status0_flags(u8 val, struct drm_scdc_status_flags *flags)
- {
-diff --git a/include/drm/display/drm_scdc_helper.h b/include/drm/display/drm_scdc_helper.h
-index a3b20adaac7e..6a8be1f16ce0 100644
---- a/include/drm/display/drm_scdc_helper.h
-+++ b/include/drm/display/drm_scdc_helper.h
-@@ -168,6 +168,8 @@ bool drm_scdc_get_scrambling_status(struct drm_connector *connector);
- bool drm_scdc_set_scrambling(struct drm_connector *connector, bool enable);
- bool drm_scdc_set_high_tmds_clock_ratio(struct drm_connector *connector, bool set);
- 
-+int drm_scdc_set_source_version(struct drm_connector *connector, u8 ver);
-+
- int drm_scdc_read_state(struct drm_connector *connector,
- 			struct drm_scdc_state *state);
- void drm_scdc_debugfs_init(struct drm_connector *connector, struct dentry *root);
+ 	mutex_init(&bridge->hpd_state_mutex);
+ 	mutex_init(&bridge->hpd_mutex);
 
 -- 
 2.55.0
