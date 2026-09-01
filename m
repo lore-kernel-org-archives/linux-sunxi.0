@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABC4A20D4F0
-	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 19:07:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69DC64A0F17
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 19:16:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788289642; cv=none; b=udOdsxUwmQsLAfyxWvfN2fvFp2uuLBFHacqhvAC0iUljji15Sl4InOi99jCS98nAhOPeeBhCTH2X1C782Itt2I9Kf9+wKoi3lWhHJinEXA2uBAGkBr1dV+v5qIKKm/Lul4svuobGMudIhqeeDfQjIi9YS+pazrYTGZVs/zeS1eQ=
+	t=1788290183; cv=none; b=jMr1bkwkydv7LWaBlgiSLtoDVSVwFo8gB4v3yJ185pMfiAWG+DEwpuiOs1yK3+7uVX7EtGSE4TvusZNDfzmIK3BfAiT4jhOrZvkpDhITWqryLlODQ1lnEdY7QTGUegViLm/NkkJQ3bNEhogQaBqh3o8JKyeicjsgT4VnS1qg9aA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788289642; c=relaxed/simple;
-	bh=YMhQfM+VZ4vW2UH3xpl2Vn1Nos3aKda4EdGTlBOl0qI=;
+	s=arc-20240116; t=1788290183; c=relaxed/simple;
+	bh=D5T9FDlA2bHdtw3qyUoUCTpgroM7V5k/zrq09fiWXQo=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=KcZ1gM6RVwV4mhc8X1G9Qp48Zdg8WKLWPOyeZ+LJUerdfis381gncXnDbh6273izkQ0qylybMlDQ5jKV5Hanjrj3hydQ0WlJz1efunWgzKJ6LFNrdZGIGGPgQCnrKXt/NESPDbi1OJ+dr8MjEsQsg1/4Y6XQhFFhbSnHjbxipgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B7rDSaVd; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=evDayAyOPa8l24HDsQULiUFTHHYWHKdhJqW4IuUtTbdg0Iq9JWqvXPSl0TBXgkqiwNW3Cou632njNW4V1OBI9G7USKVElUWUtHqTKCRxr5o0OWmStGOC1MTB+npxAOJwvYP1jZnoCgRDiBgDqnsCrbjeCYJe9o6xiQDLHVUZaYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AemKn9Ni; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B7rDSaVd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EB631F000E9;
-	Tue,  1 Sep 2026 19:07:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AemKn9Ni"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C59A31F000E9;
+	Tue,  1 Sep 2026 19:16:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788289641;
-	bh=4P3BM0dOlz3Y4asZq0ovct0hFO2d66ps8HtQlFL3pPQ=;
+	s=k20260515; t=1788290182;
+	bh=sK8MxF/Bh9pZ54G0aGZ0bMqmuQjXPIjpgAgb8VVtQVg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=B7rDSaVdNxneUYWTEi1IttDl8hAK0lCS+N73h0ijRMdmvF38Cbk1002bw+J6Qo2JO
-	 U8S9oS7BeDWjwQvui/0nj2tN757Ud0UWcD+yhfyU0iY0k2yuMkP4P1t2j5cizy+9Ac
-	 pMjIzh7+/ihMPOEP+Ck2p/6nWeT0/g/hIqsWG4u5ENX28SN3rXReGRovsEzzx0ZYxn
-	 /LqMTeJfDKEmNFeNno12qzmn4mh0XDMsvaKHOKqF5deEFCzhvvbyaaZLoDRUUdNAY3
-	 jgrfjtAdp8DwOWEjaQikcMxm6fdflLJTeD792eVtLNMoB6Z/aDUl9evyfGUyl6ac3b
-	 kmVEDA2IpKIYQ==
+	b=AemKn9Nip10IP09UHG7dPK04Mi4FSz1mMq5Q0/rfyg4542uSEZDa9HY0Gq+CjVIuP
+	 z8kmR8JqyNYCDRjLoLfPZ1GHRze4AkvV4q0cIqsMDjL11LoDhJUxxIl007tr26PfUe
+	 faqfAO0cit3n2D8E7NE/+9s8VSJEza7q4lO/GLssAOszJcv7nb/+2rZbetiAuZ/dkQ
+	 lm8S3j6K4ph9UJqPUKCr2rel/YPwmqAW9NyOQ69AOHNFnQvN0QBuCKdu7E/myy7C5n
+	 6FzRAaqHBsB+m6nALpIISFrxme7C1ueTBLSCNcTBi/2G6gphcGoRD0dvYUg1QY3D7w
+	 Z4P45sjMxs/OQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v11 02/74] drm/connector: hdmi: Handle reset() state
- allocation failure
+Subject: Re: [PATCH v11 14/74] drm/bridge: Fix unlocked list access in
+ drm_bridge_attach()
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
 Cc: linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org
-In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-2-bc12954a0688@collabora.com>
+In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-14-bc12954a0688@collabora.com>
 References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
- <20260901-dw-hdmi-qp-scramb-v11-2-bc12954a0688@collabora.com>
+ <20260901-dw-hdmi-qp-scramb-v11-14-bc12954a0688@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 01 Sep 2026 19:07:20 +0000
-Message-Id: <20260901190721.2EB631F000E9@smtp.kernel.org>
+Date: Tue, 01 Sep 2026 19:16:21 +0000
+Message-Id: <20260901191621.C59A31F000E9@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -47,67 +47,59 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-
-Pre-existing issues:
-- [High] The newly added NULL check for `connector->state` in `drmm_connect=
-or_hdmi_init()` fails to prevent crashes on memory allocation failure for m=
-ain HDMI drivers (e.g., `vc4`, `sun4i`) and the testing infrastructure, bec=
-ause their `reset` hooks unconditionally dereference the state before retur=
-ning.
+- [Low] Mixing goto-based error handling with scope-based cleanup helpers (=
+`scoped_guard`) in the same function.
 --
 
-commit 424f1b968bca06b1916973328efd3feb5a119e0e
+commit a312843839f1a20e85a81d94af26656e4dacb18f
 Author: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-drm/connector: hdmi: Handle reset() state allocation failure
+drm/bridge: Fix unlocked list access in drm_bridge_attach()
 
-This commit adds a check for connector->state after calling the reset
-callback in drmm_connector_hdmi_init() to avoid a NULL pointer dereference
-if memory allocation fails.
+This patch fixes an unlocked read of bridge->list in drm_bridge_attach()
+by performing the check under bridge_lock. It uses the scoped_guard()
+cleanup helper to manage the lock.
 
-Link: https://lore.kernel.org/all/20260723015306.C94241F000E9@smtp.kernel.o=
-rg/
-
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connec=
-tor.c
-> index 8b4baed060f3a..0e39431e85b20 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -628,6 +628,8 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
->  		connector->state =3D state;
->  	} else if (connector->funcs->reset) {
->  		connector->funcs->reset(connector);
-> +		if (!connector->state)
-> +			return -ENOMEM;
-
-[Severity: High]
-This isn't a bug introduced by this patch, but doesn't the system crash
-before it can even reach this new check on memory allocation failure?
-
-If drm_atomic_helper_connector_reset() fails to allocate memory, it sets
-connector->state to NULL. Several driver-specific reset hooks then
-immediately dereference it by unconditionally passing it to
-__drm_atomic_helper_connector_hdmi_state_init().
-
-For example, in drivers/gpu/drm/vc4/vc4_hdmi.c:vc4_hdmi_connector_reset():
-
-	drm_atomic_helper_connector_reset(connector);
-	__drm_atomic_helper_connector_hdmi_state_init(connector, connector->state);
-
-The sun4i driver has the exact same pattern in sun4i_hdmi_connector_reset(),
-and the testing infrastructure will also panic the KUnit framework in
-dummy_hdmi_connector_reset() from
-drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c under the same condition=
-s.
-
-Could these driver reset hooks be updated to handle the NULL state graceful=
-ly,
-so that this new check can successfully prevent the panic?
-
->  	}
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index a8b6df5c13eaf..10dde3600c70a 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -606,8 +606,10 @@ int drm_bridge_attach(struct drm_encoder *encoder, s=
+truct drm_bridge *bridge,
+>  	if (!bridge->container)
+>  		DRM_WARN("DRM bridge corrupted or not allocated by devm_drm_bridge_all=
+oc()\n");
 > =20
->  	drm_connector_attach_max_bpc_property(connector, 8, max_bpc);
+> -	if (list_empty(&bridge->list))
+> -		DRM_WARN("Missing drm_bridge_add() before attach\n");
+> +	scoped_guard(mutex, &bridge_lock) {
+> +		if (list_empty(&bridge->list))
+> +			DRM_WARN("Missing drm_bridge_add() before attach\n");
+> +	}
+
+[Severity: Low]
+Does introducing scoped_guard() here conflict with the existing goto-based
+error handling later in drm_bridge_attach()?
+
+The kernel's cleanup.h guidelines forbid mixing goto-based cleanup and
+scope-based cleanup helpers in the same function. drm_bridge_attach()
+currently uses goto labels for resource unwinding:
+
+    if (bridge->funcs->attach) {
+        ret =3D bridge->funcs->attach(bridge, encoder, flags);
+        if (ret < 0)
+            goto err_reset_bridge;
+    }
+
+While this specific change doesn't cause a direct runtime leak since the
+goto statements don't jump into or out of the scoped_guard block scope,
+could this structural mixing cause issues later? Would it be safer to use
+standard locking (mutex_lock and mutex_unlock) here to avoid mixing the
+two paradigms?
+
+> =20
+>  	drm_bridge_get(bridge);
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260901-dw-hdmi-qp=
--scramb-v11-0-bc12954a0688@collabora.com?part=3D2
+-scramb-v11-0-bc12954a0688@collabora.com?part=3D14
