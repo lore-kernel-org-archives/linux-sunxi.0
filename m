@@ -1,42 +1,41 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC9C4A99D0
-	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 18:51:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC32F4A9D60
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 18:51:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788288696; cv=none; b=p/WoWLqulR9wyPxLv5caBhUxCT4weV6/iiWL/hM1kau/uaxBjNFFwDQSFvtg6VHcDGgNhL0KWsVTJc3KdFbZj8xwQax25wavn/zlxr8IcoMF2ds1CDEnVrbRi4j+WnFBQnuSp3Ke+HlvuvDsntbHrujU7u2XqgUWZ0rzXvSCexg=
+	t=1788288698; cv=none; b=AHkuweqTvmx+MfZTZ8BoNHckEZQOOba1UflJCcRGlu4ZGHdzZ5Wdw53qe0UiJLu+0/BWgu8KH8jOvQdx1U3ZzsAcgN276xawGB/pmxqceN/ip+HBt3o0dCyDFmOSIKkpROBBsfjtLPeKvEEBfw7hM5KGJ6Dx6s3qYWDaNxDjM7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788288696; c=relaxed/simple;
-	bh=vWcJ/JgrICjAc8uhqU0IXmoYxp/H9UrDLzNmmi7RCMs=;
+	s=arc-20240116; t=1788288698; c=relaxed/simple;
+	bh=2galnbkpG9rUKXb4RYIAo4kg/YAursFyYrkk89icIw8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nx++zWwyVTWwIAD6h1UytEN4GaEY3blvssU4CVo+07BmNjLzjZqPLXab4giCR1nc3pLxdALvT7a+pgSMwn+XVcC+a2DG8PyHH+U74+aZsiEP60OuGPanL4XlzTQMrjLAd2iHBijU99h9HZMguSxQRNvro2zWP1cGwIdGS4skrc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=l9Hn9F7R; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=H5q0QlwLiZ+IyeairViBGflZ0G3CTzE2X6pZEcQdK/iNSOs4t9YTKQOEBT95ui6TxQKYVySKKcw8p8Vg/+SkQlfLS4mnPM2SENZ6y1SlRnwHVEsXF+2gWthylhjHQjdaBFrIySDCWG+wYw0JXj8pL9R6wsS6gvr5HTNO86wc6v4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=TbRf/D8l; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="l9Hn9F7R"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TbRf/D8l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1788288690;
-	bh=vWcJ/JgrICjAc8uhqU0IXmoYxp/H9UrDLzNmmi7RCMs=;
+	s=mail; t=1788288691;
+	bh=2galnbkpG9rUKXb4RYIAo4kg/YAursFyYrkk89icIw8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=l9Hn9F7RVvnTNqwvLooi67n3kRQuJBuVA5wIwSf4INadHHxsIDPSyfkxlfdujELgH
-	 sh8m3ckFeNM1kxvEgrEBPuaWbTgil9ZwVb30yt55Kh2TGl5ECx5UmHxXQfppZnwPiT
-	 CvA/qQsRJ+cV+9wkp9rWmHgOvMJgA0synP+OtDCE/7qI5zgvCJ/NKRH1N41kr1MnLy
-	 xy1MQaPEwx1x6aAcBjH+DrnxZbAXMRXwF2Rm9wwb0wu4B4UMUnI3Zpt1CVvEqwuD8Z
-	 zUrUhyejv5/EuIzQxH06q4cx7yjjSNQmt6Bh9+tj2Le7Gm+lQ3kaPhCVYWBsg0yFNi
-	 u2aNTNSnY4XdA==
+	b=TbRf/D8lucN+Kde6yjwFOook2HCRfHFpJxY143FIc0CWD5JTvTVQ+7DVHcloM4ntW
+	 ZDUMdmCXJWY/0lLcWJfARV9j8UC5+70DvtAMALVE3lxdz3fqbfDyO9gNTcXnMuYSnY
+	 Jy2BDYg4BarABZ87/XojaSjp7LKVXqzISo6lKKJ9Etsoi6dC24J7GfWcrkxntT/c4P
+	 lLwjq//pKU7FXnbdZfyiJR3Uksq5iB28InWH4ohbpV17ndTg3UV1f3kMP/8W+/OhkJ
+	 eByTQa+iF8vls241JiUDm623IHar8dS36K1HOdpD4ql3dRFYNrETj19P+j1KjJGArJ
+	 BrO24pzp1ScWA==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5FD5A17E3C9B;
-	Tue, 01 Sep 2026 20:51:30 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2349C17E3C9D;
+	Tue, 01 Sep 2026 20:51:31 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 01 Sep 2026 21:51:31 +0300
-Subject: [PATCH v11 67/74] drm/tests: hdmi_state_helper: Cover source-side
- scrambling decision
+Date: Tue, 01 Sep 2026 21:51:32 +0300
+Subject: [PATCH v11 68/74] drm/connector: Remove drmm_connector_hdmi_ini2()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +44,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260901-dw-hdmi-qp-scramb-v11-67-bc12954a0688@collabora.com>
+Message-Id: <20260901-dw-hdmi-qp-scramb-v11-68-bc12954a0688@collabora.com>
 References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
 In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -70,196 +69,157 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
- linux-fbdev@vger.kernel.org
+ linux-fbdev@vger.kernel.org, Diederik de Haas <diederik@cknow-tech.com>
 X-Mailer: b4 0.15.2
 
-Add a couple of atomic-check cases that initialise an HDMI 2.0
-connector, so the core infers the scrambler support and the 600 MHz TMDS
-limit, and assert that conn_state->hdmi.scrambler_needed stays clear for
-a 1080p@60 CEA mode (~148.5 MHz TMDS) and is set for the 4K@60 RGB
-preferred mode (~594 MHz TMDS), straddling the 340 MHz threshold.
+All callers have been converted to the new drmm_connector_hdmi_init()
+signature.  Remove the transitional drmm_connector_hdmi_ini2() function,
+its declaration, its EXPORT_SYMBOL() and its kernel-doc.
 
+Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # NanoPC-T6 LTS, Rock 5B
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c | 151 +++++++++++++++++++++
- 1 file changed, 151 insertions(+)
+ drivers/gpu/drm/drm_connector.c | 106 ----------------------------------------
+ include/drm/drm_connector.h     |   9 ----
+ 2 files changed, 115 deletions(-)
 
-diff --git a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-index 6d648332aa15..68b442c32a2a 100644
---- a/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-+++ b/drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c
-@@ -216,6 +216,34 @@ static const struct drm_connector_hdmi_funcs reject_over_165mhz_connector_hdmi_f
- 	},
- };
- 
-+static int accept_scrambler_enable(struct drm_connector *connector)
-+{
-+	return 0;
-+}
-+
-+static int accept_scrambler_disable(struct drm_connector *connector)
-+{
-+	return 0;
-+}
-+
-+static const struct drm_connector_hdmi_funcs scrambler_connector_hdmi_funcs = {
-+	.vendor = "Vendor",
-+	.product = "Product",
-+	.supported_hdmi_ver = HDMI_VERSION_2_0,
-+	.supported_formats = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444),
-+	.max_bpc = 8,
-+	.scrambler_enable	 = accept_scrambler_enable,
-+	.scrambler_disable	 = accept_scrambler_disable,
-+	.avi = {
-+		.clear_infoframe = accept_infoframe_clear_infoframe,
-+		.write_infoframe = accept_infoframe_write_infoframe,
-+	},
-+	.hdmi = {
-+		.clear_infoframe = accept_infoframe_clear_infoframe,
-+		.write_infoframe = accept_infoframe_write_infoframe,
-+	},
-+};
-+
- static int dummy_connector_get_modes(struct drm_connector *connector)
- {
- 	struct drm_atomic_helper_connector_hdmi_priv *priv =
-@@ -2254,6 +2282,127 @@ static void drm_test_check_disable_connector(struct kunit *test)
- 	drm_modeset_acquire_fini(&ctx);
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index d94c86bfed86..c9540d58719a 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -686,112 +686,6 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
  }
+ EXPORT_SYMBOL(drmm_connector_hdmi_init);
  
-+/*
-+ * Test that on an HDMI connector with source+sink scrambling support, driving
-+ * a sub-340 MHz CEA mode, we end up with scrambler_needed cleared.
-+ */
-+static void drm_test_check_scrambler_needed_low_rate(struct kunit *test)
-+{
-+	struct drm_atomic_helper_connector_hdmi_priv *priv;
-+	struct drm_modeset_acquire_ctx ctx;
-+	struct drm_connector_state *conn_state;
-+	struct drm_display_info *info;
-+	struct drm_display_mode *low_rate_mode;
-+	struct drm_connector *conn;
-+	struct drm_device *drm;
-+	struct drm_crtc *crtc;
-+	unsigned long long rate;
-+	int ret;
-+
-+	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
-+				&scrambler_connector_hdmi_funcs,
-+				test_edid_hdmi_4k_rgb_yuv420_dc_max_600mhz);
-+	KUNIT_ASSERT_NOT_NULL(test, priv);
-+
-+	drm = &priv->drm;
-+	crtc = priv->crtc;
-+	conn = &priv->connector;
-+	info = &conn->display_info;
-+	KUNIT_ASSERT_TRUE(test, drm_connector_hdmi_scrambler_supported(conn));
-+	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
-+	KUNIT_ASSERT_TRUE(test, info->hdmi.scdc.supported);
-+	KUNIT_ASSERT_TRUE(test, info->hdmi.scdc.scrambling.supported);
-+
-+	low_rate_mode = drm_kunit_display_mode_from_cea_vic(test, drm, 16);
-+	KUNIT_ASSERT_NOT_NULL(test, low_rate_mode);
-+
-+	rate = drm_hdmi_compute_mode_clock(low_rate_mode, 8, DRM_OUTPUT_COLOR_FORMAT_RGB444);
-+	KUNIT_ASSERT_LT(test, rate, HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ);
-+
-+	drm_modeset_acquire_init(&ctx, 0);
-+
-+retry_conn_enable:
-+	ret = drm_kunit_helper_enable_crtc_connector(test, drm, crtc, conn,
-+						     low_rate_mode, &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	conn_state = conn->state;
-+	KUNIT_ASSERT_NOT_NULL(test, conn_state);
-+
-+	KUNIT_EXPECT_LE(test, conn_state->hdmi.tmds_char_rate,
-+			HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ);
-+	KUNIT_EXPECT_FALSE(test, conn_state->hdmi.scrambler_needed);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
-+}
-+
-+/*
-+ * Test that on an HDMI connector with source+sink scrambling support, driving
-+ * the 4K@60 RGB preferred mode (~594 MHz TMDS, above the 340 MHz threshold),
-+ * we end up with scrambler_needed set.
-+ */
-+static void drm_test_check_scrambler_needed_high_rate(struct kunit *test)
-+{
-+	struct drm_atomic_helper_connector_hdmi_priv *priv;
-+	struct drm_modeset_acquire_ctx ctx;
-+	struct drm_connector_state *conn_state;
-+	struct drm_display_info *info;
-+	struct drm_display_mode *preferred;
-+	struct drm_connector *conn;
-+	struct drm_device *drm;
-+	struct drm_crtc *crtc;
-+	unsigned long long rate;
-+	int ret;
-+
-+	priv = drm_kunit_helper_connector_hdmi_init_with_edid_funcs(test,
-+				&scrambler_connector_hdmi_funcs,
-+				test_edid_hdmi_4k_rgb_yuv420_dc_max_600mhz);
-+	KUNIT_ASSERT_NOT_NULL(test, priv);
-+
-+	drm = &priv->drm;
-+	crtc = priv->crtc;
-+	conn = &priv->connector;
-+	info = &conn->display_info;
-+	KUNIT_ASSERT_TRUE(test, drm_connector_hdmi_scrambler_supported(conn));
-+	KUNIT_ASSERT_TRUE(test, info->is_hdmi);
-+	KUNIT_ASSERT_TRUE(test, info->hdmi.scdc.supported);
-+	KUNIT_ASSERT_TRUE(test, info->hdmi.scdc.scrambling.supported);
-+
-+	preferred = find_preferred_mode(conn);
-+	KUNIT_ASSERT_NOT_NULL(test, preferred);
-+
-+	rate = drm_hdmi_compute_mode_clock(preferred, 8, DRM_OUTPUT_COLOR_FORMAT_RGB444);
-+	KUNIT_ASSERT_GT(test, rate, HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ);
-+
-+	drm_modeset_acquire_init(&ctx, 0);
-+
-+retry_conn_enable:
-+	ret = drm_kunit_helper_enable_crtc_connector(test, drm, crtc, conn,
-+						     preferred, &ctx);
-+	if (ret == -EDEADLK) {
-+		ret = drm_modeset_backoff(&ctx);
-+		if (!ret)
-+			goto retry_conn_enable;
-+	}
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	conn_state = conn->state;
-+	KUNIT_ASSERT_NOT_NULL(test, conn_state);
-+
-+	KUNIT_EXPECT_GT(test, conn_state->hdmi.tmds_char_rate,
-+			HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ);
-+	KUNIT_EXPECT_TRUE(test, conn_state->hdmi.scrambler_needed);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
-+}
-+
- struct color_format_test_param {
- 	enum drm_connector_color_format fmt;
- 	enum drm_output_color_format expected;
-@@ -2496,6 +2645,8 @@ static struct kunit_case drm_atomic_helper_connector_hdmi_check_tests[] = {
- 	KUNIT_CASE(drm_test_check_tmds_char_rate_rgb_8bpc),
- 	KUNIT_CASE(drm_test_check_tmds_char_rate_rgb_10bpc),
- 	KUNIT_CASE(drm_test_check_tmds_char_rate_rgb_12bpc),
-+	KUNIT_CASE(drm_test_check_scrambler_needed_low_rate),
-+	KUNIT_CASE(drm_test_check_scrambler_needed_high_rate),
- 	KUNIT_CASE_PARAM(drm_test_check_hdmi_color_format,
- 			 check_hdmi_color_format_gen_params),
- 	KUNIT_CASE_PARAM(drm_test_check_hdmi_color_format_420_only,
+-/**
+- * drmm_connector_hdmi_ini2 - Init a preallocated HDMI connector
+- * @dev: DRM device
+- * @connector: A pointer to the HDMI connector to init
+- * @vendor: HDMI Controller Vendor name
+- * @product: HDMI Controller Product name
+- * @funcs: callbacks for this connector
+- * @hdmi_funcs: HDMI-related callbacks for this connector
+- * @connector_type: user visible type of the connector
+- * @ddc: optional pointer to the associated ddc adapter
+- * @supported_formats: Bitmask of @drm_output_color_format listing supported output formats
+- * @max_bpc: Maximum bits per char the HDMI connector supports
+- *
+- * Initialises a preallocated HDMI connector. Connectors can be
+- * subclassed as part of driver connector objects.
+- *
+- * Cleanup is automatically handled with a call to
+- * drm_connector_cleanup() in a DRM-managed action.
+- *
+- * The connector structure should be allocated with drmm_kzalloc().
+- *
+- * The @drm_connector_funcs.destroy hook must be NULL.
+- *
+- * Returns:
+- * Zero on success, error code on failure.
+- */
+-int drmm_connector_hdmi_ini2(struct drm_device *dev,
+-			     struct drm_connector *connector,
+-			     const char *vendor, const char *product,
+-			     const struct drm_connector_funcs *funcs,
+-			     const struct drm_connector_hdmi_funcs *hdmi_funcs,
+-			     int connector_type,
+-			     struct i2c_adapter *ddc,
+-			     unsigned long supported_formats,
+-			     unsigned int max_bpc)
+-{
+-	int ret;
+-
+-	if (!vendor || !product)
+-		return -EINVAL;
+-
+-	if ((strlen(vendor) > DRM_CONNECTOR_HDMI_VENDOR_LEN) ||
+-	    (strlen(product) > DRM_CONNECTOR_HDMI_PRODUCT_LEN))
+-		return -EINVAL;
+-
+-	if (!(connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+-	      connector_type == DRM_MODE_CONNECTOR_HDMIB))
+-		return -EINVAL;
+-
+-	if (!supported_formats || !(supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444)))
+-		return -EINVAL;
+-
+-	if (connector->ycbcr_420_allowed != !!(supported_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420)))
+-		return -EINVAL;
+-
+-	if (!(max_bpc == 8 || max_bpc == 10 || max_bpc == 12))
+-		return -EINVAL;
+-
+-	if (!hdmi_funcs->avi.clear_infoframe ||
+-	    !hdmi_funcs->avi.write_infoframe ||
+-	    !hdmi_funcs->hdmi.clear_infoframe ||
+-	    !hdmi_funcs->hdmi.write_infoframe)
+-		return -EINVAL;
+-
+-	ret = drmm_connector_init(dev, connector, funcs, connector_type, ddc);
+-	if (ret)
+-		return ret;
+-
+-	connector->hdmi.supported_formats = supported_formats;
+-	strtomem_pad(connector->hdmi.vendor, vendor, 0);
+-	strtomem_pad(connector->hdmi.product, product, 0);
+-
+-	/*
+-	 * drm_connector_attach_max_bpc_property() requires the
+-	 * connector to have a state.
+-	 */
+-	if (connector->funcs->atomic_create_state) {
+-		struct drm_connector_state *state;
+-
+-		state = connector->funcs->atomic_create_state(connector);
+-		if (IS_ERR(state))
+-			return PTR_ERR(state);
+-
+-		connector->state = state;
+-	} else if (connector->funcs->reset) {
+-		connector->funcs->reset(connector);
+-		if (!connector->state)
+-			return -ENOMEM;
+-	}
+-
+-	drm_connector_attach_max_bpc_property(connector, 8, max_bpc);
+-	connector->max_bpc = max_bpc;
+-
+-	if (max_bpc > 8)
+-		drm_connector_attach_hdr_output_metadata_property(connector);
+-
+-	ret = drm_connector_attach_color_format_property(connector, supported_formats);
+-	if (ret)
+-		return ret;
+-
+-	connector->hdmi.funcs = hdmi_funcs;
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL(drmm_connector_hdmi_ini2);
+-
+ /**
+  * drm_connector_attach_edid_property - attach edid property.
+  * @connector: the connector
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 2ee7c59329aa..d62a79b9699a 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -2743,15 +2743,6 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+ 			     const struct drm_connector_hdmi_funcs *hdmi_funcs,
+ 			     int connector_type,
+ 			     struct i2c_adapter *ddc);
+-int drmm_connector_hdmi_ini2(struct drm_device *dev,
+-			     struct drm_connector *connector,
+-			     const char *vendor, const char *product,
+-			     const struct drm_connector_funcs *funcs,
+-			     const struct drm_connector_hdmi_funcs *hdmi_funcs,
+-			     int connector_type,
+-			     struct i2c_adapter *ddc,
+-			     unsigned long supported_formats,
+-			     unsigned int max_bpc);
+ void drm_connector_attach_edid_property(struct drm_connector *connector);
+ int drm_connector_register(struct drm_connector *connector);
+ int drm_connector_dynamic_register(struct drm_connector *connector);
 
 -- 
 2.55.0
