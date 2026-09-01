@@ -1,386 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m101-out-mua-6.websupport.se (m101-out-mua-6.websupport.se [109.235.175.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BDC644237F
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 Aug 2026 16:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB9B4CCDE8
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 05:59:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.235.175.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788193207; cv=none; b=KKuTNfFdvrOHnbswvsnwKVnYATQM2QiY9HLeP5ExIEX6AGcR+3PZhofvksKYIbGEeQKDN3lkKzKTtMxissiNQHcUo0unCwlQGrLaXt3hh/BpEKczpI+9SoU9Cs18On+HgBGUSqWBjEettkuz/WSADrCu0urXYZlziyPoO1rpLTE=
+	t=1788242350; cv=none; b=kEvsXzaVLir5LZlw3AuKv3zKtvpuR3V/5Dh8ULMIsht2VxJ2CYILzlr9Uw8chjS9fpTcuDJrBYGiy2OwVCpoL9XmUvRKHdEeP5IcR6aCjWYoRQsw26bT8mMioVbNhbxMh6RN28w5HAHU5tQUeajICxb/C3HfQOo73+FIMiKGav0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788193207; c=relaxed/simple;
-	bh=a9d7GCveTjYpNRIq2WMAfA2b9JIVG5W2l1O1/6gTPp4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=MXgT74h5xuQSDFEAfTox2wxDtnSqRmfU0gtypBltMDYt15YXKD9ZlfPvdCYvE2gjdGyL2N7bO8YJ36gHfiYenDP7uHqrCdl1UjLiLfGM6Yn/Cnb8sAgkEjQWTaXrsXNyxROHOH+c/vExP8hsaY5QlBbKhiY0aJ5qNjpBkJU4HtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MS8tEcFI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788242350; c=relaxed/simple;
+	bh=7uuRZp7qeKh4R7noNFIXIYhCuhsLsbYCAsIHUDE9vGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bVihvdNLXuS3eOX+SX69GU1Ug4pw3SL/CmrCug1g3+BSstAH+b2aYvAQSjcSd27uJj855zrDmqHcCkDZ1dJ8//iBtODuQUpVvUAiB2sLvgkAg5VzeMvEDDY0U4C7QUwwrhJl3sUmZNsw5Y/gbOp5NPYhOMUUG29hm0RGa3o469c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=palvencia.se; spf=pass smtp.mailfrom=palvencia.se; dkim=pass (2048-bit key) header.d=palvencia.se header.i=@palvencia.se header.b=KZ5UTKMS; arc=none smtp.client-ip=109.235.175.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=palvencia.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=palvencia.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MS8tEcFI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED7BF1F00A3D;
-	Mon, 31 Aug 2026 16:20:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788193205;
-	bh=AIl8kApfwY+PuNIQ0bDGRHbZMl/F8Fxkf58n8ZSsscI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=MS8tEcFIRh5/aRKCbXbrQcojR4CtLsMBx2CQDsk8tD45jbMETjmqDIZOAlQn4F4dL
-	 rVKhDeI0AI4s2+La+IQdpPdY6kghflMy6LQLl9sEZFML/JLb+ttmzun/f0R/8DGkIx
-	 0h2lxKXPsXBq52C9Gc+HUSohjbqYTokOjX6lOKrWOTB9pfNDcu2VA6VCM7Sn6zqE7k
-	 vu7Hr1p+gXpc+AxrugP5LbNwMJzjSvbU77Fh8XBgFoTJMDVic4R2Ye2O5IGvW8Omzo
-	 Od/wObvt+xgdVQdb9O+p+d0MJJaCJFrvFOIlWmTLVQDUtZ1bJbbWTAkdS5YdMmry+w
-	 +byACqCZN+fOw==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 31 Aug 2026 18:17:53 +0200
-Subject: [PATCH v3 37/40] drm/sun4i: layer: Convert to atomic_create_state
+	dkim=pass (2048-bit key) header.d=palvencia.se header.i=@palvencia.se header.b="KZ5UTKMS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=palvencia.se;
+	s=mail; t=1788241715;
+	bh=YygSGBZu0R6mtENe2yptPbGK7gd+pjUTcphUn2rVuTo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=KZ5UTKMS6tkX5fwRrcxEB4s0bZWbepjd0YohsrdLoFy1Tgmo5Oq/tpdj7NYPwqWnV
+	 YWgGVUmIHskDAeWgSoezOW01N1V6XZuniezQyMxb2vN5pAhYKbr61k0Sz5bu3kCrnX
+	 ZAotHbPqXwMyVdCbh8mmg/tmUU+Ef6aj4OJWhJFfobxXNB9NlrEHzHOhpfF7DmrDkD
+	 HCOefuXkRvcPvF1BUXJqEf3SKRUXubRwgP0oL2PYpo3N1BqxtQGPU+BMtaHXlnWmM9
+	 hvIEtARyqbjM9JHo1ihbObu0EC/NH1Oqj4oexiVG6UY5aTCAjuABCz1wtGUBaiOiuQ
+	 05JeiBjexsung==
+Received: from m101-u6-ing.websupport.se (unknown [10.30.6.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	by m101-out-mua-6.websupport.se (Postfix) with ESMTPS id 4hYvzl60sSz1GVb;
+	Tue,  1 Sep 2026 07:48:35 +0200 (CEST)
+X-Authenticated-Sender: per@palvencia.se
+Authentication-Results: m101-u6-ing.websupport.se;
+	auth=pass smtp.auth=per@palvencia.se smtp.mailfrom=per@palvencia.se
+Received: from rpi (unknown [213.204.219.218])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: per@palvencia.se)
+	by m101-u6-ing.websupport.se (Postfix) with ESMTPSA id 4hYvzg2Zqwz2k72;
+	Tue,  1 Sep 2026 07:48:31 +0200 (CEST)
+Date: Tue, 1 Sep 2026 07:48:27 +0200
+From: Per Larsson <per@palvencia.se>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Heiner
+ Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Liu
+ Changjie <liucj1228@outlook.com>, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 6/6] arm64: dts: allwinner: a523: x96qpro+: enable
+ Ethernet support
+Message-ID: <20260901074827.39a649bc@rpi>
+In-Reply-To: <20260809134607.65d66069@rpi>
+References: <20260803101452.2993721-1-andre.przywara@arm.com>
+	<20260803101452.2993721-7-andre.przywara@arm.com>
+	<20260809134607.65d66069@rpi>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260831-drm-no-more-plane-reset-v3-37-1877c7aa57b3@kernel.org>
-References: <20260831-drm-no-more-plane-reset-v3-0-1877c7aa57b3@kernel.org>
-In-Reply-To: <20260831-drm-no-more-plane-reset-v3-0-1877c7aa57b3@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- linux-sunxi@lists.linux.dev, samuel@sholland.org, wens@kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6982; i=mripard@kernel.org;
- h=from:subject:message-id; bh=a9d7GCveTjYpNRIq2WMAfA2b9JIVG5W2l1O1/6gTPp4=;
- b=kA0DAAkTJ1/OGaI9vnYByyZiAGqVqSDIv2dQ303Kptv5DSY7AMbNbqqQFNU9cbVFH30hFibtL
- YiVBAATCQAdFiEE5BxWy6eHo3pAP6n4J1/OGaI9vnYFAmqVqSAACgkQJ1/OGaI9vnbeTQGAluz9
- jtilaffBkv/mwRDM+Tif8nArYtR8YCy6xmbcDFZTtJVX7uHLSIDsZ0/z1Gi8AX984N1zn1mwy4d
- +UZiMJ0On364bJ0RLv/LIYcQJX7wBKAuZaW7FpvPQqV7JIEt6Ad4=
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+X-Out-Spamd-Result: default: False [1.90 / 1000.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_RHS_NOT_FQDN(0.50)[];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,outlook.com];
+	TAGGED_RCPT(0.00)[netdev,dt];
+	RCVD_COUNT_ZERO(0.00)[0];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:35790, ipnet:213.204.219.0/24, country:SE];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	BAYES_HAM(0.00)[40.30%];
+	HAS_X_AS(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	LOCAL_OUTBOUND(0.00)[];
+	FREEMAIL_CC(0.00)[lunn.ch,davemloft.net,google.com,kernel.org,redhat.com,gmail.com,sholland.org,armlinux.org.uk,outlook.com,vger.kernel.org,lists.linux.dev,lists.infradead.org]
+X-Out-Rspamd-Queue-Id: 4hYvzg2Zqwz2k72
+X-Out-Rspamd-Server: m101-rspamd-out-4
+X-Rspamd-Action: no action
+X-purgate-type: clean
+X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
+X-purgate-size: 466
+X-purgate-ID: 155908::1788241715-3F2551C6-327DD7E6/0/0
 
-The plane reset implementation creates a custom state
-subclass, but only initializes a pristine state without resetting any
-hardware. This is equivalent to what atomic_create_state expects.
-Convert to it.
+On Sun, 9 Aug 2026 13:46:07 +0200
+Per Larsson <per@palvencia.se> wrote:
 
-The conversion was done using the following Coccinelle semantic patch:
+> On Mon,  3 Aug 2026 12:14:52 +0200
+> Andre Przywara <andre.przywara@arm.com> wrote:
+> 
+> > +		pinctrl-0 = <&ephy_25m_pin>;  
+> 
+> This should be &ephy1_25m_pin, right?
 
-@@
-identifier funcs;
-symbol drm_atomic_helper_plane_reset;
-symbol drm_atomic_helper_plane_create_state;
-@@
-
-struct drm_plane_funcs funcs = {
-  ...,
-- .reset = drm_atomic_helper_plane_reset,
-+ .atomic_create_state = drm_atomic_helper_plane_create_state,
-  ...,
-};
-
-@match_struct_reset@
-identifier funcs, reset_func;
-@@
-struct drm_plane_funcs funcs = {
-    ...,
-    .reset = reset_func,
-    ...,
-};
-
-@reset_uses_helpers depends on match_struct_reset@
-identifier match_struct_reset.reset_func;
-@@
-
- void reset_func(...)
- {
- 	<+...
-(
- 	__drm_atomic_helper_plane_reset(...);
-|
-	__drm_gem_reset_shadow_plane(...);
-)
- 	...+>
- }
-
-@match_struct_destroy@
-identifier funcs, destroy_func;
-@@
-struct drm_plane_funcs funcs = {
-    ...,
-    .atomic_destroy_state = destroy_func,
-    ...,
-};
-
-@script:python renamed_func@
-old_name << match_struct_reset.reset_func;
-new_name;
-@@
-if old_name.endswith("_reset"):
-    coccinelle.new_name = old_name.replace("_reset", "_create_state")
-else:
-    coccinelle.new_name = old_name
-
-@update_struct depends on match_struct_reset && reset_uses_helpers@
-identifier match_struct_reset.funcs, match_struct_reset.reset_func;
-identifier renamed_func.new_name;
-@@
-struct drm_plane_funcs funcs = {
-    ...,
--   .reset = reset_func,
-+   .atomic_create_state = new_name,
-    ...,
-};
-
-@drop_destroy depends on update_struct && match_struct_destroy@
-identifier match_struct_reset.reset_func;
-identifier match_struct_destroy.destroy_func;
-identifier container_func;
-identifier P;
-symbol drm_atomic_helper_plane_destroy_state;
-symbol __drm_atomic_helper_plane_destroy_state;
-@@
-
- void reset_func(struct drm_plane *P)
- {
- 	...
-(
--	if (P->state) {
-- 		<+...
-(
--		drm_atomic_helper_plane_destroy_state(P, P->state);
-|
--		__drm_atomic_helper_plane_destroy_state(P->state);
-|
--		P->funcs->atomic_destroy_state(P, P->state);
-|
--		destroy_func(P, P->state);
-)
-- 		...+>
-- 	}
-|
--	drm_WARN_ON_ONCE(P->dev, P->state);
-|
--	WARN_ON(P->state);
-)
- 	...
-(
--	kfree(P->state);
-|
--	kfree(container_func(P->state));
-|
- 	// kfree is optional
-)
-(
--	P->state = NULL;
-|
- 	// plane->state clearing is optional
-)
- 	...
- }
-
-@drop_destroy_mtk depends on update_struct@
-identifier P;
-symbol __drm_atomic_helper_plane_destroy_state;
-symbol to_mtk_plane_state;
-@@
-
- void mtk_plane_reset(struct drm_plane *P)
- {
- 	...
--	if (P->state) {
--		__drm_atomic_helper_plane_destroy_state(P->state);
--		...
--	} else {
- 		...
--	}
- 	...
- }
-
-@transform_nv50_wndw depends on update_struct@
-identifier S;
-@@
-
- void nv50_wndw_reset(...)
- {
- 	...
--	if (WARN_ON(!(S = kzalloc_obj(*S))))
-+	S = kzalloc_obj(*S);
-+	if (WARN_ON(!S))
- 		return;
- 	...
- }
-
-@transform_kzalloc depends on update_struct@
-identifier match_struct_reset.reset_func;
-identifier P, S;
-statement ST;
-statement list STL;
-@@
-
- void reset_func(struct drm_plane *P)
- {
- 	<...
- 	S = kzalloc_obj(*S);
-(
--	if (S)
--	{
--		STL
--	}
-+	if (!S) return;
-+
-+	STL
-|
--	if (S) ST
-+	if (!S) return;
-+
-+	ST
-)
-	...>
- }
-
-@transform_body depends on update_struct@
-identifier match_struct_reset.reset_func;
-identifier renamed_func.new_name;
-identifier S, P;
-expression PS;
-@@
-- void reset_func(struct drm_plane *P)
-+ struct drm_plane_state *new_name(struct drm_plane *P)
-{
-	...
- 	S = kzalloc_obj(*S);
-	...
-(
- 	if (!S) {
-		...
--		return;
-+		return ERR_PTR(-ENOMEM);
- 	}
-|
- 	if (WARN_ON(!S)) {
-		...
--		return;
-+		return ERR_PTR(-ENOMEM);
- 	}
-|
- 	if (S == NULL) {
- 		...
--		return;
-+		return ERR_PTR(-ENOMEM);
- 	}
-)
-	...
-(
--	__drm_atomic_helper_plane_reset(P, PS);
-+	__drm_atomic_helper_plane_state_init(PS, P);
-|
--	__drm_gem_reset_shadow_plane(P, PS);
-+	__drm_gem_shadow_plane_state_init(P, PS);
-)
-	...
-}
-
-@update_early_return depends on update_struct@
-identifier match_struct_reset.reset_func;
-identifier renamed_func.new_name;
-identifier P;
-expression PS;
-@@
- struct drm_plane_state *new_name(struct drm_plane *P)
-{
-	<+...
--	return;
-+	return ERR_PTR(-EINVAL);
-	...+>
-}
-
-@update_return_plane depends on update_struct@
-identifier match_struct_reset.reset_func;
-identifier renamed_func.new_name;
-identifier P;
-expression PS;
-@@
- struct drm_plane_state *new_name(struct drm_plane *P)
-{
-	...
- 	__drm_atomic_helper_plane_state_init(PS, P);
-	...
-+
-+	return PS;
-}
-
-@update_return_shadow depends on update_struct@
-identifier renamed_func.new_name;
-identifier P;
-expression PS;
-@@
- struct drm_plane_state *new_name(struct drm_plane *P)
-{
-	...
- 	__drm_gem_shadow_plane_state_init(P, PS);
-	...
-+
-+	return &PS->base;
-}
-
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
-Cc: linux-sunxi@lists.linux.dev
-Cc: samuel@sholland.org
-Cc: wens@kernel.org
----
- drivers/gpu/drm/sun4i/sun4i_layer.c | 21 ++++++++-------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
-index d65587d96d9e..7ec6d8131908 100644
---- a/drivers/gpu/drm/sun4i/sun4i_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
-@@ -14,26 +14,21 @@
- #include "sun4i_backend.h"
- #include "sun4i_frontend.h"
- #include "sun4i_layer.h"
- #include "sunxi_engine.h"
- 
--static void sun4i_backend_layer_reset(struct drm_plane *plane)
-+static struct drm_plane_state *sun4i_backend_layer_create_state(struct drm_plane *plane)
- {
- 	struct sun4i_layer_state *state;
- 
--	if (plane->state) {
--		state = state_to_sun4i_layer_state(plane->state);
--
--		__drm_atomic_helper_plane_destroy_state(&state->state);
--
--		kfree(state);
--		plane->state = NULL;
--	}
--
- 	state = kzalloc_obj(*state);
--	if (state)
--		__drm_atomic_helper_plane_reset(plane, &state->state);
-+	if (!state)
-+		return ERR_PTR(-ENOMEM);
-+
-+	__drm_atomic_helper_plane_state_init(&state->state, plane);
-+
-+	return &state->state;
- }
- 
- static struct drm_plane_state *
- sun4i_backend_layer_duplicate_state(struct drm_plane *plane)
- {
-@@ -131,11 +126,11 @@ static const struct drm_plane_helper_funcs sun4i_backend_layer_helper_funcs = {
- static const struct drm_plane_funcs sun4i_backend_layer_funcs = {
- 	.atomic_destroy_state	= sun4i_backend_layer_destroy_state,
- 	.atomic_duplicate_state	= sun4i_backend_layer_duplicate_state,
- 	.destroy		= drm_plane_cleanup,
- 	.disable_plane		= drm_atomic_helper_disable_plane,
--	.reset			= sun4i_backend_layer_reset,
-+	.atomic_create_state	= sun4i_backend_layer_create_state,
- 	.update_plane		= drm_atomic_helper_update_plane,
- 	.format_mod_supported	= sun4i_layer_format_mod_supported,
- };
- 
- static const uint32_t sun4i_layer_formats[] = {
-
--- 
-2.55.0
-
+With this typo (and the one in patch 4/6) fixed, this series gets a
+Tested-by: Per Larsson <per@palvencia.se>
+since it eliminates the need to use hackier methods to get the ethernet
+port to work on this box.
