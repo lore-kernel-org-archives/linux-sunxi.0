@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DB44AA02A
-	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 18:51:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068A04AA01D
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 18:51:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788288702; cv=none; b=X47g9sSmF/O6IOaiXsbxizF7evyR3Ts7eHT7oBoPNAV5SOCN5xHuJW1p8u6w+ghaC6qjmImb3kLOZzBH5797h14Od8eZyv5G68rAkKPlhwhLZK2BR07Af8YAsizG9hPkrnTDUpHZiWLCPG794MZNl3sfVBTOXR56WlkKD+4/sLw=
+	t=1788288702; cv=none; b=CwLE8lfWl4F2AnXLWKZe/9hf7bxk+emulJ7EqqfmAgXdv5yvS+GIWdCFieyGcFUfQlTiFUYElBwnpCnvgAXjYdu0xwd+PFInYiwuaapZS1C7dDZtrcwgtmOuTG6KVF44d95hA3z4ZpnECF52Yf7mdZPdkQNtkhOVz4NTayZe5K0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788288702; c=relaxed/simple;
-	bh=2FphXkEs5DxSnnWd+PhysCsnj7bm1CbZ3PIGCi97678=;
+	bh=gMZvH/XQuHle0y4qmxFGuepyJ+gg6MxKAWPpFnQKQUk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kb8THyhnEy6ze0QczW1LbMeWvOV/WHV4gM4U/3KvwjAfb6JRk3Nv7XQp33kdMCovdLWiwhbXv+CQPwXOVgV5lF+h32Vm4MXtk8qc5y0aXF9wTiXHcgXTPyeT6xgkVrsn9+6OYLnLlBEuOxuTc95Jus4yXIcotYgYp07cP5ldFpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=VfTE5yh7; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=aryVicO+pGjPx8J9LdUPe33BVpptyxy7K0vcEW15+VrLFXNuuvT1p55kpkv5xPRluNMP3MY16527OtMHJ6tJl5AwLa5RhxwOxYK7LZ1dcn3zhpkvxSNgxTQB+/dKp+HherRN1Ds9Pi8O95hDFe/NkOIHOiXWzf/fRZqO2fuWHkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=CHeLv6D1; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="VfTE5yh7"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CHeLv6D1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
 	s=mail; t=1788288694;
-	bh=2FphXkEs5DxSnnWd+PhysCsnj7bm1CbZ3PIGCi97678=;
+	bh=gMZvH/XQuHle0y4qmxFGuepyJ+gg6MxKAWPpFnQKQUk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=VfTE5yh7FmjPZC7UGIt63cVMRRkKlxjumfIkSCXPIWxWa4Q8Oen/yvdTvBRLWykde
-	 YFznIqMN3zhq535W6FSPg+v+W41AQlYc0fpNhgxaBUGS6o7M8B3v7/xerIX2TCaeyP
-	 hHq8unvKErlXnBp4Ho/zlL27dL0AHYJ+fQaWmDJJ1kqGgdNR5y1MYr1efbqb4e+/FR
-	 2ES0gzUYL/vuZ2kKGJ963DxuCNXSJEbBBuIbH0Oss5KfCToHOh3EO1UVc4laI2gC9x
-	 GEwFKUYAWi3y/2O/NTmJh5qIxfy3n9L/sRYT1zX+H6p7l1UaKlAoxaHQhioZ5x+PaJ
-	 djLkOdkb5YBVg==
+	b=CHeLv6D1SpaIHwZ1VwZo90Z4Voe1VkTLSbU/6grn1SzcAuimWnmB++CGKsI2PRyNU
+	 nM3MUkO+tJf+2sZWXaVUIs/tPNuAVxN3Q1+nQ89+aD/Rb7r/hDtMb7C97yiV1nvfD1
+	 cMnWZT5VQUCWaxVNdpecybIeGFh4GNVcwFiuvIfFRIPGdmvzVvDkI7dE3mW6oItc9X
+	 /lgVE6jTFFmb3ZOflHVIVDaHxTzoCNkJfQx18QbGA8nnEYGVOI/hxN/HZjLEFqFotV
+	 mFjc2/dBjjLKqOroSXryCUWxsFnAg7CKKKcNuToSqgWDOBpc5Iq95edvAE212+1UoL
+	 etYOWrrCkwVzg==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B863F17E3CA7;
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0833817E3CA6;
 	Tue, 01 Sep 2026 20:51:34 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 01 Sep 2026 21:51:37 +0300
-Subject: [PATCH v11 73/74] drm/connector: Use the SPD InfoFrame field
- length defines
+Date: Tue, 01 Sep 2026 21:51:36 +0300
+Subject: [PATCH v11 72/74] video/hdmi: Define SPD InfoFrame field lengths
+ and use strtomem_pad()
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260901-dw-hdmi-qp-scramb-v11-73-bc12954a0688@collabora.com>
+Message-Id: <20260901-dw-hdmi-qp-scramb-v11-72-bc12954a0688@collabora.com>
 References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
 In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -73,119 +73,111 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
  linux-fbdev@vger.kernel.org
 X-Mailer: b4 0.15.2
 
-DRM_CONNECTOR_HDMI_{VENDOR,PRODUCT}_LEN used to size the vendor and
-product arrays in struct drm_connector_hdmi.  Those arrays are gone and
-both names are now only validated before being copied into the SPD
-InfoFrame, hence the limits they have to be checked against are the ones
-of the SPD InfoFrame fields themselves.
+HDMI specification defines the SPD InfoFrame Vendor Name and Product
+Description as fixed-size fields, 8 and 16 bytes respectively, padded
+with zeros and left without any trailing NUL when a name spans the whole
+field.
 
-Switch the remaining users over to
-HDMI_SPD_INFOFRAME_{VENDOR,PRODUCT}_LEN and drop the DRM specific
-defines, so that the two cannot drift apart.
+Give those lengths a name and mark the fields as non-strings, so that
+the copies can be handed over to strtomem_pad(), which implements
+precisely the required semantics.  This also bounds the reads from the
+source strings, whereas the open-coded strlen() could run past the end
+of the buffer in the hdmi_spd_infoframe_unpack() path, where the names
+come straight from the wire and are not NUL-terminated.
+
+While at it, replace the related magic numbers in the pack and unpack
+helpers with the new defines.
 
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/drm_connector.c            |  4 ++--
- drivers/gpu/drm/tests/drm_connector_test.c | 12 ++++++------
- include/drm/drm_connector.h                |  8 ++++----
- 3 files changed, 12 insertions(+), 12 deletions(-)
+ drivers/video/hdmi.c | 23 +++++++++++++----------
+ include/linux/hdmi.h |  7 +++++--
+ 2 files changed, 18 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index bb02e8626c0d..4bb43ac50b0a 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -579,8 +579,8 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
- 	if (!hdmi_funcs->vendor || !hdmi_funcs->product)
- 		return -EINVAL;
- 
--	if ((strlen(hdmi_funcs->vendor) > DRM_CONNECTOR_HDMI_VENDOR_LEN) ||
--	    (strlen(hdmi_funcs->product) > DRM_CONNECTOR_HDMI_PRODUCT_LEN))
-+	if ((strlen(hdmi_funcs->vendor) > HDMI_SPD_INFOFRAME_VENDOR_LEN) ||
-+	    (strlen(hdmi_funcs->product) > HDMI_SPD_INFOFRAME_PRODUCT_LEN))
- 		return -EINVAL;
- 
- 	if (!hdmi_funcs->supported_formats ||
-diff --git a/drivers/gpu/drm/tests/drm_connector_test.c b/drivers/gpu/drm/tests/drm_connector_test.c
-index be2d24abeeb8..f79cea11d161 100644
---- a/drivers/gpu/drm/tests/drm_connector_test.c
-+++ b/drivers/gpu/drm/tests/drm_connector_test.c
-@@ -782,7 +782,7 @@ static void drm_test_connector_hdmi_init_product_valid(struct kunit *test)
- 	priv->hdmi_funcs.product = "Prod";
- 
- 	KUNIT_ASSERT_LT(test, strlen(priv->hdmi_funcs.product),
--			DRM_CONNECTOR_HDMI_PRODUCT_LEN);
-+			HDMI_SPD_INFOFRAME_PRODUCT_LEN);
- 
- 	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
- 				       &dummy_funcs,
-@@ -805,7 +805,7 @@ static void drm_test_connector_hdmi_init_product_length_exact(struct kunit *test
- 	priv->hdmi_funcs.product = "ProductProductPr";
- 
- 	KUNIT_ASSERT_EQ(test, strlen(priv->hdmi_funcs.product),
--			DRM_CONNECTOR_HDMI_PRODUCT_LEN);
-+			HDMI_SPD_INFOFRAME_PRODUCT_LEN);
- 
- 	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
- 				       &dummy_funcs,
-@@ -828,7 +828,7 @@ static void drm_test_connector_hdmi_init_product_length_too_long(struct kunit *t
- 	priv->hdmi_funcs.product = "ProductProductProduct";
- 
- 	KUNIT_ASSERT_GT(test, strlen(priv->hdmi_funcs.product),
--			DRM_CONNECTOR_HDMI_PRODUCT_LEN);
-+			HDMI_SPD_INFOFRAME_PRODUCT_LEN);
- 
- 	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
- 				       &dummy_funcs,
-@@ -851,7 +851,7 @@ static void drm_test_connector_hdmi_init_vendor_valid(struct kunit *test)
- 	priv->hdmi_funcs.vendor = "Vend";
- 
- 	KUNIT_ASSERT_LT(test, strlen(priv->hdmi_funcs.vendor),
--			DRM_CONNECTOR_HDMI_VENDOR_LEN);
-+			HDMI_SPD_INFOFRAME_VENDOR_LEN);
- 
- 	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
- 				       &dummy_funcs,
-@@ -874,7 +874,7 @@ static void drm_test_connector_hdmi_init_vendor_length_exact(struct kunit *test)
- 	priv->hdmi_funcs.vendor = "VendorVe";
- 
- 	KUNIT_ASSERT_EQ(test, strlen(priv->hdmi_funcs.vendor),
--			DRM_CONNECTOR_HDMI_VENDOR_LEN);
-+			HDMI_SPD_INFOFRAME_VENDOR_LEN);
- 
- 	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
- 				       &dummy_funcs,
-@@ -895,7 +895,7 @@ static void drm_test_connector_hdmi_init_vendor_length_too_long(struct kunit *te
- 
- 	priv->hdmi_funcs = dummy_hdmi_funcs;
- 	priv->hdmi_funcs.vendor = "VendorVendor";
--	KUNIT_ASSERT_GT(test, strlen(priv->hdmi_funcs.vendor), DRM_CONNECTOR_HDMI_VENDOR_LEN);
-+	KUNIT_ASSERT_GT(test, strlen(priv->hdmi_funcs.vendor), HDMI_SPD_INFOFRAME_VENDOR_LEN);
- 
- 	ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
- 				       &dummy_funcs,
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 3b49799d12fd..2a804d42d4b1 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -1485,15 +1485,15 @@ struct drm_connector_infoframe_funcs {
-  * and controller capabilities
+diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
+index 45b42f14a750..e729c26d61c4 100644
+--- a/drivers/video/hdmi.c
++++ b/drivers/video/hdmi.c
+@@ -217,23 +217,22 @@ EXPORT_SYMBOL(hdmi_avi_infoframe_pack);
+  * @vendor: vendor string
+  * @product: product string
+  *
++ * Both strings are copied into the fixed-size infoframe fields,
++ * truncated if too long and padded with zeros otherwise.
++ *
+  * Returns 0 on success or a negative error code on failure.
   */
- struct drm_connector_hdmi_funcs {
--#define DRM_CONNECTOR_HDMI_VENDOR_LEN	8
- 	/**
--	 * @vendor: HDMI Controller Vendor name.
-+	 * @vendor: HDMI Controller Vendor name, at most
-+	 * HDMI_SPD_INFOFRAME_VENDOR_LEN characters long.
- 	 */
- 	const char *vendor;
+ int hdmi_spd_infoframe_init(struct hdmi_spd_infoframe *frame,
+ 			    const char *vendor, const char *product)
+ {
+-	size_t len;
+-
+ 	memset(frame, 0, sizeof(*frame));
  
--#define DRM_CONNECTOR_HDMI_PRODUCT_LEN	16
- 	/**
--	 * @product: HDMI Controller Product name
-+	 * @product: HDMI Controller Product name, at most
-+	 * HDMI_SPD_INFOFRAME_PRODUCT_LEN characters long.
- 	 */
- 	const char *product;
+ 	frame->type = HDMI_INFOFRAME_TYPE_SPD;
+ 	frame->version = 1;
+ 	frame->length = HDMI_SPD_INFOFRAME_SIZE;
+ 
+-	len = strlen(vendor);
+-	memcpy(frame->vendor, vendor, min(len, sizeof(frame->vendor)));
+-	len = strlen(product);
+-	memcpy(frame->product, product, min(len, sizeof(frame->product)));
++	strtomem_pad(frame->vendor, vendor, 0);
++	strtomem_pad(frame->product, product, 0);
+ 
+ 	return 0;
+ }
+@@ -305,9 +304,11 @@ ssize_t hdmi_spd_infoframe_pack_only(const struct hdmi_spd_infoframe *frame,
+ 	ptr += HDMI_INFOFRAME_HEADER_SIZE;
+ 
+ 	memcpy(ptr, frame->vendor, sizeof(frame->vendor));
+-	memcpy(ptr + 8, frame->product, sizeof(frame->product));
++	memcpy(ptr + HDMI_SPD_INFOFRAME_VENDOR_LEN, frame->product,
++	       sizeof(frame->product));
+ 
+-	ptr[24] = frame->sdi;
++	ptr[HDMI_SPD_INFOFRAME_VENDOR_LEN + HDMI_SPD_INFOFRAME_PRODUCT_LEN] =
++		frame->sdi;
+ 
+ 	hdmi_infoframe_set_checksum(buffer, length);
+ 
+@@ -1643,11 +1644,13 @@ static int hdmi_spd_infoframe_unpack(struct hdmi_spd_infoframe *frame,
+ 
+ 	ptr += HDMI_INFOFRAME_HEADER_SIZE;
+ 
+-	ret = hdmi_spd_infoframe_init(frame, ptr, ptr + 8);
++	ret = hdmi_spd_infoframe_init(frame, ptr,
++				      ptr + HDMI_SPD_INFOFRAME_VENDOR_LEN);
+ 	if (ret)
+ 		return ret;
+ 
+-	frame->sdi = ptr[24];
++	frame->sdi = ptr[HDMI_SPD_INFOFRAME_VENDOR_LEN +
++			 HDMI_SPD_INFOFRAME_PRODUCT_LEN];
+ 
+ 	return 0;
+ }
+diff --git a/include/linux/hdmi.h b/include/linux/hdmi.h
+index b80a5ee63bb2..d73ad7b3fa94 100644
+--- a/include/linux/hdmi.h
++++ b/include/linux/hdmi.h
+@@ -267,12 +267,15 @@ enum hdmi_spd_sdi {
+ 	HDMI_SPD_SDI_PMP,
+ };
+ 
++#define HDMI_SPD_INFOFRAME_VENDOR_LEN   8
++#define HDMI_SPD_INFOFRAME_PRODUCT_LEN 16
++
+ struct hdmi_spd_infoframe {
+ 	enum hdmi_infoframe_type type;
+ 	unsigned char version;
+ 	unsigned char length;
+-	char vendor[8];
+-	char product[16];
++	unsigned char vendor[HDMI_SPD_INFOFRAME_VENDOR_LEN] __nonstring;
++	unsigned char product[HDMI_SPD_INFOFRAME_PRODUCT_LEN] __nonstring;
+ 	enum hdmi_spd_sdi sdi;
+ };
  
 
 -- 
