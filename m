@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A984A484C
-	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 18:51:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC744A5C3A
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 18:51:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788288675; cv=none; b=n7MQd3lmuKYrUQWgQVUzsrWtnGYhbYYGDX08nB4ENalerXv5XZBWVSBKJnSENe6UoT4snMHNZZQwC9T5y1mtLszP5vKFKOBOkmETVFoxlVVI1BzIVK+3pgbY5omncWKvXxYRc2QUtyeQf9+xJIfOIOtC6J3X/cV6FcCVrRrzT9M=
+	t=1788288676; cv=none; b=oDiNwNsjXvSbI+Kqkik3Bs40Xqa/05atZRXWmKuTyTs1UrfkROyGMwPrbhPMPPHoTxIOsM4B67Euw7wZ8gJBhM/ZDMPyrK43fcpe1y07ZoNX/ONeL1QCjMPv49/qZBI82dwUbZvGDgza+lOR1gQlCBQbNHgXilnrZNek8mFmgW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788288675; c=relaxed/simple;
-	bh=/m8gvp9haym0x96FTKhsWUEIJdRrppjWdXwILaWvM/I=;
+	s=arc-20240116; t=1788288676; c=relaxed/simple;
+	bh=ccpopn9Y9LAmIjVmaGfBkmnfpoFJvMf4XBoclWEOsYY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hHb8Snqczl/hg/06d8AT17Qz+e9wEA795dwajhZMTRDNI6hgL1Le2FPAzGICNsNwFG/1DB5u8Z+j70tm1g/gtZhY5hkvSi64yL2KKpVTeHoxfr/x1r60wZ1xz9rCIRlkVuDHRUkuUIUSpiaKdHj00Q+7Rygz/1/mKD7zvPYSdPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=lKp0llvs; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=SQ8DYbztR3NeMrFINyMRsWqbvPi/2x8S925fOWERDN71RZmMqwiQKIjtdAdxyUkmdaTe5JOlEaTZqolt0+1RS+uytyJTIFQxVPj99sp8gjKZbntLqJKpaTHPgE8w31dOa+F/a9WF6Lf2xA3FN4t8gA7+GmxtJy/dJV4NL0iR87k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=or31Z5EU; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lKp0llvs"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="or31Z5EU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1788288670;
-	bh=/m8gvp9haym0x96FTKhsWUEIJdRrppjWdXwILaWvM/I=;
+	s=mail; t=1788288672;
+	bh=ccpopn9Y9LAmIjVmaGfBkmnfpoFJvMf4XBoclWEOsYY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=lKp0llvsFBoqhydalqLylbjoO5bbx3ZCCVGREnrs2nGAA0kn4YnhE1xDWKNaW0DVl
-	 25x/81+PPFwLbLUyMyLcISRBbJGwlgmGOgvxySTYsxRi+Fq9sxXprTFVEm9edgEwHB
-	 QWskiazOz+w+TyAvMUrTlC6ws+AmZpP28g5Zoxu72YZQFKJ8CFboTsvHYs9tIfxrLL
-	 LzUF4l9ZK9IyxPFM0wH2Oybv8x0mfd6sHdOu+fLRy8K9X8HFCuVVCiOOil9IUdUX8+
-	 Pc3w9wabFqUBzoEpVnjOUV2Z81OjXzjbOg47txbwQJsKoc2iBudiyydtPs9lF4HuSC
-	 kTvXN0dLOkPjQ==
+	b=or31Z5EUeZLCJula8ZWphT2psnkVcg3ge7j7ls0ppZDZEfHuqYGkSgHro5wyprUoD
+	 CeamCOxipccUTP7uxW2igWT1HzaWshSAsECscsDJRRhmG9CgRkn+8mwWa1tAFjp7Sp
+	 s+WkePbzoglvsZ9yomgP4Cp0SA4paobvZ55/ZzkuBciC2xplPCsohtu2XA4IRJ+f2K
+	 /f724833b8cY6mZoL9RFBgxfBYm05JfastzCNNbMBinTHUDiAnGVqskITFwolnOWt6
+	 +C0twwnt4Lw7EExFisL5lIZpkp51vFU1sV72rWhW9NPxp4o3PcgaNBb3dvboOdw8pw
+	 tDwby70I392nw==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id D298117E3C58;
-	Tue, 01 Sep 2026 20:51:09 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 15AD617E3C61;
+	Tue, 01 Sep 2026 20:51:12 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 01 Sep 2026 21:51:03 +0300
-Subject: [PATCH v11 39/74] drm/rockchip: dw_hdmi_qp: Control the HPD IRQ
- line via the bridge HPD ops
+Date: Tue, 01 Sep 2026 21:51:06 +0300
+Subject: [PATCH v11 42/74] drm/vc4: hdmi: Use common TMDS char rate
+ constants
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260901-dw-hdmi-qp-scramb-v11-39-bc12954a0688@collabora.com>
+Message-Id: <20260901-dw-hdmi-qp-scramb-v11-42-bc12954a0688@collabora.com>
 References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
 In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -70,136 +70,108 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
  dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
- linux-fbdev@vger.kernel.org, Diederik de Haas <diederik@cknow-tech.com>
+ linux-fbdev@vger.kernel.org
 X-Mailer: b4 0.15.2
 
-The HPD interrupt must not be delivered before the DRM connector is fully
-set up, and it should be quiesced while the display pipeline is suspended.
-On top of that, the threaded handler re-arms HPD unconditionally after the
-hotplug debounce, which must not override an explicit disable requested by
-the DRM core.
+Replace HDMI_14_MAX_TMDS_CLK defined locally with
+HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ provided by linux/hdmi.h.  Note this
+incorrectly referenced HDMI 1.4, as the 340 MHz maximum TMDS character
+rate was actually introduced in HDMI 1.3.
 
-Request the HPD IRQ in bind() with IRQF_NO_AUTOEN so it stays disabled
-until the core arms it, and drive enable_irq()/disable_irq() from the
-phy ops invoked by the bridge through its hpd_{enable,disable}()
-callbacks.  This ensures the line is only armed after the connector is
-ready.  disable_irq() additionally waits for the threaded handler to
-finish, so its GRF re-arm can no longer race with and override a
-core-requested disable.
+Similarly, use HDMI_2_0_TMDS_CHAR_RATE_MAX_HZ instead of the 600000000
+magic number.
 
-Masking the line is not enough on its own, though: the threaded handler
-merely queues hpd_work with a 150 ms debounce, so an event taken shortly
-before the disable would still probe the connector and read the EDID
-long after the core considers HPD quiesced.  Since disable_irq() has
-drained the threaded handler, which is the only site arming the work, it
-can no longer be requeued and dropping it is race-free.
-
-Use the non-syncing cancel_delayed_work() for that: waiting on a running
-callback would pull mode_config.mutex, taken by the work through
-drm_connector_helper_hpd_irq_event(), under the hpd_state_mutex held by
-drm_bridge_hpd_disable().  That inverts the order of the connector probe
-path, which holds mode_config.mutex while reaching hpd_state_mutex via
-drm_kms_helper_poll_enable().  A callback already in progress is drained
-by the system-sleep and unbind paths instead.
-
-Note that IRQF_NO_AUTOEN is incompatible with IRQF_SHARED; the latter is
-dropped as this IRQ has no other users.
-
-Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # NanoPC-T6 LTS, Rock 5B
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Acked-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 33 +++++++++++++++++++++-----
- 1 file changed, 27 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-index ecf12403101d..1c547016ee00 100644
---- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
-@@ -99,6 +99,7 @@ struct rockchip_hdmi_qp {
- 	struct phy *phy;
- 	struct gpio_desc *frl_enable_gpio;
- 	struct delayed_work hpd_work;
-+	int hpd_irq;
- 	int port_id;
- 	const struct rockchip_hdmi_qp_ctrl_ops *ctrl_ops;
- 	unsigned long long tmds_char_rate;
-@@ -308,13 +309,23 @@ static void dw_hdmi_qp_rk3588_enable_hpd(struct dw_hdmi_qp *dw_hdmi, void *data)
- 	struct rockchip_hdmi_qp *hdmi = (struct rockchip_hdmi_qp *)data;
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index 3a90dbb61f4e..8e4623ccc4f8 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -45,6 +45,7 @@
+ #include <linux/clk.h>
+ #include <linux/component.h>
+ #include <linux/gpio/consumer.h>
++#include <linux/hdmi.h>
+ #include <linux/i2c.h>
+ #include <linux/of.h>
+ #include <linux/of_address.h>
+@@ -113,8 +114,6 @@
+ #define HSM_MIN_CLOCK_FREQ	120000000
+ #define CEC_CLOCK_FREQ 40000
  
- 	dw_hdmi_qp_rk3588_unmask_hpd(hdmi);
-+	enable_irq(hdmi->hpd_irq);
- }
- 
- static void dw_hdmi_qp_rk3588_disable_hpd(struct dw_hdmi_qp *dw_hdmi, void *data)
+-#define HDMI_14_MAX_TMDS_CLK   (340 * 1000 * 1000)
+-
+ static bool vc4_hdmi_supports_scrambling(struct vc4_hdmi *vc4_hdmi)
  {
- 	struct rockchip_hdmi_qp *hdmi = (struct rockchip_hdmi_qp *)data;
- 
-+	disable_irq(hdmi->hpd_irq);
- 	dw_hdmi_qp_rk3588_mask_hpd(hdmi);
-+
-+	/*
-+	 * Cannot use the _sync() variant: the work takes mode_config.mutex,
-+	 * which the connector probe path already holds when acquiring the
-+	 * hpd_state_mutex this caller runs under. Requeuing is already ruled
-+	 * out by disable_irq().
-+	 */
-+	cancel_delayed_work(&hdmi->hpd_work);
- }
- 
- static const struct dw_hdmi_qp_phy_ops rk3588_hdmi_phy_ops = {
-@@ -355,13 +366,23 @@ static void dw_hdmi_qp_rk3576_enable_hpd(struct dw_hdmi_qp *dw_hdmi, void *data)
- 	struct rockchip_hdmi_qp *hdmi = (struct rockchip_hdmi_qp *)data;
- 
- 	dw_hdmi_qp_rk3576_unmask_hpd(hdmi);
-+	enable_irq(hdmi->hpd_irq);
- }
- 
- static void dw_hdmi_qp_rk3576_disable_hpd(struct dw_hdmi_qp *dw_hdmi, void *data)
+ 	struct drm_display_info *display = &vc4_hdmi->connector.display_info;
+@@ -137,7 +136,7 @@ static bool vc4_hdmi_mode_needs_scrambling(const struct drm_display_mode *mode,
  {
- 	struct rockchip_hdmi_qp *hdmi = (struct rockchip_hdmi_qp *)data;
+ 	unsigned long long clock = drm_hdmi_compute_mode_clock(mode, bpc, fmt);
  
-+	disable_irq(hdmi->hpd_irq);
- 	dw_hdmi_qp_rk3576_mask_hpd(hdmi);
-+
-+	/*
-+	 * Cannot use the _sync() variant: the work takes mode_config.mutex,
-+	 * which the connector probe path already holds when acquiring the
-+	 * hpd_state_mutex this caller runs under. Requeuing is already ruled
-+	 * out by disable_irq().
-+	 */
-+	cancel_delayed_work(&hdmi->hpd_work);
+-	return clock > HDMI_14_MAX_TMDS_CLK;
++	return clock > HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ;
  }
  
- static const struct dw_hdmi_qp_phy_ops rk3576_hdmi_phy_ops = {
-@@ -584,7 +605,7 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
- 	struct resource *res;
- 	struct clk_bulk_data *clks;
- 	struct clk *ref_clk;
--	int ret, irq, i;
-+	int ret, i;
+ static int vc4_hdmi_debugfs_regs(struct seq_file *m, void *unused)
+@@ -1728,7 +1727,7 @@ vc4_hdmi_connector_clock_valid(const struct drm_connector *connector,
+ 	if (clock > vc4_hdmi->variant->max_pixel_clock)
+ 		return MODE_CLOCK_HIGH;
  
- 	if (!dev->of_node)
- 		return -ENODEV;
-@@ -688,14 +709,14 @@ static int dw_hdmi_qp_rockchip_bind(struct device *dev, struct device *master,
- 	if (plat_data.cec_irq < 0)
- 		return plat_data.cec_irq;
+-	if (!vc4->hvs->vc5_hdmi_enable_hdmi_20 && clock > HDMI_14_MAX_TMDS_CLK)
++	if (!vc4->hvs->vc5_hdmi_enable_hdmi_20 && clock > HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ)
+ 		return MODE_CLOCK_HIGH;
  
--	irq = platform_get_irq_byname(pdev, "hpd");
--	if (irq < 0)
--		return irq;
-+	hdmi->hpd_irq = platform_get_irq_byname(pdev, "hpd");
-+	if (hdmi->hpd_irq < 0)
-+		return hdmi->hpd_irq;
+ 	/* 4096x2160@60 is not reliable without overclocking core */
+@@ -3254,7 +3253,7 @@ static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
+ 	 * vc4_hdmi_disable_scrambling() will thus run at boot, make
+ 	 * sure it's disabled, and avoid any inconsistency.
+ 	 */
+-	if (variant->max_pixel_clock > HDMI_14_MAX_TMDS_CLK)
++	if (variant->max_pixel_clock > HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ)
+ 		vc4_hdmi->scdc_enabled = true;
  
--	ret = devm_request_threaded_irq(dev, irq,
-+	ret = devm_request_threaded_irq(dev, hdmi->hpd_irq,
- 					cfg->ctrl_ops->hardirq_callback,
- 					cfg->ctrl_ops->irq_callback,
--					IRQF_SHARED, "dw-hdmi-qp-hpd",
-+					IRQF_NO_AUTOEN, "dw-hdmi-qp-hpd",
- 					hdmi);
- 	if (ret)
- 		return ret;
+ 	ret = variant->init_resources(drm, vc4_hdmi);
+@@ -3384,7 +3383,7 @@ static const struct vc4_hdmi_variant bcm2711_hdmi0_variant = {
+ 	.encoder_type		= VC4_ENCODER_TYPE_HDMI0,
+ 	.debugfs_name		= "hdmi0_regs",
+ 	.card_name		= "vc4-hdmi-0",
+-	.max_pixel_clock	= 600000000,
++	.max_pixel_clock	= HDMI_2_0_TMDS_CHAR_RATE_MAX_HZ,
+ 	.registers		= vc5_hdmi_hdmi0_fields,
+ 	.num_registers		= ARRAY_SIZE(vc5_hdmi_hdmi0_fields),
+ 	.phy_lane_mapping	= {
+@@ -3413,7 +3412,7 @@ static const struct vc4_hdmi_variant bcm2711_hdmi1_variant = {
+ 	.encoder_type		= VC4_ENCODER_TYPE_HDMI1,
+ 	.debugfs_name		= "hdmi1_regs",
+ 	.card_name		= "vc4-hdmi-1",
+-	.max_pixel_clock	= HDMI_14_MAX_TMDS_CLK,
++	.max_pixel_clock	= HDMI_1_3_TMDS_CHAR_RATE_MAX_HZ,
+ 	.registers		= vc5_hdmi_hdmi1_fields,
+ 	.num_registers		= ARRAY_SIZE(vc5_hdmi_hdmi1_fields),
+ 	.phy_lane_mapping	= {
+@@ -3442,7 +3441,7 @@ static const struct vc4_hdmi_variant bcm2712_hdmi0_variant = {
+ 	.encoder_type		= VC4_ENCODER_TYPE_HDMI0,
+ 	.debugfs_name		= "hdmi0_regs",
+ 	.card_name		= "vc4-hdmi-0",
+-	.max_pixel_clock	= 600000000,
++	.max_pixel_clock	= HDMI_2_0_TMDS_CHAR_RATE_MAX_HZ,
+ 	.registers		= vc6_hdmi_hdmi0_fields,
+ 	.num_registers		= ARRAY_SIZE(vc6_hdmi_hdmi0_fields),
+ 	.phy_lane_mapping	= {
+@@ -3469,7 +3468,7 @@ static const struct vc4_hdmi_variant bcm2712_hdmi1_variant = {
+ 	.encoder_type		= VC4_ENCODER_TYPE_HDMI1,
+ 	.debugfs_name		= "hdmi1_regs",
+ 	.card_name		= "vc4-hdmi-1",
+-	.max_pixel_clock	= 600000000,
++	.max_pixel_clock	= HDMI_2_0_TMDS_CHAR_RATE_MAX_HZ,
+ 	.registers		= vc6_hdmi_hdmi1_fields,
+ 	.num_registers		= ARRAY_SIZE(vc6_hdmi_hdmi1_fields),
+ 	.phy_lane_mapping	= {
 
 -- 
 2.55.0
