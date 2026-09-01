@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8D94A2A7C
-	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 18:51:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680EA4A3866
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 18:51:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788288664; cv=none; b=OM1mkknyx5YIc5EQhNicM0VwFYVvxoGJ3gFf9dZjJs+4XbmQ//LI6P+SS04bJeP4FibkIzniQv/tuR6mY3Xb/3kYll6ejhc8QPl+scRMRCphmvNEQGnK/Qg0t8lE+DfH3qm307UtvZPyQ/ib0mtsl/u9Ri2w1Gs9wfZ2ipXnkR4=
+	t=1788288664; cv=none; b=G3ZS9PdxciTevz+nbxdi0fjmif8BDMOnuLYYGZEtyvqhbdlj6Z6cgHfJFJa3mo4dVHeG29wVvW5oEydpIDLG1WXigTqe0hKh3QTiSWHu4WJFP2kZPUyKXPLSkxovF1k8PE+Q8iWIvWYH6ErZ0Lw8nQlrTOm+dzlnRf17zEkwkhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1788288664; c=relaxed/simple;
-	bh=dHIKdEC5RHVqcHq82GjtYHGUUOJHjjeCBOpp724uoac=;
+	bh=Np7wpAYZLHRt1c9crOqakHGhI+KoSOWphtz4jQaYs5Y=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ny5/jQQqLuEfpBx6t6lZUpbfEh8B5k4ZYGDnrUptxeXAdwvmRmT/XI4bLBL4uZcwONKhGcHyx7B+XdIjvY3z/hO/zE8/99A1EKVaNjU24/W8/Qtnm3Kiw1foA3J0Ip2KHNvm2Qh7d4/A67I3KxyuRuv5SSGM3KvkL7mkUohdtdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ACW+ziuW; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=Xxro263K2ZbtLHgFaqhvNxg42mF0/kjwaykxHpFOn1QCKuc7HLgZJtN0UAKAuP3T7Rxcz6xALKgF2zO/H+W+FW9tDzfmXcoGHdxmxw/AfBG38Pzn2QqZ+lSeOAKbR0ZIS6tECVOQGLF3W7HNFjup6o7b5l0/PsrKKPssiDAMQcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JR+grpfv; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ACW+ziuW"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JR+grpfv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1788288658;
-	bh=dHIKdEC5RHVqcHq82GjtYHGUUOJHjjeCBOpp724uoac=;
+	s=mail; t=1788288660;
+	bh=Np7wpAYZLHRt1c9crOqakHGhI+KoSOWphtz4jQaYs5Y=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ACW+ziuWAPd7zQm+209nems4I5iTQK8DxQhfTlIXHAZiHsFxLg+JqCna8mjW0HOHN
-	 9oRrZAu3JtYTlX3chmx8L5lRyVfKDJ4tedh4UDnomz7Z4HGRGJKJa5A43vFlyVsXv/
-	 vycrj6aiyTRjt+Ma0ToXjajA6HX6rGIme9LyvDu8Kp5+VSNbCpQIN5a4zfiNV5mZ6q
-	 zFpBFLN1tNBMGnKm9AN+7aAcRv3xpxFheSMR+zKCIZQw6bAdCULapugytg0YfuNyk2
-	 bFL3CtQHBlrTx1c1/d+SLHBsR7Dau2rqZ/MIlk75FrSmfC3ud9//gOm2Gq9OhGh1zs
-	 zN5/R+JjtaJGA==
+	b=JR+grpfvhJdyZRSqjI1L5Q/515KONS70bTEa1h5vxrNspDVf0zlUyN1Zlsc3RQfmT
+	 x5CGZiH5ZQfOuAUqLXPaimcWxT7+VXaRCzE1PWdvi/PsrwXFK8zubDyTrpInyAkgzp
+	 YLO57D1oCv5ZLmdfNKDzSKtXraBIqSCAdZjZR4Ny9mB1bhiCtP/oHihaPimXriuFWa
+	 2KiZnLBL+PC40wHA51pzsNgGFZ5XQWwwyJDABzGuJXcJJXzUeYNF4wrK4s7pK7lt7o
+	 OgW9oZptMGxmSoN4pQvYuavaKqc6Z2BL0XZ0ZpSyYALECgrEPLkZhv9/y76bJJo1my
+	 XaZOjm8rg+FWw==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3137C17E38DC;
-	Tue, 01 Sep 2026 20:50:58 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5D5DC17E3976;
+	Tue, 01 Sep 2026 20:51:00 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 01 Sep 2026 21:50:47 +0300
-Subject: [PATCH v11 23/74] drm/display: hdmi-state-helper: Sync SCDC state
- on hotplug
+Date: Tue, 01 Sep 2026 21:50:50 +0300
+Subject: [PATCH v11 26/74] drm/bridge: dw-hdmi-qp: Rate limit i2c read
+ error messages
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260901-dw-hdmi-qp-scramb-v11-23-bc12954a0688@collabora.com>
+Message-Id: <20260901-dw-hdmi-qp-scramb-v11-26-bc12954a0688@collabora.com>
 References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
 In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -74,80 +74,47 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
  Diederik de Haas <diederik@cknow-tech.com>
 X-Mailer: b4 0.15.2
 
-drm_atomic_helper_connector_hdmi_hotplug() does not currently
-synchronize SCDC status on hotplug events, leaving the scrambler state
-potentially inconsistent after (re)connect.
+During EDID reads, repeated i2c errors can flood the kernel log:
 
-Hook drm_connector_hdmi_sync_scdc() into both the connect and disconnect
-paths, replacing the existing TODOs around missing scrambler handling.
-Note that per .detect_ctx() contract, implementations shall return a
-drm_connector_status value or -EDEADLK, nothing else.  Therefore, handle
-deadlocks and just report any other errors.  For consistency, also
-report the errors from drm_edid_connector_update().
+[   25.361716] dwhdmiqp-rockchip fde80000.hdmi: i2c read error
+[   25.363376] dwhdmiqp-rockchip fde80000.hdmi: i2c read error
+...
+[   25.368671] dwhdmiqp-rockchip fde80000.hdmi: i2c read error
+[   25.369440] dwhdmiqp-rockchip fde80000.hdmi: failed to get edid
 
+Switch to dev_err_ratelimited() in dw_hdmi_qp_i2c_read() to reduce log
+spam while still reporting the condition.
+
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 Tested-by: Maud Spierings <maud_spierings@hotmail.com>
 Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # NanoPC-T6 LTS, Rock 5B
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/display/drm_hdmi_state_helper.c | 34 ++++++++++++++++++++++---
- 1 file changed, 31 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-index 8045b1d17d6e..1e269b203b98 100644
---- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-+++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -1362,12 +1362,29 @@ drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector,
- 					enum drm_connector_status status)
- {
- 	const struct drm_edid *drm_edid;
-+	int ret;
- 
- 	if (status == connector_status_disconnected) {
--		// TODO: also handle scramber, HDMI sink disconnected.
-+		/*
-+		 * .detect_ctx() can only ever return a drm_connector_status or
-+		 * -EDEADLK. Handle deadlocks, and report any !EDEADLK error.
-+		 */
-+		ret = drm_connector_hdmi_sync_scdc(connector, false, ctx);
-+		if (ret) {
-+			if (ret == -EDEADLK)
-+				return ret;
-+
-+			drm_warn(connector->dev, "Ignored SCDC sync error: %d\n", ret);
-+		}
-+
- 		drm_connector_hdmi_audio_plugged_notify(connector, false);
--		drm_edid_connector_update(connector, NULL);
-+
-+		ret = drm_edid_connector_update(connector, NULL);
-+		if (ret)
-+			drm_warn(connector->dev, "Ignored EDID update error: %d\n", ret);
-+
- 		drm_connector_cec_phys_addr_invalidate(connector);
-+
- 		return 0;
- 	}
- 
-@@ -1381,7 +1398,18 @@ drm_atomic_helper_connector_hdmi_update(struct drm_connector *connector,
- 	drm_edid_free(drm_edid);
- 
- 	if (status == connector_status_connected) {
--		// TODO: also handle scramber, HDMI sink is now connected.
-+		/*
-+		 * .detect_ctx() can only ever return a drm_connector_status or
-+		 * -EDEADLK. Handle deadlocks, and report any !EDEADLK error.
-+		 */
-+		ret = drm_connector_hdmi_sync_scdc(connector, true, ctx);
-+		if (ret) {
-+			if (ret == -EDEADLK)
-+				return ret;
-+
-+			drm_warn(connector->dev, "Ignored SCDC sync error: %d\n", ret);
-+		}
-+
- 		drm_connector_hdmi_audio_plugged_notify(connector, true);
- 		drm_connector_cec_phys_addr_set(connector);
- 	}
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+index cfd1b18c06e6..7475b6b71836 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+@@ -561,7 +561,7 @@ static int dw_hdmi_qp_i2c_read(struct dw_hdmi_qp *hdmi,
+ 				dev_dbg_ratelimited(hdmi->dev,
+ 						    "i2c read timed out\n");
+ 			else
+-				dev_err(hdmi->dev, "i2c read timed out\n");
++				dev_err_ratelimited(hdmi->dev, "i2c read timed out\n");
+ 			dw_hdmi_qp_write(hdmi, 0x01, I2CM_CONTROL0);
+ 			return -EAGAIN;
+ 		}
+@@ -572,7 +572,7 @@ static int dw_hdmi_qp_i2c_read(struct dw_hdmi_qp *hdmi,
+ 				dev_dbg_ratelimited(hdmi->dev,
+ 						    "i2c read error\n");
+ 			else
+-				dev_err(hdmi->dev, "i2c read error\n");
++				dev_err_ratelimited(hdmi->dev, "i2c read error\n");
+ 			dw_hdmi_qp_write(hdmi, 0x01, I2CM_CONTROL0);
+ 			return -EIO;
+ 		}
 
 -- 
 2.55.0
