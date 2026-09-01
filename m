@@ -1,42 +1,41 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D914A8FE6
-	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 18:51:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B39AE4A9D7A
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Sep 2026 18:51:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788288698; cv=none; b=XmjB4RO3PtCyKScUoBrVJp6uHsqczbs8a0nx1IxgfDcKrbDxownkYDgRzQxTehjnavyXIPazpK+uhHpq1J2aWAZi+JISaHmOG6QR3Rbny6hdSfDiDYJQqvHcLRYbac5BP+FlTUirVLS9cj9glJbIO6pBHOn53StvCuFF55rqArc=
+	t=1788288699; cv=none; b=St2PkJPnuCLS2Zr/VfSmHlB1h6Yku17NEbh6ascuc1vs37Jmw1DCixVRaeGeZk9bbBC0qS8jMmzZwWVXXx5qb4l/SuOuVMabm0uu4v6tYWb/f9oUScVQdTxXUVqhaQD6BRk8bpeSxtaUaBhIPkR363s/CAP4SLQtfWGBHmF/DBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788288698; c=relaxed/simple;
-	bh=WvZHGQUwLNHlXVJXJUmzneooB/o/bop5PxCRNXVE6KM=;
+	s=arc-20240116; t=1788288699; c=relaxed/simple;
+	bh=pKqbana09aMrPmXoZQ13pSEzcpiBN8VMqBIdy9PyH+U=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SLjegmBqc/n58uD3KGd+ycyaHJGMe9THTIMpjVevG+CqNt5oumR6bOU2VIfDCkS5lTNRIyqD6hGDtdfPqlYxkgCsvI/SvZzRtzAbNgfY6J0SkPqLN/gcnYm3liuw9RYdfzh47UFvKoGIaLMe7XZxutpgphzMZnv717f6u4rLecw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=br+Zi4pP; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=VHlfxj6JwCPhe8//mOHfoZfPxFI10p3DCi3Ct5OID4tnAs7NbiB+0C9sqR86H/6J8AmSjgmgozmFRuGpjC3VxiD3DjptPbSdZ9ME5VsXg/dFI2EXmsqMgIAeyx2MFQ4FbeXuOsFZOQavVDFiGVJQtgOs4JqxKYivxERE1L5lxwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=LSViJgRq; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="br+Zi4pP"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="LSViJgRq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1788288692;
-	bh=WvZHGQUwLNHlXVJXJUmzneooB/o/bop5PxCRNXVE6KM=;
+	s=mail; t=1788288693;
+	bh=pKqbana09aMrPmXoZQ13pSEzcpiBN8VMqBIdy9PyH+U=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=br+Zi4pP1ctJ5jk3Zd/d0C1FvBB8sGMDTi9ZzhwG+4N3JJYx6yxT/ho+eFIx6jwRE
-	 S68UKJ6ZNbyhxXrJPvB1qfceuPZMkNcIUqlW0R4nW8Gp+41uwSUOGf9AXeU70BoxYK
-	 JuoikA8BdRQinLW8CUxG4wzwrSLllB6g7HEsc11DsLwApx4dXil3f75cVOsycTs2K9
-	 gruAPO8T/Vq2Vy/LUxYnSvRa9U4q+ofleEOlhmzkhdJs7MLLFXJL5ZxkQqIiBMjxJU
-	 GxNZxUlSXeBN/nEQZS2n6X0+7P/LR+jrMVfrF7CDVRGNirXZcnGvoQguKkdyalkmBI
-	 ILMT1zN1PowFg==
+	b=LSViJgRqE5XaH0tu+QeV2Yt5Nhsb4RcPAwkVOkH5zCEPt6mEg1Gv6ogb78QTe/a0D
+	 WchtsdumRXsjJq3bkmfUW36ZJ9PT3xnPkvMHCQnhwPSbYZtQtXI3R6b7+MEJVgjRRW
+	 MbZUllumUzylGiIUZcA20WiDP1JZbQKMs5EmSeO0qNtWbVpPPplO899vulJLTl+Aih
+	 PMSkUyKvbtt+bEkp+b016wPO4vObr6F4sT4nYdJ/3oL1xZ8knb/OUbouBGwvCmYYhp
+	 87God285IcFb+jMcaQ3Spmq5yyfxS0gCG0KMZkm27P7UePPBSnuZ7l8+rhDBIVqlCs
+	 3bavdJFMzX8/A==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8A0DA17E3CA1;
-	Tue, 01 Sep 2026 20:51:32 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4B82F17E3CA3;
+	Tue, 01 Sep 2026 20:51:33 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Tue, 01 Sep 2026 21:51:34 +0300
-Subject: [PATCH v11 70/74] drm/connector: Drop redundant hdmi
- supported_formats field
+Date: Tue, 01 Sep 2026 21:51:35 +0300
+Subject: [PATCH v11 71/74] drm/connector: Drop redundant max_bpc field
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +44,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260901-dw-hdmi-qp-scramb-v11-70-bc12954a0688@collabora.com>
+Message-Id: <20260901-dw-hdmi-qp-scramb-v11-71-bc12954a0688@collabora.com>
 References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
 In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -74,67 +73,81 @@ Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
 X-Mailer: b4 0.15.2
 
 Now that all users migrated to the new drmm_connector_hdmi_init()
-signature, supported_formats is provided through struct
-drm_connector_hdmi_funcs, a reference to which is already stored in
-drm_connector_hdmi.
+signature, max_bpc is provided through struct drm_connector_hdmi_funcs,
+a reference to which is already stored in drm_connector_hdmi.
 
-Drop the redundant field from drm_connector_hdmi and point its users to
-hdmi.funcs->supported_formats instead.
+Drop the redundant connector->max_bpc field and point its users to
+hdmi.funcs->max_bpc instead.
 
 Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # NanoPC-T6 LTS, Rock 5B
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/display/drm_hdmi_state_helper.c | 3 ++-
- drivers/gpu/drm/drm_connector.c                 | 3 ---
- include/drm/drm_connector.h                     | 6 ------
- 3 files changed, 2 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c | 6 +++---
+ drivers/gpu/drm/drm_connector.c                 | 2 --
+ include/drm/drm_connector.h                     | 5 -----
+ 3 files changed, 3 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-index 289dce6c6281..687793c62d55 100644
+index 687793c62d55..abe7e3061e4c 100644
 --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
 +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-@@ -428,7 +428,8 @@ sink_supports_format_bpc(const struct drm_connector *connector,
- 		return false;
- 	}
+@@ -321,7 +321,7 @@
+ void __drm_atomic_helper_connector_hdmi_state_init(struct drm_connector *connector,
+ 						   struct drm_connector_state *new_conn_state)
+ {
+-	unsigned int max_bpc = connector->max_bpc;
++	unsigned int max_bpc = connector->hdmi.funcs ? connector->hdmi.funcs->max_bpc : 0;
  
--	if (!(connector->hdmi.supported_formats & BIT(format))) {
-+	if (!connector->hdmi.funcs ||
-+	    !(connector->hdmi.funcs->supported_formats & BIT(format))) {
- 		drm_dbg_kms(dev, "%s format unsupported by the connector.\n",
- 			    drm_hdmi_connector_get_output_format_name(format));
- 		return false;
+ 	new_conn_state->max_bpc = max_bpc;
+ 	new_conn_state->max_requested_bpc = max_bpc;
+@@ -680,7 +680,7 @@ hdmi_compute_config(const struct drm_connector *connector,
+ {
+ 	unsigned int max_bpc = clamp_t(unsigned int,
+ 				       conn_state->max_bpc,
+-				       8, connector->max_bpc);
++				       8, connector->hdmi.funcs->max_bpc);
+ 	enum drm_output_color_format fmt;
+ 	int ret;
+ 
+@@ -813,7 +813,7 @@ static int hdmi_generate_hdr_infoframe(const struct drm_connector *connector,
+ 	if (!connector->hdmi.funcs->hdr_drm.write_infoframe)
+ 		return 0;
+ 
+-	if (connector->max_bpc < 10)
++	if (connector->hdmi.funcs->max_bpc < 10)
+ 		return 0;
+ 
+ 	if (!conn_state->hdr_output_metadata)
 diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 4d580aaec247..db4d8daacfa0 100644
+index db4d8daacfa0..bb02e8626c0d 100644
 --- a/drivers/gpu/drm/drm_connector.c
 +++ b/drivers/gpu/drm/drm_connector.c
-@@ -617,9 +617,6 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
- 	if (ret)
- 		return ret;
+@@ -662,8 +662,6 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+ 	}
  
+ 	drm_connector_attach_max_bpc_property(connector, 8, hdmi_funcs->max_bpc);
 -	/* TODO: remove after conversion to new drmm_connector_hdmi_init() */
--	connector->hdmi.supported_formats = hdmi_funcs->supported_formats;
--
- 	/*
- 	 * The supported HDMI version can be used to determinate the maximum
- 	 * TMDS character rate allowed by the specification. Some controllers,
+-	connector->max_bpc = hdmi_funcs->max_bpc;
+ 
+ 	if (hdmi_funcs->max_bpc > 8)
+ 		drm_connector_attach_hdr_output_metadata_property(connector);
 diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 182946279194..d0aaa87dad7b 100644
+index d0aaa87dad7b..3b49799d12fd 100644
 --- a/include/drm/drm_connector.h
 +++ b/include/drm/drm_connector.h
-@@ -2192,12 +2192,6 @@ struct drm_connector_hdmi_audio {
-  * struct drm_connector_hdmi - DRM Connector HDMI-related structure
-  */
- struct drm_connector_hdmi {
+@@ -2458,11 +2458,6 @@ struct drm_connector {
+ 	 */
+ 	struct drm_property_blob *path_blob_ptr;
+ 
 -	/**
--	 * @supported_formats: Bitmask of @drm_output_color_format
--	 * supported by the controller.
+-	 * @max_bpc: Maximum bits per color channel the connector supports.
 -	 */
--	unsigned long supported_formats;
+-	unsigned int max_bpc;
 -
  	/**
- 	 * @max_tmds_char_rate: Maximum TMDS character rate, in Hz,
- 	 * supported by the controller.
+ 	 * @max_bpc_property: Default connector property for the max bpc to be
+ 	 * driven out of the connector.
 
 -- 
 2.55.0
