@@ -1,160 +1,118 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76E94A3F18
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Sep 2026 15:47:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 666354A64C1
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Sep 2026 15:49:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788364067; cv=none; b=HTF0QsvWkwR3A17O1htyvqI9egRllyzUgWqE9SlmlpEIqq58ugfs1nDbYRVj1SFGHlvb+ak4LiP7B8AAJ2kvR5PKQaiVwhsoUtqIuVGQ4swSM/jxENx+uVY9O48Zi6J9eN+gZ8FL7W/mfunw3XBalmn29q54FRXLSKJM6svPvy8=
+	t=1788364174; cv=none; b=jPIW1rqTqNcZJindF6GpCA4erH9mio2/Lan4tWnFPVGGI3opKNL9gFXsK5C7oP0X/nR8K7f0y7li1DDU/cq8/UKSpFztXkKnXfqwPUqAZv+96Q3b40z4fbv2id5XYfP6vQqwt4FxwvLmDcGbqJELtTQzWW+RF2912tXai2tfO70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788364067; c=relaxed/simple;
-	bh=LULypjSJPZHX0S+lwyp8i+Jev8Pj8uLnzWnS3hB5e38=;
+	s=arc-20240116; t=1788364174; c=relaxed/simple;
+	bh=WDCuYonDybo3b/tVuXG+0QccmE+NqUQOW6h5QQnV7cQ=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Q17eNIBWaB49/Og3vgGAGCcUh8hxpufoDRInlLizvFhdDLzWRL5kLals9oK17NQahldkGHy9aR1vyzXpJ//CsBg1t5rowgYKcx/b0BF4Ci7WAMG3jhmzrdd0BGKNs5UJsd8FcbHcJTpzT3TJwJIpbufLHBOu3ExlKi+DsFtl6eA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gfyccQE8; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=O/xLLONTyvtNrBEvznP+DCCaPkQNqKp/igeaviAdPa9HuWMvggpM73uaqPErXkxB5477TGjAgr9k3XqDNpR2T+BsKwHJoawNTcERsRzfCRlC4t+1p/IJFvtamMN+KfRzQjN58xaVqaaDLdZVPbhfPhVudbgb2/EOWWmc+P4tloQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZTMcRvWZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gfyccQE8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 748AB1F00A3A;
-	Wed,  2 Sep 2026 15:47:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZTMcRvWZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 155791F00A3A;
+	Wed,  2 Sep 2026 15:49:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788364064;
-	bh=UqIScFc4FivkxZTLi6CYRzjegzniZrysefN5rqBfyUE=;
+	s=k20260515; t=1788364172;
+	bh=bx55eSXbcDH4nPmbKvgfBX7g4ycH6V29BXSR+J8EmEc=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gfyccQE8MJkSqdcB+jYGkNhMXtVw2cK9y9sXrpxUV9nQMs2A2INM7aEUQegIff7KP
-	 BIjfrRlNEjXjdlPIsnWl3NNaWDRIM2xh0chSorP9RZrN/CC70IBToj3DSXYfHY79Bl
-	 TKHz8oOl9j+zP10nHJnd+SZBzC6XKa2n5dzuodbpWes13pNtYg166iRVWy9S4mfTnX
-	 kUIkKxaMZLAsaFFYJw00V3ro49gGY6d/bsSsGn6ax7hTpO6/JdUNGe1YF7+FLXWmTU
-	 HSJ0HKg8TkXAAUJLWwi05RYUlMcj37JCFdSnix0XYwj9SrtRllYAx59vQv1T4RvIBv
-	 RhPuzh0rBDXYQ==
+	b=ZTMcRvWZMQ0AQkSSVsCPtPQQ0FsuNTxDqGrJSfDNXHtEKshTDSAIZsT6HPC/H3s3f
+	 t1ZiITqVa4O2qO4aTE2L+9gxNAhu1GBHBKizS1rn9tXJRbEDqV84miOC4Dj3Aaz3kE
+	 RTYt30IG7rxaRti3XuGzGc87xU9ub42Z1tgKUBqwytYAQy9LkTjO8Uqbp4ZAWTrHOh
+	 tEiKlqsNr30rEhqGQ6rZVLgTD7X3hHqWs05dP1xPVkFmWNLU0GmupTdExY4tia+89O
+	 dAz64V3St5hZ3mLlNkDQVjJSVxhviSPHH0uk8EbwTqe9KqspxcBLccZn1MfDIlP6uY
+	 NmINAwpFjoSuA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 4/5] spi: spi-sun4i: sun4i_spi_handler(): fix race
- condition between transfer completion and RX FIFO interrupt
+Subject: Re: [PATCH 1/5] spi: spi-sun4i: sun4i_spi_transfer_one(): fix
+ transfers for SUN4I_FIFO_DEPTH
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Jonas Rebmann" <jre@pengutronix.de>
 Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260902-spi-sun4i-fixes-v1-4-19985ef75673@pengutronix.de>
+In-Reply-To: <20260902-spi-sun4i-fixes-v1-1-19985ef75673@pengutronix.de>
 References: <20260902-spi-sun4i-fixes-v1-0-19985ef75673@pengutronix.de>
- <20260902-spi-sun4i-fixes-v1-4-19985ef75673@pengutronix.de>
+ <20260902-spi-sun4i-fixes-v1-1-19985ef75673@pengutronix.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 02 Sep 2026 15:47:44 +0000
-Message-Id: <20260902154744.748AB1F00A3A@smtp.kernel.org>
+Date: Wed, 02 Sep 2026 15:49:30 +0000
+Message-Id: <20260902154931.155791F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
 
-New issues:
-- [High] Data race and out-of-bounds write due to unsafe concurrent executi=
-on of `sun4i_spi_drain_fifo()` on the timeout path.
-
 Pre-existing issues:
-- [High] This problem wasn't introduced by this patch, but missing IRQ sync=
-hronization on the timeout error path leads to use-after-free and state cor=
-ruption.
+- [High] If the hardware reports a TX FIFO count greater than SUN4I_FIFO_DE=
+PTH - 1 (e.g., a full FIFO of 64), sun4i_spi_fill_fifo encounters an intege=
+r underflow and enters a nearly infinite loop.
 --
 
-commit 2cab2ade096996934bf270db7137df45f943bc9b
+commit bfe90ee7eb547aed612b50ceef43a3538623eb4d
 Author: Marc Kleine-Budde <mkl@pengutronix.de>
 
-spi: spi-sun4i: sun4i_spi_handler(): fix race condition between transfer co=
-mpletion and RX FIFO interrupt
+spi: spi-sun4i: sun4i_spi_transfer_one(): fix transfers for SUN4I_FIFO_DEPTH
 
-This commit moves the RX-FIFO draining back to sun4i_spi_transfer_one() and
-attempts to close a race window by disabling interrupts early in the IRQ
-handler.
+This commit fixes SPI transfers with exactly 64 bytes by enabling the
+TX-FIFO empty interrupt when the transfer length is greater than
+SUN4I_FIFO_DEPTH - 1. Previously, the interrupt was only enabled for
+transfers strictly larger than the 64-byte FIFO, causing timeouts since
+only 63 bytes are initially filled.
 
 > diff --git a/drivers/spi/spi-sun4i.c b/drivers/spi/spi-sun4i.c
-> index ae009d5984505..18951c1972da6 100644
+> index d5c16392cd4d7..2e23244539053 100644
 > --- a/drivers/spi/spi-sun4i.c
 > +++ b/drivers/spi/spi-sun4i.c
-> @@ -333,6 +333,9 @@ static int sun4i_spi_transfer_one(struct spi_controll=
+> @@ -322,7 +322,7 @@ static int sun4i_spi_transfer_one(struct spi_controll=
 er *host,
->  	start =3D jiffies;
->  	time_left =3D wait_for_completion_timeout(&sspi->done,
->  						msecs_to_jiffies(tx_time));
-> +
-> +	sun4i_spi_drain_fifo(sspi, SUN4I_FIFO_DEPTH);
-> +
+>  	sun4i_spi_enable_interrupt(sspi, SUN4I_INT_CTL_TC |
+>  					 SUN4I_INT_CTL_RF_F34);
+>  	/* Only enable Tx FIFO interrupt if we really need it */
+> -	if (tx_len > SUN4I_FIFO_DEPTH)
+> +	if (tx_len > SUN4I_FIFO_DEPTH - 1)
+>  		sun4i_spi_enable_interrupt(sspi, SUN4I_INT_CTL_TF_E34);
 
 [Severity: High]
-Can this unconditionally drain the FIFO while interrupts are still enabled?
+This isn't a bug introduced by this patch, but does the hardware reporting a
+TX FIFO count greater than SUN4I_FIFO_DEPTH - 1 cause an integer underflow?
 
-If wait_for_completion_timeout() times out, the main thread will call
-sun4i_spi_drain_fifo(). Because SPI interrupts are not disabled until the
-subsequent timeout error block, a SUN4I_INT_CTL_RF_F34 interrupt can
-fire concurrently.
+If sun4i_spi_get_tx_fifo_count(sspi) returns a value >=3D 64 (which is
+structurally possible since SUN4I_FIFO_DEPTH is 64 and the register mask is
+0x7f), the unsigned subtraction in sun4i_spi_fill_fifo() underflows:
 
-This allows sun4i_spi_handler() to also invoke sun4i_spi_drain_fifo()
-simultaneously:
+drivers/spi/spi-sun4i.c:sun4i_spi_fill_fifo() {
+	cnt =3D SUN4I_FIFO_DEPTH - 1 - sun4i_spi_get_tx_fifo_count(sspi);
 
-CPU1:
-sun4i_spi_transfer_one()
-    sun4i_spi_drain_fifo(sspi, SUN4I_FIFO_DEPTH);
-        if (sspi->rx_buf)
-            *sspi->rx_buf++ =3D byte;
+	len =3D min_t(int, cnt, sspi->len);
 
-CPU2:
-sun4i_spi_handler()
-    if (status & SUN4I_INT_CTL_RF_F34) {
-        sun4i_spi_drain_fifo(sspi, SUN4I_FIFO_DEPTH);
-            if (sspi->rx_buf)
-                *sspi->rx_buf++ =3D byte;
+	while (len--) {
+		...
+}
 
-Could this concurrent execution lead to non-atomic increments of sspi->rx_b=
-uf,
-pointer corruption, and potential out-of-bounds memory writes?
+This underflow produces 0xFFFFFFFF, which min_t(int, cnt, sspi->len) casts
+to -1.
 
->  	end =3D jiffies;
->  	if (!time_left) {
->  		dev_warn(&host->dev,
-> @@ -340,13 +343,12 @@ static int sun4i_spi_transfer_one(struct spi_contro=
-ller *host,
->  			 dev_name(&spi->dev), tfr->len, tfr->speed_hz,
->  			 jiffies_to_msecs(end - start), tx_time);
->  		ret =3D -ETIMEDOUT;
-> +		sun4i_spi_write(sspi, SUN4I_INT_CTL_REG, 0);
->  		goto out;
->  	}
+This negative length could cause the while (len--) loop to evaluate -1 as
+true, turning it into an infinite loop that executes ~4 billion times and
+overruns sspi->tx_buf.
+
+This problem appears to be made more likely by the subsequent commit "spi:
+spi-sun4i: sun4i_spi_fill_fifo(): always apply A10 FIFO fill level
+workaround" which lowered the underflow threshold from > 64 to >=3D 64.
+
+Can this out-of-bounds memory access occur if the hardware FIFO is complete=
+ly
+full (64 bytes) or reports spurious values?
+
 > =20
-> =20
->  out:
-> -	sun4i_spi_write(sspi, SUN4I_INT_CTL_REG, 0);
-> -
->  	return ret;
->  }
-
-[Severity: High]
-This isn't a bug introduced by this patch, but does the timeout error path
-need synchronization with currently executing IRQ handlers?
-
-If an SPI transfer times out while the IRQ handler is already executing on
-another CPU, the transfer function will disable interrupts at the controller
-level, return -ETIMEDOUT, and the SPI core will tear down the transfer.
-
-Since the code does not wait for in-flight handlers using synchronize_irq()
-or a lock, the still-running sun4i_spi_handler() can subsequently write to
-freed buffers in sun4i_spi_drain_fifo(), or call complete(&sspi->done)
-which corrupts the state of the next transfer.
-
-[ ... ]
-
-> @@ -357,8 +359,7 @@ static irqreturn_t sun4i_spi_handler(int irq, void *d=
-ev_id)
-> =20
->  	/* Transfer complete */
->  	if (status & SUN4I_INT_CTL_TC) {
-> -		sun4i_spi_write(sspi, SUN4I_INT_STA_REG, SUN4I_INT_CTL_TC);
-> -		sun4i_spi_drain_fifo(sspi, SUN4I_FIFO_DEPTH);
-> +		sun4i_spi_write(sspi, SUN4I_INT_CTL_REG, 0);
->  		complete(&sspi->done);
->  		return IRQ_HANDLED;
->  	}
+>  	/* Start the transfer */
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260902-spi-sun4i-=
-fixes-v1-0-19985ef75673@pengutronix.de?part=3D4
+fixes-v1-0-19985ef75673@pengutronix.de?part=3D1
