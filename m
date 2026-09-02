@@ -1,115 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0FF13B1ECC
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Sep 2026 20:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7AB3CF976
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Sep 2026 20:55:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788381351; cv=none; b=hV4FxpOP2N9u/OiK7FxH6SPYmQq6AKl6c0td1xN3cKq3z4UxQY9NDEF4RdLRqKqt/m5Y42uV4RW3I+AnB9GAAo5QaFzdk0ReeDlFwqDyEGuJeX1hvkKGkduQ9efCHDZL4lDKQD5Y+XtxdgU7HdMxArk2ERWH8YCEZLPA+HsjdTI=
+	t=1788382560; cv=none; b=tFMvz+aLc3oNofmxOmpDDfjzwzCOI+QW2w94sWPs8LwBgmuq1iWjcQ4aICitdZWm4/3pZyaMW4CBosBamDJ0J0fCTuGjSzdwiaqu/RnVIwqbXlt3/eceY4ENPN7EzbSnW3vc4eKXPJnMt7wO7I9Gc1Mw6p+6YV4gT26hBuwQb2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788381351; c=relaxed/simple;
-	bh=pPIc/E2JKdcliWYVZ1e/rkvW5lCA6n06gYOcoo0DKtk=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=MNqiqlBUI3piIiaL8V6OQBl3lHBUaaJacCqnhGT84gZFIpQ02xdNnVSM9lOLFqokx5TmAWKJiqA++tKTLxeIvpQsKL9xajX5afOpHuPW4IYBmqJWXH/ERyaHPLglBbAm0d0yag1omz950cnHogHxjBFAexc03B/tJQHLvLGJVV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OIsmR0iT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788382560; c=relaxed/simple;
+	bh=yOp/QwLcsFzKak6geScZDKKxKOKgTlwu0GRjCfP776Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ekb890mRI+3kxINlzsiqvd4BRY0hdZPbkqLEtAecLF1xRbAqg94UkS2qXPks1GztSEQltOzbiNiDyS6Ctpj8RdYJ9rvbqqRnKBF4zsY4hvX6gGpJ6t7740rpEVWw4DY437hVMID1ubhBq/T/+7Pp/9FfYnQDZ3YM4s90yHKrOR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KNKy6ESq; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OIsmR0iT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 304C21F000E9;
-	Wed,  2 Sep 2026 20:35:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788381350;
-	bh=9dG+CbzWCVcMgSvx9yQ3EHVPegU1kj1nZCrPwx+SEfY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=OIsmR0iTM7oVclXMC3ha44K51G2lDPmK1g2UPXIUxQRG6DUE0VVcfdlN8PuN1H2DO
-	 Iu+ODOBuKD9TsleEi3Atr39IgwELALZOfQI3/9dxIZwXZUgtgJRXKRuNRFs52CaV/Y
-	 eiBCj7BdJNYUCg7xS84LdFStSLlYaiXOJHfe7WMwwWyXklQUIxXWxg2qziuX1Xeks6
-	 JsEvCXS8yvFgJj/mSNEArJPT4/Fq9HunpH70P2WFdLlxY89G3pdWRDGoRmTK2kEZSZ
-	 MXmIg/dKSldvTEGQHbRE4yQ8UwlWCZSNu1u+pNKMI/W2GpHz5D/zZcykesWh/Z1gOc
-	 s4AYH9P5pbvKw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 5/11] drm: malidp: Use
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KNKy6ESq"
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 643231F8;
+	Wed,  2 Sep 2026 22:54:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1788382461;
+	bh=yOp/QwLcsFzKak6geScZDKKxKOKgTlwu0GRjCfP776Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KNKy6ESqs9jc1DSUAxm2rIVPt6QfPXSje/ia548HWfrwix7W2Rg+9ymN3AXRk6YX0
+	 +zkHv6srVg7BOqu3aakf7Dn42VXqKZ36oFDQwcEIsQfR9/sk4xoWhifJKpXyB0LFSM
+	 Q0CH3JHEv1EanB5jfY7QzjWSrl+EYIK4tpKcO8Vw=
+Date: Wed, 2 Sep 2026 23:55:51 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Ryan Chen <ryan_chen@aspeedtech.com>,
+	Billy Tsai <billy_tsai@aspeedtech.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org,
+	linux-mips@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Subject: Re: [PATCH v2 9/11] drm: xlnx: zynqmp_dpsub: Use
  devm_of_reserved_mem_device_init()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mukesh Ojha" <mukesh.ojha@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260902201640.2024648-6-mukesh.ojha@oss.qualcomm.com>
+Message-ID: <20260902205551.GC287496@killaraus.ideasonboard.com>
 References: <20260902201640.2024648-1-mukesh.ojha@oss.qualcomm.com>
- <20260902201640.2024648-6-mukesh.ojha@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 02 Sep 2026 20:35:49 +0000
-Message-Id: <20260902203550.304C21F000E9@smtp.kernel.org>
+ <20260902201640.2024648-10-mukesh.ojha@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260902201640.2024648-10-mukesh.ojha@oss.qualcomm.com>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
+On Thu, Sep 03, 2026 at 01:46:38AM +0530, Mukesh Ojha wrote:
+> Use the devres-managed devm_of_reserved_mem_device_init() instead of
+> the manual of_reserved_mem_device_init()/of_reserved_mem_device_release()
+> pair, letting the device resource manager handle cleanup automatically.
+> 
+> Reviewed-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 
-Pre-existing issues:
-- [High] Permanent CMA capacity leak due to clearing dev->cma_area before G=
-EM objects are freed during device unbind.
---
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-commit a1f947cbe50ede0e9b650dcb9e31cc36cb85952d
-Author: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/xlnx/zynqmp_dpsub.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> index 53ab1a2a5aaf..e93a7a299b52 100644
+> --- a/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> +++ b/drivers/gpu/drm/xlnx/zynqmp_dpsub.c
+> @@ -203,7 +203,7 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
+>  	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+>  
+>  	/* Try the reserved memory. Proceed if there's none. */
+> -	of_reserved_mem_device_init(&pdev->dev);
+> +	devm_of_reserved_mem_device_init(&pdev->dev);
+>  
+>  	ret = zynqmp_dpsub_init_clocks(dpsub);
+>  	if (ret < 0)
+> @@ -255,7 +255,6 @@ static int zynqmp_dpsub_probe(struct platform_device *pdev)
+>  	pm_runtime_disable(&pdev->dev);
+>  	clk_disable_unprepare(dpsub->apb_clk);
+>  err_mem:
+> -	of_reserved_mem_device_release(&pdev->dev);
+>  	if (!dpsub->drm)
+>  		zynqmp_dpsub_release(dpsub);
+>  	return ret;
+> @@ -276,7 +275,6 @@ static void zynqmp_dpsub_remove(struct platform_device *pdev)
+>  
+>  	pm_runtime_disable(&pdev->dev);
+>  	clk_disable_unprepare(dpsub->apb_clk);
+> -	of_reserved_mem_device_release(&pdev->dev);
+>  
+>  	if (!dpsub->drm)
+>  		zynqmp_dpsub_release(dpsub);
 
-drm: malidp: Use devm_of_reserved_mem_device_init()
+-- 
+Regards,
 
-This commit simplifies the driver by transitioning to the devres-managed
-devm_of_reserved_mem_device_init(), removing manual cleanup calls during
-bind failures and unbind.
-
-> diff --git a/drivers/gpu/drm/arm/malidp_drv.c b/drivers/gpu/drm/arm/malid=
-p_drv.c
-> index 23fa942ae4bbe..3e17513c31147 100644
-> --- a/drivers/gpu/drm/arm/malidp_drv.c
-> +++ b/drivers/gpu/drm/arm/malidp_drv.c
-> @@ -758,7 +758,7 @@ static int malidp_bind(struct device *dev)
->  		return PTR_ERR(hwdev->pxlclk);
-> =20
->  	/* Get the optional framebuffer memory resource */
-> -	ret =3D of_reserved_mem_device_init(dev);
-> +	ret =3D devm_of_reserved_mem_device_init(dev);
-
-[Severity: High]
-This isn't a bug introduced by this patch, but does this devres conversion
-preserve a pre-existing CMA memory capacity leak during device unbind?
-
-In malidp_bind(), devm_drm_dev_alloc() is called before this initialization
-function. Because devres actions execute in reverse order of allocation, the
-cleanup action registered here will execute before the drm_dev_put() action.
-
-When malidp_unbind() returns, the component framework immediately releases
-the component's devres group, clearing dev->cma_area. Later, when the DRM
-device is freed (either immediately or when userspace eventually closes its
-file descriptors), drm_gem_object_free() calls dma_free_contiguous().
-
-Because dev->cma_area is already NULL at that point, it bypasses
-cma_release() and falls back to the buddy allocator, permanently leaking
-the CMA region's bitmap capacity.
-
-The previous code suffered from this exact same ordering issue since the
-manual of_reserved_mem_device_release() call happened before drm_dev_put()
-ran. Is there a way to adjust the cleanup order so the CMA area outlives
-the GEM objects?
-
->  	if (ret && ret !=3D -ENODEV)
->  		return ret;
-> =20
-
-[ ... ]
-> @@ -913,7 +912,6 @@ static void malidp_unbind(struct device *dev)
->  	else
->  		malidp_runtime_pm_suspend(dev);
->  	dev_set_drvdata(dev, NULL);
-> -	of_reserved_mem_device_release(dev);
->  }
-> =20
->  static const struct component_master_ops malidp_master_ops =3D {
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260902201640.2024=
-648-1-mukesh.ojha@oss.qualcomm.com?part=3D5
+Laurent Pinchart
