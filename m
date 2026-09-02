@@ -1,69 +1,70 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62ACF39F184
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Sep 2026 19:28:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4D03803CF
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Sep 2026 19:28:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788377336; cv=none; b=X5ZByD4zmIj+eRc6qfXY5DkE1mVNinbr3C0KK3e3eN+ptZKqF1lbKlGPgyMAaIzWvN4mkOsOa+lhzFQIApRsqUR364Yh0e0adOyYsBBNEKqhktzDf9C8btXRhAn2MtbWcpqPlsNXyhww6fLl/b0K+/mqnCrhK1Ov216o7u3TMzQ=
+	t=1788377338; cv=none; b=luJyy4VfYY6OG2QVmjHAdrW4cpoazeP3XcksYDy3MCkEhurSv+CQNjnFKyzEcWz7EZxeJvlDFSoTlIEcNCKnbug+Z/4xp5pO+LcbCFH6XekfO8Vx3mF6W+6R0cT8ROgi3FlajoZ7D9mLq0jgNAz3lwLeyvo4UhVY6dxAXpKwblg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788377336; c=relaxed/simple;
-	bh=PN7g6f8q4rSe1aDYWdm44A7DdQCKh0cTB6fHIX0phH0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Ca+/whOdmqdIuoNsqcKSHyGUi53pBiwLoIqKs/Ol5tsORiuiC53ho1X6/hrvzh5OU+AyFJAyZZyb7fXPjsDPwjz62YifqBKPol6BmT0ziWY1hy4TLApHi9zK/OOQ3P8Xeb0NDa47bpY3DGw2eOuG9p/oi8o270Y2nCREqkOayzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O99qMubz; arc=none smtp.client-ip=209.85.167.173
+	s=arc-20240116; t=1788377338; c=relaxed/simple;
+	bh=y0NxW0k15f6y/xEBJQYLSpmIltouG64hV/iDPd4IdpA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=YsR+BaUwZLzogwlKflLSrC01hPT0rsD6ynz8V/M+DMMAoLqc14VAYV5IIoHHybVW6GGKdsKzAySaZhpiF2TIpH0SkWASPLhVioa8usClDbnN3pbFqM0KB6duIcJ/M8TML79TQSUTuCxtrGg1RbAfKsZFeDKQ9x8y/EBnRTixddc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UPXOD2Hb; arc=none smtp.client-ip=209.85.167.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O99qMubz"
-Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-4ab47c40e7eso973416b6e.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 02 Sep 2026 12:28:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UPXOD2Hb"
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-4a40bcc8d69so1237510b6e.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 02 Sep 2026 12:28:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788377317; x=1788982117; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=BW8pn0cJ7xlLT4nbmLaz0pA0nlL+jRYhrPKHSPcS2Ws=;
-        b=O99qMubzxMC9+pylVOFRfzDyn60cQigoeHOhM0q0vwnznWGX/XCUQldptK50fjREMZ
-         A9nA9+FZ6Frd+ARHO1+DfqJb5p0BA/3Mqay7OsJW+U96CKrlIfgs5DhtMAiJ0SZsXstK
-         bORfC5bxLZRt+AytbuzRBEB1PVg91/fZR/0gn9N26qw8X47aDvqArSRBCm4L6Zj04Tgi
-         JZNs/jG7oYlbi3M8awSwOV6H4CqU8GM7T9OXzxBMqqDpXduiWcXF9dLE3ZpNWV0aVTMq
-         XJaKfTlaYWM+UvmdUqikeekMh0nwJWM9AU0EMGXgACJcv9eFUPn6v6ilkUpxEySw53hm
-         sbhQ==
+        d=gmail.com; s=20251104; t=1788377321; x=1788982121; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=sKMtJXFkj0ikZheuQpeLvqIbR43z+P6lPFG8SqKjAYQ=;
+        b=UPXOD2HbA7XwdGznmQMbR5gL2kxsh7BvozQBo+r9FUzDLp2d2eksPE0X215wceRwYr
+         4TLLAT7sYY0x3zyjQY4Lv+hdQpxYfWbvlOhbBJdkyQwxgPqGYO69+vayoMVrGVTd+Vpl
+         sNLCCIELNm8LfIzV1PqHOCHTIc2iwvqXGMj3tA3wtuo207RpkB/1IJcAhbSgF8eFLGQK
+         bDLHp+3fgMfuS69St4H195GV9zDqL+aWF7Pi4rvz5xCcVWqI+cbV1ZMdcCl0OX5DrNoA
+         +Q4FZ8Bzp1ebRXxH7Ot/sIiDknflCfec6q0AsBGESclNjmxl/7MizTNTyVFkfDl6tpYA
+         zhbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788377317; x=1788982117;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=BW8pn0cJ7xlLT4nbmLaz0pA0nlL+jRYhrPKHSPcS2Ws=;
-        b=qZMXetcTlYPUpEhI0+EJgUIlBSDWd26rnYqYAJU6JQTEiziJ7A88ZMDK3h60yMI8ks
-         Hze0bQq07/2yNccMpVBeLc5URkruPeee0UrZtTsCn0PAj3DoZdT/QDSpXs1WHNDBGGFo
-         IgGX6HtCcTgRIxkmtQsZgaSPwV4wBZgvylL7dSn1/a/v96nA6ID0HMQzILRsCOW9+m25
-         xyIokhUwRFNyqJbadAvQBXEoyjC2BtQAGw9EI7Olk3Wt4vPTbOFssrIZIN9T/bxnNJ+1
-         tDY8NDniULFxRZ5pvapWtP6NcqJf+gEdrwS2pRH7xKHgYimSPOijr+/fLOTqkx2I6OZS
-         Elsg==
-X-Forwarded-Encrypted: i=1; AHgh+RqQFWTBS46yy0PaggD/3If82+aUX6F+0XbCgSKKn4AyLtNylRlU9mJRiSeSCjmRf7Egpbi8j5Ue9Bxd2g==@lists.linux.dev
-X-Gm-Message-State: AFuF++lsY8WF6S+heyNWm62CDiaIFowv63KaCHqZHRBNeVoIg4LQG1WL
-	wXsCS6gxPqhefYv5o0QOtcYs8GAcWc1vvm/813MqZZulkbt9tfK8lm82
-X-Gm-Gg: AR+sD10pDITSfvpSmCmTJMFgiXAho+XDrRBECcrb6uT6VnKTzgFv0Y7qH5Q2ZgTy14S
-	U2ml5wku3iYLmFwQB1nJ3UxOnEH9m6pYWtIsfcUQ7G9zyI4vBVV8WiUJxQUcLsbaLp09kWc9OV7
-	cbWE1LcWtU3ljuKuRpLjff6b0D5LHtHf9PZx4Apt2MxfxdmuVH0AHQeTn3M5Bti+YbxMg2bj9t+
-	Z29+qGftFSqaQH+r7eTTm01pBLwMHXGcgmNqM1guyGKr6LFnnt7n5a2MqHBz2qy8qULy7uBMmxw
-	Z+06gEBNLHVYvw/fX+jbdbmNnFe2xrjPeJW2buXzkDu/ZPactNvo+bu8xKdXfSotYvTTqlbORcA
-	F4LWlRe82Pw6CnmSn94sYF5VH6z0SGhwO7FvWIcT5S/qDlI3Ur8gQXkyFDO25sjLBgeWKgziAIV
-	OjElneF1B9VEJ2j6jkKyWkZwuL8iEJKKVnas2fZRxwy8oQIbNKlcoQc0iXWSWlh/nuZTyYSjHl0
-	4TlAC1nJCnN1dEOvo7HlDVCLeYrgKy1RoHlwHh2jDv6H/0h31hzsaU579UtZTuqNlRiIJs7RA7H
-	lwwCTPmT1R+tafaNUZKNQ0Tnfp5MKrSCFpe9wMskwPHN5wj+lW/2dqpbYTrtsqZol+z/dPQn3pR
-	r/JjbsWXuZloacg7xpf0=
-X-Received: by 2002:a05:6820:4c83:b0:6b1:be9f:ce6c with SMTP id 006d021491bc7-6b47ecca88cmr6183827eaf.4.1788377316798;
-        Wed, 02 Sep 2026 12:28:36 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788377321; x=1788982121;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=sKMtJXFkj0ikZheuQpeLvqIbR43z+P6lPFG8SqKjAYQ=;
+        b=AyT+b5NHea7DUHnhuL0fxqdb27IpUY7D+SZL1VqtPo37M4dZn8vWHd7RFhXTCogTkK
+         524VMf9wloJeIXIeMXdRuMrTwBA8Eeuj8kOCk0EC+zKwo5hALYcCtvgIlXHR48IslpBr
+         xLAvmAhMiyzzXo2TikFgtC3s37Bw5w9+x/YCu+usOyT2STsd4LQv1uJx1SjGbrmaCFYc
+         EloDgNEQiSF3zGEP4kZH6RgZLQU/Whfi7+Bwz1PxW9o/nKoiOG+L+vVwqyoXCvoJDPFo
+         t8MWVTznOky89UBuPSK6BMm2XDr+5IKdenCxUC3Ji7D5rr9STWnYN//64uoNXGut1pCN
+         3PHw==
+X-Forwarded-Encrypted: i=1; AHgh+RonEbPDw9siqSItRMDpQfwGzJZNHtNAyUB2XuTOI798nZuRsaGxFfNXvaqftto4CrZJIEOIt0E2EBc/rw==@lists.linux.dev
+X-Gm-Message-State: AFuF++mriFPWvp0Nb0GD7Q9PK8VZjQCH00Ea9rCwigEWgRtROhxmkKFV
+	lcr+CPpi2ZKkIubxPTH+cfeylrZ2iZKW8CuCo2H/gJggUM3sMne90CG+
+X-Gm-Gg: AR+sD11vwg1ab4+yb8tbu0xggAH8dCvjGthxoRRf3BiiKPYIlD+DrCSq4fn5DguZDRa
+	CtN0tnComm2gwhs0GodME9D+t+07a7+l6R6PT1X2gYL89Vadm4FGl5CUZ85k5onnUOsiqs4REdf
+	uKdRkb2NEFui0kyNR4nJEunAIIc+i0xC/5MYr0sVzRWLD8TvdxfkE2bPP1wKVjNIJCezzy3RwRD
+	RhUJFe+zzhJEnjCKxsE83ERg8OiY+X3GvJsWBxOsdgh1hkL5wgcgvXMMEjnD8KkvXykXbIaoVut
+	XX7rwlFN9k2UEBTsRuPwKbHeGJXQqi35CY/X4Di96RZMubZr/6XLjbsH5n3U7WjmW6fPVwgGyxd
+	KxOqGVVmx78QbZSRP4VLqLO3f4Yy28zYbbah6OvgNuy8dKNXT/McrvULtfQLy8iwLH0ThWx0ZA3
+	TK3zZRAI4eJQP2zoipIJjyYxuQkr19jHXoyC5CPU+lRygZX86lJBzpVOnegbOto3uM9LffEegpE
+	8fwlUR2cmOqDCXKNd2FzZPYHUWzB2xitRWy1O2v2rEwemYMIaYlNzlSiBkfDpsZCnOzfawadz33
+	g22ySSPK4vjQ8JmytQxUuYi+aykIAhXB3DoQ6NcnTHX5X8Hq1limclFr6wVoGWE7q33Wh2I8Abj
+	/Ol8ACfFVpuhNVY/ihqc=
+X-Received: by 2002:a05:6808:1905:b0:4b2:8d7b:41b8 with SMTP id 5614622812f47-4b6bf07c2damr5955510b6e.18.1788377320618;
+        Wed, 02 Sep 2026 12:28:40 -0700 (PDT)
 Received: from [127.0.1.1] (184-96-151-165.hlrn.qwest.net. [184.96.151.165])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-46f30baa0d4sm4932181fac.6.2026.09.02.12.28.34
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-46f30baa0d4sm4932181fac.6.2026.09.02.12.28.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 12:28:35 -0700 (PDT)
+        Wed, 02 Sep 2026 12:28:39 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
-Subject: [PATCH v8 0/2] mfd: add X-Powers AC200 support
-Date: Wed, 02 Sep 2026 13:28:23 -0600
-Message-Id: <20260902-submit-ac200-mfd-v8-0-2aa06720b8ac@gmail.com>
+Date: Wed, 02 Sep 2026 13:28:25 -0600
+Subject: [PATCH v8 2/2] mfd: ac200: Add X-Powers AC200 support
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -72,12 +73,9 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4XO3YrCMBAF4FeRXDuSBJNOvfI9ZC/yqyOmlaYbF
- Om7b+oKCgpeHjjznbmxHAYKmW0WNzaEQpn6rgZcLpg7mG4fgHzNTHKpOQoB+dcmGsE4yTmk6AG
- t8drzNkhUrJ6dhxDpcid3P/+53hyDG2dnbhwoj/1wvW8WNfcePG+f/KXyfQR/7UwiB0VAUcDBR
- iMiKoFW4nafDJ1Wrk9sHir6hfr0adEVcMoK2UqH6/YNaL4BTQXQch2Vkmbtm1dgmqY/Bjsxtk4
- BAAA=
-X-Change-ID: 20260811-submit-ac200-mfd-8bad6d09e285
+Message-Id: <20260902-submit-ac200-mfd-v8-2-2aa06720b8ac@gmail.com>
+References: <20260902-submit-ac200-mfd-v8-0-2aa06720b8ac@gmail.com>
+In-Reply-To: <20260902-submit-ac200-mfd-v8-0-2aa06720b8ac@gmail.com>
 To: Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
@@ -87,93 +85,209 @@ Cc: Andrew Lunn <andrew@lunn.ch>,
  Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@kernel.org>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, 
  mfd@lists.linux.dev, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+ linux-kernel@vger.kernel.org
 X-Mailer: b4 0.15.2
 
-The X-Powers AC200 is an I2C-controlled mixed-signal companion IC with
-a paged register map shared by its audio, video, RTC and Fast Ethernet
-PHY functions.
+The X-Powers AC200 is a mixed-signal companion IC with a paged register
+map accessed over I2C.
 
-Add the parent binding and an I2C provider which enables and rate-locks
-the shared input clock, initializes the paged regmap and controls the
-common reset. Audio, video and RTC functions can be added as MFD
-children.
+Enable and rate-lock the shared input clock, wait 40 ms before the first
+register access, initialize the paged regmap and reset the chip. Assert
+reset again during driver removal and system shutdown.
 
-The current regmap consumer is the separately submitted AC200/AC300
-Ethernet PHY series:
+The Ethernet PHY is enumerated on its MDIO bus rather than as an MFD
+child. It follows the x-powers,ac200 phandle and uses this regmap for
+ancillary package-control access. Other AC200 functions can be added as
+MFD children.
 
-  https://patch.msgid.link/20260818-submit-acx00-of-dynamic-v1-v9-0-b8c8d9ad0d83@gmail.com
+Cache only the common page selector. Individual functions can reset
+independently and invalidate their other registers, so leave all
+functional registers volatile.
 
-The PHY remains enumerated on MDIO, its primary management bus. Its
-AC200 package node follows the x-powers,ac200 phandle for ancillary I2C
-register access, adds a managed device link and obtains the regmap with
-dev_get_regmap(). This series and the PHY series can be merged in either
-order; AC200 Ethernet support requires both.
-
-This work builds on earlier AC200 work by Jernej Skrabec and Andre
-Przywara:
-
-  https://github.com/jernejsk/linux-1/commits/ac200-v4
-
-Public AC200 documentation is linked from:
-
-  https://linux-sunxi.org/AC200
-
-Validation included an x86_64 W=1 object build, dt_binding_check, and a
-combined W=1 build with the PHY series. On AC200 hardware, the provider
-and PHY completed 100 overlapping bind cycles while preserving both
-device links and recovering a 100 Mbps full-duplex link.
-
-Assisted-by: Codex:gpt-5.6-sol
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
-Changes v7 -> v8:
-- identify the PHY series as the current regmap consumer
-- describe future MFD children and the MDIO/I2C split
-- store the regmap directly as driver data  (suggested by Lee Jones)
-- reset the chip from the remove callback  (suggested by Lee Jones)
-- drop the revision log and inherited-driver attribution  (suggested by Lee Jones)
-- add Krzysztof's Reviewed-by tag to the binding
-- rebase on the current MFD for-mfd-next branch
-- Link to v7: https://patch.msgid.link/20260811-submit-ac200-mfd-v7-0-8b06f552a4d7@gmail.com
+ drivers/mfd/Kconfig  |  11 +++++
+ drivers/mfd/Makefile |   1 +
+ drivers/mfd/ac200.c  | 136 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 148 insertions(+)
 
-Changes v6 -> v7:
-- drop the managed external-syscon helper and AC200 syscon registration
-- leave the regmap attached to the I2C provider for direct device lookup
-- reduce the MFD series from three patches to two
-- Link to v6: https://patch.msgid.link/20260811-submit-ac200-mfd-v6-0-c5b1292c8498@gmail.com
+diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+index e4fd4572472f..cac3fff5aee9 100644
+--- a/drivers/mfd/Kconfig
++++ b/drivers/mfd/Kconfig
+@@ -205,6 +205,17 @@ config MFD_AC100
+ 	  This driver include only the core APIs. You have to select individual
+ 	  components like codecs or RTC under the corresponding menus.
+ 
++config MFD_AC200
++	tristate "X-Powers AC200"
++	depends on I2C
++	depends on OF
++	select REGMAP_I2C
++	help
++	  Support for the X-Powers AC200 mixed-signal companion IC. The AC200
++	  contains audio, video, RTC and Fast Ethernet PHY functions and is
++	  co-packaged with some Allwinner H6 and H616 SoCs. This driver provides
++	  the shared register access used by the individual function drivers.
++
+ config MFD_AXP20X
+ 	tristate
+ 	select MFD_CORE
+diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
+index 72d3944b0ad8..f8101d2a9ce9 100644
+--- a/drivers/mfd/Makefile
++++ b/drivers/mfd/Makefile
+@@ -150,6 +150,7 @@ obj-$(CONFIG_MFD_DA9052_SPI)	+= da9052-spi.o
+ obj-$(CONFIG_MFD_DA9052_I2C)	+= da9052-i2c.o
+ 
+ obj-$(CONFIG_MFD_AC100)		+= ac100.o
++obj-$(CONFIG_MFD_AC200)		+= ac200.o
+ obj-$(CONFIG_MFD_AXP20X)	+= axp20x.o
+ obj-$(CONFIG_MFD_AXP20X_I2C)	+= axp20x-i2c.o
+ obj-$(CONFIG_MFD_AXP20X_RSB)	+= axp20x-rsb.o
+diff --git a/drivers/mfd/ac200.c b/drivers/mfd/ac200.c
+new file mode 100644
+index 000000000000..8445a460ef6c
+--- /dev/null
++++ b/drivers/mfd/ac200.c
+@@ -0,0 +1,136 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/*
++ * MFD core driver for the X-Powers AC200
++ *
++ * Copyright (C) 2019 Jernej Skrabec <jernej.skrabec@gmail.com>
++ * Copyright (C) 2026 James Hilliard <james.hilliard1@gmail.com>
++ */
++
++#include <linux/clk.h>
++#include <linux/delay.h>
++#include <linux/i2c.h>
++#include <linux/module.h>
++#include <linux/regmap.h>
++
++#define AC200_SYS_CONTROL_REG			0x0002
++#define AC200_SYS_CONTROL_CHIP_RESET_DEASSERT	BIT(0)
++
++/* Interface register accessible from every register page. */
++#define AC200_TWI_REG_ADDR_H	0x00fe
++#define AC200_MAX_REG		0xa1f2
++
++static const struct regmap_range_cfg ac200_range_cfg[] = {
++	{
++		.range_max = AC200_MAX_REG,
++		.selector_reg = AC200_TWI_REG_ADDR_H,
++		.selector_mask = 0xff,
++		.window_len = 256,
++	},
++};
++
++/*
++ * Each AC200 sub-block can reset independently, invalidating its register
++ * contents without regmap's knowledge. Cache only the common page selector;
++ * this avoids a selector read-modify-write for every access on the same page
++ * without ever returning stale functional-register values.
++ */
++static bool ac200_volatile_reg(struct device *dev, unsigned int reg)
++{
++	return reg != AC200_TWI_REG_ADDR_H;
++}
++
++static const struct regmap_config ac200_regmap_config = {
++	.name = "ac200",
++	.reg_bits = 8,
++	.reg_stride = 2,
++	.val_bits = 16,
++	.ranges = ac200_range_cfg,
++	.num_ranges = ARRAY_SIZE(ac200_range_cfg),
++	.max_register = AC200_MAX_REG,
++	.volatile_reg = ac200_volatile_reg,
++	.cache_type = REGCACHE_MAPLE,
++};
++
++static void ac200_disable(struct regmap *regmap)
++{
++	regmap_write(regmap, AC200_SYS_CONTROL_REG, 0);
++}
++
++static int ac200_probe(struct i2c_client *client)
++{
++	struct device *dev = &client->dev;
++	struct regmap *regmap;
++	struct clk *clk;
++	int ret;
++
++	clk = devm_clk_get_enabled(dev, NULL);
++	if (IS_ERR(clk))
++		return dev_err_probe(dev, PTR_ERR(clk),
++				     "failed to enable input clock\n");
++
++	ret = devm_clk_rate_exclusive_get(dev, clk);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to lock clock rate\n");
++
++	regmap = devm_regmap_init_i2c(client, &ac200_regmap_config);
++	if (IS_ERR(regmap))
++		return dev_err_probe(dev, PTR_ERR(regmap),
++				     "failed to initialize regmap\n");
++
++	i2c_set_clientdata(client, regmap);
++
++	/*
++	 * No minimum delay is documented. Match the vendor driver's 40 ms delay
++	 * before its first AC200 register access after enabling the input clock.
++	 */
++	msleep(40);
++
++	ret = regmap_write(regmap, AC200_SYS_CONTROL_REG, 0);
++	if (ret)
++		return ret;
++
++	ret = regmap_write(regmap, AC200_SYS_CONTROL_REG,
++			   AC200_SYS_CONTROL_CHIP_RESET_DEASSERT);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++static void ac200_remove(struct i2c_client *client)
++{
++	ac200_disable(i2c_get_clientdata(client));
++}
++
++static void ac200_shutdown(struct i2c_client *client)
++{
++	ac200_disable(i2c_get_clientdata(client));
++}
++
++static const struct of_device_id ac200_of_match[] = {
++	{ .compatible = "x-powers,ac200" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, ac200_of_match);
++
++static const struct i2c_device_id ac200_i2c_ids[] = {
++	{ .name = "ac200" },
++	{ }
++};
++MODULE_DEVICE_TABLE(i2c, ac200_i2c_ids);
++
++static struct i2c_driver ac200_driver = {
++	.driver = {
++		.name = "ac200",
++		.of_match_table = ac200_of_match,
++	},
++	.probe = ac200_probe,
++	.remove = ac200_remove,
++	.shutdown = ac200_shutdown,
++	.id_table = ac200_i2c_ids,
++};
++module_i2c_driver(ac200_driver);
++
++MODULE_AUTHOR("James Hilliard <james.hilliard1@gmail.com>");
++MODULE_DESCRIPTION("X-Powers AC200 MFD core driver");
++MODULE_LICENSE("GPL");
 
-Changes v5 -> v6:
-- split the MFD work from the independently mergeable networking series
-- put the merge routing and shared DT design at the start of the cover letter
-- rebase on the MFD for-mfd-next branch
-- Link to v5: https://patch.msgid.link/20260809-submit-acx00-of-dynamic-v1-v5-0-bfa1f8518b28@gmail.com
-
-To: Lee Jones <lee@kernel.org>
-To: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: mfd@lists.linux.dev
-Cc: devicetree@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-
----
-James Hilliard (2):
-      dt-bindings: mfd: x-powers: Add AC200
-      mfd: ac200: Add X-Powers AC200 support
-
- .../devicetree/bindings/mfd/x-powers,ac200.yaml    |  49 ++++++++
- drivers/mfd/Kconfig                                |  11 ++
- drivers/mfd/Makefile                               |   1 +
- drivers/mfd/ac200.c                                | 136 +++++++++++++++++++++
- 4 files changed, 197 insertions(+)
----
-base-commit: 9d0e4b1ae5b045a2c92b0b9a1c3b268191c219d9
-change-id: 20260811-submit-ac200-mfd-8bad6d09e285
-
-Best regards,
---  
-James Hilliard <james.hilliard1@gmail.com>
+-- 
+2.53.0
 
