@@ -1,171 +1,338 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63174582E8;
-	Thu,  3 Sep 2026 08:54:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A46D936921B
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Sep 2026 09:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788425687; cv=none; b=Uk9yzdrl0dW8Mqu/n7+qYjE9vQ3DHDvgHhsb4owMxyo/l8xaqJmu5tytJQDAak5kTSDzw1KZpAE4gaJv0wQQUKDtVGoJ2XguNMaTN5r3jZNSSuYdbRGoGEvzTW+BQ2QXiVKyFQ6VfHwJNMc5u3W5qDXefR+Ls9JCfCdTJd/06m8=
+	t=1788427046; cv=none; b=l4jpAkBm0dq+1OX/rV+4oY3JYyYz/WqE9sW7wgEnlnrpDuY90VuNFkCSFFAk2cpUlUG8TQbtZdYbtP4q4sITEsR8LRupHhe1PnoKJxtlL8tuFTUDniCbEy/2C71a6TaTzmtIE5tron5tG8EEaN5twAPVNNgvo9WlCAuqngwnQ8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788425687; c=relaxed/simple;
-	bh=OVRy/6e49xlc6eddTN/FmuENFYbQY/8opQlBkHAtzVw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nIJrP5cELZrEzyEP6kViz8zYrWqe33vwkTdo0fP2bDt2DOlBQMFa8cFD27UmIV8jikidz1kDlxBvWON+Y2JHwyIWx8oK5W3tyVN3RqiVw4Hc1rhddny1409olbCGST4cH/5dzHxsYeSqfQXtHW1Slwhnel13UL/Ux4NzibEfFpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KTprtdcM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788427046; c=relaxed/simple;
+	bh=RAW3IjTiA5pWZrE8uD9aR7afJJyLRJLAxebVCoQj42E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jUVNtdn/V9eC9fJBj9JvJ9YimkyR2Gm92Xqd3QWFIj6z2p3tnPVFWiELJCCQ49hMr9kGgP+eWvuTuEnaOilXUlXgDLJvtQPQGECLodlzGBOXJXQ/0nIeGyehpky1Ksb1xssTuN1qxnYIg95+ShQ6rXdSFIfk+tSrxM6iciGfqsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wirenboard.com; spf=pass smtp.mailfrom=wirenboard.com; dkim=pass (2048-bit key) header.d=wirenboard.com header.i=@wirenboard.com header.b=cDn0L/2S; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wirenboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wirenboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KTprtdcM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B69BD1F000E9;
-	Thu,  3 Sep 2026 08:54:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788425682;
-	bh=4Y6l5YlEpGwlqbTGDyz1WTlFxzg/AACMsnvqaxrx2zI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=KTprtdcMXhRi26hZtSdXz/75tF+gMMrg2uRb1B5mvJ5CiNeoCtgFDm5C5/PODvL+n
-	 GXxlWeYlRoSyDO88p1v+isnav188lx5lsrGIwRSsqgbFzL9svsOSAqgSOOewcJFXeL
-	 cvGqNlddtSqqJVtEAcruojEdpVpxMR4w0ccm7CuLt5e3m3efLtPeUD3T+GF6wOSkI6
-	 2j3pN3znkYdVbKJ1iiFNTD/+K7FZhj2rVA6IKCm1Vv032Um5/M4gALCtV13k8FLSYP
-	 S0wmYm6RiZT43ToTPhNyszQf30wGXoyWAYxQHljePGAghZKhgB0HMByTbJxN09a/nK
-	 0yEk6Dp/urWcA==
-Date: Thu, 3 Sep 2026 09:54:36 +0100
-From: Lee Jones <lee@kernel.org>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	"Jagielski, Jedrzej" <jedrzej.jagielski@intel.com>,
-	Andre Przywara <andre.przywara@arm.com>,
+	dkim=pass (2048-bit key) header.d=wirenboard.com header.i=@wirenboard.com header.b="cDn0L/2S"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4858303de5dso323583f8f.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 03 Sep 2026 02:17:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wirenboard.com; s=google; t=1788427042; x=1789031842; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=H9qD0sFZ2P4s6++zHyN8ZE8Rd94yZI/MQR/y8ugP8/g=;
+        b=cDn0L/2SSMgnHwApZvvgiXJMrz7zsPKMtqxlrWJ+4YI9i518lyCo6jrr7hWrHDSiD8
+         21HwMT7YG58vqc6MgC+xAPAMDzywmRwm0BWWfqaFTkNqJ7hWryeHsswxWnJq6cPiFLT3
+         AHATmHJumXVkAmRJFUHgUglgjXMwEZVjOouG5tEcFwwi9+rwRPcERg+vj4mmzTBsywgK
+         UKOWrM/0ZR3yKDFSRtKhUAVOH+s1YmQ8T43A08NFSnBwD3OMNhRWOGUHHYcOGA3yiaDf
+         4YZIMTqwCNtwyF0W6wmYHa8X9VXbjXVXnGlPbfNttF1FF82dQjCadJRnMbynIJaZg8tq
+         IA+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788427042; x=1789031842;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=H9qD0sFZ2P4s6++zHyN8ZE8Rd94yZI/MQR/y8ugP8/g=;
+        b=FKprSvffBO6/Y3llMOh/LcGGVEWPFSgSJ2FdI6pAPAf2RkkB+wz578iciudjJZfUsH
+         TTLDHut0af+PuKp8CvD8Was4rBhbqm8Vy4NwZVjtvRrUOa8F7iBu9QPAAX7wHdq75CzA
+         uBGbroEbIi9cjnQp4eRdtj0n5rNm0qcrgXrMlP+XNudSEgKOxvtzLWZHEBQuaXZurbgD
+         kxyBiGwSbrJgHE1oe2kGrByUs4GqygsQIAakjgNUPXsK7FvL3JLl1r1QBRcJV5Vk8mXp
+         UU5/uarY+Vf4o3Yg2sKeMcXZHLJg5SLkzwq/kNWNTw26JCNkPU+ggBjMCnKiVhfdpeVP
+         ML4Q==
+X-Forwarded-Encrypted: i=1; AKwUvBx+OjNBzqWF7WhQUsh3aaD49iOfnw4hAM0LpxvbyWbx6Qw9D7qOUdvSJUYzN3KjsNIdtrkBt/G/78wmcw==@lists.linux.dev
+X-Gm-Message-State: AFuF++m/BJx4/rQGmK/mmcmu0md5VqqPDirNy6SdxARK+GCraT/N+NiA
+	8ykf81UC4Rp4gD/ZC9qF3zPj/FvIqDjaXDbVJ72DROy+VWui/Z9t+ZousO3whU9+0As=
+X-Gm-Gg: AYBFou0s37KR6d8CEPPi9H8TlQoiu7o6iQEvwdmmuEuuQnleSUjGm/bWDOYsiE9Zn5T
+	Ql2sEApvU7mW4cbZP4LCQEsitdpW60ZhKJG6MjauH53ockI0u9N5xMREHg2Q9X7fjsqJIbL/F22
+	T0va09O1G5oSGSuGqCqlda755XwFx8bUNypG/NAuAwA0IHdPqHfLqvlZ6bv+vREU2Yfw+9fiQKh
+	voIqTLwtIiGkAM9ZCFj7q0lJhwlpEMX+Gwwlk2m0nd8rRkAUf3/axTZiPNFaeZX701R5vfyR6QE
+	7lb3mvwFBiLVi9A57oj6WJNE40pZcNbzOV4NvKS+Pq7kgMlFQ5BxM8otus7numeAXonPkB1mAZA
+	LJhD2WD6WlOfxlKI+xglX3a8JcGo7SYnItnilB9wCs2gzqVXnlGIFy9oBsCBfLj4C+7/c5v/xoA
+	HRH9TXmH0qmTfKB3VdbGEErdDAguyQ89MAXyFS6F44N8FWB4m6F0Ep0NIdsZTP4f2XFrC+iPkhq
+	5foQIUcQrU/j5UyCaERkAkQ9QYcYB9K
+X-Received: by 2002:a05:6000:471a:b0:484:3311:3176 with SMTP id ffacd0b85a97d-48488f22290mr20813888f8f.23.1788427041742;
+        Thu, 03 Sep 2026 02:17:21 -0700 (PDT)
+Received: from localhost.localdomain ([85.137.25.106])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48448e72f02sm12073755f8f.3.2026.09.03.02.17.20
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 03 Sep 2026 02:17:21 -0700 (PDT)
+From: Ilya Titov <ilya.titov@wirenboard.com>
+To: Linus Walleij <linusw@kernel.org>,
 	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev, mfd@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 2/2] mfd: ac200: Add X-Powers AC200 support
-Message-ID: <20260903085436.GG2133376@google.com>
-References: <20260811-submit-ac200-mfd-v7-0-8b06f552a4d7@gmail.com>
- <20260811-submit-ac200-mfd-v7-2-8b06f552a4d7@gmail.com>
- <20260902143122.GA2082450@google.com>
- <CADvTj4oytrbZw9oKzRu=+tL1WZMyscfDvBMm2uK5hhNv8ZxTBw@mail.gmail.com>
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Bartosz Golaszewski <brgl@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	=?UTF-8?q?Emilio=20L=C3=B3pez?= <emilio@elopez.com.ar>,
+	linux-gpio@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Ilya Titov <ilya.titov@wirenboard.com>
+Subject: [PATCH v2] pinctrl: sunxi: keep a shadow copy of the data register output latches
+Date: Thu,  3 Sep 2026 12:17:18 +0300
+Message-ID: <20260903091718.44042-1-ilya.titov@wirenboard.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260812120114.32501-1-ilya.titov@wirenboard.com>
+References: <20260812120114.32501-1-ilya.titov@wirenboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADvTj4oytrbZw9oKzRu=+tL1WZMyscfDvBMm2uK5hhNv8ZxTBw@mail.gmail.com>
 
-On Wed, 02 Sep 2026, James Hilliard wrote:
+On Allwinner SoCs, reading a bank's data register returns the pin level,
+not the output latch, for pins that are muxed as inputs.  Writing a GPIO
+therefore corrupts the output latches of all input-muxed pins in the
+same bank: the read-modify-write in sunxi_pinctrl_gpio_set() reads back
+their pin levels and writes those into their latches.
 
-> On Wed, Sep 2, 2026 at 8:31 AM Lee Jones <lee@kernel.org> wrote:
-> >
-> > On Tue, 11 Aug 2026, James Hilliard wrote:
-> >
-> > > The X-Powers AC200 is a mixed-signal companion IC with a paged register
-> > > map accessed over I2C.
-> > >
-> > > Enable the shared input clock and prevent its rate from changing. Match
-> > > the vendor driver's 40 ms wait before the first register access,
-> > > initialize the paged regmap, report the chip and package revision, and
-> > > apply common reset.
-> > >
-> > > The Ethernet PHY link endpoint is independently enumerated on its MDIO
-> > > bus rather than created as an MFD platform child. Keep the regmap attached
-> > > to the AC200 I2C device so a separately enumerated function can resolve
-> > > that device, establish its required lifetime relationship and retrieve
-> > > the regmap from the provider.
-> > >
-> > > Cache only the common page selector. Individual functions can reset
-> > > independently and invalidate their other registers without regmap's
-> > > knowledge, so leave all functional registers volatile.
-> > >
-> > > Reset the chip during managed teardown and system shutdown.
-> > >
-> > > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-> > > ---
-> > >  drivers/mfd/Kconfig  |  11 ++++
-> > >  drivers/mfd/Makefile |   1 +
-> > >  drivers/mfd/ac200.c  | 163 +++++++++++++++++++++++++++++++++++++++++++++++++++
-> > >  3 files changed, 175 insertions(+)
-> > >
-> > > diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-> > > index e4fd4572472f..cac3fff5aee9 100644
-> > > --- a/drivers/mfd/Kconfig
-> > > +++ b/drivers/mfd/Kconfig
-> > > @@ -205,6 +205,17 @@ config MFD_AC100
-> > >         This driver include only the core APIs. You have to select individual
-> > >         components like codecs or RTC under the corresponding menus.
-> > >
-> > > +config MFD_AC200
-> > > +     tristate "X-Powers AC200"
-> > > +     depends on I2C
-> > > +     depends on OF
-> > > +     select REGMAP_I2C
-> > > +     help
-> > > +       Support for the X-Powers AC200 mixed-signal companion IC. The AC200
-> > > +       contains audio, video, RTC and Fast Ethernet PHY functions and is
-> > > +       co-packaged with some Allwinner H6 and H616 SoCs. This driver provides
-> > > +       the shared register access used by the individual function drivers.
-> > > +
-> > >  config MFD_AXP20X
-> > >       tristate
-> > >       select MFD_CORE
-> > > diff --git a/drivers/mfd/Makefile b/drivers/mfd/Makefile
-> > > index 72d3944b0ad8..f8101d2a9ce9 100644
-> > > --- a/drivers/mfd/Makefile
-> > > +++ b/drivers/mfd/Makefile
-> > > @@ -150,6 +150,7 @@ obj-$(CONFIG_MFD_DA9052_SPI)      += da9052-spi.o
-> > >  obj-$(CONFIG_MFD_DA9052_I2C) += da9052-i2c.o
-> > >
-> > >  obj-$(CONFIG_MFD_AC100)              += ac100.o
-> > > +obj-$(CONFIG_MFD_AC200)              += ac200.o
-> > >  obj-$(CONFIG_MFD_AXP20X)     += axp20x.o
-> > >  obj-$(CONFIG_MFD_AXP20X_I2C) += axp20x-i2c.o
-> > >  obj-$(CONFIG_MFD_AXP20X_RSB) += axp20x-rsb.o
-> > > diff --git a/drivers/mfd/ac200.c b/drivers/mfd/ac200.c
-> > > new file mode 100644
-> > > index 000000000000..0964e637afef
-> > > --- /dev/null
-> > > +++ b/drivers/mfd/ac200.c
-> > > @@ -0,0 +1,163 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > +/*
-> > > + * MFD core driver for the X-Powers AC200
-> > > + *
-> > > + * Copyright (C) 2019 Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > + * Copyright (C) 2026 James Hilliard <james.hilliard1@gmail.com>
-> > > + *
-> > > + * Based on the AC100 driver:
-> > > + * Copyright (C) 2016 Chen-Yu Tsai
-> >
-> > Drop this.  Every driver tends to be based on something else.
-> 
-> Dropped in v8.
-> 
-> >
-> > > + */
-> > > +
-> > > +#include <linux/bitfield.h>
-> > > +#include <linux/clk.h>
-> > > +#include <linux/delay.h>
-> > > +#include <linux/i2c.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/regmap.h>
-> >
-> > Why aren't you using the MFD API?
-> >
-> > If you don't need it, then why is this in drivers/mfd?
-> 
-> The EPHY remains enumerated on its primary MDIO bus, so it is not an MFD
-> child. For non-EPHY use cases, the AC200 audio, video and RTC functions
-> are intended to be added as MFD children.
-> 
-> There are no such child drivers in this series, so I have not added
-> unused MFD cells. Those can be introduced with their corresponding
-> bindings and drivers.
+This breaks emulated open-drain lines (e.g. a bit-banged I2C bus from
+i2c-gpio).  Such a line is released high by muxing it as input and
+letting the pull-up raise it, so any concurrent GPIO write in the same
+bank stores 1 into its latch.  Driving the line low afterwards is a
+non-atomic data-then-mux sequence in sunxi_pinctrl_gpio_direction_output();
+if the poisoning write lands between the two steps, the pin actively
+drives high (push-pull) instead of low.
 
-The rule is that you must provide at least 2 MFD children before this
-constitute as an MFD.  Please provide them in the same series.
+Observed in practice as sporadic glitches on a T507 board bit-banging
+I2C on port E while other PE GPIOs are toggled.  On a scope the failure
+is unmistakable: on a clock pulse where SCL should fall to GND, the line
+instead steps *above* its idle high level for the whole low phase — the
+pad drives a strong push-pull 3.3 V high, higher than the level the
+pull-up sustains on the loaded bus — before the next transition recovers
+it.  The same can hit SDA, corrupting data instead of clocks.
 
+Steps to reproduce on any sunxi board with a bit-banged (i2c-gpio) bus:
+
+  # background: toggle any other GPIO of the same bank, e.g. line 21
+  gpioset -c <chip> --toggle 100us 21=0 &
+
+  # foreground: keep the bit-banged bus busy
+  while :; do i2cdetect -y <bus> 0x50 0x57; done
+
+  # watch SCL/SDA with a scope or logic analyzer: sporadic clock-low
+  # phases driven high (above the pull-up level) instead of low
+
+The bank spinlock cannot help: the racing write is a perfectly valid
+whole-register RMW that faithfully writes back what the hardware
+returned.  There are no set/clear registers on this IP to write a single
+bit atomically.
+
+Fix it the same way gpio-mmio handles hardware whose data register read
+does not return the output latch: keep a shadow copy of each bank's
+latches, base the read-modify-write on the shadow, and only write the
+register.  The shadow is seeded from the hardware at probe time so pins
+left in output mode by the bootloader keep their state.  Pins that reach
+output mode through the gpiolib paths write their value (and thereby
+their shadow bit) before the mux switch in
+sunxi_pinctrl_gpio_direction_output(); pins muxed to gpio_out directly
+through a pinmux node bypass that path, so sunxi_pmx_set() refreshes
+their shadow bit from the latch (readable once the pin is in output
+mode) to keep them driving their pre-existing level.
+
+Seeding the shadow reads the PIO registers at probe time, which requires
+the bus clock to be enabled.  The clock was only requested at the very
+end of probe, after devm_pinctrl_register() had already claimed the pin
+hogs described in the device tree - which mux pins, and thus access
+registers, with the clock still gated.  Move the request ahead of both.
+Boards whose bootloader leaves the PIO clock running are unaffected,
+which is why the pre-existing hog problem has gone unnoticed since
+commit 950707c0eb5c ("pinctrl: sunxi: add clock support").
+
+Fixes: df7b34f4c3d2 ("pinctrl: sunxi: Fix gpio_set behaviour")
+Cc: stable@vger.kernel.org
+Signed-off-by: Ilya Titov <ilya.titov@wirenboard.com>
+---
+v2:
+ - compute nbanks with DIV_ROUND_UP(last_pin + 1 - pin_base, PINS_PER_BANK)
+   instead of round_up(last_pin, PINS_PER_BANK).  last_pin is the highest
+   pin number, not a count, so the old form allocated one bank too few
+   whenever it was an exact multiple of PINS_PER_BANK, which would let
+   sunxi_pmx_set() write past the end of dat_shadow.  No current SoC hits
+   this (the closest are PL1 on h616-r and PN1 on a80-r), but a bank with
+   a single pin in a future table would.  Reported by Sashiko AI review.
+   The allocation size is unchanged for every SoC description in tree.
+
+Tested on a Wiren Board 8.5.1 (Allwinner T507) against a 6.18-based
+kernel, where the problem was found: the bit-banged ATECC/RTC bus on
+port E survives 200 probe rounds while another PE line is toggled every
+100 us in the background, which reliably corrupted transfers before.
+
+The mainline port has not been re-tested on that hardware; it was build
+tested on v7.2-rc7 with arm64 allmodconfig and arm allmodconfig (all 28
+PINCTRL_SUN* variants, W=1), both without new warnings, and sparse
+(v0.6.5) reports nothing for the driver.
+
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c | 76 +++++++++++++++++++++------
+ drivers/pinctrl/sunxi/pinctrl-sunxi.h |  7 +++
+ 2 files changed, 68 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+index 25489beeb312..2881a83be99c 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+@@ -837,6 +837,21 @@ static void sunxi_pmx_set(struct pinctrl_dev *pctldev,
+ 	writel((readl(pctl->membase + reg) & ~mask) | config << shift,
+ 	       pctl->membase + reg);
+ 
++	/*
++	 * A pin muxed to gpio_out directly through a pinmux node bypasses
++	 * sunxi_pinctrl_gpio_set() and drives whatever its output latch
++	 * holds.  Now that the pin is in output mode the data register
++	 * reads back the latch, so refresh the shadow to keep such pins
++	 * driving their pre-existing level.
++	 */
++	if (config == SUN4I_FUNC_OUTPUT) {
++		u32 *shadow = &pctl->dat_shadow[pin / PINS_PER_BANK];
++
++		sunxi_data_reg(pctl, pin, &reg, &shift, &mask);
++		*shadow = (*shadow & ~mask) |
++			  (readl(pctl->membase + reg) & mask);
++	}
++
+ 	raw_spin_unlock_irqrestore(&pctl->lock, flags);
+ }
+ 
+@@ -1017,21 +1032,29 @@ static int sunxi_pinctrl_gpio_set(struct gpio_chip *chip, unsigned int offset,
+ 				  int value)
+ {
+ 	struct sunxi_pinctrl *pctl = gpiochip_get_data(chip);
+-	u32 reg, shift, mask, val;
++	u32 *shadow = &pctl->dat_shadow[offset / PINS_PER_BANK];
++	u32 reg, shift, mask;
+ 	unsigned long flags;
+ 
+ 	sunxi_data_reg(pctl, offset, &reg, &shift, &mask);
+ 
+ 	raw_spin_lock_irqsave(&pctl->lock, flags);
+ 
+-	val = readl(pctl->membase + reg);
+-
++	/*
++	 * Reading the data register returns the pin level, not the output
++	 * latch, for pins muxed as inputs.  A read-modify-write based on
++	 * the register would therefore corrupt the latches of input-muxed
++	 * pins in the same bank (e.g. an emulated open-drain I2C line
++	 * released high), making them drive the wrong level once switched
++	 * to output.  Base the read-modify-write on a shadow copy of the
++	 * latches instead.
++	 */
+ 	if (value)
+-		val |= mask;
++		*shadow |= mask;
+ 	else
+-		val &= ~mask;
++		*shadow &= ~mask;
+ 
+-	writel(val, pctl->membase + reg);
++	writel(*shadow, pctl->membase + reg);
+ 
+ 	raw_spin_unlock_irqrestore(&pctl->lock, flags);
+ 
+@@ -1572,7 +1595,7 @@ int sunxi_pinctrl_init_with_flags(struct platform_device *pdev,
+ 	struct pinctrl_pin_desc *pins;
+ 	struct sunxi_pinctrl *pctl;
+ 	struct pinmux_ops *pmxops;
+-	int i, ret, last_pin, pin_idx;
++	int i, ret, last_pin, pin_idx, nbanks;
+ 	struct clk *clk;
+ 
+ 	pctl = devm_kzalloc(&pdev->dev, sizeof(*pctl), GFP_KERNEL);
+@@ -1610,6 +1633,37 @@ int sunxi_pinctrl_init_with_flags(struct platform_device *pdev,
+ 	if (!pctl->irq_array)
+ 		return -ENOMEM;
+ 
++	/*
++	 * The bus clock has to be enabled before the pinctrl device
++	 * registers, as the pin hogs claimed from there access registers.
++	 */
++	ret = of_clk_get_parent_count(node);
++	clk = devm_clk_get_enabled(&pdev->dev, ret == 1 ? NULL : "apb");
++	if (IS_ERR(clk))
++		return PTR_ERR(clk);
++
++	/*
++	 * Seed the output latch shadow from the hardware so pins the
++	 * bootloader left in output mode keep their state; see
++	 * sunxi_pinctrl_gpio_set() for why a shadow is needed.  This must
++	 * happen before the pinctrl device registers, as pin hogs can mux
++	 * pins to gpio_out and thereby update the shadow.
++	 */
++	last_pin = pctl->desc->pins[pctl->desc->npins - 1].pin.number;
++	nbanks = DIV_ROUND_UP(last_pin + 1 - pctl->desc->pin_base,
++			      PINS_PER_BANK);
++	pctl->dat_shadow = devm_kcalloc(&pdev->dev, nbanks,
++					sizeof(*pctl->dat_shadow), GFP_KERNEL);
++	if (!pctl->dat_shadow)
++		return -ENOMEM;
++
++	for (i = 0; i < nbanks; i++) {
++		u32 reg, shift, mask;
++
++		sunxi_data_reg(pctl, i * PINS_PER_BANK, &reg, &shift, &mask);
++		pctl->dat_shadow[i] = readl(pctl->membase + reg);
++	}
++
+ 	ret = sunxi_pinctrl_build_state(pdev);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "dt probe failed: %d\n", ret);
+@@ -1665,7 +1719,6 @@ int sunxi_pinctrl_init_with_flags(struct platform_device *pdev,
+ 	if (!pctl->chip)
+ 		return -ENOMEM;
+ 
+-	last_pin = pctl->desc->pins[pctl->desc->npins - 1].pin.number;
+ 	pctl->chip->owner = THIS_MODULE;
+ 	pctl->chip->request = gpiochip_generic_request;
+ 	pctl->chip->free = gpiochip_generic_free;
+@@ -1699,13 +1752,6 @@ int sunxi_pinctrl_init_with_flags(struct platform_device *pdev,
+ 			goto gpiochip_error;
+ 	}
+ 
+-	ret = of_clk_get_parent_count(node);
+-	clk = devm_clk_get_enabled(&pdev->dev, ret == 1 ? NULL : "apb");
+-	if (IS_ERR(clk)) {
+-		ret = PTR_ERR(clk);
+-		goto gpiochip_error;
+-	}
+-
+ 	pctl->irq = devm_kcalloc(&pdev->dev,
+ 				 pctl->desc->irq_banks,
+ 				 sizeof(*pctl->irq),
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+index 0daf7600e2fb..498e88a19f71 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+@@ -85,6 +85,7 @@
+ #define IO_BIAS_MASK		GENMASK(3, 0)
+ 
+ #define SUN4I_FUNC_INPUT	0
++#define SUN4I_FUNC_OUTPUT	1
+ #define SUN4I_FUNC_IRQ		6
+ #define SUN4I_FUNC_DISABLED_OLD 7
+ #define SUN4I_FUNC_DISABLED_NEW 15
+@@ -175,6 +176,12 @@ struct sunxi_pinctrl {
+ 	int				*irq;
+ 	unsigned			*irq_array;
+ 	raw_spinlock_t			lock;
++	/*
++	 * Output latch shadow, one word per bank.  Seeded lockless at
++	 * probe before the pinctrl device registers, protected by @lock
++	 * afterwards.
++	 */
++	u32				*dat_shadow;
+ 	struct pinctrl_dev		*pctl_dev;
+ 	unsigned long			flags;
+ 	u32				bank_mem_size;
+
+base-commit: f5bbbfec59b4e2fb7520a91de3df8a6174325d6a
 -- 
-Lee Jones
+2.50.1 (Apple Git-155)
+
