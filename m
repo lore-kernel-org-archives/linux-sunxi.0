@@ -1,182 +1,372 @@
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1DD74FC8D5
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Sep 2026 16:53:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5503DB961
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Sep 2026 17:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.171
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788540783; cv=pass; b=X/R1VVPOGgAA0X4PVICFciIH42gqWrR6QpSP4JnUM3SI3IHzo2/W0E1ynWoFRLq9Bx+tuC5IZFgsJZ/zqjCXBnemUnAAbR1oqIomgxDk0SRDtUALGkfhMhHb8IMCriC6htFLUXMbEztAnpz5Cjpk4MRmmB5DY0uEVg/PUn3NEQM=
+	t=1788541582; cv=pass; b=XpkmhXRNhUulg3X4U8uXuPj6ivTqONgXr5nRJh4kq/1D9RY8xJX5I/T+TyN+huJBvK0OEX4iOuz5D/HpXt0oiKA0g6qRhBWT44ncawMSWk4N36PqN+MXymGoNjY07JvJozJmTmtgeVcHTeXEclxt/scvUlFsTUAmyNyHk5IVDhU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788540783; c=relaxed/simple;
-	bh=nCqEeX/YmPXgBfiXFWn13hZN8T7Z+lPuAqTre4JIEAc=;
+	s=arc-20240116; t=1788541582; c=relaxed/simple;
+	bh=it7al99Mn0Hztn1jkp4WlVXb+TrDxTMcFjo8QDlqTgQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lG5dbOI9aLLDQmhhApg/ZBHVnl3NoaX4j15E55FBnX9ITDSHRFRCrhSsXRRZKbaR7kbEfvDZK+rK1V6CjY32WA3lThW5E8rPhVBSUFKBFhAQwrmIJlUlAhN2TiVvI72ZRYRSENTo6pwmGUpdgzwFqAuSMoHCc1pk30+OLua+uHk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W3lhLBLa; arc=pass smtp.client-ip=209.85.217.42
+	 To:Cc:Content-Type; b=Cks1NQLvgpeBB4r8uH9d9uy3bt47tzwHbIG4r0CvRH4Xw2McbNYG5lUajEgTszxfV4Df1dpjHrE0QW2lCmReg2Vdw5gGAcV3SdePDl7Dfcj1asS1/7RERaqWNkvmnK9xQhAhkah3a4L1/cmlIXrQ/ioMx5Rs/BxwJPyFRDYsgMU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G7LfgvyT; arc=pass smtp.client-ip=209.85.221.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W3lhLBLa"
-Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-7894670be7dso508919137.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Sep 2026 09:53:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788540780; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G7LfgvyT"
+Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-5c7bf03c4d0so1024353e0c.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Sep 2026 10:06:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788541579; cv=none;
         d=google.com; s=arc-20260327;
-        b=pXv2eFUhvr5P6XXAemkmdqqRn6KAK9ObLZJt+inezrxipXM7Y/4sboMOc38kil71/y
-         fLMViOWVnLdZntkzyCjRN7ztD0GuEy8WVqaCgroP5HqIjF90WGMFkvDP0tkr4suyabzp
-         ZPkahvuyou+gBHE73G4FYhfo/1R/j0fU5kJOgmd7MqpAANUGwW5+GShe1FjTFGF6SMF3
-         VZ6HH+W0Oac2i+Xh1sajAu8D1d3p0HisS8emkwhgY8wYNCxjtAtP0mmgr33YB9vfQ6uV
-         b0f4QWwiwLwWZEdgHDL4h8BU+sjOgIvkOWt5Quq/aKJ8O+cxS8SeGVhlmLCgtopATOtD
-         ED1g==
+        b=mVoyFUGy4EMfq6RSIyuZ7JcVDfpHvVQij21clA6EyI6EA16gIpsNxEuklI0D5m0V9A
+         JPClb1MSNACM8duWJLxyTw+rNG1hDaQe1TDsRaMf786BSOdlOSq2ARKbv7NEzNFZYNz6
+         MaI6le7VLJvmV0ABumYnwNf62wSQxx0wXavUpY4iJz1GMlaqtS0oHWwt0xFMgAsmupf6
+         XIzHv7qsncDPqYKPzUx7fkBlOMB91MDWcHrgyskDGjgg1Qhwh3oBjS37dFso9UtsbI3n
+         JIl/TN/FMh1GlAaKziE7CxtbF/mRGfRf7wMNeZdsF+HltcCgygPHRsZNbmQz6vMem2UW
+         fsUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Ien2o60ZIi4QpF5qZ3s+1MoomCrROw/TLgJB8j1A6bc=;
-        fh=z3WC9xkV32ryOjOZJc9qgtcAPOjOjkmiathqJVurfQ0=;
-        b=o+CtSNjRgqFgn7gaJnSUHZ9Y4/LZ5YuMrxJhxqc9Md1ezWEhfd/jqbqH0EQJrG4FUp
-         4JdoIjPxPZFTDEyJpxsrtAR4+kscb1LCUUO/zn+qsBF/OXzi26sKWfPaHrSz4lqYxnW3
-         +D1mvQSLZtWQVr0Op1VAw2FF82BGXeZLXWfbWE9rI8o5p3bBEupZsulvVZPBay1lEygC
-         uL0M2j9AcHwvjrEY5ujsuxRnWTAhumoiHB/AFxYaCZqAGv1c5yuiEU40CwMKEeEhhGqT
-         GbDq27/sgLl/74eS/T957IWgSVA40GKFcHij/K071j7KDMbEXoUxPbDZvzxbbS7vG/yk
-         5nRA==;
+        bh=MFC2guGLZc9ltzCdl0pnPxvf2FTE+4Td6tDRAjgS4Nw=;
+        fh=BJoroJXCWGK5XiAPUYjp+czarIuSAo7V7Tnhc2Lxc0g=;
+        b=XkZR7OegIjSix94v23ZW9IX4NDQSzG1COiHQbvLLrViUOXcr8SmL6gpCoNWzguocts
+         XGBEJr1VGIivEmlwhiSV4yEHc8KvORmsLVL4ffM4qwnDjPkC0Bu70CM/T4w3sCc4TZZU
+         F9XG9nhk5h7crYUK0hqKZP6nceZtc5WAwdeXKSW3oFKGCj4CX+AIXc44rqWSxXn87uTn
+         Mh7wxcIMMb7Z7kWITLDjw4WKcoM+WxBhRJyvLcUD1+hxCCaDpPDArhmSgpS2jy5Aq+gL
+         5/XjBB5aFs41ATVIfKVL7IaeTyKhwr0DQzUpZPo3pzCiJqsotWh/oO4vcda7gqdyCjpC
+         e07Q==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788540780; x=1789145580; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1788541579; x=1789146379; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Ien2o60ZIi4QpF5qZ3s+1MoomCrROw/TLgJB8j1A6bc=;
-        b=W3lhLBLaFfzDZuRuePdFYidnmkFt5bN51Y8DkFnOKveoRzNthOFDDsfiedlvu2wguC
-         +i37MyK8+6BrYCnmFVP9ZYH6wzyExnr+SawwKch71ChJZIofV4mnxJcRgQJCLRVj6Rbr
-         5o7grI+duGcGTip4h0R1OeFFin9VIgFSr9l5aQOZroFewXy7lQmq+Vz9uv6q75PRIjWo
-         UUo3rcdQMC8ufWmIRBhBDksZLurfpJSajFxHvQeQ0j9XXZzDhOXMOsv5DJDiotj/Gmet
-         YwZfzwg9TmpMuC2fYC/sMQdb6kVaJ1ou2Am9984bcX5XmZWLyQBworWJdmpbd3dZePX5
-         ox2w==
+        bh=MFC2guGLZc9ltzCdl0pnPxvf2FTE+4Td6tDRAjgS4Nw=;
+        b=G7LfgvyTfvy6rLuh47U8DJhio1OlsUA3gVt5T9sbxDKhH2JFVcDI7DgA4ddnzMbOry
+         K9IlwSfb72F20Ft8hOO9GMv/+0xFtKMBv2+qTHRsUHgaI/2fqroEQQB4WaCP5Q13LPVr
+         FDS/I+0u6fGc2wrhil133WZq2hLB+eXagTQ8XXd7EZuP9tHi7dSeaziDt6MhwkGFbgjX
+         06od8dBeryzdVwosMlpprob6mXu7aFCrAkN4kND4Hh0hT/JLM3tfmc+a5ccFfFFQ9IH/
+         ad9hNrlxA+ZQ2zllYl78jfhZndyFX4q3AnWi9/S1dd8BnDfYL7bdtciKkqe2GKboswUZ
+         bhaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788540780; x=1789145580;
+        d=1e100.net; s=20251104; t=1788541579; x=1789146379;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Ien2o60ZIi4QpF5qZ3s+1MoomCrROw/TLgJB8j1A6bc=;
-        b=fMW+44XXT0N01F/FNEJgX0mLcYPms63DafBEuVQJ/980eR19veOHk4bs4yfVV16CO0
-         J4uGti5GBXOw2lrT6ishKCu0aJ1EG6qr0azRfrXxjS+JAmqg0EmngZ+XvQGZD1i7gN/x
-         i8/+zCnhG10SeTYKRIAkg7hUkaaqO3gXKEj6009hRbg88px6GgNi528mSzjiiB82wzpZ
-         THFcRMlxuNUMThltYG3uQWQRpRK2hvbHu7vW0DDzhC0sVjiXfkaBvS5RTVdAMy009SRC
-         A0ENS8aUDL1rMcWnpDSlQjwT7NJmqkCswBvjFwmFKOynL1BrtjM1jnJlkwG+jc6twwB3
-         fLwA==
-X-Forwarded-Encrypted: i=1; AKwUvBy7JZPHIVUnPTsV0oy0x9IARZOzPz5K+BXJqIDp80MSHmZQVR1q7BZVJ4cUtJeEGZdd8ciYbOWEzqcTSg==@lists.linux.dev
-X-Gm-Message-State: AFuF++kWastB01s9CAebsB1xt7sKjBk1lW3fHN+FULkdbz2Kq5wcy22i
-	cGnQjVDEfHiorSHAsURXE5yBsO8ICzzf2oLvp9lCciAuFNxvlt/tk0GxCVAzMRWnUcNtFcJWdHH
-	wfK/7IdXvtN9t3wG9MM2LUEWV/tcDMm0=
-X-Gm-Gg: AYBFou0KfZDTWvQA1jgxJDzsBqCMd9b36R2/SbjjNF3Mm+0AU9FfbSJ2RFYyqiCJU3M
-	Uf65B2Tfh9jEI30fY59QSu0mw257D1GPG6tVp3oFUb9tsuk5jimRrLm4V2LbgCIVVSfeGY3FXTc
-	8ooxn0oslhVkHRr4HVWzkAPNoa2a6TzQ9RVBMHru/x0s3cJ8+vWZgqM/GATWdHTdkl5pEY/ixdR
-	Jg+oK+/LhOHFEbVpBVzcgSl4chXnQVebmIx+sb3KyOXKTCq/0/U6N6Cx+JvB/RfSd6FeVUbH3ss
-	VZ/Uv2YfMmfOrU5cDeA0kFt0J/QaCuS8s2ghZsTr83MX3izp71iL9n8+KLr0VLJKWl7hVb3xnCB
-	r6Z+qoL6dlu9WSKW1gtiFJnIOEteVqL8cafFRozZJJNb119mnu1T8c6dLDEv6MRWIEmPxlFRbG6
-	iJL1lcF30FyrRDveRhuyVEiRbvqgQoXEDRlW5iKA==
-X-Received: by 2002:a05:6102:4b01:b0:786:a11e:484d with SMTP id
- ada2fe7eead31-78a4a86b686mr1500572137.6.1788540780511; Fri, 04 Sep 2026
- 09:53:00 -0700 (PDT)
+        bh=MFC2guGLZc9ltzCdl0pnPxvf2FTE+4Td6tDRAjgS4Nw=;
+        b=lGHCUv0U2SL7uhsJrX1SOwpurUhJI6oZ8gIM6W70TXKeZU/9LoFBo09DrD52NPTyHH
+         25051JzLEpdb15CLx7bMIei2iKrW9E3wC/FumimXUtS7CAA8MB5dvltxmIKsIZ/68rlv
+         HjWVfjigELKvRaVEDNKKlpAGMBgUleI7nSV21HuI9YKF+axFF/mhe/oUpBoA4mMiq/7V
+         J3o2WagSbs9fUvccL0VYYJA4On2QK05aKj7NulsMNg1Y5DDXPKLDc5rfb3wK9zFeQpRy
+         EoFPs82Gv66vjEDObpyRjG80dy0Ard7bbD5L5F10bD7D5nxlVn6lPNtNW8gbcXCw6Gbd
+         7tEQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzB6bneNaTkwrjKdYEZaS8rHoKISwH22zIM/lf6XYZaSuC3N/ITgEjV4FOG8Z5aIHezZLv34mfp3rIF2w==@lists.linux.dev
+X-Gm-Message-State: AFuF++lTiVbeDBtPqPBPnn1+tzhwWoE1AmvNPfKPEFTPudESlfs+tNPP
+	bDijB4eKqbzUe9oD03rQUUz7idzKV5SVkFqwP0jlrm0eqS8CoIjVJaHPlQkqTUl58rhkpxkKc94
+	XJAldMG6NBOLE2Lx4Xd8ll0365ZJxwuA=
+X-Gm-Gg: AYBFou3rW5VKtfbrDgWYZAsahDlLT7qFaXsUgPvHTgoP1JUtYf8J2fXUQ3BFmDbadBZ
+	0h28cIX2cTjivtu5aOG4jNqCciXB0wJfotP53yG4d9Y/SOFjnBP7TIgC7uwGFIJspdvU+HAum0a
+	+n3ZwQH9dhqL27G/L2JHN9KrLF1z5aEgCk5dwPKjnnw+GKBV2rbsHO4fAmT0hu0XOhONbdUtu1Y
+	Qy3fFqQ4EBJbtbOnalv4kNd8Xqyp2h3GcugFWpgus06vvradjIr38NjZZQ8LoKis5NUZ0axVYlB
+	ysn2ojrhB8l7i5/UPgK+qNhPXL2a6KFCDN1mRD6lO9hrh0cAss2zOHTRv94z8h/MtOwjPBhc0qF
+	Q18vFTtDJ6vKyOxEjFJcr9YcjOz2Vw2Fzdt7+8kQl8qDiQrVZKQFTlU2gRx/mtvvUpTLXZe+SjB
+	da9RZ+Z6HWX9OvCs9vkCqxEkmO4jj/0S0e5snP6Q==
+X-Received: by 2002:a05:6102:8023:b0:789:5fc6:3693 with SMTP id
+ ada2fe7eead31-78a4a6f8278mr2620716137.6.1788541579377; Fri, 04 Sep 2026
+ 10:06:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260811060651.227431-1-james.hilliard1@gmail.com> <87ecf911jr.fsf@bootlin.com>
-In-Reply-To: <87ecf911jr.fsf@bootlin.com>
+References: <20260903-submit-ac200-mfd-v9-0-6b7ed278989c@gmail.com>
+ <20260903-submit-ac200-mfd-v9-3-6b7ed278989c@gmail.com> <20260904-overpass-clumsy-8ccdd5d4ca0e@spud>
+In-Reply-To: <20260904-overpass-clumsy-8ccdd5d4ca0e@spud>
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Fri, 4 Sep 2026 12:52:49 -0400
-X-Gm-Features: AcwNN1VzoX6Wx03j6h-GsWo7X9YwKmv-DqDt9ZWJFHiKu2jY-uxo82M8zbL9kdI
-Message-ID: <CADvTj4p3kFN+4NeeouXscPrnHTWKbauVcYXnh2uW1OGHUL_sbQ@mail.gmail.com>
-Subject: Re: [PATCH] mtd: rawnand: sunxi: reject invalid ECC step sizes
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: linux-mtd@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	stable@vger.kernel.org, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Richard Genoud <richard.genoud@bootlin.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Boris Brezillon <bbrezillon@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
+Date: Fri, 4 Sep 2026 13:06:08 -0400
+X-Gm-Features: AcwNN1X6bl9ODedCCrg0dVF5P7jGVB6L6R8M2S6nkA_KWsBfrKX-Ph0fkWo7Kdk
+Message-ID: <CADvTj4qKxyPZMLBZgpNMMxkFn09MUCNEc9nLva-j=24C_Zg-nw@mail.gmail.com>
+Subject: Re: [PATCH v9 3/4] dt-bindings: mfd: x-powers: Describe AC200 functions
+To: Conor Dooley <conor@kernel.org>
+Cc: Lee Jones <lee@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+	"Jagielski, Jedrzej" <jedrzej.jagielski@intel.com>, Andre Przywara <andre.przywara@arm.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, 
+	mfd@lists.linux.dev, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 4, 2026 at 9:25=E2=80=AFAM Miquel Raynal <miquel.raynal@bootlin=
-.com> wrote:
+On Fri, Sep 4, 2026 at 9:50=E2=80=AFAM Conor Dooley <conor@kernel.org> wrot=
+e:
 >
-> On 11/08/2026 at 00:06:48 -06, James Hilliard <james.hilliard1@gmail.com>=
- wrote:
->
-> > ECC maximization forces a 1024-byte ECC step and divides the
-> > available OOB bytes by the number of steps. A NAND with a smaller
-> > page therefore produces zero steps and a division by zero.
->
-> No, steps cannot be < 1. If they are, it's a bug that must be fixed.
-
-The zero step count is created by the Sunxi maximization path itself.
-sunxi_nand_hw_ecc_ctrl_init() unconditionally sets ecc->size to 1024,
-including for a 512-byte-page NAND, before calculating nsectors.
-
-The controller attach callback runs before nand_scan_tail(), so this
-division happens before the generic ECC handling can reject the
-configuration or fall back to software ECC.
-
-For this case, would you expect the Sunxi maximization path to retain a
-512-byte ECC step on 512-byte-page NANDs, rather than selecting 1024 and
-then validating the resulting step count?
-
-> > An explicitly configured ECC step which is larger than, or does not
-> > divide, the page also produces an unusable step count before the NAND
-> > core can diagnose the configuration.
+> On Thu, Sep 03, 2026 at 02:09:42PM -0600, James Hilliard wrote:
+> > From: Jernej Skrabec <jernej.skrabec@gmail.com>
 > >
-> > Validate the step size at both points where the driver derives the
-> > number of sectors and reject invalid geometries.
+> > Describe the AC200 audio codec and TV encoder as child nodes of the
+> > shared I2C register provider. Keep their analog supplies on the functio=
+n
+> > consumers and describe the TV encoder display graph and optional bandga=
+p
+> > calibration cell.
 > >
-> > Fixes: 4796d8655915 ("mtd: nand: sunxi: Support ECC maximization")
-> > Cc: stable@vger.kernel.org
+> > Add the shared interrupt-controller properties and interrupt numbers ne=
+eded
+> > by the TV encoder. The Ethernet PHY remains represented on its primary =
+MDIO
+> > bus and is therefore not an MFD child.
+> >
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 > > ---
-> >  drivers/mtd/nand/raw/sunxi_nand.c | 17 +++++++++++++++--
-> >  1 file changed, 15 insertions(+), 2 deletions(-)
+> >  .../devicetree/bindings/mfd/x-powers,ac200.yaml    | 136 +++++++++++++=
+++++++++
+> >  MAINTAINERS                                        |   1 +
+> >  include/dt-bindings/mfd/x-powers,ac200.h           |  13 ++
+> >  3 files changed, 150 insertions(+)
 > >
-> > diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/s=
-unxi_nand.c
-> > index 45ccbce91551..ad314c0e30b2 100644
-> > --- a/drivers/mtd/nand/raw/sunxi_nand.c
-> > +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-> > @@ -2032,6 +2032,15 @@ static void sunxi_nand_detach_chip(struct nand_c=
-hip *nand)
-> >       sunxi_nand->user_data_bytes =3D NULL;
-> >  }
+> > diff --git a/Documentation/devicetree/bindings/mfd/x-powers,ac200.yaml =
+b/Documentation/devicetree/bindings/mfd/x-powers,ac200.yaml
+> > index ca7a910b2c73..935dc07138cb 100644
+> > --- a/Documentation/devicetree/bindings/mfd/x-powers,ac200.yaml
+> > +++ b/Documentation/devicetree/bindings/mfd/x-powers,ac200.yaml
+> > @@ -28,15 +28,114 @@ properties:
+> >        be 24 or 27 MHz, matching the rates encoded by the documented EP=
+HY clock
+> >        selector.
 > >
-> > +static int sunxi_nfc_ecc_steps(struct mtd_info *mtd, unsigned int step=
-_size)
-> > +{
-> > +     if (!step_size || mtd->writesize < step_size ||
-> > +         mtd->writesize % step_size)
->
-> I don't get it, mtd->writesize < step_size is conceptually
-> impossible. If that happens, it must be fixed earlier than that.
-
-An explicitly configured step reaches the controller attach callback
-after the NAND geometry has been detected but before nand_scan_tail().
-The Sunxi binding permits step sizes of 512 and 1024 without constraining
-them against the detected page size.
-
-Could you clarify where you expect this invariant to be established:
-in the raw NAND core before ->attach_chip(), or in the Sunxi driver when
-it selects or consumes the ECC configuration?
-
-> > +             return -EINVAL;
+> > +  interrupts:
+> > +    maxItems: 1
+> > +    description:
+> > +      The shared open-drain INTB output for the TV encoder, Ethernet P=
+HY and
+> > +      RTC interrupts.
 > > +
-> > +     return mtd->writesize / step_size;
-> > +}
+> > +  interrupt-controller: true
 > > +
-> >  static int sunxi_nfc_maximize_user_data(struct nand_chip *nand, uint32=
-_t oobsize,
-> >                                       int ecc_bytes, int nsectors)
-> >  {
+> > +  '#interrupt-cells':
+> > +    const: 1
+> > +    description:
+> > +      The interrupt number, as defined in
+> > +      include/dt-bindings/mfd/x-powers,ac200.h.
+> > +
+> > +  codec:
+> > +    type: object
+> > +    $ref: /schemas/sound/dai-common.yaml#
+> > +    unevaluatedProperties: false
+> > +
+> > +    properties:
+> > +      compatible:
+> > +        const: x-powers,ac200-codec
+> > +
+> > +      '#sound-dai-cells':
+> > +        const: 0
+> > +
+> > +      ac-ldoin-supply:
+> > +        description: The 3.3 V supply for the audio codec LDO input.
+> > +
+> > +    required:
+> > +      - compatible
+> > +      - '#sound-dai-cells'
+> > +      - ac-ldoin-supply
+> > +
+> > +  tv-encoder:
+> > +    type: object
+> > +    additionalProperties: false
+> > +
+> > +    properties:
+> > +      compatible:
+> > +        const: x-powers,ac200-tve
+> > +
+> > +      interrupts:
+> > +        maxItems: 1
+> > +        description: Cable detection interrupt.
 >
-> Thanks,
-> Miqu=C3=A8l
+> Given the example, this looks like a hack.
+> Is this mfd actually an interrupt controller, or is that just part of
+> this hack too?
+
+The AC200 has separate TV encoder, Ethernet PHY and RTC status and
+enable bits which are multiplexed onto its shared INTB output, so the
+intent was to represent that demultiplexer as an interrupt controller.
+
+I notice that the example's tv-encoder interrupts property inherits
+interrupt-parent =3D <&pio> rather than explicitly referencing the AC200
+interrupt domain. Is that incorrect interrupt relationship what looks
+like a hack here, or do you also object to representing the AC200
+interrupt demultiplexer as an interrupt controller?
+
+> Quite frankly, I am not really sure why either the tv-encoder or codec
+> have dedicated child nodes, they don't appear to have conflicting
+> properties.
+
+Do you mean that the DT properties for both functions should be folded
+into the AC200 parent node, while the MFD driver still creates separate
+codec and TV encoder platform devices?
+
+Lee requested at least two MFD children in this series, so I want to
+distinguish the Linux MFD cells from whether those cells need dedicated
+firmware child nodes.
+
+> Additionally, why is this not part of patch 1? Add the binding in a
+> complete state from the get-go. On that basis, at least,
+> pw-bot: changes-requested
+
+Do you want patches 1 and 3 combined into one complete binding patch,
+while retaining separate implementation commits for the base provider
+and the MFD cells?
+
+> Cheers,
+> Conor.
+>
+> > +
+> > +      tv-vcc-supply:
+> > +        description: The 3.3 V supply for the composite-video DAC.
+> > +
+> > +      nvmem-cells:
+> > +        maxItems: 1
+> > +
+> > +      nvmem-cell-names:
+> > +        items:
+> > +          - const: bandgap
+> > +
+> > +      ports:
+> > +        $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +        properties:
+> > +          port@0:
+> > +            $ref: /schemas/graph.yaml#/properties/port
+> > +            description: Input from the display pipeline, carrying CCI=
+R656.
+> > +
+> > +          port@1:
+> > +            $ref: /schemas/graph.yaml#/properties/port
+> > +            description: Output to the composite-video connector.
+> > +
+> > +        required:
+> > +          - port@0
+> > +          - port@1
+> > +
+> > +    required:
+> > +      - compatible
+> > +      - interrupts
+> > +      - tv-vcc-supply
+> > +      - ports
+> > +
+> > +    dependencies:
+> > +      nvmem-cells: [ nvmem-cell-names ]
+> > +      nvmem-cell-names: [ nvmem-cells ]
+> > +
+> >  required:
+> >    - compatible
+> >    - reg
+> >    - clocks
+> >
+> > +allOf:
+> > +  - if:
+> > +      required:
+> > +        - tv-encoder
+> > +    then:
+> > +      required:
+> > +        - interrupts
+> > +        - interrupt-controller
+> > +        - '#interrupt-cells'
+> > +
+> > +dependencies:
+> > +  interrupt-controller: [ '#interrupt-cells', interrupts ]
+> > +  '#interrupt-cells': [ interrupt-controller ]
+> > +
+> >  additionalProperties: false
+> >
+> >  examples:
+> >    - |
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +    #include <dt-bindings/mfd/x-powers,ac200.h>
+> > +
+> >      i2c {
+> >          #address-cells =3D <1>;
+> >          #size-cells =3D <0>;
+> > @@ -45,6 +144,43 @@ examples:
+> >              compatible =3D "x-powers,ac200";
+> >              reg =3D <0x10>;
+> >              clocks =3D <&pwm 5>;
+> > +            interrupt-parent =3D <&pio>;
+> > +            interrupts =3D <1 20 IRQ_TYPE_LEVEL_LOW>;
+> > +            interrupt-controller;
+> > +            #interrupt-cells =3D <1>;
+> > +
+> > +            codec {
+> > +                compatible =3D "x-powers,ac200-codec";
+> > +                #sound-dai-cells =3D <0>;
+> > +                ac-ldoin-supply =3D <&reg_aldo2>;
+> > +            };
+> > +
+> > +            tv-encoder {
+> > +                compatible =3D "x-powers,ac200-tve";
+> > +                interrupts =3D <AC200_IRQ_TVE>;
+> > +                tv-vcc-supply =3D <&reg_aldo2>;
+> > +
+> > +                ports {
+> > +                    #address-cells =3D <1>;
+> > +                    #size-cells =3D <0>;
+> > +
+> > +                    port@0 {
+> > +                        reg =3D <0>;
+> > +
+> > +                        tve_in: endpoint {
+> > +                            remote-endpoint =3D <&tcon_out_tve>;
+> > +                        };
+> > +                    };
+> > +
+> > +                    port@1 {
+> > +                        reg =3D <1>;
+> > +
+> > +                        tve_out: endpoint {
+> > +                            remote-endpoint =3D <&composite_in>;
+> > +                        };
+> > +                    };
+> > +                };
+> > +            };
+> >          };
+> >      };
+> >  ...
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 1d03b0060bda..8a48f6a1e593 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -29511,6 +29511,7 @@ L:    linux-sunxi@lists.linux.dev
+> >  S:   Maintained
+> >  F:   Documentation/devicetree/bindings/mfd/x-powers,ac200.yaml
+> >  F:   drivers/mfd/ac200.c
+> > +F:   include/dt-bindings/mfd/x-powers,ac200.h
+> >
+> >  X-POWERS AXP288 PMIC DRIVERS
+> >  M:   Hans de Goede <hansg@kernel.org>
+> > diff --git a/include/dt-bindings/mfd/x-powers,ac200.h b/include/dt-bind=
+ings/mfd/x-powers,ac200.h
+> > new file mode 100644
+> > index 000000000000..cc59e2ab4912
+> > --- /dev/null
+> > +++ b/include/dt-bindings/mfd/x-powers,ac200.h
+> > @@ -0,0 +1,13 @@
+> > +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
+> > +/*
+> > + * Interrupt numbers of the X-Powers AC200 interrupt controller.
+> > + */
+> > +
+> > +#ifndef _DT_BINDINGS_MFD_X_POWERS_AC200_H
+> > +#define _DT_BINDINGS_MFD_X_POWERS_AC200_H
+> > +
+> > +#define AC200_IRQ_TVE                        0
+> > +#define AC200_IRQ_EPHY                       1
+> > +#define AC200_IRQ_RTC                        2
+> > +
+> > +#endif /* _DT_BINDINGS_MFD_X_POWERS_AC200_H */
+> >
+> > --
+> > 2.53.0
+> >
