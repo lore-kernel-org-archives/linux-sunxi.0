@@ -1,160 +1,186 @@
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52A7145199D
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Sep 2026 12:10:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27A04499BC;
+	Fri,  4 Sep 2026 12:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788523861; cv=none; b=VHse9yc14Z12Hu4aj2owvpxWVTkVBfmbZ1O20YRBqO32JDQywgEWhpclhYi1Ub0J0RNJKq4gHzOSWnRP1uYUo68zSMMkSX/Rdrp6FJ3XP1dkO05YrgSiyeWMdfid9ZlydxKSWgN4U9LC588/D8IibQCq5mCTH8U9TnJ+WuW9bRI=
+	t=1788524058; cv=none; b=Bbm7obUz0er07CicHfXrn7hF9UGKXfEw/QOUUC/Z5aUVyVQXKq4onp/qp9CIsyPD9AiLzC98QIQ3ga91iNxxXRfZ/C3Pl6EBFAye+aKLk3Y3+mjD8cQvzg1wRPhGeYJlOrJc/dyK25CkaTvw70lkK0R5DKAE8dp7I+NKqP16bUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788523861; c=relaxed/simple;
-	bh=SytTqBZRVnhvi6OcGzBLq+bOOo2twon79DQt7+lrUQY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k5UqCGX1bidj7J8nJPwFCacX8Oxe7jfzMrLInnHjhWYi4uI8wGWb5D5HPDNVUgCOsf3vjRsvGPaIAEnk18EM4Z4n8gLOh0K7uMacHpckJzefub7AvPNG8Q3uHsc3+zq5EN5SvZGO3mW5ac9LDsrifu/IB7HTU/PKp68QVtbxKCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AScWCyKZ; arc=none smtp.client-ip=209.85.161.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788524058; c=relaxed/simple;
+	bh=3laS6ZZpfGUwO/BUm72vPoPlNir78tFJtVUp7tBN7C0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=gBKuEBEHHjYzYktdu7VFvVrDDZRk3U9dNFqPhI2wy0NBvIrZVxpAHCxx/BP8cYkT2XajMhjWwFpc0MqP+4I2uwAq7mL2JpF42XzwNMm2BS3Vzj8+ntNHQ/bJnOMWz94cigy4370WFDP81WsKPRQu9tLX/ibBDzpUODWMSu286i0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=mYCKBGT/; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AScWCyKZ"
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-6b1334a3b16so732118eaf.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Sep 2026 05:10:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788523857; x=1789128657; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LM/ZtSLU/J3nueXy+XgpL+eelg2/bX7Qhca0kqwRafM=;
-        b=AScWCyKZKr7IIArO1zOXrvMDpg6biyWI6gED5hrkfH6y2Xvn5/NeDTvqbg871M5nWr
-         kQfjkZw6Sgit3x4euQo+8s/KQO3rWCP7AZrjCb5C/VSEtHjPssOAJ/R8E3y1W/Z25j2K
-         ZRGtJf5vxy6BmECxY6oqPiFmr9jgD39hYf30g2ZF9NjKp81SM/F9RdiMgaKMqfQQD1he
-         MyzWLJrM7q2F245xYa+YFv/qZU5588Qw59R0tBJB555hfalSPYpR7CW/7PiDcc8dMUj/
-         LogC/Y264E0jvBkm8OL9qM28+V5CW4Zfzq542eAkcZbrBCasF9cUAvrw6QLqbjDSmI35
-         MrAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788523857; x=1789128657;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LM/ZtSLU/J3nueXy+XgpL+eelg2/bX7Qhca0kqwRafM=;
-        b=igR7KXdL/n59aVss5QrHfHRyCFlcuUnOjQArUWPcSjfQO8/rZB4yFGIzuIaLmndvHt
-         rjn7Fh89gqLwSX8vqG28u6snOMjq/LA2Syk5BdHrGAzb4U8797K1FFFl14UPVjKWsMKu
-         wD+hiYWddFtdnSbJ9WhMBHE5aonFOAw/KQOkXygceFDzR3gJOj0BvtrLFTmPljJq8FWl
-         UfBtx7BOUD4IC3lMsy6Uh8PjRWQzpb7ql7j2+RIoFvdi4HNI8XpulNkRLGbjFPjYg3F9
-         hUpzyu8g5Bb/gIfjWQrhcU4QOch/0QXF+ACiyaklD0ajs4evMLJiKbCQoZsem0laVHKa
-         FYFA==
-X-Forwarded-Encrypted: i=1; AKwUvByTaZAayDzrSAcPypljUD0OAishqYriz3wsZJLWNuGNBn4xJaC3xK1yYjVD5lSAlk1cYRVtxobuKEj3Vg==@lists.linux.dev
-X-Gm-Message-State: AFuF++nPZ7ddRe7vkJtjFEvasHqYdzJ1Z2iv6raGHARDHC+IHx3RsA1h
-	UfdqtH4fmtBE6RgKQ+iP8teAcF/rcw35NbDdDymu5H+xwM3Pc3NzZL7+
-X-Gm-Gg: AYBFou0mQ8GWY99bAv2IhlcMVgSMHsA6dQnjeXgZX8bx9W/O9tnRKZPRFJ1tGIkB+Q1
-	c3dEXzxua3GnfDX99nk0NpPR94mX8Ln3DaKiNY77bSNy3aN6x9NfSe7zDFPqmL8H8daijBJHw8M
-	IREaqXbP+Xsnam2XgX3K82XKksqOtzZUQRdtB+J7N/JOcKhjOm+t9/DO6BS5s+ZYX2gaz3x2Adu
-	XjXrMUHnAvr6pdBBY+Szo2pU+c1/f/stvCG2FBFCzUvO5Bg3tcHFLJHoVF91/hpPv9MXymllKgR
-	ry6KY/UudnPojSLK9FnEPCRzaDvgLTljSjP9LoxodRIbswxH8y8+YW4F1TlFWidz5LK5DsaxXGh
-	804oVqIGm2QAPw7sgrImK/O1WmCmLCiyR3IdC6/lx5IC4mB5SjeW0nplRYcg84eKBM5G/1FdTPz
-	PoBdgghDTiVeYJcVqQM7q89EHZDx2DOjgn8AVyal1XPR+MODpdFd+dMzljlH9A1FdYXC5Rq+Dye
-	3qOZODEu1r0suY=
-X-Received: by 2002:a05:6820:188a:b0:6b7:83d6:292d with SMTP id 006d021491bc7-6b783d62eb3mr1446014eaf.48.1788523857014;
-        Fri, 04 Sep 2026 05:10:57 -0700 (PDT)
-Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339aa31b24sm6461237eec.13.2026.09.04.05.10.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 05:10:56 -0700 (PDT)
-From: Hemanth Selam <hemanth.selam@gmail.com>
-To: "Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: linux-kernel@vger.kernel.org,
-	iommu@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 1/2] iommu: fix typos in comments
-Date: Fri,  4 Sep 2026 17:40:43 +0530
-Message-ID: <20260904121047.21701-2-hemanth.selam@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20260904121047.21701-1-hemanth.selam@gmail.com>
-References: <20260904121047.21701-1-hemanth.selam@gmail.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="mYCKBGT/"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4hbwPK2bTtzMlG3;
+	Fri, 04 Sep 2026 14:14:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1788524053; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3laS6ZZpfGUwO/BUm72vPoPlNir78tFJtVUp7tBN7C0=;
+	b=mYCKBGT/QJrD1QRugY/cx3YrM1jmw1juS2VQ9EkmTnyfZzii9ry8JjyUxyKzRHhoge8UPe
+	dYjnkCB4MFcGtjQzmvsJ7ZYXwivYv6S6mh4gHaUgQX+tD0nbmp+6myGnIQPCA/3QhG/KFS
+	zISsvDu3T6zI2V7SsmIjMHRW0Jmi15h2cEKGQ6DZhAQimR3sdzVp+rQ3XMNSantQTBmxtg
+	OCbCzp58lZRIVG94nLM6j4sCbbRyX6kR3bxFPdAeFrI7XSAKV1fYy2GRT473rWifAXZnba
+	AD2ILjMwwOSWqKZAntnKsGOv/joz7zcuVc6mKOlPv/IKK+qbGpmIAQoSDXpqkQ==
+Message-ID: <8b4194fcb6fdb11af10fc81a1a7c915ad71003a0.camel@mailbox.org>
+Subject: Re: [PATCH 1/3] drm: fix typos in comments
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Hemanth Selam <hemanth.selam@gmail.com>, Sumit Semwal	
+ <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=	
+ <christian.koenig@amd.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart	 <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Luca Ceresoli
+ <luca.ceresoli@bootlin.com>, Maarten Lankhorst	
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Inki Dae	 <inki.dae@samsung.com>, Jagan
+ Teki <jagan@amarulasolutions.com>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Patrik Jakobsson
+ <patrik.r.jakobsson@gmail.com>, Laurentiu Palcu	
+ <laurentiu.palcu@oss.nxp.com>, Lucas Stach <l.stach@pengutronix.de>, Frank
+ Li	 <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Jianmin Lv <lvjianmin@loongson.cn>,  Qianhai Wu <wuqianhai@loongson.cn>,
+ Huacai Chen <chenhuacai@kernel.org>, Mingcong Bai <jeffbai@aosc.io>,  Xi
+ Ruoyao <xry111@xry111.site>, Icenowy Zheng <zhengxingda@iscas.ac.cn>, Dave
+ Airlie	 <airlied@redhat.com>, Jocelyn Falempe <jfalempe@redhat.com>, Lyude
+ Paul	 <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Tomi
+ Valkeinen	 <tomi.valkeinen@ideasonboard.com>, Jessica Zhang
+ <jesszhan0024@gmail.com>,  Gerd Hoffmann <kraxel@redhat.com>, Kieran
+ Bingham <kieran.bingham+renesas@ideasonboard.com>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Matthew
+ Brost	 <matthew.brost@intel.com>, Philipp Stanner <phasta@kernel.org>,
+ Chen-Yu Tsai	 <wens@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Huang Rui	 <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, Dave
+ Stevenson	 <dave.stevenson@raspberrypi.com>, =?ISO-8859-1?Q?Ma=EDra?= Canal
+	 <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance	
+ <kernel-list@raspberrypi.com>, Dmitry Osipenko
+ <dmitry.osipenko@collabora.com>,  Gurchetan Singh
+ <gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, Zack Rusin
+ <zack.rusin@broadcom.com>,  Broadcom internal kernel review list	
+ <bcm-kernel-feedback-list@broadcom.com>, Michal Simek
+ <michal.simek@amd.com>,  Philipp Zabel <p.zabel@pengutronix.de>, Natalie
+ Vock <nat@pixelcluster.dev>, Tejun Heo <tj@kernel.org>,  Johannes Weiner
+ <hannes@cmpxchg.org>, Michal =?ISO-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	nouveau@lists.freedesktop.org, virtualization@lists.linux.dev, 
+	spice-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, cgroups@vger.kernel.org
+Date: Fri, 04 Sep 2026 14:13:48 +0200
+In-Reply-To: <20260904120430.17224-2-hemanth.selam@gmail.com>
+References: <20260904120430.17224-1-hemanth.selam@gmail.com>
+	 <20260904120430.17224-2-hemanth.selam@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: zf7yfabkcpirabg1gmuxkipyi6aabu79
+X-MBO-RS-ID: c40f54232cfd638428a
 
-Fix typos in comments, reported by scripts/checkpatch.pl using the
-misspelling list in scripts/spelling.txt.  Only touches comments, no code
-changes.
-
-Assisted-by: Cursor:claude-opus-5
-Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
----
- drivers/iommu/amd/amd_iommu_types.h | 4 ++--
- drivers/iommu/intel/dmar.c          | 2 +-
- drivers/iommu/omap-iommu.c          | 2 +-
- drivers/iommu/sun50i-iommu.c        | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
-index 3dbe20023456..a1cd29f0d03f 100644
---- a/drivers/iommu/amd/amd_iommu_types.h
-+++ b/drivers/iommu/amd/amd_iommu_types.h
-@@ -121,8 +121,8 @@
- 
- /* Note:
-  * The current driver only support 16-bit PASID.
-- * Currently, hardware only implement upto 16-bit PASID
-- * even though the spec says it could have upto 20 bits.
-+ * Currently, hardware only implement up to 16-bit PASID
-+ * even though the spec says it could have up to 20 bits.
-  */
- #define PASID_MASK		0x0000ffff
- 
-diff --git a/drivers/iommu/intel/dmar.c b/drivers/iommu/intel/dmar.c
-index ba675b08cd20..e80a2eb3e64e 100644
---- a/drivers/iommu/intel/dmar.c
-+++ b/drivers/iommu/intel/dmar.c
-@@ -1034,7 +1034,7 @@ static void unmap_iommu(struct intel_iommu *iommu)
-  * @drhd: DMA remapping hardware definition structure
-  *
-  * Memory map the iommu's registers.  Start w/ a single page, and
-- * possibly expand if that turns out to be insufficent.
-+ * possibly expand if that turns out to be insufficient.
-  */
- static int map_iommu(struct intel_iommu *iommu, struct dmar_drhd_unit *drhd)
- {
-diff --git a/drivers/iommu/omap-iommu.c b/drivers/iommu/omap-iommu.c
-index 8231d7d6bb6a..7e43c6d64434 100644
---- a/drivers/iommu/omap-iommu.c
-+++ b/drivers/iommu/omap-iommu.c
-@@ -1732,7 +1732,7 @@ static int __init omap_iommu_init(void)
- {
- 	struct kmem_cache *p;
- 	const slab_flags_t flags = SLAB_HWCACHE_ALIGN;
--	size_t align = 1 << 10; /* L2 pagetable alignement */
-+	size_t align = 1 << 10; /* L2 pagetable alignment */
- 	struct device_node *np;
- 	int ret;
- 
-diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
-index be3f1ce696ba..8c9ed9e5f1cb 100644
---- a/drivers/iommu/sun50i-iommu.c
-+++ b/drivers/iommu/sun50i-iommu.c
-@@ -152,7 +152,7 @@ static void iommu_write(struct sun50i_iommu *iommu, u32 offset, u32 value)
-  * 4096 4-bytes Directory Table Entries (DTE), each pointing to a Page
-  * Table (PT).
-  *
-- * Each PT consits of 256 4-bytes Page Table Entries (PTE), each
-+ * Each PT consists of 256 4-bytes Page Table Entries (PTE), each
-  * pointing to a 4kB page of physical memory.
-  *
-  * The IOMMU supports a single DT, pointed by the IOMMU_TTB_REG
--- 
-2.48.1
+T24gRnJpLCAyMDI2LTA5LTA0IGF0IDE3OjM0ICswNTMwLCBIZW1hbnRoIFNlbGFtIHdyb3RlOgo+
+IEZpeCB0eXBvcyBpbiBjb21tZW50cywgcmVwb3J0ZWQgYnkgc2NyaXB0cy9jaGVja3BhdGNoLnBs
+IHVzaW5nIHRoZQo+IG1pc3NwZWxsaW5nIGxpc3QgaW4gc2NyaXB0cy9zcGVsbGluZy50eHQuwqAg
+T25seSB0b3VjaGVzIGNvbW1lbnRzLCBubyBjb2RlCj4gY2hhbmdlcy4KPiAKPiBBc3Npc3RlZC1i
+eTogQ3Vyc29yOmNsYXVkZS1vcHVzLTUKPiBTaWduZWQtb2ZmLWJ5OiBIZW1hbnRoIFNlbGFtIDxo
+ZW1hbnRoLnNlbGFtQGdtYWlsLmNvbT4KPiAtLS0KPiDCoGRyaXZlcnMvZG1hLWJ1Zi9zeW5jX2Rl
+YnVnLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHwgMiArLQo+IMKgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9wYXJhZGUtcHM4NjIyLmPCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS9icmlk
+Z2Uvc2Ftc3VuZy1kc2ltLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMiAr
+LQo+IMKgZHJpdmVycy9ncHUvZHJtL2JyaWRnZS90YzM1ODc2Ny5jwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgNiArKystLS0KPiDCoGRyaXZlcnMvZ3B1L2RybS9k
+aXNwbGF5L2RybV9kcF9tc3RfdG9wb2xvZ3kuY8KgwqDCoMKgwqDCoMKgwqDCoCB8IDIgKy0KPiDC
+oGRyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMiArLQo+IMKgZHJpdmVycy9ncHUvZHJtL2dt
+YTUwMC9vYWt0cmFpbF9sdmRzLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDIg
+Ky0KPiDCoGRyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcG93ZXIuY8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS9n
+bWE1MDAvcHNiX2Rydi5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgfCA0ICsrLS0KPiDCoGRyaXZlcnMvZ3B1L2RybS9pbXgvZGNzcy9kY3NzLWN0eGxkLmPCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMiArLQo+IMKgZHJpdmVycy9ncHUvZHJt
+L2xvb25nc29uL2xzZGNfZHJ2LmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCB8IDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS9tZ2FnMjAwL21nYWcyMDBfZzIwMHNlLmPCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMiArLQo+IMKgZHJpdmVycy9ncHUvZHJtL25vdXZl
+YXUvZGlzcG52NTAvdGlsZS5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMiArLQo+
+IMKgZHJpdmVycy9ncHUvZHJtL25vdXZlYXUvbm91dmVhdV9iaW9zLmPCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCB8IDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L25vdXZl
+YXVfZXhlYy5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAyICstCj4gwqBkcml2
+ZXJzL2dwdS9kcm0vbm91dmVhdS9ub3V2ZWF1X2xlZC5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCB8IDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS9ub3V2ZWF1L252a20vZW5naW5l
+L2dyL2N0eG52NTAuY8KgwqDCoMKgwqDCoCB8IDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS9ub3V2
+ZWF1L252a20vZW5naW5lL2dyL2dmMTAwLmPCoMKgwqDCoMKgwqDCoMKgIHwgMiArLQo+IMKgZHJp
+dmVycy9ncHUvZHJtL29tYXBkcm0vZHNzL2Rpc3BjLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCB8IDQgKystLQo+IMKgZHJpdmVycy9ncHUvZHJtL29tYXBkcm0vb21hcF9n
+ZW0uY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAyICstCj4gwqBk
+cml2ZXJzL2dwdS9kcm0vcGFuZWwvcGFuZWwtbm92YXRlay1udDM2NjcyYS5jwqDCoMKgwqDCoMKg
+wqDCoCB8IDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1zYW1zdW5nLXM2ZTYz
+ajB4MDMuY8KgwqDCoMKgwqDCoCB8IDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS9xeGwvcXhsX2dl
+bS5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAy
+ICstCj4gwqBkcml2ZXJzL2dwdS9kcm0vcmVuZXNhcy9yY2FyLWR1L3JjYXJfbHZkcy5jwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCB8IDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS9zY2hlZHVsZXIvc2No
+ZWRfbWFpbi5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCA0ICsrLS0KPiDCoGRy
+aXZlcnMvZ3B1L2RybS9zdW40aS9zdW40aV90Y29uLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIHwgMiArLQo+IMKgZHJpdmVycy9ncHUvZHJtL3RpbnkvcGFuZWwtbWlw
+aS1kYmkuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAyICstCj4gwqBkcml2
+ZXJzL2dwdS9kcm0vdHRtL3R0bV9wb29sLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgfCAyICstCj4gwqBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9oZG1p
+LmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAyICst
+Cj4gwqBkcml2ZXJzL2dwdS9kcm0vdmM0L3ZjNF9yZWdzLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAyICstCj4gwqBkcml2ZXJzL2dwdS9kcm0vdmly
+dGlvL3ZpcnRncHVfaW9jdGwuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMiAr
+LQo+IMKgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC9kZXZpY2VfaW5jbHVkZS92bV9iYXNpY190eXBl
+cy5oIHwgMiArLQo+IMKgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC90dG1fb2JqZWN0LmPCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2Ry
+bS92bXdnZngvdm13Z2Z4X2Rydi5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgfCA2ICsrKy0tLQo+IMKgZHJpdmVycy9ncHUvZHJtL3Ztd2dmeC92bXdnZnhfZXhlY2J1Zi5j
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMiArLQo+IMKgZHJpdmVycy9ncHUvZHJt
+L3Ztd2dmeC92bXdnZnhfa21zLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCB8IDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2RybS92bXdnZngvdm13Z2Z4X3NvLmjCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMiArLQo+IMKgZHJpdmVycy9ncHUvZHJt
+L3Ztd2dmeC92bXdnZnhfc3VyZmFjZS5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwg
+MiArLQo+IMKgZHJpdmVycy9ncHUvZHJtL3hsbngvenlucW1wX2RwLmPCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDIgKy0KPiDCoGRyaXZlcnMvZ3B1L2lwdS12
+My9pcHUtcHJnLmPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIHwgMiArLQo+IMKgaW5jbHVkZS9kcm0vZHJtX2ZyYW1lYnVmZmVyLmjCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDQgKystLQo+IMKgaW5j
+bHVkZS9kcm0vZHJtX3BsYW5lLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDIgKy0KPiDCoGluY2x1ZGUvdWFwaS9kcm0vbm91
+dmVhdV9kcm0uaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCB8IDIgKy0KPiDCoGluY2x1ZGUvdWFwaS9kcm0vdm13Z2Z4X2RybS5owqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAyICstCj4gwqBrZXJuZWwvY2dy
+b3VwL2RtZW0uY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMiArLQo+IMKgNDUgZmlsZXMgY2hhbmdlZCwgNTMgaW5z
+ZXJ0aW9ucygrKSwgNTMgZGVsZXRpb25zKC0pCgpUaGF0J3MgYSBsb3Qgb2YgY2h1cm4KCj4gCj4g
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvZG1hLWJ1Zi9zeW5jX2RlYnVnLmggYi9kcml2ZXJzL2RtYS1i
+dWYvc3luY19kZWJ1Zy5oCj4gCgpb4oCmXQoKCj4gLQkvKiBEUEkgaW50ZXJmYWNlIGNsb2NrIGxp
+bWl0YXRpb246IHVwdG8gMTAwIE1IeiAqLwo+ICsJLyogRFBJIGludGVyZmFjZSBjbG9jayBsaW1p
+dGF0aW9uOiB1cCB0byAxMDAgTUh6ICovCj4gwqAJaWYgKG1vZGUtPmNsb2NrID4gMTAwMDAwKQo+
+IMKgCQlyZXR1cm4gTU9ERV9DTE9DS19ISUdIOwo+IAoKW+KApl0KCj4gwqAKPiAtLyogRm9yIG11
+bHRpcGxlIEdQVSBkcml2ZXIgaW5zdGFuY2UgY28tZXhpeHQgaW4gdGhlIHN5c3RlbSAqLwo+ICsv
+KiBGb3IgbXVsdGlwbGUgR1BVIGRyaXZlciBpbnN0YW5jZSBjby1leGlzdCBpbiB0aGUgc3lzdGVt
+ICovCj4gwqAKPiAKClvigKZdCgo+IMKgCj4gLQkvKiBzZXQgbHRwcyB0aW1taW5nIDAsIDEgKi8K
+PiArCS8qIHNldCBsdHBzIHRpbWluZyAwLCAxICovCgoKUGxhY2VzIGxpa2UgdGhlc2UgYXJlIGNl
+cnRhaW5seSBjYW5kaWRhdGVzIHRoYXQgb25lIG1pZ2h0IHdhbnQgdG8gZ2l0LQpibGFtZSB0byBm
+aWd1cmUgb3V0IG1vcmUgYWJvdXQgdGhlIGJhY2tncm91bmQuCgpOb3Qgc3VyZSBpZiB0aGUgY29z
+dC1iZW5lZml0LXJhdGlvIHdvdWxkIHRoZW4gcGF5IG9mZj8KCgpQLgo=
 
