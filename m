@@ -1,217 +1,235 @@
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59EC23E3DAB
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Sep 2026 16:31:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDF2305660
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Sep 2026 16:47:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788539493; cv=pass; b=u5jQ/NKSt8U/Y9b+hM3W1zwyzduNLgtzistxjW7UGEQYogrrYON+3RfMKCfMX6xTk3E/UL4GDVBfBOuHnol8/imv3VovF3+7rBmR4YF6uxDJFiu7pyDPSuspZaKJa8uTQMNaWZE+ZAzIcM+xH/N9ENYQ1D0yMiLgcQNtOu/MP7Q=
+	t=1788540448; cv=pass; b=S4Jn5P6j0ZCtULx3UXULZ06xqfmhP7Ba88fPS0QFhaKKTSYgeTDsfnnQ7t1/B/Wi0CiKBW9+anzMTtJpNBVNeWwZ1uH7S5QU3k350M8KzfK8PkPgPQqr9ydlj8CGEaIV59XvhpoUQqEwNzXzMZonNlSzXihRmQw/IvmJRwQxauo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788539493; c=relaxed/simple;
-	bh=1TYJoC2Yz6/I6r6pmFu77YT+lJxpcBafXKju1XdltGI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xwrjm4zG5WpbgIFDnRox3gwlXsBNsvDN29n+wS2D6sXuat0NfQ91nqLck7vESvSJUCp2aXcTp06EuypEztz1+Z2SPydu3uIt3e2QNO6ZmEvZr6guQXms5ndvxDPqqZJ/Qlw6EdIeNJnHirFGBZErFeZmQCtbFSONHOW0WLvOSVQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g1jIPnqV; arc=pass smtp.client-ip=209.85.222.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788540448; c=relaxed/simple;
+	bh=VJaKDsY2wNXh9jcfEAVgeUkR8XziO8+1SsD0dyIaS04=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=FCUuGayuStn7ny51kUZf5FedXxDBCSTeGHgs+1WtzPTDMJ/ceyGRo4Cm6ojgoXzi0SHRVV++HbuO5Z6fu50UIo+UuJTiLW1ycm3AwRqnvdfcA8wW8BYl7nQiHiovzHp5Vr6iQGN9cRv0u4khQhQ2NQngFHZUzLjWU3CXSV025hk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech; spf=pass smtp.mailfrom=pigmoral.tech; dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b=eVq0RXjI; arc=pass smtp.client-ip=165.173.180.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g1jIPnqV"
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-96723c7151eso370612241.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Sep 2026 09:31:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788539490; cv=none;
-        d=google.com; s=arc-20260327;
-        b=S9tl6BFZvURWLZR7vWkLXv1caZ612iMhjQFCh0lo/tCTjsoALYyPfk94BRQHJSFbsg
-         5uI1YOU/aK0TYXZYDRycTfCfi0N5KVnfJgina0HjLQJwasdV7prYO58TGW141uQqu459
-         pMy/mD1eu+FQOSefI3T+Jg/8N0bRvBvNSvey6QTf+zNn8AYY7RgPJeMwTtHm0Z7I3JTG
-         Xr4LuIUDlUYXyMfg4+HEMhMtSDMG6Yg17uhlcd5AKRkb0TH0k3U3tc8lYjjjfPVqoFqr
-         BHLDEJ5ieXeFlmQhXJ9rgfr0SLZbG5lIM73X2kPhe3PdEkg90QXRKKIlAb17cd2yqx6W
-         aong==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=d3NKF4O2iR0V+5SNrnuau4g2PH1qtrH1bTsv5NR4P9c=;
-        fh=fPsLf5TclrBb8SqBE3INB/QuuJyM6hzjKlUf4X59Gu0=;
-        b=K3PcD4EWh1EXhcyWwtb+hAurX2LmNz5VwXLR/+agXLVGZ0WCzdp9fyGGxCnFo4kFh4
-         fwh412ZxsPO4xK5WBQWrqO1iDYA5nxUDjemD6a85ponm60W+zU3lhefOnBT/CHct1Lly
-         VtVtvlNK2OZOwHTffFnLkCMoaC1WItLBrR+J1ADoYWF/2YfaKGiXDJr+BAMzzWrEhq7Y
-         sDNwLmTcGof3ZIZXIXlaOA7OJnZh42XoNpSlIJREDhFsm55uVJV0wydx9s7PtkP9f32P
-         0sF1LJfL8FcCvuoCm+pLMdkkN7vMpA1NYrMzY6BkV2mJNr2HbHmJsvhrePsyyHSrNQen
-         bQ+w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788539490; x=1789144290; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=d3NKF4O2iR0V+5SNrnuau4g2PH1qtrH1bTsv5NR4P9c=;
-        b=g1jIPnqVMrqIT/0Q+EB/r27UHAu2E4aXuIlvSysS252APOPo5ayLGDqANX2bJ9aghc
-         U+rY39E/ToAn60A0CCvJVnpRdNVNJyoUOwea4oNkRrFEK2xw52MZPGoo5CjLZ829l5pX
-         2qFgNCTrznIjpk038Pop0ocNYFGowJGUWdvVR7xdJY411uD72/3wXCaF48LvlPeS1XA5
-         SUrwlVRiiu1zYFy1VhOxwrxNODMuw/KYYrKuzz0IDnUv9b7IVUg6i2+S7o61vr1L4Rk6
-         DbeEqwz9iw3YNmk3ibii7kAegy/f5+9cgw4MU+o3Umgn+UhjcTYcFFcn9Bk1gnOJyfmb
-         /x1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788539490; x=1789144290;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=d3NKF4O2iR0V+5SNrnuau4g2PH1qtrH1bTsv5NR4P9c=;
-        b=NtITKrGNsvCho9JnXqqKVWcAeUqdzOHF9bIGIQEBsKL4dsM2jTO3fiAOUzXsz0An4k
-         KGq3g4AAnxPgSX+DNu+RP0iG5o8gDJ/FOYae9eCAwv2xw0FJax+ZpPWwc0RxmTURqh2C
-         0yWWmPqYn1+s0uO8nLy7cTfDyaspkVS3+UKUHJ9eruNufEze4mlX5Mw48E5XYAuHXWKS
-         JD5/Ocn755BH0Eb4xHPZCtOg6LC7vM0hScYuqobKvCjyccsyH7HUsQifOM5U6fdRYJj0
-         OeHFKH/S2VNLtErqZBfPGXey4xDJTRSnJR0RqVNUT9KTe4i/wRQGCKPK9FBZL/8GU9Yy
-         sgYA==
-X-Forwarded-Encrypted: i=1; AKwUvBw8QArT0UTfH7N97v5QfceDC52AMMi7BfnzskRCrelcq6hjwTjabZOoD0CBjhgsDViJWXCv3zV/tKJp7w==@lists.linux.dev
-X-Gm-Message-State: AFuF++k8MMUI/Rml0VokDfEG1+B1iIGAsdjlf4FSLLA80tlH/ZfEcx4S
-	Vyzc3qvEnuXVQYn+O24HQP6DM3+qG3bVGaFSCA16QVuVOTcpQQIYiqCwAfy5c33NZLRMtz8etQA
-	KB3/eoSf73SubjHuoT7rXEWVAF+TCUzs=
-X-Gm-Gg: AYBFou3b0fdcEQcjMb7+sxtuiG/4wpD5UsazY0vZUKSXD+G1OgkvyMixEPABnd1uK9H
-	s0KirRNSHMte3NJrHnYhdnZsPz9S47zbdxVGEDgHcx81P+rk0nNVUrKYnJdlmPY5gNG6dskIRCe
-	Q0Iw7nfwqN+x07OKM2npSudrZyYVQvYFgwdTXu5qUoACfdbgEI4pEG1KOKTKKIFMCfwzHawqzzs
-	1uO40CEBFyVXX7un1qfMelvYs1cHSN3Kxaxf7Fns9UvxmOTna4MzKl3C99CYVMMDNdMszu0dWe6
-	ezjJqShiW7oNKXBhlJ2O1kR9RYmSXf3dw9i29iZPizR7hBUsBa1Z8DUZL0Hz5ipZ2h6ozT5lgrM
-	jYi7D3OddjP7NVyGyEB9shv9AxdSW94D/4/3hJL/EPdVPqDOJWsDzN5K3HH16z07UuZij1vrhUe
-	CwWHYvh7g9uTFpRvF6Uq5ovnsDukBThLZYilGFcldNe2rlMyGSfw==
-X-Received: by 2002:a05:6102:5e86:b0:78a:8a0:7116 with SMTP id
- ada2fe7eead31-78a4a6f61c1mr2282968137.6.1788539489982; Fri, 04 Sep 2026
- 09:31:29 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b="eVq0RXjI"
+ARC-Seal: i=1; a=rsa-sha256; t=1788540432; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=OkU4UWOySwSDErFkHHfHOJ5bTiJuDvfifeH2F5Dys/VON+Abs+0e/8Ro5ljV6T6yWwWATbTmv7RHNwVROFv4efmwMpea9KRdgcV0CpavmlqB3iRczF2P1blcAbyOS0XstBerAo2mHGS+KvbgYsBF0aukjLkjlC2D5YAhrM3aa4U=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1788540432; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=GyqoFNSanEeBxdsQdbMl1XUDGrCiYm9GRKaNInNkFHs=; 
+	b=TplkK5ldGo0At1/DcM+Id8W0dFWVKOUmpmHsfej0n5QNyLh1OHdwG3sZ2odUGOgydWn/XjHm4UkJnYS23Rh9OlVTjmwNPzihQ200ug/bs6cnOKNkbHofFExmd+hH4X4GfuB0KFP/wDznbjDBEt4kLRIJsEYY7QMtJqeEk7bbYNg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=pigmoral.tech;
+	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
+	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1788540432;
+	s=zmail; d=pigmoral.tech; i=junhui.liu@pigmoral.tech;
+	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:In-Reply-To:To:To:Cc:Cc:Reply-To;
+	bh=GyqoFNSanEeBxdsQdbMl1XUDGrCiYm9GRKaNInNkFHs=;
+	b=eVq0RXjIbaTK2ce/DSLiVpAAvKYTjuB+VSx56TFDoBuktmTSVN6cnOzGp5Hz8bQb
+	S4I+A4rthAQY/nAcfQW+Wy1zSkW5BVLmmIxgiF1+CUuWPFzdDn8N6EuhillXm+cb47W
+	PyRFS2XJXFCnx1rK2LpOWYYOLAVdzPhUITm/cp7E=
+Received: by mx.zohomail.com with SMTPS id 1788540429261320.1707895578269;
+	Fri, 4 Sep 2026 09:47:09 -0700 (PDT)
+From: Junhui Liu <junhui.liu@pigmoral.tech>
+Date: Sat, 05 Sep 2026 00:45:31 +0800
+Subject: [PATCH v3 2/8] clk: sunxi-ng: sdm: Add dual patterns support
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260810-submit-sunxi-nand-vendor-oob-layout-v1-v1-0-463853a14ad9@gmail.com>
- <20260810-submit-sunxi-nand-vendor-oob-layout-v1-v1-2-463853a14ad9@gmail.com>
- <87se3p13jy.fsf@bootlin.com> <CADvTj4oW8Hxv_b5vWM5pbeB3wEO-WoqhLwyinCTFPNR6wTHYmQ@mail.gmail.com>
- <878q5h11gu.fsf@bootlin.com>
-In-Reply-To: <878q5h11gu.fsf@bootlin.com>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Fri, 4 Sep 2026 12:31:19 -0400
-X-Gm-Features: AcwNN1V5YDZSFNMjnzJoP1G8O-i3NIxVjKyBABCYlVfSDwIJgBSeFv9BnhDuMNw
-Message-ID: <CADvTj4o4Rwcmy7ByuBcpcPkcXctvgB8Tuda2_7UV1v=vx7JwRw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] mtd: rawnand: sunxi: support randomized OOB formats
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Maxime Ripard <mripard@kernel.org>, linux-mtd@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260905-a733-clk-v3-2-50f238f39c78@pigmoral.tech>
+References: <20260905-a733-clk-v3-0-50f238f39c78@pigmoral.tech>
+In-Reply-To: <20260905-a733-clk-v3-0-50f238f39c78@pigmoral.tech>
+To: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Junhui Liu <junhui.liu@pigmoral.tech>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>
+Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ netdev@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>, 
+ Enzo Adriano <enzo.adriano.code@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5946;
+ i=junhui.liu@pigmoral.tech; h=from:subject:message-id;
+ bh=VJaKDsY2wNXh9jcfEAVgeUkR8XziO8+1SsD0dyIaS04=;
+ b=owGbwMvMwCWWvDb1VEXc8j+Mp9WSGLJmfT2aUDAp8YhZ8rZzB3Jtny84+ST6cpbsqztLLL/7e
+ J3abzlJsaOUhUGMi0FWTJGFy1/8n7UOz7cjAq33YeawMoEMYeDiFICJ1E9l+Cux6uTDi39e1axz
+ u35m7ovCWSYztq2Lt//WvvRt+nQ5ccEZjAynJqR3n/m1/28NR17FArOCv7vW7u6SiwlbcWBSY3J
+ WmC8rAA==
+X-Developer-Key: i=junhui.liu@pigmoral.tech; a=openpgp;
+ fpr=15B30CC69C4BF0CC3C08F85A2A90CDC122DF37BF
+X-ZohoMailClient: External
 
-On Fri, Sep 4, 2026 at 9:27=E2=80=AFAM Miquel Raynal <miquel.raynal@bootlin=
-.com> wrote:
->
-> On 04/09/2026 at 11:17:46 -04, James Hilliard <james.hilliard1@gmail.com>=
- wrote:
->
-> > On Fri, Sep 4, 2026 at 8:42=E2=80=AFAM Miquel Raynal <miquel.raynal@boo=
-tlin.com> wrote:
-> >>
-> >> On 10/08/2026 at 17:04:50 -06, James Hilliard <james.hilliard1@gmail.c=
-om> wrote:
-> >>
-> >> > The controller randomizer covers the bad block marker along with the
-> >> > rest of the OOB data. The driver currently compensates the marker by=
-tes
-> >> > before writes and after reads so that they remain plain on flash.
-> >> >
-> >> > Allwinner NAND firmware instead stores the marker through the
-> >> > randomizer. Media using that format appears to contain bad blocks un=
-less
-> >> > the randomizer is enabled while reading the marker.
-> >> >
-> >> > Honor the allwinner,randomized-oob property by unconditionally enabl=
-ing
-> >> > page scrambling and leaving the marker in the randomizer data stream=
-.
-> >> > Keep the existing plain marker behavior when the property is absent.
-> >> > This changes marker handling on all supported controllers; the H6/H6=
-16
-> >> > protected user-data placement is handled separately.
-> >>
-> >> But I think the reason why this has never been done is because it just
-> >> breaks raw accesses, including the BBT reads. I don't think this is
-> >> handled, is it?
-> >
-> > From my understanding raw access bypasses randomization entirely.
->
-> yes, so the implementation you propose is invalid, raw reads shall
-> show the BBM. And also, when accessing a BBT, it is made in raw mode,
-> without randomization, and hence totally fail. This cannot fly!
+On newer Allwinner platforms like the A733, the Sigma-Delta Modulation
+(SDM) control logic is more complex. The SDM enable bit, which was
+previously located in the PLL register, is now moved to a second
+pattern register (PATTERN1).
 
-I may be misunderstanding which raw and BBT access paths are at issue,
-so I would like to clarify the expected semantics.
+To support this, rename the existing "tuning" members to "pattern0" to
+align with the datasheet, and introduce the _SUNXI_CCU_SDM_DUAL_PAT
+macro to provide pattern1 register support. Related operations are also
+updated.
 
-The allwinner,randomized-oob property does not alter the per-operation
-rule controlling the randomizer. MTD_OPS_RAW still leaves the randomizer
-disabled, while normal ECC operations enable it. The property does set
-NAND_NEED_SCRAMBLING, ensuring that normal accesses use the randomizer
-when the NAND does not already set that flag.
+Tested-by: Jerome Brunet <jbrunet@baylibre.com>
+Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
+---
+ drivers/clk/sunxi-ng/ccu_sdm.c | 52 ++++++++++++++++++++++++++++++------------
+ drivers/clk/sunxi-ng/ccu_sdm.h | 29 ++++++++++++++---------
+ 2 files changed, 55 insertions(+), 26 deletions(-)
 
-The property instead selects the Allwinner firmware's physical
-normal-page OOB representation. It leaves the BBM in the randomizer data
-stream and, on H6/H616, selects the firmware's protected-user-data
-placement. It does not change the randomizer algorithm or seeds, nor
-does it enable the randomizer during raw accesses.
+diff --git a/drivers/clk/sunxi-ng/ccu_sdm.c b/drivers/clk/sunxi-ng/ccu_sdm.c
+index c564e5f9e610..7e13ffd246d3 100644
+--- a/drivers/clk/sunxi-ng/ccu_sdm.c
++++ b/drivers/clk/sunxi-ng/ccu_sdm.c
+@@ -18,7 +18,11 @@ bool ccu_sdm_helper_is_enabled(struct ccu_common *common,
+ 	if (sdm->enable && !(readl(common->base + common->reg) & sdm->enable))
+ 		return false;
+ 
+-	return !!(readl(common->base + sdm->tuning_reg) & sdm->tuning_enable);
++	if (sdm->pat1_enable &&
++	    (readl(common->base + sdm->pat1_reg) & sdm->pat1_enable) != sdm->pat1_enable)
++		return false;
++
++	return !!(readl(common->base + sdm->pat0_reg) & sdm->pat0_enable);
+ }
+ EXPORT_SYMBOL_NS_GPL(ccu_sdm_helper_is_enabled, "SUNXI_CCU");
+ 
+@@ -37,18 +41,27 @@ void ccu_sdm_helper_enable(struct ccu_common *common,
+ 	for (i = 0; i < sdm->table_size; i++)
+ 		if (sdm->table[i].rate == rate)
+ 			writel(sdm->table[i].pattern,
+-			       common->base + sdm->tuning_reg);
++			       common->base + sdm->pat0_reg);
+ 
+ 	/* Make sure SDM is enabled */
+ 	spin_lock_irqsave(common->lock, flags);
+-	reg = readl(common->base + sdm->tuning_reg);
+-	writel(reg | sdm->tuning_enable, common->base + sdm->tuning_reg);
++	reg = readl(common->base + sdm->pat0_reg);
++	writel(reg | sdm->pat0_enable, common->base + sdm->pat0_reg);
+ 	spin_unlock_irqrestore(common->lock, flags);
+ 
+-	spin_lock_irqsave(common->lock, flags);
+-	reg = readl(common->base + common->reg);
+-	writel(reg | sdm->enable, common->base + common->reg);
+-	spin_unlock_irqrestore(common->lock, flags);
++	if (sdm->enable) {
++		spin_lock_irqsave(common->lock, flags);
++		reg = readl(common->base + common->reg);
++		writel(reg | sdm->enable, common->base + common->reg);
++		spin_unlock_irqrestore(common->lock, flags);
++	}
++
++	if (sdm->pat1_enable) {
++		spin_lock_irqsave(common->lock, flags);
++		reg = readl(common->base + sdm->pat1_reg);
++		writel(reg | sdm->pat1_enable, common->base + sdm->pat1_reg);
++		spin_unlock_irqrestore(common->lock, flags);
++	}
+ }
+ EXPORT_SYMBOL_NS_GPL(ccu_sdm_helper_enable, "SUNXI_CCU");
+ 
+@@ -61,14 +74,23 @@ void ccu_sdm_helper_disable(struct ccu_common *common,
+ 	if (!(common->features & CCU_FEATURE_SIGMA_DELTA_MOD))
+ 		return;
+ 
+-	spin_lock_irqsave(common->lock, flags);
+-	reg = readl(common->base + common->reg);
+-	writel(reg & ~sdm->enable, common->base + common->reg);
+-	spin_unlock_irqrestore(common->lock, flags);
++	if (sdm->enable) {
++		spin_lock_irqsave(common->lock, flags);
++		reg = readl(common->base + common->reg);
++		writel(reg & ~sdm->enable, common->base + common->reg);
++		spin_unlock_irqrestore(common->lock, flags);
++	}
++
++	if (sdm->pat1_enable) {
++		spin_lock_irqsave(common->lock, flags);
++		reg = readl(common->base + sdm->pat1_reg);
++		writel(reg & ~sdm->pat1_enable, common->base + sdm->pat1_reg);
++		spin_unlock_irqrestore(common->lock, flags);
++	}
+ 
+ 	spin_lock_irqsave(common->lock, flags);
+-	reg = readl(common->base + sdm->tuning_reg);
+-	writel(reg & ~sdm->tuning_enable, common->base + sdm->tuning_reg);
++	reg = readl(common->base + sdm->pat0_reg);
++	writel(reg & ~sdm->pat0_enable, common->base + sdm->pat0_reg);
+ 	spin_unlock_irqrestore(common->lock, flags);
+ }
+ EXPORT_SYMBOL_NS_GPL(ccu_sdm_helper_disable, "SUNXI_CCU");
+@@ -123,7 +145,7 @@ unsigned long ccu_sdm_helper_read_rate(struct ccu_common *common,
+ 	pr_debug("%s: clock is sigma-delta modulated\n",
+ 		 clk_hw_get_name(&common->hw));
+ 
+-	reg = readl(common->base + sdm->tuning_reg);
++	reg = readl(common->base + sdm->pat0_reg);
+ 
+ 	pr_debug("%s: pattern reg is 0x%x",
+ 		 clk_hw_get_name(&common->hw), reg);
+diff --git a/drivers/clk/sunxi-ng/ccu_sdm.h b/drivers/clk/sunxi-ng/ccu_sdm.h
+index c1a7159b89c3..e94cef141c7d 100644
+--- a/drivers/clk/sunxi-ng/ccu_sdm.h
++++ b/drivers/clk/sunxi-ng/ccu_sdm.h
+@@ -33,21 +33,28 @@ struct ccu_sdm_internal {
+ 	u32		table_size;
+ 	/* early SoCs don't have the SDM enable bit in the PLL register */
+ 	u32		enable;
+-	/* second enable bit in tuning register */
+-	u32		tuning_enable;
+-	u16		tuning_reg;
++	/* second enable bit in pattern0 register */
++	u32		pat0_enable;
++	u16		pat0_reg;
++	/* on some platforms, the sdm enable bit in pattern1 register */
++	u32		pat1_enable;
++	u16		pat1_reg;
+ };
+ 
+-#define _SUNXI_CCU_SDM(_table, _enable,			\
+-		       _reg, _reg_enable)		\
+-	{						\
+-		.table		= _table,		\
+-		.table_size	= ARRAY_SIZE(_table),	\
+-		.enable		= _enable,		\
+-		.tuning_enable	= _reg_enable,		\
+-		.tuning_reg	= _reg,			\
++#define _SUNXI_CCU_SDM_DUAL_PAT(_table, _enable, _pat0, _pat0_enable, _pat1, _pat1_enable) \
++	{								\
++		.table			= _table,			\
++		.table_size		= ARRAY_SIZE(_table),		\
++		.enable			= _enable,			\
++		.pat0_enable		= _pat0_enable,			\
++		.pat0_reg		= _pat0,			\
++		.pat1_enable		= _pat1_enable,			\
++		.pat1_reg		= _pat1,			\
+ 	}
+ 
++#define _SUNXI_CCU_SDM(_table, _enable, _pat0, _pat0_enable)	\
++	_SUNXI_CCU_SDM_DUAL_PAT(_table, _enable, _pat0, _pat0_enable, 0, 0)
++
+ bool ccu_sdm_helper_is_enabled(struct ccu_common *common,
+ 			       struct ccu_sdm_internal *sdm);
+ void ccu_sdm_helper_enable(struct ccu_common *common,
 
-With NAND_NEED_SCRAMBLING set, I understand the current mainline sunxi
-behavior as follows:
+-- 
+2.55.0
 
-ops.mode   fd mode  ECC  rand  main data       OOB with -o      nanddump
----------  -------  ---  ----  --------------  ---------------  --------
-PLACE_OOB  NORMAL   on   on    corrected and   de-randomized    -o
-                                de-randomized   logical OOB
-PLACE_OOB  RAW      on   on    corrected and   de-randomized    unavailable
-                                de-randomized   logical OOB
-RAW        NORMAL   off  off   physical bytes  physical OOB     unavailable
-RAW        RAW      off  off   physical bytes  physical OOB     -n -o
-
-OOB data is returned only when the caller supplies an OOB buffer. For
-nanddump, this is selected by -o. For MEMREAD/MEMWRITE, ops.mode
-overrides the file mode. Stock nanddump exposes only the two diagonal
-cases:
-
-nanddump --bb=3Ddumpbad -o /dev/mtdX
-nanddump -n --bb=3Ddumpbad -o /dev/mtdX
-
-The first uses the normal ECC/randomizer path and returns corrected,
-de-randomized main data followed by de-randomized OOB. The second sets
-MTD_FILE_MODE_RAW and reaches the raw callbacks with both ECC and the
-randomizer disabled, returning the physical main and OOB bytes.
-
-In current mainline, that physical OOB contains a plain BBM because the
-normal write path compensates the marker before hardware randomization.
-The normal read path reverses that compensation. With
-allwinner,randomized-oob, the compensation is omitted, so a raw read
-remains physical but returns the BBM in its randomized on-flash form.
-A normal read returns the logical BBM with either representation.
-
-I do not see the current BBT access paths selecting MTD_OPS_RAW:
-
-- nand_block_bad() calls chip->ecc.read_oob();
-- scan_block_fast() and scan_read_oob() use MTD_OPS_PLACE_OOB; and
-- read_bbt() uses an ordinary mtd_read().
-
-For sunxi, ecc.read_oob calls ecc.read_page, which enables both ECC and
-the randomizer when NAND_NEED_SCRAMBLING is set. The internal BBM and
-BBT paths therefore appear to receive the decoded marker rather than
-the physical randomized bytes.
-
-Could you clarify which BBT path performs an MTD_OPS_RAW access, or
-whether I am overlooking another path?
-
-Also, when you say that raw reads must show the BBM, does that mean the
-BBM must always be stored plain on flash, or may the raw interface
-normalize just the BBM while otherwise returning physical data? If raw
-access must remain entirely physical and the BBM must simultaneously be
-directly recognizable, does that mean the Allwinner firmware's
-randomized-BBM representation cannot be supported through the existing
-raw NAND interface?
-
->
