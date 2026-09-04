@@ -1,345 +1,129 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D48F51D524
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Sep 2026 21:33:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF75C3CB2E7;
+	Fri,  4 Sep 2026 21:47:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788557619; cv=none; b=qtDEOogWuzeNSSLpZrzpKcb3BmOPA5KkOW/lZ/vX9BHAKvWmaLmYD5t6RrAJCcvS6e4VbqCdDUHhJ1cB/YU5K20RjRWNKqzr8/cEpo5Nb3hDy16bV8shsye1/B1I4By/oqFTc4tVt7jhmfwtB9p8EU4diZrOTsOMNb/FB1+lNXA=
+	t=1788558424; cv=none; b=kOYz0E1uRdXE/2cYlOUkuhaE/M+bJIPeWhHy9g4qJzMXMizkuYPVCmAvs4DERBu5ehBkPI+xz3Mhyos6oLWZOJflFWRGPkueOBz5ShXYYOxtwVylu2thKXYGvmsTnvFNTZfwObRA+99yEGhqen7s6M2DH8IdES8gY86aULWRiYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788557619; c=relaxed/simple;
-	bh=GHXhp2MUxIdV2IGw6djrOuEq3lqK+9Rv3RiIzHRNkEo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QYqOSdQ+nDbz2Jho29HUcDGqEN/GLtvmJOkKS5M+ugXOpe0BES203kJGxNGWhfeBVzdUKOZZHzUruPR0BZx/Rf/2cDQ4XJsURju5TsVSBoXlP9j+/qp7dL39NRK19jK6qKqprT67OzUZsodAfAPYVg8C8jB68CoDnc4A7pZnHm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gROoarAv; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788558424; c=relaxed/simple;
+	bh=p3i7vHLZZPpY9HWOCA/0rhR/GFhjttWmdc1ecdrYgU0=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=Nrxck58eDXvf3m7XjER37KI80k69s5eTV9s0DUaMeWaAfEIEhzaqNRA9r2t6Ex7Lom1GSrNJogl847Il7GdNo/4n9bMzSYo3WB44TnxwdYmU3hnYPM8Z5UsR8nr0QR1WvtMbfDOPS4t70fnC86RTBFaxCC0az7RZXVRumHSpZAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FTyN73fk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gROoarAv"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-52fa6005224so13691531cf.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Sep 2026 14:33:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788557616; x=1789162416; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=KWoJYzcW0AWxwtfPly+dHtM2f9cvjv3KZD392LRH0AA=;
-        b=gROoarAvQH6u80zFXRF/LPKxBqMu3uzRcw41KYwV54aDHjZSyqsxLHhCSTF+RxoSi7
-         NTRxAtPFMBtYn+SRaJJX1l5PFajN8UHSrC7Rh3FJi7SnjX1FxZwbJQmUjU46tW2rkEX0
-         y1X0RK7laWFcN1B680QYOcCQNPq7n4ypDpqYQzv3Lx6htCtcUKWW2/rzfhcbVmaegiHm
-         O7dpAhT5J3iKaI2G5YewGX+7hz9v4vkDTnEkf6/cH5G8kFvuAqdoSnjz5q1GRGsVNahH
-         CUdwCUhAKDW68JfIejHzhSyA2fcY25jCvS6EA8w873tdhZ4sAOnF2cr9+i7UGAr6GOke
-         a7MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788557616; x=1789162416;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KWoJYzcW0AWxwtfPly+dHtM2f9cvjv3KZD392LRH0AA=;
-        b=dfNB8asThOZvxrKV5xSYosMgYYsqDE1fu7n4xHi9M1GZbGfe/00q+72VZ5ehIpUJ7K
-         fdA5NoQ6y1M/wa2KSlLjmQJk85uca7hyVHzhB+Lg07bDsoJrIPkxEyoSR8I9LUCwVi+L
-         6NE5zUSUylE3LUXxlUZLVOSohrkkJceGsEXEI4zwfEY67yrEHX39wJaA9fn8r7Hqdv3t
-         ECE8OceP6josrMvhyx0Rp3wDRzKstB9QJoF75m6jqsG7Y4Ns/wUtCWleqLQrGQRupmfb
-         ee4bidIWREMtEtZn1/F/tP5ddFVCybl7/9X/cRhrQa6pgVCxUzv08N8CxfmMdSCptbdO
-         1LBg==
-X-Forwarded-Encrypted: i=1; AKwUvBzggeH4hlKiUlCRezmi59hnoGNpMxhbolqiPh7JtP41Bopi0wQuSfPtSB33i3XHzsQ2B9avos/7nCENPA==@lists.linux.dev
-X-Gm-Message-State: AFuF++ny0VJTONGA2+iYgv9ukdxOGNazm2fpM4dnRsX5aetQDFic3iF7
-	HRvX+SyqX0wQH7hIkQik5h24A4CfdgS3WXXKr87o2EgDWSzk/ulndaM=
-X-Gm-Gg: AYBFou3jtfJa7+KEVYfuXgXJbpHHvvl5/G7+8Zc2RCGWHY8vSkaHtc8XR7ad/QyjvOR
-	CpJqZItWLzFUyUmzS9shjCbh3I4OUZLVxzGDckmf0evTdR5AClEMKAIFtkmNYVAJNwi53gawu6k
-	hDnk4aCzqetBXegtpT/YcVFNaPPQMIZp4iqSCZh1dtmaQAlPuklOLYZQy/Btsg0LyshbO7GueUo
-	bVz2zp3nRhhfue2S0nRsEM6nHPDZ6ChSZOFe/X7PbY9Rl/ZTLuK+yKi+7yA8o0qOw0DY4AUFk7i
-	qcOEEJufzFi2agrTZfXx+HioDUUa9BxFBeeSrV58BScGNXbW95HiNdQtyZkWwOR1W8kzl6r1atB
-	j+vDlaAQzYBMQU3z+tnKDbUHsIc8o12aivIXPOjO7yXSSZIv0qXN8ZmF5XA9bYstLS/M+WuterO
-	O9IuvpLe6rkgo1QeJ/X9IZmGW6mlNrimCTcnOwtAoHxcpOKePJo9qB5Cdeir/NZKS5kK1W8IctU
-	G0G5t6DC4woQ1yuhP3ZJZ0p5w==
-X-Received: by 2002:a05:622a:11cd:b0:530:27d9:ffc2 with SMTP id d75a77b69052e-530546cf80fmr94981561cf.5.1788557614529;
-        Fri, 04 Sep 2026 14:33:34 -0700 (PDT)
-Received: from X570.phub.net.cable.rogers.com ([2607:fea8:744f:d200:9441:f2ae:56aa:8a81])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-53054227a0esm29646561cf.29.2026.09.04.14.33.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 14:33:34 -0700 (PDT)
-From: Barzin Lotfabadi <barzin221@gmail.com>
-To: Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>
-Cc: Ryan Walklin <ryan@testtoast.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] arm64: dts: allwinner: h616: add display engine and HDMI nodes
-Date: Fri,  4 Sep 2026 17:33:28 -0400
-Message-ID: <20260904213329.3910099-2-barzin221@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260904213329.3910099-1-barzin221@gmail.com>
-References: <20260904213329.3910099-1-barzin221@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FTyN73fk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA0A31F00A3D;
+	Fri,  4 Sep 2026 21:47:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788558422;
+	bh=OpUdLRtoEgNKhcX7+3Zn8UZ78zB2YC1sOvIpfOCSbHQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=FTyN73fkxqv00uI9XxCrB8Yt5u7CySvwJN5XdXffEz+r95v7vuVCub4EFQLyJhoVQ
+	 Zl2cv3XrIA2dQA61nfyTwEB9r3UkP7tfQGd2C4Zv5vDVtnt3a6zgyR9nV4RRVKVZM2
+	 AzG9Llt8P902J3+8Ss121n99tGgoYm867N9Zv7YPXzPMidNCiZxZJNm1pqoAZBjglU
+	 0cP90pJ/3pHWN7nOXJjQk8kcv+Yr4/0vw+PjKNGXkVDxbQm79b77smpnAlaildCDiE
+	 ON/XmP5iZJvEbv+yvmuGTUA3Ckp/BWPIN6eKDsvz7Zf6JTlHD0DHdYv/Xg3guvTIVY
+	 EeHyg5w2HVnIw==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 3/3] mtd: rawnand: sunxi: select the packed H6/H616
+ OOB layout
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "James Hilliard" <james.hilliard1@gmail.com>
+Cc: "Miquel Raynal" <miquel.raynal@bootlin.com>, linux-sunxi@lists.linux.dev, "Michael
+ Walle" <mwalle@kernel.org>, "Vignesh Raghavendra" <vigneshr@ti.com>, conor+dt@kernel.org, "Takahiro
+ Kuwano" <takahiro.kuwano@infineon.com>, "Pratyush Yadav" <pratyush@kernel.org>, devicetree@vger.kernel.org, "Richard
+ Weinberger" <richard@nod.at>, robh@kernel.org
+In-Reply-To: <20260904-submit-sunxi-nand-vendor-oob-layout-v1-v2-3-b12074f4aca7@gmail.com>
+References: <20260904-submit-sunxi-nand-vendor-oob-layout-v1-v2-0-b12074f4aca7@gmail.com>
+ <20260904-submit-sunxi-nand-vendor-oob-layout-v1-v2-3-b12074f4aca7@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 04 Sep 2026 21:47:01 +0000
+Message-Id: <20260904214701.EA0A31F00A3D@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The H616 and its variants (H618, H700, T507) carry a Display Engine 3.3
-(DE33) block feeding a TCON TOP, a TV TCON and a DesignWare HDMI 2.0
-transmitter with an Allwinner-specific PHY.  None of this is described in
-the SoC .dtsi, so nothing probes and the HDMI port stays dark even though
-the DE33 mixer support is present in the sun4i DRM driver.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
 
-Add the display pipeline:
+Pre-existing issues:
+- [Critical] The free OOB layout for steps > 0 incorrectly overlaps with ha=
+rdware ECC bytes, leading to uncorrectable data corruption.
+- [High] Division by zero kernel panic when NAND_ECC_MAXIMIZE_STRENGTH is c=
+onfigured on 512-byte NAND pages.
+--
 
-  display-engine        - the DRM pipeline root
-  bus@1000000           - DE33 bus, holding the display clock controller
-                          and the mixer
-  clock@8000            - display clock controller
-  mixer@100000          - DE33 mixer 0
-  tcon-top@6510000      - TCON TOP, muxing the mixer onto the TCONs
-  lcd-controller@6515000 - TCON TV 0
-  hdmi@6000000          - DesignWare HDMI TX controller v2.12a
-  hdmi-phy@6010000      - Allwinner H616 HDMI PHY
+commit 250f35cb46a45ae57aae72a174fbcad8b8b7a7e5
+Author: James Hilliard <james.hilliard1@gmail.com>
+Subject: mtd: rawnand: sunxi: select the packed H6/H616 OOB layout
 
-All register addresses, clock indices and reset lines were read from the
-vendor device tree shipped with the board and translated to the mainline
-dt-bindings macros; the clock and reset numbering was verified identical
-between the vendor and mainline CCU headers.
+This commit updates the sunxi NAND driver to support the randomized OOB
+layout used by the H6/H616 controllers. It configures a separate protected
+user-data length for each ECC step and allocates up to 16 bytes for step ze=
+ro.
 
-The mixer's three register regions are named "layers", "top" and
-"display".  On DE33 the global control registers moved out of the mixer
-block into separate windows, and the driver looks up the latter two by
-name, so these names are load-bearing rather than decorative.
+> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sun=
+xi_nand.c
+> index c1246a9268ca5..1265d900fc276 100644
+> --- a/drivers/mtd/nand/raw/sunxi_nand.c
+> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
+[ ... ]
+> @@ -2111,6 +2126,10 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand=
+_chip *nand,
+>  				bytes -=3D 2;
+> =20
+>  			bytes -=3D total_user_data_sz;
+> +		} else if (sunxi_nand->randomized_oob) {
+> +			total_user_data_sz =3D
+> +				sunxi_nfc_h6_user_data_sz(nsectors);
+> +			bytes -=3D total_user_data_sz;
+>  		} else {
+>  			/*
+>  			 * User-data lengths are encoded in four-byte units. Reserve
 
-Everything is left disabled; boards opt in.
+[Severity: High]
+This is a pre-existing issue, but I noticed a potential division by zero
+kernel panic in sunxi_nand_hw_ecc_ctrl_init() when NAND_ECC_MAXIMIZE_STRENG=
+TH
+is configured on 512-byte NAND pages.
 
+If a NAND device with a 512-byte page size is configured with the
+nand-ecc-maximize property in the device tree, mtd->writesize will be 512.
+This function forces ecc->size =3D 1024 and calculates:
 
-Signed-off-by: Barzin Lotfabadi <barzin221@gmail.com>
----
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index 1598e8625..21aa94482 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -7,7 +7,10 @@
- #include <dt-bindings/clock/sun50i-h616-ccu.h>
- #include <dt-bindings/clock/sun50i-h6-r-ccu.h>
- #include <dt-bindings/clock/sun6i-rtc.h>
-+#include <dt-bindings/clock/sun8i-de2.h>
-+#include <dt-bindings/clock/sun8i-tcon-top.h>
- #include <dt-bindings/reset/sun50i-h616-ccu.h>
-+#include <dt-bindings/reset/sun8i-de2.h>
- #include <dt-bindings/reset/sun50i-h6-r-ccu.h>
- #include <dt-bindings/thermal/thermal.h>
- 
-@@ -94,6 +97,12 @@ l2_cache: l2-cache {
- 		};
- 	};
- 
-+	de: display-engine {
-+		compatible = "allwinner,sun50i-h6-display-engine";
-+		allwinner,pipelines = <&mixer0>;
-+		status = "disabled";
-+	};
-+
- 	reserved-memory {
- 		#address-cells = <2>;
- 		#size-cells = <2>;
-@@ -965,6 +974,188 @@ ohci3: usb@5311400 {
- 			status = "disabled";
- 		};
- 
-+		bus: bus@1000000 {
-+			compatible = "allwinner,sun50i-h616-de33",
-+				     "allwinner,sun50i-a64-de2";
-+			reg = <0x1000000 0x400000>;
-+			allwinner,sram = <&sram_c 1>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			ranges = <0 0x1000000 0x400000>;
-+
-+			display_clocks: clock@8000 {
-+				compatible = "allwinner,sun50i-h616-de33-clk";
-+				reg = <0x8000 0x100>;
-+				clocks = <&ccu CLK_DE>,
-+					 <&ccu CLK_BUS_DE>;
-+				clock-names = "mod", "bus";
-+				resets = <&ccu RST_BUS_DE>;
-+				#clock-cells = <1>;
-+				#reset-cells = <1>;
-+			};
-+
-+			mixer0: mixer@100000 {
-+				compatible = "allwinner,sun50i-h616-de33-mixer-0";
-+				reg = <0x100000 0x100000>,
-+				      <0x8100 0x40>,
-+				      <0x280000 0x20000>;
-+				reg-names = "layers", "top", "display";
-+				clocks = <&display_clocks CLK_BUS_MIXER0>,
-+					 <&display_clocks CLK_MIXER0>;
-+				clock-names = "bus", "mod";
-+				resets = <&display_clocks RST_MIXER0>;
-+
-+				ports {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+
-+					mixer0_out: port@1 {
-+						reg = <1>;
-+
-+						mixer0_out_tcon_top_mixer0: endpoint {
-+							remote-endpoint = <&tcon_top_mixer0_in_mixer0>;
-+						};
-+					};
-+				};
-+			};
-+		};
-+
-+		tcon_top: tcon-top@6510000 {
-+			compatible = "allwinner,sun50i-h6-tcon-top";
-+			reg = <0x6510000 0x1000>;
-+			clocks = <&ccu CLK_BUS_TCON_TOP>,
-+				 <&ccu CLK_TCON_TV0>;
-+			clock-names = "bus", "tcon-tv0";
-+			clock-output-names = "tcon-top-tv0";
-+			resets = <&ccu RST_BUS_TCON_TOP>;
-+			#clock-cells = <1>;
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				tcon_top_mixer0_in: port@0 {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					reg = <0>;
-+
-+					tcon_top_mixer0_in_mixer0: endpoint@0 {
-+						reg = <0>;
-+						remote-endpoint = <&mixer0_out_tcon_top_mixer0>;
-+					};
-+				};
-+
-+				tcon_top_mixer0_out: port@1 {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					reg = <1>;
-+
-+					tcon_top_mixer0_out_tcon_tv: endpoint@2 {
-+						reg = <2>;
-+						remote-endpoint = <&tcon_tv_in_tcon_top_mixer0>;
-+					};
-+				};
-+
-+				tcon_top_hdmi_in: port@4 {
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+					reg = <4>;
-+
-+					tcon_top_hdmi_in_tcon_tv: endpoint@0 {
-+						reg = <0>;
-+						remote-endpoint = <&tcon_tv_out_tcon_top_hdmi>;
-+					};
-+				};
-+
-+				tcon_top_hdmi_out: port@5 {
-+					reg = <5>;
-+
-+					tcon_top_hdmi_out_hdmi: endpoint {
-+						remote-endpoint = <&hdmi_in_tcon_top>;
-+					};
-+				};
-+			};
-+		};
-+
-+		tcon_tv: lcd-controller@6515000 {
-+			compatible = "allwinner,sun50i-h6-tcon-tv",
-+				     "allwinner,sun8i-r40-tcon-tv";
-+			reg = <0x6515000 0x1000>;
-+			interrupts = <GIC_SPI 66 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_TCON_TV0>,
-+				 <&tcon_top CLK_TCON_TOP_TV0>;
-+			clock-names = "ahb", "tcon-ch1";
-+			resets = <&ccu RST_BUS_TCON_TV0>;
-+			reset-names = "lcd";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				tcon_tv_in: port@0 {
-+					reg = <0>;
-+
-+					tcon_tv_in_tcon_top_mixer0: endpoint {
-+						remote-endpoint = <&tcon_top_mixer0_out_tcon_tv>;
-+					};
-+				};
-+
-+				tcon_tv_out: port@1 {
-+					reg = <1>;
-+
-+					tcon_tv_out_tcon_top_hdmi: endpoint {
-+						remote-endpoint = <&tcon_top_hdmi_in_tcon_tv>;
-+					};
-+				};
-+			};
-+		};
-+
-+		hdmi: hdmi@6000000 {
-+			compatible = "allwinner,sun50i-h616-dw-hdmi",
-+				     "allwinner,sun50i-h6-dw-hdmi";
-+			reg = <0x6000000 0x10000>;
-+			reg-io-width = <1>;
-+			interrupts = <GIC_SPI 63 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_HDMI>,
-+				 <&ccu CLK_HDMI_SLOW>,
-+				 <&ccu CLK_HDMI>,
-+				 <&ccu CLK_HDMI_CEC>;
-+			clock-names = "iahb", "isfr", "tmds", "cec";
-+			resets = <&ccu RST_BUS_HDMI_SUB>;
-+			reset-names = "ctrl";
-+			phys = <&hdmi_phy>;
-+			phy-names = "phy";
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				hdmi_in: port@0 {
-+					reg = <0>;
-+
-+					hdmi_in_tcon_top: endpoint {
-+						remote-endpoint = <&tcon_top_hdmi_out_hdmi>;
-+					};
-+				};
-+
-+				hdmi_out: port@1 {
-+					reg = <1>;
-+				};
-+			};
-+		};
-+
-+		hdmi_phy: hdmi-phy@6010000 {
-+			compatible = "allwinner,sun50i-h616-hdmi-phy";
-+			reg = <0x6010000 0x10000>;
-+			clocks = <&ccu CLK_BUS_HDMI>,
-+				 <&ccu CLK_HDMI_SLOW>;
-+			clock-names = "bus", "mod";
-+			resets = <&ccu RST_BUS_HDMI>;
-+			reset-names = "phy";
-+			#phy-cells = <0>;
-+		};
-+
- 		rtc: rtc@7000000 {
- 			compatible = "allwinner,sun50i-h616-rtc";
- 			reg = <0x07000000 0x400>;
+nsectors =3D mtd->writesize / ecc->size;
 
--- 
-2.51.0
+This resolves to 0, and a few lines down the code executes:
 
+bytes /=3D nsectors;
+
+Would it be safer to gracefully fail (e.g., returning -EINVAL) instead of
+allowing a fatal division by zero during device probe?
+
+[Severity: Critical]
+This is also a pre-existing issue, but I wanted to ask about the free OOB
+layout defined in sunxi_nand_ooblayout_free(), which isn't modified by
+this patch.
+
+For sections greater than 0, the driver does:
+
+oobregion->offset =3D sunxi_get_ecc_offset(sunxi_nand, ecc, section);
+oobregion->length =3D user_data_sz;
+
+This appears to incorrectly overlap with hardware ECC bytes, defining the M=
+TD
+free region exactly over the hardware ECC bytes instead of the user data
+bytes.
+
+Could this lead to unrecoverable data corruption if standard filesystems
+(like JFFS2 or UBIFS) write metadata to the free OOB area, unknowingly
+overwriting the ECC codes?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260904-submit-sun=
+xi-nand-vendor-oob-layout-v1-v2-0-b12074f4aca7@gmail.com?part=3D3
