@@ -1,137 +1,385 @@
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EDB3D9029
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Sep 2026 15:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C6446E005
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Sep 2026 15:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.172
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788535080; cv=pass; b=kKDwa5fEEOaM8DKeDRl7wcxsnrwh7f+sKSzIRLO95Or6dcOjG93B6krxrUyu0jSRd1V1SBuCpXqf40qdbJchb4PAbmf3yZEbyfY1zU/U8YrV+xEszguStbaxf2zcMn/TkdmldHWwS2cS9d1AOVCSyxldf43wqLKECSX7QAqQwVI=
+	t=1788535208; cv=pass; b=TOr5t5kApl1loTh1AZJPHnyVyaNM8tElJYxaW5mM91WaTqUhKi2jjwp+qZ9vpBH/41hpZg27RQ27OLGbS+t+R+hPqSkG+yZ0mYCN9ZdCx/k5YLoB1r/GF3v8vfm7fMkrCqSwbzBRx0pys14gptPoxoPJggAKO7gKff/XLfo5/WM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788535080; c=relaxed/simple;
-	bh=a8IcWix8i7C0DIMMGLJFWrwznvm95cLdWDVTqjuXB24=;
+	s=arc-20240116; t=1788535208; c=relaxed/simple;
+	bh=btfr7/6hdpHMMHY4/qUvK1JUkWbFbUcwa0nGqxafBBs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Gyfc4TQvSBoXUXvUQ/6KjMgn6t1OeatJDZVByVmHSW6cDtxro8Y3HJozHa/pNbOdTweas+eW/Aww2Jl/2jA7kMCjrrHmyT9qXIqpIYk2viqXQb5GfmHLEjJPHPqdYOkgfTpgow0Vdyv1973Wq6Kll7DJJQpVezUyg8+HDuxdHp0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jK90mMsH; arc=pass smtp.client-ip=209.85.222.48
+	 To:Cc:Content-Type; b=J9HVv4tJaAU2Z43Xx30zmlFa7hyPdWsKO5Zq1pxpTt5Z2DASMGIN8lutCMbKFTXuiHAD/Jq+JUt1U1U+LLDRPWInHEJMLZY4mZDxUTR4qzQV8qmjW6MWskhYgCeJdvFDy+AeMO1Q3KcX4JT3+P9hudgI5MYCsGNsnUXbwYPpbbA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HkPI7QEU; arc=pass smtp.client-ip=209.85.128.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jK90mMsH"
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-97622cc1f40so818841241.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Sep 2026 08:17:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788535078; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HkPI7QEU"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-85a50f6a7f7so15383127b3.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Sep 2026 08:20:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788535206; cv=none;
         d=google.com; s=arc-20260327;
-        b=KC6nDObZLzIqCantHG/mMNpOER9PUoQweIaAZEcPaX719s9dyQzAmTWXCXwJpsGoZU
-         GCohhchvHXkvgB3kAQiBdSzy8zpnMlUQbnIw1bztp+Qnc3oCRoflYTcxl8soc1h4ODbY
-         H2918uBotkebcjycA00V398jwOyk6OrjhZPM5UrSaK6gxCKXkBmdpg4HXuyOyvIakuYg
-         MT++aNLwZMEbEbD9a5GQ1sHPwNTwxCqUqAdELw4Z2GqxGr45PryBcm8b5kZ8wW07jTkg
-         KGDXOYEwAstEAIlCkAT8HaYZf/3tr8Ah2a6pO6vUdC6hT41wHxg1M3ig2/WklmqjbQZt
-         PG2Q==
+        b=srMLzb5/jeB8ieE0QjUGBZsX7LSrQuxJxSXb/mE65Mb4sjVNTmGJd3QrHVHVzkZLnF
+         QiBiiAEL13ZMNPoc1mQqjvZZWCvxSJ+VzEWQ5ogzH+m5SN8AVC+ztduNAxzWzQnK4dvE
+         ecBVOseenwcgTmdWtIbgDQfSEO5KBfF9swca6sGHtISl3du17/5tOsuntS0t94h3hOZt
+         oqpTyElyr0V88yc2mNdGCr9VDrZfD8r4Zbumyd2HlNXy0SH+m7mnhhH9zMoXU+iF3v5E
+         I1LhB0BscKv85GpXfFwGjM1EA2bsoHN8NTMXL9c+2E4oUffSwxdcZRthfDU5AX0R+BBb
+         1pdw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=a8IcWix8i7C0DIMMGLJFWrwznvm95cLdWDVTqjuXB24=;
-        fh=WhVn8HHgNzasouCZppst6FPCIsA7aFOXNSCUs7DJDA8=;
-        b=cva5L7Q1SsiGav39GZI6WH0gbPDUz84T8ETOcsisLfCAYBLuTyTDNwbpXBXhWvONvT
-         /WxIQAPD2IOOaHGAdsufwDp8HT+Z++h6VDQcqfI+9gwiXxir7NMMiFuKInIcT7Ni9CmV
-         mG1DeVIi4k1kCw4FgFJFV0QTWEQQCEAdrd61L/wnrmZDWyJFwSEkwyOcKjzB7oNTfdK/
-         titALc2CqbbAGvJZm9eCNNRV2/O09gXJsLv6CuEy47vtOo0nPiS2Q6c3rkhD0/aF7Nrt
-         fLI+XB6oJlP61IuemlqjJFblHRpqEDbqL/Ykp8Eo/ZPAgkjl1EHVRM0BkquEVv416dm2
-         CddA==;
+        bh=u6HR3A2guW3Nu+trTsbsY+GfZFYku9Gf2pLXBr9XniQ=;
+        fh=+u0ypfbB5/arihlvs9ocrfcOmMD6ix25EzQnPalX6Ec=;
+        b=UeNa7Q1HIGqVqgonlyaHjsgUyT9fC83sGPQXJz7gJ/+pqyPK/8SGbZlB8AEEpdfyBx
+         /NpukQoLHSDRlgd2NguKlg0eb6GByvs4GDNutZx24Wh+rR9+vH/R9etVkM2LXAGI760m
+         iU8FcPQx53oO+4FC4/nPyBhc3IhCRyrK6GrU4a4U/QbFsH4S6QTAy8PZ1Ci8d3AsUdBR
+         ftSaI1QP4aJ+T1ML2b1l7R1PUNY6ypSPq9qVOQVtIx+kr88eA8vT8iWPHhpW/qeGG20R
+         MI1JhTkHjutia4GPL5Ye8XKg07Ae5fPRAwiZxtL8Ui/vRCnHWhnfGocMWTCx8vPvNbOt
+         pOYw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788535078; x=1789139878; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1788535206; x=1789140006; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=a8IcWix8i7C0DIMMGLJFWrwznvm95cLdWDVTqjuXB24=;
-        b=jK90mMsHlZLBKdzdxr2SMVDYyrUdyyR87zQvXKO3MWNP7gbXbztsligL6x4TkCmdLO
-         a5+QwS3kuf7W7i1fgVpMj0ker1x3gJ23d1caq9+nBdSrEc/mRn/ATlxQ0rVcVfiyVIs9
-         Sg6vzaZW1jPy1Ga6z5YglG9l4MwMwocYMp2h9PyCPGxmFA/jZfyaOhsy0ooUURb+YNc2
-         a9JKUKPb6Wek/G3IGNDRwzcjf19mGGO/eA9BBMoqLgd8n34B7pe2mlOB5asRuPrwei9d
-         VOlc2Z/EOW1meAmPW+o42jddi8DLFmjA0gawTkvjbq/d2388LlzxbNYB+gLQChezurGb
-         W2MA==
+        bh=u6HR3A2guW3Nu+trTsbsY+GfZFYku9Gf2pLXBr9XniQ=;
+        b=HkPI7QEU2IqtmMiBYQ+wXkGOLky+oplytdRu4DkWMVN77b0He2iEjjuipXZJ0lGcJB
+         BKPzLnP9F/McL9a7POguOUTUBMj+1mvfk65zxosw5tQ71tWu4/YP1UQpjjzM8i9FVIxF
+         w4+MVM9Ucec1ZWb3kvS+fIYk2X0FAy+9yzfilsRIXGxcec28uClz3snXdfX/XP6h4zIa
+         CIoKLTLUAhrgjebualEVqrrnZHRvvWSBguAmMCGDwfF5KRJfsXChu0KoF3QmFDR+3S89
+         V2u6/Y2V+wUFYAgJia6SoWTRvD51XrlILxt9MHaK5Ez9nYaGefw/x+b2nJRlviHSR+Zl
+         a02A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788535078; x=1789139878;
+        d=1e100.net; s=20251104; t=1788535206; x=1789140006;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=a8IcWix8i7C0DIMMGLJFWrwznvm95cLdWDVTqjuXB24=;
-        b=WSQZBPsBnflvJEkiaNiqO9nO5Cf0zNFq81kDWV0aHUGUUAONZeVuOXoTLOAIXwmcaI
-         0CT+igrLYsO1ley4z3RjUyZtj3rGZoPzsWLOkRDmk5PoCJZo7sWuHMbtDedcr4CIaNCg
-         XULnsALGAAAagi14tSycQ2/+9PTGIqOfxPIYZoRcl8/z05qOTDe7/ajohuPJ7E/hp92Z
-         /0lRX1umB19wr4zfunAwIXaILIF9nZRRb86/WfAh40pSN7iiNHKQbJKWiBKn0lnFx2Rl
-         uEp2Csa/wliTqgAUmE9OwXK/xG0DepvCgrs3r57PFQP3qkAV9wIrWHlRU+jlM5kTBnQD
-         elag==
-X-Forwarded-Encrypted: i=1; AKwUvByAWU1n3R12olb4Hg5/Lu8CX5CTNQ4zkVgPXSwxvKNQ3W+ULF1qEVLCZjbepHEem1aFLQGsXiKlHawqfg==@lists.linux.dev
-X-Gm-Message-State: AFuF++kR9nOpkyzeeOkeYqyFVoC/xRuiSKxkdQYIJ29d+c+7Ei2BJa7f
-	N2J4KVZ2CQr9yx5yh8COkvDLnnBwCtFDtS+NGAMfCtnRepBo67SfKsY8+bGzUi1Je4ufj3FrgiR
-	fCJImlOhqqbucBUqVg9lnSEJOcd/AVt8=
-X-Gm-Gg: AYBFou0UEnmBKuzno2Zmr1szP138BPaCj8wovJRQmA0oYkLwTWFnQP8gUNy7U752EKf
-	9EqauJfRBx4Cu0IXDh0doqFWwnsrNEkDcuCsuQkX89Ez5w1uHGDNRHb2JCFtwvjgCRlDnrIAftG
-	D2HHN3EN+72yaupv2zCyfKix+Pcunp28fGXCtkaz8T53bgGimZSujxHjSVvKtthbDJOH/PkM7/J
-	qbvybFMh51lMCNUAXzglkVXBkPKsL0UIOxCzAl+eX0EIiVzDM/mKujD6sOT81mAPGdSD4FiTOyf
-	80duce3l3PoamvFxCCzNgwqAIHa+IdUCdr4h/fI4gL+6AoK+Mo0M2zetNNgRNJIFi+dCToiFg2v
-	bGThJr92R5VGnzBJAn7KKqLx/UZBEwTsoHBkyPs2GQAIibp5A6ZT8ZSUstg953mtcia0ZoTDeRP
-	BqoVjLoDulgkgnRH8VwUX8hu4K9To8AIR7pjfL5lCzkxtThJb0bw==
-X-Received: by 2002:a05:6102:80a9:b0:786:4822:308f with SMTP id
- ada2fe7eead31-78a4a9aea5fmr2343885137.13.1788535077663; Fri, 04 Sep 2026
- 08:17:57 -0700 (PDT)
+        bh=u6HR3A2guW3Nu+trTsbsY+GfZFYku9Gf2pLXBr9XniQ=;
+        b=gDYVQPzBQoA3lhMhhsLBdj8oTh+XiJIfWnaxgTDwl99VTOfPQHj4qxo34fGiSfLfdn
+         zPNVKVNKqjVoKSY5CMfV4Z2fhOhWw/jR4D70fGy3JfuX24bYhf0GJaeyNDY8jDkxLmMb
+         VngTGmD+aBbJWXm+w6MXo6j2NtQXFzwHz2bPyXgxHHvJXGzGqMBubSpI6uqcJX6lU8f1
+         zmHyhNDQc/hGV7uEddFMjHzDn7qG/qYtya7L58U3vuH72YYv75BSdj8QH2YvEt7cgICU
+         I5I+iI41eJmQGncEuG9eRlqqwkYJe7krQ9vIt9jGHY7Y7yOS23o5lqC8M3y8weg8ESw2
+         XX3A==
+X-Forwarded-Encrypted: i=1; AKwUvBwedzXcN+K8AcBWqqN9P5P1Vo5n999+ehRUSQioKh5Q9abzi74uCMNJaEDuAi6zNTlp9RFkfgplbXug7Q==@lists.linux.dev
+X-Gm-Message-State: AFuF++lZJMJB4fMe6iCBlWTR7UYsEN1ln2nx4JGW2Q/ZHWYENSnjGhM2
+	J++ee8/b1RbTYhgH2geiadwD4KccckAgzTTuOP9rXWYi/tIJ+0XmD0JPN4VuGximFO5gkGBM1qY
+	phpvM0HJpytra35wZwU1d8yE431YasS8=
+X-Gm-Gg: AYBFou1pQ94TznYsfuLOqqfFkojdzpbuF/mEPV/e4ZXL7vc6AT9KkTaoO+rVPkfiDNf
+	nLrrPWTCPZDRf9QjhLFYQ/sLscnwSlePzmyp/bc5/H8GXzUiMh5hT65VeqSxKPdef+aK5BrF50P
+	zHcVAOhqkgApyhbsBmHleoTP1frDFB4rEVl0dzLNUyGMNAMK6ydyE+dmSE8yZz2D3NhCc6u/OhV
+	fQmmSwqx7Vmc86a1Eo1cLVoDLDagDr2u9+cx6OFplPBrsIMD4rKKpJCvK6H7izcXdEoXshNxWwu
+	XjSullzblUZjQC6mbaQI+mhzDvOJaXWMW95dZDa85sD6ZrB9YUjj4L12
+X-Received: by 2002:a05:690e:44e:b0:66d:1a9b:83be with SMTP id
+ 956f58d0204a3-66fb5a92dc6mr2114299d50.42.1788535205394; Fri, 04 Sep 2026
+ 08:20:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260810-submit-sunxi-nand-vendor-oob-layout-v1-v1-0-463853a14ad9@gmail.com>
- <20260810-submit-sunxi-nand-vendor-oob-layout-v1-v1-2-463853a14ad9@gmail.com> <87se3p13jy.fsf@bootlin.com>
-In-Reply-To: <87se3p13jy.fsf@bootlin.com>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Fri, 4 Sep 2026 11:17:46 -0400
-X-Gm-Features: AcwNN1UP0lhDRhRnmSbud-UU5EERiros9_WN1FPXC7f3fDYdM3_vq5pk0G9NwE0
-Message-ID: <CADvTj4oW8Hxv_b5vWM5pbeB3wEO-WoqhLwyinCTFPNR6wTHYmQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] mtd: rawnand: sunxi: support randomized OOB formats
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Maxime Ripard <mripard@kernel.org>, linux-mtd@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <CAOmNcAB8nBueNabeR_tBOjtximEwG9gdn4vt0Os4qac9OukTOQ@mail.gmail.com>
+ <app5WjDz9rnUNM_x@eggarch>
+In-Reply-To: <app5WjDz9rnUNM_x@eggarch>
+From: te36de <te36de@gmail.com>
+Date: Fri, 4 Sep 2026 08:19:54 -0700
+X-Gm-Features: AcwNN1W5pRr4oqJBcFYw5IdOmTdvkEiYeEomHeEfJJNaOMy2z2dr0zqhv7L8Ppg
+Message-ID: <CAOmNcAD2iEghDtyuXfwjWAQq30DmTjQ_FrxhxDVjX1+AY_gobQ@mail.gmail.com>
+Subject: Re: H618 sunxi/musb driver (likely) looses interrupts ->
+ g_mass_storage I/O errors/resets
+To: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
+Cc: Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org, 
+	Samuel Holland <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 4, 2026 at 8:42=E2=80=AFAM Miquel Raynal <miquel.raynal@bootlin=
-.com> wrote:
+Thanks for the suggestion, Lovekesh.
+
+Unfortunately, it did not change anything.  ;-( I/O errors still
+equally occurring under CPU load.
+
+Let me know what else i should try to help resolve the issue.
+
+
+On Fri, Sep 4, 2026 at 12:56=E2=80=AFAM Lovekesh Solanki
+<lovekeshsolanki00@gmail.com> wrote:
 >
-> On 10/08/2026 at 17:04:50 -06, James Hilliard <james.hilliard1@gmail.com>=
- wrote:
->
-> > The controller randomizer covers the bad block marker along with the
-> > rest of the OOB data. The driver currently compensates the marker bytes
-> > before writes and after reads so that they remain plain on flash.
+> On Thu, Sep 03, 2026 at 11:55:50AM -0700, te36de wrote:
+> > Summary:
+> >   Likely problem in H618 sunxi/musb driver code leading to I/O errors,
+> > resets on g_mass_storage.
+> >   Produced on Orange Pi Zero 3 (OPZ3, H618 based), Linux
+> > 6.18.48-current-sunxi64:
+> >     reproduced also with 7.1.12-edge-sunxi64 (problem not fixed in 7).
+> >   set up g_mass_storage on sparse file (no actual I/O required reading
+> > from it), read from host:
+> >     Works reliable for minutes (14...22MByte/sec) when OPZ3 is otherwis=
+e idle.
+> >     Creates repeatedly intermitting I/O errors and resets on USB host a=
+s soon
+> >     as there is even just some process-level only CPU load on H618
+> > (stress-ng on 2 kernel).
+> >   Problem does not occur on RPI4 using dwc2 (instead of sunxi/musb)
+> > with same tests
+> >   Diagnosis seems to point to lost interrupts.
 > >
-> > Allwinner NAND firmware instead stores the marker through the
-> > randomizer. Media using that format appears to contain bad blocks unles=
+> > 1. Reproduce by:
+> >
+> > 1.1 Connect gadget device (Orange PI zero 3 1GB in my case) USB-C port =
+to host.
+> >
+> > Note: Given how this powers the gadget device, it may not be
+> > sufficient for gadget devices needing
+> > a lot more current, but OPZ3 stays well below 500 mA under all conditio=
+ns.
+> >
+> > 1.2 On gadget device (Orange PI zero 3 1GB):
+> >
+> > truncate -s 12T /tmp/empty.img
+> > modprobe g_mass_storage
+> > file=3D/disk/S2/Shelf.UHD/TMP/avatar/AVATAR_BONUS1.iso stall=3D0 ro=3D1
+> > removable=3D1
+> >
+> > 1.3. On host device
+> >
+> > Determine device name for gadget, in this case /dev/sdb:
+> >
+> > [129005.654791] usb 1-1: new high-speed USB device number 9 using xhci_=
+hcd
+> > [129005.785710] usb 1-1: New USB device found, idVendor=3D0525,
+> > idProduct=3Da4a5, bcdDevice=3D 6.18
+> > [129005.785730] usb 1-1: New USB device strings: Mfr=3D3, Product=3D4,
+> > SerialNumber=3D0
+> > [129005.785736] usb 1-1: Product: Mass Storage Gadget
+> > [129005.785740] usb 1-1: Manufacturer: Armbian Linux
+> > 6.18.48-current-sunxi64 with musb-hdrc
+> > [129005.787697] usb-storage 1-1:1.0: USB Mass Storage device detected
+> > [129005.788090] usb-storage 1-1:1.0: Quirks match for vid 0525 pid a4a5=
+: 10000
+> > [129005.788244] scsi host2: usb-storage 1-1:1.0
+> > [129006.798208] scsi 2:0:0:0: Direct-Access     Linux    File-Stor
+> > Gadget 0618 PQ: 0 ANSI: 2
+> > [129006.798370] sd 2:0:0:0: Attached scsi generic sg1 type 0
+> > [129006.798560] sd 2:0:0:0: Power-on or device reset occurred
+> > [129006.799139] sd 2:0:0:0: [sdb] Very big device. Trying to use READ
+> > CAPACITY(16).
+> > [129006.799905] sd 2:0:0:0: [sdb] 25769803776 512-byte logical blocks:
+> > (13.2 TB/12.0 TiB)
+> > [129006.800049] sd 2:0:0:0: [sdb] Write Protect is on
+> > [129006.800053] sd 2:0:0:0: [sdb] Mode Sense: 0f 00 80 00
+> > [129006.800181] sd 2:0:0:0: [sdb] Write cache: disabled, read cache:
+> > enabled, doesn't support DPO or FUA
+> > [129006.801447] sd 2:0:0:0: [sdb] Very big device. Trying to use READ
+> > CAPACITY(16).
+> > [129006.821771] sd 2:0:0:0: [sdb] Attached SCSI removable disk
+> >
+> > Then start program to read from the disk:
+> >
+> > pv -ptera < /dev/sdb > /dev/zero
+> >
+> > And in another window check for I/O errors:
+> >
+> > dmesg -w
+> >
+> > 1.3.1 "empty" run:
+> >
+> > With nothing else running on the gadget, this should run reliable
+> > without any I/O errors. Throughput
+> > should be beteween 15...22 MByte/sec depending on block size of host
+> > (due to the stop&go nature of BOT
+> > i think).
+> >
+> > 1.3.2 error run:
+> >
+> > In addition to 3.1, start some CPU activity on the gadget, e.g.:
+> >
+> > stress-ng --cpu 4 --timeout 6000s
+> >
+> > Now observe that after at most a few minutes, I/O error(s) and resets
+> > will happen to the
+> > gadget device, visible on the host, e.g.:
+> >
+> > [131887.406689] I/O error, dev sdb, sector 4682752 op 0x0:(READ) flags
+> > 0x84700 phys_seg 2 prio class 0
+> > [131887.406725] sd 2:0:0:0: [sdb] tag#0 device offline or changed
+> > [131887.406731] I/O error, dev sdb, sector 4682992 op 0x0:(READ) flags
+> > 0x84700 phys_seg 2 prio class 0
+> > [131887.406810] sd 2:0:0:0: [sdb] tag#0 device offline or changed
+> > [131887.406828] I/O error, dev sdb, sector 4683232 op 0x0:(READ) flags
+> > 0x80700 phys_seg 1 prio class 0
+> > [131887.416234] sd 2:0:0:0: [sdb] Very big device. Trying to use READ
+> > CAPACITY(16).
+> > [131974.304607] usb 1-1: reset high-speed USB device number 9 using xhc=
+i_hcd
+> > [131974.435735] sd 2:0:0:0: [sdb] tag#0 FAILED Result:
+> > hostbyte=3DDID_TIME_OUT driverbyte=3DDRIVER_OK cmd_age=3D31s
+> > [131974.435754] sd 2:0:0:0: [sdb] tag#0 CDB: Read(16) 88 00 00 00 00
+> > 00 00 60 51 e0 00 00 00 20 00 00
+> > [131974.435759] I/O error, dev sdb, sector 6312416 op 0x0:(READ) flags
+> > 0x80700 phys_seg 1 prio class 0
+> > [131974.436075] sd 2:0:0:0: Power-on or device reset occurred
+> > [131974.436097] sd 2:0:0:0: [sdb] tag#0 FAILED Result: hostbyte=3DDID_O=
+K
+> > driverbyte=3DDRIVER_OK cmd_age=3D0s
+> > [131974.436105] sd 2:0:0:0: [sdb] tag#0 Sense Key : Unit Attention [cur=
+rent]
+> > [131974.436112] sd 2:0:0:0: [sdb] tag#0 Add. Sense: Power on, reset,
+> > or bus device reset occurred
+> > [131974.436119] sd 2:0:0:0: [sdb] tag#0 CDB: Read(16) 88 00 00 00 00
+> > 00 00 60 52 00 00 00 00 f0 00 00
+> > (host using larger block size for reads achieve lowe
+> >
+> > On OPZ3, these errors happen already with as few as just 2 CPU cores
+> > (out of 4) loaded.
+> >
+> > 1.4. Notes
+> >
+> > - The test from 3. are just to eliminate as many possible sources of
+> > error as possible.
+> >   In the target application, the additional load comes from network
+> > I/O, but i tried to
+> >   simplify the reproduction of the error down to just process level
+> > CPU being used.
+> >
+> > - Problem does not happen on RPI4, which is why i think the problem is
+> > not in g_mass_storage/f_mass_storage,
+> >   but in the sunxi/musb driver - RPI4 useses instead dwc2 driver.
+> >
+> > - The problem may be happening less often with loweer g_mass_storage
+> > transfer rates,
+> >   but for the target use-case, a speed of 12MByte/sec or more is
+> > required, otherwise
+> >   cheaper (but slower)  gadget devices than H618 would also become an o=
+ption.
+> >
+> > - Problem does not depend on size of file used, happens equally for
+> > smaller file sizes,
+> >   just using such a large file because of intended use-case.
+> >
+> > - Lots of parameters that don't change the result when changed
+> >   - "stall=3D0/1
+> >   - musb_hdrc.use_dma=3D0
+> >   - capping the host's transfer size (max_sectors_kb=3D16)
+> >   - different idVendor/idProduct
+> >   - moving the musb IRQ to another CPU via smp_affinity (IRQ 310 is
+> > not shared with any other device)
+> >   - powering the board from a separate supply rather than the host port
+> >
+> > 2. Troubleshooting
+> >
+> > I had claude.ai vibe code me some tracingon the gadget. I can't claim
+> > i understood it really
+> > down to the details, but here is how claude.ai is summarizing it. Rest
+> > of email below
+> > is writeup from claude
+> >
+> > Working - one SCSI READ(10), 16 KiB:
+> >
+> >   file-storage   do_read() {
+> >   file-storage     kernel_read()             0.03  ms   data from backi=
+ng file
+> >   file-storage     usb_ep_queue() {
+> >   file-storage       musb_gadget_queue()     0.004 ms   UDC accepts req=
+uest
+> >   file-storage     }                         0.008 ms
+> >   file-storage   }
+> >   file-storage   sleep_thread() {                       thread waits
+> >     <irq ctx>      sunxi_musb_interrupt() {
+> >     <irq ctx>        musb_interrupt() {
+> >     <irq ctx>          musb_g_tx()           0.010 ms   one packet sent
+> >     <irq ctx>        }                       0.012 ms
+> >     <irq ctx>      }                         0.014 ms
+> >                    ... ~20 such interrupts, one per packet ...
+> >     <irq ctx>      sunxi_musb_interrupt() {
+> >     <irq ctx>        musb_interrupt() {
+> >     <irq ctx>          musb_g_tx() {                    last packet
+> >     <irq ctx>            bulk_in_complete()             request given b=
+ack
+> >     <irq ctx>          }                     0.010 ms
+> >     <irq ctx>        }                       0.012 ms
+> >     <irq ctx>      }                         0.015 ms
+> >   file-storage   }                           3.8   ms   thread woken
+> >
+> > Failing - identical up to the queue, then nothing:
+> >
+> >   file-storage   usb_ep_queue() {
+> >   file-storage     musb_gadget_queue()       0.005 ms   UDC accepts req=
+uest
+> >   file-storage   }                           0.008 ms
+> >   file-storage   sleep_thread() {                       thread waits
+> >
+> >                  ... ~30 s of complete silence ...
+> >
+> >                  no sunxi_musb_interrupt, no musb_interrupt,
+> >                  no musb_g_tx, no musb_g_rx, no bulk_in_complete
+> >
+> >     [host]       SCSI command times out, I/O errors, port reset
+> >     [gadget]     re-enumerates, resumes normally
+> >
+> >   Kernel stack of the file-storage thread during the hang:
+> >
+> >     [<0>] sleep_thread+0x10c/0x180 [usb_f_mass_storage]
+> >     [<0>] fsg_main_thread+0x10c/0x16b0 [usb_f_mass_storage]
+> >     [<0>] kthread+0x134/0x1f8
+> >     [<0>] ret_from_fork+0x10/0x20
+> >
+> >   task state S (interruptible sleep), i.e. it is not blocked on I/O.
+> >
+> >   Event counts at the moment of the hang, and the delta over the 2 s
+> >   after the thread parked:
+> >
+> >     usb_ep_queue           650      +0
+> >     musb_gadget_queue      650      +0
+> >     sunxi_musb_interrupt 14605      +0
+> >     musb_interrupt       14605      +0
+> >     musb_g_tx            14519      +0
+> >     musb_g_rx               86      +0
+> >     bulk_in_complete       566      +0
+> >     kernel_read            478      +0
+> >
+> > What this appears to show
+> > -------------------------
+> >
+> > The request is accepted by musb_gadget_queue() and the transfer never
+> > starts: not a completion lost at the end of a transfer that otherwise
+> > ran, but no packet sent at all.
+> >
+> > Notably sunxi_musb_interrupt() - the registered handler for the musb
+> > IRQ - does not run even once during the hang.  So the failure is not th=
+e
+> > driver mishandling an interrupt; no interrupt is delivered to the handl=
+er
+> > at all.  I cannot tell from this whether the controller never raised it=
 s
-> > the randomizer is enabled while reading the marker.
+> > line or whether the interrupt was lost or masked elsewhere.
 > >
-> > Honor the allwinner,randomized-oob property by unconditionally enabling
-> > page scrambling and leaving the marker in the randomizer data stream.
-> > Keep the existing plain marker behavior when the property is absent.
-> > This changes marker handling on all supported controllers; the H6/H616
-> > protected user-data placement is handled separately.
+> > Since the failure is triggered by CPU load alone, with a sparse backing
+> > file and no I/O of any kind, this looks like a race between queueing a
+> > request and the endpoint's interrupt or FIFO state, rather than anythin=
+g
+> > in f_mass_storage or the storage path.
+> >
+> Wondering if its a timing issue on writes sent to the chip.
+> The controller may be getting FIFO bytes after TXPKTRDY is set.
+> If we read back the register before setting TXPKTRDY flag, that may fix
+> the the issue. Could you try testing this patch below?
 >
-> But I think the reason why this has never been done is because it just
-> breaks raw accesses, including the BBT reads. I don't think this is
-> handled, is it?
-
-From my understanding raw access bypasses randomization entirely.
-
-When writing the SPL(which does not use the same layout) we use a
-pre-randomized image.
-
->
-> Thanks,
-> Miqu=C3=A8l
+> diff --git a/drivers/usb/musb/musb_gadget.c b/drivers/usb/musb/musb_gadge=
+t.c
+> index 016d3f3fc1e0..1fdd2fe64d67 100644
+> --- a/drivers/usb/musb/musb_gadget.c
+> +++ b/drivers/usb/musb/musb_gadget.c
+> @@ -386,6 +386,7 @@ static void txstate(struct musb *musb, struct musb_re=
+quest *req)
+>                 musb_write_fifo(musb_ep->hw_ep, fifo_count,
+>                                 (u8 *) (request->buf + request->actual));
+>                 request->actual +=3D fifo_count;
+> +               csr =3D musb_readw(epio, MUSB_TXCSR);
+>                 csr |=3D MUSB_TXCSR_TXPKTRDY;
+>                 csr &=3D ~MUSB_TXCSR_P_UNDERRUN;
+>                 musb_writew(epio, MUSB_TXCSR, csr);
