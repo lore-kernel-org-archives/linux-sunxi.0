@@ -1,179 +1,221 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013045.outbound.protection.outlook.com [52.101.72.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFBF43E48D;
-	Fri,  4 Sep 2026 09:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788514009; cv=fail; b=n5aiLOGlwQxnz+5vHmak0ppOQUd2AljTZbivbFx8fFNyXclHyY/q3Tz9uA16NsS2fWAD4QZ6gPOEtLtAOzfaQWcgLyUYa92aMv9jl5KwLIhSeASyoySebe0qo3Ph4rBYWT6EzQF+OSYq1bem5sX/aAgyKmGlIt2rcjm3GHSLwcg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788514009; c=relaxed/simple;
-	bh=mIE97ZpsRAJYncmwUbcUN+Pmv5nAClD4HeSpqZ7ymOo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=K9Z9PcINiqnyjv4nIRaEZXkPH/JIc+q1EPOXl0NrOWRQjQcfq/zDTQ7EZTbpfzbUCjmAKw5Ib4/dAc4VDC/ofaOB/NtWdV3aYb0nQAcgZgFRBe6CaYsidt4u8lo+CY89mkkyywsXsfSYaoMs9gymrK1NTQoaDL32oZCvvekPVGs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=msEoMaqb; arc=fail smtp.client-ip=52.101.72.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD3647A863
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Sep 2026 11:04:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788519876; cv=none; b=dbJb64OrQC+gDfPkalIaBJjrVYqDIrvC0nS39XBw5iMfQ0NdCzeEdRpdemw4d+tyjU8wY8/G8Ehx5bg4BYVjux8XIKBY67TsqnBWwzFB6GThwW+2nTcGgkXfVjWy4czxsvthX89pTB+0ZQIvFik6JkOwWndzOjZ/b+2ZK9kpkV8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788519876; c=relaxed/simple;
+	bh=dJkuxRnLtXHX0hYD2tPNeJpdMPMlGF6LLVMZdpV+Dlg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GILG19kyUdcli8I2utrpypM53cO7S1fZMSjKr/3iqM2z/r0ahUGlIXI1SSwbsleQB41Ki4tbnmtvv+I74qJZapVS8/UjeHqv+ahayU/IaC0XH1549hIlfdCgzanMoBomEwjQyVMzIastwlAOFc8JA7xztJ+38tO2sxgKjnk+HRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nU+wQibT; arc=none smtp.client-ip=209.85.161.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="msEoMaqb"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BKRKpCvDCk9ls7lAXfzRyJdLWIkP0A/t2LNo2EAeXmfmOvL4hhg0KRLbvJJl/WcMrNcKvcRGk4+UgP6vuKRairoJWT3cz12irNv/RKRvcSav1I2SMINr/dfsuFwcAzDlnboRf4oQsmfLAM0/l6Usnb98lqJQq6+YfBB5Sg2L/TsW5LzopRH1YV10hGR294NholmiJxCcG5op/zr7f09h9qIpVsoBW4/GjM7GTtQJ4UyLkz0e/QjBPpvdMPTow3p/cxY55ay2BV4bQDDULwPZ1894jfLYTiwpgZKphYkD0UGSY0uO8lOy3eIizlO7d+VetIp9uASRKlVyfjfWraLJkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jaJLRXdTfKBjKliU4yIsTLYlTagBUvh9PYCo9tJBrjo=;
- b=IkWUriX2chGSj2rbPC1oieLbsHUUp4COVM9HLk9G/CK0yioglup0ioEYHN/6Sxd4nn7xLzD6GfRYiQVT4AIAWNAjY5VqiAGu/bJ4fNsujmQFJcrHcwv8q7G4ZDbY8FAm1WwMjq+url6MjpoBnWu9o20KHDLK04zgt2YB/1K+mvM5E/0rhe2YbxHRfeWDa5fKrFU89al/iQ7FnlrfNnzeoaM4n+dMV0Cl4SSzRIywAt5Ai9/J3X7E+1kzMaC7b99Bco4e5TvfVK4tLbaBZHByPkrsUYaUhPWRtqm9iaKqDYi7fackieJcVGlCo6V/fJ5SmR5NFu8mEVvVh5ctq+HTng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.88) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=foss.st.com;
- dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jaJLRXdTfKBjKliU4yIsTLYlTagBUvh9PYCo9tJBrjo=;
- b=msEoMaqbYsaqV1ZQPmhcYSxwQMYYb86+W/3okiSZbBhwMY/qZBbKlAQuYBNpZJHzDu13/DMTjoasIEpi0ZMLUAPJR4Q8efjoVvPHUJuxkZeIGhc9+rCiPbwH8B+Vx6bBallKSnamIgfhgklR/oK7gRnRVFmUb4d7y5To6hpQn8wyX1M/9YsQ7WnGT4gBIsDwuCIn0F8shLFLRG05uTjo7DdNQVQccNRJU5/X4F8jitNRSXr2ZOHolIKlZ/8TTujiLDe2xnI168BZiILbAfaX0ikOZeFXhLTW3VoGD5VGXipRbzThjWeDQ9IxOSTY3UMALbyk1Tuuhh6jD/WcctIHLw==
-Received: from DUZPR01CA0033.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:468::8) by VI0PR10MB747752.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:800:2bd::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Fri, 4 Sep
- 2026 09:26:42 +0000
-Received: from DB3PEPF0000885E.eurprd02.prod.outlook.com
- (2603:10a6:10:468:cafe::4) by DUZPR01CA0033.outlook.office365.com
- (2603:10a6:10:468::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.12 via Frontend Transport; Fri, 4
- Sep 2026 09:26:40 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.88)
- smtp.mailfrom=foss.st.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=foss.st.com;
-Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.88 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.88; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.88) by
- DB3PEPF0000885E.mail.protection.outlook.com (10.167.242.9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.382.8 via Frontend Transport; Fri, 4 Sep 2026 09:26:39 +0000
-Received: from ENXDAG1NODE4.st.com (10.75.129.197) by smtpo365.st.com
- (10.250.44.75) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Fri, 4 Sep
- 2026 11:23:56 +0200
-Received: from [10.48.87.20] (10.48.87.20) by ENXDAG1NODE4.st.com
- (10.75.129.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.43; Fri, 4 Sep
- 2026 11:26:37 +0200
-Message-ID: <be376690-5219-4bf3-8ed7-02a49cee0e30@foss.st.com>
-Date: Fri, 4 Sep 2026 11:26:37 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nU+wQibT"
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-6acc74fef22so390664eaf.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Sep 2026 04:04:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788519873; x=1789124673; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=14NhbWVwArhRPWoqbEkyydWg2Xn0PWXC+Lz7VEuzIKQ=;
+        b=nU+wQibTh+vcC4PovD3u5N7HluByF+dJXbCfD/yNqPqzuxlJTKvE7b+quiLSDa+ce1
+         HJAB5IDP+vEFAcjn3r684fJ24zKc+3tLg4T9B5jUZ/Vof8UJLLD6IEmDtExXwaYUZAVv
+         HuvgVTaX3d8AKkg7RJxm3QX/RbQwd4o25Cxele/Dx1jeyHlx7ZFVdp2TKavvKT3ql3QL
+         PckCvJfrlfHGjVESDFBof9p9LIxFbZKuSEhx2WKZ5bCwU+y81TyDjCgeSkc7/pgnvgui
+         y3dq4xojAZF8xn1gCJYoSXNdchcTFgVdq7WrIs/QFAXu4NPHA0Su1EKMELKu8u1Il0WH
+         b7AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788519873; x=1789124673;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=14NhbWVwArhRPWoqbEkyydWg2Xn0PWXC+Lz7VEuzIKQ=;
+        b=YzmnV+xQ6hfyH/W7TZnlf6l+Rpb6nQVtnwLSigc3LL8Xu6SbDE6BtVOTd7RpiNJOM6
+         cNXxNDXfjWJrkrBJ5wXdMTFRX4zdy0kACKCZbleRY8kdiuQIZmuGjiV+Z1t8jTMFhMk5
+         Bv1KO2NDpIDRBvqWCjZGJgCbi1e7L9VZVHukdeMmmYizyDZTur4Mt0hijmNaA7H5y+hw
+         vdbeYrXRnogw9jM4YlI2T7yy7cJV7p7N7bfl5Yts5Ze4jH5k3Q/8Be0TfPujTg5elrQu
+         NiMuFLauhozVcL7eDXM9aR5jVAnkg+GpKI9ydcF7ig0snJfA2Trsl/GjJ7Ajm5ApCYkU
+         ARfg==
+X-Forwarded-Encrypted: i=1; AKwUvBwglGOOj/fEX5cbIvT0CFFGGegrbVMYerGcKmyNBB2r9atQHNpEO3eQVjTlKzs66e+HWFsk1WUYwJBUcg==@lists.linux.dev
+X-Gm-Message-State: AFuF++mR2VCtjLRJXEd5iLjPNUk+/tuV5LIDt2/TGSGzkEXnE+4KcKRn
+	VhzGDi5/ptq6vgE82nIGseeWF0N6Lj7I5/shrAJ60kSzi08q7AcwqOfl
+X-Gm-Gg: AYBFou0ZJKTtTJNi+2UrcQ3fMsiGthyeyIlzmuPIFIws89vU3HTsZOUemNWof77y3ru
+	hpqe0ONQPf9w/amPgK5JkYNdZD9SQsEMjKshpa0NcA6gC9jVMuUNFdAnhavm49m19LOO6n+b83I
+	5C5oRBXyqWuN0BQDv1FFOXYHsTRX6i4ZbP342b8a/ch6F9eVx0GMOxHIGLS8cqc2+LwVL5RWwMc
+	CNRtmOtV/deueSMXXPsu9gyp0T4Jbiogxl6T8VjklHE4xYy68i5HM6RZMTMfdJqTPTSQdQTqkZH
+	kVtgSKpUfHTTX+hYDdkYoLFvIGLf8/8IuSwluMxZbTvP815j9wZbE38JzyEePvO3mO+EwCCfRNP
+	QmBgSdPHpXFpP6wQwbUrVf2WUUKfrWWIh9LApjl01Z//UVQ1YUhluP8dH8fC7e1Sve4e6nxXIWi
+	m0pszG8IX7NxEpOWi5PVPGtpwIYogPdLwbdw0W1PWLpsmmp3sr8OnLX+ak+pYd5Tiy1nxn/g4Xf
+	YWHaYee8Zumfck=
+X-Received: by 2002:a05:6820:81e:b0:6b1:afca:5c78 with SMTP id 006d021491bc7-6b6fddba8bbmr3334490eaf.32.1788519871772;
+        Fri, 04 Sep 2026 04:04:31 -0700 (PDT)
+Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339885d29esm6640159eec.2.2026.09.04.04.04.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Sep 2026 04:04:30 -0700 (PDT)
+From: Hemanth Selam <hemanth.selam@gmail.com>
+To: Jonas Gorski <jonas.gorski@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Michal Simek <michal.simek@amd.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] spi: fix typos in comments
+Date: Fri,  4 Sep 2026 16:34:16 +0530
+Message-ID: <20260904110420.13707-1-hemanth.selam@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dmaengine: vchan: add vchan_chan_name() to get
- channel device name
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	<Frank.Li@oss.nxp.com>
-CC: Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>,
-	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, Paul Cercueil
-	<paul@crapouillou.net>, Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Binbin Zhou <zhoubinbin@loongson.cn>, Patrice Chotard
-	<patrice.chotard@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Steven Rostedt
-	<rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, "Mathieu
- Desnoyers" <mathieu.desnoyers@efficios.com>, Thierry Reding
-	<thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, "Ludovic
- Desroches" <ludovic.desroches@microchip.com>, Viresh Kumar
-	<vireshk@kernel.org>, Keguang Zhang <keguang.zhang@gmail.com>,
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, Manivannan Sadhasivam
-	<mani@kernel.org>, Daniel Mack <daniel@zonque.org>, Haojian Zhuang
-	<haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, "Chen-Yu
- Tsai" <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, "Samuel
- Holland" <samuel@sholland.org>, Kelvin Cao <kelvin.cao@microchip.com>, "Logan
- Gunthorpe" <logang@deltatee.com>, Laxman Dewangan <ldewangan@nvidia.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	<linux-arm-kernel@lists.infradead.org>, <dmaengine@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-mips@vger.kernel.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>,
-	<linux-trace-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-	<linux-actions@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
-	<imx@lists.linux.dev>, Frank Li <Frank.Li@nxp.com>
-References: <20260903-dma-chan_dev-rename-v2-0-0db305b6c716@nxp.com>
- <20260903-dma-chan_dev-rename-v2-1-0db305b6c716@nxp.com>
- <apqKgda7dW_JXolJ@ashevche-desk.local>
-Content-Language: en-US
-From: Amelie Delaunay <amelie.delaunay@foss.st.com>
-In-Reply-To: <apqKgda7dW_JXolJ@ashevche-desk.local>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To ENXDAG1NODE4.st.com
- (10.75.129.197)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB3PEPF0000885E:EE_|VI0PR10MB747752:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8e7f79ca-0027-4732-cfcc-08df0a66a00d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|23010399003|1800799024|82310400026|376014|7416014|4143699003|10067099003|18002099003|22082099003|11063799006|56012099006|13003099007|41080700001;
-X-Microsoft-Antispam-Message-Info:
-	iyoyOf3LVtUa56FiGdactARHtXf3qZbJg+Ym7tLfBsVQkpUD8TDuXyuvNn014MI+vJPGX/lVzaogT3SasTb0csZXPjriEPuwcHW7lcz6e+bOhKr7msAbG23aGOCMcADu1FUb9wv1KgMYh/rrJnY3jz+FRvmCOWU6Dgiea+81128aE1ixsZ9n+a+zTIz2IkOY2jU2DuLq6XfgjwmU0iI9RL+ZwgHupiiWUvIB57/vB7IUKeyGHkLZF0ZOHZkZ++zh43DcGWZ83zSj01GGEcM39D9UeuiU1bro/louxUU2PJLOpLG700GWItjkRyGmNvc7tqeP+wS+MmpuJEliStlUaih+2BSRTjri47fm5ZvoG6ypSZ7KqbUWc/sKxevY5LvQl+8xJowsMM5LN0jNWhqQTUvosDdG8Whw46mv82avSdB43SgilU6c+Y2/RDr8feaTXkKklGnVc2hoBqHNfJyxpe+nb0XP5fO0H58mZxTu/UFWt7uc6KbNxURdK+5UN/pDHIfUoUHoCGXgYtk8xdkv/kkcr6wp1T6ipPjeb/G0p/BlEjIyAnEX1a3ukRX3hT5f5/UcBtfKAndknwmAhkhomBXuSOUhXsMYd4pd3s6VjtmblGfVi9GEDv4wFiB7wIJPYzkmWDumq5bgn2i4iONaDKEOMiqQj5+y+XNWJULxyNLY16pnQzEthTRcxt/T85ZXYm6azn1UrMIVOrcdvhtlOgUZzulXyMCumD3W93zL1U8=
-X-Forefront-Antispam-Report:
-	CIP:164.130.1.88;CTRY:;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(1800799024)(82310400026)(376014)(7416014)(4143699003)(10067099003)(18002099003)(22082099003)(11063799006)(56012099006)(13003099007)(41080700001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	k35KY3k+uMIA+ymPEIQP6XqlVgCKMVi5Y8XGIWHJr1lmi6su34MqOMCY00yeX7PFejkyyXTTkwHau71TF0xwNoxl5/8T9CqToMC/9YY5trjFJmGZ65UxquCjt78IyC1eqz0AzjQb1zF4NNwBxyjD7MH2cW2LiY2EqsCLlrvpop+MdidVf04s+P59ok3HoSjF9q1DhTLJs4Eok14ryJHimCV3ZXNYkZjzFC+Vuxd3vwQwEtz5EBIH1n+zDG5J2NxH/CA+oyVnA/LcOs7zzyKtKnLHWWyG5dWXGYYyXJw4toKF0YX7e/RzHAJ8k3LnE74qpGkIIcVgFDemshPiOY/QUX87pqMV8N4/qQ8OH+Qj0GIo/yk9mcB5oMKSQO0fgFnWuaZ1CLpjEd24e0zL5sIjvy+nWmp7+SYSW+M+/xgtqEgJVWbumAULZ7gkep4455le
-X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2026 09:26:39.7294
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e7f79ca-0027-4732-cfcc-08df0a66a00d
-X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.88];Helo=[smtpO365.st.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DB3PEPF0000885E.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR10MB747752
+Content-Transfer-Encoding: 8bit
 
-On 9/4/26 11:08, Andy Shevchenko wrote:
-> On Thu, Sep 03, 2026 at 04:53:11PM -0400, Frank.Li@oss.nxp.com wrote:
-> 
->> Introduce vchan_chan_name() to obtain the DMA channel device name.
->>
->> Use a dedicated helper instead of directly accessing dma_chan::dev
->> so callers remain unaffected by an upcoming rename of the struct member.
-> 
-> LGTM,
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> 
-> ...
-> 
->>   		ret = devm_request_irq(&pdev->dev, chan->irq,
->>   				       stm32_dma_chan_irq, 0,
->> -				       dev_name(chan2dev(chan)), chan);
->> +				       vchan_chan_name(&chan->vchan), chan);
->>   		if (ret) {
->>   			dev_err(&pdev->dev,
->>   				"request_irq failed with err %d channel %d\n",
-> 
-> This one...
-> 
->> +++ b/drivers/dma/stm32/stm32-dma3.c
-> 
->>   		ret = devm_request_irq(&pdev->dev, chan->irq, stm32_dma3_chan_irq, 0,
->> -				       dev_name(chan2dev(chan)), chan);
->> +				       vchan_chan_name(&chan->vchan), chan);
->>   		if (ret) {
->>   			dev_err_probe(&pdev->dev, ret, "Failed to request channel %s IRQ\n",
->> -				      dev_name(chan2dev(chan)));
->> +				      vchan_chan_name(&chan->vchan));
->>   			goto err_clk_disable;
-> 
-> ...and this one are duplicate messages as devm_request*irq() printsr
-> most of the information.
-> 
-> Not sure if there will be a patch to simply drop them.
-> 
+Fix typos in comments, reported by scripts/checkpatch.pl using the
+misspelling list in scripts/spelling.txt.  Only touches comments, no code
+changes.
 
-It was the purpose of this series:
-https://lore.kernel.org/dmaengine/20260709135846.97972-1-panchuang@vivo.com/
+Assisted-by: Cursor:claude-opus-5
+Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
+---
+ drivers/spi/spi-bcm63xx.c     | 2 +-
+ drivers/spi/spi-imx.c         | 2 +-
+ drivers/spi/spi-omap2-mcspi.c | 2 +-
+ drivers/spi/spi-pic32.c       | 2 +-
+ drivers/spi/spi-s3c64xx.c     | 2 +-
+ drivers/spi/spi-stm32.c       | 2 +-
+ drivers/spi/spi-sun6i.c       | 2 +-
+ drivers/spi/spi-xilinx.c      | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/spi/spi-bcm63xx.c b/drivers/spi/spi-bcm63xx.c
+index 1d8e257bad30..3f349c1db581 100644
+--- a/drivers/spi/spi-bcm63xx.c
++++ b/drivers/spi/spi-bcm63xx.c
+@@ -413,7 +413,7 @@ static irqreturn_t bcm63xx_spi_interrupt(int irq, void *dev_id)
+ 	struct bcm63xx_spi *bs = spi_controller_get_devdata(host);
+ 	u8 intr;
+ 
+-	/* Read interupts and clear them immediately */
++	/* Read interrupts and clear them immediately */
+ 	intr = bcm_spi_readb(bs, SPI_INT_STATUS);
+ 	bcm_spi_writeb(bs, SPI_INTR_CLEAR_ALL, SPI_INT_STATUS);
+ 	bcm_spi_writeb(bs, 0, SPI_INT_MASK);
+diff --git a/drivers/spi/spi-imx.c b/drivers/spi/spi-imx.c
+index 79a6c1a60b0a..6f9686df0486 100644
+--- a/drivers/spi/spi-imx.c
++++ b/drivers/spi/spi-imx.c
+@@ -673,7 +673,7 @@ static int mx51_ecspi_prepare_message(struct spi_imx_data *spi_imx,
+ 	 * propagate into the hardware. It takes exactly one tick of the
+ 	 * SCLK clock, but we will wait two SCLK clock just to be sure. The
+ 	 * effect of the delay it takes for the hardware to apply changes
+-	 * is noticable if the SCLK clock run very slow. In such a case, if
++	 * is noticeable if the SCLK clock run very slow. In such a case, if
+ 	 * the polarity of SCLK should be inverted, the GPIO ChipSelect might
+ 	 * be asserted before the SCLK polarity changes, which would disrupt
+ 	 * the SPI communication as the device on the other end would consider
+diff --git a/drivers/spi/spi-omap2-mcspi.c b/drivers/spi/spi-omap2-mcspi.c
+index a3355147f5de..90f3990e0060 100644
+--- a/drivers/spi/spi-omap2-mcspi.c
++++ b/drivers/spi/spi-omap2-mcspi.c
+@@ -1244,7 +1244,7 @@ static int omap2_mcspi_transfer_one(struct spi_controller *ctlr,
+ 		omap2_mcspi_set_fifo(spi, t, 0);
+ 
+ out:
+-	/* Restore defaults if they were overriden */
++	/* Restore defaults if they were overridden */
+ 	if (par_override) {
+ 		par_override = 0;
+ 		status = omap2_mcspi_setup_transfer(spi, NULL);
+diff --git a/drivers/spi/spi-pic32.c b/drivers/spi/spi-pic32.c
+index 972128271e4b..8363bc873b03 100644
+--- a/drivers/spi/spi-pic32.c
++++ b/drivers/spi/spi-pic32.c
+@@ -53,7 +53,7 @@ struct pic32_spi_regs {
+ #define  TX_FIFO_ALL_EMPTY	0 /* completely empty */
+ #define  TX_FIFO_EMPTY		1 /* empty */
+ #define  TX_FIFO_HALF_EMPTY	2 /* empty by half or more */
+-#define  TX_FIFO_NOT_FULL	3 /* atleast one empty */
++#define  TX_FIFO_NOT_FULL	3 /* at least one empty */
+ 
+ #define CTRL_MSTEN	BIT(5) /* enable master mode */
+ #define CTRL_CKP	BIT(6) /* active low */
+diff --git a/drivers/spi/spi-s3c64xx.c b/drivers/spi/spi-s3c64xx.c
+index 8d4120cf9df1..3546414dfc70 100644
+--- a/drivers/spi/spi-s3c64xx.c
++++ b/drivers/spi/spi-s3c64xx.c
+@@ -661,7 +661,7 @@ static int s3c64xx_wait_for_pio(struct s3c64xx_spi_driver_data *sdd,
+ 	 * loops = length / max fifo size (calculated by using the
+ 	 * fifo mask).
+ 	 * For any size less than the fifo size the below code is
+-	 * executed atleast once.
++	 * executed at least once.
+ 	 */
+ 	loops = xfer->len / sdd->fifo_depth;
+ 	buf = xfer->rx_buf;
+diff --git a/drivers/spi/spi-stm32.c b/drivers/spi/spi-stm32.c
+index be88e62075af..5f5c43ae5096 100644
+--- a/drivers/spi/spi-stm32.c
++++ b/drivers/spi/spi-stm32.c
+@@ -515,7 +515,7 @@ static int stm32h7_spi_get_bpw_mask(struct stm32_spi *spi)
+ 
+ 	/*
+ 	 * The most significant bit at DSIZE bit field is reserved when the
+-	 * maximum data size of periperal instances is limited to 16-bit
++	 * maximum data size of peripheral instances is limited to 16-bit
+ 	 */
+ 	stm32_spi_set_bits(spi, STM32H7_SPI_CFG1, STM32H7_SPI_CFG1_DSIZE);
+ 
+diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
+index 4631e9c7ca1d..6b7a05dd0de8 100644
+--- a/drivers/spi/spi-sun6i.c
++++ b/drivers/spi/spi-sun6i.c
+@@ -386,7 +386,7 @@ static int sun6i_spi_transfer_one(struct spi_controller *host,
+ 		 * SPI_CLK = MOD_CLK / (2 ^ cdr)
+ 		 * Or we can use CDR2, which is calculated with the formula:
+ 		 * SPI_CLK = MOD_CLK / (2 * (cdr + 1))
+-		 * Wether we use the former or the latter is set through the
++		 * Whether we use the former or the latter is set through the
+ 		 * DRS bit.
+ 		 *
+ 		 * First try CDR2, and if we can't reach the expected
+diff --git a/drivers/spi/spi-xilinx.c b/drivers/spi/spi-xilinx.c
+index dc1e968659e1..df4ea99a5427 100644
+--- a/drivers/spi/spi-xilinx.c
++++ b/drivers/spi/spi-xilinx.c
+@@ -460,7 +460,7 @@ static int xilinx_spi_probe(struct platform_device *pdev)
+ 	host->num_chipselect = num_cs;
+ 
+ 	/*
+-	 * Detect endianess on the IP via loop bit in CR. Detection
++	 * Detect endianness on the IP via loop bit in CR. Detection
+ 	 * must be done before reset is sent because incorrect reset
+ 	 * value generates error interrupt.
+ 	 * Setup little endian helper functions first and try to use them
+-- 
+2.48.1
 
