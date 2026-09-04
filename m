@@ -1,221 +1,155 @@
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD3647A863
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Sep 2026 11:04:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E79237AA87;
+	Fri,  4 Sep 2026 11:38:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788519876; cv=none; b=dbJb64OrQC+gDfPkalIaBJjrVYqDIrvC0nS39XBw5iMfQ0NdCzeEdRpdemw4d+tyjU8wY8/G8Ehx5bg4BYVjux8XIKBY67TsqnBWwzFB6GThwW+2nTcGgkXfVjWy4czxsvthX89pTB+0ZQIvFik6JkOwWndzOjZ/b+2ZK9kpkV8=
+	t=1788521934; cv=none; b=L8IOl4mpkKc4pt5V7Lquz8TP2s13u/O2+m8kmqPitIP720O7/xzyy9uTDXfz5TXylBcI+a5uXHreGGjgAnFGUIcjQ+I9DSQHDWSxvrEeOKitCNHxySt502jkZ6ram2oppgLix4K2i57IXMBtPlF45LIUHUAyqFh+i8zkLJ3bQ00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788519876; c=relaxed/simple;
-	bh=dJkuxRnLtXHX0hYD2tPNeJpdMPMlGF6LLVMZdpV+Dlg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GILG19kyUdcli8I2utrpypM53cO7S1fZMSjKr/3iqM2z/r0ahUGlIXI1SSwbsleQB41Ki4tbnmtvv+I74qJZapVS8/UjeHqv+ahayU/IaC0XH1549hIlfdCgzanMoBomEwjQyVMzIastwlAOFc8JA7xztJ+38tO2sxgKjnk+HRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nU+wQibT; arc=none smtp.client-ip=209.85.161.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788521934; c=relaxed/simple;
+	bh=sI88re9mQH9GGvNdQuqSOyqwac+FJGSZRs1mUIUeR4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GkUg4QPwqdho71NNwlSd+UcvqD0WpduP81hdnGUbVZdoeAdKs9Y9ZDunqmkZQkwVo1f9u+WEmsi+imm2RYgwwoHTeP7nMozglc7qnByFnoqOHFuGhDdb2kQNWLHfRa/kCw2upGn3a/vcFpILSFlOy+b7KbM5JoNaSXlp/5D6hQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UqaD9GhP; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nU+wQibT"
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-6acc74fef22so390664eaf.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Sep 2026 04:04:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788519873; x=1789124673; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=14NhbWVwArhRPWoqbEkyydWg2Xn0PWXC+Lz7VEuzIKQ=;
-        b=nU+wQibTh+vcC4PovD3u5N7HluByF+dJXbCfD/yNqPqzuxlJTKvE7b+quiLSDa+ce1
-         HJAB5IDP+vEFAcjn3r684fJ24zKc+3tLg4T9B5jUZ/Vof8UJLLD6IEmDtExXwaYUZAVv
-         HuvgVTaX3d8AKkg7RJxm3QX/RbQwd4o25Cxele/Dx1jeyHlx7ZFVdp2TKavvKT3ql3QL
-         PckCvJfrlfHGjVESDFBof9p9LIxFbZKuSEhx2WKZ5bCwU+y81TyDjCgeSkc7/pgnvgui
-         y3dq4xojAZF8xn1gCJYoSXNdchcTFgVdq7WrIs/QFAXu4NPHA0Su1EKMELKu8u1Il0WH
-         b7AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788519873; x=1789124673;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=14NhbWVwArhRPWoqbEkyydWg2Xn0PWXC+Lz7VEuzIKQ=;
-        b=YzmnV+xQ6hfyH/W7TZnlf6l+Rpb6nQVtnwLSigc3LL8Xu6SbDE6BtVOTd7RpiNJOM6
-         cNXxNDXfjWJrkrBJ5wXdMTFRX4zdy0kACKCZbleRY8kdiuQIZmuGjiV+Z1t8jTMFhMk5
-         Bv1KO2NDpIDRBvqWCjZGJgCbi1e7L9VZVHukdeMmmYizyDZTur4Mt0hijmNaA7H5y+hw
-         vdbeYrXRnogw9jM4YlI2T7yy7cJV7p7N7bfl5Yts5Ze4jH5k3Q/8Be0TfPujTg5elrQu
-         NiMuFLauhozVcL7eDXM9aR5jVAnkg+GpKI9ydcF7ig0snJfA2Trsl/GjJ7Ajm5ApCYkU
-         ARfg==
-X-Forwarded-Encrypted: i=1; AKwUvBwglGOOj/fEX5cbIvT0CFFGGegrbVMYerGcKmyNBB2r9atQHNpEO3eQVjTlKzs66e+HWFsk1WUYwJBUcg==@lists.linux.dev
-X-Gm-Message-State: AFuF++mR2VCtjLRJXEd5iLjPNUk+/tuV5LIDt2/TGSGzkEXnE+4KcKRn
-	VhzGDi5/ptq6vgE82nIGseeWF0N6Lj7I5/shrAJ60kSzi08q7AcwqOfl
-X-Gm-Gg: AYBFou0ZJKTtTJNi+2UrcQ3fMsiGthyeyIlzmuPIFIws89vU3HTsZOUemNWof77y3ru
-	hpqe0ONQPf9w/amPgK5JkYNdZD9SQsEMjKshpa0NcA6gC9jVMuUNFdAnhavm49m19LOO6n+b83I
-	5C5oRBXyqWuN0BQDv1FFOXYHsTRX6i4ZbP342b8a/ch6F9eVx0GMOxHIGLS8cqc2+LwVL5RWwMc
-	CNRtmOtV/deueSMXXPsu9gyp0T4Jbiogxl6T8VjklHE4xYy68i5HM6RZMTMfdJqTPTSQdQTqkZH
-	kVtgSKpUfHTTX+hYDdkYoLFvIGLf8/8IuSwluMxZbTvP815j9wZbE38JzyEePvO3mO+EwCCfRNP
-	QmBgSdPHpXFpP6wQwbUrVf2WUUKfrWWIh9LApjl01Z//UVQ1YUhluP8dH8fC7e1Sve4e6nxXIWi
-	m0pszG8IX7NxEpOWi5PVPGtpwIYogPdLwbdw0W1PWLpsmmp3sr8OnLX+ak+pYd5Tiy1nxn/g4Xf
-	YWHaYee8Zumfck=
-X-Received: by 2002:a05:6820:81e:b0:6b1:afca:5c78 with SMTP id 006d021491bc7-6b6fddba8bbmr3334490eaf.32.1788519871772;
-        Fri, 04 Sep 2026 04:04:31 -0700 (PDT)
-Received: from volcano9f6e-hostos.amd.com ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339885d29esm6640159eec.2.2026.09.04.04.04.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 04:04:30 -0700 (PDT)
-From: Hemanth Selam <hemanth.selam@gmail.com>
-To: Jonas Gorski <jonas.gorski@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UqaD9GhP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788521931; x=1820057931;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sI88re9mQH9GGvNdQuqSOyqwac+FJGSZRs1mUIUeR4w=;
+  b=UqaD9GhPIW/SEAoEvQoN/3I3/quz0Twf58glhUF4UbcXAPhfSIYEFom8
+   asi/GlcCJpRE4/DOAHGUgb+lzY83/2fJFiSVHp3kIyLRaB6hWCpIa8k8q
+   2t2iYNFuw9Dr7Hk9t/y1vRxsLA5OJ2KRzi9R+3Red0tuBJTXGQyPFVZnm
+   1d+aS26JkqiJQKkrpvB8p2z/WALCvpkcItvZe9BoKVWDKKGJnpx8a3gNZ
+   XYXsb57cpHTJlPkVqGh9f8Pow1nOt4cx7pZ/9pUxOGI7HKrGZcjEOjNDs
+   UUsJEjk6FIPLMA3G8Trl1a4ffLKBe9mI1SCtb+QVB9iwP4XBRbXs88tcv
+   Q==;
+X-CSE-ConnectionGUID: dzacYcKwTcWqMTi7aC7Q9w==
+X-CSE-MsgGUID: IduF0W9tQPK0EjAlRCvEHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11895"; a="92720045"
+X-IronPort-AV: E=Sophos;i="6.25,262,1779174000"; 
+   d="scan'208";a="92720045"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 04:38:50 -0700
+X-CSE-ConnectionGUID: ObP9eg0VQSCbRIFJ00EGKA==
+X-CSE-MsgGUID: UlijwXHGRmWAqOZ/7kly8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,262,1779174000"; 
+   d="scan'208";a="268698798"
+Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.224])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2026 04:38:42 -0700
+Date: Fri, 4 Sep 2026 14:38:38 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Amelie Delaunay <amelie.delaunay@foss.st.com>
+Cc: Frank.Li@oss.nxp.com, Jacky Huang <ychuang3@nuvoton.com>,
+	Shan-Chun Hung <schung@nuvoton.com>, Vinod Koul <vkoul@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
 	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Ludovic Desroches <ludovic.desroches@microchip.com>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Keguang Zhang <keguang.zhang@gmail.com>,
+	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Michal Simek <michal.simek@amd.com>
-Cc: linux-kernel@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
+	Kelvin Cao <kelvin.cao@microchip.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	linux-arm-kernel@lists.infradead.org, dmaengine@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] spi: fix typos in comments
-Date: Fri,  4 Sep 2026 16:34:16 +0530
-Message-ID: <20260904110420.13707-1-hemanth.selam@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	linux-trace-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+	linux-actions@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	imx@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH v2 1/3] dmaengine: vchan: add vchan_chan_name() to get
+ channel device name
+Message-ID: <apqtvq2Xov1LKBPN@ashevche-desk.local>
+References: <20260903-dma-chan_dev-rename-v2-0-0db305b6c716@nxp.com>
+ <20260903-dma-chan_dev-rename-v2-1-0db305b6c716@nxp.com>
+ <apqKgda7dW_JXolJ@ashevche-desk.local>
+ <be376690-5219-4bf3-8ed7-02a49cee0e30@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <be376690-5219-4bf3-8ed7-02a49cee0e30@foss.st.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Fix typos in comments, reported by scripts/checkpatch.pl using the
-misspelling list in scripts/spelling.txt.  Only touches comments, no code
-changes.
+On Fri, Sep 04, 2026 at 11:26:37AM +0200, Amelie Delaunay wrote:
+> On 9/4/26 11:08, Andy Shevchenko wrote:
+> > On Thu, Sep 03, 2026 at 04:53:11PM -0400, Frank.Li@oss.nxp.com wrote:
+> > 
+> > > Introduce vchan_chan_name() to obtain the DMA channel device name.
+> > > 
+> > > Use a dedicated helper instead of directly accessing dma_chan::dev
+> > > so callers remain unaffected by an upcoming rename of the struct member.
+> > 
+> > LGTM,
+> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > 
+> > ...
+> > 
+> > >   		ret = devm_request_irq(&pdev->dev, chan->irq,
+> > >   				       stm32_dma_chan_irq, 0,
+> > > -				       dev_name(chan2dev(chan)), chan);
+> > > +				       vchan_chan_name(&chan->vchan), chan);
+> > >   		if (ret) {
+> > >   			dev_err(&pdev->dev,
+> > >   				"request_irq failed with err %d channel %d\n",
+> > 
+> > This one...
+> > 
+> > > +++ b/drivers/dma/stm32/stm32-dma3.c
+> > 
+> > >   		ret = devm_request_irq(&pdev->dev, chan->irq, stm32_dma3_chan_irq, 0,
+> > > -				       dev_name(chan2dev(chan)), chan);
+> > > +				       vchan_chan_name(&chan->vchan), chan);
+> > >   		if (ret) {
+> > >   			dev_err_probe(&pdev->dev, ret, "Failed to request channel %s IRQ\n",
+> > > -				      dev_name(chan2dev(chan)));
+> > > +				      vchan_chan_name(&chan->vchan));
+> > >   			goto err_clk_disable;
+> > 
+> > ...and this one are duplicate messages as devm_request*irq() printsr
+> > most of the information.
+> > 
+> > Not sure if there will be a patch to simply drop them.
+> 
+> It was the purpose of this series:
+> https://lore.kernel.org/dmaengine/20260709135846.97972-1-panchuang@vivo.com/
 
-Assisted-by: Cursor:claude-opus-5
-Signed-off-by: Hemanth Selam <hemanth.selam@gmail.com>
----
- drivers/spi/spi-bcm63xx.c     | 2 +-
- drivers/spi/spi-imx.c         | 2 +-
- drivers/spi/spi-omap2-mcspi.c | 2 +-
- drivers/spi/spi-pic32.c       | 2 +-
- drivers/spi/spi-s3c64xx.c     | 2 +-
- drivers/spi/spi-stm32.c       | 2 +-
- drivers/spi/spi-sun6i.c       | 2 +-
- drivers/spi/spi-xilinx.c      | 2 +-
- 8 files changed, 8 insertions(+), 8 deletions(-)
+Yes, thanks. My point is (independently on who contributes that patch) that
+the piece above may be an unneeded churn due to messages are going to be
+removed. It all relies if that series (a.k.a. patch that removes messages)
+goes first.
 
-diff --git a/drivers/spi/spi-bcm63xx.c b/drivers/spi/spi-bcm63xx.c
-index 1d8e257bad30..3f349c1db581 100644
---- a/drivers/spi/spi-bcm63xx.c
-+++ b/drivers/spi/spi-bcm63xx.c
-@@ -413,7 +413,7 @@ static irqreturn_t bcm63xx_spi_interrupt(int irq, void *dev_id)
- 	struct bcm63xx_spi *bs = spi_controller_get_devdata(host);
- 	u8 intr;
- 
--	/* Read interupts and clear them immediately */
-+	/* Read interrupts and clear them immediately */
- 	intr = bcm_spi_readb(bs, SPI_INT_STATUS);
- 	bcm_spi_writeb(bs, SPI_INTR_CLEAR_ALL, SPI_INT_STATUS);
- 	bcm_spi_writeb(bs, 0, SPI_INT_MASK);
-diff --git a/drivers/spi/spi-imx.c b/drivers/spi/spi-imx.c
-index 79a6c1a60b0a..6f9686df0486 100644
---- a/drivers/spi/spi-imx.c
-+++ b/drivers/spi/spi-imx.c
-@@ -673,7 +673,7 @@ static int mx51_ecspi_prepare_message(struct spi_imx_data *spi_imx,
- 	 * propagate into the hardware. It takes exactly one tick of the
- 	 * SCLK clock, but we will wait two SCLK clock just to be sure. The
- 	 * effect of the delay it takes for the hardware to apply changes
--	 * is noticable if the SCLK clock run very slow. In such a case, if
-+	 * is noticeable if the SCLK clock run very slow. In such a case, if
- 	 * the polarity of SCLK should be inverted, the GPIO ChipSelect might
- 	 * be asserted before the SCLK polarity changes, which would disrupt
- 	 * the SPI communication as the device on the other end would consider
-diff --git a/drivers/spi/spi-omap2-mcspi.c b/drivers/spi/spi-omap2-mcspi.c
-index a3355147f5de..90f3990e0060 100644
---- a/drivers/spi/spi-omap2-mcspi.c
-+++ b/drivers/spi/spi-omap2-mcspi.c
-@@ -1244,7 +1244,7 @@ static int omap2_mcspi_transfer_one(struct spi_controller *ctlr,
- 		omap2_mcspi_set_fifo(spi, t, 0);
- 
- out:
--	/* Restore defaults if they were overriden */
-+	/* Restore defaults if they were overridden */
- 	if (par_override) {
- 		par_override = 0;
- 		status = omap2_mcspi_setup_transfer(spi, NULL);
-diff --git a/drivers/spi/spi-pic32.c b/drivers/spi/spi-pic32.c
-index 972128271e4b..8363bc873b03 100644
---- a/drivers/spi/spi-pic32.c
-+++ b/drivers/spi/spi-pic32.c
-@@ -53,7 +53,7 @@ struct pic32_spi_regs {
- #define  TX_FIFO_ALL_EMPTY	0 /* completely empty */
- #define  TX_FIFO_EMPTY		1 /* empty */
- #define  TX_FIFO_HALF_EMPTY	2 /* empty by half or more */
--#define  TX_FIFO_NOT_FULL	3 /* atleast one empty */
-+#define  TX_FIFO_NOT_FULL	3 /* at least one empty */
- 
- #define CTRL_MSTEN	BIT(5) /* enable master mode */
- #define CTRL_CKP	BIT(6) /* active low */
-diff --git a/drivers/spi/spi-s3c64xx.c b/drivers/spi/spi-s3c64xx.c
-index 8d4120cf9df1..3546414dfc70 100644
---- a/drivers/spi/spi-s3c64xx.c
-+++ b/drivers/spi/spi-s3c64xx.c
-@@ -661,7 +661,7 @@ static int s3c64xx_wait_for_pio(struct s3c64xx_spi_driver_data *sdd,
- 	 * loops = length / max fifo size (calculated by using the
- 	 * fifo mask).
- 	 * For any size less than the fifo size the below code is
--	 * executed atleast once.
-+	 * executed at least once.
- 	 */
- 	loops = xfer->len / sdd->fifo_depth;
- 	buf = xfer->rx_buf;
-diff --git a/drivers/spi/spi-stm32.c b/drivers/spi/spi-stm32.c
-index be88e62075af..5f5c43ae5096 100644
---- a/drivers/spi/spi-stm32.c
-+++ b/drivers/spi/spi-stm32.c
-@@ -515,7 +515,7 @@ static int stm32h7_spi_get_bpw_mask(struct stm32_spi *spi)
- 
- 	/*
- 	 * The most significant bit at DSIZE bit field is reserved when the
--	 * maximum data size of periperal instances is limited to 16-bit
-+	 * maximum data size of peripheral instances is limited to 16-bit
- 	 */
- 	stm32_spi_set_bits(spi, STM32H7_SPI_CFG1, STM32H7_SPI_CFG1_DSIZE);
- 
-diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
-index 4631e9c7ca1d..6b7a05dd0de8 100644
---- a/drivers/spi/spi-sun6i.c
-+++ b/drivers/spi/spi-sun6i.c
-@@ -386,7 +386,7 @@ static int sun6i_spi_transfer_one(struct spi_controller *host,
- 		 * SPI_CLK = MOD_CLK / (2 ^ cdr)
- 		 * Or we can use CDR2, which is calculated with the formula:
- 		 * SPI_CLK = MOD_CLK / (2 * (cdr + 1))
--		 * Wether we use the former or the latter is set through the
-+		 * Whether we use the former or the latter is set through the
- 		 * DRS bit.
- 		 *
- 		 * First try CDR2, and if we can't reach the expected
-diff --git a/drivers/spi/spi-xilinx.c b/drivers/spi/spi-xilinx.c
-index dc1e968659e1..df4ea99a5427 100644
---- a/drivers/spi/spi-xilinx.c
-+++ b/drivers/spi/spi-xilinx.c
-@@ -460,7 +460,7 @@ static int xilinx_spi_probe(struct platform_device *pdev)
- 	host->num_chipselect = num_cs;
- 
- 	/*
--	 * Detect endianess on the IP via loop bit in CR. Detection
-+	 * Detect endianness on the IP via loop bit in CR. Detection
- 	 * must be done before reset is sent because incorrect reset
- 	 * value generates error interrupt.
- 	 * Setup little endian helper functions first and try to use them
 -- 
-2.48.1
+With Best Regards,
+Andy Shevchenko
+
 
