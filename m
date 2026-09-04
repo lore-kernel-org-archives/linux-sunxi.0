@@ -1,336 +1,90 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08CD23446CE
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Sep 2026 07:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61823DD528
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Sep 2026 08:08:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788508610; cv=none; b=LZLNfnIDM5ky1eyJoj9v22DGn62GPHddUqhP2CVc2bJ1d+I5kmMjgXQm9Q6CQpPu0JOrtGZpOcxEV8Uta2D/D5HJvUq4/ayNznJxys2a3rUr1DYtscBL2Vta7lzWzqJxG6/DYSsr0JIVgDwU0b369KSd/foos1cSG01bbGC0bHg=
+	t=1788509334; cv=none; b=aP2sNm0K4znNKUv5L15M/X4ItpOqh7AL8s+9L1baZAWD2cyd+1Hl9IdJ4N7YKX6nS2FW3wlc406Cdtbgu8AslP3y8D0CkQABz75CIzW3wXQbe/2pBVg+TQAOsWzW0UfufErrnckZqzoR8dglMhL7uBNGQmwfKLjiCzKhZY0fnO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788508610; c=relaxed/simple;
-	bh=dq6zzWOeDYraCUVgOZvm+dHVeU5qwSlxbu/ZwP3CjSs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VG5I5sPukDnj9KZA+0P++xkNRCcZGyMKLJxy/J3IhFlpOZYfbEED1z0/r4guJgDIidDn37nCVQ0840J2RD5AbbkH4N5N8Kd8Ijf5Nnls5vS2/GAftcIJQycWIdfT7wsX9ns5MTWISm4S4I9GpUHfYeKyEEQWbDswkoTSZOvKjac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cmMcE9Tg; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788509334; c=relaxed/simple;
+	bh=pE7cN1GvzbE2y4nwVf6pbJQ5LYB0P93SIyPfPfCW1Mo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uAedp0VL40B/wjUfbuqNO6OrE37IuOk5bbdav2Q9kBNjgM1USJgBUi0zwjdB0OuqbOwgiZApBNW1Qt9QU6xZnJ58aZ8hbTKwXghC/dw/fuRAXV41FtpzhnYhRoQih5GK4svxCaHGSjmW4LNopJvWYP8PSJQrfm3OMthbOq446NY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=NMKb0u7u; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cmMcE9Tg"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38ea87caafeso573934a91.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Sep 2026 00:56:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788508608; x=1789113408; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=A6CTy8VslM6D9WV7fzKYuRsEIqOpX8eaulE7m+wbh/8=;
-        b=cmMcE9TgYUbTzueFRsCTvuqlpMFX9PeDs9Et45RUHWt7b+XU//6HHli/3WZk4GO9OG
-         ptXWuNC5EMVMHBEL0yAmgX6UxppGyZD9sM4/XvyKSHAo03OnBPXApYhu2pYytWC7VFXq
-         EQnmWG8d+rDkUZHDHdzx1fqAR6pCKJxRF+cBJGOSKNcw2sR50TDuc0oVnRMPkjpgOGjZ
-         pK5nqYr/+WkO9X/GThkB0N+CZjDGsrsv8Rn0P8RbsHaKgrDot64nAatSDuZTN9nOfrRQ
-         YMCY0tU0yUdkKGTFbokf+N8WBi9AIPp463kH41vIVe4dmADlXLoVU4R5e/i38dmdiC8H
-         3ruw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788508608; x=1789113408;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=A6CTy8VslM6D9WV7fzKYuRsEIqOpX8eaulE7m+wbh/8=;
-        b=HCdYXPOEqLrEI7Wi4l2Zt7kA0WMNl+U3iHF5GnvbiRdcs1t1OL6buRF5VaSjLs1yJT
-         hCiucjVOMiiwHJnxl9qSsIFFNqq6ztb8iumU25tNzpwGAeFq2gdN+Xf2iU8fzBOz7Nmw
-         3Cmhqz4BD5u+pMqwq350lPopFIuWyku2kktI+QndJ7J0JfnEys0/wotEWDkm92tmJz2T
-         D0nadsm8pC1/AnWP69m1esvbQf+mJms3dkKfmFnS2acPwUmQEuDbowd3vC/5pRksRGUs
-         ja2gR1lPQIV2HWjRitP4HyPKTgEfS4vAzlZkUDpxWYCqYjRXm4p5QpF16Je9fxm0C0g4
-         b9HA==
-X-Forwarded-Encrypted: i=1; AKwUvBxXSHDdXxCXqo1fJZftCM5aGDLQfrGI1buyMy59X5W4f4z79Ob/XITIxFVPN7VTLDK3W4MNDif1Au4vbA==@lists.linux.dev
-X-Gm-Message-State: AFuF++krc0QRQYDpZKJvEw4oNopdYcDQ2OpR6GVzi0fJLWT50XhdaeHj
-	3Zvb+3uHbVfzhPkW1VyA+Z/gTVTBRz/Qig1TazHfOBMyiqfHyv34puLM
-X-Gm-Gg: AYBFou1REsO9S/QmkHdp7F1VL1ego1X0qTtEIqSdNJvtBB4t07UKdifuaP9yYesvpKy
-	5fVYnoIW36aFTwdx4CX/DzbmXL83ftmTxt0JIJPzdl6c6pPbMiDS8YwNhDFXpIOdKkuRe1S1B9S
-	KTBNewDLcM/MVNMJyiXBhhswZq3Ai7hyS1X+ZLeg+DMrfkYjARnNWtiWcxnNBmjEvvWE0hop9zP
-	yM+ru/BTMBfhsuDsx3T1J+7KVCzURAfvPw0A7TbGALp0mWO2MuO218UqsckEnRRQH53hv6tVMWc
-	d20q0yfuLSjMhBYzLr08L+1iIc6fVCJcrZ8YadZ4T7cjTY0sxWR2iFKEcWYMQl+uXykW7sQlKA+
-	jiuO7JIHyfG/F5uR/7Af+y3L/VfwmvD4Uwblae5BYVrWp/rJXXNjsyTpvXcG3j8jRoFrsDXdIeT
-	GJ+SqPbAaNjk9qQz+rLZkHdjjuhYL3soT2QA4QFNxRsTthrH1OxSyB2yBaobk6MOPnbBeaHnATC
-	tjXla5rsAviMpej6XINA4jjkA==
-X-Received: by 2002:a17:90b:4984:b0:381:25ce:bcc2 with SMTP id 98e67ed59e1d1-39b26104798mr6828466a91.6.1788508607942;
-        Fri, 04 Sep 2026 00:56:47 -0700 (PDT)
-Received: from localhost ([2409:40c4:3:c9c:397c:1716:c137:de54])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b2615039asm3159366a91.15.2026.09.04.00.56.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 00:56:47 -0700 (PDT)
-Date: Fri, 4 Sep 2026 13:26:44 +0530
-From: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
-To: te36de <te36de@gmail.com>
-Cc: Bin Liu <b-liu@ti.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org, 
-	Samuel Holland <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: Re: H618 sunxi/musb driver (likely) looses interrupts ->
- g_mass_storage I/O errors/resets
-Message-ID: <app5WjDz9rnUNM_x@eggarch>
-References: <CAOmNcAB8nBueNabeR_tBOjtximEwG9gdn4vt0Os4qac9OukTOQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="NMKb0u7u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=MO
+	4pXFcedS4dIGPS5osjZgGZ/rrJKJyCM5L1ro6VuTQ=; b=NMKb0u7uyy3F22NI3E
+	aiY6QZGK/jVPlW/3ITEC3qYdLhsgfyTtX31/7Z7KNBsyPJrM4taXLSRN0JDKvnGX
+	r3GGj6WwnUGf0rufp8D3fY6JhBYUTFq8oUHiX1XXw5Vz0hhRAK13kR8jXDyKhS7o
+	9WXMNQZou0RTrvdcjAOMRMhgY=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wB37GlgfJpqs61iAg--.12312S2;
+	Fri, 04 Sep 2026 16:08:01 +0800 (CST)
+From: "Li Youhong" <dayou5941@163.com>
+To: netdev@vger.kernel.org
+Cc: andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Li Youhong <liyouhong@kylinos.cn>
+Subject: [PATCH] net: sun4i-emac: fix missing of_node_put() for phy_node
+Date: Fri,  4 Sep 2026 16:07:58 +0800
+Message-Id: <20260904080758.2432748-1-dayou5941@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOmNcAB8nBueNabeR_tBOjtximEwG9gdn4vt0Os4qac9OukTOQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wB37GlgfJpqs61iAg--.12312S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrtF1Dury3uw4fXFyUKF4rZrb_yoWkJrc_Cr
+	48ur93GFWkCrnYyw4Y9r45Zr4UAFyqgFZIqF1v9FWay34qvr43XrnY9rn3Kr9rXrW8KFn8
+	GwnF9Fy3Aw1F9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbVHq3UUUUU==
+X-CM-SenderInfo: 5gd103ivzuiqqrwthudrp/xtbC+QJ4J2qafGKJQQAA3C
 
-On Thu, Sep 03, 2026 at 11:55:50AM -0700, te36de wrote:
-> Summary:
->   Likely problem in H618 sunxi/musb driver code leading to I/O errors,
-> resets on g_mass_storage.
->   Produced on Orange Pi Zero 3 (OPZ3, H618 based), Linux
-> 6.18.48-current-sunxi64:
->     reproduced also with 7.1.12-edge-sunxi64 (problem not fixed in 7).
->   set up g_mass_storage on sparse file (no actual I/O required reading
-> from it), read from host:
->     Works reliable for minutes (14...22MByte/sec) when OPZ3 is otherwise idle.
->     Creates repeatedly intermitting I/O errors and resets on USB host as soon
->     as there is even just some process-level only CPU load on H618
-> (stress-ng on 2 kernel).
->   Problem does not occur on RPI4 using dwc2 (instead of sunxi/musb)
-> with same tests
->   Diagnosis seems to point to lost interrupts.
-> 
-> 1. Reproduce by:
-> 
-> 1.1 Connect gadget device (Orange PI zero 3 1GB in my case) USB-C port to host.
-> 
-> Note: Given how this powers the gadget device, it may not be
-> sufficient for gadget devices needing
-> a lot more current, but OPZ3 stays well below 500 mA under all conditions.
-> 
-> 1.2 On gadget device (Orange PI zero 3 1GB):
-> 
-> truncate -s 12T /tmp/empty.img
-> modprobe g_mass_storage
-> file=/disk/S2/Shelf.UHD/TMP/avatar/AVATAR_BONUS1.iso stall=0 ro=1
-> removable=1
-> 
-> 1.3. On host device
-> 
-> Determine device name for gadget, in this case /dev/sdb:
-> 
-> [129005.654791] usb 1-1: new high-speed USB device number 9 using xhci_hcd
-> [129005.785710] usb 1-1: New USB device found, idVendor=0525,
-> idProduct=a4a5, bcdDevice= 6.18
-> [129005.785730] usb 1-1: New USB device strings: Mfr=3, Product=4,
-> SerialNumber=0
-> [129005.785736] usb 1-1: Product: Mass Storage Gadget
-> [129005.785740] usb 1-1: Manufacturer: Armbian Linux
-> 6.18.48-current-sunxi64 with musb-hdrc
-> [129005.787697] usb-storage 1-1:1.0: USB Mass Storage device detected
-> [129005.788090] usb-storage 1-1:1.0: Quirks match for vid 0525 pid a4a5: 10000
-> [129005.788244] scsi host2: usb-storage 1-1:1.0
-> [129006.798208] scsi 2:0:0:0: Direct-Access     Linux    File-Stor
-> Gadget 0618 PQ: 0 ANSI: 2
-> [129006.798370] sd 2:0:0:0: Attached scsi generic sg1 type 0
-> [129006.798560] sd 2:0:0:0: Power-on or device reset occurred
-> [129006.799139] sd 2:0:0:0: [sdb] Very big device. Trying to use READ
-> CAPACITY(16).
-> [129006.799905] sd 2:0:0:0: [sdb] 25769803776 512-byte logical blocks:
-> (13.2 TB/12.0 TiB)
-> [129006.800049] sd 2:0:0:0: [sdb] Write Protect is on
-> [129006.800053] sd 2:0:0:0: [sdb] Mode Sense: 0f 00 80 00
-> [129006.800181] sd 2:0:0:0: [sdb] Write cache: disabled, read cache:
-> enabled, doesn't support DPO or FUA
-> [129006.801447] sd 2:0:0:0: [sdb] Very big device. Trying to use READ
-> CAPACITY(16).
-> [129006.821771] sd 2:0:0:0: [sdb] Attached SCSI removable disk
-> 
-> Then start program to read from the disk:
-> 
-> pv -ptera < /dev/sdb > /dev/zero
-> 
-> And in another window check for I/O errors:
-> 
-> dmesg -w
-> 
-> 1.3.1 "empty" run:
-> 
-> With nothing else running on the gadget, this should run reliable
-> without any I/O errors. Throughput
-> should be beteween 15...22 MByte/sec depending on block size of host
-> (due to the stop&go nature of BOT
-> i think).
-> 
-> 1.3.2 error run:
-> 
-> In addition to 3.1, start some CPU activity on the gadget, e.g.:
-> 
-> stress-ng --cpu 4 --timeout 6000s
-> 
-> Now observe that after at most a few minutes, I/O error(s) and resets
-> will happen to the
-> gadget device, visible on the host, e.g.:
-> 
-> [131887.406689] I/O error, dev sdb, sector 4682752 op 0x0:(READ) flags
-> 0x84700 phys_seg 2 prio class 0
-> [131887.406725] sd 2:0:0:0: [sdb] tag#0 device offline or changed
-> [131887.406731] I/O error, dev sdb, sector 4682992 op 0x0:(READ) flags
-> 0x84700 phys_seg 2 prio class 0
-> [131887.406810] sd 2:0:0:0: [sdb] tag#0 device offline or changed
-> [131887.406828] I/O error, dev sdb, sector 4683232 op 0x0:(READ) flags
-> 0x80700 phys_seg 1 prio class 0
-> [131887.416234] sd 2:0:0:0: [sdb] Very big device. Trying to use READ
-> CAPACITY(16).
-> [131974.304607] usb 1-1: reset high-speed USB device number 9 using xhci_hcd
-> [131974.435735] sd 2:0:0:0: [sdb] tag#0 FAILED Result:
-> hostbyte=DID_TIME_OUT driverbyte=DRIVER_OK cmd_age=31s
-> [131974.435754] sd 2:0:0:0: [sdb] tag#0 CDB: Read(16) 88 00 00 00 00
-> 00 00 60 51 e0 00 00 00 20 00 00
-> [131974.435759] I/O error, dev sdb, sector 6312416 op 0x0:(READ) flags
-> 0x80700 phys_seg 1 prio class 0
-> [131974.436075] sd 2:0:0:0: Power-on or device reset occurred
-> [131974.436097] sd 2:0:0:0: [sdb] tag#0 FAILED Result: hostbyte=DID_OK
-> driverbyte=DRIVER_OK cmd_age=0s
-> [131974.436105] sd 2:0:0:0: [sdb] tag#0 Sense Key : Unit Attention [current]
-> [131974.436112] sd 2:0:0:0: [sdb] tag#0 Add. Sense: Power on, reset,
-> or bus device reset occurred
-> [131974.436119] sd 2:0:0:0: [sdb] tag#0 CDB: Read(16) 88 00 00 00 00
-> 00 00 60 52 00 00 00 00 f0 00 00
-> (host using larger block size for reads achieve lowe
-> 
-> On OPZ3, these errors happen already with as few as just 2 CPU cores
-> (out of 4) loaded.
-> 
-> 1.4. Notes
-> 
-> - The test from 3. are just to eliminate as many possible sources of
-> error as possible.
->   In the target application, the additional load comes from network
-> I/O, but i tried to
->   simplify the reproduction of the error down to just process level
-> CPU being used.
-> 
-> - Problem does not happen on RPI4, which is why i think the problem is
-> not in g_mass_storage/f_mass_storage,
->   but in the sunxi/musb driver - RPI4 useses instead dwc2 driver.
-> 
-> - The problem may be happening less often with loweer g_mass_storage
-> transfer rates,
->   but for the target use-case, a speed of 12MByte/sec or more is
-> required, otherwise
->   cheaper (but slower)  gadget devices than H618 would also become an option.
-> 
-> - Problem does not depend on size of file used, happens equally for
-> smaller file sizes,
->   just using such a large file because of intended use-case.
-> 
-> - Lots of parameters that don't change the result when changed
->   - "stall=0/1
->   - musb_hdrc.use_dma=0
->   - capping the host's transfer size (max_sectors_kb=16)
->   - different idVendor/idProduct
->   - moving the musb IRQ to another CPU via smp_affinity (IRQ 310 is
-> not shared with any other device)
->   - powering the board from a separate supply rather than the host port
-> 
-> 2. Troubleshooting
-> 
-> I had claude.ai vibe code me some tracingon the gadget. I can't claim
-> i understood it really
-> down to the details, but here is how claude.ai is summarizing it. Rest
-> of email below
-> is writeup from claude
-> 
-> Working - one SCSI READ(10), 16 KiB:
-> 
->   file-storage   do_read() {
->   file-storage     kernel_read()             0.03  ms   data from backing file
->   file-storage     usb_ep_queue() {
->   file-storage       musb_gadget_queue()     0.004 ms   UDC accepts request
->   file-storage     }                         0.008 ms
->   file-storage   }
->   file-storage   sleep_thread() {                       thread waits
->     <irq ctx>      sunxi_musb_interrupt() {
->     <irq ctx>        musb_interrupt() {
->     <irq ctx>          musb_g_tx()           0.010 ms   one packet sent
->     <irq ctx>        }                       0.012 ms
->     <irq ctx>      }                         0.014 ms
->                    ... ~20 such interrupts, one per packet ...
->     <irq ctx>      sunxi_musb_interrupt() {
->     <irq ctx>        musb_interrupt() {
->     <irq ctx>          musb_g_tx() {                    last packet
->     <irq ctx>            bulk_in_complete()             request given back
->     <irq ctx>          }                     0.010 ms
->     <irq ctx>        }                       0.012 ms
->     <irq ctx>      }                         0.015 ms
->   file-storage   }                           3.8   ms   thread woken
-> 
-> Failing - identical up to the queue, then nothing:
-> 
->   file-storage   usb_ep_queue() {
->   file-storage     musb_gadget_queue()       0.005 ms   UDC accepts request
->   file-storage   }                           0.008 ms
->   file-storage   sleep_thread() {                       thread waits
-> 
->                  ... ~30 s of complete silence ...
-> 
->                  no sunxi_musb_interrupt, no musb_interrupt,
->                  no musb_g_tx, no musb_g_rx, no bulk_in_complete
-> 
->     [host]       SCSI command times out, I/O errors, port reset
->     [gadget]     re-enumerates, resumes normally
-> 
->   Kernel stack of the file-storage thread during the hang:
-> 
->     [<0>] sleep_thread+0x10c/0x180 [usb_f_mass_storage]
->     [<0>] fsg_main_thread+0x10c/0x16b0 [usb_f_mass_storage]
->     [<0>] kthread+0x134/0x1f8
->     [<0>] ret_from_fork+0x10/0x20
-> 
->   task state S (interruptible sleep), i.e. it is not blocked on I/O.
-> 
->   Event counts at the moment of the hang, and the delta over the 2 s
->   after the thread parked:
-> 
->     usb_ep_queue           650      +0
->     musb_gadget_queue      650      +0
->     sunxi_musb_interrupt 14605      +0
->     musb_interrupt       14605      +0
->     musb_g_tx            14519      +0
->     musb_g_rx               86      +0
->     bulk_in_complete       566      +0
->     kernel_read            478      +0
-> 
-> What this appears to show
-> -------------------------
-> 
-> The request is accepted by musb_gadget_queue() and the transfer never
-> starts: not a completion lost at the end of a transfer that otherwise
-> ran, but no packet sent at all.
-> 
-> Notably sunxi_musb_interrupt() - the registered handler for the musb
-> IRQ - does not run even once during the hang.  So the failure is not the
-> driver mishandling an interrupt; no interrupt is delivered to the handler
-> at all.  I cannot tell from this whether the controller never raised its
-> line or whether the interrupt was lost or masked elsewhere.
-> 
-> Since the failure is triggered by CPU load alone, with a sparse backing
-> file and no I/O of any kind, this looks like a race between queueing a
-> request and the endpoint's interrupt or FIFO state, rather than anything
-> in f_mass_storage or the storage path.
-> 
-Wondering if its a timing issue on writes sent to the chip.
-The controller may be getting FIFO bytes after TXPKTRDY is set.
-If we read back the register before setting TXPKTRDY flag, that may fix
-the the issue. Could you try testing this patch below?
+From: Li Youhong <liyouhong@kylinos.cn>
 
-diff --git a/drivers/usb/musb/musb_gadget.c b/drivers/usb/musb/musb_gadget.c
-index 016d3f3fc1e0..1fdd2fe64d67 100644
---- a/drivers/usb/musb/musb_gadget.c
-+++ b/drivers/usb/musb/musb_gadget.c
-@@ -386,6 +386,7 @@ static void txstate(struct musb *musb, struct musb_request *req)
- 		musb_write_fifo(musb_ep->hw_ep, fifo_count,
- 				(u8 *) (request->buf + request->actual));
- 		request->actual += fifo_count;
-+		csr = musb_readw(epio, MUSB_TXCSR);
- 		csr |= MUSB_TXCSR_TXPKTRDY;
- 		csr &= ~MUSB_TXCSR_P_UNDERRUN;
- 		musb_writew(epio, MUSB_TXCSR, csr);
+of_parse_phandle() returns a node pointer with an elevated refcount.
+Add the missing of_node_put() on the probe error path after
+register_netdev() fails and in emac_remove().
+
+Fixes: 492205050d77 ("net: Add EMAC ethernet driver found on Allwinner A10 SoC's")
+Signed-off-by: Li Youhong <liyouhong@kylinos.cn>
+---
+ drivers/net/ethernet/allwinner/sun4i-emac.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+--- a/drivers/net/ethernet/allwinner/sun4i-emac.c
++++ b/drivers/net/ethernet/allwinner/sun4i-emac.c
+@@ -1067,6 +1067,7 @@ static int emac_probe(struct platform_device *pdev)
+ 	return 0;
+ 
+ out_release_sram:
++	of_node_put(db->phy_node);
+ 	sunxi_sram_release(&pdev->dev);
+ out_clk_disable_unprepare:
+ 	clk_disable_unprepare(db->clk);
+@@ -1094,6 +1095,7 @@ static void emac_remove(struct platform_device *pdev)
+ 	}
+ 
+ 	unregister_netdev(ndev);
++	of_node_put(db->phy_node);
+ 	sunxi_sram_release(&pdev->dev);
+ 	clk_disable_unprepare(db->clk);
+ 	irq_dispose_mapping(ndev->irq);
+-- 
+2.25.1
+
