@@ -1,85 +1,116 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2340380FC3
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Sep 2026 13:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D614E1F63D9;
+	Sat,  5 Sep 2026 16:48:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788615362; cv=none; b=aTJZg0eDXTEOa71E6cYt1sSnjvdML9LrwwBIJrNgtdnCtPdNObb4JC9SX4YG/1m/cG7IWeBmEErKkDliAH0UIxctB40iijHSLPkQemrr6v4AaGt39L2Bs3EP1LXjlQdf5a7HJrnM3XSmv8TCNkmjDsBlp9ynxz86NEMaOf0wB+c=
+	t=1788626936; cv=none; b=Z5JkrnUqg20oMJGjwfITxO6sV1WTgM4/HS9ESfLwEpdCgsT41md+Z7JGYAtjRA2Zqw4ayNrKpeMNMqA2tZd27hTLSADm1pimSbs0BBJB6J/hh505WR/V78GAGg7tld2Z5UOEy+UHMsw9/njak195Fmwi/Wa68QWjhmKEMmDMFgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788615362; c=relaxed/simple;
-	bh=O6Cg52f3EnVkRNyZ3KIoqCCSnjeM0wVmpV9MVOGSq/M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HxeYnEZyhicEv2XGVx+W9FNimaJwZQkKs/hrD6+LisvLyz2PGZ4mGVTuSC4nEF2vHLdhjaqhvaMAxnrwpJXJ3Z45cPUJuJ8S+mex0lBaQH+mQjXtX1x3bHpcJOwqBwa0j5FzsHuX7nfoSXhIPUarNsqNKP2vPPzdnBxFhzSWNQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=HwncwR6y; arc=none smtp.client-ip=220.197.31.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1788626936; c=relaxed/simple;
+	bh=7zE4DLk+owEJCvsL7gJJRrEj5LNInTPF/kxV5jFwUuw=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=r6mibfMuQavUyf+eiqYJ29Nlh4xFc+nxi5hKGEJMMpcs65ucP7e9nvbV4yBZG4JHn8tx2jZ4FIwnKq1AVurAhqJcFgi1CvCFyqIiid/3cnADajh8+I1/ZpNzJbxrqp/R58dvQ3I8Er7ss65+LoJS/8MSR0NftR+/EA7coG4o/CU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lFqVxMyG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="HwncwR6y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=dJ
-	jbs7F/aSeREhZ4M4hX91XsW5vUHNRiOu4hPmmpt0Q=; b=HwncwR6yTjqlh4t2lr
-	7kFWgKNfa7ZqR0434Jsqro3uBPiYmx0W+uu3Jc4pMYl/s49GrviT8VdefhIKy+ij
-	VCK3FloFhoyDpPrYaOzIskGGXZRh+TnsOtcYaiSIydZ9APl02+T3Z3zjzPILerct
-	l9GZybUFcIujlW56DlXFzxtG8=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id _____wBn7IehGpxqqn1WAw--.53861S2;
-	Sat, 05 Sep 2026 21:35:30 +0800 (CST)
-From: "hpp.iscas" <hppiscas@163.com>
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: "hpp.iscas" <hppiscas@163.com>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] clk: sunxi-ng: a523: Publish the MCU CCU module alias
-Date: Sat,  5 Sep 2026 21:35:27 +0800
-Message-ID: <20260905133527.64811-1-hppiscas@163.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lFqVxMyG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57BEF1F00A3A;
+	Sat,  5 Sep 2026 16:48:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788626934;
+	bh=O7IuTC+pRWMMIEwCHz18OFRXiFgpidnQyUKUZOMTCWQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=lFqVxMyG4httbfeKeVRMfhzUuuBkORYG2TP4lQObvcq6ASoy3tYEH55e+8ase1vsV
+	 JrAMlzSJBtnglcn/fqB0DBIq5U4Dnt74RnZR3exg/WJdVuPEA1FKwpJqKNaI7N+iTn
+	 zmJXBmdma/us6ZFeF8J0AqTe3AJB5hFpGx83tT8dlxzn41fUP/cZrJ1sNjb3DawRi6
+	 woNhHDHuS0jy2Ku+DCfZ8mCxvgPIK8T46gSr4nGIlh2ZIuPSbPR7NEVeLJOa2+6LJf
+	 47a4ylq7yXvlax4PXu2iY5ePL11pgzMo4o2QugE3W/uIfjeUHgyJLpuBJpCQPSmG50
+	 ARM1mGUYOlHqw==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 5/8] clk: sunxi-ng: a733: Add bus clocks support
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Junhui Liu" <junhui.liu@pigmoral.tech>
+Cc: linux-sunxi@lists.linux.dev, conor+dt@kernel.org, robh@kernel.org, linux-clk@vger.kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20260905-a733-clk-v3-5-50f238f39c78@pigmoral.tech>
+References: <20260905-a733-clk-v3-0-50f238f39c78@pigmoral.tech>
+ <20260905-a733-clk-v3-5-50f238f39c78@pigmoral.tech>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 05 Sep 2026 16:48:53 +0000
+Message-Id: <20260905164854.57BEF1F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-CM-TRANSID:_____wBn7IehGpxqqn1WAw--.53861S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZryrWF1xKry5WF13Jw18Xwb_yoWDuFc_u3
-	WxZrWDGa48CFWDAF15Aws5ur9Yv34rXrnYgryj9ryaqa4UZFyfAr4vqr1DJ34rZayxAFyD
-	GF1kGFW8u3y5tjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRRk9NDUUUUU==
-X-CM-SenderInfo: 5kssx2xfdvqiywtou0bp/xtbCxQJwOWqcGqIkOgAA3e
 
-The A523 MCU CCU is built as a separate module. Its platform driver=0D
-uses sun55i_a523_mcu_ccu_ids, but the table is not exported for module=0D
-autoloading.=0D
-=0D
-Publish the existing OF table. The main and PRCM CCU modules do not=0D
-provide alias metadata for this module.=0D
-=0D
-Fixes: 598e4b6713b5 ("clk: sunxi-ng: add support for the A523/T527 MCU CCU"=
-)=0D
-Signed-off-by: hpp.iscas <hppiscas@163.com>=0D
----=0D
- drivers/clk/sunxi-ng/ccu-sun55i-a523-mcu.c | 1 +=0D
- 1 file changed, 1 insertion(+)=0D
-=0D
-diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523-mcu.c b/drivers/clk/sunxi=
--ng/ccu-sun55i-a523-mcu.c=0D
-index 197844f..f5f0f87 100644=0D
---- a/drivers/clk/sunxi-ng/ccu-sun55i-a523-mcu.c=0D
-+++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523-mcu.c=0D
-@@ -453,6 +453,7 @@ static const struct of_device_id sun55i_a523_mcu_ccu_id=
-s[] =3D {=0D
- 	{ .compatible =3D "allwinner,sun55i-a523-mcu-ccu" },=0D
- 	{ }=0D
- };=0D
-+MODULE_DEVICE_TABLE(of, sun55i_a523_mcu_ccu_ids);=0D
- =0D
- static struct platform_driver sun55i_a523_mcu_ccu_driver =3D {=0D
- 	.probe	=3D sun55i_a523_mcu_ccu_probe,=0D
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] Zero-width P-divider in mbus_clk triggers GENMASK underflow, wipin=
+g the entire clock register on rate changes.
+- [High] MBUS clock rate changes will not take effect because ccu_mp_set_ra=
+te() ignores CCU_FEATURE_UPDATE_BIT.
+--
 
+commit b18b5b20ec18f362fb14429382135c39ebff8a35
+Author: Junhui Liu <junhui.liu@pigmoral.tech>
+
+    clk: sunxi-ng: a733: Add bus clocks support
+   =20
+    Add the essential bus clocks in the Allwinner A733 CCU, including AHB,
+    APB0, APB1, APB_UART, and MBUS. These buses are necessary for many other
+    functional modules. An additional trace clock is also added as it falls
+    within the register address range of the bus clocks, even though it is
+    not strictly a bus clock.
+   =20
+    The MBUS clock is marked as critical to ensure the memory bus remains
+    operational at all times. And the hardware requires an update bit
+    (bit 27) to be set so that the configuration takes effect and the
+    updated parameters can be correctly read back for the MBUS clock.
+
+diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c b/drivers/clk/sunxi-ng/=
+ccu-sun60i-a733.c
+--- a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
++++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+
+[ ... ]
+
+> +static SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(mbus_clk, "mbus", mbus_paren=
+ts, 0x588,
+> +					    0, 5,	/* M */
+> +					    0, 0,	/* no P */
+> +					    24, 3,	/* mux */
+> +					    BIT(31),	/* gate */
+> +					    CLK_IS_CRITICAL,
+> +					    CCU_FEATURE_UPDATE_BIT);
+
+[Severity: High]
+Does a zero-width P-divider here inadvertently wipe the register during
+rate changes?
+
+Looking at ccu_mp_set_rate(), it evaluates the mask using GENMASK based
+on the width and shift:
+
+reg &=3D ~GENMASK(cmp->p.width + cmp->p.shift - 1, cmp->p.shift);
+
+With width 0 and shift 0, this yields GENMASK(-1, 0). On 64-bit
+architectures like ARM64, the internal shift by BITS_PER_LONG is
+modulo-truncated to 0, resulting in ~0UL. Applying ~GENMASK (which is 0)
+then zeroes out the entire register. This would clear the critical enable
+gate (BIT(31)) and mux settings.
+
+[Severity: High]
+Does ccu_mp_set_rate() actually support the update bit feature?
+
+The commit message notes that the hardware requires bit 27 to be set
+for the MBUS clock configuration to take effect. However, mbus_clk is
+declared using a ccu_mp type macro.
+
+Looking at ccu_mp_set_rate(), it doesn't appear to check for or apply
+CCU_FEATURE_UPDATE_BIT like the div and mux callbacks do. Because the MP
+framework ignores this flag, could this result in rate changes silently
+being ignored by the hardware?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260905-a733-clk-v=
+3-0-50f238f39c78@pigmoral.tech?part=3D5
