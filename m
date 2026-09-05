@@ -1,150 +1,189 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6813264DA
-	for <linux-sunxi@lists.linux.dev>; Sat,  5 Sep 2026 01:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE78D32B112
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Sep 2026 03:17:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788570341; cv=none; b=nrnAsCH9Drk0Zj5QDTz6LCWxfbtHOWxodHBhdNdIekC2ITNlVPKhNpeinwAMDYZcny8vgCDU6sCpkkKuSADXqUcQOEQMArEnyVjAy1yF0ieGZskVdi/1rbzG9fzHZA7argwPLSTqKdD+WOMlLshqGQQJJLnrfppEFhmsLuyCIac=
+	t=1788578222; cv=none; b=C97Iey9tk7CSfpTDwsEoULPnz4IkeKC5Kceo3CK9ptfg/ZvzrmldCMFEhpimrHgQnNDEB8O0FDWM7x0yZmHlBscxUpnQXjfq/Nrr+Af2Ig5xgOV05EppwMhh8tYxFjmg3jhjLAllAvrjqfd4QQ9GP7hwfeONK4ZDunwJnFqWaEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788570341; c=relaxed/simple;
-	bh=AZeymz/HujPlsyjjrcRekc+HnX3LbuE7qM8Hmou01do=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hOv5EzYxXZmykxjvU5C6VsH0o5LMAeITAs91jZwdOtkWLiuhrJEB74FaIcQGpnW35qct44bHZLu8WBJ4zxc4tQmv28mNV2nRMCPPj1PxX1de7G2IPbYRRWCWCMfopYKUtgoO0EnUYx35tNHTM21gfKyUqGxjSicQO3sxTNtBgR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aONC3jB1; arc=none smtp.client-ip=209.85.160.49
+	s=arc-20240116; t=1788578222; c=relaxed/simple;
+	bh=nisr5ziN83/vvuUa7fT3PuLqT+p6PzbxVPM+MpNzzyY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cNeLQTQwp778qgJVXDJOr1YTpeAqtmAkEchvu8W8X/YDADS99juLD75qM18/8mLmHWN6AREOo3zfTRf4jdblkQZCCId9ajUYCJp05Iv2cBy9xFUb6hWUzcBImLHM1zCDZaZBgOjA6P4mLgeket2Rdhttdl+I0O2GiCIfzr7OTcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qTL2KevR; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aONC3jB1"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-465cfc7e33dso994438fac.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 04 Sep 2026 18:05:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qTL2KevR"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-495590dde14so23875135e9.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Sep 2026 20:17:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788570339; x=1789175139; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=+trEjFtLc9/1KfuFoq6WFVPGEpoZWjiCbNYrmRmER54=;
-        b=aONC3jB1fEx3UZ6RlIBfkvoxOtXJl17ttCKCGsP8cX03qvfNbM77kOy6BQ8Mk1XJlV
-         uVOA8KjSa9R/DBEb4Wp0BLeZ/pTl/SHWRwlw2sQAJQ2HC4OwuYwr8yVshaPPsEMRuZRu
-         yBDQqdn0iDFpy9OpDe05f/d8lSWEgkrbOxJ5fIUoQ4lqwdShM6V2YnaEGPDVWrUbJxKN
-         shwI0Bk06ZQMLwWXhMQzGW9+evSvjgLo7DQa+vSAUd6Fp12e73R1z9tK8PCarQopdApR
-         qPAAeFCiTF2cYr35i4k4Om734MgXIOxwKq6qTx+g8lxpurPVaJ4dS+1G4187nnpCWfXF
-         imIw==
+        d=gmail.com; s=20251104; t=1788578219; x=1789183019; darn=lists.linux.dev;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8CCZA4VoDQ6PBSjxOO7MB9iXLnCy8XMS9eXQBMC5ARg=;
+        b=qTL2KevRd9YFHE6b79NxzIVlfhhIfBBAGigfVnMno1EIKmyBjYozhA9NpKSg8PLT1r
+         0h3fPE1mY3ZePCsv1P0gXYSBJIjLivk+oXRc7Lnw1RxEcPFD+z03sTWDn7mDHRUhFl6V
+         EpC7T8GavMosY3wyIeholOauF4YUfRoEkLrWanf+UcJTGQLWoJMOcvhMnh0KKTRCRxbL
+         G0DfFuukUzsSjdoIFr+lbIIM+SZRDZ1AO7wWww+byjBfeaRC95LxPnbdb5ZUQ0OO6feL
+         gPNDgf8J4TcVWyiYMNDQrOwh5MM7hfTCdOQh20VifmKxxhXLzUI4BqvnBLM07bhQrDPn
+         HCbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788570339; x=1789175139;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=+trEjFtLc9/1KfuFoq6WFVPGEpoZWjiCbNYrmRmER54=;
-        b=KRDpOjj32SqyThkPDxEGRhiEPtoNOpJhKiLCzPXzbsQwo0Olmp0qagrJfTR8Pe7Wtk
-         Ce31c6RQ4J+oG2IvtSZnF25KnHPtK1tm2Xs3MIYx4UlJDXW0m95zBH6C0EuM5/D9+PK2
-         qT7zPYC7OIOpQNXAAURN/9zlHJsjQWnhHPxl3IOoSSbLHrQhYmtfopRFZwCq62MxtEQB
-         s7PywQfZdm+wOBzApVl4CyYFEnya7TplvCJbejJ9m07y2IJ395i5hIqhjd4GCllv8YeQ
-         I/YE6AHpW3kjiB6QsOx/C9qFA9rCLYeAgNJs5UYcxziFlWRhY5pr0JplZGcgxlGLw0xr
-         Gb3w==
-X-Forwarded-Encrypted: i=1; AKwUvBy8cVUQlqBzVJUzcHZjQXneP9N3CV9qOQxiIWHuwt9woilAMO6dhAzlGpX6rzD7Kt/354Q/pItINzJtuw==@lists.linux.dev
-X-Gm-Message-State: AFuF++l7YJZ/VBfHo8Og0OZ836Q+N44KeT5a4kzRB+ONcjg0cipDR/I0
-	BEenf14GX3GeA2HDyt9U7OciQbccRO2NJUr9RF8v2iuTczfyMqvYEBh6
-X-Gm-Gg: AYBFou2NytX2kOaelueVeojkYdtv7vRR+0xj3QYBQae2w2yDaS0Pb1/nKOEajhxZoUW
-	Z5iZLoqSP0zB/FUKzYgV0IrfF8FydajRSG4iAx3regN5o3VDQte77b3G9IQYlBv+dUH7U0s976K
-	+s8GGSj6+JtFkxWc+Tt1rOW086fqO4bP7CyZv229XtVl8JdNGPXAFa0aL3bDjoEwLDATtYjK8XA
-	FnUt7jSGSerK6K5V9bykqY6wCHrDI7BGQvvnwviXFaoDFnblCVxA3uaIcGOZzhuoWQtdDRgrCIY
-	luDj5sNhWNxnpa1GOVM7lNPOzFRSxRPHNDfvXuAY+gGUkJKmS/M9wtF5D2rbFJT4XN2ap5Sr0d2
-	tdZAaSJbFYOTmoULnaHvzvgRX2i3I+pwEkwOxoWZBk0kU0MKMi8xJovfAtU2JGBFoAiJF/1g8yv
-	wN9IIL7qW1ufOxQaSh2FZmYk6Mgq6Lq7+jrXYI1O0+MzwplLCdeD1JOk2Gc8d90bR9xU3anDJVl
-	pSC4v738b7MDq+araU975MUzf0dLuKJ+KBJJ6QZC21KAJpt96AfIAslDrcaqAnDogm5uoRy5Hjw
-	du/y/r8aMqO52prshaV+mRlbWzfCTnnGk5MjDZPHfooaYg1YioOSMt4fnc0fZPFJIvZZ7LTI5t1
-	Cr0IB4HqPWTYNgVG73QI=
-X-Received: by 2002:a05:6870:318c:b0:475:e235:8fe with SMTP id 586e51a60fabf-475e2350f4emr4299634fac.28.1788570339228;
-        Fri, 04 Sep 2026 18:05:39 -0700 (PDT)
-Received: from [127.0.1.1] (184-96-151-165.hlrn.qwest.net. [184.96.151.165])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-475544fc87asm3337849fac.10.2026.09.04.18.05.37
+        d=1e100.net; s=20251104; t=1788578219; x=1789183019;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8CCZA4VoDQ6PBSjxOO7MB9iXLnCy8XMS9eXQBMC5ARg=;
+        b=RdEfu3Swhh4CWYD1O3CCdE4jXPPBB1QZ22FcQcb0f1nXEgaYRb7YTRiXrEJbtrFrwY
+         2sKTL3faHpaKuAUbwIvCmGLca9uV9iMUTSL7xcuol82dHLKDkUd5IYI79ua8uDKaAKxN
+         kDp1SkD+5G3LJE+jM9ExF8KWo66JfB+S1sOHFHGljjHZbTnzTWMEXArKKWW33FLiWBUG
+         SBXE45rrP4VuBVVPLxg7aABxY3EFBXUVTyc1fabKKHydp6J8J/QpjFidok853EYKG1ka
+         GfjPOiuL2wL4FUO071K1YqalVrbRCT6jEzcwoDKhx8DVkztkkkNP5tpKJ31Y7fwX2pPE
+         2Bxw==
+X-Forwarded-Encrypted: i=1; AKwUvBxZWgVvtVIpXFiaD182EO7XDGjEC3aTtYQBtQKgcwFIFbr/aFw3IPiGwkjCZMQfDAfEyXkDScyKO/Rb9Q==@lists.linux.dev
+X-Gm-Message-State: AFuF++lAZclR/hQZpplIpgBt1p0aNg4o2yuKcIiM4LwfnIKFR0jfB1Hc
+	vGshOI0R1bq4nd/PvhWvWTjzR2nWcnrgNVlMEQexmKcDIJhKz0OSBH4u
+X-Gm-Gg: AYBFou2CBkv7E8dDjd+6NTY0xfBo0vcbJvtkKaRT4j6c7hk0k/oTKlFhfTqPdY8sa+e
+	VUMu3/nFszvNliO97z9dpnJJFxRhTqYxH6dq1Js+1sdWb7qaFAYqULYD5qT9rpTE/MWdUDxAbMF
+	8iXuS9vkTxQxiXtz34oCVkE1dKiXPBg9e+uX0eSMB1BFtAciTgntvz737CpID6HSBHr5bww4hFU
+	Pr6jUQ8FI5VjeQf5GlLc8CZPRRbp5nsmvqa4OK/Jcr+J3oY4AT38u5edqlzKAHC3PeXVY7v67Dx
+	H5dfQB98IVgvu8IiCdMs8aekQNzJIiNSc+Qe6OOQFKYtScy3uHOR14dKkUOikwAI03EiaEH/2jv
+	wa3BH2EfDSWPInldNPfSuIQ9HLUKQ+TYZho4S+e6xnmbrgDBeA3rwy2pWpIKgdaXXzoy9EKllz2
+	5bLD7L6WKCVd4kY0NYqE3lEcclxkl/qIaydabAyAWb1dfxXf2jmISpv0w9yVR0QBcWAm555BLYb
+	5SB8Uf4c8dR50a1yP86ktSeBZ+/Xhrb59Vve6dikNMFw8UkEahqp10VSDvdD2GjJTW0kdrvRPOc
+	z10n4DeNtxpYFFnOMTfKMmLG96RcdHuEC1P1gvksy3D1tTzvfEhKqcd8BWU+6cpDefCo/Ud2R3r
+	DdvOuZZ+6qzE4JmFCCqxuoZ/5hVgngCtAy/2H6PHnCA4D8RHvL/YYDw==
+X-Received: by 2002:a05:600c:1d01:b0:499:cd34:f7c with SMTP id 5b1f17b1804b1-49cf81e6f87mr157093075e9.5.1788578218915;
+        Fri, 04 Sep 2026 20:16:58 -0700 (PDT)
+Received: from jernej-laptop.localnet ([188.159.248.16])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d03543064sm25312595e9.13.2026.09.04.20.16.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 18:05:38 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Fri, 04 Sep 2026 19:05:37 -0600
-Subject: [PATCH v3] mtd: rawnand: sunxi: reject ECC maximization on small
- pages
+        Fri, 04 Sep 2026 20:16:58 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Barzin Lotfabadi <barzin221@gmail.com>
+Cc: Ryan Walklin <ryan@testtoast.com>, dri-devel@lists.freedesktop.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH 0/2] arm64: dts: allwinner: h616: add HDMI device tree nodes
+Date: Sat, 05 Sep 2026 05:16:55 +0200
+Message-ID: <uGlvDrXdQ7mTWJ790WN0hw@gmail.com>
+In-Reply-To: <20260904213329.3910099-1-barzin221@gmail.com>
+References: <20260904213329.3910099-1-barzin221@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260904-submit-sunxi-nand-ecc-step-validation-v3-1-931cec317c10@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5WOTQqDMBSEryJZ95UY/7vqPYqLGF/1FU0kSYNFv
- HujPUFXwwfDN7Mxh5bQsVuyMYuBHBkdIbskTI1SDwjUR2aCi5I3PAf37mbyMfRKoKXuAZUC53G
- BICfqpY8G4FhUKa/rrsCKRddi8UnrufNofxxFL1T+kB+NkZw39nMeCeLo/bsZBKRQYtbJUnDe5
- PV9mCVNV2Vm1u77/gWdcmsl7AAAAA==
-X-Change-ID: 20260904-submit-sunxi-nand-ecc-step-validation-0e571088b5e7
-To: Miquel Raynal <miquel.raynal@bootlin.com>, 
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Boris Brezillon <bbrezillon@kernel.org>
-Cc: linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, James Hilliard <james.hilliard1@gmail.com>
-X-Mailer: b4 0.15.2
 
-When nand-ecc-maximize is set, the driver selects a 1024-byte ECC step
-and divides the available OOB bytes by the resulting number of steps. A
-NAND with a smaller page therefore produces zero steps and a division by
-zero.
+Dne petek, 4. september 2026 ob 23:33:27 Srednjeevropski poletni =C4=8Das j=
+e Barzin Lotfabadi napisal(a):
+> Hi all,
+>=20
+> These two patches add the device tree nodes needed for HDMI output on the
+> Allwinner H616 family.  Tested on an Orange Pi Zero 3 (H618, 4GB), which
+> drives a 1920x1080@60Hz desktop with these applied.
+>=20
+> Mainline already has DE33 mixer support in the sun4i driver, but there are
+> no display nodes at all in sun50i-h616.dtsi, so nothing probes.  Ryan
+> Walklin's "arm64: dts: allwinner: h616: add LCD timing controller and
+> display engine support" series adds the display engine, bus, mixer and TC=
+ON
+> nodes, but states that HDMI output is not provided.  These patches are the
+> missing HDMI half.
+>=20
+> Every register address, clock index and reset line was read out of the
+> vendor device tree shipped with the board and translated to the mainline
+> dt-bindings macros; the clock and reset numbering was verified identical
+> between the vendor and mainline CCU headers before substitution.
+>=20
+> Two things I would appreciate guidance on:
+>=20
+> 1. Patch 1 currently also adds the display engine, bus, mixer and TCON
+>    nodes, because Ryan's series has not landed and the HDMI nodes need
+>    something to attach to.  If his series is merged first, I am happy to
+>    respin this as an HDMI-only delta on top of it.  That is probably the
+>    right shape; I did not want to post a series that applies to nothing in
+>    the meantime.
+>=20
+> 2. These nodes alone are not sufficient for a picture.  Two driver changes
+>    are also needed: an H616 variant in sun8i_hdmi_phy.c (only
+>    a83t/h3/r40/a64/h6 exist today), and setting the TCON pad select bit in
+>    sun4i_tcon.c.  Both exist in the Armbian sunxi-6.12 tree, authored by
+>    The-going.  I have deliberately not included them here, because I cann=
+ot
+>    provide a Signed-off-by on another developer's work.  If someone in a
+>    position to carry those forward would like to, I am happy to help test.
+>    Without them these nodes probe but produce no output.
+>=20
+> checkpatch is clean apart from one 103-column warning on a remote-endpoint
+> line in patch 1; the identical construct at the same width already exists=
+ in
+> sun50i-h6.dtsi:183, so I left it matching the surrounding convention.
+>=20
+> One implementation note worth recording, since it cost a boot cycle: the
+> DE33 mixer's three register regions must be named "layers", "top" and
+> "display".  The driver fetches the latter two by name, so a wrong name he=
+re
+> surfaces as "invalid resource (null)" and a -EINVAL bind failure several
+> layers away from the cause.
+>=20
+> Result on the board, with the two driver patches also applied:
+>=20
+>   sun4i-drm display-engine: bound 1100000.mixer (ops sun8i_mixer_ops)
+>   sun4i-drm display-engine: bound 6510000.tcon-top (ops sun8i_tcon_top_op=
+s)
+>   sun4i-drm display-engine: bound 6515000.lcd-controller (ops sun4i_tcon_=
+ops)
+>   sun8i-dw-hdmi 6000000.hdmi: Detected HDMI TX controller v2.12a with HDCP
+>   sun4i-drm display-engine: bound 6000000.hdmi (ops sun8i_dw_hdmi_ops)
+>   [drm] Initialized sun4i-drm 1.0.0 for display-engine on minor 0
+>=20
+> with the connector reading "connected", EDID read correctly from the sink,
+> and 1920x1080 among the reported modes.
+>=20
+> Full boot logs, the decompiled vendor device tree the nodes were derived
+> from, and a photo of the running desktop are at:
+>=20
+>   https://github.com/BarzinL/h616-hdmi-mainline
+>=20
+> Based on mainline a500db7819c5.
 
-The older controllers also provide a 512-byte ECC block mode, but the
-hardware documentation describes that as an ECC block size within NAND
-pages whose supported sizes start at 1024 bytes. It does not document a
-512-byte NAND page mode.
+NACK.
 
-Reject pages smaller than 1024 bytes before deriving the step count. This
-prevents the division by zero at the point where the incompatible
-maximized geometry is selected without changing explicitly configured
-512-byte ECC block handling.
+This uses old, improper description of HW. That's why it was never
+merged. Two mixers would never work with it. Also, TCON_TOP
+isn't directly compatible with H6.
 
-Fixes: 4796d8655915 ("mtd: nand: sunxi: Support ECC maximization")
-Cc: stable@vger.kernel.org
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
-Changes in v3:
-- reject ECC maximization on pages smaller than 1024 bytes instead of
-  selecting the 512-byte ECC block mode
-- leave explicitly configured 512-byte ECC block handling unchanged
-- clarify that the hardware documentation describes 512 bytes as an ECC
-  block size rather than a supported NAND page size
-- Link to v2: https://patch.msgid.link/20260904-submit-sunxi-nand-ecc-step-validation-v2-1-6e3ba6200948@gmail.com
-
-Changes in v2:
-- fix ECC maximization at its source by selecting a 512-byte step for
-  512-byte pages instead of validating the derived step count
-- retain 1024-byte steps for larger pages and the existing capability checks
-- rebase on the current MTD nand/next branch
-- Link to v1: https://patch.msgid.link/20260811060651.227431-1-james.hilliard1@gmail.com
----
- drivers/mtd/nand/raw/sunxi_nand.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
-index 83666dd6cb2a..c84f304fb749 100644
---- a/drivers/mtd/nand/raw/sunxi_nand.c
-+++ b/drivers/mtd/nand/raw/sunxi_nand.c
-@@ -2084,6 +2084,9 @@ static int sunxi_nand_hw_ecc_ctrl_init(struct nand_chip *nand,
- 	if (nanddev->ecc.user_conf.flags & NAND_ECC_MAXIMIZE_STRENGTH) {
- 		int bytes = mtd->oobsize;
- 
-+		if (mtd->writesize < 1024)
-+			return -EINVAL;
-+
- 		ecc->size = 1024;
- 		nsectors = mtd->writesize / ecc->size;
- 
-
----
-base-commit: def559a215699aa2f2d8ef98f30156b9d562a154
-change-id: 20260904-submit-sunxi-nand-ecc-step-validation-0e571088b5e7
+Here is newer work:
+https://lore.kernel.org/linux-sunxi/20260509190015.79086-1-jernej.skrabec@s=
+iol.net/
 
 Best regards,
---  
-James Hilliard <james.hilliard1@gmail.com>
+Jernej
+
+>=20
+> Barzin Lotfabadi (2):
+>   arm64: dts: allwinner: h616: add display engine and HDMI nodes
+>   arm64: dts: allwinner: orangepi-zero3: enable HDMI output
+>=20
+>  arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi     | 191 +++++++++++++++=
+++++++
+>  .../dts/allwinner/sun50i-h618-orangepi-zero3.dts   |  25 +++
+>  2 files changed, 216 insertions(+)
+>=20
+>=20
+
+
+
 
