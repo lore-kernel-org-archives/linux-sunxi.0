@@ -1,136 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2A93B0AD8;
-	Sat,  5 Sep 2026 08:00:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A05284B4F
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Sep 2026 08:08:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788595256; cv=none; b=us9vf6IM8SdKpGgWBIE495cHWDwGdiY8ULNUa5C9JxspiCavSZaofi+x4JBKKkzGDaeiJZLqZ3Ac2wZFiD3G9tYciF8GNg/cwGix0uR4m72YnxMmBA0gV5oTPo/94jeDXEnbtpbKQ/nd/NxWxLyCfsgi99u5Ebnww1M8OE8Sduc=
+	t=1788595736; cv=none; b=rT+IiQxJHvE9vUvJdnAdWGl9LFcwEuDthRuS4Xb2SD/xtbuAy/K7iYmsBZSM8BYIWRBvU9/KhYGir4eJPUgSUhtnCxpqn2swVrZARyUnxGEE12hjgmL3p4l88z4IA37o59s1l2KNLWRdO257rlOZnKloXYC8m6qDZzpMp4FzBLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788595256; c=relaxed/simple;
-	bh=DZFfBMrRtiY/73SGDh0XULVSppgU/RJ7ThjUIl3cq4s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tY1d+ev/FCKitFIka0sy3Zu1AZZ+SON0sDBYVQ5lqEVwhJmRlTWj/8Ow5MB8jkaDunMj/zf3L8GzuW2Jxe9iQocUKMOakbSCTt9z0KALrF4XXLp/xpay9jpcfEipEv704VdO05KdE6C7pwcbfRHRBkQwineHyATxwmrAIGFLxWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BIkyxALR; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1788595736; c=relaxed/simple;
+	bh=pDiiWOWYOTIB/oTlgpzrp5YvQuBvB2w9EHba/1RxpAA=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=XcT7bq33Ej7iUFSBRu/9IhA/RWaGLj0clvJ1ykaYf3ojAQVqPO8fSuOtb8FYbv6B/umtOEHqdTyoW7Tz5nLnk72AyZ4TUX7UFz7wqg+y1+Zo1KzT2RzwvQWRZidrA5qmdSwDx7tc5QkkF/H6hib6ITZtyI1FN72WP077wkrt2ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ieb1ddE/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BIkyxALR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788595254; x=1820131254;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DZFfBMrRtiY/73SGDh0XULVSppgU/RJ7ThjUIl3cq4s=;
-  b=BIkyxALR4zJV487zRVPQ/VyJp9G8DmH5xOKTqKibkcKUXMfq+GR3bq/1
-   nnRkTdyDLjqbdeUGWZeExgDXF2IaJpwFvdq60AABVs6wvbvCiXWsyGM8z
-   2uvQ2wcKUEZ5ZWyOdWvFL667aGW8+WFyTGtsrrLGit9mcXe0cp5EWhnFv
-   nCqNXZ7EeGN3AmP4R7FVy/Kp/dHgCL34JT/vpX+2DZAD6WLM60hp4DyIi
-   0Wvr27tyry9+lDcOq8mazSVzDU6/5zs9s8P6Y8FNgTEJASzWRBcZSTu9x
-   uZvRgf/BJTpcWUVM+JoUseZ+ZrtoHni4U7yzSOev8OGsmLQq7ga42J8wR
-   A==;
-X-CSE-ConnectionGUID: QWCD3EXLQwG7DpDiI5YPPQ==
-X-CSE-MsgGUID: bOh23kbHRO2FNb99cNZ6UA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11896"; a="89119567"
-X-IronPort-AV: E=Sophos;i="6.25,263,1779174000"; 
-   d="scan'208";a="89119567"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2026 01:00:52 -0700
-X-CSE-ConnectionGUID: 9JbBadgHQ7SEjpVvHYYgmw==
-X-CSE-MsgGUID: bwhdz7ZKSjWLvCde1OANJA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,263,1779174000"; 
-   d="scan'208";a="270230591"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.245.105])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2026 01:00:43 -0700
-Date: Sat, 5 Sep 2026 11:00:41 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Frank.Li@oss.nxp.com
-Cc: Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>,
-	Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Binbin Zhou <zhoubinbin@loongson.cn>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	=?iso-8859-1?Q?Am=E9lie?= Delaunay <amelie.delaunay@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Ludovic Desroches <ludovic.desroches@microchip.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Keguang Zhang <keguang.zhang@gmail.com>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Kelvin Cao <kelvin.cao@microchip.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	linux-arm-kernel@lists.infradead.org, dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-trace-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-actions@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	imx@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v3 0/4] dmaengine: rename dma_chan::dev to
- dma_chan::chan_dev for clarity
-Message-ID: <apvMKWQhTn5Kf8Sq@ashevche-desk.local>
-References: <20260904-dma-chan_dev-rename-v3-0-685601b0b788@nxp.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ieb1ddE/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CAB41F00A3D;
+	Sat,  5 Sep 2026 08:08:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788595734;
+	bh=A6amWHM4AJ7uT8U1gedeZ4quxbWdHq06tTycogUK0TU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=ieb1ddE/Q4Jqo7Rxp9YzFiSirqQmJazMarKxuD7rVMSgFfebXebszeoBk2BVqXO9X
+	 NbNdguEsQcCL+hcDTMVjy+qAThyc7k9nJ9yCK8Q3Kew4/OPVGwAfy6rZAsk0nNnPfv
+	 K3bs8HVlow19m0NhUZTSbuVqUgQoUh/GT9/XjDbR+4kkIQBFve/5TU+G/rsWLn++WU
+	 2L13niP7/ty88K8Ge94gSJteLMvEFuRPcbsqHGHGXAIonwmUIq1P30qgoltVuGAv7S
+	 OgnuX/24Q0Q/ynQ55OJpE5docq14utrwyWeO31TR5QRjG8wlT2qdrxSMxKFxCMLsLP
+	 R3hFKC3z2o0Uw==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] net: sun4i-emac: fix missing of_node_put() for phy_node
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Li Youhong" <dayou5941@163.com>
+Cc: linux-sunxi@lists.linux.dev
+In-Reply-To: <20260904080758.2432748-1-dayou5941@163.com>
+References: <20260904080758.2432748-1-dayou5941@163.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 05 Sep 2026 08:08:53 +0000
+Message-Id: <20260905080854.5CAB41F00A3D@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260904-dma-chan_dev-rename-v3-0-685601b0b788@nxp.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Sep 04, 2026 at 05:49:42PM -0400, Frank.Li@oss.nxp.com wrote:
-> The current dma_chan structure contains both "device" and "dev". So
-> 
->     chan->device->dev refers to the DMA engine device.
->     chan->dev->device refers to the per-channel device instance.
-> 
-> Their similar naming makes the distinction unclear and increases reader
-> confusion.
-> 
-> Add union dma_chan::chan_dev to make its purpose explicit and clearly
-> identify it as the per-channel device. After all user switch to chan_dev,
-> union and dma_chan::dev will be removed.
-> 
-> Update the kernel-doc accordingly. Besides its sysfs usage, the per-channel
-> device is also used by some DMA engine drivers for IOMMU mapping and
-> therefore deserves a more accurate description.
-> 
-> 1st patch add help vchan_chan_name()
-> 2nd patch use existing helper dma_chan_name() to reduce rename difference.
-> 3rd patch add (dmaengine|vchan)_chan_dev() helper
-> 4th patch add union chan_dev for dma_chan::dev for clarity
-> 
-> Need following patch to clean other dma engineer driver, which is not
-> in drivers/dma
-> 
-> After complete all rename work, dma_chan::dev can be removed.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
 
-Nice work!
-I have one comment against patch 4/4, after addressing that feel free to add
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-to the entire series.
+Pre-existing issues:
+- [High] Unconditional call to `dma_release_channel()` with a potentially N=
+ULL pointer in the `emac_probe()` error path causes a kernel panic.
+- [High] Premature release of the DMA channel before `unregister_netdev()` =
+in `emac_remove()` creates a use-after-free race condition.
+--
 
--- 
-With Best Regards,
-Andy Shevchenko
+commit c4716a5c5ccd2a56d9acba6cfcd5d61c3d288e5f
+Author: Li Youhong <liyouhong@kylinos.cn>
 
+net: sun4i-emac: fix missing of_node_put() for phy_node
 
+This commit fixes a reference leak on the PHY node in the sun4i-emac driver.
+It adds the missing of_node_put() calls on the probe error path and during
+device removal to properly decrement the reference count elevated by
+of_parse_phandle().
+
+> diff --git a/drivers/net/ethernet/allwinner/sun4i-emac.c b/drivers/net/et=
+hernet/allwinner/sun4i-emac.c
+> index 942454e294882..0ba67a55705d6 100644
+> --- a/drivers/net/ethernet/allwinner/sun4i-emac.c
+> +++ b/drivers/net/ethernet/allwinner/sun4i-emac.c
+> @@ -1067,6 +1067,7 @@ static int emac_probe(struct platform_device *pdev)
+>  	return 0;
+> =20
+>  out_release_sram:
+> +	of_node_put(db->phy_node);
+>  	sunxi_sram_release(&pdev->dev);
+>  out_clk_disable_unprepare:
+>  	clk_disable_unprepare(db->clk);
+
+[Severity: High]
+This is a pre-existing issue, but just below these lines in the error
+handling path of emac_probe(), the code calls:
+
+out_dispose_mapping:
+        irq_dispose_mapping(ndev->irq);
+        dma_release_channel(db->rx_chan);
+
+Can this unconditional call to dma_release_channel() cause a kernel panic
+due to a NULL pointer dereference? If emac_configure_dma() fails to acquire
+a DMA channel earlier in emac_probe(), it sets db->rx_chan to NULL and allo=
+ws
+fallback to non-DMA mode. If a subsequent step like devm_clk_get() then
+fails, execution jumps to out_dispose_mapping and dereferences db->rx_chan
+without checking if it is NULL.
+
+> @@ -1094,6 +1095,7 @@ static void emac_remove(struct platform_device *pde=
+v)
+>  	}
+> =20
+>  	unregister_netdev(ndev);
+> +	of_node_put(db->phy_node);
+>  	sunxi_sram_release(&pdev->dev);
+>  	clk_disable_unprepare(db->clk);
+>  	irq_dispose_mapping(ndev->irq);
+
+[Severity: High]
+This is a pre-existing issue, but looking at the context right above this in
+emac_remove():
+
+    if (db->rx_chan) {
+        dmaengine_terminate_all(db->rx_chan);
+        dma_release_channel(db->rx_chan);
+    }
+
+    unregister_netdev(ndev);
+
+Does releasing the DMA channel before unregistering the network device crea=
+te
+a use-after-free race condition?
+
+The network interface is still logically UP when dma_release_channel() is
+called, meaning its IRQ handler (emac_interrupt) is active until
+unregister_netdev() completes. If an incoming packet triggers a receive
+interrupt in this window, the handler calls emac_rx(), which checks
+if db->rx_chan is non-NULL. Since db->rx_chan is not cleared after release,
+would this submit a new DMA transaction using the freed channel structure?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260904080758.2432=
+748-1-dayou5941@163.com?part=3D1
