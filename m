@@ -1,114 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB0F34D4CE;
-	Sun,  6 Sep 2026 16:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8631B34D4CE
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Sep 2026 16:08:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788710760; cv=none; b=FyI0Z+KEvK7/hkiQNwf0Vluq/enL91xZq2jTfsdBgZh5A8oOtt7WEgDXOgzR56YlTBVtYnbOpAiTE25rUXo2tRXazWy3chNZuJPd8IKiRyosVJ2kvtxbLn+6/yGUlCFAjmBWCJxgr6BL6bJhhiUr7ooyH4/3g9J2yuz6JoY8DJQ=
+	t=1788710895; cv=none; b=LSIFgkm9IFdXCIoxoxjKYQbIPjX/+0LH/JnYRP2wJA8gNSeCfB/hYIQi0tHdZJFoPBNNmnAA9bDc8+6bR4izeI0or8JhX21gzOLdqO/DJZyIjv2vuLrTe9W2RXoQ2EE0Uh1P1nk2fx/qxA8Qx4wFBhNyn7QwjokK5K3HainixHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788710760; c=relaxed/simple;
-	bh=caba7iV0TFn9M6TC++uiQpGXS0aTWxbFXW99xT02rXE=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kYJbSS0vtPfq4bBkM7kzQcxRh8OlWB+ZoHFQ7bw7Bavh8F6ADNGSoC041aEEgYiXSjxalJxNdboRcjqjt+KOftVAoEFER/4iQn4j6gDMi8xj3rerrGGJi/kDdpuBiQAX7VOnSx3HnVfHpH2BcG+t0YPRNTEw/JjaPF5+2q9c1xU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JwsMjbUa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1788710895; c=relaxed/simple;
+	bh=G8Hmhp83a1qg24Zah1mUUvYm3Mk/cayLs1yvTP1K8Ko=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=kYcXxo4CGOdN+v1oYruhJPwYjOQFYxbvG3uCpX33F+vJQgE63wVdi+sfoIvKiaR+qQXqKRinjNX//SikcmOZ/6PDt/mxYk/n9BatIFwyIO5GFsCT/emEq3H06ujVa2lXeJRl7sQbDO61EeTyNUFwo7wazKX6QuAEYnaZK2MrTKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g1BkhhUZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JwsMjbUa"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 08423C2BCB8;
-	Sun,  6 Sep 2026 16:06:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1788710760;
-	bh=caba7iV0TFn9M6TC++uiQpGXS0aTWxbFXW99xT02rXE=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=JwsMjbUaMZ/x518+M9YrrKrS1L0sGegRnk8CigScVg9XQ83x8zfBDxjj/R+cFdGLX
-	 HL0T7KbclYtxctgSaseJRj7v/3FRgOLT7aaOjFwUpJK9uJGhVURmFBkm/vjaqIgb8u
-	 CbA8FtLuf1x4yVsIx+heE54xItjsH6DEuj9HtyeLjI6sxr8sdwHAs6GDzopF1FkjPL
-	 zOZSwQZOvEm5rRiogW8xwLrylya34kN66Wmh11+xckzSTG+xIvnmV+BHW8BRaZ/uIK
-	 mLaksXs1Mhrr1jKpmaMIuorRYZnWt/+NUznH5ZtEt2oDSntQFTVog02Sj1ogpdKMgO
-	 p3qayhH2kpqnw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFC8EC79F8C;
-	Sun,  6 Sep 2026 16:05:59 +0000 (UTC)
-From: =?utf-8?q?Juan_Carlos_Guti=C3=A9rrez_Lavado_via_B4_Relay?= <devnull+jcarlosgl96.proton.me@kernel.org>
-Subject: [PATCH 0/2] Add SPC Glee 10.1 A64 board support
-Date: Sun, 06 Sep 2026 16:05:48 +0000
-Message-Id: <20260906-b4-spc-glee-a64-v1-v1-0-621df2155e31@proton.me>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g1BkhhUZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2481B1F00A3A;
+	Sun,  6 Sep 2026 16:08:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788710894;
+	bh=GXOyFyb+92X9gQkFsQW0f7HO99btTkbTieZ0zbEod+Y=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=g1BkhhUZmJrnaFHpUPZis+FRtbHkjCWt3LZneW8uJNmk0SWZc3sdtnxnHhg+cnxKP
+	 8OjE7rxDi8w3Rh+9Wq+JNxew3FFVOSQVot+APVsOa02CqzLWj73ystyBQF9wHj2xOz
+	 av5A+NCnQEhKPSVgqlIQ2LXgAoOv6mRiOVuEH3R/zg9ABwEEAj1sbpQMp3bztsvWfk
+	 PkyjPQiLVlnc1auzVeUMaLyj/S+ii+Kn7u/+SqbQAkPjhY8beuI5N0CeXUdXU+kLSj
+	 4GymGd2o2jnSvQy/fG1nzxWLQTh2Y2wSdhsmC873v2Z4VmPvSs55Z1oBskEZ1C6uS+
+	 OKes6XbjZw6ag==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 1/2] iio: adc: sun4i-gpadc-iio: drop underflowing
+ pm_runtime_put() calls
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Felix Gu" <ustc.gu@gmail.com>
+Cc: linux-sunxi@lists.linux.dev
+In-Reply-To: <20260906-gpadc-v1-1-92d3dc8ef355@gmail.com>
+References: <20260906-gpadc-v1-0-92d3dc8ef355@gmail.com>
+ <20260906-gpadc-v1-1-92d3dc8ef355@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 06 Sep 2026 16:08:13 +0000
+Message-Id: <20260906160814.2481B1F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CQAxG4auQrm0yIDbqVYyLzvCLNQbJVAkJ4
- e6MuvwW7y3kyAanc7VQxmRur6Gg3lWU7jr0YOuKqQmNhFMQji37mLh/AqzS8lSzQLqo+6PqAVT
- CMeNm8296uf7tn/hAen9PtK4bB62QmnYAAAA=
-X-Change-ID: 20260906-b4-spc-glee-a64-v1-6e6dba38aa5e
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Juan_Carlos_Guti=C3=A9rrez_Lavado?= <jcarlosgl96@proton.me>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788710758; l=2104;
- i=jcarlosgl96@proton.me; s=20260906; h=from:subject:message-id;
- bh=caba7iV0TFn9M6TC++uiQpGXS0aTWxbFXW99xT02rXE=;
- b=cUKSRkx9BBgLI4AuGvEDwoNpcMTdkYV58Xmaj6UZcfvXlzlAK8ArFCy9pzbq80RVCo9egA26X
- Aq3u7moAyvdDQAy+zqk/n567UIa1341g5SC92dPzSkH2U3EMre99Vq6
-X-Developer-Key: i=jcarlosgl96@proton.me; a=ed25519;
- pk=2/GzZfrbHAiuUrsA5A4A9ixfHKnypfDfzyE+fToY4Io=
-X-Endpoint-Received: by B4 Relay for jcarlosgl96@proton.me/20260906 with
- auth_id=1008
-X-Original-From: =?utf-8?q?Juan_Carlos_Guti=C3=A9rrez_Lavado?= <jcarlosgl96@proton.me>
-Reply-To: jcarlosgl96@proton.me
 
-Add initial mainline support for the SPC Glee 10.1 tablet, based on the
-Allwinner A64 and AXP803 PMIC.
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
 
-The board description covers the 2 GiB DRAM configuration, essential
-CPU and system rails, microSD, UART, battery monitoring and USB device
-mode. Other peripherals remain disabled until independently validated.
+Pre-existing issues:
+- [High] Unbalanced IRQ Disable on error path permanently breaks device int=
+errupts.
+- [High] Ignored pm_runtime_get_sync() return value leads to unsafe hardwar=
+e access.
+- [High] Race condition / use-after-PM-disable due to mixing manual PM disa=
+ble with devres registration.
+--
 
-The microSD slot deliberately uses broken-cd and a conservative 25 MHz
-limit because its card-detect wiring and higher-speed modes have not been
-validated independently. USB is limited to the tested peripheral role.
+commit 800a3d2cff62e2654821d4421a37d86abb9c6de0
+Author: Felix Gu <ustc.gu@gmail.com>
 
-The exact DTB produced by this series was cold-booted from microSD with
-Linux 7.3.0-rc1. The kernel detected all four CPU cores and 2 GiB RAM,
-probed the AXP803 over RSB, detected the microSD card, mounted the ext4
-root filesystem and started systemd. The boot command line did not use
-regulator_ignore_unused. No eMMC access was required.
+    iio: adc: sun4i-gpadc-iio: drop underflowing pm_runtime_put() calls
+   =20
+    Neither the error path in sun4i_gpadc_probe() nor sun4i_gpadc_remove()
+    ever holds a runtime PM usage count. So the pm_runtime_put() in both
+    places always triggers the "Runtime PM usage count underflow!" warning
+    on every failed probe and every unbind.
+   =20
+    Drop both calls.
 
-Validation was run against sunxi/for-next at commit 913f7eda9f3e:
+> diff --git a/drivers/iio/adc/sun4i-gpadc-iio.c b/drivers/iio/adc/sun4i-gp=
+adc-iio.c
+> index 203459ca99079..85382e435f2a7 100644
+> --- a/drivers/iio/adc/sun4i-gpadc-iio.c
+> +++ b/drivers/iio/adc/sun4i-gpadc-iio.c
+[ ... ]
+> @@ -668,7 +667,6 @@ static void sun4i_gpadc_remove(struct platform_device=
+ *pdev)
+>  	struct iio_dev *indio_dev =3D platform_get_drvdata(pdev);
+>  	struct sun4i_gpadc_iio *info =3D iio_priv(indio_dev);
+> =20
+> -	pm_runtime_put(&pdev->dev);
+>  	pm_runtime_disable(&pdev->dev);
 
-  make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig
-  make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- Image \
-       allwinner/sun50i-a64-spc-glee.dtb
-  make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- \
-       DT_SCHEMA_FILES=Documentation/devicetree/bindings/arm/sunxi.yaml \
-       dt_binding_check
-  make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- W=1 \
-       CHECK_DTBS=y allwinner/sun50i-a64-spc-glee.dtb
+[Severity: High]
+This isn't a bug introduced by this patch, but does calling
+pm_runtime_disable() here create a race condition?
 
-Signed-off-by: Juan Carlos Gutiérrez Lavado <jcarlosgl96@proton.me>
----
-Juan Carlos Gutiérrez Lavado (2):
-      dt-bindings: arm: sunxi: Add SPC Glee 10.1 A64
-      arm64: dts: allwinner: Add SPC Glee 10.1 A64
+The IIO device and thermal zone are registered using devres functions
+(devm_iio_device_register / devm_thermal_of_zone_register) in
+sun4i_gpadc_probe(), which means they are unregistered after
+sun4i_gpadc_remove() completes.
 
- Documentation/devicetree/bindings/arm/sunxi.yaml   |   5 +
- .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
- arch/arm64/boot/dts/allwinner/Makefile             |   1 +
- .../boot/dts/allwinner/sun50i-a64-spc-glee.dts     | 123 +++++++++++++++++++++
- 4 files changed, 131 insertions(+)
----
-base-commit: 913f7eda9f3e3fb1c67285e144e202494d440049
-change-id: 20260906-b4-spc-glee-a64-v1-6e6dba38aa5e
+Since pm_runtime_disable() is called before the devres-managed IIO device a=
+nd
+thermal zone are unregistered, the sysfs device and thermal zone remain ful=
+ly
+accessible while PM transitions are disabled.
 
-Best regards,
---  
-Juan Carlos Gutiérrez Lavado <jcarlosgl96@proton.me>
+Could a concurrent background poll from the thermal core or a userspace IIO
+read during driver unbind trigger a pm_runtime_get_sync() that fails with
+-EACCES, leading to an unclocked hardware crash?
 
+This is another pre-existing issue, but does sun4i_gpadc_read() have an
+unbalanced IRQ disable on its error path?
 
+drivers/iio/adc/sun4i-gpadc-iio.c:sun4i_gpadc_read() {
+    ...
+	ret =3D sun4i_prepare_for_irq(indio_dev, channel, irq);
+	if (ret)
+		goto err;
+
+	enable_irq(irq);
+    ...
+err:
+	pm_runtime_put_autosuspend(indio_dev->dev.parent);
+	disable_irq(irq);
+	mutex_unlock(&info->mutex);
+
+	return ret;
+}
+
+[Severity: High]
+If sun4i_prepare_for_irq() returns an error, execution skips enable_irq()
+but goes to the err: label, which unconditionally executes disable_irq().
+Since the IRQ was requested with IRQF_NO_AUTOEN (disabled, depth=3D1), the
+unmatched disable increments the depth to 2.
+
+A subsequent successful read will call enable_irq(), only decrementing the
+depth to 1, leaving the IRQ permanently disabled. Does a single transient
+error during a userspace IIO read permanently break the hardware interface?
+
+This is also a pre-existing issue, but should the return value of
+pm_runtime_get_sync() be checked before accessing hardware registers?
+
+drivers/iio/adc/sun4i-gpadc-iio.c:sun4i_prepare_for_irq() {
+    ...
+	pm_runtime_get_sync(indio_dev->dev.parent);
+
+	reinit_completion(&info->completion);
+
+	ret =3D regmap_write(info->regmap, SUN4I_GPADC_INT_FIFOC,
+    ...
+}
+
+And in drivers/iio/adc/sun4i-gpadc-iio.c:sun4i_gpadc_temp_read():
+
+	if (info->no_irq) {
+		pm_runtime_get_sync(indio_dev->dev.parent);
+
+		regmap_read(info->regmap, SUN4I_GPADC_TEMP_DATA, val);
+    ...
+}
+
+[Severity: High]
+pm_runtime_get_sync() can return a negative error code if the device fails =
+to
+resume or if runtime PM has been disabled. The return value is ignored befo=
+re
+issuing regmap_read() or regmap_write() calls.
+
+If PM transitions fail or runtime PM is disabled, could this lead to access=
+ing
+unclocked or powered-off hardware, potentially resulting in system hangs or
+bus faults?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260906-gpadc-v1-0=
+-92d3dc8ef355@gmail.com?part=3D1
