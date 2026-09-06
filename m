@@ -1,67 +1,69 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C96D3A875A
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Sep 2026 15:58:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC95A3AA1BD
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Sep 2026 15:58:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788710326; cv=none; b=suotwQNyoSVBcqexJY4wEUQmyh4jXDFG+9ugPrX0isE0uUf5RSUI2NsabMuoTUBzE9XkB9lwCDE1q1Jr4zakxDh8EXLPyAC4vH3l33kalFbKVEqmFTs8/NjFIX6QBSKdT7jqmE7DKzIwVztMBgHyYYkoZg9RPJ9WkjJUmUcrj7c=
+	t=1788710332; cv=none; b=ZdsVCHRlQErGUV6Tn45yfb5junrQ3oSObj8zDGs/+thQYw25XM3zkBF2L3Ne5OeRLBGKMJFcmL+nI8O81IQG8+f62AZQWh0Q7nppbdDa5dy/iqaaVej3xRTT7yyWQz6f7++mlFl5sdxl4CKC0JGxUj1PXkZCxRo3m+QuilytXn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788710326; c=relaxed/simple;
-	bh=K8U4gG3AQblf7ICtp1xRLfTb5Hvus1HZE7hzEe6OtnU=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Ey5tSsu6pxAvfUvNa6N0gog65mYs58gG+2PfuZXs4XcFYIAF+5m5kArdq6Bzh9eJh0YSEeimtJ1axpyZ+icM9GVYUNmuA/XSydfPRsVoCMtctwsrtgk+j77WzIcSaQbTDx32Qv0q5o4UZIibES54lfG/0rFtlPARRz3xAr3xee8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VZbMpWlF; arc=none smtp.client-ip=209.85.216.54
+	s=arc-20240116; t=1788710332; c=relaxed/simple;
+	bh=c57ka5j8TQHkpX5FZRHB8vFerQ2Ws0Z0sbVGbrtSoUw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=KbQY9/loxYAnBU3GkohNSEt5TGDP2ndisUq8bfAPo4Hkwyd2goaCu8RAxs4qh000Sz7NssrIUaw/DFybCkdJJrKX7s6cBdfcHSWJWO3rKOWVmXJ7YhI6yqbfcYil0KOjHL9GCZzjuxWkI0MHkVlbXIh6Y7bHLejHEkC9fB5+5Ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DJEuCEsM; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VZbMpWlF"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-39b2ad862bdso2815535a91.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Sep 2026 08:58:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DJEuCEsM"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-398a5aad413so1941606a91.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Sep 2026 08:58:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788710321; x=1789315121; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=/dbxaiPStg/QuX6EVqwVigaoYbaqasF56BIGaXeKFQo=;
-        b=VZbMpWlFO5Jv2SUEGs71/vu02Aol7Z64I5DzbRr6yAR141vY11Nselkq6qzDwfPKoP
-         nJCLkfwdoojbmKOuhsuLzRNe7xbU99OUA+vzC+X01uFSGpHRYt7LUoK0d7ObXIZpsJaW
-         PCAKNBrqXda4H6oROGkqs656UuGiqpAkfnP/x4bLH0b7Tc+/J3e28m9+yzRXYENWoikw
-         guSl4K2Bdpp+3a8EkSNH8ZgTa+pbnmRf7NAibn3F4Z0HfvVJQCGIkr146lDE5nKRsfbL
-         KuOrEdylvVT0rFPn+Po4Od13Asd0gFM5qfssgCO0ilZM2wXyvt7/MDwq/xyJl2TIZ9gr
-         OfDw==
+        d=gmail.com; s=20251104; t=1788710326; x=1789315126; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ViofCTK8v1s13H6Q1s8S3TeyG55pxUNWw4j4G5OCidI=;
+        b=DJEuCEsMg+dzojJEhpJYocWlYouBifcRpNqIcyxW8U82DhvIMsQWg3w3W5LczJ0Y0a
+         QU3yBcEEJn5opu4Co3Da+vQsinzikgScwoq2EHYMy0qSqzdvR973kn0YK0Fk7+OWrWiN
+         qPXMW9oREFCMfKAvALT/3RR4Hsu0VP/xTwbR3PTVAcmw1upYjP2ZFC1M8VaSynCkp9Ui
+         JlPezKm6INTEECt1Y07F8h3lrBVGMDo+YTu64n941DIjoOuSWLOHzBxIfzJWC1Q3VPBQ
+         Ri0h8fbFB8Pccagm+15k8MzJPnLYKeahAm5GdRV4AgcU2BMs6XrzPOvOOJuTa9wf0fmj
+         HGxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788710321; x=1789315121;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/dbxaiPStg/QuX6EVqwVigaoYbaqasF56BIGaXeKFQo=;
-        b=AhlpSe61dmE1Txxc37Zc4m9QddQpBkda+BTMU0ZCDA3NJn6hzQlhdI0qvycLu9cZ3c
-         YCtKKEscQ9JH8ff0Azm13FI8GyRv1/7MoNbWCoTsbbuCXf6rwRm0L4FXOfQS7tTdufxN
-         tC1pomaaD1B57NZgu//GaXYp4ZbYLu2kKHu2CemOc3VKkNxwhrIy84VzXjnMPF3ZTk8/
-         8BI8Zn1MYZayBr8d/v9fMDM/VMnxfq1CjrNkcjFPoRLWGTXCSwY4A16gbjJJ/M7jeX98
-         eesgzmCB4EpIlhYwzBbDErvinokoZEs4w4P/9jwfK4Nww+MXJrE7RyOA46CBhmFnCO9K
-         T9Bw==
-X-Forwarded-Encrypted: i=1; AKwUvBy2osB7mH2MGmoqjFhfoc/5RnkfBJ2C1ezDOwGzhMf8Qz8mEukDGLd7iiG6AcTJe6Zb2/njT9QUwJ4M/g==@lists.linux.dev
-X-Gm-Message-State: AFuF++k10oFiKq6jjJSXY6vKI1HTHy0RLKiHd5EHHnJLVtqbVS/tur9Y
-	AmP94P69WaEgGcX4yAHYp2u5kYyiezbmZgsVM5+rR+WU1a7u5T0/OQOJ
-X-Gm-Gg: AYBFou3+mJOwNZcaQQJEgGIV+6duO7KvyCE+2FBdVBlO9gIhG5SLn8nKfBQ07UzUSIE
-	FYc5tKjHR4iQsZVuWeKFCNPzBim9ZJ7ovH6NYLKE3j+SZn8A6oDJ6DfjBeKjIvTPDX5Y/7vBXeD
-	sSra3JRF0HBQ9Vk0IhqY3L4EWt9KUTaBSgPmAJlfFhLfIp9FISZmZ2oDv66Ott4uXH3LsooL66q
-	ME5f/MjSD7qUjvmG79xHBZhu3Sb9TkPmKEgrhJSZRVGDsg6nU5ONBQtkl+Krh9CDMEvrn0Uee11
-	t+H+8EiYeKA3ZLuYmK08nillqqoW08l9KL72HprBNUWzmkPr52RMYHXyPLdkBozOSeJv7mavDUA
-	zykLY8cINxYMVWt/X2UfUc4WfAQkkWObST6H1MlYQdza40wbgiJDh+2mMD8M+AmK21MizEeHuDW
-	h6HLHgiPgb6/RDobsun0LpuWj2iQVD6dT7pShgcvhoSASPX3CJutDjAsCH4qDuokuEHFNghS+JZ
-	ewEg5um8xz+vwjmc5cUn5t8NpQD9VWx8SNj7JYxckHToTCcWM2Ylpc+b3GVYHxKL1I=
-X-Received: by 2002:a17:90b:57d0:b0:395:4de0:b78f with SMTP id 98e67ed59e1d1-39b260d28eamr26240194a91.1.1788710321449;
-        Sun, 06 Sep 2026 08:58:41 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788710326; x=1789315126;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ViofCTK8v1s13H6Q1s8S3TeyG55pxUNWw4j4G5OCidI=;
+        b=d5uoZiC9SbavqwNl8PJO0pVO7HGuI6XDTN7Pquqsz0zQEjQ72qsq3+ufRg2GVSR0Z4
+         M7vdjwYkCGaQvqLyaBl6LSaki6Eauji7Ol73J7s2w6PLZDFk+MrhZ45x9IZ5ctPT1KN1
+         ci/zh9CClDlYUQh97uR2rdzeU4f6pbEOwO18nNxVmeF8PUw31n8nbYwZuBczi3B+i6rC
+         SDT/Hj/KYkAimS76b+o5oMdbP3J+UAlU2eLNCWRmJE2S69EqSk8v/W9UA2N/Gpu9QQfO
+         v4L06o0rf0nSkKet/s+Gsi4We3aOzAL9KyULEcYOGS6HqgcRrqfSLO+6EX/zMwC4KYrc
+         8pvA==
+X-Forwarded-Encrypted: i=1; AKwUvBw6EaAjf4g4AUsMVm0k/9mAfsn8rk4rnH6cM9As1Ez3aSXzsnWINkJltacyvtedM7x3GZP7mVlKdqHj+w==@lists.linux.dev
+X-Gm-Message-State: AFuF++ldWI5M6IfsHmsz56eP7M04zpSfLHuNbzgqBgziwbInQ1EzJYK4
+	DKc2aq3y+rya7RjLsjaZTDZgZw2qEV8yklGKTULaCTGkGnip25RsQsD5
+X-Gm-Gg: AYBFou3WpYjC4dr9+LiuOzIg5H2NeNe50drG3aQSAb2g6rEo3lbwWE+ZbfRKN/xcwOn
+	fw6ojlyOeHESyindl6VrfYrtx2Wy86jrv5+sfdrVFoIU+SsRY0va5Tk2lZNqina0BK7lnjrqSLT
+	xEviG4go/Rk9L8YLDHoCypPgiboPl79qYMPlpJV3nMBmHq3U7o8skGplUO44rYxrTHn//LPEYaL
+	rbzBSV0bmYIITdeeUQvNRWwHmWOu3hLe00SI2fATsw5FQGsn+Uu1Xk4Cx6oEZ2JAzcBwwhEJUKp
+	mtN4L9/jUr3TdfVmNMfVHvfwY8fpS1HGlonx8J256BufcjbnKTcnY6IvR6Z1TkEkKc9/GqWvZWq
+	2BX4uPHHX0dnQ5XlF90n/k3XDeVPcrM2K17Wg4Dw82kIqQvZiGUmhgxr2uKBCOtnbQXJmJDUmtg
+	RBUo7TA9mUHDUvwuzCosN+D+nTUCOETsFLJ0hNWeCRLXn0OLmKQt8dNaFY+5RbsO9nTpnVlEJ3w
+	VKiYBGm7oAFiFYBVc97X9dp7yo0MPdK/FkMmE1LP51UN7vVw0i9DTjIrztggClHCoc=
+X-Received: by 2002:a17:90b:3852:b0:38e:9ef9:eb97 with SMTP id 98e67ed59e1d1-39b26272d69mr27665796a91.16.1788710325448;
+        Sun, 06 Sep 2026 08:58:45 -0700 (PDT)
 Received: from junjungu-PC.localdomain ([223.166.246.74])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b260f64ecsm15941401a91.8.2026.09.06.08.58.36
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b260f64ecsm15941401a91.8.2026.09.06.08.58.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Sep 2026 08:58:41 -0700 (PDT)
+        Sun, 06 Sep 2026 08:58:45 -0700 (PDT)
 From: Felix Gu <ustc.gu@gmail.com>
-Subject: [PATCH 0/2] iio: adc: sun4i-gpadc-iio: two fixes
-Date: Sun, 06 Sep 2026 23:58:33 +0800
-Message-Id: <20260906-gpadc-v1-0-92d3dc8ef355@gmail.com>
+Date: Sun, 06 Sep 2026 23:58:34 +0800
+Subject: [PATCH 1/2] iio: adc: sun4i-gpadc-iio: drop underflowing
+ pm_runtime_put() calls
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -70,10 +72,9 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDSwMz3fSCxJRk3RQTwyRLM5MUizRDcyWg2oKi1LTMCrA50bEQfnFpUlZ
- qcglIs1JtLQDWtQlxaQAAAA==
-X-Change-ID: 20260906-gpadc-d41b964d8f17
+Message-Id: <20260906-gpadc-v1-1-92d3dc8ef355@gmail.com>
+References: <20260906-gpadc-v1-0-92d3dc8ef355@gmail.com>
+In-Reply-To: <20260906-gpadc-v1-0-92d3dc8ef355@gmail.com>
 To: Jonathan Cameron <jic23@kernel.org>, 
  David Lechner <dlechner@baylibre.com>, 
  =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
@@ -86,27 +87,48 @@ Cc: linux-iio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Felix Gu <ustc.gu@gmail.com>, Jonathan Cameron <jic23@kernel.org>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788710316; l=477;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788710316; l=1267;
  i=ustc.gu@gmail.com; h=from:subject:message-id;
- bh=K8U4gG3AQblf7ICtp1xRLfTb5Hvus1HZE7hzEe6OtnU=;
- b=KKdnvVHGc9z66Nr5HNx4ntRPqRtsqEijnBCzDHcZaEUJXlQxGGQqVwgyS6ym5BVtkrrzwfg//
- vFo8QEpNRFWCBfN3nxQpm1Vo5vSvRI+QU5qCcDHZdotA0ms+izqTQNT
+ bh=c57ka5j8TQHkpX5FZRHB8vFerQ2Ws0Z0sbVGbrtSoUw=;
+ b=RK5suJBjW/7xSEGUZXgfUBlPW2TReDkIU+aOrloVKr3mhcpiAxpWmhUE7ZU8jgfIYEVZ2MO7Z
+ ioAF8OyoqLhARn7gFPEsWticTsfzL14FepGKSvjltcW7wOLyhMyhCXH
 X-Developer-Key: i=ustc.gu@gmail.com; a=ed25519;
  pk=fjUXwmjchVN7Ja6KGP55IXOzFeCl9edaHoQIEUA+/hw=
 
+Neither the error path in sun4i_gpadc_probe() nor sun4i_gpadc_remove()
+ever holds a runtime PM usage count. So the pm_runtime_put() in both
+places always triggers the "Runtime PM usage count underflow!" warning
+on every failed probe and every unbind.
+
+Drop both calls.
+
+Fixes: d1caa9905538 ("iio: adc: add support for Allwinner SoCs ADC")
 Signed-off-by: Felix Gu <ustc.gu@gmail.com>
 ---
-Felix Gu (2):
-      iio: adc: sun4i-gpadc-iio: drop underflowing pm_runtime_put() calls
-      iio: adc: sun4i-gpadc-iio: clean up on thermal zone registration failure
+ drivers/iio/adc/sun4i-gpadc-iio.c | 2 --
+ 1 file changed, 2 deletions(-)
 
- drivers/iio/adc/sun4i-gpadc-iio.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
----
-base-commit: 9d80aa4617b32f5054c5aa471d06b66704854935
-change-id: 20260906-gpadc-d41b964d8f17
+diff --git a/drivers/iio/adc/sun4i-gpadc-iio.c b/drivers/iio/adc/sun4i-gpadc-iio.c
+index 203459ca9907..85382e435f2a 100644
+--- a/drivers/iio/adc/sun4i-gpadc-iio.c
++++ b/drivers/iio/adc/sun4i-gpadc-iio.c
+@@ -657,7 +657,6 @@ static int sun4i_gpadc_probe(struct platform_device *pdev)
+ 	if (!info->no_irq && IS_ENABLED(CONFIG_THERMAL_OF))
+ 		iio_map_array_unregister(indio_dev);
+ 
+-	pm_runtime_put(&pdev->dev);
+ 	pm_runtime_disable(&pdev->dev);
+ 
+ 	return ret;
+@@ -668,7 +667,6 @@ static void sun4i_gpadc_remove(struct platform_device *pdev)
+ 	struct iio_dev *indio_dev = platform_get_drvdata(pdev);
+ 	struct sun4i_gpadc_iio *info = iio_priv(indio_dev);
+ 
+-	pm_runtime_put(&pdev->dev);
+ 	pm_runtime_disable(&pdev->dev);
+ 
+ 	if (!IS_ENABLED(CONFIG_THERMAL_OF))
 
-Best regards,
---  
-Felix Gu <ustc.gu@gmail.com>
+-- 
+2.53.0
 
