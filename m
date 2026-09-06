@@ -1,78 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90584347505;
-	Sun,  6 Sep 2026 22:36:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D4C2F6577;
+	Sun,  6 Sep 2026 22:38:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788734214; cv=none; b=awPAi4KfR0m1Vih4Q5X6ML+XjR8mozBgZy295ah3u5miQe1g2I+UhFDbL87PAFVtDUCoYdvZRJ5LEYArwInJnBOC83R+TAQo1EkR2KNQwNWjyuYpnN3vFd6LZZThnkn7sznHriL13hDmww8Sp5YtNCrx8sjTtzJMD9QCN7bRlew=
+	t=1788734290; cv=none; b=PPeOKxBmC+SSGh0qCXVPBkpGt4jeO2yILbIovNEnb/ewPXD6Sg/jcAM+2lwkyfbJeUjpO2oAL9wKkC5UUWHAM/5xWuNSKaLLjML6LKaN+A89Z1ZelUKcty504r85D9s5rlmKdEgSmE83HIVwkXYSUirIOzaYPJMGPUt/VXvNFec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788734214; c=relaxed/simple;
-	bh=FDtfwTYyBvmMVwybiOCwQDJp0XhaxwNN7y+jF1FDgZQ=;
+	s=arc-20240116; t=1788734290; c=relaxed/simple;
+	bh=kMjvCcaMvhAQChIZ2GSFf4YCkOieeTewNAfNlTSkRfE=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=igHqeZkNOZKfn0bPagyQdmRH+KYuLBosOa0cFYduyirxosYmvsTFK32nlKc/YI+ltoE7ROzcVA/NJRHGSaJJptxs3AH3ffusL5qafEHTKZS9g14l/CVkKAxHMedyCI8MknTRULEdz0Mw049WCIFbwbv1/lPByW9iYlIrJKR+4uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RFsuCUJc; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=LiWK2bQeqsDNzZYP2b8E6umSUcZrdchisCg2qgYqg7xPgYtKOBIIzGrpHmovCw8cJ95Wfvcsj5gSpMpUxV715GXoQeNQUgjsrKYr+WHF7DdI3rsjoPQsQwTVgvrSwMHaSMeIfwXmYDkQtEPWJ4NkKg31HQ9Xkg/sXHEJG4m4Kv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TtlFWxUD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RFsuCUJc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C37CE1F00A3A;
-	Sun,  6 Sep 2026 22:36:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TtlFWxUD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C13251F00A3A;
+	Sun,  6 Sep 2026 22:38:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788734213;
-	bh=FDtfwTYyBvmMVwybiOCwQDJp0XhaxwNN7y+jF1FDgZQ=;
+	s=k20260515; t=1788734289;
+	bh=NIF/FC6dzX++EzqCsN2zsRfswTPzHmi9gUna+uiJlKU=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=RFsuCUJcNGtj8pKdKbby2vW8Gn/nM2U4twxOSv/pNQD26+TDOHSBJKZoJXnQYAayl
-	 BVa7fDr4Z4+dytUeYUB2uHUC8SfWzpKQrS7e2t2BjGeDZn+Q3ZI3KxSL8oFdqqyWJr
-	 IatsobQyZa07kLhLwAqLwj3vu8aQ/Ez8CY97qnbrPfANuFM3dqnVO/+oGdiWt90ecp
-	 UAv5YP+GXOtyaAeyVpvNYBb7f5opQA+zyCYiLm8gmucNQgoQhDZPq3gVzPPxFYsS5I
-	 4uzfWz9IlDtAYPE4+GqgaLzBGaHtXwA7Zi+eg0LJ+iMhXZt9ni3gAWvxW183Vd95m/
-	 +g7agkUEPwKXQ==
+	b=TtlFWxUDmM2vj4bE23SNSUgqnyXEmZubIOezwN/VIaR7Fy1c+jyX3xYYo0f5IZnfC
+	 DjolwVajISgW+rqJQlAPSX0Xrlc/0yAbDhp7E6PG/q1R28qznk491NIQG6/znqXhH4
+	 cT3RzwoFm5SxDL/E5+I2hiLqHhRubtK2G4E+X49JmDxkXzNkeTXiUmrKGWgm5wqYAR
+	 JipvrzobsNjU3mfVUu5p+pSn96SjkYA1e7Yglmji9GeRprOL93zRYw+SKHOp5kmyDk
+	 UYQBpU4rOcWhD5skDSx3h18XyaTX6Lf/2Sw62ayP58FNd7g0YUZbXM02eBWIDky5X4
+	 aukpbw4g1Ds1Q==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v10 1/2] dt-bindings: mfd: x-powers: Add AC200
+Subject: Re: [PATCH v10 2/2] mfd: ac200: Add X-Powers AC200 support
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "James Hilliard" <james.hilliard1@gmail.com>
-Cc: robh@kernel.org, conor+dt@kernel.org, mfd@lists.linux.dev, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, lee@kernel.org
-In-Reply-To: <20260906-submit-ac200-mfd-v10-1-f522e8dc2bd4@gmail.com>
+Cc: conor+dt@kernel.org, mfd@lists.linux.dev, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, lee@kernel.org, robh@kernel.org
+In-Reply-To: <20260906-submit-ac200-mfd-v10-2-f522e8dc2bd4@gmail.com>
 References: <20260906-submit-ac200-mfd-v10-0-f522e8dc2bd4@gmail.com>
- <20260906-submit-ac200-mfd-v10-1-f522e8dc2bd4@gmail.com>
+ <20260906-submit-ac200-mfd-v10-2-f522e8dc2bd4@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 06 Sep 2026 22:36:52 +0000
-Message-Id: <20260906223652.C37CE1F00A3A@smtp.kernel.org>
+Date: Sun, 06 Sep 2026 22:38:08 +0000
+Message-Id: <20260906223808.C13251F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-> The AC200 is an I2C-controlled mixed-signal companion IC containing
-> audio, video, RTC and Fast Ethernet PHY functions.
->=20
-> Describe the parent device and its shared input clock together with the
-> audio codec and TV encoder child nodes. Keep their analog supplies on the
-> function consumers and describe the TV encoder display graph and optional
-> bandgap calibration cell.
->=20
-> Add the shared interrupt-controller properties and interrupt numbers used
-> by the TV encoder. The Ethernet PHY is represented by a PHY package on its
-> MDIO bus, with a phandle back to this device for access to the package
-> control registers, so it does not require an MFD child node.
->=20
-> Keep the INTB connection and TV encoder interrupt optional, including when
-> the TV encoder is enabled. Cable detection status is readable over I2C
-> without an interrupt. If a TV encoder interrupt is described, require the
-> parent interrupt domain and its upstream connection. Include examples
-> with and without INTB connected.
->=20
-> The input clock must run at 24 or 27 MHz when the Ethernet PHY is used,
-> matching the rates encoded by its documented clock selector.
->=20
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] Creating a local stack copy of the mfd_cell array for dynamic am=
+endments violates MFD subsystem guidelines.
+--
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+commit 89b84971b8215b5790b042d0288d352785ec348e
+Author: James Hilliard <james.hilliard1@gmail.com>
+
+mfd: ac200: Add X-Powers AC200 support
+
+This patch adds support for the X-Powers AC200 mixed-signal companion IC. It
+provides shared regmap access, an IRQ controller for the INTB output, and
+instantiates the individual function devices like the audio codec and TV
+encoder.
+
+> diff --git a/drivers/mfd/ac200.c b/drivers/mfd/ac200.c
+> new file mode 100644
+> index 0000000000000..30828e113c11b
+> --- /dev/null
+> +++ b/drivers/mfd/ac200.c
+
+[ ... ]
+
+> +static int ac200_add_devices(struct device *dev)
+> +{
+> +	struct mfd_cell cells[ARRAY_SIZE(ac200_cells)];
+> +	unsigned int num_cells =3D 0;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(ac200_cells); i++) {
+> +		const struct mfd_cell *cell =3D &ac200_cells[i];
+> +		struct device_node *child;
+> +
+> +		child =3D of_get_compatible_child(dev->of_node,
+> +						cell->of_compatible);
+> +		if (!child)
+> +			continue;
+> +		if (of_device_is_available(child))
+> +			cells[num_cells++] =3D *cell;
+> +		of_node_put(child);
+> +	}
+> +
+> +	if (!num_cells)
+> +		return 0;
+> +
+> +	ret =3D devm_mfd_add_devices(dev, PLATFORM_DEVID_AUTO, cells, num_cells,
+> +				   NULL, 0, NULL);
+
+[Severity: Medium]
+Does this pass a dynamically amended local stack copy of the mfd_cell array
+to the MFD core?
+
+The MFD subsystem guidelines advise against creating local copies of mfd_ce=
+ll
+arrays for dynamic amendments, as standard practice requires static const=20
+references for these arrays.=20
+
+Could this be updated so the static array is passed directly, leaving the
+node availability checks to either the MFD core or the individual child
+drivers during their own probe sequences?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260906-submit-ac2=
-00-mfd-v10-0-f522e8dc2bd4@gmail.com?part=3D1
-
+00-mfd-v10-0-f522e8dc2bd4@gmail.com?part=3D2
