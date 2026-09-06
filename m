@@ -1,170 +1,173 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8631B34D4CE
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Sep 2026 16:08:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481901FB1
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Sep 2026 16:08:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788710895; cv=none; b=LSIFgkm9IFdXCIoxoxjKYQbIPjX/+0LH/JnYRP2wJA8gNSeCfB/hYIQi0tHdZJFoPBNNmnAA9bDc8+6bR4izeI0or8JhX21gzOLdqO/DJZyIjv2vuLrTe9W2RXoQ2EE0Uh1P1nk2fx/qxA8Qx4wFBhNyn7QwjokK5K3HainixHg=
+	t=1788710938; cv=none; b=gMe9YZ20dDjMTvfPcsc4HF80IxkH3oe8yD1VeRapn1YHRQpr8uxeJtoyXtXdu58RdRVqsFZQ7ISaO7mZj5u2EmUP+rEbZtZ/hxXhQQ8Dup2d03cpCHTzSQ5Q4N1ne3OS3ALHiIlJYTLmd1UhG7zhzrv0/WW/0JqjXp59RV8D3CU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788710895; c=relaxed/simple;
-	bh=G8Hmhp83a1qg24Zah1mUUvYm3Mk/cayLs1yvTP1K8Ko=;
+	s=arc-20240116; t=1788710938; c=relaxed/simple;
+	bh=R1R2O3YDcJ1al9vG77Vx2QEe12nTz6+uB/intkXoRJI=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=kYcXxo4CGOdN+v1oYruhJPwYjOQFYxbvG3uCpX33F+vJQgE63wVdi+sfoIvKiaR+qQXqKRinjNX//SikcmOZ/6PDt/mxYk/n9BatIFwyIO5GFsCT/emEq3H06ujVa2lXeJRl7sQbDO61EeTyNUFwo7wazKX6QuAEYnaZK2MrTKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g1BkhhUZ; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=seCOYJ35sJ74iKshL0xV5ULMqpmx9+SS5Y6G1KrgMy9FBw2045nwWP7cYIL+twpQOXfeGF39RgYp0tiReyu6bISdPrE+htVuRLlOWga+shhagWwYOVi3bsp9uSsURPOfV2f7iR+JeCCm1VwsYlZlGhqBXuzwHsiS11UpYNHjvYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ld0lMa9H; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g1BkhhUZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2481B1F00A3A;
-	Sun,  6 Sep 2026 16:08:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ld0lMa9H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 964E71F00A3A;
+	Sun,  6 Sep 2026 16:08:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788710894;
-	bh=GXOyFyb+92X9gQkFsQW0f7HO99btTkbTieZ0zbEod+Y=;
+	s=k20260515; t=1788710935;
+	bh=popRHXT/Pis/dNLnmkcH+VTNnspVKlNL0w6vP83Ojm8=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=g1BkhhUZmJrnaFHpUPZis+FRtbHkjCWt3LZneW8uJNmk0SWZc3sdtnxnHhg+cnxKP
-	 8OjE7rxDi8w3Rh+9Wq+JNxew3FFVOSQVot+APVsOa02CqzLWj73ystyBQF9wHj2xOz
-	 av5A+NCnQEhKPSVgqlIQ2LXgAoOv6mRiOVuEH3R/zg9ABwEEAj1sbpQMp3bztsvWfk
-	 PkyjPQiLVlnc1auzVeUMaLyj/S+ii+Kn7u/+SqbQAkPjhY8beuI5N0CeXUdXU+kLSj
-	 4GymGd2o2jnSvQy/fG1nzxWLQTh2Y2wSdhsmC873v2Z4VmPvSs55Z1oBskEZ1C6uS+
-	 OKes6XbjZw6ag==
+	b=Ld0lMa9H0qBUuYWLl90ZsiH4IrFcPSnkhW6xhYpxYOy+ZwcbVZRpvJOdnfKtxmVTn
+	 8zJGtfSXuSmvg+azFicNtqn89ULzLd38GCREi20g+VZd8uKEq5+bHAB4S81DaHU4Fe
+	 emm3t0GDeJCMIO0AiBrdnH162gvfa1L5uL9prX3EBuXDdPQWBdkii5ocRVPA9hp4Gs
+	 WvViwYY1d7bSiaLPN305w4CG7O0k3dY5ew7vDz6bE10F3IzZ1ByTY5T9Zh3/+7jmx1
+	 +YQrwF4GgW0FnNJzi4/ahGDl2yVvBPCj/MvfcdLdWI1p+jcDyZnWBlKC7S9BkI2DlJ
+	 Q8nryL3amZ7ww==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/2] iio: adc: sun4i-gpadc-iio: drop underflowing
- pm_runtime_put() calls
+Subject: Re: [PATCH 2/2] iio: adc: sun4i-gpadc-iio: clean up on thermal zone
+ registration failure
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Felix Gu" <ustc.gu@gmail.com>
 Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260906-gpadc-v1-1-92d3dc8ef355@gmail.com>
+In-Reply-To: <20260906-gpadc-v1-2-92d3dc8ef355@gmail.com>
 References: <20260906-gpadc-v1-0-92d3dc8ef355@gmail.com>
- <20260906-gpadc-v1-1-92d3dc8ef355@gmail.com>
+ <20260906-gpadc-v1-2-92d3dc8ef355@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 06 Sep 2026 16:08:13 +0000
-Message-Id: <20260906160814.2481B1F00A3A@smtp.kernel.org>
+Date: Sun, 06 Sep 2026 16:08:55 +0000
+Message-Id: <20260906160855.964E71F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
 
 Pre-existing issues:
-- [High] Unbalanced IRQ Disable on error path permanently breaks device int=
-errupts.
-- [High] Ignored pm_runtime_get_sync() return value leads to unsafe hardwar=
-e access.
-- [High] Race condition / use-after-PM-disable due to mixing manual PM disa=
-ble with devres registration.
+- [High] pm_runtime_disable() is called manually before devm-managed subsys=
+tems are unregistered, exposing a window where callbacks run with runtime P=
+M disabled.
+- [High] The driver ignores the return value of pm_runtime_get_sync(), whic=
+h can lead to accessing hardware registers while the device is suspended or=
+ powered off.
 --
 
-commit 800a3d2cff62e2654821d4421a37d86abb9c6de0
+commit 0cc8a4f7ab93d097709950676951a80ac9c05108
 Author: Felix Gu <ustc.gu@gmail.com>
 
-    iio: adc: sun4i-gpadc-iio: drop underflowing pm_runtime_put() calls
+    iio: adc: sun4i-gpadc-iio: clean up on thermal zone registration failure
    =20
-    Neither the error path in sun4i_gpadc_probe() nor sun4i_gpadc_remove()
-    ever holds a runtime PM usage count. So the pm_runtime_put() in both
-    places always triggers the "Runtime PM usage count underflow!" warning
-    on every failed probe and every unbind.
+    If devm_thermal_of_zone_register() fails, probe returns without
+    unregistering the IIO map array or disabling runtime PM.
    =20
-    Drop both calls.
+    Jump to err_map to release them.
 
 > diff --git a/drivers/iio/adc/sun4i-gpadc-iio.c b/drivers/iio/adc/sun4i-gp=
 adc-iio.c
-> index 203459ca99079..85382e435f2a7 100644
+> index 85382e435f2a7..ac5ba76b979e6 100644
 > --- a/drivers/iio/adc/sun4i-gpadc-iio.c
 > +++ b/drivers/iio/adc/sun4i-gpadc-iio.c
-[ ... ]
-> @@ -668,7 +667,6 @@ static void sun4i_gpadc_remove(struct platform_device=
+> @@ -638,10 +638,10 @@ static int sun4i_gpadc_probe(struct platform_device=
  *pdev)
->  	struct iio_dev *indio_dev =3D platform_get_drvdata(pdev);
->  	struct sun4i_gpadc_iio *info =3D iio_priv(indio_dev);
+>  		 * thermal because no thermal DT node is found.
+>  		 */
+>  		if (IS_ERR(info->tzd) && PTR_ERR(info->tzd) !=3D -ENODEV) {
+> -			dev_err(&pdev->dev,
+> -				"could not register thermal sensor: %ld\n",
+> -				PTR_ERR(info->tzd));
+> -			return PTR_ERR(info->tzd);
+> +			ret =3D dev_err_probe(&pdev->dev,
+> +					    PTR_ERR(info->tzd),
+> +					    "could not register thermal sensor\n");
+> +			goto err_map;
+>  		}
+>  	}
 > =20
-> -	pm_runtime_put(&pdev->dev);
+>  	ret =3D devm_iio_device_register(&pdev->dev, indio_dev);
+>  	if (ret < 0) {
+>  		dev_err(&pdev->dev, "could not register the device\n");
+>  		goto err_map;
+>  	}
+> =20
+>  	return 0;
+> =20
+>  err_map:
+>  	if (!info->no_irq && IS_ENABLED(CONFIG_THERMAL_OF))
+>  		iio_map_array_unregister(indio_dev);
+> =20
 >  	pm_runtime_disable(&pdev->dev);
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 [Severity: High]
-This isn't a bug introduced by this patch, but does calling
-pm_runtime_disable() here create a race condition?
+This is a pre-existing issue, but does explicitly calling pm_runtime_disabl=
+e()
+here create a window where the devres-managed thermal zone and IIO devices =
+are
+still registered while runtime PM is disabled?
 
-The IIO device and thermal zone are registered using devres functions
-(devm_iio_device_register / devm_thermal_of_zone_register) in
-sun4i_gpadc_probe(), which means they are unregistered after
-sun4i_gpadc_remove() completes.
+Since devm_thermal_of_zone_register() and devm_iio_device_register() are us=
+ed,
+devres will not unregister them until after the probe error path returns.
 
-Since pm_runtime_disable() is called before the devres-managed IIO device a=
-nd
-thermal zone are unregistered, the sysfs device and thermal zone remain ful=
-ly
-accessible while PM transitions are disabled.
+In the interim, if the thermal core's polling thread invokes .get_temp() or
+userspace reads IIO sysfs, could this access hardware while clocks are
+disabled, triggering a synchronous external abort?
 
-Could a concurrent background poll from the thermal core or a userspace IIO
-read during driver unbind trigger a pm_runtime_get_sync() that fails with
--EACCES, leading to an unclocked hardware crash?
+A similar pre-existing issue appears in sun4i_gpadc_remove():
 
-This is another pre-existing issue, but does sun4i_gpadc_read() have an
-unbalanced IRQ disable on its error path?
+drivers/iio/adc/sun4i-gpadc-iio.c:sun4i_gpadc_remove() {
+	struct iio_dev *indio_dev =3D platform_get_drvdata(pdev);
+	struct sun4i_gpadc_iio *info =3D iio_priv(indio_dev);
 
-drivers/iio/adc/sun4i-gpadc-iio.c:sun4i_gpadc_read() {
-    ...
-	ret =3D sun4i_prepare_for_irq(indio_dev, channel, irq);
-	if (ret)
-		goto err;
-
-	enable_irq(irq);
-    ...
-err:
-	pm_runtime_put_autosuspend(indio_dev->dev.parent);
-	disable_irq(irq);
-	mutex_unlock(&info->mutex);
-
-	return ret;
+	pm_runtime_disable(&pdev->dev);
+...
 }
 
-[Severity: High]
-If sun4i_prepare_for_irq() returns an error, execution skips enable_irq()
-but goes to the err: label, which unconditionally executes disable_irq().
-Since the IRQ was requested with IRQF_NO_AUTOEN (disabled, depth=3D1), the
-unmatched disable increments the depth to 2.
+Is pm_runtime_disable() being called here before devres tears down the
+registered IIO and thermal zones?
 
-A subsequent successful read will call enable_irq(), only decrementing the
-depth to 1, leaving the IRQ permanently disabled. Does a single transient
-error during a userspace IIO read permanently break the hardware interface?
+There is another pre-existing issue where return values for
+pm_runtime_get_sync() are not checked before accessing hardware. Can this l=
+ead
+to accessing hardware registers while the device is suspended or powered of=
+f?
 
-This is also a pre-existing issue, but should the return value of
-pm_runtime_get_sync() be checked before accessing hardware registers?
+If pm_runtime_get_sync() fails (e.g., due to runtime PM being disabled duri=
+ng
+the teardown race from err_map or remove, or a genuine PM failure), it retu=
+rns
+a negative error code but regmap accesses proceed anyway:
 
 drivers/iio/adc/sun4i-gpadc-iio.c:sun4i_prepare_for_irq() {
-    ...
+	...
 	pm_runtime_get_sync(indio_dev->dev.parent);
 
 	reinit_completion(&info->completion);
 
 	ret =3D regmap_write(info->regmap, SUN4I_GPADC_INT_FIFOC,
-    ...
+	...
 }
 
-And in drivers/iio/adc/sun4i-gpadc-iio.c:sun4i_gpadc_temp_read():
+And also in sun4i_gpadc_temp_read():
+
+drivers/iio/adc/sun4i-gpadc-iio.c:sun4i_gpadc_temp_read() {
+	struct sun4i_gpadc_iio *info =3D iio_priv(indio_dev);
 
 	if (info->no_irq) {
 		pm_runtime_get_sync(indio_dev->dev.parent);
 
 		regmap_read(info->regmap, SUN4I_GPADC_TEMP_DATA, val);
-    ...
+	...
 }
 
-[Severity: High]
-pm_runtime_get_sync() can return a negative error code if the device fails =
-to
-resume or if runtime PM has been disabled. The return value is ignored befo=
-re
-issuing regmap_read() or regmap_write() calls.
-
-If PM transitions fail or runtime PM is disabled, could this lead to access=
-ing
-unclocked or powered-off hardware, potentially resulting in system hangs or
-bus faults?
+Should the return value of pm_runtime_get_sync() be checked to avoid a bus
+fault or kernel panic when reading or writing to unpowered MMIO registers?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260906-gpadc-v1-0=
--92d3dc8ef355@gmail.com?part=3D1
+-92d3dc8ef355@gmail.com?part=3D2
