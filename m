@@ -1,149 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC9943A809
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Sep 2026 15:44:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12AD03C279D;
+	Mon,  7 Sep 2026 17:14:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.200.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788795892; cv=none; b=K7ogGfShaIb9jIs8UrVJ4RaBTnRa6aZNPfZqSkA7A5pqiUt3mLpp3zftQEop+Byhz/z2CR4RJKKPTbfdo2CCNcY2XamwV370ursQuqMprqt0MYzQLLss/8W3CEYxao9Sc//F35GiAIWJtXACz+vS+LNAuriqtk64a1VGvDrDsBc=
+	t=1788801301; cv=none; b=iq+jXN77ewvVAlUVBZ2RfroyQyiLzp5BKWDin8oUkHeGXd6dhoBSzQXd7y9anS0MWyf+AsytE2jdDpD7GGHPLcovGZtQW3yj0bBPO64MG7N03og6h54iCRk4FUEMzenWAwlpeqTa3p5C6qSgkTmlNzAzd3pyoZVV5RWOS0YfH44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788795892; c=relaxed/simple;
-	bh=vDXeoKCcbzBb+V7m0UGu7NqMZjpXiiuSeqxhXWf1SXA=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=XDQFhiBM5AYxoiRayGEejwZkASrRRjl2JujuGCYJcbT7bp4QDgdXB+naLjvHxl6oPq3n9kiHU4ViOBHp/g/tHW1lcnWDEsJYeWjaYpT8sgKElgCALHLAYZd6RFR0gmrrzYDznpRCZslIiOP3OQ0A37YR0pRLfmfTyZbLf4TKo7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=APXA2rCW; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="APXA2rCW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A5161F00A3A;
-	Mon,  7 Sep 2026 15:44:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788795887;
-	bh=wpaX8UX7iDqr/qN8Hgzr3vYk3uE7mF9XzrbK9pt251o=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=APXA2rCW1IG7h6zfq0PJex8xxrukGmAArF7zEWxKmCcaUJFmHCxArJ05zZ5D40XYu
-	 VXcUFDfnYd3RkebuiS+NzosPWMrM3q4/XheymiAmg5t2D4rnCe0XJ9ClFz0CGwSUDW
-	 bJXS5SR8PKuVoavFeRey3exsoRp6Y5rpjlZln+S4UMzrFSSuqcJvVl4//MdxdtB2W1
-	 9wlPZzsgL71aVtYpAsvDK/KqfTH5E2dUS1xHQ0pZKqKxlUaXFtOwrAxj0YTt7CyZgl
-	 7nKF65z+hpaUfRel0pfhkc7xCATgyMZiOnaFSTDUtXCQPalqeBMY0ccuFcrTSw+ApV
-	 AgXUnASlcexiw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 4/6] spi: spi-sun4i: sun4i_spi_handler(): fix race
- condition between transfer completion and RX FIFO interrupt
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jonas Rebmann" <jre@pengutronix.de>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260907-spi-sun4i-fixes-v2-4-7e805662b9bd@pengutronix.de>
-References: <20260907-spi-sun4i-fixes-v2-0-7e805662b9bd@pengutronix.de>
- <20260907-spi-sun4i-fixes-v2-4-7e805662b9bd@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 07 Sep 2026 15:44:46 +0000
-Message-Id: <20260907154447.0A5161F00A3A@smtp.kernel.org>
+	s=arc-20240116; t=1788801301; c=relaxed/simple;
+	bh=GOUeUzYZmKCSbi7qH+BOLTMfPFhWvFfknY3xS/iBpmw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V+/QNCSyHAc0Ly28BBQpj3Zzp3kU3e9RRpcpjfkUeJIdvBAY9i3pgjUGbx7aDdJM7hGBTO8sUqHzFNA4uCTYbvpq9QtU+CwjJUN8lCUcnsrdRNgj/z381mLMyoW6l1V1MuNOqLa3VoM8oOsj4fYSRQ8M/UmWZtWQQEY/XSegZkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.200.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+X-PTX-Original-Recipient: sashiko-reviews@lists.linux.dev
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+X-PTX-Original-Recipient: kernel@pengutronix.de
+X-PTX-Original-Recipient: mkl@pengutronix.de
+Received: from [0.0.0.0] (ptz.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::77])
+	(Authenticated sender: jre@pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 9859F200883;
+	Mon, 07 Sep 2026 19:14:51 +0200 (CEST)
+Message-ID: <982d45ed-607c-4ce4-99de-27948f11cd12@pengutronix.de>
+Date: Mon, 7 Sep 2026 19:14:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/6] spi: spi-sun4i: sun4i_spi_handler(): fix race
+ condition between transfer completion and RX FIFO interrupt
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-sunxi@lists.linux.dev, "kernel@pengutronix.de"
+ <kernel@pengutronix.de>, Marc Kleine-Budde <mkl@pengutronix.de>
+References: <20260907-spi-sun4i-fixes-v2-0-7e805662b9bd@pengutronix.de>
+ <20260907-spi-sun4i-fixes-v2-4-7e805662b9bd@pengutronix.de>
+ <20260907154447.0A5161F00A3A@smtp.kernel.org>
+Content-Language: en-US
+From: Jonas Rebmann <jre@pengutronix.de>
+In-Reply-To: <20260907154447.0A5161F00A3A@smtp.kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
+Dear humans,
 
-New issues:
-- [High] Missing Interrupt Acknowledgment causes race condition and data co=
-rruption.
+On 2026-09-07 17:44, sashiko-bot@kernel.org wrote:
+> spi: spi-sun4i: sun4i_spi_handler(): fix race condition between transfer completion and RX FIFO interrupt
+> 
+> This commit moves RX-FIFO draining back to sun4i_spi_transfer_one() and
+> disables all interrupts in the IRQ handler when processing the transfer
+> complete interrupt to close a race window.
+> 
+>> diff --git a/drivers/spi/spi-sun4i.c b/drivers/spi/spi-sun4i.c
+>> index 8a9dcd3b6b8f4..ea8be0170fbfd 100644
+>> --- a/drivers/spi/spi-sun4i.c
+>> +++ b/drivers/spi/spi-sun4i.c
+> 
+> [ ... ]
+> 
+>> @@ -357,8 +359,7 @@ static irqreturn_t sun4i_spi_handler(int irq, void *dev_id)
+>>   
+>>   	/* Transfer complete */
+>>   	if (status & SUN4I_INT_CTL_TC) {
+>> -		sun4i_spi_write(sspi, SUN4I_INT_STA_REG, SUN4I_INT_CTL_TC);
+>> -		sun4i_spi_drain_fifo(sspi, SUN4I_FIFO_DEPTH);
+>> +		sun4i_spi_write(sspi, SUN4I_INT_CTL_REG, 0);
+> 
+> [Severity: High]
+> Does this change leave the Transfer Complete (TC) bit active in the status
+> register?
 
-Pre-existing issues:
-- [High] Interrupt requested before clocks enabled and synchronization prim=
-itives initialized.
---
+Temporarily.
 
-commit 56eb9747daccb855b98e335a87134c61f8b8487e
-Author: Marc Kleine-Budde <mkl@pengutronix.de>
+> It looks like replacing the write to SUN4I_INT_STA_REG with a write to
+> SUN4I_INT_CTL_REG masks the interrupt, but fails to acknowledge and clear
+> the pending status bit.
+> 
+> If a spurious interrupt fires during the setup of a new transfer, could this
+> cause the new transfer to complete prematurely? For example, in
+> sun4i_spi_transfer_one(), there is a window between reinitializing the
+> completion and clearing the status register:
+> 
+> 	reinit_completion(&sspi->done);
+> 	sspi->tx_buf = tfr->tx_buf;
+> 	sspi->rx_buf = tfr->rx_buf;
+> 	sspi->len = tfr->len;
+> 
+> 	/* Clear pending interrupts */
+> 	sun4i_spi_write(sspi, SUN4I_INT_STA_REG, ~0);
+> 
+> If a spurious interrupt arrives just before SUN4I_INT_STA_REG is cleared,
+> the handler will read the stale TC bit and call complete(&sspi->done). The
+> wait_for_completion_timeout() would then return immediately, potentially
+> leading to use-after-free of DMA buffers or silent data corruption since the
+> hardware might still be active.
 
-spi: spi-sun4i: sun4i_spi_handler(): fix race condition between transfer co=
-mpletion and RX FIFO interrupt
+Zeroing INT_CTL_REG disables all interrupts.
 
-This commit moves RX-FIFO draining back to sun4i_spi_transfer_one() and
-disables all interrupts in the IRQ handler when processing the transfer
-complete interrupt to close a race window.
+reinit_completion() does *not* enable interrupts early in
+sun4i_spi_transfer_one():
 
-> diff --git a/drivers/spi/spi-sun4i.c b/drivers/spi/spi-sun4i.c
-> index 8a9dcd3b6b8f4..ea8be0170fbfd 100644
-> --- a/drivers/spi/spi-sun4i.c
-> +++ b/drivers/spi/spi-sun4i.c
+	static inline void reinit_completion(struct completion *x)
+	{
+		x->done = 0;
+	}
 
-[ ... ]
+TC in SUN4I_INT_STA_REG is then write-1-cleared:
 
-> @@ -357,8 +359,7 @@ static irqreturn_t sun4i_spi_handler(int irq, void *d=
-ev_id)
-> =20
->  	/* Transfer complete */
->  	if (status & SUN4I_INT_CTL_TC) {
-> -		sun4i_spi_write(sspi, SUN4I_INT_STA_REG, SUN4I_INT_CTL_TC);
-> -		sun4i_spi_drain_fifo(sspi, SUN4I_FIFO_DEPTH);
-> +		sun4i_spi_write(sspi, SUN4I_INT_CTL_REG, 0);
-
-[Severity: High]
-Does this change leave the Transfer Complete (TC) bit active in the status
-register?
-
-It looks like replacing the write to SUN4I_INT_STA_REG with a write to
-SUN4I_INT_CTL_REG masks the interrupt, but fails to acknowledge and clear
-the pending status bit.
-
-If a spurious interrupt fires during the setup of a new transfer, could this
-cause the new transfer to complete prematurely? For example, in
-sun4i_spi_transfer_one(), there is a window between reinitializing the
-completion and clearing the status register:
-
-	reinit_completion(&sspi->done);
-	sspi->tx_buf =3D tfr->tx_buf;
-	sspi->rx_buf =3D tfr->rx_buf;
-	sspi->len =3D tfr->len;
-
-	/* Clear pending interrupts */
 	sun4i_spi_write(sspi, SUN4I_INT_STA_REG, ~0);
 
-If a spurious interrupt arrives just before SUN4I_INT_STA_REG is cleared,
-the handler will read the stale TC bit and call complete(&sspi->done). The
-wait_for_completion_timeout() would then return immediately, potentially
-leading to use-after-free of DMA buffers or silent data corruption since the
-hardware might still be active.
+Only after that, later in sun4i_spi_transfer_one(), interrupts are
+enabled in sun4i_spi_transfer_one():
 
->  		complete(&sspi->done);
->  		return IRQ_HANDLED;
->  	}
+	/* Enable the interrupts */
+	sun4i_spi_enable_interrupt(sspi, SUN4I_INT_CTL_TC |
+					 SUN4I_INT_CTL_RF_F34);
 
-[ ... ]
+Hence, the omission of clearing the TC bit register in
+sun4i_spi_handler() poses no risk of the described issue.
 
-> @@ -456,6 +457,7 @@ static int sun4i_spi_probe(struct platform_device *pd=
-ev)
->  		return ret;
->  	}
-> =20
-> +	sspi->irq =3D irq;
+Regards,
+Jonas
 
-[Severity: High]
-This is a pre-existing issue, but looking at the surrounding probe function,
-is it safe to request the IRQ before the clocks are enabled and the
-completion is initialized?
-
-In sun4i_spi_probe(), devm_request_irq() is called just above this hunk,
-enabling the IRQ line. However, the completion structure is initialized much
-later via init_completion(&sspi->done), and the AHB/module clocks required
-for MMIO access are only enabled during sun4i_spi_runtime_resume().
-
-If the bootloader left the interrupt asserted (e.g., during kexec) or a
-spurious interrupt fires before initialization is complete, the handler
-sun4i_spi_handler() could execute early. Accessing MMIO registers without
-the AHB clock enabled often causes a synchronous external abort on ARM.
-Additionally, calling complete() on an uninitialized completion structure
-dereferences an invalid waitqueue lock, resulting in an Oops.
-
->  	sspi->host =3D host;
->  	host->max_speed_hz =3D 100 * 1000 * 1000;
->  	host->min_speed_hz =3D 3 * 1000;
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260907-spi-sun4i-=
-fixes-v2-0-7e805662b9bd@pengutronix.de?part=3D4
+-- 
+Pengutronix e.K.                           | Jonas Rebmann               |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-9    |
