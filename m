@@ -1,48 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D26037C0F8;
-	Mon,  7 Sep 2026 17:19:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A8A3EC691;
+	Mon,  7 Sep 2026 17:28:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788801576; cv=none; b=eRKufq/i0yMqs6tfoB66MHAM9MyIXhkH4IVcz9ZtsRsEAtd1RfkAtYL173olOMUzZo8HDYhol+/PEoRvcRJSrOqGeq/XNKXZ9rLlTZWm5Kpgsfij0fVsMxgb90HtJHNfU2f8003QK8nncw3tN9ksbrPkfa1uMun3kjmRTKGSKRI=
+	t=1788802114; cv=none; b=l7xGvpB3NeGKTzLol6M74mGTJ3AgEyKw/SzyAbbE2eNgkkhQY8AgV3cSknPt+iAbA58BXfKe8XCjM6ENgBGTNonodWVEvO4CSZrGrskDi0Xs+crTWStbzRefLReUU4Ck3H7mVRFQTnd9VVxwOTq6eKVOavRX7aqJI1QE9VNQEZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788801576; c=relaxed/simple;
-	bh=Y73lIijvcuSBUGcNzBJHvaGH20aPg4bzo8/CYyV5PE0=;
+	s=arc-20240116; t=1788802114; c=relaxed/simple;
+	bh=h8LdcGdcS/Em1q9FNi2GQNd9jGELMZssvnTHx23y9CQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CkE1KrsQoXQKx4bJOZf+82+5sP47ed/LuHC5JythsDocYSM4NJtRQ0hGLQVgFEWQ9SD8Sq+Ywh3VfleDuSuDdPdJAh6yHfY/zKF4qLUStTXTRThJK3r3F3euAgR6/2xNgsplkcLn8G4pXkgQOx1W23tk9i+cK9+VnySa8PT39Lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PdcpXP+b; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=eRnl3HeXIuF/67jRplMo1d8GAoZNlMjnqDg1aSO+AoqNFHj3YSYIpfmAo7kCwT9rmox2tyYdGap0Y9RYn1xv6CKG4ibiIuxX/iuwe/3VVTQtg59oOFZDpxwSH4VlAAvAkoGJGC0LOiNJIYlgTlbZr9zdpjHcXwnUpl0rIPku210=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HY1KTOtQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PdcpXP+b"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE4341F00A3A;
-	Mon,  7 Sep 2026 17:19:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HY1KTOtQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B093A1F00A3A;
+	Mon,  7 Sep 2026 17:28:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788801574;
-	bh=56yH2hwXm8sg7FdNo7mHIbyUGuEHV1cDz92wT471HWI=;
+	s=k20260515; t=1788802113;
+	bh=lG8o7GXuxZX+JAJ5wwvlYurB2A3tztlS0yQP249B198=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=PdcpXP+bxy+2PxoT/M5h3I6DxPT5kT97x7/CbbBW3DaBpzBxOj+JTTEH5cEfBZYiC
-	 5Hw0BjueZwNfz3huIJDu7c+tBLHOiGTKIhm43BTTEalENWypNdKLIU93mm/gnnveYx
-	 8UiGfbx0MgAUN47wKGsvCDy6MYyrDmtED/22GPgsLwJZDT/BAzBhkllMtVfWTuUrRC
-	 Vadl2bkftyecI9q6f7pQAzbJQfuaMN5PFYmOZjXPxPI0f5iEu++VYFrCEGGrThVIO3
-	 As+IqngWhal/u6r9/jm6IQ48rxD+lGIJ5RPUhXAc5ksYmVDnymKuiXwr3r1QHaxvAj
-	 nut9oRNPUGupQ==
-Date: Mon, 7 Sep 2026 18:19:29 +0100
+	b=HY1KTOtQVDzcfBMo/HUr7NbDpE0BpzWUgV/gqCrf9tApeH0B1cQlH2hoZ0rzfb4Wm
+	 M8URKzs++iSeMg51nUBz5+1e4gNzRQDhx/a3igEIV++4TG2AlRfmLDbGHA7oQpM5Rg
+	 0TgVuO4hXFzBrFoO7VAG64sYp8l0RvyiyeAhP37NUUdUDg0KMzKAnoGQdJwKGpJcKe
+	 EoUSaUmtBqJ0ui/P+y5/iXHrqGG493/z0FNFxi3c6l3AAvEqE+vyl4WDd4GnoutZUx
+	 uiDnKErAucLXMydRPhFe0AykUMS8/yz3kZmGMLeQftICfrc3XU1vT9BmDoppQzEsjx
+	 ZzlPtnOPTlz3g==
+Date: Mon, 7 Sep 2026 18:28:28 +0100
 From: Conor Dooley <conor@kernel.org>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Lee Jones <lee@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
-	"Jagielski, Jedrzej" <jedrzej.jagielski@intel.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Chen-Yu Tsai <wens@kernel.org>, linux-sunxi@lists.linux.dev,
-	mfd@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: Re: [PATCH v10 1/2] dt-bindings: mfd: x-powers: Add AC200
-Message-ID: <20260907-huddling-sprain-33272820a361@spud>
-References: <20260906-submit-ac200-mfd-v10-0-f522e8dc2bd4@gmail.com>
- <20260906-submit-ac200-mfd-v10-1-f522e8dc2bd4@gmail.com>
+To: jcarlosgl96@proton.me
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: arm: sunxi: Add SPC Glee 10.1 A64
+Message-ID: <20260907-stock-eggplant-d03a9df18a22@spud>
+References: <20260906-b4-spc-glee-a64-v1-v1-0-621df2155e31@proton.me>
+ <20260906-b4-spc-glee-a64-v1-v1-1-621df2155e31@proton.me>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -50,353 +47,78 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="r/LbfgsBnCNRr1Lf"
+	protocol="application/pgp-signature"; boundary="TEVY/w6YcpsZjCWR"
 Content-Disposition: inline
-In-Reply-To: <20260906-submit-ac200-mfd-v10-1-f522e8dc2bd4@gmail.com>
+In-Reply-To: <20260906-b4-spc-glee-a64-v1-v1-1-621df2155e31@proton.me>
 
---r/LbfgsBnCNRr1Lf
-Content-Type: text/plain; charset=us-ascii
+--TEVY/w6YcpsZjCWR
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 06, 2026 at 04:30:46PM -0600, James Hilliard wrote:
-> The AC200 is an I2C-controlled mixed-signal companion IC containing
-> audio, video, RTC and Fast Ethernet PHY functions.
+On Sun, Sep 06, 2026 at 04:05:49PM +0000, Juan Carlos Guti=E9rrez Lavado vi=
+a B4 Relay wrote:
+> From: Juan Carlos Guti=E9rrez Lavado <jcarlosgl96@proton.me>
 >=20
-> Describe the parent device and its shared input clock together with the
-> audio codec and TV encoder child nodes. Keep their analog supplies on the
-> function consumers and describe the TV encoder display graph and optional
-> bandgap calibration cell.
+> Add the Smart Products Connection vendor prefix and the board
+> compatible for the SPC Glee 10.1 tablet based on the Allwinner A64.
 >=20
-> Add the shared interrupt-controller properties and interrupt numbers used
-> by the TV encoder. The Ethernet PHY is represented by a PHY package on its
-> MDIO bus, with a phandle back to this device for access to the package
-> control registers, so it does not require an MFD child node.
->=20
-> Keep the INTB connection and TV encoder interrupt optional, including when
-> the TV encoder is enabled. Cable detection status is readable over I2C
-> without an interrupt. If a TV encoder interrupt is described, require the
-> parent interrupt domain and its upstream connection. Include examples
-> with and without INTB connected.
->=20
-> The input clock must run at 24 or 27 MHz when the Ethernet PHY is used,
-> matching the rates encoded by its documented clock selector.
-
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-
-This should have been dropped when you merged the patches.
-Not sure why you sent v10 without waiting for a reply from me on the v9.
-
-Thanks,
-Conor.
-
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> Signed-off-by: Juan Carlos Guti=E9rrez Lavado <jcarlosgl96@proton.me>
 > ---
->  .../devicetree/bindings/mfd/x-powers,ac200.yaml    | 231 +++++++++++++++=
-++++++
->  MAINTAINERS                                        |   8 +
->  include/dt-bindings/mfd/x-powers,ac200.h           |  13 ++
->  3 files changed, 252 insertions(+)
+>  Documentation/devicetree/bindings/arm/sunxi.yaml       | 5 +++++
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  2 files changed, 7 insertions(+)
 >=20
-> diff --git a/Documentation/devicetree/bindings/mfd/x-powers,ac200.yaml b/=
-Documentation/devicetree/bindings/mfd/x-powers,ac200.yaml
-> new file mode 100644
-> index 000000000000..0f2e6922fc4f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mfd/x-powers,ac200.yaml
-> @@ -0,0 +1,231 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/mfd/x-powers,ac200.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: X-Powers AC200 mixed-signal IC
-> +
-> +maintainers:
-> +  - James Hilliard <james.hilliard1@gmail.com>
-> +  - Jernej Skrabec <jernej.skrabec@gmail.com>
-> +
-> +description:
-> +  The AC200 is a mixed-signal companion IC containing audio, video, RTC =
-and
-> +  Fast Ethernet PHY functions. Its control registers are accessed over I=
-2C.
-> +
-> +properties:
-> +  compatible:
-> +    const: x-powers,ac200
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description:
-> +      AC200 input clock. When using the Ethernet PHY, its configured rat=
-e must
-> +      be 24 or 27 MHz, matching the rates encoded by the documented EPHY=
- clock
-> +      selector.
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description:
-> +      The shared open-drain INTB output for the TV encoder, Ethernet PHY=
- and
-> +      RTC interrupts. Omit when INTB is not connected.
-> +
-> +  interrupt-controller: true
-> +
-> +  '#interrupt-cells':
-> +    const: 1
-> +    description:
-> +      The interrupt number, as defined in
-> +      include/dt-bindings/mfd/x-powers,ac200.h.
-> +
-> +  codec:
-> +    type: object
-> +    $ref: /schemas/sound/dai-common.yaml#
-> +    unevaluatedProperties: false
-> +
-> +    properties:
-> +      compatible:
-> +        const: x-powers,ac200-codec
-> +
-> +      '#sound-dai-cells':
-> +        const: 0
-> +
-> +      ac-ldoin-supply:
-> +        description: The 3.3 V supply for the audio codec LDO input.
-> +
-> +    required:
-> +      - compatible
-> +      - '#sound-dai-cells'
-> +      - ac-ldoin-supply
-> +
-> +  tv-encoder:
-> +    type: object
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      compatible:
-> +        const: x-powers,ac200-tve
-> +
-> +      interrupts:
-> +        maxItems: 1
-> +        description:
-> +          Cable detection interrupt routed through the AC200 interrupt
-> +          controller. Omit when INTB is not connected. Cable detection s=
-tatus
-> +          can also be read over I2C without an interrupt.
-> +
-> +      tv-vcc-supply:
-> +        description: The 3.3 V supply for the composite-video DAC.
-> +
-> +      nvmem-cells:
-> +        maxItems: 1
-> +
-> +      nvmem-cell-names:
-> +        items:
-> +          - const: bandgap
-> +
-> +      ports:
-> +        $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +        properties:
-> +          port@0:
-> +            $ref: /schemas/graph.yaml#/properties/port
-> +            description: Input from the display pipeline, carrying CCIR6=
-56.
-> +
-> +          port@1:
-> +            $ref: /schemas/graph.yaml#/properties/port
-> +            description: Output to the composite-video connector.
-> +
-> +        required:
-> +          - port@0
-> +          - port@1
-> +
-> +    required:
-> +      - compatible
-> +      - tv-vcc-supply
-> +      - ports
-> +
-> +    dependencies:
-> +      nvmem-cells: [ nvmem-cell-names ]
-> +      nvmem-cell-names: [ nvmem-cells ]
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        tv-encoder:
-> +          anyOf:
-> +            - required: [ interrupts ]
-> +            - required: [ interrupts-extended ]
-> +      required:
-> +        - tv-encoder
-> +    then:
-> +      required:
-> +        - interrupts
-> +        - interrupt-controller
-> +        - '#interrupt-cells'
-> +
-> +dependencies:
-> +  interrupt-controller: [ '#interrupt-cells', interrupts ]
-> +  '#interrupt-cells': [ interrupt-controller ]
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/mfd/x-powers,ac200.h>
-> +
-> +    i2c {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        mixed-signal@10 {
-> +            compatible =3D "x-powers,ac200";
-> +            reg =3D <0x10>;
-> +            clocks =3D <&pwm 5>;
-> +            interrupt-parent =3D <&pio>;
-> +            interrupts =3D <1 20 IRQ_TYPE_LEVEL_LOW>;
-> +            interrupt-controller;
-> +            #interrupt-cells =3D <1>;
-> +
-> +            codec {
-> +                compatible =3D "x-powers,ac200-codec";
-> +                #sound-dai-cells =3D <0>;
-> +                ac-ldoin-supply =3D <&reg_aldo2>;
-> +            };
-> +
-> +            tv-encoder {
-> +                compatible =3D "x-powers,ac200-tve";
-> +                interrupts =3D <AC200_IRQ_TVE>;
-> +                tv-vcc-supply =3D <&reg_aldo2>;
-> +
-> +                ports {
-> +                    #address-cells =3D <1>;
-> +                    #size-cells =3D <0>;
-> +
-> +                    port@0 {
-> +                        reg =3D <0>;
-> +
-> +                        tve_in: endpoint {
-> +                            remote-endpoint =3D <&tcon_out_tve>;
-> +                        };
-> +                    };
-> +
-> +                    port@1 {
-> +                        reg =3D <1>;
-> +
-> +                        tve_out: endpoint {
-> +                            remote-endpoint =3D <&composite_in>;
-> +                        };
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> +  - |
-> +    i2c {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        mixed-signal@10 {
-> +            compatible =3D "x-powers,ac200";
-> +            reg =3D <0x10>;
-> +            clocks =3D <&pwm 5>;
-> +            /* INTB is not connected. */
-> +
-> +            tv-encoder {
-> +                compatible =3D "x-powers,ac200-tve";
-> +                tv-vcc-supply =3D <&reg_aldo2>;
-> +
-> +                ports {
-> +                    #address-cells =3D <1>;
-> +                    #size-cells =3D <0>;
-> +
-> +                    port@0 {
-> +                        reg =3D <0>;
-> +
-> +                        endpoint {
-> +                            remote-endpoint =3D <&tcon_out_tve>;
-> +                        };
-> +                    };
-> +
-> +                    port@1 {
-> +                        reg =3D <1>;
-> +
-> +                        endpoint {
-> +                            remote-endpoint =3D <&composite_in>;
-> +                        };
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 3a19da74d00c..1b1dd57cc419 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -29504,6 +29504,14 @@ F:	drivers/net/wwan/
->  F:	include/linux/wwan.h
->  F:	include/uapi/linux/wwan.h
+> diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documenta=
+tion/devicetree/bindings/arm/sunxi.yaml
+> index f04db28c6..ce425938c 100644
+> --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> @@ -902,6 +902,11 @@ properties:
+>            - const: allwinner,suniv-f1c200s
+>            - const: allwinner,suniv-f1c100s
 > =20
-> +X-POWERS AC200 DRIVERS
-> +M:	Jernej Skrabec <jernej.skrabec@gmail.com>
-> +M:	James Hilliard <james.hilliard1@gmail.com>
-> +L:	linux-sunxi@lists.linux.dev
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/mfd/x-powers,ac200.yaml
-> +F:	include/dt-bindings/mfd/x-powers,ac200.h
+> +      - description: SPC Glee 10.1 A64 tablet
+> +        items:
+> +          - const: spc,glee-10-1-a64
+> +          - const: allwinner,sun50i-a64
 > +
->  X-POWERS AXP288 PMIC DRIVERS
->  M:	Hans de Goede <hansg@kernel.org>
->  S:	Maintained
-> diff --git a/include/dt-bindings/mfd/x-powers,ac200.h b/include/dt-bindin=
-gs/mfd/x-powers,ac200.h
-> new file mode 100644
-> index 000000000000..cc59e2ab4912
-> --- /dev/null
-> +++ b/include/dt-bindings/mfd/x-powers,ac200.h
-> @@ -0,0 +1,13 @@
-> +/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
-> +/*
-> + * Interrupt numbers of the X-Powers AC200 interrupt controller.
-> + */
-> +
-> +#ifndef _DT_BINDINGS_MFD_X_POWERS_AC200_H
-> +#define _DT_BINDINGS_MFD_X_POWERS_AC200_H
-> +
-> +#define AC200_IRQ_TVE			0
-> +#define AC200_IRQ_EPHY			1
-> +#define AC200_IRQ_RTC			2
-> +
-> +#endif /* _DT_BINDINGS_MFD_X_POWERS_AC200_H */
+>        - description: SL631 Action Camera with IMX179
+>          items:
+>            - const: allwinner,sl631-imx179
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Doc=
+umentation/devicetree/bindings/vendor-prefixes.yaml
+> index ba2002969..ff462d6f0 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -1603,6 +1603,8 @@ patternProperties:
+>      description: Spansion Inc.
+>    "^sparkfun,.*":
+>      description: SparkFun Electronics
+> +  "^spc,.*":
+> +    description: Smart Products Connection S.A.
+
+Typically we look for these to match the vendor's website, which I think
+in this case would be onspc?
+
+>    "^spinalhdl,.*":
+>      description: SpinalHDL
+>    "^sprd,.*":
 >=20
 > --=20
-> 2.53.0
+> 2.55.0
+>=20
 >=20
 
---r/LbfgsBnCNRr1Lf
+--TEVY/w6YcpsZjCWR
 Content-Type: application/pgp-signature; name=signature.asc
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCap7yIQAKCRB4tDGHoIJi
-0tYsAP0aVNqD8wj/uzcQ1MNe6bgqGYESX0DYYvuinrWSF/GyzgEA6whkLmHjGLxn
-TDr6nZ6Ln3hfyohiItzkgLGksh1I5Qw=
-=7ay5
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCap70PAAKCRB4tDGHoIJi
+0vxzAQCi0QTrA0WKec0buuvAiV6kfKTDWQ3NX8CCtz11tIHWDQD7BQ8gEclMlvB2
+r7x6V6ctZaTxbR6318OGYFCYYQr56AU=
+=KFiq
 -----END PGP SIGNATURE-----
 
---r/LbfgsBnCNRr1Lf--
+--TEVY/w6YcpsZjCWR--
