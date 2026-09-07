@@ -1,160 +1,252 @@
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0205302155
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Sep 2026 04:45:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788756316; cv=pass; b=shYQ8M0Jq072YUJRQcWXlZGnCwEa7iOUOQpXYsU8sYE9GUUybo7lMrflFL0qxgEGOBYyIq3Y6QVXgz/DSpXbL2x/8UWuSGYxBzzDduFL8qFecEdmQ9VZYsqhhNGLlZzxBDQVKcvNzJu2rs9kd1IJWoGZyqQZHIx800gykzACCno=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788756316; c=relaxed/simple;
-	bh=zC1w4EkKZqsmCEBeSg9Ze6B0PIqbALjemuPYfMxHiBE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MeK1gR4+KzN4fAWp1LW6JcgsK+bdpsuRI70sDXr7dgyG7qa29c1liaJnYolrjuXxtZhDsiPV78ppxr9Fv7K535WaevtaaRhyEuBfDVD/14HalScEkVo7u32EYGNj0eO/SplGCzzXhw2EQW/bVkfCiE8ueH08ZfA0aPDckmK/exo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lzdSXix4; arc=pass smtp.client-ip=209.85.161.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E40CC2949E0
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Sep 2026 04:48:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788756485; cv=none; b=jcD/FkoyWoonIijltDay8dwozbXugQoy+mwYhqj4b+0odelGnJm7qHlcpV43Yfl3w66isyDHeLmCc0CFQEje1McBmvdulRDMPwUG8nRPQKrPldTVsmLG1rCUm4Cyc51vVsk8IkYWlri9we79wgrknIppY0cMhavrPw1b1D6OSQE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788756485; c=relaxed/simple;
+	bh=2WMF6U/g7nQBnXSpps4vN5voTrNMlXOybCCVnMTQw6Y=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ACryUqCQhFpYIjFYrB0Cxbdm6c1Pzh2NSzIBly/oumoSX2S3xiJ8j17UBI0TQJlEtj3yrm/zv5jsK0U9n6k5vRMLCxi/N6YM8DeenGXIV3MYHKSnaPGw69yRozp+76epa106hLwOSudbfXGqjrxHTt7Hr6QecQHrq9Dub0RS+rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p84zRWXy; arc=none smtp.client-ip=209.85.160.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lzdSXix4"
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-6aca0f482e5so3555070eaf.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Sep 2026 21:45:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788756313; cv=none;
-        d=google.com; s=arc-20260327;
-        b=syg+9V++jKix4HIcpd9iCFkv+B64bjETEegOcBKxvG79r83yQ3h+iHAV/ArD+yuptM
-         BN8cMQ0yvNuEQWkta+V3Tto5/aKNTjoJ1kwzLCEm02rtXWGRVOe0ZFtU8PIBSrz0EQYW
-         zD21uXEtHDiU6nZXTbXxfOlew/gIPD+vuB5aPFZb3DnUgmlbeKFVl8wOqaZJ7lLekFuu
-         ScX5hdFVRyvnf4FtDq9XvhX19VMaL+ABqs9B5HQmzPQVhb6mVbhL1IXeTnSs/zrvMok0
-         WPiDYgnFzoyFrLyth1uGPFK//XQLj5wnrl2MjAdR7axYpT0chKmBlWC7OLTEMEpbhakH
-         mK6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=G7qjWXGXsxkTDtjG+v9DutrMwqHR45zXHmJ8Wl9xjoo=;
-        fh=SQEtReNLv0jPhdZBRZSoxcWPs6gcAVKv4uYXPz56c9c=;
-        b=DZEF1wnlIuyHg+9ELjGlddg1lrpp8/HnG9zBsWP/Qqnt4arLB8QOxh4aLHp7rGdoqo
-         11LVXwCFJ1yoVH4/seD1z7li2M3zfXJBUqFsBaqvlGPb8zpWnGtqlq1MxdMJKiWoMnHN
-         t8NRJuJBLHteGUwomcWmsg62MxtmSTkKdF7WQly/aAr39V6KdYgFGivYRZ7Szh+Ua2Wy
-         BnT6/HGCtXhI7Y7sEG64EA0m2+OnWNhaHad463ILwwU1gr9cjUreOJGQ8zi/DebqHNHn
-         +hBjDQdHFizMebOD1N6uZ09jqkg4MWYFuB5s3EWt4qRfji9NKGLR2JTR2/gPXY4gUxTc
-         I4zQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p84zRWXy"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-451a49abd8aso2953359fac.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Sep 2026 21:48:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788756313; x=1789361113; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=G7qjWXGXsxkTDtjG+v9DutrMwqHR45zXHmJ8Wl9xjoo=;
-        b=lzdSXix4BYAP099w38LAP8L36e0UPQe5pqVSIVGi8mRY1E9TW5LnETyZOAhGiH12RY
-         rIq0bRQXe2k3+Lo7cpCm1rKzL1PWDtf9iXMHkfcoxmJ8FvFCs/5KXUizbnLvX00alkrK
-         DwwyTvyOzI7/soFGCfMxcUIzRe7U5Hiy+nkO4yIqk5OFfMc726FNo6lysp9CEzqj991e
-         Xcikl5PJr96LyrD3ep+hHShRq0/vayf04V/wb3bhQ5VsdIZq7lD3n+hXre8AnsNx6LJq
-         iKvx49Y9eDfrPMMxx5qf9tUAjjYRzCvYn39mu2wz+MHJ72zBuBUYy1OyhhZKlUs6i3rP
-         TE4g==
+        d=gmail.com; s=20251104; t=1788756483; x=1789361283; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=TvFM7NNIPkG6fbK+OMkIIggJlPWe+qc7pAzr+tWOET4=;
+        b=p84zRWXym4JIZp6d/K+kqzEcKKl2hLEsoP20LrGHdT8x1IbX1v32zTY0m2YDtyybRH
+         GYqHw/DYpb8P2Uf+bVMJXL0xrPH5nCbyFNGVRXC/XyOQbSysZWa/xgoXV9RuwoB72nUV
+         4TtkuAZoKE0bP6wALBrFfTMihIahiWqbN4VOTrgUdahFCig8CDMUZ1HEHrn5tvVxMbjU
+         zAjhX2gLembecHeTrt6Tf7lWvlDYzfLSmf1nutJZ58b7aBoU4CWPH+dFrtzfw/sxTa0C
+         1juoB+pyMV4wXhpUT53660+NObamT3RagjfBwZAyR+Qq3MCAUlem7/6uPrW7i70Ti1GD
+         7zUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788756313; x=1789361113;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=G7qjWXGXsxkTDtjG+v9DutrMwqHR45zXHmJ8Wl9xjoo=;
-        b=g1vVFCL1xs6fOpzQrKSnhVUzHlt/RiyaOoUNrNm8wRrcHANw+cO583D0kDXaRl4nj3
-         M+pAyDMpBC/qYF4mOoLVrHvgY+WibH+E8yYGIEl/573OZcZqGpH/qhFWinEx+Z4eOUe1
-         HhHUTb3bWBQbvc3vaHFpt1tLwkSnaAcTY4q5934LbARNzfWvLpD9owIRQMyZjVIVnh69
-         LZm6x3o5TW8I6sebB5WT7A5lye0Rb1VqOVhBbPrbAOnkCWf34pyn4moetLPaerimZ7aH
-         gqjga6AUafM12N02ec9Cas27JF/GunJTPR0JDvgIShRwwrhLXKOH6q26T5pTN4FSLA2b
-         rhdQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz3r85WLxprZi/5lpL8lHMgRzOTua38KKXyOyepvn+0FH2UBSvBL0jjxpZIYi1s13M7mdJMn4+L4tRF4A==@lists.linux.dev
-X-Gm-Message-State: AFuF++mS5l+n6yNuEmZuduioRrLo6RbBvNlSiT5ooPS+RDT9MauYQgP9
-	EhFdmm446lcBbqLMLsURKPKPX9PzpRvPmSJVV8vhBh0DpQ3ELK602cGJ4yDTUPFUBUylDwgMDdj
-	vWLIesVMDk1fU/E1vG3BF5AYJC3/pqTU=
-X-Gm-Gg: AYBFou2/YAcTNVvoAYO3npMJp9f3TGYrUPhqHgQTIMhYmD2sNeH/6EXvAjUzILwEHGz
-	K4RF6o7TcY2CGwTnosxJzmAJ5SAxrODfuHbbE1ntnOm2Mb0c7617gxitYnUafBzxedErjVEYeAC
-	YNLzGHLds3saiLOtXtMLFIgVRYy6fM7/VX7GTej2qbyzor6kh7y2cKap48xNOzRNdcTOujiokVz
-	R803bs3GR1MxTmVWGKXKwwdBKNDtQKnQRSo+xjty82D446FDb9c59JPy0+lhRa1LwaK0/0s7FLd
-	3SA9Oku13Kf8h4h6DtBwMfCKrI6LbATeMM6bT3n/qPLrsQ82H6cQZClmzW3+Dn5Fr//lpR8iZwa
-	59JFvning7+WFFUXX1h9jfqwk40I=
-X-Received: by 2002:a05:6820:1889:b0:6b1:afc8:3162 with SMTP id
- 006d021491bc7-6b6fa4d5f8amr11758130eaf.7.1788756313416; Sun, 06 Sep 2026
- 21:45:13 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788756483; x=1789361283;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=TvFM7NNIPkG6fbK+OMkIIggJlPWe+qc7pAzr+tWOET4=;
+        b=G5LwHsfVgLxSgljt/4L25p8jORIvfM9szEkWIyllXsWL1Jl3ANjD902lGoQbXapKgC
+         +HkVrx++Y2otfXAG9h1Fu3ZUARvudbxuZgYr00FrGwhcq+h2xHKYNYPnWePf9CocHyBD
+         Np4e57N3ir7uP0nQmnqnpPLu5AHd8TiAg0tWeWMFFgBgDLOY5IghRCQqNu5uW8o68gMn
+         VPNYZqgCnJ9K5J/b2tFmbF01R5fdC0Ru+5tRBcTVV51QCixa5QL1FKIMsN64M2QmBM6t
+         Pj5cC9AkKAM8XhIhnCmd1LCWAsLYpa7wOUcQgIVDzU0yumOEuFzL/1QXcy6ZvMacBIsc
+         JCOQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwmyHdV7cplFuIddmUQxB1GNt2/lMZeDbPDe4vUf/veHXmsPGhKko9HI0QzPh3AWkwyOS/R04yoGjg0ag==@lists.linux.dev
+X-Gm-Message-State: AFuF++mOTRYbZWgFmVk9Ts030yN1umBndkQSvjCMxyFbEubDFzUaSS5V
+	Dk8BZrvYr7RMlTwVb/D40YAIOH+Qj74JAiusL6aUx4VKaaBJtLdmeuWK
+X-Gm-Gg: AYBFou3LGqDohSfL+ZaSn3ZR3SmstLyRdhOOyjDGTFaumZeuDQ+c52AG/09glVwIGVT
+	R+u2TrwzS8qLEiRCI2jV7tm1K1P85U0UePN9CeDKqbSXymBRodd8LWQHADgHeX6vR2w4oj2CQo3
+	0FJzxcSgjJKaFotylUpwkspKDpjFlRw9fAVhCMKRR+aKncpPXyfEFFD3eLFuwFanqUsMxZD+N9Q
+	nOlx/mLf6OvA96uPol0+Z7uErFWLNHu+Gb9DA4dyg4YPrHuXA5Bgt8XjVjJAUXx+Tq0XiN5nP4s
+	zgcbG9rFHbDerIlvA0aBsO6X9qGsb09USZUB3fiPlAR4Z8ZVCQFII1DxTzWFcztc7wLKatWWYHB
+	cZGkrAO51NwWFB8jW4/8VqgnrNfAbhBIMt/Hi9qhQG3ds4sCOKzYO9XEVXpWwB06w5JZULt2gcV
+	A1cedeTErzxL9HHehQAuR+94H6HGA0DQ0AkkYhxW4KuJf+VwIceR2SqZ9nsbLYoXDbeF8eW8r5f
+	4bMfDMfDFX6uy6BcyUXJBOmy3PN4/OAY4XRA0btrLKCWo6ypQRhw1rSujrxw+Y1XXeEEhInGUh+
+	O66CHPhbVjm8+Ni6SU/fbBQMYmix30X0aZ70nfNtyQ9sW2eDeznnyTHHUTcgKe6II8Ux6lOVjpl
+	TDAklV0ShPKLk3DVJ1HQRSppkBai6
+X-Received: by 2002:a05:6870:8306:b0:475:e066:771b with SMTP id 586e51a60fabf-475e06695c9mr10380401fac.34.1788756482604;
+        Sun, 06 Sep 2026 21:48:02 -0700 (PDT)
+Received: from [127.0.1.1] (184-96-151-165.hlrn.qwest.net. [184.96.151.165])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-475501412f2sm9013503fac.0.2026.09.06.21.48.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Sep 2026 21:48:02 -0700 (PDT)
+From: James Hilliard <james.hilliard1@gmail.com>
+Subject: [PATCH net-next v10 0/2] net: phy: add X-Powers AC200/AC300 EPHY
+ support
+Date: Sun, 06 Sep 2026 22:47:45 -0600
+Message-Id: <20260906-submit-acx00-of-dynamic-v1-v10-0-dd272e03b547@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260804072630.28745-1-arash.golgol@gmail.com> <CAMxPZkgk4+idrZowJ1z-ddAzaD-hx-NJP+KSj8pUrSfL0HH4aQ@mail.gmail.com>
-In-Reply-To: <CAMxPZkgk4+idrZowJ1z-ddAzaD-hx-NJP+KSj8pUrSfL0HH4aQ@mail.gmail.com>
-From: arash golgol <arash.golgol@gmail.com>
-Date: Mon, 7 Sep 2026 08:15:02 +0330
-X-Gm-Features: AcwNN1XGwRoDkNehPDVqSJPI2X738z011aMfgwn8IosFsynC5ZFf-DlnIt-yf84
-Message-ID: <CAMxPZkhjurfpPvvymamJqTuia8CtFw1gRyYA4KBwFcQoH5jz3A@mail.gmail.com>
-Subject: Re: [PATCH v1 0/3] media: sunxi: Resend active-state conversions
-To: Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Cc: yong.deng@magewell.com, paulk@sys-base.io, 
-	laurent.pinchart@ideasonboard.com, mchehab@kernel.org, wens@kernel.org, 
-	jernej.skrabec@gmail.com, samuel@sholland.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43QS07DMBAG4KtUXmNkj99dcQ/Ews/WiCQoCVGqq
+ nfHCSysIFksZ8b+/tHc0RTHHCd0Pt3RGJc85aEvBSVPJ+Svtr9EnENpICAgiSaApy/X5RlbvxK
+ Ch4TDrbdd9nih2HBLgqcigQZUgM8xprzu+ivq44z7uM7o7WdSnPfo583e3l7zNA/jbV9kYfuP3
+ 0jRilwYJpiBZ0CJlQnEy6Wz+ePZD90etPCakk2KF8q4BElxTiWDIyVqyjQpUSiXLE1aUO1AHyl
+ ZUZQ2KVkoAmCcMZZBkkdK/Z9SG8WScIYqJcKfW+maYk1KFypAol5A1MrxI2VqSjcps91Kex2MD
+ SRoVlOPx+MbAl66c6MCAAA=
+X-Change-ID: 20260802-submit-acx00-of-dynamic-v1-94a0dc15f282
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ James Hilliard <james.hilliard1@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+ "Jagielski, Jedrzej" <jedrzej.jagielski@intel.com>, 
+ Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@kernel.org>, 
+ =?utf-8?q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ linux-sunxi@lists.linux.dev, netdev@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.15.2
 
-Hi Hans,
+This submission contains only the networking binding and PHY driver and
+is intended for net-next. The AC200 I2C register provider was submitted
+separately for the MFD tree:
 
-On Wed, Aug 12, 2026 at 9:50=E2=80=AFAM arash golgol <arash.golgol@gmail.co=
-m> wrote:
->
-> Hi Hans,
->
-> On Tue, Aug 4, 2026 at 10:57=E2=80=AFAM Arash Golgol <arash.golgol@gmail.=
-com> wrote:
-> >
-> > These three patches convert the sun6i-mipi-csi2, sun8i-a83t-mipi-csi2,
-> > and sun6i-csi bridge drivers to use the V4L2 subdev active state API.
-> >
-> > Each patch has already received review and testing individually in
-> > previous postings (see the changelog and links within each patch for
-> > that history), but none have been picked up and none currently have
-> > a delegate on patchwork. Resending together to make it easier to
-> > review and apply as a group.
-> >
-> > No code changes since the last posted version of each patch.
-> >
-> > Arash Golgol (3):
-> >   media: sun6i-mipi-csi2: Use V4L2 subdev active state
-> >   media: sun8i-a83t-mipi-csi2: Use V4L2 subdev active state
-> >   media: sun6i-csi: bridge: Use V4L2 subdev active state
-> >
-> >  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 155 ++++++++----------
-> >  .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   9 -
-> >  .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  27 ++-
-> >  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 107 ++++++------
-> >  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |   2 -
-> >  .../sun8i_a83t_mipi_csi2.c                    | 112 +++++++------
-> >  .../sun8i_a83t_mipi_csi2.h                    |   2 -
-> >  7 files changed, 194 insertions(+), 220 deletions(-)
-> >
-> > --
-> > 2.34.1
->
-> I've been trying to get these patches merged for a while.
-> Multiple pings and followups have been sent, but they haven't
-> been applied yet. This series is just a collection of my
-> individual patches.
->
-> All patches have full Reviewed-by/Tested-by coverage from
-> Laurent Pinchart and Paul Kocialkowski. Current status of all
-> patches are still New in patchwork, without a delegate.
->
-> Link: https://patchwork.linuxtv.org/project/linux-media/list/?series=3D28=
-738
->
-> Given the review is complete, would you be able to pick these
-> up, or let me know if something else is blocking them?
+  https://patch.msgid.link/20260906-submit-ac200-mfd-v10-0-f522e8dc2bd4@gmail.com
 
-Just following up on this series.
-Link to series:
-https://patchwork.linuxtv.org/project/linux-media/list/?series=3D28738
+The two series can build and be merged independently. AC300 needs only the
+networking series. The AC200 runtime path additionally needs the separately
+submitted MFD provider and binding. Their shared design point is the DT
+representation: the MDIO PHY-package node references the AC200 I2C node for
+access to package-control registers.
 
---=20
-Regards,
-Arash Golgol
+The AC200 and AC300 contain compatible Fast Ethernet link PHYs which
+report the same Clause 22 identifier and use the same link-side register
+layout. The link endpoint is inaccessible until package-specific control
+registers have powered and configured it.
+
+Both variants are modeled as standard Ethernet PHY packages with one
+forced-ID link-PHY child. The package reg value is the link address.
+AC300's control range is a fixed package-relative offset of 16 and is
+accessed with the PHY package helpers. AC200 reaches its control registers
+through a phandle to the companion IC's I2C register interface.
+
+For AC200, the driver resolves the referenced I2C device, establishes a
+managed device link, and takes the supplier device lock before checking
+that the provider is fully bound and retrieving the regmap attached to
+that device. It waits for transient lock holders instead of treating lock
+contention as a missing dependency. The link then keeps the provider bound
+until the PHY consumer has unbound. This uses the generic device and
+regmap interfaces and supports multiple AC200 instances without syscon or
+a private cross-subsystem API.
+
+Fixed hardware uses an AC200- or AC300-specific package compatible.
+Systems which can contain either package use the ACx00 package compatible
+and one packed SID configuration field. Bits 3 through 0 carry the analog
+calibration, bit 8 selects AC300, and bit 9 selects its low-calibration
+tuning. The driver chooses the backend before acquiring any
+backend-specific resource.
+
+One xpowers-acx00 module binds the link child, joins the parent package and
+runs the selected backend. It manages the package supply, MII or RMII mode,
+vendor analog initialization and package state across suspend and resume.
+The common link implementation preserves automatic MDI/MDI-X and standard
+MAC-managed EEE advertisement while disabling only the vendor
+PHY-autonomous Intelligent EEE mode. A private mutex serializes
+package state across phylib callback contexts, while suspend recovery
+also holds the phylib lock.
+
+The two patches add the AC200/AC300 PHY-package binding and combined PHY
+driver. Board Device Trees and optional PHY features remain outside this
+initial series.
+
+The AC200 portions build on earlier work by Jernej Skrabec and Andre
+Przywara:
+
+  https://github.com/jernejsk/linux-1/commits/ac200-v4
+
+Public AC200 and AC300 documentation is linked from:
+
+  https://linux-sunxi.org/AC200
+
+Assisted-by: Codex:gpt-6-astra
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+---
+Changes in v10:
+- rebase onto current net-next after the merge-window deferral
+- release the MDIO bus lock when selecting a vendor register page fails,
+  preserving the error and allowing package shutdown to access the bus
+- update the companion MFD reference to the submitted AC200 v10 series
+- Link to v9: https://patch.msgid.link/20260818-submit-acx00-of-dynamic-v1-v9-0-b8c8d9ad0d83@gmail.com
+
+Changes in v9:
+- serialize package state and multi-register power sequences across phylib
+  callback contexts
+- hold the phylib lock while recovering from suspend failures
+- unwind package power after reset, resume or configuration failures
+- restart autonegotiation when restoring EEE advertisement changes it
+- propagate page-selection errors instead of an uninitialized result
+- constrain AC300-capable child PHY addresses to the valid 0 through 7
+  range
+- clarify the AC200 runtime dependency and provider-owned, rate-locked
+  clock
+- document why the AC200 control sequence needs no AC300-style delay
+- rebase onto current net-next
+- Link to v8: https://patch.msgid.link/20260813-submit-acx00-of-dynamic-v1-v8-0-d2f1c52e87b4@gmail.com
+
+Changes in v8:
+- replace the AC200 supplier trylock/defer path with a blocking device lock
+- add Krzysztof's Reviewed-by tag to the PHY-package binding
+- rebase onto current net-next
+- Link to v7: https://patch.msgid.link/20260811-submit-acx00-of-dynamic-v1-v7-0-03f5b91775d5@gmail.com
+
+Changes in v7:
+- link to the separately submitted MFD v7 series:
+  https://patch.msgid.link/20260811-submit-ac200-mfd-v7-0-8b06f552a4d7@gmail.com
+- replace syscon publication and lookup with direct AC200 device/regmap
+  lookup
+- require the referenced AC200 provider to be fully bound under its device
+  lock
+- keep teardown ordered with the managed device link
+- rebase onto current net-next
+- Link to v6: https://patch.msgid.link/20260811-submit-acx00-of-dynamic-v1-v6-0-0229b99a32f6@gmail.com
+
+Changes in v6:
+- split the networking work from the independently mergeable MFD series
+- add the posting link for the separately submitted MFD series
+- remove the redundant explicit schema selector
+- describe the AC200 phandle in hardware terms and state its purpose
+- simplify the clock description and keep only the needed NVMEM dependency
+- reduce the binding examples to one
+- rebase onto current net-next
+- Link to v5: https://patch.msgid.link/20260809-submit-acx00-of-dynamic-v1-v5-0-bfa1f8518b28@gmail.com
+
+To: James Hilliard <james.hilliard1@gmail.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>
+To: "David S. Miller" <davem@davemloft.net>
+To: Eric Dumazet <edumazet@google.com>
+To: Jakub Kicinski <kuba@kernel.org>
+To: Paolo Abeni <pabeni@redhat.com>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+To: Russell King <linux@armlinux.org.uk>
+Cc: netdev@vger.kernel.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+---
+James Hilliard (2):
+      dt-bindings: net: x-powers: add AC200/AC300 EPHY packages
+      net: phy: add X-Powers AC200/AC300 EPHY driver
+
+ .../bindings/net/x-powers,acx00-ephy-package.yaml  | 165 ++++++
+ drivers/net/phy/Kconfig                            |  11 +
+ drivers/net/phy/Makefile                           |   1 +
+ drivers/net/phy/xpowers/Makefile                   |   3 +
+ drivers/net/phy/xpowers/ac200.c                    | 314 +++++++++++
+ drivers/net/phy/xpowers/ac300.c                    | 387 +++++++++++++
+ drivers/net/phy/xpowers/acx00.c                    | 621 +++++++++++++++++++++
+ drivers/net/phy/xpowers/acx00.h                    |  28 +
+ 8 files changed, 1530 insertions(+)
+---
+base-commit: 31f961de2f90fbf52eb2d4e15b3eeaa09f9b4fc2
+change-id: 20260802-submit-acx00-of-dynamic-v1-94a0dc15f282
+
+Best regards,
+--  
+James Hilliard <james.hilliard1@gmail.com>
+
