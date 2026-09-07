@@ -1,113 +1,149 @@
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8AEB509F19
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Sep 2026 15:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.200.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC9943A809
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Sep 2026 15:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788795137; cv=none; b=m9xDAUEdM9ZVzujvnvQ1pSVJY9nBcizUnyDJ3Mo5eeiAGGzJy1pgmIn27bK2NOfn8ocAIOzRnmYdo2BkK0C43mONB9z/ztUgaRSiGOpngb+oJ5JXKEfchbn2cyjJzYu3x9NKzjc47bsarOA8vQG7uRhMmzNbry77gr+LVblh1mY=
+	t=1788795892; cv=none; b=K7ogGfShaIb9jIs8UrVJ4RaBTnRa6aZNPfZqSkA7A5pqiUt3mLpp3zftQEop+Byhz/z2CR4RJKKPTbfdo2CCNcY2XamwV370ursQuqMprqt0MYzQLLss/8W3CEYxao9Sc//F35GiAIWJtXACz+vS+LNAuriqtk64a1VGvDrDsBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788795137; c=relaxed/simple;
-	bh=drC6FXUT8sD00Zc/eQa38tjuPOCL2PtR/zc6tWq5MmI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Va1NzIX6EqJmeomM0UNjA0MWaFder3unhupUCPVqCbWp2yh4ociPiFC0W1GH34H90FEEBbTaXGIqyC9cq3bBv3L2DABx7f0qZ5SprPObpUyUF2S4svbkj9gL9BRSdEWKhEzPzjjVDfdAn4n1BYPmHh7FV7EF2GbT8zgSETboMIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.200.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-X-PTX-Original-Recipient: samuel@sholland.org
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
-X-PTX-Original-Recipient: o.schinagl@ultimaker.com
-X-PTX-Original-Recipient: broonie@linaro.org
-X-PTX-Original-Recipient: linux-kernel@vger.kernel.org
-X-PTX-Original-Recipient: linux-spi@vger.kernel.org
-X-PTX-Original-Recipient: jernej.skrabec@gmail.com
-X-PTX-Original-Recipient: mr.nuke.me@gmail.com
-X-PTX-Original-Recipient: mkl@pengutronix.de
-X-PTX-Original-Recipient: kernel@pengutronix.de
-X-PTX-Original-Recipient: jre@pengutronix.de
-X-PTX-Original-Recipient: mripard@kernel.org
-X-PTX-Original-Recipient: wens@kernel.org
-X-PTX-Original-Recipient: broonie@kernel.org
-X-PTX-Original-Recipient: linux-arm-kernel@lists.infradead.org
-Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
-	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 68275202012;
-	Mon, 07 Sep 2026 17:32:04 +0200 (CEST)
-Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.96)
-	(envelope-from <jre@pengutronix.de>)
-	id 1x3bKG-000Ym1-12;
-	Mon, 07 Sep 2026 17:32:04 +0200
-From: Jonas Rebmann <jre@pengutronix.de>
-Date: Mon, 07 Sep 2026 17:31:44 +0200
-Subject: [PATCH v2 5/6] spi: spi-sun4i: sun4i_spi_transfer_one(): add error
- handling at clock setup
+	s=arc-20240116; t=1788795892; c=relaxed/simple;
+	bh=vDXeoKCcbzBb+V7m0UGu7NqMZjpXiiuSeqxhXWf1SXA=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=XDQFhiBM5AYxoiRayGEejwZkASrRRjl2JujuGCYJcbT7bp4QDgdXB+naLjvHxl6oPq3n9kiHU4ViOBHp/g/tHW1lcnWDEsJYeWjaYpT8sgKElgCALHLAYZd6RFR0gmrrzYDznpRCZslIiOP3OQ0A37YR0pRLfmfTyZbLf4TKo7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=APXA2rCW; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="APXA2rCW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A5161F00A3A;
+	Mon,  7 Sep 2026 15:44:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788795887;
+	bh=wpaX8UX7iDqr/qN8Hgzr3vYk3uE7mF9XzrbK9pt251o=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=APXA2rCW1IG7h6zfq0PJex8xxrukGmAArF7zEWxKmCcaUJFmHCxArJ05zZ5D40XYu
+	 VXcUFDfnYd3RkebuiS+NzosPWMrM3q4/XheymiAmg5t2D4rnCe0XJ9ClFz0CGwSUDW
+	 bJXS5SR8PKuVoavFeRey3exsoRp6Y5rpjlZln+S4UMzrFSSuqcJvVl4//MdxdtB2W1
+	 9wlPZzsgL71aVtYpAsvDK/KqfTH5E2dUS1xHQ0pZKqKxlUaXFtOwrAxj0YTt7CyZgl
+	 7nKF65z+hpaUfRel0pfhkc7xCATgyMZiOnaFSTDUtXCQPalqeBMY0ccuFcrTSw+ApV
+	 AgXUnASlcexiw==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 4/6] spi: spi-sun4i: sun4i_spi_handler(): fix race
+ condition between transfer completion and RX FIFO interrupt
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Jonas Rebmann" <jre@pengutronix.de>
+Cc: linux-sunxi@lists.linux.dev
+In-Reply-To: <20260907-spi-sun4i-fixes-v2-4-7e805662b9bd@pengutronix.de>
+References: <20260907-spi-sun4i-fixes-v2-0-7e805662b9bd@pengutronix.de>
+ <20260907-spi-sun4i-fixes-v2-4-7e805662b9bd@pengutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 07 Sep 2026 15:44:46 +0000
+Message-Id: <20260907154447.0A5161F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260907-spi-sun4i-fixes-v2-5-7e805662b9bd@pengutronix.de>
-References: <20260907-spi-sun4i-fixes-v2-0-7e805662b9bd@pengutronix.de>
-In-Reply-To: <20260907-spi-sun4i-fixes-v2-0-7e805662b9bd@pengutronix.de>
-To: Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
- Alexandru Gagniuc <mr.nuke.me@gmail.com>, 
- Olliver Schinagl <o.schinagl@ultimaker.com>
-Cc: linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Mark Brown <broonie@linaro.org>, kernel@pengutronix.de, 
- Marc Kleine-Budde <mkl@pengutronix.de>, Jonas Rebmann <jre@pengutronix.de>
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1118; i=jre@pengutronix.de;
- h=from:subject:message-id; bh=drC6FXUT8sD00Zc/eQa38tjuPOCL2PtR/zc6tWq5MmI=;
- b=owGbwMvMwCV2ZcYT3onnbjcwnlZLYsiad+PzyQP37gb1VZ4u0Lyy/E+6WceXXZWtH9bdyPsiN
- cFU5N5Npo5SFgYxLgZZMUWWWDU5BSFj/+tmlXaxMHNYmUCGMHBxCsBEZLQZ/pdv/HCpto53K2e4
- zdn5xkG1udVqbxavORwV/It72e2qzMsM/8wyJ1285Hpd+f4eEU5ZvR1mmgcmuSamNOy/d+x4PPe
- pRj4A
-X-Developer-Key: i=jre@pengutronix.de; a=openpgp;
- fpr=0B7B750D5D3CD21B3B130DE8B61515E135CD49B5
 
-Bail out if clk_get_rate() or clk_set_rate() fail during
-sun4i_spi_transfer_one(). This might happen if the clock isn't known yet
-or fails to set the requested rate.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
 
-This also ensures that mclk_rate is nonzero and can be safely divided by
-in a future commit.
+New issues:
+- [High] Missing Interrupt Acknowledgment causes race condition and data co=
+rruption.
 
-Signed-off-by: Jonas Rebmann <jre@pengutronix.de>
----
- drivers/spi/spi-sun4i.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+Pre-existing issues:
+- [High] Interrupt requested before clocks enabled and synchronization prim=
+itives initialized.
+--
 
-diff --git a/drivers/spi/spi-sun4i.c b/drivers/spi/spi-sun4i.c
-index ea8be0170fbf..94e1c7bbd632 100644
---- a/drivers/spi/spi-sun4i.c
-+++ b/drivers/spi/spi-sun4i.c
-@@ -279,9 +279,17 @@ static int sun4i_spi_transfer_one(struct spi_controller *host,
- 
- 	/* Ensure that we have a parent clock fast enough */
- 	mclk_rate = clk_get_rate(sspi->mclk);
-+	if (!mclk_rate)
-+		return -EINVAL;
-+
- 	if (mclk_rate < (2 * tfr->speed_hz)) {
--		clk_set_rate(sspi->mclk, 2 * tfr->speed_hz);
-+		ret = clk_set_rate(sspi->mclk, 2 * tfr->speed_hz);
-+		if (ret)
-+			return ret;
-+
- 		mclk_rate = clk_get_rate(sspi->mclk);
-+		if (!mclk_rate)
-+			return -EINVAL;
- 	}
- 
- 	/*
+commit 56eb9747daccb855b98e335a87134c61f8b8487e
+Author: Marc Kleine-Budde <mkl@pengutronix.de>
 
--- 
-2.55.0.123.gf60db8d575
+spi: spi-sun4i: sun4i_spi_handler(): fix race condition between transfer co=
+mpletion and RX FIFO interrupt
 
+This commit moves RX-FIFO draining back to sun4i_spi_transfer_one() and
+disables all interrupts in the IRQ handler when processing the transfer
+complete interrupt to close a race window.
+
+> diff --git a/drivers/spi/spi-sun4i.c b/drivers/spi/spi-sun4i.c
+> index 8a9dcd3b6b8f4..ea8be0170fbfd 100644
+> --- a/drivers/spi/spi-sun4i.c
+> +++ b/drivers/spi/spi-sun4i.c
+
+[ ... ]
+
+> @@ -357,8 +359,7 @@ static irqreturn_t sun4i_spi_handler(int irq, void *d=
+ev_id)
+> =20
+>  	/* Transfer complete */
+>  	if (status & SUN4I_INT_CTL_TC) {
+> -		sun4i_spi_write(sspi, SUN4I_INT_STA_REG, SUN4I_INT_CTL_TC);
+> -		sun4i_spi_drain_fifo(sspi, SUN4I_FIFO_DEPTH);
+> +		sun4i_spi_write(sspi, SUN4I_INT_CTL_REG, 0);
+
+[Severity: High]
+Does this change leave the Transfer Complete (TC) bit active in the status
+register?
+
+It looks like replacing the write to SUN4I_INT_STA_REG with a write to
+SUN4I_INT_CTL_REG masks the interrupt, but fails to acknowledge and clear
+the pending status bit.
+
+If a spurious interrupt fires during the setup of a new transfer, could this
+cause the new transfer to complete prematurely? For example, in
+sun4i_spi_transfer_one(), there is a window between reinitializing the
+completion and clearing the status register:
+
+	reinit_completion(&sspi->done);
+	sspi->tx_buf =3D tfr->tx_buf;
+	sspi->rx_buf =3D tfr->rx_buf;
+	sspi->len =3D tfr->len;
+
+	/* Clear pending interrupts */
+	sun4i_spi_write(sspi, SUN4I_INT_STA_REG, ~0);
+
+If a spurious interrupt arrives just before SUN4I_INT_STA_REG is cleared,
+the handler will read the stale TC bit and call complete(&sspi->done). The
+wait_for_completion_timeout() would then return immediately, potentially
+leading to use-after-free of DMA buffers or silent data corruption since the
+hardware might still be active.
+
+>  		complete(&sspi->done);
+>  		return IRQ_HANDLED;
+>  	}
+
+[ ... ]
+
+> @@ -456,6 +457,7 @@ static int sun4i_spi_probe(struct platform_device *pd=
+ev)
+>  		return ret;
+>  	}
+> =20
+> +	sspi->irq =3D irq;
+
+[Severity: High]
+This is a pre-existing issue, but looking at the surrounding probe function,
+is it safe to request the IRQ before the clocks are enabled and the
+completion is initialized?
+
+In sun4i_spi_probe(), devm_request_irq() is called just above this hunk,
+enabling the IRQ line. However, the completion structure is initialized much
+later via init_completion(&sspi->done), and the AHB/module clocks required
+for MMIO access are only enabled during sun4i_spi_runtime_resume().
+
+If the bootloader left the interrupt asserted (e.g., during kexec) or a
+spurious interrupt fires before initialization is complete, the handler
+sun4i_spi_handler() could execute early. Accessing MMIO registers without
+the AHB clock enabled often causes a synchronous external abort on ARM.
+Additionally, calling complete() on an uninitialized completion structure
+dereferences an invalid waitqueue lock, resulting in an Oops.
+
+>  	sspi->host =3D host;
+>  	host->max_speed_hz =3D 100 * 1000 * 1000;
+>  	host->min_speed_hz =3D 3 * 1000;
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260907-spi-sun4i-=
+fixes-v2-0-7e805662b9bd@pengutronix.de?part=3D4
