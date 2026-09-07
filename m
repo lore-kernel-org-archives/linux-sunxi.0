@@ -1,16 +1,16 @@
 Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F22509EE0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582DE4E3ED4
 	for <linux-sunxi@lists.linux.dev>; Mon,  7 Sep 2026 15:32:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.200.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788795134; cv=none; b=fRfishaVJ6OJsuNNyNAz/HVllZScOhCVrtQFzVCQVjCAm6GsxBan19RBz1/XwNgNAcfVxV3MVQh1ECJozszmcHq0xfy14kdWjPaYT2cQssz5J9j3pS79dHCn/XpF2esF4tLu0r14OYP2V1TwZNmZCTiFFetZIwhF05vct2wG+mo=
+	t=1788795135; cv=none; b=cIil5/hUEcnWQT1Jw0GBqP00SoZRYc7rzuYmVIUwLPWPXfV9dWg7hDp0ZYcWQanogHhY15Zu3+XetNbrumeKNLEjW+idOC8b8s7DiIljG3us9OwLBFEIv7pbprSDKDcxCaDtHn1M6IfeRwF+Ina0UbHFp2e73g07HQnPoaW8nMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788795134; c=relaxed/simple;
-	bh=k7MDTVqsfQvOMzNyymDKkGSRLhObtChT6q2t3o4yF7A=;
+	s=arc-20240116; t=1788795135; c=relaxed/simple;
+	bh=EQMkaOVTpT52GS7Jl1JQVmtzQ3gVPjCNyXibIxxmu6g=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mTmqNZiNya65A21Vlhh3sHt0QeiBlwEU5OjXp5EAoLB3tGTAXH+HgETdxpoe/I8kwjoZx86NXpAjmZszHsjpP0nW+CRQ7KxPcK2VcY35/v1aWanCMksiNcD0BN8s/N/hejYdCIzkTqRR3g6KInHiuAoxzRnoHijRrHMZBg/3Gyw=
+	 In-Reply-To:To:Cc; b=O6aCpgyBj4pa0nOPSBGECEKeSqHX7uv+IYsxiEwXc3pDA2t2ziEfzW6HfHNOuCtULc4uegaXDuP+QPw/CybfDabxa5Xa3tRv7ebosvgFrbROhy5BKH1A87pMzDou1vho28ftHdP2WHKfeuhc4kJ7dSDX4YD6QfTYdI8cfB9XEik=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.200.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -31,17 +31,17 @@ X-PTX-Original-Recipient: broonie@kernel.org
 X-PTX-Original-Recipient: linux-arm-kernel@lists.infradead.org
 Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
 	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 4738E201CD1;
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 2A5A0201A9D;
 	Mon, 07 Sep 2026 17:32:04 +0200 (CEST)
 Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
 	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.96)
 	(envelope-from <jre@pengutronix.de>)
-	id 1x3bKG-000Ym1-0b;
+	id 1x3bKG-000Ym1-0B;
 	Mon, 07 Sep 2026 17:32:04 +0200
 From: Jonas Rebmann <jre@pengutronix.de>
-Date: Mon, 07 Sep 2026 17:31:42 +0200
-Subject: [PATCH v2 3/6] spi: spi-sun4i: sun4i_spi_transfer_one(): fix
- setting of clock rate
+Date: Mon, 07 Sep 2026 17:31:40 +0200
+Subject: [PATCH v2 1/6] spi: spi-sun4i: sun4i_spi_transfer_one(): fix
+ transfers for SUN4I_FIFO_DEPTH
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -50,7 +50,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260907-spi-sun4i-fixes-v2-3-7e805662b9bd@pengutronix.de>
+Message-Id: <20260907-spi-sun4i-fixes-v2-1-7e805662b9bd@pengutronix.de>
 References: <20260907-spi-sun4i-fixes-v2-0-7e805662b9bd@pengutronix.de>
 In-Reply-To: <20260907-spi-sun4i-fixes-v2-0-7e805662b9bd@pengutronix.de>
 To: Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
@@ -63,74 +63,60 @@ Cc: linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  Mark Brown <broonie@linaro.org>, kernel@pengutronix.de, 
  Marc Kleine-Budde <mkl@pengutronix.de>, Jonas Rebmann <jre@pengutronix.de>
 X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2341; i=jre@pengutronix.de;
- h=from:subject:message-id; bh=pSbHNGpfbi6ot6AXey1gYf0jWgNZ6badXvRmVMsMld4=;
- b=owGbwMvMwCV2ZcYT3onnbjcwnlZLYsiad+OTx/prk2vF5qltXybckXXhyeFgXT5bowvJJx9pX
- JGXXSm7pKOUhUGMi0FWTJElVk1OQcjY/7pZpV0szBxWJpAhDFycAjCR2bsZGZZ9dd+zfPnUM+Fh
- T78ECnVt+Lzr7pxJxa0pfC1G3cw9rvGMDKc3i5z8f/bJ/rKjGSbmv7IX90umGztNc3A5Jv1axff
- EPl4A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1955; i=jre@pengutronix.de;
+ h=from:subject:message-id; bh=wfQL1QSfCbWufR3wGkkwcQx1sGdHXFdbWwqElB1tnxg=;
+ b=owGbwMvMwCV2ZcYT3onnbjcwnlZLYsiad+NjRFbFEebQs1Vu/xuTbC6/29fSFW5XYFasNTNhz
+ 0SeljlFHaUsDGJcDLJiiiyxanIKQsb+180q7WJh5rAygQxh4OIUgIm0TmNkmHxc5+FP1u0ekdpO
+ 86Xz3i2QStnwPeJcXfT95e/PJd1jv8jwT/f6n7gubdF1V6Y8n52gJcpUmOrD9oDd7Ue1/Kf1MpN
+ TeQA=
 X-Developer-Key: i=jre@pengutronix.de; a=openpgp;
  fpr=0B7B750D5D3CD21B3B130DE8B61515E135CD49B5
 
 From: Marc Kleine-Budde <mkl@pengutronix.de>
 
-A SPI transfer defines the _maximum_ speed of the SPI transfer. However
-the driver doesn't take into account that the clock divider is always
-rounded down (due to integer arithmetic). This results in a too high
-clock rate for the SPI transfer.
+In commit 6d9fe44bd73d ("spi: sun4i: fix FIFO limit"), the TX-FIFO is
+filled max to SUN4I_FIFO_DEPTH - 1 (= 63) bytes to work around timeouts
+observed on A10s SoCs.
 
-E.g.: with an mclk_rate of 24 MHz and an SPI transfer speed of 10 MHz,
-the original code calculates a reg of "0", which results in an effective
-divider of "2" and a 12 MHz clock for the SPI transfer.
+Commit 196737912da5 ("spi: sun4i: Allow transfers larger than FIFO
+size") added support for transfers larger than the FIFO size. But this
+commit only enabled the TX-FIFO empty interrupt for transfers larger
+than the FIFO (= 64) bytes.
 
-Use DIV_ROUND_UP() instead of a plain integer division to fix the
-problem.
+This breaks transfers with exactly 64 bytes: the TX-FIFO is only filled
+with 63 bytes but the interrupt to refill the FIFO is not triggered. The
+problem can be reproduced with the following command:
 
-While there simplify the divider calculation for the CDR1 case, use
-order_base_2() instead of two ilog2() calculations.
+| spidev_test -D /dev/spidev0.1 -S 64 -s 20000000 -I 1
+|
+| [ 7797.548745] spi_master spi0: spi0.1: timeout transferring 64 bytes@20000000Hz for 110(100)ms
+| [ 7797.557237] spidev spi0.1: SPI transfer failed: -110
+| [ 7797.562308] spi_master spi0: failed to transfer one message from queue
+| [ 7797.568936] spi_master spi0: noqueue transfer failed
 
-Fixes: b5f6517948cc ("spi: sunxi: Add Allwinner A10 SPI controller driver")
+To fix the problem enable the TX-FIFO interrupt if the total TX length
+is larger than SUN4I_FIFO_DEPTH - 1 (= 63) bytes.
+
+Fixes: 196737912da5 ("spi: sun4i: Allow transfers larger than FIFO size")
 Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
 Signed-off-by: Jonas Rebmann <jre@pengutronix.de>
 ---
- drivers/spi/spi-sun4i.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ drivers/spi/spi-sun4i.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/spi/spi-sun4i.c b/drivers/spi/spi-sun4i.c
-index 3649bcabcc9a..8a9dcd3b6b8f 100644
+index d5c16392cd4d..2e2324453905 100644
 --- a/drivers/spi/spi-sun4i.c
 +++ b/drivers/spi/spi-sun4i.c
-@@ -212,7 +212,7 @@ static int sun4i_spi_transfer_one(struct spi_controller *host,
- 				  struct spi_transfer *tfr)
- {
- 	struct sun4i_spi *sspi = spi_controller_get_devdata(host);
--	unsigned int mclk_rate, div;
-+	unsigned int mclk_rate, div, div_cdr1, div_cdr2;
- 	unsigned long time_left;
- 	unsigned int start, end, tx_time;
- 	unsigned int tx_len = 0;
-@@ -296,15 +296,13 @@ static int sun4i_spi_transfer_one(struct spi_controller *host,
- 	 * First try CDR2, and if we can't reach the expected
- 	 * frequency, fall back to CDR1.
- 	 */
--	div = mclk_rate / (2 * tfr->speed_hz);
--	if (div <= (SUN4I_CLK_CTL_CDR2_MASK + 1)) {
--		if (div > 0)
--			div--;
--
--		reg = SUN4I_CLK_CTL_CDR2(div) | SUN4I_CLK_CTL_DRS;
-+	div_cdr1 = DIV_ROUND_UP(mclk_rate, tfr->speed_hz);
-+	div_cdr2 = DIV_ROUND_UP(div_cdr1, 2);
-+	if (div_cdr2 <= (SUN4I_CLK_CTL_CDR2_MASK + 1)) {
-+		reg = SUN4I_CLK_CTL_CDR2(div_cdr2 - 1) | SUN4I_CLK_CTL_DRS;
- 	} else {
--		div = ilog2(mclk_rate) - ilog2(tfr->speed_hz);
--		reg = SUN4I_CLK_CTL_CDR1(div);
-+		div = min(SUN4I_CLK_CTL_CDR1_MASK + 1, order_base_2(div_cdr1));
-+		reg = SUN4I_CLK_CTL_CDR1(div - 1);
- 	}
+@@ -322,7 +322,7 @@ static int sun4i_spi_transfer_one(struct spi_controller *host,
+ 	sun4i_spi_enable_interrupt(sspi, SUN4I_INT_CTL_TC |
+ 					 SUN4I_INT_CTL_RF_F34);
+ 	/* Only enable Tx FIFO interrupt if we really need it */
+-	if (tx_len > SUN4I_FIFO_DEPTH)
++	if (tx_len > SUN4I_FIFO_DEPTH - 1)
+ 		sun4i_spi_enable_interrupt(sspi, SUN4I_INT_CTL_TF_E34);
  
- 	sun4i_spi_write(sspi, SUN4I_CLK_CTL_REG, reg);
+ 	/* Start the transfer */
 
 -- 
 2.55.0.123.gf60db8d575
