@@ -1,56 +1,56 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763BD556B85
-	for <linux-sunxi@lists.linux.dev>; Tue,  8 Sep 2026 15:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D3752E05B
+	for <linux-sunxi@lists.linux.dev>; Tue,  8 Sep 2026 15:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788882724; cv=none; b=XxQvOlY2WF3HfbyutpCXlk/y0+rzzKeG/Kp34+E8+Rn9Dg8oeBX8EQutL7HKGqVDv9mTnBdDG9uMJ4b+PZw3v6v/pliPEeMSs/ugMXPNpphlFrMXYDmQfjnrbHSe0dwg3ndKPEjCx9qyo5V2OFb6PjXsPMTkbxC/yQX5Nx+hb64=
+	t=1788882952; cv=none; b=Pu9tYtsEzCM1JY+Jo1aFfKCeYZ0pIphI5j3DDBXTs6GouLRkKXPlDi+0arjy4ctAOqzam4XOLKjMl2ZubYdSFhX4B0BQt2RDPA/GJt54jGQoyxSE31DO7XTvdOkbn4cywY62Y6Sk65Qya5iPf9CyHYnmCi40NZo1OlJ1Uktlu2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788882724; c=relaxed/simple;
-	bh=DAhVo+VnvuwPf8P1BI0svmi6m7U7fXWrZ8gzfloqoPY=;
+	s=arc-20240116; t=1788882952; c=relaxed/simple;
+	bh=TckXPuonbCjW3ll7vU9025NMYhL42FTH72OM8FtKwpE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KAzmxVk+lWwlR8kuDhIhGdQd+ZXB3fQOUJ3yMVkFpwQvk4lRF8FlzsXk9tKoRkwkafeDXb8FsDJMi0h1WCzEFNbmcW7R+LS0HWM8MR1q2LNUKbQjSkhjzZZvafIsxKbCRuRbwfkxuYHlGomFMEFHDDISvjkHEkcxhTGhjvkV7b0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=C2nxzAJ/; arc=none smtp.client-ip=185.246.84.56
+	 MIME-Version:Content-Type; b=Uv2jlUUIHgeEMUwBaAIcaLk+9PmslnjDdc5IHOQhD6mWzNwijGc4VTQdAWv/6v0CUxq2BOCV20koLd34eyxzzacLxGl4vONd2MWIvmrDlJ/9eNZEDFodKvFzzM4VGxVqbh+PQygBAotoioVLUMG+mRtJoK4v1/oauL4fgKv3arg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=BiiqCaip; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="C2nxzAJ/"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="BiiqCaip"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 0DF491A1A5A;
-	Tue,  8 Sep 2026 15:51:52 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 37FD34E4159A;
+	Tue,  8 Sep 2026 15:55:48 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D37BE6031F;
-	Tue,  8 Sep 2026 15:51:51 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2476D11C7AF49;
-	Tue,  8 Sep 2026 17:51:46 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0B41A6031F;
+	Tue,  8 Sep 2026 15:55:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 18B6111C7AF29;
+	Tue,  8 Sep 2026 17:55:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1788882711; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1788882947; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=DAhVo+VnvuwPf8P1BI0svmi6m7U7fXWrZ8gzfloqoPY=;
-	b=C2nxzAJ/2j1JQy7Wp+D4kWMW3N7lqM5p8+HWmkRrLjB8pT4MGOshpbTVcWIHpNilkCUC8U
-	Iso2bROUUjnekiNbw0hO8//tj/RMQ307uz8DdvsbCs4Mzh9bIGXDEX2AFPezDyWozHpGQW
-	wmhlHFJ1WoxG/o0tLsAqUqJ40DGKiYqLgVHW5U0zAIlRSDyrJFpdPfI5SoPuOU3iC9vkfW
-	2V4GhxIvoYPQR9Q4TdeOx1gRFst/gW5FkfXTFghGir3fwetU1Su2gg8rpNDEFrDGPHN6DM
-	s3Sz2VwYMFMVRa29P+ymcXOSyJ64NJgAPXDeX8xIwEgsb4OZwcqPKJmjRCIdYA==
+	bh=TckXPuonbCjW3ll7vU9025NMYhL42FTH72OM8FtKwpE=;
+	b=BiiqCaipRCamk0P+DqN11XxWdSy4g9gVvsyt5FfiOOlp5yNf2KIHo7imzk0DFw1h+2+CZW
+	/GhhUBzehC7Cx+qialfYsmDwJ9K2+qigt8EvXg+hj3OMtYyVWollUUprBYOv8WPpr3ZOKH
+	ilr/fRiu+9Hkqqgn1uMg3epX/WfaxgSWLcRJgbSH7YfTCLxIwrAaSjVzv7Xo4BCvR9fRH9
+	n7VPPfYD6lorWP/tTMdFLEck+0FVHA7JdBqaqEYH7Yum626QcbzsPvezTblfTvLzEcE5TB
+	R3E99OJFt0I0gK5v44auBg0T+kpbEGc3ww77arkQtiurLSnx3KlOFSiU6d633g==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
 To: James Hilliard <james.hilliard1@gmail.com>
 Cc: Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
- <vigneshr@ti.com>,  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski
- <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,  Chen-Yu Tsai
- <wens@kernel.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>,  Samuel
- Holland <samuel@sholland.org>,  Maxime Ripard <mripard@kernel.org>,
-  linux-mtd@lists.infradead.org,  devicetree@vger.kernel.org,
+ <vigneshr@ti.com>,  Chen-Yu Tsai <wens@kernel.org>,  Jernej Skrabec
+ <jernej.skrabec@gmail.com>,  Samuel Holland <samuel@sholland.org>,  Boris
+ Brezillon <bbrezillon@kernel.org>,  linux-mtd@lists.infradead.org,
   linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev,
-  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] mtd: rawnand: sunxi: support randomized OOB formats
-In-Reply-To: <20260904-submit-sunxi-nand-vendor-oob-layout-v1-v2-2-b12074f4aca7@gmail.com>
-	(James Hilliard's message of "Fri, 04 Sep 2026 15:22:12 -0600")
-References: <20260904-submit-sunxi-nand-vendor-oob-layout-v1-v2-0-b12074f4aca7@gmail.com>
-	<20260904-submit-sunxi-nand-vendor-oob-layout-v1-v2-2-b12074f4aca7@gmail.com>
+  linux-kernel@vger.kernel.org,  stable@vger.kernel.org
+Subject: Re: [PATCH v2] mtd: rawnand: sunxi: fit maximized ECC step to page
+ size
+In-Reply-To: <CADvTj4rFxwgYZgKzcHZG738UV0_94gxG1Dhy--ET9jC=E1dgoA@mail.gmail.com>
+	(James Hilliard's message of "Tue, 8 Sep 2026 09:27:08 -0600")
+References: <20260904-submit-sunxi-nand-ecc-step-validation-v2-1-6e3ba6200948@gmail.com>
+	<87zexst5ze.fsf@bootlin.com>
+	<CADvTj4rFxwgYZgKzcHZG738UV0_94gxG1Dhy--ET9jC=E1dgoA@mail.gmail.com>
 User-Agent: mu4e 1.12.12; emacs 30.2
-Date: Tue, 08 Sep 2026 17:51:46 +0200
-Message-ID: <87ik4fu4fh.fsf@bootlin.com>
+Date: Tue, 08 Sep 2026 17:55:44 +0200
+Message-ID: <87y0dbspof.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,46 +61,41 @@ Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi James,
-
-On 04/09/2026 at 15:22:12 -06, James Hilliard <james.hilliard1@gmail.com> w=
+On 08/09/2026 at 09:27:08 -06, James Hilliard <james.hilliard1@gmail.com> w=
 rote:
 
-> The controller randomizer covers the bad block marker along with the
-> rest of the OOB data. The driver currently compensates the marker bytes
-> before writes and after reads so that they remain plain on flash.
+> On Tue, Sep 8, 2026 at 4:03=E2=80=AFAM Miquel Raynal <miquel.raynal@bootl=
+in.com> wrote:
+>>
+>> Hello James,
+>>
+>> On 04/09/2026 at 16:39:27 -06, James Hilliard <james.hilliard1@gmail.com=
+> wrote:
+>>
+>> > When nand-ecc-maximize is set, the driver unconditionally selects a
+>> > 1024-byte ECC step. A NAND with a 512-byte page consequently produces
+>> > zero ECC steps before the available OOB bytes are divided by the step
+>> > count.
+>> >
+>> > The older sunxi NAND controllers support 512-byte ECC blocks. Select t=
+he
+>> > smaller of the page size and the preferred 1024-byte step, using a
+>> > 512-byte step for a 512-byte page while retaining 1024-byte steps for
+>> > larger pages. Unsupported smaller steps and controllers without
+>> > 512-byte support continue to be rejected by the existing checks.
+>> >
+>> > Fixes: 4796d8655915 ("mtd: nand: sunxi: Support ECC maximization")
+>> > Cc: stable@vger.kernel.org
+>> > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+>>
+>> As reported by Sashiko, there is another use of 1024 down the road which
+>> must be modified accordingly. Although, in practice, 512-byte page NANDs
+>> have disappeared for quite some time, so this is a theoretical fix more
+>> than a real problem.
 >
-> Allwinner NAND firmware instead stores the marker through the
-> randomizer. Media using that format appears to contain bad blocks unless
-> the randomizer is enabled while reading the marker.
->
-> Honor the allwinner,randomized-oob property by marking the NAND as
-> requiring scrambling during normal hardware-ECC transfers and leaving
-> the marker in the randomizer data stream. Keep the existing plain marker
-> behavior when the property is absent. Reject the property with software
-> or disabled ECC because those paths do not operate the controller
-> randomizer.
->
-> MTD_OPS_RAW behavior remains unchanged: raw accesses bypass both ECC and
-> randomization and expose the physical representation. The raw-NAND
-> core's bad-block and flash-BBT paths use decoded accesses and therefore
-> continue through the hardware-ECC/randomizer path.
->
-> This changes marker handling on all supported controllers; the H6/H616
-> protected user-data placement is handled separately.
->
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> Does the v3 I sent look like it should work?:
+> https://lore.kernel.org/all/20260904-submit-sunxi-nand-ecc-step-validatio=
+n-v3-1-931cec317c10@gmail.com/
 
-I believe it is still not completely working. If you look at the error
-path in the read functions, in case we face a factory bad block, there
-will be no data, we will face the "page is maybe empty" case where we
-still address columns like before. Since data is randomized with these
-accesses, I believe we would return errors which will not be interpreted
-correctly by the core. The discovery of the factory bad block markers is
-thus broken during BBT scan. But a BBT read is also broken, because even
-if errors are ignored, we perform pattern matching on data which is, if
-my understanding of your implementation is correct, not de-randomized in
-this case.
+Yes I think so.
 
-Thanks,
-Miqu=C3=A8l
