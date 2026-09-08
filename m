@@ -1,156 +1,133 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06FC4F30D3
-	for <linux-sunxi@lists.linux.dev>; Tue,  8 Sep 2026 09:08:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35B350AC1E;
+	Tue,  8 Sep 2026 09:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788858496; cv=none; b=Pm/Gwkf3DXd9k45plmYtXzgk+eXqvEPsEZqn6Sz6KPv+thCJQc/t4pyu+XUnJ9jBclZgkrfKw7cdpAwFq0tgi14D4vuydNv4i1YmAJqk9Z3Kwl6sZJkXp/ObImSqJ/CTXF9lZmyo8+/Pe2l5dIVgxi7lBFT9WrKm1c1BzXY/ljM=
+	t=1788859470; cv=none; b=dzivAMfHUiZaALqYlMFXKVir2H/1aP5xCKsKNPQVqZEX8MSQ4nnXuPd9PJmhF/bVw1888svYRbDf0S1aUyJgnQp6oxXerNQgVq77v+rwTS/PbKp14UisOpWm4+2yO3R6gCvcnwaYTTtSVXn6ZtjOqVzodCLKwS3vyxYaSNo1kBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788858496; c=relaxed/simple;
-	bh=qJDTSQf3mOWj1wTBmShDO4bnN0jyzbEKQlcjgoU7YP0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A+5IMaiUxYaFn0voD9ofKpms6KNE2rzC0rtH+ZeVjozbQwL8wH/bBfVGimxqvK/NDpelp9qwFHNO/PJTBPa1gwk3lbdNsdf7FM7jZip1QAJ2+wzJpLrxBv02OTH2Y3S4XSM27/aq2dHb2CKJ4PlBaWFXHZVrVDKxDZE/7NeyoU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=S678CECK; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1788859470; c=relaxed/simple;
+	bh=h/T7ycLMSDC3a2kr6DgdOAzHxcYYnc5NhlAyE3UitFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gF/hy/aXwtJ59SfOWZs7f5dk5jkAcnfFZqk1N2LcSqbTkmWVl/MdCpAXnuZGTXAQkouU7rIsVvu4bWKHOhYd9wDzb4EeGrhvghUH7h03K/chWCtcogZZxdFG2jZugUcdUospaKXCjOzX8JbZ4lSFaC002lGVi56FDcj9KyOugZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hdump79V; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="S678CECK"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-38d489b6b71so5015005a91.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 08 Sep 2026 02:08:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1788858494; x=1789463294; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=KZyOo+ygFnvVbouyZiGeNffeUNQ7tsTzDFqw1u+OtP0=;
-        b=S678CECKn6ux/Wupl9Kj9K4SaCTjSzZPC/8GM3oiUxlfonoj9oBwTPleb5vMzhEj3o
-         qrrnwWOu9cuxnSZQofbbB+5BDyDoZPzP/DGfzUoB39QUTc2KRifvYE45afJ6FYoXrMrE
-         gunFPQU34LPljz+0wGCvDjofl6r+XzTuObWOA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788858494; x=1789463294;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KZyOo+ygFnvVbouyZiGeNffeUNQ7tsTzDFqw1u+OtP0=;
-        b=F5Ind4WuRKjWNPDUU2rIDGqxkq2UZb5iG++khGk1li4qs+9B5q5IzPCFS13whB88aO
-         PnIFzcX4RNXMSvWfBVNn5+FPTybCE7QLi532sA5Ae+NMvenZkr8seLAoJYpeHYSc4U9a
-         +1Pn1rswMUZYM/Qwi2rOZr8SGrseqqyBXeAhH3XtVmmCRf5Y6HWZkZTUKPvGSM+PytXz
-         Q5Oi/40cl6LdzUBggHpmiCCCG69tOUThO/XJnXnqOz/pFliitdDf5f2UOI6k0KhM5kX0
-         WCq0/tUmDGWHgrOXUWkMS8tYw8yhJkKozLjJoWSdiNAXiQLprbh0whzen1XLAyukHfRj
-         zYBA==
-X-Forwarded-Encrypted: i=1; AKwUvBwvry1v72yktUMh1LSXR+xuuEoQx/q+5zzri3W8l0iGbj/ydzSxDOxZQ7UcTzpQVfALzyaPJqPSGcN6AA==@lists.linux.dev
-X-Gm-Message-State: AFuF++nMdlSh7NaerW5eLgvVnxeikLrxVyF1H9xF1tu9f25zPEvHTtD1
-	g9ebMFzOxGXfcyk7jYNJKICF436WPNcYpcoLWnPfOnIvCG3+C1+6nACNhuaRHt3eeA==
-X-Gm-Gg: AYBFou3wmTNApI2FxjvWklqH5fBhT/ClwWC7wavnn+LJVVE6Bwrfh1GhVN0jSdATMG+
-	oX+bzRvPsHoYWEhVjfGLM9HFTQbMqAx6z1qs4gRhCGoCtmcWvmXr3j2a23DjRFdxTZjmz+wKDr1
-	0ruYzoSKh9IXC5+LoOOoXksFqzaCE41X/kUCl4Er95QgOBJ2Z4TY0xtLyeHa6vLxzM1upE3vWc+
-	98AbO1gkJeY3gbAgdARJG9yPntFB4MBJLunqFjMIZOFoQg6Ui70a3AucA65ExSMfZRef2SoCRhT
-	gD9YHYH2Ru7KC3CH4/KUtLlJ3PdhLBYHPn78ZZAElY5cpzf14eJJZzGgT2EXFqBtIWNKntyT7MS
-	DhQAvuP/ZARYtwPRaN7BPR4L3tqSU+D70JF+uR0Jqe/+LgVSNwVbIP3sU0iJ3pLn+2P/BDx0cM0
-	MdoLCgD5F9OrxwyDGQ5VQaOYa37cGIRRhIGhwOixV0HXiXq+rvfAQ3AvXrT5Djjo5BEHIazQyen
-	FQimZJMnVx2oNSIUMdf0Plc1nz9kFI26fF0g8SI6FhpME0=
-X-Received: by 2002:a17:90b:586c:b0:398:a2ed:7b5c with SMTP id 98e67ed59e1d1-39b2623ef65mr47890193a91.24.1788858493952;
-        Tue, 08 Sep 2026 02:08:13 -0700 (PDT)
-Received: from wenst-7875.tpe.corp.google.com ([2a00:79e0:201d:8:e541:8c2f:4ce9:823a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b4b72f62esm19718804a91.5.2026.09.08.02.08.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 02:08:11 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Liu Ying <victor.liu@nxp.com>,
-	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	linux-sunxi@lists.linux.dev,
-	imx@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] drm/imx/dcss: plane: Switch to drm_fb_dma_get_gem_clipped_addr()
-Date: Tue,  8 Sep 2026 17:07:43 +0800
-Message-ID: <20260908090745.1089143-5-wenst@chromium.org>
-X-Mailer: git-send-email 2.55.0.979.g7e5102b832-goog
-In-Reply-To: <20260908090745.1089143-1-wenst@chromium.org>
-References: <20260908090745.1089143-1-wenst@chromium.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hdump79V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8522F1F00A3A;
+	Tue,  8 Sep 2026 09:24:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788859469;
+	bh=nwt4MSvg+/6zRv8Vcf7XT0o+MS+vnu26qoTN+G3zanc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=hdump79Vw5fEgXFJ9VugGGr5h6P63z5Rb/y5Hg0yODT+xkwe1X9g+jFlOkv7xQ2AQ
+	 uoCqpfp3P4EELicYSY5xFxcScIgnN41HJE9Hv+IxmdZE3UxokuQE7yocbQixaPW1bD
+	 BW578Iwlzn0eG3XZClR5mMtu1brAknhWLvs7GumecG1XFVYvsexzXf5BQLuUikEodO
+	 6U91vturj452mofL9n1U1GBjg37Vl2/FSlgkBctDhnEQTdhaEBWmhcv5aTHVRUL7ID
+	 Ek2bZXURLjsVrHEStEywjsO0iimjIlhQPJW7MDJgN3QgLd7fwNXC4iMlsT1e/eY3bc
+	 gi7qJpbxFcf3Q==
+Date: Tue, 8 Sep 2026 11:24:25 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+	Raphael Gallais-Pou <rgallaispou@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Algea Cao <algea.cao@rock-chips.com>, Daniel Stone <daniels@collabora.com>, 
+	Liu Ying <victor.liu@nxp.com>, Phong LE <ple@baylibre.com>, Helge Deller <deller@gmx.de>, 
+	kernel@collabora.com, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
+	linux-fbdev@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>
+Subject: Re: [PATCH v11 13/74] drm/bridge: Fix NULL deref in drm_bridge_add()
+ for legacy bridges
+Message-ID: <ap_Tr_Viqy29f515@houat>
+References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
+ <20260901-dw-hdmi-qp-scramb-v11-13-bc12954a0688@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="ygj36ay46abkkslu"
+Content-Disposition: inline
+In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-13-bc12954a0688@collabora.com>
 
-The i.MX DCSS driver is open coding drm_fb_dma_get_gem_clipped_addr(),
-with only a slight difference of rounding down the X offset for the
-first plane if the format is packed, sub-sampled YUV. This is likely
-to correct the buffer address to the first pixel of the 2-pixel group.
-Otherwise the hardware will start the scan-out from the second pixel,
-which leads to the U/V components getting swapped around, and the
-chroma component of the next pixel group being used.
 
-Switch to drm_fb_dma_get_gem_clipped_addr(), and offset the address by
-a pixel if the X offset is odd.
+--ygj36ay46abkkslu
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v11 13/74] drm/bridge: Fix NULL deref in drm_bridge_add()
+ for legacy bridges
+MIME-Version: 1.0
 
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
- drivers/gpu/drm/imx/dcss/dcss-plane.c | 34 +++++++++++----------------
- 1 file changed, 14 insertions(+), 20 deletions(-)
+On Tue, Sep 01, 2026 at 09:50:37PM +0300, Cristian Ciocaltea wrote:
+> Legacy bridge drivers that embed struct drm_bridge in a zero-initialized
+> allocation, rather than obtaining it from devm_drm_bridge_alloc(), never
+> run INIT_LIST_HEAD() on bridge->list, leaving next and prev NULL.
+> list_empty() compares next against &bridge->list, so it reports such a
+> list head as non-empty.  list_del_init() therefore runs and dereferences
+> the NULL pointers, panicking the kernel during probe.  Only builds with
+> CONFIG_DEBUG_LIST survive, with a list corruption report.
+>=20
+> This affects rk3066_hdmi and the i.MX8 LDB bridges, which still embed a
+> bridge in a devm_kzalloc()'d struct.
+>=20
+> Initialize the list head when it is found to be NULL, so that the bridge
+> ends up with a valid empty list head and list_del_init() is only reached
+> for bridges that can actually be linked.
+>=20
+> Fixes: 17805a15d175 ("drm/bridge: add list of removed refcounted bridges")
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Closes: https://lore.kernel.org/all/20260731175016.C5D591F00AC4@smtp.kern=
+el.org/
+> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_bridge.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index 2c457ad74f3b..a8b6df5c13ea 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -453,9 +453,16 @@ void drm_bridge_add(struct drm_bridge *bridge)
+>  	 * If the bridge was previously added and then removed, it is now
+>  	 * in bridge_lingering_list. Remove it or bridge_lingering_list will be
+>  	 * corrupted when adding this bridge to bridge_list below.
+> +	 *
+> +	 * Legacy drivers that allocate the bridge with kzalloc() rather than
+> +	 * devm_drm_bridge_alloc() leave list.next NULL. Such a bridge cannot
+> +	 * be on any list, and list_del_init() would dereference NULL, so
+> +	 * initialize the list head first.
 
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-plane.c b/drivers/gpu/drm/imx/dcss/dcss-plane.c
-index 303e93fd036c..580d9cfb4053 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-plane.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-plane.c
-@@ -219,28 +219,22 @@ static void dcss_plane_atomic_set_base(struct dcss_plane *dcss_plane)
- 	struct dcss_dev *dcss = plane->dev->dev_private;
- 	struct drm_framebuffer *fb = state->fb;
- 	const struct drm_format_info *format = fb->format;
--	struct drm_gem_dma_object *dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
- 	unsigned long p1_ba = 0, p2_ba = 0;
- 
--	if (!format->is_yuv ||
--	    format->format == DRM_FORMAT_NV12 ||
--	    format->format == DRM_FORMAT_NV21)
--		p1_ba = dma_obj->dma_addr + fb->offsets[0] +
--			fb->pitches[0] * (state->src.y1 >> 16) +
--			format->char_per_block[0] * (state->src.x1 >> 16);
--	else if (format->format == DRM_FORMAT_UYVY ||
--		 format->format == DRM_FORMAT_VYUY ||
--		 format->format == DRM_FORMAT_YUYV ||
--		 format->format == DRM_FORMAT_YVYU)
--		p1_ba = dma_obj->dma_addr + fb->offsets[0] +
--			fb->pitches[0] * (state->src.y1 >> 16) +
--			2 * format->char_per_block[0] * (state->src.x1 >> 17);
--
--	if (format->format == DRM_FORMAT_NV12 ||
--	    format->format == DRM_FORMAT_NV21)
--		p2_ba = dma_obj->dma_addr + fb->offsets[1] +
--			(((fb->pitches[1] >> 1) * (state->src.y1 >> 17) +
--			(state->src.x1 >> 17)) << 1);
-+	p1_ba = drm_fb_dma_get_gem_clipped_addr(fb, state, 0);
-+
-+	/*
-+	 * TODO fix address until helpers know packed, sub-sampled YUV format block size
-+	 *
-+	 * The buffer address for packed, sub-sampled YUV formats such as DRM_FORMAT_UYVY
-+	 * need to be on the first pixel of each pixel group or block. Otherwise the first
-+	 * pixel of the next pixel group is read and the U/V values get swapped around.
-+	 */
-+	if (drm_format_info_is_yuv_packed(format))
-+		p1_ba -= ((state->src.x1 >> 16) & 1) * format->cpp[0];
-+
-+	if (format->num_planes > 1)
-+		p2_ba = drm_fb_dma_get_gem_clipped_addr(fb, state, 1);
- 
- 	dcss_dpr_addr_set(dcss->dpr, dcss_plane->ch_num, p1_ba, p2_ba,
- 			  fb->pitches[0]);
--- 
-2.55.0.979.g7e5102b832-goog
+"legacy" bridges are ambigous and was also used for non-atomic bridges.
+That being said, it's now *required* that bridges use
+devm_drm_bridge_alloc() instead of kzalloc, and we warn in
+drm_bridge_add if it hasn't.
 
+So I don't think we should merge this patch.
+
+Maxime
+
+--ygj36ay46abkkslu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCap/USAAKCRAnX84Zoj2+
+dvfBAX9Xat1E7rHDo5AwoQwclzUX6gFePTOLCX7JzUTlJj4v+JVqzvUmXYfX2MVE
+CDhj71EBf2f48qg8uxY+jSn8HuuECyGRZX1EJkTYg9OjYG+JlhXy81xPlHXuun/i
+wRZxh6EhmA==
+=t0EL
+-----END PGP SIGNATURE-----
+
+--ygj36ay46abkkslu--
