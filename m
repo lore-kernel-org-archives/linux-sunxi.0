@@ -1,132 +1,127 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368341D54FA
-	for <linux-sunxi@lists.linux.dev>; Tue,  8 Sep 2026 05:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5519322576E
+	for <linux-sunxi@lists.linux.dev>; Tue,  8 Sep 2026 05:12:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788843763; cv=none; b=V3+Rfqqp9fn/ExGY3El8VTpkQHYoklSh8lgbz7CjpQwCTZrAmRqx2ticlcPA95Od2aJ0tqrYpvzHLsWUHzcDunk2Geqx+QCbRHrezAUQSbpJDifgL795FcFfWGeAuE3I+uCwQZw7JZ5RsXAJ3p8eamoQUXGmPWK0NiDp2/rTCok=
+	t=1788844370; cv=none; b=YfiKX75BYGIbE/XnDBzkQKvdYVRVBN/Us0Ws3BCyRrNQsYWgX3CuKluCoUaj/iqqsWUcO3UYqjFTdTQrExMcrY1Cc9wRY/3vvql8FGkWZWTRj/0JrND1no2s/NLjFdlGdqxLk7KHkmJkG12+4SN68qbuzU9Vx+nRNUDDyVkd7Ag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788843763; c=relaxed/simple;
-	bh=9Gz680K5QSslTUHGxRWjVgzzejSc0xlqkZhFGg8h0K0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SPvamSRRW6OEO6nUWniIAt7StAvB3S5+wYO3cWlzGAZZ3dpkbIudhYBxyLWa/slE71/A9btmTsGCun5Yo6eaxvHiV+bK7ekKmSJ6WcJCBtCiyB6WBsz8PkE+j7b5IrhYME5KjFSCYmxcmc91EMOU65uMre8L/ZAuzDrsTNlzhhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=F8bRe+WO; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1788844370; c=relaxed/simple;
+	bh=ReLKni+mLVxVQDtK8q2c7QNhxEWGtiGuyYu2XhpW6GA=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=o8GQszWFgjS0o73MbII6D0Ax9XhMpsVt9LcgciZU6aDT6Ni1NSKupRNeIClH9FPLC73lWVRl6cOJtBASgGthSyE0fgdbk0U9BC4NUWE30IgRZmyOt+4qJYyiqQx1UxZBtPhwrWZJzL07FuGeoPSZvjFQ2Lz+OBFgQrfAad38Tro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nP+VGzgk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="F8bRe+WO"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-ca97d139d5fso3758298a12.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Sep 2026 22:02:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1788843761; x=1789448561; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Q5Plj4uGj3BvxxxoyuAGWT0KJk9RqOTiZJAPsoPxBFY=;
-        b=F8bRe+WO4VfxTkFD7F+SLciqJAWI58Q+8fp68i95JLGJBsrScVt7+ujLz8JkrAVMpy
-         eVflfDGSDssJ0GdqNUs6HxGkKyxPzFeyD6I83GbxHHGeFvEsfBzyHTTH1BP3q6gXlCAU
-         BbAAjWkbL/N9HCWJw1A1/C21QNd8UHxJn1fX8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788843761; x=1789448561;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Q5Plj4uGj3BvxxxoyuAGWT0KJk9RqOTiZJAPsoPxBFY=;
-        b=BfDftIXVZJet27fV7KLPNDVxKuyLeGQx9WzSMkujlLJJu6e7MphL9xqPjgQnLHgmSk
-         AsYwralbcez+PE/DPtRQBmSUsJCT47FUQSzXWkYKlX29VCbcmjvG1tqj0SUuWeaUfdq6
-         CcJsA+pcnRVXNK++hmxNQg4VaAw5GlUuCIdQ2NzBEeJVEttDYnStNk4JELvjNuvSO1fF
-         /BppxyQrK7feAHlZ+2mkHkwixrTgegHaDsKbYuAXxiykwfwyf8Le9Pelj+718jNP8H1W
-         DMEHb9XfUatpzxJPtEBUug0ajsr5Y+ignNnGYal8hMQVHdX/pva0scyBxlgs0rBodtAS
-         8haA==
-X-Forwarded-Encrypted: i=1; AKwUvBwA8DZAf5zoOo+dsbP61rk0R376W6plZ8hbKi59caK3M6TcXl7jf+5Dl8JmhyYhH8LVdjZTfuBA2iFzrg==@lists.linux.dev
-X-Gm-Message-State: AFuF++nlykZSfpKLeoEwoYgrepcCiLR2Fl1/aFa2wpjtB2MIw+MEJWbg
-	nukZ/h50N8IEddujsizIDIwEh2hkmb16mUBJanlsBRsp/MVUlFBoaPcYC6oLCbqUGw==
-X-Gm-Gg: AYBFou1PiuNDUH6IEnXDixpzGqlM0NRIY6t4sjiFNkPSODksfP9hsn+4Rx8lXtPbmZ8
-	yAnFgSCq+bGUkTddbz7nwG8okTDdo2NxzzydwwSzBJs3vQXoecLgSllu0BKN2eTVaHD0yU6J+c2
-	TJoKnMyyiEPoSVX/2ctTMrPS69sts3H0nJiEzsh8Tc9bT7oCV1DCcF8uaIIEnHAhvhyCYhjIC9b
-	Zvymz4vT0PdrP2k4QzjzS6XKFUcpTDbTu1bSdnAGoTEHhDCk1NEVncDrXVgQef16QWo3pMypBcT
-	kYNp31jIUVenTIPcBCPtY8y/xHY8rRP+BBu8j7JetYK+CJXKu0d7IIsi1+HiZjW9VtHoCDqpiYE
-	WULbOSGYDQeYZ6veLlZIMyIHTTKce52qRyYEJX4uxKnuH4G64GOFekeB/S5nY62u9nS9z2BM4Zj
-	tC5QBBF0dCRrrBbjxGikx9ewpM15l0l0abo6KsqwNDcEov+ngOGrT/HXcKIOK9S13cGjyOzof16
-	Rx3QZVN+a793E/NqBd7ohJTmQzh9BxfZQpZIbGqoNZy/9tPnJ/OkiX5pw==
-X-Received: by 2002:a17:90b:4fcb:b0:381:a766:efcb with SMTP id 98e67ed59e1d1-39b26100e5dmr38830828a91.4.1788843761523;
-        Mon, 07 Sep 2026 22:02:41 -0700 (PDT)
-Received: from wenst-7875.tpe.corp.google.com ([2a00:79e0:201d:8:e541:8c2f:4ce9:823a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b813fb4ddsm6342730a91.10.2026.09.07.22.02.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 22:02:40 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2] drm/sun4i: Align VI buffer addresses for subsampled formats
-Date: Tue,  8 Sep 2026 13:02:28 +0800
-Message-ID: <20260908050229.754977-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.55.0.979.g7e5102b832-goog
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nP+VGzgk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA0B81F00A3A;
+	Tue,  8 Sep 2026 05:12:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788844368;
+	bh=/+IK8w7WpFTP2qvi5xNJEz+WT0e//SC4KVLE9N6LWhM=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=nP+VGzgkOZ2FtnV9FJpUKC7fgPUOGnucskp0SaN84sULflFdOJGPZ7qC3/6MC99Ep
+	 48ZJIe+ppxIGoZqsZlxhg5+4aNp+5CkLAR1/9Yq7HM4nSOlFeK1qfd1Q1EutRxGetX
+	 cFJVgLDsYkJ4pnE+XhX+zuXVP/rmkdcQslaIutjnotX3CsMufQYtAEo8JMiVQ1t5hm
+	 RpgqoBVK1Enadb2u2kuxxy8qRRNOCUG81Gw3A2XNr2HA1+G76XKjP8uUW9BedUTkWH
+	 /ntgPEJDpOmyMhFyMLZ6zpi65U9WcimKBjw5oR0QM4pbOcPOSMdBj2DyRwdkdho+RY
+	 nclA4vO/OT/YQ==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] drm/sun4i: Align VI buffer addresses for subsampled
+ formats
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Chen-Yu Tsai" <wenst@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20260908050229.754977-1-wenst@chromium.org>
+References: <20260908050229.754977-1-wenst@chromium.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 08 Sep 2026 05:12:48 +0000
+Message-Id: <20260908051248.AA0B81F00A3A@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Commit 79ac1c945ab8 ("drm/sun4i: layers: Use drm_fb_dma_get_gem_addr() to
-get display memory") dropped the code to calculate the framebuffer's DMA
-address in favor of drm_fb_dma_get_gem_addr().
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
 
-This turned out to be wrong in a couple ways. The hardware can handle
-pixel offsets within a sub-sampling block, but the buffer address must
-start at the beginning of the subsampled block for all planes. The
-hardware then does the interpolation internally. However the helper
-gives the address exact pixel for luma, which messes up the result.
+New issues:
+- [High] DMA buffer underflow caused by mixing clipped and unclipped plane =
+coordinates
 
-Instead of reverting the commit, calculate the intra-block offset and
-adjust the buffer address so that it points to the start of the block.
+Pre-existing issues:
+- [High] Hardware clipping broken because `drm_fb_dma_get_gem_addr()` ignor=
+es clipped source coordinates
+--
 
-Fixes: 79ac1c945ab8 ("drm/sun4i: layers: Use drm_fb_dma_get_gem_addr() to get display memory")
-Cc: <stable@vger.kernel.org> # 7.1+
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-This is an alternative to Jernej's original revert:
-https://lore.kernel.org/all/3980ea1aeb3f7fe8b4700e36560deeba3d050664.1785772659.git.jernej.skrabec@gmail.com/
----
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+commit ecc3d1ed4b5c80402d5086efdcdc7ff6a120827c
+Author: Chen-Yu Tsai <wenst@chromium.org>
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index 2e9cda45c04e..185e9e5211c1 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -207,6 +207,20 @@ static void sun8i_vi_layer_update_buffer(struct sun8i_layer *layer,
- 		/* Get the start of the displayed memory */
- 		dma_addr = drm_fb_dma_get_gem_addr(fb, state, i);
- 
-+		/*
-+		 * The mixer can handle odd offsets into sub-sampled YUV
-+		 * planes, but needs the address of the first pixel in each
-+		 * sub-sampled block. Adjust the luma buffer address backwards.
-+		 */
-+		if (i == 0) {
-+			u32 x_diff, y_diff;
-+
-+			x_diff = (state->src.x1 >> 16) & (format->hsub - 1);
-+			y_diff = (state->src.y1 >> 16) & (format->vsub - 1);
-+			dma_addr -= y_diff * fb->pitches[i];
-+			dma_addr -= x_diff * format->cpp[i];
-+		}
-+
- 		/* Set the line width */
- 		DRM_DEBUG_DRIVER("Layer %d. line width: %d bytes\n",
- 				 i + 1, fb->pitches[i]);
--- 
-2.55.0.979.g7e5102b832-goog
+drm/sun4i: Align VI buffer addresses for subsampled formats
 
+This commit adjusts the DMA address returned by drm_fb_dma_get_gem_addr
+for subsampled formats by calculating an intra-block offset and subtracting
+it. This ensures the address points to the start of a subsampled block for
+the display hardware.
+
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun=
+4i/sun8i_vi_layer.c
+> --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> @@ -207,6 +207,20 @@ static void sun8i_vi_layer_update_buffer(struct sun8=
+i_layer *layer,
+>  		/* Get the start of the displayed memory */
+>  		dma_addr =3D drm_fb_dma_get_gem_addr(fb, state, i);
+
+[Severity: High]
+This is a pre-existing issue, but does using drm_fb_dma_get_gem_addr
+break hardware clipping since it ignores clipped source coordinates?
+
+The drm_fb_dma_get_gem_addr function calculates the base address using the
+unclipped coordinates (state->src_x and state->src_y).=20
+
+If the hardware relies on the DMA base address to handle source X/Y offsets,
+providing the unclipped address would cause it to fetch pixels starting from
+the unclipped origin. This could shift the image and reveal regions that
+should be hidden when a plane is placed partially off-screen on the left or
+top edge.
+
+> =20
+> +		/*
+> +		 * The mixer can handle odd offsets into sub-sampled YUV
+> +		 * planes, but needs the address of the first pixel in each
+> +		 * sub-sampled block. Adjust the luma buffer address backwards.
+> +		 */
+> +		if (i =3D=3D 0) {
+> +			u32 x_diff, y_diff;
+> +
+> +			x_diff =3D (state->src.x1 >> 16) & (format->hsub - 1);
+> +			y_diff =3D (state->src.y1 >> 16) & (format->vsub - 1);
+> +			dma_addr -=3D y_diff * fb->pitches[i];
+> +			dma_addr -=3D x_diff * format->cpp[i];
+
+[Severity: High]
+Can this subtraction lead to a DMA buffer underflow if the plane is clipped?
+
+If userspace positions a sub-sampled YUV plane partially off-screen to the
+left or top, the DRM core clips the source rectangle. This makes state->src=
+.x1
+or state->src.y1 positive, while the original state->src_x and state->src_y
+remain 0.
+
+Because drm_fb_dma_get_gem_addr calculates the base dma_addr using the
+unclipped coordinates, it will start at offset 0. The patch then calculates
+x_diff and y_diff using the clipped state->src.x1 and state->src.y1.
+
+If the plane is clipped by 1 pixel, y_diff might be 1. Subtracting
+y_diff * pitch from the unclipped base dma_addr (which is at offset 0)
+would shift the pointer into unallocated memory before the start of the
+buffer, which could trigger IOMMU faults or memory corruption.
+
+> +		}
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260908050229.7549=
+77-1-wenst@chromium.org?part=3D1
