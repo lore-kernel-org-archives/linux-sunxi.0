@@ -1,199 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FFB84D98FB;
-	Tue,  8 Sep 2026 12:26:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23ED374A1B;
+	Tue,  8 Sep 2026 12:27:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788870408; cv=none; b=cPMzLohn9sFbC1EHYwIEpgghpAclFDePb6oC+mU1xCDRewHAXnI4Q6MWuwknzrw7ALANd6qcrMg+1nB08TaKYb+rjv8EGBs6STCWEf9ZAFBcznNrG4MYM0AMe0PnEGEOgqj+cBEXLLrzh+6+iQDjBzd1uSSBjANTO17eRgkJWfM=
+	t=1788870438; cv=none; b=gHS7KIIArtamyj0KVrro2UVuQlZSeFNne/nSbCiJ8MxCz/ASStACfsRxOfV6hf4G32GjuC5bVEnn4VeLO9R6NXWAiaJH+bxBjQTlLqgFSzZnTxUt9EbL06J1wjfmUZZBtjntYErBqdal/y33Tm7tz+i04FEuzxsbvz79TfyexMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788870408; c=relaxed/simple;
-	bh=extOxzoh/DdwTQo1F4sQjCvTAQOE1hiXUpAk/MuFu5o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e9x/2hQMFNNJ3gN929KhTfmDQY0qVhF/LJpbmyjcwQf3xOcm078fDAYJ+6c7d+Di1U52TOKivpCIN1ttZ3X1BfC8VbTqiBxl2q6YoU6cDOMdv3pdC6aRCJB8vdgdL5WUAhHjIVdzr3ANmzqu8d1PYuBc1g6xwT2j/7si7nMxVPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y/DBZGs0; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788870438; c=relaxed/simple;
+	bh=9uvxCapjI4rnsF74LxQSOyWBvkiTodNoDkDsxskLB84=;
+	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=ZurUT1Wg3p/mJR2RFXiQ8lnVumIQmLh2dcPsUeJGk4YKUdxfoQHT8UYFIL5v7++n1zTWAg9L+yj+GYVwPtBAWnhe1vGdaoa5jSxVQokd/FOP6rA8IMu5Qr2i1NrA1a/4nYkLaR+8n4GZvkWedLvd9+HyqOcvKKjaAiBFfR9F9UI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T+OZxDzm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y/DBZGs0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B0DD1F00A3A;
-	Tue,  8 Sep 2026 12:26:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T+OZxDzm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D16D21F00A3A;
+	Tue,  8 Sep 2026 12:27:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788870405;
-	bh=DpGlmdPDzmDERT45bYk/MvWOr5fnNDn8zt9NAJBNisI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Y/DBZGs0UZ0cDvPlE+QW2pFUAUW1IzlkSyX4rUcqj8uEsvnpY1T5HUCBeqeTAAQMO
-	 WdtrmvkZOI7iT+wFY1urNHk1w1kfAqJatAJVKm4Pel3+JtDd4oq9K+ehXlRd2vZ8uz
-	 ahhv1zW/TCHlyUsJbBsWxIzt7KhNkwkUJRTe2YSgHf4j+MCxIhxpsYXBym1e539ZdD
-	 7s0PLDPkh0GUVqjiJJVk5RKasBXRYV0NeeibdLlWy4drG2KIKlfNPJCyV0Q8mD55A1
-	 XHqRatw95q1TcV5y5v1QYfHO6xUdYcsEt83tz6Y0pDBdbR6nDwqSfLpKWVqmsX/jhB
-	 SgR9xOK8TWj3g==
-Date: Tue, 8 Sep 2026 14:26:42 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Chen-Yu Tsai <wens@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Andy Yan <andy.yan@rock-chips.com>, Algea Cao <algea.cao@rock-chips.com>, 
-	Daniel Stone <daniels@collabora.com>, Liu Ying <victor.liu@nxp.com>, Phong LE <ple@baylibre.com>, 
-	kernel@collabora.com, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
-	Diederik de Haas <diederik@cknow-tech.com>
-Subject: Re: [PATCH v10 67/69] drm/connector: Drop redundant hdmi
- vendor/product fields
-Message-ID: <ap_-wHX6nw5IbFkH@houat>
-References: <20260731-dw-hdmi-qp-scramb-v10-0-294364b2cf15@collabora.com>
- <20260731-dw-hdmi-qp-scramb-v10-67-294364b2cf15@collabora.com>
- <20260820-strange-rich-tiger-78a5a4@houat>
- <4fc2a3b6-2771-438b-ae99-5574e9c6efc9@collabora.com>
+	s=k20260515; t=1788870437;
+	bh=fzGtfk86Cjb9SfEfKKT3CvCMk5MzBMJhuuAr5zCkHDo=;
+	h=Date:From:To:Subject:In-Reply-To:References:Cc;
+	b=T+OZxDzmFhtwfxQUDigQV8iYgcmk1nVuS1p5I+fsWVjs6z/Foia6U8gnM+85CdD1q
+	 8e3kEiGLj5EIgbAajVqBFp3BmOAhliLVBkj0EbrxHbdhYj0OvlJS0h96Wd2S+Zj9Pw
+	 7jOLuBaY9BnvA7BAYgHvOcpQ/qlhcash2+du7RPJj3Ph3VhFr8SidngLg0LGPcaCmi
+	 AiUiql/fUlpQrSx5KSbjx7cz3fJozZD1rnmNxtYPXWQanoXM8F7rp7I5rKC3oSnfTg
+	 bPCZucNWjKUAAFXBzd2Q2OYiVjpAQTRt9a1cBETRT1WfyVUGh1JI/NJQbQA2+FmK2j
+	 Duxwa0xZf8Fsw==
+Message-ID: <d251e4005c5bef3e1cf1cd49abe0e1bb@kernel.org>
+Date: Tue, 08 Sep 2026 12:27:14 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
+Subject: Re: [PATCH v11 07/74] drm/connector: Add HDMI 2.0 scrambler
+ infrastructure
+In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-7-bc12954a0688@collabora.com>
+References: <20260901-dw-hdmi-qp-scramb-v11-7-bc12954a0688@collabora.com>
+Cc: dri-devel@lists.freedesktop.org, kernel@collabora.com, linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, "Algea
+ Cao" <algea.cao@rock-chips.com>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "Andy
+ Yan" <andy.yan@rock-chips.com>, "Chen-Yu Tsai" <wens@kernel.org>, "Daniel
+ Stone" <daniels@collabora.com>, "Dave Stevenson" <dave.stevenson@raspberrypi.com>, "David
+ Airlie" <airlied@gmail.com>, "Diederik de Haas" <diederik@cknow-tech.com>, "Dmitry
+ Baryshkov" <lumag@kernel.org>, =?utf-8?b?SGVpa28gU3TDvGJuZXI=?= <heiko@sntech.de>, "Helge
+ Deller" <deller@gmx.de>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Jonas
+ Karlman" <jonas@kwiboo.se>, "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Liu
+ Ying" <victor.liu@nxp.com>, "Luca Ceresoli" <luca.ceresoli@bootlin.com>, "Maarten
+ Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maud Spierings" <maud_spierings@hotmail.com>, "Maxime
+ Ripard" <mripard@kernel.org>, =?utf-8?b?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, "Phong LE" <ple@baylibre.com>, "Raphael
+ Gallais-Pou" <rgallaispou@gmail.com>, "Raspberry Pi Kernel Maintenance" <kernel-list@raspberrypi.com>, "Robert
+ Foss" <rfoss@kernel.org>, "Samuel Holland" <samuel@sholland.org>, "Sandy
+ Huang" <hjc@rock-chips.com>, "Simona Vetter" <simona@ffwll.ch>, "Thomas
+ Zimmermann" <tzimmermann@suse.de>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="mw5khw3c4yqnzjnq"
-Content-Disposition: inline
-In-Reply-To: <4fc2a3b6-2771-438b-ae99-5574e9c6efc9@collabora.com>
 
+On Tue, 1 Sep 2026 21:50:31 +0300, Cristian Ciocaltea wrote:
+> Add the connector-level infrastructure to support HDMI 2.0 scrambling:
+> 
+> - A drm_connector_hdmi_scrambler_supported() helper to report whether
+>   the source supports the scrambling capability
+> - A .scrambler_{enable,disable}() pair of callbacks in
+> 
+> [ ... ]
 
---mw5khw3c4yqnzjnq
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v10 67/69] drm/connector: Drop redundant hdmi
- vendor/product fields
-MIME-Version: 1.0
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
-On Fri, Aug 21, 2026 at 06:30:31PM +0300, Cristian Ciocaltea wrote:
-> On 8/20/26 1:10 PM, Maxime Ripard wrote:
-> > On Fri, Jul 31, 2026 at 07:20:14PM +0300, Cristian Ciocaltea wrote:
-> >> Now that all users migrated to the new drmm_connector_hdmi_init()
-> >> signature, vendor and product are provided through struct
-> >> drm_connector_hdmi_funcs, a reference to which is already stored in
-> >> drm_connector_hdmi.
-> >>
-> >> Drop the redundant fields from drm_connector_hdmi and point its users =
-to
-> >> hdmi.funcs->vendor and hdmi.funcs->product instead.
-> >>
-> >> This allows simplifying the related connector registration tests by
-> >> getting rid of the now unnecessary KUNIT_EXPECT_MEMEQ() checks.
-> >>
-> >> Tested-by: Diederik de Haas <diederik@cknow-tech.com>  # NanoPC-T6 LTS=
-, Rock 5B
-> >> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-> >> ---
-> >>  drivers/gpu/drm/display/drm_hdmi_state_helper.c |  4 +--
-> >>  drivers/gpu/drm/drm_connector.c                 |  4 ---
-> >>  drivers/gpu/drm/tests/drm_connector_test.c      | 41 +++-------------=
----------
-> >>  include/drm/drm_connector.h                     | 14 ++-------
-> >>  4 files changed, 8 insertions(+), 55 deletions(-)
-> >>
-> [...]
->=20
-> >>  /*
-> >>   * Test that the registration of a connector with a vendor name at the
-> >> - * maximum length succeeds, and is stored padded without the trailing
-> >> - * zero.
-> >> + * maximum length succeeds.
-> >>   */
-> >>  static void drm_test_connector_hdmi_init_vendor_length_exact(struct k=
-unit *test)
-> >>  {
-> >>  	struct drm_connector_init_priv *priv =3D test->priv;
-> >> -	const char expected_vendor[DRM_CONNECTOR_HDMI_VENDOR_LEN] =3D {
-> >> -		'V', 'e', 'n', 'd', 'o', 'r',
-> >> -		'V', 'e',
-> >> -	};
-> >>  	int ret;
-> >> =20
-> >>  	priv->hdmi_funcs =3D dummy_hdmi_funcs;
-> >> @@ -911,10 +882,6 @@ static void drm_test_connector_hdmi_init_vendor_l=
-ength_exact(struct kunit *test)
-> >>  				       DRM_MODE_CONNECTOR_HDMIA,
-> >>  				       &priv->ddc);
-> >>  	KUNIT_EXPECT_EQ(test, ret, 0);
-> >> -	KUNIT_EXPECT_MEMEQ(test,
-> >> -			   priv->connector.hdmi.vendor,
-> >> -			   expected_vendor,
-> >> -			   sizeof(priv->connector.hdmi.vendor));
-> >>  }
-> >=20
-> > Unfortunately, these tests were useful, and are there to match what the
-> > spec asks for.
->=20
-> I've just added a new test to cover this, as well as a couple of prerequi=
-sites
-> to consolidate SPD InfoFrame handling:
->=20
-> * video/hdmi: Define SPD InfoFrame field lengths and use strtomem_pad()
->=20
->   HDMI specification defines the SPD InfoFrame Vendor Name and Product
->   Description as fixed-size fields, 8 and 16 bytes respectively, padded
->   with zeros and left without any trailing NUL when a name spans the whole
->   field.
->=20
->   Give those lengths a name and mark the fields as non-strings, so that
->   the copies can be handed over to strtomem_pad(), which implements
->   precisely the required semantics.  This also bounds the reads from the
->   source strings, whereas the open-coded strlen() could run past the end
->   of the buffer in the hdmi_spd_infoframe_unpack() path, where the names
->   come straight from the wire and are not NUL-terminated.
->=20
->   While at it, replace the related magic numbers in the pack and unpack
->   helpers with the new defines.
->=20
-> * drm/connector: Use the SPD InfoFrame field length defines
->=20
->   DRM_CONNECTOR_HDMI_{VENDOR,PRODUCT}_LEN used to size the vendor and
->   product arrays in struct drm_connector_hdmi.  Those arrays are gone and
->   both names are now only validated before being copied into the SPD
->   InfoFrame, hence the limits they have to be checked against are the ones
->   of the SPD InfoFrame fields themselves.
->=20
->   Switch the remaining users over to
->   HDMI_SPD_INFOFRAME_{VENDOR,PRODUCT}_LEN and drop the DRM specific
->   defines, so that the two cannot drift apart.
->=20
-> * drm/tests: hdmi: Add SPD InfoFrame vendor/product coverage
->=20
->   The vendor and product strings provided through struct
->   drm_connector_hdmi_funcs end up in the SPD InfoFrame, whose fields are
->   defined by the HDMI specification as fixed-size: 8 bytes for the vendor
->   name and 16 bytes for the product description, padded with zeros and
->   left without any trailing NUL when a name spans the whole field.
->=20
->   Nothing exercises that so far, since the SPD InfoFrame is only generated
->   for connectors implementing the related hooks, which none of the
->   existing test funcs provides.
->=20
->   Add a connector variant supplying those hooks, along with parametrized
->   tests covering both the padded and the exact length cases.
-
-I'm not sure why we need to add a new test here. It's exactly what the
-test above is supposed to check. Making it a shell of what it was
-testing and then adding yet another one that tests what the former used
-to test seems suboptimal to me.
-
+Thanks!
 Maxime
-
---mw5khw3c4yqnzjnq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCap//AQAKCRAnX84Zoj2+
-dmV1AX9C0CCq47WAzcktH7nroGzH5jf3YfBuoDThDxYMvQUXOGArY4RKchPxzLoV
-oG7oT+ABgOd1pJGkT2rbtRLnTouxxjJ6nHnL3LXDLK8dxBzCTehVOFTXy+asT5Tq
-AmqnhwqTMQ==
-=VB2m
------END PGP SIGNATURE-----
-
---mw5khw3c4yqnzjnq--
