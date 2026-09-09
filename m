@@ -1,113 +1,155 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C712155D865;
-	Wed,  9 Sep 2026 16:36:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362B235C1AE;
+	Wed,  9 Sep 2026 17:09:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788971803; cv=none; b=uZBPMifcqjqNPRjVIDlQKsBLK77D79/e7QeTgdf9bciLVwgaxsLGeZdx9lKsDDQU5qQG+QSSJRUDDzny151R5iKHaZ45XLywwtqi9j3PmBdexefWnPTekeR4cPnPUQOnelIG3Nz9p63yFtDLVfnQx5JU6Qw+ug2ee+8xoyIgDMM=
+	t=1788973758; cv=none; b=bHjdDPagRxyvnRWhWddgxS6ZmSGMssMDX1mTNiRgMmO+Wk+VlV1lJW/2Shd+qfxQFK3f06OUv5Y4A6haEZSyEtQ0ms1rWv+4btMqilYuTKXXKFlSyBv4Cwa2xspDRRPYDD66pAHnRTG+SBOQ6DKrpMKFLXVuI/MRZ2WVVOciWns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788971803; c=relaxed/simple;
-	bh=ivQODqGc8KFRbT+CDhnacTUmIisuYelCOQ7C8DxNKCM=;
+	s=arc-20240116; t=1788973758; c=relaxed/simple;
+	bh=GEiN4jMUciIfL7jGFmnCJViga5R1IfaMx7x0DCv1xQ0=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=j2uIUfN4r9fEKL1vK8q0P/sfasC170plCnZGFVgaByDwi+e3aszxCDQzvLZaIi3hviI2MOZtNLhVI6deBcXAzIycyRH6h9O1gxkT53SiB/dy/XM+v6dly3axnvJ9sLHEoYlknSDu/bW6xlImtzgFG1HiOjWMiAJ/pVgxiK0LWD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dx70I1I+; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=Te651uN8ONshQ//IU21pW/Vd+Y04306JD4G0e95Uf+teIkd9wZBSiYAKUk+VLMIgciqQ27YXTXD6GaEtMKz/2HlrqF7pArQN568WbDDGxoHlbbOHtn48eao0ECYvFxuFHnRsDdScGBNSQpogmF5TZ2jADdG6xg1j4HeqFJbRDbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R/29XeJu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dx70I1I+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E26281F00893;
-	Wed,  9 Sep 2026 16:36:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R/29XeJu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8ABD81F000FF;
+	Wed,  9 Sep 2026 17:09:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788971801;
-	bh=nDQ3BlVROek4PxaLywwCvD6/LeA/synqwhaOMOah7lE=;
+	s=k20260515; t=1788973757;
+	bh=780WOgTbPpjCwAj9rTJ8vw/M2+D2yvQvdSsmZ6fR/wk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=dx70I1I+8UJyr/VBOxcjZH9n5kihC+kb27i9VnPrDp1ipyea5JH6DRYBTXNJ3aHJY
-	 tK/lTlLld6Mvv7CaO7FT8M6c5n1GYf9rlDfs9yhitsA/IXKiamVj7l1M3n8UHZJ5IL
-	 m7z4Moz1bEehf5qcj1SHdImqffS1Cu1dM14AYN4P9z184AZ+ga7ltA5bZ1z3wI57G4
-	 EeU31nzGMeRyayLgVWtVu4tewA7jtJa5PaPmpdPh8+X2MyFDHES2XPpzl75tdtpAMC
-	 vqtNyPXNE76OqzpHTp0UaEJFZjHyS0j1zW12o+fRCKt/82SUkmevuYH1JhPAXvRx1u
-	 xAViDSWb1GEHA==
+	b=R/29XeJu67Odk4F/2J5Tx59rr4SFJDG+cMhFyKn4QlKOqSkIM8/DzER5kBqfGFDqc
+	 SW6HkB1E/y1bvfv0tVnbfQVJWldRtYHUqq6g/90OzbRLsvt7wCwHAZRmWtM/f1Lxg9
+	 cTnQUZHKJTZ4+nOZ5AEwcuW7sF8Hbly3DcL2PY7vFH6mZtU5oGRgWmqOHFo6ka429F
+	 wFu8xWcgAV2O7MQmd6Up70lLu9pv9aAiLpna4cd7bV8f0LiZp0HAB2jRt0yJvwRRMD
+	 Lb37ncPasnZSLdd9X1XOGuN6p1ZpVTII2w7ktLhPRlDeQiTKsnluxpDlnc6FXVfPeH
+	 QwZTohI1wtdUQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 1/4] dmaengine: vchan: add vchan_chan_name() to get
- channel device name
+Subject: Re: [PATCH net-next v14 03/10] phy: qcom: add the SGMII SerDes PHY
+ driver for SCMI systems
 Reply-To: sashiko-reviews@lists.linux.dev
-To: Frank.Li@oss.nxp.com
-Cc: linux-sunxi@lists.linux.dev, imx@lists.linux.dev, linux-trace-kernel@vger.kernel.org, Frank.Li@kernel.org, vkoul@kernel.org, dmaengine@vger.kernel.org
-In-Reply-To: <20260909-dma-chan_dev-rename-v4-1-d8fb6892a70f@nxp.com>
-References: <20260909-dma-chan_dev-rename-v4-0-d8fb6892a70f@nxp.com>
- <20260909-dma-chan_dev-rename-v4-1-d8fb6892a70f@nxp.com>
+To: "Bartosz Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>
+Cc: conor+dt@kernel.org, Frank.Li@kernel.org, imx@lists.linux.dev, devicetree@vger.kernel.org, wsa+renesas@sang-engineering.com, linux-amlogic@lists.infradead.org, neil.armstrong@linaro.org, robh@kernel.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20260908-qcom-sa8255p-emac-v14-3-ec212b747a7d@oss.qualcomm.com>
+References: <20260908-qcom-sa8255p-emac-v14-0-ec212b747a7d@oss.qualcomm.com>
+ <20260908-qcom-sa8255p-emac-v14-3-ec212b747a7d@oss.qualcomm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 09 Sep 2026 16:36:40 +0000
-Message-Id: <20260909163640.E26281F00893@smtp.kernel.org>
+Date: Wed, 09 Sep 2026 17:09:16 +0000
+Message-Id: <20260909170916.8ABD81F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
-
-Pre-existing issues:
-- [High] Use-After-Free of DMA channel name in probe error path due to devm=
-/manual cleanup mismatch
+- [High] The driver's devres teardown sequence cancels an asynchronous susp=
+end of the platform device, leaving the device permanently active.
+- [High] Missing cleanup of the genpd performance state on driver unbind le=
+aves a persistent power vote on the PM domain.
+- [Low] The driver forcefully selects the user-visible PM subsystem from a =
+leaf hardware driver, overriding user configuration.
 --
 
-commit 6477701933e50dc5df4ddb73cea43b46ef1b83f8
-Author: Frank Li <Frank.Li@nxp.com>
+commit dae3dafc17dff2635ed1048ccc9e18ab67fdf8a3
+Author: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: phy: qcom: add the SGMII SerDes PHY driver for SCMI systems
 
-    dmaengine: vchan: add vchan_chan_name() to get channel device name
-   =20
-    Introduce vchan_chan_name() to obtain the DMA channel device name.
-   =20
-    Use a dedicated helper instead of directly accessing dma_chan::dev
-    so callers remain unaffected by an upcoming rename of the struct member.
+This commit adds a new firmware-managed variant of the Qualcomm DWMAC SGMII=
+=20
+SerDes/PHY driver. It introduces a separate driver from the HLOS-managed=20
+variant since they share little code.
 
+> diff --git a/drivers/phy/qualcomm/Kconfig b/drivers/phy/qualcomm/Kconfig
+> index d910a5d1a1ac3..677662f642e42 100644
+> --- a/drivers/phy/qualcomm/Kconfig
+> +++ b/drivers/phy/qualcomm/Kconfig
 [ ... ]
+> +config PHY_QCOM_SGMII_ETH_SCMI
+> +	tristate "Qualcomm DWMAC SGMII SerDes/PHY driver (firmware managed)"
+> +	depends on OF && (ARCH_QCOM || COMPILE_TEST)
+> +	select GENERIC_PHY
+> +	select PM
+> +	select PM_GENERIC_DOMAINS
 
-> diff --git a/drivers/dma/stm32/stm32-dma.c b/drivers/dma/stm32/stm32-dma.c
-> index d3ad78562a140..3e8151e2ad75a 100644
-> --- a/drivers/dma/stm32/stm32-dma.c
-> +++ b/drivers/dma/stm32/stm32-dma.c
-> @@ -1668,7 +1668,7 @@ static int stm32_dma_probe(struct platform_device *=
-pdev)
-> =20
->  		ret =3D devm_request_irq(&pdev->dev, chan->irq,
->  				       stm32_dma_chan_irq, 0,
-> -				       dev_name(chan2dev(chan)), chan);
-> +				       vchan_chan_name(&chan->vchan), chan);
->  		if (ret) {
->  			dev_err(&pdev->dev,
->  				"request_irq failed with err %d channel %d\n",
+[Severity: Low]
+Is it intended to forcefully select the user-visible PM subsystem from a le=
+af=20
+hardware driver?=20
+
+Leaf drivers typically use "depends on" for user-visible features like PM=20
+to avoid overriding user configurations.
+
+> +	help
+> +	  Enable this to support the internal SerDes/SGMII PHY on Qualcomm
+> +	  chipsets where the SerDes hardware (clocks and registers) is owned
+> +	  by the firmware.
+> diff --git a/drivers/phy/qualcomm/phy-qcom-sgmii-eth-scmi.c b/drivers/phy=
+/qualcomm/phy-qcom-sgmii-eth-scmi.c
+> new file mode 100644
+> index 0000000000000..ae961975dcd87
+> --- /dev/null
+> +++ b/drivers/phy/qualcomm/phy-qcom-sgmii-eth-scmi.c
+[ ... ]
+> +static int qcom_dwmac_sgmii_phy_scmi_set_mode(struct phy *phy, enum phy_=
+mode mode,
+> +					      int submode)
+> +{
+> +	struct device *dev =3D phy->dev.parent;
+> +	unsigned int perf_state;
+> +	int ret;
+> +
+> +	ret =3D qcom_dwmac_sgmii_phy_scmi_validate(phy, mode, submode, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	perf_state =3D (submode =3D=3D PHY_INTERFACE_MODE_2500BASEX) ?
+> +		     SPEED_2500 : SPEED_1000;
+> +
+> +	return dev_pm_genpd_set_performance_state(dev, perf_state);
 
 [Severity: High]
-This is a pre-existing issue, but in drivers/dma/stm32/stm32-dma.c at
-stm32_dma_probe(), devm_request_irq() stores the dynamically allocated DMA
-channel name (vchan_chan_name()) as the IRQ name.
+If the genpd performance state is dynamically set to a value greater than 0
+here, where does it get reset to 0?=20
 
-If a subsequent initialization step fails, such as a failure in
-of_dma_controller_register(), the code jumps to err_unregister:
+Without a teardown path (such as a .remove callback or a dedicated devres=20
+action) to explicitly reset the performance state, the PM domain hardware=20
+might remain forced at a high performance state permanently after driver=20
+unbind, wasting power. The genpd core does not automatically drop dynamical=
+ly=20
+set performance states on unbind.
 
-drivers/dma/stm32/stm32-dma.c:stm32_dma_probe() {
-    ...
-err_unregister:
-	dma_async_device_unregister(dd);
-    ...
-}
+> +}
+[ ... ]
+> +static void qcom_dwmac_sgmii_phy_scmi_runtime_disable(void *data)
+> +{
+> +	struct device *dev =3D data;
+> +
+> +	pm_runtime_disable(dev);
 
-Because dma_async_device_unregister() is called manually, it frees the DMA
-device and its associated channel name string immediately. However, since t=
-he
-IRQ is managed by devm, its cleanup is deferred until devres runs after pro=
-be
-returns.
+[Severity: High]
+Will this devres teardown sequence cancel the asynchronous suspend of the=20
+platform device?=20
 
-Could this create a use-after-free window where the IRQ subsystem retains a
-dangling pointer to the freed string? If an interrupt fires or if a user
-reads /proc/interrupts concurrently during this window, could this lead to =
-an
-oops or memory corruption?
+In the devres unwinding sequence, phy_destroy() unregisters the PHY child,=
+=20
+which causes the PM core to queue an asynchronous pm_request_idle() for the=
+=20
+parent platform device.=20
+
+If qcom_dwmac_sgmii_phy_scmi_runtime_disable() executes pm_runtime_disable()
+immediately after, it aborts the pending idle request. This leaves the=20
+platform device permanently locked in the active state. Could this be avoid=
+ed=20
+by ensuring the device suspends synchronously before disabling runtime PM?
+
+> +}
+[ ... ]
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260909-dma-chan_d=
-ev-rename-v4-0-d8fb6892a70f@nxp.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260908-qcom-sa825=
+5p-emac-v14-0-ec212b747a7d@oss.qualcomm.com?part=3D3
