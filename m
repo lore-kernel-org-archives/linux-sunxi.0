@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678BE3ADBB4;
-	Thu, 10 Sep 2026 10:52:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BDCA46C859;
+	Thu, 10 Sep 2026 10:53:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789037571; cv=none; b=KHky+26sl40XGK1yJrMcGDayHmo6NgqhpPHAxYnZgoAOxFRm4im3bdkAhznv/TH9Zp+NFIi2+FJmQqIEaqOSEmTp+L5ArKB2xNFYLiKwWRqo808UpscXcsMySBCfgxRcPzncQ4N+3Fntqd9nXMyHgHQT/SKiVw1J4zXKDV5Sn6Y=
+	t=1789037647; cv=none; b=aSBgxIKkEnX7JryfNohTpAN6a9OusohhMgMXMEkmT2FG5PzqzwuDEhPzWOkA4d4ELOuG8SXS5plCliyMfKvcL8FzUfevwJ5v+jZpiUw4Bsb0eID0u87ugK8e4j5W5NFW/icgSwUJilhmXnAirZkEg6pFUF2NUt/ahGAtsiY8OwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789037571; c=relaxed/simple;
-	bh=mir5HMoZh5ISrwo75wb3DrpX937wiqqdVslEqn0Su1s=;
+	s=arc-20240116; t=1789037647; c=relaxed/simple;
+	bh=2yACE57UcDmpbCxkhsT0GtW77ZPihGOn9a2h5ogVBOA=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Rwcft4abHMGdbceFmORZdt31jzlNuXKDLNl+fOZQ+1oOcDYyjofoRJ23/cAti8jxqaqv+/UeoJw6Uo6bztJ6ww+r9LI5xis0aeczLhfpwoWJGzJZlgqFKARqrtlTAdJSnYhd0AMjLWYMNP9R6MKgcmfzB91Fs2415T00qlqlKFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OAI2nY3S; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=P3Wn2yI18vTAkp9LMrvmakkjXmqvjTkVYZBAmP7wcfm3cw9TiNKCl8rre/+eglGXqoRtLbPfD8QNC97sBOMWleYtDnA7wwsjEvMbUkJSwpYKBSWbptLSVewx9Mbvy+AOPQNTqasn5SZcR0YlXSr+O5zcFp62JrqCk0IbceIOVyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bEc+lmJ+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OAI2nY3S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A58AD1F000FF;
-	Thu, 10 Sep 2026 10:52:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bEc+lmJ+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A13C51F000FF;
+	Thu, 10 Sep 2026 10:53:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789037570;
-	bh=mir5HMoZh5ISrwo75wb3DrpX937wiqqdVslEqn0Su1s=;
+	s=k20260515; t=1789037636;
+	bh=2yACE57UcDmpbCxkhsT0GtW77ZPihGOn9a2h5ogVBOA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=OAI2nY3SK8AfcSFjvpYENGQt2nq7QYIiOlhlPbbHJunUweEVo843A3ATp3pNfAj19
-	 Pctu2lxx5RzdtDACyyNvGMNcDWbhR/+MPe4UqVFcLFJw4LQBFBof36HTGyG4xvtRB5
-	 Ve5LaDPrO/zS7Ilv+e8Uou/np+pUgYejRdAlPulhzsVlvSzeeNGqAv2dioHVTEkkyR
-	 IyuhMZj1IYXduk5etpxj97FeHoK/cGwDbZ4y56v3U+HtGflRMpsUordqSXerrBAe44
-	 2K9w19tNn4owKwzC/CqkYyiPFhaS3t4dM3FgUg+/d4lWQKFoNuzNEzIbYrNgytDO9g
-	 /YvMZF6plqtVw==
+	b=bEc+lmJ+RRujA5pw787pngP3DtJt50dHeEKqiS8C4XqZ5QRp4Rq6cbYQ7/5ElHDAg
+	 AWqsEEh4thawlf2vTZagHe0t68imp1d6GmO5iJZrn0LWXjyAnE98PJkQNgFr8g5dbk
+	 r2jWSqhgavucpBfhC1T0AmlqugHs3lT5a2+55QYVx3A7KxNK1IGQWJvrxQRRklTU+y
+	 3znWi42tt1SDvm270lOXqio13DoVtiCzydGofL77BmewKck+56SlfepGXwilyhzJrd
+	 fhCVw5Xtxm70JR6PbgNtSm5UqVzYRxtctpE6fruV7+U5ET6gEaT5Q3p2B9ow6E0cM/
+	 vR35bWsZXPY2Q==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v8 4/5] mfd: axp20x: Add support for AXP318W PMIC
+Subject: Re: [PATCH v8 3/5] dt-bindings: mfd: x-powers,axp152: Document
+ AXP318W
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Jerome Brunet" <jbrunet@baylibre.com>
-Cc: robh@kernel.org, mfd@lists.linux.dev, lee@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260910-axp318-regulator-v8-4-e906a61a7f3d@baylibre.com>
+Cc: mfd@lists.linux.dev, lee@kernel.org, linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20260910-axp318-regulator-v8-3-e906a61a7f3d@baylibre.com>
 References: <20260910-axp318-regulator-v8-0-e906a61a7f3d@baylibre.com>
- <20260910-axp318-regulator-v8-4-e906a61a7f3d@baylibre.com>
+ <20260910-axp318-regulator-v8-3-e906a61a7f3d@baylibre.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Sep 2026 10:52:49 +0000
-Message-Id: <20260910105249.A58AD1F000FF@smtp.kernel.org>
+Date: Thu, 10 Sep 2026 10:53:55 +0000
+Message-Id: <20260910105355.A13C51F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -46,28 +47,29 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
 > From: Andre Przywara <andre.przywara@arm.com>
 >=20
-> The AXP318W is a PMIC chip produced by X-Powers, it can be connected to
-> an I2C bus.
+> The X-Powers AXP318W is a PMIC used on some newer Allwinner devices.
+> Among a large number of both DCDC and LDO regulators it features the usual
+> ADC/IRQ/power key parts.
+> Like other recent PMICs, it lacks the DC/DC converter PWM frequency contr=
+ol
+> register, that rate is fixed here (1.5MHz on DCDC1, 3 MHz on the others).
 >=20
-> It has a large number of regulators: 9(!) DCDC buck converters, and 28
-> LDOs, also some ADCs, interrupts, and a power key.
+> Add the new compatible string, and add that to the list of PMICs without
+> the PWM frequency property.
+> Also add more input supply properties, for the split DCDC and ALDO
+> supplies.
+> The PMIC features *two* switched outputs, hanging of DCDC1, and the
+> manual calls them swout1 and swout2, so follow suit here and add those
+> names to the pattern for matching the node names.
 >=20
-> Describe the regmap and the MFD bits, along with the registers exposed
-> via I2C only. This covers the regulators and interrupts for now.
-> Advertise the device using the new compatible string.
->=20
-> We use just "318" for the internal identifiers, for easier typing and
-> less churn, but use "318W" for anything externally visible. If something
-> else other than the "AXP318W" shows up, that's an easy change then.
->=20
-> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> Co-developed-by: Jerome Brunet <jbrunet@baylibre.com>
+> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
 > Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 
 Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260910-axp318-reg=
-ulator-v8-0-e906a61a7f3d@baylibre.com?part=3D4
+ulator-v8-0-e906a61a7f3d@baylibre.com?part=3D3
 
