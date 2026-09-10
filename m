@@ -1,161 +1,104 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65E764B4890
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Sep 2026 13:35:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D2639022B;
+	Thu, 10 Sep 2026 14:05:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789047347; cv=none; b=V1exG7Rp+5IS2+rCcIlTOiE6Y7zEWqXzvHtqqXuK3xjvTT6EmScbW/4+Y65y1+nJn7nw9v2iLBzhAEs+wRXCcKHDy77QJoz5UdS5X+ztX8zVbwTmn+Ihyk+kBldnR+LzzbeWvhqaUtq7Jnm+Ef9a6ntcoQuInzGR7Bo/beXh/uM=
+	t=1789049122; cv=none; b=T0mlO2KQgakMw1PeODIxpIfVRgpxDhYl+Qr7MMKjKc46D4t1IEXr4W+SPg/I8gDqt+5F/fHbyAguCEdA8wWjyGLbh9ZUG3e4J4cPZ7zDjuUol0/kureixFpXvSvIY3E5xzDSWGB/UT+4e9tDDOUPuxYICw6vFtFeYorbWcDy7pE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789047347; c=relaxed/simple;
-	bh=afNw4mfmWPusnYCWAuWnIcZqwy8vQndi0BEvd7sUpx8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HbksbJ9yJQAHBOP6nCSzYC/K+svtrroTbwWu4VnXz0DyM1sOPq4Fa4mJ1VkJkx9D/1KqRi/NGVbk8jMtVNqKNUEjw94rI69xwiIptnaxb+FOeGlualk+GEgzlJG3JJvLp+o7ZOO7ttfKDF1t7LCffW1gyjXbH//ATLunJDg5dZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=UfTRtROJ; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1789049122; c=relaxed/simple;
+	bh=iHVM/eOsTgJOj4YdhkQx7JC4rk/lp7DOCquU0fpHUOE=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=i+g5zgGEpdNNBK0Kyv01/wXPMmg08rvmchO0o/NewTmlpsBc5tMr9in8t5nmm7wViR5crkYf3CTO/KnymsYX7n2dTf1kay5P4mmlWX9RgiMfR29fkE9sml/RvrptGfsRy5QJGDZeBqkWx9dnmRc1HK7hX214viTsyiKstj4nQts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZlfAJ3PV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="UfTRtROJ"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5978922D7;
-	Thu, 10 Sep 2026 06:35:42 -0700 (PDT)
-Received: from e142021.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6DE663F528;
-	Thu, 10 Sep 2026 06:35:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789047346; bh=afNw4mfmWPusnYCWAuWnIcZqwy8vQndi0BEvd7sUpx8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UfTRtROJp3o3h+kxey19i79i5p4qm5F7glE6bRJQrgIYbYioCZeEY5yrFrRBP1oFX
-	 Wge3Vj4qNIzetJJqDKqGYvcETFwerYkqYBLrSrmevjQS6lhgc77Hxa3AwQ+DgaBSbA
-	 K9PGVLIAGmHvsbT/PtW7vjT5XljEHaKEEa6SqU6U=
-From: Andre Przywara <andre.przywara@arm.com>
-To: Linus Walleij <linusw@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Jerome Brunet <jbrunet@baylibre.com>,
-	Yixun Lan <dlan@gentoo.org>,
-	Enzo Adriano <enzo.adriano.code@gmail.com>,
-	Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
-	linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 7/7] pinctrl: sunxi: add support for the Allwinner A733
-Date: Thu, 10 Sep 2026 15:35:18 +0200
-Message-ID: <20260910133519.459011-8-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260910133519.459011-1-andre.przywara@arm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZlfAJ3PV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82EEE1F00898;
+	Thu, 10 Sep 2026 14:05:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789049120;
+	bh=TC9R53yxfMHbE+dKbgzTe3p51hLjKjWrQe7iL5LJTIE=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=ZlfAJ3PViDbGZQueLWnFeDG8lURHRFkpUet6UjqcQLG9yJgb/5fhpVB+3XFZDu9H3
+	 /ZS+L5zOgVNx1WYVOwVXLDPWrSa8Enmh7rL+awHwTnGZkIV4OjmFukYLqP3+9i0fO9
+	 So2s54kyPJDJF5yk+KsZTN3lrlEgomK2uc5KBqUJFv2LThEd+R2HTPR2kARx3qJMb8
+	 brSO08qvmVmxk6WIq1w+dd6r9BJW/Pr+j81Che6dP3vV7OYxMYug0/QhF6yPe3N96M
+	 zQO7tCLhlGa+6HfVDhaXssYkrG8wz1iv+ZkqjczbloCVy/TGbKNU78nwBp3uqPqj70
+	 SmbxHhaztq8sQ==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 4/7] pinctrl: sunxi: support A733 generation MMIO
+ register layout
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Andre Przywara" <andre.przywara@arm.com>
+Cc: robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20260910133519.459011-5-andre.przywara@arm.com>
 References: <20260910133519.459011-1-andre.przywara@arm.com>
+ <20260910133519.459011-5-andre.przywara@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 10 Sep 2026 14:05:19 +0000
+Message-Id: <20260910140520.82EEE1F00898@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The Allwinner A733 changes the layout of the pinctrl MMIO register
-frame, but stays otherwise rather close to the previous IP.
-The main PIO looks similar to the one in the A523, with ports B-K being
-implemented, each also with the same number of pins per port as on the
-A523.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Critical] sunxi_irq_base_reg() fails to translate the logical IRQ bank i=
+ndex to the physical hardware GPIO bank index for NCAT3 layout, ignoring `i=
+rq_bank_map`.
+--
 
-Use the DT based pinctrl driver to describe just the generic pinctrl
-properties, so advertise the number of pins per bank, interrupt
-capabilities and the new quirks. The actual function/mux assignment will
-be taken from the devicetree.
+commit 45892bb17e985dc02bb352c830f93cc75106e307
+Author: Andre Przywara <andre.przywara@arm.com>
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- drivers/pinctrl/sunxi/Kconfig               |  5 +++
- drivers/pinctrl/sunxi/Makefile              |  1 +
- drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c | 50 +++++++++++++++++++++
- 3 files changed, 56 insertions(+)
- create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
+pinctrl: sunxi: support A733 generation MMIO register layout
 
-diff --git a/drivers/pinctrl/sunxi/Kconfig b/drivers/pinctrl/sunxi/Kconfig
-index dc62eba96348e..831bb1dc93738 100644
---- a/drivers/pinctrl/sunxi/Kconfig
-+++ b/drivers/pinctrl/sunxi/Kconfig
-@@ -141,4 +141,9 @@ config PINCTRL_SUN55I_A523_R
- 	default ARM64 && ARCH_SUNXI
- 	select PINCTRL_SUNXI
- 
-+config PINCTRL_SUN60I_A733
-+	bool "Support for the Allwinner A733 PIO"
-+	default ARM64 && ARCH_SUNXI
-+	select PINCTRL_SUNXI
-+
- endif
-diff --git a/drivers/pinctrl/sunxi/Makefile b/drivers/pinctrl/sunxi/Makefile
-index 951b3f1e4b4f1..3658c9d06b498 100644
---- a/drivers/pinctrl/sunxi/Makefile
-+++ b/drivers/pinctrl/sunxi/Makefile
-@@ -29,5 +29,6 @@ obj-$(CONFIG_PINCTRL_SUN50I_H616)	+= pinctrl-sun50i-h616.o
- obj-$(CONFIG_PINCTRL_SUN50I_H616_R)	+= pinctrl-sun50i-h616-r.o
- obj-$(CONFIG_PINCTRL_SUN55I_A523)	+= pinctrl-sun55i-a523.o
- obj-$(CONFIG_PINCTRL_SUN55I_A523_R)	+= pinctrl-sun55i-a523-r.o
-+obj-$(CONFIG_PINCTRL_SUN60I_A733)	+= pinctrl-sun60i-a733.o
- obj-$(CONFIG_PINCTRL_SUN9I_A80)		+= pinctrl-sun9i-a80.o
- obj-$(CONFIG_PINCTRL_SUN9I_A80_R)	+= pinctrl-sun9i-a80-r.o
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c b/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
-new file mode 100644
-index 0000000000000..ca82f08a3a65b
---- /dev/null
-+++ b/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
-@@ -0,0 +1,50 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Allwinner A733 SoC pinctrl driver.
-+ *
-+ * Copyright (C) 2025 Arm Ltd.
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/of.h>
-+#include <linux/of_device.h>
-+#include <linux/pinctrl/pinctrl.h>
-+
-+#include "pinctrl-sunxi.h"
-+
-+static const u8 a733_nr_bank_pins[SUNXI_PINCTRL_MAX_BANKS] =
-+/*	  PA  PB  PC  PD  PE  PF  PG  PH  PI  PJ  PK */
-+	{  0, 11, 17, 24, 16,  7, 15, 20, 17, 28, 26 };
-+
-+static const u8 a733_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =
-+/*	  PA  PB  PC  PD  PE  PF  PG  PH  PI  PJ  PK */
-+	{  0, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14};
-+
-+static struct sunxi_pinctrl_desc a733_pinctrl_data = {
-+	.irq_banks = 10,
-+	.irq_read_needs_mux = true,
-+	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
-+};
-+
-+static int a733_pinctrl_probe(struct platform_device *pdev)
-+{
-+	return sunxi_pinctrl_dt_table_init(pdev, a733_nr_bank_pins,
-+					   a733_irq_bank_muxes,
-+					   &a733_pinctrl_data,
-+					   SUNXI_PINCTRL_NCAT3_REG_LAYOUT);
-+}
-+
-+static const struct of_device_id a733_pinctrl_match[] = {
-+	{ .compatible = "allwinner,sun60i-a733-pinctrl", },
-+	{}
-+};
-+
-+static struct platform_driver a733_pinctrl_driver = {
-+	.probe	= a733_pinctrl_probe,
-+	.driver	= {
-+		.name		= "sun60i-a733-pinctrl",
-+		.of_match_table	= a733_pinctrl_match,
-+	},
-+};
-+builtin_platform_driver(a733_pinctrl_driver);
--- 
-2.47.3
+This commit adds support for the A733 SoC generation MMIO register layout.
+It introduces the SUNXI_PINCTRL_NCAT3_REG_LAYOUT flag and updates bank
+offsets, sizes, and IRQ register positions to accommodate the new hardware
+design.
 
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h b/drivers/pinctrl/sunx=
+i/pinctrl-sunxi.h
+> index 15aa6fe62dbbc..d09467ed437a3 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+[ ... ]
+> @@ -238,6 +248,10 @@ static inline u32 sunxi_irq_hw_bank_num(const struct=
+ sunxi_pinctrl_desc *desc,
+> =20
+>  static inline u32 sunxi_irq_base_reg(const struct sunxi_pinctrl *pctl, u=
+16 bank)
+>  {
+> +	if (pctl->flags & SUNXI_PINCTRL_NCAT3_REG_LAYOUT)
+> +		return pctl->bank_offset + bank * pctl->bank_mem_size +
+> +		       A733_IRQ_REGS_OFFSET;
+> +
+
+[Severity: Critical]
+Does this new branch need to translate the logical IRQ bank index to the
+physical hardware GPIO bank index?
+
+By directly using bank * pctl->bank_mem_size instead of converting the
+logical index via sunxi_irq_hw_bank_num(), could this calculate the wrong
+physical addresses on SoCs with sparse IRQ capabilities?
+
+For example, when sunxi_pinctrl_irq_handler() iterates over logical
+IRQ banks and calls sunxi_irq_status_reg_from_bank() which then calls
+sunxi_irq_base_reg(), will the handler read the wrong hardware register?
+
+Could this cause the handler to see no pending interrupts and exit without
+clearing the actual interrupt, leading to an infinite interrupt loop and
+hard system lockup for level-triggered interrupts?
+
+>  	return IRQ_REGS_OFFSET +
+>  	       sunxi_irq_hw_bank_num(pctl->desc, bank) * IRQ_MEM_SIZE;
+>  }
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260910133519.4590=
+11-1-andre.przywara@arm.com?part=3D4
