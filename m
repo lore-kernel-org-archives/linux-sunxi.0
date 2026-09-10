@@ -1,42 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CE63E5585;
-	Thu, 10 Sep 2026 09:31:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A8B3DFC7F;
+	Thu, 10 Sep 2026 09:32:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789032718; cv=none; b=owixN3HiGxSL4p4nU23FNvhzZ0cKqIwWQ0oyWpWS6XvRvBFkNQG91JFTHNxIXEnokAd6qI2ownUuY6eW1+HMqtJ2GqSs/lbRBeQErjHh903XFaPU42dYNaUfQdMY5Q2AB8jG7/65xmgvCDxm/7fdlem/ifs1FVh+jMVtDWJe530=
+	t=1789032760; cv=none; b=aM/SeAg6CANFRbQbXG/aGmldk8Q+ecLyWpr2/T9CZy18gFjsp4RdTMZS7jsZvTB35apWI3SX8zD+JkU8AwgHb5sFQc4+1NqUUQWGFUrWDrUJUa8mcK1MbmyURCxrJ8zVLGJWhmP0jp32fN/Sz9wUB8O4qmNGoEZBaR/l+Ya3rxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789032718; c=relaxed/simple;
-	bh=YcOwuNm+jiJRIHyb9IPNwT3CxsI/lcSCV40qGKvSocc=;
+	s=arc-20240116; t=1789032760; c=relaxed/simple;
+	bh=KuzezYUAE9m1yyovJFTksGm/0DLv8v+/ivXAKx4Oywg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RlVlMaNh9UnFQ//G30NwEZLK7PkkO771YoMqkH5QlfNDeszoKRhk2143XvCQHIhZD4raSRClrD+AM/IQlad0vvDisGN12VSvQhlRucN4p+aUBFn2938qcTp31rxxSiWI2PmzftiZiCOlFueybNmQk/oTD/6+mixEDDke/T1r/4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ERwGEOxH; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=KwG9ftN2NpR+YLD7T2lWtT3H93yMYLus4QXsFn6OFFKHWQZ7R823cUBzaE1cybaPruO4y0dcTtlJ0PoajvVMc50FCyR4ZZQ+VnYRi5cvO/6zPhFtxC1ERl7xEILkD5empXVebfh1wNEKRlHR8TANux9x9d7GPCopKKN0j9J2O60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IFL4lmxM; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ERwGEOxH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DDBD1F00898;
-	Thu, 10 Sep 2026 09:31:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IFL4lmxM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B8231F00893;
+	Thu, 10 Sep 2026 09:32:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789032716;
-	bh=PZxkW5GeT9xy9ss0aS1FMlsgqN+mLBhYVrrO86lDB4s=;
+	s=k20260515; t=1789032758;
+	bh=Y2PSETY3iMWTYoG2jjWvtnuSGjXmjTaXlOm8yiCF42c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ERwGEOxHWiQGog/UdC/VYZzMN6BoUvUitPcnl+yPgoF5Glx2rodYkMW5cTiu3fkYw
-	 vO6Ge1WwpskL+y+6CstiE1tS45B7Ito2Jo6ITsYQ9t79pBJBluz+VGr6EJWyx7dgRR
-	 Mdf/aiw2UFXtuO9LfnrRKSXhBCwOhzg2O+yTlhDxVlJQK0k7fA7WOM01RvKoXr1q34
-	 PcH0Gjuzy5Z40u7attUQni/H6e0QL3wPHncFcYpqwQQS6t6TFj0q4hXg/X7HHCfrKj
-	 +Hj/TP+9urLqSzEJ1ci8XY7lyKLYZfw28Jttl99Tb6U3EALPy1B0kERtWa7czFsCUF
-	 jI3zfdrCIaVQQ==
-Date: Thu, 10 Sep 2026 10:31:51 +0100
+	b=IFL4lmxMD5EelRZ3jzeWvMLvSrZvE0MrP9VzZTSMoCHp/bTwtbUwprwsY/OesAZxR
+	 uT4LGo7TjoufM6BqnaoaYvAUMiOW/4r3on8hDstRJo/Jx/7J6BO3B4UoFwTJcsX0Pz
+	 e5BedswJgcwStLz4bOpYrQvW4kpVRti7OmAN6wSNtQVNiA4NYWYATh+bPZsgS2soL7
+	 LEHjEX2KdVjvXw8c1EnR6LtxYdNSyMmV1Xt7b/yKexb66W5r8gM4S4PJE72mzUKVuz
+	 EJiHeDnByVkiL9qrQXn7yikbn2oHdEn8xPjO9oiWn8DtSFNdX/4GPC01uzTqrweBVm
+	 6/3DVDhx9etEA==
+Date: Thu, 10 Sep 2026 10:32:36 +0100
 From: Simon Horman <horms@kernel.org>
-To: Li Youhong <dayou5941@163.com>
-Cc: netdev@vger.kernel.org, andrew+netdev@lunn.ch, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Li Youhong <liyouhong@kylinos.cn>
+To: sashiko-reviews@lists.linux.dev
+Cc: Li Youhong <dayou5941@163.com>, linux-sunxi@lists.linux.dev
 Subject: Re: [PATCH] net: sun4i-emac: fix missing of_node_put() for phy_node
-Message-ID: <20260910093151.GO40544@horms.kernel.org>
+Message-ID: <20260910093236.GP40544@horms.kernel.org>
 References: <20260904080758.2432748-1-dayou5941@163.com>
+ <20260905080854.5CAB41F00A3D@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,17 +42,14 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260904080758.2432748-1-dayou5941@163.com>
+In-Reply-To: <20260905080854.5CAB41F00A3D@smtp.kernel.org>
 
-On Fri, Sep 04, 2026 at 04:07:58PM +0800, Li Youhong wrote:
-> From: Li Youhong <liyouhong@kylinos.cn>
+On Sat, Sep 05, 2026 at 08:08:53AM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
 > 
-> of_parse_phandle() returns a node pointer with an elevated refcount.
-> Add the missing of_node_put() on the probe error path after
-> register_netdev() fails and in emac_remove().
-> 
-> Fixes: 492205050d77 ("net: Add EMAC ethernet driver found on Allwinner A10 SoC's")
-> Signed-off-by: Li Youhong <liyouhong@kylinos.cn>
+> Pre-existing issues:
+> - [High] Unconditional call to `dma_release_channel()` with a potentially NULL pointer in the `emac_probe()` error path causes a kernel panic.
+> - [High] Premature release of the DMA channel before `unregister_netdev()` in `emac_remove()` creates a use-after-free race condition.
 
-Reviewed-by: Simon Horman <horms@kernel.org>
-
+While these seem to be real bugs that ought to be fixed
+I don't think they need block progress of this patch.
