@@ -1,75 +1,161 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BDCA46C859;
-	Thu, 10 Sep 2026 10:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7429470137
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Sep 2026 11:08:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789037647; cv=none; b=aSBgxIKkEnX7JryfNohTpAN6a9OusohhMgMXMEkmT2FG5PzqzwuDEhPzWOkA4d4ELOuG8SXS5plCliyMfKvcL8FzUfevwJ5v+jZpiUw4Bsb0eID0u87ugK8e4j5W5NFW/icgSwUJilhmXnAirZkEg6pFUF2NUt/ahGAtsiY8OwM=
+	t=1789038532; cv=none; b=dQMO+ro4aVuNSbQCvBOpGXwwxEmRXqaF3PBdiYosv2aNO/9BPN6Lb54sh7a2Ui5oZoaCqxCocb6eF4GWkosjHPDgb+uO0lmzCcqyyGrnyl34nBG7z60WzZThBdn1qu4FSDUgRHp69e9A2KnJIHaALLgqBEWsdvwTacF0qFW5+nM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789037647; c=relaxed/simple;
-	bh=2yACE57UcDmpbCxkhsT0GtW77ZPihGOn9a2h5ogVBOA=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=P3Wn2yI18vTAkp9LMrvmakkjXmqvjTkVYZBAmP7wcfm3cw9TiNKCl8rre/+eglGXqoRtLbPfD8QNC97sBOMWleYtDnA7wwsjEvMbUkJSwpYKBSWbptLSVewx9Mbvy+AOPQNTqasn5SZcR0YlXSr+O5zcFp62JrqCk0IbceIOVyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bEc+lmJ+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789038532; c=relaxed/simple;
+	bh=K6vTRC6I31fQK6gVtUTNl3XwnQl2ZtJnVVWEd3Z7WFc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g+r4chNgOw49l8xvDc9c+7hLEsN9iETkKAq8YKe7XyaX2ZA0hvciFXmg9jx1Gzw39ZfHkSNOcf2j3iaSss+4AJ4PAdcBU8zHjvHynCoRGx54Q0Qvv9WPh3jNWQMZV/jJ+ECKuDyNCNFdR6bVNYmIq9dYav/DZ6Qn+Awe19g5+lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=MyKQSv9q; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bEc+lmJ+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A13C51F000FF;
-	Thu, 10 Sep 2026 10:53:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789037636;
-	bh=2yACE57UcDmpbCxkhsT0GtW77ZPihGOn9a2h5ogVBOA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=bEc+lmJ+RRujA5pw787pngP3DtJt50dHeEKqiS8C4XqZ5QRp4Rq6cbYQ7/5ElHDAg
-	 AWqsEEh4thawlf2vTZagHe0t68imp1d6GmO5iJZrn0LWXjyAnE98PJkQNgFr8g5dbk
-	 r2jWSqhgavucpBfhC1T0AmlqugHs3lT5a2+55QYVx3A7KxNK1IGQWJvrxQRRklTU+y
-	 3znWi42tt1SDvm270lOXqio13DoVtiCzydGofL77BmewKck+56SlfepGXwilyhzJrd
-	 fhCVw5Xtxm70JR6PbgNtSm5UqVzYRxtctpE6fruV7+U5ET6gEaT5Q3p2B9ow6E0cM/
-	 vR35bWsZXPY2Q==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v8 3/5] dt-bindings: mfd: x-powers,axp152: Document
- AXP318W
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jerome Brunet" <jbrunet@baylibre.com>
-Cc: mfd@lists.linux.dev, lee@kernel.org, linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20260910-axp318-regulator-v8-3-e906a61a7f3d@baylibre.com>
-References: <20260910-axp318-regulator-v8-0-e906a61a7f3d@baylibre.com>
- <20260910-axp318-regulator-v8-3-e906a61a7f3d@baylibre.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Sep 2026 10:53:55 +0000
-Message-Id: <20260910105355.A13C51F000FF@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="MyKQSv9q"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id E2C00C2F4FB;
+	Thu, 10 Sep 2026 11:00:29 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8764F602B8;
+	Thu, 10 Sep 2026 10:59:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C298211C78279;
+	Thu, 10 Sep 2026 12:59:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1789037987; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=PiVPoZqxXQzLSRnTyxJY0LUsG2EsVds3etvNlaImVXs=;
+	b=MyKQSv9qy+ede1HK7HqbuXAUK7XqNhdafo5puwBvBNW5aeh0/tXviCEzLnnfor378UQg5p
+	m4mN7KciSm6fhsKKUzhpiUcwf3efVd8QrepBSI+Kjyc6gj7yyzge1Yq5ghMACgVZ49GVjQ
+	3QIjLBajCgtFqs4oHzyZkcx1X5HNhQdUho0sRSXTfFYWlARolRHSYAy6Hwh4qxgQAOyxLG
+	A/Nh1wXO4WaXuIqnYXIoK+EBu4aAWRsLBYQ9HP+stBv970OTB/N2/jE2MZHuY/7LVEKZOM
+	vzekn7UQdE/lQi/BQ2Pk2LLO4Ms1RCTsjouURhrT5P0dFgc/ta+2ICbS/giMHQ==
+Message-ID: <44d7840d-0cde-4022-937c-4c630398c45d@bootlin.com>
+Date: Thu, 10 Sep 2026 12:59:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 2/2] net: stmmac: Add support for Allwinner
+ A733 GMAC210
+To: Jerome Brunet <jbrunet@baylibre.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Richard Cochran <richardcochran@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ Andre Przywara <andre.przywara@arm.com>
+References: <20260910-allwinner-a733-gmac-support-v2-0-4f4a1e520c23@baylibre.com>
+ <20260910-allwinner-a733-gmac-support-v2-2-4f4a1e520c23@baylibre.com>
+Content-Language: en-US
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+In-Reply-To: <20260910-allwinner-a733-gmac-support-v2-2-4f4a1e520c23@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-> From: Andre Przywara <andre.przywara@arm.com>
->=20
-> The X-Powers AXP318W is a PMIC used on some newer Allwinner devices.
-> Among a large number of both DCDC and LDO regulators it features the usual
-> ADC/IRQ/power key parts.
-> Like other recent PMICs, it lacks the DC/DC converter PWM frequency contr=
-ol
-> register, that rate is fixed here (1.5MHz on DCDC1, 3 MHz on the others).
->=20
-> Add the new compatible string, and add that to the list of PMICs without
-> the PWM frequency property.
-> Also add more input supply properties, for the split DCDC and ALDO
-> supplies.
-> The PMIC features *two* switched outputs, hanging of DCDC1, and the
-> manual calls them swout1 and swout2, so follow suit here and add those
-> names to the pattern for matching the node names.
->=20
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Hi Jerome,
+
+On 9/10/26 12:25, Jerome Brunet wrote:
+> The A733 GMAC210 is a DesignWare MAC 5.20 using an Allwinner glue close to
+> the A523 GMAC200 already supported by this driver, with the following
+> differences to handle:
+> 
+> * The glue configuration registers are a dedicated MMIO region of the
+>   controller instead of a syscon register. This new register region
+>   appears to be in the reset domain of stmmac's main reset. This requires
+>   the glue driver to handle the reset rather than letting stmmac deal with
+>   it.
+> * The TX clock delay value is 5 bits wide, split over 2 register fields,
+>   allowing delays up to 3100ps.
+> * The DMA channels have their own interrupt lines, so the per-DMA-channel
+>   interrupt mode is enabled, as the vendor SDK does.
+> * TX LPI clock gating is supported, as the vendor SDK indicates. Follow
+>   the PHY capability with STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP rather than
+>   forcing it on with the deprecated 'snps,en-tx-lpi-clockgating' DT
+>   property.
+> 
+> Unlike the A523, both GMAC instances are supported by the same driver.
+> 
 > Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+[...]
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260910-axp318-reg=
-ulator-v8-0-e906a61a7f3d@baylibre.com?part=3D3
+> +
+> +static struct regmap *sun60i_gmac210_get_regmap(struct platform_device *pdev,
+> +						struct plat_stmmacenet_data *plat)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	void __iomem *base;
+> +	int ret;
+> +
+> +	base = devm_platform_ioremap_resource(pdev, 1);
+> +	if (IS_ERR(base)) {
+> +		dev_err_probe(dev, PTR_ERR(base), "unable to get glue memory region\n");
+> +		return ERR_CAST(base);
+> +	}
+> +
+> +	if (!plat->stmmac_rst || !plat->stmmac_ahb_rst) {
 
+Why check stmmac_ahb_rst, but not do anything with it ?
+
+> +		dev_err(dev, "missing required reset controls\n");
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	/*
+> +	 * The configuration registers are inside the controller
+> +	 * reset domain, so the reset must happen before any write to them
+> +	 * and should not be done again by stmmac or the configuration will
+> +	 * be lost.
+> +	 */
+> +	ret = reset_control_assert(plat->stmmac_rst);
+> +	if (!ret)
+> +		ret = reset_control_deassert(plat->stmmac_rst);
+> +
+> +	if (ret) {
+> +		dev_err_probe(dev, ret, "device reset failed\n");
+> +		return ERR_PTR(ret);
+> +	}
+> +
+> +	ret = devm_add_action_or_reset(dev, sun60i_gmac210_reset_assert,
+> +				       plat->stmmac_rst);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	plat->stmmac_rst = NULL;
+> +
+> +	return devm_regmap_init_mmio(&pdev->dev, base, &sun60i_a733_regmap_cfg);
+
+I wonder if this is the first glue to face this...
+
+If you need further setup to be done after reset has been deasserted, I suggest
+adding a dedicated callback in plat_stmmacenet_data, instead of doing this behind
+the generic code's back.
+
+maybe something like "post_reset_init()", something like that ?
+
+the ->mac_setup already runs after reset, but isn't really for this type of usecase.
+
+For readability of the patch, maybe you should split this patch to first do the
+a523 rework, then add a733 support.
+
+Thanks !
+
+Maxime
