@@ -1,155 +1,264 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362B235C1AE;
-	Wed,  9 Sep 2026 17:09:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C024B22D7A1
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Sep 2026 00:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788973758; cv=none; b=bHjdDPagRxyvnRWhWddgxS6ZmSGMssMDX1mTNiRgMmO+Wk+VlV1lJW/2Shd+qfxQFK3f06OUv5Y4A6haEZSyEtQ0ms1rWv+4btMqilYuTKXXKFlSyBv4Cwa2xspDRRPYDD66pAHnRTG+SBOQ6DKrpMKFLXVuI/MRZ2WVVOciWns=
+	t=1788999346; cv=none; b=FPWGjwbp8DKBN7nzgae4jxKrus4Ry2tnRPfWKf2lAF32OIwHZNf2XtosIqqTlAraQItPW1S7OBUm/wn38BoBtx9LL6Ovtjb4m/TBQCt8FBQv97bntGuNw+firkvWpMsEyP/xWtxCB3wWwT+APidRsfiECOEfVTSKRxt59Fc1Vjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788973758; c=relaxed/simple;
-	bh=GEiN4jMUciIfL7jGFmnCJViga5R1IfaMx7x0DCv1xQ0=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Te651uN8ONshQ//IU21pW/Vd+Y04306JD4G0e95Uf+teIkd9wZBSiYAKUk+VLMIgciqQ27YXTXD6GaEtMKz/2HlrqF7pArQN568WbDDGxoHlbbOHtn48eao0ECYvFxuFHnRsDdScGBNSQpogmF5TZ2jADdG6xg1j4HeqFJbRDbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R/29XeJu; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788999346; c=relaxed/simple;
+	bh=bQEwCUwu6UFhQr1VKp5lGdygarq3KN18hAVUL2QRnfg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=abdZBAzGnvrtWemo9bPMjdXpXLNgXasJWYCfjujM/DIyAhpB4G2Jzv4u2ZcvwCMHNjtnJH3L7po3ySSbVledI/FGA8qHrLg127JZAFcXbXJ6SXJ82Vy+wEZ3JkouTx+ufs0yNWSkEF+zlIg/Zhg3FXcLlmrdizOxm/TBE3yHYP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=chOq/yJk; arc=none smtp.client-ip=209.85.210.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R/29XeJu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8ABD81F000FF;
-	Wed,  9 Sep 2026 17:09:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788973757;
-	bh=780WOgTbPpjCwAj9rTJ8vw/M2+D2yvQvdSsmZ6fR/wk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=R/29XeJu67Odk4F/2J5Tx59rr4SFJDG+cMhFyKn4QlKOqSkIM8/DzER5kBqfGFDqc
-	 SW6HkB1E/y1bvfv0tVnbfQVJWldRtYHUqq6g/90OzbRLsvt7wCwHAZRmWtM/f1Lxg9
-	 cTnQUZHKJTZ4+nOZ5AEwcuW7sF8Hbly3DcL2PY7vFH6mZtU5oGRgWmqOHFo6ka429F
-	 wFu8xWcgAV2O7MQmd6Up70lLu9pv9aAiLpna4cd7bV8f0LiZp0HAB2jRt0yJvwRRMD
-	 Lb37ncPasnZSLdd9X1XOGuN6p1ZpVTII2w7ktLhPRlDeQiTKsnluxpDlnc6FXVfPeH
-	 QwZTohI1wtdUQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v14 03/10] phy: qcom: add the SGMII SerDes PHY
- driver for SCMI systems
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Bartosz Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>
-Cc: conor+dt@kernel.org, Frank.Li@kernel.org, imx@lists.linux.dev, devicetree@vger.kernel.org, wsa+renesas@sang-engineering.com, linux-amlogic@lists.infradead.org, neil.armstrong@linaro.org, robh@kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260908-qcom-sa8255p-emac-v14-3-ec212b747a7d@oss.qualcomm.com>
-References: <20260908-qcom-sa8255p-emac-v14-0-ec212b747a7d@oss.qualcomm.com>
- <20260908-qcom-sa8255p-emac-v14-3-ec212b747a7d@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 09 Sep 2026 17:09:16 +0000
-Message-Id: <20260909170916.8ABD81F000FF@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="chOq/yJk"
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7f84a55cc06so5064684a34.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 09 Sep 2026 17:15:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788999342; x=1789604142; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=EOu9q3ToCrOpE6VnlTjGYtngDOdcvSQmUOESawM7bB0=;
+        b=chOq/yJkm4c8b1BE/huBuOE49faC0mgyB6bkP0mxkIjuyACu2Icgbu9P8LdU9PlPuE
+         hSqoESjLu9xfTM5xKUv7O4glq2keZ0xB3DSUbGwY9NS0Jo1r4Ejm3rhMrUG6KVNDuqqB
+         Bo9DNUUcYebGbGoS7vZi/pWnLwgsC2zj7BtrKJ6rXV7vEW+8MT2DThBoT9lozV7o/5Do
+         naznAeaM61BkZKmIxOmnBUt6ivRmWw2sknFjzjR5kt/Vhw4eKivBhQ9NIs97ZITlmsTY
+         XMAiUgM6AsyiILqBJ7oI6cyabvB+QnwgJWYtvuzV66iDQuu26cD8uQc6P2X3vdY/jgmb
+         tlZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788999342; x=1789604142;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=EOu9q3ToCrOpE6VnlTjGYtngDOdcvSQmUOESawM7bB0=;
+        b=ETMuGS9mYxFRDxEJK3064CmjaYDRcl9LFBNK9I262nNlqtQXk3imVbGDhW/0jswgA8
+         m+s/MPiTCYeP83yu1m2h8/bRlFbKkfx5u9gK5VjexahHegFhal7AeOJPt8X63JYNc72a
+         SBEkuC6Tj8m5FumBtdzZ/GRtVReQc5d7VEetTdHqCXZlqOBZZNIzEnf5iWxeXSGgFQpD
+         fXqFMAtCnK0lILsDr+pH1UO8NC3/nRBBTwGxQUcl3fxJr4S8YlSdMn3hMc+6tlC7xZWc
+         z+71WYwiaDFNIhngf79IOtaGrNQkG1fsQQG05VbEsajO3OLjORadhSBlMKOJ0FwJMcCW
+         Bw5g==
+X-Forwarded-Encrypted: i=1; AKwUvBw+VyMumUcRNfyHsilYQBpJG8/0iUun2Ght0dd06kV0usGFI49KLITPRNoStHFW5EIiYKsnXnF1i6geMg==@lists.linux.dev
+X-Gm-Message-State: AFuF++m8fryvUe/g4MIMQSfcTdpOWJVUMhTIcfIXw8SUyBxurmJhiy4h
+	q0AhaBeH3i71OnbneS0JxasKk3UwwLmuFnvTyun0/xVcUhTa+35I/zZc
+X-Gm-Gg: AYBFou00J9h3ky4YSlC2UwTMZhVuU1sUthdNscnFahSe8X54AXhfyJVR34CH9wQ/oE5
+	GLcVIME3yQEPPmYJ2/cqDD4e3PPUHPQFUvRQYlgaMprMkS2sGKo+o66PRwb2cffxSG0QzHQ3Ikr
+	5C8Mn6q/hba8Mee3MT/rn5z+yHvVYuZ42BbjxTdueuRxkTmN7hYaHQLc65l2mUUOnvwYdpfPPiV
+	HY8YqrTTJgENul2tkEwBLK4iAotcqGIKJA2aJGC7JUXPtx4cnZWVkOKgzpD44FL/15bTMFKdvzw
+	m07k2AqNsVsWw4NcPFsxGWxHz1AVFdptqqVy5ctaKvnWmEy038hVtE/0dRGUeuVW66GFudzR0++
+	AFiwrt+lAncLFnKE4cwJu92m3S6b13EUHFZk0El+cJ6A3xscz+v61f4EArOFcmHW1nBVFHwYj0z
+	xarp6X3aSP2tDZiDSYgMUAGIXTIYnkuxCUOv4mfJEwXSJSd7WIpFPmgA9hxTOERYVg9z3lUH9sv
+	mh2Al9larWAIapikpFscTVCsD6SggEZS/PnceY0H0chcXKTtCObl7XcXb+8jEm8G9kxVhXK/YmJ
+	hHycEvcQS2N7RQ7j4/HnAlrHlWGBeP547X5kueLwm284nJEMYtuzKPC+s0vB14M9gGp6F3djuM3
+	1CP5f/oePoF89g+7qIHa48n3PIZ3d6wBZ6JanVKY=
+X-Received: by 2002:a05:6830:6aa5:b0:7e9:cf6f:aef8 with SMTP id 46e09a7af769-7fa1fc5f0c5mr24784098a34.11.1788999342527;
+        Wed, 09 Sep 2026 17:15:42 -0700 (PDT)
+Received: from [127.0.1.1] (184-96-151-165.hlrn.qwest.net. [184.96.151.165])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7fc68d5ae2bsm12468402a34.3.2026.09.09.17.15.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 17:15:41 -0700 (PDT)
+From: James Hilliard <james.hilliard1@gmail.com>
+Subject: [PATCH net-next v11 0/2] net: phy: add X-Powers AC200/AC300 EPHY
+ support
+Date: Wed, 09 Sep 2026 18:15:36 -0600
+Message-Id: <20260909-submit-acx00-of-dynamic-v1-v11-0-eb45e89ef918@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43RS07DMBAG4KtUXmPkGb+74h6IhZ+tEUlQEqJWV
+ e+OE5CIghRY2p75/tH4RobUlzSQ4+FG+jSVoXRtPQA8HEg4u/aUaIn1giBDxQxDOnz4pozUhQt
+ jtMs0XlvXlEAnoFY4FgPIjAZJBd77lMtl0Z9Jm0bapstIXr5eqvOawjjbc+25DGPXX5dBJr50f
+ EfKvciJU0Y5Bo7AnMoon06NK2+PoWuWoEmsKbVLiUpZnzFrIUBx3FJyTdldSlbKZwfZSDAezZZ
+ SKwpgl1KVYojWW+s4ZrWl9P8pPVM8S29Baxl/7cqsKb5LmUpFzBAkJqO92FJ2TZldys67MsFE6
+ yKLhm8pYD+W/eMLgc1zRdSYGPdS6DV2v98/ATpDO+bwAgAA
+X-Change-ID: 20260802-submit-acx00-of-dynamic-v1-94a0dc15f282
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ James Hilliard <james.hilliard1@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+ "Jagielski, Jedrzej" <jedrzej.jagielski@intel.com>, 
+ Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@kernel.org>, 
+ =?utf-8?q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ linux-sunxi@lists.linux.dev, netdev@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.15.2
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] The driver's devres teardown sequence cancels an asynchronous susp=
-end of the platform device, leaving the device permanently active.
-- [High] Missing cleanup of the genpd performance state on driver unbind le=
-aves a persistent power vote on the PM domain.
-- [Low] The driver forcefully selects the user-visible PM subsystem from a =
-leaf hardware driver, overriding user configuration.
---
+This submission contains only the networking binding and PHY driver and
+is intended for net-next. The AC200 I2C register provider was submitted
+separately for the MFD tree:
 
-commit dae3dafc17dff2635ed1048ccc9e18ab67fdf8a3
-Author: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Subject: phy: qcom: add the SGMII SerDes PHY driver for SCMI systems
+  https://patch.msgid.link/20260907-submit-ac200-mfd-v11-0-58dd9dc7f69a@gmail.com
 
-This commit adds a new firmware-managed variant of the Qualcomm DWMAC SGMII=
-=20
-SerDes/PHY driver. It introduces a separate driver from the HLOS-managed=20
-variant since they share little code.
+The two series can build and be merged independently. AC300 needs only the
+networking series. The AC200 runtime path additionally needs the separately
+submitted MFD provider and binding. Their shared design point is the DT
+representation: the MDIO PHY-package node references the AC200 I2C node for
+access to package-control registers.
 
-> diff --git a/drivers/phy/qualcomm/Kconfig b/drivers/phy/qualcomm/Kconfig
-> index d910a5d1a1ac3..677662f642e42 100644
-> --- a/drivers/phy/qualcomm/Kconfig
-> +++ b/drivers/phy/qualcomm/Kconfig
-[ ... ]
-> +config PHY_QCOM_SGMII_ETH_SCMI
-> +	tristate "Qualcomm DWMAC SGMII SerDes/PHY driver (firmware managed)"
-> +	depends on OF && (ARCH_QCOM || COMPILE_TEST)
-> +	select GENERIC_PHY
-> +	select PM
-> +	select PM_GENERIC_DOMAINS
+The AC200 and AC300 contain compatible Fast Ethernet link PHYs which
+report the same Clause 22 identifier and use the same link-side register
+layout. The link endpoint is inaccessible until package-specific control
+registers have powered and configured it.
 
-[Severity: Low]
-Is it intended to forcefully select the user-visible PM subsystem from a le=
-af=20
-hardware driver?=20
+Both variants are modeled as standard Ethernet PHY packages with one
+forced-ID link-PHY child. The package reg value is the link address.
+AC300's control range is a fixed package-relative offset of 16 and is
+accessed with the PHY package helpers. AC200 reaches its control registers
+through a phandle to the companion IC's I2C register interface.
 
-Leaf drivers typically use "depends on" for user-visible features like PM=20
-to avoid overriding user configurations.
+For AC200, the driver resolves the referenced I2C device, establishes a
+managed device link, and takes the supplier device lock before checking
+that the provider is fully bound and retrieving the regmap attached to
+that device. It waits for transient lock holders instead of treating lock
+contention as a missing dependency. The link then keeps the provider bound
+until the PHY consumer has unbound. This uses the generic device and
+regmap interfaces and supports multiple AC200 instances without syscon or
+a private cross-subsystem API.
 
-> +	help
-> +	  Enable this to support the internal SerDes/SGMII PHY on Qualcomm
-> +	  chipsets where the SerDes hardware (clocks and registers) is owned
-> +	  by the firmware.
-> diff --git a/drivers/phy/qualcomm/phy-qcom-sgmii-eth-scmi.c b/drivers/phy=
-/qualcomm/phy-qcom-sgmii-eth-scmi.c
-> new file mode 100644
-> index 0000000000000..ae961975dcd87
-> --- /dev/null
-> +++ b/drivers/phy/qualcomm/phy-qcom-sgmii-eth-scmi.c
-[ ... ]
-> +static int qcom_dwmac_sgmii_phy_scmi_set_mode(struct phy *phy, enum phy_=
-mode mode,
-> +					      int submode)
-> +{
-> +	struct device *dev =3D phy->dev.parent;
-> +	unsigned int perf_state;
-> +	int ret;
-> +
-> +	ret =3D qcom_dwmac_sgmii_phy_scmi_validate(phy, mode, submode, NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	perf_state =3D (submode =3D=3D PHY_INTERFACE_MODE_2500BASEX) ?
-> +		     SPEED_2500 : SPEED_1000;
-> +
-> +	return dev_pm_genpd_set_performance_state(dev, perf_state);
+Fixed hardware uses an AC200- or AC300-specific package compatible.
+Systems which can contain either package use the ACx00 package compatible
+and one packed SID configuration field. Bits 3 through 0 carry the analog
+calibration, bit 8 selects AC300, and bit 9 selects its low-calibration
+tuning. The driver chooses the backend before acquiring any
+backend-specific resource.
 
-[Severity: High]
-If the genpd performance state is dynamically set to a value greater than 0
-here, where does it get reset to 0?=20
+One xpowers-acx00 module binds the link child, joins the parent package and
+runs the selected backend. It manages the package supply, MII or RMII mode,
+vendor analog initialization and package state across suspend and resume.
+The common link implementation preserves automatic MDI/MDI-X and standard
+MAC-managed EEE advertisement while disabling only the vendor
+PHY-autonomous Intelligent EEE mode. A private mutex serializes
+package state across phylib callback contexts, while suspend recovery
+also holds the phylib lock.
 
-Without a teardown path (such as a .remove callback or a dedicated devres=20
-action) to explicitly reset the performance state, the PM domain hardware=20
-might remain forced at a high performance state permanently after driver=20
-unbind, wasting power. The genpd core does not automatically drop dynamical=
-ly=20
-set performance states on unbind.
+The two patches add the AC200/AC300 PHY-package binding and combined PHY
+driver. Board Device Trees and optional PHY features remain outside this
+initial series.
 
-> +}
-[ ... ]
-> +static void qcom_dwmac_sgmii_phy_scmi_runtime_disable(void *data)
-> +{
-> +	struct device *dev =3D data;
-> +
-> +	pm_runtime_disable(dev);
+The AC200 portions build on earlier work by Jernej Skrabec and Andre
+Przywara:
 
-[Severity: High]
-Will this devres teardown sequence cancel the asynchronous suspend of the=20
-platform device?=20
+  https://github.com/jernejsk/linux-1/commits/ac200-v4
 
-In the devres unwinding sequence, phy_destroy() unregisters the PHY child,=
-=20
-which causes the PM core to queue an asynchronous pm_request_idle() for the=
-=20
-parent platform device.=20
+Public AC200 and AC300 documentation is linked from:
 
-If qcom_dwmac_sgmii_phy_scmi_runtime_disable() executes pm_runtime_disable()
-immediately after, it aborts the pending idle request. This leaves the=20
-platform device permanently locked in the active state. Could this be avoid=
-ed=20
-by ensuring the device suspends synchronously before disabling runtime PM?
+  https://linux-sunxi.org/AC200
 
-> +}
-[ ... ]
+Assisted-by: Codex:gpt-6-astra
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+---
+Changes in v11:
+- rebase onto current net-next
+- document the little-endian NVMEM configuration format and require
+  two returned bytes for AC300 and selectable ACx00 packages, while
+  retaining one-byte calibration cells for fixed AC200 packages
+- restore standard advertisement or forced speed/duplex after a failed
+  package suspend, in addition to the vendor settings
+- power down again if suspend recovery fails, retaining the original
+  suspend error and the existing phylib and package-state locking
+- update the companion MFD reference to the submitted AC200 v11 series
+- Link to v10: https://patch.msgid.link/20260906-submit-acx00-of-dynamic-v1-v10-0-dd272e03b547@gmail.com
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260908-qcom-sa825=
-5p-emac-v14-0-ec212b747a7d@oss.qualcomm.com?part=3D3
+Changes in v10:
+- rebase onto current net-next after the merge-window deferral
+- release the MDIO bus lock when selecting a vendor register page fails,
+  preserving the error and allowing package shutdown to access the bus
+- update the companion MFD reference to the submitted AC200 v10 series
+- Link to v9: https://patch.msgid.link/20260818-submit-acx00-of-dynamic-v1-v9-0-b8c8d9ad0d83@gmail.com
+
+Changes in v9:
+- serialize package state and multi-register power sequences across phylib
+  callback contexts
+- hold the phylib lock while recovering from suspend failures
+- unwind package power after reset, resume or configuration failures
+- restart autonegotiation when restoring EEE advertisement changes it
+- propagate page-selection errors instead of an uninitialized result
+- constrain AC300-capable child PHY addresses to the valid 0 through 7
+  range
+- clarify the AC200 runtime dependency and provider-owned, rate-locked
+  clock
+- document why the AC200 control sequence needs no AC300-style delay
+- rebase onto current net-next
+- Link to v8: https://patch.msgid.link/20260813-submit-acx00-of-dynamic-v1-v8-0-d2f1c52e87b4@gmail.com
+
+Changes in v8:
+- replace the AC200 supplier trylock/defer path with a blocking device lock
+- add Krzysztof's Reviewed-by tag to the PHY-package binding
+- rebase onto current net-next
+- Link to v7: https://patch.msgid.link/20260811-submit-acx00-of-dynamic-v1-v7-0-03f5b91775d5@gmail.com
+
+Changes in v7:
+- link to the separately submitted MFD v7 series:
+  https://patch.msgid.link/20260811-submit-ac200-mfd-v7-0-8b06f552a4d7@gmail.com
+- replace syscon publication and lookup with direct AC200 device/regmap
+  lookup
+- require the referenced AC200 provider to be fully bound under its device
+  lock
+- keep teardown ordered with the managed device link
+- rebase onto current net-next
+- Link to v6: https://patch.msgid.link/20260811-submit-acx00-of-dynamic-v1-v6-0-0229b99a32f6@gmail.com
+
+Changes in v6:
+- split the networking work from the independently mergeable MFD series
+- add the posting link for the separately submitted MFD series
+- remove the redundant explicit schema selector
+- describe the AC200 phandle in hardware terms and state its purpose
+- simplify the clock description and keep only the needed NVMEM dependency
+- reduce the binding examples to one
+- rebase onto current net-next
+- Link to v5: https://patch.msgid.link/20260809-submit-acx00-of-dynamic-v1-v5-0-bfa1f8518b28@gmail.com
+
+To: James Hilliard <james.hilliard1@gmail.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>
+To: "David S. Miller" <davem@davemloft.net>
+To: Eric Dumazet <edumazet@google.com>
+To: Jakub Kicinski <kuba@kernel.org>
+To: Paolo Abeni <pabeni@redhat.com>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+To: Russell King <linux@armlinux.org.uk>
+Cc: netdev@vger.kernel.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+
+---
+James Hilliard (2):
+      dt-bindings: net: x-powers: add AC200/AC300 EPHY packages
+      net: phy: add X-Powers AC200/AC300 EPHY driver
+
+ .../bindings/net/x-powers,acx00-ephy-package.yaml  | 170 ++++++
+ drivers/net/phy/Kconfig                            |  11 +
+ drivers/net/phy/Makefile                           |   1 +
+ drivers/net/phy/xpowers/Makefile                   |   3 +
+ drivers/net/phy/xpowers/ac200.c                    | 314 ++++++++++
+ drivers/net/phy/xpowers/ac300.c                    | 387 +++++++++++++
+ drivers/net/phy/xpowers/acx00.c                    | 633 +++++++++++++++++++++
+ drivers/net/phy/xpowers/acx00.h                    |  28 +
+ 8 files changed, 1547 insertions(+)
+---
+base-commit: ce48a0fdc56464b1afb03471dbdf38a5e0d571ad
+change-id: 20260802-submit-acx00-of-dynamic-v1-94a0dc15f282
+
+Best regards,
+--  
+James Hilliard <james.hilliard1@gmail.com>
+
