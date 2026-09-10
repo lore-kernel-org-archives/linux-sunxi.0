@@ -1,104 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D2639022B;
-	Thu, 10 Sep 2026 14:05:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45CB44A3D3A;
+	Thu, 10 Sep 2026 14:06:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789049122; cv=none; b=T0mlO2KQgakMw1PeODIxpIfVRgpxDhYl+Qr7MMKjKc46D4t1IEXr4W+SPg/I8gDqt+5F/fHbyAguCEdA8wWjyGLbh9ZUG3e4J4cPZ7zDjuUol0/kureixFpXvSvIY3E5xzDSWGB/UT+4e9tDDOUPuxYICw6vFtFeYorbWcDy7pE=
+	t=1789049216; cv=none; b=jyO6i949aV72ZrDUq59il1f7z5bdcq4ohkVCJo9/N//mnuSXyWqfFgFBFdRRQuiQzn6r3xbcg8sR0prB3VmQtfKRed3a8f1AQREIMom/kZ8YU9rwKOC/CX1qdBJQV9L1GMtRNG4VpmSX3Xp95OJ4MBiAGosaAM8LonVZFmiMHBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789049122; c=relaxed/simple;
-	bh=iHVM/eOsTgJOj4YdhkQx7JC4rk/lp7DOCquU0fpHUOE=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=i+g5zgGEpdNNBK0Kyv01/wXPMmg08rvmchO0o/NewTmlpsBc5tMr9in8t5nmm7wViR5crkYf3CTO/KnymsYX7n2dTf1kay5P4mmlWX9RgiMfR29fkE9sml/RvrptGfsRy5QJGDZeBqkWx9dnmRc1HK7hX214viTsyiKstj4nQts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZlfAJ3PV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789049216; c=relaxed/simple;
+	bh=pBr2Wslr/OBvg9qHQYOJVOBcUgvKRbCd/2uvc/bLd8g=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=BHdLQFSzICzV/L0ZZHQ7o2Z9J5XQZHkUzy9LdvklEe4eIp4Zd5oP7ViO/41PhbdEQ5urBJ91AU4/DWOwXGTa1/IgA6ry5MFvVMDHEBGDgBlIvuE6miuhGLQ6cxnS1Y9gvNMamPqE8HIthw0SZ7fZBjGvPP8wQ2KzPq4CiYkx/18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fooDFSDC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZlfAJ3PV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82EEE1F00898;
-	Thu, 10 Sep 2026 14:05:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fooDFSDC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 589461F00893;
+	Thu, 10 Sep 2026 14:06:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789049120;
-	bh=TC9R53yxfMHbE+dKbgzTe3p51hLjKjWrQe7iL5LJTIE=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ZlfAJ3PViDbGZQueLWnFeDG8lURHRFkpUet6UjqcQLG9yJgb/5fhpVB+3XFZDu9H3
-	 /ZS+L5zOgVNx1WYVOwVXLDPWrSa8Enmh7rL+awHwTnGZkIV4OjmFukYLqP3+9i0fO9
-	 So2s54kyPJDJF5yk+KsZTN3lrlEgomK2uc5KBqUJFv2LThEd+R2HTPR2kARx3qJMb8
-	 brSO08qvmVmxk6WIq1w+dd6r9BJW/Pr+j81Che6dP3vV7OYxMYug0/QhF6yPe3N96M
-	 zQO7tCLhlGa+6HfVDhaXssYkrG8wz1iv+ZkqjczbloCVy/TGbKNU78nwBp3uqPqj70
-	 SmbxHhaztq8sQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 4/7] pinctrl: sunxi: support A733 generation MMIO
- register layout
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Andre Przywara" <andre.przywara@arm.com>
-Cc: robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260910133519.459011-5-andre.przywara@arm.com>
-References: <20260910133519.459011-1-andre.przywara@arm.com>
- <20260910133519.459011-5-andre.przywara@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Sep 2026 14:05:19 +0000
-Message-Id: <20260910140520.82EEE1F00898@smtp.kernel.org>
+	s=k20260515; t=1789049215;
+	bh=ktQ/mCzljVKF0hvcEfd4hDNXCpVqMxkORMTuXMwuaFE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=fooDFSDCRbGIyectMaPvdLe4BSe0Xeb/ACL9L3ltDh7dVCBTLG+jKdQ4Y8+rvx1Ez
+	 IDDgl4dfmKSNrXfQxDGAJp+d0UsNL20qagyQkzCytVD6FeYlYuBG8hZpval3Xt9PMe
+	 pGjcj4kkKb5zOF6dr+UIIEpXyAdNsCF7DiHKMVWgkxCxlSksETReJVCF1fP6uos6qm
+	 muxg7TaQhDjvw6wsm0KWNi+dFnVlbBGtZgx+JeQTJz31ZIHfdOXSKQyb2M3Vn2Ggsb
+	 +6LF6m9+9k0J+/OpKW9l3Bw8zBiLVJ66u2XmV4YGK5OrVj9zDEYQ8iuW9uikZSw4ss
+	 lNBZmWoUKoPrw==
+From: Vinod Koul <vkoul@kernel.org>
+To: Christian Lugnberg <christian.lugnberg@soundtrack.io>
+Cc: Frank.Li@kernel.org, wens@kernel.org, jernej.skrabec@gmail.com, 
+ samuel@sholland.org, dmaengine@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20260817135723.12807-1-christian.lugnberg@soundtrack.io>
+References: <20260817135723.12807-1-christian.lugnberg@soundtrack.io>
+Subject: Re: [PATCH v3 0/2] dmaengine: sun6i: Fix two bugs in the DMA
+ status path
+Message-Id: <178904921191.109109.5746892619101559603.b4-ty@kernel.org>
+Date: Thu, 10 Sep 2026 19:36:51 +0530
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Critical] sunxi_irq_base_reg() fails to translate the logical IRQ bank i=
-ndex to the physical hardware GPIO bank index for NCAT3 layout, ignoring `i=
-rq_bank_map`.
---
 
-commit 45892bb17e985dc02bb352c830f93cc75106e307
-Author: Andre Przywara <andre.przywara@arm.com>
+On Mon, 17 Aug 2026 15:51:21 +0200, Christian Lugnberg wrote:
+> Thank you for the review, Frank.
+> 
+> Changes in v3:
+>   - Patch 1: trim commit message to the root-cause explanation and fix
+>     description, dropping the debug/reproduction part per feedback
+>   - Patch 2: unchanged since v2
+> 
+> [...]
 
-pinctrl: sunxi: support A733 generation MMIO register layout
+Applied, thanks!
 
-This commit adds support for the A733 SoC generation MMIO register layout.
-It introduces the SUNXI_PINCTRL_NCAT3_REG_LAYOUT flag and updates bank
-offsets, sizes, and IRQ register positions to accommodate the new hardware
-design.
+[1/2] dmaengine: sun6i: fix non-atomic read of DMA position registers
+      commit: c90b6973daa37f4c283342dff881ae001dea4fe6
+[2/2] dmaengine: sun6i: fix undefined behaviour in sun6i_dma_tx_status
+      commit: 9096bdc8d930147f7c39a493a859acbd3a8485d8
 
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h b/drivers/pinctrl/sunx=
-i/pinctrl-sunxi.h
-> index 15aa6fe62dbbc..d09467ed437a3 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-[ ... ]
-> @@ -238,6 +248,10 @@ static inline u32 sunxi_irq_hw_bank_num(const struct=
- sunxi_pinctrl_desc *desc,
-> =20
->  static inline u32 sunxi_irq_base_reg(const struct sunxi_pinctrl *pctl, u=
-16 bank)
->  {
-> +	if (pctl->flags & SUNXI_PINCTRL_NCAT3_REG_LAYOUT)
-> +		return pctl->bank_offset + bank * pctl->bank_mem_size +
-> +		       A733_IRQ_REGS_OFFSET;
-> +
+Best regards,
+-- 
+~Vinod
 
-[Severity: Critical]
-Does this new branch need to translate the logical IRQ bank index to the
-physical hardware GPIO bank index?
 
-By directly using bank * pctl->bank_mem_size instead of converting the
-logical index via sunxi_irq_hw_bank_num(), could this calculate the wrong
-physical addresses on SoCs with sparse IRQ capabilities?
-
-For example, when sunxi_pinctrl_irq_handler() iterates over logical
-IRQ banks and calls sunxi_irq_status_reg_from_bank() which then calls
-sunxi_irq_base_reg(), will the handler read the wrong hardware register?
-
-Could this cause the handler to see no pending interrupts and exit without
-clearing the actual interrupt, leading to an infinite interrupt loop and
-hard system lockup for level-triggered interrupts?
-
->  	return IRQ_REGS_OFFSET +
->  	       sunxi_irq_hw_bank_num(pctl->desc, bank) * IRQ_MEM_SIZE;
->  }
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260910133519.4590=
-11-1-andre.przywara@arm.com?part=3D4
