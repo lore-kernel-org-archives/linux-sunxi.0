@@ -1,79 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9908404882;
-	Thu, 10 Sep 2026 10:31:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25173E1D07
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Sep 2026 10:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789036275; cv=none; b=feEYqHDGc7ZMCXMotfdrj/KMz/o3Mxd48DdaPDusjzFYkxtM0YtGs5/3LVGrvWtRxcpURH/Mw2oaJymu127mra8ZWTFr22DkoqJBZMk2IHb5yf9zWEXKAzPhydGEQEzAek9QeSip2PRHjpeIVqt56ZSNbqLlfQl5HvGTelBkzLI=
+	t=1789036670; cv=none; b=qOFemAYzTp7yw5FGyl5OePbUYOQDJJRI2RBUZY1MW+/3ZHfEZi0wsw++vN21IiQPtSnnldrQDlX2nBHorSoFrvfs3LNkpjmN0UgeaKeL4m2RPNxYrOKbBNLH4S4jr98/sRUHeUdI0QuqH0uyWQ0W20AD81+c4C4LF4JsxYnYml4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789036275; c=relaxed/simple;
-	bh=N7NSmMhv3TmJHHz2QQsNpwQUuCTic9XR7kV0I+dj4us=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=GcU9U+KkVa9aTx7KDyXC/2UHtZQjhW0yC7WwrlSqbSJT8BqQgkIOquKJUA7bm2P2kpRRXDYf+iYB9IJkqAm3vB0c5odk9aAsrxakqfnY9lt9O/Lxk9OAyYr/GOcJW0zyqm13Dw8eLNXuSSyTMH778IpBkcdZp5fzepJWqy6iM4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QppWOwvT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789036670; c=relaxed/simple;
+	bh=rMU+PmTBon7MZYNFvL/32kuzRyhojyfvr5NuoahMVyA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=scAiK61XxhpU6SzeGFUcCj6zBpeNEYCaOb7tJ+5N4fA7mXAfXvlLa8ukW18X8cIy2LAcBAC6Chv2QFxJdlR1eJmu0uOeD6bDkmBPLzHFNfQ9fvJxKYEoSlV8DRHnYyJaD9QSX+vHPGbWohxpZKVsZK1KAUKjdV+/Ha/OA8O9rfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=Vzla2Mgk; arc=none smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QppWOwvT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C9821F00898;
-	Thu, 10 Sep 2026 10:31:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789036266;
-	bh=ngeAR8nmnQ0Bc2ebzsIpljyhkLc6DyhYxhTSjNVk2zI=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=QppWOwvT8CbJuDDL78HkWLbFoDm4TnrcU4ovfDLFqzRsY/+oO5MqRzwqyveC/e3m0
-	 u3smXptaDLBM3Ar39aeqC0x62j5xNy5ifwytnRxqXIl4wlSRI4VUqtGWXiyyHrpBai
-	 TNJKlDKxHHblz98tca6C/mAmZQUZdhIw8zHuSa0f8UTWV/+CSH5K+W8qmKurf2OhvF
-	 y+G9K7ueua3/CVlauRugeWsULoeQW779u70qbSbbdfYip/G8zaFrOqAFO9svyggcip
-	 FXuc1ybDyhSRkUGAjJQ+gK7RgKCTW3c4fLtHDM58qrDl+YwOnRrMuXB5E9uyjKuycZ
-	 eu9J9+O4sXzmw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id D0C9B380CFE4;
-	Thu, 10 Sep 2026 10:30:04 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="Vzla2Mgk"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-48449f62b93so1154886f8f.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Sep 2026 03:37:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1789036664; x=1789641464; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6EF+UHNSS4hI0lePcCf3NeWVNl/rHsUyRzTVnqSXcQw=;
+        b=Vzla2MgkcZ3OWISQaKcUST+UL0tIA6QJtHXx8I3lJxL5F9Tm/rWNrfWHCyuFPzN7Uy
+         MbQeDDhqr8hXl77oqSn0ItosBViTo7cjDVFU29Qqil+xC+2cLZXq7mWoEWyQ+ZikRzXh
+         0JMJZ8R9dvMphlUfjJbzTK4QcFgGd1nDe/AIY0u5NvoBKGmQdbxel+P6Wm7bkC/VuhKw
+         giRQxgkN7W2TycD+zyjaSFOjMakrG4LYxT/uOCSloWkRChsuOtCOKoxtElAo4bnhsmpt
+         kH73T6lKXQLgYvL5B6J99bF+rVKGKTuy3/yrrb4bn4BKIaKoWUUUTu7peaqCxNTV6bwe
+         3LLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789036664; x=1789641464;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6EF+UHNSS4hI0lePcCf3NeWVNl/rHsUyRzTVnqSXcQw=;
+        b=icrcJgOJUOqrHuY3NU4pX3uiciQdPcRdSBZKT8vvfLSE3ECoEfqanEdj2+oO07sf3+
+         ymTy7OvZ+47CvGrBp7+iUT865JACLZG/stvVRbdvv1dewPS4b3atvDPJ+69a6CY7Iibs
+         8qLU39lWXw9X1he9x+qFTL/9VVVav7cAOk3gAlOJI9xWl/K8JywkqQD6aYIxLM5npb1q
+         Os4sSujrPE4/Ep0E5uxqrT+TwdfdaZ7oe06d5eteDbDL8xq6zB3mV2l076wCxzEWlUDO
+         0+BAoB7rBmmMU/l6HsuNX7WH9IWB4mjPu65B7CUOd/QmGD/J21TlP+Bap7xoWkG1h1xZ
+         qKZQ==
+X-Gm-Message-State: AFuF++lq0bPaBM2d6f3o+X4l/yIo3j91p2wMrEz3asooZhqJiK9fnLbE
+	+8BlC0DWwCi/K+L74HBXPfxIXt7w/aHI/tIxK5dLFrpGJQhXEo4edArMCXs0Hr+bANY=
+X-Gm-Gg: AYBFou1S76nPHi2qdxASjfokEhGXyDV7GWiqrmdj/kEWF6axTh8ggdDcUZCXHjsdxxN
+	qloiR/pEAjq2pYJbYBeC7qtieXRwySo0FblO8k0QLNTe8dLqnfiF5a+VXIRY1dPm471TFVg0AKu
+	ByQ9OsdenfELF629xUEvWXufSEXZi840ehfww9ZwNfW+hVY/0Pw38Nq9ybafjv/qiAcdwSMtKJ2
+	GwLNsvOfMBRQ8fL7DGD/6rGLdX3dJ5HF9r3McWnNwwr4+fWiVTxALDakizmMrjRa0ipPnue8bVq
+	+A+VlQD9ypntL9hTIaz48pdZf06H9KOwPKoIHDB40qZiuAUW2qn0FpcAT/5oihXNDIX6A9BW+tT
+	bcV3YlYfdM1k37Z268s1ASX2KILXaX27KmqFKuFSbGWanoyXzusFNPuYW/iQp9+OUutOAv+oI3Y
+	ywt3e2rIfKZhWit1gx0T+AG2XplSIk2j0HVLzp/2beL3ApJR4CCcsgpBGhcqRT6KKt+2MYwf1n5
+	aP+WHzItYjer1DAgw==
+X-Received: by 2002:a05:6000:24c1:b0:484:482d:dce4 with SMTP id ffacd0b85a97d-486d7322325mr4803704f8f.0.1789036664113;
+        Thu, 10 Sep 2026 03:37:44 -0700 (PDT)
+Received: from localhost (82-67-6-57.subs.proxad.net. [82.67.6.57])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858ab73c2bsm48835518f8f.22.2026.09.10.03.37.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 03:37:43 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-sunxi@lists.linux.dev, conor+dt@kernel.org, robh@kernel.org,
+ mfd@lists.linux.dev, lee@kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v7 3/5] dt-bindings: mfd: x-powers,axp152: Document AXP318W
+In-Reply-To: <20260910094251.A112A1F000FF@smtp.kernel.org>
+References: <20260910-axp318-regulator-v7-0-de720ceb9bac@baylibre.com>
+ <20260910-axp318-regulator-v7-3-de720ceb9bac@baylibre.com>
+ <20260910094251.A112A1F000FF@smtp.kernel.org>
+Date: Thu, 10 Sep 2026 12:37:42 +0200
+Message-ID: <1jtsnx75op.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] net: sun4i-emac: fix missing of_node_put() for phy_node
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178903620363.1343389.14128399627262253233.git-patchwork-notify@kernel.org>
-Date: Thu, 10 Sep 2026 10:30:03 +0000
-References: <20260904080758.2432748-1-dayou5941@163.com>
-In-Reply-To: <20260904080758.2432748-1-dayou5941@163.com>
-To: =?utf-8?b?5p2O5L2R6bi/IDxkYXlvdTU5NDFAMTYzLmNvbT4=?=@aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org
-Cc: netdev@vger.kernel.org, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, wens@kernel.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, liyouhong@kylinos.cn
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello:
+On jeu. 10 sept. 2026 at 09:42, sashiko-bot@kernel.org wrote:
 
-This patch was applied to netdev/net.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
+> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+e(s) to consider:
+> - [Medium] The new `x-powers,axp318w` compatible string is omitted from t=
+he conditional block that makes the `interrupts` property optional for rece=
+nt generation PMICs.
+> --
+>
+> commit e4119d6ce87c67baf660bd6f040790fb69b77af3
+> Author: Andre Przywara <andre.przywara@arm.com>
+>
+> dt-bindings: mfd: x-powers,axp152: Document AXP318W
+>
+> This commit adds the compatible string x-powers,axp318w for the AXP318W P=
+MIC
+> to the binding schema. It also adds new input supply properties and updat=
+es
+> the regex for matching switched output nodes.
+>
+>> diff --git a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml =
+b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
+>> index 45f015d63df16..38556c32417b3 100644
+>> --- a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
+>> +++ b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
+>> @@ -83,6 +83,7 @@ allOf:
+>>            contains:
+>>              enum:
+>>                - x-powers,axp313a
+>> +              - x-powers,axp318w
+>>                - x-powers,axp323
+>>                - x-powers,axp15060
+>>                - x-powers,axp717
+>
+> [Severity: Medium]
+> Does the x-powers,axp318w compatible string also need to be added to the
+> earlier if-then block that governs the interrupts requirement?
 
-On Fri,  4 Sep 2026 16:07:58 +0800 you wrote:
-> From: Li Youhong <liyouhong@kylinos.cn>
-> 
-> of_parse_phandle() returns a node pointer with an elevated refcount.
-> Add the missing of_node_put() on the probe error path after
-> register_netdev() fails and in emac_remove().
-> 
-> Fixes: 492205050d77 ("net: Add EMAC ethernet driver found on Allwinner A10 SoC's")
-> Signed-off-by: Li Youhong <liyouhong@kylinos.cn>
-> 
-> [...]
+Ahhh, got it the other way around first time this poped - resending ...
 
-Here is the summary with links:
-  - net: sun4i-emac: fix missing of_node_put() for phy_node
-    https://git.kernel.org/netdev/net/c/af406abfecad
+>
+> Just above this hunk in Documentation/devicetree/bindings/mfd/x-powers,ax=
+p152.yaml,
+> there is a block that makes interrupts mandatory for all PMICs except a s=
+elect
+> few:
+>
+>   - if:
+>       not:
+>         properties:
+>           compatible:
+>             contains:
+>               enum:
+>                 - x-powers,axp15060
+>                 - x-powers,axp305
+>                 - x-powers,axp313a
+>                 - x-powers,axp323
+>
+>     then:
+>       required:
+>         - interrupts
+>
+> By omitting x-powers,axp318w from this enum, the interrupts property is
+> mandatory for the new PMIC. Could this cause device trees with an unconne=
+cted
+> AXP318W interrupt line to falsely fail dt_binding_check validation, given=
+ that
+> similar recent generation PMICs operate fine without it?
+>
+> --=20
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260910-axp318-r=
+egulator-v7-0-de720ceb9bac@baylibre.com?part=3D3
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+--=20
+Jerome
