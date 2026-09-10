@@ -1,112 +1,338 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF483BC664;
-	Thu, 10 Sep 2026 09:42:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BEE63CF660
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Sep 2026 10:25:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789033380; cv=none; b=dXdHoxpDKWbuaH5SU2X40UXkzkCloCA2pYA2MDGk3XbdKRZ/UiiF9fZBe5aezlll4dCN/G4WCUmyNPriCEHnYofTZ8Ykk8VAQ086omm2eq5cPmr4Y7yxm76ToNon/trrLwludHSGuQ3od21OR2DHLOG16Hg4EeBHFVmMbmht+fU=
+	t=1789035946; cv=none; b=QOr24JX8z74+k5nMTVpe0+tYmbL3BXbKdbE7CTpDl3Dy1rBER0EumiggNlZi86g33tmmRAXb+lqT6tsO2WtEeE+D6fWqpY7GJwd8BMdSxfDdEkXcHF1OyIwj0ojod7tCWuwRrD8J5RohRHMQIMzJOSNLyzCqsyyD+2JQKtSc/bk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789033380; c=relaxed/simple;
-	bh=/FQL4WQ33zMdv6oCe8RaBHGKfV61dhiWc0xv+AXjrk4=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=k423JCwOeoYWs2uzO7riWXSXTPqE40Wpu/k/EnaghKYzp0WDY2pJ1L87JrEEQ+lbF7nj93nWEnmeY358vcQ/bMd/U6rEid94iW1NK2TqjaImbVk9Mf0G2+3hnWDPiVPUlu2VCltW9F62dEDl3IIVrevP9giSxwCRQUYHzeAsflw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bqlALvY+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789035946; c=relaxed/simple;
+	bh=dGwRU59pe0sF4kjsOhQWQNnHY2FCR9s7ump401KQyLE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=koPSCW5VCRvF2EUqTaX2mcUA5nZA+A91NQKY6VXI0nJUBKX7b1CEdLUeBeozZXWROtiGPgBv1zD94CTB8OP+lfWZmLR30TTnqH235HS7BK8KUgxfWyUjKOlOdoX5LSunTb11u3687CuWh5Qbz55YO8wGl0iDvnoarYjnrjV6bek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=nmRHESJf; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bqlALvY+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A112A1F000FF;
-	Thu, 10 Sep 2026 09:42:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789033372;
-	bh=vShnt9wWKn3X8ZG3FWjjvBLowvrx6L1p6UupCG6pDQw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=bqlALvY+Yu2oUOV56Za/WtfOUlxZGyKFplQexW3cTEoN/Fd8ERusgS+UPS40hX/9G
-	 z/ij69jGCQ7neTI6raW/ybOkwzcXud+ylrQXniuDFD6JiamTdFLlJI/BVzYnHVRCGB
-	 k2+62Qsf+sMM5nr6YDTPxCgBTMlP2Lr5fRaiyIgHf+M2/nf/NsPNYjhqBW94tbKSFj
-	 GYzWzEQOrulCuRh0bnA6dIEvV/UyovNluTJRztFvroLr/SqGbzPyZGXLIDN/4Cxzo8
-	 hdADM+WwlYTxcJD12Xp+1nxWmGSjLq3dWkBItOTRxQ9jJA36LQ2Vfm35CxMUtjUbN5
-	 b0+bRL9akklAw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 3/5] dt-bindings: mfd: x-powers,axp152: Document
- AXP318W
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jerome Brunet" <jbrunet@baylibre.com>
-Cc: linux-sunxi@lists.linux.dev, conor+dt@kernel.org, robh@kernel.org, mfd@lists.linux.dev, lee@kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20260910-axp318-regulator-v7-3-de720ceb9bac@baylibre.com>
-References: <20260910-axp318-regulator-v7-0-de720ceb9bac@baylibre.com>
- <20260910-axp318-regulator-v7-3-de720ceb9bac@baylibre.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Sep 2026 09:42:51 +0000
-Message-Id: <20260910094251.A112A1F000FF@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="nmRHESJf"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912e64ccso8797165e9.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Sep 2026 03:25:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1789035940; x=1789640740; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=zolPHkX75MVfEQoqJHx0lnD2lNS7PbBbxJvARPQA/YM=;
+        b=nmRHESJf+2ov/EdI8tRR0X5vfbIwMoDQusfyo+Uj0yhybxJq7oMLOhdPYUHLEu5Qz2
+         sP7biq2gS13hHstoP4ENDvKwvpONYnWEDSxCo7vt8EycHYi5z2lCGBQvfI6PG6kHokGP
+         qi2bTpG4F9nb5uogjvYA2rC5d+er2xc7nRnS7CQHMSCSXMQIqYpVfOlaMRiLhjnS8iUw
+         aTpoZirVSLnHeabDgG2D5rj2M8QC+yCGma81bNifpxxp7/3mGq95Io+PXnnIS9HHWKaS
+         orF6R5rhI619A+7LI+O55CB8JR2cGP+OEaqXUGEchJo/Nwj/Vwyl+a3U7bIBaa6ZEZA3
+         It7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789035940; x=1789640740;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zolPHkX75MVfEQoqJHx0lnD2lNS7PbBbxJvARPQA/YM=;
+        b=qrCm3UETGN6DKtk1pFs3+/Ghuu05kTGD6K8jOG+kW3BxBLxCupLGpGdEkO5k51pI2K
+         /jIEhPlJnP316EUHXnlOumW77Gijs50E0A1kpqFdBY7trF94ptx2KHol5jZMzSVu+bK6
+         0VoERPZeDdhuUgDR3j1YZOOO0kNFip0Qidpg2+Tr2yDsFYqPVbmr0OpzJtYrw1fR1emP
+         4q1cmk4qc/qw2SNySF+RljyAT0uqqO8T/DcY10EmWMmksjRd01Xkgj8BT1Mwu5paMBy5
+         x5xqPpetQ8DDz/75G7I+lRWLH6Pz7H7x+/7RimkULDLMwfgi3/k6Zx39csDIHb+x/VLR
+         Mvgg==
+X-Forwarded-Encrypted: i=1; AKwUvBw/2WYdWhVnRmdS/NPa7UzzSGKMG/a/nw7sGnFBxy5mPAitX6HNCJt3lSeakJLmjFyTqFrKJpXRcPq7QA==@lists.linux.dev
+X-Gm-Message-State: AFuF++nbssMtL5guT8//Ev14Qw/nlhKfx9iMXdfLLV9/dVWgLoG9NMUs
+	b5Gp4jsqL2epSRADaY4/mD0ejtsXjJhk56YArxukdSpOTsZBlzUy3W2OG3rGjjuwrmg=
+X-Gm-Gg: AYBFou0RFJpl9FH6QE/yXUXYNfrcIfeIlOD2E3p9VW4v9Nb6zeDswYyVIG3mo42wGdH
+	EpiDeM6g8oOhXWsmUZq2oBqxPPe2riSzNPjY90NXSE6kwJ19SMUL6zCrwqD2lyKS+Ow7K2BlokC
+	AQGH11wDio2xq/MSBfwy+aBmj3awUU6k4+se8tLb6tSpdni5wLuaJoX1DFAmFEYpKwdBanLNROz
+	lO0wB3lDyAxSx6MY/MeZ33rMc4pg5Ydjt743fOVjU7N6Ps+ap2pMKR97ijMQLHNl6DdCEregf0w
+	FpXypBLdVqNKeBQAkt1xWY/oGm+8p75iRNaBYJUtH3CED1XD5KqEITYTs+cqWIBW+V1O2Gh62Gj
+	snIP+L1Rb5qy+21+ARwwcLF+U5QHJGz9UYgj8PzaNVYxwD57QdB+SOMeBOYZ2xELfh5YHAjieSm
+	+U0jmPL1JrVhL7YslelQJDSxL3leKUXRtDzwql6SFDodGqslx4LwaXnm82KKJAtQacE53inrg6L
+	LJ8ms9YzQjjKr/yZe7mWgigODPS
+X-Received: by 2002:a05:600c:5647:b0:499:b65e:49c9 with SMTP id 5b1f17b1804b1-49d259138bamr96347135e9.10.1789035940023;
+        Thu, 10 Sep 2026 03:25:40 -0700 (PDT)
+Received: from localhost (82-67-6-57.subs.proxad.net. [82.67.6.57])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26c07c17sm80398975e9.14.2026.09.10.03.25.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 03:25:39 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+Date: Thu, 10 Sep 2026 12:25:26 +0200
+Subject: [PATCH net-next v2 1/2] dt-bindings: net: sun8i-emac: Add A733
+ GMAC210 compatible
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260910-allwinner-a733-gmac-support-v2-1-4f4a1e520c23@baylibre.com>
+References: <20260910-allwinner-a733-gmac-support-v2-0-4f4a1e520c23@baylibre.com>
+In-Reply-To: <20260910-allwinner-a733-gmac-support-v2-0-4f4a1e520c23@baylibre.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Richard Cochran <richardcochran@gmail.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>
+Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+ Andre Przywara <andre.przywara@arm.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6093; i=jbrunet@baylibre.com;
+ h=from:subject:message-id; bh=dGwRU59pe0sF4kjsOhQWQNnHY2FCR9s7ump401KQyLE=;
+ b=owEBbQKS/ZANAwAKAeb8Dxw38tqFAcsmYgBqooWeZxMiwo0um19rhs5hPFUy/F70TN34N0ekt
+ c3qzsdT2TaJAjMEAAEKAB0WIQT04VmuGPP1bV8btxvm/A8cN/LahQUCaqKFngAKCRDm/A8cN/La
+ hZejEACg/bnxpg1KnlHEiJc1VDPDY/+8Ow0tT+fJQXkXgHPAU+MRARUHKSaHbj+FMtI5pbY64+b
+ UkybYmYJ9kNkhCCZqTa3/mp9jzot/dvYXHo1H0FwBgLVmEa2h73TBHdkAjG5xD+OkyCXXU7GmXb
+ HEzv8RGdsYOdTX/ixDdAEAnlwNs4yHRQmCGGXZtIwKDQPXbt1I+LT53o5ybGtdPsO92fx0Aalgo
+ 9bNcYqKqYAOffOjVIekKYLXlND4noSrjNk7qTpOffkNxApJZceY/jPhVHnPa/A4UpAQ4npCdvw0
+ q90kfKOaPWDj2dmWKAtODernP/0mY+4Ahp1z6Rm4ytDnQ2z+nk6q6kjZh3iB1SjDF/CC0yueScx
+ qXFJluTkuPAS/1mgYmwlhQhduO0oehARz+k6UUwJygDhgeQtdVR5pS3Jpb2dg7ECCxAqMoOZzJ7
+ BlCrQUuX30rB7xmkBRhBf1V4iF9lUOr3P0wftVWp3W3P8+845yd/7fwVelvJOkIST8hN94YZ2EB
+ o2Zze9jYQDRlvmtiy745TjgdrCArVVZt/DuDe6unpPK27lLul9wAU3I8aHV0bW8n24c7kHADMzW
+ x3PvX0rb7p5jFJntcdzqeBjvYoQYzb3Iodqa9A2Rbn29RPtMbAQB7rRfOjr7VWQofw3W/OAjcc/
+ UHMDa2b4r0x4qRQ==
+X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
+ fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] The new `x-powers,axp318w` compatible string is omitted from the=
- conditional block that makes the `interrupts` property optional for recent=
- generation PMICs.
---
+The A733 GMAC210 is a DesignWare MAC 5.20 close to the A523 GMAC200, with
+the following differences:
 
-commit e4119d6ce87c67baf660bd6f040790fb69b77af3
-Author: Andre Przywara <andre.przywara@arm.com>
+ * The glue configuration registers are a dedicated MMIO region of the
+   controller instead of a syscon register, so a second reg entry replaces
+   the syscon phandle.
+ * The DMA channels and the LPI event have their own interrupt lines.
+ * A PTP reference clock and an AHB reset are needed.
+ * Unlike the A523, the controller does not appear to belong to a power
+   domain.
+ * The TX clock delay field is 5 bits wide, allowing up to 3100ps.
 
-dt-bindings: mfd: x-powers,axp152: Document AXP318W
+Add the new compatible and describe those differences.
 
-This commit adds the compatible string x-powers,axp318w for the AXP318W PMIC
-to the binding schema. It also adds new input supply properties and updates
-the regex for matching switched output nodes.
+Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+---
+ .../bindings/net/allwinner,sun8i-a83t-emac.yaml    | 130 ++++++++++++++++++---
+ 1 file changed, 115 insertions(+), 15 deletions(-)
 
-> diff --git a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml b=
-/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> index 45f015d63df16..38556c32417b3 100644
-> --- a/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> +++ b/Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml
-> @@ -83,6 +83,7 @@ allOf:
->            contains:
->              enum:
->                - x-powers,axp313a
-> +              - x-powers,axp318w
->                - x-powers,axp323
->                - x-powers,axp15060
->                - x-powers,axp717
+diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
+index 323a669fa982..fec42f46378a 100644
+--- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
++++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
+@@ -22,6 +22,7 @@ select:
+           - allwinner,sun8i-v3s-emac
+           - allwinner,sun50i-a64-emac
+           - allwinner,sun55i-a523-gmac200
++          - allwinner,sun60i-a733-gmac210
+   required:
+     - compatible
+ 
+@@ -44,25 +45,38 @@ properties:
+       - items:
+           - const: allwinner,sun55i-a523-gmac200
+           - const: snps,dwmac-4.20a
++      - items:
++          - const: allwinner,sun60i-a733-gmac210
++          - const: snps,dwmac-5.20
+ 
+   reg:
+-    maxItems: 1
++    minItems: 1
++    items:
++      - description: MAC controller registers
++      - description: Glue configuration registers
+ 
+   interrupts:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 4
+ 
+   interrupt-names:
+-    const: macirq
++    minItems: 1
++    items:
++      - const: macirq
++      - const: eth_lpi
++      - const: tx-queue-0
++      - const: rx-queue-0
+ 
+   clocks:
+     minItems: 1
+-    maxItems: 2
++    maxItems: 3
+ 
+   clock-names:
+     minItems: 1
+     items:
+       - const: stmmaceth
+       - const: mbus
++      - const: ptp_ref
+ 
+   phy-supply:
+     description: PHY regulator
+@@ -87,7 +101,6 @@ required:
+   - reset-names
+   - phy-handle
+   - phy-mode
+-  - syscon
+ 
+ allOf:
+   - $ref: snps,dwmac.yaml#
+@@ -219,36 +232,94 @@ allOf:
+       properties:
+         compatible:
+           contains:
+-            const: allwinner,sun55i-a523-gmac200
++            enum:
++              - allwinner,sun55i-a523-gmac200
++              - allwinner,sun60i-a733-gmac210
+     then:
+       properties:
+-        clocks:
+-          minItems: 2
+-        clock-names:
+-          minItems: 2
+         tx-internal-delay-ps:
+           default: 0
+           minimum: 0
+-          maximum: 700
+           multipleOf: 100
+           description:
+-            External RGMII PHY TX clock delay chain value in ps.
++            Internal RGMII PHY TX clock delay chain value in ps.
+         rx-internal-delay-ps:
+           default: 0
+           minimum: 0
+           maximum: 3100
+           multipleOf: 100
+           description:
+-            External RGMII PHY TX clock delay chain value in ps.
+-      required:
+-        - power-domains
++            Internal RGMII PHY RX clock delay chain value in ps.
+     else:
+       properties:
++        reg:
++          maxItems: 1
++        interrupts:
++          maxItems: 1
++        interrupt-names:
++          maxItems: 1
+         clocks:
+           maxItems: 1
+         clock-names:
+           maxItems: 1
+         power-domains: false
++      required:
++        - syscon
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: allwinner,sun55i-a523-gmac200
++    then:
++      properties:
++        reg:
++          maxItems: 1
++        interrupts:
++          maxItems: 1
++        interrupt-names:
++          maxItems: 1
++        clocks:
++          minItems: 2
++          maxItems: 2
++        clock-names:
++          minItems: 2
++          maxItems: 2
++        resets:
++          maxItems: 1
++        reset-names:
++          maxItems: 1
++        tx-internal-delay-ps:
++          maximum: 700
++      required:
++        - power-domains
++        - syscon
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: allwinner,sun60i-a733-gmac210
++    then:
++      properties:
++        reg:
++          minItems: 2
++        interrupts:
++          minItems: 4
++        interrupt-names:
++          minItems: 4
++        clocks:
++          minItems: 3
++        clock-names:
++          minItems: 3
++        resets:
++          minItems: 2
++        reset-names:
++          minItems: 2
++        tx-internal-delay-ps:
++          maximum: 3100
++        syscon: false
++        power-domains: false
+ 
+ unevaluatedProperties: false
+ 
+@@ -412,4 +483,33 @@ examples:
+             };
+         };
+     };
++
++  - |
++    ethernet@4510000 {
++        compatible = "allwinner,sun60i-a733-gmac210",
++                     "snps,dwmac-5.20";
++        reg = <0x04510000 0x8000>,
++              <0x04518000 0x1000>;
++        clocks = <&ccu 58>, <&ccu 59>, <&ccu 60>;
++        clock-names = "stmmaceth", "mbus", "ptp_ref";
++        resets = <&ccu 30>, <&ccu 31>;
++        reset-names = "stmmaceth", "ahb";
++        interrupts = <0 175 4>, <0 179 4>, <0 176 4>, <0 177 4>;
++        interrupt-names = "macirq", "eth_lpi", "tx-queue-0", "rx-queue-0";
++        pinctrl-names = "default";
++        pinctrl-0 = <&rgmii1_pins>;
++        phy-handle = <&ext_rgmii_phy_2>;
++        phy-mode = "rgmii-id";
++        snps,fixed-burst;
++
++        mdio {
++            compatible = "snps,dwmac-mdio";
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            ext_rgmii_phy_2: ethernet-phy@1 {
++                reg = <1>;
++            };
++        };
++    };
+ ...
 
-[Severity: Medium]
-Does the x-powers,axp318w compatible string also need to be added to the
-earlier if-then block that governs the interrupts requirement?
+-- 
+2.53.0
 
-Just above this hunk in Documentation/devicetree/bindings/mfd/x-powers,axp1=
-52.yaml,
-there is a block that makes interrupts mandatory for all PMICs except a sel=
-ect
-few:
-
-  - if:
-      not:
-        properties:
-          compatible:
-            contains:
-              enum:
-                - x-powers,axp15060
-                - x-powers,axp305
-                - x-powers,axp313a
-                - x-powers,axp323
-
-    then:
-      required:
-        - interrupts
-
-By omitting x-powers,axp318w from this enum, the interrupts property is
-mandatory for the new PMIC. Could this cause device trees with an unconnect=
-ed
-AXP318W interrupt line to falsely fail dt_binding_check validation, given t=
-hat
-similar recent generation PMICs operate fine without it?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260910-axp318-reg=
-ulator-v7-0-de720ceb9bac@baylibre.com?part=3D3
