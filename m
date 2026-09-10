@@ -1,55 +1,61 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A8B3DFC7F;
-	Thu, 10 Sep 2026 09:32:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAD0396D13;
+	Thu, 10 Sep 2026 09:34:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789032760; cv=none; b=aM/SeAg6CANFRbQbXG/aGmldk8Q+ecLyWpr2/T9CZy18gFjsp4RdTMZS7jsZvTB35apWI3SX8zD+JkU8AwgHb5sFQc4+1NqUUQWGFUrWDrUJUa8mcK1MbmyURCxrJ8zVLGJWhmP0jp32fN/Sz9wUB8O4qmNGoEZBaR/l+Ya3rxA=
+	t=1789032898; cv=none; b=OoIhZ1CiJxZsg9mhpH9yJAf+WFKdp3Tf0lGr3h8rJI8rmeoRqm+FJPJ9IMHxb/GM2uiFu8vdzWiCsZqkvdZmNLO5AA1xM7QeitogHRAfLBJ2NVky1g2HHdaWwqVpmCRzTBs6JPt6qrP+9f9g9164+WskTs0HUiKPF+QG7vfztY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789032760; c=relaxed/simple;
-	bh=KuzezYUAE9m1yyovJFTksGm/0DLv8v+/ivXAKx4Oywg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KwG9ftN2NpR+YLD7T2lWtT3H93yMYLus4QXsFn6OFFKHWQZ7R823cUBzaE1cybaPruO4y0dcTtlJ0PoajvVMc50FCyR4ZZQ+VnYRi5cvO/6zPhFtxC1ERl7xEILkD5empXVebfh1wNEKRlHR8TANux9x9d7GPCopKKN0j9J2O60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IFL4lmxM; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789032898; c=relaxed/simple;
+	bh=jTnUjcazQGxN7YyVuB+HY8VyHyC3cX22vFIMW/lUYvo=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=WSjwsCOqYyJmciJ3rnpCI6JS6dLucVDb5sGFgDG/Wg+3iKAj6uL32cXyQKysrpxXIIkJtwToimeYcMmn0KFWLKKeXEZ6x6phU2UmGT0C5XdNZgtn4P4NVMcGeJoka12lAbVVFw0e6FBgJPmdgvfCulXvbOTCnAkIbbP/b1ipIxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VLpIIb5m; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IFL4lmxM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B8231F00893;
-	Thu, 10 Sep 2026 09:32:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VLpIIb5m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DBF41F000FF;
+	Thu, 10 Sep 2026 09:34:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789032758;
-	bh=Y2PSETY3iMWTYoG2jjWvtnuSGjXmjTaXlOm8yiCF42c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=IFL4lmxMD5EelRZ3jzeWvMLvSrZvE0MrP9VzZTSMoCHp/bTwtbUwprwsY/OesAZxR
-	 uT4LGo7TjoufM6BqnaoaYvAUMiOW/4r3on8hDstRJo/Jx/7J6BO3B4UoFwTJcsX0Pz
-	 e5BedswJgcwStLz4bOpYrQvW4kpVRti7OmAN6wSNtQVNiA4NYWYATh+bPZsgS2soL7
-	 LEHjEX2KdVjvXw8c1EnR6LtxYdNSyMmV1Xt7b/yKexb66W5r8gM4S4PJE72mzUKVuz
-	 EJiHeDnByVkiL9qrQXn7yikbn2oHdEn8xPjO9oiWn8DtSFNdX/4GPC01uzTqrweBVm
-	 6/3DVDhx9etEA==
-Date: Thu, 10 Sep 2026 10:32:36 +0100
-From: Simon Horman <horms@kernel.org>
-To: sashiko-reviews@lists.linux.dev
-Cc: Li Youhong <dayou5941@163.com>, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] net: sun4i-emac: fix missing of_node_put() for phy_node
-Message-ID: <20260910093236.GP40544@horms.kernel.org>
-References: <20260904080758.2432748-1-dayou5941@163.com>
- <20260905080854.5CAB41F00A3D@smtp.kernel.org>
+	s=k20260515; t=1789032896;
+	bh=jTnUjcazQGxN7YyVuB+HY8VyHyC3cX22vFIMW/lUYvo=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=VLpIIb5mGiXlYL35DjbYfVFTOjm7aB4KV7ErpPPd8AqlN4ovbUa/LhaQWy3Tsaj3Q
+	 7B0KMdN6I+GLvbP/SW8Rips51819d13YY3TCPM6IHHDgqzRXTZX30/BmtQADav4hb5
+	 F+OfCTyCY5uFJU0zgEDAGnnkXJP3/mbFqIUlCySI9GwM2BdlN1cJ4PTamQAg/cu19H
+	 YrYQNyKz/s/VpVjwwgAyX2Q7EfoWa3wBQzFmt7AaI4NtLIRuIUsda1QhFqs3phssSh
+	 msxX14914t1KcYGgyXi6izqWkwqe7ykKhnhQ82/4vLBlm89epXQgBqsBjgH9J4OKSw
+	 bb3dBNf6hLIng==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v7 1/5] mfd: axp20x: Constify axp313 and axp717 cells
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Jerome Brunet" <jbrunet@baylibre.com>
+Cc: lee@kernel.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, mfd@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20260910-axp318-regulator-v7-1-de720ceb9bac@baylibre.com>
+References: <20260910-axp318-regulator-v7-0-de720ceb9bac@baylibre.com>
+ <20260910-axp318-regulator-v7-1-de720ceb9bac@baylibre.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 10 Sep 2026 09:34:55 +0000
+Message-Id: <20260910093456.1DBF41F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260905080854.5CAB41F00A3D@smtp.kernel.org>
 
-On Sat, Sep 05, 2026 at 08:08:53AM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
-> 
-> Pre-existing issues:
-> - [High] Unconditional call to `dma_release_channel()` with a potentially NULL pointer in the `emac_probe()` error path causes a kernel panic.
-> - [High] Premature release of the DMA channel before `unregister_netdev()` in `emac_remove()` creates a use-after-free race condition.
+> mfd_cells array should generally be const and there does not seem to be
+> anything against it for the axp313 and axp717.
+>=20
+> Constify the mfd_cells array for the axp313 and axp717 to be consistent
+> with the other supported chips
+>=20
+> Acked-by: Chen-Yu Tsai <wens@kernel.org>
+> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 
-While these seem to be real bugs that ought to be fixed
-I don't think they need block progress of this patch.
+Sashiko has reviewed this patch and found no issues. It looks great!
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260910-axp318-reg=
+ulator-v7-0-de720ceb9bac@baylibre.com?part=3D1
+
