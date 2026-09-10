@@ -1,116 +1,209 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98C837DE84;
-	Thu, 10 Sep 2026 14:15:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD4733D503;
+	Thu, 10 Sep 2026 14:30:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789049761; cv=none; b=KRvNjBx4ufS98GfOjLy5wXniziVnug/2BOR9sjQc1zEZJKRwFXmCkNCgdfDPVs2A2agsaxwQf2br5ymPnvOhkwrT5675RZKPd9fbxJSKucx6Cfx3WCidIqi9aYQPGH2nNqpAnDA6UCJdQSQPkdLsHvfHqm1rMeUFhgujtygKl24=
+	t=1789050653; cv=none; b=HL0KqahasHfLnd3m6VgyTDqW300OZE4MjFxiIdYpEBYsJLoxl5r+3VyGFAzhUTjJwg9S5nmhp+ZGPLtOsWjHRVsYxXT3CcQXwqekgrYnEDBC+eXyqFKVTNR8IYNbOJ3VpgX8tk3QOeIbFiI0X6OdiC0EoeD2M9PTBuE6Zf98Xj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789049761; c=relaxed/simple;
-	bh=NGknmsiTUNy76NnNSY6/J4LMDSoVi5VvWa9Y19mr2XU=;
+	s=arc-20240116; t=1789050653; c=relaxed/simple;
+	bh=qGJjhW2tiqQ505Mcqfr/h4UQhciVjoCrFy8wVz1FUrw=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=iZNt7o0XXq/sNmsHToSdJ6e3wIFMVgsq/rbnZZqHH6pKgCe0GPA5GmjwCIiR7MTsCtgzVspxST7J3eiTEYXj1r5uVvc+qcAFugqaMREIA7Ra2iIrTiRi6NIZr6IA9mOPm1pZ/V0f8F0t+AuQQ/4gQ/VnVjOjljjvEyAha35NRP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gESt60ah; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=Fscj80lRMUSibpruDyFTldZQoEajWnM4eNS/glO9bR8kWr1qBk4DB5cvalR35U4GDVwmpuhZFWalA3jF60cn9lMsy7lyOdWKlM8EluHUWb45T/WlbPmILomPq+47zeFuu+Vzc8Zy+6iiHbBjrYjl9ChJrDDz+NcN154s3P68Cpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LK6ynGKA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gESt60ah"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53BB91F000FF;
-	Thu, 10 Sep 2026 14:15:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LK6ynGKA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAD6C1F00893;
+	Thu, 10 Sep 2026 14:30:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789049759;
-	bh=8e1wqp4LmaFk8k9rzuJpCvedtwf/1AvJl5p0APNi+3U=;
+	s=k20260515; t=1789050651;
+	bh=l8ybbom8pXjdltuZTVtaDU6ogFdQ7EbuCMLVvuB+9XM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gESt60ah5/yXZxyjepZF0pmpnJpoIlFYFkvp8yrXMCzIMaaicvtmvQXx8DnyyV5Vq
-	 wdUaTwVcaNKrwvSv7qpMu6TI2qXGg/3LxO4H5gPmw0Z+iCqxI+NWKGbnx0SfM/xePA
-	 6eswJr0ViH1FT1HYnlbClJYwF2rvp3lqSNe8fawbp+cPcr3F7bHJcAnJqoeN7SjxaY
-	 EWGd/YP+NWpWXBisSVzwnyY4gCMBgUNKvW1Z2O2cweAPV4jqp3DWi4wmUl4v+0At85
-	 NR86PQrYen13vWvArOTKRvO80xVy9K//fb6dHB/RDM5Oe39XiyFXrLnaMlASR4ik/W
-	 3jJDprAHxsWBA==
+	b=LK6ynGKAR6qTxZ2iHXMQWD+/bui82jQRzhqLiv0sfhtWrJ5CCk+ibCnR2fH7Cspts
+	 GwHFkCuqUJacnLPptX7MSTaa52BESQfQM+q9VbR65MCMpmL4OQPdIMsC1wYx+bt/8V
+	 BuZ+Wg9Z3tqqROmOHIe3EtAvxPqWlw0KGMnQO+jR3GbCO7TcAZwx0EgfMa4I/9e7nL
+	 WLoZmrm3nIsq4OkxiDEyc1wz2GfQMyLWUbOk7wxQX/FYu/ADVOQFctonj7jZvdoHGO
+	 XcyOujTKfS/3oIrW59uYScBCwqMS32A0Kgx+g6v62f8iWhVFNUXTy4QXPvZPvuAVqs
+	 Wxv4pSBUbmVcw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 6/7] pinctrl: sunxi: a523-r: add a733-r compatible
- string
+Subject: Re: [PATCH 7/7] pinctrl: sunxi: add support for the Allwinner A733
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Andre Przywara" <andre.przywara@arm.com>
-Cc: robh@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260910133519.459011-7-andre.przywara@arm.com>
+Cc: conor+dt@kernel.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, robh@kernel.org
+In-Reply-To: <20260910133519.459011-8-andre.przywara@arm.com>
 References: <20260910133519.459011-1-andre.przywara@arm.com>
- <20260910133519.459011-7-andre.przywara@arm.com>
+ <20260910133519.459011-8-andre.przywara@arm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 10 Sep 2026 14:15:58 +0000
-Message-Id: <20260910141559.53BB91F000FF@smtp.kernel.org>
+Date: Thu, 10 Sep 2026 14:30:50 +0000
+Message-Id: <20260910143050.DAD6C1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
 s) to consider:
 
+New issues:
+- [High] Incorrect mapping of logical to physical IRQ banks for NCAT3 layou=
+t breaks all A733 GPIO interrupts.
+- [Medium] Commit message contradicts code regarding pin counts per port.
+
 Pre-existing issues:
-- [High] This problem wasn't introduced by this patch, but the static `desc=
-->npins` counter accumulates on probe deferral, causing out-of-bounds array=
- reads with negative indices.
+- [High] Off-by-one logic in `irq_bank` assignment causes out-of-bounds arr=
+ay writes and reads when a SoC's first bank has no pins.
+- [High] Global static struct mutation across probe deferrals causes NULL p=
+ointer dereference and kernel panic.
 --
 
-commit 0f0363ee56222ed4bd5f82e32e391a15a8e11f99
+commit 8c3148d94675fca6724f59ce7243638c15e54f3b
 Author: Andre Przywara <andre.przywara@arm.com>
 
-pinctrl: sunxi: a523-r: add a733-r compatible string
+pinctrl: sunxi: add support for the Allwinner A733
 
-Adds the allwinner,sun60i-a733-r-pinctrl compatible string to the A523-r
-pinctrl driver. The driver is reused for the A733-r IP since it shares a
-similar two-bank layout, with specific pinmux values provided by the DT.
+The Allwinner A733 changes the layout of the pinctrl MMIO register frame, b=
+ut
+stays otherwise rather close to the previous IP. The main PIO looks similar=
+ to
+the one in the A523, with ports B-K being implemented, each also with the s=
+ame
+number of pins per port as on the A523.
 
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c b/drivers/pinc=
-trl/sunxi/pinctrl-sun55i-a523-r.c
-> index 9e07fbb5be7cb..dfdcfa740ecc9 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
-> @@ -40,6 +40,7 @@ static int a523_r_pinctrl_probe(struct platform_device =
-*pdev)
-> =20
->  static const struct of_device_id a523_r_pinctrl_match[] =3D {
->  	{ .compatible =3D "allwinner,sun55i-a523-r-pinctrl", },
-> +	{ .compatible =3D "allwinner,sun60i-a733-r-pinctrl", },
+> The Allwinner A733 changes the layout of the pinctrl MMIO register
+> frame, but stays otherwise rather close to the previous IP.
+> The main PIO looks similar to the one in the A523, with ports B-K being
+> implemented, each also with the same number of pins per port as on the
+> A523.
+
+[Severity: Medium]
+Are these pin counts actually identical? The commit message explicitly stat=
+es
+ports B-K are implemented with the same number of pins per port as the A523,
+but in the patch PB has 11 pins and PK has 26 pins. In contrast,=20
+a523_nr_bank_pins defines PB with 15 pins and PK with 24 pins.
+
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c b/drivers/pinctr=
+l/sunxi/pinctrl-sun60i-a733.c
+> new file mode 100644
+> index 0000000000000..ca82f08a3a65b
+> --- /dev/null
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
+[ ... ]
+> +static const u8 a733_nr_bank_pins[SUNXI_PINCTRL_MAX_BANKS] =3D
+> +/*	  PA  PB  PC  PD  PE  PF  PG  PH  PI  PJ  PK */
+> +	{  0, 11, 17, 24, 16,  7, 15, 20, 17, 28, 26 };
 
 [Severity: High]
-This isn't a bug introduced by this patch, but does the static desc->npins
-counter accumulate on probe deferral, causing out-of-bounds array reads with
-negative indices?
+This is a pre-existing issue, but will setting PA to 0 pins cause an
+out-of-bounds array write later during initialization?
 
-When the driver is probed, it passes the statically allocated
-a523_r_pinctrl_data to sunxi_pinctrl_dt_table_init().
+When a SoC's first bank has 0 pins, prepare_function_table() processes PB
+(bank =3D 1) first. The initialization logic for irq_bank does this:
 
-In drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c:init_pins_table():
+drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c:prepare_function_table() {
+    ...
+    if (bank > last_bank)
+        irq_bank++;
+    func[lastfunc].muxval =3D irq_mux;
+    func[lastfunc].irqbank =3D irq_bank;
+    ...
+}
 
-	for (i =3D 0; i < SUNXI_PINCTRL_MAX_BANKS; i++) {
-		desc->npins +=3D pins_per_bank[i];
+Because bank (1) > last_bank (0), irq_bank increments from 0 to 1 before its
+first use. This shifts all subsequent banks by one, giving PK an irqbank of=
+ 10.
 
-If the probe fails later (e.g., -EPROBE_DEFER), desc->npins is not reset.
-On the next probe, it increments again, allocating a larger array but only
-initializing the first valid elements.
+Later in sunxi_pinctrl_build_state():
 
-Then prepare_function_table() iterates up to the accumulated desc->npins:
+drivers/pinctrl/sunxi/pinctrl-sunxi.c:sunxi_pinctrl_build_state() {
+    ...
+    int irqnum =3D func->irqnum + func->irqbank * IRQ_PER_BANK;
+    pctl->irq_array[irqnum] =3D pin->pin.number;
+    ...
+}
 
-	for (i =3D 0; i < npins; i++) {
-		struct sunxi_desc_pin *pin =3D &pins[i];
-		int bank =3D (pin->pin.number - pin_base) / PINS_PER_BANK;
+For PK, this calculates an irqnum up to 351. Since pctl->irq_array is
+allocated with exactly 320 elements (10 * 32), does this write past the end
+of the array? This can also cause an out-of-bounds read on desc->irq_bank_m=
+ap
+when handling PK interrupts.
 
-		if (irq_bank_muxes[bank]) {
+> +
+> +static const u8 a733_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =3D
+> +/*	  PA  PB  PC  PD  PE  PF  PG  PH  PI  PJ  PK */
+> +	{  0, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14};
+> +
+> +static struct sunxi_pinctrl_desc a733_pinctrl_data =3D {
+> +	.irq_banks =3D 10,
+> +	.irq_read_needs_mux =3D true,
+> +	.io_bias_cfg_variant =3D BIAS_VOLTAGE_PIO_POW_MODE_SEL,
+> +};
+> +
+> +static int a733_pinctrl_probe(struct platform_device *pdev)
+> +{
+> +	return sunxi_pinctrl_dt_table_init(pdev, a733_nr_bank_pins,
+> +					   a733_irq_bank_muxes,
+> +					   &a733_pinctrl_data,
 
-For uninitialized pins, pin->pin.number is 0. With a pin_base like 352
-(PL_BASE), the bank index becomes (0 - 352) / 32 =3D -11. This results
-in an out-of-bounds access irq_bank_muxes[-11].
+[Severity: High]
+This isn't a bug introduced by this patch, but is it safe to pass a statica=
+lly
+allocated structure to sunxi_pinctrl_dt_table_init() where its npins state =
+is
+mutated?
 
-Furthermore, searching for a non-existent DT pin name will scan into the
-uninitialized elements, calling strcmp(NULL, name) and potentially panicking
-the kernel.
+In init_pins_table(), the pin counts are accumulated indefinitely:
 
->  	{}
->  };
+drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c:init_pins_table() {
+    ...
+    for (i =3D 0; i < SUNXI_PINCTRL_MAX_BANKS; i++) {
+        desc->npins +=3D pins_per_bank[i];
+    ...
+}
+
+If the probe function defers, npins retains the accumulated value and doubl=
+es
+on the next probe attempt. While devm_kcalloc allocates an array for the
+doubled size, only the first elements are initialized.
+
+When fill_pin_function() iterates up to the doubled npins, will it call
+strcmp(pins[i].pin.name, name) on zero-initialized elements, triggering a
+NULL pointer dereference and kernel panic?
+
+> +					   SUNXI_PINCTRL_NCAT3_REG_LAYOUT);
+> +}
+
+[Severity: High]
+Does the SUNXI_PINCTRL_NCAT3_REG_LAYOUT incorrectly map logical to physical=
+ IRQ
+banks, breaking all A733 GPIO interrupts?
+
+When an interrupt fires on A733, sunxi_pinctrl_irq_handler() loops over the
+logical IRQ bank indices (0 to 9) and calls sunxi_irq_status_reg_from_bank(=
+pctl, bank).
+
+However, the layout logic directly multiplies by the logical bank index:
+
+drivers/pinctrl/sunxi/pinctrl-sunxi.h:sunxi_irq_base_reg() {
+    ...
+    if (pctl->flags & SUNXI_PINCTRL_NCAT3_REG_LAYOUT)
+        return pctl->bank_offset + bank * pctl->bank_mem_size +
+               A733_IRQ_REGS_OFFSET;
+    ...
+}
+
+For the first IRQ bank (PB, logical index 0), this calculates the offset for
+physical bank 0 (PA). PA has no pins and no interrupts. The physical regist=
+ers
+for PB are at physical bank index 1. Because the mapping is bypassed, doesn=
+'t
+this cause the handler to read from the non-existent PA IRQ registers inste=
+ad
+of PB?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260910133519.4590=
-11-1-andre.przywara@arm.com?part=3D6
+11-1-andre.przywara@arm.com?part=3D7
