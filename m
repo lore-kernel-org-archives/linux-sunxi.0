@@ -1,150 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90DE025776;
-	Fri, 11 Sep 2026 10:25:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5119548AE1F;
+	Fri, 11 Sep 2026 13:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789122350; cv=none; b=sn4jKcDrVyyjX7UmwdV0bBh3q1Ax0PoX80/38zTVnyhMG8Kb4FIdC7D/oLWtmWrXeAq/62qO7wUkyBYWmoRXdBtGuWmA7Ms6d3hSnTZx0/7DOxi+DVgwgNZl2o1EEWpueXXJ3gFQ5wqp9g2mgSHD1j5XuUgiWbfpYw38MQHy97s=
+	t=1789134519; cv=none; b=Mq62KZnGsbUfXA89LelrE1TaiQtZTzBE6+hnKVxH5gfsk/TOOsEq15T6wMWs/XZBnA3CxeSjF7czf1glsWmoB9fhCIuBcjMLMclPNWgbkbtpy2XpYX+rc5a3VFUDBZ1JGQWg4ylc/e7LINhdRzefccXALUqBOTBK6+eWHaE+mgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789122350; c=relaxed/simple;
-	bh=1j10lVz9ztdLzz1VqqwL4Xu4TzfFZhref/B8LBC0Xnw=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=KWj93+wx4AXtSzRt+heVrv+u1My8d05r1iQZ4C2glFah/RkYqwQ2nxv9Gxx9o3BPEgh9CaEPH3BmjGqB9NSf147z2e0PAzLNirrXORmCDDxEAWm8cwWs4nEgDRC/2McjH26CuIrUYDlYmGYBkBVqbQd1R7OalNcl0xYEfMaOh+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aKuD3+HJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789134519; c=relaxed/simple;
+	bh=3UBksvgt/qdlKN1s8FeogwlZOBzUwTUkG2h4TW5YjRU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=kbIPtUn/LBj1Si5vPUOPadhkHqLx1uzRzDVxCCx10pGQiqRw1I07j6+u/FsGffz58EUegSyLox5shIPEBlEZxW1bZO6G2evGslckD5ZS5KLbx4ScytsiMY5MWv67WG+y4vmqVzfGgtNxtV/m8WFr4u2qa2iUtsSRvixBx2K/VUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cgDLv0gE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aKuD3+HJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AABB81F000FF;
-	Fri, 11 Sep 2026 10:25:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789122349;
-	bh=Xm8LpErDgPLwVyb/O9eV1KPkABEqE0lOrqlk7CzKl2w=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=aKuD3+HJYcw04ugsm/HD5ZRGKrPJPIY0rhXqbdux7VqZcRhCcIZdmnhfCLBBYFeqC
-	 n/dsm+alqUHQzkmvRvXJE40Jr/SEBbMeF/wxJhlLJfYmz0UPrIf4x3hagy9f377xEw
-	 4nmDKKu0hYHCTEblu/fAUD7KcUWXGv1YDPoKvw+q//MSPJrGrKE/VZYG55MqWLnP6G
-	 wx4QPuKYEnryFnjLhUFM/Yn4uZL/Z2dt+YXM5OROoJTuJXx2ni6/JFem9oS7sr8SWW
-	 TSdnKPwpGC87sDgc1jRHvmsnY2ZwX6gSnw82UfKDuCIyzR6Sz20a8b01fvM3oqzK76
-	 isKGCZGvv88tA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v2 2/2] net: stmmac: Add support for Allwinner
- A733 GMAC210
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jerome Brunet" <jbrunet@baylibre.com>
-Cc: linux-sunxi@lists.linux.dev, conor+dt@kernel.org, robh@kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20260910-allwinner-a733-gmac-support-v2-2-4f4a1e520c23@baylibre.com>
-References: <20260910-allwinner-a733-gmac-support-v2-0-4f4a1e520c23@baylibre.com>
- <20260910-allwinner-a733-gmac-support-v2-2-4f4a1e520c23@baylibre.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 11 Sep 2026 10:25:48 +0000
-Message-Id: <20260911102548.AABB81F000FF@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cgDLv0gE"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CA51FC2BCF5;
+	Fri, 11 Sep 2026 13:48:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1789134517;
+	bh=3UBksvgt/qdlKN1s8FeogwlZOBzUwTUkG2h4TW5YjRU=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=cgDLv0gENhV7b5EzTV5zbTjeUAp+6xlsscIn19l/Q+ZDqKbaf094/wZ3EGRZMe0Mg
+	 dKZ/iq5ytadP7Db0ieq8Mv4yGgyYUNc5ojlnbGaLaFtyl8td7wiLeQu9PvV1vfa25I
+	 eibb+mt9No6Z1GJsEVN9zbtATDgebuz7CehJ4OB5Z36cslv690ec5nVZy4ZaAprZZh
+	 WrwlV/AM6a0Fz41/Qec0ejjRV92YFtCxwlqGetdZYgLfGm16nW2QQw6TYgspqCDF7c
+	 FS/m0i75QmdEKCmhBTEpTTJUoGs9ULINowXn+etcaH104nnM1nuzX8bgrSWQD1k2uo
+	 VyC/U8cFgGvvg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A97CCC88E45;
+	Fri, 11 Sep 2026 13:48:37 +0000 (UTC)
+From: =?utf-8?q?Juan_Carlos_Guti=C3=A9rrez_Lavado_via_B4_Relay?= <devnull+jcarlosgl96.proton.me@kernel.org>
+Date: Fri, 11 Sep 2026 15:48:37 +0200
+Subject: [PATCH v2 1/2] dt-bindings: arm: sunxi: Add SPC Glee 10.1 A64
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260911-b4-spc-glee-a64-v1-v2-1-ed0b7ff02e0b@proton.me>
+References: <20260911-b4-spc-glee-a64-v1-v2-0-ed0b7ff02e0b@proton.me>
+In-Reply-To: <20260911-b4-spc-glee-a64-v1-v2-0-ed0b7ff02e0b@proton.me>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Juan_Carlos_Guti=C3=A9rrez_Lavado?= <jcarlosgl96@proton.me>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1789134516; l=1619;
+ i=jcarlosgl96@proton.me; s=20260906; h=from:subject:message-id;
+ bh=Xzdem3/+TDF7+9mo+NvDiiNz7PMRPxV5UR/Ew2LHb1M=;
+ b=YK4WUVsNgqCrbxbQjewYp5t3YdnZ0R53TOZ9mwRj/PuFL8VHGh+KG2mjM7I4sg9EBbzfI5fkH
+ N34XWTWhC0BBDG8xkngZKdCmCbrwwK7TrH8DOmzZarDMztSTfI5E8Cp
+X-Developer-Key: i=jcarlosgl96@proton.me; a=ed25519;
+ pk=2/GzZfrbHAiuUrsA5A4A9ixfHKnypfDfzyE+fToY4Io=
+X-Endpoint-Received: by B4 Relay for jcarlosgl96@proton.me/20260906 with
+ auth_id=1008
+X-Original-From: =?utf-8?q?Juan_Carlos_Guti=C3=A9rrez_Lavado?= <jcarlosgl96@proton.me>
+Reply-To: jcarlosgl96@proton.me
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] Writing to the GMAC configuration MMIO registers before the requir=
-ed AHB reset is deasserted and bus clocks are enabled will cause a bus faul=
-t (synchronous external abort) and hang the system.
-- [Medium] Hardware configuration programmed into the controller's glue reg=
-isters will be lost if the power domain is cycled during suspend, because t=
-he driver lacks a resume callback.
---
+From: Juan Carlos Gutiérrez Lavado <jcarlosgl96@proton.me>
 
-commit b1b91e273360986b68768571246550826028aa8d
-Author: Jerome Brunet <jbrunet@baylibre.com>
+Add the Smart Products Connection vendor prefix and the board
+compatible for the SPC Glee 10.1 tablet based on the Allwinner A64.
 
-net: stmmac: Add support for Allwinner A733 GMAC210
+Signed-off-by: Juan Carlos Gutiérrez Lavado <jcarlosgl96@proton.me>
+---
+ Documentation/devicetree/bindings/arm/sunxi.yaml       | 5 +++++
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 2 files changed, 7 insertions(+)
 
-This commit adds support for the A733 GMAC210 controller, introducing
-a dedicated MMIO region for glue configuration registers. It handles TX
-clock delays, enables per-DMA-channel interrupts, and configures TX LPI
-clock gating.
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index f04db28c6..459a1772d 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -902,6 +902,11 @@ properties:
+           - const: allwinner,suniv-f1c200s
+           - const: allwinner,suniv-f1c100s
+ 
++      - description: SPC Glee 10.1 A64 tablet
++        items:
++          - const: onspc,glee-10-1-a64
++          - const: allwinner,sun50i-a64
++
+       - description: SL631 Action Camera with IMX179
+         items:
+           - const: allwinner,sl631-imx179
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index ba2002969..9d864dc56 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1253,6 +1253,8 @@ patternProperties:
+     description: Onion Corporation
+   "^onnn,.*":
+     description: ON Semiconductor Corp.
++  "^onspc,.*":
++    description: Smart Products Connection S.A.
+   "^ontat,.*":
+     description: On Tat Industrial Company
+   "^opalkelly,.*":
 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c b/drivers=
-/net/ethernet/stmicro/stmmac/dwmac-sun55i.c
-> index 862df173d963f..3d434a52fb02d 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c
-[ ... ]
-> @@ -37,17 +38,99 @@
-[ ... ]
-> +static struct regmap *sun60i_gmac210_get_regmap(struct platform_device *=
-pdev,
-> +						struct plat_stmmacenet_data *plat)
-> +{
-> +	struct device *dev =3D &pdev->dev;
-> +	void __iomem *base;
-> +	int ret;
-> +
-> +	base =3D devm_platform_ioremap_resource(pdev, 1);
-> +	if (IS_ERR(base)) {
-> +		dev_err_probe(dev, PTR_ERR(base), "unable to get glue memory region\n"=
-);
-> +		return ERR_CAST(base);
-> +	}
-> +
-> +	if (!plat->stmmac_rst || !plat->stmmac_ahb_rst) {
-> +		dev_err(dev, "missing required reset controls\n");
-> +		return ERR_PTR(-EINVAL);
-> +	}
+-- 
+2.55.0
 
-[Severity: High]
-Does this leave the AHB reset asserted during register access?
 
-The driver verifies that plat->stmmac_ahb_rst is present, but it does
-not appear to deassert it before returning the regmap or performing
-writes.
-
-[ ... ]
-> @@ -118,11 +212,7 @@ static int sun55i_gmac200_probe(struct platform_devi=
-ce *pdev)
->  	if (IS_ERR(plat_dat))
->  		return PTR_ERR(plat_dat);
-> =20
-> -	/* BSP disables it */
-> -	plat_dat->flags |=3D STMMAC_FLAG_SPH_DISABLE;
-> -	plat_dat->host_dma_width =3D 32;
-> -
-> -	ret =3D sun55i_gmac200_setup(pdev, plat_dat, data);
-
-[Severity: High]
-Can writing to the controller's MMIO region here trigger a synchronous
-external abort?
-
-sun55i_gmac200_setup() calls regmap_write() on the glue configuration
-registers. However, at this point, the AHB reset has not been deasserted,
-and the mbus clock is only enabled below this call.
-
-Accessing an ARM SoC peripheral's MMIO registers while its reset is
-asserted or its bus clocks are disabled typically results in a bus fault
-and a system hang.
-
->  	if (ret)
->  		return ret;
-> =20
-> @@ -138,8 +228,27 @@ static int sun55i_gmac200_probe(struct platform_devi=
-ce *pdev)
->  	return devm_stmmac_pltfr_probe(pdev, plat_dat, &stmmac_res);
->  }
-
-[Severity: Medium]
-Will the hardware configuration be lost after a system suspend?
-
-The commit message notes that the glue configuration registers are in the
-controller's reset domain. When the system enters suspend (e.g., S2RAM),
-power is cycled and these registers will likely revert to their hardware
-defaults.
-
-Since the driver writes this configuration exactly once during probe in
-sun55i_gmac200_setup(), and there is no resume callback assigned (e.g.,
-via plat_dat->resume) to restore it on wake, could this lead to a
-silent network failure after system resume?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260910-allwinner-=
-a733-gmac-support-v2-0-4f4a1e520c23@baylibre.com?part=3D2
