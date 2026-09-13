@@ -1,329 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.lucidmail.xyz (mail.lucidmail.xyz [78.46.175.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E692853F3
-	for <linux-sunxi@lists.linux.dev>; Sat, 12 Sep 2026 23:45:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7456415853B
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Sep 2026 00:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.175.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789256726; cv=none; b=iKqM6K0kGCU4/nEPVfPlnOW8Us0uaTB+9VwIjv53/c7wmEUnjIhnMmAyxXySa2c/Om+ehvbtI0znn7GQWwh94U1dBoJXFIgyprohgcmI1KUdXFJQl6e5XSM9MRWQqafg4dM8plOXGm2nRgbhp9DlpdCmYwisV7b7EWoY8BsktHQ=
+	t=1789258157; cv=none; b=GUSPxF4Aai3UeL8/8HPDOhZzB/KLsKVQWDDxTAKh9OaYqJu0WJnYGtVzDbsB6+z87H/f0gnzXfZ+ySglWJjmj2IHVgiCi/Zuciouc78wffbZ3Z91V0Kgr3elfhicbcN6mR1uemw2lfIcPSyjdv5TfMhTxb96zqjTSht+KTvwRn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789256726; c=relaxed/simple;
-	bh=0fzAE3EEt5RFszKhdxibTVI01m7gyVxJTaobGKLR3To=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=iS1U1Ae/UzB+Tg5qP2fap9Njsoxb9Dy9qYlzCDHghYK6yFRj77VIesTNt+fN0UUQAmOnuM6i44Pjh83UdP0wOjYfHaif0Nqu9Mmoh7vR+Dcf3aHmPjgEFsf3/Pq2Yi+YNk+OTO5660f4S6jm9mMlZHf2BSPWnoLdeH4emQ6u7a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dCsQQSfp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789258157; c=relaxed/simple;
+	bh=g1SJpuk9beZ2StLFbVA4VBFQ5UeY6DCQDVvTcvW/XAw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lVXqhkuPc8qrYFhAE4G3Jac9XSsvGN9F7arOJ7g8UojIUcDRUDjbOwNWZFyv5h/4D0Ycv/1/vsjrXRhc/TL5QeL/mPQftjRZXuLHW9HnPSV93GxEulU9AxPFQTiOCFucqohwDO4uJbJYd6bOLQYODc9cbbuUVhSPoMhT04TBsuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lucidmail.xyz; spf=pass smtp.mailfrom=lucidmail.xyz; dkim=pass (2048-bit key) header.d=lucidmail.xyz header.i=@lucidmail.xyz header.b=eEvel8x6; arc=none smtp.client-ip=78.46.175.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lucidmail.xyz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lucidmail.xyz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dCsQQSfp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A02681F000FF;
-	Sat, 12 Sep 2026 23:45:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789256724;
-	bh=hLzeBUso7Jt93By2QwzLAPcpUiYX7xQ8cqjRxArLq04=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=dCsQQSfpOW97D0ZGqyZ8fD0AxBid6vd7ovDRya2pCTkto8tFsjXcGUGovhAYpS60Y
-	 knrzlPs7RY+RvGvhxN49DYru1CYPcD4wkuDENjLdDt8b+Cw9w2KUQ1rMDCNbgNWKvM
-	 7mTGbEcyEkdydjgH31snwnf5Oj2dNI/bhUv5qXmEXndyuuwO2o9xqm2C0qKDKZO338
-	 OraOfm8Y6JOlr5M7KrxYihaHX7UGaNFWOZFkA6GT3oeBT4IbShLjbKxe69lkZpYpwU
-	 4DOL4h1CBFDA0uknId+Vgbq/WMWf9PyXnplElrY86bI4zwqsYk3Cj89ReKmXF77g0h
-	 nA4jgBC9+vVYQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [RFC PATCH v8] arm64: allwinner: add TrimUI Smart Pro (A133)
- board support
-Reply-To: sashiko-reviews@lists.linux.dev
-To: leow149 <leow149@lucidmail.xyz>
-Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260912233238.110960-1-leow149@lucidmail.xyz>
-References: <20260912230131.109229-1-leow149@lucidmail.xyz>
- <20260912233238.110960-1-leow149@lucidmail.xyz>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 12 Sep 2026 23:45:24 +0000
-Message-Id: <20260912234524.A02681F000FF@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=lucidmail.xyz header.i=@lucidmail.xyz header.b="eEvel8x6"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 937CC177C8E;
+	Sun, 13 Sep 2026 02:09:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lucidmail.xyz;
+	s=dkim; t=1789258152; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=g1SJpuk9beZ2StLFbVA4VBFQ5UeY6DCQDVvTcvW/XAw=;
+	b=eEvel8x6NYBU4Jh1KYPluCW21VwrWK0dnDz2mxyUDQWRRgboBbSkIb/D4Vu+qXzWRqqXyY
+	0ctUqNjm9EkIR2llyHby3fwYeVJ3ImJcIx83kI4KyUJNiisVLW2b5kb5RrBPbnv4g/hiE2
+	nb9dEkdiu6GIprqZbz9RHGld8o7sWd0/QY7YJz7U/OmWAthqqU5Ym0e6Xj+DRQA9tG8SKD
+	JdT51q3uzTS8DLqVRTXL2tkWTXu34VYTbxW0Cdo4pKE2TBsrg57GypdOecOrXc3CohXu9X
+	CzkrbBUTFzASkVaQ+QYvA++7C9ScHPK/7m0fnH5j0HoHZkEQlPyeNbmt040SUQ==
+From: leow149 <leow149@lucidmail.xyz>
+To: andre.przywara@arm.com
+Cc: leow149 <leow149@lucidmail.xyz>,
+	dri-devel@lists.freedesktop.org,
+	linux-sunxi@lists.linux.dev,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	mripard@kernel.org,
+	paulk@sys-base.io,
+	parthiban@linumiz.com
+Subject: Re: [RFC PATCH v7] arm64: allwinner: add TrimUI Smart Pro (A133) board support
+Date: Sun, 13 Sep 2026 02:08:31 +0200
+Message-ID: <20260913000831.111980-1-leow149@lucidmail.xyz>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260913013955.0fbc4acd@ryzen.lan>
+References: <20260912222429.107809-1-leow149@lucidmail.xyz> <20260912230131.109229-1-leow149@lucidmail.xyz> <20260913013955.0fbc4acd@ryzen.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Thank you for your contribution! Sashiko AI review found 5 potential issue(=
-s) to consider:
+Hi Andre,
 
-New issues:
-- [High] Sleeping in Atomic Context Violation during DRM encoder callbacks.
-- [High] Unbalanced DSI clock gate lifecycle during DPMS ON/OFF cycle perma=
-nently disables the display.
-- [High] Denial of Service (CPU Hog) from defeating unhandled IRQ storm pro=
-tection.
+Fair enough on both counts. I'll slow down and stop reposting every time
+sashiko replies, and I'll split this into a real series instead of one
+RFC blob.
 
-Pre-existing issues:
-- [High] TOCTOU race condition causing lost interrupts due to RMW on a Writ=
-e-0-to-Clear (W0C) register.
-- [High] TOCTOU Use-After-Free race condition in TCON TOP driver data acces=
-s.
---
+On the overlap: found it, it's Parthiban Nallathambi's "Add support for
+A100/A133 display" series from dri-devel back in Dec 2024
+(20241227-a133-display-support-v1-0-13b52f71fb14@linumiz.com). Looks like
+you already reviewed a couple of patches in it. It adds
+allwinner,sun50i-a100-de2-mixer-0, allwinner,sun50i-a100-tcon-top and
+allwinner,sun50i-a100-display-engine, which is the same DE2 mixer and
+TCON-TOP hardware my board's DSI path goes through.
 
-commit 739730d576ddf8a50358b7451672c4a7b9d896ed
-Author: leow149 <leow149@lucidmail.xyz>
+Compared my mixer0 config against his sun50i_a100_mixer0_cfg field by
+field. Everything matched except mod_rate: mine was 297000000, his was
+300000000. Mine was wrong, just copy-pasted from the existing A64 config
+and never actually rechecked for A133. My own register dump off real
+hardware reads 300MHz for both de0 and de1, so his number was right and
+I've fixed mine to match. So that was a useful find, thanks for the push
+to go look.
 
-arm64: allwinner: add TrimUI Smart Pro (A133) board support
+That series hasn't moved since Dec 2024 though, no v2 anywhere I could
+find and it's not in mainline, so I don't want to build directly on top
+of it. For now I've kept my own a133 compatibles, just with the numbers
+fixed and a comment pointing at his series for anyone else who runs into
+the same thing.
 
-Board bring-up for the TrimUI Smart Pro handheld (Allwinner A133 Plus). Thi=
-s=20
-adds the new DTS, an OTM1289A DSI panel driver, a new PWM driver, and DRM=20
-display pipeline configurations.
+You mentioned on that series that you'd rather see a fallback to an
+existing compatible than a new one unless there's a proven reason not to.
+Given his stuff isn't merged, what do you want me to do here - keep my
+own a133 compatibles as-is, try to get his series revived and build on
+that instead, or something else?
 
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/s=
-un4i_tcon.c
-> index bf405a2aa3249..9d916efa8566b 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> @@ -226,20 +226,40 @@ void sun4i_tcon_set_status(struct sun4i_tcon *tcon,
-> =20
->  	sun4i_tcon_channel_set_status(tcon, channel, enabled);
-> =20
-> +	/*
-> +	 * On disable, stop the DSI/CPU-mode retrigger timer/IRQ. This is a
-> +	 * backstop for boards where sun6i_dsi_encoder_disable() itself
-> +	 * already did this (see sun4i_tcon_dsi_stop_retrigger()'s comment
-> +	 * for why that earlier call site is the one that actually matters)
-> +	 * -- harmless and idempotent to also do it here.
-> +	 */
-> +	if (!enabled) {
-> +		sun4i_tcon_dsi_stop_retrigger(tcon);
-> +		/*
-> +		 * sun4i_tcon0_mode_set() only ever calls
-> +		 * sun4i_tcon0_set_dsi_gate(tcon, true) -- there was no
-> +		 * matching false call anywhere, leaking this gate (and, via
-> +		 * CLK_IGNORE_UNUSED, its CLK_MIPI_DSI parent) permanently on
-> +		 * past this TCON's own disable. Ungate here instead; this
-> +		 * call is a safe no-op on boards without a matching TCON TOP
-> +		 * remote node (see its own comment), so it's fine to call
-> +		 * unconditionally on every disable, not just DSI ones.
-> +		 */
-> +		sun4i_tcon0_set_dsi_gate(tcon, false);
-> +	} else if (!tcon->dsi_cpu_mode && tcon->irq && !tcon->irq_enabled) {
-> +		/*
-> +		 * Non-DSI boards: tcon->irq was requested IRQF_NO_AUTOEN for
-> +		 * every board using this driver (needed for the DSI/CPU-mode
-> +		 * path's delayed enable -- see the comment on
-> +		 * sun4i_tcon_init_irq()), so it needs an explicit enable_irq()
-> +		 * somewhere for boards that never take that path at all. This
-> +		 * runs on every CRTC enable -- both a real modeset (paired
-> +		 * with sun4i_tcon_mode_set() in the same commit) and a plain
-> +		 * DPMS off/on cycle, which does NOT call mode_set_nofb/
-> +		 * sun4i_tcon_mode_set() again.
-> +		 */
-> +		enable_irq(tcon->irq);
-> +		tcon->irq_enabled =3D true;
-> +	}
->  }
+Cc'ing Parthiban so he knows there's a second board sitting on the same
+hardware.
 
-[Severity: High]
-What re-enables the DSI gate when the display wakes up from DPMS OFF?
-
-While sun4i_tcon0_set_dsi_gate(tcon, false) is called when enabled is false,
-the true branch here lacks a corresponding sun4i_tcon0_set_dsi_gate(tcon, t=
-rue).
-Since the gate is only enabled in sun4i_tcon_mode_set(), a simple DPMS ON
-that doesn't trigger a full modeset might leave the clock gate permanently =
-off.
-
-[ ... ]
-
-> @@ -772,12 +772,16 @@ void sun4i_tcon_dsi_stop_retrigger(struct sun4i_tco=
-n *tcon)
->  {
->  	hrtimer_cancel(&tcon->dsi_retrigger_timer);
->  	/*
->  	 * disable_irq() (which might_sleep()s internally) is safe here:
->  	 * both call sites run in normal process/workqueue context, not a
->  	 * genuinely atomic section -- see the comment on
->  	 * sun4i_tcon_set_status()'s disable_irq() call for why (this
->  	 * function is called from there too, unchanged reasoning).
->  	 */
->  	if (tcon->irq_enabled) {
->  		disable_irq(tcon->irq);
->  		tcon->irq_enabled =3D false;
->  	}
->  }
-
-[Severity: High]
-Is it entirely safe to invoke disable_irq() here?
-
-Because disable_irq() can sleep, and this path can be reached from=20
-sun6i_dsi_encoder_disable() during DRM non-blocking atomic commits, executi=
-ng=20
-it in an atomic context would lead to a scheduling-while-atomic violation.
-
-[ ... ]
-
-> @@ -1151,12 +1151,33 @@ static irqreturn_t sun4i_tcon_handler(int irq, vo=
-id *private)
->  {
->  	struct sun4i_tcon *tcon =3D private;
->  	struct drm_device *drm =3D tcon->drm;
->  	struct sun4i_crtc *scrtc =3D tcon->crtc;
->  	struct sunxi_engine *engine =3D scrtc->engine;
->  	unsigned int status;
-> +	bool handled;
-> =20
->  	regmap_read(tcon->regs, SUN4I_TCON_GINT0_REG, &status);
-> =20
-> +	handled =3D tcon->dsi_cpu_mode ||
-> +		  (status & (SUN4I_TCON_GINT0_VBLANK_INT(0) |
-> +			     SUN4I_TCON_GINT0_VBLANK_INT(1) |
-> +			     SUN4I_TCON_GINT0_TCON0_TRI_FINISH_INT |
-> +			     SUN4I_TCON_GINT0_TCON0_FSYNC_INT));
-> +
-> +	if (!handled)
-> +		return IRQ_NONE;
-
-[Severity: High]
-Could this unconditional handled =3D true assignment in DSI/CPU mode defeat=
-=20
-the kernel's unhandled IRQ storm protection?
-
-If a hardware glitch causes the line to remain asserted, or if another devi=
-ce=20
-sharing this IRQ asserts, the kernel will never disable the line, potential=
-ly=20
-causing an infinite interrupt loop and a complete system lockup.
-
->  	/* Acknowledge the interrupt */
->  	regmap_update_bits(tcon->regs, SUN4I_TCON_GINT0_REG,
->  			   SUN4I_TCON_GINT0_VBLANK_INT(0) |
->  			   SUN4I_TCON_GINT0_VBLANK_INT(1) |
-> -			   SUN4I_TCON_GINT0_TCON0_TRI_FINISH_INT,
-> +			   SUN4I_TCON_GINT0_TCON0_TRI_FINISH_INT |
-> +			   SUN4I_TCON_GINT0_TCON0_TRI_COUNTER_INT |
-> +			   SUN4I_TCON_GINT0_TCON0_FSYNC_INT,
->  			   0);
-
-[Severity: High]
-This is a pre-existing issue, but using regmap_update_bits() on a=20
-Write-0-to-Clear (W0C) register like SUN4I_TCON_GINT0_REG seems to introduc=
-e=20
-a TOCTOU race condition.
-
-Because it performs a read-modify-write, if a new interrupt bit asserts bet=
-ween=20
-the read and the write, writing 0 will silently clear it in hardware withou=
-t=20
-the handler ever processing it.
-
-> diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun=
-4i/sun6i_mipi_dsi.c
-> index d504ae5832949..fae312e2ebf55 100644
-> --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-> +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-
-[ ... ]
-
-> @@ -910,21 +910,34 @@ static void sun6i_dsi_encoder_enable(struct drm_enc=
-oder *encoder)
-> =20
->  	sun6i_dsi_start(dsi, DSI_START_HSC);
-> =20
->  	udelay(1000);
-> =20
-> +	if (dsi->panel)
-> +		drm_panel_prepare(dsi->panel);
-> +
-> +	if (dsi->panel)
-> +		drm_panel_enable(dsi->panel);
-> +
->  	sun6i_dsi_start(dsi, DSI_START_HSD);
-
-[Severity: High]
-Since DRM encoder enable callbacks can execute in atomic context during=20
-non-blocking commits, is it safe to invoke drm_panel_prepare() here?=20
-
-drm_panel_prepare() internally uses sleeping functions like msleep() which=
-=20
-could lead to scheduling-while-atomic violations.
-
-[ ... ]
-
-> @@ -962,6 +962,21 @@ static void sun6i_dsi_encoder_disable(struct drm_enc=
-oder *encoder)
->  {
->  	struct sun6i_dsi *dsi =3D encoder_to_sun6i_dsi(encoder);
-> =20
->  	DRM_DEBUG_DRIVER("Disabling DSI output\n");
-> =20
-> +	if (dsi->tcon)
-> +		sun4i_tcon_dsi_stop_retrigger(dsi->tcon);
-> +
->  	if (dsi->panel) {
->  		drm_panel_disable(dsi->panel);
->  		drm_panel_unprepare(dsi->panel);
->  	}
-
-[Severity: High]
-Does executing drm_panel_disable() here conflict with atomic context=20
-requirements?=20
-
-Because this is invoked from the encoder disable path, which may run in ato=
-mic=20
-context, it will eventually acquire mutexes in the PWM driver, causing the=
-=20
-process to sleep.
-
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c b/drivers/gpu/drm/sun=
-4i/sun8i_tcon_top.c
-> index 9cbd655518b20..3f519df7d97dc 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-> @@ -157,6 +157,63 @@ int sun8i_tcon_top_set_dsi_gate(struct device *dev, =
-bool enable)
->  {
->  	struct sun8i_tcon_top *tcon_top =3D dev_get_drvdata(dev);
->  	unsigned long flags;
->  	u32 val;
-> =20
->  	if (!sun8i_tcon_top_node_is_tcon_top(dev->of_node)) {
->  		dev_err(dev, "Device is not TCON TOP!\n");
->  		return -EINVAL;
->  	}
-> =20
-> +	if (!tcon_top)
-> +		return -ENODEV;
-> +
-> +	spin_lock_irqsave(&tcon_top->reg_lock, flags);
-
-[Severity: High]
-This isn't a bug introduced by this patch, but dereferencing tcon_top here=
-=20
-contains a TOCTOU Use-After-Free race condition.
-
-If the TCON TOP driver is unbound concurrently, tcon_top might be freed=20
-before the spin_lock_irqsave(&tcon_top->reg_lock, flags) call executes.
-
-> diff --git a/drivers/pwm/pwm-sun50i-a133.c b/drivers/pwm/pwm-sun50i-a133.c
-> new file mode 100644
-> --- /dev/null
-> +++ b/drivers/pwm/pwm-sun50i-a133.c
-> @@ -140,6 +140,94 @@ static int pwm_a133_apply(struct pwm_chip *chip, str=
-uct pwm_device *pwm,
->  			  const struct pwm_state *state)
->  {
->  	struct pwm_a133 *pc =3D to_pwm_a133(chip);
->  	unsigned int ch =3D pwm->hwpwm;
->  	u32 entire_cycle, act_cycle, prescale_k, val;
->  	u32 pccr_reg =3D (ch < 2) ? PWM_A133_PCCR01_REG : PWM_A133_PCCR23_REG;
->  	int ret;
-> =20
->  	if (!state->enabled) {
->  		mutex_lock(&pc->lock);
-
-[Severity: High]
-Can acquiring a mutex here be safely performed?
-
-This function is invoked from panel disable/enable paths. Since those can=20
-run during DRM non-blocking commits, acquiring a sleeping lock could cause=
-=20
-system deadlocks.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260912233238.1109=
-60-1-leow149@lucidmail.xyz?part=3D1
+leow149
