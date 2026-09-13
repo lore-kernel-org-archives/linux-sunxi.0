@@ -1,70 +1,71 @@
 Received: from mail-oi2-f13.google.com (mail-oi2-f13.google.com [74.125.231.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482B01D5CC9
-	for <linux-sunxi@lists.linux.dev>; Sun, 13 Sep 2026 04:05:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 478E9384CDF
+	for <linux-sunxi@lists.linux.dev>; Sun, 13 Sep 2026 04:05:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789272310; cv=none; b=JTS+dwfOndj22ZEevslnbLzFxEGuTo/XHFsVO/5GjKwBNpfpx7F7SribIhi1u5ff1exkWPyjI+CC5r8mPYWSnUTSERI52hdXlhiZEro1Hp/EGRI217J2Pi2aBu93rXvKtJ5OaJMx2KuNkfkiNJ+4z12kD6TIzSqcShfu7fZQTnA=
+	t=1789272312; cv=none; b=mY0aAXkpsCYceUQb8mCgIeN1T1cQGFhMVOKycsVU94x0wfBxUMqI4OGyW/ZHWrnViIDyZAwBymCL1i+SXyzsiiZuFkBCd0FC7DjW1w6djkBimPou/4qrMCeaIcaj3Efr0QnErlCy8yLTPGzlakhVabTBSqktr6B+hHR4cnlxsp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789272310; c=relaxed/simple;
-	bh=y0VCkdd6MdNfgfkdo72YtGDzxt8P1PR4Yg0G/UOw0XY=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RqBHgA2xl+xnzOREWrrkpMKQ/bj/TpXZ1D4CS/Xjd5O4waWMo+7e5lIFLhndYrNbXKoM01fNUsu5AMOjZ1INyy+FtMD2UGL1UhSyMysq1ySerjVs3mQk1/KlvcPvaKy2veZZx0qMB/Im/XrWRT5P6HcaLtpZGyMWmt/DhsB793c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PD3wPD7B; arc=none smtp.client-ip=74.125.231.205
+	s=arc-20240116; t=1789272312; c=relaxed/simple;
+	bh=pCshx7KzarhNGja6hjwZgV+xF1fwWKykuklNPxmL+JQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=t6W32pe1AF3FkveH2DPQwPha195bvdwcSPEvlQsnQ/vKalmBu1Oqk2fHSVgNB/MApdevwDsM22xNkVbdQ5WYR8K2AqYrh1sw8YIgFPXY7/1o8wMaKWexTusHgPtvKsLvzLva66bmY5GPCXmp8OI9TIGw/f0juWUI/Rhkh/t7DT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IKS8xEI/; arc=none smtp.client-ip=74.125.231.205
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PD3wPD7B"
-Received: by mail-oi2-f13.google.com with SMTP id 5614622812f47-4bf948737e1so846745b6e.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 12 Sep 2026 21:05:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IKS8xEI/"
+Received: by mail-oi2-f13.google.com with SMTP id 5614622812f47-4c13f2685f2so717220b6e.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 12 Sep 2026 21:05:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789272307; x=1789877107; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=5Oa+YOncmCkkVL2k0GTFisduj2Byb339ftd8reg9zeE=;
-        b=PD3wPD7BSyCTCon0kpZENx45JOTl5K30fjvcDmDpIhs52AJZdfWwbtRgZFth5Aen4S
-         3Z2Gu37obd7LOOHyT18qAFJJ1cd0qpzo5fL7cYgTJ/DESzoqJx5jEAKgqavV+ndLWA91
-         oCaDBrrTqaEgXz+6KgQ39E4IJQupiRrRBeoimdMmSrC4kAKqD8uvz5GQgiR/yuZIc0wz
-         3KVzG3ByZm42EhAtXJKt+RCRE35inwi8apCkatevQIepDtmXtNNCWlASxadW7u5WQojb
-         qVQClHTxRCmjRpURtsf0R2bmzjXk0+svg/9G5hjvo3+19ufJqOj6W6noKAyW04nD6rHb
-         o8Kw==
+        d=gmail.com; s=20251104; t=1789272310; x=1789877110; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2jxU2MaLD6ynlliV/V4nmXeQrG06Mf6j7bRrOAd0XuY=;
+        b=IKS8xEI/TH6Sbh4fRLik0It5kORiIPhxYsuoGnC3br/Kf7P3B2l5HGLS+LODTjL7VR
+         tlFjRN0y7PYlLtmA47cHab1f9r7DQtL3gV5Fr8ouu3efKd0g55MNacTavuTCCPOL0pkG
+         4x4dOMyLfCCMxldi9/M7S7PSIQmXxR9L/wKFhqQ4vrEEN1ffRwWeP46ZWpvRTgjdiH1j
+         mjIKNKc6Os/SToimIsZgbVqfbn650sFZ8XRdvZgXCxgXyyA2ubI/TfEZklRf4zFwaPrN
+         o5J5KzigoqEIT2LtpWZ+Vn8INyETRM12fv1qH86rU89BkX7Oou9PMTx49JbRqSWJtp3g
+         vFOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789272307; x=1789877107;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=5Oa+YOncmCkkVL2k0GTFisduj2Byb339ftd8reg9zeE=;
-        b=fkOB6Wxhj/F6Vx4mwtl/PWRd2AMsLHI/aN4wtHLo7wF0qLPCvbfcJSk/ESTlw6eh5p
-         6jQfT+WHfrjaRyNRK72GqK5rVZ7qZDa9uUWbFJuNacXBA7QsFTFcWZWrhErBkXSIUgSv
-         P3WogEXBF/yx39VTzpKqNdgFXJQ3bfVbC6QsAZJmzbL4BTtZYwIi4jaKzi2IUgm/UEg8
-         pENY7qobYn1RXhbRzDxUFiCOrbx2BOnEX+Yf12zvXu+oEUFDNNlaVSMyZDL6dGoHpvIW
-         FxN4CjiZ2p0khCkzUmmWUGP6lnIVgSqKn/s530cwhYNpjnZI2XXatUNM+zm+j5cPfO7s
-         Vagw==
-X-Forwarded-Encrypted: i=1; AKwUvByNXvluWv2X4VKVpI1NbHgDSXhNZGcuEeUNGeqZaVHCZE99GxSTg+Rw/z1uWArq9d2A5KEKJ2uQk9NMCA==@lists.linux.dev
-X-Gm-Message-State: AFuF++l0Psi17rDolOyGnRVuBoa9r2bK57nQpYOd0IU8k/bNFpRQ4b5K
-	qS4cwsovXD/HGBbnlAfQ8hNoWRRqotjuzqfzeMrO+2Ldn6g84mIHfXoZ
-X-Gm-Gg: AYBFou25tlCq04RRvKdsXM9Yixi3kWslnsDue53hyXhj8BdUy9zt596F7U16LWiYoWC
-	phm39BLu5Uplxr1uOkteS3/d2qGL+FFwNoiRiSoAVzC39YTH8mDdM0FsE6rSMVM16YNyuMo8J6U
-	7Pre/EYtlAVa+H/jEkY82PfgjWxZjpHTUXR7L64QEth/hTnObiLxxdDbgsY1zpcIkGYvZeuALFK
-	QX70jKDeUWPvAIEKlzsAAChntFCfloFc9Q0xkYlxCBS2fnK8bgNQcV8nRolhL4Tx6Swl6+6QAlI
-	NffBSoKeXcVilXe3cuPJBMfEtzq/CE+hOKKEpsT6jTjmLx0Ja8PThXb8SUCM5i09pG1ZzRDZuWm
-	Jq1I6mfRtmyeKTcDM95yhs4dKW+Af7bUynpkUR2XAbx36o3F2UNhzp0ub3NhPVC9/dJZKWIfeYX
-	qoKlfYny6SLDK+m+6nGKoSgSva9rlwQnYjIW422MernAW0bCcfwxjQdR1x9ZhJby9W/Ej1kHPQL
-	zCDnAsWQg7yhDlnDj7ffvONJuMvOgIhyqCAqFNl8PNVIz0vmqQ1hO+7bX5Jvv3/NeHfSU5GXIZh
-	7hk73sbCMUOU4oo6gjZl9TxOplcd2v8EeuI2O4JSOsiVH/B6yBYPu+nrQJugjVtKhfX4INJ7BqY
-	4/mGiBs78/DT6D99MjCKBNEoaPAisHDQag3PotjKW
-X-Received: by 2002:a05:6808:6807:b0:4c2:2fb4:3676 with SMTP id 5614622812f47-4c31bdfc3ccmr17088364b6e.16.1789272307014;
-        Sat, 12 Sep 2026 21:05:07 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1789272310; x=1789877110;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2jxU2MaLD6ynlliV/V4nmXeQrG06Mf6j7bRrOAd0XuY=;
+        b=re4EFjHWRDY1/w2dKJIqn3kNnIaGkxWR0h8woQPfpBmAWSY0Z8A1uT++KdPLj0hYmJ
+         19IaPUIhmWszmrflxYTUhlB9E1zca1OZw6qFqaIDKEbgnAHV5WFVxEVDeWedpIMDsQJ+
+         1nUriZcW5khJ7cRh28YwSjtpCu4YS7hEnJWCY4PZ9zctlAcWTdS/j/pzLOsOXYvBNmvu
+         tK+7kkjNA2ihS/nbcrQttGN7Z6S5CQy3bktGrqV3g0lBIH4tPuJ6EwSmAWv+0U7R8qgN
+         gc+EWG/rGc6bnOfG8p+JCorHMJA0I8m8cAqzk7Ch+ZAs4kLuvyV/AewNhORc6CmUgGpQ
+         8Ixg==
+X-Forwarded-Encrypted: i=1; AKwUvBzhGFlycePLpwMcaqVOVt1Ntjh2rPPHbCLgND7at4SE8KnSyzzm0m+FugvGvoKZPBREf52SihXGvjYp/w==@lists.linux.dev
+X-Gm-Message-State: AFuF++myBGif436rrCsGXiQ51oOFlONXZgjEMIwx+tndvXV/udk8iAjq
+	n80eo7zTzfTpL7k2jtdokuo2W3r0KTFJc0RqHtbGqbR6FqW6B4XFiV7a
+X-Gm-Gg: AYBFou2sj/wLVxTcupGHRU4PLVaEyInyPkmDg3xW1FJYAz5zj5ErNAbtjv47rsbBxnJ
+	z68hmqCb2kNDOgFXuVs18PIkzJn/yE/VIx9RzWfT1/g2TbibGBtNfJRrqGBXy1ZlGqNC6yWyg49
+	ah7DWkVaEe6wjgUBZTIzdQph2RZfDX/0LWSkp75aEWhgyfVeGF05HptImuoupP8+Mdt7gs0qgKl
+	NPn7MsfOY1jUIoc2FuAKdIkPN9HJoETD7B0OT3yJUklULBEtIMgKDIasuud6wkukdXtCIx9EIrE
+	L4CMc4LBDpA1OvCi0j4J1UX9uQjT7Ax76X7KgteyP/u2wj6AAA8Me63KB67ZhXn2eXXFrj1VFvg
+	SPorF/4xZ2Ybo3fcZQeEsBoxyRoK/PXDqnJQ2vFuBieJOeaxZ/Hpcb6ZY17OR3xOg+fRTSn6+Cl
+	IePE8UFyItcGooHIo6ivOZgPo+J0AaNYNqyvK2Z4DsflKw0QqbZkDG+sn1un5AzoIFDY3hd5KP2
+	Qqm5riP8OTyql2T7IyAS4LP4nAVw7oE4IDpR+kvKTjrluZcP1zaxrrgsc5OufkUvB4XkUrkRo2W
+	ZC15jgdEWlgEz8XeY4LGOdRyEi0hYpGpFsPYH1aAqK61G2pQlKsQy97SeVliWFe77M3ZI4LfwmT
+	YtotwUOtD3Xw9JHQ4myOfIy3q0CjvxQ==
+X-Received: by 2002:a05:6808:13cc:b0:4b9:a8ac:489 with SMTP id 5614622812f47-4c31c8306c5mr7319934b6e.39.1789272310145;
+        Sat, 12 Sep 2026 21:05:10 -0700 (PDT)
 Received: from [127.0.1.1] (184-96-157-145.hlrn.qwest.net. [184.96.157.145])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-47df8699647sm6011535fac.5.2026.09.12.21.05.05
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-47df8699647sm6011535fac.5.2026.09.12.21.05.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Sep 2026 21:05:06 -0700 (PDT)
+        Sat, 12 Sep 2026 21:05:09 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
-Subject: [PATCH v4 00/17] mtd: rawnand: sunxi: support the Allwinner
- randomized OOB format
-Date: Sat, 12 Sep 2026 22:04:51 -0600
-Message-Id: <20260912-submit-sunxi-nand-vendor-oob-layout-v1-v4-0-4a64bed94229@gmail.com>
+Date: Sat, 12 Sep 2026 22:04:53 -0600
+Subject: [PATCH v4 02/17] mtd: rawnand: sunxi: use the logical step's OOB
+ length in PIO
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,12 +74,9 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5XOz2oCMRAG8FeRnDslk0Td9eR7lB4mf9QpbiLJG
- hTZd29WD7Y9WRgYPhh+39xECZlDEZvFTeRQuXCKLZi3hXAHivsA7FsWSqqV7FBCOduBx7bihSF
- S9FBD9ClDShaOdE3nESpC0IjGo3Sud6Jhpxx2fLkXfXw+cpO+ghtnfb44cBlTvt4/qTjf/bu0j
- QSz0t1SExry/XY/EB/fXRrEXFrVk+2leZlVjbWo5NrsDDla/2X1T7Z/mdWN7XTnrLSES/OLnab
- pG+X8tRicAQAA
-X-Change-ID: 20260810-submit-sunxi-nand-vendor-oob-layout-v1-e3114d10cc9c
+Message-Id: <20260912-submit-sunxi-nand-vendor-oob-layout-v1-v4-2-4a64bed94229@gmail.com>
+References: <20260912-submit-sunxi-nand-vendor-oob-layout-v1-v4-0-4a64bed94229@gmail.com>
+In-Reply-To: <20260912-submit-sunxi-nand-vendor-oob-layout-v1-v4-0-4a64bed94229@gmail.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>, 
  Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -91,160 +89,100 @@ To: Miquel Raynal <miquel.raynal@bootlin.com>,
  Brian Norris <computersforpeace@gmail.com>
 Cc: linux-mtd@lists.infradead.org, devicetree@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, James Hilliard <james.hilliard1@gmail.com>, 
- stable@vger.kernel.org
+ linux-kernel@vger.kernel.org, James Hilliard <james.hilliard1@gmail.com>
 X-Mailer: b4 0.15.2
 
-Allwinner NAND firmware leaves the bad-block marker in the randomizer
-data stream. On H6/H616 it also places all protected user data before the
-first ECC step. These choices differ from the mainline format, which
-keeps the physical marker plain and maximizes the H6/H616 user-data area.
+PIO transfers always use hardware ECC slot zero, even when transferring a
+later logical step. The user-data length programmed into that slot can
+differ from the first step's length on H6/H616 controllers.
 
-Add allwinner,randomized-oob to select the firmware format for the
-configured hardware-ECC geometry. Older controllers keep their fixed
-four-byte-per-step user-data layout; H6/H616 use four bytes per 1 KiB
-step, capped at 16 bytes, packed before the first ECC step. Without the
-property, retain the existing marker handling and OOB layout.
+The ECC correction and protected-OOB write helpers instead derive the
+length from the hardware slot. Pattern handling can consequently fill
+beyond the current step's OOB region, including beyond the page's OOB
+buffer for its last step. Writes can also fetch bytes outside the current
+step's protected user data.
 
-Normal hardware-ECC accesses use the controller randomizer. MTD_OPS_RAW
-continues to bypass both ECC and randomization and expose physical data
-and OOB, including randomized markers stored by firmware.
+Pass the logical step's user-data length to both helpers, as the protected
+OOB read helper already does. Keep the hardware slot for register access.
+DMA callers pass their existing per-step length, without changing the
+on-flash layout.
 
-Address the ECC-error paths as well. In randomized-OOB mode, use the
-controller-specific vendor spare-byte erased-page heuristic on the
-protected user data from the original hardware read. Older controllers
-use exact erased-spare checks, including their first-page and page-127
-signatures; H616 requires byte zero and at least nine of ten spare bytes
-to be 0xff. Accepted erased pages return all-0xff data and OOB without a
-raw reread. An all-zero physical page instead returns a bad marker and
-an ECC failure.
-
-Other ECC failures retain the original decoded data and protected OOB for
-bad-block and flash-BBT pattern scans. PIO and DMA share this page-wide
-classification, including randomized-format subpage reads. Plain-marker
-mode keeps its existing physical erased-chunk check.
-
-Prepend independent fixes for interrupt/completion ordering, PIO OOB
-lengths, per-step pattern IDs, read/write error handling and duplicate
-OOB program confirms, followed by OOB-helper cleanups.
-These fixes also apply when randomized-OOB mode is disabled.
-
-Also combine contiguous unprotected OOB reads and reduce repeated chip
-setup and register accesses without changing the page format.
-
-Finally, bound H6/H616 DMA batches by the 128-byte user-data register bank.
-Keep the existing default OOB allocation and ECC offsets, reusing hardware
-slots across batches instead of changing the format or falling back to PIO.
-Preserve page-wide ECC accounting and a single final program confirm.
-
-Assisted-by: Codex:gpt-6-astra
+Fixes: 54dcd6aa69db ("mtd: rawnand: sunxi: introduce maximize variable user data length")
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
-Changes in v4:
-- prepend an independent fix for completion reuse and IRQ timeout races:
-  initialize the completion once, finish IRQ register updates before
-  signalling success, and drain timed-out handlers before clearing their
-  interrupt state
-- add a separate fix for aggregate protected-user-data register overflow
-  by splitting DMA transfers into bounded batches, retaining the existing
-  OOB layout, ECC offsets and DMA support
-- distinguish logical page steps from batch-local hardware slots, retain
-  page-wide ECC accounting and avoid retrying partially transferred writes
-- Link to v3: https://patch.msgid.link/20260909-submit-sunxi-nand-vendor-oob-layout-v1-v3-0-838cb0ba1547@gmail.com
+ drivers/mtd/nand/raw/sunxi_nand.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-Changes in v3:
-- add a prerequisite fix for the logical OOB length used by PIO transfers
-- clarify logical ECC steps versus hardware slots and share protected-OOB
-  register indexing
-- select the controller-specific vendor spare-byte erased-page check from
-  the SoC capabilities, only in randomized-OOB mode and without rereading
-  the main data
-- retain hardware-decoded data and protected OOB on other ECC failures
-  for bad-block and BBT pattern scans (reported by Miquel Raynal)
-- retain a bad marker and ECC failure for all-zero physical pages, and
-  disable the ECC exception for the vendor format
-- share page classification between PIO and DMA, reading complete pages
-  for randomized-format subpage requests
-- propagate OOB read errors and defer randomized-format ECC accounting
-  until those reads have succeeded
-- propagate read/program setup, column-change and buffer-transfer errors,
-  including extra OOB; stop failed writes and disable ECC and randomization
-- discard partial DMA ECC statistics before retrying in PIO, and keep
-  correction counts separate from successful OOB-transfer status
-- select the current hardware step's pattern ID instead of slot zero
-- avoid a second program confirm after an OOB-only write
-- avoid redundant column changes before writing extra OOB bytes
-- reject oversized ECC steps in randomized-OOB mode before the core can
-  fall back to software ECC
-- combine adjacent parity and trailing OOB reads in randomized-OOB mode
-- remove duplicate chip setup immediately before core page commands
-- program each packed DMA user-data length register once per operation,
-  and write PIO slot zero directly without read-modify-write
-- reuse pattern IDs and packed error counters within a DMA read, while
-  refreshing the snapshot after every PIO ECC operation
-- Link to v2: https://patch.msgid.link/20260904-submit-sunxi-nand-vendor-oob-layout-v1-v2-0-b12074f4aca7@gmail.com
+diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
+index e50cf5b6a730..172c7c4b0ba6 100644
+--- a/drivers/mtd/nand/raw/sunxi_nand.c
++++ b/drivers/mtd/nand/raw/sunxi_nand.c
+@@ -1011,11 +1011,11 @@ static void sunxi_nfc_set_user_data_len(struct sunxi_nfc *nfc,
+ 
+ static void sunxi_nfc_hw_ecc_set_prot_oob_bytes(struct nand_chip *nand,
+ 						const u8 *oob, int step,
+-						bool bbm, int page)
++						bool bbm, int page,
++						unsigned int user_data_sz)
+ {
+ 	struct sunxi_nfc *nfc = to_sunxi_nfc(nand->controller);
+ 	struct sunxi_nand_chip *sunxi_nand = to_sunxi_nand(nand);
+-	unsigned int user_data_sz = sunxi_nfc_user_data_sz(sunxi_nand, step);
+ 	u8 user_data[SUNXI_NFC_MAX_USER_DATA_SZ] = {};
+ 
+ 	/* Randomize the Bad Block Marker. */
+@@ -1069,11 +1069,9 @@ static void sunxi_nfc_hw_ecc_update_stats(struct nand_chip *nand,
+ 
+ static int sunxi_nfc_hw_ecc_correct(struct nand_chip *nand, u8 *data, u8 *oob,
+ 				    int step, u32 status, u32 pattern_found,
+-				    bool *erased)
++				    unsigned int user_data_sz, bool *erased)
+ {
+ 	struct sunxi_nfc *nfc = to_sunxi_nfc(nand->controller);
+-	struct sunxi_nand_chip *sunxi_nand = to_sunxi_nand(nand);
+-	unsigned int user_data_sz = sunxi_nfc_user_data_sz(sunxi_nand, step);
+ 	struct nand_ecc_ctrl *ecc = &nand->ecc;
+ 	u32 tmp;
+ 
+@@ -1155,7 +1153,7 @@ static int sunxi_nfc_hw_ecc_read_chunk(struct nand_chip *nand,
+ 
+ 	ret = sunxi_nfc_hw_ecc_correct(nand, data, oob_required ? oob : NULL,
+ 				       nfc_step, readl(nfc->regs + NFC_REG_ECC_ST),
+-				       pattern_found, &erased);
++				       pattern_found, user_data_sz, &erased);
+ 	if (erased)
+ 		return 1;
+ 
+@@ -1323,7 +1321,7 @@ static int sunxi_nfc_hw_ecc_read_chunks_dma(struct nand_chip *nand, uint8_t *buf
+ 		ret = sunxi_nfc_hw_ecc_correct(nand, randomized ? data : NULL,
+ 					       oob_required ? oob : NULL,
+ 					       i, status, pattern_found,
+-					       &erased);
++					       user_data_sz, &erased);
+ 
+ 		/* ECC errors are handled in the second loop. */
+ 		if (ret < 0)
+@@ -1420,7 +1418,8 @@ static int sunxi_nfc_hw_ecc_write_chunk(struct nand_chip *nand,
+ 	sunxi_nfc_randomizer_config(nand, page, false);
+ 	sunxi_nfc_randomizer_enable(nand);
+ 	sunxi_nfc_set_user_data_len(nfc, user_data_sz, nfc_step);
+-	sunxi_nfc_hw_ecc_set_prot_oob_bytes(nand, oob, nfc_step, bbm, page);
++	sunxi_nfc_hw_ecc_set_prot_oob_bytes(nand, oob, nfc_step, bbm, page,
++					    user_data_sz);
+ 
+ 	writel(NFC_DATA_TRANS | NFC_DATA_SWAP_METHOD |
+ 	       NFC_ACCESS_DIR | NFC_ECC_OP,
+@@ -1684,7 +1683,8 @@ static int sunxi_nfc_hw_ecc_write_page_dma(struct nand_chip *nand,
+ 		int oob_off = sunxi_get_oob_offset(sunxi_nand, ecc, i);
+ 		const u8 *oob = nand->oob_poi + oob_off;
+ 
+-		sunxi_nfc_hw_ecc_set_prot_oob_bytes(nand, oob, i, !i, page);
++		sunxi_nfc_hw_ecc_set_prot_oob_bytes(nand, oob, i, !i, page,
++						    user_data_sz);
+ 		sunxi_nfc_set_user_data_len(nfc, user_data_sz, i);
+ 	}
+ 
 
-Changes in v2:
-- rebase on the current MTD nand/next branch
-- retain the merged protected-OOB allocation, BBM reservation and
-  stack-buffer fixes
-- clarify that randomization is part of the normal hardware-ECC page
-  format while MTD_OPS_RAW continues to expose physical bytes
-- explain why a BSP-compatible BBM remains randomized in physical raw data
-- document the decoded bad-block and flash-BBT access paths
-- reject the firmware OOB format with software or disabled ECC
-- document the BSP page-format compatibility contract and the
-  older-controller format audit
-- Link to v1: https://patch.msgid.link/20260810-submit-sunxi-nand-vendor-oob-layout-v1-v1-0-463853a14ad9@gmail.com
-
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Richard Weinberger <richard@nod.at>
-To: Vignesh Raghavendra <vigneshr@ti.com>
-To: Chen-Yu Tsai <wens@kernel.org>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Samuel Holland <samuel@sholland.org>
-To: Richard Genoud <richard.genoud@bootlin.com>
-To: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: Maxime Ripard <mripard@kernel.org>
-To: Masahiro Yamada <yamada.masahiro@socionext.com>
-To: Boris Brezillon <bbrezillon@kernel.org>
-To: Brian Norris <computersforpeace@gmail.com>
-Cc: linux-mtd@lists.infradead.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org
-Cc: devicetree@vger.kernel.org
-
----
-James Hilliard (17):
-      mtd: rawnand: sunxi: drain interrupts before reusing the completion
-      mtd: rawnand: sunxi: use the logical step's OOB length in PIO
-      mtd: rawnand: sunxi: propagate page-setup and erased-check errors
-      mtd: rawnand: sunxi: stop failed program operations and disable ECC
-      mtd: rawnand: sunxi: select the pattern ID for the current ECC step
-      mtd: rawnand: sunxi: propagate buffer and column transfer errors
-      mtd: rawnand: sunxi: avoid a second program confirm for OOB writes
-      mtd: rawnand: sunxi: avoid redundant column changes for extra OOB
-      mtd: rawnand: sunxi: clarify OOB register and step handling
-      dt-bindings: mtd: sunxi: Add randomized OOB flag
-      mtd: rawnand: sunxi: support randomized OOB formats
-      mtd: rawnand: sunxi: select the packed H6/H616 OOB layout
-      mtd: rawnand: sunxi: combine contiguous unprotected OOB reads
-      mtd: rawnand: sunxi: avoid duplicate chip setup before page commands
-      mtd: rawnand: sunxi: reduce user-data length register accesses
-      mtd: rawnand: sunxi: reuse ECC status within each DMA read
-      mtd: rawnand: sunxi: bound DMA batches by the user-data register bank
-
- .../bindings/mtd/allwinner,sun4i-a10-nand.yaml     |   10 +
- drivers/mtd/nand/raw/sunxi_nand.c                  | 1158 ++++++++++++++------
- 2 files changed, 827 insertions(+), 341 deletions(-)
----
-base-commit: 7e874b1750a40f3dc9a629aeb72eba09c77f77e9
-change-id: 20260810-submit-sunxi-nand-vendor-oob-layout-v1-e3114d10cc9c
-
-Best regards,
---  
-James Hilliard <james.hilliard1@gmail.com>
+-- 
+2.53.0
 
