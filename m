@@ -1,150 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83219481A9E
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Sep 2026 15:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95ECF3A6B8D
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Sep 2026 21:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789401010; cv=none; b=nrcbRw76Ec+fAMCY0B1Pnvo5ACCxahDBVuBQRZ8JMHDUONIJIgONAdLk1AwWynG9TVBK9kuIexsgvV4X33/nDkVdfX3SEJHMz0eP011w8TesWi9zDw2/p8qAfQDClV7PTI/zXi9eWuym9dKAIfyg+2T11DP+i73JfNaJThQGU0w=
+	t=1789419964; cv=none; b=Boj0xS6mIo/yXeQ3mgT7MjcqhiO2KVUC9cB86zv2Y8jVfvCiFTwbKFICHbCGy0NsDG4/bZ0wTlV5YSpRq3GjulluKovzISOg/6ROn95GR68TEu++nKjmw6sgEab1hYfzneynE8cdGrurgBt/NWKwhc3F8XvriRwBie4zdEaFaQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789401010; c=relaxed/simple;
-	bh=RbZCKlYd82LllWUN04IRvGhMEnYH6yRtO4RS8eyAzhQ=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=o73CV/KWXJfZ85jWCNy7zXZkQP6e1iTzqf8LJaZ2T3L9+SjpadlYEDzMJRua7MWAdnPPRuJ05kDqhjgcKa33HyzHcY16phIhckJ5sbtWbJ3/9rsCfNRtq2hQ9lCM7ISZUBAQxDnl/CCOx4R2k6HlpYNbIgZPK/HDYVY/2YIH61s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dh/raM8R; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789419964; c=relaxed/simple;
+	bh=8Hpqna4Yql4B2KSm3n4ept+rS89EMGziH5WyeFW7i5E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vEUHh0LxdERAYvUQiZisEXi+dQ7KBYZBLpPeBd18fycOkxIH0V4D/ndcll1tbQtIwTZzEjq5O8MF8HqvdXTI783Go0j6PtWqFn7OHG3YSzsZaYC3K5rqkRNcqwM55hNuaOCHR3Cz+BXJZcR6Qqp2RMMYELO3XK9VUBbh+uV47fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=WGgDhAYf; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dh/raM8R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08B0B1F000FF;
-	Mon, 14 Sep 2026 15:50:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789401009;
-	bh=OrUwJ8UF7DLsA83eAuiN7PvG0DXTVqSKsBD1/HY3fPE=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=dh/raM8RFWdGoFuemst5SzqczRRTTNJZnZmBXVY0evDnEB+JTU0RTjdhKZsdiQeyw
-	 vxMaATM+QKfof/FGswUotxi4f6llPOniEUyqh/DUt+exJVQHrY/ENthoC4b3ztqetF
-	 SSsLEI46IFvJe8IzePt99syPM/DVuihorOi4jW3yGSuNuurYp1BVtBcwCnSVflQNRw
-	 WjT71bqzpbnmzPgV3DTz//DUh3pW7YIiiEl3bg3UE+7F8njhcGItS9Np7CEIx4il0H
-	 +6iqAE+0ReBsskbebSKdXGdN7s93awHZLueB8v1DztNRZl/p92Y68iP1uhyaue1HE7
-	 2YcfqgSVvQzWg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 2/6] spi: spi-sun4i: sun4i_spi_fill_fifo(): always
- apply A10 FIFO fill level workaround
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jonas Rebmann" <jre@pengutronix.de>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260914-spi-sun4i-fixes-v3-2-9fe919d5cecf@pengutronix.de>
-References: <20260914-spi-sun4i-fixes-v3-0-9fe919d5cecf@pengutronix.de>
- <20260914-spi-sun4i-fixes-v3-2-9fe919d5cecf@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 14 Sep 2026 15:50:08 +0000
-Message-Id: <20260914155009.08B0B1F000FF@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="WGgDhAYf"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F073E1570;
+	Mon, 14 Sep 2026 14:05:56 -0700 (PDT)
+Received: from ryzen.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A725D3F882;
+	Mon, 14 Sep 2026 14:05:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1789419960; bh=8Hpqna4Yql4B2KSm3n4ept+rS89EMGziH5WyeFW7i5E=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WGgDhAYfNXwFRuaOJ+oVAAC+STmpKW9AObcf50+DOL658q0o9xZlltQ8haUAj5Jgq
+	 /TAfrNRJiuj4FgJf3giAg3B02pWEuGt1XdbADVS2nOYXo9ndLoBe+MIhkDcaQOhWA3
+	 M6w0VtZgaJhL+8OdzrjZKWlyKbQIujX2WlMAjRWo=
+From: Andre Przywara <andre.przywara@arm.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Paul Kocialkowski <paulk@sys-base.io>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 0/3] dts: allwinner: Add Teclast P80 tablet support
+Date: Mon, 14 Sep 2026 23:01:12 +0200
+Message-ID: <20260914210115.28151-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.46.4
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
+The Teclast P80 tablet is an entry-level tablet with an 8inch screen
+and an Allwinner A133 quad-A53 SoC. There are other tablets using
+the P80 name, this here is about the "G4" version from 2020.
 
-New issues:
-- [High] Integer underflow in `sun4i_spi_fill_fifo()` causes an infinite lo=
-op and buffer overflow when calculating available TX FIFO space.
+Contains the typical triad of DT support patches: vendor prefix, machine
+compatible binding, board .dts file.
 
-Pre-existing issues:
-- [High] Unbounded writes to the receive buffer in `sun4i_spi_drain_fifo` c=
-an cause a heap buffer overflow.
---
+Please have a look!
 
-commit 293e40dd169fc9a0b7d04d7abe8b6d6292a688f1
-Author: Marc Kleine-Budde <mkl@pengutronix.de>
+Cheers,
+Andre
 
-spi: spi-sun4i: sun4i_spi_fill_fifo(): always apply A10 FIFO fill level wor=
-karound
+Andre Przywara (3):
+  dt-bindings: vendor-prefixes: Add vendor prefix for Teclast
+  dt-bindings: arm: sunxi: Add two Teclast tablets
+  arm64: dts: allwinner: A133: add basic support for Teclast P80 tablet
 
-This commit removes the length argument from sun4i_spi_fill_fifo() and
-directly limits the TX FIFO fill level internally to work around timeouts
-on A10s SoCs. It ensures the workaround is always applied regardless of
-where the FIFO is refilled.
+ .../devicetree/bindings/arm/sunxi.yaml        |  10 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../dts/allwinner/sun50i-a133-teclast-p80.dts | 205 ++++++++++++++++++
+ 4 files changed, 218 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-a133-teclast-p80.dts
 
-> diff --git a/drivers/spi/spi-sun4i.c b/drivers/spi/spi-sun4i.c
-> index 2e23244539053..3649bcabcc9a7 100644
-> --- a/drivers/spi/spi-sun4i.c
-> +++ b/drivers/spi/spi-sun4i.c
-> @@ -142,15 +142,21 @@ static inline void sun4i_spi_drain_fifo(struct sun4=
-i_spi *sspi, int len)
->  	}
->  }
 
-[Severity: High]
-This is a pre-existing issue, but does sun4i_spi_drain_fifo() lack bounds
-checking against the allocated receive buffer size?
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+-- 
+2.46.4
 
-Looking at sun4i_spi_drain_fifo():
-
-static inline void sun4i_spi_drain_fifo(struct sun4i_spi *sspi, int len)
-{
-        ...
-        if (len > cnt)
-                len =3D cnt;
-
-        while (len--) {
-                byte =3D readb(sspi->base_addr + SUN4I_RXDATA_REG);
-                if (sspi->rx_buf)
-                        *sspi->rx_buf++ =3D byte;
-        }
-}
-
-Data from the hardware is read based on what the hardware reports as
-available, and unconditionally written to sspi->rx_buf. It doesn't appear
-to track the total bytes written against the transfer length limit.
-
-If the hardware asserts spurious interrupts or reports more bytes than
-requested (e.g., when called from sun4i_spi_handler with SUN4I_FIFO_DEPTH),
-couldn't this blindly advance the pointer past the end of the allocation
-and cause a heap buffer overflow?
-
-> =20
-> -static inline void sun4i_spi_fill_fifo(struct sun4i_spi *sspi, int len)
-> +static inline void sun4i_spi_fill_fifo(struct sun4i_spi *sspi)
->  {
->  	u32 cnt;
-> +	int len;
->  	u8 byte;
-> =20
-> -	/* See how much data we can fit */
-> -	cnt =3D SUN4I_FIFO_DEPTH - sun4i_spi_get_tx_fifo_count(sspi);
-> +	/*
-> +	 * See how much data we can fit
-> +	 *
-> +	 * Filling the FIFO fully causes timeout for some reason
-> +	 * at least on spi2 on A10s
-> +	 */
-> +	cnt =3D SUN4I_FIFO_DEPTH - 1 - sun4i_spi_get_tx_fifo_count(sspi);
-> =20
-> -	len =3D min3(len, (int)cnt, sspi->len);
-> +	len =3D min_t(int, cnt, sspi->len);
-> =20
->  	while (len--) {
->  		byte =3D sspi->tx_buf ? *sspi->tx_buf++ : 0;
-
-[Severity: High]
-Can this subtraction underflow if the hardware reports a full FIFO?
-
-If sun4i_spi_get_tx_fifo_count(sspi) returns 64 (the physical maximum
-depth), cnt will evaluate to 63 - 64 =3D -1. Because cnt is a u32, this
-underflows to 0xFFFFFFFF.
-
-The min_t() macro then compares (int)0xFFFFFFFF (which is -1) against
-sspi->len. Assuming sspi->len is greater than zero, min_t() returns -1.
-
-The subsequent while (len--) loop will post-decrement on the negative
-integer and could spin indefinitely, leading to out-of-bounds reads from
-sspi->tx_buf and continuous writes to the memory-mapped register.
-
-[ ... ]
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260914-spi-sun4i-=
-fixes-v3-0-9fe919d5cecf@pengutronix.de?part=3D2
