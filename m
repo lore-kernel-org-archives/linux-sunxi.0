@@ -1,138 +1,158 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44324425862
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Sep 2026 09:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EB0641D239
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Sep 2026 10:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789377844; cv=none; b=YIqXxIDhqYo/FBiyXE7FMY/ago/Eif1r4eNr9jSNEfI0ddugP9UK+dcIjVjNKCjEk9THwcjod4Ns0yNsgcntKV6em2cvnPaQDOXUwKJMW66JRSv3FsmF35TieBkU+4m1R7JQxJExWfAv0Mc6BYV/jaFNWoO4I8Gb0SlFDnmManA=
+	t=1789380476; cv=none; b=k+8/79W3e7v0zTtS4hQsBEfpX8ZOxVEjAosUdG01CxBomdnylE8RMH8MT9wg4BpKOr6qROLX833Iy/UQ3kptrZ75BqhgYVIOLBkQCtiBMd6JzkLWQxGD/am8Welq6DfT2x3bPxy8sSxHS8r4h1rmpPGXd7vyc3cUytAYNcaC2LI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789377844; c=relaxed/simple;
-	bh=PJCpttXgaFTAAuIppNV/gcSz4Kqn62rNZomfMgasjmI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Vvh9maVs0RXQImnxSiV0Jn7mUmMnaOqDgXGE6qVpGI2sLgpsGzLkDlsDjPRRxFo1SRmbbRJdxU0imazGS3UfzhDD29Xhuvq8DxKoVuI7/cPWF07a5u4/bEMxIAqbmvFO/yHH8g3+E4icFqZgXtJSkc2C9W88EYJ1MEURAHBedwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S03B2mRD; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1789380476; c=relaxed/simple;
+	bh=bhzDysUXJICZl4HNbtJ5X4V1LqWu56fbacBAFiJlnow=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bJow9RWG1WH9D4sZ/eO00KyzeafNKY/hvgIg88lvyS/h9RQ9QoEfeZwCyfxR/SJlixNW29utHkysaJ6fTVYmvRYMJYZ2GwmoBoeH4tYRm5OexQ7GifBhRqvci2F2spz79EaDohdDu+sVcR2ydB5TBHWdOFHgdR/SFwS5QbO2WQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=s2sD3+9j; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S03B2mRD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1789377837;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tb/KsUxM9jxkMjSRJHpE7KiQY8ZPLkB6sQ8Hi6kwrEk=;
-	b=S03B2mRDhMOL9hadIcjxq84aJy8x2b9D+LQRphsfR0PdxlSCwtWsvengupFKEESvc1Vm48
-	I8ruJN69aaAnU2kVZpNcR43EyW1fQVn3HoCQ5L+YIzEkzrMhFUfviLS2Oe8+EcUgt3hZ3G
-	77M7sQNZfEwjFDdRQNiorKBilPwieko=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-463-A_lNohiVPW-n_8Q3I4oY8g-1; Mon, 14 Sep 2026 05:23:56 -0400
-X-MC-Unique: A_lNohiVPW-n_8Q3I4oY8g-1
-X-Mimecast-MFC-AGG-ID: A_lNohiVPW-n_8Q3I4oY8g_1789377835
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-490a767c7dcso24912825e9.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 14 Sep 2026 02:23:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789377835; x=1789982635;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Tb/KsUxM9jxkMjSRJHpE7KiQY8ZPLkB6sQ8Hi6kwrEk=;
-        b=aFphFQC7Biiwa9k+0KIKBxt3dBH1t1h3iC0kxVXXTsyxcIMaNy7ewFeoIiLj331tZI
-         cgGz1IPRpbrK9BMG/AkqOQrhhgi8Si8voDd3TCgD0mGty1mCM+wzlqIn6yPNaLcpBB8w
-         9X95CNv0tX3D1mreEwVwPf17NeNuy/5Ch0ugENcVy6CapKc09xd9LJT/Ea349m8iEFXg
-         h9VG1+tNhbWauINkTr4rik9F0GgnYRKhPQDvgiCJZVsA4Ni1SOgqIdFawepsKChelCLo
-         OTaF/c8dOWyJM945S5tIsmbqdh5Dp+bhyc4ETSTZTwxe4tiMWQUaGcSilU3KOTzrYf3P
-         /G5Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzsJdKA2YvbYuZSfjdRdmbzidg+bJehmZKZuHzHaLun9HneC0XzkGZ3C3NzU76mLAqfL03QKoOnKQhMPg==@lists.linux.dev
-X-Gm-Message-State: AFuF++lgIMp6m9WelcSrCoMdBwiK43BfSCCsdjC/MY0wQXklVK5LuxGW
-	s+3uRn10Jcuy2v01cW54d0/tsUQWdyhdNdHVawBEW0Xs/pbyTxuARG/2Ch7gWgGXT0PjYF01oPd
-	t+GDJ+RkgpQxHhREtZLnE4UIwjgMoeqArNZNIbYohzlmWhvkUlFa0dWlROnWQvxVy
-X-Gm-Gg: AYBFou25//DwILERbmv/CYfMHjMmUtm6aydqU2By5kZNnuAa+HVC+RET4njLIb4t3FA
-	lctCQGix6NvJl4MDu8vSdx5PdSsgy+Zil23XQ6TTjGSbr3LeSFm0wtrk05Pgy88wpn+0NoZj+/u
-	1TQapdl/Hc0IEfZ1kwNxNxaS1ZmRHSuhrzOC05DCwdgD86L7sO7EByVZgMRSrPjNFPgtikbP+5a
-	3rE9CUGek1VnwZNAAdFEoTZqlDtuSVTBm21uxxQopwFG1WBy165vpD+hEpzBGDxGdMOrR14Vb6k
-	GolMLLF1Na8IyJUOb56RF6WsPny3IeGIgQnwhna4WANZakazRhJjYeibV7A8vZuHdyFUtVSTOlE
-	XVBpkK4dcURkd+qQ4MzJip7bmVIygc7LJ71U38GKFN22puHIixfQJ7KCxUg==
-X-Received: by 2002:a05:600c:628f:b0:49d:1df6:2592 with SMTP id 5b1f17b1804b1-49e7a66ae3dmr16858185e9.21.1789377835324;
-        Mon, 14 Sep 2026 02:23:55 -0700 (PDT)
-X-Received: by 2002:a05:600c:628f:b0:49d:1df6:2592 with SMTP id 5b1f17b1804b1-49e7a66ae3dmr16857405e9.21.1789377834915;
-        Mon, 14 Sep 2026 02:23:54 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e6576122bsm399519375e9.2.2026.09.14.02.23.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 02:23:54 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, Chen-Yu Tsai
- <wens@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Liu Ying
- <victor.liu@nxp.com>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
- Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Luca Ceresoli <luca.ceresoli@bootlin.com>, Frank Li
- <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Francesco Dolcini <francesco@dolcini.it>, Philipp Zabel
- <p.zabel@pengutronix.de>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob
- Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang
- <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, Marijn Suijten
- <marijn.suijten@somainline.org>, Marcus Folkesson
- <marcus.folkesson@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Yannick Fertre
- <yannick.fertre@foss.st.com>, Raphael Gallais-Pou
- <raphael.gallais-pou@foss.st.com>, Philippe Cornu
- <philippe.cornu@foss.st.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Adrien Grassein <adrien.grassein@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Simha BN <simhavcs@gmail.com>, CK Hu
- <ck.hu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>, Yongxing Mou
- <yongxing.mou@oss.qualcomm.com>, Abel Vesa <abelvesa@kernel.org>, Chris
- Morgan <macromorgan@hotmail.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- imx@lists.linux.dev, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-stm32@st-md-mailman.stormreply.com
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: Re: [PATCH 1/2] dt-bindings: display: Use consistent indentation in
- the example
-In-Reply-To: <20260913123331.100293-3-krzysztof.kozlowski@oss.qualcomm.com>
-References: <20260913123331.100293-3-krzysztof.kozlowski@oss.qualcomm.com>
-Date: Mon, 14 Sep 2026 11:23:52 +0200
-Message-ID: <87pkyg1907.fsf@ocarina.mail-host-address-is-not-set>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="s2sD3+9j"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F0E261570;
+	Mon, 14 Sep 2026 03:07:49 -0700 (PDT)
+Received: from e142021.arm.com (unknown [10.57.9.62])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 330613F7B4;
+	Mon, 14 Sep 2026 03:07:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1789380473; bh=bhzDysUXJICZl4HNbtJ5X4V1LqWu56fbacBAFiJlnow=;
+	h=From:To:Cc:Subject:Date:From;
+	b=s2sD3+9jTNlgFv1NggzXPIaf+b0VAmi72PP4mTnukXKdJfjYJab5PNdMWKr0Z2EuM
+	 PG043kOuFqIsn22mAZCcR3t2F41jH8ZqU9fiKv7bl1L6MBoKQrvS4is7lgG9sCtCEA
+	 Ibdje8hB6rl0ySp3xFIWEHiRwzDzKj15nT0t6Js0=
+From: Andre Przywara <andre.przywara@arm.com>
+To: Linus Walleij <linusw@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-gpio@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2] pinctrl: sunxi: A523: fix voltage withstand encoding
+Date: Mon, 14 Sep 2026 12:07:44 +0200
+Message-ID: <20260914100744.1039050-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: YjaQm7lSwcl4bsxMja-pDgObKOFHU4o5avgBuFWiEFA_1789377835
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com> writes:
+The Allwinner A523 uses the same GPIO voltage "withstand" programming
+(setting the input level voltage thresholds) as the previous SoCs, but
+for some odd reason inverts the encoding of 1.8V vs. 3.3V.
 
-> Correct indentation in the examples to consistent 2- or 4-spaces
-> indentation to fix dt-check-style warnings ("example 0
-> [indent-consistent] indent mismatch ...").  Preferred is 4-spaces, but
-> re-indenting entire example just for that is too much churn.
->
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> ---
+Add a new bias voltage type to note this difference, and select it for
+the A523. At the same time also use the newer "CTL" version, which in
+addition allows to turn off the withstand programming for I/O voltages
+other than exact 1.8V or 3.3V (for instance for 2.5V sometimes used for
+Ethernet PHYs). The A523 has that enable register, but didn't use it
+so far.
 
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+This fixes eMMC and reportedly Ethernet operation on some A523 boards.
 
+Fixes: 648be4cd9517 ("pinctrl: sunxi: Add support for the Allwinner A523")
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Tested-by: Per Larsson <per@palvencia.se>
+Tested-by: Juan Manuel Lopez Carrillo <juanmanuellopezcarrillo@gmail.com>
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+Tested-by: Chen-Yu Tsai <wens@kernel.org> # Fixes eMMC on Orange Pi 4A
+---
+Hi,
+
+just added tags and rebased on v7.3-rc1 (but just a context change).
+Linus, my apologies, I missed you on the first post, instead CC:ed DT
+people for some odd reason.
+Can you please take this as a fix ASAP?
+
+Cheers,
+Andre
+
+ drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c | 2 +-
+ drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c   | 2 +-
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c         | 6 ++++++
+ drivers/pinctrl/sunxi/pinctrl-sunxi.h         | 2 ++
+ 4 files changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
+index 462aa1c4a5fa6..e27e4945def26 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
+@@ -26,7 +26,7 @@ static const u8 a523_r_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =
+ static struct sunxi_pinctrl_desc a523_r_pinctrl_data = {
+ 	.irq_banks = ARRAY_SIZE(a523_r_irq_bank_map),
+ 	.irq_bank_map = a523_r_irq_bank_map,
+-	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
++	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_CTL_INV,
+ 	.pin_base = PL_BASE,
+ };
+ 
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c
+index b6f78f1f30ac4..88d8acd5bc245 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c
+@@ -26,7 +26,7 @@ static const u8 a523_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =
+ static struct sunxi_pinctrl_desc a523_pinctrl_data = {
+ 	.irq_banks = ARRAY_SIZE(a523_irq_bank_map),
+ 	.irq_bank_map = a523_irq_bank_map,
+-	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
++	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_CTL_INV,
+ };
+ 
+ static int a523_pinctrl_probe(struct platform_device *pdev)
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+index 25489beeb3125..7b33bcb7f840a 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+@@ -728,6 +728,7 @@ static int sunxi_pinctrl_set_io_bias_cfg(struct sunxi_pinctrl *pctl,
+ {
+ 	unsigned short bank;
+ 	unsigned long flags;
++	bool inverted = false;
+ 	u32 val, reg;
+ 	int uV;
+ 
+@@ -766,6 +767,9 @@ static int sunxi_pinctrl_set_io_bias_cfg(struct sunxi_pinctrl *pctl,
+ 		reg &= ~IO_BIAS_MASK;
+ 		writel(reg | val, pctl->membase + sunxi_grp_config_reg(pin));
+ 		return 0;
++	case BIAS_VOLTAGE_PIO_POW_MODE_CTL_INV:
++		inverted = true;
++		fallthrough;
+ 	case BIAS_VOLTAGE_PIO_POW_MODE_CTL:
+ 		val = uV > 1800000 && uV <= 2500000 ? BIT(bank) : 0;
+ 
+@@ -780,6 +784,8 @@ static int sunxi_pinctrl_set_io_bias_cfg(struct sunxi_pinctrl *pctl,
+ 		fallthrough;
+ 	case BIAS_VOLTAGE_PIO_POW_MODE_SEL:
+ 		val = uV <= 1800000 ? 1 : 0;
++		if (inverted)
++			val = !val;
+ 
+ 		raw_spin_lock_irqsave(&pctl->lock, flags);
+ 		reg = readl(pctl->membase + pctl->pow_mod_sel_offset);
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+index 0daf7600e2fb0..b09df32a3073a 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+@@ -116,8 +116,10 @@ enum sunxi_desc_bias_voltage {
+ 	 * Bias voltage is set through PIO_POW_MOD_SEL_REG
+ 	 * and PIO_POW_MOD_CTL_REG register, as seen on
+ 	 * A100 and D1 SoC, for example.
++	 * Some SoCs invert the encoding for 1.8V vs. 3.3V.
+ 	 */
+ 	BIAS_VOLTAGE_PIO_POW_MODE_CTL,
++	BIAS_VOLTAGE_PIO_POW_MODE_CTL_INV,
+ };
+ 
+ struct sunxi_desc_function {
 -- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+2.43.0
 
