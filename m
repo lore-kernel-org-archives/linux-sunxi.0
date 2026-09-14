@@ -1,190 +1,193 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B05DD41D239
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Sep 2026 10:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DFD847DD77
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Sep 2026 15:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.200.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789380528; cv=none; b=u1TpvMH3QwvAHbVtYrj68CL8tO165qOti9xU4czNx6J85YPB0t8pOiJWW0uycKaecWaU0Nrq+zVGesiqUj92FV3HuTKDz8oznHQRHTJqvime6dRE8v+DTluOMRwCh8VXryqNFmUA17vhnSSy8IvgmeDjUaYwFmz9PL5JVgJmpl4=
+	t=1789400173; cv=none; b=mT64BCGuLdGHR9n9oQFb+nOERbQKrBfEaJhH+EJiOl8t+M44Cknd4fCss3cWlW5hsZU6vhk8X/9m1MzBVAr23Doc7bX9sigEPdGhAWorXCgqWb3KRSqQI3nuGoPl15ES0FJoY6rrBn+j6Gi+mH5My6xjMLnZ1p08Qe1dQuovggY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789380528; c=relaxed/simple;
-	bh=5hiwm5m4HgXoKmPMhyVnnwn4Qx2zvIXwgyMsi1FuMRw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V1K8ycAUfT+80NawoGOFGNxZZAH7m0bADftwaXWVjZ2yI64aFFNutcBZUL8PCwJm5pkK25MLcO3MIJUjsjSt42SF2GOARCAuv81wmS9UNZJq0ho/vgTcjapf9gHlBp8zGzfFkxqYoqar52jWeFtfsOoWgpbFl7gNv0G93F61fcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=p7YtOasr; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="p7YtOasr"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 863A31570;
-	Mon, 14 Sep 2026 03:08:42 -0700 (PDT)
-Received: from [10.57.9.62] (unknown [10.57.9.62])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A4C503F7B4;
-	Mon, 14 Sep 2026 03:08:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789380526; bh=5hiwm5m4HgXoKmPMhyVnnwn4Qx2zvIXwgyMsi1FuMRw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=p7YtOasrgrzvHcpLJgx2YE2hzPdur0T3l50iJe5WMCVV6HN64LCoIrs2QrbGPkfaj
-	 gO/UBnrKZRvqbrkVraxbPHO0rY9yLWK3F1g0S2gTMUewvEKwVcdwROZDf5zHw6lyzz
-	 PibSlr2sEMnHPRN66wmeOGTWXdhkurVM4ONZnCw8=
-Message-ID: <04fe6b38-c662-4b87-9544-8df1d8367122@arm.com>
-Date: Mon, 14 Sep 2026 12:08:43 +0200
+	s=arc-20240116; t=1789400173; c=relaxed/simple;
+	bh=NSem7l7JY9Uj9Ny/qM9q10hyQ+v9YrfeRbBWgBgSO4U=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=JGufIVOgAWcy+ehvIA2enF5FFhENJ3yxiOp6Z12Gm2vEQ4qJzni0w6h5QIMW9LW259aPrybQvsR0G5cNdimJSClS3M/vurMlPLMIqRXvzHdEAF4oOTN1x0aD0IfyAVRBoxQ0Xp5DnjXVqyNfUtmOFsz5YjwRegwpJCOuPzCNmS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.200.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+X-PTX-Original-Recipient: t.schramm@manjaro.org
+X-PTX-Original-Recipient: mkl@pengutronix.de
+X-PTX-Original-Recipient: jre@pengutronix.de
+X-PTX-Original-Recipient: kernel@pengutronix.de
+X-PTX-Original-Recipient: o.schinagl@ultimaker.com
+X-PTX-Original-Recipient: wens@kernel.org
+X-PTX-Original-Recipient: broonie@kernel.org
+X-PTX-Original-Recipient: mripard@kernel.org
+X-PTX-Original-Recipient: linux-arm-kernel@lists.infradead.org
+X-PTX-Original-Recipient: linux-kernel@vger.kernel.org
+X-PTX-Original-Recipient: linux-spi@vger.kernel.org
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+X-PTX-Original-Recipient: jernej.skrabec@gmail.com
+X-PTX-Original-Recipient: mr.nuke.me@gmail.com
+X-PTX-Original-Recipient: samuel@sholland.org
+Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
+	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 4B466202891;
+	Mon, 14 Sep 2026 17:36:08 +0200 (CEST)
+Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.96)
+	(envelope-from <jre@pengutronix.de>)
+	id 1x68j2-000vXD-0g;
+	Mon, 14 Sep 2026 17:36:08 +0200
+From: Jonas Rebmann <jre@pengutronix.de>
+Date: Mon, 14 Sep 2026 17:35:58 +0200
+Subject: [PATCH v3 4/6] spi: spi-sun4i: sun4i_spi_handler(): fix race
+ condition between transfer completion and RX FIFO interrupt
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] pinctrl: sunxi: A523: fix voltage withstand encoding
-To: wens@kernel.org
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260721223956.13665-1-andre.przywara@arm.com>
- <CAGb2v64E29Tq3vSsVPM1qHgieyZHaNpfwWveYh9ss_Bg212N-A@mail.gmail.com>
- <20260910221349.19d86f1a@ryzen.lan>
- <CAGb2v67TW_E7S9Mt1RyGJdw8NbV0D0PzM8Sw0Vhx9PzMe6CVwg@mail.gmail.com>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <CAGb2v67TW_E7S9Mt1RyGJdw8NbV0D0PzM8Sw0Vhx9PzMe6CVwg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260914-spi-sun4i-fixes-v3-4-9fe919d5cecf@pengutronix.de>
+References: <20260914-spi-sun4i-fixes-v3-0-9fe919d5cecf@pengutronix.de>
+In-Reply-To: <20260914-spi-sun4i-fixes-v3-0-9fe919d5cecf@pengutronix.de>
+To: Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
+ Alexandru Gagniuc <mr.nuke.me@gmail.com>, 
+ Olliver Schinagl <o.schinagl@ultimaker.com>
+Cc: linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ kernel@pengutronix.de, Marc Kleine-Budde <mkl@pengutronix.de>, 
+ Jonas Rebmann <jre@pengutronix.de>, Tobias Schramm <t.schramm@manjaro.org>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4123; i=jre@pengutronix.de;
+ h=from:subject:message-id; bh=/K4qAJq8Ud8aVtX6R8lXT6nVztdVNYQ6Ssz6Tu/OkLY=;
+ b=owGbwMvMwCV2ZcYT3onnbjcwnlZLYshaIZKmlZ/9obR7TU3qK4vFn8xzUifbTdj4tPfCndCAb
+ 2vn/wyZ0lHKwiDGxSArpsgSqyanIGTsf92s0i4WZg4rE8gQBi5OAZjICk2Gf3b1Ar4sGdeFuc6r
+ Tzm1ir3jxT9rX71pTm82Lp3hfdBsTzUjw+He0hfsfkqptWItG3dGvA271L3j6pUP28zXr5kad8C
+ iihsA
+X-Developer-Key: i=jre@pengutronix.de; a=openpgp;
+ fpr=0B7B750D5D3CD21B3B130DE8B61515E135CD49B5
 
-Hi Chen-Yu,
+From: Marc Kleine-Budde <mkl@pengutronix.de>
 
-On 9/13/26 17:34, Chen-Yu Tsai wrote:
-> On Fri, Sep 11, 2026 at 4:14 AM Andre Przywara <andre.przywara@arm.com> wrote:
->>
->> On Thu, 23 Jul 2026 01:26:38 +0800
->> Chen-Yu Tsai <wens@kernel.org> wrote:
->>
->> Hi,
->>
->>> On Wed, Jul 22, 2026 at 6:43 AM Andre Przywara <andre.przywara@arm.com> wrote:
->>>>
->>>> The Allwinner A523 uses the same GPIO voltage "withstand" programming
->>>> (setting the input level voltage thresholds) as the previous SoCs, but
->>>> for some odd reason inverts the encoding of 1.8V vs. 3.3V.
->>>>
->>>> Add a new bias voltage type to note this difference, and select it for
->>>> the A523. At the same time also use the newer "CTL" version, which in
->>>> addition allows to turn off the withstand programming for I/O voltages
->>>> other than exact 1.8V or 3.3V (for instance for 2.5V sometimes used for
->>>> Ethernet PHYs). The A523 has that enable register, but didn't use it
->>>> so far.
->>>>
->>>> This fixes eMMC and reportedly Ethernet operation on some A523 boards.
->>>>
->>>> Fixes: 648be4cd9517 ("pinctrl: sunxi: Add support for the Allwinner A523")
->>>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
->>>
->>>
->>> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
->>> Tested-by: Chen-Yu Tsai <wens@kernel.org> # Fixes eMMC on Orange Pi 4A
->>
->> so what happens to this fix? Is it good to be merged? And who is going
->> to take this? Linus? Or does it go through sunxi?
-> 
-> Linus needs to take this. It seems you didn't send it to him, nor the
-> linux-gpio mailing list?
+In commit 196737912da5 ("spi: sun4i: Allow transfers larger than FIFO
+size"), support for transfers larger than the FIFO size was added.
 
-Ah, good point, thanks for the heads up, for some reason I CC:ed DT 
-people, but not pinctrl. My bad, and might explain why this was somehow 
-forgotten about.
-Sent a v2 with all the tags, thanks to the testers and reviewers!
+This commit moves the draining of the RX-FIFO from
+sun4i_spi_transfer_one() (after completion of the transfer) to the IRQ
+handler when the IRQ "transfer complete" is handled. In addition, the
+IRQ "RX-FIFO 3/4 full" is activated for all transfers.
 
-Cheers,
-Andre.
+However, this does not take into account that the RX-IRQ for transfers
+that exceed 3/4 of the FIFO size is still pending after the IRQ
+"transfer complete" has been processed. All interrupt sources are only
+deactivated after the wait_for_completion_timeout() in
+sun4i_spi_transfer_one().
 
-> Can you resend?
-> 
->> Cheers,
->> Andre
->>
->>>> ---
->>>>   drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c | 2 +-
->>>>   drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c   | 2 +-
->>>>   drivers/pinctrl/sunxi/pinctrl-sunxi.c         | 6 ++++++
->>>>   drivers/pinctrl/sunxi/pinctrl-sunxi.h         | 2 ++
->>>>   4 files changed, 10 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
->>>> index dfdcfa740ecc9..cffc1e53eef14 100644
->>>> --- a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
->>>> +++ b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
->>>> @@ -26,7 +26,7 @@ static const u8 a523_r_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =
->>>>   static struct sunxi_pinctrl_desc a523_r_pinctrl_data = {
->>>>          .irq_banks = ARRAY_SIZE(a523_r_irq_bank_map),
->>>>          .irq_bank_map = a523_r_irq_bank_map,
->>>> -       .io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
->>>> +       .io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_CTL_INV,
->>>>          .pin_base = PL_BASE,
->>>>   };
->>>>
->>>> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c
->>>> index 801f62abc93df..001bd42afa3ef 100644
->>>> --- a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c
->>>> +++ b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c
->>>> @@ -26,7 +26,7 @@ static const u8 a523_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =
->>>>   static struct sunxi_pinctrl_desc a523_pinctrl_data = {
->>>>          .irq_banks = ARRAY_SIZE(a523_irq_bank_map),
->>>>          .irq_bank_map = a523_irq_bank_map,
->>>> -       .io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
->>>> +       .io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_CTL_INV,
->>>>   };
->>>>
->>>>   static int a523_pinctrl_probe(struct platform_device *pdev)
->>>> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
->>>> index cabcb8b6f38e5..634d9f1f23947 100644
->>>> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
->>>> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
->>>> @@ -718,6 +718,7 @@ static int sunxi_pinctrl_set_io_bias_cfg(struct sunxi_pinctrl *pctl,
->>>>   {
->>>>          unsigned short bank;
->>>>          unsigned long flags;
->>>> +       bool inverted = false;
->>>>          u32 val, reg;
->>>>          int uV;
->>>>
->>>> @@ -757,6 +758,9 @@ static int sunxi_pinctrl_set_io_bias_cfg(struct sunxi_pinctrl *pctl,
->>>>                  writel(reg | val, pctl->membase +
->>>>                         sunxi_grp_config_reg(pctl, pin));
->>>>                  return 0;
->>>> +       case BIAS_VOLTAGE_PIO_POW_MODE_CTL_INV:
->>>> +               inverted = true;
->>>> +               fallthrough;
->>>>          case BIAS_VOLTAGE_PIO_POW_MODE_CTL:
->>>>                  val = uV > 1800000 && uV <= 2500000 ? BIT(bank) : 0;
->>>>
->>>> @@ -771,6 +775,8 @@ static int sunxi_pinctrl_set_io_bias_cfg(struct sunxi_pinctrl *pctl,
->>>>                  fallthrough;
->>>>          case BIAS_VOLTAGE_PIO_POW_MODE_SEL:
->>>>                  val = uV <= 1800000 ? 1 : 0;
->>>> +               if (inverted)
->>>> +                       val = !val;
->>>>
->>>>                  raw_spin_lock_irqsave(&pctl->lock, flags);
->>>>                  reg = readl(pctl->membase + pctl->pow_mod_sel_offset);
->>>> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
->>>> index d0936a32123ba..2c8648c3301b6 100644
->>>> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
->>>> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
->>>> @@ -128,8 +128,10 @@ enum sunxi_desc_bias_voltage {
->>>>           * Bias voltage is set through PIO_POW_MOD_SEL_REG
->>>>           * and PIO_POW_MOD_CTL_REG register, as seen on
->>>>           * A100 and D1 SoC, for example.
->>>> +        * Some SoCs invert the encoding for 1.8V vs. 3.3V.
->>>>           */
->>>>          BIAS_VOLTAGE_PIO_POW_MODE_CTL,
->>>> +       BIAS_VOLTAGE_PIO_POW_MODE_CTL_INV,
->>>>   };
->>>>
->>>>   struct sunxi_desc_function {
->>>> --
->>>> 2.46.4
->>>>
->>>
->>
+This opens a race window for "RX-FIFO 3/4 full" interrupts to come.
+The sequence is as follows:
+
+| sun4i_spi_transfer_one()
+|     sun4i_spi_fill_fifo()       // fill TX-FIFO with 48 bytes
+|     // enable RX-FIFO 3/4 full IRQ
+|     wait_for_completion_timeout();
+|
+| // SPI controller transfers 48 bytes
+| // SPI controller issues "transfer complete" and "RX-FIFO 3/4 full" IRQ
+|
+| // IRQ handler start
+|     sun4i_spi_handler()
+|         // ACK "transfer complete" IRQ
+|         sun4i_spi_drain_fifo();
+|         complete();                         ----.
+|         return IRQ_HANDLED;                      \
+| // IRQ handler end                                \__ race
+|                                                   /   window
+|     // wait_for_completion_timeout() continues   /
+|     // disable all IRQ sources              ----'
+
+Avoid the race condition by disabling all interrupts when handling the
+"transfer complete" IRQ and before calling complete(). Also move the
+draining of the RX-FIFO back into sun4i_spi_transfer_one() where it
+was before commit 196737912da5 ("spi: sun4i: Allow transfers larger than
+FIFO size").
+
+This has the added benefit of spending a little less time in the IRQ
+handler.
+
+With all interrupts disabled once the transfer completed, omit the
+clearing of the Transfer Complete bit in sun4i_spi_handler. This is safe
+because sun4i_spi_transfer_one() takes care of this before enabling any
+interrupts again.
+
+Cc: Tobias Schramm <t.schramm@manjaro.org>
+Fixes: 196737912da5 ("spi: sun4i: Allow transfers larger than FIFO size")
+Signed-off-by: Marc Kleine-Budde <mkl@pengutronix.de>
+Signed-off-by: Jonas Rebmann <jre@pengutronix.de>
+---
+ drivers/spi/spi-sun4i.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/spi/spi-sun4i.c b/drivers/spi/spi-sun4i.c
+index 8a9dcd3b6b8f..ea8be0170fbf 100644
+--- a/drivers/spi/spi-sun4i.c
++++ b/drivers/spi/spi-sun4i.c
+@@ -82,6 +82,8 @@ struct sun4i_spi {
+ 
+ 	struct completion	done;
+ 
++	int			irq;
++
+ 	const u8		*tx_buf;
+ 	u8			*rx_buf;
+ 	int			len;
+@@ -333,6 +335,7 @@ static int sun4i_spi_transfer_one(struct spi_controller *host,
+ 	start = jiffies;
+ 	time_left = wait_for_completion_timeout(&sspi->done,
+ 						msecs_to_jiffies(tx_time));
++
+ 	end = jiffies;
+ 	if (!time_left) {
+ 		dev_warn(&host->dev,
+@@ -340,12 +343,11 @@ static int sun4i_spi_transfer_one(struct spi_controller *host,
+ 			 dev_name(&spi->dev), tfr->len, tfr->speed_hz,
+ 			 jiffies_to_msecs(end - start), tx_time);
+ 		ret = -ETIMEDOUT;
+-		goto out;
++		sun4i_spi_write(sspi, SUN4I_INT_CTL_REG, 0);
++		synchronize_irq(sspi->irq);
+ 	}
+ 
+-
+-out:
+-	sun4i_spi_write(sspi, SUN4I_INT_CTL_REG, 0);
++	sun4i_spi_drain_fifo(sspi, SUN4I_FIFO_DEPTH);
+ 
+ 	return ret;
+ }
+@@ -357,8 +359,7 @@ static irqreturn_t sun4i_spi_handler(int irq, void *dev_id)
+ 
+ 	/* Transfer complete */
+ 	if (status & SUN4I_INT_CTL_TC) {
+-		sun4i_spi_write(sspi, SUN4I_INT_STA_REG, SUN4I_INT_CTL_TC);
+-		sun4i_spi_drain_fifo(sspi, SUN4I_FIFO_DEPTH);
++		sun4i_spi_write(sspi, SUN4I_INT_CTL_REG, 0);
+ 		complete(&sspi->done);
+ 		return IRQ_HANDLED;
+ 	}
+@@ -456,6 +457,7 @@ static int sun4i_spi_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
++	sspi->irq = irq;
+ 	sspi->host = host;
+ 	host->max_speed_hz = 100 * 1000 * 1000;
+ 	host->min_speed_hz = 3 * 1000;
+
+-- 
+2.55.0.806.gb8242b093d
 
