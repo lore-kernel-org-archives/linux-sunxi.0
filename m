@@ -1,71 +1,71 @@
-Received: from mail-oo2-f43.google.com (mail-oo2-f43.google.com [74.125.231.171])
+Received: from mail-oo2-f41.google.com (mail-oo2-f41.google.com [74.125.231.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8517932470E
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Sep 2026 03:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB7F349CE8
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Sep 2026 03:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789354911; cv=none; b=UAODfh2mi9qzAVb7eeCyzEWSz2UfSymrjYJzL+mfS+onYujpsLMT2A44ecUwGnu3Nb6HSRtwx0Rh5mREFDTJX1XewBvl9rN+4MJIyTDU9OUdmJQszTVppIgiKPclo6uGFHQX1qLlSRRwhkuRrBFlm/paRxi/Zynm9e2FFeM1AuM=
+	t=1789354913; cv=none; b=YZ/ffR5Cucng2zk0yB1SDP5YqjNGvMOfnZh+a1SWVBxVsZ9cB1JBOKYrDolQT21JZHtNn4LLpnHL+1F63j7Z6Gip73n1a5dXiCL9P2QF/i6FcpYhzeKmtozyqfMrksjNgJlFJZTHaNaRTNjKh+EQG/jZ8/9j++DmzFXackzS50U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789354911; c=relaxed/simple;
-	bh=ovOsliEdUhvhRoeaXGSGPM3LycBRMZNPRXeHkTBG1HM=;
+	s=arc-20240116; t=1789354913; c=relaxed/simple;
+	bh=YbBF9laHAErhZzSaGZGDzYG7q1LarpeBoJ8ap1tchQo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tigYZ4WgkB1OettC9Wlnd+v0jNdinWMw4GKg2tMeB//MGG1jwjxOn5DITvEcTFag/l5tjyNxHCHOacxURGUa45I1Vn7G7eESNS/O85gdIRVSjC8qKDwDVzfATnMTLxUWg5s2Utua+5sv0k+s+ISEUGkKaYJgOEUSIVjeLpyuWFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bGO0SGXM; arc=none smtp.client-ip=74.125.231.171
+	 In-Reply-To:To:Cc; b=GoB9a2eDDNDa5apsW6CYTD4UroRClBxu6kS520EQP/k0a4El/RcxdVfpJvGdbasCVTf2HwqYXD5+awXgDQm7beVt2rhx0+xDLdQvZ/vti6dmup52gBLSJVd7nQE/5lsaGGvwM6bUAxcoNjgNrfgwc7MX5eLue36QRV1qtD9d1Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FhUk+v4A; arc=none smtp.client-ip=74.125.231.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bGO0SGXM"
-Received: by mail-oo2-f43.google.com with SMTP id 46e09a7af769-7fccd4c3f36so1513270a34.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 13 Sep 2026 20:01:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FhUk+v4A"
+Received: by mail-oo2-f41.google.com with SMTP id 006d021491bc7-6b1ae739df5so478226eaf.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 13 Sep 2026 20:01:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789354908; x=1789959708; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789354910; x=1789959710; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=b70jsSBwLMejAy7LligcsivCdZpJr/KiRJCHlaFZ8JI=;
-        b=bGO0SGXMn6YAFFhZ5ilitkRkKF8TEZctU/VBuot4Rlz6GHRMJ1sCELc0Wttzxq3/yM
-         mvNjC1V5QlHCnlkJskcDM2H+ESnCdmlt/XlK5Ai2AsrUU6oSFJn4rww7OxXlI0Ztt7md
-         35sHzacsyqdXy0g/b1UjC5ppD+C5K24eP2w5qSnhmpVV3bvPxFtb+sXdi+WbYxa4Tnqg
-         HA8cTxGB/PtzkiEzZN0ZTf5q8iFMr/k7dnIObsSpkyYQLZtUjWe7yZ3D1ZHlEoZmXZD1
-         x4HzgCE6TeGpWBGwJn7f2T5O2VjcBhxXohj4dZsNUu0QwN+fRnc8YQM/mNeFyw58VRtx
-         +ltA==
+        bh=A0CrISCG3enxLUNERhlMVwT+4sBOgXXXdTBmRqqtC4g=;
+        b=FhUk+v4A95js4MFPk0NoH1chDGUxzxQ1CxXF8612LS82Pg6CY6PHPrUBszs/qlhEMU
+         bnDzyNwWv1Ik+gUrfWtqr0xGCw7eu3PLHw5hlV5YSrsU58OxK6Mu1wXtOCt7aK0yxGA6
+         NRb1rY+KQhaI4HwiBL3cb0pAIkXO8jRmnB8Lwr0wjTi4qMPhPI9Fu/E4rr1pBXZKGen3
+         mt3a4Q1FqJf92gRpxTRxXS68pKf8iAPsXGomNtdNBy5zhRMYNUL7cILeJFk0Hb2GjkRy
+         7oVLc0kMyY03KytSH6UBuOVVqdRg4NirED2w4k1YEgH9DtWTgj3hQrSUbHrWaX8LJr73
+         F+lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789354908; x=1789959708;
+        d=1e100.net; s=20251104; t=1789354910; x=1789959710;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=b70jsSBwLMejAy7LligcsivCdZpJr/KiRJCHlaFZ8JI=;
-        b=rQtpa+aT+Wv/sLnDH1DqbDDmAUeRy4V02z37kZ+gQELc/KEtbantY0IGmLq9TC+yCF
-         /EjrhLiqeIF9WfOESiKnQ1Fk34MI6h//X1RpsI8VQZrYVFae3nu/t6WFOkASuzusPB2e
-         pB1CXrhsPySXZRdh6+4ztfnjXXg6On+S5bFpHPDK+vT+2lekD/wCwxk2dAJJwtKbKQ9N
-         3u0puYK7IC271cPGLJXtoTr1R/FNak8scgJTvlh2H09/+2N+yHT/TRNnpo50J0T4yuM7
-         gjD5+mkfmf1JPjw/4wDwRXvwt3o4CxKP1HgIqUst0Ksru6KgkYE0QlQaU5OSllbLh1Sq
-         TR8w==
-X-Forwarded-Encrypted: i=1; AKwUvBzn7SwSPKuA39rpTixLM1aiNAgoM4ICDQWBmA0n1WVM8qlmX3rfXBZbuLlbuzZ8Tbgq6zQBVrWRt+/XiQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++n2BxY96k/+joLvWGLDL2nCm99fNi+ipZrTxBOIGGyAl3wZm/8m
-	jzHoS9pKdoAfcVlUZzr4LOleuc2PvkEqfPu3siBH1L2eFa896TjIJfwC
-X-Gm-Gg: AYBFou2YPAHmAe12PdxsSYGTf/jPjUjECkG60fQSU9W1kvFBJ6OnJm1ycz21uW+WGSi
-	EkVE6h50gwTBBGBun+bcdExVEdB71W63N47NFT+4Ph7DkV//CFT+Ol7mc7c1iY4qjOlMm2Mkb/b
-	6NrSYIvUkz9NNt/cHGKoZrskcFzSbDkc96fHeoWJuFZ212wDU1Uy/9+lqk7qW4beilA3TDEVuOL
-	xjl3PJD7XEZXMTUhbnoDKGMe8GEhZtZYWJOa/gbsBE0cLQYAbewi+28zApnHeb7alSKbOxjEpg8
-	p/6esuKJyvkEuU0Ss1FIG4hsCYaCgXuesc+TcFXK6MVN/fVhr06JIEkTBdB5uUn5wjWqQ7sqDgG
-	V26WZEJ2tfVCdeuQWNgw65bA3wihFoYQupAx13E1Rl35Mgu4P/fbqIEgqOfzr5gQNghn4kZPv8B
-	RJA7ZVsCmTqvuAaeUB8ZOG/JDxS5CznYOKbLfRaj6KKb9tJYL122uBSToZvVV4Y/bnpU7lp9DRj
-	tlPtd0pmIjoOXxSYSuxRHFqdn8OarehTisVj5Z9cuX9GAKCh+xwOY3EAQM9gAUROZyQwd9u+MK+
-	QoemYNz/FszDi36VHVVp+TuF67CndYtRMG1Lh3tReLwasx44gkm9czOEjtXRtshP753AuA2nrPN
-	9owGYPtPgf2qXIw8uaAj/yMJ/VHEGGg==
-X-Received: by 2002:a05:6830:4c18:b0:7f7:f55a:4bcc with SMTP id 46e09a7af769-80897c868f2mr541126a34.8.1789354908010;
-        Sun, 13 Sep 2026 20:01:48 -0700 (PDT)
+        bh=A0CrISCG3enxLUNERhlMVwT+4sBOgXXXdTBmRqqtC4g=;
+        b=a46QTe2bRuaVcB2plzFuBvyS+ajIJxCRc0xzJUucJp2iIs9emTwGN8XLmEFvmwxwKE
+         H7pLvAAX5pTuhsViKlGY0zd/bwYZ8NcV6GtDyZP2sEX59aEXcBmHAtaQCR+9jyBTd7ay
+         1Lq5m/Qn2T+cLNXgIiTCELzAOBGF39FqMIgXYwy/x/UKxyTqG2QfmZ4CvbCaRk+LV4TP
+         zyVF26e9m2XzrEWCy1faa0KlnHcgjAN29cptiWyOqb8pLiGrIvn47AwuiFyUjHUVABEr
+         q99sNDl+iFhiyQIAiVeeWrlxtOhfnIVOuQIkXZ3BvkqJGJMSSYUm8TuZZyAI+/OGdf9T
+         rNcg==
+X-Forwarded-Encrypted: i=1; AKwUvBxWRUbPyIRl3njBBbLDvGxXpvlzpovhqmGDltxsaSnkDJg+GIii5Nlm54guSAG3K13sbar45FPbN6B4tA==@lists.linux.dev
+X-Gm-Message-State: AFuF++kje+DBUN5IKGvknNvU+pUZTEQyQzKAEHwDZDXjwcZYqHy2zSdY
+	0pdupwS7HxhJhbIqS6QjEnMgQCeYeW9zxvpI21RHeWtzvI2XlNJ5dAud
+X-Gm-Gg: AYBFou3Zl+i+YB2bEEcBGIZxlsyuohh54q7gS2vxfB/h6Bi3RvbRycPluFLwOGdSzge
+	lUv7VcO7xIocjlkcH5sh2yhjU5LLheOSS93fKGHXAbcpQntN/FfIQ4waeujjL7zyYGY6ZyxcR/R
+	ztTPVKPALQWOBiXRUTjpfBIkuJbiiD8DGZIUgRnLNqsDMVlAD1NN2skUnwl7TnItWnlTxbVnTKg
+	Wm/0IhOjnMZEQLU/JIRrvxLeCIZYZsiJi1KYZ4KiU3i7WGdKqnq283Bgb8Jg1dno6xDK/2q6d17
+	kG9TYspfkCnLI6TNGPBzjmXmth3eEtAZ/JQF12T/RAaVmV1VJjMNmZmES0gqKobyviG114Wcnn+
+	JflLdmi5eVu4fX1uWnwz9yt9Dpe/BfQgoGJlkX4wkCU1KwAXj+7XlM4zZJJBkdNCDhRpfiDtl5A
+	1GRQ5tNz6nep2BEZVzobrau7jBH6qMr0aJqnTNtDVqIDjqqdB/JNZLdfgnzmzGFkjlHpe2xkKN2
+	D/EpxAXOwF02eIxMclKkfdiRkCT3R6iebm1wlkR/Lzg5bbq4sKvWw/lF3bKv6STbgQ9M02+kUEI
+	ZJyTXmJLhvAZcJSQYRuyKJ3mLeyytl7vypgNh3W6wlYxk/aufRbG8AQ8njINmr9NOGrhrm2N0Yl
+	+idfhZuNK4Irsg0wN59nNnU1BV3LENhA19LQHi79rmw==
+X-Received: by 2002:a05:6830:4486:b0:7f9:555:1def with SMTP id 46e09a7af769-808863d0ac9mr310838a34.11.1789354909720;
+        Sun, 13 Sep 2026 20:01:49 -0700 (PDT)
 Received: from [127.0.1.1] (184-96-157-145.hlrn.qwest.net. [184.96.157.145])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-803f60feba1sm10619014a34.13.2026.09.13.20.01.46
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-803f60feba1sm10619014a34.13.2026.09.13.20.01.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Sep 2026 20:01:47 -0700 (PDT)
+        Sun, 13 Sep 2026 20:01:48 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sun, 13 Sep 2026 21:01:13 -0600
-Subject: [PATCH v5 07/18] mtd: rawnand: sunxi: avoid a second program
- confirm for OOB writes
+Date: Sun, 13 Sep 2026 21:01:14 -0600
+Subject: [PATCH v5 08/18] mtd: rawnand: sunxi: avoid redundant column
+ changes for extra OOB
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,7 +74,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260913-submit-sunxi-nand-vendor-oob-layout-v1-v5-7-7d711076a6f7@gmail.com>
+Message-Id: <20260913-submit-sunxi-nand-vendor-oob-layout-v1-v5-8-7d711076a6f7@gmail.com>
 References: <20260913-submit-sunxi-nand-vendor-oob-layout-v1-v5-0-7d711076a6f7@gmail.com>
 In-Reply-To: <20260913-submit-sunxi-nand-vendor-oob-layout-v1-v5-0-7d711076a6f7@gmail.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>, 
@@ -89,48 +89,36 @@ To: Miquel Raynal <miquel.raynal@bootlin.com>,
  Brian Norris <computersforpeace@gmail.com>
 Cc: linux-mtd@lists.infradead.org, devicetree@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, James Hilliard <james.hilliard1@gmail.com>, 
- stable@vger.kernel.org
+ linux-kernel@vger.kernel.org, James Hilliard <james.hilliard1@gmail.com>
 X-Mailer: b4 0.15.2
 
-The hardware-ECC OOB writer delegates to the page writer, which already
-issues PAGEPROG, waits for completion and checks the NAND status. The OOB
-wrapper then calls nand_prog_page_end_op() again, sending an extra program
-confirm without a corresponding program setup. An error on this redundant
-operation is returned even though the page writer has already succeeded.
+The PIO write loop tracks the absolute NAND column in cur_off, while the
+extra-OOB helper computes an offset relative to the start of OOB. Comparing
+these values directly always requests a column change, even when the last
+ECC step has already left the cursor at the start of the extra OOB bytes.
 
-Return the page writer's result directly. This leaves both PIO and DMA
-responsible for completing their own program operation and preserves their
-error results, including for bad-block-marker writes.
+Include the page size in the comparison, matching the extra-OOB read
+helper. Keep the explicit column change when the caller does not track the
+cursor, as in the DMA path, or when the current column differs.
 
-Fixes: 25f815f66a14 ("mtd: nand: force drivers to explicitly send READ/PROG commands")
-Cc: stable@vger.kernel.org
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- drivers/mtd/nand/raw/sunxi_nand.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ drivers/mtd/nand/raw/sunxi_nand.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
-index 72b79f893e29..41d6560d7df7 100644
+index 41d6560d7df7..13dc0af56eb3 100644
 --- a/drivers/mtd/nand/raw/sunxi_nand.c
 +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-@@ -1843,15 +1843,10 @@ static int sunxi_nfc_hw_ecc_write_oob(struct nand_chip *nand, int page)
- {
- 	struct mtd_info *mtd = nand_to_mtd(nand);
- 	u8 *buf = nand_get_data_buf(nand);
--	int ret;
+@@ -1509,7 +1509,7 @@ static int sunxi_nfc_hw_ecc_write_extra_oob(struct nand_chip *nand,
+ 	if (len <= 0)
+ 		return 0;
  
- 	memset(buf, 0xff, mtd->writesize);
--	ret = nand->ecc.write_page(nand, buf, 1, page);
--	if (ret)
--		return ret;
- 
--	/* Send command to program the OOB data */
--	return nand_prog_page_end_op(nand);
-+	return nand->ecc.write_page(nand, buf, 1, page);
- }
- 
- static const struct sunxi_nfc_timings sun4i_a10_nfc_timings = {
+-	if (!cur_off || *cur_off != offset) {
++	if (!cur_off || *cur_off != (offset + mtd->writesize)) {
+ 		ret = nand_change_write_column_op(nand, offset + mtd->writesize,
+ 						  NULL, 0, false);
+ 		if (ret)
 
 -- 
 2.53.0
