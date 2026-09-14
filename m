@@ -1,166 +1,105 @@
-Received: from omta040.useast.a.cloudfilter.net (omta040.useast.a.cloudfilter.net [44.202.169.39])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB4235674E
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Sep 2026 05:46:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3AA41BA77
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Sep 2026 09:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789364807; cv=none; b=be7/+HWUNUgFYHaWExhEXxrdDFEgLfm1sYp1g8gpU5vaJ75fylDzU3FXneLTjJ7ClVXTZJS9TJkdIM2RGGC1o8n5PA5C88bqq6ptDeM6ugkcKf7FPEFRhkeY3im5mTSqBrRjjP6ibHGKSXP8lo6/86YVDVPJ7TzoEB8FCCWeees=
+	t=1789376999; cv=none; b=rj6jltKkF+ybtoWcDbZt8JMtIZIZ3NYs24q+n93aMHHkVpPubRPUJBGuLFd6gpxtr766DXYsi62IdSQfZId9kzFdSuY1xpDu5Vtx7wD93Znczn0026pT0XxGds4JmRix9qj4u9IV8KrV9aaTk6/cQQwR3XYsfGYU6rO0N0XutHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789364807; c=relaxed/simple;
-	bh=k/jLuXN0egJkl+RuDIoVDRcHVwABb4ahl7sxOPoZDY0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=h3sqPdeWyFFJkJyStHwDB/BXkiep3MoHSRscL1d8auFGLa05EI6nCxl8Zny1zgnGTia+pvX+4PEAUuJ2YemBM84lzAozyjT1Mzp9ivGbfR55wNeuV4nszB0wSu/DKSSP2SWv+JDUv8TnZnTrCVDgdT5yeNf95mrHSOikw+UA7+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=GX5YH3eo; arc=none smtp.client-ip=44.202.169.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
+	s=arc-20240116; t=1789376999; c=relaxed/simple;
+	bh=sHMWlu+OTUqYhqFrSUJL3jwM1neJ6/5JmISeQqqjsEA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:To:From:
+	 References:In-Reply-To; b=Vztw8m5QSwVRpLbZE5pSvAFzzxjNfA6JeXNxqYhIj9EdNM3hk7XZvAQs2/1eIpz4cycQZ9LEYr4Fs+/Z06yTzRxFffqZoY5c9D6e7PKu+zLsGE0CMOJ1shZtLFyL5Sm+bKfCBHwdY/iIq9VynWt2+nxieGoo9miPp1NurrHATkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=QOx/baCy; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="GX5YH3eo"
-Received: from eig-obgw-6005b.ext.cloudfilter.net ([10.0.30.162])
-	by cmsmtp with ESMTPS
-	id 5qMuxFobbuFzg5zWexW41g; Mon, 14 Sep 2026 05:46:44 +0000
-Received: from gator4166.hostgator.com ([108.167.190.91])
-	by cmsmtp with ESMTPS
-	id 5zWdx9TmViutH5zWexaQuJ; Mon, 14 Sep 2026 05:46:44 +0000
-X-Authority-Analysis: v=2.4 cv=AYuxH2XG c=1 sm=1 tr=0 ts=6aa78a44
- a=vY9Mjuda9oMEc2E4Cx1x2A==:117 a=vY9Mjuda9oMEc2E4Cx1x2A==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=7T7KSl7uo7wA:10 a=VwQbUJbxAAAA:8
- a=Zo5euW2OAAAA:8 a=Eac8uTGAbMeodF28N9oA:9 a=QEXdDO2ut3YA:10
- a=2aFnImwKRvkU0tJ3nQRT:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
-	List-Archive; bh=FKmISGsBCPqJ53Kvp3Q4p2bWngpj+u3FfgcCqvkQWbo=; b=GX5YH3eoc5y/
-	cIesr7qjeO2tIfaqFjj6d1sF0xR44ShbNkFI8PDImBXqgziH08CaPo+M8fnTYBQvv+fzeZa4oBGZ9
-	FPD8S5jZ4V3CXuM0XwDScfFj0G2P/xMMs8nsr/yNRmphZRVUR3ZNSdVUROlU9OQRwCKZ03Oi2aiWH
-	w3frKEQRDd2iyIchvu1TtsmcwYmYTDQHGIWglhq1Yt7OvaLLo+Z5KohHEGP3WYi4KZyLWOf7ez/dd
-	W0GAebSuhYsTu1kPJ/n9nxxt540C91zhp7mxHS6ofEkQ51VgDM/sOZ/fc3brDZRl2k/qCiezDRm44
-	YLyOKTdjDfmjB9wxyE0ixg==;
-Received: from flh4-125-195-69-90.tky.mesh.ad.jp ([125.195.69.90]:40280 helo=[10.203.100.11])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.3) tls TLS_AES_128_GCM_SHA256
-	(Exim 4.100)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1x5zWd-00000003pDO-1F9C;
-	Mon, 14 Sep 2026 00:46:43 -0500
-Message-ID: <0ed541fe-5583-4cd2-a794-6890478ad7de@embeddedor.com>
-Date: Mon, 14 Sep 2026 14:46:39 +0900
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="QOx/baCy"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id C8F8A1A0606;
+	Mon, 14 Sep 2026 09:09:54 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 8B50060323;
+	Mon, 14 Sep 2026 09:09:54 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1E0CB11C7AFDB;
+	Mon, 14 Sep 2026 11:09:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1789376991; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=J6gkIocMxhvdpf/NKA6qKbg3ZwMu+O+tLx3jm8Ehdxo=;
+	b=QOx/baCyIfdZIARepp6rSTVpentmNiDyxh/MzkNo667zrVwrPzSi/av2sIi9036kR90wcX
+	1cvc4jdCrwV097hLpWf2iDVabSiC11DtW7J1xyqQXazNoA64Wl91R5rKEI8FxCpyc9ptil
+	d+WhOydTJIs7zDbd6mw+szwsocwD9lCzeBTxIRfayrxJRpUvKv/JdIZAezkFvDYRk5/QsS
+	OPFQcb5MRz94HyIbB/OsKBkagZqlQWVnJh1TLJZMeu43YXlcLA101Ygc2ctU0spQmfnRI1
+	mlCgsvmVZUbYE5ne3cozOiZTcqNTeXaw+yp6jOZae8jNUAqU4pSkxil5SzkMsw==
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] rtc: ac100: Assign .num before accessing .hws
-To: Aamir Ahmed <elb12345@hotmail.co.uk>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Chen-Yu Tsai <wens@kernel.org>, linux-sunxi@lists.linux.dev,
- Kees Cook <kees@kernel.org>, linux-hardening@vger.kernel.org,
- stable@vger.kernel.org
-References: <AS8P251MB00013E724A77A355668B6CCEC8B42@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <AS8P251MB00013E724A77A355668B6CCEC8B42@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 125.195.69.90
-X-Source-L: No
-X-Exim-ID: 1x5zWd-00000003pDO-1F9C
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: flh4-125-195-69-90.tky.mesh.ad.jp ([10.203.100.11]) [125.195.69.90]:40280
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 21
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfFGEvdy46+nVXRygMDpBsZ11iKNdCEA7PCF/RMtHXcrPAePk9/x2QbhZhwOApmE6ypVql3AZMDUC8jIu0JpdrPLjv0weTddubzmldR3odJDz2YWpfRmO
- nwCL1SMDR6CI1/NiO93AFrwzYf84k42Z/HfSrPjXH/aaDrXLdfu0WSS0sNtn0vUJe5GDlx3V1nDK6v14PNgU0aePHA4rEQU12WteVGKum4W621hC6WxqdKGp
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 14 Sep 2026 11:09:15 +0200
+Message-Id: <DLEX6WY9X3PO.S0N8N4G4K301@bootlin.com>
+Subject: Re: [PATCH 1/2] dt-bindings: display: Use consistent indentation in
+ the example
+To: "Krzysztof Kozlowski" <krzysztof.kozlowski@oss.qualcomm.com>, "Chen-Yu
+ Tsai" <wens@kernel.org>, "David Airlie" <airlied@gmail.com>, "Simona
+ Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Samuel
+ Holland" <samuel@sholland.org>, "Liu Ying" <victor.liu@nxp.com>, "Andrzej
+ Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Luca Ceresoli" <luca.ceresoli@bootlin.com>, "Frank Li"
+ <Frank.Li@nxp.com>, "Sascha Hauer" <s.hauer@pengutronix.de>, "Pengutronix
+ Kernel Team" <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>,
+ "Francesco Dolcini" <francesco@dolcini.it>, "Philipp Zabel"
+ <p.zabel@pengutronix.de>, "Chun-Kuang Hu" <chunkuang.hu@kernel.org>, "Rob
+ Clark" <robin.clark@oss.qualcomm.com>, "Dmitry Baryshkov"
+ <lumag@kernel.org>, "Abhinav Kumar" <abhinav.kumar@linux.dev>, "Jessica
+ Zhang" <jesszhan0024@gmail.com>, "Sean Paul" <sean@poorly.run>, "Marijn
+ Suijten" <marijn.suijten@somainline.org>, "Marcus Folkesson"
+ <marcus.folkesson@gmail.com>, "Maxime Coquelin"
+ <mcoquelin.stm32@gmail.com>, "Alexandre Torgue"
+ <alexandre.torgue@foss.st.com>, "Yannick Fertre"
+ <yannick.fertre@foss.st.com>, "Raphael Gallais-Pou"
+ <raphael.gallais-pou@foss.st.com>, "Philippe Cornu"
+ <philippe.cornu@foss.st.com>, "Matthias Brugger" <matthias.bgg@gmail.com>,
+ "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
+ "Adrien Grassein" <adrien.grassein@gmail.com>, "Russell King"
+ <linux@armlinux.org.uk>, "Simha BN" <simhavcs@gmail.com>, "CK Hu"
+ <ck.hu@mediatek.com>, "Jitao shi" <jitao.shi@mediatek.com>, "Yongxing Mou"
+ <yongxing.mou@oss.qualcomm.com>, "Abel Vesa" <abelvesa@kernel.org>, "Chris
+ Morgan" <macromorgan@hotmail.com>, "Martinez Canillas"
+ <javierm@redhat.com>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <imx@lists.linux.dev>, <linux-mediatek@lists.infradead.org>,
+ <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+X-Mailer: aerc 0.22.0
+References: <20260913123331.100293-3-krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260913123331.100293-3-krzysztof.kozlowski@oss.qualcomm.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
+On Sun Sep 13, 2026 at 2:33 PM CEST, Krzysztof Kozlowski wrote:
+> Correct indentation in the examples to consistent 2- or 4-spaces
+> indentation to fix dt-check-style warnings ("example 0
+> [indent-consistent] indent mismatch ...").  Preferred is 4-spaces, but
+> re-indenting entire example just for that is too much churn.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-On 9/6/26 03:38, Aamir Ahmed wrote:
-> Commit f316cdff8d67 ("clk: Annotate struct clk_hw_onecell_data with
-> __counted_by") annotated the hws member of 'struct clk_hw_onecell_data'
-> with __counted_by, which informs the bounds sanitizer (UBSAN_BOUNDS)
-> about the number of elements in .hws[], so that it can warn when .hws[]
-> is accessed out of bounds. As noted in that change, the __counted_by
-> member must be initialized with the number of elements before the first
-> array access happens, otherwise there will be a warning from each access
-> prior to the initialization because the number of elements is zero.
-> This occurs in ac100_rtc_register_clks() due to .num being assigned only
-> after every clkout clock has been stored in .hws[]. With
-> CONFIG_UBSAN_BOUNDS and a compiler that implements __counted_by (GCC
-> 15.1+ or Clang 20.1+), this triggers an array-index-out-of-bounds report
-> during probe, and with CONFIG_UBSAN_TRAP the first store traps.
-> 
-> Initialize .num with AC100_CLKOUT_NUM, the number of elements .hws[] was
-> allocated with, right after the allocation. That is the value the loop
-> counter ends up at on the success path anyway, so the provider's
-> behaviour is unchanged.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: f316cdff8d67 ("clk: Annotate struct clk_hw_onecell_data with __counted_by")
-> Assisted-by: LLM
-> Signed-off-by: Aamir Ahmed <elb12345@hotmail.co.uk>
-
-Reviewed-by: Gustavo A. R. Silva <gustavoars@kernel.org>
-
-Thanks
--Gustavo
-
-> ---
-> Found while auditing the remaining clk_hw_onecell_data users that assign
-> .num only after touching .hws[], following the fixes already merged for
-> clk-s2mps11 (3e14c7207a97), exynos-clkout (cf33f0b7df13) and
-> clk-raspberrypi (6dc445c19050). The audit, the fix and this changelog
-> were drafted with an LLM assistant and reviewed by hand.
-> 
-> Compile-tested only (W=1, no warnings) on x86_64 with GCC 13.3, with
-> CONFIG_RTC_DRV_AC100=m forced on the make command line because the
-> driver has no COMPILE_TEST option. GCC 13.3 does not implement
-> __counted_by (CC_HAS_COUNTED_BY needs GCC 15.1+ or Clang 20.1+), so the
-> build only confirms that the change compiles; the sanitizer path was not
-> exercised. I do not have the hardware, so this is not runtime-tested and
-> no UBSAN report was captured.
-> 
-> Based on v7.3-rc1.
-> 
->   drivers/rtc/rtc-ac100.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/rtc/rtc-ac100.c b/drivers/rtc/rtc-ac100.c
-> index bba7115ff3a..a2f465438fd 100644
-> --- a/drivers/rtc/rtc-ac100.c
-> +++ b/drivers/rtc/rtc-ac100.c
-> @@ -317,6 +317,8 @@ static int ac100_rtc_register_clks(struct ac100_rtc_dev *chip)
->   	if (!chip->clk_data)
->   		return -ENOMEM;
->   
-> +	chip->clk_data->num = AC100_CLKOUT_NUM;
-> +
->   	chip->rtc_32k_clk = clk_hw_register_fixed_rate(chip->dev,
->   						       AC100_RTC_32K_NAME,
->   						       NULL, 0,
-> @@ -360,7 +362,6 @@ static int ac100_rtc_register_clks(struct ac100_rtc_dev *chip)
->   		chip->clk_data->hws[i] = &clk->hw;
->   	}
->   
-> -	chip->clk_data->num = i;
->   	ret = of_clk_add_hw_provider(np, of_clk_hw_onecell_get, chip->clk_data);
->   	if (ret)
->   		goto err_unregister_rtc_32k;
-> 
-> base-commit: 654ae5d73c05bd2943d65636ce6cd0aa46e62f18
-
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
