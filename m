@@ -1,165 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from m101-out-mua-6.websupport.se (m101-out-mua-6.websupport.se [109.235.175.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED32438473;
-	Mon, 14 Sep 2026 23:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51CC3C10AE
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Sep 2026 23:44:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.235.175.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789427794; cv=none; b=CoazFJgv1T2tF5pba25GSuo+XR4Ovcy1EnTIVQS80gY65x36iQi8bNTuHSikza5pSSydXKKK9Uq558R2dVG7vczRcRB75KEEDcl1ljQVqnOjwI2FZDa8arJSpfd/QM3YsxxnuYqxs7euVi+jb30gQaU6HxVrW6gJ1EX9OV83r0o=
+	t=1789429452; cv=none; b=IhrMH92K22esUQ8jtW/5Tw9GCorsjrFAVa3HgpC7OKKncOieSFcNw9OhufKLzHTHz8ovLnS6dxsxvvD8QSFTcJr7jQNp1gQMSp+/Vh50ID4h17WABBxZUd66A0jYSk/+QXJ4tnni7OAw+dguXVsd7/UnzgkOJhe+9hBMGT/uJfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789427794; c=relaxed/simple;
-	bh=a9OoLxlbgryrlLKAmEGZIJMmuk4Mh04+3SkjLyPClyw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=i1DsTFiJVlY7zS4sSOBrORFdAfR4zvZIANlwbcjquy/RcwEHKdDW0x+13OHiRs1pfdcYyapJ8OQjT0MpFyd7/neCmMts45ocm+FcmlOqwrKmie65miWV4uYTj5mFDp5EcoM7w5uh16gpg2BrX0vmBXCDIDNlKIw8kgN/92FFbBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z0MKwixY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789429452; c=relaxed/simple;
+	bh=Q2wX4mkU3BC4ZYinbjODxyuFNqb4rH5DqfCVvyWHNLA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=k1Pfj7uNbAaR2y7inpmAFxrqLDv3BX4eHC0VXeWh5xKhCnQG6Zvlrn/SFQ+QE9ntqgaCWLxgCp1/FCIs1GJsQdk51N3m1k41hb8lgpiuQw9Ub8KCNWoWNxOTGEeUrQIdRxmlfsCWH3q/ohx3GWJkHD+kOVjfgxSTMlsXh1Kgchs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=palvencia.se; spf=pass smtp.mailfrom=palvencia.se; dkim=pass (2048-bit key) header.d=palvencia.se header.i=@palvencia.se header.b=escwVh9k; arc=none smtp.client-ip=109.235.175.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=palvencia.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=palvencia.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z0MKwixY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 586901F000FF;
-	Mon, 14 Sep 2026 23:16:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789427776;
-	bh=tIIjh/Uf6BNc6qFW23Fkd03LNzbGrXqGSgv6kpFBBBk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Z0MKwixYFejC9aXB2ou9gDyVgw+IXUfla6yha+G1h+pdjyd9O2GMLR6rfbmVCIqRh
-	 qnCgaS96Y5zdrUGXyZHeCOvJUyELkRb+9fGwuS5j2u7zwvM0KNnIOldogKIDh75OXI
-	 UU1X49g4kycw28XdTtqVEurHf9Wwkc//rViLO6ZtoDml0qlU8ptCINWW4hrt54jJG2
-	 hAPr0WuTs5yk74shR3GBcrH+k1Xa8WmdEfWKZAyL5keV+wX4e0ljXisLoEP1cRbpgh
-	 4LO1uDw+LaWAO/9Fcz1VWy59hEVIdQMtiu7jS8LG28h+tTb8lnAcVAxnFEOPTpkgHm
-	 sgjmnSADR5CMg==
-From: Jakub Kicinski <kuba@kernel.org>
-To: bartosz.golaszewski@oss.qualcomm.com
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	andersson@kernel.org,
-	konradybcio@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com,
-	vkoul@kernel.org,
-	peppe.cavallaro@st.com,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	neil.armstrong@linaro.org,
-	khilman@baylibre.com,
-	jbrunet@baylibre.com,
-	shawnguo@kernel.org,
-	festevam@gmail.com,
-	jan.petrous@oss.nxp.com,
-	s32@nxp.com,
-	mohd.anwar@oss.qualcomm.com,
-	romain.gantois@bootlin.com,
-	geert+renesas@glider.be,
-	magnus.damm@gmail.com,
-	mripard@kernel.org,
-	christophe.roullier@foss.st.com,
-	brgl@kernel.org,
-	radu@rendec.net,
-	linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	dfustini@tenstorrent.com,
-	linux-sunxi@lists.linux.dev,
-	linux-amlogic@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-renesas-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	sophgo@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	bartosz.golaszewski@linaro.org
-Subject: Re: [PATCH net-next v14 07/10] net: stmmac: qcom-ethqos: fix SGMII loopback not set on resume after speed change
-Date: Mon, 14 Sep 2026 16:16:13 -0700
-Message-ID: <20260914231614.704318-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260908-qcom-sa8255p-emac-v14-7-ec212b747a7d@oss.qualcomm.com>
-References: <20260908-qcom-sa8255p-emac-v14-7-ec212b747a7d@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=palvencia.se header.i=@palvencia.se header.b="escwVh9k"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=palvencia.se;
+	s=mail; t=1789428823;
+	bh=57CV0ODspZehrGEH+otFsUBqkwpzxPHm6Pa1D+qTYsk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=escwVh9k0khvqVyx48hm0OutobA5BT6nHUHrMBRKjtstQHolUlz+DrPUlclymwgbT
+	 fIZH6SAvw9XUNHqjG8ckjsB7X2NjKlUsRceQl/bfZurUEIdaiTlGd7OzlrCtfFnAjJ
+	 109vaF0z2lYO+VlLzJE5dmdb3+32hqxnWP30QFcOeFMRrZF6kZbVxq7WLA9bMpSd8Q
+	 cE7LkhtkpZYjt+Ew2b+XVLUXCJrAoSWc3DuLjIJ/knhBQoq5SjxBil0Kt5khPD7Ndy
+	 ksnWR5WQT+fqYUDnuosfzcsKVWsRx48RMIHsFI+KOlecDMzGb7JCx1PwqldopCnBMH
+	 mlOqPmJ9WAeAQ==
+Received: from m101-u5-ing.websupport.se (unknown [10.30.5.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	by m101-out-mua-6.websupport.se (Postfix) with ESMTPS id 4hkM0l4KPrz1ttD;
+	Tue, 15 Sep 2026 01:33:43 +0200 (CEST)
+X-Authenticated-Sender: per@palvencia.se
+Authentication-Results: m101-u5-ing.websupport.se;
+	auth=pass smtp.auth=per@palvencia.se smtp.mailfrom=per@palvencia.se
+Received: from rpi (unknown [213.204.219.80])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: per@palvencia.se)
+	by m101-u5-ing.websupport.se (Postfix) with ESMTPSA id 4hkM0h3w7Mz2XZd;
+	Tue, 15 Sep 2026 01:33:40 +0200 (CEST)
+Date: Tue, 15 Sep 2026 01:33:36 +0200
+From: Per Larsson <per@palvencia.se>
+To: iuncuim <iuncuim@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Andre Przywara <andre.przywara@arm.com>, Michael Turquette
+ <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Vinod Koul
+ <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-phy@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 6/7] arm64: dts: allwinner: a523: add DWC3 USB3.0 node
+Message-ID: <20260915013336.68ee3611@rpi>
+In-Reply-To: <20250816084700.569524-7-iuncuim@gmail.com>
+References: <20250816084700.569524-1-iuncuim@gmail.com>
+	<20250816084700.569524-7-iuncuim@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Out-Spamd-Result: default: False [1.90 / 1000.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_RHS_NOT_FQDN(0.50)[];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TAGGED_RCPT(0.00)[dt];
+	RCVD_COUNT_ZERO(0.00)[0];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:35790, ipnet:213.204.219.0/24, country:SE];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FREEMAIL_TO(0.00)[gmail.com];
+	HAS_X_AS(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	BAYES_HAM(0.00)[26.18%];
+	LOCAL_OUTBOUND(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,csie.org,gmail.com,sholland.org,arm.com,baylibre.com,pengutronix.de,vger.kernel.org,lists.infradead.org,lists.linux.dev]
+X-Out-Rspamd-Queue-Id: 4hkM0h3w7Mz2XZd
+X-Out-Rspamd-Server: m101-rspamd-out-4
+X-Rspamd-Action: no action
+X-purgate-type: clean
+X-purgate-Ad: Categorized by eleven eXpurgate (R) https://www.eleven.de
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
+X-purgate-size: 804
+X-purgate-ID: 155908::1789428823-3D7071C6-CF8BE965/0/0
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
----
-net: stmmac: qcom-ethqos: fix SGMII loopback not set on resume after speed change
+On Sat, 16 Aug 2025 16:46:59 +0800
+iuncuim <iuncuim@gmail.com> wrote:
 
-This extends the guard in qcom_ethqos_set_sgmii_loopback() so that the MAC
-wrapper TX-to-RX loopback is also armed when ethqos->phy_mode holds
-PHY_INTERFACE_MODE_SGMII, not only PHY_INTERFACE_MODE_2500BASEX. Without
-the loopback, dwmac4_dma_reset() polls an RX clock that never toggles and
-times out.
+> +			interrupts = <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
 
-No Link: tags were present in the commit header.
+(Sorry for the more-or-less necroposting)
 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-> index fd7414a50eb4e..e067ceee01621 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.c
-> @@ -190,7 +190,8 @@ static void
->  qcom_ethqos_set_sgmii_loopback(struct qcom_ethqos *ethqos, bool enable)
->  {
->  	if (!ethqos->needs_sgmii_loopback ||
-> -	    ethqos->phy_mode != PHY_INTERFACE_MODE_2500BASEX)
-> +	    (ethqos->phy_mode != PHY_INTERFACE_MODE_2500BASEX &&
-> +	     ethqos->phy_mode != PHY_INTERFACE_MODE_SGMII))
->  		return;
+This is the only mention of irq or interrupt in the entire series,
+which at first led me to believe there was something missing given that
+there's a "Nobody cared" message appearing when the port first detects
+something connected to it followed by something about the irq
+being disabled.
 
-[Severity: Medium]
-Should this hunk be squashed into the preceding patch of the series, or at
-least carry a Fixes: tag naming it?
+Now I read in the text of another patch (adding a TrimUi dts) that this
+message comes when an interrupt storm is detected, and given that the
+value in /proc/interrupts goes from zero to 100K in no time, that seems
+likely to be the case here as well. 
 
-The commit message says "mac_finish() now updates phy_mode to the
-runtime-resolved interface", which is the change made one patch earlier in
-this same series:
-
-  f40e72d57bcb38 ("net: stmmac: qcom-ethqos: update phy_mode to the
-  resolved interface in mac_finish()")
-
-git blame at this commit shows the assignment in ethqos_mac_finish_serdes():
-
-	ethqos->phy_mode = interface;
-
-came from f40e72d57bcb38. Before that, ethqos->phy_mode was written only
-once, in qcom_ethqos_probe() from the DT phy-mode property, so the
-2500BASEX-only guard could not go stale at runtime and the DMA reset
-timeout described here did not exist.
-
-Does that leave f40e72d57bcb38 broken on its own, e.g. as a bisect point or
-a stable backport? On a needs_sgmii_loopback platform (emac_v4_0_0_data)
-with DT phy-mode "2500base-x" whose link resolves to 1G SGMII:
-
-  ethqos_mac_finish_serdes()      -> ethqos->phy_mode = PHY_INTERFACE_MODE_SGMII
-  suspend / ifdown
-  resume / ifup
-  ethqos_clks_config(ethqos, true)
-    qcom_ethqos_set_sgmii_loopback(ethqos, true)
-      if (... ethqos->phy_mode != PHY_INTERFACE_MODE_2500BASEX)
-              return;                 /* loopback never enabled */
-  dwmac4_dma_reset()                  /* polls a non-toggling clock, times out */
-
-Also, the subject line reads as a standalone fix for a pre-existing
-problem, which hides the dependency on the previous patch. Would either
-squashing the guard change into f40e72d57bcb38, or adding
-
-  Fixes: f40e72d57bcb38 ("net: stmmac: qcom-ethqos: update phy_mode to the resolved interface in mac_finish()")
-
-make the ordering requirement explicit?
-
-One more note on the commit message wording: the second paragraph reads
-"qcom_ethqos_set_sgmii_loopback() gates this on phy_mode being 2500BASEX.
-mac_finish() now updates phy_mode to the runtime-resolved interface, any
-subsequent resume with a 1G SGMII link skips the loopback setup" — the
-sentence joining is missing a connector such as "so that" or "and since",
-which makes the causal relationship hard to follow.
+What is this interrupt supposed to be about, and can it be handled
+better?
