@@ -1,72 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6991B4B53E5;
-	Tue, 15 Sep 2026 16:59:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278674B5123;
+	Tue, 15 Sep 2026 17:36:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789491557; cv=none; b=CE21RB8fhMALJpC4DayEBZxjy8urxh4rfhVQBqJGP7T05miFAraA9HkphApcZ0nAw2Qs53Y0AQEa0x16ZUHHMDhK8uEmgOQMWbcd0GSY6Uwrbrkz+ERMhgdjN8Kidl+4pOSBvL39OB0xoLXkR6HaCHfu2RazjhJtf6YouQMEIdI=
+	t=1789493783; cv=none; b=hAf3X0FZwPMqppq7ARQN4bwJ1sO00VKWFyYs0JZ6A8pNukHtih8mngznk9VnKC2x8cTsBTrghh7QC1xyJuobPalIzaAH+nH86LFY5E5u1AZWo3inm4wbmTGatUwqpt5GPsJTObKcqev5898Gv1ah+M40AaW0DhrmT1dE3B+fI6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789491557; c=relaxed/simple;
-	bh=1p08njRzaxxJUGeViwEgW9D9BKYP62TZf0wUv6jTmcs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JWGsH/FazX8usZkEr1RulDpjFY89loPND0fSnY3s5MQ0NPKvY6ut/SpgJKH57QKogV3g7xzZKCpr0fKXTfsdR/1Wnquo3SnWPycRuc/O9lFe7nPsPDFj+509loOGkgQ1JufGRW1lXKmjtiiN1FHBaF/aWshgawVuMM4mmB5t5JA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UFjTYw0V; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789493783; c=relaxed/simple;
+	bh=kOgdNJ3koZYykRt9HdMlU2I5LO0w6KpIWNWHFTo6/KE=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=HIEAktc9/iwGYbI6SuJc2j4uMtJf0CRgUxMfFINYWeXfkOlIYkMEM5C918Tm8PZBzR84jYWAPKSoMu/AMeKyyu/veGbOO0nqPA4nGCi11eINlVjmP0zm+1VoeGKSPVdK7Bsw+Yfi++A1YYjr21x71jhKHrl6Pff2Jn2t1INwIhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IqL0uFcA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UFjTYw0V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D779D1F000FF;
-	Tue, 15 Sep 2026 16:59:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IqL0uFcA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC1471F000FF;
+	Tue, 15 Sep 2026 17:36:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789491556;
-	bh=1p08njRzaxxJUGeViwEgW9D9BKYP62TZf0wUv6jTmcs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=UFjTYw0V5uMopAB+XnR9iv4O7/EgB2tOBkHcbBcSlAsgQ/xlSPvy3+PNJESBCa3EM
-	 rHEu8+JZx96SCWSgS0Fuf+gRPq+rGdNcaQhX4EuvI6BqapgZ9ktyrdvMCrxOqfheC3
-	 5WSkAfr46R3lQoAW6zMC8T/HZ7o90XY/B7TtoapZUvvyqxg1epA/1Rywa5xNzvIvav
-	 0EwoJzO+ckeFGRHwcwTf8X1J3wF3zfkVKxWOWJWOAGCck5F4TVzMCFTIgfc9PR080C
-	 4ia7pzIQ+KgvICHtHvqr8daUDn+H9/DQ9UDYXOxY2gry4g2gK2Pukq+ClpA/DBWj5Z
-	 Bm3S/msLT0WwQ==
-Date: Tue, 15 Sep 2026 17:59:11 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Paul Kocialkowski <paulk@sys-base.io>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/3] dt-bindings: vendor-prefixes: Add vendor prefix for
- Teclast
-Message-ID: <20260915-stubble-jarring-8ac922fb7465@spud>
-References: <20260914210115.28151-1-andre.przywara@arm.com>
- <20260914210115.28151-2-andre.przywara@arm.com>
+	s=k20260515; t=1789493781;
+	bh=eTLQWI728P1f1TgVNc2IjXvlKruVQpSAnHbGOlFGSMA=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=IqL0uFcAz2W5DkjxGwOnkWfM8TYT1N01QbSqNK3HTHMrWJ43bARjd9DgtrhAA+Rxu
+	 AXl3bxb6/jx9HNVXvT16HSsGtKRh3NyLYICoIxx0z3RP2s0fUb/g/5Urzt+JBSVeUZ
+	 V9aLg7r6c7LM7/xKVxGQTneRMd50O3P9qKIPkNJGggGC6cmjXP9FhKqVuey76ETL0c
+	 w4GUPZdtt0LiDIUsPy2XaBzSC3HsohqRmZu+6gVqgnGE8I6K+1EiVnTs+OgCsxwbAI
+	 eFq37WxaO9GpIGKpb/KOnS946OLkckZszqkpaQHjg4CdbsCLEW70ryH7yPR0PTv7JQ
+	 y0opBllzEbU8Q==
+From: Vinod Koul <vkoul@kernel.org>
+To: Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, 
+ Frank Li <Frank.Li@kernel.org>, Paul Cercueil <paul@crapouillou.net>, 
+ Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Binbin Zhou <zhoubinbin@loongson.cn>, 
+ Patrice Chotard <patrice.chotard@foss.st.com>, 
+ =?utf-8?q?Am=C3=A9lie_Delaunay?= <amelie.delaunay@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Ludovic Desroches <ludovic.desroches@microchip.com>, 
+ Viresh Kumar <vireshk@kernel.org>, Keguang Zhang <keguang.zhang@gmail.com>, 
+ =?utf-8?q?Andreas_F=C3=A4rber?= <afaerber@suse.de>, 
+ Manivannan Sadhasivam <mani@kernel.org>, Daniel Mack <daniel@zonque.org>, 
+ Haojian Zhuang <haojian.zhuang@gmail.com>, 
+ Robert Jarzmik <robert.jarzmik@free.fr>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Kelvin Cao <kelvin.cao@microchip.com>, 
+ Logan Gunthorpe <logang@deltatee.com>, 
+ Laxman Dewangan <ldewangan@nvidia.com>, 
+ Vignesh Raghavendra <vigneshr@ti.com>, Frank.Li@oss.nxp.com
+Cc: linux-arm-kernel@lists.infradead.org, dmaengine@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-trace-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux-actions@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ imx@lists.linux.dev, Frank Li <Frank.Li@nxp.com>
+In-Reply-To: <20260909-dma-chan_dev-rename-v4-0-d8fb6892a70f@nxp.com>
+References: <20260909-dma-chan_dev-rename-v4-0-d8fb6892a70f@nxp.com>
+Subject: Re: [PATCH v4 0/4] dmaengine: rename dma_chan::dev to
+ dma_chan::chan_dev for clarity
+Message-Id: <178949376928.248239.6347762847462574995.b4-ty@kernel.org>
+Date: Tue, 15 Sep 2026 23:06:09 +0530
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ds7rGmwnVtxv+Snq"
-Content-Disposition: inline
-In-Reply-To: <20260914210115.28151-2-andre.przywara@arm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
---ds7rGmwnVtxv+Snq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
+On Wed, 09 Sep 2026 12:22:27 -0400, Frank.Li@oss.nxp.com wrote:
+> The current dma_chan structure contains both "device" and "dev". So
+> 
+>     chan->device->dev refers to the DMA engine device.
+>     chan->dev->device refers to the per-channel device instance.
+> 
+> Their similar naming makes the distinction unclear and increases reader
+> confusion.
+> 
+> [...]
 
---ds7rGmwnVtxv+Snq
-Content-Type: application/pgp-signature; name=signature.asc
+Applied, thanks!
 
------BEGIN PGP SIGNATURE-----
+[1/4] dmaengine: vchan: add vchan_chan_name() to get channel device name
+      commit: 75d8640d7f5f89d1a1c39ccb72166ada95fb38d2
+[2/4] dmaengine: use dma_chan_name() helper to get per-channel device name
+      commit: 76574306c1ac38137683c69407f0e7810f407e4d
+[3/4] dmaengine: add (dmaengine|vchan)_chan_dev() helper
+      commit: 3b97a3ec420542591c10db8600cf481f1038a011
+[4/4] dmaengine: add union chan_dev for dma_chan::dev for clarity
+      commit: 6ad1b49cc30dc9bc7c06dd44241e61fe6f82c0b8
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaql5XwAKCRB4tDGHoIJi
-0hZLAQCKbMz0kBjj4L8osaddTBmbeWcDEaxQ9D8TnpULZdlE6QD/RqZKDFDrpK1A
-MjljX3MSYrM9HlLEQxswYcGqI9hd/AY=
-=B+4o
------END PGP SIGNATURE-----
+Best regards,
+-- 
+~Vinod
 
---ds7rGmwnVtxv+Snq--
+
