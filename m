@@ -1,48 +1,48 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013009.outbound.protection.outlook.com [52.101.72.9])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013021.outbound.protection.outlook.com [52.101.83.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C2942F712
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Sep 2026 18:14:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1844521D3D6
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Sep 2026 18:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.21
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789496091; cv=fail; b=EN/o3WVr/h/Pbo7YmF3loLD6hTrwgnnTPAo4vkdVtJ1D5a5bc3J1FklSoto2Q/XbOnJuBZhkCMZBl86SfN6oafVlkLsjCy4R8jw2Hw6ejClyDraosradbwCfWBhK8nxvOzfkPamaZpH9aOyYzPLvxATxWb85RW2zZSqG50vYZVs=
+	t=1789496249; cv=fail; b=n69klDzDBu720ig5ctSF7NfMEjB7CygjAkgff/rvluJyZXLLZf1KhG11t1znTIDty2IRPbCOsi72A9dNtsH7VPSR/ZsKSymyhH0siBq1ESjHLpZemh0GCDws+MTqjRUMCncBtHSeKGIrlVKDRnEBf+JvNOKocy2DBB3GAaDjSXY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789496091; c=relaxed/simple;
-	bh=S5iw0JKF5mfyGTyOT2aO48ANiWHB2LNGutz//LSGyoc=;
+	s=arc-20240116; t=1789496249; c=relaxed/simple;
+	bh=xJytufaEMufLYo1A1bBPCarqtPxv9JOAHQNZpFOmS9c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Po0x1/r/Omij2UNj8BQcSFRjPdm92ktYl6HmW5YpwymXDf4c43XP+l52uzVdoJ+27X6Ramc5gkCtK1wEC28EKmjg7Z8B65G/FtAPVYSSu4hebFi+KQrGwu6dJToxX2hbIUUncRcskF3AsLQVV5ilgBcgOmbb4MgqcNmvcvLCQYc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=PDy8Mknl; arc=fail smtp.client-ip=52.101.72.9
+	 Content-Disposition:In-Reply-To:MIME-Version; b=u//nogHBr7kH1jpe+mb7/AxFf9zqSTXhyjlfeJBct+I6e4IY3vsxQ/MJS4PHFxupihYkWRhFimDlua4arrUKrF9ex3sULrMqE9zB4zpjw+QiskmrEDBHt1jRxdaWxe3XTA1gREcsgGPmgZBXkV6omay+ILL1Tx4ngg+OwnWicyE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=MpfWGNlR; arc=fail smtp.client-ip=52.101.83.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="PDy8Mknl"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="MpfWGNlR"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=m80frfDLF1DXcESqsY0BcCCoTn/2i11YV1rY+mTqtVuLIrU2kbBvCjR25JDKMeBnHFck2QBH8525sBQmXP5yDL/0q5HeGPvP3tnusc+bJA4n3q4rxqzYznSa5OKDSr9splR7sCQpb0TgQVTUNho9tmdYOb6RkgNOUrEXOweO9y3HJh0jVfQuBcyCMbhrLP1EVeQTEl5Fk9m4phHO6dFXzx2hRkk+EzfynsxuMpgJsvkx0x4sYCeErzz1Q0gne1w32ubT+r9R/JFw82f4M03fScwYTtRUo8SKax0zSOreZvQsGRIQQ4hoPnOxvdnXaCZ1vVyoNM6safmy8M69afJjoA==
+ b=Q+ivedzur2rH+zmvpORk684bdLjyffThBj7DsoyyB1YoRCR2zP3z048bOyz3CfChHSs+p4W9wG5lVj9l2rDqKXnHIZ3UueDsfXhJjf0HJkKGyaX5ExdQ/p/nETgaBPYAzfGRbQKZV2kMZDpcNVC/MWQQW9RKIleaYy6SKcNBuUCPKwM9MghatUDwOYosUEDOhdh/U4ZOySJgcXuN6X3tAeWHke0aaDMBH5TGyC3tnXEVFu6gjWgjTg0+neJLAtVlJIUCtieQXZhkSnicnZ8om6AT+irzciQ/3C1MGt8Wx8cIePUXGDXLeLIwQMV0Y0Yl+9Ij4Qlzmwe8wTVo+6Lh4Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ne+5wYMRYFgtilpOXcP/8FcYbqvyIMIdGoBJJyzUpIU=;
- b=DfUzTURJAvXMiiaCRMEgr6Cq0xWNCpaHSmY7YdAM6hBytKAcKLWZr5GcLU6uMj2uHW1f/Np2QHYtH5MrEYP+lRWRpLroD2tkwnElj5xO5O+rzNTtedPFZBxP0A8P6BiEtsTn4gwY9H/82HYEbYk6KWY53JwBJfvkZcAUI13LRi2Gb18NcuoGue+djU3tdBhor1TKlI/Oljc1ET15Vc6Y9tln6oxYZ4sj8wldOGiZnGEzo73d6e8A2n0WrKY5iiO6SwWm3VqrfE/rPCYZUnbaGR6AqfSyVFn4B6e/LeRu+5Hfdx7E1FOBy/EfRZyMVivw1C1j7dRtXvR5zL9W3bWRJg==
+ bh=QvlEYTjIiQ5Et/p9Hlxj9wc0nJrwI5MH6CRQOrdkHps=;
+ b=kXiupjwsXhhT2VHETKO8ZIKsJk4JmnVya+Qjcdt+dd1XdNRrtEW8JsRgkOf7tOWU3NXQRu/c4F9EUkecrEc8EE4+Mxk06m+YnLcjGFZ/VvhCYTYdkQilGAhpYBxMfMBLIUi/HEnMVDa/9+4KnsadBm31poV6vcNaEz7wsLmn845/V82AVY7sZvRouCMTnWGeT3baGCRBjRWky3Di3otkBaOJKQLuqzC5+ZkkA9McvYT/5i4Hy0Jvki3vzmtRhw/bkahKaKP9notqw3cW/k6VbEIt+fuV1Qaql7TF/5yI0Ujqj/LLk2S7fQ7VSpb+pW6jNXsqv5A80k6yKgkmmhMCVw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ne+5wYMRYFgtilpOXcP/8FcYbqvyIMIdGoBJJyzUpIU=;
- b=PDy8MknlKGtI/VRUXM2s3Z/Q7UM5rUGJHj/NDSjJpyXKYiZxMgBqVsYVHDL/dMXbApOdIOHLo2sJ7Jvv4c/wmrCLAPax5T0LL3USkk5B7WZyAk+khx0+0uS1dP4iMxSPbNLLgAnsesVVIrABdTkRfGSEdfOoQy2Rtk/5+J2v4GEWf4JG0LrVhm12DVF3HWnLikCGMmFa68unp0uYkD1K5eOZzkgsS4y9T4E4PeVOzQj6y0lZLMWrvFNtdgbJw+p372pH2bdYbI8NMVzTfoc4Tbit6QrJSxXC05tLoCtr4itejAwYpU2rtF2D6Mey11nN+12SSIX/6n47tgJcObZHfQ==
+ bh=QvlEYTjIiQ5Et/p9Hlxj9wc0nJrwI5MH6CRQOrdkHps=;
+ b=MpfWGNlRReOk/Fyi/fybHSpXktlbMybbkZvA775b1DYMjpGRTG0vaBdBhAccpjY2nlZJLKIx1zhC6j1E/QiObX3OiETaezTq2Xd+iNMGBovs245FSZP0VqwyFVB1Y+bxKj03AhVccFQmiR+J7BcTlnLji7jP6EIitCeP+v+oLPPi+AIB3c+vPxSmelpLo+7vAFrOALlHH+apBoUlfAf1/q9C/A1XRK8niq9aJOvYxSgr4aHGVtoom3XrX0iOpnJ3YNa3f6uQgesiB7Ce/3S1jcjw6+WCKEWZakDXU4qxp3qZafpIkyIvc2aA0FiMDazFeGoFlb7pICOkyuhxCerRsA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by GV4PR04MB11451.eurprd04.prod.outlook.com (2603:10a6:150:29b::14) with
+ by GVXPR04MB11630.eurprd04.prod.outlook.com (2603:10a6:150:2c1::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Tue, 15 Sep
- 2026 18:14:44 +0000
+ 2026 18:17:20 +0000
 Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
  ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
  ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0406.012; Tue, 15 Sep 2026
- 18:14:44 +0000
-Date: Tue, 15 Sep 2026 14:14:35 -0400
+ 18:17:20 +0000
+Date: Tue, 15 Sep 2026 14:17:12 -0400
 From: Frank Li <Frank.li@oss.nxp.com>
 To: Yuanshen Cao <alex.caoys@gmail.com>
 Cc: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
@@ -54,16 +54,16 @@ Cc: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
 	Maxime Ripard <mripard@kernel.org>, dmaengine@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 2/5] dmaengine: sun6i-dma: Support variable address
- widths using masks
-Message-ID: <aqmLCxZlczPK-7Ax@lizhi-Precision-Tower-5810>
+Subject: Re: [PATCH v5 3/5] dmaengine: sun6i-dma: Add num_channels_per_reg
+ for flexible interrupt mapping
+Message-ID: <aqmLqEhHcQ42q0Bl@lizhi-Precision-Tower-5810>
 References: <20260826-sun60i-a733-dma-v5-0-abc5229b441e@gmail.com>
- <20260826-sun60i-a733-dma-v5-2-abc5229b441e@gmail.com>
+ <20260826-sun60i-a733-dma-v5-3-abc5229b441e@gmail.com>
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260826-sun60i-a733-dma-v5-2-abc5229b441e@gmail.com>
-X-ClientProxiedBy: PH8P223CA0001.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:510:2db::32) To GV2PR04MB11799.eurprd04.prod.outlook.com
+In-Reply-To: <20260826-sun60i-a733-dma-v5-3-abc5229b441e@gmail.com>
+X-ClientProxiedBy: CYZPR05CA0046.namprd05.prod.outlook.com
+ (2603:10b6:930:a3::6) To GV2PR04MB11799.eurprd04.prod.outlook.com
  (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -72,135 +72,179 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|GV4PR04MB11451:EE_
-X-MS-Office365-Filtering-Correlation-Id: 525c74ec-0c9d-49f5-a01e-08df135537f4
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|GVXPR04MB11630:EE_
+X-MS-Office365-Filtering-Correlation-Id: 206010ba-e140-4797-a487-08df13559508
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|19092799006|7416014|366016|1800799024|376014|18002099003|22082099003|3023799007|4143699003|10067099003|56012099006|11063799006;
+	BCL:0;ARA:13230040|19092799006|376014|7416014|23010399003|1800799024|366016|10067099003|4143699003|56012099006|11063799006|6133799003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	OoGP9MsBFL9ImA82CStja6evaoLy2ESG4EIQU2C+j9IBwA2dq2+7BPE6rV2ZgpKSNrp6ouGZwyfURMfsyUKWJrdR/amvXiHQOaZtDavEE6DrRWQ7NUS+dDTJgWIFN63tCDxHMeNI+2dgaAi/5N3dwSZM6NATBQNYE7lWPCzCAnCXiNn9FQ6hgxjK5uIaJ7y7ZQBVByXpd04SSaQyQ8djWfC5sAyfmCH55dK9uZ4VE/Z1gg/iVB98No1M5usqsTFgsrjFrUGUNnPa5DipuB4sOwMk4jwtL0pSf5aDaawT7j73eBCzUKIKzwhuwblZmvBYMIyPupUBhACOg0VS47Dv+sFJ3cu+/c2q0pbkDkeJZkhPNTEIk931/cbHOQR99M34vWaxCL65XQtG6t3DdCVtGCj8rCE6nyl68KkHQCKi17lchlzw2df3JKa4zFa9YNjqNTMBbmOn9mVyM8qjJMkvfUWjwGHLI0G4fEiwxGwAggdKRYGsBHVwtjbkKiWB9fhKCoKUfPdWTOv5Q/g+kZLFdR7RDdYmTokTpWo7E46h2kVMx1dHOx0Nt+zIsudF/YxsftuJiCMFjnrbZLJISWJz0HEgoTOIUI8reiRSAlcfAD1axbvdKFgVMEG7SXeBSEfSVtKbBDTHEgZBVrjHNHMLaBcMGLIWmAg/F0SkwE2TdE0=
+	Htfg2COsdowCx2NSw49zMMP0zpvSftpY+iyG1oGPrSIp2B+w3HwkFbr0x8lC3MstOiznr17lYQumgZRWJy+2l33OLoH81YSnZJmtRqLor/FdsTgOWcD2MqORPaAExRAom/NSsiChRNSKnvX0xsBXy4o5WwhnPr0vg7GaGVzA8zYQ+lENh0WKuLiMpQcsMw9/0a5gh9A3E9aQjni61IvEbgtaE/rXKg1/bP0zRLSOnNmuGo0ZWPvGAawX6d9Zt8XaQ0hVQCvmwgHbTXwyAUtZukDalYxX2Ih8S3I5LtPVmV3e5Erdq/juWGn6gsw7JidP8oN//6Az/zVdKLFIhOR//5VuROZP02+cqHGsAj1EsXqIpBElOT9RWpF4SS71Of930YXmxifWRyn4qvNGe7jY0ZFNv9Y0QMiLyY7HVbH8yAlqWCzum8EAeQ/MgQ6rozN5irP3eMJwXffll9LLmk01pYVZUDOLfolYuiPjpt5k9wcoATYiDzb6BI5R2PRhnMGm1QnogFLvP3Jm5NnycsgUGvrZSqrntYDSvP8KERBWzoUdcj0f8XVU1Sy/G/c3ofnhDmLMQY2dtHTkoNN2nOjcSrdTrmhFRErE9wT6Lf421tmt92DsURQheWWl7rZRwfeBeidap+N2sw+NzTXkJtNLrz7elcx2s0zuKkgmLdYLGhE=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(19092799006)(7416014)(366016)(1800799024)(376014)(18002099003)(22082099003)(3023799007)(4143699003)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(7416014)(23010399003)(1800799024)(366016)(10067099003)(4143699003)(56012099006)(11063799006)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?8OyAEryzv20iXRTu1Td+LeA7eUqjNEU043AaaNa+mnlcZOhGGfgd4tJUnpMC?=
- =?us-ascii?Q?0Wvgufu4QrZrNWMd8gIofP15F2k6veFMymskma0Hbd+PymCO1f6qYsQEzDCR?=
- =?us-ascii?Q?IOIpC+zFhD4MGSHxl6IrTDdTi+8OCpX3lRpO9EtwYNBja20pAruK2kL6Rf4d?=
- =?us-ascii?Q?XULRJV7a0ndKsY7wJSiPIzyRVu+/fiKl9rEtsPCH14aDt9OYWhtWNn4uxPuN?=
- =?us-ascii?Q?mBW0ZpE2LzeKOx+WToiOxZUoOHroFZF1Pz7wU7F8NtvBEgm3nyxwXF8aXY0m?=
- =?us-ascii?Q?TohAzJI3+sGIIxzUt/60YLY6enjWieWcgcjpBnnvS3nKScNC1f0E0UD75cBe?=
- =?us-ascii?Q?f0uVmNd1MV1edc70YHLjmN7FnFh5WO64AjzvFh4XsicKDcXxOo3yjd65qM6W?=
- =?us-ascii?Q?3USSXWgcq8zC6Fcjwhth8m60P0KaQFnDw8hcmR0F05ILOrCkASPS1TXDd/TS?=
- =?us-ascii?Q?ckNqb6sYV87HpriQIWxak+PBTwoRBFx+Khj+QcgktwZsIcHtoKDd5GdYRuNZ?=
- =?us-ascii?Q?RhBcNoJ58saty/y+Syu2+jyaVXNC6Z6eqbZTnQlaic1lLBMCLv0ABiKLZryV?=
- =?us-ascii?Q?e84Cro6BsGffliplGsi+C3+GXvrcd3BicDHWGcf3QxmLb4nnWD54xAmzxJFt?=
- =?us-ascii?Q?hTXUfGaNXpspWN3hUOoqfpe7v2APKBY3fgMcc4gEuSQlOHLE5AaTU2yokZOG?=
- =?us-ascii?Q?Gy47P3nIaqWOoW0WimetWQLpR4LLR3gjbGfKeHT5O7WxzXDA5X8uPyMFsbFv?=
- =?us-ascii?Q?UYrcPtK2INg5LG4jAoeEGGP38Q2UtkvIto47Kiz9Wrjk0t93vnfMbgKKAww1?=
- =?us-ascii?Q?jLYppBS9oTgwrOvM8L5XMtApRrLaT6Xe4k18He3dHpn8aVQDiyr0Bqk4qrQd?=
- =?us-ascii?Q?d0Z/ir+bKZObeJGwWwbfSXdBUcDgCJVfzHRyQMfijN4Sw8GRxCYrt/aKPQd/?=
- =?us-ascii?Q?gdPPvMON9qv7bzWqFeYUsmK3iwaoDXRgaq47IQpj/3GJ0UMfy0wyyIjWf9sJ?=
- =?us-ascii?Q?Yase8GEqgPP6ThSBqY3B6wS3nG2xOwrl5BN6ISiuK38f7IS5+nBnYV3NfWll?=
- =?us-ascii?Q?3FZ5kWi+zfxCYTWFIfI1Ls7evV3+fb6rB8pLDwyRm9szegdGr7ZXoynUbiiR?=
- =?us-ascii?Q?ebUuZe8PERjDaICsFeYlWh6AypEwpom7JNSFE/GRp6AyFm3rE7iTtMdr3/xj?=
- =?us-ascii?Q?3XEX8RqWlEcciSyLmeHAPslx2lxL49UB3ces60mFasw2GnPVPo0gJxtPaFxX?=
- =?us-ascii?Q?stoJqF0J77B6FX0NmWty/coAa3AhDxjzYa3BJb8uPLp/QdlQYqazCM7IMR+h?=
- =?us-ascii?Q?CtJBZZZo5ohQEn1hbFNXC8c6e9e7CAdnLbbSlCtl4HmJc9uNVvIVChxkvW3p?=
- =?us-ascii?Q?JnTBR2Rxi9QYCxoekbMO9AgmpVQXqQymq3uJoSqprnLb2EMIYaFujiyYYf/O?=
- =?us-ascii?Q?dg7cYFY7mvRTPmli3tN7xAFpBfR1cGqdAfdxM/aStFg5vMxBkCFn9iVVuVp+?=
- =?us-ascii?Q?wYlpk7FcL/rVH7AJkjcR+b0bWFdu3NHwRaZJGY3XEJMw+5g5bjK76Ygia9gx?=
- =?us-ascii?Q?TDGtZj067kH1mgD6mksVgz3/+sI/Kl10wJkizKEbuTnCaNftOR0gv6R9xPRS?=
- =?us-ascii?Q?gfbuEhpGymwNl8J/wdadNhLjLA2lbzkWWDzIjWYyKKJCpjvltoKGmbEnKM5L?=
- =?us-ascii?Q?lnIiTdzI9t14+agZIW/IzF6sMtNmO+zmmNQNg9ek1YiPqvKbkp8C4IgGol46?=
- =?us-ascii?Q?CKQYxTyUiM6+WD45N0D0N/LeiOo4621pxr3imP+wFj0w7Ko+CR4o?=
+	=?us-ascii?Q?D271qdP40G2jIQ09fSW8WkpBOG5GV96VspjLciP3im3Y6DMsDqHbLq+NRspw?=
+ =?us-ascii?Q?cd7sQZNd/3Gmb17OYH8K0++zpEIEZNnrIZGm2PKqQ9lB051mVh6fKcS6CIIQ?=
+ =?us-ascii?Q?itIO52h5nEejCze6HVXYxRS7zXqfmqlF/TgplmNSZL9gcWEYWC1Zu72caM9T?=
+ =?us-ascii?Q?wq6sRikPWjpUV0YdXa3mKKk/Krpi3D5XJ2Dal4C5w9uN620f1+8n9alNcyJH?=
+ =?us-ascii?Q?4pJFXnRkTTxO1Lyb5BfyXe/IiP1jp6/FtejIt60xLGBbAroxzU67HxmoDJqJ?=
+ =?us-ascii?Q?oN1L/ICUe7qH86UfnABtgB/N2FYUEr+zx3heDLNnaCv3KYbfRf6gNosj2DD2?=
+ =?us-ascii?Q?NeQwS8zXSg3+aI3Biz3L7Bvmn99v479KdrPh09GfnLrPDwMLjrA4kZN0kQMG?=
+ =?us-ascii?Q?HIhhm+OhZqlL4KLjdwcJqgH4ib1HY/YOhKIUQggE90pk9oxmWTijDu/v1ClG?=
+ =?us-ascii?Q?y9i/78IBPtNmLNFrZYdZx899GxIcDIoAhoByWxsiPIdl/JN500/lcAGBoViz?=
+ =?us-ascii?Q?CDChB7knr2AxuHr/mB6RoolKcs2TUzbeIvYaHioau6t3KLTLzLknRQDw0eI+?=
+ =?us-ascii?Q?y3TctWQoyl/Q0XQg86L5fnosquu1atH32YCGKyRfP5K3xabomaABTJWLIOWx?=
+ =?us-ascii?Q?nHsdJ180YUUIKmqYA2e1bjldax4wZDnVVqnopd+kJzjVVuVhRZFyHJqCwseY?=
+ =?us-ascii?Q?8paj9t3FRHdCOvaTzQ9P2vd91ap3/hlhJeP/K1/dYxZx0afWrsl5KyM3Owz3?=
+ =?us-ascii?Q?PAEjJUHPbNrZ8YBdbkkvv5erTzH9389pikKJby27XVSdPPmD1wWVBlweHOaN?=
+ =?us-ascii?Q?onVJZLRQTLNr6xjA2rCvzZrNH6YwBqG0sDi4Kho5WAmYpXWdk/TrdAsjyXJQ?=
+ =?us-ascii?Q?CgJ9WSPhogmuIxIQJ3frGBkG3/moJfP2yFuX61+U/w9BlNaUmSHBEqVRWzJy?=
+ =?us-ascii?Q?6ZBUZCD1eS7JgmnZna7g5IAckaBlNGm5t8IpHBatIRgkUemCz8f1Re2pCFTO?=
+ =?us-ascii?Q?EOoIZliR0+p5HYwBsPgCYeY/X1JcGtKjmivh9PEo7R9O8k16HdCVPI8Kds6m?=
+ =?us-ascii?Q?AZ5eVUBiVGfV/m4sYfTPhT38yf7jiXqtjTUp4y82f03kcz9e96fMJdNWjreT?=
+ =?us-ascii?Q?/oPVu2bcoWZtdelJDTs49WazhA6bVo+d79fR4Di7/soymyTNCbVAseosT0KT?=
+ =?us-ascii?Q?c48coX2jzMts6PkVA5MbU+ujrSj4/+pny3ADFNTO8KI6YMuZd3z08+NlY21a?=
+ =?us-ascii?Q?azKaVSdOqDEfkQ2ATVnghpHeLd3/+qbA43hQIUxwtOv8y10kRdbtqheEzM8a?=
+ =?us-ascii?Q?x4vp2/U3XXVDAeFdKYNKsbAHt69a1VUIWKsq/y9Mz/XROMwcoPyRX3BcRKol?=
+ =?us-ascii?Q?pW0zhof0xyfvbV/L2pEDYEdBFQ/wPe3sUn/j9qk+ZAv3Xc7P7ok0yGG0isAn?=
+ =?us-ascii?Q?vGsimVS5PIOE6Tw6bpgzydzXGB6Co2uCLMjsHNKUJR6OU8cT+JsF7Pe3Hy+Q?=
+ =?us-ascii?Q?td8jgtjiPoolcWqpdajhLsjqF1fTnOaUG0XyZi/jXDY6UE6IRdp4Cvjamz+X?=
+ =?us-ascii?Q?tCe3VNNK7zc13Knxcs0EvKNmZWuIsFtdrFK5LSKojQEIdVo2I1bejcBSnoUi?=
+ =?us-ascii?Q?9AQiXQIW7o2afGtlJvuHilXqWx3fAbFR+lfHKrx05hbrMTg0KYt8QplKvWR2?=
+ =?us-ascii?Q?ZiYkROHId1HrztQqQ8Q/MSXaupt0LaSztKT+2tIgcM0BsRmn4eIyJgLZqvfB?=
+ =?us-ascii?Q?K3MawQubzGbRPoigecj1UP2jrI98hXkwjxSpwKrToPVBwT7rwL5M?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 525c74ec-0c9d-49f5-a01e-08df135537f4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 206010ba-e140-4797-a487-08df13559508
 X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2026 18:14:44.3717
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2026 18:17:20.5045
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mwR35gmFnZZa3rNrSqPHgeYUNhH91aLrj9syrMFZmFmP1GRJXCRyF1UorCq+Yk8OC/pVr3eHlCBvhfsC+pHiGt7EGBPW4w3cwo5Ms0qzanEKcP4HkLKla96/K6v/JAXf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV4PR04MB11451
+X-MS-Exchange-CrossTenant-UserPrincipalName: fSjaKzLdi7ZUYYwAQXOZN8T6KomjOihAv4fmBoWiUPz/PG2gm4EiHr/hU1FWACIGBz3OniW76JeErCG3HiFPWvRsA4IciCTK0qjwF55TxQCc7CP/98uEujTmWxyN3Uu4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB11630
 
-On Wed, Aug 26, 2026 at 02:40:28AM +0000, Yuanshen Cao wrote:
-> The Allwinner A733 DMA controller supports higher addresses (up to
-> 32G) compared to previous generations. The existing `sun6i_dma_set_addr`
-> function uses hardcoded logic for setting the high-address bits in the
-> LLI parameters.
+On Wed, Aug 26, 2026 at 02:40:29AM +0000, Yuanshen Cao wrote:
+> The `sun6i-dma` driver previously assumed a fixed number of channels
+> per interrupt register. For example, `sun6i_kill_tasklet` was hardcoded
+> to disable interrupts only for registers 0 and 1. `DMA_MAX_CHANNELS` was
+> also not in used previously, and the old SoCs never has more than 16
+> channels.
 >
-> Add `src_high_addr_mask` and `dst_high_addr_mask` to `struct
-> sun6i_dma_config` to handle different high-address bitfield mappings.
-> Update `sun6i_dma_set_addr` to use these masks via `field_prep()`,
-> allowing the driver to support variable address widths.
+> The A733 has a different interrupt structure where the number of
+> channels per register may differ. Add `num_channels_per_reg` to `struct
+> sun6i_dma_config` to make the interrupt handling logic handware-agnostic
+> Update `sun6i_dma_interrupt`, `sun6i_dma_start_desc`, and
+> `sun6i_kill_tasklet` to use this value.
+>
+> Additionally, set `DMA_MAX_CHANNELS` to 16 to ensure loops over
+> interrupts are correctly bounded, aligning with the hardware
+> specifications.
 >
 > Signed-off-by: Yuanshen Cao <alex.caoys@gmail.com>
 > ---
 
 Reviewed-by: Frank Li <Frank.Li@nxp.com>
->  drivers/dma/sun6i-dma.c | 18 +++++++++++-------
->  1 file changed, 11 insertions(+), 7 deletions(-)
+
+>  drivers/dma/sun6i-dma.c | 21 ++++++++++++---------
+>  1 file changed, 12 insertions(+), 9 deletions(-)
 >
 > diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-> index f305fbfb3545..1ffd870d9594 100644
+> index 1ffd870d9594..ffb63212bea7 100644
 > --- a/drivers/dma/sun6i-dma.c
 > +++ b/drivers/dma/sun6i-dma.c
-> @@ -7,6 +7,7 @@
->   * Maxime Ripard <maxime.ripard@free-electrons.com>
->   */
+> @@ -32,14 +32,13 @@
+>  #define DMA_IRQ_PKG			BIT(1)
+>  #define DMA_IRQ_QUEUE			BIT(2)
 >
-> +#include <linux/bitfield.h>
->  #include <linux/clk.h>
->  #include <linux/delay.h>
->  #include <linux/dma-mapping.h>
-> @@ -103,8 +104,8 @@
->   * The LLI link physical address is also mangled, but we avoid dealing
->   * with that by allocating LLIs from the DMA32 zone.
->   */
-> -#define SRC_HIGH_ADDR(x)		(((x) & 0x3U) << 16)
-> -#define DST_HIGH_ADDR(x)		(((x) & 0x3U) << 18)
-> +#define SRC_HIGH_ADDR_MASK	GENMASK(17, 16)
-> +#define DST_HIGH_ADDR_MASK	GENMASK(19, 18)
+> -#define DMA_IRQ_CHAN_NR			8
+>  #define DMA_IRQ_CHAN_WIDTH		4
+>
+>
+>  #define DMA_STAT		0x30
+>
+>  /* Offset between DMA_IRQ_EN and DMA_IRQ_STAT limits number of channels */
+> -#define DMA_MAX_CHANNELS	(DMA_IRQ_CHAN_NR * 0x10 / 4)
+> +#define DMA_MAX_CHANNELS	16
 >
 >  /*
->   * Various hardware related defines
-> @@ -147,7 +148,8 @@ struct sun6i_dma_config {
->  	u32 dst_burst_lengths;
->  	u32 src_addr_widths;
->  	u32 dst_addr_widths;
-> -	bool has_high_addr;
-> +	u32 src_high_addr_mask;
-> +	u32 dst_high_addr_mask;
->  	bool has_mbus_clk;
+>   * sun8i specific registers
+> @@ -58,6 +57,8 @@
+>  #define DMA_IRQ_EN_OFFSET_A31		0x00
+>  #define DMA_IRQ_STAT_OFFSET_A31		0x10
+>
+> +#define DMA_IRQ_CHAN_NR_A31		8
+> +
+>  /*
+>   * Channels specific registers
+>   */
+> @@ -154,6 +155,7 @@ struct sun6i_dma_config {
 >  	u32 irq_stride;
 >  	u32 irq_en_offset;
-> @@ -687,9 +689,10 @@ static inline void sun6i_dma_set_addr(struct sun6i_dma_dev *sdev,
->  	v_lli->src = lower_32_bits(src);
->  	v_lli->dst = lower_32_bits(dst);
->
-> -	if (sdev->cfg->has_high_addr)
-> -		v_lli->para |= SRC_HIGH_ADDR(upper_32_bits(src)) |
-> -			       DST_HIGH_ADDR(upper_32_bits(dst));
-> +	if (sdev->cfg->src_high_addr_mask)
-> +		v_lli->para |=
-> +			field_prep(sdev->cfg->src_high_addr_mask, upper_32_bits(src)) |
-> +			field_prep(sdev->cfg->dst_high_addr_mask, upper_32_bits(dst));
->  }
->
->  static struct dma_async_tx_descriptor *sun6i_dma_prep_dma_memcpy(
-> @@ -1283,7 +1286,8 @@ static struct sun6i_dma_config sun50i_a100_dma_cfg = {
->  			     BIT(DMA_SLAVE_BUSWIDTH_2_BYTES) |
->  			     BIT(DMA_SLAVE_BUSWIDTH_4_BYTES) |
->  			     BIT(DMA_SLAVE_BUSWIDTH_8_BYTES),
-> -	.has_high_addr = true,
-> +	.src_high_addr_mask = SRC_HIGH_ADDR_MASK,
-> +	.dst_high_addr_mask = DST_HIGH_ADDR_MASK,
->  	.has_mbus_clk = true,
->  	SUN6I_DMA_IRQ_A31_COMMON_CFG
+>  	u32 irq_stat_offset;
+> +	u32 num_channels_per_reg;
 >  };
+>
+>  /*
+> @@ -268,7 +270,7 @@ static inline void sun6i_dma_dump_com_regs(struct sun6i_dma_dev *sdev)
+>  {
+>  	int i;
+>
+> -	for (i = 0; i < 2; i++) {
+> +	for (i = 0; i < DIV_ROUND_UP(sdev->num_pchans, sdev->cfg->num_channels_per_reg); i++) {
+>  		dev_dbg(sdev->slave.dev, "Common register:\n"
+>  			"chan num %d\n"
+>  			"\tmask(%04x): 0x%08x\n"
+> @@ -489,8 +491,8 @@ static int sun6i_dma_start_desc(struct sun6i_vchan *vchan)
+>
+>  	sun6i_dma_dump_lli(vchan, pchan->desc->v_lli, pchan->desc->p_lli);
+>
+> -	irq_reg = pchan->idx / DMA_IRQ_CHAN_NR;
+> -	irq_offset = pchan->idx % DMA_IRQ_CHAN_NR;
+> +	irq_reg = pchan->idx / sdev->cfg->num_channels_per_reg;
+> +	irq_offset = pchan->idx % sdev->cfg->num_channels_per_reg;
+>
+>  	vchan->irq_type = vchan->cyclic ? DMA_IRQ_PKG : DMA_IRQ_QUEUE;
+>
+> @@ -582,7 +584,7 @@ static irqreturn_t sun6i_dma_interrupt(int irq, void *dev_id)
+>  	int i, j, ret = IRQ_NONE;
+>  	u32 status;
+>
+> -	for (i = 0; i < sdev->num_pchans / DMA_IRQ_CHAN_NR; i++) {
+> +	for (i = 0; i < sdev->num_pchans / sdev->cfg->num_channels_per_reg; i++) {
+>  		status = sun6i_read_irq_stat(sdev, i);
+>  		if (!status)
+>  			continue;
+> @@ -592,7 +594,7 @@ static irqreturn_t sun6i_dma_interrupt(int irq, void *dev_id)
+>
+>  		sun6i_write_irq_stat(sdev, i, status);
+>
+> -		for (j = 0; (j < DMA_IRQ_CHAN_NR) && status; j++) {
+> +		for (j = 0; (j < sdev->cfg->num_channels_per_reg) && status; j++) {
+>  			pchan = sdev->pchans + j;
+>  			vchan = pchan->vchan;
+>  			if (vchan && (status & vchan->irq_type)) {
+> @@ -1110,7 +1112,7 @@ static inline void sun6i_kill_tasklet(struct sun6i_dma_dev *sdev)
+>  	int i;
+>
+>  	/* Disable all interrupts from DMA */
+> -	for (i = 0; i < 2; i++)
+> +	for (i = 0; i < DMA_MAX_CHANNELS / sdev->cfg->num_channels_per_reg; i++)
+>  		sun6i_write_irq_en(sdev, i, 0);
+>
+>  	/* Prevent spurious interrupts from scheduling the tasklet */
+> @@ -1138,7 +1140,8 @@ static inline void sun6i_dma_free(struct sun6i_dma_dev *sdev)
+>  #define SUN6I_DMA_IRQ_A31_COMMON_CFG	\
+>  	.irq_stride      = DMA_IRQ_STRIDE_A31,	\
+>  	.irq_en_offset   = DMA_IRQ_EN_OFFSET_A31,	\
+> -	.irq_stat_offset = DMA_IRQ_STAT_OFFSET_A31,
+> +	.irq_stat_offset = DMA_IRQ_STAT_OFFSET_A31,	\
+> +	.num_channels_per_reg = DMA_IRQ_CHAN_NR_A31,
+>
+>  /*
+>   * For A31:
 >
 > --
 > 2.55.0
