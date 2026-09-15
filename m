@@ -1,70 +1,71 @@
-Received: from mail-oa2-f12.google.com (mail-oa2-f12.google.com [74.125.231.76])
+Received: from mail-oi2-f12.google.com (mail-oi2-f12.google.com [74.125.231.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 042B74CE67C
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Sep 2026 19:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079C04CDA3A
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Sep 2026 19:03:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789499019; cv=none; b=P/KtXoJHFBnD2UGG+05g/pJZzk7u/ZUisPW2NMhjXg8MYnyL2rUfKnBN6SuFdBZJPvYzTMUgUeFMtLBG7ozLBkri+H3+kKLVGKuzWmZpWz4tkmCGhs3FrGB3Bw8buMGGrwI3fz81j+xv3OQKGf3sHx/SsgXbPnyxtSYZWTqQdyk=
+	t=1789499021; cv=none; b=u6zpNNiEF2yX0LM09mVS6nv5+EBISXTiRoSPaVzV0OuS/dPUGVAzINaHDGkodToESTnDs1a8NUgPa82qmOSovNnmCY6e73H+a1nP6fQY+fBWn8CwoICOMwQ2ejAJjGrBtsFkM5fw/2eJUIjyqT0GbZFlePeno1oaBFX5GIZa+zU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789499019; c=relaxed/simple;
-	bh=2JIyZIHznyDtQqCAOgu4r0hfKVY221r4s//QaqUnxzc=;
+	s=arc-20240116; t=1789499021; c=relaxed/simple;
+	bh=8Fq4P+2Ju4lSwhzSxj9aVcUt1KO3M3r6gAx7Y5yu310=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rz92AunlnPG81G3aboXRDa4qQxAWvn8idch+5Afh1TP7WIAWkbd9p6Oo/YydnBn60sSF7XXBJSM4tXL8ssQVx3WhsG7w5K+Ebr279JNbLEsgkNuwJIkF69nS71l2yLz/IT4UNMwhvnVw5n9+iJWtODpRnjUAjaN7NTbzJFM6JY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=doxV3x2S; arc=none smtp.client-ip=74.125.231.76
+	 In-Reply-To:To:Cc; b=fO4ODJYJAXystJ5fTqrTDS7JhT08ifLw4BQiL/wiWlswrO8NF1gpudkokiLGg2EG9NmoFoXWPDF5Nmc/195XCoXfuYo0vY114BcIFsNyv8s5gp1ZySiUNaW+bNn4/rVOcMKN866o2lZ3v9DVlPaBTzria2JlLU3NURBapH49Qao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H2QWpX6V; arc=none smtp.client-ip=74.125.231.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="doxV3x2S"
-Received: by mail-oa2-f12.google.com with SMTP id 586e51a60fabf-466ccdd77e3so100609fac.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 15 Sep 2026 12:03:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2QWpX6V"
+Received: by mail-oi2-f12.google.com with SMTP id 5614622812f47-4b37dcfe9b2so89375b6e.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 15 Sep 2026 12:03:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789499017; x=1790103817; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789499019; x=1790103819; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=JW8jFyLPHvei3ZpNWECcPkSmFiI6d1/AJVTjb5PqVkk=;
-        b=doxV3x2SkfKce5FQThS7sCAUo2hVnaefDfQICu+KF/jEMCJGIdgk5sMG+wKm0kYenL
-         j7BM7GtcXREap1FIrjxMoX++92b94bx1Y0cApbceb+slvkWNL+t+HrA75RTvueQeUQte
-         DGvokyI7LI/TmpitIVQ3aEdjaavduAWqXxPAJ4wB9C1pxEY9ycet+9qzthawHQ6uvQg/
-         UmNKqR3XVdiXz3mw9gpdThovN3VnOba4x+wrXWyA9VGu8qj9/dOg1nirMcWIAaxZFjIp
-         97fmcv41HAkyySX7CIjclfxbCTNR5xbj4JVhNN4rsPsJqpofpeOKkTvDEVFFhqaNaPMG
-         O4Jw==
+        bh=7XXNu+ljv2q2jdXLpwbKTjv8fXsZBsxA93MzoFmASwE=;
+        b=H2QWpX6VS43rTCEXXELUY5llZ1lq8KxZUc9vp7BvNA91MgU8YIG/xT1ZyMz5wrqoCo
+         9jhuBM1oi6HtyDYmnz++id3ZBqH1ekqZBrDQ0FQM9MJqNOWaSdFKtqCNJACicKJcRkC6
+         w2OC2BYYGf63+PPl+V+jpSf+QQ+76moUXLA5JrtzX4BjQ4xMN+Mp1nYtpw2HZpkq+s5a
+         qhlAsW2QsXAsbEPpPARaK7SbNSYKxLkJPJaDpvWLLwQsr4UYk1Hm0qWzQe9XIElOamvS
+         SfeT9/iUWqEWKe80Y6+/UREI6Y8+dqPEJGA8wzWFy/GCarUvbryY0VQiaUbjWI9T45Gu
+         yxqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789499017; x=1790103817;
+        d=1e100.net; s=20260707; t=1789499019; x=1790103819;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=JW8jFyLPHvei3ZpNWECcPkSmFiI6d1/AJVTjb5PqVkk=;
-        b=ZMwuShFRvzfAf/yXLxM2L+6emOzNqWyhF1dCPbVN1CHY5Wtz980CGissE+yUhwEuwg
-         /7Q82UT335w7VtHbMu959phzcmEkOSxlD8PDgoLJMI9dqEJy7p9fJRqugd5d7ukzW/ZT
-         u1NFIl5DiQpvWL7o/O1M0K30RKvs9VjgMeLQMR86VspaR20URGfOPyMLF9bihwvx3CVo
-         9J7mu0HA0+9IGgc0OdTzKCUXAPX5dB4K4nXFZrZOfld29J3Vat3g1xRK6JfWNPkbnWo+
-         PSUZqC+o4QHzzHsB9OBQKdqe4u9LW+GXbzVrrRyWKvGnWteZVRcPN/ll9BSOeDy6rnzl
-         AKHw==
-X-Forwarded-Encrypted: i=1; AKwUvBzZUGWvFkDN6zo43iyBroF/NQ8La9a/DmcfHhbmqXBOpWkkHYcqeFEPGV1lBobB1SDQaX+aZwGxxq15BA==@lists.linux.dev
-X-Gm-Message-State: AFuF++nVmDKROYhYLpJwxuMLFkiCY804dfAicn9WTU2veEl8B/kg4mUk
-	RytMkU84vF5SpHUoyFXiSQ5I5obwAvooQtPC3eNJ3J2krL3XmVt5XhVI
-X-Gm-Gg: AYBFou0wO+UQfGBZViLCvi9vD8KkNs7dnYvGEFquMebxLF2BI7gdoWruHs6wDOXE3ye
-	7KKBRoTTwu3e6lJiHMDIR8ajYhaPM/1qnSrRzBwaei9U8x2bl3K/qYOfwiDnmdY966ZUe2V4fTl
-	nIoncZEmHRUWlH0PJWX0GJJhg91axJ65h/+ucga3hLiU64LVq+JBP6M/uBrmlgkdLMfFvCVLhSH
-	jL0po8BAdqnFIrZbY/37nmralk11V0RL91irQvNufyNeCkflyd3UVDu/zQn52Z5/03mCmzAK9Ks
-	sY/+DL+GOZ+1Kp3SS8c8AXSifa3DjtiF2ltIoJhR9kk+VhMl6sFkIryy8KzSf2yIMrxi2UjlshO
-	ZbyhuSBJpOWceiKE1+nRi+FV7NNNogBJPMbGXRPps76HEOOK1Hd7oXfdedo/W1LfXVqIQ+xQQAt
-	CCxulFO1kyFSJBCumg3XMQltkqh+vMWzyoxm66hS5A7Tg6gdPfq0/yySACLE1wQJ7U+fVbMkT8K
-	+XvFn82i9FuDsuNW/9aBfM1s+7GjuY5UkPEN8nwQd/LQGy2DlZPFF9KlgHS0z2YmTIXlDA4jMrP
-	ECeVi/WkxdIqYZdWY5T8VVVb/6Fxe1fYCCw02NagQZanRVj4DTP4OUlCfr2rCQhmx5ZLiM9nkbu
-	VgrIDNAObbkAtJrG3jrPAcNI=
-X-Received: by 2002:a05:6870:e305:b0:475:a112:1279 with SMTP id 586e51a60fabf-481fa3a2804mr6618423fac.38.1789499016683;
-        Tue, 15 Sep 2026 12:03:36 -0700 (PDT)
+        bh=7XXNu+ljv2q2jdXLpwbKTjv8fXsZBsxA93MzoFmASwE=;
+        b=yYxCGq+lS275uGapl89/NKLce4soKeJo30aYHudfHfR9t0GvRFhMn6O2uiGrob00rf
+         Bt+QxJIayBsrgeDG0tis4IAsXIptgDhgZwu4T1KHIPBtPgS706lN9Zs3o7O1VcCzu8RZ
+         rQKW8j9OCLQ3Eq/JEJpY0YSpuO1gZVVUnRRUm1nZYFBdRIJp3c4gTrN1EY024D8qf/4A
+         nwXtC40dVqOzGAGfuy+KQ1l6E87VsnTjOPwAf+hL4XWwXls4PwecOFKCLTYbtN2QFQtA
+         fNfN8Iyy35UH/L3I25naQHjlxBvUWFnUKPDyWTMC63JAxqF/SbUo2Uq0AqWVtwgKiMBI
+         eKnQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzELAbX9cRYBLL3N7vTpvVWpozPqvnZKa4ta1MsxiZlXX6WhdVA54oKPwW+MpMxQBb0H8hGBgi4Z7H2qA==@lists.linux.dev
+X-Gm-Message-State: AFuF++muQbLl9S+cHRmLM0fFoJR1zxtZjxQsSKB9ZngSFEhrEZzGZss2
+	9FX1wQtWGhTzHlnCXX+Y3129wBRZnimTXSdmaiQSubC16IbriwdXHjAG
+X-Gm-Gg: AYBFou1BYJ/iKIRRWDf/2ie9KoO5ag/ko6ICjbPtxv1co0YaJMuQ1wT/ReES6rh8BU8
+	/ffwUsLwVQ19UQjlRij72lUiGmPlFZoabG3sZaOkfQn/iJBl5ECitXUOfR97OWUnLPUH+1VCd3f
+	nfHAwVA8nw6BlEdhdvRNoXV03fRWBPRrU+R6I3azqTvgk1BP/CW9Aq+0I+3ST6tXil9FJPVG4FE
+	SSNSpn1SJYC6VsKl2Gp7IGoviA+8zUSjMa3vtRpBR45o+YPe5KDgs3ouvUstdwWQ8nUJvZwUU1K
+	KV1cbvomTH/2kgOJR+wq7lNuKHmvi5aIJ6BWNGuhaJO0xjgwRmB3caqU4BWLVPjlnaEtGdrNMtD
+	8wm8DuNS6alXFcR6tdwroiQwnjDW/gs++gooc6ugM63pQQ3ekn5mmeZHyXfIX8ksulyjYmdA40M
+	iF3TyVWscCbHCQ17wjKTHmANAOwLKN2yeV64yeZaudcJ/d3QxEGVTYtME29/JyuDZJMGu3LS3fq
+	zAxH0q5EGRpCQ/8bxWleCx0QWnUEOt7B99haQz4BeWEJ2uNu+XtSmm8mt/16wPiGVFaP1A4MZYD
+	tql2GzShKH91RHnPesNYQKNans3c94H8XbuhNvvbZvsOJIdD2rZsrD0yWQTxu+oU5W7JoJZ/+qR
+	RJBKpC0fottnX77ZWxjXImQ==
+X-Received: by 2002:a05:6820:169e:b0:6aa:cce3:ab61 with SMTP id 006d021491bc7-6c53f555385mr8191833eaf.9.1789499018615;
+        Tue, 15 Sep 2026 12:03:38 -0700 (PDT)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4842546a51bsm836569fac.0.2026.09.15.12.03.33
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4842546a51bsm836569fac.0.2026.09.15.12.03.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 12:03:35 -0700 (PDT)
+        Tue, 15 Sep 2026 12:03:37 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Tue, 15 Sep 2026 13:03:18 -0600
-Subject: [PATCH net-next 1/2] dt-bindings: net: allwinner: add H616 EMAC1
+Date: Tue, 15 Sep 2026 13:03:19 -0600
+Subject: [PATCH net-next 2/2] net: stmmac: sun8i: add support for Allwinner
+ H616 EMAC1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,7 +74,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260915-submit-h616-emac1-v1-v1-1-195de0bb1f8a@gmail.com>
+Message-Id: <20260915-submit-h616-emac1-v1-v1-2-195de0bb1f8a@gmail.com>
 References: <20260915-submit-h616-emac1-v1-v1-0-195de0bb1f8a@gmail.com>
 In-Reply-To: <20260915-submit-h616-emac1-v1-v1-0-195de0bb1f8a@gmail.com>
 To: Richard Genoud <richard.genoud@bootlin.com>, 
@@ -97,106 +98,67 @@ Cc: Maxime Ripard <mripard@kernel.org>, netdev@vger.kernel.org,
 X-Mailer: b4 0.15.2
 
 The H616 secondary EMAC uses a separate system-control clock register
-and supports only RMII at 10/100 Mbps. Add its distinct compatible
-without an older fallback, since using the primary EMAC clock register
-would not work.
+and supports only RMII at 10/100 Mbps. Its EPHY is provided by a
+companion AC200 or AC300 package rather than an internal PHY block.
 
-Constrain the PHY interface mode to RMII, matching the hardware. The
-EMAC1 clock register also retains the three-bit TX and five-bit RX delay
-chains, so allow the existing Allwinner delay properties for this
-compatible.
+Add an EMAC1 variant using the dedicated register and mark the PHY as
+external. The register retains the standard five-bit RX and three-bit TX
+clock delay chains, so expose their supported ranges to the shared
+syscon setup.
 
+Co-developed-by: Richard Genoud <richard.genoud@bootlin.com>
 Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- .../bindings/net/allwinner,sun8i-a83t-emac.yaml        | 18 ++++++++++++++++--
- Documentation/devicetree/bindings/net/snps,dwmac.yaml  |  2 ++
- 2 files changed, 18 insertions(+), 2 deletions(-)
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-index 323a669fa982..34def84e6c21 100644
---- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-+++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-@@ -21,6 +21,7 @@ select:
-           - allwinner,sun8i-r40-gmac
-           - allwinner,sun8i-v3s-emac
-           - allwinner,sun50i-a64-emac
-+          - allwinner,sun50i-h616-emac1
-           - allwinner,sun55i-a523-gmac200
-   required:
-     - compatible
-@@ -33,6 +34,7 @@ properties:
-       - const: allwinner,sun8i-r40-gmac
-       - const: allwinner,sun8i-v3s-emac
-       - const: allwinner,sun50i-a64-emac
-+      - const: allwinner,sun50i-h616-emac1
-       - items:
-           - enum:
-               - allwinner,sun20i-d1-emac
-@@ -91,6 +93,17 @@ required:
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index 48c52eb96233..fdc0c3384af8 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -81,6 +81,13 @@ static const struct reg_field sun8i_syscon_reg_field = {
+ 	.msb = 31,
+ };
  
- allOf:
-   - $ref: snps,dwmac.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: allwinner,sun50i-h616-emac1
++/* EMAC1 clock register @ 0x34 in the "system control" address range */
++static const struct reg_field sun8i_syscon_reg_field_emac1 = {
++	.reg = 0x34,
++	.lsb = 0,
++	.msb = 31,
++};
 +
-+    then:
-+      properties:
-+        phy-mode:
-+          const: rmii
+ /* EMAC clock register @ 0x164 in the CCU address range */
+ static const struct reg_field sun8i_ccu_reg_field = {
+ 	.reg = 0x164,
+@@ -143,6 +150,18 @@ static const struct emac_variant emac_variant_h6 = {
+ 	.tx_delay_max = 7,
+ };
+ 
++static const struct emac_variant emac_variant_h616_emac1 = {
++	.syscon_field = &sun8i_syscon_reg_field_emac1,
++	/*
++	 * The "internal PHY" is in a companion AC200 or AC300 package,
++	 * rather than on the H616 die.
++	 */
++	.soc_has_internal_phy = false,
++	.support_rmii = true,
++	.rx_delay_max = 31,
++	.tx_delay_max = 7,
++};
 +
-   - if:
-       properties:
-         compatible:
-@@ -100,6 +113,7 @@ allOf:
-               - allwinner,sun8i-h3-emac
-               - allwinner,sun8i-v3s-emac
-               - allwinner,sun50i-a64-emac
-+              - allwinner,sun50i-h616-emac1
- 
-     then:
-       properties:
-@@ -109,7 +123,7 @@ allOf:
-           maximum: 700
-           multipleOf: 100
-           description:
--            External RGMII PHY TX clock delay chain value in ps.
-+            PHY interface TX clock delay chain value in ps.
- 
-         allwinner,rx-delay-ps:
-           default: 0
-@@ -117,7 +131,7 @@ allOf:
-           maximum: 3100
-           multipleOf: 100
-           description:
--            External RGMII PHY TX clock delay chain value in ps.
-+            PHY interface RX clock delay chain value in ps.
- 
-   - if:
-       properties:
-diff --git a/Documentation/devicetree/bindings/net/snps,dwmac.yaml b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-index 2ed4564ae99d..b20149c3e850 100644
---- a/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-+++ b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
-@@ -57,6 +57,7 @@ properties:
-         - allwinner,sun8i-r40-gmac
-         - allwinner,sun8i-v3s-emac
-         - allwinner,sun50i-a64-emac
-+        - allwinner,sun50i-h616-emac1
-         - amlogic,meson6-dwmac
-         - amlogic,meson8b-dwmac
-         - amlogic,meson8m2-dwmac
-@@ -623,6 +624,7 @@ allOf:
-                 - allwinner,sun8i-r40-gmac
-                 - allwinner,sun8i-v3s-emac
-                 - allwinner,sun50i-a64-emac
-+                - allwinner,sun50i-h616-emac1
-                 - loongson,ls2k-dwmac
-                 - loongson,ls7a-dwmac
-                 - ingenic,jz4775-mac
+ #define EMAC_BASIC_CTL0 0x00
+ #define EMAC_BASIC_CTL1 0x04
+ #define EMAC_INT_STA    0x08
+@@ -1278,6 +1297,8 @@ static const struct of_device_id sun8i_dwmac_match[] = {
+ 		.data = &emac_variant_a64 },
+ 	{ .compatible = "allwinner,sun50i-h6-emac",
+ 		.data = &emac_variant_h6 },
++	{ .compatible = "allwinner,sun50i-h616-emac1",
++		.data = &emac_variant_h616_emac1 },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, sun8i_dwmac_match);
 
 -- 
 2.53.0
