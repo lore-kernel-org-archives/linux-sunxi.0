@@ -1,94 +1,156 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D67F371D05
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Sep 2026 20:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D536F39CCE3;
+	Tue, 15 Sep 2026 21:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789504413; cv=none; b=GuVrUYYGG4+gXCL5yVgMQAf/L5F/jjLy+U165IKQhf3Tm74ZuJvjBmGqvGAJNgOwN1ktP0/zhRJmUG+Le7En1i616eo59awUstMQAhDUweoExmF148Ew4OR/VGNRbgHKC8ydVMbzr5QLHul5qU+M9bykEVMG74FpqQ5RFytmlAw=
+	t=1789506371; cv=none; b=W8QuSjtCBmEFzYzwQxJhTcwaztl2hItMnOcEdXpqOksIOgDsXfrk19DpOVCTdVpFHRH/iG6IfSXzbmOGDXhMA82LY1Etj1Vl5ZqzgnToDwu9zW0jFRFaaDYyvvetJmAnoDMJJ/RZzoJh8QF6sxR7EpTxFSNCHAawBjV8SdUXIJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789504413; c=relaxed/simple;
-	bh=45/eohNmGxzgetiRK5lMcxh9V1IsBJwlnwaJid+CtAE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CKwJ0wpRnKfEihNn3G0ZjNsOfwhe3Hb7lch3BZLJv9Ndwlt3tLzrrOE6aM/Xqm4PVbKzHPXH4rsRMrqbtQ6fT7cEytQ49tg+BTfceypbeaPI3dqfXWmsP8EFz/LW/8eVNkM6rxdSuy1WtIK3BdUBKWYPhWX00BA24tT2NDkpdzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jb/LzoNA; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1789506371; c=relaxed/simple;
+	bh=aBOJJP6A5C4hrhURb7yE5SYUAJ3oqx3hzU/msHVqdxg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nfEWu8Y7giDmGPSkVXhQufMrsDKVb26SdGe/ZX0NK9Jgd56gRH+oN3DEU8SCBqZljOPGO75d6PTQnIZyD1inXVXBU7j7oy8DBaTlmFbO4qK05yBWzklBoR5f22XR5cZ/aEOvSWXkpl3O5P+TiLrq8bPFYBWeD2Nxnz5l4HS0HZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=jSlvK8hI; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jb/LzoNA"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 0CDD9C5CD53;
-	Tue, 15 Sep 2026 20:34:13 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 400E2602B0;
-	Tue, 15 Sep 2026 20:33:29 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8614A11C7AFE5;
-	Tue, 15 Sep 2026 22:33:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1789504403; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=EaTBQSFDY9HqCiNlkTKbGEfGfiR2jHJYb7QJIPYFUTU=;
-	b=jb/LzoNA59kiYJnRzas+LoinY1Sw+b4PsE7rgm/n6GJvhG2pg9BnzQ2sLKCzTIcRpQnuAA
-	sA4Jc9hJuw3g/bDDXcCb/voAubto6tXDlnvtwVKMfwXTj4pwh4kXh4VdKoJ+tA9CeUz0ZC
-	AbgcFPqQbmWWkdJ2hWRvBxJUqnfZyak+cOKHTrkm308yid/SB83QA73zL4rn14Ubjz4HUu
-	Ba+WqXLrxosE10orHQzNUG8XMXsJF7Lkb633gTRGy8EfgzQzwyCV6wagjtLXSuiDoIsJX3
-	07g+4RG/qkRjf8a+62XVeiBEb6c8/ku0OM+PIfdNCTPxi0PpEcqVCv6URgfE+g==
-Message-ID: <5df35a3e-d2c6-4576-868f-d3194de3deb0@bootlin.com>
-Date: Tue, 15 Sep 2026 22:33:12 +0200
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="jSlvK8hI"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83893152B;
+	Tue, 15 Sep 2026 14:06:03 -0700 (PDT)
+Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CB4CE3F882;
+	Tue, 15 Sep 2026 14:06:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1789506367; bh=aBOJJP6A5C4hrhURb7yE5SYUAJ3oqx3hzU/msHVqdxg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jSlvK8hI/FX84XvakztHpnE/7R0Z6+ZuVc99SRY+6AiDkO249I8rxrCC+H2rkgp/G
+	 oFeKtc80XxfP5T2VAcUkk58Cdnclh9mX7b7FX0ZnGLgL+C0mGjEJdpJa452zNT/nMG
+	 eXdnb6ApIDdvmxTOk9ARS8B1VIHubs4iqIlGsmDU=
+Date: Tue, 15 Sep 2026 23:01:27 +0200
+From: Andre Przywara <andre.przywara@arm.com>
+To: Conor Dooley <conor@kernel.org>
+Cc: sashiko-bot@kernel.org, sashiko-reviews@lists.linux.dev,
+ robh@kernel.org, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ conor+dt@kernel.org
+Subject: Re: [PATCH 2/3] dt-bindings: arm: sunxi: Add two Teclast tablets
+Message-ID: <20260915230127.7aa4386a@ryzen.lan>
+In-Reply-To: <20260915-flip-steadfast-9198d002f381@spud>
+References: <20260914210115.28151-1-andre.przywara@arm.com>
+	<20260914210115.28151-3-andre.przywara@arm.com>
+	<20260914211940.256A11F000FF@smtp.kernel.org>
+	<20260915005122.40ba2d7a@ryzen.lan>
+	<20260915-flip-steadfast-9198d002f381@spud>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 1/2] dt-bindings: net: allwinner: add H616 EMAC1
-To: James Hilliard <james.hilliard1@gmail.com>,
- Richard Genoud <richard.genoud@bootlin.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Giuseppe Cavallaro <peppe.cavallaro@st.com>,
- Jose Abreu <joabreu@synopsys.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20260915-submit-h616-emac1-v1-v1-0-195de0bb1f8a@gmail.com>
- <20260915-submit-h616-emac1-v1-v1-1-195de0bb1f8a@gmail.com>
-Content-Language: en-US
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-In-Reply-To: <20260915-submit-h616-emac1-v1-v1-1-195de0bb1f8a@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Hi James,
+On Tue, 15 Sep 2026 17:58:50 +0100
+Conor Dooley <conor@kernel.org> wrote:
 
-On 9/15/26 21:03, James Hilliard wrote:
-> The H616 secondary EMAC uses a separate system-control clock register
-> and supports only RMII at 10/100 Mbps. Add its distinct compatible
-> without an older fallback, since using the primary EMAC clock register
-> would not work.
+Hi Conor,
+
+> On Tue, Sep 15, 2026 at 12:51:22AM +0200, Andre Przywara wrote:
+> > On Mon, 14 Sep 2026 21:19:39 +0000
+> > sashiko-bot@kernel.org wrote:
+> > 
+> > > Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> > > - [High] Missing SoC fallback compatible string 'allwinner,sun50i-a100' for the Teclast P80 tablet breaks CPU frequency scaling.
+> > 
+> > Well, there is more to it. We should rather add the a133 as an explicit
+> > name in the driver, like we did for the H616 family. And the whole OPP
+> > table is still from the old A100 days, it doesn't really cover the A133
+> > or A133P values, which go up to 1.6GHz and 2.0 GHz, respectively.
+> > The bin selection in the driver is also not adequate, the BSP code
+> > seems to use the SID cell at 0x00 to select one of two speed bins, at
+> > least for the A133. The A133P is probably still different.
+> > 
+> > So I'd rather keep the a133 fallback compatible, and adjust the driver.
 > 
-> Constrain the PHY interface mode to RMII, matching the hardware. The
-> EMAC1 clock register also retains the three-bit TX and five-bit RX delay
-> chains, so allow the existing Allwinner delay properties for this
-> compatible.
+> Can you explain the complaint from Sashiko to me?
+> From where I am sitting, without awareness of allwinner SKUs, it seems
+> like the bot is suggesting that you add a "random" fallback to make a
+> driver probe.
 
-I don't think there's such a thing as RMII delays. RMII has a single
-clock, contrary to RGMII that has a TX and a RX clock with a 2ns delay
-between clock and data.
+Well, this is about the DVFS driver, which doesn't really have a nice
+device to match against. The nodes under /cpus carry the cores, but
+there is no notion of a SoC here, it's just about architectural Arm
+cores. So the solution was to match this against the machine (fallback)
+compatible, which always carries the SoC name. I think other platforms
+do the same.
+And while we have DVFS support for the A133, this only supports the
+"allwinner,sun50i-a100" fallback string, as this was the only chip of
+that "family" at time of upstreaming. The A133 is using the same
+die, it's just a better bin, but there are virtually no A100 devices out
+there, as they were superseded by the A133 very quickly.
 
-I think it's just a leftover in this IP from the other variants that
-can do RGMII ? You should just be able to drop the comment changes here,
-and same goes for the dwmac patch.
+So what Sashiko (somewhat correctly) mentions is that with that
+a100 fallback string we won't get DVFS support. It feels odd to name
+that tablet A100 when it's clearly not, so I went with the proper SoC
+name.
+We did the same for the H616 family: just adding all the names using
+the same die to the DVFS driver will solve this problem as well, which
+is what I am planning to do - unless people have different opinions.
 
-Maxime
+Hope that helps!
+
+Cheers,
+Andre
+
+
+
+> > 
+> > Cheers,
+> > Andre
+> > 
+> > > --
+> > > 
+> > > commit 582b866f1ad9000afddf47eb7e4c9d37a95dfbc8
+> > > Author: Andre Przywara <andre.przywara@arm.com>
+> > > 
+> > > dt-bindings: arm: sunxi: Add two Teclast tablets
+> > > 
+> > > This commit adds devicetree bindings for the Teclast P80 and P85T tablets.
+> > > The Teclast P80 is based on the Allwinner A133 SoC, and the P85T uses the
+> > > Allwinner A523 SoC.
+> > > 
+> > > > diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> > > > index f04db28c630ac..28437c47ac01b 100644
+> > > > --- a/Documentation/devicetree/bindings/arm/sunxi.yaml
+> > > > +++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+> > > > @@ -933,6 +933,16 @@ properties:
+> > > 
+> > > [ ... ]
+> > > 
+> > > > +      - description: Teclast P80 Tablet
+> > > > +        items:
+> > > > +          - const: teclast,p80
+> > > > +          - const: allwinner,sun50i-a133
+> > > 
+> > > [Severity: High]
+> > > Does this strict two-item compatible array omit the necessary fallback string?
+> > > 
+> > > The sun50i-cpufreq-nvmem driver in drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> > > requires allwinner,sun50i-a100 to exist in the root node's compatible array
+> > > to bind via of_machine_device_match(sun50i_cpufreq_match_list).
+> > > 
+> > > Without this fallback string included in the bindings (and subsequently the
+> > > board's Device Tree), cpufreq-dt will not be instantiated. This will cause
+> > > CPU frequency scaling to silently fail on the Teclast P80 tablet, leaving
+> > > the system stuck at the bootloader-configured frequency.
+> > > 
+> > > > +
+> > > > +      - description: Teclast P85T Tablet
+> > > > +        items:
+> > > > +          - const: teclast,p85t
+> > > > +          - const: allwinner,sun55i-a523
+> > > > +
+> > > 
+> > 
 
