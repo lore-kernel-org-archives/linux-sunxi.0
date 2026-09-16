@@ -1,59 +1,69 @@
 Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABEED348465
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Sep 2026 04:29:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824A23AF64D
+	for <linux-sunxi@lists.linux.dev>; Wed, 16 Sep 2026 04:41:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=119.15.109.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789532960; cv=none; b=haycBB2vOYhkdkDTCroErjvzpy00+HsPFiaViT8VGLKN7phJwRKmJJ9NRm7pjWCKKdu3GzwwTeWnk0qrBzg9YOW689I6d4/Z8aWDFxhGJVEIsCizGNADNWZ4NoNBlAcvM5XdDMb6Pzy2/L5QIpZE8Sj+Ra+CIiU3mVo1Jp+xE7s=
+	t=1789533692; cv=none; b=fBELkw0y5NXKpMcbQZhSb/TBMLCOamAuhYhm3SNL1xm15bVFE8p8iLukpviNELnNsB/tI8L4RIhU2iKe82BnKeezOgVQQGadsyTbRkVDpttyvH5liVEae2xcbJiVpRlpSU4hxYuxl/TToeqhBUFP2u06x74Nbt6GD9k/a3HkO60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789532960; c=relaxed/simple;
-	bh=6xjbFweYz6SXmWig9Y09VkBNKCHtAos0bnMQpqOlR2k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NPubFdnfS1Y/EhhuhAEZVRcwwq5iUcRGWBCW5y4hM7W24oVinfPkAmRhttbLQ5Ao7wqOkenZsI7ZXV++BY1ou2Ec7eCY8WOTriyACBTBNTiSxXDkUVOQhUGZ//L/3TSqLrYVUm3vsXeH11Kd9ZLx1PmOFQ/FxStd+NYK7SzkKSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org; spf=pass smtp.mailfrom=d-silva.org; dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.b=y8al5Vmp; arc=none smtp.client-ip=119.15.109.137
+	s=arc-20240116; t=1789533692; c=relaxed/simple;
+	bh=uZjsORFcCwvkT2AAbXO2aZSM8USV3slRXFzd5UB31wU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ChzTmx4odY9YjZcCr2qHZs21ilOlALm0u8qHmFMDM1TYfQ5J+6CBb8vb4KJEAvSbJVIUioPNwwh8z6bm05XPB7Z0iPQwGJqi5dQjCcajRJWrXNfUI/qOWrwvThIhL8kxMrIh4PEKA+Au7xHxVsqRBAxIU80lDPeOOxIKrvS5x3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org; spf=pass smtp.mailfrom=d-silva.org; dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.b=UlWnZZ+U; arc=none smtp.client-ip=119.15.109.137
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.b="y8al5Vmp"
+	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.b="UlWnZZ+U"
 Received: from Hawking.lan (hawking.lan [10.0.1.4])
-	by www.nmnhosting.com (Postfix) with ESMTP id 9233140B5A;
-	Wed, 16 Sep 2026 14:29:10 +1000 (AEST)
+	by www.nmnhosting.com (Postfix) with ESMTP id B042B40B5A;
+	Wed, 16 Sep 2026 14:41:19 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
-	t=1789532950;
+	t=1789533679;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=B7ZQplUXCXPwONkaQVfHCh08s+vTaBNTqiRwAN4FcQQ=;
-	b=y8al5VmpWJe4/uIU+idvj4y1aBoH+2hm38evlDgPZzw+pIH0qwSBonzq0ihCBoGyEwsVOY
-	pGQWOhwzy5H5RAwj6P0wi1iyo3+HZvxd1TsHsKQ2Xloaw6zI9v2R4sKm7oAD3UEFzUQWdj
-	5/A2Tp+HNPcCMNj+A9TR9a8t4W+eF8kCTY2UpG0uL53TRYP5rHzE4n5bhcd+nU3het+jje
-	LzuuM/Wno9w6IF3Xos+BXEx9/9H0IbR61A9DRA3JXG8aTRI55rAaAdAA+mbZO4AyKMxZk5
-	eLJCshEyZkSdL0lLvjX3ObkOiURjjzErBTZd/otLzv3QN7wo45TPwr5lpcypBg==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xTOSXHHE0Mp7WmhyDX8b5V5DuyvbmNcf+A+5A/N8sLo=;
+	b=UlWnZZ+UVMEPdKCU7xcAFSbFO3th1cLIUDQAVgxHnxVx1R+lEdIoyMk1vV0Zvwe2nSIpwL
+	ZFyTQtYBEJxngpet4wEa3OPi+HSxb4lNcF1PXZITorzVYPJT4u3LOS8vxeo3DLrUmsfe6B
+	TewlUlT2TQQ1Jy3bYF7TtfNh9XyrThGWCMlvR+GJSfOutXpYKeisnXx9dwWGRF8qlWMsEG
+	auLx73Cc4M2pirx+S2/HIHW1devcpDo59O9lqW8cz8l750238DpVNnbKOBNHEZyWKcO5j5
+	Zhfw65agxQeObJuk7lgCCccPAoV2TQR2qaioEusCk4c4fTDd7nGlets9PDlnOQ==
 X-GPT-Reason: legitimate; the email is a technical software patch
-	submission (Linux kernel style) that perfectly aligns with the
-	recipient's identity (alastair@d-silva.org), shows consistent sender
-	identity (alastair@d-silva.org), and contains highly specific technical
-	code diffs with no phishing indicators, urgency, or external links.
+	submission for the Linux kernel (net-next) regarding Allwinner
+	SoC hardware support. The sender (alastair@d-silva.org) matches
+	the personal mailbox list provided in the environment context
+	(alastair@d-silva.org), and the content is highly specific technical
+	documentation with no marketing, phishing, or scam indicators. There
+	are no URLs, no requests for sensitive information, and the subject
+	line directly corresponds to the technical body describing driver
+	and device tree updates.
 From: Alastair D'Silva <alastair@d-silva.org>
-To: Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-clk@vger.kernel.org,
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: netdev@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
 	Alastair D'Silva <alastair@d-silva.org>
-Subject: [PATCH v2] clk: sunxi-ng: ccu_common: Use readl_relaxed_poll_timeout_atomic for PLL lock
-Date: Wed, 16 Sep 2026 14:29:10 +1000
-Message-ID: <20260916042910.382744-1-alastair@d-silva.org>
+Subject: [PATCH net-next 0/4] net: Add Allwinner H616/H618 EMAC1 and AC300 EPHY support
+Date: Wed, 16 Sep 2026 14:41:15 +1000
+Message-ID: <20260916044119.475666-1-alastair@d-silva.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260916041104.239999-1-alastair@d-silva.org>
-References: <20260916041104.239999-1-alastair@d-silva.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,49 +72,60 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Allwinner sunxi-ng CCU driver currently uses
-readl_relaxed_poll_timeout() in ccu_helper_wait_for_lock() to wait for
-PLLs to lock.
+This series adds support for the secondary Ethernet MAC controller (EMAC1)
+and the co-packaged AC300 Fast Ethernet Physical Layer (EPHY) found on
+Allwinner H616 and H618 SoCs.
 
-This non-atomic poll macro relies on ktime_get() and the kernel
-timekeeping infrastructure. During early boot or sensitive clock
-transitions (such as CPUfreq DVFS scaling) where timer interrupts or
-timekeeping may be suspended or unstable, ktime_get() fails to advance.
-This turns the timeout calculation into an infinite busy-wait loop,
-causing RCU stalls and system freezes if the PLL lock bit does not
-assert immediately.
+The Allwinner H616/H618 SoCs feature two EMAC instances: EMAC0 (typically
+used with an external RGMII Gigabit PHY) and EMAC1 (Fast Ethernet,
+connected internally to the co-packaged AC300 EPHY). EMAC1 uses a
+dedicated clock control register in the syscon register space, which is
+accessed via an offset index in the DT syscon property.
 
-Switch to readl_relaxed_poll_timeout_atomic(). This atomic variant relies
-on udelay() rather than timekeeping, making it safe to execute even when
-timekeeping is suspended or uninitialized.
+The AC300 is an integrated 10/100M (100BASE-TX / 10BASE-T) Fast Ethernet
+PHY communicating over MDIO at address 16 + phy_addr. It requires
+retrieving factory bandgap calibration data from the SID nvmem controller,
+managing internal power rails and clocks, and optimizing transceiver signal
+parameters.
 
-Assisted-by: LLM
-Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
----
+To ensure reliable link establishment and MAC software reset with the
+internal PHY, dwmac-sun8i is updated to defer MAC software reset until
+sun8i_dwmac_init() after the internal PHY has powered on and begun
+clock generation.
 
-Notes:
-    v2:
-    - Replace custom udelay loop with readl_relaxed_poll_timeout_atomic()
-      as suggested by review.
-    
-    Tested on Allwinner H618 (Mellow Fly-C5) and H616 boards in Armbian, resolving intermittent boot freezes and CPUfreq DVFS scaling lockups when timekeeping interrupts were suspended.
+The series is structured as follows:
+- Patch 1: DT binding for Allwinner AC300 EPHY.
+- Patch 2: PHY driver for Allwinner AC300 EPHY.
+- Patch 3: DT binding update for Allwinner H616 EMAC1 and syscon index.
+- Patch 4: dwmac-sun8i driver support for H616 EMAC1 clock index and
+           internal PHY deferred reset.
 
- drivers/clk/sunxi-ng/ccu_common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing:
+- Tested on physical Mellow Fly-C5 hardware (Allwinner H618) running
+  Armbian with sustained 100Mbps full-duplex network traffic (DHCP,
+  iperf3, NFS rootfs).
+- Device tree bindings validated with dt_binding_check.
+- Separate SoC and board DTS additions will be submitted via the
+  linux-sunxi tree.
 
-diff --git a/drivers/clk/sunxi-ng/ccu_common.c b/drivers/clk/sunxi-ng/ccu_common.c
-index 43d8eca6abee..248e58c9562d 100644
---- a/drivers/clk/sunxi-ng/ccu_common.c
-+++ b/drivers/clk/sunxi-ng/ccu_common.c
-@@ -35,7 +35,7 @@ void ccu_helper_wait_for_lock(struct ccu_common *common, u32 lock)
- 	else
- 		addr = common->base + common->reg;
- 
--	WARN_ON(readl_relaxed_poll_timeout(addr, reg, reg & lock, 100, 70000));
-+	WARN_ON(readl_relaxed_poll_timeout_atomic(addr, reg, reg & lock, 100, 70000));
- }
- EXPORT_SYMBOL_NS_GPL(ccu_helper_wait_for_lock, "SUNXI_CCU");
- 
+Alastair D'Silva (4):
+  dt-bindings: net: phy: Add Allwinner AC300 EPHY binding
+  net: phy: Add Allwinner AC300 EPHY driver
+  dt-bindings: net: allwinner,sun8i-a83t-emac: Add Allwinner H616 EMAC1
+    and syscon index
+  net: stmmac: dwmac-sun8i: Add Allwinner H616 EMAC clock index and
+    internal PHY support
+
+ .../net/allwinner,sun50i-h618-ac300-ephy.yaml |  79 +++++
+ .../net/allwinner,sun8i-a83t-emac.yaml        |  14 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  65 +++-
+ drivers/net/phy/Kconfig                       |   9 +
+ drivers/net/phy/Makefile                      |   1 +
+ drivers/net/phy/ac300-phy.c                   | 331 ++++++++++++++++++
+ 6 files changed, 486 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/allwinner,sun50i-h618-ac300-ephy.yaml
+ create mode 100644 drivers/net/phy/ac300-phy.c
+
 -- 
 2.53.0
 
