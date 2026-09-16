@@ -1,111 +1,193 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 254474E06D1
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Sep 2026 12:09:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5884F55A8
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Sep 2026 12:46:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.200.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789647001; cv=none; b=o7RgKh3tRYXOCAVOzRpRjkWSDx4xdrisS9kGdDSZVT8kTmF/hCKmtKTPSIj81kRHnvXDU8Ci6dHFu4FM+Pz2OEKDQvsBNpvziqbQ+kdYhOcq55u8kOLtrqvsLclv3FmmhOAzoQOwPtMfUJpEoU82RU5UOjJ/DXIoPq4zNmD8i/8=
+	t=1789649186; cv=none; b=pJaMgJuVelFa8ZHUcjAGbehbfb2TIxMSvGVGrLQKPdUm1DdGZz5XnTNUl5qyiL2wNH+13mpR0I5mRFVkxY3pa7nDUXdec55QfuWApqAy3PzW9jmT3xBD36Wi33Rey2tT1Yy/M9isa6CzfwIU3xaTZrnwvJ6I/j0rJ9bpc5WxKCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789647001; c=relaxed/simple;
-	bh=YSUw6AYQlpCx82S4qpDEzxcG4DE/YEviLxFC0Ymvx3E=;
+	s=arc-20240116; t=1789649186; c=relaxed/simple;
+	bh=VVOd418ipnUWK70ISoczhfylE3iZAA07Z64cOP7S1sA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fb9Jydd/SZba9nkQejlXv2hDu8cuSduSoA8TxTOTyM4m7gKpxytz+AoprmPMutgVilWJPWF3iB6Bmt3w3+UPx37AGMHP39nK4VsoGyETD75br1oHeWP7o/sEJID/xFUjKQowvmTEPVsq6EH8poBTzC3RZtpnbB18RYVYviYXHJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=o7G8FZ/h; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="o7G8FZ/h"
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2505726CF;
-	Thu, 17 Sep 2026 14:08:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1789646890;
-	bh=YSUw6AYQlpCx82S4qpDEzxcG4DE/YEviLxFC0Ymvx3E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o7G8FZ/hOwdQOujtMAOm5FePU3dG5oP+IXOFBBhNqaC7ABrSMy/umq4pNzJB+c/K6
-	 Zod4K0czm1r3cdez1i0c8X0OZhOvAslAfXFzIQ3MvHtPgjuKaDBWgEHjVQ7qgHGa1r
-	 NByD4KeT5VtZ6RKIMXbYjDqg+sBSEu5BnT80uebk=
-Date: Thu, 17 Sep 2026 15:09:50 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: arash golgol <arash.golgol@gmail.com>
-Cc: Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	yong.deng@magewell.com, paulk@sys-base.io, mchehab@kernel.org,
-	wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org
-Subject: Re: [PATCH v1 0/3] media: sunxi: Resend active-state conversions
-Message-ID: <20260917120950.GA44274@killaraus.ideasonboard.com>
-References: <20260804072630.28745-1-arash.golgol@gmail.com>
- <CAMxPZkgk4+idrZowJ1z-ddAzaD-hx-NJP+KSj8pUrSfL0HH4aQ@mail.gmail.com>
- <CAMxPZkhjurfpPvvymamJqTuia8CtFw1gRyYA4KBwFcQoH5jz3A@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=fs7ju0QwUEifl6TModqmaSju0gWDDA32sfp9DgoxZfI/pxUiY01VQOlWP1e5Gx2O3TBKakvrXy8ogJHMbvc83vJ/amozm1fgXCZCy31T1AiZ1Rs/UMQA57h+2jWecm95sG4rP+GJw/oxeqbPH16VMkKFyZkAFO4p1kRXYw92/iI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.200.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de (drehscheibe.grey.stw.pengutronix.de [IPv6:2a0a:edc0:0:c01:1d::a2])
+	(Authenticated sender: relay-from-drehscheibe.grey.stw.pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 51EA7200124;
+	Thu, 17 Sep 2026 14:46:08 +0200 (CEST)
+Received: from moin.white.stw.pengutronix.de ([2a0a:edc0:0:b01:1d::7b] helo=bjornoya.blackshift.org)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1x7BVA-001OrC-0l;
+	Thu, 17 Sep 2026 14:46:08 +0200
+Received: from pengutronix.de (p4ffb23c7.dip0.t-ipconnect.de [79.251.35.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 2714759EE96;
+	Wed, 16 Sep 2026 11:36:15 +0000 (UTC)
+Date: Wed, 16 Sep 2026 13:36:14 +0200
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: sashiko-bot@kernel.org
+Cc: Jonas Rebmann <jre@pengutronix.de>, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3 2/6] spi: spi-sun4i: sun4i_spi_fill_fifo(): always
+ apply A10 FIFO fill level workaround
+Message-ID: <20260916-affable-skinny-emu-22b0c2-mkl@pengutronix.de>
+References: <20260914-spi-sun4i-fixes-v3-0-9fe919d5cecf@pengutronix.de>
+ <20260914-spi-sun4i-fixes-v3-2-9fe919d5cecf@pengutronix.de>
+ <20260914155009.08B0B1F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tt6ri7wspiufulxs"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMxPZkhjurfpPvvymamJqTuia8CtFw1gRyYA4KBwFcQoH5jz3A@mail.gmail.com>
+In-Reply-To: <20260914155009.08B0B1F000FF@smtp.kernel.org>
 
-Hi Arash,
 
-Your patches have been merged in
-https://gitlab.freedesktop.org/linux-media/media-committers. I'm sorry
-it took so long. I really appreciate the work you've done here.
+--tt6ri7wspiufulxs
+Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 2/6] spi: spi-sun4i: sun4i_spi_fill_fifo(): always
+ apply A10 FIFO fill level workaround
+MIME-Version: 1.0
 
-On Mon, Sep 07, 2026 at 08:15:02AM +0330, arash golgol wrote:
-> On Wed, Aug 12, 2026 at 9:50 AM arash golgol wrote:
-> > On Tue, Aug 4, 2026 at 10:57 AM Arash Golgol wrote:
-> > >
-> > > These three patches convert the sun6i-mipi-csi2, sun8i-a83t-mipi-csi2,
-> > > and sun6i-csi bridge drivers to use the V4L2 subdev active state API.
-> > >
-> > > Each patch has already received review and testing individually in
-> > > previous postings (see the changelog and links within each patch for
-> > > that history), but none have been picked up and none currently have
-> > > a delegate on patchwork. Resending together to make it easier to
-> > > review and apply as a group.
-> > >
-> > > No code changes since the last posted version of each patch.
-> > >
-> > > Arash Golgol (3):
-> > >   media: sun6i-mipi-csi2: Use V4L2 subdev active state
-> > >   media: sun8i-a83t-mipi-csi2: Use V4L2 subdev active state
-> > >   media: sun6i-csi: bridge: Use V4L2 subdev active state
-> > >
-> > >  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 155 ++++++++----------
-> > >  .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   9 -
-> > >  .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  27 ++-
-> > >  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 107 ++++++------
-> > >  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |   2 -
-> > >  .../sun8i_a83t_mipi_csi2.c                    | 112 +++++++------
-> > >  .../sun8i_a83t_mipi_csi2.h                    |   2 -
-> > >  7 files changed, 194 insertions(+), 220 deletions(-)
-> > >
-> > > --
-> > > 2.34.1
+Dear humans,
+
+On 14.09.2026 15:50:08, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential issu=
+e(s) to consider:
+>
+> New issues:
+> - [High] Integer underflow in `sun4i_spi_fill_fifo()` causes an infinite =
+loop and buffer overflow when calculating available TX FIFO space.
+>
+> Pre-existing issues:
+> - [High] Unbounded writes to the receive buffer in `sun4i_spi_drain_fifo`=
+ can cause a heap buffer overflow.
+> --
+>
+> commit 293e40dd169fc9a0b7d04d7abe8b6d6292a688f1
+> Author: Marc Kleine-Budde <mkl@pengutronix.de>
+>
+> spi: spi-sun4i: sun4i_spi_fill_fifo(): always apply A10 FIFO fill level w=
+orkaround
+>
+> This commit removes the length argument from sun4i_spi_fill_fifo() and
+> directly limits the TX FIFO fill level internally to work around timeouts
+> on A10s SoCs. It ensures the workaround is always applied regardless of
+> where the FIFO is refilled.
+>
+> > diff --git a/drivers/spi/spi-sun4i.c b/drivers/spi/spi-sun4i.c
+> > index 2e23244539053..3649bcabcc9a7 100644
+> > --- a/drivers/spi/spi-sun4i.c
+> > +++ b/drivers/spi/spi-sun4i.c
+> > @@ -142,15 +142,21 @@ static inline void sun4i_spi_drain_fifo(struct su=
+n4i_spi *sspi, int len)
+> >  	}
+> >  }
+>
+> [Severity: High]
+> This is a pre-existing issue, but does sun4i_spi_drain_fifo() lack bounds
+> checking against the allocated receive buffer size?
+>
+> Looking at sun4i_spi_drain_fifo():
+>
+> static inline void sun4i_spi_drain_fifo(struct sun4i_spi *sspi, int len)
+> {
+>         ...
+>         if (len > cnt)
+>                 len =3D cnt;
+>
+>         while (len--) {
+>                 byte =3D readb(sspi->base_addr + SUN4I_RXDATA_REG);
+>                 if (sspi->rx_buf)
+>                         *sspi->rx_buf++ =3D byte;
+>         }
+> }
+>
+> Data from the hardware is read based on what the hardware reports as
+> available, and unconditionally written to sspi->rx_buf. It doesn't appear
+> to track the total bytes written against the transfer length limit.
+>
+> If the hardware asserts spurious interrupts or reports more bytes than
+> requested (e.g., when called from sun4i_spi_handler with SUN4I_FIFO_DEPTH=
+),
+> couldn't this blindly advance the pointer past the end of the allocation
+> and cause a heap buffer overflow?
+
+Neither spurious interrupts nor more bytes than requested have been
+observed. So far we trust the hardware.
+
 > >
-> > I've been trying to get these patches merged for a while.
-> > Multiple pings and followups have been sent, but they haven't
-> > been applied yet. This series is just a collection of my
-> > individual patches.
+> > -static inline void sun4i_spi_fill_fifo(struct sun4i_spi *sspi, int len)
+> > +static inline void sun4i_spi_fill_fifo(struct sun4i_spi *sspi)
+> >  {
+> >  	u32 cnt;
+> > +	int len;
+> >  	u8 byte;
 > >
-> > All patches have full Reviewed-by/Tested-by coverage from
-> > Laurent Pinchart and Paul Kocialkowski. Current status of all
-> > patches are still New in patchwork, without a delegate.
+> > -	/* See how much data we can fit */
+> > -	cnt =3D SUN4I_FIFO_DEPTH - sun4i_spi_get_tx_fifo_count(sspi);
+> > +	/*
+> > +	 * See how much data we can fit
+> > +	 *
+> > +	 * Filling the FIFO fully causes timeout for some reason
+> > +	 * at least on spi2 on A10s
+> > +	 */
+> > +	cnt =3D SUN4I_FIFO_DEPTH - 1 - sun4i_spi_get_tx_fifo_count(sspi);
 > >
-> > Link: https://patchwork.linuxtv.org/project/linux-media/list/?series=28738
+> > -	len =3D min3(len, (int)cnt, sspi->len);
+> > +	len =3D min_t(int, cnt, sspi->len);
 > >
-> > Given the review is complete, would you be able to pick these
-> > up, or let me know if something else is blocking them?
-> 
-> Just following up on this series.
-> Link to series:
-> https://patchwork.linuxtv.org/project/linux-media/list/?series=28738
+> >  	while (len--) {
+> >  		byte =3D sspi->tx_buf ? *sspi->tx_buf++ : 0;
+>
+> [Severity: High]
+> Can this subtraction underflow if the hardware reports a full FIFO?
 
--- 
-Regards,
+With this change the hardware TX buffer is only filled up to
+SUN4I_FIFO_DEPTH - 1, so it will never report to be filled with
+SUN4I_FIFO_DEPTH.
 
-Laurent Pinchart
+> If sun4i_spi_get_tx_fifo_count(sspi) returns 64 (the physical maximum
+> depth), cnt will evaluate to 63 - 64 =3D -1. Because cnt is a u32, this
+> underflows to 0xFFFFFFFF.
+>
+> The min_t() macro then compares (int)0xFFFFFFFF (which is -1) against
+> sspi->len. Assuming sspi->len is greater than zero, min_t() returns -1.
+>
+> The subsequent while (len--) loop will post-decrement on the negative
+> integer and could spin indefinitely, leading to out-of-bounds reads from
+> sspi->tx_buf and continuous writes to the memory-mapped register.
+
+regards,
+Marc
+
+--
+Pengutronix e.K.                 | Marc Kleine-Budde          |
+Embedded Linux                   | https://www.pengutronix.de |
+Vertretung N=C3=BCrnberg              | Phone: +49-5121-206917-129 |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-9   |
+
+--tt6ri7wspiufulxs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSl+MghEFFAdY3pYJLMOmT6rpmt0gUCaqp/LAAKCRDMOmT6rpmt
+0jBsAQDC1yVL9EOc0hrCJbwgAo2yO7x47SYMo2Rc1+1eVySJoQEA24lMAq/pDYN+
+vlaCA9pxJbdUeQbMQUI0NulpOkUv6gM=
+=sxEv
+-----END PGP SIGNATURE-----
+
+--tt6ri7wspiufulxs--
