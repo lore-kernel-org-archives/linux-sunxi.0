@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355674F4730;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 383D2511E89;
 	Wed, 16 Sep 2026 15:22:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789572133; cv=none; b=kQjJJTukFKQ7ABM++OU3DfSfU8PApeBBR1VyiwSefhXsVKqQcEP0Ph+lqdjduyClUrNSCXeIB1H1ffxyYPvopB0//Ie3V03ByMsDDJAlDBGVu0tchvLv5+gb40gZS5iXSNnXj9Su5vK+oxDW1PFFE8O1kZjVOZeaAPlYiaefqfo=
+	t=1789572136; cv=none; b=NHyED+tKnw8dgISdVSHb2P/GC/MfKHP7Vg7D/+SWEBB3OiIg+Wut0J27SAy45Dn/WuPIYbJe2PRZ84Cav32SDEsjloVb+4W1vEUAoDTZ1dHUDtKFrce6/i72Dnw/XA/IutXq9MnVcEFxXOpaAtYlXxB2Zj8wHgWeKXXJ3MRgngM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789572133; c=relaxed/simple;
-	bh=AZSQtEBN7kQJsgzRDGgC/AX5q1GuadKhXLqhMjB5AHU=;
+	s=arc-20240116; t=1789572136; c=relaxed/simple;
+	bh=N8aiCHErIRe3cDRFakh4xoLjQHHkC0NHS1W/UCrd7dw=;
 	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=WEiVOBFrJBkDx9XDdmfpK35HKgbOQ7j7InUnsoy3GGTczf5NTgv5EwMSNQiiy/wh1aOOe0nnF6/NH8FqZFWLZdriOxGufqGC/plA9qfD1eonc/KSiNjY8f6QMZ1ZjCSOgN5Z/r2vQX9JovsIyUh7fqns+15HguNl3CYzg/zNML8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ghwDoUYQ; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id:Subject; b=TMVE5o3GWQS6++e+UJDgqCwydVEYSnVbfdDTi+9zVQmzGuIBZWhaw1bazyf4vQ8YXwGSixqkXqDoF5wen80uwNvqHJb51V8jFuocanLwM2PqqBmRua9ohepW57VHcP9QBK1uUEDltb0R8Pax27gKWowNtynBwT9DvpvAlmjJC68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=opLOvjeG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ghwDoUYQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3D191F00893;
-	Wed, 16 Sep 2026 15:22:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="opLOvjeG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76A611F000FF;
+	Wed, 16 Sep 2026 15:22:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789572127;
-	bh=8tD6Xr9J2ucQ5/OOmstOBkaQazxoKsfY0YaWI5fIV5g=;
+	s=k20260515; t=1789572126;
+	bh=8EztYNQsdjLqlbOEDEsuqybbRRUCXbpkuwA/2dp5qRI=;
 	h=Date:From:Cc:To:In-Reply-To:References:Subject;
-	b=ghwDoUYQfT6LqJhAL5A6kG9TMoaCptirC39o32HGg7XG01YipLD+Lk2WqNjipGxu2
-	 UKAFVY7SM+TOQWwPrJgXEvQOvqs6JKOWjehSZwPJAzTDkMB++EOtdb0iGGllqiGulf
-	 gseRWbN+//EfJXylS6lTsAwveesUkZnK6LcsR4mwkQT8ASC5ZXJ3MXAdVLIHuQZWtg
-	 Qz4sxNxJT4QPrAq2dK6cFfeIalrHwUHttgOwxiVv0TAmiP7dafVn7XziOAezZ1mHAW
-	 Z2mvSIUHiLaR78mhPW2rym4XtHu+ntuK+mzekWfWRhwmLqgJT9Zg9ntdgDO5I5Zyez
-	 1V7i3im/MJ1Gw==
-Date: Wed, 16 Sep 2026 10:22:06 -0500
+	b=opLOvjeGosMppia9uO8Q/Y0ZFmvqlKZvofdW32/kTovLCJvHaJEayYOKbu4chKGNL
+	 5hsNx+GTdLM7tS2SmzRggY9wFOz6uEM1hIyBzUxgWOyERkELVKd2hUfnyWJfIe6uLV
+	 Rinjqu7DvXGC4BFwYD47POgPlE8TWZzzFv7DqKtt4Nbb82Iws037PyXZLt2geRDVXC
+	 0bzPVRALj9OPpxmriQlotbjN6nD5oEYfMDXiwIAh53rVk+SBUuElHThnWULatSij7W
+	 vpWIUtl8yA1g5KKxF98iEejoYgMd0+II91sTJIjVlbdskZ5y23NB7qY9KrvBZ/FZd4
+	 8pfPsN5e/kgJw==
+Date: Wed, 16 Sep 2026 10:22:00 -0500
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -36,45 +36,43 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- Eric Dumazet <edumazet@google.com>, linux-kernel@vger.kernel.org, 
- linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@kernel.org>, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- Paolo Abeni <pabeni@redhat.com>, Samuel Holland <samuel@sholland.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
- netdev@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, Paolo Abeni <pabeni@redhat.com>, 
+ netdev@vger.kernel.org, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
  "David S . Miller" <davem@davemloft.net>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Russell King <linux@armlinux.org.uk>
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, Eric Dumazet <edumazet@google.com>, 
+ Samuel Holland <samuel@sholland.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ linux-sunxi@lists.linux.dev, Russell King <linux@armlinux.org.uk>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>
 To: Alastair D'Silva <alastair@d-silva.org>
-In-Reply-To: <20260916044119.475666-4-alastair@d-silva.org>
+In-Reply-To: <20260916044119.475666-2-alastair@d-silva.org>
 References: <20260916044119.475666-1-alastair@d-silva.org>
- <20260916044119.475666-4-alastair@d-silva.org>
-Message-Id: <178957206885.228671.2262343816324087676.robh@kernel.org>
-Subject: Re: [PATCH net-next 3/4] dt-bindings: net:
- allwinner,sun8i-a83t-emac: Add Allwinner H616 EMAC1 and syscon index
+ <20260916044119.475666-2-alastair@d-silva.org>
+Message-Id: <178957206753.228275.3543582001774069181.robh@kernel.org>
+Subject: Re: [PATCH net-next 1/4] dt-bindings: net: phy: Add Allwinner
+ AC300 EPHY binding
 
 
-On Wed, 16 Sep 2026 14:41:18 +1000, Alastair D'Silva wrote:
-> Document the Allwinner H616 EMAC1 and internal EMAC compatible strings
-> ("allwinner,sun50i-h616-emac1" and "allwinner,sun50i-h616-internal-emac").
-> Update the syscon property schema to support an optional register index
-> offset argument, allowing boards to reference the secondary EMAC clock
-> register on H616/H618 SoCs.
+On Wed, 16 Sep 2026 14:41:16 +1000, Alastair D'Silva wrote:
+> Add device tree binding documentation for the Allwinner AC300
+> Fast Ethernet Physical Layer (EPHY) co-packaged on Allwinner
+> H616 and H618 SoCs.
 > 
 > Assisted-by: LLM
 > Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
 > ---
 > 
 > Notes:
->     Tested against Allwinner H616/H618 device trees in Armbian, verifying
->     schema validation with dt_binding_check.
+>     Tested on Mellow Fly-C5 (Allwinner H618) under Armbian with Linux 6.18 and
+>     7.x kernels, verifying schema validation with dt_binding_check.
 > 
->  .../bindings/net/allwinner,sun8i-a83t-emac.yaml    | 14 +++++++++++---
->  1 file changed, 11 insertions(+), 3 deletions(-)
+>  .../net/allwinner,sun50i-h618-ac300-ephy.yaml | 79 +++++++++++++++++++
+>  1 file changed, 79 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/net/allwinner,sun50i-h618-ac300-ephy.yaml
 > 
 
 My bot found errors running 'make dt_binding_check' on your patch:
@@ -82,13 +80,20 @@ My bot found errors running 'make dt_binding_check' on your patch:
 yamllint warnings/errors:
 
 dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml: properties:syscon:items:0: {'minItems': 1, 'maxItems': 2, 'items': [{'description': 'Phandle to the device containing the EMAC or GMAC clock register'}, {'description': 'Register index offset (0 for EMAC0, 1 for EMAC1)'}]} should not be valid under {'required': ['maxItems']}
-	hint: "maxItems" is not needed with an "items" list
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml
+Documentation/devicetree/bindings/net/allwinner,sun50i-h618-ac300-ephy.example.dtb: ethernet-phy@0 (ethernet-phy-id0044.1400): compatible: 'oneOf' conditional failed, one must be fixed:
+	['ethernet-phy-id0044.1400', 'allwinner,sun50i-h618-ac300-ephy', 'ethernet-phy-ieee802.3-c22'] is too long
+	'ethernet-phy-ieee802.3-c22' was expected
+	'ethernet-phy-ieee802.3-c45' was expected
+	from schema $id: http://devicetree.org/schemas/net/allwinner,sun50i-h618-ac300-ephy.yaml
+Documentation/devicetree/bindings/net/allwinner,sun50i-h618-ac300-ephy.example.dtb: ethernet-phy@0 (ethernet-phy-id0044.1400): compatible: 'oneOf' conditional failed, one must be fixed:
+	['ethernet-phy-id0044.1400', 'allwinner,sun50i-h618-ac300-ephy', 'ethernet-phy-ieee802.3-c22'] is too long
+	'ethernet-phy-ieee802.3-c22' was expected
+	'ethernet-phy-ieee802.3-c45' was expected
+	from schema $id: http://devicetree.org/schemas/net/ethernet-phy.yaml
 
 doc reference errors (make refcheckdocs):
 
-See https://patchwork.kernel.org/project/devicetree/patch/20260916044119.475666-4-alastair@d-silva.org
+See https://patchwork.kernel.org/project/devicetree/patch/20260916044119.475666-2-alastair@d-silva.org
 
 The base for the series is generally the latest rc1. A different dependency
 should be noted in *this* patch.
