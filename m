@@ -1,85 +1,58 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C944F3B0AC7
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Sep 2026 03:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F5733F5BE
+	for <linux-sunxi@lists.linux.dev>; Wed, 16 Sep 2026 04:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=119.15.109.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789529639; cv=none; b=CHesiM6i8hw7iKmA3DLaIRc3XsyakSQz65LUdlqtnyi2hNEWBJPU5fJyKVCIRzra3RD9A9RR/8RyT/UCFh0yGyO1R0RrYHW2RUjbtJ3tfbulZitnaiQG8ESuEusdzw8w1RSpb2BbN27/25ork2elLS1Uj0Wv5UlavcO/IAAKpvM=
+	t=1789531877; cv=none; b=q78RRSGZaNFdiF22ezYtBtPMxAq7UdzL0SwKCaPFb56N+wRccOI92iRzIlArzyRX60XRnBJn9f9dCfXdocQEMgpe31rfiD+cKy/x/8NeDrbFxhikdaEBxa/6qcCgv7afdH8JRfvTyQ3PuNobgwv8PmZVgYfGe75RAum15RJ5g1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789529639; c=relaxed/simple;
-	bh=XSW9igf1s/bJdUF9oLEzsVWFCgbqu1FOjjmLMSk9d1c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sdOy9AyLPEXqrgvdUr+94RAenZnI9UIRdBIKNwnCsbU0VcFhZ49oM3TjCm4NixkO3Zf7ny2yw9PtRJiIaF5yqIMrCOVVBzHrwi3henQwHTefYBkNOFG4ob0K9a+jod2TQhFqN3EPJ12Q2Fe60ebYfO+5rtI6e/0VwlYFFkByExY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=V9Zvvjh9; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1789531877; c=relaxed/simple;
+	bh=oMxDrZS0Qkg8qZQlfeEmbLducVkPJVC6TpmFK4w7nKQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jWOhsPfFTwdZQV16KpkXSt29Dh1A/zoaytIcdY8Zudbr8sgzdxysPEcjdc5p9JUJpLEvSV+5DJxoPY3SS6GBTEmtppqN/TCxI3UqPvTQk35OE3I9ZAO7SXDVSZ7g8FHzJvCi8j/Y6l9Bf6ijZw+QdklgZt0j+2loQyQrtzQJuQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org; spf=pass smtp.mailfrom=d-silva.org; dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.b=EqCa6fzR; arc=none smtp.client-ip=119.15.109.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="V9Zvvjh9"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d8fbef5018so5082155ad.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 15 Sep 2026 20:33:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1789529637; x=1790134437; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=kBFRPVKNIBD0KQtZ9pcxiREtmRb8PGXwbQL+UCfrWrI=;
-        b=V9Zvvjh9w6oy9SX6bD7o9BKCCQAYYxQkgw4k2ElE25OiDYLFcUYJS1mu3zFfeNaV4r
-         5K75q68jVIed/ynxAGBk2AL2cL5U4a9sfnkjmSIcIfOK5QFPamLwe7EvaJDrwyk7l0ZB
-         WsMln0OBS6psoJ3GO+Hv487+rH4VSnJS0UmG4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789529637; x=1790134437;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kBFRPVKNIBD0KQtZ9pcxiREtmRb8PGXwbQL+UCfrWrI=;
-        b=jqER/obe8WGrQ/kIb1OBSjB3IZ00U9TVGHt/8W+EQtacxZefVJeBFj+E5pjorw2CpN
-         TR+xrmg8vJZwb5gDlAyM1Ki9g0TyW/e+nIYkaQH32VNZCZPhuej7pwxtPvZZpLhb1kkb
-         rNTxcavSheh3hRA+onQC2Ak0JxmGRH9VXSGungYASRmKm/qPu/ivqR6lC4OS/vtlR0qF
-         6aSviqPiRxWpYHZVptqFeVp9+dyzEaDe/ZUKY4wGsyLO0Wj0R2tKjETzKc2pxEi7g0Rx
-         9zCSz4j2+fPnQ50fMGVEDQA3cI1+MInADeUaHGB4mpcApjDbGoEX6ElpLFUT+myTWLJJ
-         aZrw==
-X-Forwarded-Encrypted: i=1; AKwUvByVP1T716Z/bQpQkwfUWjE4TXaByh3RInot1bcHmCkEpIPAHskiJRAzRt0xp7xyGBcVR6l2ItkAAj/Q8g==@lists.linux.dev
-X-Gm-Message-State: AFuF++n2vDb/Bn4cvA/NNX6WIeUzCvJYVBO2gBgSvzGK5K5TrNNO0c/I
-	mk6N5oHEBhPkl/OfFVtTa+IzqvSPyAkPOGp7QqBuGJ6xirNYkAoF2ibFDy0cDZjcYw==
-X-Gm-Gg: AYBFou3UUmMa3YSSpXVSU9MQk17IemzmUNENgKWoYI6MKnKekNv1VPas+iS4C/+rTMR
-	ZcfyQpWYXr5QHd51v7oRsneS4w4cljAgLsrZKnwkNzrIqJHJOiHeVMSi0q+ysuN7EYEk7KOla17
-	SvAkFepyj36NZh4fOwP9z88NDaOoo6H9KbqEAVKZ0gAsyify1PDBjBvIcDHL+qRyfvIlzUH8a/B
-	i2kNny4BS5xUJa+QavKdwtO+b0ycoDhBvSoI8oucGcewOZaxdHSWomRrEmGr01i+TmE3BXuWUGW
-	2AaEgpGU1tkIKQKz8DsBJgVfN6/tMB3hPqBwespIVV9nO6NkjCyQ7PmWqsY5KSxlP6KK14F3Q0e
-	46zQHjh7hXr5Hzeb46OLR11rb1epkP47YDVtwD+Sphkvd0h7MtmrBK4v4pSf7apvPcfxfQWYbdZ
-	aLWP+GOPZ9dWg1yf6RaZRobc8qmcA830tigHyJapQj+Fs/fEhr2ZrDQbFxsisfJCVl/R50JBSow
-	j4SIspRUD0l/9q6rU3piADKCj8SnKwaeCs6ZNTDVZpElPhAk+GWLtrkYg==
-X-Received: by 2002:a17:90b:4c49:b0:39d:fd60:caba with SMTP id 98e67ed59e1d1-39e1e485dddmr2368694a91.14.1789529637188;
-        Tue, 15 Sep 2026 20:33:57 -0700 (PDT)
-Received: from wenst-7875.tpe.corp.google.com ([2a00:79e0:203d:7:1f62:7622:5d61:2578])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e1bbe3e62sm1833477a91.10.2026.09.15.20.33.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 20:33:56 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Liu Ying <victor.liu@nxp.com>,
-	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
+	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.b="EqCa6fzR"
+Received: from Hawking.lan (hawking.lan [10.0.1.4])
+	by www.nmnhosting.com (Postfix) with ESMTP id 0666440B5A;
+	Wed, 16 Sep 2026 14:11:05 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
+	t=1789531865;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=q2FVziLi99mj2DM6fRhVdm0hGSzlFmznN0LCu/Ng4sM=;
+	b=EqCa6fzR/Io1SUSDQ/ZMiY8mmWM2ii6JKsM1YymRaueqOqqIfzzS/Qf/WjPuNe5YQOzPAO
+	p+oV7khZqQeB0xh7MqJecOUKEdJT8x0bVW19uDeKeoiYzQY3WMhSWy5856lyzV603ANlz9
+	C7XooV4ufKhBiRkhFamTF4/LkIfdKCkIrvyCX0acg1qDelFhKiZo+sxac/ZiGb+0KdtWnS
+	Mv3qPsGrdwV8/td+2jc52rnHJWy78tN9PzTHVaO3grQfcyc6q+EaolLa2RtwBKoMne7P93
+	CeVf6IGDLAskMq4zKF8r/AtQAkzGpTC/0/54eHfA9jsEDw/9h4NpV+QWQdu3GQ==
+X-GPT-Reason: This is a legitimate technical communication. The
+	content is a Linux kernel patch (indicated by the [PATCH] prefix
+	and "git" diff format) regarding a driver fix for Allwinner hardware,
+	which aligns with the professional/technical nature of the personal
+	mailbox "alastair@d-silva.org". The From domain (d-silva.org)
+	matches the sender's identity, there are no phishing red flags
+	(no URLs, no urgency, no requests for credentials), and the message
+	content is highly specific to systems programming.
+From: Alastair D'Silva <alastair@d-silva.org>
+To: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
-	imx@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RFT v2 5/5] drm/imx/dcss: plane: Switch to drm_fb_dma_get_gem_clipped_addr()
-Date: Wed, 16 Sep 2026 11:33:26 +0800
-Message-ID: <20260916033327.3054126-6-wenst@chromium.org>
-X-Mailer: git-send-email 2.55.0.1032.g73a4cd73de-goog
-In-Reply-To: <20260916033327.3054126-1-wenst@chromium.org>
-References: <20260916033327.3054126-1-wenst@chromium.org>
+	linux-kernel@vger.kernel.org,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Alastair D'Silva <alastair@d-silva.org>
+Subject: [PATCH] clk: sunxi-ng: ccu_common: Replace ktime-dependent lock wait loop with udelay
+Date: Wed, 16 Sep 2026 14:11:04 +1000
+Message-ID: <20260916041104.239999-1-alastair@d-silva.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -88,69 +61,67 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The i.MX DCSS driver is open coding drm_fb_dma_get_gem_clipped_addr(),
-with only a slight difference of rounding down the X offset for the
-first plane if the format is packed, sub-sampled YUV. This is likely
-to correct the buffer address to the first pixel of the 2-pixel group.
-Otherwise the hardware will start the scan-out from the second pixel,
-which leads to the U/V components getting swapped around, and the
-chroma component of the next pixel group being used.
+The Allwinner sunxi-ng CCU driver uses readl_relaxed_poll_timeout() in
+ccu_helper_wait_for_lock() to wait for PLLs to lock.
 
-Switch to drm_fb_dma_get_gem_clipped_addr(), and offset the address by
-a pixel if the X offset is odd.
+This poll macro relies on ktime_get() and the kernel timekeeping
+infrastructure. During early boot or sensitive clock transitions
+(such as CPUfreq DVFS scaling) where timer interrupts or timekeeping may
+be suspended or unstable, ktime_get() fails to increment. This turns the
+timeout calculation into an infinite busy-wait loop, causing RCU stalls
+and system freezes if the PLL lock bit does not assert immediately.
 
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+Decouple the PLL lock wait loop from the timekeeping framework by replacing
+readl_relaxed_poll_timeout() with an iteration loop using udelay(1) up to
+100ms.
+
+Assisted-by: LLM
+Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
 ---
- drivers/gpu/drm/imx/dcss/dcss-plane.c | 34 +++++++++++----------------
- 1 file changed, 14 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-plane.c b/drivers/gpu/drm/imx/dcss/dcss-plane.c
-index 303e93fd036c..580d9cfb4053 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-plane.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-plane.c
-@@ -219,28 +219,22 @@ static void dcss_plane_atomic_set_base(struct dcss_plane *dcss_plane)
- 	struct dcss_dev *dcss = plane->dev->dev_private;
- 	struct drm_framebuffer *fb = state->fb;
- 	const struct drm_format_info *format = fb->format;
--	struct drm_gem_dma_object *dma_obj = drm_fb_dma_get_gem_obj(fb, 0);
- 	unsigned long p1_ba = 0, p2_ba = 0;
+Notes:
+    Tested on Allwinner H618 (Mellow Fly-C5) and H616 boards in Armbian, resolving intermittent boot freezes and CPUfreq DVFS scaling lockups when timekeeping interrupts were suspended.
+
+ drivers/clk/sunxi-ng/ccu_common.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/clk/sunxi-ng/ccu_common.c b/drivers/clk/sunxi-ng/ccu_common.c
+index 43d8eca6abee..00daedadb5c8 100644
+--- a/drivers/clk/sunxi-ng/ccu_common.c
++++ b/drivers/clk/sunxi-ng/ccu_common.c
+@@ -7,6 +7,7 @@
  
--	if (!format->is_yuv ||
--	    format->format == DRM_FORMAT_NV12 ||
--	    format->format == DRM_FORMAT_NV21)
--		p1_ba = dma_obj->dma_addr + fb->offsets[0] +
--			fb->pitches[0] * (state->src.y1 >> 16) +
--			format->char_per_block[0] * (state->src.x1 >> 16);
--	else if (format->format == DRM_FORMAT_UYVY ||
--		 format->format == DRM_FORMAT_VYUY ||
--		 format->format == DRM_FORMAT_YUYV ||
--		 format->format == DRM_FORMAT_YVYU)
--		p1_ba = dma_obj->dma_addr + fb->offsets[0] +
--			fb->pitches[0] * (state->src.y1 >> 16) +
--			2 * format->char_per_block[0] * (state->src.x1 >> 17);
--
--	if (format->format == DRM_FORMAT_NV12 ||
--	    format->format == DRM_FORMAT_NV21)
--		p2_ba = dma_obj->dma_addr + fb->offsets[1] +
--			(((fb->pitches[1] >> 1) * (state->src.y1 >> 17) +
--			(state->src.x1 >> 17)) << 1);
-+	p1_ba = drm_fb_dma_get_gem_clipped_addr(fb, state, 0);
-+
-+	/*
-+	 * TODO fix address until helpers know packed, sub-sampled YUV format block size
-+	 *
-+	 * The buffer address for packed, sub-sampled YUV formats such as DRM_FORMAT_UYVY
-+	 * need to be on the first pixel of each pixel group or block. Otherwise the first
-+	 * pixel of the next pixel group is read and the U/V values get swapped around.
-+	 */
-+	if (drm_format_info_is_yuv_packed(format))
-+		p1_ba -= ((state->src.x1 >> 16) & 1) * format->cpp[0];
-+
-+	if (format->num_planes > 1)
-+		p2_ba = drm_fb_dma_get_gem_clipped_addr(fb, state, 1);
+ #include <linux/clk.h>
+ #include <linux/clk-provider.h>
++#include <linux/delay.h>
+ #include <linux/device.h>
+ #include <linux/iopoll.h>
+ #include <linux/module.h>
+@@ -25,7 +26,7 @@ struct sunxi_ccu {
+ void ccu_helper_wait_for_lock(struct ccu_common *common, u32 lock)
+ {
+ 	void __iomem *addr;
+-	u32 reg;
++	int i;
  
- 	dcss_dpr_addr_set(dcss->dpr, dcss_plane->ch_num, p1_ba, p2_ba,
- 			  fb->pitches[0]);
+ 	if (!lock)
+ 		return;
+@@ -35,7 +36,14 @@ void ccu_helper_wait_for_lock(struct ccu_common *common, u32 lock)
+ 	else
+ 		addr = common->base + common->reg;
+ 
+-	WARN_ON(readl_relaxed_poll_timeout(addr, reg, reg & lock, 100, 70000));
++	for (i = 0; i < 100000; i++) {
++		if (readl_relaxed(addr) & lock)
++			return;
++		udelay(1);
++	}
++
++	if (!(readl_relaxed(addr) & lock))
++		pr_warn("%s: clock lock timeout\n", clk_hw_get_name(&common->hw));
+ }
+ EXPORT_SYMBOL_NS_GPL(ccu_helper_wait_for_lock, "SUNXI_CCU");
+ 
 -- 
-2.55.0.1032.g73a4cd73de-goog
+2.53.0
 
