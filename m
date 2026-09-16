@@ -1,116 +1,105 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DD1377EC3;
-	Wed, 16 Sep 2026 15:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 355674F4730;
+	Wed, 16 Sep 2026 15:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789571158; cv=none; b=LppUwG2ZfsBvH2tEFowQSSuRs2QL8LRwRcsjOXW/+W5zI+WhpzadEjOizRbso5rPH3h+GHnM2tn6J8tz6/D1jfYgRQokthh/5zsH18yj7B8STJqkj6pWPhn+QgAn8cQ9OWZCCoi1dyg5DPhLfbg6IpSxp0/m/1/eyjt7DCJvEhw=
+	t=1789572133; cv=none; b=kQjJJTukFKQ7ABM++OU3DfSfU8PApeBBR1VyiwSefhXsVKqQcEP0Ph+lqdjduyClUrNSCXeIB1H1ffxyYPvopB0//Ie3V03ByMsDDJAlDBGVu0tchvLv5+gb40gZS5iXSNnXj9Su5vK+oxDW1PFFE8O1kZjVOZeaAPlYiaefqfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789571158; c=relaxed/simple;
-	bh=zDRu1UxNQaWtyaQaGpNXH6htunvwdMBIbW0dt6nc1n0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=heOSCrJ/RcGQbBuUqagEPiBeJ5esnWou5iwUt2CYQbfGFiGW+miCcxzALQPWsh+S+HFRAL/vjFuLfVhDpj2rj00nTpOibmoVafHn4OIwrRYPeNvjzlaxA9tIBNkuKogx9LPUEvvtnmx6f1Mmk7DD2jFQwduvf1n8I7ZzfXYaC90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=oN5thaAG; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1789572133; c=relaxed/simple;
+	bh=AZSQtEBN7kQJsgzRDGgC/AX5q1GuadKhXLqhMjB5AHU=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=WEiVOBFrJBkDx9XDdmfpK35HKgbOQ7j7InUnsoy3GGTczf5NTgv5EwMSNQiiy/wh1aOOe0nnF6/NH8FqZFWLZdriOxGufqGC/plA9qfD1eonc/KSiNjY8f6QMZ1ZjCSOgN5Z/r2vQX9JovsIyUh7fqns+15HguNl3CYzg/zNML8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ghwDoUYQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="oN5thaAG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=qlCJSKLUS9B63fmKa0acz9npjUMvdKnN6lO3guHAid8=; b=oN5thaAGSofYCg8N66dhpPqX3O
-	9KVghMxg+yCffRUadxPNqKnEsvMizdKky/aQ/PcTXbC4gWjD0jUQlJKNymPjarclSRq2ZnaLCaT93
-	1sgksytLC4JKdLrJbMe16FKNWf8Q1jfg6saOKLV9vfmuoILWw/295GYJFH7oVMXuImNc=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1x6rCe-005Uwr-IB; Wed, 16 Sep 2026 17:05:40 +0200
-Date: Wed, 16 Sep 2026 17:05:40 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Alastair D'Silva <alastair@d-silva.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH net-next 2/4] net: phy: Add Allwinner AC300 EPHY driver
-Message-ID: <18bb9de4-38bf-48ba-bb24-2b0564474945@lunn.ch>
-References: <20260916044119.475666-1-alastair@d-silva.org>
- <20260916044119.475666-3-alastair@d-silva.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ghwDoUYQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3D191F00893;
+	Wed, 16 Sep 2026 15:22:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789572127;
+	bh=8tD6Xr9J2ucQ5/OOmstOBkaQazxoKsfY0YaWI5fIV5g=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject;
+	b=ghwDoUYQfT6LqJhAL5A6kG9TMoaCptirC39o32HGg7XG01YipLD+Lk2WqNjipGxu2
+	 UKAFVY7SM+TOQWwPrJgXEvQOvqs6JKOWjehSZwPJAzTDkMB++EOtdb0iGGllqiGulf
+	 gseRWbN+//EfJXylS6lTsAwveesUkZnK6LcsR4mwkQT8ASC5ZXJ3MXAdVLIHuQZWtg
+	 Qz4sxNxJT4QPrAq2dK6cFfeIalrHwUHttgOwxiVv0TAmiP7dafVn7XziOAezZ1mHAW
+	 Z2mvSIUHiLaR78mhPW2rym4XtHu+ntuK+mzekWfWRhwmLqgJT9Zg9ntdgDO5I5Zyez
+	 1V7i3im/MJ1Gw==
+Date: Wed, 16 Sep 2026 10:22:06 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260916044119.475666-3-alastair@d-silva.org>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ Eric Dumazet <edumazet@google.com>, linux-kernel@vger.kernel.org, 
+ linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@kernel.org>, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Paolo Abeni <pabeni@redhat.com>, Samuel Holland <samuel@sholland.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
+ netdev@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ "David S . Miller" <davem@davemloft.net>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>
+To: Alastair D'Silva <alastair@d-silva.org>
+In-Reply-To: <20260916044119.475666-4-alastair@d-silva.org>
+References: <20260916044119.475666-1-alastair@d-silva.org>
+ <20260916044119.475666-4-alastair@d-silva.org>
+Message-Id: <178957206885.228671.2262343816324087676.robh@kernel.org>
+Subject: Re: [PATCH net-next 3/4] dt-bindings: net:
+ allwinner,sun8i-a83t-emac: Add Allwinner H616 EMAC1 and syscon index
 
-> +static int ac300_phy_config_init(struct phy_device *phydev)
-> +{
-> +	struct ac300_phy_priv *priv = phydev->priv;
-> +	int ret;
-> +
-> +	/* Write page-based EPHY transceiver and signal path optimizations */
-> +	ret = phy_write(phydev, 0x1f, 0x0100); /* Switch to Page 1 */
-> +	if (ret)
-> +		return ret;
-> +	ret = phy_write(phydev, 0x12, 0x4824); /* Disable APS */
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = phy_write(phydev, 0x1f, 0x0200); /* Switch to Page 2 */
-> +	if (ret)
 
-Please implement .read_page and .write.page in struct phy_driver.
+On Wed, 16 Sep 2026 14:41:18 +1000, Alastair D'Silva wrote:
+> Document the Allwinner H616 EMAC1 and internal EMAC compatible strings
+> ("allwinner,sun50i-h616-emac1" and "allwinner,sun50i-h616-internal-emac").
+> Update the syscon property schema to support an optional register index
+> offset argument, allowing boards to reference the secondary EMAC clock
+> register on H616/H618 SoCs.
+> 
+> Assisted-by: LLM
+> Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
+> ---
+> 
+> Notes:
+>     Tested against Allwinner H616/H618 device trees in Armbian, verifying
+>     schema validation with dt_binding_check.
+> 
+>  .../bindings/net/allwinner,sun8i-a83t-emac.yaml    | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
+> 
 
-> +	/* Disable 802.3az EEE */
-> +	ret = phy_write(phydev, 0x1f, 0x0200); /* Switch to page 2 */
-> +	if (ret)
-> +		return ret;
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Is it broken? phy_disable_eee()?
+yamllint warnings/errors:
 
-> +	return phy_clear_bits_mmd(phydev, 0x7, 0x3c, BIT(1));
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml: properties:syscon:items:0: {'minItems': 1, 'maxItems': 2, 'items': [{'description': 'Phandle to the device containing the EMAC or GMAC clock register'}, {'description': 'Register index offset (0 for EMAC0, 1 for EMAC1)'}]} should not be valid under {'required': ['maxItems']}
+	hint: "maxItems" is not needed with an "items" list
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml
 
-MDIO_MMD_AN, MDIO_AN_EEE_ADV.
+doc reference errors (make refcheckdocs):
 
-With those magic numbers replaced with macros, i then have to ask what
-is going on with EEE.
+See https://patchwork.kernel.org/project/devicetree/patch/20260916044119.475666-4-alastair@d-silva.org
 
-I also hope you see why magic numbers are bad and should where ever
-possible be replaced to meaningful macros.
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-> +	/* Read calibration data from NVMEM/SID */
-> +	ret = nvmem_cell_read_u16(dev, "calibration", &priv->caldata);
-> +	if (ret) {
-> +		if (ret == -EPROBE_DEFER)
-> +			return -EPROBE_DEFER;
-> +		dev_warn(dev, "Failed to read EPHY calibration (%pe)\n", ERR_PTR(ret));
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-Take a look at dev_err_probe().
+pip3 install dtschema --upgrade
 
-> +static int ac300_phy_match_phy_device(struct phy_device *phydev,
-> +				      const struct phy_driver *phydrv)
-> +{
-> +	return of_device_is_compatible(phydev->mdio.dev.of_node,
-> +				       "allwinner,sun50i-h618-ac300-ephy");
-> +}
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
-Why?
-
-	Andrew
