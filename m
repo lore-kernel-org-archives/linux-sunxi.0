@@ -1,79 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF7CA36D503
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Sep 2026 17:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABEB4B8272
+	for <linux-sunxi@lists.linux.dev>; Wed, 16 Sep 2026 18:24:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789578667; cv=none; b=sqswpx4EpXL9PqxmpMsdw1cYj9olrimp9UFhMT4C04tnKLZbMKuMQ2KsF80aS6MeexINnuLzxytS53rYaYLv7PlSvNvNn1ZacZQgL/s044kAu0UnUxOQ9GWGeTXYlbFlBZf4+R7jAKk7Dq9bl/WKrgIzounBeshBLEPWKN0d9uo=
+	t=1789583094; cv=none; b=Wy88ds7h5IegFuLl+ut4o1t6SxUFa/7hH1WxA++2e3qbdEsQtkWxRiZu7ezQXPMJTXS8XyCeHqqo4f0GcvdRs/Ptx6XTDazcRh+THu4J76zLuNk0ci3QcN7IyPKBh7+Eg0BLEjLyRJn4lO7X235Z+QT3YLF6tG4SecHRO5EhDic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789578667; c=relaxed/simple;
-	bh=Ljrz3/ym5aL3W5hSXMvMnSrl28+5TPjOO+yW6zlyHRo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J5TrIumnWz/OSpQBga9aq1IP3fvXBNzoUWwWwbaqTY70o2ODhZJeKB7SGo4Uc8xgKKEFeFQ65BB3P60VtD5kW6DmI7DR4y4q5t0BWFbX+pc22HV06Ud8L2RRiI2jZuNaOtmyQmA6GjRYUcYwUQLd65jDZrDWsoH4Nz6hqMAvecQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkqqu8zp; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bkqqu8zp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A9F31F008A2
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Sep 2026 17:10:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789578658;
-	bh=Ljrz3/ym5aL3W5hSXMvMnSrl28+5TPjOO+yW6zlyHRo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=bkqqu8zpSudVqSwPAfClBSGzFquPbiDxvce8sshFCNObsZ20EVP/0+iQzww+yfp8h
-	 Knbx0yTBFbbg49xHF8gW8s+G3B1aFJGWbztT0XAQo30gHGaiqTduMHKVHXb7kB+H6c
-	 mvn+fXe6B9Bz6mDWQt54CzQN3zDlB8QudJtk3YxqvGM41WtbLCgA8GZ3SFkd3DzgTj
-	 cDE5eAQR4RDiHyjmkUOBumOtsbxf0ByycNeNrGtmIcoPk44EridtqKqIQbfeAXkKup
-	 qO7xUIYCvHiXN41Z9HY9sqJ/dg4bKfxhSrL6uuSJx6mY/Bt5IyiN8xytKMeVJebbia
-	 27Eoxxefe5HTw==
-Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b74e0c2e4dso1332935e87.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 16 Sep 2026 10:10:57 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxO8tI7R6tb1DLury5BG7tdUumkBgKef28sd8rOi8XUXM4B/ZXnthk7WXa7sUYRbd3sQaHPS2XtfCRzHQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++l2a7/fE2AKQhwwzNEGY5nTMIZWnz8Eh/U4oPRGDHYQOAT723x8
-	hcMfWF+oB/NM5qzt1Ph1xdYmc3U8fauhnZshIA7PwnzQ70fWMq6iRnBA/pAzJb4y0ZlWCY9r4Ov
-	H3oRbUyZnTmcZolDCFPG8vRelQim44VQ=
-X-Received: by 2002:a05:6512:1329:b0:5b7:65c0:8b92 with SMTP id
- 2adb3069b0e04-5b8b6624616mr2095448e87.12.1789578656776; Wed, 16 Sep 2026
- 10:10:56 -0700 (PDT)
+	s=arc-20240116; t=1789583094; c=relaxed/simple;
+	bh=plb//BthYcXLQATz/pBSy5f+m6949UjkGPuUQG86j1s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FYJOM/lHZZIzWT9LJsvCOwUJ9iy/JGKiK7IXyvmbyjpLTWgohuJcQfW7FYGQ2t9L3EX4YSGBRrmgVjrunD+NFQPzUu+lqTemtJsDwncoRjCGnHGrMfl35KNZMdIUSZMmBeigZ/ZDYSTTJOlOGxMwLSk2qs/733BepbNdoTSniXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
+	by APP-05 (Coremail) with SMTP id zQCowABn0Tvo3qpqV3ZvCA--.24596S2;
+	Thu, 17 Sep 2026 02:24:40 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org,
+	jernej.skrabec@gmail.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	samuel@sholland.org,
+	simona@ffwll.ch,
+	tzimmermann@suse.de,
+	wens@kernel.org,
+	Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] drm/sun4i: Fix pdev reference leak in sun8i_r40_tcon_tv_set_mux()
+Date: Wed, 16 Sep 2026 18:24:12 +0000
+Message-Id: <20260916182412.2091681-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260910133519.459011-1-andre.przywara@arm.com>
-In-Reply-To: <20260910133519.459011-1-andre.przywara@arm.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 16 Sep 2026 19:10:43 +0200
-X-Gmail-Original-Message-ID: <CAD++jLnR-pyB8ZZXwn0ffDBQ5n3eWoqMnbxH59B1U6oDHDiRTA@mail.gmail.com>
-X-Gm-Features: AcwNN1WMRMLXV0VY47rk_rDL7ZhlcD1BjU6erIZy7wdE15mC-YpMq3fTzq6SO-U
-Message-ID: <CAD++jLnR-pyB8ZZXwn0ffDBQ5n3eWoqMnbxH59B1U6oDHDiRTA@mail.gmail.com>
-Subject: Re: [PATCH 0/7] pinctrl: sunxi: Add Allwinner A733 support
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Jerome Brunet <jbrunet@baylibre.com>, Yixun Lan <dlan@gentoo.org>, 
-	Enzo Adriano <enzo.adriano.code@gmail.com>, 
-	Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>, linux-gpio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowABn0Tvo3qpqV3ZvCA--.24596S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7XF4rWr1UKF18ZrWxur1kAFb_yoW3urb_W3
+	95urnxZr1kGr98AFy2vr1YvFyS9FnxWFW8Xw17tayrJ345ZrWIqr95twn5Xw4jqFyxWFn8
+	twnrWa1qyw12gjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb-xFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+	6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
+	4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+	7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Cr0_Gr1UMcvjeVCFs4IE7xkEbV
+	WUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7Cj
+	xVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4I
+	kC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWU
+	WwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JF
+	I_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG
+	6r1j6r1xMIIF0xvEx4A2jsIE14v26F4j6r4UJwCI42IY6I8E87Iv6xkF7I0E14v26F4UJV
+	W0obIYCTnIWIevJa73UjIFyTuYvjfUw5l8UUUUU
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRMMA2qqozWCnQAAsc
 
-On Thu, Sep 10, 2026 at 3:35=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
-com> wrote:
+of_find_device_by_node() takes a reference to the TCON TOP device
+which the error paths release, but the success path returns without
+doing so.  Drop the reference before returning success.
 
-> more than a year(!) after the RFC, now the first "proper" version of the
-> pinctrl and GPIO IP support for the new Allwinner A733 SoC.
+Fixes: 0305189afb32 ("drm/sun4i: tcon: Add support for R40 TCON")
+Cc: stable@vger.kernel.org
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ drivers/gpu/drm/sun4i/sun4i_tcon.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Perseverance and grit!
+diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+index 960e83c8291d..07350361fc4b 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
++++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+@@ -1444,6 +1444,8 @@ static int sun8i_r40_tcon_tv_set_mux(struct sun4i_tcon *tcon,
+ 		}
+ 	}
+ 
++	put_device(&pdev->dev);
++
+ 	return 0;
+ }
+ 
+-- 
+2.34.1
 
-Patches applied for 7.4.
-
-Look into Sashikos comments and address with follow-up
-patches if applicable, I'm not a friend of the perpetual back-and-forth
-Sashiko causes and prefer to just apply and fix in-tree.
-
-Yours,
-Linus Walleij
