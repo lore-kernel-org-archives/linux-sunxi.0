@@ -1,40 +1,33 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5213BE636
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Sep 2026 07:06:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE34F442372
+	for <linux-sunxi@lists.linux.dev>; Wed, 16 Sep 2026 07:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789542392; cv=none; b=taURipf2Nf2OmeZUSl9vGK8x4H+KsLd2Q1+wdAEYCDdec0IdSE9Q3D4RqeXhNBbz9RnGmrJObav2XCukF5MVnEZ9S2btr3PAAFlAug2pNMcaGRmeRtchhEk0Q/zKC1m8vCYjMEqsGjhTwJ5BBIQ0nDyES6S82rm/J/FTU0MzSjI=
+	t=1789543577; cv=none; b=VmESQg1btpnfFeJuAp8I2K+iuRofk2ZzXgHxvzA9qsbibmGbatQ/Gnas8MIzdX8tHi8AYp/Lp1l6h/klINu1GRtyvrTSyfM7AQoXl4jO9lJF6QyYzmYG/DCiGhWFx89KShKVYhlY6/zkdRv77gVV8eu4uF9owO2ATqhTWvtRbjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789542392; c=relaxed/simple;
-	bh=Qbtw9PWfVvC+tzChB1PE4hvPTcc5dPxUI77Ko0N8zRw=;
+	s=arc-20240116; t=1789543577; c=relaxed/simple;
+	bh=foDlmXzagcnq0TuBy/I4u4vrUx5zgn4ysYSm4+mVIwE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PCeP7X//WMYXXzQKvocSRN44l3VVZVSBfnFxPubEYdwoolmMuJGOVBbno1rg+v7FLPthFrFF7gu4XyRoO0by2Wtw9S8s2Bw+6Yfs8AtloCBjz9x7Tjohza8h2j/w6O9XYiWTdMVxGlMRMSohEAtnca19/5gPx7ULaaTcXb/s/6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=k7z+XNlI; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	 In-Reply-To:Content-Type; b=go3XKq39eutZbX6etPKbjblfvZjxIqw1q5FNb+4MD52Hm3EFnYINJsuFjYF9yQdw43cLxD+0LM706EIv/ujF8bcDm8fjfVCpMTJnD6lIXUC3TVFDe/k5gWs2vD3Uqk55TF2MYUoqoLqYVVrchcea3mhlbKA4alrfYMhQx/UHlgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Z/Eg90f6; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="k7z+XNlI"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id C8DC64E4064C;
-	Wed, 16 Sep 2026 07:06:27 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 914D060337;
-	Wed, 16 Sep 2026 07:06:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8AF7411C7AFE7;
-	Wed, 16 Sep 2026 09:06:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1789542386; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=Xdh/rXV7bbuANGaKBhva3Gg+xdIjMLL6po8X8eKgzG4=;
-	b=k7z+XNlIuaYHraCbogiD+ix+6XoA3JKCCceTzetFGhcpZfV/VIiWvuejEU62SuE7Wrv0cP
-	UZGcyF59FZIYc02pcJZQMoZ6F2Av8EmAChXoRRKMaZJ//bWRezhYBo+YCxVE1Yqch14Xb9
-	+u7xTZsw0KpWTjqjQHCCPM7dg7KPkWNGUUkrAxbUic6ax9LDsKn3S6F1NIfwE+p7CjkdlT
-	rBoNwsgzXLaHL5Zq4l9XxFLHLXjXt93Gc8PpjS0OsvIK58iQyMQBIj7ONyLh8vXSpRLKs9
-	n2/DJxHgqmAYFyp9a7YhuUz67YdCTM6YR3qMxuLUwQ4BK+peYnLUlIUFZRk1RA==
-Message-ID: <3196ccec-7cf3-434b-b7bb-dec64fe29583@bootlin.com>
-Date: Wed, 16 Sep 2026 09:06:16 +0200
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Z/Eg90f6"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E35CF152B;
+	Wed, 16 Sep 2026 00:25:59 -0700 (PDT)
+Received: from [172.18.224.124] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4D05E3F86F;
+	Wed, 16 Sep 2026 00:25:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1789543563; bh=foDlmXzagcnq0TuBy/I4u4vrUx5zgn4ysYSm4+mVIwE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Z/Eg90f6uwGEDIvEfkh49fsNWBjrHX58Aao+Yv5AbA+pcP+bPZiOIoZup+Woecv3i
+	 GJkg5PTVbYIT8UpdFTmTjnFWg767JJUfA1l0m3Hvh6a5HznwtU67FOgAVrJvYGj8R/
+	 hJFwNXgUgOgoOeUMBtzCwJO51RcRDM41QdRgnfto=
+Message-ID: <14e61e7a-29ad-4cc6-8993-dea7a8d7c846@arm.com>
+Date: Wed, 16 Sep 2026 09:25:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,68 +35,121 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 0/4] net: Add Allwinner H616/H618 EMAC1 and AC300
- EPHY support
-To: Alastair D'Silva <alastair@d-silva.org>,
- James Hilliard <james.hilliard1@gmail.com>, wens@kernel.org
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,
+Subject: Re: [PATCH net-next v2 1/2] dt-bindings: net: allwinner: add H616
+ EMAC1
+To: James Hilliard <james.hilliard1@gmail.com>,
+ Richard Genoud <richard.genoud@bootlin.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-References: <20260916044119.475666-1-alastair@d-silva.org>
- <CAGb2v64HZoqBscyKTkTin6DnMv5_kZpBxoS+cm7aYy09pRc7hA@mail.gmail.com>
- <CADvTj4qRMviM=KXinCKi657pVC_kj7Kt1yizW_EGDu4m7VKQFg@mail.gmail.com>
- <2ac659ffa08eeddc6654827f5a8fbd7fe374a128.camel@d-silva.org>
-Content-Language: en-US
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-In-Reply-To: <2ac659ffa08eeddc6654827f5a8fbd7fe374a128.camel@d-silva.org>
-Content-Type: text/plain; charset=UTF-8
+ Samuel Holland <samuel@sholland.org>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+ Jose Abreu <joabreu@synopsys.com>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <20260915-submit-h616-emac1-v1-v2-0-322b32e40eb9@gmail.com>
+ <20260915-submit-h616-emac1-v1-v2-1-322b32e40eb9@gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20260915-submit-h616-emac1-v1-v2-1-322b32e40eb9@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
 
 Hi,
-On 9/16/26 08:49, Alastair D'Silva wrote:
 
-> There is one subtle timing issue worth highlighting from our Armbian
-> testing on the Mellow Fly-C5 (H618):
+On 9/16/26 05:07, James Hilliard wrote:
+> The H616 secondary EMAC uses a separate system-control clock register
+> and supports only RMII at 10/100 Mbps. Add its distinct compatible
+> without an older fallback, since using the primary EMAC clock register
+> would not work.
 > 
-> In James's dwmac patch, setting soc_has_internal_phy = false causes
-> sun8i_dwmac_probe() to fall through to sun8i_dwmac_reset(priv). The
-> Synopsys EMAC DMA soft reset (EMAC_BASIC_CTL1 bit 0) requires a running
-> RMII clock from the PHY to clear.
+> Constrain the PHY interface mode to RMII, matching the hardware.
 > 
-> While this reset succeeds when the PHY driver is built-in and probes
-> synchronously, if CONFIG_XPOWERS_ACX00_PHY is built as a module (=m)
-> or if the PHY probe defers (-EPROBE_DEFER on regulator/clock/nvmem),
-> the PHY is unpowered and not clocking when sun8i_dwmac_probe() runs.
+> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+
+Where does this come from? If Richard is the author, then please reflect 
+this in the patch (git commit --amend --author ...), so a From: line 
+appears in the body of the email.
+If not, it's unclear why this line is here.
+
+The actual patch looks good to me:
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> ---
+>   .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml  | 13 +++++++++++++
+>   Documentation/devicetree/bindings/net/snps,dwmac.yaml       |  2 ++
+>   2 files changed, 15 insertions(+)
 > 
-> This causes sun8i_dwmac_reset() to time out after 100ms ("EMAC reset
-> timeout"), failing MAC driver probe. In our testing, deferring the MAC
-> reset until sun8i_dwmac_init() (which runs upon ndo_open after phylink
-> has attached and the PHY is active) avoided this probe failure.
-
-I'm OK with going with James' version, however this seems like a valid
-point that needs to be figured out.
-
-James, can you add Alastair in CC of your next iterations, and Alastair
-it would be great if you could give James's patches a test when he
-submits them :)
-
-There's more stuff in the dwmac part for Alastair's version, some
--EPROBEFER handling for clocks, the reset thing as well as the MUX
-part, for which use-cases is all of that required ?
-
-If that's something that needs to land with proper EMAC1 support, maybe
-this could be split out from Alastair's work (in individual patches
-please), and integrated in James's series ?
-
-Maxime
+> diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
+> index 323a669fa982..2cae0133b3cd 100644
+> --- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
+> +++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
+> @@ -21,6 +21,7 @@ select:
+>             - allwinner,sun8i-r40-gmac
+>             - allwinner,sun8i-v3s-emac
+>             - allwinner,sun50i-a64-emac
+> +          - allwinner,sun50i-h616-emac1
+>             - allwinner,sun55i-a523-gmac200
+>     required:
+>       - compatible
+> @@ -33,6 +34,7 @@ properties:
+>         - const: allwinner,sun8i-r40-gmac
+>         - const: allwinner,sun8i-v3s-emac
+>         - const: allwinner,sun50i-a64-emac
+> +      - const: allwinner,sun50i-h616-emac1
+>         - items:
+>             - enum:
+>                 - allwinner,sun20i-d1-emac
+> @@ -91,6 +93,17 @@ required:
+>   
+>   allOf:
+>     - $ref: snps,dwmac.yaml#
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: allwinner,sun50i-h616-emac1
+> +
+> +    then:
+> +      properties:
+> +        phy-mode:
+> +          const: rmii
+> +
+>     - if:
+>         properties:
+>           compatible:
+> diff --git a/Documentation/devicetree/bindings/net/snps,dwmac.yaml b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
+> index 2ed4564ae99d..b20149c3e850 100644
+> --- a/Documentation/devicetree/bindings/net/snps,dwmac.yaml
+> +++ b/Documentation/devicetree/bindings/net/snps,dwmac.yaml
+> @@ -57,6 +57,7 @@ properties:
+>           - allwinner,sun8i-r40-gmac
+>           - allwinner,sun8i-v3s-emac
+>           - allwinner,sun50i-a64-emac
+> +        - allwinner,sun50i-h616-emac1
+>           - amlogic,meson6-dwmac
+>           - amlogic,meson8b-dwmac
+>           - amlogic,meson8m2-dwmac
+> @@ -623,6 +624,7 @@ allOf:
+>                   - allwinner,sun8i-r40-gmac
+>                   - allwinner,sun8i-v3s-emac
+>                   - allwinner,sun50i-a64-emac
+> +                - allwinner,sun50i-h616-emac1
+>                   - loongson,ls2k-dwmac
+>                   - loongson,ls7a-dwmac
+>                   - ingenic,jz4775-mac
+> 
 
