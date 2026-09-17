@@ -1,173 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DE03CB56E;
-	Thu, 17 Sep 2026 04:42:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27183CB57B;
+	Thu, 17 Sep 2026 04:42:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789620152; cv=none; b=FCsyrj/anAq3U/Z1L6qnSObJqrmvPjmJZkS4glMuIwn7ZevReTz3c4wV38pUyF7qxAPcjMR1GN82M0e1RlsgjR8F7AQzFVajYZ8+Sg8ZgFgK2y3VB9zcEQcfkxlSwV7G5gA66FevX/lWsyzTO9nmNmnO62HeuXqWQkbJvhIBDk8=
+	t=1789620152; cv=none; b=ArtS8V/RqBdaAgBM5N188ARs0rpvxJ+sQ0gn3G/lxKnNFnfojh9MdfJnpNlLykP2X8DlFluoDWjQ0aJDSxRJO5khpRcRYAG01keivmM4FXAJ/XoI7ytH6qR1ZWeBNmVS7MiLG9PjOy+PQTeMKKFeYZdVUX0VUDQCclrP7BEgYwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1789620152; c=relaxed/simple;
-	bh=+uclSvVlw8cy6FQRk/PnfNnw4EnJNeVtkoXBsSZezgc=;
+	bh=niacQppz/b/9hVFUDhV6OWRr3gN2pb0ZFT2alsHY0X0=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=CQivDf34BaPtMiuD52/AvjuAAlOrLXyeo28r4D/ji217sIOscqPC001Q8BwjwxoBW693uGmRJfPDSuq7vXiigznnzYe1AhAzkPwFgmXEqvMjf8DHAAI3XmrJUOSmD8j0xzi4nlCPTSrNYYqI7sgDmgo3l2PmbsZJRsIfq1jqtfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IZrsBG3E; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=N0k//qZxzEWvONn8Ujb49Cd6o5hInSTCM+wj8a3kFrMYfLY+fbw2MigkejbYZ6hcN11ef3LF5d7Ju57hhL8MD+SdVK/ThBw4rhB1aR+HhbBqL3DhxB+hZADFZE7WxSqAtYncTrBUIPCbOv1n58r/OPeq85A3Vij5/cJ+VbFOuN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CXruVG6D; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IZrsBG3E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 679651F000FF;
-	Thu, 17 Sep 2026 04:42:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CXruVG6D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3844B1F00893;
+	Thu, 17 Sep 2026 04:42:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789620150;
-	bh=n7a20XI5P58ueBWoAH7JNyjNRhVfRlpOVcikUsn9zX8=;
+	s=k20260515; t=1789620151;
+	bh=fDUNtQwW4GHKBlgcaWTAtCXrAz0vNqkvuBDBQlcNubs=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=IZrsBG3EwYwrNFYqscLvvdWcZmRsFB85zKA4u9XXNKnrDIexSBsRcbB61E8mS+X7I
-	 BrOSi5pRmWulWCi0drrgBUSoD3/yy6KsDagol2s+3eupWt2j4QvZ1FloEz6I563odr
-	 klsUh/6g/1xfueXvDQMZjtAviyYqs70ulDn6kAa0jJQ0Hq7h071w2Tjol4NnYwfImu
-	 nFa84wFQIwNR/eCzBuNNZiLFiGNs4Y4IS3EsACEwCk+1R+gk/zsvOkADvEAPV3lMFG
-	 hUPETUTPjRKm5waVt9oPPd383mRcfUBBzoYABwFZKkGUOtpFd7WHH8ufm7BVELeLHQ
-	 iKprm9XcpScZg==
+	b=CXruVG6DgZDIavGOfeVwoMHjdKyof+ekGT7dlvcTypYOElqcbIjtF8bi6VCy+Scgq
+	 5ze55zgC834IzZ/npFONcokqTBxyfo+ycw6pNlBUqTlR1ryxDBKvXDCZPxN2oN8BIf
+	 ILmWmihHa0ZnMPT4pvvXdMB9yGB2F8QVoD80INS8TpoZyfggozfioqTswddEeREles
+	 g9v6qSN9iFBMeV+/JjaI/MT1cd8c5KGJvb1NuOVoTMRTmq6LnUT1psFynjKwBnwi4b
+	 09hI+Zb19QgYA091FvobZRwCDn/mhjPKH+2HOrHI8uAouePMboyto5+PFH0MY3cFop
+	 QkfGnoHVx71/g==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next 4/4] net: stmmac: dwmac-sun8i: Add Allwinner
- H616 EMAC clock index and internal PHY support
+Subject: Re: [PATCH net-next 3/4] dt-bindings: net:
+ allwinner,sun8i-a83t-emac: Add Allwinner H616 EMAC1 and syscon index
 Reply-To: sashiko-reviews@lists.linux.dev
 To: =?utf-8?b?QWxhc3RhaXIgRCdTaWx2YQ==?= <alastair@d-silva.org>
-Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20260916044119.475666-5-alastair@d-silva.org>
+Cc: robh@kernel.org, conor+dt@kernel.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
+In-Reply-To: <20260916044119.475666-4-alastair@d-silva.org>
 References: <20260916044119.475666-1-alastair@d-silva.org>
- <20260916044119.475666-5-alastair@d-silva.org>
+ <20260916044119.475666-4-alastair@d-silva.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 17 Sep 2026 04:42:29 +0000
-Message-Id: <20260917044230.679651F000FF@smtp.kernel.org>
+Date: Thu, 17 Sep 2026 04:42:30 +0000
+Message-Id: <20260917044231.3844B1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] net: stmmac: MAC soft reset is completely bypassed for internal PHY
-- [Medium] net: stmmac: silent acceptance of missing clocks and resets for =
-internal PHY
-- [Medium] net: stmmac: internal PHY clock and reset leaked if MAC reset fa=
-ils
+- [Low] dt-bindings: missing mdio-mux conditional for h616-internal-emac
 --
 
-commit a3ca47044e22ce48b791f8eb8f51a44d49d7ba43
+commit 32bf9c78551205e690dd92ce3a439bc48e70a630
 Author: Alastair D'Silva <alastair@d-silva.org>
 
-net: stmmac: dwmac-sun8i: Add Allwinner H616 EMAC clock index and internal =
-PHY support
+dt-bindings: net: allwinner,sun8i-a83t-emac: Add Allwinner H616 EMAC1 and s=
+yscon index
 
-This commit adds support for EMAC1 and the internal Fast Ethernet PHY (AC30=
-0)
-on Allwinner H616 and H618 SoCs. It allows reading a register index from the
-syscon property and introduces emac_variant_h616_internal with internal PHY
-support.
+The commit documents the Allwinner H616 EMAC1 and internal EMAC compatible
+strings. It also updates the syscon property schema to support an optional
+register index offset argument.
 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/=
-net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> index 48c52eb962335..1728893589a68 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-e=
+mac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.=
+yaml
+> index 323a669fa9823..cd1075dab5810 100644
+> --- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
+> +++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
+> @@ -39,6 +39,8 @@ properties:
+>                - allwinner,sun50i-a100-emac
+>                - allwinner,sun50i-h6-emac
+>                - allwinner,sun50i-h616-emac0
+> +              - allwinner,sun50i-h616-emac1
+> +              - allwinner,sun50i-h616-internal-emac
 
-[ ... ]
+[Severity: Low]
+Does the newly added allwinner,sun50i-h616-internal-emac variant need to be
+included in the conditional block for mdio-mux?
 
-> @@ -589,6 +600,10 @@ static int sun8i_dwmac_init(struct device *dev, void=
- *priv)
->  		ret =3D sun8i_dwmac_power_internal_phy(netdev_priv(ndev));
->  		if (ret)
->  			goto err_disable_regulator;
-> +
-> +		ret =3D sun8i_dwmac_reset(netdev_priv(ndev));
-> +		if (ret)
-> +			goto err_disable_regulator;
+Looking at the schema file, there is a conditional block that permits the
+mdio-mux property for internal PHYs:
 
-[Severity: Medium]
-If sun8i_dwmac_reset() returns an error here, the code jumps directly to
-err_disable_regulator. Will this skip the call to
-sun8i_dwmac_unpower_internal_phy(), leaving the internal PHY powered and its
-clock enabled?
+allOf:
+  - if:
+      properties:
+        compatible:
+          contains:
+            enum:
+              - allwinner,sun8i-h3-emac
+              - allwinner,sun8i-v3s-emac
+    then:
+      properties:
+        ...
+        mdio-mux:
+          type: object
+          unevaluatedProperties: false
 
-[ ... ]
+Since allwinner,sun50i-h616-internal-emac is not in this enum, valid device
+trees using this new compatible string with an mdio-mux node will fail
+schema validation.
 
-> @@ -784,16 +799,23 @@ static int get_ephy_nodes(struct stmmac_priv *priv)
->  	/* Seek for internal PHY */
->  	for_each_child_of_node_scoped(mdio_internal, iphynode) {
->  		gmac->ephy_clk =3D of_clk_get(iphynode, 0);
-> -		if (IS_ERR(gmac->ephy_clk))
-> -			continue;
-> +		if (IS_ERR(gmac->ephy_clk)) {
-> +			ret =3D PTR_ERR(gmac->ephy_clk);
-> +			if (ret =3D=3D -EPROBE_DEFER) {
-> +				of_node_put(mdio_internal);
-> +				return ret;
-> +			}
-> +			gmac->ephy_clk =3D NULL;
-> +		}
-
-[Severity: Medium]
-If of_clk_get() returns an error other than -EPROBE_DEFER (such as -EINVAL),
-the error handling now sets gmac->ephy_clk to NULL and continues to the res=
-et
-control fetch, which eventually returns 0 on success. Does this silently
-accept a device tree node missing the required clock instead of skipping it
-via continue?
-
->  		gmac->rst_ephy =3D of_reset_control_get_exclusive(iphynode, NULL);
->  		if (IS_ERR(gmac->rst_ephy)) {
->  			ret =3D PTR_ERR(gmac->rst_ephy);
->  			if (ret =3D=3D -EPROBE_DEFER) {
-> +				clk_put(gmac->ephy_clk);
->  				of_node_put(mdio_internal);
->  				return ret;
->  			}
-> -			continue;
-> +			gmac->rst_ephy =3D NULL;
->  		}
-
-[Severity: Medium]
-Similarly, if of_reset_control_get_exclusive() returns a non-EPROBE_DEFER
-error, the pointer is set to NULL and the loop returns 0 (success). Will th=
-is
-cause the driver to silently accept missing resets and later perform
-operations with NULL pointers?
-
-[ ... ]
-
-> @@ -892,10 +916,13 @@ static int mdio_mux_syscon_switch_fn(int current_ch=
-ild, int desired_child,
->  		} else {
->  			sun8i_dwmac_unpower_internal_phy(gmac);
->  		}
-> -		/* After changing syscon value, the MAC need reset or it will
-> +		/* After changing syscon value, the MAC needs reset or it will
->  		 * use the last value (and so the last PHY set).
-> +		 * For internal PHY, the MAC reset will timeout because the PHY
-> +		 * is not yet enabled/clocked. Delay the reset to dwmac_init.
->  		 */
-> -		ret =3D sun8i_dwmac_reset(priv);
-> +		if (!gmac->use_internal_phy)
-> +			ret =3D sun8i_dwmac_reset(priv);
->  	}
->  	return ret;
-
-[Severity: High]
-The comment states the MAC reset is delayed to dwmac_init. However, during
-driver probe in sun8i_dwmac_probe(), plat_dat->init (which points to
-sun8i_dwmac_init) executes before the MDIO mux is registered.
-
-During that initial execution of sun8i_dwmac_init(), gmac->use_internal_phy
-is false (zero-initialized), so the reset block is skipped. Later, this
-MDIO switch function sets gmac->use_internal_phy =3D true but explicitly sk=
-ips
-the MAC reset here.
-
-Because both execution paths skip the reset, does this mean the MAC soft
-reset is completely bypassed during initialization when using the internal
-PHY?
+The driver itself requires the mdio-mux node to avoid an -ENODEV error
+during probe, so it seems the property is needed, but the schema will
+reject it due to unevaluatedProperties: false at the root level.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260916044119.4756=
-66-1-alastair@d-silva.org?part=3D4
+66-1-alastair@d-silva.org?part=3D3
