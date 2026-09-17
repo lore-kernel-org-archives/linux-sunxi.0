@@ -1,54 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1DE3CDBD3;
-	Thu, 17 Sep 2026 19:04:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0284E0B8B;
+	Thu, 17 Sep 2026 20:30:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789671849; cv=none; b=sptVEhH8OcU8FOUIaMFec1obKY2dlQAw7r+KZ2PZPcrSpjVpBZWD6dBLfryt4zFjiZ1VznwLZCYWO6YaMA8/JnLvb83MBp5LK7wVGky2bqEQ6JnxTkj11osgG02DgAYHdxBSh8awopvikH+X6WBpubL74zI3nPQ3cV0H1CFIB94=
+	t=1789677015; cv=none; b=JkPE4jS63K9mLKGiHSHXUQP+Jc9fqSnXOHFfehMr//GPjqS05NN7yvTyOI+oQ9bNAEW3oEO3P2W9ae9ofImpNda/UwXUsfMP7HtsRdsh85HqA3iPsjeJNOuvP+a96UvgnJU+7jSEePrZOQ4ON5R7Gyl1REr6dRz4+s+bo0wlEgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789671849; c=relaxed/simple;
-	bh=tCosBkLYGEEsi74OqSOrc66diUULUxKBq3+Wh50tyjM=;
+	s=arc-20240116; t=1789677015; c=relaxed/simple;
+	bh=O4E/r/TO4Ia/0BjZxJmv84fyinvl9/+1ynT1NWdhvas=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CB2CvTaSAO/x5LrFDjnH1sopLgKM3GmFLreCIBTw2jViAsSBGXFODUq8LCyy+2CjiSxt/UoSOd3us1s3VU7j5U7570YepuTATK9Yr6kVQFnZP2IpRVov72gjtM6u138eXkeOQGt9CQ885Rz++u1uMrU4DlNtbbyo1AZNwKQi8/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k48NjLkH; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=de7FT+tLlGbd9mgZMqhxiBSQqZQqyld3w4pajLC967gDmaElV9zsXwHOlXJkKHo1s3eg79pa+Ar13E5M+qOROGviCKfSCQV3CpZvdHaJecnQvXwxwFEYXufiDmYHX5lHuzv6uHGDE/4ltmGiRrUI8T5844AIBQxe24YOcdqG1B8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y/O9H4/J; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k48NjLkH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51E801F000FF;
-	Thu, 17 Sep 2026 19:04:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789671847;
-	bh=gzQp6LW1nXvwBEwBhGNPe+tNOASC0dgPxppHtMaIJkM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=k48NjLkHVhtOalPBGpW0mEiCAI8LrDMLOLiZZXWRnf6WbeYW47QCVsuZaVq3BD6PS
-	 XUj//7Wh+NEwRa44zMB7p+gOfG4tMr0K9Fi+m735eHJ7v8M139VmX1Ri7YIcA5LtVY
-	 ZryHyhQrvuiNZ9NBiopiVKxfWj4eRtwA6+AkAWaHss8V28snEBfZgiA9uQUpOQzN6+
-	 s+JLhtI68GSF75d1C8CD9Hr3S8EOcR+AZuNZPLVqFyJDUEdOmja5kkOxJb6PrtMtNZ
-	 oWIryW6xoOLDS0OV5YGZqloxJtvl0jkE/QfLDaQQM5e6sEcdSvaYVuoEHIJWaEiQwD
-	 oecVv3ZxWaUbA==
-Date: Thu, 17 Sep 2026 14:04:06 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Sudeep Holla <sudeep.holla@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>, devicetree@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>, Suman Anna <s-anna@ti.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Michal Simek <michal.simek@amd.com>,
-	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-tegra@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>, linux-kernel@vger.kernel.org,
-	Lee Jones <lee@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
-	linux-sunxi@lists.linux.dev,
-	Thierry Reding <thierry.reding@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: mailbox: Delete old 'mailbox.txt'
- bindings file
-Message-ID: <178967102478.3104808.16225171904149470188.robh@kernel.org>
-References: <20260814124603.v2.1.I8b3ff71c528133e7d6f81fe926fa39e6451d63fd@changeid>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y/O9H4/J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789677013; x=1821213013;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=O4E/r/TO4Ia/0BjZxJmv84fyinvl9/+1ynT1NWdhvas=;
+  b=Y/O9H4/JvHtY233JWEPekKTQrT47IzeBjH2m2xL0I4gZeAarqOYsKruj
+   tW2acy7rx8ifiOxI+LWOxmoAhsaTsJZTI/bGoUaZMcMtaqd6omlCUGdRS
+   8GVKrupUQ0JcC5hzhrTG8IebXj7LS33kOPzxKft7/Z9GHiCDnlw8xvWzs
+   6IpIHgnWvvo2ZMgWjbhcrkdyXeORb5QdOx02gBmp9dZZRW8P05r4kJu1B
+   cEAfnN/AsbYafHz5OKofO91wUxW7MGBVZfJg9YqsgGIxci8SMwIvvc07f
+   gmAokr81FsUUug0dyCkw9JJTU/NbjdqF8KXC3qKfPFFhmUWSUlPFTuybD
+   g==;
+X-CSE-ConnectionGUID: aTUmOt5UQjmWdbU1DBCnmg==
+X-CSE-MsgGUID: 2uIKLna5SruuMHojgHCY+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="90007922"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="90007922"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 13:30:12 -0700
+X-CSE-ConnectionGUID: dSxZsrCVRm6JjrCxhaBwiw==
+X-CSE-MsgGUID: LwfJGjC0QIGxUw/0hFem2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="267777446"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 17 Sep 2026 13:30:08 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x7Ik9-000000008TJ-42b7;
+	Thu, 17 Sep 2026 20:30:05 +0000
+Date: Fri, 18 Sep 2026 04:29:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Wentao Liang <vulab@iscas.ac.cn>, airlied@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, samuel@sholland.org, simona@ffwll.ch,
+	tzimmermann@suse.de, wens@kernel.org,
+	Wentao Liang <vulab@iscas.ac.cn>, stable@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: Fix pdev reference leak in
+ sun8i_r40_tcon_tv_set_mux()
+Message-ID: <202609180443.vTkwAZL6-lkp@intel.com>
+References: <20260916182412.2091681-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -57,48 +69,80 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260814124603.v2.1.I8b3ff71c528133e7d6f81fe926fa39e6451d63fd@changeid>
+In-Reply-To: <20260916182412.2091681-1-vulab@iscas.ac.cn>
+
+Hi Wentao,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on sunxi/sunxi/for-next]
+[also build test ERROR on daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v7.3-rc3 next-20260916]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/drm-sun4i-Fix-pdev-reference-leak-in-sun8i_r40_tcon_tv_set_mux/20260916-182412
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+patch link:    https://lore.kernel.org/r/20260916182412.2091681-1-vulab%40iscas.ac.cn
+patch subject: [PATCH] drm/sun4i: Fix pdev reference leak in sun8i_r40_tcon_tv_set_mux()
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20260918/202609180443.vTkwAZL6-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7252edd9aa82ef1c570ff6694ef7f4763a8a5d2f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260918/202609180443.vTkwAZL6-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609180443.vTkwAZL6-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/sun4i/sun4i_tcon.c:811:14: error: use of undeclared identifier 'pdev'; did you mean 'dev'?
+     811 |         put_device(&pdev->dev);
+         |                     ^~~~
+         |                     dev
+   drivers/gpu/drm/sun4i/sun4i_tcon.c:786:50: note: 'dev' declared here
+     786 | static int sun4i_tcon_init_clocks(struct device *dev,
+         |                                                  ^
+>> drivers/gpu/drm/sun4i/sun4i_tcon.c:811:20: error: no member named 'dev' in 'struct device'
+     811 |         put_device(&pdev->dev);
+         |                     ~~~~  ^
+   2 errors generated.
 
 
-On Fri, 14 Aug 2026 12:46:12 -0700, Douglas Anderson wrote:
-> As per mailing-list discussions [1] [2] [3], we want to delete the
-> following old file from the device-tree bindings that live in the
-> Linux kernel git tree:
-> * Documentation/devicetree/bindings/mailbox/mailbox.txt
-> 
-> The old .txt file did have some descriptive text about what some of
-> the properties meant. Those have been added to the dt-schema
-> repository in a pull request [4].
-> 
-> Also remove dangling references to `mailbox.txt` across all remaining
-> device-tree binding documentation files.
-> 
-> Link: https://lore.kernel.org/r/20260722140214.GA548057-robh@kernel.org [1]
-> Link: https://lore.kernel.org/r/dc7a2041-50a4-482e-9930-566bb3fd1e72@kernel.org [2]
-> Link: https://lore.kernel.org/r/CAL_JsqKVjQ2m-dzMUENQry-f_YE9QrYSOKoH9CPj1gjj8XkPRA@mail.gmail.com [3]
-> Link: https://github.com/devicetree-org/dt-schema/pull/202 [4]
-> Cc: Sudeep Holla <sudeep.holla@kernel.org>
-> Cc: Jassi Brar <jassisinghbrar@gmail.com>
-> Cc: Lee Jones <lee@kernel.org>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
-> - v1: https://lore.kernel.org/r/20260804133801.1.I8b3ff71c528133e7d6f81fe926fa39e6451d63fd@changeid
-> 
-> Changes in v2:
-> - Remove dangling mailbox.txt references as per Sashiko.
-> 
->  .../firmware/nvidia,tegra186-bpmp.yaml        |  6 +-
->  .../mailbox/allwinner,sun6i-a31-msgbox.yaml   |  3 -
->  .../bindings/mailbox/altera-mailbox.txt       | 12 ++--
->  .../mailbox/hisilicon,hi3660-mailbox.txt      |  2 +-
->  .../mailbox/hisilicon,hi6220-mailbox.txt      |  2 +-
->  .../devicetree/bindings/mailbox/mailbox.txt   | 60 -------------------
->  .../bindings/mailbox/ti,omap-mailbox.yaml     |  3 +-
->  .../power/reset/xlnx,zynqmp-power.yaml        |  9 +--
->  .../bindings/soc/qcom/qcom,aoss-qmp.yaml      |  2 +-
->  9 files changed, 15 insertions(+), 84 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/mailbox/mailbox.txt
-> 
+vim +811 drivers/gpu/drm/sun4i/sun4i_tcon.c
 
-Applied, thanks!
+   785	
+   786	static int sun4i_tcon_init_clocks(struct device *dev,
+   787					  struct sun4i_tcon *tcon)
+   788	{
+   789		tcon->clk = devm_clk_get_enabled(dev, "ahb");
+   790		if (IS_ERR(tcon->clk)) {
+   791			dev_err(dev, "Couldn't get the TCON bus clock\n");
+   792			return PTR_ERR(tcon->clk);
+   793		}
+   794	
+   795		if (tcon->quirks->has_channel_0) {
+   796			tcon->sclk0 = devm_clk_get_enabled(dev, "tcon-ch0");
+   797			if (IS_ERR(tcon->sclk0)) {
+   798				dev_err(dev, "Couldn't get the TCON channel 0 clock\n");
+   799				return PTR_ERR(tcon->sclk0);
+   800			}
+   801		}
+   802	
+   803		if (tcon->quirks->has_channel_1) {
+   804			tcon->sclk1 = devm_clk_get(dev, "tcon-ch1");
+   805			if (IS_ERR(tcon->sclk1)) {
+   806				dev_err(dev, "Couldn't get the TCON channel 1 clock\n");
+   807				return PTR_ERR(tcon->sclk1);
+   808			}
+   809		}
+   810	
+ > 811		put_device(&pdev->dev);
+   812	
+   813		return 0;
+   814	}
+   815	
 
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
