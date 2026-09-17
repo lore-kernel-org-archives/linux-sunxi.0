@@ -1,108 +1,128 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27183CB57B;
-	Thu, 17 Sep 2026 04:42:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979C03D16FC;
+	Thu, 17 Sep 2026 04:42:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789620152; cv=none; b=ArtS8V/RqBdaAgBM5N188ARs0rpvxJ+sQ0gn3G/lxKnNFnfojh9MdfJnpNlLykP2X8DlFluoDWjQ0aJDSxRJO5khpRcRYAG01keivmM4FXAJ/XoI7ytH6qR1ZWeBNmVS7MiLG9PjOy+PQTeMKKFeYZdVUX0VUDQCclrP7BEgYwU=
+	t=1789620153; cv=none; b=YNTRgTjLWp7NfkIA2z3B+3QCs8riqtASDZ6PjkHJ3S4AeaD2804jL7bWK4ZxGebmSKuAj+VxK0PD+eizZnU3lbXR2dfxY6df41pyZWMuotXc7BM4rczvE7rqVgqRsDRjh0JXHKOqLj+Ma0NQxWTETSIcq0ajoC/Er2x/z4Us8QE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789620152; c=relaxed/simple;
-	bh=niacQppz/b/9hVFUDhV6OWRr3gN2pb0ZFT2alsHY0X0=;
+	s=arc-20240116; t=1789620153; c=relaxed/simple;
+	bh=iOBYGCcUCfmsNWf+BzqQHThbA94au9hWYnPqo7zKu9I=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=N0k//qZxzEWvONn8Ujb49Cd6o5hInSTCM+wj8a3kFrMYfLY+fbw2MigkejbYZ6hcN11ef3LF5d7Ju57hhL8MD+SdVK/ThBw4rhB1aR+HhbBqL3DhxB+hZADFZE7WxSqAtYncTrBUIPCbOv1n58r/OPeq85A3Vij5/cJ+VbFOuN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CXruVG6D; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=rWO1WWx0XZwIYIhNGlWiJ3Ee0BcUlVMTfB1lmxJCzRRG388evLIlb7KOwtkoiOGR/LsskVV2vUljCFGAvQ4+Jv0cj3kzgizFcDPC/uAlZTAlIlKn0ZVwHDWUCaSYSn1OJRdFdHglqFOFnW5ZKckN2XbfO3SbddUa1Av5OhcP2kE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R0fO+X4B; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CXruVG6D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3844B1F00893;
-	Thu, 17 Sep 2026 04:42:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R0fO+X4B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 100981F00898;
+	Thu, 17 Sep 2026 04:42:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789620151;
-	bh=fDUNtQwW4GHKBlgcaWTAtCXrAz0vNqkvuBDBQlcNubs=;
+	s=k20260515; t=1789620152;
+	bh=LYj1Y9FtvdMw0tExYKNybvzhpOWVnppooG9/RmRb0Uo=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=CXruVG6DgZDIavGOfeVwoMHjdKyof+ekGT7dlvcTypYOElqcbIjtF8bi6VCy+Scgq
-	 5ze55zgC834IzZ/npFONcokqTBxyfo+ycw6pNlBUqTlR1ryxDBKvXDCZPxN2oN8BIf
-	 ILmWmihHa0ZnMPT4pvvXdMB9yGB2F8QVoD80INS8TpoZyfggozfioqTswddEeREles
-	 g9v6qSN9iFBMeV+/JjaI/MT1cd8c5KGJvb1NuOVoTMRTmq6LnUT1psFynjKwBnwi4b
-	 09hI+Zb19QgYA091FvobZRwCDn/mhjPKH+2HOrHI8uAouePMboyto5+PFH0MY3cFop
-	 QkfGnoHVx71/g==
+	b=R0fO+X4BnJe2ubYla2LPd5jOERriPZo2uLrBMbMaX09lsj4eOeyKAR11x4LmCT03y
+	 NT4Y66Qi2K0MAvAHwL2ETENEFct4XfNbibKmfOaOS2tVI6cNIv1UrpK/NyUGqo3Yxz
+	 Ua01sC0HhXaR5jWkEG+gAz3b0Kj4EdfFM+3eA7ye6WRiiG3+ggx+VS9HzX8PpbdglX
+	 +0F7K0t2fwzpcvecrmMBXGU54UQikxzyYpBpE5Ag7a5SNWQGpMWfKfPmtXfR3OdzEt
+	 lBVk7ucUSqrmW8QpEcd6gU80ni78OMFjFo/XbpyEg1ouJJNA/nQ+llA0aaLPP+3Q6m
+	 iJKr7Q4f/bVEA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next 3/4] dt-bindings: net:
- allwinner,sun8i-a83t-emac: Add Allwinner H616 EMAC1 and syscon index
+Subject: Re: [PATCH net-next 2/4] net: phy: Add Allwinner AC300 EPHY driver
 Reply-To: sashiko-reviews@lists.linux.dev
 To: =?utf-8?b?QWxhc3RhaXIgRCdTaWx2YQ==?= <alastair@d-silva.org>
-Cc: robh@kernel.org, conor+dt@kernel.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
-In-Reply-To: <20260916044119.475666-4-alastair@d-silva.org>
+Cc: conor+dt@kernel.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, robh@kernel.org
+In-Reply-To: <20260916044119.475666-3-alastair@d-silva.org>
 References: <20260916044119.475666-1-alastair@d-silva.org>
- <20260916044119.475666-4-alastair@d-silva.org>
+ <20260916044119.475666-3-alastair@d-silva.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 17 Sep 2026 04:42:30 +0000
-Message-Id: <20260917044231.3844B1F00893@smtp.kernel.org>
+Date: Thu, 17 Sep 2026 04:42:31 +0000
+Message-Id: <20260917044232.100981F00898@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
-- [Low] dt-bindings: missing mdio-mux conditional for h616-internal-emac
+- [High] net: phy: ac300: leaked PHY page state on error paths
+- [High] net: phy: ac300: race condition in paged PHY register access
+- [Medium] pm: incorrect PHY suspend sequence causes MDIO operations on pow=
+ered-down device
 --
 
-commit 32bf9c78551205e690dd92ce3a439bc48e70a630
+commit f19e9d7452b2e059755510b20bf6ea442e025e0f
 Author: Alastair D'Silva <alastair@d-silva.org>
 
-dt-bindings: net: allwinner,sun8i-a83t-emac: Add Allwinner H616 EMAC1 and s=
-yscon index
+net: phy: Add Allwinner AC300 EPHY driver
 
-The commit documents the Allwinner H616 EMAC1 and internal EMAC compatible
-strings. It also updates the syscon property schema to support an optional
-register index offset argument.
+Adds support for the Allwinner AC300 integrated Fast Ethernet Physical
+Layer (EPHY) co-packaged on Allwinner H616 and H618 SoCs.
 
-> diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-e=
-mac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.=
-yaml
-> index 323a669fa9823..cd1075dab5810 100644
-> --- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> +++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> @@ -39,6 +39,8 @@ properties:
->                - allwinner,sun50i-a100-emac
->                - allwinner,sun50i-h6-emac
->                - allwinner,sun50i-h616-emac0
-> +              - allwinner,sun50i-h616-emac1
-> +              - allwinner,sun50i-h616-internal-emac
+> diff --git a/drivers/net/phy/ac300-phy.c b/drivers/net/phy/ac300-phy.c
+> new file mode 100644
+> index 0000000000000..c70f567c31794
+> --- /dev/null
+> +++ b/drivers/net/phy/ac300-phy.c
 
-[Severity: Low]
-Does the newly added allwinner,sun50i-h616-internal-emac variant need to be
-included in the conditional block for mdio-mux?
+[ ... ]
 
-Looking at the schema file, there is a conditional block that permits the
-mdio-mux property for internal PHYs:
+> +static int ac300_phy_config_init(struct phy_device *phydev)
+> +{
+> +	struct ac300_phy_priv *priv =3D phydev->priv;
+> +	int ret;
+> +
+> +	/* Write page-based EPHY transceiver and signal path optimizations */
+> +	ret =3D phy_write(phydev, 0x1f, 0x0100); /* Switch to Page 1 */
+> +	if (ret)
+> +		return ret;
+> +	ret =3D phy_write(phydev, 0x12, 0x4824); /* Disable APS */
 
-allOf:
-  - if:
-      properties:
-        compatible:
-          contains:
-            enum:
-              - allwinner,sun8i-h3-emac
-              - allwinner,sun8i-v3s-emac
-    then:
-      properties:
-        ...
-        mdio-mux:
-          type: object
-          unevaluatedProperties: false
+[Severity: High]
+Can a concurrent MDIO operation interleave during this unlocked window?
+phy_write() internally acquires and immediately releases the shared mdio_lo=
+ck
+for each individual register access. This leaves the MDIO bus unlocked betw=
+een
+the page switch and the data write. Should the driver hold mdio_lock across
+the entire page manipulation sequence, or implement the .write_page callback
+and use phy_write_paged() instead?
 
-Since allwinner,sun50i-h616-internal-emac is not in this enum, valid device
-trees using this new compatible string with an mdio-mux node will fail
-schema validation.
+> +	if (ret)
+> +		return ret;
 
-The driver itself requires the mdio-mux node to avoid an -ENODEV error
-during probe, so it seems the property is needed, but the schema will
-reject it due to unevaluatedProperties: false at the root level.
+[Severity: High]
+If a transient MDIO error occurs and triggers this early return, does this
+leave the PHY permanently stuck on Page 1 instead of restoring it to Page 0?
+Subsequent PHY operations, including generic link status polling like
+genphy_read_status(), assume the PHY is on Page 0 and might read garbage da=
+ta
+if left on the wrong page.
+
+> +
+> +	ret =3D phy_write(phydev, 0x1f, 0x0200); /* Switch to Page 2 */
+
+[ ... ]
+
+> +static int ac300_phy_suspend(struct phy_device *phydev)
+> +{
+> +	int ret;
+> +
+> +	ret =3D ac300_phy_disable(phydev);
+> +	if (ret)
+> +		return ret;
+> +	return genphy_suspend(phydev);
+
+[Severity: Medium]
+Will genphy_suspend() fail or produce warnings when called here?
+ac300_phy_disable() powers down and resets the PHY, but genphy_suspend()
+subsequently issues standard IEEE MDIO writes to MII_BMCR to set BMCR_PDOWN.
+Should genphy_suspend() be called while the hardware is still active, before
+powering it down?
+
+> +}
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260916044119.4756=
-66-1-alastair@d-silva.org?part=3D3
+66-1-alastair@d-silva.org?part=3D2
