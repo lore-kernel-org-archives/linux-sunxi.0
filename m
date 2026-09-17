@@ -1,152 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E7A3CB57B;
-	Thu, 17 Sep 2026 04:42:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367D73B1EF2
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Sep 2026 10:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789620155; cv=none; b=W523xHE46vj7TOI/Efno5IHmIOqGxeT2yAsxZZwrYFGp4FPo5G1g03sut/mW0iE2/WKeqBuGZD+hWDIGhO6mN9QO13Qk5m4Cw1EN/0+0uIHTfzGDiUOi4R07qB5BP8t46ztRpiMEWxe6hfN83GZGGNHpsJJy7eP7Wi28bLGdIIY=
+	t=1789641923; cv=none; b=XGi7CnGzro/STpRayt/kUZED8w8K2byx/XWTvvcdWfAUREK1OEohDKRN+Tjxcb3zbcUgbsr7sAuGLrwvN9Y23AxHEUWCttnAfJognik9RJS5aF8kOFH0MPViFfYAnGYl/aNNiABsH6IMJ5zkQb6I8D4EfCaEe78sBwUMQR0yze4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789620155; c=relaxed/simple;
-	bh=nJx4cBA2E21VCVn14ktGJ3+46jN13gAy4MZOFIxdZik=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=AZ0bzrl376+18+3zwQCSvg+i/FM99Ut6b+1+2yT195RJE7JJdKmok2zCcIjbdpvot3ii4qqTx6w1Hjj9nhXLCWkOPvRRtIORUo5BOnEtIEfbu9schXvAFvKayhhJkxC/fRklu3UzwqvH3cZrmnjkuDaUGkmc9p8Bk6BTWPqAHAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RUcNv8Si; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RUcNv8Si"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCA291F00899;
-	Thu, 17 Sep 2026 04:42:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789620153;
-	bh=+rxBHgw3vtwYkv7ry0IqYWSazFrhjE9zMz1GfIIqd9Y=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=RUcNv8Si4CxwbwUe6IrRTP00355oagn7yCcyRluQrAZigJXHixXj53JgkgCuZogpR
-	 Am5xYX3yQVcrI1kXvEXeVsOVfU6q3zw6w9HIH8JhmQMLVvxvb/kpsp+GBsvx2rupiH
-	 f8nqD/h7MrwfnWiIFYnZeS43pPeJorONwPuA9MkvAEuNHotQ/j5NPjfkQeyvnH3Fk3
-	 UjrdnynHHMr0xH1nd7O2zr/S3drX4eK91y/5czeNBKHfnTxCTinqlFnCOObPG+ksvO
-	 zoo2VKPB8XqCOpvrJJ2btpbbO9QTnjrqq1fBIE++3YDs9zckMlNOkJqALV2O8kJQ3g
-	 xD6eayNlyfj1A==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next 1/4] dt-bindings: net: phy: Add Allwinner AC300
- EPHY binding
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?QWxhc3RhaXIgRCdTaWx2YQ==?= <alastair@d-silva.org>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org
-In-Reply-To: <20260916044119.475666-2-alastair@d-silva.org>
-References: <20260916044119.475666-1-alastair@d-silva.org>
- <20260916044119.475666-2-alastair@d-silva.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 17 Sep 2026 04:42:32 +0000
-Message-Id: <20260917044232.DCA291F00899@smtp.kernel.org>
+	s=arc-20240116; t=1789641923; c=relaxed/simple;
+	bh=afSx3D/vkh44WIvQMHVDzVIdoFNtbb2vZ91yVkdb2/w=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=j1Pbu/9KlzZZfTuydB6gg7xOmmEhUt8ppPuFYVtIe6mSuqFA9O3+I2eLOizhx22dAy/BEKDpU7DbNIZN8Yxm0hRQd6Q03Mw/luUovJRwJ9sS5RVLL4tZjvfVW7GSSdrcQT/6mMPS/hxL+VDIgsqWf9rSyqeNE8zSyQknjj8riCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
+	by APP-05 (Coremail) with SMTP id zQCowAB3qEK6xKtqI+R+CA--.906S2;
+	Thu, 17 Sep 2026 18:45:14 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: info@gerhard-bertelsmann.de
+Cc: jernej.skrabec@gmail.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-can@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	mailhol@kernel.org,
+	mkl@pengutronix.de,
+	mripard@kernel.org,
+	samuel@sholland.org,
+	wens@kernel.org,
+	Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] can: sun4i_can: Fix clk leak in sun4ican_probe()
+Date: Thu, 17 Sep 2026 10:45:14 +0000
+Message-Id: <20260917104514.2147347-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAB3qEK6xKtqI+R+CA--.906S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFy5GrWfZry5Cry5Ar18Xwb_yoW8Ar1rpF
+	nYqaySkr48GFyYgwnrta10vFyYyw4IyFyakrW0kws3ZanxAr1DCFyrCFyjvF48AFWkGay5
+	Ww4jyF18KFs8Z3JanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPvb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2
+	AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v2
+	6r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI
+	0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
+	Yx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r4UJVWxJr1lOx8S6xCaFVCjc4
+	AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq62Iq12xI8VA0II8E6IAqYI8I648v4I1l
+	FIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr4
+	1l42xK82IY6x8ErcxFaVAv8VW8GFyrJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s02
+	6c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw
+	0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvE
+	c7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14
+	v26r4UJVWxJr1lIxAIcVC2z280aVCY1x0267AKxVW0oVCq3bIYCTnIWIevJa73UjIFyTuY
+	vjxUqP8nDUUUU
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRINA2qrq01YSAABsj
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [Medium] dt-bindings: net: phy: conflicting duplicate schema for AC300 EP=
-HY
-- [Low] dt-bindings: net: phy: schema validation failure on 3-item compatib=
-le
---
+In sun4ican_probe(), the clock is obtained with of_clk_get(), which
+returns a reference that must be released with clk_put().  If
+platform_get_irq(), devm_platform_ioremap_resource(), alloc_candev()
+or register_candev() fails, the reference is never released, leaking
+the clock.
 
-commit 78619c40b1c730a8fe995945c43fe97d336ddfb6
-Author: Alastair D'Silva <alastair@d-silva.org>
+Fix this by adding an exit_put_clk label that releases the clock and
+jumping to it from all error paths after the of_clk_get() call.
 
-dt-bindings: net: phy: Add Allwinner AC300 EPHY binding
+Fixes: 0738eff14d81 ("can: Allwinner A10/A20 CAN Controller support - Kernel module")
+Cc: stable@vger.kernel.org
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ drivers/net/can/sun4i_can.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Add device tree binding documentation for the Allwinner AC300
-Fast Ethernet Physical Layer (EPHY) co-packaged on Allwinner
-H616 and H618 SoCs.
+diff --git a/drivers/net/can/sun4i_can.c b/drivers/net/can/sun4i_can.c
+index af52285d5a4e..311526107ed8 100644
+--- a/drivers/net/can/sun4i_can.c
++++ b/drivers/net/can/sun4i_can.c
+@@ -854,13 +854,13 @@ static int sun4ican_probe(struct platform_device *pdev)
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0) {
+ 		err = -ENODEV;
+-		goto exit;
++		goto exit_put_clk;
+ 	}
+ 
+ 	addr = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(addr)) {
+ 		err = PTR_ERR(addr);
+-		goto exit;
++		goto exit_put_clk;
+ 	}
+ 
+ 	dev = alloc_candev(sizeof(struct sun4ican_priv), 1);
+@@ -868,7 +868,7 @@ static int sun4ican_probe(struct platform_device *pdev)
+ 		dev_err(&pdev->dev,
+ 			"could not allocate memory for CAN device\n");
+ 		err = -ENOMEM;
+-		goto exit;
++		goto exit_put_clk;
+ 	}
+ 
+ 	dev->netdev_ops = &sun4ican_netdev_ops;
+@@ -908,6 +908,8 @@ static int sun4ican_probe(struct platform_device *pdev)
+ 
+ exit_free:
+ 	free_candev(dev);
++exit_put_clk:
++	clk_put(clk);
+ exit:
+ 	return err;
+ }
+-- 
+2.34.1
 
-> diff --git a/Documentation/devicetree/bindings/net/allwinner,sun50i-h618-=
-ac300-ephy.yaml b/Documentation/devicetree/bindings/net/allwinner,sun50i-h6=
-18-ac300-ephy.yaml
-> new file mode 100644
-> index 0000000000000..a04416e781382
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/net/allwinner,sun50i-h618-ac300-e=
-phy.yaml
-> @@ -0,0 +1,79 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/net/allwinner,sun50i-h618-ac300-ephy.=
-yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner AC300 Ethernet PHY
-
-[Severity: Medium]
-Will this binding conflict with the existing x-powers,acx00-ephy-package.ya=
-ml?
-
-The AC300 hardware appears to already be modeled by the ethernet-phy-package
-architecture, which represents its split-address control architecture (where
-control registers sit at base + 16).=20
-
-Introducing a standalone flattened binding seems to attach package-level
-properties directly to the link PHY, potentially fragmenting the device tree
-ABI. This could force drivers to hardcode a + 16 MDIO offset instead of
-relying on the standard package architecture.
-
-> +
-> +maintainers:
-> +  - Alastair D'Silva <alastair@d-silva.org>
-
-[ ... ]
-
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: ethernet-phy-id0044.1400
-> +      - const: allwinner,sun50i-h618-ac300-ephy
-> +      - const: ethernet-phy-ieee802.3-c22
-
-[Severity: Low]
-Will this compatible string array fail dt_binding_check validation?
-
-The included core ethernet-phy.yaml enforces a oneOf constraint that restri=
-cts
-compatible arrays to a maximum of two elements (such as PHY ID and IEEE
-clause). This block defines a 3-element array, which appears structurally
-invalid under the included constraints.
-
-> +
-> +  reg:
-> +    maxItems: 1
-
-[ ... ]
-
-> +examples:
-> +  - |
-> +    mdio {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        ethernet-phy@0 {
-> +            compatible =3D "ethernet-phy-id0044.1400",
-> +                         "allwinner,sun50i-h618-ac300-ephy",
-> +                         "ethernet-phy-ieee802.3-c22";
-
-[Severity: Low]
-Will this example node fail validation?
-
-This example demonstrates the 3-item list, which will violate the two-eleme=
-nt
-restriction inherited from the base ethernet-phy.yaml schema.
-
-> +            reg =3D <0>;
-> +            clocks =3D <&ccu 81>, <&ac300_pwm_clk>;
-> +            clock-names =3D "ephy", "pwm";
-> +            nvmem-cells =3D <&ephy_calibration>;
-> +            nvmem-cell-names =3D "calibration";
-> +        };
-> +    };
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260916044119.4756=
-66-1-alastair@d-silva.org?part=3D1
