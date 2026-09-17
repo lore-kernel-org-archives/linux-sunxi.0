@@ -1,148 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0284E0B8B;
-	Thu, 17 Sep 2026 20:30:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4585A49DBAA
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Sep 2026 22:39:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789677015; cv=none; b=JkPE4jS63K9mLKGiHSHXUQP+Jc9fqSnXOHFfehMr//GPjqS05NN7yvTyOI+oQ9bNAEW3oEO3P2W9ae9ofImpNda/UwXUsfMP7HtsRdsh85HqA3iPsjeJNOuvP+a96UvgnJU+7jSEePrZOQ4ON5R7Gyl1REr6dRz4+s+bo0wlEgA=
+	t=1789684768; cv=none; b=ksE8qfjNmMklk3K475ozOH3iqtzqu9R8tdCCKEd6yNRFjG8LXFaxZ3za0CmL1PEo981cIiDd4sCypxrXM1iXmco//444QsEvO9U32AtBV4dCCnzrHwWlBomPaaE/XFJvT4S2jAb7tKB4GJcpkrzO3r2/TqLLwKPDeDmmKOi5c18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789677015; c=relaxed/simple;
-	bh=O4E/r/TO4Ia/0BjZxJmv84fyinvl9/+1ynT1NWdhvas=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=de7FT+tLlGbd9mgZMqhxiBSQqZQqyld3w4pajLC967gDmaElV9zsXwHOlXJkKHo1s3eg79pa+Ar13E5M+qOROGviCKfSCQV3CpZvdHaJecnQvXwxwFEYXufiDmYHX5lHuzv6uHGDE/4ltmGiRrUI8T5844AIBQxe24YOcdqG1B8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y/O9H4/J; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1789684768; c=relaxed/simple;
+	bh=zSr8ucmt3atALw0jtcqHgXRhkY4eSjq6WuvhwB16jkI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=glFBqzUi9VnIMBupK86DRc1vlsX2uPFU+QX7lgof0EZXms2GO2G+o8axC5fdboJdOVFi+Z3f041kFQAB3ZDfqV9GoMcmAWQpP51chbqUcoLKqs3GoU75uhQizuhyJOU+YkEDgBqsh6W7RZmAciPjjcyvnDLQ1aFgnsxH1v1Kqe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=q+OIDnTe; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y/O9H4/J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789677013; x=1821213013;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=O4E/r/TO4Ia/0BjZxJmv84fyinvl9/+1ynT1NWdhvas=;
-  b=Y/O9H4/JvHtY233JWEPekKTQrT47IzeBjH2m2xL0I4gZeAarqOYsKruj
-   tW2acy7rx8ifiOxI+LWOxmoAhsaTsJZTI/bGoUaZMcMtaqd6omlCUGdRS
-   8GVKrupUQ0JcC5hzhrTG8IebXj7LS33kOPzxKft7/Z9GHiCDnlw8xvWzs
-   6IpIHgnWvvo2ZMgWjbhcrkdyXeORb5QdOx02gBmp9dZZRW8P05r4kJu1B
-   cEAfnN/AsbYafHz5OKofO91wUxW7MGBVZfJg9YqsgGIxci8SMwIvvc07f
-   gmAokr81FsUUug0dyCkw9JJTU/NbjdqF8KXC3qKfPFFhmUWSUlPFTuybD
-   g==;
-X-CSE-ConnectionGUID: aTUmOt5UQjmWdbU1DBCnmg==
-X-CSE-MsgGUID: 2uIKLna5SruuMHojgHCY+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="90007922"
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="90007922"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 13:30:12 -0700
-X-CSE-ConnectionGUID: dSxZsrCVRm6JjrCxhaBwiw==
-X-CSE-MsgGUID: LwfJGjC0QIGxUw/0hFem2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="267777446"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Sep 2026 13:30:08 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x7Ik9-000000008TJ-42b7;
-	Thu, 17 Sep 2026 20:30:05 +0000
-Date: Fri, 18 Sep 2026 04:29:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wentao Liang <vulab@iscas.ac.cn>, airlied@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, jernej.skrabec@gmail.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, samuel@sholland.org, simona@ffwll.ch,
-	tzimmermann@suse.de, wens@kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>, stable@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: Fix pdev reference leak in
- sun8i_r40_tcon_tv_set_mux()
-Message-ID: <202609180443.vTkwAZL6-lkp@intel.com>
-References: <20260916182412.2091681-1-vulab@iscas.ac.cn>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="q+OIDnTe"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ECF8E1476;
+	Thu, 17 Sep 2026 15:39:21 -0700 (PDT)
+Received: from e142021.. (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 123933F86F;
+	Thu, 17 Sep 2026 15:39:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1789684765; bh=zSr8ucmt3atALw0jtcqHgXRhkY4eSjq6WuvhwB16jkI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=q+OIDnTe72k1qtLdZwBjc+pT9GJ0hOyYW/n74h9zlWlFJg80CSBewedTn42BRsOgX
+	 IEchLZjZHllmaMdaLn7bVQdyvfbPXnrB+QavRKytYAydIch75lCMy/69LSMRadAyYF
+	 20VE9ZABdqWJeAuDySAaVxoEdXYq+FHER8M2XkDc=
+From: Andre Przywara <andre.przywara@arm.com>
+To: Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 0/5] arm64: allwinner: a523: Enable CPU clocks
+Date: Fri, 18 Sep 2026 00:39:08 +0200
+Message-ID: <20260917223913.1855301-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260916182412.2091681-1-vulab@iscas.ac.cn>
+Content-Transfer-Encoding: 8bit
 
-Hi Wentao,
+Hi,
 
-kernel test robot noticed the following build errors:
+after a year (again?) an update to the A523 CPU clock series. I heeded
+Chen-Yu's advice and generalised the update bit to cover both the "key"
+use case and the now no longer fixed update bit (patch 1). I also
+followed one of Krzysztof's suggestions around the binding headers.
+For a changelog see below. Based on v7.3-rc1.
+This clashes slightly with the already queued clock fixes from Junhui,
+please let me know how I should play this.
 
-[auto build test ERROR on sunxi/sunxi/for-next]
-[also build test ERROR on daeinki-drm-exynos/exynos-drm-next drm/drm-next drm-i915/for-linux-next drm-i915/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v7.3-rc3 next-20260916]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+==============================
+This series adds support for the CPU clock controller in the Allwinner
+A523/A527/T527 family of SoCs.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/drm-sun4i-Fix-pdev-reference-leak-in-sun8i_r40_tcon_tv_set_mux/20260916-182412
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-patch link:    https://lore.kernel.org/r/20260916182412.2091681-1-vulab%40iscas.ac.cn
-patch subject: [PATCH] drm/sun4i: Fix pdev reference leak in sun8i_r40_tcon_tv_set_mux()
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20260918/202609180443.vTkwAZL6-lkp@intel.com/config)
-compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 7252edd9aa82ef1c570ff6694ef7f4763a8a5d2f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260918/202609180443.vTkwAZL6-lkp@intel.com/reproduce)
+In contrast to all earlier Allwinner SoCs, this chip features a separate
+CCU for the CPU clocks (one for each of the two clusters) and the DSU
+clock.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609180443.vTkwAZL6-lkp@intel.com/
+Patches 1 and 2 add some slight enhancements to the sunxi-ng clock driver
+framework, to generalise the update bit and allow clocks with just a
+power-of-2 divider.
+Patch 3 adds the binding document for the new CCU.
+Patch 4 adds the actual clock driver, and patch 5 makes use of that by
+adding the clock description to the SoC .dtsi.
 
-All errors (new ones prefixed by >>):
+Please have a look and test!
 
->> drivers/gpu/drm/sun4i/sun4i_tcon.c:811:14: error: use of undeclared identifier 'pdev'; did you mean 'dev'?
-     811 |         put_device(&pdev->dev);
-         |                     ^~~~
-         |                     dev
-   drivers/gpu/drm/sun4i/sun4i_tcon.c:786:50: note: 'dev' declared here
-     786 | static int sun4i_tcon_init_clocks(struct device *dev,
-         |                                                  ^
->> drivers/gpu/drm/sun4i/sun4i_tcon.c:811:20: error: no member named 'dev' in 'struct device'
-     811 |         put_device(&pdev->dev);
-         |                     ~~~~  ^
-   2 errors generated.
+Cheers,
+Andre
+
+Changes in v2:
+- rebase on v7.3-rc1
+- cover CCU_FEATURE_KEY_FIELD in update bits generalisation
+- explicitly include binding header in clock driver
+- order clocks property before enable-method in DT nodes
 
 
-vim +811 drivers/gpu/drm/sun4i/sun4i_tcon.c
+Andre Przywara (5):
+  clk: sunxi-ng: generalise update bit
+  clk: sunxi-ng: mp: support clocks with just a shift register
+  dt-bindings: clock: sun55i-a523-ccu: Add A523 CPU CCU clock controller
+  clk: sunxi-ng: add support for the A523/T527 CPU CCU
+  arm64: dts: allwinner: a523: add CPU clocks
 
-   785	
-   786	static int sun4i_tcon_init_clocks(struct device *dev,
-   787					  struct sun4i_tcon *tcon)
-   788	{
-   789		tcon->clk = devm_clk_get_enabled(dev, "ahb");
-   790		if (IS_ERR(tcon->clk)) {
-   791			dev_err(dev, "Couldn't get the TCON bus clock\n");
-   792			return PTR_ERR(tcon->clk);
-   793		}
-   794	
-   795		if (tcon->quirks->has_channel_0) {
-   796			tcon->sclk0 = devm_clk_get_enabled(dev, "tcon-ch0");
-   797			if (IS_ERR(tcon->sclk0)) {
-   798				dev_err(dev, "Couldn't get the TCON channel 0 clock\n");
-   799				return PTR_ERR(tcon->sclk0);
-   800			}
-   801		}
-   802	
-   803		if (tcon->quirks->has_channel_1) {
-   804			tcon->sclk1 = devm_clk_get(dev, "tcon-ch1");
-   805			if (IS_ERR(tcon->sclk1)) {
-   806				dev_err(dev, "Couldn't get the TCON channel 1 clock\n");
-   807				return PTR_ERR(tcon->sclk1);
-   808			}
-   809		}
-   810	
- > 811		put_device(&pdev->dev);
-   812	
-   813		return 0;
-   814	}
-   815	
+ .../clock/allwinner,sun55i-a523-ccu.yaml      |  25 ++
+ .../arm64/boot/dts/allwinner/sun55i-a523.dtsi |  22 ++
+ drivers/clk/sunxi-ng/Kconfig                  |   5 +
+ drivers/clk/sunxi-ng/Makefile                 |   2 +
+ drivers/clk/sunxi-ng/ccu-sun55i-a523-cpu.c    | 340 ++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu-sun55i-a523-cpu.h    |  24 ++
+ drivers/clk/sunxi-ng/ccu-sun55i-a523.c        |  12 +-
+ drivers/clk/sunxi-ng/ccu-sun6i-rtc.c          |   4 +-
+ drivers/clk/sunxi-ng/ccu_common.h             |   8 +-
+ drivers/clk/sunxi-ng/ccu_div.c                |   3 +-
+ drivers/clk/sunxi-ng/ccu_gate.c               |   6 +-
+ drivers/clk/sunxi-ng/ccu_mp.c                 |   6 +-
+ drivers/clk/sunxi-ng/ccu_mp.h                 |   8 +-
+ drivers/clk/sunxi-ng/ccu_mux.c                |   8 +-
+ drivers/clk/sunxi-ng/ccu_nm.c                 |   1 +
+ .../dt-bindings/clock/sun55i-a523-cpu-ccu.h   |  13 +
+ 16 files changed, 456 insertions(+), 31 deletions(-)
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-cpu.c
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-cpu.h
+ create mode 100644 include/dt-bindings/clock/sun55i-a523-cpu-ccu.h
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+-- 
+2.43.0
+
