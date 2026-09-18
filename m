@@ -1,109 +1,300 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A199B38B124
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Sep 2026 03:51:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789703495; cv=none; b=II+OTW5mq9chJofii6c4yGfPUzJuoJIGgXMyz6vEqHuPiHoT+g0zGColaFAQbXrLFzEZ8CLnguiTAQBeU57DVP00aY2DBVn80GrRzP6Dz5VJO4FYBTWsKmypJ3NXad0FzHqMO1Gn8VGAIy+66X7AqoeO/U4AvpZLRnybFcmpnhI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789703495; c=relaxed/simple;
-	bh=7hm+e5haj6Zd35caTcNALHPX1QE1gwXURphY8ZG4f1A=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20BD25B0B6
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Sep 2026 04:16:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.140
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789704992; cv=pass; b=MW8pcbE+rT9frAg3rIsE6HaiXR1BM+/CSvJA88YKi9zH2xpSL02G7Tj9VrIVUpuHhxbDLpQms9XXQekUWvowAKeK2EMP0YNiWomu36Yc2KmJE5VBtqnX8UyHZRNN9dWbIq10AjLbi7ZlsgrmTQxlHTP8il3K/sXOoxGzLvObTD0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789704992; c=relaxed/simple;
+	bh=Ru2OV2CffCL9NpSNIMTei8TR1QcXxODWTos4dcRwWHU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TxJXAu9RVHHowL45U5IJZQNEoFAYidUq/3dz7LNUVk0TQjdFVsM5b/eUKt4FIZjhQQMrvqnyUe+7Sg1jJJEYK19XwawOTIAIv1shiRE4Ltu+HVouyKbqJ4mW+kqGewxUdsYTnCsTBpmYofrkCWqPezHDEdvHqKuf+DJaKTHLZXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E6oHwiAa; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=EVaXgakYU6lTc1KW1J/7hXFntAQtmie10UIuN79n2Yguwr+i7IgJwXNXsTOm4Xts5fIgEk4c8h/JctaYd4chz+fhAtowjfEgmQ/eap54UOucyPj5ob1Iy0Uspgrr5KN9m8bVN79HmyfBW2k9UpzuuCdFQW/b07QfzP2U3LS3Rcg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=aqoYkHrp; arc=pass smtp.client-ip=74.125.224.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E6oHwiAa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42CA61F0089C
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Sep 2026 03:51:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789703494;
-	bh=llye9i9aXgouGRcz8NFjZ/wbpgSywkSkAscOcHmbV4s=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=E6oHwiAavZrq0lVaYiw+R7Om1iuRyBJXr60WqVvKcwLqyXQB59AGjyh7SPrh6tefJ
-	 lsSJS7dOT3mOaDd5l4XDlKar5Uv7Z71gasebq36ZHOzMDXja2Ww7UkZeovk3O1yUpT
-	 ppsR34/DYE/TLCIKCi1eHcQje7rOVCtf2xmUIRBS+IGkLa9baLKLHGMDGdqaNphGgx
-	 m7ZfpOjlDkCe8wA1wxZ3JHnG+ZC1Ek+FexhD8jKFz2fAqlpRKilEA0kNqOngdTmTAZ
-	 N2bl9980dwEx1KKtMDhXy16IbKooPv5RcKptngoMVDmV64Li6NPaAWOloALjdToDci
-	 xUkbj5BxDBuVA==
-Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a36de66c0dso3132391fa.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 17 Sep 2026 20:51:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxG8kpkIYYhX/H4D9jyMgNFNZVKIKDIXhh+LIcfDBISy6bAwElDZH6LHGHNhb3hL108PwepBBc/HOtwkg==@lists.linux.dev
-X-Gm-Message-State: AFuF++mUoQevAloXEZT8D1/549UmlnZEKxDaz1e5H5ariHbCV0Cj+7Xg
-	r36XVVHINhgZRdsFFrihgyKvJkSkl8vMAlxrr4WZ5p/VKzZUWt0kaSgENR5m1Ilwa04Ete1GaGX
-	cJ7eDEAdhR6K6Y2iJdQZJ6gMkHXzQPr4=
-X-Received: by 2002:a2e:a99d:0:b0:3a3:7682:499e with SMTP id
- 38308e7fff4ca-3a5fc0a7d91mr1738471fa.19.1789703492590; Thu, 17 Sep 2026
- 20:51:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="aqoYkHrp"
+Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66e4ab201f9so310019d50.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 17 Sep 2026 21:16:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789704989; cv=none;
+        d=google.com; s=arc-20260327;
+        b=hd4Nh/S/iM+RkFF9vBtXAQ4w9N5JnpzbZpBt1Qz2ht2hcmVINo88ehHRzUhrLEYNc8
+         h6dgglMYsFNqW+yIt2WiIsnxoUAsVGPc7Nmh9nWvs+KK8I7Eop7gSN9yPw8t5raVrJzj
+         ajWCzdIcHdV1sOGf3LWA2tRFo03DUhj+2QXm7vjsjNfJzEtwrtIrtucdNkqZv8/4oKsI
+         f8LEHKcAkJfr2MONtmJZ6kq2wwOeb/yPs0Oyb8tvE3Odh4z9Z2LtjV7+oqwpyihFqrkY
+         Ly7sXFvDvavakeFv5561W6edzKIi3oKPkl3EnxmdVCGJVss+O7yXYkCI6kmL5Xg9Mh2Y
+         /YVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=g5DKEYyvWEAWVKejXJm1cVbz3X+KIz29ykH7P6jopns=;
+        fh=fVVtohIBMD7xY72NkbTv5xtMMu0vmRu17BrxiH7wEh4=;
+        b=GEgVVlZ6lVFSVD6o8PP4vjBvoMygznu1A+2EgBhe5/S+ylF1k3okLfKcpoLn+Nrpne
+         IPTJabOGwDvMQEneYoSgJf9rOlSuPqatAKAR8xijnm4Ub8nn5PkkL9q5DtZIoARFmehC
+         LJduCLZwWXtKu446aCqvxvm+fWMZOyV3hgvRBmnpac5WeZb/alnOw5wCLDcdkUX5QA8b
+         jDYloLgBaoKbXtfzwkY9wSTuNknDp4mG13vMz7tRxybA0moaPrNWn8+bYsSJDC89OZdb
+         gIfngpyEgmwnaC2bsGW1ehoS7UWesb7+d9CZGbfUTiSNsidkLfhipe0QelEhKI3Ji8/O
+         OaLA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1789704989; x=1790309789; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=g5DKEYyvWEAWVKejXJm1cVbz3X+KIz29ykH7P6jopns=;
+        b=aqoYkHrpc5rIijUFBwH58iqAoxhxkhK6NhRBYO7J6Cf6bTJ6s4q13Xb92cO+BLdh7K
+         qeCUTq5FdU1/anySBLJWi4a/Hu6+KVOMtlVDI+TMhTNGRDifmFR1MF/e2k0s2Wur1jce
+         +gk2T6wF2OW12kGBDL9dFtZG4Sm50149RVcuM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789704989; x=1790309789;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=g5DKEYyvWEAWVKejXJm1cVbz3X+KIz29ykH7P6jopns=;
+        b=1UYkrhMUnR/Im49cpQ4GPb1p2bz46ds1fqdZTW/PU8KPEXcDqTMt3GtPO6J72ozhlr
+         Wh5li5BrYi5wM7rTPZ6FvYn2ikpN4DImZcA63eDkkcN8niRN8ZC82uNFOYcwl7p8BXB4
+         AJxDxXpRON4EUDC3g8UAf5luXXYxdswt0536wmEhpEozDV8+QMyYknPmp4wCMbbZDGGY
+         IMmfHWxQrCzBSr7olESADlLVHt95dskA4itbLO9IF6wd4+2xb2BL1CHS9g5fqfQk/PKD
+         x8rJEGBgSNr1M0QERwoUlrLt+EvhnS0BxWEdKCVjZ6KsIH5Z7qMJTewdaW9/u6ajpYNa
+         2KvA==
+X-Forwarded-Encrypted: i=1; AKwUvBwPTG3maRleYVBoeVHNpBdYIEM3W3xzwM4hEmmxURLlFvFw+CHqhx6gim2LyUtonnIKOsflLf3+e4aYBw==@lists.linux.dev
+X-Gm-Message-State: AFuF++kOjqnhI3TZHtVYr0BJ8WltbRch+s+f3jy8830S0Jf2Z9zyzzJs
+	Lqn6T4XdEnY/r2ze5bHQaOMPDwameJZvg+v9sdltbKjyNG93SIBm5Zw+td24Vt4kV9FoCFtS6VX
+	YURQgwSY8zF/Npkc+2xJa3t/aVVqvSHo2oa0Znl1W
+X-Gm-Gg: AYBFou1T4cDWcyTi4aP9L/iQJ0k2WZrTz7BnhHNZl+K2cYjQdd14EuAy/GLvpDerBqq
+	KwvEzO7e0eHV0+DDsdeazACBEBOELcas1iK1dV1UHMAuf7GAVSFr9NRFUXgAmgXdMcnVNrvSYr+
+	5jcbN/AuUsQNdzbJcACoekwWehedAzBAL5o7WuNkn7TxsM+VajyqL9dsRxiaanbRiCq68IhowQK
+	7DJIRr0xpyQeCKO1/rKDmdXsCK4Ig88aCNsOAWbLZe7kxglVZ9BzwaBwWI+PXtfFN9xWEs0UhXG
+	oESouGfhU/sns6yIm9VXGQDuCN9k9fvZjTg7hj91y54FhxY9UVtjjtTqvwTU8gEd63RT6wxEE5/
+	OZjeSUZxGsA==
+X-Received: by 2002:a05:690e:809:10b0:671:3141:3832 with SMTP id
+ 956f58d0204a3-6717fc76ff0mr285169d50.4.1789704988719; Thu, 17 Sep 2026
+ 21:16:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260917223913.1855301-1-andre.przywara@arm.com> <20260917223913.1855301-3-andre.przywara@arm.com>
-In-Reply-To: <20260917223913.1855301-3-andre.przywara@arm.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Fri, 18 Sep 2026 11:51:19 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67XsgfoYrJ6gJ_kshjnbSOOrJt9fK6RE1ErsTuHuVji5w@mail.gmail.com>
-X-Gm-Features: AcwNN1V8Mf2lfwWc7xgI8OxjluEZlzfKO7oVmRLjPeBHxGQzIMFTeAetat816ec
-Message-ID: <CAGb2v67XsgfoYrJ6gJ_kshjnbSOOrJt9fK6RE1ErsTuHuVji5w@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] clk: sunxi-ng: mp: support clocks with just a
- shift register
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
-	Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20260916033327.3054126-1-wenst@chromium.org> <20260916033327.3054126-2-wenst@chromium.org>
+ <f6ace486-70d8-4e81-89cb-e9d55ad9ac8b@suse.de>
+In-Reply-To: <f6ace486-70d8-4e81-89cb-e9d55ad9ac8b@suse.de>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Fri, 18 Sep 2026 12:16:17 +0800
+X-Gm-Features: AcwNN1UR3eVFLoBD9oF0TIdnuDNIVRYA94Woweb8vmhnl_ZgpInsWYdL86x54Xk
+Message-ID: <CAGXv+5ErgWVNtnRiW+QA7+Mzh=W_Y+HGL_iRa1fOaXCYSoAwMA@mail.gmail.com>
+Subject: Re: [PATCH RFT v2 1/5] drm: Split framebuffer pixel offset
+ calculation from drm_fb_dma_get_gem_addr()
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Liu Ying <victor.liu@nxp.com>, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
+	Lucas Stach <l.stach@pengutronix.de>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, linux-sunxi@lists.linux.dev, 
+	imx@lists.linux.dev, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 18, 2026 at 6:39=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
-com> wrote:
+On Thu, Sep 17, 2026 at 11:20=E2=80=AFPM Thomas Zimmermann <tzimmermann@sus=
+e.de> wrote:
 >
-> The "mp" clock models a mod clock with divider and a shift field. At
-> least one clock in the Allwinner A523 features just a power-of-2 divider
-> field, so support an initialisation of the clock without providing an
-> actual divider field.
+> Hi
+>
+> Am 16.09.26 um 05:33 schrieb Chen-Yu Tsai:
+> > Currently drm_fb_dma_get_gem_addr() calculates the offset into the
+> > framebuffer memory for the framebuffer's unclipped source coordinates,
+> > adds that to the framebuffer's backing storage, and returns the result.
+> >
+> > We are about to add a variant that uses the clipped source coordinates,
+> > so there is already some reuse of code. However, calculating the data
+> > offset for a given pixel is not specific to the DMA FB helpers. The
+> > offset is only related to the framebuffer.
+> >
+> > Split out the offset calculation into a new framebuffer helper so that
+> > non-DMA users can also reuse the same code.
+> >
+> > Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: <stable@vger.kernel.org> # dependency for next patch
+> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > ---
+> > Changes since v1:
+> > - New patch
+> > ---
+> >   drivers/gpu/drm/drm_fb_dma_helper.c | 28 ++----------------
+> >   drivers/gpu/drm/drm_framebuffer.c   | 45 ++++++++++++++++++++++++++++=
++
+> >   include/drm/drm_framebuffer.h       |  3 ++
+> >   3 files changed, 51 insertions(+), 25 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/drm_fb_dma_helper.c b/drivers/gpu/drm/drm_=
+fb_dma_helper.c
+> > index fd71969d2fb1..ab0f37d8a5ff 100644
+> > --- a/drivers/gpu/drm/drm_fb_dma_helper.c
+> > +++ b/drivers/gpu/drm/drm_fb_dma_helper.c
+> > @@ -75,36 +75,14 @@ dma_addr_t drm_fb_dma_get_gem_addr(struct drm_frame=
+buffer *fb,
+> >                                  unsigned int plane)
+> >   {
+> >       struct drm_gem_dma_object *obj;
+> > -     dma_addr_t dma_addr;
+> > -     u8 h_div =3D 1, v_div =3D 1;
+> > -     u32 block_w =3D drm_format_info_block_width(fb->format, plane);
+> > -     u32 block_h =3D drm_format_info_block_height(fb->format, plane);
+> > -     u32 block_size =3D fb->format->char_per_block[plane];
+> > -     u32 sample_x;
+> > -     u32 sample_y;
+> > -     u32 block_start_y;
+> > -     u32 num_hblocks;
+> >
+> >       obj =3D drm_fb_dma_get_gem_obj(fb, plane);
+> >       if (!obj)
+> >               return 0;
+> >
+> > -     dma_addr =3D obj->dma_addr + fb->offsets[plane];
+> > -
+> > -     if (plane > 0) {
+> > -             h_div =3D fb->format->hsub;
+> > -             v_div =3D fb->format->vsub;
+> > -     }
+> > -
+> > -     sample_x =3D (state->src_x >> 16) / h_div;
+> > -     sample_y =3D (state->src_y >> 16) / v_div;
+> > -     block_start_y =3D (sample_y / block_h) * block_h;
+> > -     num_hblocks =3D sample_x / block_w;
+> > -
+> > -     dma_addr +=3D fb->pitches[plane] * block_start_y;
+> > -     dma_addr +=3D block_size * num_hblocks;
+> > -
+> > -     return dma_addr;
+> > +     return obj->dma_addr + drm_framebuffer_get_block_offset(fb, plane=
+,
+> > +                                                             state->sr=
+c_x >> 16,
+> > +                                                             state->sr=
+c_y >> 16);
+> >   }
+> >   EXPORT_SYMBOL_GPL(drm_fb_dma_get_gem_addr);
+> >
+> > diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_fr=
+amebuffer.c
+> > index d32aceb6ca9b..9e1231162047 100644
+> > --- a/drivers/gpu/drm/drm_framebuffer.c
+> > +++ b/drivers/gpu/drm/drm_framebuffer.c
+> > @@ -1208,6 +1208,51 @@ void drm_framebuffer_print_info(struct drm_print=
+er *p, unsigned int indent,
+> >       }
+> >   }
+> >
+> > +/**
+> > + * drm_framebuffer_get_block_offset() - Get offset to start of pixel b=
+lock for
+> > + * the given framebuffer and coordinates.
+> > + * @fb: The framebuffer
+> > + * @plane: Which plane
+> > + * @x: x coordinate for pixel
+> > + * @y: y coordinate for pixel
+> > + *
+> > + * This function will usually be called from the PLANE callback functi=
+ons,
+> > + * or from one of the helpers that calculates the framebuffer's DMA ad=
+dress.
+> > + *
+> > + * Return: offset from start of framebuffer to start of pixel block
+> > + */
+> > +u32 drm_framebuffer_get_block_offset(struct drm_framebuffer *fb, unsig=
+ned int plane,
+> > +                                  unsigned int x, unsigned int y)
+>
+> Better use u64 as return type.
 
-Please just use the single divider clock type instead. It properly supports
-power-of-2 dividers.
+To avoid overflow? Not sure who would use crazy large framebuffers, but
+doesn't hurt to play it safe.
+
+> > +{
+> > +     u8 h_div =3D 1, v_div =3D 1;
+> > +     u32 block_w =3D drm_format_info_block_width(fb->format, plane);
+> > +     u32 block_h =3D drm_format_info_block_height(fb->format, plane);
+> > +     u32 block_size =3D fb->format->char_per_block[plane];
+> > +     u32 sample_x;
+> > +     u32 sample_y;
+> > +     u32 block_start_y;
+> > +     u32 num_hblocks;
+> > +     u32 offset;
+> > +
+> > +     offset =3D fb->offsets[plane];
+> > +
+> > +     if (plane > 0) {
+> > +             h_div =3D fb->format->hsub;
+> > +             v_div =3D fb->format->vsub;
+> > +     }
+> > +
+> > +     sample_x =3D x / h_div;
+> > +     sample_y =3D y / v_div;
+> > +     block_start_y =3D (sample_y / block_h) * block_h;
+> > +     num_hblocks =3D sample_x / block_w;
+> > +
+> > +     offset +=3D fb->pitches[plane] * block_start_y;
+> > +     offset +=3D block_size * num_hblocks;
+>
+> User space controls the values in fb->offsets and fb->pitches.  I'm not
+> sure how well they have been validated already at this point. Did you
+> investigate this?
+
+It wouldn't be worse than before, since this changes is purely code movemen=
+t.
+
+There are minimal sanity checks done by drm_internal_framebuffer_create()
+in framebuffer_check(), such as offset overflow or pitch size too small,
+but that's about it. It would be up to individual drivers to perform more
+checks that match their hardware limitations.
+
+What sort of issues are you thinking about?
+
 
 ChenYu
 
-> Add a check whether the "width" field is 0, and skip the divider
-> handling in this case, as the GENMASK macro will not work with a zero
-> length.
+> Best regards
+> Thomas
 >
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  drivers/clk/sunxi-ng/ccu_mp.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/clk/sunxi-ng/ccu_mp.c b/drivers/clk/sunxi-ng/ccu_mp.=
-c
-> index 7cdb0eedc69b5..3896cb94bf733 100644
-> --- a/drivers/clk/sunxi-ng/ccu_mp.c
-> +++ b/drivers/clk/sunxi-ng/ccu_mp.c
-> @@ -236,9 +236,11 @@ static int ccu_mp_set_rate(struct clk_hw *hw, unsign=
-ed long rate,
->         spin_lock_irqsave(cmp->common.lock, flags);
+> > +
+> > +     return offset;
+> > +}
+> > +EXPORT_SYMBOL(drm_framebuffer_get_block_offset);
+> > +
+> >   #ifdef CONFIG_DEBUG_FS
+> >   static int drm_framebuffer_info(struct seq_file *m, void *data)
+> >   {
+> > diff --git a/include/drm/drm_framebuffer.h b/include/drm/drm_framebuffe=
+r.h
+> > index 38b24fc8978d..c07aea1cc59f 100644
+> > --- a/include/drm/drm_framebuffer.h
+> > +++ b/include/drm/drm_framebuffer.h
+> > @@ -220,6 +220,9 @@ void drm_framebuffer_remove(struct drm_framebuffer =
+*fb);
+> >   void drm_framebuffer_cleanup(struct drm_framebuffer *fb);
+> >   void drm_framebuffer_unregister_private(struct drm_framebuffer *fb);
+> >
+> > +u32 drm_framebuffer_get_block_offset(struct drm_framebuffer *fb, unsig=
+ned int plane,
+> > +                                  unsigned int x, unsigned int y);
+> > +
+> >   /**
+> >    * drm_framebuffer_get - acquire a framebuffer reference
+> >    * @fb: DRM framebuffer
 >
->         reg =3D readl(cmp->common.base + cmp->common.reg);
-> -       reg &=3D ~GENMASK(cmp->m.width + cmp->m.shift - 1, cmp->m.shift);
-> +       if (cmp->m.width)
-> +               reg &=3D ~GENMASK(cmp->m.width + cmp->m.shift - 1, cmp->m=
-.shift);
->         reg &=3D ~GENMASK(cmp->p.width + cmp->p.shift - 1, cmp->p.shift);
-> -       reg |=3D (m - cmp->m.offset) << cmp->m.shift;
-> +       if (cmp->m.width)
-> +               reg |=3D (m - cmp->m.offset) << cmp->m.shift;
->         if (shift)
->                 reg |=3D ilog2(p) << cmp->p.shift;
->         else
 > --
-> 2.43.0
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Frankenstr. 146, 90461 N=C3=BCrnberg, Germany, www.suse.com
+> GF: Jochen Jaser, Andrew McDonald, (HRB 36809, AG N=C3=BCrnberg)
+>
 >
