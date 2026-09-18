@@ -1,137 +1,88 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FF5B51B171
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Sep 2026 18:23:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562783B95E0;
+	Fri, 18 Sep 2026 18:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789755795; cv=none; b=nuAN7hLKg1mIoeFTNlwx43eujMEfoYThA1dYBtW1jXhkr0XnRcvEX5wiWHJhpI8ZtY8DiHIJLBi4otNXZxi0S9q6STC9PoZbgKmGgohBY1qhtERNQKa2AXTjFcUdhLoGTT09tzAQG2ABGt8jTWEaOiEuP6ymFCcdMB4KPxdtqjk=
+	t=1789756931; cv=none; b=gjrD083mBva3Qx131UtK07KEG+1eX9xXz01MYPWvu9nz6XJzH15klKdPvjauKery+yLwhT/dwgYRoYYS+Tqf1PWGCrEzciwscw7xiA0UxFyEMY2j0Ka7gX2tKu2AE8Nz5U3XFqhhRpDe+HJM5DIK/OJ9YvB9tK7ZehLerr/837g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789755795; c=relaxed/simple;
-	bh=R4EGLP0NgUZ5EIEjB1r1udzgmhqJirLrudGKIdHuU6A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IXsr+/h4fqVvFsxMPzU1WnDYmg0Spl96YKvyfd3hhg4vwg/7VrQNfwjEarKojvXyYg+4tE4x6ikBiJyi4oQelijQyy7f4lEPqSiy8LdBImuyNuj6sDpAlC0IcWQ7L1VlN60aHUWbSMoQ/T49BQRWQ3D9wZ16dW1fCUkM+2oABDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=uBViZE7W; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1789756931; c=relaxed/simple;
+	bh=yRtXZoYoH7DLf9DFZ/GfyScpg4JkyCqCyFHXJ69FqR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lFYiTrt8hw9beIs80OasZ1QpQ4p0+gdMTfG08CWbsyweKjb+sPoHJLxmqMpgPJMJro4Dy0J8S9jwIRA+cRvkEAHXSDwEWtiyKgiKP50G0TSdtLCFfkzYRdElscqU6r6N/jnO6U5xM6dJqY6uddpzf1toCkqQgLozTzPW7fbzvDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dGsvJzUR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="uBViZE7W"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 26133168F;
-	Fri, 18 Sep 2026 11:23:09 -0700 (PDT)
-Received: from [172.18.224.124] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE73A3F86C;
-	Fri, 18 Sep 2026 11:22:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789755792; bh=R4EGLP0NgUZ5EIEjB1r1udzgmhqJirLrudGKIdHuU6A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uBViZE7WYA5IezA8HXvATa7vZqxde4vQR9FDelx+5xM6B1jzQNnpEagcPgtVcXg4o
-	 QdPpJQBrzu93qd0jFcZXkH0sWXS7QIh0aXhmB/dNhF/hGUjElDA5Nl2Vq3pCEnZj7l
-	 tZGiCBiF0PRTjP35B7KYEyyc3evTy82EGHYUzdmY=
-Message-ID: <6b35feab-353c-4802-b47d-08ff6d226eca@arm.com>
-Date: Fri, 18 Sep 2026 20:22:57 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dGsvJzUR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62F2A1F000FF;
+	Fri, 18 Sep 2026 18:42:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789756923;
+	bh=5sY2K0NFqeHlnnXVJj9mphRlP5+qDd3iUqsbcAY+xNQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dGsvJzURnx4P2I2ySeknphYi171fhnjGzSiD1bWzXoT3bnkbdVesM6rLQImvP+Rng
+	 Tk1LDa0FfDwc1zq+cR9oPuMBlf5PNOSu1W9pnXJDcJW6IXEHDGGCxqoXWF39997mPF
+	 i3qD1PswT/s8eLDbaIRPOaUTvyvWttwc0L6vTjqrP25zlQnG1durEI9UZxpQTYY0os
+	 vk0kMkn1GVD9F5rorzOzFa6GQZZYfGSyX7bngD2cTHwC8fDlNPbvQmNo7w3bQWLNSn
+	 dV+HPLPKau1h2cPRnbjw/Sf4SAsgpxD7Vud+vm+C8T/WeoUk7J/5pRO7XygeqBHBqw
+	 WecR2YK94mx/A==
+Date: Fri, 18 Sep 2026 13:42:01 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	linux-sunxi@lists.linux.dev, Philipp Zabel <p.zabel@pengutronix.de>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	linux-stm32@st-md-mailman.stormreply.com, netdev@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, linux-kernel@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Richard Cochran <richardcochran@gmail.com>,
+	Eric Dumazet <edumazet@google.com>
+Subject: Re: [PATCH net-next v2 1/2] dt-bindings: net: sun8i-emac: Add A733
+ GMAC210 compatible
+Message-ID: <178975692133.1355528.3349670401889953428.robh@kernel.org>
+References: <20260910-allwinner-a733-gmac-support-v2-0-4f4a1e520c23@baylibre.com>
+ <20260910-allwinner-a733-gmac-support-v2-1-4f4a1e520c23@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 3/3] net: stmmac: sun8i: add support for
- Allwinner H616 EMAC1
-To: James Hilliard <james.hilliard1@gmail.com>,
- Richard Genoud <richard.genoud@bootlin.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Giuseppe Cavallaro <peppe.cavallaro@st.com>,
- Jose Abreu <joabreu@synopsys.com>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Alastair D'Silva <alastair@d-silva.org>, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20260917-submit-h616-emac1-v1-v3-0-62cb8316e19b@gmail.com>
- <20260917-submit-h616-emac1-v1-v3-3-62cb8316e19b@gmail.com>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20260917-submit-h616-emac1-v1-v3-3-62cb8316e19b@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260910-allwinner-a733-gmac-support-v2-1-4f4a1e520c23@baylibre.com>
 
-Hi,
 
-On 9/17/26 19:55, James Hilliard wrote:
-> The H616 secondary EMAC uses a separate system-control clock register
-> and supports only RMII at 10/100 Mbps. It connects internally to the
-> co-packaged AC200 or AC300 EPHY and has no external PHY pins.
+On Thu, 10 Sep 2026 12:25:26 +0200, Jerome Brunet wrote:
+> The A733 GMAC210 is a DesignWare MAC 5.20 close to the A523 GMAC200, with
+> the following differences:
 > 
-> Add an EMAC1 variant using the dedicated register and enable only RMII.
-> Leave PHY initialization to the PHY driver instead of using the H3
-> internal-PHY controls. No RX or TX clock delays are configured for this
-> RMII-only variant.
+>  * The glue configuration registers are a dedicated MMIO region of the
+>    controller instead of a syscon register, so a second reg entry replaces
+>    the syscon phandle.
+>  * The DMA channels and the LPI event have their own interrupt lines.
+>  * A PTP reference clock and an AHB reset are needed.
+>  * Unlike the A523, the controller does not appear to belong to a power
+>    domain.
+>  * The TX clock delay field is 5 bits wide, allowing up to 3100ps.
 > 
-> Co-developed-by: Richard Genoud <richard.genoud@bootlin.com>
-> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-
-Looks good to me, nice and minimal:
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre
-
-
+> Add the new compatible and describe those differences.
+> 
+> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
 > ---
->   drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 16 ++++++++++++++++
->   1 file changed, 16 insertions(+)
+>  .../bindings/net/allwinner,sun8i-a83t-emac.yaml    | 130 ++++++++++++++++++---
+>  1 file changed, 115 insertions(+), 15 deletions(-)
 > 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> index 4523a14f5e0c..1020168f1c3a 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> @@ -81,6 +81,13 @@ static const struct reg_field sun8i_syscon_reg_field = {
->   	.msb = 31,
->   };
->   
-> +/* EMAC1 clock register @ 0x34 in the "system control" address range */
-> +static const struct reg_field sun8i_syscon_reg_field_emac1 = {
-> +	.reg = 0x34,
-> +	.lsb = 0,
-> +	.msb = 31,
-> +};
-> +
->   /* EMAC clock register @ 0x164 in the CCU address range */
->   static const struct reg_field sun8i_ccu_reg_field = {
->   	.reg = 0x164,
-> @@ -143,6 +150,13 @@ static const struct emac_variant emac_variant_h6 = {
->   	.tx_delay_max = 7,
->   };
->   
-> +static const struct emac_variant emac_variant_h616_emac1 = {
-> +	.syscon_field = &sun8i_syscon_reg_field_emac1,
-> +	/* The co-packaged AC200/AC300 PHY does not use the H3 PHY controls. */
-> +	.soc_has_internal_phy = false,
-> +	.support_rmii = true,
-> +};
-> +
->   #define EMAC_BASIC_CTL0 0x00
->   #define EMAC_BASIC_CTL1 0x04
->   #define EMAC_INT_STA    0x08
-> @@ -1276,6 +1290,8 @@ static const struct of_device_id sun8i_dwmac_match[] = {
->   		.data = &emac_variant_a64 },
->   	{ .compatible = "allwinner,sun50i-h6-emac",
->   		.data = &emac_variant_h6 },
-> +	{ .compatible = "allwinner,sun50i-h616-emac1",
-> +		.data = &emac_variant_h616_emac1 },
->   	{ }
->   };
->   MODULE_DEVICE_TABLE(of, sun8i_dwmac_match);
-> 
+
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
