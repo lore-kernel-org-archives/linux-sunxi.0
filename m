@@ -1,33 +1,33 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DDFD517BBF
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Sep 2026 17:36:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FF5B51B171
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Sep 2026 18:23:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789752995; cv=none; b=V/gsWtrYQIBIlMGQh4r/mHUQq0hjTgkDrelvz+iFFP/NKXiiBw6IiwiK5vvtyezMb9wJh7OeCyFOKzpkCjEXODwtaxc4bHx8hPxAfCh5rhsHOHwH5CWE6iKTgfm3/oZcBfRBoNJQoOhNefhnUa+85bT942npAUafjzPrqj+d/cc=
+	t=1789755795; cv=none; b=nuAN7hLKg1mIoeFTNlwx43eujMEfoYThA1dYBtW1jXhkr0XnRcvEX5wiWHJhpI8ZtY8DiHIJLBi4otNXZxi0S9q6STC9PoZbgKmGgohBY1qhtERNQKa2AXTjFcUdhLoGTT09tzAQG2ABGt8jTWEaOiEuP6ymFCcdMB4KPxdtqjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789752995; c=relaxed/simple;
-	bh=2srv1XLkscOatAp2l4+oooP8vZZpRy+cubNoI7IaP24=;
+	s=arc-20240116; t=1789755795; c=relaxed/simple;
+	bh=R4EGLP0NgUZ5EIEjB1r1udzgmhqJirLrudGKIdHuU6A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m0jRsYwv2ITqkYKm9YuXcjzE6qiARlBOAlV0jFVEwzFJR4q8kRwxK0Mk6IYaPI5JI8cm9j+7BK6qesD81T1FvIxq5J3hm5rJBiV79PQXkarpMPm7lWnZTNzxJTTAp9WSfkbXYAmRmJExH6gFPScfSmBemLOlOmasbcBvYCE/6m0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=eBdR4zQ5; arc=none smtp.client-ip=217.140.110.172
+	 In-Reply-To:Content-Type; b=IXsr+/h4fqVvFsxMPzU1WnDYmg0Spl96YKvyfd3hhg4vwg/7VrQNfwjEarKojvXyYg+4tE4x6ikBiJyi4oQelijQyy7f4lEPqSiy8LdBImuyNuj6sDpAlC0IcWQ7L1VlN60aHUWbSMoQ/T49BQRWQ3D9wZ16dW1fCUkM+2oABDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=uBViZE7W; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="eBdR4zQ5"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="uBViZE7W"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F0C0D1596;
-	Fri, 18 Sep 2026 10:36:18 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 26133168F;
+	Fri, 18 Sep 2026 11:23:09 -0700 (PDT)
 Received: from [172.18.224.124] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3EFD13F7B4;
-	Fri, 18 Sep 2026 10:36:20 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE73A3F86C;
+	Fri, 18 Sep 2026 11:22:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789752982; bh=2srv1XLkscOatAp2l4+oooP8vZZpRy+cubNoI7IaP24=;
+	t=1789755792; bh=R4EGLP0NgUZ5EIEjB1r1udzgmhqJirLrudGKIdHuU6A=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eBdR4zQ5mqr+kLhrkLlnUHMi5INt3IUoHVvjNTADZu6tTNm1EGNfBvRHUYVi0VNxG
-	 ZDXwTlZaAMYofuUgHh2IvIykf7ebHqEnZE73bYnTBlxl7L/nxtQNK1WIAN7S7uB+V8
-	 fyOjTikMpTBePwQm7nA9JLRE7o6HqtO9I9jHrT9s=
-Message-ID: <f31009e2-f7e0-426f-a546-1ed3ba63a1b4@arm.com>
-Date: Fri, 18 Sep 2026 19:36:17 +0200
+	b=uBViZE7WYA5IezA8HXvATa7vZqxde4vQR9FDelx+5xM6B1jzQNnpEagcPgtVcXg4o
+	 QdPpJQBrzu93qd0jFcZXkH0sWXS7QIh0aXhmB/dNhF/hGUjElDA5Nl2Vq3pCEnZj7l
+	 tZGiCBiF0PRTjP35B7KYEyyc3evTy82EGHYUzdmY=
+Message-ID: <6b35feab-353c-4802-b47d-08ff6d226eca@arm.com>
+Date: Fri, 18 Sep 2026 20:22:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -35,72 +35,103 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] arm64: dts: allwinner: sun55i-a523: add I2C0 and I2C1
- pin groups
-To: Mikhail Kalashnikov <iuncuim@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
+Subject: Re: [PATCH net-next v3 3/3] net: stmmac: sun8i: add support for
+ Allwinner H616 EMAC1
+To: James Hilliard <james.hilliard1@gmail.com>,
+ Richard Genoud <richard.genoud@bootlin.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260918165414.1129076-1-iuncuim@gmail.com>
- <20260918165414.1129076-4-iuncuim@gmail.com>
+ Samuel Holland <samuel@sholland.org>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+ Jose Abreu <joabreu@synopsys.com>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Alastair D'Silva <alastair@d-silva.org>, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com
+References: <20260917-submit-h616-emac1-v1-v3-0-62cb8316e19b@gmail.com>
+ <20260917-submit-h616-emac1-v1-v3-3-62cb8316e19b@gmail.com>
 Content-Language: en-GB
 From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20260918165414.1129076-4-iuncuim@gmail.com>
+In-Reply-To: <20260917-submit-h616-emac1-v1-v3-3-62cb8316e19b@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 9/18/26 18:54, Mikhail Kalashnikov wrote:
-> Add the pin groups for the I2C0 (PH0/PH1) and I2C1 (PH2/PH3) controllers
-> that used on some A523 boards.
+On 9/17/26 19:55, James Hilliard wrote:
+> The H616 secondary EMAC uses a separate system-control clock register
+> and supports only RMII at 10/100 Mbps. It connects internally to the
+> co-packaged AC200 or AC300 EPHY and has no external PHY pins.
+> 
+> Add an EMAC1 variant using the dedicated register and enable only RMII.
+> Leave PHY initialization to the PHY driver instead of using the H3
+> internal-PHY controls. No RX or TX clock delays are configured for this
+> RMII-only variant.
+> 
+> Co-developed-by: Richard Genoud <richard.genoud@bootlin.com>
+> Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 
-I was about to say we should add port specifiers to the node names and 
-labels (i2c0-ph-pins), for functions which are also available on other 
-pins, but I see we don't do this for I2C on any other SoC, so that's 
-fine. It's internal, so we can fix this later.
-
-Compared against the manual:
-> Assisted-by: OpenCode:DeepSeek-V4.1-Flash
-> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+Looks good to me, nice and minimal:
 
 Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
-Thanks,
+Cheers,
 Andre
 
+
 > ---
->   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
+>   drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 16 ++++++++++++++++
+>   1 file changed, 16 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> index 85ef492ff..0ec5d19f7 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> @@ -147,6 +147,24 @@ pio: pinctrl@2000000 {
->   			interrupt-controller;
->   			#interrupt-cells = <3>;
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> index 4523a14f5e0c..1020168f1c3a 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> @@ -81,6 +81,13 @@ static const struct reg_field sun8i_syscon_reg_field = {
+>   	.msb = 31,
+>   };
 >   
-> +			/omit-if-no-ref/
-> +			i2c0_pins: i2c0-pins {
-> +				pins = "PH0", "PH1";
-> +				function = "i2c0";
-> +				allwinner,pinmux = <2>;
-> +				drive-strength = <10>;
-> +				bias-pull-up;
-> +			};
+> +/* EMAC1 clock register @ 0x34 in the "system control" address range */
+> +static const struct reg_field sun8i_syscon_reg_field_emac1 = {
+> +	.reg = 0x34,
+> +	.lsb = 0,
+> +	.msb = 31,
+> +};
 > +
-> +			/omit-if-no-ref/
-> +			i2c1_pins: i2c1-pins {
-> +				pins = "PH2", "PH3";
-> +				function = "i2c1";
-> +				allwinner,pinmux = <2>;
-> +				drive-strength = <10>;
-> +				bias-pull-up;
-> +			};
+>   /* EMAC clock register @ 0x164 in the CCU address range */
+>   static const struct reg_field sun8i_ccu_reg_field = {
+>   	.reg = 0x164,
+> @@ -143,6 +150,13 @@ static const struct emac_variant emac_variant_h6 = {
+>   	.tx_delay_max = 7,
+>   };
+>   
+> +static const struct emac_variant emac_variant_h616_emac1 = {
+> +	.syscon_field = &sun8i_syscon_reg_field_emac1,
+> +	/* The co-packaged AC200/AC300 PHY does not use the H3 PHY controls. */
+> +	.soc_has_internal_phy = false,
+> +	.support_rmii = true,
+> +};
 > +
->   			/omit-if-no-ref/
->   			i2s2_pi_pins: i2s2-pi-pins {
->   				pins = "PI2", "PI3", "PI4", "PI5";
+>   #define EMAC_BASIC_CTL0 0x00
+>   #define EMAC_BASIC_CTL1 0x04
+>   #define EMAC_INT_STA    0x08
+> @@ -1276,6 +1290,8 @@ static const struct of_device_id sun8i_dwmac_match[] = {
+>   		.data = &emac_variant_a64 },
+>   	{ .compatible = "allwinner,sun50i-h6-emac",
+>   		.data = &emac_variant_h6 },
+> +	{ .compatible = "allwinner,sun50i-h616-emac1",
+> +		.data = &emac_variant_h616_emac1 },
+>   	{ }
+>   };
+>   MODULE_DEVICE_TABLE(of, sun8i_dwmac_match);
+> 
 
