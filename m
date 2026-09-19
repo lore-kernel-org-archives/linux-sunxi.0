@@ -1,619 +1,180 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 063B3361964
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Sep 2026 20:08:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA043AC0E6
+	for <linux-sunxi@lists.linux.dev>; Sat, 19 Sep 2026 01:07:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=119.15.109.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789762126; cv=none; b=UIBF69MGecUz0xAUi0MiEJjKj8aw4iaMgtr5FuQ0KiifyMUNVgcwdZO1+SZ20JGzaywdUAR56jaZUkGXwYD98lIlhStn/4jgKvD4lpWoLQ1RH+qkaxhoj68a0S+FH3DLMNnxUcvQHVLdzxbIurlsVGRMdLsyx3/kzJ1YULgUa8I=
+	t=1789780076; cv=none; b=scSiOkRb05BxZXhKg1So/uLZG91Dnnr+MwkoXH30LM8/gHiVvDjmZGSq3TWSLUoOLjvN0SfiJgP2rHj4MsJ4qWFzFnV4hfRq2u2WKCsSPnQ2GNHlz7krR+bvmEUAFAWJ8OiEFWwRqngDy6GA34nUDHD/lkZF2KBBcM5zOsrZm/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789762126; c=relaxed/simple;
-	bh=yXCTEnR1eA1qEujC4pzK4FX/QkoCm2MB8gaCD0k9anU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ON85lXZwMp612ciNeinPJFTzM7m3/Y2b3J+hmdQsVKU1pGUYVxBtDuekX2qrH7W1tbjy4CDazbZNLYrrLlqPZGK6Zb+51jNW9ivP6VOaPeuEhGMH/LVWc3789N8eVq/SjJGZ9pPTQ/EGfFqNz7wYCq7O3tHi5NSt8BvRDu66wXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=DVzpY/ZK; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1789780076; c=relaxed/simple;
+	bh=6HewLLL8ipgY9ww2B3n9+2RGXN10iLBb3PUHWKJHjHA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=IkRnaipkCHKgjX9FvYPRwYwe7ySuOM0cPLnIlPOtFq+Eo08XcTsEk/Ao4+LIhUCTqq6jz829HMbDMqroMi8I9WgysDGprmL3swNlchMChbGyYZMR/BA/A/Mv84Z0kAt+rkmO8KCqXH4GYUGH/tEM5CqQsX9q2rDRTkD1P6td/AI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org; spf=pass smtp.mailfrom=d-silva.org; dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.b=JF4OYFnz; arc=none smtp.client-ip=119.15.109.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="DVzpY/ZK"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6D17168F;
-	Fri, 18 Sep 2026 13:08:38 -0700 (PDT)
-Received: from [172.18.224.124] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5DD833F7B4;
-	Fri, 18 Sep 2026 13:08:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789762122; bh=yXCTEnR1eA1qEujC4pzK4FX/QkoCm2MB8gaCD0k9anU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DVzpY/ZKOxafIEdychTw/pGOBLGtrR4DWbl8Kr3FZSvi/xiMwzRoS7IRuAEkJ5cpv
-	 gsZCUSTRkKkJPZVmgr55C3FCSu13FuBDA22Xd6mbD5kKdIJFXzCSZ4AhIR+2OlHYEF
-	 7ktEYjH+k7DbCcaMbdArgNd6IOraqhDXX2CoQ6HM=
-Message-ID: <76bb45b4-816c-4a4e-a526-b394cbbfbb69@arm.com>
-Date: Fri, 18 Sep 2026 22:08:33 +0200
+	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.b="JF4OYFnz"
+Received: from hawking.lan (ntp.lan [10.0.1.1])
+	by www.nmnhosting.com (Postfix) with ESMTPSA id 551E140497;
+	Sat, 19 Sep 2026 11:07:31 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
+	t=1789780051;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=6HewLLL8ipgY9ww2B3n9+2RGXN10iLBb3PUHWKJHjHA=;
+	b=JF4OYFnz5uVwSTxfHxbiXOwgyD1ltxZwUJokhs/GboS1lWV2BGfUDtEpycPy0epafOFMww
+	/ideq4L0YJLp4kwiHDr5Sq8u/mdXbsXynYgW/l9uGHbXoguumsI/Zy5wxbEHU2gnGu0t8P
+	MfvQTuCHWNIsYVvqooav+p2J6x6Ufi/PkdAUftABbjc5qsdFVyXzKlxGZqEWYqcy0WzFHc
+	S8nHxBCGAWjGTjvFRAVjClB3+2W8x/mNIfuDaGCmOqNsG13X646mqz9pjl7mHdNOn5zbxq
+	0wHXVtCGyKQXwwok0npnNsev4zL+mdzuS49ghAOdcEnRxMsrtrkM4Pc0YrX9oQ==
+X-GPT-Reason: legitimate; the email is a technical discussion regarding
+	Linux kernel patches (net-next) and contains highly specific engineering
+	details about stmmac drivers and Allwinner H616 EMAC support; the
+	sender identity (alastair@d-silva.org) perfectly matches the recipient
+	mailbox (alastair@d-silva.org), indicating a personal/professional
+	communication; the presence of a link to msgid.link is consistent
+	with standard Linux kernel mailing list practices for patch submission;
+	there are no indicators of phishing, urgency, or unsolicited marketing.
+Message-ID: <ae87fcbacadb7447d5e249c03f43a49ee49cfdce.camel@d-silva.org>
+Subject: Re: [PATCH net-next v3 0/3] net: stmmac: add Allwinner H616 EMAC1
+ support
+From: Alastair D'Silva <alastair@d-silva.org>
+To: James Hilliard <james.hilliard1@gmail.com>, Richard Genoud	
+ <richard.genoud@bootlin.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>,  Samuel Holland <samuel@sholland.org>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Giuseppe Cavallaro	
+ <peppe.cavallaro@st.com>, Jose Abreu <joabreu@synopsys.com>, Maxime
+ Chevallier	 <maxime.chevallier@bootlin.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, netdev@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com
+Date: Sat, 19 Sep 2026 11:07:31 +1000
+In-Reply-To: <20260917-submit-h616-emac1-v1-v3-0-62cb8316e19b@gmail.com>
+References: <20260917-submit-h616-emac1-v1-v3-0-62cb8316e19b@gmail.com>
+Autocrypt: addr=alastair@d-silva.org; prefer-encrypt=mutual;
+ keydata=mQINBGactvoBEADBFM2HqfQUUM4j40ZQPyYzmnM8S6zrycO0ipDDPMs7nZMzyzGzOdqfS
+ VB/tuYvZOOKVWzJuWJ5aT/YyHx54r3L+D5hTkEG0sXPVJky3yTS9sbHEMSLBHb8TVVuhPVPuieV4g
+ Nkqg5POMTidk8xAw50WpV++tUlewXVSciehnuCQPXhXMP7FcCh4uO8LdN7E8m7ir1LafKTFfoWPah
+ KVT8NGG9r+ucrFcN5F+VnHxTDaI68yRPkNdtUWmp22wIX1KwDCtKFrndYO4p5Hv2hlDKomsuIIHHn
+ muQGRwuh0xpf0nVJNF8ETZHMzxQLfo3e/HvxBFOTkwY9w7CuuQFZchbhS0I3PfmGT0+jiNcdfqjDC
+ fPPB5uhy+DkR6wO72vuwFYUrpU2mdliDSdKEtWBHulnXMJjpBOXetfIwhI8G2dTVg59lN5i9DvJZc
+ 7y1Sp+qfZQ4P9qpYZyQEKR4GNDOdnm6F2LW2cZkcyAU/Ii765zdDMTQMIzZNSxT/FcDd0K1voTNRl
+ QHbQw+kmIMhzSv2JefcC9oNbE0XYzcBDNP5T3O/4itOQ90GCKQEPAbIPeBjlQif7kkyvo/H6yv4s9
+ duuK7zbJD9AID/+KGLkpU3p68VDB/C2ZSb9rQz3p1CJNSfsX/CPk7sPqA7RKZ4a2B0hSJ2pJCncNZ
+ KXtMlkkm/FmewARAQABtCdBbGFzdGFpciBEJ1NpbHZhIDxhbGFzdGFpckBkLXNpbHZhLm9yZz6JAl
+ EEEwEKADsWIQTQGemDFwqYyU/dBWv75AdnjVo60gUCZpy2+gIbAwULCQgHAgIiAgYVCgkICwIEFgI
+ DAQIeBwIXgAAKCRD75AdnjVo60qHZEACJnLfpS71Hk8bX0CLCNJ5wgqdZD3pBHEdbv9Ux9kRlZp4a
+ ZFwlg9ltwBjl2dZP3PLtD9xQdsdYKVippKd5a7ZZC2y81oDaHjeC9LnPYn8+ce3mGE/+gRyoNfToY
+ N06DeUNJKSlZ9t11UIqZCgfp12u16/Yrigy8C4ihEeHXlLhNX6JkeJR5gsHXJnC7vSuMZY+Qz2R72
+ ZidWg+cd2WDMGop5sbTvc+55q94A7vTMlWzaix5HdbEUA3sd2U0dMBju5QodRGGhDQMcCu64TydRD
+ MtMzzOk9ThJ036ze3HASWGOppyQmaw58k+XNzbHlr9Sc1LsFUNF7zpWXac2rzlywbyRAdFIT/TC76
+ hy9zOkwIo2nwA/tdIwLx1j0UZPpAMQmcDUvJqZh6sE+fv6HN0yMPr+sSYJmriMt8Z6leCEHQXOHVI
+ SI5z5FvV3coMmHYRq6aXpfs/8SLiYgkV3B0HE/E18Y3j1OkeLYoqIH1VfzQZeCSL/S77NYvk60/MV
+ 1HFSyqLdUR3uWZI4uZzoEcMoB0GX33uCTp2Ntc00+wSntwekCUQLCMLUb7dZrbpVuobHoWWtkiD2I
+ uE5kAiaVwwwzM0BUwiM6VzVoKbeECz93rdsNtwoDqM0NtzoISC46H/BKVQ9mRNXDO4ThEBpJ4H2Tn
+ mPNRYYcR0u2mNy1EJII04w==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] arm64: dts: allwinner: add Teclast P85T tablet
-To: Mikhail Kalashnikov <iuncuim@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260918165414.1129076-1-iuncuim@gmail.com>
- <20260918165414.1129076-5-iuncuim@gmail.com>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20260918165414.1129076-5-iuncuim@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hi,
-
-many thanks for sending this! I haven't opened my P85T yet, so have no 
-serial, but seems like it's worth it ...
-
-On 9/18/26 18:54, Mikhail Kalashnikov wrote:
-> The Teclast P85T is an 8-inch tablet that was announced in 2023
-> based on the Allwinner A523 (sun55i) SoC.
-> 
-> Hardware summary:
->    - Allwinner A523, 8x Cortex-A55 (2 clusters)
->    - 4 GiB LPDDR3 DRAM
->    - 64 GiB eMMC
->    - microSD card slot
->    - AXP717 and AXP323 PMICs
->    - USB-C port wired to the USB2 OTG controller
->    - combined WiFi and Bluetooth module based on AIC8800 (SDIO+UART)
->    - 800x1280 MIPI-DSI panel (not supported in mainline yet)
->    - Silead GSL1680 touchscreen
->    - MiraMEMS DA280 accelerometer
->    - AXP717 battery/charger
->    - USB-C OTG port (also for charging)
->    - secure boot, but takes any key
-> 
-> This initial submission enables only what mainline supports today:
-> both PMICs, battery/charger, GPU (Panfrost), eMMC, SD card,
-> SDIO WiFi (can be used with out of tree driver), USB device (without
-> otg function), UART0 console, UART1 Bluetooth, I2C0 touchscreen, I2C1
-> accelerometer and the RTC with the external 32 kHz oscillator.
-> 
-> Display (DE/TCON/DSI), PWM backlight, audio codec, camera (CSI/VIN)
-> and LRADC keys are deliberately left out, as those blocks are
-> not supported in mainline yet.
-
-Super nit, and just to ambush Krzysztof ;-) :
-the correct wording should be ... as those blocks don't have a binding 
-yet. Since this is a DT patch, you are in DT land, and must not speak of 
-the kernel ;-)
-
-> 
-> The tablet uses secure boot, so it needs a signed TOC0 wrapped image to
-> boot, but it has no key hash burnt into the efuses, so it accepts an
-> image signed with any key. U-Boot support in progress.
-> 
-> Later, a tablet with an Allwinner A537 processor and 3 GB of DRAM was
-> released under the same name. This version is not supported by mainline.
-> 
-> Assisted-by: OpenCode:DeepSeek-V4.1-Flash
-> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+On Thu, 2026-09-17 at 11:55 -0600, James Hilliard wrote:
+> The H616 secondary EMAC supports RMII at 10/100 Mbps and uses a
+> separate
+> system-control clock register at offset 0x34. Add its binding and a
+> sun8i stmmac variant using that register. A distinct compatible
+> without
+> an older fallback prevents the driver from using EMAC0's clock
+> register.
+>=20
+> EMAC1 connects internally to the co-packaged AC200 or AC300 EPHY and
+> has
+> no external PHY pins. Leave PHY initialization to the PHY driver
+> instead
+> of using the H3 internal-PHY controls. The RMII-only variant does not
+> expose the RGMII clock-delay properties.
+>=20
+> First move the MAC software reset from probe to the DMA reset
+> callback,
+> after PHY initialization. This lets the MAC and its MDIO bus remain
+> registered when the PHY driver or one of its suppliers is not ready
+> yet.
+> Keep the separate H3 MDIO-mux reset sequence unchanged.
+>=20
+> The AC200/AC300 EPHY driver and package bindings are already in
+> net-next. This series separates the H616 EMAC1 MAC driver and binding
+> support from the earlier combined series. PWM, MFD and device-tree
+> enablement are being handled separately.
+>=20
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 > ---
->   arch/arm64/boot/dts/allwinner/Makefile        |   1 +
->   .../allwinner/sun55i-a523-teclast-p85t.dts    | 420 ++++++++++++++++++
->   2 files changed, 421 insertions(+)
->   create mode 100644 arch/arm64/boot/dts/allwinner/sun55i-a523-teclast-p85t.dts
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-> index aa21f58a4..7025ba959 100644
-> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -63,6 +63,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-2024.dtb
->   dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-h.dtb
->   dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-plus.dtb
->   dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h700-anbernic-rg35xx-sp.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) += sun55i-a523-teclast-p85t.dtb
->   dtb-$(CONFIG_ARCH_SUNXI) += sun55i-a527-cubie-a5e.dtb
->   dtb-$(CONFIG_ARCH_SUNXI) += sun55i-h728-x96qpro+.dtb
->   dtb-$(CONFIG_ARCH_SUNXI) += sun55i-t527-avaota-a1.dtb
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523-teclast-p85t.dts b/arch/arm64/boot/dts/allwinner/sun55i-a523-teclast-p85t.dts
-> new file mode 100644
-> index 000000000..38a9c98ec
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523-teclast-p85t.dts
-> @@ -0,0 +1,420 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
-> +/*
-> + * Copyright (C) 2026 Mikhail Kalashnikov <iuncuim@gmail.com>
-> + */
-> +
-> +/dts-v1/;
-> +
-> +#include "sun55i-a523.dtsi"
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +/ {
-> +	model = "Teclast P85T";
-> +	compatible = "teclast,p85t", "allwinner,sun55i-a523";
-> +	chassis-type = "tablet";
-> +
-> +	aliases {
-> +		serial0 = &uart0;
-> +	};
-> +
-> +	battery: battery {
-> +		compatible = "simple-battery";
-> +		constant-charge-current-max-microamp = <800000>;
-> +		voltage-max-design-microvolt = <4400000>;
-> +		charge-full-design-microamp-hours = <5000000>;
-> +		energy-full-design-microwatt-hours = <19250000>;
+> Changes in v3:
+> - Add a prerequisite fix moving the MAC software reset to the DMA
+> reset
+> =C2=A0 callback, after PHY initialization, so delayed module loading and
+> =C2=A0 deferred PHY probes do not tear down the MAC and its MDIO bus.
+> - Preserve the H3 MDIO-mux reset and propagate hardware-reset
+> failures
+> =C2=A0 through the normal stmmac hardware-setup error path.
+> - Add Alastair D'Silva to Cc and rebase onto current net-next.
+> - Link to v2: https://patch.msgid.link/20260915-submit-h616-emac1-v1-
+> v2-0-322b32e40eb9@gmail.com
+>=20
+> Changes in v2:
+> - Drop EMAC1 TX/RX clock-delay property support and keep the existing
+> =C2=A0 RGMII-only delay descriptions unchanged, as requested by Maxime
+> Ripard.
+> - Clarify that EMAC1 connects internally to a co-packaged PHY, not an
+> =C2=A0 external PHY or the H3-style internal-PHY controls.
+> - Rebase onto current net-next.
+> - Link to v1: https://patch.msgid.link/20260915-submit-h616-emac1-v1-
+> v1-0-195de0bb1f8a@gmail.com
+>=20
+> ---
+> James Hilliard (3):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 net: stmmac: sun8i: reset the MAC after PH=
+Y initialization
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dt-bindings: net: allwinner: add H616 EMAC=
+1
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 net: stmmac: sun8i: add support for Allwin=
+ner H616 EMAC1
+>=20
+> =C2=A0.../bindings/net/allwinner,sun8i-a83t-emac.yaml=C2=A0=C2=A0=C2=A0 |=
+ 13 +++++
+> =C2=A0.../devicetree/bindings/net/snps,dwmac.yaml=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +
+> =C2=A0drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c=C2=A0 | 66
+> +++++++++++++---------
+> =C2=A03 files changed, 55 insertions(+), 26 deletions(-)
+> ---
+> base-commit: 26ee8cd69d46a14b37ba5e512084fe80d730127a
+> change-id: 20260914-submit-h616-emac1-v1-143703842abb
+>=20
+> Best regards,
+> --=C2=A0=20
+> James Hilliard <james.hilliard1@gmail.com>
+>=20
 
-Out of curiosity: where did you get those values from? I was trying to 
-find them for the P80 tablet, but to no avail.
+Tested-by: Alastair D'Silva <alastair@d-silva.org>
+Reviewed-by:=C2=A0Alastair D'Silva <alastair@d-silva.org>
 
-> +	};
-> +
-> +	chosen {
-> +		stdout-path = "serial0:115200n8";
-> +	};
-> +
-> +	ext_osc32k: ext-osc32k-clk {
-> +		#clock-cells = <0>;
-> +		compatible = "fixed-clock";
-> +		clock-frequency = <32768>;
-> +		clock-output-names = "ext_osc32k";
-> +	};
-> +
-> +	iio-hwmon {
-> +		compatible = "iio-hwmon";
-> +		io-channels = <&axp717_adc 3>, /* vsys_v */
-> +			      <&axp717_adc 4>; /* pmic_temp */
-> +	};
-> +
-> +	reg_vcc5v: vcc5v {
-> +		/* board wide 5V supply from the USB-C connector */
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-5v";
-> +		regulator-min-microvolt = <5000000>;
-> +		regulator-max-microvolt = <5000000>;
-> +		regulator-always-on;
-> +	};
-> +
-> +	reg_pio18: pio-18 {
-> +		compatible = "regulator-fixed";
+As a follow-up (non blocking), I would add the LED control registers I
+mentioned at the bottom of my test results.=20
 
-So this is some kind of placeholder, I guess, because we don't know 
-which rails the various 1.8V voltages really comes from?
-But chances are its consumers are really provided some PMIC rail, and 
-not getting the 1.8V out of thin air.
-See below for more ...
-
-> +		regulator-name = "pio-18";
-> +		regulator-min-microvolt = <1800000>;
-> +		regulator-max-microvolt = <1800000>;
-> +		regulator-always-on;
-> +	};
-> +
-> +	reg_vmmc1: vmmc1 {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-wifi";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		vin-supply = <&reg_aldo3>;
-> +		gpio = <&r_pio 0 7 GPIO_ACTIVE_HIGH>;	/* PL7 */
-> +		enable-active-high;
-> +	};
-> +
-> +	wifi_pwrseq: pwrseq {
-> +		compatible = "mmc-pwrseq-simple";
-> +		reset-gpios = <&r_pio 1 1 GPIO_ACTIVE_LOW>; /* PM1 */
-> +		post-power-on-delay-ms = <200>;
-> +	};
-> +};
-> +
-> +&ehci0 {
-> +	status = "okay";
-> +};
-> +
-> +&gpu {
-> +	mali-supply = <&reg_dcdc2>;
-> +	status = "okay";
-> +};
-> +
-> +&i2c0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&i2c0_pins>;
-> +	clock-frequency = <400000>;
-> +	status = "okay";
-> +
-> +	touchscreen@40 {
-> +		compatible = "silead,gsl1680";
-> +		reg = <0x40>;
-> +		interrupt-parent = <&pio>;
-> +		interrupts = <7 9 IRQ_TYPE_EDGE_FALLING>; /* PH9 */
-> +		power-gpios = <&pio 7 10 GPIO_ACTIVE_HIGH>; /* PH10 */
-> +		touchscreen-size-x = <1786>;
-> +		touchscreen-size-y = <1128>;
-> +		touchscreen-inverted-y;
-> +		touchscreen-swapped-x-y;
-> +		silead,max-fingers = <5>;
-> +		avdd-supply = <&reg_cldo2>;
-> +	};
-> +};
-> +
-> +&i2c1 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&i2c1_pins>;
-> +	status = "okay";
-> +
-> +	accelerometer@26 {
-> +		compatible = "miramems,da280";
-> +		reg = <0x26>;
-> +		interrupt-parent = <&pio>;
-> +		interrupts = <7 11 IRQ_TYPE_LEVEL_LOW>; /* PH11 */
-> +	};
-> +};
-> +
-> +&mmc0 {
-> +	vmmc-supply = <&reg_cldo3>;
-> +	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PF6 */
-> +	bus-width = <4>;
-> +	status = "okay";
-> +};
-> +
-> +&mmc1 {
-> +	vmmc-supply = <&reg_vmmc1>;
-> +	vqmmc-supply = <&reg_bldo1>;
-> +	mmc-pwrseq = <&wifi_pwrseq>;
-> +	bus-width = <4>;
-> +	non-removable;
-> +	status = "okay";
-> +
-> +	wifi@1 {
-> +		reg = <1>;
-> +		interrupt-parent = <&r_pio>;
-> +		interrupts = <1 0 IRQ_TYPE_LEVEL_LOW>; /* PM0 */
-> +		interrupt-names = "host-wake";
-> +	};
-> +};
-> +
-> +&mmc2 {
-> +	vmmc-supply = <&reg_cldo3>;
-> +	vqmmc-supply = <&reg_cldo1>;
-> +	bus-width = <8>;
-> +	non-removable;
-> +	cap-mmc-hw-reset;
-> +	mmc-ddr-1_8v;
-> +	mmc-hs200-1_8v;
-> +	status = "okay";
-> +};
-> +
-> +&ohci0 {
-> +	status = "okay";
-> +};
-> +
-> +&pio {
-> +	vcc-pc-supply = <&reg_pio18>;
-
-So pretty surely this is cldo1, since that's supplying the eMMC pins 
-above, which are on PortC.
-
-> +	vcc-pe-supply = <&reg_pio18>;
-
-Couldn't find any clues about PE, can you just leave this out for now?
-
-> +	vcc-pf-supply = <&reg_pio18>;
-
-I don't think that's right: PortF is technically muxed between VCC-IO 
-and VCC-MCSI, but since an SD card is supposed to always start 
-negotiation at 3.3V, it cannot be fixed to 1.8V. And we don't support 
-the MUX (yet), so 1.8V probably leads to SD card overclocking, since the 
-kernel believes it can use 1.8V speed modes?
-Anyway, I think this should be cldo3, since that's what the other boards 
-use for VCC-IO.
-But please check that the SD card still works after this change. Also 
-worth benchmarking it with this version, to see if it exceeds the 25MB/s 
-we are expecting with 3.3V I/O voltage.
-
-> +	vcc-pg-supply = <&reg_pio18>;
-
-This must be bldo1 then, since PortG is MMC1, so the vqmmc-supply from 
-the WiFi above.
-
-With those you should be able to get rid of the artificial 1.8V regulator.
-
-> +};
-> +
-> +&r_i2c0 {
-> +	status = "okay";
-> +
-> +	axp717: pmic@34 {
-> +		compatible = "x-powers,axp717";
-> +		reg = <0x34>;
-> +		interrupt-controller;
-> +		#interrupt-cells = <1>;
-> +		interrupt-parent = <&nmi_intc>;
-> +		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
-> +
-> +		vin1-supply = <&reg_vcc5v>;
-> +		vin2-supply = <&reg_vcc5v>;
-> +		vin3-supply = <&reg_vcc5v>;
-> +		vin4-supply = <&reg_vcc5v>;
-> +		aldoin-supply = <&reg_vcc5v>;
-> +		bldoin-supply = <&reg_vcc5v>;
-> +		cldoin-supply = <&reg_vcc5v>;
-> +
-> +		axp717_adc: adc {
-> +			compatible = "x-powers,axp717-adc";
-> +			#io-channel-cells = <1>;
-> +		};
-> +
-> +		battery-power {
-> +			compatible = "x-powers,axp717-battery-power-supply";
-> +			monitored-battery = <&battery>;
-> +		};
-> +
-> +		regulators {
-> +			/* Supplies the "little" cluster (1.0(?) GHz cores) */
-> +			reg_dcdc1: dcdc1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <900000>;
-> +				regulator-max-microvolt = <1160000>;
-> +				regulator-name = "vdd-cpul";
-> +			};
-> +
-> +			reg_dcdc2: dcdc2 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <920000>;
-> +				regulator-max-microvolt = <920000>;
-> +				regulator-name = "vdd-gpu-sys";
-> +			};
-> +
-> +			reg_dcdc3: dcdc3 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <1260000>;
-> +				regulator-max-microvolt = <1260000>;
-> +				regulator-name = "vdd-dram";
-> +			};
-> +
-> +			reg_dcdc4: dcdc4 {
-> +				regulator-min-microvolt = <1000000>;
-> +				regulator-max-microvolt = <1000000>;
-> +				regulator-name = "vdd-dcdc4";
-
-IIUC the AXP717 correctly, DCDC4 is used for battery charging, and it's 
-only available as an output rail when no battery is connected?
-Regardless, since I see no user and the kernel would turn it off anyway, 
-I'd just leave it out here.
-> +			};
-> +
-> +			reg_aldo1: aldo1 {
-> +				/* camera sensor AVDD */
-> +				regulator-min-microvolt = <2800000>;
-> +				regulator-max-microvolt = <2800000>;
-> +				regulator-name = "avdd-csi";
-> +			};
-> +
-> +			reg_aldo2: aldo2 {
-> +				/* camera sensor IOVDD */
-> +				regulator-min-microvolt = <1800000>;
-> +				regulator-max-microvolt = <1800000>;
-> +				regulator-name = "iovdd-csi";
-> +			};
-> +
-> +			reg_aldo3: aldo3 {
-> +				/* supplies the I2C pins for this PMIC and the WiFi module */
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <3300000>;
-> +				regulator-max-microvolt = <3300000>;
-> +				regulator-name = "vcc-pl-pm";
-> +			};
-> +
-> +			reg_aldo4: aldo4 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <1800000>;
-> +				regulator-max-microvolt = <1800000>;
-> +				regulator-name = "vcc-pll-dxco-avcc";
-> +			};
-> +
-> +			reg_bldo1: bldo1 {
-> +				/* WiFi module 1.8V */
-> +				regulator-min-microvolt = <1800000>;
-> +				regulator-max-microvolt = <1800000>;
-> +				regulator-name = "vcc-wifi-1v8";
-> +			};
-> +
-> +			reg_bldo2: bldo2 {
-> +				/* WiFi module 1.8V */
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <1800000>;
-> +				regulator-max-microvolt = <1800000>;
-> +				regulator-name = "vcc-wifi-1v8-b";
-
-So this looks weird: is it really for WiFi? What happens if you allow 
-the kernel to turn that off? Does the system survive, but just Wifi is 
-gone? If yes, then this is a trick here since we don't have a nice way 
-to specify *two* supplies for a WiFi module?
-Just asking because the other (LPDDR4) boards use that rail for DRAM, 
-which explains the always-on there.
-
-> +			};
-> +
-> +			reg_bldo3: bldo3 {
-> +				/* camera sensor DVDD/cameravdd */
-> +				regulator-min-microvolt = <2800000>;
-> +				regulator-max-microvolt = <2800000>;
-> +				regulator-name = "vcc-csi";
-> +			};
-> +
-> +			reg_bldo4: bldo4 {
-> +				/* camera sensor DVDD */
-> +				regulator-min-microvolt = <1200000>;
-> +				regulator-max-microvolt = <1200000>;
-> +				regulator-name = "dvdd-csi";
-> +			};
-> +
-> +			reg_cldo1: cldo1 {
-> +				/* codec CPVIN, SD/eMMC 1.8V IO */
-> +				regulator-min-microvolt = <1800000>;
-> +				regulator-max-microvolt = <1800000>;
-> +				regulator-name = "vcc-codec-sd";
-
-Just a nit, but "sd" doesn't sound right, with 1.8V. Just put "mmc" here 
-instead.
-
-> +			};
-> +
-> +			reg_cldo2: cldo2 {
-> +				/* touch panel supply */
-> +				regulator-min-microvolt = <3300000>;
-> +				regulator-max-microvolt = <3300000>;
-> +				regulator-name = "vcc-ctp";
-> +			};
-> +
-> +			reg_cldo3: cldo3 {
-> +				/* SD/eMMC VMMC, codec VDD, UART0, g-sensor */
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <3300000>;
-> +				regulator-max-microvolt = <3300000>;
-> +				regulator-name = "vcc-io-mmc";
-> +			};
-> +
-> +			reg_cldo4: cldo4 {
-> +				/* LCD panel supply */
-> +				regulator-min-microvolt = <3300000>;
-> +				regulator-max-microvolt = <3300000>;
-> +				regulator-name = "vcc-lcd";
-> +			};
-> +
-> +			reg_cpusldo: cpusldo {
-> +				/* supplies the management core */
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <900000>;
-> +				regulator-max-microvolt = <900000>;
-> +				regulator-name = "vdd-cpus";
-> +			};
-> +		};
-> +
-> +		usb-power {
-> +			compatible = "x-powers,axp717-usb-power-supply";
-> +			input-current-limit-microamp = <1750000>;
-> +		};
-> +	};
-> +
-> +	axp323: pmic@36 {
-> +		compatible = "x-powers,axp323";
-> +		reg = <0x36>;
-> +		#interrupt-cells = <1>;
-> +		interrupt-controller;
-> +		interrupt-parent = <&nmi_intc>;
-> +		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
-> +
-> +		vin1-supply = <&reg_vcc5v>;
-> +		vin2-supply = <&reg_vcc5v>;
-> +		vin3-supply = <&reg_vcc5v>;
-> +
-> +		regulators {
-> +			reg_aldo1_323: aldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <1800000>;
-> +				regulator-max-microvolt = <1800000>;
-> +				regulator-name = "vcc-aldo1-323";
-> +			};
-> +
-> +			reg_dldo1_323: dldo1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <3300000>;
-> +				regulator-max-microvolt = <3300000>;
-> +				regulator-name = "vcc-dldo1-323";
-> +			};
-
-Are you sure we need those two? The other boards don't use them. And in 
-general we would need some explanation for always-on, either as a 
-comment or by using an explanatory regulator-name.
-
-> +
-> +			/* Supplies the "big" cluster (1.8 GHz cores) */
-> +			reg_dcdc1_323: dcdc1 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <900000>;
-> +				regulator-max-microvolt = <1160000>;
-> +				regulator-name = "vdd-cpub";
-> +			};
-> +
-> +			/* DCDC2 is polyphased with DCDC1 */
-> +
-> +			reg_dcdc3_323: dcdc3 {
-> +				regulator-always-on;
-> +				regulator-min-microvolt = <900000>;
-> +				regulator-max-microvolt = <900000>;
-> +				regulator-name = "vdd-dcdc3";
-> +			};
-
-Same here. The other explain this with the RISC-V core supply. So if in 
-doubt, just copy that ;-)
-
-> +		};
-> +	};
-> +};
-> +
-> +&r_pio {
-> +/*
-> + * Specifying the supply would create a circular dependency.
-> + *
-> + *	vcc-pl-supply = <&reg_aldo3>;
-> + */
-> +	vcc-pm-supply = <&reg_aldo3>;
-> +};
-> +
-> +&rtc {
-> +	clocks = <&r_ccu CLK_BUS_R_RTC>, <&osc24M>,
-> +		 <&r_ccu CLK_R_AHB>, <&ext_osc32k>;
-> +	clock-names = "bus", "hosc", "ahb", "ext-osc32k";
-> +	assigned-clocks = <&rtc CLK_OSC32K>;
-> +	assigned-clock-rates = <32768>;
-> +};
-> +
-> +&uart0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&uart0_pb_pins>;
-> +	status = "okay";
-> +};
-> +
-> +&uart1 {
-> +	/* Bluetooth HCI, 4-wire with RTS/CTS */
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&uart1_pins>, <&uart1_rts_cts_pins>;
-> +	uart-has-rtscts;
-> +	status = "okay";
-> +};
-> +
-> +&usb_otg {
-> +	/*
-> +	 * The USB-C port is the primary power supply; VBUS control is not
-> +	 * wired in mainline (AXP717 has no drivevbus), so the port can only
-
-So does this mean that OTG would work, but the current mainline kernel's 
-AXP driver doesn't support the required functionality? Is that this 
-BOOST thing?
-
-> +	 * act as a USB device powered from the host side.
-> +	 */
-> +	dr_mode = "peripheral";
-> +	status = "okay";
-> +};
-> +
-> +&usbphy {
-> +	usb0_vbus-supply = <&reg_vcc5v>;
-
-Doesn't that contradict the above? Can you remove it and peripheral 
-still works?
-
-Cheers,
-Andre
-
-> +	status = "okay";
-> +};
-
+--=20
+Alastair D'Silva
