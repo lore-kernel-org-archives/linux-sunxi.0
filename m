@@ -1,176 +1,207 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD8C3C2BB0
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Sep 2026 09:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4913EFFDB
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Sep 2026 09:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789897455; cv=none; b=H+l5z+8jqT6VRUg/EHWBuF2CktUAH1vEtI77dIsKqkD7pm+ReKOWYu7PcZVdmNyzMJTBFzWpI9Tfh2tY7gz2sZbg0x6rnTuuI0J2SJ8vSSztJjhozJoTtKXKoxQLwf1D+SsG8mZYFrriBnq1waWztB1kIjZw+ySLsa9Pl+snbuQ=
+	t=1789897858; cv=none; b=cotIkkqOmxZ145qqJTsjmFRqSUvNXHbbt6HAKyGHHL5SzO3dRjom9mwQk8gJNIyCaFcgvNiC3k6ur8nkPSIy+cWOpJ7l0BObscWfB3kpnDe1cao344WHHnICngKAocj6LY5qGzqXG8SJtz92Ktfap5Q9bNXnL4Pa/08cfb9KqEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789897455; c=relaxed/simple;
-	bh=VaCHIbqayKHpuRvZbdiid0ApzeVrHRM1euobbTzlPRc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LzeM64xDbDwXADnL+ClCgDs+aNxqyVXhMqzGuQcJYK99DUjDB8AlFiuh/icn2DdDKquIMCDsTdj2JiBJlAwEQeVwvxvwFrhouGkCdhF5uCAgFtsvbcftluF+fXqiP+oRggbxv+EX67/6/vjGpv4cvmZj3HBZ3Ewho68eUYbXbvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=peMEUP+Y; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1789897858; c=relaxed/simple;
+	bh=fSQDFoD2QDiHdD9sozjPUbTo2K0Q/Jp9hC3TXlCvVoI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OW5wZxUMV9jdEYPQPGORUr1MpqZwSIXJtgs9aMytADoJLzZFSgjucEHFyFf01RTJSsv1wQhThcNzUS3PvcXq7qtzUVQAA7LCiB22T6+Rkf2Qmp/X1d9n4cOKg8SvSodCC7jMPAHZWA+kbxQaiE8BWp0fm34RohJJaW6whOjmjZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IEQyehoN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="peMEUP+Y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1789897452;
-	bh=VaCHIbqayKHpuRvZbdiid0ApzeVrHRM1euobbTzlPRc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=peMEUP+Yy1BaYtTRZVdeYhHiwtL+emnJv+XSfsBsP0TW2HZHy3+OOhAonCgfrNZ6S
-	 BzizMfHPTWfyeI+HWchhwSCwHYtP3BWE8ZQ0gXX8OF6XatXDvwNE+RbWihJ3fJTl3a
-	 Q4Wk6lz2+tya3mYVne4ryXQSzpRjYYmWOzIyTwX6Bmjze5DwzXuBceSOJu7t6YcafJ
-	 eu/oHb/IqBziro+swTA9msKOM8PibldK5ml919xoioItvmhl8XFD1XGPBXsbLp3dd/
-	 WZca0ZjGKg1lzihFUT7mcbsuP/XtjoIF/h5A5Y1pzj5468Gt/MTI8LI1v7S3g0HuGF
-	 /T1UTs74TSTpw==
-Received: from [100.64.0.241] (unknown [100.64.0.241])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4598517E00C9;
-	Sun, 20 Sep 2026 11:44:09 +0200 (CEST)
-Message-ID: <9e21c5c3-f8e6-4343-b4cc-52c9e84316ef@collabora.com>
-Date: Sun, 20 Sep 2026 12:44:08 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IEQyehoN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03E6F1F008A1
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Sep 2026 09:50:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789897856;
+	bh=SjYJbPqlOSw/5GKAWiHuamoPBcbEI2Y/L8HWn+XiZW0=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=IEQyehoN8tnzcIUUB2yod+5aTWoBewtFtg/Oee95XirMfEdlCGT2W7Z07zD0nbI4l
+	 Z89zXci2inN8vcwuwzrc01Jvu+HI8H+ufABefjR1EggIHTO8V6pK6XssPoEKipUoul
+	 BPudP+BFT/XiulSPHnO4nP2yakcWU0sP+V6y3woUaAqwjcY4x3jg+COgABnGgRlVmw
+	 SaXpkSxkEPICfoVx/VFyTDgEjkieC46Ho6Fb74pGD8buuxmctwEpFp3KsRJV9J8cI5
+	 VcmfHsBSnlPMC1OH3yHaPYPYnGaEe80cZiKrsKn7IIqM8RiU9K6zkM+ZgKPBlNo2w4
+	 IXa1kW9mMowdA==
+Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a2ff148dfdso13363981fa.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 20 Sep 2026 02:50:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByds6a8dshAOe8w+ykjjM6uofJDo7R4mhlu//JSS7LkZCyOlA+7lc9/pMjudvSR5kBANA459dvYQwMnqw==@lists.linux.dev
+X-Gm-Message-State: AFuF++mNsaUn+/nFsp1Ts3CgPDq/Ig5JsoXdocy8g7ysHKtALCQulvVh
+	AyJPod/PCVoUDMaxSQNq2QDzTOM0RtpC2N/c2suIekYrQS0eIfZJvfMuIvuSMAWalxpmRqTinb7
+	M0dWJyJ8vV0lmwZNfOj1G6m6PWp7ggk0=
+X-Received: by 2002:a05:651c:1543:b0:3a3:7741:b43c with SMTP id
+ 38308e7fff4ca-3a5fbf06931mr15872001fa.7.1789897854214; Sun, 20 Sep 2026
+ 02:50:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 00/74] Add HDMI 2.0 support to DW HDMI QP TX
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Dmitry Baryshkov <lumag@kernel.org>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>, Sandy Huang
- <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>, Algea Cao <algea.cao@rock-chips.com>,
- Daniel Stone <daniels@collabora.com>, Liu Ying <victor.liu@nxp.com>,
- Phong LE <ple@baylibre.com>, Helge Deller <deller@gmx.de>,
- kernel@collabora.com, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
- linux-fbdev@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Sashiko <sashiko-bot@kernel.org>, Diederik de Haas
- <diederik@cknow-tech.com>, Maud Spierings <maud_spierings@hotmail.com>
-References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
- <ap_ZyC-XaHTUNyQ5@houat>
-Content-Language: en-US
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <ap_ZyC-XaHTUNyQ5@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260913145527.18148-1-iuncuim@gmail.com> <20260913145527.18148-4-iuncuim@gmail.com>
+In-Reply-To: <20260913145527.18148-4-iuncuim@gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sun, 20 Sep 2026 17:50:41 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67jmSPeKD-kr2MsASJy7v5Mqw+FBOvX9ziE__-35W6EJA@mail.gmail.com>
+X-Gm-Features: AcwNN1XesilYUDb2NviAIFfSkaFxFlN66gg2pfogUxTJxiboh6rzWf-zN1gPLSI
+Message-ID: <CAGb2v67jmSPeKD-kr2MsASJy7v5Mqw+FBOvX9ziE__-35W6EJA@mail.gmail.com>
+Subject: Re: [PATCH v6 3/5] thermal/drivers/sun8i: get calibration data from
+ two nvmem cells
+To: Mikhail Kalashnikov <iuncuim@gmail.com>
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Philipp Zabel <p.zabel@pengutronix.de>, 
+	=?UTF-8?Q?Juan_Manuel_L=C3=B3pez_Carrillo?= <juanmanuellopezcarrillo@gmail.com>, 
+	Andre Przywara <andre.przywara@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Maxime,
+On Sun, Sep 13, 2026 at 10:56=E2=80=AFPM Mikhail Kalashnikov <iuncuim@gmail=
+.com> wrote:
+>
+> From: Mikhail Kalashnikov <iuncuim@gmail.com>
+>
+> The A523 processor has calibration data in two nvmem cells. To be able to
+> add support, the ability to add data from two cells into one array must b=
+e
+> added.
+>
+> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
 
-On 9/8/26 12:48 PM, Maxime Ripard wrote:
-> Hi,
-> 
-> On Tue, Sep 01, 2026 at 09:50:24PM +0300, Cristian Ciocaltea wrote:
->> Enable HDMI 2.0 display modes (e.g. 4K@60Hz) on the Synopsys DW HDMI QP
->> TX controller, as found in Rockchip RK3576 & RK3588 SoCs, by adding SCDC
->> management for high TMDS clock ratio and scrambling.  Since SCDC state
->> is lost on sink disconnects, the bridge driver needs to trigger a CRTC
->> reset during connector detection.
->>
->> To support this at the DRM infrastructure level, the series first
->> introduces the HDMI version enum, then prepares for changing the
->> signature of drmm_connector_hdmi_init(), i.e. dropping the vendor,
->> product, supported_formats and max_bpc arguments, which are being moved
->> into struct drm_connector_hdmi_funcs, by temporarily renaming the helper
->> to drmm_connector_hdmi_ini2().  This lets the new signature be
->> introduced under the original name while callers are converted
->> incrementally.  Note the transitional name matches the original's length
->> so continuation-line arguments stay aligned to the opening parenthesis,
->> keeping the diff to the identifier itself and avoiding re-alignment
->> churn.
->>
->> Appending more HDMI-specific arguments to the init function would not
->> scale well, hence the hdmi_funcs struct is extended with new fields:
->> supported_hdmi_ver, supported_tmds_char_rate.  These are used to
->> infer and/or limit the maximum TMDS character rate permitted for the
->> connector.
->>
->> Patches 6-11 build the connector and bridge scrambling infrastructure on
->> top: the connector scrambler callbacks/flags, the scdc-helper
->> additions (connector-prefixed debug macro and SCDC version helper), and
->> the HDMI scrambling management helpers including SCDC source-version
->> advertisement.
->>
->> Patches 12-25 wires this up through the hdmi-state-helper and bridge
->> connector layers: source TMDS rate validation, hotplug SCDC state sync
->> and the scrambling requirement, new source-side scrambling bridge ops,
->> the switch to a cached-status, atomic-aware .detect_ctx() connector
->> helper, and finally hooking up the HDMI 2.0 scrambler callbacks.
->>
->> The SCDC scrambling feature itself is implemented in the DW HDMI QP
->> bridge driver, alongside i2c error-message rate limiting,
->> .enable_hpd()/.disable_hpd() PHY ops and a dw_hdmi_qp_hpd_notify()
->> helper (patches 26-30).
->>
->> Patches 31-41 cover the Rockchip platform driver and HPD handling: bug
->> fixes, minor cleanups, avoiding spurious HDP IRQ wakeups, masking the
->> RK3576 HPD IRQ in io_init, implementing the .{enable|disable}_hpd() PHY
->> ops, switching HPD reports to dw_hdmi_qp_hpd_notify() to restrict events
->> to the affected connector, dropping the now-unused .setup_hpd() PHY op.
->>
->> Patches 42-48 convert VC4 HDMI to the common infrastructure as a proof
->> of reuse: adopting the shared TMDS char rate constants, switching to
->> drm_hdmi_mode_needs_scrambling() and force_ctx(), proper -EDEADLK
->> handling, and replacing the driver-local scrambling implementation with
->> the common SCDC scrambling helpers.
->>
->> Patches 50-57 advertise supported version for all HDMI
->> connectors/bridges, except the MediaTek HDMI driver (for now), as it
->> requires non-trivial changes: there's a core library shared between two
->> drivers, one being HDMI 2.0 compliant.
->>
->> Patches 58-67 add KUnit tests: HDMI caps-based init coverage and
->> source-side scrambler validation for the connector, conversion of
->> hdmi_state_helper to the new drmm_connector_hdmi_init() with
->> max_tmds_char_rate validation, a new 4K@60Hz 600MHz TMDS EDID,
->> source-side scrambling decision coverage, and conformity fixes for the
->> existing 1080p+4K YUV420 200MHz and 4K RGB/YUV 340MHz test EDID blobs.
->>
->> Patches 68-71 remove the now unused drmm_connector_hdmi_ini2() helper
->> and redundant hdmi fields from connector structs: vendor, product,
->> supported_formats and max_bpc.
->>
->> Eventually patches 72-74 consolidate SPD InfoFrame handling of
->> vendor/product.
->>
->> This has been tested on the following boards:
->>
->> * Radxa ROCK 5B (RK3588)
->> * Radxa ROCK 4D (RK3576)
->> * Raspberry Pi 5 Model B Rev 1.1 (BCM2712 D0)
-> 
-> This series is getting a bit insane. You have preliminary patches that
-> have been reviewed/acked already, you should merge them, and possibly
-> split the rest into preliminary series.
+I'd say that Sashiko's comment on "leaking" memory until the device is
+removed is not too much of a concern. Sure it could be released sooner
+since it's not used, but it's not a lot of memory.
 
-Thanks for the additional reviews, and sorry for my late reply - I've been on
-leave and traveling.  I've merged the preliminary patches and will handle the
-split upon my return, in about a week.
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
 
-I plan to send separate series for vc4, dw-hdmi-qp, the rest of the bridge
-drivers, kunit & final cleanup.
-
-Regards,
-Cristian
+> ---
+>  drivers/thermal/sun8i_thermal.c | 81 +++++++++++++++++++++------------
+>  1 file changed, 53 insertions(+), 28 deletions(-)
+>
+> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_ther=
+mal.c
+> index 1412bce63..360654880 100644
+> --- a/drivers/thermal/sun8i_thermal.c
+> +++ b/drivers/thermal/sun8i_thermal.c
+> @@ -300,43 +300,68 @@ static int sun50i_h6_ths_calibrate(struct ths_devic=
+e *tmdev,
+>
+>  static int sun8i_ths_calibrate(struct ths_device *tmdev)
+>  {
+> -       struct nvmem_cell *calcell;
+> +       struct nvmem_cell *calcell =3D NULL;
+>         struct device *dev =3D tmdev->dev;
+> -       u16 *caldata;
+> -       size_t callen;
+> +       struct device_node *np =3D dev_of_node(dev);
+> +       struct property *prop;
+> +       const char *cellname;
+> +       u8 *caldata =3D NULL;
+> +       size_t callen =3D 0;
+>         int ret =3D 0;
+>
+> -       calcell =3D nvmem_cell_get(dev, "calibration");
+> -       if (IS_ERR(calcell)) {
+> -               if (PTR_ERR(calcell) =3D=3D -EPROBE_DEFER)
+> -                       return -EPROBE_DEFER;
+> -               /*
+> -                * Even if the external calibration data stored in sid is
+> -                * not accessible, the THS hardware can still work, altho=
+ugh
+> -                * the data won't be so accurate.
+> -                *
+> -                * The default value of calibration register is 0x800 for
+> -                * every sensor, and the calibration value is usually 0x7=
+xx
+> -                * or 0x8xx, so they won't be away from the default value
+> -                * for a lot.
+> -                *
+> -                * So here we do not return error if the calibration data=
+ is
+> -                * not available, except the probe needs deferring.
+> -                */
+> -               goto out;
+> +       of_property_for_each_string(np, "nvmem-cell-names", prop, cellnam=
+e) {
+> +               size_t len;
+> +               u8 *caldatapart;
+> +
+> +               calcell =3D of_nvmem_cell_get(np, cellname);
+> +               if (IS_ERR(calcell)) {
+> +                       if (PTR_ERR(calcell) =3D=3D -EPROBE_DEFER)
+> +                               return -EPROBE_DEFER;
+> +                       /*
+> +                        * Even if the external calibration data stored i=
+n sid is
+> +                        * not accessible, the THS hardware can still wor=
+k, although
+> +                        * the data won't be so accurate.
+> +                        *
+> +                        * The default value of calibration register is 0=
+x800 for
+> +                        * every sensor, and the calibration value is usu=
+ally 0x7xx
+> +                        * or 0x8xx, so they won't be away from the defau=
+lt value
+> +                        * for a lot.
+> +                        *
+> +                        * So here we do not return error if the calibrat=
+ion data is
+> +                        * not available, except the probe needs deferrin=
+g.
+> +                        */
+> +                       goto out;
+> +               }
+> +
+> +               caldatapart =3D nvmem_cell_read(calcell, &len);
+> +               nvmem_cell_put(calcell);
+> +               calcell =3D NULL;
+> +               if (IS_ERR(caldatapart)) {
+> +                       ret =3D PTR_ERR(caldatapart);
+> +                       goto out;
+> +               }
+> +
+> +               caldata =3D devm_krealloc(dev, caldata, callen + len, GFP=
+_KERNEL);
+> +               if (!caldata) {
+> +                       kfree(caldatapart);
+> +                       ret =3D -ENOMEM;
+> +                       goto out;
+> +               }
+> +
+> +               memcpy(caldata + callen, caldatapart, len);
+> +               callen +=3D len;
+> +               kfree(caldatapart);
+>         }
+>
+> -       caldata =3D nvmem_cell_read(calcell, &callen);
+> -       if (IS_ERR(caldata)) {
+> -               ret =3D PTR_ERR(caldata);
+> +       if (!caldata)
+>                 goto out;
+> -       }
+>
+> -       tmdev->chip->calibrate(tmdev, caldata, callen);
+> +       tmdev->chip->calibrate(tmdev, (u16 *)caldata, callen);
+>
+> -       kfree(caldata);
+> +       devm_kfree(dev, caldata);
+> +       caldata =3D NULL;
+>  out:
+> -       if (!IS_ERR(calcell))
+> +       if (!IS_ERR_OR_NULL(calcell))
+>                 nvmem_cell_put(calcell);
+>         return ret;
+>  }
+> --
+> 2.55.0
+>
