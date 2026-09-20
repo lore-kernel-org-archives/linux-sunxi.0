@@ -1,109 +1,237 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415B32C3266;
-	Sun, 20 Sep 2026 13:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4DD737DAC0
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Sep 2026 15:13:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789909869; cv=none; b=atBCtFYzunPsSm9Atwv75Uk85m23eUU1IFykfV1oGy6QjsfJIheaR9kcQM63LTAvtv9ZfsAP756mU2ZVbB41ClOHH59QYDYUUVNsSBQ0JqCmW2LIIBqjMjH/CyeeSORcbk+0xzUyhf/cSXyK64CLFcqA/g3sS+RRtyp1g7Z2G0w=
+	t=1789917226; cv=none; b=BGzQ5nVUIGqB+Cbu+nC5LoT40FVZBuEmokg1gpvaDs3sJ2sDR7yNMtCf1HCD/7GY9ufa4MJdo7njtp7KqpbJnmCpqBxvV65VluWT0Hk2ZWMN9NPEyJIDHn+OEshs50g5h8o3/1qF5csqRhAZWlJ+YPW8ZphMTkriwDvglrzSZN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789909869; c=relaxed/simple;
-	bh=8tfiM5O25zOC9ACo2fvqP4xGI12i4KR2pbzdmyHZZZE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rFb7p6BcNpfoN4R+IH4kHRC4NoTJtqDjfp6PKVCrYmZ99yeIRjhQm937Gip5nw5k6IHO6ch0FJ7IugprMm/zZKXLDSi2j3Toto51mmdPA/nCsxdlDYTLq/CCetUqMi/Y9Swp/2H55mbDrfhWAIiDHw2pQzmPvboj/gxvFmCnSA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HpyjStnG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789917226; c=relaxed/simple;
+	bh=SSUGOkvZlKcwT3YQ7ugwa08tm7XRyK2mRxan7tsBq9A=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LFTYrmbDtjsNZYaNa7Uj12SCBnTA/nNoAlbI9d7obt2SRmd8UZFtPXNfvFsx7xRaecbAcO3RGRnhIz29l/hcK79u9nSw4K5hCPIBKygrLI1thiFL/i047id+vK5Gg4HKkwEEXk28LtWSEijfNYDrCZHT9DrfZ/ZqzLK5NBXi1+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=uBDAHjhB; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HpyjStnG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0F291F000FF;
-	Sun, 20 Sep 2026 13:10:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789909860;
-	bh=LUDogPMnO5gd8m+eOAv3zOZ6aMNmaUmruEjfMI8K9xw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=HpyjStnGnM+28Gn5roNAEMWm2qb7cCu6HJKcPr/ltuC/G5fp+iOZwjJcCHWm7pkrW
-	 k5Ma5hOPSjHpDjs5lpn83NPg2RVE6SwH+cZ/FR6SId83SlDVFM7iBD3PU5AV8t7g5c
-	 dKg9jEhpi2WB/Iv6LfqDHekEMJhLtP6LVXdY80qFGXg+StGUWS7cRBRqzpsRcu4PNc
-	 U6348FY5l4rtDY9Fli+tv8vv2whl3NtmHGA2/B8YkoG0N+ylfibF0lrsOEFa/kXPB6
-	 N3C/6/sX+mlwaA18XenYiaFIvbhqcpPBUvSFO0CmsjSwcWq6UNy4pBW27TTypTPZXf
-	 pdNhJA9LpGKWA==
-Message-ID: <169e079d-8b29-4450-96ea-a95388f44bdd@kernel.org>
-Date: Sun, 20 Sep 2026 15:10:54 +0200
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="uBDAHjhB"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 22EA61650;
+	Sun, 20 Sep 2026 08:13:38 -0700 (PDT)
+Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 36F293F632;
+	Sun, 20 Sep 2026 08:13:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1789917221; bh=SSUGOkvZlKcwT3YQ7ugwa08tm7XRyK2mRxan7tsBq9A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=uBDAHjhBHkkPwi628BqqIFlQ+INGYryGrQdUfxjc10DPsc6erfmlXh9zJcVrJ3Li5
+	 YhNz8u7RxpgHCmj7AHjpjl57NcWuDNc0lyXiuRMvqgpYvzjvoVqGlHBEcIljCTNcjO
+	 4XmJx/k8MUIg6BaZ9K3VisgZGammxqfukhfY/ERA=
+Date: Sun, 20 Sep 2026 17:08:46 +0200
+From: Andre Przywara <andre.przywara@arm.com>
+To: Junhui Liu <junhui.liu@pigmoral.tech>
+Cc: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>,
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Paul Walmsley <pjw@kernel.org>, Palmer
+ Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre
+ Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ netdev@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>, Enzo Adriano
+ <enzo.adriano.code@gmail.com>
+Subject: Re: [PATCH v3 8/8] clk: sunxi-ng: a733: Add reset lines
+Message-ID: <20260920170846.087bd42d@ryzen.lan>
+In-Reply-To: <20260905-a733-clk-v3-8-50f238f39c78@pigmoral.tech>
+References: <20260905-a733-clk-v3-0-50f238f39c78@pigmoral.tech>
+	<20260905-a733-clk-v3-8-50f238f39c78@pigmoral.tech>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: arm: sunxi: Add SPC Glee 10.1 A64
-To: jcarlosgl96@proton.me, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260911-b4-spc-glee-a64-v1-v2-0-ed0b7ff02e0b@proton.me>
- <20260911-b4-spc-glee-a64-v1-v2-1-ed0b7ff02e0b@proton.me>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20260911-b4-spc-glee-a64-v1-v2-1-ed0b7ff02e0b@proton.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 11/09/2026 15:48, Juan Carlos Gutiérrez Lavado via B4 Relay wrote:
-> From: Juan Carlos Gutiérrez Lavado <jcarlosgl96@proton.me>
+On Sat, 05 Sep 2026 00:45:37 +0800
+Junhui Liu <junhui.liu@pigmoral.tech> wrote:
+
+Hi,
+
+> Add the reset lines for the Allwinner A733 SoC. These reset control bits
+> are integrated into the Bus Gate Reset (BGR) registers, typically
+> sharing the same register address with their corresponding bus clock
+> gates. Integrate them into the main CCU driver using the existing
+> sunxi-ng ccu_reset framework, allowing the CCU to also function as a
+> reset controller for the SoC.
 > 
-> Add the Smart Products Connection vendor prefix and the board
-> compatible for the SPC Glee 10.1 tablet based on the Allwinner A64.
-> 
-> Signed-off-by: Juan Carlos Gutiérrez Lavado <jcarlosgl96@proton.me>
+> Tested-by: Jerome Brunet <jbrunet@baylibre.com>
+> Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
+
+Many thanks, my comments have all been addressed:
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
 > ---
+>  drivers/clk/sunxi-ng/ccu-sun60i-a733.c | 126 +++++++++++++++++++++++++++++++++
+>  1 file changed, 126 insertions(+)
+> 
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+> index c124b09855c0..b7fc2cfc626c 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+> @@ -19,6 +19,7 @@
+>  #include <dt-bindings/reset/allwinner,sun60i-a733-ccu.h>
+>  
+>  #include "ccu_common.h"
+> +#include "ccu_reset.h"
+>  
+>  #include "ccu_div.h"
+>  #include "ccu_gate.h"
+> @@ -2183,11 +2184,136 @@ static struct clk_hw_onecell_data sun60i_a733_hw_clks = {
+>  	.num	= CLK_FANOUT3 + 1,
+>  };
+>  
+> +static const struct ccu_reset_map sun60i_a733_ccu_resets[] = {
+> +	[RST_BUS_ITS_PCIE0]		= { 0x574, BIT(16) },
+> +	[RST_BUS_IOMMU0_SYS]		= { 0x58c, BIT(16) },
+> +	[RST_BUS_MSI_LITE0_AHB]		= { 0x594, BIT(16) },
+> +	[RST_BUS_MSI_LITE0_MBUS]	= { 0x594, BIT(17) },
+> +	[RST_BUS_MSI_LITE1_AHB]		= { 0x59c, BIT(16) },
+> +	[RST_BUS_MSI_LITE1_MBUS]	= { 0x59c, BIT(17) },
+> +	[RST_BUS_MSI_LITE2_AHB]		= { 0x5a4, BIT(16) },
+> +	[RST_BUS_MSI_LITE2_MBUS]	= { 0x5a4, BIT(17) },
+> +	[RST_BUS_IOMMU1_SYS]		= { 0x5b4, BIT(16) },
+> +	[RST_BUS_DMA0]			= { 0x704, BIT(16) },
+> +	[RST_BUS_DMA1]			= { 0x70c, BIT(16) },
+> +	[RST_BUS_SPINLOCK]		= { 0x724, BIT(16) },
+> +	[RST_BUS_MSGBOX]		= { 0x744, BIT(16) },
+> +	[RST_BUS_PWM0]			= { 0x784, BIT(16) },
+> +	[RST_BUS_PWM1]			= { 0x78c, BIT(16) },
+> +	[RST_BUS_DBG]			= { 0x7a4, BIT(16) },
+> +	[RST_BUS_SYSDAP]		= { 0x7ac, BIT(16) },
+> +	[RST_BUS_TIMER0]		= { 0x850, BIT(16) },
+> +	[RST_BUS_DE0]			= { 0xa04, BIT(16) },
+> +	[RST_BUS_DI]			= { 0xa24, BIT(16) },
+> +	[RST_BUS_G2D]			= { 0xa44, BIT(16) },
+> +	[RST_BUS_EINK]			= { 0xa6c, BIT(16) },
+> +	[RST_BUS_DE_SYS]		= { 0xa74, BIT(16) },
+> +	[RST_BUS_VE_ENC0]		= { 0xa8c, BIT(16) },
+> +	[RST_BUS_VE_DEC0]		= { 0xa8c, BIT(18) },
+> +	[RST_BUS_CE]			= { 0xac4, BIT(16) },
+> +	[RST_BUS_CE_SYS]		= { 0xac4, BIT(17) },
+> +	[RST_BUS_NPU_CORE]		= { 0xb04, BIT(16) },
+> +	[RST_BUS_NPU_AXI]		= { 0xb04, BIT(17) },
+> +	[RST_BUS_NPU_AHB]		= { 0xb04, BIT(18) },
+> +	[RST_BUS_NPU_SRAM]		= { 0xb04, BIT(19) },
+> +	[RST_BUS_GPU0]			= { 0xb24, BIT(16) },
+> +	[RST_BUS_DRAM0]			= { 0xc0c, BIT(16) },
+> +	[RST_BUS_NAND0]			= { 0xc8c, BIT(16) },
+> +	[RST_BUS_MMC0]			= { 0xd0c, BIT(16) },
+> +	[RST_BUS_MMC1]			= { 0xd1c, BIT(16) },
+> +	[RST_BUS_MMC2]			= { 0xd2c, BIT(16) },
+> +	[RST_BUS_MMC3]			= { 0xd3c, BIT(16) },
+> +	[RST_BUS_UFS_AHB]		= { 0xd8c, BIT(16) },
+> +	[RST_BUS_UFS_AXI]		= { 0xd8c, BIT(17) },
+> +	[RST_BUS_UFS_PHY]		= { 0xd8c, BIT(18) },
+> +	[RST_BUS_UFS_CORE]		= { 0xd8c, BIT(19) },
+> +	[RST_BUS_UART0]			= { 0xe00, BIT(16) },
+> +	[RST_BUS_UART1]			= { 0xe04, BIT(16) },
+> +	[RST_BUS_UART2]			= { 0xe08, BIT(16) },
+> +	[RST_BUS_UART3]			= { 0xe0c, BIT(16) },
+> +	[RST_BUS_UART4]			= { 0xe10, BIT(16) },
+> +	[RST_BUS_UART5]			= { 0xe14, BIT(16) },
+> +	[RST_BUS_UART6]			= { 0xe18, BIT(16) },
+> +	[RST_BUS_I2C0]			= { 0xe80, BIT(16) },
+> +	[RST_BUS_I2C1]			= { 0xe84, BIT(16) },
+> +	[RST_BUS_I2C2]			= { 0xe88, BIT(16) },
+> +	[RST_BUS_I2C3]			= { 0xe8c, BIT(16) },
+> +	[RST_BUS_I2C4]			= { 0xe90, BIT(16) },
+> +	[RST_BUS_I2C5]			= { 0xe94, BIT(16) },
+> +	[RST_BUS_I2C6]			= { 0xe98, BIT(16) },
+> +	[RST_BUS_I2C7]			= { 0xe9c, BIT(16) },
+> +	[RST_BUS_I2C8]			= { 0xea0, BIT(16) },
+> +	[RST_BUS_I2C9]			= { 0xea4, BIT(16) },
+> +	[RST_BUS_I2C10]			= { 0xea8, BIT(16) },
+> +	[RST_BUS_I2C11]			= { 0xeac, BIT(16) },
+> +	[RST_BUS_I2C12]			= { 0xeb0, BIT(16) },
+> +	[RST_BUS_SPI0]			= { 0xf04, BIT(16) },
+> +	[RST_BUS_SPI1]			= { 0xf0c, BIT(16) },
+> +	[RST_BUS_SPI2]			= { 0xf14, BIT(16) },
+> +	[RST_BUS_SPIF]			= { 0xf1c, BIT(16) },
+> +	[RST_BUS_SPI3]			= { 0xf24, BIT(16) },
+> +	[RST_BUS_SPI4]			= { 0xf2c, BIT(16) }, /* From the vendor kernel. */
+> +	[RST_BUS_GPADC0]		= { 0xfc4, BIT(16) },
+> +	[RST_BUS_THS0]			= { 0xfe4, BIT(16) },
+> +	[RST_BUS_IRRX]			= { 0x1004, BIT(16) },
+> +	[RST_BUS_IRTX]			= { 0x100c, BIT(16) },
+> +	[RST_BUS_LRADC]			= { 0x1024, BIT(16) },
+> +	[RST_BUS_SGPIO]			= { 0x1064, BIT(16) }, /* From the vendor kernel. */
+> +	[RST_BUS_LPC]			= { 0x1084, BIT(16) }, /* From the vendor kernel. */
+> +	[RST_BUS_I2SPCM0]		= { 0x120c, BIT(16) },
+> +	[RST_BUS_I2SPCM1]		= { 0x121c, BIT(16) },
+> +	[RST_BUS_I2SPCM2]		= { 0x122c, BIT(16) },
+> +	[RST_BUS_I2SPCM3]		= { 0x123c, BIT(16) },
+> +	[RST_BUS_I2SPCM4]		= { 0x124c, BIT(16) },
+> +	[RST_BUS_SPDIF]			= { 0x128c, BIT(16) },
+> +	[RST_BUS_DMIC]			= { 0x12cc, BIT(16) },
+> +	[RST_USB_PHY0]			= { 0x1300, BIT(30) },
+> +	[RST_BUS_OHCI0]			= { 0x1304, BIT(16) },
+> +	[RST_BUS_EHCI0]			= { 0x1304, BIT(20) },
+> +	[RST_BUS_OTG]			= { 0x1304, BIT(24) },
+> +	[RST_USB_PHY1]			= { 0x1308, BIT(30) },
+> +	[RST_BUS_OHCI1]			= { 0x130c, BIT(16) },
+> +	[RST_BUS_EHCI1]			= { 0x130c, BIT(20) },
+> +	[RST_BUS_USB2]			= { 0x135c, BIT(16) },
+> +	[RST_BUS_PCIE_PWRUP]		= { 0x138c, BIT(16) },
+> +	[RST_BUS_PCIE]			= { 0x138c, BIT(17) },
+> +	[RST_BUS_SERDES]		= { 0x13c4, BIT(16) },
+> +	[RST_BUS_GMAC0]			= { 0x141c, BIT(16) },
+> +	[RST_BUS_GMAC0_AXI]		= { 0x141c, BIT(17) },
+> +	[RST_BUS_GMAC1]			= { 0x142c, BIT(16) }, /* From the vendor kernel. */
+> +	[RST_BUS_GMAC1_AXI]		= { 0x142c, BIT(17) }, /* From the vendor kernel. */
+> +	[RST_BUS_TCON_LCD0]		= { 0x1504, BIT(16) },
+> +	[RST_BUS_TCON_LCD1]		= { 0x150c, BIT(16) },
+> +	[RST_BUS_TCON_LCD2]		= { 0x1514, BIT(16) }, /* From the vendor kernel. */
+> +	[RST_BUS_LVDS0]			= { 0x1544, BIT(16) },
+> +	[RST_BUS_LVDS1]			= { 0x154c, BIT(16) },
+> +	[RST_BUS_DSI0]			= { 0x1584, BIT(16) },
+> +	[RST_BUS_DSI1]			= { 0x158c, BIT(16) },
+> +	[RST_BUS_TCON_TV0]		= { 0x1604, BIT(16) },
+> +	[RST_BUS_TCON_TV1]		= { 0x160c, BIT(16) },
+> +	[RST_BUS_EDP]			= { 0x164c, BIT(16) },
+> +	[RST_BUS_HDMI_MAIN]		= { 0x168c, BIT(16) },
+> +	[RST_BUS_HDMI_SUB]		= { 0x168c, BIT(17) },
+> +	[RST_BUS_HDMI_HDCP]		= { 0x168c, BIT(18) },
+> +	[RST_BUS_DPSS_TOP0]		= { 0x16c4, BIT(16) },
+> +	[RST_BUS_DPSS_TOP1]		= { 0x16cc, BIT(16) },
+> +	[RST_BUS_VIDEO_OUT0]		= { 0x16e4, BIT(16) },
+> +	[RST_BUS_VIDEO_OUT1]		= { 0x16ec, BIT(16) },
+> +	[RST_BUS_LEDC]			= { 0x1704, BIT(16) },
+> +	[RST_BUS_DSC]			= { 0x1744, BIT(16) },
+> +	[RST_BUS_CSI]			= { 0x1844, BIT(16) },
+> +	[RST_BUS_VIDEO_IN]		= { 0x1884, BIT(16) },
+> +	[RST_BUS_APB2JTAG]		= { 0x1c04, BIT(16) },
+> +};
+> +
+>  static const struct sunxi_ccu_desc sun60i_a733_ccu_desc = {
+>  	.ccu_clks	= sun60i_a733_ccu_clks,
+>  	.num_ccu_clks	= ARRAY_SIZE(sun60i_a733_ccu_clks),
+>  
+>  	.hw_clks	= &sun60i_a733_hw_clks,
+> +
+> +	.resets		= sun60i_a733_ccu_resets,
+> +	.num_resets	= ARRAY_SIZE(sun60i_a733_ccu_resets),
+>  };
+>  
+>  static const u32 pll_regs[] = {
+> 
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-
-Best regards,
-Krzysztof
