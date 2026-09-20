@@ -1,82 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124603E8C78
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Sep 2026 09:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD8C3C2BB0
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Sep 2026 09:44:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789897198; cv=none; b=rYHOqff2STwdFL2pzKRw0ZMnqFtQLWcSujAUOr/A8RiqcysUiqWFBXshtLJMw0kIwqfgRDU2ZYU5RbuC5ZiPYkoq6NVFU/a/DlUBf/FYm9qk2l0i8e/BbUSuChSXmvlsgWd0vIv4PbEup9GTcINbtOv92AHm20H4cExWtOpo8J0=
+	t=1789897455; cv=none; b=H+l5z+8jqT6VRUg/EHWBuF2CktUAH1vEtI77dIsKqkD7pm+ReKOWYu7PcZVdmNyzMJTBFzWpI9Tfh2tY7gz2sZbg0x6rnTuuI0J2SJ8vSSztJjhozJoTtKXKoxQLwf1D+SsG8mZYFrriBnq1waWztB1kIjZw+ySLsa9Pl+snbuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789897198; c=relaxed/simple;
-	bh=4AMZou3BZexPhp9w/h5VtlhpWqxxliNTreCtBnAhm7U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uNN/V1zBdjtAy454lL+eboCO23YkdFrzihZBJWgdngFgHRGhpVX/xHrdjpYS4ADlHULdEGySetK+1xvbQKGfj3liLn7cOWFdbYgA9Ta3AZGrgxMciqBgq71RNV1wcjwJyhlEld0WvHNjBnEdMoV7NzL0AZ5QUL4VZ0BeotGrjSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f8KL7atj; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789897455; c=relaxed/simple;
+	bh=VaCHIbqayKHpuRvZbdiid0ApzeVrHRM1euobbTzlPRc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LzeM64xDbDwXADnL+ClCgDs+aNxqyVXhMqzGuQcJYK99DUjDB8AlFiuh/icn2DdDKquIMCDsTdj2JiBJlAwEQeVwvxvwFrhouGkCdhF5uCAgFtsvbcftluF+fXqiP+oRggbxv+EX67/6/vjGpv4cvmZj3HBZ3Ewho68eUYbXbvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=peMEUP+Y; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f8KL7atj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C26B81F0089E
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Sep 2026 09:39:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789897195;
-	bh=4AMZou3BZexPhp9w/h5VtlhpWqxxliNTreCtBnAhm7U=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=f8KL7atjNwkScTIsSWnT74N9Nea2wXa3T0R6qm6PFRZGMBOYoBpx/NfQ+5+zKQRzG
-	 1hJ4/Oz0eEfGxs13wslAjjzeqPnxrWsVgzodJBY4R6+lKjnS/F6uZNuqUbjEc7kwrv
-	 AGJ7PJqIiT8Nn4xkYGPwQxsosMlZ3SgOkh12VNFr6xNJ7yan8VBS5C57ccqEzvb5sJ
-	 bTlbfF0djSJa+T+vUcxvOonapjr+c/uue5toXN2U0k/oPVreBXWZfUoxG2GCbop0hN
-	 qKhJuU7hH8CpDh9fCQi2+23blEe9ya4S1PXImMBJySUloqERntexW98lNRHDm0WU61
-	 1obNtU5/4VlxA==
-Received: by mail-lr2-f35.google.com with SMTP id 38308e7fff4ca-3a3156692c6so13651461fa.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 20 Sep 2026 02:39:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxriQq/Ps1FuWfauAHqtan+DP7zRsc7CMbLz4qf1r/DfId9TWdnRbDIug3Xc3PPevOH3trw8KYzt2Dvvg==@lists.linux.dev
-X-Gm-Message-State: AFuF++m8GTS7JfQNlB9uDWqlNefImZEGdrkmGvor2KUxHpOFg0pJc9TW
-	v1CBb6EII6NTSJdXP5NP1x7hhFVqxf1+J52Mlp08mlgZPLJG8qPcX/WTR8/TDN6eUle5ZUYFdyZ
-	DC5G59FjyG0BXQfDfjTYrtg5v9enol8s=
-X-Received: by 2002:a05:651c:2127:b0:3a3:74b7:fc08 with SMTP id
- 38308e7fff4ca-3a5fbfd4f36mr17073761fa.20.1789897194049; Sun, 20 Sep 2026
- 02:39:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="peMEUP+Y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1789897452;
+	bh=VaCHIbqayKHpuRvZbdiid0ApzeVrHRM1euobbTzlPRc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=peMEUP+Yy1BaYtTRZVdeYhHiwtL+emnJv+XSfsBsP0TW2HZHy3+OOhAonCgfrNZ6S
+	 BzizMfHPTWfyeI+HWchhwSCwHYtP3BWE8ZQ0gXX8OF6XatXDvwNE+RbWihJ3fJTl3a
+	 Q4Wk6lz2+tya3mYVne4ryXQSzpRjYYmWOzIyTwX6Bmjze5DwzXuBceSOJu7t6YcafJ
+	 eu/oHb/IqBziro+swTA9msKOM8PibldK5ml919xoioItvmhl8XFD1XGPBXsbLp3dd/
+	 WZca0ZjGKg1lzihFUT7mcbsuP/XtjoIF/h5A5Y1pzj5468Gt/MTI8LI1v7S3g0HuGF
+	 /T1UTs74TSTpw==
+Received: from [100.64.0.241] (unknown [100.64.0.241])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4598517E00C9;
+	Sun, 20 Sep 2026 11:44:09 +0200 (CEST)
+Message-ID: <9e21c5c3-f8e6-4343-b4cc-52c9e84316ef@collabora.com>
+Date: Sun, 20 Sep 2026 12:44:08 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260913145527.18148-1-iuncuim@gmail.com> <20260913145527.18148-2-iuncuim@gmail.com>
-In-Reply-To: <20260913145527.18148-2-iuncuim@gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 20 Sep 2026 17:39:40 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65v=2kC-9GrscGi=RXuARZYVNkmEkNhQZ5fFXnQsmL6BQ@mail.gmail.com>
-X-Gm-Features: AcwNN1Xk5hFqet9lFlmVe7uaLm2rV_go5OhWrqP8yaEGk0kqgWkXxxEJqM8dWAo
-Message-ID: <CAGb2v65v=2kC-9GrscGi=RXuARZYVNkmEkNhQZ5fFXnQsmL6BQ@mail.gmail.com>
-Subject: Re: [PATCH v6 1/5] dt-bindings: thermal: sun8i: Add A523 THS0/1 controllers
-To: Mikhail Kalashnikov <iuncuim@gmail.com>
-Cc: Vasily Khoruzhick <anarsoul@gmail.com>, Yangtao Li <tiny.windzz@gmail.com>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, linux-pm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Philipp Zabel <p.zabel@pengutronix.de>, 
-	=?UTF-8?Q?Juan_Manuel_L=C3=B3pez_Carrillo?= <juanmanuellopezcarrillo@gmail.com>, 
-	Andre Przywara <andre.przywara@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 00/74] Add HDMI 2.0 support to DW HDMI QP TX
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, Sandy Huang
+ <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Algea Cao <algea.cao@rock-chips.com>,
+ Daniel Stone <daniels@collabora.com>, Liu Ying <victor.liu@nxp.com>,
+ Phong LE <ple@baylibre.com>, Helge Deller <deller@gmx.de>,
+ kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ linux-fbdev@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Sashiko <sashiko-bot@kernel.org>, Diederik de Haas
+ <diederik@cknow-tech.com>, Maud Spierings <maud_spierings@hotmail.com>
+References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
+ <ap_ZyC-XaHTUNyQ5@houat>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <ap_ZyC-XaHTUNyQ5@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Sep 13, 2026 at 10:56=E2=80=AFPM Mikhail Kalashnikov <iuncuim@gmail=
-.com> wrote:
->
-> From: Mikhail Kalashnikov <iuncuim@gmail.com>
->
-> Add dt-bindings description of the thermal sensors in the A523 processor.
->
-> The calibration data for both thermal controllers (THS0, THS1) is split
-> across two nvmem cells at different offsets, requiring the two cells
-> to be read and merged. To maintain backward compatibility, the name of
-> the old cell remains "calibration" and the new cell is named
-> "calibration-second-part".
->
-> Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
+Hi Maxime,
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+On 9/8/26 12:48 PM, Maxime Ripard wrote:
+> Hi,
+> 
+> On Tue, Sep 01, 2026 at 09:50:24PM +0300, Cristian Ciocaltea wrote:
+>> Enable HDMI 2.0 display modes (e.g. 4K@60Hz) on the Synopsys DW HDMI QP
+>> TX controller, as found in Rockchip RK3576 & RK3588 SoCs, by adding SCDC
+>> management for high TMDS clock ratio and scrambling.  Since SCDC state
+>> is lost on sink disconnects, the bridge driver needs to trigger a CRTC
+>> reset during connector detection.
+>>
+>> To support this at the DRM infrastructure level, the series first
+>> introduces the HDMI version enum, then prepares for changing the
+>> signature of drmm_connector_hdmi_init(), i.e. dropping the vendor,
+>> product, supported_formats and max_bpc arguments, which are being moved
+>> into struct drm_connector_hdmi_funcs, by temporarily renaming the helper
+>> to drmm_connector_hdmi_ini2().  This lets the new signature be
+>> introduced under the original name while callers are converted
+>> incrementally.  Note the transitional name matches the original's length
+>> so continuation-line arguments stay aligned to the opening parenthesis,
+>> keeping the diff to the identifier itself and avoiding re-alignment
+>> churn.
+>>
+>> Appending more HDMI-specific arguments to the init function would not
+>> scale well, hence the hdmi_funcs struct is extended with new fields:
+>> supported_hdmi_ver, supported_tmds_char_rate.  These are used to
+>> infer and/or limit the maximum TMDS character rate permitted for the
+>> connector.
+>>
+>> Patches 6-11 build the connector and bridge scrambling infrastructure on
+>> top: the connector scrambler callbacks/flags, the scdc-helper
+>> additions (connector-prefixed debug macro and SCDC version helper), and
+>> the HDMI scrambling management helpers including SCDC source-version
+>> advertisement.
+>>
+>> Patches 12-25 wires this up through the hdmi-state-helper and bridge
+>> connector layers: source TMDS rate validation, hotplug SCDC state sync
+>> and the scrambling requirement, new source-side scrambling bridge ops,
+>> the switch to a cached-status, atomic-aware .detect_ctx() connector
+>> helper, and finally hooking up the HDMI 2.0 scrambler callbacks.
+>>
+>> The SCDC scrambling feature itself is implemented in the DW HDMI QP
+>> bridge driver, alongside i2c error-message rate limiting,
+>> .enable_hpd()/.disable_hpd() PHY ops and a dw_hdmi_qp_hpd_notify()
+>> helper (patches 26-30).
+>>
+>> Patches 31-41 cover the Rockchip platform driver and HPD handling: bug
+>> fixes, minor cleanups, avoiding spurious HDP IRQ wakeups, masking the
+>> RK3576 HPD IRQ in io_init, implementing the .{enable|disable}_hpd() PHY
+>> ops, switching HPD reports to dw_hdmi_qp_hpd_notify() to restrict events
+>> to the affected connector, dropping the now-unused .setup_hpd() PHY op.
+>>
+>> Patches 42-48 convert VC4 HDMI to the common infrastructure as a proof
+>> of reuse: adopting the shared TMDS char rate constants, switching to
+>> drm_hdmi_mode_needs_scrambling() and force_ctx(), proper -EDEADLK
+>> handling, and replacing the driver-local scrambling implementation with
+>> the common SCDC scrambling helpers.
+>>
+>> Patches 50-57 advertise supported version for all HDMI
+>> connectors/bridges, except the MediaTek HDMI driver (for now), as it
+>> requires non-trivial changes: there's a core library shared between two
+>> drivers, one being HDMI 2.0 compliant.
+>>
+>> Patches 58-67 add KUnit tests: HDMI caps-based init coverage and
+>> source-side scrambler validation for the connector, conversion of
+>> hdmi_state_helper to the new drmm_connector_hdmi_init() with
+>> max_tmds_char_rate validation, a new 4K@60Hz 600MHz TMDS EDID,
+>> source-side scrambling decision coverage, and conformity fixes for the
+>> existing 1080p+4K YUV420 200MHz and 4K RGB/YUV 340MHz test EDID blobs.
+>>
+>> Patches 68-71 remove the now unused drmm_connector_hdmi_ini2() helper
+>> and redundant hdmi fields from connector structs: vendor, product,
+>> supported_formats and max_bpc.
+>>
+>> Eventually patches 72-74 consolidate SPD InfoFrame handling of
+>> vendor/product.
+>>
+>> This has been tested on the following boards:
+>>
+>> * Radxa ROCK 5B (RK3588)
+>> * Radxa ROCK 4D (RK3576)
+>> * Raspberry Pi 5 Model B Rev 1.1 (BCM2712 D0)
+> 
+> This series is getting a bit insane. You have preliminary patches that
+> have been reviewed/acked already, you should merge them, and possibly
+> split the rest into preliminary series.
+
+Thanks for the additional reviews, and sorry for my late reply - I've been on
+leave and traveling.  I've merged the preliminary patches and will handle the
+split upon my return, in about a week.
+
+I plan to send separate series for vc4, dw-hdmi-qp, the rest of the bridge
+drivers, kunit & final cleanup.
+
+Regards,
+Cristian
