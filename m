@@ -1,170 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E614D3932C8
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Sep 2026 10:05:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415B32C3266;
+	Sun, 20 Sep 2026 13:11:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789898710; cv=none; b=dQYT/BTOBM7YO4GFwMsjDkT0DdUa4XzitthGfPxaA5eA0WKxWNQ0sI60pjgE5RoPk2b5mGEcjxjmuCpYkUpr4Rj4sZSvqad1XkEKfJpmZDeaOODyrE+vVZLl5lMX8YeDyb1HXpQ2KRBU7brx2HtuvUikPlFOtbYj/EVM5gRanxs=
+	t=1789909869; cv=none; b=atBCtFYzunPsSm9Atwv75Uk85m23eUU1IFykfV1oGy6QjsfJIheaR9kcQM63LTAvtv9ZfsAP756mU2ZVbB41ClOHH59QYDYUUVNsSBQ0JqCmW2LIIBqjMjH/CyeeSORcbk+0xzUyhf/cSXyK64CLFcqA/g3sS+RRtyp1g7Z2G0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789898710; c=relaxed/simple;
-	bh=PVtQgVmSpyfIu95EBVnFKjv5QM6juuMMqQmwaZS/fQA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DPSDHtd5Tt6KG3w3Btol5QytQNYRSq99vIlYjHILKtlNyDbL762Sx+he7tq0gg/LObCOG6wQxKGBgJPSIj/xM/j74SYZJCfrFl4mrpXIndnln95Aye+lZJrPataEjK7UFZ0XLgCMXp3OX1YIx2bx/s43b+3Ce5sNxFKfiOaB2z8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oWBIbzhX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789909869; c=relaxed/simple;
+	bh=8tfiM5O25zOC9ACo2fvqP4xGI12i4KR2pbzdmyHZZZE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rFb7p6BcNpfoN4R+IH4kHRC4NoTJtqDjfp6PKVCrYmZ99yeIRjhQm937Gip5nw5k6IHO6ch0FJ7IugprMm/zZKXLDSi2j3Toto51mmdPA/nCsxdlDYTLq/CCetUqMi/Y9Swp/2H55mbDrfhWAIiDHw2pQzmPvboj/gxvFmCnSA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HpyjStnG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oWBIbzhX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADB651F00899
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Sep 2026 10:05:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HpyjStnG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0F291F000FF;
+	Sun, 20 Sep 2026 13:10:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789898708;
-	bh=M7NZhpxBrkp8Vzpt1FhZ1vqtn7lpguc1OW9Ue/8E4VI=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=oWBIbzhXtymHbRL5PwQwT5FWNGGs8IXtkiIcpk1knJHMO7/gLmI+30eOv9l6E/7qf
-	 TlqXlfjla12uhy9qrykUEChWGrzFpoRUWk8a56MaRpkbWPxEQbG1OLyXY/+RtyA+wv
-	 isL/TnU8KzIvhqoVhbzm9IhsX70HHAKZGiuP5MbYzi1sQ2O1IxoKQQ6k81DGKqmU6A
-	 GLVVelQMEGqMoPqi5rSIXo/p8xG2XdIxGxPRAiPKd0wmn76j4Ob6iSPHmROvoxrgwH
-	 0P82uuTppu5lGfbv/RnphdCmRlAsd4y0516++K96bD52FwCmLaaQuX9RFjqfnOSfl0
-	 gVfg6u7FfeDjQ==
-Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a30521edd8so7374391fa.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 20 Sep 2026 03:05:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBy1sNaVkHmTMK3Z8W86BnqztcSbUlPmX08nZjXak5wbCaPsMfSVIytmcaXosj+o92L1m5o7wIk7uR4zLQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++lqFf30Q1HSr5gxtgcpZPPxaUbLsGewC+02O9xl3we0z5iIiYpt
-	oeqayyJ/uVO82Ilc1tKTvav/V1WvoXbmkUwcuoiFGzJGuR9iCeUXtBOg5sbVIvTtmjgqY7P61MU
-	aHCVsH5vWisIDS/1ZDrXTtHovL5nuABM=
-X-Received: by 2002:a2e:b8c1:0:b0:3a6:d50:e26e with SMTP id
- 38308e7fff4ca-3a60d50e441mr6927511fa.2.1789898707044; Sun, 20 Sep 2026
- 03:05:07 -0700 (PDT)
+	s=k20260515; t=1789909860;
+	bh=LUDogPMnO5gd8m+eOAv3zOZ6aMNmaUmruEjfMI8K9xw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=HpyjStnGnM+28Gn5roNAEMWm2qb7cCu6HJKcPr/ltuC/G5fp+iOZwjJcCHWm7pkrW
+	 k5Ma5hOPSjHpDjs5lpn83NPg2RVE6SwH+cZ/FR6SId83SlDVFM7iBD3PU5AV8t7g5c
+	 dKg9jEhpi2WB/Iv6LfqDHekEMJhLtP6LVXdY80qFGXg+StGUWS7cRBRqzpsRcu4PNc
+	 U6348FY5l4rtDY9Fli+tv8vv2whl3NtmHGA2/B8YkoG0N+ylfibF0lrsOEFa/kXPB6
+	 N3C/6/sX+mlwaA18XenYiaFIvbhqcpPBUvSFO0CmsjSwcWq6UNy4pBW27TTypTPZXf
+	 pdNhJA9LpGKWA==
+Message-ID: <169e079d-8b29-4450-96ea-a95388f44bdd@kernel.org>
+Date: Sun, 20 Sep 2026 15:10:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260910-axp318-regulator-v8-0-e906a61a7f3d@baylibre.com>
-In-Reply-To: <20260910-axp318-regulator-v8-0-e906a61a7f3d@baylibre.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 20 Sep 2026 18:04:53 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64zjCan5Up=bxJ_JfCcj2y=2=jNnM8buKQN2ULEA-82cA@mail.gmail.com>
-X-Gm-Features: AcwNN1X5_0H5ONYiyVVLAE5WEX7_3CXfPb5UokMjxFhKsOHjiWGm7bWqapkRcO8
-Message-ID: <CAGb2v64zjCan5Up=bxJ_JfCcj2y=2=jNnM8buKQN2ULEA-82cA@mail.gmail.com>
-Subject: Re: [PATCH v8 0/5] regulator: Add X-Powers AXP318W PMIC support
-To: Lee Jones <lee@kernel.org>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, Andre Przywara <andre.przywara@arm.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Hans de Goede <hansg@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	mfd@lists.linux.dev, linux-sunxi@lists.linux.dev, 
-	Sashiko <sashiko-bot@kernel.org>, Conor Dooley <conor.dooley@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: arm: sunxi: Add SPC Glee 10.1 A64
+To: jcarlosgl96@proton.me, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260911-b4-spc-glee-a64-v1-v2-0-ed0b7ff02e0b@proton.me>
+ <20260911-b4-spc-glee-a64-v1-v2-1-ed0b7ff02e0b@proton.me>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGPBBMBCgA5AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJp2mE8AAoJEBuTQ307QWKbeaIP
+ /ihHTkTW4KsN/DQ945JJbyu5tI0J80Wue7QyyLPglyKfhgb5cLLNPpOC8cCIJsc7+W3i2P38
+ s2c1cOH6CYGE7E9ur3Vfme8NW2S2I/Z8VC7bZnzyS23wT17LrsdS/qCpx4o8U+pt/xdXDKph
+ EGRYrIEmMpUWvyYzyYKGIe25FtaayIIKpq8eZYyFcp2f/sG5IkOW5uZzHPMPdcm87jU7fyuQ
+ rAU2vx9r+ulUfQ/q9Z2roC/ode3l7t2pN7BCBCsUDp6JCrUyZrtT1e7EbA0ZRP3aOBNk2P2E
+ DQOgJGjGdO5Yx2Y9LFtltu6JbsBJHi1syGRX3AtQYOMc4Y1WGoeZJmMlvKj2ZqqXNkcWi2DS
+ IQEWB0uW6CqFsBBIMGDa+6OzdaVO/uAVXWDWml02Men3CILdI1MbVjoh8ECqYUY7OQ+JJvNN
+ vnliuq5WM3Ghd3jg/LZZrxXjdIginRHFQCjIJYLKpLZWm1/iDFedcfzqRNYmTtqscdCNHW41
+ oT3Z7BmO9xwdjuwBS6nmS6JJwkbf5Ot2QR4pB/DRU7ZwjT1qHe+9r9gF32wXVQatHNGK/VVu
+ sfwOnkdxCWkp/qb2gdQRmZh+SedStWshigH6sNfuHBloF/q+hjMRc8b2m326OZdrbSHwY1Sz
+ vti8Hn7n8NjdHO9LKB7BIdjkA9DA5WsqOuVCzsFNBFVDXDQBEADNkrQYSREUL4D3Gws46JEo
+ Z9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLueMNsWLJBv
+ BaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6eiOMheesVS
+ 5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wAGldWsRxb
+ f3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA6z6lBZn0
+ WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9YegxWKvX
+ XHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt91pFzBSO
+ IpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gUBLHFTg2h
+ YnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/JoFzZ4B0
+ p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu4vXVFBYI
+ GmpyNPYzRm0QPwARAQABwsF2BBgBCgAgAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmna
+ YUkACgkQG5NDfTtBYptX+BAApg32CkxwNucNEi8WfWA8oKkW0y8YDuY6ORMo9FWNGiT/OTy0
+ vyJrLocrpn86zwfjVp+eCrssPYh8eqJfnWqmYv6ACQtHPYzPZQ3mSo8H97Z01oUxITzCxpXm
+ ZkLgPIqtDPcC2E3dPM/fVxcyowM8XsaMA9wcsaUYrta8toOq2b9tKcjleKMfMrm0gQ9u7wUc
+ QbLkwj6TCLOwucb07GXzLTNF9PZmaDUpKAZjMjmrW+le+SFvQbhamx0rxLWPR0NWntXpbCn+
+ +ACch03p/JyTBVktxFsFyCt7pTPE1kEaeuXBTe/a2D9iQvRxRW19LvuO2e59/u1wYUiH/orz
+ wbIC2S4dBsPAPihL3ztOU1yE86GPyQtSE0kU+/7snnLt4QGi6PChf3t5gnNjAzjUUovO8rgI
+ c+5yN5heq5loYHgK6OQ9OlHzsPHO9e9MOQcKlFycs1pyijFGzDwdNUm/SchK8iWT2QApTx4A
+ K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
+ n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
+ qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
+In-Reply-To: <20260911-b4-spc-glee-a64-v1-v2-1-ed0b7ff02e0b@proton.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Lee,
-
-On Thu, Sep 10, 2026 at 6:44=E2=80=AFPM Jerome Brunet <jbrunet@baylibre.com=
-> wrote:
->
-> This patch series adds support for the X-Powers AXP318W PMIC, which is
-> used recently on new boards with Allwinner SoCs (the A733).
->
-> The PMIC features 9 DCDC buck converters and 28 LDOs, plus the usual ADC,
-> interrupts, and power key components.
-> A datasheet can be found linked in this Wiki table:
-> https://linux-sunxi.org/AXP_PMICs
->
-> There was an unclosed topic regarding the handling of LDOs output
-> voltage being limited to input voltage being provided by the supply.
-> Chen-Yu noted the min_dropout_uV would be a good fit for that but
-> the actual minimal dropout value was unknown. I've arbitrarily picked
-> 1uV because it is the minimum the framework supports. Realistically a low
-> dropout regulator is bound to have some dropout. This choice does the
-> trick for now and is certain be less restrictive than what it is in
-> reality.
->
-> If anyone has problems because the dropout is actually higher
-> * it is arguably an HW design error
-> * it is a good time to let us know what the actual dropout is
->
-> Changes in v8:
-> - Fix interrupt optional in the binding (mis-understanding on my end)
->   Resent quickly to avoid wasting time on v7 over this
-> - Link to v7: https://patch.msgid.link/20260910-axp318-regulator-v7-0-de7=
-20ceb9bac@baylibre.com
->
-> Changes in v7:
-> - Rebased on v7.3-rc1.
-> - Applied Chen-Yu change requests.
->   - More complete register definition all in the MFD change.
->   - Add writeable region holes.
->   - Fix invertion between short and long press IRQ.
->   - Drop confusing comment about DVM.
->   - Use MFD_CELL_NAME() for the regulator device.
-> - Link to v6: https://patch.msgid.link/20260812-axp318-regulator-v6-0-d6b=
-84b55c000@baylibre.com
->
-> Changes in v6:
-> - Apply wording suggestions from Chen-Yu
-> - Link to v5: https://patch.msgid.link/20260720-axp318-regulator-v5-0-a1a=
-fa7ee24f9@baylibre.com
->
-> Changes in v5:
-> - Fix shutdown register offset
-> - Re-order patches to put fixes first
-> - Tighten DT regexp around swout
-> - Other points raised by Sashiko on v4 are unrelated to the addition
->   of the AXP318 support and pre-exist the series. They are not
->   addressed ATM.
-> - Link to v4: https://patch.msgid.link/20260717-axp318-regulator-v4-0-50a=
-ff97084dd@baylibre.com
->
-> Changes in v4:
-> - Capitalize patch 3 title
-> - regulator: add support for workmode and poly-phase.
-> - i2c: fix probe through i2c sysfs
-> - Link to v3: https://patch.msgid.link/20260717-axp318-regulator-v3-0-779=
-dc1b97dd4@baylibre.com
->
-> Changes in v3:
-> - Correct mess up v2 errors regarding ops and ids.
-> - Correctly propagate errors when checking axp318 threshold.
-> - Fix DT binding regex regarding dcdc max ids
-> - Add missing RTCLDO.
-> - Remove axp318 PEK MFD cell:
->   As pointed out by sashiko, the driver name did not match anything in th=
-e
->   pek driver. While the device does support some handling of the power
->   button, it does not seem to match the existing driver. Register 0x36
->   relates to DLDO3, not the power key, as expected by the misc driver.
->   Leave this out for now.
-> - Constify axp313 and axp717 mfd_cells array for consistency.
-> - Link to v2: https://patch.msgid.link/20260710-axp318-regulator-v2-0-ee5=
-f1c56b49f@baylibre.com
->
-> Changes in v2:
-> - Dropped _NUM_VOLTAGES macros
-> - Use min_dropout_uV to limit LDO voltage to supplies
-> - Add bypass mode for EDLO4/5
-> - Prevent crossing 1.54V threshold for DCDC6/7/8/9
-> - Link to v1: https://lore.kernel.org/r/20251021112013.2710903-1-andre.pr=
-zywara@arm.com
->
+On 11/09/2026 15:48, Juan Carlos Gutiérrez Lavado via B4 Relay wrote:
+> From: Juan Carlos Gutiérrez Lavado <jcarlosgl96@proton.me>
+> 
+> Add the Smart Products Connection vendor prefix and the board
+> compatible for the SPC Glee 10.1 tablet based on the Allwinner A64.
+> 
+> Signed-off-by: Juan Carlos Gutiérrez Lavado <jcarlosgl96@proton.me>
 > ---
-> Andre Przywara (3):
->       dt-bindings: mfd: x-powers,axp152: Document AXP318W
->       mfd: axp20x: Add support for AXP318W PMIC
->       regulator: axp20x: add support for the AXP318W
->
-> Jerome Brunet (2):
->       mfd: axp20x: Constify axp313 and axp717 cells
->       mfd: axp20x-i2c: Fix i2c instantiation
 
-I think this series is ready to be merged. Mark gave his reviewed-by for
-the regulator patch, which IIRC he said acks the patch to go through
-another tree.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-So please merge the whole series through the mfd tree.
-
-
-Thanks
-ChenYu
+Best regards,
+Krzysztof
