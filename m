@@ -1,170 +1,144 @@
-Received: from mail-oa2-f12.google.com (mail-oa2-f12.google.com [74.125.231.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5037B471429
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Sep 2026 19:45:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952263AD506
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 07:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789933552; cv=none; b=pyFQIADYrTJHZSWoYQqYTS/3ZvaZOkmnskYFjsLahrnQ21i7ZIhNX0FGoHOV+CwrybMn+PVnR6Tm6h1wUObiIkkdqx/GLcNi8688m/ytp4/KIEiXry7FkBfEb78Buh5219ph5RmePN6NFEZhwJf9Q3+no+mdcegfGHaB19naBRc=
+	t=1789974364; cv=none; b=k5Tz1oCViVBsWY1P/il3ZkVGxU5ht2eEceBNyfgDfoerSy1h9JKzuDJbDBLiD7fp5V23dXqzz936OLWSqeeoZqS0fBmlrPWCWfxHNLfwpo47Mu6W28drBSbI2UIXPI717vHSaMD6vf57/T+VLRlRLHzCZCLT7xPHwVmBpRIShj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789933552; c=relaxed/simple;
-	bh=e9hk5Tsdquyr+5avHPEA7bcfLf2nOdnHsiLzbvu4On4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=D1AxpbyfLvLR6ZgetGOHZ8ptubasoZedaN2HhXWrqXHSWlu5JwxjRO8+u/+Nn8nkhdbuLSv+53TneMRfYC5Q+akvci1c1yZY12ge4OQf9mr4E2JrgqwCZX3/gZKV5ackw/JzWxg5i+yy7R6lrEpAaGMEh7N2GEns+4vY7f4DitE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cup1QG+q; arc=none smtp.client-ip=74.125.231.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789974364; c=relaxed/simple;
+	bh=EBJQpWLY6zS3lPstVd9MZs+Q/9KBP95hHmwtpJd2xBA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=YN7/wSLVNrL2u74KktsE+eUkHlo2q6lTzCWhDaPwK2TBar2fDkU983+E5HFSziQS9N6aZZi6PqjUVvdgjNG6yI90CAQ6fPFdEbWSssNblWh7vUQcKaq8fO1Xvp2x2OMjTtz/fefnv05AmwHW6pombA4mJxtbmY7ldgCeOvs3jsc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=oIGWPfNv; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cup1QG+q"
-Received: by mail-oa2-f12.google.com with SMTP id 586e51a60fabf-466cc9ab667so2834487fac.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 20 Sep 2026 12:45:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789933550; x=1790538350; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gFndLx5Yqc+lsDlrSDVoBXxkYOfQ85XX/QivbJQF5Mw=;
-        b=Cup1QG+qSIlc2g7lM/c+34YD+R68samVXDfaPmu1fufKogLE2r/+3JKozI7a0Kjzf3
-         tWx3jTt29VYcxhIyiyDDsuc1TeyRJYE9nXuHwriveHnoS52ZVWghJlK2Yx3MhlAQQ+Ue
-         PVUFqXgtNnTS8pIsHrZiLwYYjCmKKVprdKrkzIH3f/i/1ko7VPWn2MoBnnGjZu8YM6C7
-         KJ5KA3hRIKZLY8kkqQIc16iaNT8NOepL08wgSdFo3HpfCoDBIjSP29ANcfZUWpHeNPC8
-         P0M3TLn2Thvgc31axwunN07gra2VjE2+w9JCPWqhrVrQIAXSdpzY+0x4R9MlP2lXN+IR
-         B8QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789933550; x=1790538350;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gFndLx5Yqc+lsDlrSDVoBXxkYOfQ85XX/QivbJQF5Mw=;
-        b=Rhkr+YmSbvzQrlqs47A2uQoDvtsDSI/Do9zm3JQFOBz8VM+Mqw1wSzpbEcvqAtZEml
-         UsPE90F2N4TjRRRIKvyGWloDJRx5lXE2HJO7BgdbixhMBSL9i2FT3BxR/zAUUu8u4f4o
-         MwuOlb7oBdwonPyc7sUBUxuT8UTYUJgsjkVdirR4bVXkd+EEdyCjgwxJBabMnP/n9Mt9
-         yJCd/3/6e/vzo0qLsbFrN6Im47DJi1X5D0k8VMw1OrCQTdTuX7ZI33RZ2ijCY9dqt1UA
-         Qystp1xes2agdJwmA+rGMJFi+qsBrnfqeNPOkmWQ6HFSthJ2a5p7UPcnOgh9eHVnVy8K
-         Hrgg==
-X-Forwarded-Encrypted: i=1; AKwUvBw5t9zMMqiyWPDTkUhoP+Tx1Os4uE3e7Kc2IDscCNO5QSG/uqA4+tfjpNEGcW/U1dhxkU2jqrlhhdF+SQ==@lists.linux.dev
-X-Gm-Message-State: AFuF++mg5J9Jri0jOKFzQviqvu2jrZBqP3UvCK6s0U/ThYyYhpABjAOS
-	vz15xVup5ymLZxIymQerWsyRFH9p1gnSwrV5lc5beaaXHpEzQ8lu9YL1
-X-Gm-Gg: AYBFou1EPYpcjfZW6W7riJI7i0je0HGZUlPAfyAEiFVG+M9og2NZyQ4ib0InZmTbBAD
-	NRdWqGp2DCGAaFC05KfnDqF4gFMgd9RfPJhYDq+5cOq/Yg4pwGdBMIRI89eGqpjQX0Na2rpsNxO
-	Jp6bXR+QUj+e0cLCq3ke3Skp7bAJGzSAIsq8X4QypeZvBErv70Yi4+L5tc82zMkAlBDQxNYuM4w
-	E+8uGh/H9rDnZ6MK5xCIB+ZwNksqN/kdZ8z7jtefGkSIIcwCeOHA9HjQQUGTUKi/M/gFQUwFzh0
-	B9AeJeAM0ZVtOZqrGNqwGDOjhZflVoy3aQa2r7eUS0+CoANlZTpxUbEIg0Bk28SdOWYb9j/CL31
-	kVg+IuefViUSrinE4UqYIErJi/qNZYEqHiluf2/63hzxGX589Z50aLO0aM5tYCPhyz9gpf+vn3L
-	Ryuzi8p2wcg+VPB3C4it7ntfK5Ax/v1EEds9M3eew7/fRR9O6JWm5i26fj6Xw41sDNhLdTHApEI
-	/fZsF9gOsffF++g64ibq9JUiERruy3Es7+Gby0uXteanfZsK1GjZ8W08pyo8gq8+Egix2PEExp4
-	TM0+QYFkhqqRmQznHmgTbvVGnzgCiVVqbE/kJsaDViRwg8oClaQKa69ltuCtUfG79WFZzh6xzY6
-	MBAvmlvMK7TyGiP6+vjSY
-X-Received: by 2002:a05:6820:16a6:b0:6bd:af9e:a7f8 with SMTP id 006d021491bc7-6ca9a130336mr7595370eaf.10.1789933550220;
-        Sun, 20 Sep 2026 12:45:50 -0700 (PDT)
-Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4881f4d7861sm6103834fac.1.2026.09.20.12.45.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Sep 2026 12:45:49 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sun, 20 Sep 2026 13:45:32 -0600
-Subject: [PATCH net-next v4 6/6] net: stmmac: sun8i: add support for
- Allwinner H616 EMAC1
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="oIGWPfNv"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id EFDF41A0E34;
+	Mon, 21 Sep 2026 07:06:00 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BC2FD60339;
+	Mon, 21 Sep 2026 07:06:00 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 79EEC10328ED0;
+	Mon, 21 Sep 2026 09:05:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1789974357; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=lc3Q5bHjC9Y5EjOyv/5Amr9ZepClgh/msjX52TvdD9I=;
+	b=oIGWPfNvDSRbuhkeQtz7bxBJxWZYBW2cPZXT+UaEDez5iBFH2fF/5qtRmniX5pWZGz8E3K
+	q74f2AJxyvO54Nw2fgwxH0oY7iv3GFATtVa9GXDdxGNpeQhgcdnuS6q/aZMlIuCUtu+/sb
+	4iQ+/XyCd2B1VnpR+ZPSGkDM+9JVT+5mDsBCyziy25sxPBu9ZcbPg0GoNguKP1G05ucFLL
+	BMFC/U3CxdZw/9Kl6afCteUQDoNtTYjQ7SnsgvWqFB0O14Y0n8Bh2fmJ6XlJf9nitdwE1Z
+	dm61Uq7NAkZqZJzwTtkc5Gro/DbLRu4zBMjgv+5b5LNTZXEZV46O9KlQTh9fTg==
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260920-submit-h616-emac1-v1-v4-6-8347dfe2eb7d@gmail.com>
-References: <20260920-submit-h616-emac1-v1-v4-0-8347dfe2eb7d@gmail.com>
-In-Reply-To: <20260920-submit-h616-emac1-v1-v4-0-8347dfe2eb7d@gmail.com>
-To: Richard Genoud <richard.genoud@bootlin.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
- Jose Abreu <joabreu@synopsys.com>, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Russell King <linux@armlinux.org.uk>, 
- Christian Marangi <ansuelsmth@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
- Heiner Kallweit <hkallweit1@gmail.com>, 
- Tiezhu Yang <yangtiezhu@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>, 
- Alastair D'Silva <alastair@d-silva.org>, netdev@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, 
- James Hilliard <james.hilliard1@gmail.com>, 
- Andre Przywara <andre.przywara@arm.com>
-X-Mailer: b4 0.15.2
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 21 Sep 2026 09:05:40 +0200
+Message-Id: <DLKSY3W6CGW1.3C0J6DHKV8P2Z@bootlin.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v11 13/74] drm/bridge: Fix NULL deref in
+ drm_bridge_add() for legacy bridges
+Cc: "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Thomas
+ Zimmermann" <tzimmermann@suse.de>, "David Airlie" <airlied@gmail.com>,
+ "Simona Vetter" <simona@ffwll.ch>, "Dave Stevenson"
+ <dave.stevenson@raspberrypi.com>, "Dmitry Baryshkov" <lumag@kernel.org>,
+ "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Luca
+ Ceresoli" <luca.ceresoli@bootlin.com>, "Chen-Yu Tsai" <wens@kernel.org>,
+ "Samuel Holland" <samuel@sholland.org>, =?utf-8?q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, "Raspberry Pi Kernel Maintenance"
+ <kernel-list@raspberrypi.com>, "Raphael Gallais-Pou"
+ <rgallaispou@gmail.com>, "Sandy Huang" <hjc@rock-chips.com>,
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, "Andy Yan"
+ <andy.yan@rock-chips.com>, "Algea Cao" <algea.cao@rock-chips.com>, "Daniel
+ Stone" <daniels@collabora.com>, "Liu Ying" <victor.liu@nxp.com>, "Phong LE"
+ <ple@baylibre.com>, "Helge Deller" <deller@gmx.de>, <kernel@collabora.com>,
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+ <linux-rockchip@lists.infradead.org>, <linux-fbdev@vger.kernel.org>,
+ "Sashiko" <sashiko-bot@kernel.org>
+To: "Maxime Ripard" <mripard@kernel.org>, "Cristian Ciocaltea"
+ <cristian.ciocaltea@collabora.com>
+X-Mailer: aerc 0.22.0
+References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
+ <20260901-dw-hdmi-qp-scramb-v11-13-bc12954a0688@collabora.com>
+ <ap_Tr_Viqy29f515@houat>
+In-Reply-To: <ap_Tr_Viqy29f515@houat>
+X-Last-TLS-Session-Version: TLSv1.3
 
-The H616 secondary EMAC uses a separate system-control clock register
-and supports only RMII at 10/100 Mbps. It connects internally to the
-co-packaged AC200 or AC300 EPHY and has no external PHY pins.
+On Tue Sep 8, 2026 at 11:24 AM CEST, Maxime Ripard wrote:
+> On Tue, Sep 01, 2026 at 09:50:37PM +0300, Cristian Ciocaltea wrote:
+>> Legacy bridge drivers that embed struct drm_bridge in a zero-initialized
+>> allocation, rather than obtaining it from devm_drm_bridge_alloc(), never
+>> run INIT_LIST_HEAD() on bridge->list, leaving next and prev NULL.
+>> list_empty() compares next against &bridge->list, so it reports such a
+>> list head as non-empty.  list_del_init() therefore runs and dereferences
+>> the NULL pointers, panicking the kernel during probe.  Only builds with
+>> CONFIG_DEBUG_LIST survive, with a list corruption report.
+>>
+>> This affects rk3066_hdmi and the i.MX8 LDB bridges, which still embed a
+>> bridge in a devm_kzalloc()'d struct.
+>>
+>> Initialize the list head when it is found to be NULL, so that the bridge
+>> ends up with a valid empty list head and list_del_init() is only reached
+>> for bridges that can actually be linked.
+>>
+>> Fixes: 17805a15d175 ("drm/bridge: add list of removed refcounted bridges=
+")
+>> Reported-by: Sashiko <sashiko-bot@kernel.org>
+>> Closes: https://lore.kernel.org/all/20260731175016.C5D591F00AC4@smtp.ker=
+nel.org/
+>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>> ---
+>>  drivers/gpu/drm/drm_bridge.c | 9 ++++++++-
+>>  1 file changed, 8 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+>> index 2c457ad74f3b..a8b6df5c13ea 100644
+>> --- a/drivers/gpu/drm/drm_bridge.c
+>> +++ b/drivers/gpu/drm/drm_bridge.c
+>> @@ -453,9 +453,16 @@ void drm_bridge_add(struct drm_bridge *bridge)
+>>  	 * If the bridge was previously added and then removed, it is now
+>>  	 * in bridge_lingering_list. Remove it or bridge_lingering_list will b=
+e
+>>  	 * corrupted when adding this bridge to bridge_list below.
+>> +	 *
+>> +	 * Legacy drivers that allocate the bridge with kzalloc() rather than
+>> +	 * devm_drm_bridge_alloc() leave list.next NULL. Such a bridge cannot
+>> +	 * be on any list, and list_del_init() would dereference NULL, so
+>> +	 * initialize the list head first.
+>
+> "legacy" bridges are ambigous and was also used for non-atomic bridges.
+> That being said, it's now *required* that bridges use
+> devm_drm_bridge_alloc() instead of kzalloc, and we warn in
+> drm_bridge_add if it hasn't.
+>
+> So I don't think we should merge this patch.
 
-Add an EMAC1 variant using the dedicated register and enable only RMII.
-Leave PHY initialization to the PHY driver instead of using the H3
-internal-PHY controls. No RX or TX clock delays are configured for this
-RMII-only variant.
+I agree.
 
-Co-developed-by: Richard Genoud <richard.genoud@bootlin.com>
-Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
-Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Alastair D'Silva <alastair@d-silva.org>
-Tested-by: Alastair D'Silva <alastair@d-silva.org>
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
- drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+I theory all drivers are be already using devm_drm_bridge_alloc() by now.
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index 9598c386bb21..0ea1860cf203 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -81,6 +81,13 @@ static const struct reg_field sun8i_syscon_reg_field = {
- 	.msb = 31,
- };
- 
-+/* EMAC1 clock register @ 0x34 in the "system control" address range */
-+static const struct reg_field sun8i_syscon_reg_field_emac1 = {
-+	.reg = 0x34,
-+	.lsb = 0,
-+	.msb = 31,
-+};
-+
- /* EMAC clock register @ 0x164 in the CCU address range */
- static const struct reg_field sun8i_ccu_reg_field = {
- 	.reg = 0x164,
-@@ -143,6 +150,13 @@ static const struct emac_variant emac_variant_h6 = {
- 	.tx_delay_max = 7,
- };
- 
-+static const struct emac_variant emac_variant_h616_emac1 = {
-+	.syscon_field = &sun8i_syscon_reg_field_emac1,
-+	/* The co-packaged AC200/AC300 PHY does not use the H3 PHY controls. */
-+	.soc_has_internal_phy = false,
-+	.support_rmii = true,
-+};
-+
- #define EMAC_BASIC_CTL0 0x00
- #define EMAC_BASIC_CTL1 0x04
- #define EMAC_INT_STA    0x08
-@@ -1277,6 +1291,8 @@ static const struct of_device_id sun8i_dwmac_match[] = {
- 		.data = &emac_variant_a64 },
- 	{ .compatible = "allwinner,sun50i-h6-emac",
- 		.data = &emac_variant_h6 },
-+	{ .compatible = "allwinner,sun50i-h616-emac1",
-+		.data = &emac_variant_h616_emac1 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, sun8i_dwmac_match);
+In practice rk3066_hdmi is actually still using kzalloc, it should be fixed
+to use devm_drm_bridge_alloc(). Are you OK with doing it in v12?
 
--- 
-2.53.0
+By "i.MX8 LDB" I guess you mean fsl-ldb.c, which was converted in
+9c399719cfb9 ("drm: convert many bridge drivers from devm_kzalloc() to
+devm_drm_bridge_alloc() API").
 
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
