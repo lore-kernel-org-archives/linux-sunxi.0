@@ -1,104 +1,83 @@
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32C414B5CD0
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 16:52:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB5538889B
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 19:24:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790009527; cv=none; b=mNYnGSU6UG0gtMhuTGqsMxuppzjzlI4SCT56+CNC+JrGWpjCYwTrYr62YcWcWMi5N/CsZspuIf36Odj6JGqzWqRkPzUu/xfP2k6SMVbp/llPL1jK5TDuMQg+DSTyrcRaUfR3lVPvRaWn+MDJAav3+/XYwb2I08nKgFUaeg4Xc2Q=
+	t=1790018656; cv=none; b=cUky7K4jwBNZXeBg8ORhJ7B3osLvsL95eusb6vZIdpnBENOLSeMfpscIJ7cdN4DNwG+Hk+M0bo91Q+ymeLzM2wj7Z72Bq4TS5rqL1Za88XzFX+xlTUOk6oJXMVJMjZ4CXItdoVGmYMCJerKOyAskOHEk+mx6b9q7/5wtSIOXqj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790009527; c=relaxed/simple;
-	bh=8qpYRBQlVULXYBwXUjPqr/j/KUQsqav5QY98Ap0DELo=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=TmE5VGAmbE7OIj7E3Z93OTRNsHXSNYum7khKGl7FbM3Ro4WZ8whPob58aNbf1AMQZdwXP05PB7Z/wXoBULHsWgedMAofyRH4adlH+CXsEgyfa2xyYiNiurqK8m9Ygerq/jKGe41PvSzv2DZAcSYrxpXui4sjLUY4W5xbAbcF+Eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=DOj1Y41g; arc=none smtp.client-ip=185.246.84.56
+	s=arc-20240116; t=1790018656; c=relaxed/simple;
+	bh=7CQo//H0Q7Avz6tSf1FrW+CH7bCKd0ShU1A2uXjAJT0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ufz7UXPVk1eHjqDVRJsml5/fu0DgDkZOPXHQ90dSf62PMVMbcMYqIW09XWUZiZXMz7cXe0zLWPI+yy+6wKPE7JvW32V6NYRLrv/OQqPlgjyFxPNZqSSpvt/H1inJWkF1vBUeAnkHB5UwFM/WRZ5S+sen53mRkUWDj74LcixyXmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=EMFNeLNg; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DOj1Y41g"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="EMFNeLNg"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id BACB91A0D88;
-	Mon, 21 Sep 2026 16:52:03 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 406931A0F5C;
+	Mon, 21 Sep 2026 19:24:12 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8CF895FFB2;
-	Mon, 21 Sep 2026 16:52:03 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C859C1032913F;
-	Mon, 21 Sep 2026 18:51:49 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1243B5FFB2;
+	Mon, 21 Sep 2026 19:24:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1D8A6103291F5;
+	Mon, 21 Sep 2026 21:24:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1790009517; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=E8+TuwKUE2XBa2SuyOFw2XhfA4p/VrA5lusEOG2wO70=;
-	b=DOj1Y41gnblEuUbAcpP3/m5HMMS+8CCXjkY0nVms96dcQJVAg6eDcUo/6D1ViLtXTvg/t6
-	dHQ7g26/B+Pl8hrOF9+FnEzM5qlsuFK/Qpep/KPqvJrDNIsGzH497zB30KindqOD11tjQU
-	sVWzDA/oXW+BOeMjwphAXxrivYUOp7/mV0KOP+uqH+upCyq8Ed6J8v95Zu+EatW8JEmDya
-	EzYiR1FyK+9ONJTnTx+Ho5A5MA+ZZdNDlSTWwXpMDgv3vhSYT2XghlFtBaVDM5Du/0Vp9s
-	nKPzT/Qx4U8tvu2vyp1PkjsWu18hnjG7QKoc6NyrPox5y8/8QrUygXcs4LqaSw==
+	t=1790018647; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=e3BrU3adXd7hifuN5T966IaOlrTNSgLHaVwZw2bQJpQ=;
+	b=EMFNeLNg+y40EYrMNTDJwRB17KtfVR4P3kmJl1I3fegJ9k+JHWQJ5pJlGmzYTXy66ni0Fh
+	sSbuL1w77SOp5WCN57Sji5B/iYlyrxuD5m7IpXuzlIYOCPCv6u7ZCXwKi6udRRtpPj5igB
+	KfWEXB9PyfU5Uc4OSld4XgWSdnHPuhyJZ0AfRMZscR2rOigbO4/YmOIr8fjDSemZEWQh+H
+	UAmfFt85OFHoqUDPJLK+RMnbBXC02ZMS1IructHEMAzuNZDAE+55LTP/xZfJ3svkHrY4Be
+	V5aXISTVX4NWuHfqNryVxYy0qgH4e2DaIxD1ySkLcJ4cj+bHnh7l1qk0nja86A==
+Date: Mon, 21 Sep 2026 21:24:05 +0200
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Aamir Ahmed <elb12345@hotmail.co.uk>
+Cc: linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Chen-Yu Tsai <wens@kernel.org>, linux-sunxi@lists.linux.dev,
+	Kees Cook <kees@kernel.org>, linux-hardening@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] rtc: ac100: Assign .num before accessing .hws
+Message-ID: <179001863789.246818.15549615355312065254.b4-ty@b4>
+References: <AS8P251MB00013E724A77A355668B6CCEC8B42@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 21 Sep 2026 18:51:49 +0200
-Message-Id: <DLL5EWC41AQ4.ZVQI9FO4EEVN@bootlin.com>
-Cc: <kernel@collabora.com>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-sunxi@lists.linux.dev>, <linux-rockchip@lists.infradead.org>,
- <linux-fbdev@vger.kernel.org>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>, "Cristian Ciocaltea"
- <cristian.ciocaltea@collabora.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Dave Stevenson"
- <dave.stevenson@raspberrypi.com>, "Dmitry Baryshkov" <lumag@kernel.org>,
- "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Chen-Yu
- Tsai" <wens@kernel.org>, "Samuel Holland" <samuel@sholland.org>,
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, "Raspberry Pi Kernel
- Maintenance" <kernel-list@raspberrypi.com>, "Raphael Gallais-Pou"
- <rgallaispou@gmail.com>, "Sandy Huang" <hjc@rock-chips.com>,
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, "Andy Yan"
- <andy.yan@rock-chips.com>, "Algea Cao" <algea.cao@rock-chips.com>, "Daniel
- Stone" <daniels@collabora.com>, "Liu Ying" <victor.liu@nxp.com>, "Phong LE"
- <ple@baylibre.com>, "Helge Deller" <deller@gmx.de>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v11 14/74] drm/bridge: Fix unlocked list access in
- drm_bridge_attach()
-X-Mailer: aerc 0.22.0
-References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
- <20260901-dw-hdmi-qp-scramb-v11-14-bc12954a0688@collabora.com>
- <DLKTC338JONX.CQ6L7JYQ4UDD@bootlin.com>
-In-Reply-To: <DLKTC338JONX.CQ6L7JYQ4UDD@bootlin.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <AS8P251MB00013E724A77A355668B6CCEC8B42@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon Sep 21, 2026 at 9:23 AM CEST, Luca Ceresoli wrote:
-> On Tue Sep 1, 2026 at 8:50 PM CEST, Cristian Ciocaltea wrote:
->> drm_bridge_attach() inspects bridge->list to warn about bridges being
->> attached without a previous drm_bridge_add() call, but it does so
->> without holding bridge_lock.
->>
->> The list head can be concurrently written by drm_bridge_add(),
->> drm_bridge_remove() and __drm_bridge_free() while they operate on
->> neighbouring entries of bridge_list or bridge_lingering_list, all of
->> them under bridge_lock.  Hence the unlocked read is a data race, even
->> though it is unlikely to change the outcome of list_empty() in practice.
->>
->> Perform the check with bridge_lock held.
->>
->> Fixes: 76f1a9711b83 ("drm/bridge: add warning for bridges attached witho=
-ut being added")
->> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
->
-> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+On Sat, 05 Sep 2026 19:38:08 +0100, Aamir Ahmed wrote:
+> Commit f316cdff8d67 ("clk: Annotate struct clk_hw_onecell_data with
+> __counted_by") annotated the hws member of 'struct clk_hw_onecell_data'
+> with __counted_by, which informs the bounds sanitizer (UBSAN_BOUNDS)
+> about the number of elements in .hws[], so that it can warn when .hws[]
+> is accessed out of bounds. As noted in that change, the __counted_by
+> member must be initialized with the number of elements before the first
+> array access happens, otherwise there will be a warning from each access
+> prior to the initialization because the number of elements is zero.
+> This occurs in ac100_rtc_register_clks() due to .num being assigned only
+> after every clkout clock has been stored in .hws[]. With
+> CONFIG_UBSAN_BOUNDS and a compiler that implements __counted_by (GCC
+> 15.1+ or Clang 20.1+), this triggers an array-index-out-of-bounds report
+> during probe, and with CONFIG_UBSAN_TRAP the first store traps.
+> 
+> [...]
 
-And tested with bridge hotplug:
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Applied, thanks!
 
---
-Luca Ceresoli, Bootlin
+[1/1] rtc: ac100: Assign .num before accessing .hws
+      https://git.kernel.org/abelloni/c/6a4117eee82d
+
+Best regards,
+
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
 Embedded Linux and Kernel engineering
 https://bootlin.com
