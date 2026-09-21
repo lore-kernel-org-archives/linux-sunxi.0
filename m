@@ -1,74 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991ED4B7A24;
-	Mon, 21 Sep 2026 15:59:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8221C2F5A0E
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 16:02:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790006359; cv=none; b=Wi1dtay/ZKoXDePpjj4IcLy/BAOFevICK/BJWIMgmB3OPp7i5Cu2zzs2G0HV2C1913uOEARus5UP5PLm6OH25vUG/R82U4sBZ4vDERMa0kzYTtsPjN6P0/3hqfCXEykQJxwrj5Iru0G4VwfcQF+sCUVkNGl0Ps/u/d0vedibahg=
+	t=1790006525; cv=none; b=TrpuJv9wd0P984h8bzwdbiAoZ2Y6o8ge0W8gI22W7SOY2j48uDeTjX1O8k8Ng4Apa7848t7sK2/GJTae07qd1Sx++i7Td1GxLfGuVcufF9JlBjsN1W7frJygP2wy8SXCgcje8OaZvb/NTjmiM30KiKHWg9j0TTb28bKUJz5ho+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790006359; c=relaxed/simple;
-	bh=3zwyBDzDw/sDRKsb2dkuITkZ5oxgVhergZq9/1pBPDs=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=pBZRq3z/1RkqWgYGJhovQ6fKed19B82QRE5XhCcOMRG7HKoHJKCvyo8vY8MUCKZAyWfwe4jBqJlBFoCXLRj1zmNR/rilEtVcmMAAJwHHqsU3ypuWRBIkwoQCenvzxueirW+eEnlfbdPVou8fxfmCZd4Onr12ZY8uyLKp519BnPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JMW1VHxx; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790006525; c=relaxed/simple;
+	bh=Eyf5HB7rWUuykO/B4yjrMsebEOm1V7kPMebLHZRCWQY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nAjdR9Nyl680iuUEPsA+2kdOAawJ4tIjV6orvzL2zbwRZhYJ2JB+L9+4vpcbv2mhOtv/8YTBKHIk2EIcB+7Y3Jfmt7+B6Jvz5/axAL4dJ4AijQRcom8v8suQCnrS6cVtZZ2AB8q6rzhXoeCbiARsF6e4323vUqXwQDtKz9G3Q1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHVHrTUh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JMW1VHxx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C4D01F000FF;
-	Mon, 21 Sep 2026 15:59:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHVHrTUh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49E091F008A2
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 16:02:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790006358;
-	bh=klzxBRfFaH2Orv00iYSc6JCYl253Y4N1ldcNWsa5AeI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=JMW1VHxxbBR3oKgf5kY02ig/704uboevycy7KXHZVfPZrEIypMza35U66lQKFA39z
-	 kZMjxZ1BE0PTrGXD8NI8kZyr2AT/h1U1n62si08YgQMRlfzQzswPdn3MPQ5t7Bv22x
-	 wNw4ct0tYxKLxq12AD1iIXDh3N+T9yIYT1k9euye2JQDq7VY4d+gT5WULumwBwQlG8
-	 ZJKvo3xx1AFvpDtduJ1CPHtrrSZHoyNCU6k4zSwjGVs+OAsC5pDQ9nGGs2mWOnxaJC
-	 bc+zinY3TaWdKSyDi1GEfMAwVw5Hd1OOARigdX2easKgT/u+5PKO3e5N1MJyHVeIXV
-	 unmwAYQpnOnqQ==
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Andre Przywara <andre.przywara@arm.com>
-Cc: Paul Kocialkowski <paulk@sys-base.io>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260914210115.28151-1-andre.przywara@arm.com>
-References: <20260914210115.28151-1-andre.przywara@arm.com>
-Subject: Re: [PATCH 0/3] dts: allwinner: Add Teclast P80 tablet support
-Message-Id: <179000635627.4032064.5273125584221459369.b4-ty@kernel.org>
-Date: Mon, 21 Sep 2026 23:59:16 +0800
+	s=k20260515; t=1790006524;
+	bh=Eyf5HB7rWUuykO/B4yjrMsebEOm1V7kPMebLHZRCWQY=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=MHVHrTUhgy8RLJSB9PCb96C+TwYoxk9OPxsY3WYUd2k1pUPyfhn1jxqcnLx12ZXbI
+	 C0zH7D0SYWucL6sTXnsFxG2XnRXG505wid63EKjGDRqyp94l78SpU5yfs9I3E9s5nE
+	 WXbF+pUOvv4AWZMdfjgwUSRby/OgOgpSqHRAX4SKAvSMpyq/zbOFoLZ/kYDzgMjRgz
+	 ugE5ZMnEKTcPpmROkZHM0DRhibmf7XlTswHDYXcMj4LvmRsBFPTpqMURa/KDisRLaW
+	 zz4Rlsh2QivIdiY/m5H9SAaOTlKAURKON3hAb7WOVVqnwGQhoDyprV4XVucAJ/LMi/
+	 Hwii7b6VQc6sw==
+Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a2ff00b8d8so25548501fa.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 09:02:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByag1fM6w/iNQOamIFJaE8Hq7OuyBkMjKN4Yv0Hstjc96GL1mkYs++G24WZBK25Ic2cSdVoTmxDg0Cp9A==@lists.linux.dev
+X-Gm-Message-State: AFuF++kc3jDLX1c0Ql7yV17QVA9i875pVfgVJi6nlTMcvJOQm39gjdty
+	IjpFuDIJoO/7SWX46WBZ4Hxek/J7PbfTooRdgDTL0iAC7OJ/qqF4G00xhKE03mzhc8T17KkYI4i
+	KAYeA8vssC9V+2QgEJndfVxaOg0Mo3hY=
+X-Received: by 2002:a05:651c:1443:b0:3a5:afec:9cf9 with SMTP id
+ 38308e7fff4ca-3a5fbf36939mr24677701fa.7.1790006522575; Mon, 21 Sep 2026
+ 09:02:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+References: <20260921-a733-clk-v4-0-9c184ebe9ac1@pigmoral.tech> <20260921-a733-clk-v4-2-9c184ebe9ac1@pigmoral.tech>
+In-Reply-To: <20260921-a733-clk-v4-2-9c184ebe9ac1@pigmoral.tech>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 22 Sep 2026 00:01:48 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66wbv2W1mcZ_WzKnkgiSYYm89LGR67gYAgsNgSFYw5mfg@mail.gmail.com>
+X-Gm-Features: AcwNN1WJSlHI-NjxkeeWhPwtNL0p2-F5vEq-B0J5BRudScG0IjIZ4ZswOa7ekVg
+Message-ID: <CAGb2v66wbv2W1mcZ_WzKnkgiSYYm89LGR67gYAgsNgSFYw5mfg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/8] clk: sunxi-ng: sdm: Add dual patterns support
+To: Junhui Liu <junhui.liu@pigmoral.tech>
+Cc: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
+	Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, netdev@vger.kernel.org, 
+	Jerome Brunet <jbrunet@baylibre.com>, Enzo Adriano <enzo.adriano.code@gmail.com>, 
+	Andre Przywara <andre.przywara@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 14 Sep 2026 23:01:12 +0200, Andre Przywara wrote:
-> The Teclast P80 tablet is an entry-level tablet with an 8inch screen
-> and an Allwinner A133 quad-A53 SoC. There are other tablets using
-> the P80 name, this here is about the "G4" version from 2020.
-> 
-> Contains the typical triad of DT support patches: vendor prefix, machine
-> compatible binding, board .dts file.
-> 
-> [...]
+On Mon, Sep 21, 2026 at 11:39=E2=80=AFPM Junhui Liu <junhui.liu@pigmoral.te=
+ch> wrote:
+>
+> On newer Allwinner platforms like the A733, the Sigma-Delta Modulation
+> (SDM) control logic is more complex. The SDM enable bit, which was
+> previously located in the PLL register, is now moved to a second
+> pattern register (PATTERN1).
+>
+> To support this, rename the existing "tuning" members to "pattern0" to
+> align with the datasheet, and introduce the _SUNXI_CCU_SDM_DUAL_PAT
+> macro to provide pattern1 register support. Related operations are also
+> updated.
+>
+> Tested-by: Jerome Brunet <jbrunet@baylibre.com>
+> Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
 
-Applied to sunxi/dt-for-7.4 in sunxi, thanks!
-
-[1/3] dt-bindings: vendor-prefixes: Add vendor prefix for Teclast
-      https://git.kernel.org/sunxi/linux/c/cb81a22504f4
-[2/3] dt-bindings: arm: sunxi: Add two Teclast tablets
-      https://git.kernel.org/sunxi/linux/c/87d5ec9b808f
-[3/3] arm64: dts: allwinner: A133: add basic support for Teclast P80 tablet
-      https://git.kernel.org/sunxi/linux/c/60b064eb82e6
-
-Best regards,
--- 
-Chen-Yu Tsai <wens@kernel.org>
-
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
