@@ -1,85 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8221C2F5A0E
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 16:02:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D4994BEE58
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 16:09:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790006525; cv=none; b=TrpuJv9wd0P984h8bzwdbiAoZ2Y6o8ge0W8gI22W7SOY2j48uDeTjX1O8k8Ng4Apa7848t7sK2/GJTae07qd1Sx++i7Td1GxLfGuVcufF9JlBjsN1W7frJygP2wy8SXCgcje8OaZvb/NTjmiM30KiKHWg9j0TTb28bKUJz5ho+0=
+	t=1790006953; cv=none; b=J78mmjo0BtvJd90eIN9//54omO3DnWheiOSV9ff+25twBoR7d/kjYol8kZkBrA1A3kB9Nnz++/g0VcCEllOaHsJj/hLyBK7ifIdOZMNBv7HvHtBUDglPho/scvUeboSQd41e8gvZlFXqrimPRhbE7osiVrBFG6nhht5K0VLjbKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790006525; c=relaxed/simple;
-	bh=Eyf5HB7rWUuykO/B4yjrMsebEOm1V7kPMebLHZRCWQY=;
+	s=arc-20240116; t=1790006953; c=relaxed/simple;
+	bh=SwXDXkJwIoYgN9JLjT1MHlSGl5vnljq5mibJtxzwng4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nAjdR9Nyl680iuUEPsA+2kdOAawJ4tIjV6orvzL2zbwRZhYJ2JB+L9+4vpcbv2mhOtv/8YTBKHIk2EIcB+7Y3Jfmt7+B6Jvz5/axAL4dJ4AijQRcom8v8suQCnrS6cVtZZ2AB8q6rzhXoeCbiARsF6e4323vUqXwQDtKz9G3Q1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHVHrTUh; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=oqPfvqyF0jEgkO/Xj276+s7WVsSjP7tdi2FLwGW4Sr60LuUtNaOftcUg6vm4WkTFJSCowv48AzS4xoXRziFnru5zzIjoKRnDgZ0BTBnmYQbnFa8zRcNqMSVMxKFuE3CxFe3oy3ovSICTId3Y6gsYyKMb28sk1WFcCev2wFTDEMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lf2Q2Hu3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHVHrTUh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49E091F008A2
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 16:02:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lf2Q2Hu3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B66B1F008A0
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 16:09:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790006524;
-	bh=Eyf5HB7rWUuykO/B4yjrMsebEOm1V7kPMebLHZRCWQY=;
+	s=k20260515; t=1790006951;
+	bh=SwXDXkJwIoYgN9JLjT1MHlSGl5vnljq5mibJtxzwng4=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=MHVHrTUhgy8RLJSB9PCb96C+TwYoxk9OPxsY3WYUd2k1pUPyfhn1jxqcnLx12ZXbI
-	 C0zH7D0SYWucL6sTXnsFxG2XnRXG505wid63EKjGDRqyp94l78SpU5yfs9I3E9s5nE
-	 WXbF+pUOvv4AWZMdfjgwUSRby/OgOgpSqHRAX4SKAvSMpyq/zbOFoLZ/kYDzgMjRgz
-	 ugE5ZMnEKTcPpmROkZHM0DRhibmf7XlTswHDYXcMj4LvmRsBFPTpqMURa/KDisRLaW
-	 zz4Rlsh2QivIdiY/m5H9SAaOTlKAURKON3hAb7WOVVqnwGQhoDyprV4XVucAJ/LMi/
-	 Hwii7b6VQc6sw==
-Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a2ff00b8d8so25548501fa.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 09:02:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByag1fM6w/iNQOamIFJaE8Hq7OuyBkMjKN4Yv0Hstjc96GL1mkYs++G24WZBK25Ic2cSdVoTmxDg0Cp9A==@lists.linux.dev
-X-Gm-Message-State: AFuF++kc3jDLX1c0Ql7yV17QVA9i875pVfgVJi6nlTMcvJOQm39gjdty
-	IjpFuDIJoO/7SWX46WBZ4Hxek/J7PbfTooRdgDTL0iAC7OJ/qqF4G00xhKE03mzhc8T17KkYI4i
-	KAYeA8vssC9V+2QgEJndfVxaOg0Mo3hY=
-X-Received: by 2002:a05:651c:1443:b0:3a5:afec:9cf9 with SMTP id
- 38308e7fff4ca-3a5fbf36939mr24677701fa.7.1790006522575; Mon, 21 Sep 2026
- 09:02:02 -0700 (PDT)
+	b=Lf2Q2Hu3d6HNlYFo89SJgU18eXG8uRVKiKwUhsd+93SLd+aqiy1Yy+ltU3zt0b+Z3
+	 pIAQmtELu8125y9YHJz2d7eaNdHi27RweXHZd1E1bbxwOXS7E4V/nA686g+MgAZ3BR
+	 kqv8CQcmN7qhO7tRIUbJOwKNgA+Ttsb/C6DRTwHP7cxOcOZZYa10jLwHhdGrHT1QFG
+	 Y0w+29iurwcDa8y2uSYID309ABk1bDlStPQRBuuK7Cyrm3/UaM8fWgegvsI22PrAiz
+	 5FtNpVchW4TpxKuwhdYKZJLZPLGUZdQbKX3azwj03zUe9swnFkC4HqhdehAs7tC10S
+	 041a8XzneOrLQ==
+Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a58fef219fso12498141fa.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 09:09:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBxfQRDvVVupJ3CmqJaPINfYWrpo+gfEPlU8IvLBbfe7U8ILzitdQRYMrh4ll+tCwAVcANYAEFLdce5gcQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++lEUyx4mPxm+baxKf0CLzo5UHjseqBQnKF9LfVwI81QuWCzIK0y
+	T7lsfPgOCvEO40EUEGSPbakhfOQz1XIGKr6cH5PpjqJYjrGKDZifQ8S6gAAFvvQnuMY7867mo0F
+	Yjur1E72ID7PMGnLhaNeSJw76qxC2t1Y=
+X-Received: by 2002:a2e:a593:0:b0:3a4:88c9:c51c with SMTP id
+ 38308e7fff4ca-3a624c861b2mr334421fa.1.1790006949528; Mon, 21 Sep 2026
+ 09:09:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260921-a733-clk-v4-0-9c184ebe9ac1@pigmoral.tech> <20260921-a733-clk-v4-2-9c184ebe9ac1@pigmoral.tech>
-In-Reply-To: <20260921-a733-clk-v4-2-9c184ebe9ac1@pigmoral.tech>
+References: <20260604120201.116925-1-vo.kratky@seznam.cz> <20260604120201.116925-3-vo.kratky@seznam.cz>
+ <rfot56KMT1aR8vVOIe5xxg@gmail.com>
+In-Reply-To: <rfot56KMT1aR8vVOIe5xxg@gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 22 Sep 2026 00:01:48 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66wbv2W1mcZ_WzKnkgiSYYm89LGR67gYAgsNgSFYw5mfg@mail.gmail.com>
-X-Gm-Features: AcwNN1WJSlHI-NjxkeeWhPwtNL0p2-F5vEq-B0J5BRudScG0IjIZ4ZswOa7ekVg
-Message-ID: <CAGb2v66wbv2W1mcZ_WzKnkgiSYYm89LGR67gYAgsNgSFYw5mfg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/8] clk: sunxi-ng: sdm: Add dual patterns support
-To: Junhui Liu <junhui.liu@pigmoral.tech>
-Cc: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
-	Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, netdev@vger.kernel.org, 
-	Jerome Brunet <jbrunet@baylibre.com>, Enzo Adriano <enzo.adriano.code@gmail.com>, 
-	Andre Przywara <andre.przywara@arm.com>
+Date: Tue, 22 Sep 2026 00:08:55 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66iTrHY-MHTKsFM=Wqf3vVLy-g8eg6M8eP573YX92MDig@mail.gmail.com>
+X-Gm-Features: AcwNN1VBgQvCEUdLs4z1ZySLJQVZFDsISBDYum893VnssHpsSzgjjYNxMBzotzE
+Message-ID: <CAGb2v66iTrHY-MHTKsFM=Wqf3vVLy-g8eg6M8eP573YX92MDig@mail.gmail.com>
+Subject: Re: [PATCH v2 02/11] iio: adc: change from %ld to %pe for PTR_ERR() printing
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
+	linux-iio@vger.kernel.org, =?UTF-8?B?Vm9qdMSbY2ggS3LDoXRrw70=?= <vo.kratky@seznam.cz>, 
+	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Linus Walleij <linusw@kernel.org>, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 21, 2026 at 11:39=E2=80=AFPM Junhui Liu <junhui.liu@pigmoral.te=
-ch> wrote:
->
-> On newer Allwinner platforms like the A733, the Sigma-Delta Modulation
-> (SDM) control logic is more complex. The SDM enable bit, which was
-> previously located in the PLL register, is now moved to a second
-> pattern register (PATTERN1).
->
-> To support this, rename the existing "tuning" members to "pattern0" to
-> align with the datasheet, and introduce the _SUNXI_CCU_SDM_DUAL_PAT
-> macro to provide pattern1 register support. Related operations are also
-> updated.
->
-> Tested-by: Jerome Brunet <jbrunet@baylibre.com>
-> Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
+Jonathan,
 
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+On Sat, Jun 13, 2026 at 4:06=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrabec=
+@gmail.com> wrote:
+>
+> Dne =C4=8Detrtek, 4. junij 2026 ob 13:59:22 Srednjeevropski poletni =C4=
+=8Das je Vojt=C4=9Bch Kr=C3=A1tk=C3=BD napisal(a):
+> > Replace numeric PTR_ERR() logging with the %pe format specifier
+> > so that error values are printed in a more readable form.
+> >
+> > This change was identified using a Coccinelle semantic patch.
+> >
+> > No functional change intended.
+> >
+> > Signed-off-by: Vojt=C4=9Bch Kr=C3=A1tk=C3=BD <vo.kratky@seznam.cz>
+>
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Any chance you can still pick this up?
+
+
+Thanks
+ChenYu
