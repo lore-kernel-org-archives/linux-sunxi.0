@@ -1,99 +1,125 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5CB3BB13A
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 07:24:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578BF492188
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 11:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789975455; cv=none; b=JGFrGshb0a8epyOQCUXClQ8Nx91e+ouQkJBHsxFfI/JdYnQmhtrWYypUfT/aT23BhrH+ocrzXOhO/3qXLKqMTfbpRLnIuOYwqK4cwqWOYy+VQrOJyybSzL7xQa4H2h3cGAPAxfPuBVPTrHieIWGhiBwAiHUNQ3II1zmOH+2iMx4=
+	t=1789991659; cv=none; b=GCPFfrR8vfbnbXI5ngT0jGAMAv/0NauHjuaKVrzc4+cQOpINxqPwGbBhEimbcqAeRQTWOvzzFhyEQU+PgnZ2ZZASTuttTj50gz8+jlDx8IFOMKj9HE6fv/tByb8qNCFr1tP6aVbLyDGsV5KxMHq0ztuO/R2soRMdmzfQ7C8IxlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789975455; c=relaxed/simple;
-	bh=8A0HNg7Rdmqg9SqH0VNCznl585aaWC0dD0CDAwdQ0oE=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=XZ6KnOQ9TF+pNy5ahAleAPZylIkyD+XRT7YLdzqx2Vb+Ac7sHubC1zVYq/TIgJj2Kra6fp+0aakdUglDYSTxEhWgHyLyzyDqTR2ZWYSOnnwUL5NMeAzyGMHaetpwoX72V7dfMLGAIf+QSQxQZFXZKE7EX92W4IVtdjHY0okeuCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CF4oYu2f; arc=none smtp.client-ip=185.171.202.116
+	s=arc-20240116; t=1789991659; c=relaxed/simple;
+	bh=fNSpUENjKb6oRVpVNnY08zpSoVTuGiZyyybiAWMBTUY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FB7U+y8vf0roGyZOze1nSe5LGYLIg3U4A+kjcMi0p9Vd3pn3Q6FaMzWKML+sD0hnBoqBduh2X9l6D/tpKOY7v1R+40BoOnukANWuO/9RpoWhBKXFOtRcKjY+DqS1W6dzkJVWgfgQuDHX3Whu+FzPc8Ucpp5sXyocJAdkCYtnQmg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=nIl7sW6x; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CF4oYu2f"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="nIl7sW6x"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 97D1BC2C65D;
-	Mon, 21 Sep 2026 07:24:55 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 5E3A61A0FAE;
+	Mon, 21 Sep 2026 11:54:14 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7AB9F60339;
-	Mon, 21 Sep 2026 07:24:09 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1BA8610328F4D;
-	Mon, 21 Sep 2026 09:23:56 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1F0865FFB2;
+	Mon, 21 Sep 2026 11:54:14 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B596A103281B7;
+	Mon, 21 Sep 2026 13:53:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1789975447; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=RG0d/rWWwG5EWi14PZmG5qQITNqAdcjhf3I0KoA9dFs=;
-	b=CF4oYu2f2Fb/6/P7G2edz+XGRaxwUM5y+QalfFftYc0K9ACk3pKG19v1Um+gp+onLXLOAJ
-	XIWebq+ZnBsUGIWQ/NZNNkbdrZLZrg9SmIbGwpb8GFep47g3S359CAIOawHvPUMBfq002u
-	5YsxQvNUoAdJlltQ+8pJAMoO9OeuxcUunDnEDL25IhJ6iIvH4yM+gdd0dcHzAnw7Kf6JMb
-	wffUF0B8jCFMuYKQjMW1VJ8wgJntfoU7V5WjeW6JE1H9DxBVy0+KgqXljo4rgC0CUOy6tI
-	vl2QvKL5UETgKy276ScNoF4LORkAjcvyc021rRxRFh4Sb/93oVLYRy/9WfDKZg==
+	t=1789991648; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=hNLbvi05R+0xppE7dvLIZ87hpi3V6sXWpbl9gw3s2SU=;
+	b=nIl7sW6xAQkxQ9/I0pwkb5XGFXtrlDtbn+4kHc3XOddvyTtw4Zd6gPaZoZMTGye1WYoORa
+	ZQNSGKYaZdGLNl6daAnfHzKmJ4VVU7SCZLu2qhTHinstvbPQRjFzWd0vgkPoIx67Bv1NgR
+	mwZQu4mo+eSZDFwq9MoR9nkukUawtmXeWtFDaW23KsOCW6qJgkLwLvEpewLcNggqSNn+Fy
+	TALkSVERiHR3oMw2+/XLgeKCoTOmVl/htowEK+7GpUn52ArsjkiNIXFgID2TC+aerk3WUb
+	tEh/SXfAa3pHTAi9ZJi7M1TprlSS8HW8tzPVQ0LZ66ask5yIGFkgTxZKuqZTBQ==
+Message-ID: <475799c2-7eaf-45ed-a6cb-80c2c2c556e7@bootlin.com>
+Date: Mon, 21 Sep 2026 13:53:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v4 0/6] net: stmmac: add Allwinner H616 EMAC1
+ support
+To: James Hilliard <james.hilliard1@gmail.com>,
+ Richard Genoud <richard.genoud@bootlin.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+ Jose Abreu <joabreu@synopsys.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Christian Marangi <ansuelsmth@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Tiezhu Yang
+ <yangtiezhu@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Alastair D'Silva <alastair@d-silva.org>, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ Andre Przywara <andre.przywara@arm.com>
+References: <20260920-submit-h616-emac1-v1-v4-0-8347dfe2eb7d@gmail.com>
+Content-Language: en-US
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+In-Reply-To: <20260920-submit-h616-emac1-v1-v4-0-8347dfe2eb7d@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 21 Sep 2026 09:23:55 +0200
-Message-Id: <DLKTC338JONX.CQ6L7JYQ4UDD@bootlin.com>
-Subject: Re: [PATCH v11 14/74] drm/bridge: Fix unlocked list access in
- drm_bridge_attach()
-Cc: <kernel@collabora.com>, <linux-kernel@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-sunxi@lists.linux.dev>, <linux-rockchip@lists.infradead.org>,
- <linux-fbdev@vger.kernel.org>
-To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Dave
- Stevenson" <dave.stevenson@raspberrypi.com>, "Dmitry Baryshkov"
- <lumag@kernel.org>, "Andrzej Hajda" <andrzej.hajda@intel.com>, "Neil
- Armstrong" <neil.armstrong@linaro.org>, "Robert Foss" <rfoss@kernel.org>,
- "Laurent Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Luca
- Ceresoli" <luca.ceresoli@bootlin.com>, "Chen-Yu Tsai" <wens@kernel.org>,
- "Samuel Holland" <samuel@sholland.org>, =?utf-8?q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, "Raspberry Pi Kernel Maintenance"
- <kernel-list@raspberrypi.com>, "Raphael Gallais-Pou"
- <rgallaispou@gmail.com>, "Sandy Huang" <hjc@rock-chips.com>,
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, "Andy Yan"
- <andy.yan@rock-chips.com>, "Algea Cao" <algea.cao@rock-chips.com>, "Daniel
- Stone" <daniels@collabora.com>, "Liu Ying" <victor.liu@nxp.com>, "Phong LE"
- <ple@baylibre.com>, "Helge Deller" <deller@gmx.de>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.22.0
-References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
- <20260901-dw-hdmi-qp-scramb-v11-14-bc12954a0688@collabora.com>
-In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-14-bc12954a0688@collabora.com>
+Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue Sep 1, 2026 at 8:50 PM CEST, Cristian Ciocaltea wrote:
-> drm_bridge_attach() inspects bridge->list to warn about bridges being
-> attached without a previous drm_bridge_add() call, but it does so
-> without holding bridge_lock.
->
-> The list head can be concurrently written by drm_bridge_add(),
-> drm_bridge_remove() and __drm_bridge_free() while they operate on
-> neighbouring entries of bridge_list or bridge_lingering_list, all of
-> them under bridge_lock.  Hence the unlocked read is a data race, even
-> though it is unlikely to change the outcome of list_empty() in practice.
->
-> Perform the check with bridge_lock held.
->
-> Fixes: 76f1a9711b83 ("drm/bridge: add warning for bridges attached withou=
-t being added")
-> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Hi James,
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+On 9/20/26 21:45, James Hilliard wrote:
+> The H616 secondary EMAC supports RMII at 10/100 Mbps and uses a separate
+> system-control clock register at offset 0x34. Add its binding and a
+> sun8i stmmac variant using that register. A distinct compatible without
+> an older fallback prevents the driver from using EMAC0's clock register.
+> 
+> EMAC1 connects internally to the co-packaged AC200 or AC300 EPHY and has
+> no external PHY pins. Leave PHY initialization to the PHY driver instead
+> of using the H3 internal-PHY controls. The RMII-only variant does not
+> expose the RGMII clock-delay properties.
+> 
+> First fix failed MTU-change reopening and hardware-resume cleanup in the
+> stmmac core so the interface is closed without repeating NAPI shutdown
+> or resource teardown. Allow phylink to stop a suspended instance without
+> restarting its link. Then move the MAC software reset from probe to the
+> DMA reset callback, after PHY initialization. This lets the MAC and its
+> MDIO bus remain registered when the PHY driver or one of its suppliers
+> is not ready yet. Clear DMA and interrupt state even if the reset times
+> out. Keep the separate H3 MDIO-mux reset sequence unchanged.
+> 
+> The AC200/AC300 EPHY driver and package bindings are already in
+> net-next. This series separates the H616 EMAC1 MAC driver and binding
+> support from the earlier combined series. PWM, MFD and device-tree
+> enablement are being handled separately.
+> 
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> ---
+> Changes in v4:
+> - Add a prerequisite stmmac core fix closing the interface after a failed
+>   MTU-change reopen without repeating DMA, IRQ or NAPI teardown.
+> - Close the interface after failed hardware resume, and let phylink
+>   finish shutdown directly from its suspended state.
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+[...]
+> ---
+> James Hilliard (6):
+>       net: phylink: allow stopping a suspended instance
+>       net: stmmac: close the interface after a failed MTU reopen
+>       net: stmmac: close the interface after failed hardware resume
+
+These new patches belong to net, don't mix the fixes and the glue code :)
+
+The glue can land without these, no ?
+
+Maxime
+
