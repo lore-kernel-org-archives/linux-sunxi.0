@@ -1,196 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5552264AB
-	for <linux-sunxi@lists.linux.dev>; Tue, 22 Sep 2026 03:54:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90B492264AB
+	for <linux-sunxi@lists.linux.dev>; Tue, 22 Sep 2026 03:54:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790049251; cv=none; b=n4aWA77qwVJFFcQi1DN0G80PEQatPFZ/NjcZy1VB7Q+YKW8JHeX9kaeys3VVRpUVt+MqPEALdWWtkGmnTElJRA/ZAfPEib+0S27LJNnHJjRy8NtBmPGRKUJ3ZZYF66ukFTI7lJF4wEt+rA+vHy3A1inCoE/uszxkuZjoLaa6kfs=
+	t=1790049291; cv=none; b=LIeRF7ROpIqfSVoAXyj12YsMI3DsxDCaOZSkcV4H3H3DsmuDkWwJiCqj/y0iBut3NXOVNpHXZwHneQeIHHe3GxUjPQQAZsbQ8843sxrLPMuJxmc2ngl2AGfHbD+e3b9A5mejZUP1z7QHxMJYCh0gsu+DZEWGQAr5IRUPfntttcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790049251; c=relaxed/simple;
-	bh=CvhpigUzGUq9sDnJpO5T/hUxd8vFnahr7Q6S9rhW5lE=;
+	s=arc-20240116; t=1790049291; c=relaxed/simple;
+	bh=jpsYWmy8RV3NmjjQG2FMOZowBr2MJTw0r5H05Ns2TcU=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=kYJsYvdNBmB+3CmWyNvz0RKx1hcgENVYwnS7MsZuTKZpheN9UpjHkKi6b7sidAx9sL5awx6JxHTX7/4WI4Tli02SblrSeAxG4AwNr/meVXLwp1DcKzl5InC6M048uSW6R/M810qjtL1iMj07d4AzhZdh81z+fEUDbjW4YPZjJzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ga2yO4cm; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=AJVYATK3bB8YvZu9dRKa7PRztQGOXBjsrcgH9oIF4/zouhvGvgiKK2/roJ8uLYBR8bUrK7Eu7jjXQxW+mbumZTCeCb2/1wTg10sXwaSgvDOMtSJXpC0GLwCZAsY9zo45Z1sMvqpgaxO1V0l8wabf7jQwUlP4oUnz05yfX1Zjh3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LGR44nbG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ga2yO4cm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B7661F000FF;
-	Tue, 22 Sep 2026 03:54:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LGR44nbG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C8861F000FF;
+	Tue, 22 Sep 2026 03:54:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790049249;
-	bh=L//z4YN7L7ZfHW8JIy/69YCCUgMoOrpb4tdeBY0YkgQ=;
+	s=k20260515; t=1790049290;
+	bh=LcPH5KKZwrofoKR1js5crt1tzC8OPpN9Xg/T8qQI6KY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Ga2yO4cmIni0TjQDAs1BznVFjE/rg7qUhXl2oRb7hJZLxkvt1521ozj7wDLWj5Dsf
-	 lD0B3bTFe4jNWpNb7c7mlaKabfWDh56fRhhLiMBYurYqYcHKe5sF5IolcRr/7Sy/hj
-	 zylfcUmlXSkvgu6mfZoeNFvzi311AhZdSyEgLD3NcGn0HxpwhwQi3zi2JOAiZCZQVQ
-	 LL2O1tJ/f+pILXcOa7LAOPAQ3GpBdemHQhjXDKGm+lDJoAbOA6VuUxtImxqKnX4DT6
-	 fV/nbXu2yV+R47aaq4sr5tu/NVkFAUNLfnxkvSsBp7at+ZlPONdB3JZfXPAZwx3S+S
-	 2090cV+krEQDg==
+	b=LGR44nbGBkQfgc0EqX+TZUB3BogtDwZkzA9bFA0GcUNJ9dEsTf9H860RHr0cj0+P9
+	 Nf06/n1UdovSsIj5DabC01PhXgiV0dpiDGX4fpHqPzNFB+d3N9dDXFXX4dw7nzaGOg
+	 F0wGPopYVo3qmwtoAZAlE+5gKH22Ztw1bOppVv4xcLkL4M4dTWznR+phf9HlT8SXua
+	 ZXVH1u3FhBL5z/gFnMloVZt1aWugabQsimUPLpnQpJMs5wjivEkSJZYrMIghl+cWuY
+	 wJBThv+TriIWlPTaCK6VGrdpcRuwyY4wdh87/jIoxPsV2dyC8cadaUqRgpmZbhTb5D
+	 dZGjAcbbLdUOQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 3/7] mailbox: sun55i: add KUnit tests for routing and
- registers
+Subject: Re: [PATCH 6/7] remoteproc: sunxi: add KUnit tests for da_to_va
+ address translation
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Tim Michals" <tcmichals@gmail.com>
 Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260922034711.190253-4-tcmichals@gmail.com>
+In-Reply-To: <20260922034711.190253-7-tcmichals@gmail.com>
 References: <20260922034711.190253-1-tcmichals@gmail.com>
- <20260922034711.190253-4-tcmichals@gmail.com>
+ <20260922034711.190253-7-tcmichals@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Sep 2026 03:54:08 +0000
-Message-Id: <20260922035409.5B7661F000FF@smtp.kernel.org>
+Date: Tue, 22 Sep 2026 03:54:49 +0000
+Message-Id: <20260922035450.1C8861F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] mailbox: sun55i: KUnit test is tautological and does not test dr=
-iver code
-- [Medium] mailbox: sun55i: missing functional tests claimed in documentati=
-on
+- [Medium] remoteproc: sunxi: test logic diverges from driver and misses Pu=
+bSRAM C DA view
 --
 
-commit a9fdd95e30715804dfb79ed10565c095aa6e7ce9
+commit 2e1cbebc465781878f472c97dd7ec7e6f704ea63
 Author: Tim Michals <tcmichals@gmail.com>
 
-mailbox: sun55i: add KUnit tests for routing and registers
+remoteproc: sunxi: add KUnit tests for da_to_va address translation
 
-This commit introduces a KUnit test suite for the sun55i-msgbox driver. It
-adds pure-logic tests meant to verify channel routing, register offsets, IRQ
-bit positions, and driver constants without requiring real hardware.
+This commit introduces a KUnit test suite for the sunxi_rproc da_to_va()
+function. It verifies address translation logic across various memory
+window types and boundary conditions.
 
->     Add KUnit test suite for the sun55i-msgbox driver, verifying:
->       - Channel routing table entries for CPUX (ARM), CPUS, DSP, and RV
->       - Local and remote port register offset macros
->       - Direction flags (rx/tx) and FIFO configurations
->       - Read IRQ enable/pending bit positions per channel
->       - Driver constants (NUM_CHANS, FIFO_MAX, MSG_NUM_MASK)
-
-[ ... ]
-
-> diff --git a/drivers/mailbox/sun55i_msgbox_test.c b/drivers/mailbox/sun55=
-i_msgbox_test.c
+> diff --git a/drivers/remoteproc/sunxi_rproc_test.c b/drivers/remoteproc/s=
+unxi_rproc_test.c
 > new file mode 100644
-> index 0000000000000..984870b49db16
+> index 0000000000000..ea1a3331bc264
 > --- /dev/null
-> +++ b/drivers/mailbox/sun55i_msgbox_test.c
-> @@ -0,0 +1,296 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * KUnit tests for Allwinner sun55i 4-port Message Box driver (sun55i-ms=
-gbox.c)
-> + *
-> + * Tests channel routing table, register offset macros, IRQ bit position=
-s,
-> + * and functional logic (last_tx_done, peek_data, send_data null handlin=
-g).
-> + * Pure-logic tests that run without real hardware.
-> + *
-> + * Copyright (C) 2026 Tim Michals <tcmichals@gmail.com>
-> + */
-
-[Severity: Medium]
-Are the functional tests missing from this patch? The commit message claims
-to test direction flags (rx/tx) and FIFO configurations, and this file head=
-er
-claims to test functional logic like last_tx_done, peek_data, and send_data
-null handling.
+> +++ b/drivers/remoteproc/sunxi_rproc_test.c
 
 [ ... ]
 
 > +/*
-> + * Mirror of constants and macros from sun55i-msgbox.c.
+> + * Mirror of sunxi_rproc_da_to_va() logic from drivers/remoteproc/sunxi_=
+rproc.c.
 > + * Must be kept in sync with the driver. Divergence is a bug.
 > + */
-> +#define SUN55I_MAX_PROCESSORS		4
-> +#define SUN55I_CHANS_PER_PROC		4
-> +#define SUN55I_NUM_CHANS		((SUN55I_MAX_PROCESSORS - 1) * SUN55I_CHANS_PE=
-R_PROC)
-> +#define SUN55I_FIFO_MAX			8
-> +
-> +#define SUNXI_MSGBOX_OFFSET(n)			(0x100 * (n))
-> +#define SUNXI_MSGBOX_READ_IRQ_ENABLE(n)		(0x020 + SUNXI_MSGBOX_OFFSET(n))
+> +static void *test_da_to_va(struct test_sunxi_rproc *priv,
+> +			   u64 da, size_t len, bool *is_iomem)
+> +{
 
 [Severity: Medium]
-Does this test setup actually verify the driver code? By manually duplicati=
-ng
-the driver's macros and constants instead of including the driver code
-or headers, the tests appear to be tautological.
+By duplicating the static driver logic into test_da_to_va() instead of
+testing the actual sunxi_rproc_da_to_va() code, does this circumvent the
+System Under Test and fundamentally defeat the purpose of regression testin=
+g?
 
-If a regression is introduced in the actual driver logic in sun55i-msgbox.c,
-these local duplicate macros will remain unchanged and the test suite will
-continue to silently pass.
+Any future changes to the actual driver will not be tested by this suite,
+and it relies entirely on manual synchronization.
 
-Could the test include the actual driver source and test its definitions
-directly, rather than asserting against copies of the macros?
+> +	if (len =3D=3D 0)
+> +		return NULL;
+> +
+> +	/* 1. Dedicated MCU Local SRAM Space 0 */
 
 [ ... ]
 
-> +/* Mirror of sun55i_chan_to_route() from sun55i-msgbox.c */
-> +static inline void test_chan_to_route(int chan_idx, int *local_n, int *p,
-> +				      int *remote_id, int *remote_n)
-> +{
-> +	*local_n =3D chan_idx / SUN55I_CHANS_PER_PROC;
-> +	*p =3D chan_idx % SUN55I_CHANS_PER_PROC;
-> +	*remote_id =3D arm_routes[*local_n].remote_id;
-> +	*remote_n =3D arm_routes[*local_n].remote_n;
-> +}
-
-[Severity: Medium]
-Similar to the regression above, is this function testing the actual routing
-logic? This creates a duplicate of the driver's routing function. Testing
-this function only verifies the duplicate implementation, leaving the real
-sun55i_chan_to_route() untested.
-
-[ ... ]
-
-> +static void test_msg_fifo_offsets_all_channels(struct kunit *test)
-> +{
-> +	int n, p;
-> +
-> +	for (n =3D 0; n < 3; n++) {
-> +		for (p =3D 0; p < SUN55I_CHANS_PER_PROC; p++) {
-> +			u32 expected =3D 0x070 + 0x100 * n + 0x4 * p;
-> +			u32 actual =3D SUNXI_MSGBOX_MSG_FIFO(n, p);
-> +
-> +			KUNIT_EXPECT_EQ_MSG(test, actual, expected,
-> +					    "MSG_FIFO(%d,%d): expected 0x%03x got 0x%03x",
-> +					    n, p, expected, actual);
+> +		/* High SRAM Space 0 fallback views */
+> +		if (da >=3D 0x3ff80000 && (da + len) <=3D (0x3ff80000 + priv->r_sram_s=
+ize)) {
+> +			if (is_iomem)
+> +				*is_iomem =3D true;
+> +			return priv->r_sram_va + (da - 0x3ff80000);
+> +		}
+> +		if (da >=3D 0x3ffc0000 && (da + len) <=3D (0x3ffc0000 + priv->r_sram_s=
+ize)) {
+> +			if (is_iomem)
+> +				*is_iomem =3D true;
+> +			return priv->r_sram_va + (da - 0x3ffc0000);
 > +		}
 > +	}
-> +}
+> +
+> +	/* 2. Switchable MCU Local SRAM Space 1 */
 
 [Severity: Medium]
-Because SUNXI_MSGBOX_MSG_FIFO is defined locally in this file, does this lo=
-op
-only evaluate the local duplicate macro against its own mathematical expans=
-ion?
-
-[ ... ]
-
-> +static struct kunit_case sun55i_msgbox_register_cases[] =3D {
-> +	KUNIT_CASE(test_msgbox_offset_values),
-> +	KUNIT_CASE(test_read_irq_enable_offsets),
-> +	KUNIT_CASE(test_read_irq_status_offsets),
-> +	KUNIT_CASE(test_msg_fifo_offsets_all_channels),
-> +	KUNIT_CASE(test_msg_status_offsets_all_channels),
-> +	KUNIT_CASE(test_fifo_status_offsets_all_channels),
-> +	KUNIT_CASE(test_rd_irq_en_bit_positions),
-> +	KUNIT_CASE(test_rd_irq_pend_bit_positions),
-> +	KUNIT_CASE(test_num_chans_constant),
-> +	KUNIT_CASE(test_msg_num_mask),
-> +	{}
-> +};
-
-[Severity: Medium]
-Looking at the registered test cases, the claimed tests for direction flags
-and functional logic mentioned in the commit message and file header are not
-present. Could the commit message and documentation be updated to match the
-code, or were these tests accidentally omitted?
+Does this duplicated logic introduce a silent coverage gap by completely
+omitting the PubSRAM C DA view (0x00020000) block that is present in the
+actual driver's translation logic?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260922034711.1902=
-53-1-tcmichals@gmail.com?part=3D3
+53-1-tcmichals@gmail.com?part=3D6
