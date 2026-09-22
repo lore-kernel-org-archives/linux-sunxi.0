@@ -1,70 +1,66 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E233569F34;
-	Tue, 22 Sep 2026 16:37:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C77C5616BC;
+	Tue, 22 Sep 2026 16:40:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790095044; cv=none; b=REGkPRO88cSLK5NZcJV/b2UwicdNR70VR39x4K6GRGy6Wzg1Ofx48KqOoXp0aAZvEy2KOqupU7l98NjxCD1PGySqM+nc2u5IPvsWHrnPAi/ava34WvMPs4ikCu1RLhykijJrJNoUj5u53WbCtHrBXlqbz8BLJIFyYZZgpfIE1YE=
+	t=1790095207; cv=none; b=tTXRPNI9UYxQqcESi+1bECueeshjPkbqDu8m88Q3PoprmN3Dbp7eZ+IGMDftW1HoJjKkkRrCat7zfVECzGc8KRkxYns+qksR0ts6oTfKOnvA5MPWWFePtfIhyywPOwIJeS4iw3PrNdWEcCDs78wTj35VUSkD+qVdclWSQQLgUMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790095044; c=relaxed/simple;
-	bh=QlgXjnmC+ZLQMy3wyhUxwQ10iQVD4+WbtwwK6V+B6lM=;
+	s=arc-20240116; t=1790095207; c=relaxed/simple;
+	bh=TMV4i/0QXbQ+KNOuKkQNyiGHjxKIkJwFi38QaRPmL3s=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=TCNcmfmB+x9bOlYYqzhlscMGPbxRYOx2vXqkA3/1HHGuuJK8mljVmTN8U58wCcFNyfimYEIRVxPR5MtLBkE78maUkRAfKUV9+YQofvxIUijupcUXrYXdQV8BNr5umLFqGqKG5KCh9fmZ6BKQQxFAxqOxyGYJzHjTCTnOuMcXvsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ld6BjzS1; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=H88jALj4m0sq0JQpgQ64f6Iv04uzG0HFPIby1FltlQcWSkRQrXhLHyQhg0G1H6AItCCbAgAnT81+cEHp2MonXun89mYeO7FKcsOCgYAs3j0rKqOKBFbFtrJ177NYvHl6TvGgKbyeykN85Ef15MZrh+G/0MbgbhbuKa+oi5jdl/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g//EvwAY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ld6BjzS1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39DD91F000FF;
-	Tue, 22 Sep 2026 16:37:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g//EvwAY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 217BD1F000FF;
+	Tue, 22 Sep 2026 16:40:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790095033;
-	bh=QlgXjnmC+ZLQMy3wyhUxwQ10iQVD4+WbtwwK6V+B6lM=;
+	s=k20260515; t=1790095205;
+	bh=TMV4i/0QXbQ+KNOuKkQNyiGHjxKIkJwFi38QaRPmL3s=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Ld6BjzS1M44L49FUBvzZ3J4aMfILlJTG/QKQbLnHS/HeuGhWJQd3jIEQwfEIcJCHT
-	 xFrtNJY36uCNotZ5EN7q50i23d6OirexJNMWH4ARdtQRnVpAkqwK89eXsoWqcCWmTp
-	 j8xo0CYSiRX7yllu35YuQi3VpWi6yCVCcYydGVM5xl0LLArLpjGJH5n2erdoWSyqCZ
-	 oyk0lRtEbHE1ASObdtweo6Y9kja3wabdvG1tvhI9kUKb1EPf5arOeAfk5b5B49p90E
-	 WFiDJfbL55oAxT/aBjPrLs3J9/gaFbOsfclrk1O/ZQEv4PpjWfSgak+SluAfMTZ/9f
-	 uMDEO0ojBbPtg==
+	b=g//EvwAYjQPdh+Yil+SkwLoNzr10iGrzK3+QY7btVA11OmeTlLrbDEAEviXInUg/B
+	 Vbx1Hdxl/y0snLa0DiKxrN/MKfj0Ny2eyArvAkhgb4txwVAUP+zA313kem/gJMnC5/
+	 dcFy4Q2QPvbaPed2KaCBQyh+SQ44wWttLm5FhElA/S+BGAK1KZPvMSbI/OvDzXo6Wg
+	 IoK4JIds3Q1LDE3t9YIlEULYn6T4f39FT1PPF1UFq4yCGzWVF5r6ymVF6UDfFHd3co
+	 8+gM/4DkUg3DtV61pI/IF1p3R3l2vs7ttXRP0QWtWUnr5feoZmjq8yI8x/iv44Tnxs
+	 n34zTB02gAbFQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v13 1/2] dt-bindings: mfd: x-powers: Add AC200
+Subject: Re: [PATCH v13 2/2] mfd: ac200: Add X-Powers AC200 support
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "James Hilliard" <james.hilliard1@gmail.com>
-Cc: mfd@lists.linux.dev, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, linux-sunxi@lists.linux.dev, lee@kernel.org
-In-Reply-To: <20260922-submit-ac200-mfd-v13-1-8832afd2481c@gmail.com>
+Cc: mfd@lists.linux.dev, lee@kernel.org, robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20260922-submit-ac200-mfd-v13-2-8832afd2481c@gmail.com>
 References: <20260922-submit-ac200-mfd-v13-0-8832afd2481c@gmail.com>
- <20260922-submit-ac200-mfd-v13-1-8832afd2481c@gmail.com>
+ <20260922-submit-ac200-mfd-v13-2-8832afd2481c@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Sep 2026 16:37:12 +0000
-Message-Id: <20260922163713.39DD91F000FF@smtp.kernel.org>
+Date: Tue, 22 Sep 2026 16:40:04 +0000
+Message-Id: <20260922164005.217BD1F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-> The AC200 is an I2C-controlled mixed-signal companion IC containing
-> audio, video, RTC and Fast Ethernet PHY functions.
+> The X-Powers AC200 is a mixed-signal companion IC with a paged register
+> map accessed over I2C.
 >=20
-> Describe the shared input clock, audio DAI, TV encoder display graph and
-> optional bandgap calibration in one parent node. The codec and TV encoder
-> do not need separate firmware nodes.
+> Enable and rate-lock the shared input clock, retain the vendor resume
+> path's 40 ms wait before creating the regmap and accessing registers, and
+> deassert the common reset. No minimum delay is documented. Set only the
+> deassert bit instead of forcing a reset cycle, avoiding a chip-wide reset
+> of unrelated function registers. Leave the common reset deasserted during
+> driver removal and system shutdown; function drivers own their block
+> resets. Supplier unbind still tears down linked consumers and releases
+> the provider's clock references.
 >=20
-> AC_LDOIN and TV_VCC are distinct 3.3 V supply inputs. Describe them
-> separately without requiring different external regulators. Require the
-> audio supply when the DAI is described and the video supply when the
-> display graph is present, while allowing PHY-only configurations.
->=20
-> Describe the optional shared INTB connection without an internal
-> interrupt domain. Cable detection status remains readable over I2C when
-> INTB is not connected. Include wired and unwired examples.
->=20
-> The Ethernet PHY is represented by a PHY package on its MDIO bus, with a
-> phandle back to this device for access to the package control registers.
-> It therefore does not require an MFD child node. The input clock must run
-> at 24 or 27 MHz when the Ethernet PHY is used, matching the rates encoded
-> by its documented clock selector.
+> Cache only the common page selector. Individual functions can reset
+> independently and invalidate their other registers, so leave all
+> functional registers volatile.
+> [ ... ]
+> ancillary package-control access.
 >=20
 > Co-developed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
@@ -74,5 +70,5 @@ Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260922-submit-ac2=
-00-mfd-v13-0-8832afd2481c@gmail.com?part=3D1
+00-mfd-v13-0-8832afd2481c@gmail.com?part=3D2
 
