@@ -1,103 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C815813CF82;
-	Tue, 22 Sep 2026 00:18:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472B36FC3;
+	Tue, 22 Sep 2026 00:23:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790036323; cv=none; b=gOodRwLQTMfixd6FdqCSji7eavXPVA8HxnJCNryukVMYlZYAwiFcFhEBfOHNpK0rWMvGj8AwpzJ6hNTG9TC5bDzUukaPFreqKdrs5KpkIsX9AaTZmtxhZXfAA2wzb9Q4q0olOPqlrgSMsHYg307NEhCtLtK8Tr0r9al4N6pIu7c=
+	t=1790036622; cv=none; b=VqemyyW8R6xPgzt6SHCHWw1oDH6/PSuP/4/JQywlBLL71cQpgnjX7fPpjfqZLy9DoywLsbCcNtheWsEK0no2e5XBy2PQkBxum8ZD/Gpt7+2//pHT/iwaQWEJhmB1jjwLf/E/IKs2korbqo0wk8PAingFg9imdF3uSfsxDTrXnJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790036323; c=relaxed/simple;
-	bh=pvc6/1j9qU8HbwQFNVUgZW0eY8OyUTimPcf1koNEntc=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=C/qkJebUNwPdGYC1jwDTmtrghevkT7IOt0zBz/Wclr4plz9Sio42JF4hYBOPaocOh37lNxcqpFaOSnt4S1YVPSBLhPuOxR47vmanei30gNVoTw7fJG4SrtrmqkJmkjMuLvPfZ7fDc/taqdSC09ZrSOlYe9d3rhRFYs+cOZXY5dc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hzJQcBvv; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790036622; c=relaxed/simple;
+	bh=p63jFiCl7gko0jJ8Lv6dEIlYqkJSIxxv08Cttfe3yqo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=docyMAQzWW6XHFZn3QSqb+ECAbP6+TeqPRPEiWil4hrj1T1MtFo/NgWYtAeo/ar9saUbmonCrhkzOuP3sAb1Q8rg9KDY683eDqJ/S63C0TJbEvghx8V6A9fhaMiTJubnYlxvPTRkGNLSgdIntqQx7ufgYj/IjaJox167RFA8zwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H145PbDW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hzJQcBvv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0899F1F000FF;
-	Tue, 22 Sep 2026 00:18:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H145PbDW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E38611F000FF;
+	Tue, 22 Sep 2026 00:23:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790036321;
-	bh=5ZHngNieuS9uw/XLBPZt/ACTqGt3k8RJIU+jATF3kmY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=hzJQcBvvQ+8H5PJgn+XmMD4jbnPO6uwrYr5sjgmYu6DnmBSpqGN9cdQMAvxE1AjZ7
-	 uS6qmdduhQwTSms2NY6JBtMTfGwKv1G8ca7DN7JqIMlGkUuLGZ8kD0J1tUN8wYICE+
-	 DVYUZWNVMjaV+akqY6T+v3Fn1GsrJmQZcvi7Kv2oW66mD3Hsz9VwFEWuo5yiS8gfsi
-	 DgeGVLx8oBNUriNh2e0XN5ywjNHZkNQt7vNnWlg5qmYr6XyuSRj02p/D4euLPkzBeu
-	 BdURAXeScfzon7GpG+QkF8MAFVZ7gtN4itpdnp74XtH+h+p5Bn8y/GcaFTe2hRW22S
-	 iq9HkEduyR7fQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v9 3/5] pwm: sun8i: export the bypass outputs as clocks
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "James Hilliard" <james.hilliard1@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org
-In-Reply-To: <20260921-h616-pwm-v8-v9-3-37bec6201ff5@gmail.com>
-References: <20260921-h616-pwm-v8-v9-0-37bec6201ff5@gmail.com>
- <20260921-h616-pwm-v8-v9-3-37bec6201ff5@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Sep 2026 00:18:40 +0000
-Message-Id: <20260922001841.0899F1F000FF@smtp.kernel.org>
+	s=k20260515; t=1790036621;
+	bh=p63jFiCl7gko0jJ8Lv6dEIlYqkJSIxxv08Cttfe3yqo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=H145PbDWwspoUI5vQRxdx/xjPWAG5e4ph065fkPR0aUmj6lgToYtEHG4rcZgLvvuE
+	 QYBsW6EJgBGYJ+52rkkggbaZcgANDKGClCic5eyIa/T8ITCUP24Stc6Bo6tK/jnRTQ
+	 wbWqmpEEsWD+Bu/6jdS6sU3cEC+T/QP4qdNxbse/PebprghErN8q2F0pTjyOnfK1jz
+	 QFSro5fYY/P+kWoLew6Jf8BmX/6vlqqIi49l5UDswqgTpnZN13De9JFe2dw/TK2820
+	 jGLfbZtHjS0Iudxz2Ei9xIIjiIMQjXsSsFdDD7LdS3eNUDTE4yWwCAj+eRaSFRTaWz
+	 7tKm2TyxehgqA==
+Date: Tue, 22 Sep 2026 01:23:38 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>,
+ linux-iio@vger.kernel.org, =?UTF-8?B?Vm9qdMSbY2ggS3LDoXRrw70=?=
+ <vo.kratky@seznam.cz>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Linus Walleij <linusw@kernel.org>, Wolfram
+ Sang <wsa+renesas@sang-engineering.com>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 02/11] iio: adc: change from %ld to %pe for PTR_ERR()
+ printing
+Message-ID: <20260922012338.66698120@jic23-hlaptop>
+In-Reply-To: <CAGb2v66iTrHY-MHTKsFM=Wqf3vVLy-g8eg6M8eP573YX92MDig@mail.gmail.com>
+References: <20260604120201.116925-1-vo.kratky@seznam.cz>
+	<20260604120201.116925-3-vo.kratky@seznam.cz>
+	<rfot56KMT1aR8vVOIe5xxg@gmail.com>
+	<CAGb2v66iTrHY-MHTKsFM=Wqf3vVLy-g8eg6M8eP573YX92MDig@mail.gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] clk: missing args_count validation in sun8i_pwm_get_clk_hw() rea=
-ds uninitialized memory
---
+On Tue, 22 Sep 2026 00:08:55 +0800
+Chen-Yu Tsai <wens@kernel.org> wrote:
 
-commit 68e6d29bee94ba15c085b933d17a7299032ead6b
-Author: Richard Genoud <richard.genoud@bootlin.com>
+> Jonathan,
+>=20
+> On Sat, Jun 13, 2026 at 4:06=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrab=
+ec@gmail.com> wrote:
+> >
+> > Dne =C4=8Detrtek, 4. junij 2026 ob 13:59:22 Srednjeevropski poletni =C4=
+=8Das je Vojt=C4=9Bch Kr=C3=A1tk=C3=BD napisal(a): =20
+> > > Replace numeric PTR_ERR() logging with the %pe format specifier
+> > > so that error values are printed in a more readable form.
+> > >
+> > > This change was identified using a Coccinelle semantic patch.
+> > >
+> > > No functional change intended.
+> > >
+> > > Signed-off-by: Vojt=C4=9Bch Kr=C3=A1tk=C3=BD <vo.kratky@seznam.cz> =20
+> >
+> > Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com> =20
+>=20
+> Any chance you can still pick this up?
+Not without Andy's feedback being taken into account as
+it seems to apply to this patch as well as the one he commented on
 
-pwm: sun8i: export the bypass outputs as clocks
+https://lore.kernel.org/all/CAHp75VcKGfzQePh0TzsNBKPjHxr=3Dey8uO=3D4_+_oaio=
+SNKkS8_A@mail.gmail.com/
+>=20
+>=20
+> Thanks
+> ChenYu
 
-This commit exposes each H616 PWM channel's hardware bypass as a CCF clock
-for consumers that need a clock rather than PWM duty control. It arbitrates
-ownership between PWM requests and clock prepare, using CLK_IGNORE_UNUSED
-to preserve unclaimed bypass outputs.
-
-> diff --git a/drivers/pwm/pwm-sun8i.c b/drivers/pwm/pwm-sun8i.c
-> index 7e6c39815c183..fd81c5f5e3267 100644
-> --- a/drivers/pwm/pwm-sun8i.c
-> +++ b/drivers/pwm/pwm-sun8i.c
-
-[ ... ]
-
-> @@ -1012,6 +1169,17 @@ sun8i_pwm_sanitize_disabled_pairs(struct sun8i_pwm=
-_chip *sun8i_chip)
->  	sun8i_pwm_writel(sun8i_chip, per, SUN8I_PWM_PER);
->  }
-> =20
-> +static struct clk_hw *sun8i_pwm_get_clk_hw(struct of_phandle_args *clksp=
-ec,
-> +					   void *data)
-> +{
-> +	struct sun8i_pwm_chip *sun8i_chip =3D data;
-> +
-> +	if (clkspec->args[0] >=3D SUN8I_PWM_NPWM)
-
-[Severity: Medium]
-Is it possible to read uninitialized memory here if the device tree is
-incorrectly configured?=20
-
-If a consumer device requests a clock from this provider but specifies zero
-clock cells (#clock-cells =3D <0>), of_parse_phandle_with_args() might leave
-the args array uninitialized.
-
-Should this code verify clkspec->args_count >=3D 1 before accessing
-clkspec->args[0]?
-
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	return &sun8i_chip->channels[clkspec->args[0]].bypass_hw;
-> +}
-> +
->  static int sun8i_pwm_probe(struct platform_device *pdev)
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260921-h616-pwm-v=
-8-v9-0-37bec6201ff5@gmail.com?part=3D3
