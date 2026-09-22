@@ -1,72 +1,80 @@
-Received: from mail-yx2-f12.google.com (mail-yx2-f12.google.com [74.125.224.140])
+Received: from mail-yx2-f43.google.com (mail-yx2-f43.google.com [74.125.224.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3981C2475D0
-	for <linux-sunxi@lists.linux.dev>; Tue, 22 Sep 2026 03:47:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3863D3336
+	for <linux-sunxi@lists.linux.dev>; Tue, 22 Sep 2026 03:47:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790048863; cv=none; b=RhiMhow2Wgx/oLNITy9t/3/IuyvEpHbgfB/d84Re1MHzXK3gWNTiaEcdCno0yxuTblUpps2F2aosxE4BB07Gt9kwW3F7uDYXqqbmv4YCr4vFsqMlqcFHO5awiRJB9yGSXPtSxu5Mv97N4qIWR1sZkhNKKeFdVKTQ1j35zHscTmo=
+	t=1790048863; cv=none; b=CqqlRGQIdNPOxD/00VcYLJI4smiqmqk1dK0aXYAYoMTovxT/uUoJ1DhgOmQtdTy+OSb+jzzOkL4wDONHDMV6GiLIn7MSHmpbFlsVF/k0GLnoD16nvZ2PqojxLLVZ29+EGIYZ3iggzUfBd9PrxRXuPrZSLWaC8ZxXQ6Ns+TZlatg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790048863; c=relaxed/simple;
-	bh=qR0bW2QQdh8TY9ezV3dSgXeSSqnw3XzavlwiQGMYtjk=;
+	bh=vs0p7aKfRjm32/JARKxXOJKs9GaInGuJp6lBcXmuJBA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lPui7HdA+UXhFWQo/aktrvErMvzCGhObwQ2HWaq3RDzgDLOVNiwF0PuExJZRWNuJQyBRMCN28DuVbBwXLHg6fEMR4tlznQgSNsK3su5L8kYi0E9C4g7frdt6ipW1n9rghYVgUEjxp5Btt3fdKqJMDU8UUnAtzW5YGo2UJiFQ7Yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kD9o+DHZ; arc=none smtp.client-ip=74.125.224.140
+	 MIME-Version; b=o+7ov2MbmYmV4ZfHxxw9S50N953SfTIEOp2MtsVdY9eNcV/4oQuYL76o1TJ4NWKP9vpL3mrr0GXCU5SyHeLbiHogSF49GN2Qm7iPcQY2+Gs2CKzV5o+e811NM+/9g6PJOZ3jtwIMfVdFNVhjVsEvWtKmWGUkTkCATZvPWR8hoiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g8EtRJN1; arc=none smtp.client-ip=74.125.224.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kD9o+DHZ"
-Received: by mail-yx2-f12.google.com with SMTP id 956f58d0204a3-66e4ab2029eso3398198d50.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 20:47:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g8EtRJN1"
+Received: by mail-yx2-f43.google.com with SMTP id 00721157ae682-85d440939f0so28619017b3.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 20:47:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790048860; x=1790653660; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ccxv/3v9sApG+0UJp6uYEQYHxljG8Xdb2oMYuyRRv7k=;
-        b=kD9o+DHZPiY68bsG6dkBbga11Rfjnn7SikqO4Xx86O/legJfAxQ0Ebu1bZ/NoTwKjA
-         MfbJWp+HtlK5986Q8XSEII8EGczoX9c+4QpmzokElWW8vV2b/EGEP7lzTwPYsk8RRXO4
-         qp6qquFyMcfNA0bJ03FRazrgPimPVNAdxVPPYBGX6NaC2Fjf1ERHjxltBNyGUTuaTecG
-         SglgWIue+ZGSK+uGS4ur8n+M7GbCgmjV+J7cPikQSdmDVZarZvI3rLviT9H+q56RoMAK
-         VlULfvP2EmHziuvmmXMt8NkQXFTrIw2BUr69gkgOwrsvvv7CIv4RrqHwETFx6XCnbTAe
-         NUHA==
+        d=gmail.com; s=20251104; t=1790048861; x=1790653661; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4/zsDmJePgaslWzMD95723Em6EJMVLj62D0M57SSna4=;
+        b=g8EtRJN1lbqyMcbSYqQ7VlVVQWjUlBGmOA2WhxTz58r8EOK0TEUq4BBAf3MRbkCUXj
+         a2/atgxx1eotuLxSNTFCPuQuJ2gJOhZU9yseBavgYFyP8PWUpQ+pjQTHsIMnMMAiXd/5
+         BWH/JEzR7/8rGvDnZc/TizCQF2LRc3AQQVosZRbKR/QRyl+i05MwGmqW9HNk2INgJKUj
+         xqehOQOQlh1DADseKWnWMrRHVqsHICNrLhbxWyBaJFys7lThrz8+Gpy+fupGnnYQn+9M
+         /tvbD11yNLg8Zqtb0+6oU1vGh1xI8Obzc0R1xex4aXodJFCXN5OTXqTdqFXYwsDcpx5N
+         MmqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790048860; x=1790653660;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ccxv/3v9sApG+0UJp6uYEQYHxljG8Xdb2oMYuyRRv7k=;
-        b=YK0UQb10Rz2ZZmDk68hJDAbJU7IazXr4XDN6G/voP1jKpEDtTu9MVbg/t32r0kikUD
-         Gqi5j4EEXkmhRqJsBYNsmKDJeDjXkUC50BppvhZ2P5nqM1e4KRHes18lZVATAMQX+1YN
-         7gHhmxrk25e1IOv7JnAofK/GWcZ7ZO1alV9aT38cv+cqbMRwKdLrCVtIAzvBdgehNWw7
-         sm3CsmQc5QxKL5CguE2xX8vdwWPJaJkWU6evLzY+gwbD/5MBdkWbfFVM1EpjO1z3qAJL
-         P2Tx0UfcJN2moUCiKZAuVYSnOLEc8IEmaKltZK9Le4TxYojo376NEiQnFVFcy5c1F9DW
-         4ewA==
-X-Gm-Message-State: AFuF++mx9LheL/71xDhq+/6czWOyZB5/e+IoTJVf7pBCs0rjL8z7o71z
-	7ru3tOYyvZFJKn1yfBkiYjYy/rCEhP2ijRuzTaNa0PD+eR5E02DHbfleeFIrmOkt
-X-Gm-Gg: AYBFou20cpp4ZK8SaiAmsJwk5Fn7OFTO5x4qvLoL6gMhy8Zw7aSZgqhn4YOROU/O1xj
-	9QHpB09y3YPCmRrOKO34+cRs+ML2+E3NM9F4RCYrzkLWqPmgOoXB+YW30ycxZh0NM1FUro4/k2C
-	j4jyIBxoIYgd3GuF9XZU5rDL2IT3oymygRupuqQzllO6PXVpyrA5w+uCH9evA3+Wi7TWWED04Co
-	oss8CL6iTQU1Z/I9eOnxjcMqUGrGzM72U+htG/bovUrqnAWNQO2noAjBlkWiDuSGnVPu/59+LTR
-	AFs+eul1qhrjJCTaTl0VA1egYeTQu91ewozKEVv4sYUKgYIEdtGjF4F36wGYOJZwB+V6hkKqXpA
-	gcBdEYyLd/uFMUWljodna/oF0X3eEIsRndWiXxSdr8zwRtRCh2zOQWIZKlhLCyIpeFo+5nOAFVk
-	S4z1loU3e++H/cTIBP4+uNv9I8OtqNB31Z1/sspi3bNn6o4HzL0Ty1Brj/IOq0ey3zBQ==
-X-Received: by 2002:a05:690e:144c:b0:672:99e1:11d8 with SMTP id 956f58d0204a3-67299e11652mr2511978d50.117.1790048860062;
-        Mon, 21 Sep 2026 20:47:40 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790048861; x=1790653661;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4/zsDmJePgaslWzMD95723Em6EJMVLj62D0M57SSna4=;
+        b=gM5D/FtEGKAJtGphfDEuQQNWcfp1SI/j/WWBsRhH9zowKp/Xqxb27TYA/d28EKEhrX
+         rvqIEKnAQ4UTMT8LuugYMy1Lqfv3xcF8LI/wgP+/ceV/L+mxdaeOeHUVRD/6mZXt1Bf4
+         TVzOD7P8rHgN1TPReS9iXV8fpLX9OPX5q/ppa79R6Ry5AVLAgfr4kh0/uIXJ59kqf7yT
+         NYYDd00J7ZaUYSppM6CG+8BWTM3IyYfAeEQaiVE+eJmmuK6CQFjrl2AiIFWatzrbBN4d
+         jSlpFCiI8zRHpvGE5qC/iW2udYiA2WKDnKtOP/A1yly+F1ZikoWM42GARUdBFY8mBAM/
+         Nb8A==
+X-Gm-Message-State: AFuF++noFHETunAfNKrx5VqQfUxgJUQJiwKNSSLA8Z2WV3m7rh+lB/cW
+	ss7x9JND208fdoWvgo2LtfGvRmciTdGOanwfMgrR55Lxu1zkDLWt5rsePLK+LFSK
+X-Gm-Gg: AYBFou0nfoeATVOpv6WlmQrvil0m0PPGO3YYV8HTvXtqGmDJ/TRK+Gt4963PFaJy08X
+	9lLrXBUWgbiX22FGd3d9BBX4hahBPOHUW4I7bJ4yif/N8B6CWXj3ZbzapoXfWpO7BBx99Q+Yrwm
+	aTZJ78rKn76c7JAvzo2n6TzLf54zQwH3wiZ1EMvq+YETGzFSn1HAN/pFzbV5V/yO0hhWogH8XCV
+	01oWIqXVELRH3nVSatFo6N7yedduHYZ5dfbF0LygEesB57Z/zbv1czsKAb0a7qPkbse7k5p6u+z
+	ZLFKkg4x73h6cW02hZN0/OVFnC8BCQXqgKMhAf8DoD8RaWehvXOtlumcFGvRfBVx1PlKht3HORp
+	s6jh6Jy9K5uZAi+loUu0D7Ms72wtNkx2yD4gWVfsCxSL3+zsE61Cg91KpSoye41461ejSeiZJ/k
+	/sONrxPqmxjziqJTB6QPXLKmIwHw+bDaOZ4Vs7k/G2xVDOeiS5u+KyRXvefO+4krEjxQ==
+X-Received: by 2002:a05:690c:e3cf:b0:88a:4770:c2e9 with SMTP id 00721157ae682-897308f88c2mr50874537b3.14.1790048861342;
+        Mon, 21 Sep 2026 20:47:41 -0700 (PDT)
 Received: from hp ([71.12.40.102])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8a2bd79e82bsm1822337b3.5.2026.09.21.20.47.39
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8a2bd79e82bsm1822337b3.5.2026.09.21.20.47.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 20:47:39 -0700 (PDT)
+        Mon, 21 Sep 2026 20:47:41 -0700 (PDT)
 From: Tim Michals <tcmichals@gmail.com>
 To: linux-sunxi@lists.linux.dev
 Cc: wens@kernel.org,
 	jernej.skrabec@gmail.com,
 	samuel@sholland.org,
-	Tim Michals <tcmichals@gmail.com>
-Subject: [PATCH 6/7] remoteproc: sunxi: add KUnit tests for da_to_va address translation
-Date: Mon, 21 Sep 2026 22:47:10 -0500
-Message-ID: <20260922034711.190253-7-tcmichals@gmail.com>
+	Tim Michals <tcmichals@gmail.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-remoteproc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH 7/7] arm64: dts: allwinner: add a523 msgbox and remoteproc nodes
+Date: Mon, 21 Sep 2026 22:47:11 -0500
+Message-ID: <20260922034711.190253-8-tcmichals@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260922034711.190253-1-tcmichals@gmail.com>
 References: <20260922034711.190253-1-tcmichals@gmail.com>
@@ -76,507 +84,79 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add KUnit test suite for the sunxi_rproc da_to_va() function, verifying
-address translation logic across all memory window types:
-  - SRAM Space 0 at 4 different DA views (host-phys, 0x3FFC0000,
-    0x3FF80000, 0x40000000)
-  - SRAM Space 1 at host-phys, 0x40000000, and 0x40040000
-  - DRAM carveout
-  - Trace/reserved memory region
+Add the hardware mailbox (CPUX_MSGBOX) node and the XuanTie RISC-V
+remoteproc node for Allwinner A523/A527 SoCs. Connect the remoteproc
+node to the MCU CCU clocks (bus, core) and resets (cfg, core) to
+support remote processor lifecycle management and RPMsg IPC.
 
-Also tests boundary conditions (zero-length, out-of-range, exact end),
-is_iomem flag correctness, and NULL safety.
-
+Cc: Bjorn Andersson <andersson@kernel.org>
+Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: Andre Przywara <andre.przywara@arm.com>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+Cc: linux-remoteproc@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
 Signed-off-by: Tim Michals <tcmichals@gmail.com>
 ---
- drivers/remoteproc/Kconfig            |  11 +
- drivers/remoteproc/Makefile           |   1 +
- drivers/remoteproc/sunxi_rproc_test.c | 442 ++++++++++++++++++++++++++
- 3 files changed, 454 insertions(+)
- create mode 100644 drivers/remoteproc/sunxi_rproc_test.c
+ .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 39 +++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
-diff --git a/drivers/remoteproc/Kconfig b/drivers/remoteproc/Kconfig
-index d35b033b9106..5c06a52b37d5 100644
---- a/drivers/remoteproc/Kconfig
-+++ b/drivers/remoteproc/Kconfig
-@@ -396,6 +396,17 @@ config SUNXI_REMOTEPROC
- 	  co-processor on Allwinner A523, A527, and T527 SoCs via the
- 	  remote processor framework.
- 
-+
-+config SUNXI_REMOTEPROC_KUNIT_TEST
-+	tristate "KUnit tests for Allwinner sunxi remoteproc" if !KUNIT_ALL_TESTS
-+	depends on KUNIT
-+	default KUNIT_ALL_TESTS
-+	help
-+	  KUnit tests for the Allwinner sunxi_rproc driver, covering
-+	  da_to_va() address translation logic and boundary conditions
-+	  across dedicated SRAM spaces, DRAM carveouts, and trace regions.
-+	  Say Y here to run these tests during boot or via kunit.py.
-+
- endif # REMOTEPROC
- 
- endmenu
-diff --git a/drivers/remoteproc/Makefile b/drivers/remoteproc/Makefile
-index 02acefa6d880..a3503a71f332 100644
---- a/drivers/remoteproc/Makefile
-+++ b/drivers/remoteproc/Makefile
-@@ -42,3 +42,4 @@ obj-$(CONFIG_TI_K3_M4_REMOTEPROC)	+= ti_k3_m4_remoteproc.o ti_k3_common.o
- obj-$(CONFIG_TI_K3_R5_REMOTEPROC)	+= ti_k3_r5_remoteproc.o ti_k3_common.o
- obj-$(CONFIG_XLNX_R5_REMOTEPROC)	+= xlnx_r5_remoteproc.o
- obj-$(CONFIG_SUNXI_REMOTEPROC)		+= sunxi_rproc.o
-+obj-$(CONFIG_SUNXI_REMOTEPROC_KUNIT_TEST)	+= sunxi_rproc_test.o
-diff --git a/drivers/remoteproc/sunxi_rproc_test.c b/drivers/remoteproc/sunxi_rproc_test.c
-new file mode 100644
-index 000000000000..ea1a3331bc26
---- /dev/null
-+++ b/drivers/remoteproc/sunxi_rproc_test.c
-@@ -0,0 +1,442 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * KUnit tests for Allwinner XuanTie RISC-V remoteproc driver (sunxi_rproc.c)
-+ *
-+ * Tests da_to_va() address translation logic for all memory window types
-+ * and boundary conditions. These are pure-logic tests that run without
-+ * real hardware.
-+ *
-+ * Copyright (C) 2026 Tim Michals <tcmichals@gmail.com>
-+ */
-+
-+#include <kunit/test.h>
-+#include <linux/remoteproc.h>
-+#include <linux/platform_device.h>
-+#include <linux/slab.h>
-+
-+/*
-+ * We test da_to_va() by constructing a fake sunxi_rproc with known
-+ * memory window parameters and calling the function directly.
-+ *
-+ * Since sunxi_rproc_da_to_va() is static in sunxi_rproc.c, we
-+ * replicate the exact address translation logic here. Any divergence
-+ * from the driver is itself a test failure that code review will catch.
-+ */
-+
-+struct test_sunxi_rproc {
-+	void __iomem *r_sram_va;
-+	phys_addr_t r_sram_phys;
-+	size_t r_sram_size;
-+
-+	void __iomem *r_sram1_va;
-+	phys_addr_t r_sram1_phys;
-+	size_t r_sram1_size;
-+
-+	void *dram_va;
-+	phys_addr_t dram_phys;
-+	size_t dram_size;
-+
-+	void *trace_va;
-+	phys_addr_t trace_phys;
-+	size_t trace_size;
-+};
-+
-+/*
-+ * Mirror of sunxi_rproc_da_to_va() logic from drivers/remoteproc/sunxi_rproc.c.
-+ * Must be kept in sync with the driver. Divergence is a bug.
-+ */
-+static void *test_da_to_va(struct test_sunxi_rproc *priv,
-+			   u64 da, size_t len, bool *is_iomem)
-+{
-+	if (len == 0)
-+		return NULL;
-+
-+	/* 1. Dedicated MCU Local SRAM Space 0 */
-+	if (priv->r_sram_va) {
-+		/* Host physical address view */
-+		if (da >= priv->r_sram_phys &&
-+		    (da + len) <= (priv->r_sram_phys + priv->r_sram_size)) {
-+			if (is_iomem)
-+				*is_iomem = true;
-+			return priv->r_sram_va + (da - priv->r_sram_phys);
-+		}
-+		/* Core DA view: 0x40000000 */
-+		if (da >= 0x40000000 &&
-+		    (da + len) <= (0x40000000 + priv->r_sram_size)) {
-+			if (is_iomem)
-+				*is_iomem = true;
-+			return priv->r_sram_va + (da - 0x40000000);
-+		}
-+		/* High SRAM Space 0 fallback views */
-+		if (da >= 0x3ff80000 && (da + len) <= (0x3ff80000 + priv->r_sram_size)) {
-+			if (is_iomem)
-+				*is_iomem = true;
-+			return priv->r_sram_va + (da - 0x3ff80000);
-+		}
-+		if (da >= 0x3ffc0000 && (da + len) <= (0x3ffc0000 + priv->r_sram_size)) {
-+			if (is_iomem)
-+				*is_iomem = true;
-+			return priv->r_sram_va + (da - 0x3ffc0000);
-+		}
-+	}
-+
-+	/* 2. Switchable MCU Local SRAM Space 1 */
-+	if (priv->r_sram1_va) {
-+		if (da >= priv->r_sram1_phys &&
-+		    (da + len) <= (priv->r_sram1_phys + priv->r_sram1_size)) {
-+			if (is_iomem)
-+				*is_iomem = true;
-+			return priv->r_sram1_va + (da - priv->r_sram1_phys);
-+		}
-+		if (da >= 0x40000000 &&
-+		    (da + len) <= (0x40000000 + priv->r_sram1_size)) {
-+			if (is_iomem)
-+				*is_iomem = true;
-+			return priv->r_sram1_va + (da - 0x40000000);
-+		}
-+		if (da >= 0x40040000 &&
-+		    (da + len) <= (0x40040000 + priv->r_sram1_size)) {
-+			if (is_iomem)
-+				*is_iomem = true;
-+			return priv->r_sram1_va + (da - 0x40040000);
-+		}
-+	}
-+
-+	/* 4. Trace / Reserved Memory */
-+	if (priv->trace_va) {
-+		if (da >= priv->trace_phys &&
-+		    (da + len) <= (priv->trace_phys + priv->trace_size)) {
-+			if (is_iomem)
-+				*is_iomem = false;
-+			return priv->trace_va + (da - priv->trace_phys);
-+		}
-+	}
-+
-+	/* 5. Boot DRAM Carveout */
-+	if (priv->dram_va) {
-+		if (da >= priv->dram_phys &&
-+		    (da + len) <= (priv->dram_phys + priv->dram_size)) {
-+			if (is_iomem)
-+				*is_iomem = false;
-+			return priv->dram_va + (da - priv->dram_phys);
-+		}
-+	}
-+
-+	return NULL;
-+}
-+
-+/*
-+ * Fake VA addresses — sentinel values to detect correct base + offset
-+ * arithmetic without needing real ioremap'd memory.
-+ */
-+#define FAKE_SRAM_VA	((void __iomem *)0xA0000000UL)
-+#define FAKE_SRAM1_VA	((void __iomem *)0xB0000000UL)
-+#define FAKE_DRAM_VA	((void *)0xC0000000UL)
-+#define FAKE_TRACE_VA	((void *)0xD0000000UL)
-+
-+/* Standard A527 hardware parameters */
-+#define A527_SRAM_PHYS		0x07280000ULL
-+#define A527_SRAM_SIZE		0x40000		/* 256 KB */
-+#define A527_SRAM1_PHYS		0x072C0000ULL
-+#define A527_SRAM1_SIZE		0x40000		/* 256 KB */
-+#define A527_DRAM_PHYS		0x48000000ULL
-+#define A527_DRAM_SIZE		0x100000	/* 1 MB */
-+#define A527_TRACE_PHYS		0x50000000ULL
-+#define A527_TRACE_SIZE		0x1000		/* 4 KB */
-+
-+static struct test_sunxi_rproc *create_test_priv(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv;
-+
-+	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
-+
-+	priv->r_sram_va = FAKE_SRAM_VA;
-+	priv->r_sram_phys = A527_SRAM_PHYS;
-+	priv->r_sram_size = A527_SRAM_SIZE;
-+
-+	priv->r_sram1_va = FAKE_SRAM1_VA;
-+	priv->r_sram1_phys = A527_SRAM1_PHYS;
-+	priv->r_sram1_size = A527_SRAM1_SIZE;
-+
-+	priv->dram_va = FAKE_DRAM_VA;
-+	priv->dram_phys = A527_DRAM_PHYS;
-+	priv->dram_size = A527_DRAM_SIZE;
-+
-+	priv->trace_va = FAKE_TRACE_VA;
-+	priv->trace_phys = A527_TRACE_PHYS;
-+	priv->trace_size = A527_TRACE_SIZE;
-+
-+	return priv;
-+}
-+
-+/* ===== Zero-length guard ===== */
-+
-+static void test_da_to_va_zero_length_returns_null(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+
-+	KUNIT_EXPECT_NULL(test, test_da_to_va(priv, 0x3FFC0000, 0, NULL));
-+}
-+
-+/* ===== SRAM Space 0: Core DA 0x3FFC0000 view ===== */
-+
-+static void test_da_to_va_sram_space0_core_da(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+	bool is_iomem = false;
-+	void *va;
-+
-+	va = test_da_to_va(priv, 0x3FFC0000, 0x100, &is_iomem);
-+	KUNIT_ASSERT_NOT_NULL(test, va);
-+	KUNIT_EXPECT_PTR_EQ(test, va, (void *)FAKE_SRAM_VA);
-+	KUNIT_EXPECT_TRUE(test, is_iomem);
-+}
-+
-+static void test_da_to_va_sram_space0_core_da_offset(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+	void *va;
-+
-+	va = test_da_to_va(priv, 0x3FFC0000 + 0x1000, 0x100, NULL);
-+	KUNIT_ASSERT_NOT_NULL(test, va);
-+	KUNIT_EXPECT_PTR_EQ(test, va,
-+			    (void *)((unsigned long)FAKE_SRAM_VA + 0x1000));
-+}
-+
-+/* ===== SRAM Space 0: Host physical address view ===== */
-+
-+static void test_da_to_va_sram_space0_host_phys(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+	bool is_iomem = false;
-+	void *va;
-+
-+	va = test_da_to_va(priv, A527_SRAM_PHYS, 0x100, &is_iomem);
-+	KUNIT_ASSERT_NOT_NULL(test, va);
-+	KUNIT_EXPECT_PTR_EQ(test, va, (void *)FAKE_SRAM_VA);
-+	KUNIT_EXPECT_TRUE(test, is_iomem);
-+}
-+
-+static void test_da_to_va_sram_space0_host_phys_offset(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+	void *va;
-+
-+	va = test_da_to_va(priv, A527_SRAM_PHYS + 0x2000, 0x100, NULL);
-+	KUNIT_ASSERT_NOT_NULL(test, va);
-+	KUNIT_EXPECT_PTR_EQ(test, va,
-+			    (void *)((unsigned long)FAKE_SRAM_VA + 0x2000));
-+}
-+
-+/* ===== SRAM Space 0: Alternate DA 0x3FF80000 view ===== */
-+
-+static void test_da_to_va_sram_space0_alt_3ff80000(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+	bool is_iomem = false;
-+	void *va;
-+
-+	va = test_da_to_va(priv, 0x3FF80000, 0x100, &is_iomem);
-+	KUNIT_ASSERT_NOT_NULL(test, va);
-+	KUNIT_EXPECT_PTR_EQ(test, va, (void *)FAKE_SRAM_VA);
-+	KUNIT_EXPECT_TRUE(test, is_iomem);
-+}
-+
-+/* ===== SRAM Space 0: DA 0x40000000 view (when sram1 disabled) ===== */
-+
-+static void test_da_to_va_sram_space0_40000000(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+	bool is_iomem = false;
-+	void *va;
-+
-+	/* Disable sram1 so 0x40000000 hits sram space 0 path */
-+	priv->r_sram1_va = NULL;
-+
-+	va = test_da_to_va(priv, 0x40000000, 0x100, &is_iomem);
-+	KUNIT_ASSERT_NOT_NULL(test, va);
-+	KUNIT_EXPECT_PTR_EQ(test, va, (void *)FAKE_SRAM_VA);
-+	KUNIT_EXPECT_TRUE(test, is_iomem);
-+}
-+
-+/* ===== SRAM Space 1: Host physical view ===== */
-+
-+static void test_da_to_va_sram_space1_host_phys(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+	bool is_iomem = false;
-+	void *va;
-+
-+	va = test_da_to_va(priv, A527_SRAM1_PHYS, 0x100, &is_iomem);
-+	KUNIT_ASSERT_NOT_NULL(test, va);
-+	KUNIT_EXPECT_PTR_EQ(test, va, (void *)FAKE_SRAM1_VA);
-+	KUNIT_EXPECT_TRUE(test, is_iomem);
-+}
-+
-+/* ===== SRAM Space 1: Core DA 0x40040000 view ===== */
-+
-+static void test_da_to_va_sram_space1_40040000(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+	bool is_iomem = false;
-+	void *va;
-+
-+	va = test_da_to_va(priv, 0x40040000, 0x100, &is_iomem);
-+	KUNIT_ASSERT_NOT_NULL(test, va);
-+	KUNIT_EXPECT_PTR_EQ(test, va, (void *)FAKE_SRAM1_VA);
-+	KUNIT_EXPECT_TRUE(test, is_iomem);
-+}
-+
-+/* ===== DRAM carveout ===== */
-+
-+static void test_da_to_va_dram_carveout(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+	bool is_iomem = true; /* should be set to false */
-+	void *va;
-+
-+	va = test_da_to_va(priv, A527_DRAM_PHYS, 0x100, &is_iomem);
-+	KUNIT_ASSERT_NOT_NULL(test, va);
-+	KUNIT_EXPECT_PTR_EQ(test, va, FAKE_DRAM_VA);
-+	KUNIT_EXPECT_FALSE(test, is_iomem);
-+}
-+
-+static void test_da_to_va_dram_carveout_offset(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+	void *va;
-+
-+	va = test_da_to_va(priv, A527_DRAM_PHYS + 0x800, 0x100, NULL);
-+	KUNIT_ASSERT_NOT_NULL(test, va);
-+	KUNIT_EXPECT_PTR_EQ(test, va,
-+			    (void *)((unsigned long)FAKE_DRAM_VA + 0x800));
-+}
-+
-+/* ===== Trace region ===== */
-+
-+static void test_da_to_va_trace_region(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+	bool is_iomem = true; /* should be set to false */
-+	void *va;
-+
-+	va = test_da_to_va(priv, A527_TRACE_PHYS, 0x100, &is_iomem);
-+	KUNIT_ASSERT_NOT_NULL(test, va);
-+	KUNIT_EXPECT_PTR_EQ(test, va, FAKE_TRACE_VA);
-+	KUNIT_EXPECT_FALSE(test, is_iomem);
-+}
-+
-+/* ===== Out-of-range returns NULL ===== */
-+
-+static void test_da_to_va_out_of_range_returns_null(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+
-+	KUNIT_EXPECT_NULL(test,
-+			  test_da_to_va(priv, 0x10000000, 0x100, NULL));
-+}
-+
-+/* ===== Boundary: request extends past end of region ===== */
-+
-+static void test_da_to_va_past_end_returns_null(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+
-+	/* Starts inside SRAM but len extends past end */
-+	KUNIT_EXPECT_NULL(test,
-+			  test_da_to_va(priv,
-+					A527_SRAM_PHYS + A527_SRAM_SIZE - 0x10,
-+					0x20, NULL));
-+}
-+
-+static void test_da_to_va_exact_end_boundary(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+	void *va;
-+
-+	/* Exactly fills to end of region — should succeed */
-+	va = test_da_to_va(priv,
-+			   A527_SRAM_PHYS + A527_SRAM_SIZE - 0x10,
-+			   0x10, NULL);
-+	KUNIT_ASSERT_NOT_NULL(test, va);
-+}
-+
-+/* ===== is_iomem correctness ===== */
-+
-+static void test_da_to_va_is_iomem_sram_true(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+	bool is_iomem = false;
-+
-+	test_da_to_va(priv, 0x3FFC0000, 0x100, &is_iomem);
-+	KUNIT_EXPECT_TRUE(test, is_iomem);
-+}
-+
-+static void test_da_to_va_is_iomem_dram_false(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+	bool is_iomem = true;
-+
-+	test_da_to_va(priv, A527_DRAM_PHYS, 0x100, &is_iomem);
-+	KUNIT_EXPECT_FALSE(test, is_iomem);
-+}
-+
-+static void test_da_to_va_is_iomem_null_no_crash(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv = create_test_priv(test);
-+	void *va;
-+
-+	/* Passing NULL for is_iomem should not crash */
-+	va = test_da_to_va(priv, 0x3FFC0000, 0x100, NULL);
-+	KUNIT_ASSERT_NOT_NULL(test, va);
-+}
-+
-+/* ===== No memory windows configured ===== */
-+
-+static void test_da_to_va_no_windows_returns_null(struct kunit *test)
-+{
-+	struct test_sunxi_rproc *priv;
-+
-+	priv = kunit_kzalloc(test, sizeof(*priv), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
-+
-+	KUNIT_EXPECT_NULL(test,
-+			  test_da_to_va(priv, 0x3FFC0000, 0x100, NULL));
-+	KUNIT_EXPECT_NULL(test,
-+			  test_da_to_va(priv, 0x48000000, 0x100, NULL));
-+}
-+
-+static struct kunit_case sunxi_rproc_da_to_va_cases[] = {
-+	KUNIT_CASE(test_da_to_va_zero_length_returns_null),
-+	KUNIT_CASE(test_da_to_va_sram_space0_core_da),
-+	KUNIT_CASE(test_da_to_va_sram_space0_core_da_offset),
-+	KUNIT_CASE(test_da_to_va_sram_space0_host_phys),
-+	KUNIT_CASE(test_da_to_va_sram_space0_host_phys_offset),
-+	KUNIT_CASE(test_da_to_va_sram_space0_alt_3ff80000),
-+	KUNIT_CASE(test_da_to_va_sram_space0_40000000),
-+	KUNIT_CASE(test_da_to_va_sram_space1_host_phys),
-+	KUNIT_CASE(test_da_to_va_sram_space1_40040000),
-+	KUNIT_CASE(test_da_to_va_dram_carveout),
-+	KUNIT_CASE(test_da_to_va_dram_carveout_offset),
-+	KUNIT_CASE(test_da_to_va_trace_region),
-+	KUNIT_CASE(test_da_to_va_out_of_range_returns_null),
-+	KUNIT_CASE(test_da_to_va_past_end_returns_null),
-+	KUNIT_CASE(test_da_to_va_exact_end_boundary),
-+	KUNIT_CASE(test_da_to_va_is_iomem_sram_true),
-+	KUNIT_CASE(test_da_to_va_is_iomem_dram_false),
-+	KUNIT_CASE(test_da_to_va_is_iomem_null_no_crash),
-+	KUNIT_CASE(test_da_to_va_no_windows_returns_null),
-+	{}
-+};
-+
-+static struct kunit_suite sunxi_rproc_da_to_va_suite = {
-+	.name = "sunxi_rproc_da_to_va",
-+	.test_cases = sunxi_rproc_da_to_va_cases,
-+};
-+
-+kunit_test_suites(&sunxi_rproc_da_to_va_suite);
-+
-+MODULE_AUTHOR("Tim Michals <tcmichals@gmail.com>");
-+MODULE_DESCRIPTION("KUnit tests for Allwinner sunxi_rproc da_to_va()");
-+MODULE_LICENSE("GPL");
+diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+index 85ef492ffeae..7c5c39c56858 100644
+--- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+@@ -1144,5 +1144,44 @@ npu: npu@7122000 {
+ 			resets = <&mcu_ccu RST_BUS_MCU_NPU>;
+ 			power-domains = <&ppu PD_NPU>;
+ 		};
++
++		msgbox: mailbox@3003000 {
++			compatible = "allwinner,sun55i-a523-msgbox";
++			reg = <0x03003000 0x1000>,
++			      <0x07094000 0x1000>,
++			      <0x07120000 0x1000>,
++			      <0x07136000 0x1000>;
++			reg-names = "arm", "dsp", "cpus", "rv";
++			clocks = <&ccu CLK_BUS_MSGBOX>;
++			resets = <&ccu RST_BUS_MSGBOX>;
++			interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 181 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
++			#mbox-cells = <1>;
++		};
++
++		rproc: remoteproc@7130000 {
++			compatible = "allwinner,sun55i-a523-rproc",
++				     "allwinner,sun55i-a527-rproc";
++			reg = <0x07130000 0x1000>,
++			      <0x07280000 0x40000>,
++			      <0x072c0000 0x40000>,
++			      <0x07010364 0x4>;
++			reg-names = "cfg", "r_sram", "r_sram1", "remap";
++			clocks = <&mcu_ccu CLK_BUS_MCU_RISCV_CFG>,
++				 <&mcu_ccu CLK_MCU_RISCV>,
++				 <&mcu_ccu CLK_BUS_MCU_PUBSRAM>,
++				 <&mcu_ccu CLK_BUS_MCU_RISCV_MSGBOX>;
++			clock-names = "bus", "core", "sram", "msgbox";
++			resets = <&mcu_ccu RST_BUS_MCU_RISCV_CFG>,
++				 <&mcu_ccu RST_BUS_MCU_RISCV_CORE>,
++				 <&mcu_ccu RST_BUS_MCU_PUBSRAM>,
++				 <&mcu_ccu RST_BUS_MCU_RISCV_MSGBOX>;
++			reset-names = "cfg", "core", "sram", "msgbox";
++			mboxes = <&msgbox 8>, <&msgbox 9>;
++			mbox-names = "rx", "tx";
++			status = "disabled";
++		};
+ 	};
+ };
 -- 
 2.53.0
 
