@@ -1,116 +1,264 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4EF3E315E;
-	Tue, 22 Sep 2026 03:59:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78D13E4C75
+	for <linux-sunxi@lists.linux.dev>; Tue, 22 Sep 2026 04:00:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790049572; cv=none; b=LUpzMBmLFhysUsJ+EU3jsr2/MBireKvWQqWm75ZWpaIsqkosf93uClyhGOU923rRQs+Co04R/EHOwm6cvmlkDDL/oGQtfQE+NjLBhogjk3ZwJh4G0k5i71g0QUmyobm0clJjTCYObl0NILCZWHnDyFLu2/9wOpy1frniNMWx/ac=
+	t=1790049613; cv=none; b=MgGFaTdLpZBlX+hOtydQI3+FQXSCFi9iUoPPulRyQDCd5Av8sihE90dF1gs0MwMarp+gHazkhPegH4KDoFF6a59Lfl/A5AGjeMAy+u6Ds0domNoAg4xzyXpcdWWP5/5AkCKyFhrUpgG/BpWlkT4n0WC8AIx18Z09a8Qyw+UduMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790049572; c=relaxed/simple;
-	bh=rIMhabhsld7aWT/P9bJ+u1zrYltWHl9nqVNnDXIzthY=;
+	s=arc-20240116; t=1790049613; c=relaxed/simple;
+	bh=RDtiNWsTUw3N4YRVx6mQNW7rvabjXfT8NJyqGu/RFOM=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=LQqhSiwftryu210rHKF6BvYQSZ/eLJGdcE62tWHrq60+Kkp1ICTRxtn+S3/rJy0RwJKLBVFctavV+4HvcNEQCvtNKA1Kmg5S2UPUN4NSpCRBDOwAjqZ/o1JDWnPbGHrWT1rQKwJxdk/dOs6MjG2ig3JM1y9FAPTqMjgM6Mmuxik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k4G96OWi; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=jTXOSVqTGIJiboVn/ADz6ETZN8YEax+6Pa0Dhq0Katzi3xG6iniKJHM9jouW0jDc4PFssDEDlwy9vgR5jFRBSvZ5jOem6Et0xRBIjC/byqoeaxBri28bTpuidwZzvH/clsiyYXpHQ525kckvulbWK62IRZzHoPiDAF4UmTqnYGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZmuNAh2X; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k4G96OWi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 574341F000FF;
-	Tue, 22 Sep 2026 03:59:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZmuNAh2X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E96A1F000FF;
+	Tue, 22 Sep 2026 04:00:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790049570;
-	bh=B12zAVjOiMw2LNquOPrpi1WpGskE7At8NieYxVeFRFQ=;
+	s=k20260515; t=1790049611;
+	bh=wKzQE2jrcIjPZeGFnEB6K3ojfHGvlfoEFuIAss+Okm4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=k4G96OWiyuvd+rHWRNbXpAaHyS3MuM4ObiZFX9yImElvBORzqVWjCdbcjIP0QF2Sa
-	 LkdX2xrDr3I4wnekamUAKsocSLLB9qzjChXOSZ5iMvfiQPw+ox+TA9td9JQZJ6Fvir
-	 cWfEthPe5TBbX4lHtsI/75k2FXmd3FFz2k998S4EM8Yi/kY64GWJur51CzQj7aFA4a
-	 vBV6NHVR3pi/xcp9gXVBv806IBUWtU3UPq/Ht0+RJ3igdOVFSLPPAXx+/rIdV3ngg0
-	 pHVbdRrHCRWw0tcgVcyNgjVqyiFO/IY0WukL2qrQdV6er+kv+VPtlrd+YVUEWU6H3q
-	 JcHfzVNqaY5UA==
+	b=ZmuNAh2Xd/wb1ZWhAgt79FFDOWSjp3gg9L/DbRYyMgM5b1Hf2/wFiMdiWHuqGLulu
+	 eB3rU5ujvSfl9wDntD4V65wMVmGE9d0ec9C2MjUwhVAsFV6ochatsWL5ExG0paQFDE
+	 w3TVCH+zrGXmlz2PdSQIuMKpsHulWoMZu7pysz/ySuVAsZ3T0XBwzT5Iq8WnFmgog7
+	 aX0ExXb2sJNmekh/Du2Ea+2Su5ie7UCOXi+x1SrFZyjb6YjTY/5Uhk6ey65uNgTMb5
+	 483WKRC7ILml02hqzWftSK3sF58Ilq+mo9zwNfXK//5UItInMQlDeIemGAeWP6wR45
+	 KMf9EzhWfufCw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 7/7] arm64: dts: allwinner: add a523 msgbox and
- remoteproc nodes
+Subject: Re: [PATCH 2/7] mailbox: sun55i: add Allwinner sun55i/sun60i 4-port
+ Message Box driver
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Tim Michals" <tcmichals@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, conor+dt@kernel.org, devicetree@vger.kernel.org, robh@kernel.org
-In-Reply-To: <20260922034711.190253-8-tcmichals@gmail.com>
+Cc: linux-sunxi@lists.linux.dev
+In-Reply-To: <20260922034711.190253-3-tcmichals@gmail.com>
 References: <20260922034711.190253-1-tcmichals@gmail.com>
- <20260922034711.190253-8-tcmichals@gmail.com>
+ <20260922034711.190253-3-tcmichals@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Sep 2026 03:59:29 +0000
-Message-Id: <20260922035930.574341F000FF@smtp.kernel.org>
+Date: Tue, 22 Sep 2026 04:00:10 +0000
+Message-Id: <20260922040011.3E96A1F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 5 potential issue(=
 s) to consider:
-- [Low] dts: dt-binding schema violation in remoteproc compatible property
-- [Low] dts: simple-bus node sorting violation for mailbox@3003000
+- [High] mbox: sun55i: leak of shared reset control on remove and probe err=
+or paths
+- [High] mbox: sun55i: unhandled interrupt storm due to ignored devm_reques=
+t_irq failure
+- [High] mbox: sun55i: unclocked MMIO access panic due to early clock disab=
+le
+- [High] mbox: sun55i: dropped interrupts due to TOCTOU race in status clea=
+ring
+- [Medium] mbox: sun55i: CPU hard lockup via unbounded FIFO read loop in ha=
+rdirq
 --
 
-commit 38cf09c8de53fb563929c96a81218691b32c1fef
+commit 87081d025c7634be651f61e5ab219367cae289d0
 Author: Tim Michals <tcmichals@gmail.com>
 
-arm64: dts: allwinner: add a523 msgbox and remoteproc nodes
+mailbox: sun55i: add Allwinner sun55i/sun60i 4-port Message Box driver
 
-This commit adds the hardware mailbox and XuanTie RISC-V remoteproc nodes f=
-or
-Allwinner A523/A527 SoCs. It also connects the remoteproc node to the
-necessary clocks, resets, and mailboxes for lifecycle management and IPC.
+Add support for the 4-port hardware Message Box present on Allwinner
+A523/A527/T527 (sun55i) and A733 (sun60i) SoCs. This hardware block
+provides 12 hardware FIFO channels connecting the Cortex-A55 host,
+HiFi4 DSP, CPUS, and XuanTie E907 RISC-V coprocessors.
 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun55i-a523.dtsi
-> index 85ef492ffeae7..7c5c39c568583 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> @@ -1144,5 +1144,44 @@ npu: npu@7122000 {
->  			resets =3D <&mcu_ccu RST_BUS_MCU_NPU>;
->  			power-domains =3D <&ppu PD_NPU>;
->  		};
-> +
-> +		msgbox: mailbox@3003000 {
-
-[Severity: Low]
-Does this placement violate the device tree simple-bus unit address sorting
-conventions?  Typically, nodes within a simple-bus are sorted sequentially =
-by
-unit address in ascending order.  Placing mailbox@3003000 after npu@7122000
-breaks this ordering.
-
-Should this node be moved earlier in the file to sit between
-dma-controller@3002000 and efuse@3006000 to maintain correct sorting?
-
-> +			compatible =3D "allwinner,sun55i-a523-msgbox";
-> +			reg =3D <0x03003000 0x1000>,
-> +			      <0x07094000 0x1000>,
-> +			      <0x07120000 0x1000>,
-> +			      <0x07136000 0x1000>;
-> +			reg-names =3D "arm", "dsp", "cpus", "rv";
+> diff --git a/drivers/mailbox/sun55i-msgbox.c b/drivers/mailbox/sun55i-msg=
+box.c
+> new file mode 100644
+> index 0000000000000..b36f26670a461
+> --- /dev/null
+> +++ b/drivers/mailbox/sun55i-msgbox.c
 
 [ ... ]
 
-> +		rproc: remoteproc@7130000 {
-> +			compatible =3D "allwinner,sun55i-a523-rproc",
-> +				     "allwinner,sun55i-a527-rproc";
+> +			chan_idx =3D local_n * SUN55I_CHANS_PER_PROC + p;
+> +			while (readl(local_base +
+> +				     SUNXI_MSGBOX_MSG_STATUS(local_n, p)) & MSG_NUM_MASK) {
+> +				u32 msg =3D readl(local_base + SUNXI_MSGBOX_MSG_FIFO(local_n, p));
+> +
+> +				mbox_chan_received_data(&mbox->controller.chans[chan_idx], &msg);
+> +			}
 
-[Severity: Low]
-Will this multi-string compatible property pass device tree validation?
+[Severity: Medium]
+Does this unbounded loop adequately protect the host CPU against continuous
+transmissions from a remote coprocessor?
 
-The dt-binding for allwinner,sun55i-rproc.yaml defines the compatible
-property strictly as an enum containing allwinner,sun55i-a523-rproc,
-allwinner,sun55i-a527-rproc, and allwinner,sun55i-t527-rproc.
-
-Since the schema uses enum instead of an items list, it requires the value =
+If a remote coprocessor (e.g., DSP or RISC-V) continuously writes messages =
 to
-be exactly one of the listed strings.  Could this be changed to specify a
-single compatible string to prevent dtbs_check warnings?
+the FIFO, the loop condition might never evaluate to false, leaving the host
+CPU stuck in a hardirq context. This could lead to RCU stalls or watchdog
+timeouts.
 
-> +			reg =3D <0x07130000 0x1000>,
-> +			      <0x07280000 0x40000>,
+> +
+> +			writel(RD_IRQ_PEND_BIT(p),
+> +			       local_base + SUNXI_MSGBOX_READ_IRQ_STATUS(local_n));
+
+[Severity: High]
+Does this sequence inadvertently clear the interrupt status for a newly arr=
+ived
+message without processing it?
+
+If a new message arrives from the coprocessor immediately after the while l=
+oop
+evaluates to false, but before the writel() clears the pending interrupt, t=
+he
+newly latched interrupt status could be erroneously cleared. The message wo=
+uld
+remain unread in the FIFO and no interrupt would be generated for it.
+
+> +			ret =3D IRQ_HANDLED;
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
+
+[ ... ]
+
+> +static int sun55i_msgbox_startup(struct mbox_chan *chan)
+> +{
+> +	struct sun55i_msgbox *mbox =3D to_sun55i_msgbox(chan);
+> +	int n =3D chan - mbox->controller.chans;
+> +	int local_n, p, remote_id, remote_n;
+> +	unsigned long flags;
+> +	u32 val;
+> +
+> +	sun55i_chan_to_route(n, &local_n, &p, &remote_id, &remote_n);
+> +
+> +	/* Flush any stale receive data */
+> +	while (readl(mbox->regs[0] + SUNXI_MSGBOX_MSG_STATUS(local_n, p)) & MSG=
+_NUM_MASK)
+> +		readl(mbox->regs[0] + SUNXI_MSGBOX_MSG_FIFO(local_n, p));
+> +
+> +	/* Clear pending status */
+> +	writel(RD_IRQ_PEND_BIT(p),
+> +	       mbox->regs[0] + SUNXI_MSGBOX_READ_IRQ_STATUS(local_n));
+
+[Severity: High]
+Is there a race condition here similar to the one in the interrupt handler?
+
+If a message arrives after the while loop finishes but before the pending
+status is cleared, the interrupt could be lost.
+
+> +
+> +	/* Enable receive IRQ */
+
+[ ... ]
+
+> +static int sun55i_msgbox_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev =3D &pdev->dev;
+> +	struct mbox_chan *chans;
+> +	struct sun55i_msgbox *mbox;
+> +	int i, ret, irq_cnt, local_n;
+
+[ ... ]
+
+> +	mbox->reset =3D devm_reset_control_get_optional_shared(dev, NULL);
+> +	if (IS_ERR(mbox->reset)) {
+> +		ret =3D PTR_ERR(mbox->reset);
+> +		goto err_disable_clk;
+> +	}
+> +
+> +	ret =3D reset_control_deassert(mbox->reset);
+> +	if (ret)
+> +		goto err_disable_clk;
+
+[Severity: High]
+Will this shared reset control be correctly balanced on failure and removal?
+
+The shared reset control is manually deasserted here, incrementing its usage
+count, but it appears there are no corresponding reset_control_assert() cal=
+ls
+in the err_disable_clk error path or in sun55i_msgbox_remove().
+
+This can prevent the physical hardware reset line from ever being asserted
+again, affecting other devices sharing the reset line.
+
+> +
+> +	/* Disable all read IRQs and clear status */
+
+[ ... ]
+
+> +	for (i =3D 0; i < irq_cnt; i++) {
+> +		int irq =3D platform_get_irq(pdev, i);
+> +
+> +		if (irq > 0) {
+> +			ret =3D devm_request_irq(dev, irq, sun55i_msgbox_irq,
+> +					       IRQF_SHARED, dev_name(dev), mbox);
+> +			if (ret)
+> +				dev_warn(dev, "failed to request irq %d: %d\n", irq, ret);
+
+[Severity: High]
+If devm_request_irq() fails, could this cause an unhandled interrupt storm?
+
+The driver ignores the failure and only prints a warning. Later,
+sun55i_msgbox_startup() unconditionally unmasks the hardware receive interr=
+upt.
+
+If the hardware asserts the IRQ line and there is no registered handler,
+the IRQ core will eventually disable the shared IRQ line permanently,
+breaking all devices sharing it.
+
+> +		}
+> +	}
+> +
+> +	chans =3D devm_kcalloc(dev, SUN55I_NUM_CHANS, sizeof(*chans), GFP_KERNE=
+L);
+
+[ ... ]
+
+> +	return 0;
+> +
+> +err_disable_clk:
+> +	clk_disable_unprepare(mbox->clk);
+> +	return ret;
+> +}
+
+[Severity: High]
+Does this error path leak the shared reset control?
+
+Since reset_control_deassert() was called earlier, returning here without
+calling reset_control_assert() leaves the usage count unbalanced.
+
+> +
+> +static void sun55i_msgbox_remove(struct platform_device *pdev)
+> +{
+> +	struct sun55i_msgbox *mbox =3D platform_get_drvdata(pdev);
+> +
+> +	mbox_controller_unregister(&mbox->controller);
+> +	clk_disable_unprepare(mbox->clk);
+> +}
+
+[Severity: High]
+Could this lead to an unclocked MMIO access panic if an interrupt fires dur=
+ing
+module unload?
+
+The shared interrupt is registered using devm_request_irq() in probe, which
+means devres will unregister it after this remove function returns.
+
+Because the hardware clock is manually disabled here before the IRQ handler
+is unregistered by devres, if another device sharing the IRQ line triggers =
+an
+interrupt in this window, sun55i_msgbox_irq() will execute and try to read
+from unclocked MMIO registers, resulting in a system crash.
+
+Additionally, because devres cleans up resources in reverse order,
+the mbox->controller.chans array will be freed before the IRQ is unregister=
+ed,
+leading to a use-after-free if the interrupt fires.
+
+Also, does this function need to call reset_control_assert() to balance the
+deassert call from probe?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260922034711.1902=
-53-1-tcmichals@gmail.com?part=3D7
+53-1-tcmichals@gmail.com?part=3D2
