@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90B492264AB
-	for <linux-sunxi@lists.linux.dev>; Tue, 22 Sep 2026 03:54:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F5BF283142;
+	Tue, 22 Sep 2026 03:54:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790049291; cv=none; b=LIeRF7ROpIqfSVoAXyj12YsMI3DsxDCaOZSkcV4H3H3DsmuDkWwJiCqj/y0iBut3NXOVNpHXZwHneQeIHHe3GxUjPQQAZsbQ8843sxrLPMuJxmc2ngl2AGfHbD+e3b9A5mejZUP1z7QHxMJYCh0gsu+DZEWGQAr5IRUPfntttcY=
+	t=1790049292; cv=none; b=YApMYPUYr0QIxNdqcGPfkm5OWDpRidcA2FhZJWQZKeDeU0MfIb64PnUtb/uJF1Ls7XT7cvFQdwDOu809G2Pb84i58oYloEulD0LwHOvg5bOXjBrHGAe0Uk1epsT8phthmj3S4p66LTaAF+iTp2f4+DAiqV4+BxY2IUajBScHAQg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790049291; c=relaxed/simple;
-	bh=jpsYWmy8RV3NmjjQG2FMOZowBr2MJTw0r5H05Ns2TcU=;
+	s=arc-20240116; t=1790049292; c=relaxed/simple;
+	bh=r6u/bAa1DzOAfN6wf6toLVqmgbVRZ+Q00n+ENIHtkqM=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=AJVYATK3bB8YvZu9dRKa7PRztQGOXBjsrcgH9oIF4/zouhvGvgiKK2/roJ8uLYBR8bUrK7Eu7jjXQxW+mbumZTCeCb2/1wTg10sXwaSgvDOMtSJXpC0GLwCZAsY9zo45Z1sMvqpgaxO1V0l8wabf7jQwUlP4oUnz05yfX1Zjh3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LGR44nbG; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=h3JYNolXKBfKN3KGExNl6vdYqJRtlkuUVpm+CeY12OYEKu1mZcJKQzaKdnmwe0gKAzqR/volZ1rxJHyEntSXlWzolCPzYb/P/+kt5SrzHWrR1zjBbC9kM9pciZ8NQbJaqfvCcO056DEkhwn4v252E1msdj3uWGN5VxITQhwFt10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QT1Av47C; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LGR44nbG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1C8861F000FF;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QT1Av47C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAB4E1F00893;
 	Tue, 22 Sep 2026 03:54:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790049290;
-	bh=LcPH5KKZwrofoKR1js5crt1tzC8OPpN9Xg/T8qQI6KY=;
+	s=k20260515; t=1790049291;
+	bh=I6EyGj7t9w8CDp4emGP0rX0rqsvWBkilFYAgrVzf0t4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=LGR44nbGBkQfgc0EqX+TZUB3BogtDwZkzA9bFA0GcUNJ9dEsTf9H860RHr0cj0+P9
-	 Nf06/n1UdovSsIj5DabC01PhXgiV0dpiDGX4fpHqPzNFB+d3N9dDXFXX4dw7nzaGOg
-	 F0wGPopYVo3qmwtoAZAlE+5gKH22Ztw1bOppVv4xcLkL4M4dTWznR+phf9HlT8SXua
-	 ZXVH1u3FhBL5z/gFnMloVZt1aWugabQsimUPLpnQpJMs5wjivEkSJZYrMIghl+cWuY
-	 wJBThv+TriIWlPTaCK6VGrdpcRuwyY4wdh87/jIoxPsV2dyC8cadaUqRgpmZbhTb5D
-	 dZGjAcbbLdUOQ==
+	b=QT1Av47C01JXKlsOlS3c7DliZ1r2xCcR83Jh28BsEZA5xvcVLtRPnI5UVxN4btJFx
+	 fSHK6/BSgfX7vjTlogQFC3jJZov9uCDAtSoDUpqDG4uTvhO7WIxSceFjkNWw0ykeDh
+	 EIoFilfOZaOGIirCEMFnJWWFQ40qmNxsEWQMQ36wrxMtnyH8WzzFqPr3Lswjf4pAub
+	 MbtGchej/JmSfFLsO8mzLoyw3Et5qWNuKJ4r0cDZwo6AQinKZPXqjLNXIfgt8Ety0b
+	 vqkl+RPNWO+09sgffT3nPWVATn1Aze94QqgPyehkjRFg5Z9UHPoPO82tCt6Y3+k8JZ
+	 ks31IxSGUW1Eg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 6/7] remoteproc: sunxi: add KUnit tests for da_to_va
- address translation
+Subject: Re: [PATCH 1/7] dt-bindings: mailbox: add Allwinner sun55i msgbox
+ schema
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Tim Michals" <tcmichals@gmail.com>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260922034711.190253-7-tcmichals@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20260922034711.190253-2-tcmichals@gmail.com>
 References: <20260922034711.190253-1-tcmichals@gmail.com>
- <20260922034711.190253-7-tcmichals@gmail.com>
+ <20260922034711.190253-2-tcmichals@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Sep 2026 03:54:49 +0000
-Message-Id: <20260922035450.1C8861F000FF@smtp.kernel.org>
+Date: Tue, 22 Sep 2026 03:54:50 +0000
+Message-Id: <20260922035450.DAB4E1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -47,75 +47,49 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] remoteproc: sunxi: test logic diverges from driver and misses Pu=
-bSRAM C DA view
+- [Medium] dt-bindings: mailbox: missing interrupt-names for optional multi=
+-port interrupts
 --
 
-commit 2e1cbebc465781878f472c97dd7ec7e6f704ea63
+commit 10a4254c3034665a213647db7d6bda7467878d9f
 Author: Tim Michals <tcmichals@gmail.com>
 
-remoteproc: sunxi: add KUnit tests for da_to_va address translation
+dt-bindings: mailbox: add Allwinner sun55i msgbox schema
 
-This commit introduces a KUnit test suite for the sunxi_rproc da_to_va()
-function. It verifies address translation logic across various memory
-window types and boundary conditions.
+Add Device Tree binding schema for the Allwinner 4-port hardware
+Message Box controller found on sun55i (A523, A527, T527) and
+sun60i (A733) SoCs.
 
-> diff --git a/drivers/remoteproc/sunxi_rproc_test.c b/drivers/remoteproc/s=
-unxi_rproc_test.c
+> diff --git a/Documentation/devicetree/bindings/mailbox/allwinner,sun55i-a=
+523-msgbox.yaml b/Documentation/devicetree/bindings/mailbox/allwinner,sun55=
+i-a523-msgbox.yaml
 > new file mode 100644
-> index 0000000000000..ea1a3331bc264
+> index 0000000000000..4b73543c7902f
 > --- /dev/null
-> +++ b/drivers/remoteproc/sunxi_rproc_test.c
-
+> +++ b/Documentation/devicetree/bindings/mailbox/allwinner,sun55i-a523-msg=
+box.yaml
 [ ... ]
-
-> +/*
-> + * Mirror of sunxi_rproc_da_to_va() logic from drivers/remoteproc/sunxi_=
-rproc.c.
-> + * Must be kept in sync with the driver. Divergence is a bug.
-> + */
-> +static void *test_da_to_va(struct test_sunxi_rproc *priv,
-> +			   u64 da, size_t len, bool *is_iomem)
-> +{
+> +  interrupts:
+> +    minItems: 1
+> +    maxItems: 4
+> +    description: |
+> +      One interrupt per processor port. The host port interrupt is requi=
+red;
+> +      remote port interrupts are optional.
 
 [Severity: Medium]
-By duplicating the static driver logic into test_da_to_va() instead of
-testing the actual sunxi_rproc_da_to_va() code, does this circumvent the
-System Under Test and fundamentally defeat the purpose of regression testin=
-g?
+This block defines a variable-length list of interrupts, but lacks an
+interrupt-names definition or a strict items array constraint.
 
-Any future changes to the actual driver will not be tested by this suite,
-and it relies entirely on manual synchronization.
+If a board designer attempts to specify a partial list of interrupts (for
+instance, providing the ARM and RISC-V interrupts, but skipping the DSP),
+is there a way for the hardware configuration to retain the correct index
+context without an interrupt-names list?
 
-> +	if (len =3D=3D 0)
-> +		return NULL;
-> +
-> +	/* 1. Dedicated MCU Local SRAM Space 0 */
-
-[ ... ]
-
-> +		/* High SRAM Space 0 fallback views */
-> +		if (da >=3D 0x3ff80000 && (da + len) <=3D (0x3ff80000 + priv->r_sram_s=
-ize)) {
-> +			if (is_iomem)
-> +				*is_iomem =3D true;
-> +			return priv->r_sram_va + (da - 0x3ff80000);
-> +		}
-> +		if (da >=3D 0x3ffc0000 && (da + len) <=3D (0x3ffc0000 + priv->r_sram_s=
-ize)) {
-> +			if (is_iomem)
-> +				*is_iomem =3D true;
-> +			return priv->r_sram_va + (da - 0x3ffc0000);
-> +		}
-> +	}
-> +
-> +	/* 2. Switchable MCU Local SRAM Space 1 */
-
-[Severity: Medium]
-Does this duplicated logic introduce a silent coverage gap by completely
-omitting the PubSRAM C DA view (0x00020000) block that is present in the
-actual driver's translation logic?
+Without explicit descriptions or names per index, does this establish a
+permanently ambiguous ABI for boards that do not connect all 4 interrupt
+lines?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260922034711.1902=
-53-1-tcmichals@gmail.com?part=3D6
+53-1-tcmichals@gmail.com?part=3D1
