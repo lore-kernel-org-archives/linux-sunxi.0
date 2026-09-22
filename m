@@ -1,74 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C77C5616BC;
-	Tue, 22 Sep 2026 16:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBB749F12F
+	for <linux-sunxi@lists.linux.dev>; Tue, 22 Sep 2026 21:24:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790095207; cv=none; b=tTXRPNI9UYxQqcESi+1bECueeshjPkbqDu8m88Q3PoprmN3Dbp7eZ+IGMDftW1HoJjKkkRrCat7zfVECzGc8KRkxYns+qksR0ts6oTfKOnvA5MPWWFePtfIhyywPOwIJeS4iw3PrNdWEcCDs78wTj35VUSkD+qVdclWSQQLgUMw=
+	t=1790112297; cv=none; b=g7lMpsUKc7zQ3BT3TB9Rt/YeGn3gpJMzpGWICLKPHIcG8/LnWDg1sDWwn4SukaMtqNRUeGGxGLJaVOFuvP/AEyoVnG/IkwWHDpingP9y1U6Oz2LV6U6pfiaw8nMwh90l6/UQ2U0WTGaPfS3ugwM+YCAjC4bhDfkdaA1/4KYBSyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790095207; c=relaxed/simple;
-	bh=TMV4i/0QXbQ+KNOuKkQNyiGHjxKIkJwFi38QaRPmL3s=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=H88jALj4m0sq0JQpgQ64f6Iv04uzG0HFPIby1FltlQcWSkRQrXhLHyQhg0G1H6AItCCbAgAnT81+cEHp2MonXun89mYeO7FKcsOCgYAs3j0rKqOKBFbFtrJ177NYvHl6TvGgKbyeykN85Ef15MZrh+G/0MbgbhbuKa+oi5jdl/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g//EvwAY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790112297; c=relaxed/simple;
+	bh=YdbB4HHFr5RiQMEKS7IZDCgTEt//MSoaU0ovnWKgFaY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=melssKHa5C3IKswNpME/JNfyH/uEQvraO+wKArd9PKlMHU3eCI8CavlCQCNGehPx7Ub9SgN0zxNaKS/QQrr//KtzgT73TV8yNKCtTALLgz3M0dNSa1RZMhJhkcmpYEu+9RRNkCTZKHOcNrImD/xWsdY4pJzTw572t8KdPt91U9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=o5zlNzoT; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g//EvwAY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 217BD1F000FF;
-	Tue, 22 Sep 2026 16:40:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790095205;
-	bh=TMV4i/0QXbQ+KNOuKkQNyiGHjxKIkJwFi38QaRPmL3s=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=g//EvwAYjQPdh+Yil+SkwLoNzr10iGrzK3+QY7btVA11OmeTlLrbDEAEviXInUg/B
-	 Vbx1Hdxl/y0snLa0DiKxrN/MKfj0Ny2eyArvAkhgb4txwVAUP+zA313kem/gJMnC5/
-	 dcFy4Q2QPvbaPed2KaCBQyh+SQ44wWttLm5FhElA/S+BGAK1KZPvMSbI/OvDzXo6Wg
-	 IoK4JIds3Q1LDE3t9YIlEULYn6T4f39FT1PPF1UFq4yCGzWVF5r6ymVF6UDfFHd3co
-	 8+gM/4DkUg3DtV61pI/IF1p3R3l2vs7ttXRP0QWtWUnr5feoZmjq8yI8x/iv44Tnxs
-	 n34zTB02gAbFQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v13 2/2] mfd: ac200: Add X-Powers AC200 support
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "James Hilliard" <james.hilliard1@gmail.com>
-Cc: mfd@lists.linux.dev, lee@kernel.org, robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260922-submit-ac200-mfd-v13-2-8832afd2481c@gmail.com>
-References: <20260922-submit-ac200-mfd-v13-0-8832afd2481c@gmail.com>
- <20260922-submit-ac200-mfd-v13-2-8832afd2481c@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Sep 2026 16:40:04 +0000
-Message-Id: <20260922164005.217BD1F000FF@smtp.kernel.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="o5zlNzoT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1790112277;
+	bh=YdbB4HHFr5RiQMEKS7IZDCgTEt//MSoaU0ovnWKgFaY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=o5zlNzoTZhj10MvLCN9RERRNk12QLtK1kfvAIFY9TWvY/x0Vx7xXCU4Qz27NEc4Ao
+	 j/ScP5/FJpyAOQuM47UzkcQnjLTVwkbYLodGxtqPQ7VTjmpUvi/L3VDRLToQiAjhfm
+	 VweugPVCerh94lN8/qmLvIRTKDymIrI+NIQL+s738bw7ANjnj9lSQ1qKJHwwrlXJl/
+	 z01fNYmGCkIVtIHgICRqShsBygE0Y7GXKbVYsy59CEygo3B1nk1KZfm6s2feoq9fAi
+	 oKFau036K6gwAaZWkMVz62G1H+DjbV2h3FkOE7erBDjSnwEPf/bNIG03yhO+LqGzrU
+	 6sp7bDQ5Lgqhg==
+Received: from [100.64.0.241] (unknown [100.64.0.241])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B185817E006F;
+	Tue, 22 Sep 2026 23:24:30 +0200 (CEST)
+Message-ID: <743283af-753a-40bb-96f3-d05b1e38e186@collabora.com>
+Date: Wed, 23 Sep 2026 00:24:28 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 13/74] drm/bridge: Fix NULL deref in drm_bridge_add()
+ for legacy bridges
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, Sandy Huang
+ <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Algea Cao <algea.cao@rock-chips.com>,
+ Daniel Stone <daniels@collabora.com>, Liu Ying <victor.liu@nxp.com>,
+ Phong LE <ple@baylibre.com>, Helge Deller <deller@gmx.de>,
+ kernel@collabora.com, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org,
+ linux-fbdev@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>
+References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
+ <20260901-dw-hdmi-qp-scramb-v11-13-bc12954a0688@collabora.com>
+ <ap_Tr_Viqy29f515@houat> <DLKSY3W6CGW1.3C0J6DHKV8P2Z@bootlin.com>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <DLKSY3W6CGW1.3C0J6DHKV8P2Z@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> The X-Powers AC200 is a mixed-signal companion IC with a paged register
-> map accessed over I2C.
->=20
-> Enable and rate-lock the shared input clock, retain the vendor resume
-> path's 40 ms wait before creating the regmap and accessing registers, and
-> deassert the common reset. No minimum delay is documented. Set only the
-> deassert bit instead of forcing a reset cycle, avoiding a chip-wide reset
-> of unrelated function registers. Leave the common reset deasserted during
-> driver removal and system shutdown; function drivers own their block
-> resets. Supplier unbind still tears down linked consumers and releases
-> the provider's clock references.
->=20
-> Cache only the common page selector. Individual functions can reset
-> independently and invalidate their other registers, so leave all
-> functional registers volatile.
-> [ ... ]
-> ancillary package-control access.
->=20
-> Co-developed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+Hi Luca,
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+On 9/21/26 10:05 AM, Luca Ceresoli wrote:
+> On Tue Sep 8, 2026 at 11:24 AM CEST, Maxime Ripard wrote:
+>> On Tue, Sep 01, 2026 at 09:50:37PM +0300, Cristian Ciocaltea wrote:
+>>> Legacy bridge drivers that embed struct drm_bridge in a zero-initialized
+>>> allocation, rather than obtaining it from devm_drm_bridge_alloc(), never
+>>> run INIT_LIST_HEAD() on bridge->list, leaving next and prev NULL.
+>>> list_empty() compares next against &bridge->list, so it reports such a
+>>> list head as non-empty.  list_del_init() therefore runs and dereferences
+>>> the NULL pointers, panicking the kernel during probe.  Only builds with
+>>> CONFIG_DEBUG_LIST survive, with a list corruption report.
+>>>
+>>> This affects rk3066_hdmi and the i.MX8 LDB bridges, which still embed a
+>>> bridge in a devm_kzalloc()'d struct.
+>>>
+>>> Initialize the list head when it is found to be NULL, so that the bridge
+>>> ends up with a valid empty list head and list_del_init() is only reached
+>>> for bridges that can actually be linked.
+>>>
+>>> Fixes: 17805a15d175 ("drm/bridge: add list of removed refcounted bridges")
+>>> Reported-by: Sashiko <sashiko-bot@kernel.org>
+>>> Closes: https://lore.kernel.org/all/20260731175016.C5D591F00AC4@smtp.kernel.org/
+>>> Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+>>> ---
+>>>  drivers/gpu/drm/drm_bridge.c | 9 ++++++++-
+>>>  1 file changed, 8 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+>>> index 2c457ad74f3b..a8b6df5c13ea 100644
+>>> --- a/drivers/gpu/drm/drm_bridge.c
+>>> +++ b/drivers/gpu/drm/drm_bridge.c
+>>> @@ -453,9 +453,16 @@ void drm_bridge_add(struct drm_bridge *bridge)
+>>>  	 * If the bridge was previously added and then removed, it is now
+>>>  	 * in bridge_lingering_list. Remove it or bridge_lingering_list will be
+>>>  	 * corrupted when adding this bridge to bridge_list below.
+>>> +	 *
+>>> +	 * Legacy drivers that allocate the bridge with kzalloc() rather than
+>>> +	 * devm_drm_bridge_alloc() leave list.next NULL. Such a bridge cannot
+>>> +	 * be on any list, and list_del_init() would dereference NULL, so
+>>> +	 * initialize the list head first.
+>>
+>> "legacy" bridges are ambigous and was also used for non-atomic bridges.
+>> That being said, it's now *required* that bridges use
+>> devm_drm_bridge_alloc() instead of kzalloc, and we warn in
+>> drm_bridge_add if it hasn't.
+>>
+>> So I don't think we should merge this patch.
+> 
+> I agree.
+> 
+> I theory all drivers are be already using devm_drm_bridge_alloc() by now.
+> 
+> In practice rk3066_hdmi is actually still using kzalloc, it should be fixed
+> to use devm_drm_bridge_alloc(). Are you OK with doing it in v12?
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260922-submit-ac2=
-00-mfd-v13-0-8832afd2481c@gmail.com?part=3D2
+Yes, I'll send this a separate series, together with the other bridge fixes. 
 
+> By "i.MX8 LDB" I guess you mean fsl-ldb.c, which was converted in
+> 9c399719cfb9 ("drm: convert many bridge drivers from devm_kzalloc() to
+> devm_drm_bridge_alloc() API").
+
+I was actually referring to imx8q*-ldb.c, but it turns out those were converted
+as well - I incorrectly flagged them because the probe functions still contain
+
+  imx8qm_ldb = devm_kzalloc(dev, sizeof(*imx8qm_ldb), GFP_KERNEL);
+
+I've just realized the struct drm_bridge is not embedded in struct
+imx8qm_ldb,but it's part of struct ldb_channel.  Sorry for the confusion.
+
+Thanks for the reviews & tests!
+
+Regards,
+Cristian
