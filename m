@@ -1,67 +1,110 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB77531604;
-	Tue, 22 Sep 2026 12:03:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6D7544D74;
+	Tue, 22 Sep 2026 12:46:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790078608; cv=none; b=mmK2Xf8nS6AAFQrnQ7VsTRPgKhGXswOclpewfIpdELBjTth/yjbhXw0f81Fx7gZ++ogS3aXhW7MK3SgFRpQV5ZxM2fGNa6EeqQWmNR0izuMtjzAtsOz4U/ruXFC1izwwEtmoqUDxHUQmyYx9lv5CKOIN4zdD9EgKl2TEJ2Qq2o4=
+	t=1790081205; cv=none; b=mmQ+lh3+1ykGKhMQms0G2RqtPeA4rUpL17ndoKgJZvUJlUi16YaQ7/6si8oGDqJ4Bj1cqG98bF/9RLOQ/shM02mbqr571j2FcfyYwBFkYuMTpPSBdzYZNnhy8Ne2WJt+6krtFacst5ZYvaI71Nici7o4A7TYwGp4Nkx9I8qzI9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790078608; c=relaxed/simple;
-	bh=n9FpIaAN33W0DO7GyLXsKhLBrBgyc9o6R/zLeItOogA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YX/7QpM26rNtGME8uCB2uB54iMC4DRFeUIjmBoDKD3EsDUgtZX19WvlQRNACw/Ob+7yz/BhefErvNoZLlQbw/j82ojzomwCoastJts60U7MDMicvRt49voEn6ANlEPHNsu7nfHgmUN13erNMbLDSw6dJ26h1ip67YHN1yUs6AEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V1T9WEqN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790081205; c=relaxed/simple;
+	bh=Gw6aJfDoYQxpcpJbIpH7MZEqUsXderoYhBMTr6z27s0=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=Bl4hWJt5cbf8JfcKctGYpxaM7SalkA5Cqbi6ctKyjoiiWn34okkqAK3o7FEu5bzPSckRXLVZfbikyMkJY57HPVkAX11foS3qsJGzUIPFpFLkvIhGwn94dz7pF9oJb7e4MtqWRtS5rnCBqaTr2F2jZ+KKEk7r/vlOAGS5nhhPtYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JqSwa+yQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V1T9WEqN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 606B21F000FF;
-	Tue, 22 Sep 2026 12:03:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JqSwa+yQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B62C71F00898;
+	Tue, 22 Sep 2026 12:46:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790078606;
-	bh=DhFfV30KEO/sb3oCDRBx6W3tLymcOKC4hcgAgAQWZ4Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=V1T9WEqNPXL2Cvd6Js8hrKP1/M3YU1kgqqkgL8PZYNvFam5p4YmBKhLAcm4AUUdtP
-	 6Py3ZejTCbXIhvJPs5Df+HCpLXfACK4gnVi2EPaFziHrI15NApio3e2BVaOQXEr3P/
-	 +69SWypVL74QdPAC/HNWa3SGY21QmJ7k4g4unnppdOQ7RnhtyPxeVgI62Xw3H51GcN
-	 IgKU7pTr6KcQ29QjyxL8dWJlWixpbzHD/m/YUFwsAE35fVfiNuE7S+xv9rD/j91Jmi
-	 ARv01dbzQpBFxyilyGr9nESYVnMIJDiXoaQ/n3OY+gPaxjQ5xHXgrTZujaDSy/t1nt
-	 H7VDnA1tXSSjw==
-Date: Tue, 22 Sep 2026 13:03:21 +0100
-From: Simon Horman <horms@kernel.org>
-To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: alexandre.torgue@foss.st.com, andrew+netdev@lunn.ch,
-	clabbe.montjoie@gmail.com, davem@davemloft.net, edumazet@google.com,
-	jernej.skrabec@gmail.com, kuba@kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, mcoquelin.stm32@gmail.com,
-	netdev@vger.kernel.org, pabeni@redhat.com, samuel@sholland.org,
-	wens@kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] net: stmmac: dwmac-sun8i: Fix EPHY clock leak in
- get_ephy_nodes()
-Message-ID: <20260922120321.GD13925@horms.kernel.org>
-References: <20260917113654.2149268-1-vulab@iscas.ac.cn>
+	s=k20260515; t=1790081204;
+	bh=d0Dyf0O5qsd2O0wkwEV3APMOPZn9BpCHwoGyAkHKWSo=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject;
+	b=JqSwa+yQbvWbjOBqQCLEP/8vpkYVdZSulDVVCVnruLKhhQYoiyqJMsuyObayafQX1
+	 IOStS6bCOQom7/8zyFAdXMtC++4yDoAjyvfvR+J4vTkYO5wwNYPk2a+JMAuBs1ZICc
+	 EIdHHq8tss+bleMbyPdb/wIcXEqN/wMnVg7UPrR/OMv9MSKBrMritfm801X1bDZofi
+	 rtTX5tbZ4T3I3BXmKXYKtDWeGcAFG5JsRwKhw25OJDu4KQK6nFIfUZOXiz0zecRBOI
+	 KsgRdPiyNMvDyj0yC4lInGJxfuTBLOiHUguWQCS0H3+Z6aZSb4F1uLJbqqJ1wXFRO3
+	 lsiCSkyVwTmQg==
+Date: Tue, 22 Sep 2026 07:46:42 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260917113654.2149268-1-vulab@iscas.ac.cn>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: samuel@sholland.org, Bjorn Andersson <andersson@kernel.org>, 
+ linux-remoteproc@vger.kernel.org, jernej.skrabec@gmail.com, wens@kernel.org, 
+ devicetree@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ linux-arm-kernel@lists.infradead.org, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>, linux-sunxi@lists.linux.dev
+To: Tim Michals <tcmichals@gmail.com>
+In-Reply-To: <20260922034711.190253-5-tcmichals@gmail.com>
+References: <20260922034711.190253-1-tcmichals@gmail.com>
+ <20260922034711.190253-5-tcmichals@gmail.com>
+Message-Id: <179008111726.3145450.12515884714286046202.robh@kernel.org>
+Subject: Re: [PATCH 4/7] dt-bindings: remoteproc: add allwinner sun55i
+ rproc binding
 
-On Thu, Sep 17, 2026 at 11:36:54AM +0000, Wentao Liang wrote:
-> get_ephy_nodes() stores the clock returned by of_clk_get() directly in
-> gmac->ephy_clk before the reset control is obtained. When the reset
-> lookup fails, the loop continues or returns without releasing that
-> clock, and sun8i_dwmac_probe() then jumps to dwmac_remove, which does
-> not call clk_put(). Keep the clock in a local variable and release it
-> on the error paths.
+
+On Mon, 21 Sep 2026 22:47:08 -0500, Tim Michals wrote:
+> Add Device Tree binding schema for the Allwinner XuanTie E906/E907
+> RISC-V remote processor found on A523, A527, and T527 SoCs.
 > 
-> Fixes: 634db83b8265 ("net: stmmac: dwmac-sun8i: Handle integrated/external MDIOs")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+> The remoteproc node manages the co-processor lifecycle (clocks, resets,
+> boot vector) and IPC (hardware mailbox). Memory regions are expressed
+> via reg entries named "cfg", "r_sram", "r_sram1", and "remap".
+> 
+> Cc: Bjorn Andersson <andersson@kernel.org>
+> Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Samuel Holland <samuel@sholland.org>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
+> Cc: linux-remoteproc@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-sunxi@lists.linux.dev
+> Signed-off-by: Tim Michals <tcmichals@gmail.com>
+> ---
+>  .../remoteproc/allwinner,sun55i-rproc.yaml    | 152 ++++++++++++++++++
+>  1 file changed, 152 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/remoteproc/allwinner,sun55i-rproc.yaml
+> 
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Lexical error: Documentation/devicetree/bindings/remoteproc/allwinner,sun55i-rproc.example.dts:29.32-53 Unexpected 'CLK_BUS_MCU_RISCV_CFG'
+Lexical error: Documentation/devicetree/bindings/remoteproc/allwinner,sun55i-rproc.example.dts:30.32-45 Unexpected 'CLK_MCU_RISCV'
+Lexical error: Documentation/devicetree/bindings/remoteproc/allwinner,sun55i-rproc.example.dts:32.32-53 Unexpected 'RST_BUS_MCU_RISCV_CFG'
+Lexical error: Documentation/devicetree/bindings/remoteproc/allwinner,sun55i-rproc.example.dts:33.32-54 Unexpected 'RST_BUS_MCU_RISCV_CORE'
+Error: Documentation/devicetree/bindings/remoteproc/allwinner,sun55i-rproc.example.dts:40.3-41.1 syntax error
+FATAL ERROR: Unable to parse input tree
+make[2]: *** [scripts/Makefile.dtbs:140: Documentation/devicetree/bindings/remoteproc/allwinner,sun55i-rproc.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/linux-dt-review/Makefile:1714: dt_binding_check] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.kernel.org/project/devicetree/patch/20260922034711.190253-5-tcmichals@gmail.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
