@@ -1,264 +1,210 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78D13E4C75
-	for <linux-sunxi@lists.linux.dev>; Tue, 22 Sep 2026 04:00:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9ED32B9B5
+	for <linux-sunxi@lists.linux.dev>; Tue, 22 Sep 2026 06:34:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790049613; cv=none; b=MgGFaTdLpZBlX+hOtydQI3+FQXSCFi9iUoPPulRyQDCd5Av8sihE90dF1gs0MwMarp+gHazkhPegH4KDoFF6a59Lfl/A5AGjeMAy+u6Ds0domNoAg4xzyXpcdWWP5/5AkCKyFhrUpgG/BpWlkT4n0WC8AIx18Z09a8Qyw+UduMM=
+	t=1790058903; cv=none; b=FX+UuutE+HoW1/2I8ZBiFdI4sqIwNQy3CHVA6v3nzMnvtuCJ6lCsUegZBqRxdldh9+OMHfellN1r9FVl7TrM/sMis0Avx0Rz7C9RHmsscciXJfNJ507dMfDcN7DZG16kyPiKN4OphMARPYZhfvo3u1QF8meOydlOLNqqtcSWPRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790049613; c=relaxed/simple;
-	bh=RDtiNWsTUw3N4YRVx6mQNW7rvabjXfT8NJyqGu/RFOM=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=jTXOSVqTGIJiboVn/ADz6ETZN8YEax+6Pa0Dhq0Katzi3xG6iniKJHM9jouW0jDc4PFssDEDlwy9vgR5jFRBSvZ5jOem6Et0xRBIjC/byqoeaxBri28bTpuidwZzvH/clsiyYXpHQ525kckvulbWK62IRZzHoPiDAF4UmTqnYGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZmuNAh2X; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790058903; c=relaxed/simple;
+	bh=gtIzdKDRrRJHsTR7VVJeCz+WRMfeqWMHi6riR07zm28=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cK0/zBbkWKEYDhrGXRN6RkMbJB8peAe1GXPi0kMConlT3j0KuTxxG6uaca/LpmKkWciV9t0uNoLC5Mr0ClTzewZjUPFVNqWllbarZ+RTWx4grQW/jUSjDopqtc7zkmydxhxnvTLTqoJnSwD363Tf7KnL5YCMsVtvPQ5FvLbhLZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J8luqjx1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZmuNAh2X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E96A1F000FF;
-	Tue, 22 Sep 2026 04:00:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J8luqjx1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F1481F00893
+	for <linux-sunxi@lists.linux.dev>; Tue, 22 Sep 2026 06:34:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790049611;
-	bh=wKzQE2jrcIjPZeGFnEB6K3ojfHGvlfoEFuIAss+Okm4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ZmuNAh2Xd/wb1ZWhAgt79FFDOWSjp3gg9L/DbRYyMgM5b1Hf2/wFiMdiWHuqGLulu
-	 eB3rU5ujvSfl9wDntD4V65wMVmGE9d0ec9C2MjUwhVAsFV6ochatsWL5ExG0paQFDE
-	 w3TVCH+zrGXmlz2PdSQIuMKpsHulWoMZu7pysz/ySuVAsZ3T0XBwzT5Iq8WnFmgog7
-	 aX0ExXb2sJNmekh/Du2Ea+2Su5ie7UCOXi+x1SrFZyjb6YjTY/5Uhk6ey65uNgTMb5
-	 483WKRC7ILml02hqzWftSK3sF58Ilq+mo9zwNfXK//5UItInMQlDeIemGAeWP6wR45
-	 KMf9EzhWfufCw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/7] mailbox: sun55i: add Allwinner sun55i/sun60i 4-port
- Message Box driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Tim Michals" <tcmichals@gmail.com>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20260922034711.190253-3-tcmichals@gmail.com>
-References: <20260922034711.190253-1-tcmichals@gmail.com>
- <20260922034711.190253-3-tcmichals@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 22 Sep 2026 04:00:10 +0000
-Message-Id: <20260922040011.3E96A1F000FF@smtp.kernel.org>
+	s=k20260515; t=1790058894;
+	bh=SkQD57V7JHFau1jup0BLrsztOOqS85TLE+zrMo+mVMw=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=J8luqjx1maAA/RFdUzkIsV+aAVweDmumzDdQb9JlhC2kWOb6vIuqq5aNJpX7hcbR4
+	 DJWubJ5IJisJUo3NvutO0lzGx0lUMjpZLUQp58VDENcD+sNtxZoxEaWYI2RSiFQXpJ
+	 gr7y/12rsItcE16W+IgVgTbY5UxJOL1s6EEAOAKsxB63KbK6g07nPEKZi5BxjBrtz+
+	 9flhRdviQePTIMvk/WKGWUIMDv0SqwAwaL1NnD7dbbq6ecArSDDIqdF7yrQLQyq3cW
+	 T/vVl39blmETUh44RQ/CRShg2Y1LrHaCgYHtmLe0nMeL6d52tjU2hs3sav2AQTRb7m
+	 XSauLOD4lWQOg==
+Received: by mail-lr2-f16.google.com with SMTP id 38308e7fff4ca-3a2ff176d5bso30334391fa.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 23:34:53 -0700 (PDT)
+X-Gm-Message-State: AFuF++mtijPnqGukecKqQcGvK4Xj0OdnI/Ch0/zOQIpjRRRJUbYh/DTD
+	6mPaYKhVI6/FMIY9ErByL2qDNpN4/Qii67/YC4vseC7PsD2MSEFSX9N6XMxI2mCzhrIbCFuwyGh
+	OsaYa2FdwaYlGnEsb1yR66ZRNODz+clo=
+X-Received: by 2002:a2e:be9a:0:b0:3a5:f044:fcbd with SMTP id
+ 38308e7fff4ca-3a5fc0d325fmr27952131fa.23.1790058892276; Mon, 21 Sep 2026
+ 23:34:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20260922034711.190253-1-tcmichals@gmail.com>
+In-Reply-To: <20260922034711.190253-1-tcmichals@gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Tue, 22 Sep 2026 14:34:39 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66_AaPnwErV72eF=KQ2k15spXA2UJcugnOcGcp5PAKVXw@mail.gmail.com>
+X-Gm-Features: AcwNN1UIojt2XmXHGQHix01SWO7NXJi2-7p4KR1fGp1WZitbr68Mh7hKMkbttTY
+Message-ID: <CAGb2v66_AaPnwErV72eF=KQ2k15spXA2UJcugnOcGcp5PAKVXw@mail.gmail.com>
+Subject: Re: [PATCH 0/7] remoteproc/mailbox: add Allwinner A523/A527/T527 E907
+ RISC-V support
+To: Tim Michals <tcmichals@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, jernej.skrabec@gmail.com, samuel@sholland.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 5 potential issue(=
-s) to consider:
-- [High] mbox: sun55i: leak of shared reset control on remove and probe err=
-or paths
-- [High] mbox: sun55i: unhandled interrupt storm due to ignored devm_reques=
-t_irq failure
-- [High] mbox: sun55i: unclocked MMIO access panic due to early clock disab=
-le
-- [High] mbox: sun55i: dropped interrupts due to TOCTOU race in status clea=
-ring
-- [Medium] mbox: sun55i: CPU hard lockup via unbounded FIFO read loop in ha=
-rdirq
---
+Hi,
 
-commit 87081d025c7634be651f61e5ab219367cae289d0
-Author: Tim Michals <tcmichals@gmail.com>
+On Tue, Sep 22, 2026 at 11:47=E2=80=AFAM Tim Michals <tcmichals@gmail.com> =
+wrote:
+>
+> This patch series introduces mainline Linux support for the Alibaba T-Hea=
+d
+> XuanTie E907 (RV32IMAFDC @ 200 MHz) RISC-V auxiliary co-processor and the
+> 4-port hardware Message Box IP integrated into Allwinner A523, A527, and
+> T527 (sun55i) SoCs.
+>
+> The series adds the standalone 4-port hardware Message Box driver with
+> KUnit tests, the XuanTie RemoteProc driver with da_to_va KUnit tests, the
+> associated Devicetree binding schemas, and DTS node enablement.
+>
+> Background & Hardware Architecture
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> Allwinner sun55i SoCs integrate an octa-core ARM Cortex-A55 cluster
+> alongside an auxiliary XuanTie E907 RISC-V co-processor. The co-processor
+> boots from on-chip dedicated SRAM Space 0 (Host PA 0x07280000 / Core DA
+> 0x3FFC0000, 256 KB), can access secondary switchable SRAM Space 1 (Host
+> PA 0x072C0000 / Core DA 0x40000000, 256 KB), and interacts with external
+> DDR DRAM across the SoC's internal AXI bus.
+>
+> Inter-processor communication (IPC) is coordinated via a 4-port hardware
+> Message Box controller (CPUX_MSGBOX at 0x03003000). The mailbox acts as a
+> star crossbar connecting four processors on the silicon die:
+>   - Port 0: ARM Cortex-A55 host cluster
+>   - Port 1: Cadence Tensilica HiFi4 Audio DSP
+>   - Port 2: Power Management Unit (CPUS)
+>   - Port 3: XuanTie E907 RISC-V co-processor
+>
+> The Cortex-A55 exposes 12 logical channels (4 per remote processor), wher=
+e
+> Channels 8..11 route directly to the XuanTie E907.
+>
+> Hardware Validation & Silicon Evidence
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> This driver series has been extensively validated on physical silicon usi=
+ng
+> the Radxa Cubie A5E development board (Allwinner A527 / T527) running
+> mainline Linux PREEMPT_RT:
+>
+> 1. In-Kernel KUnit Tests:
+>    - sun55i_msgbox_test: Register mapping, channel routing, and interrupt
+>      mask bit manipulation across all 4 ports.
+>    - sunxi_rproc_test: Comprehensive da_to_va address translation across
+>      SRAM Space 0 (Host PA & Core DA), SRAM Space 1, DDR DRAM carveouts,
+>      and trace memory regions.
+>
+> 2. Target Automated Test Suite:
+>    - testBasic.elf: Core reset de-assertion, SRAM boot, MISA CSR
+>      verification (0x40901125), and heartbeat logging via debugfs trace0.
+>    - testStringBinaryTrace0.elf: Sustained trace0 ring-buffer streaming,
+>      hardware single-precision FPU math (sine wave calculation), and
+>      packed binary telemetry parsing.
+>    - testCrash.elf: Machine-mode exception trap (mtvec) verification,
+>      capturing full register autopsy (mepc, mcause=3D0x2, 31 GPRs) upon
+>      intentional illegal instruction while the host remains stable.
+>    - testPingRpmsg.elf: Full Linux VirtIO RPMsg framework validation
+>      over dynamic DDR CMA buffers. Tested 1,000 round-trip ping-pong
+>      packets with 100% success rate, measuring ~175 us average RTT
+>      latency and 5.37 MB/s bandwidth at 512-byte VirtIO buffer size.
+>
+> PREEMPT_RT Real-Time Compliance
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> When the E907 announces a new RPMsg channel via Name Service announcement=
+,
+> the kernel's rpmsg_char/virtio_rpmsg_bus layers acquire sleeping mutexes
+> (device_register, blocking_notifier_call_chain). Calling these from
+> hard-IRQ context triggers "scheduling while atomic" warnings on PREEMPT_R=
+T
+> kernels. In sunxi_rproc.c, the mailbox callback defers the VirtIO vring
+> interrupt handler via schedule_work(&priv->vq_work), ensuring 100% clean
+> operation on PREEMPT_RT kernels.
+>
+> Design Decisions for Maintainer Review
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> 1. Standalone drivers/mailbox/sun55i-msgbox.c vs sun6i-msgbox.c:
+>    The existing sun6i-msgbox.c driver is architected around a legacy
+>    2-core point-to-point mailbox with flat global registers. The sun55i
+>    hardware is a 4-processor crossbar where registers are banked per
+>    processor in independent 0x100-byte apertures with hardware routing
+>    tables and 8-entry FIFOs. A clean standalone controller driver
+>    was implemented to avoid extensive conditional branches across every
+>    function.
+>
+> 2. Devicetree YAML Schemas:
+>    Both allwinner,sun55i-a523-msgbox.yaml and allwinner,sun55i-rproc.yaml
+>    have been created and pass dt_binding_check and checkpatch.pl cleanly.
+>
+> Acknowledgements & References
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D
+> Thanks to the Linux-sunxi community and YuzukiHD for SyterKit and
+> FreeRTOS-HIFI4-DSP as independent references to cross-check register
+> offsets, SRAM mappings, and clock/reset sequencing on the T527 and A733.
+>
+>
+> Tim Michals (7):
+>   dt-bindings: mailbox: add Allwinner sun55i msgbox schema
+>   mailbox: sun55i: add Allwinner sun55i/sun60i 4-port Message Box driver
+>   mailbox: sun55i: add KUnit tests for routing and registers
+>   dt-bindings: remoteproc: add allwinner sun55i rproc binding
+>   remoteproc: sunxi: add allwinner riscv remoteproc driver
+>   remoteproc: sunxi: add KUnit tests for da_to_va address translation
+>   arm64: dts: allwinner: add a523 msgbox and remoteproc nodes
 
-mailbox: sun55i: add Allwinner sun55i/sun60i 4-port Message Box driver
+There are many review comments from Sashiko, even a critical one.
+Please go through them.
 
-Add support for the 4-port hardware Message Box present on Allwinner
-A523/A527/T527 (sun55i) and A733 (sun60i) SoCs. This hardware block
-provides 12 hardware FIFO channels connecting the Cortex-A55 host,
-HiFi4 DSP, CPUS, and XuanTie E907 RISC-V coprocessors.
+Also, please use just one compatible string for the SoC family, unless
+you have knowledge of some differences. They are the same die and the
+IP cores should be identical.
 
-> diff --git a/drivers/mailbox/sun55i-msgbox.c b/drivers/mailbox/sun55i-msg=
-box.c
-> new file mode 100644
-> index 0000000000000..b36f26670a461
-> --- /dev/null
-> +++ b/drivers/mailbox/sun55i-msgbox.c
+Last, please send the full series to all parties involved. Do not send
+different patches to different people. Everyone should get the same
+stuff so we all have the full picture. Unless you split the series in
+two, one for the mailbox and one for the remoteproc.
 
-[ ... ]
 
-> +			chan_idx =3D local_n * SUN55I_CHANS_PER_PROC + p;
-> +			while (readl(local_base +
-> +				     SUNXI_MSGBOX_MSG_STATUS(local_n, p)) & MSG_NUM_MASK) {
-> +				u32 msg =3D readl(local_base + SUNXI_MSGBOX_MSG_FIFO(local_n, p));
-> +
-> +				mbox_chan_received_data(&mbox->controller.chans[chan_idx], &msg);
-> +			}
+Thanks
+ChenYu
 
-[Severity: Medium]
-Does this unbounded loop adequately protect the host CPU against continuous
-transmissions from a remote coprocessor?
 
-If a remote coprocessor (e.g., DSP or RISC-V) continuously writes messages =
-to
-the FIFO, the loop condition might never evaluate to false, leaving the host
-CPU stuck in a hardirq context. This could lead to RCU stalls or watchdog
-timeouts.
-
-> +
-> +			writel(RD_IRQ_PEND_BIT(p),
-> +			       local_base + SUNXI_MSGBOX_READ_IRQ_STATUS(local_n));
-
-[Severity: High]
-Does this sequence inadvertently clear the interrupt status for a newly arr=
-ived
-message without processing it?
-
-If a new message arrives from the coprocessor immediately after the while l=
-oop
-evaluates to false, but before the writel() clears the pending interrupt, t=
-he
-newly latched interrupt status could be erroneously cleared. The message wo=
-uld
-remain unread in the FIFO and no interrupt would be generated for it.
-
-> +			ret =3D IRQ_HANDLED;
-> +		}
-> +	}
-> +
-> +	return ret;
-> +}
-
-[ ... ]
-
-> +static int sun55i_msgbox_startup(struct mbox_chan *chan)
-> +{
-> +	struct sun55i_msgbox *mbox =3D to_sun55i_msgbox(chan);
-> +	int n =3D chan - mbox->controller.chans;
-> +	int local_n, p, remote_id, remote_n;
-> +	unsigned long flags;
-> +	u32 val;
-> +
-> +	sun55i_chan_to_route(n, &local_n, &p, &remote_id, &remote_n);
-> +
-> +	/* Flush any stale receive data */
-> +	while (readl(mbox->regs[0] + SUNXI_MSGBOX_MSG_STATUS(local_n, p)) & MSG=
-_NUM_MASK)
-> +		readl(mbox->regs[0] + SUNXI_MSGBOX_MSG_FIFO(local_n, p));
-> +
-> +	/* Clear pending status */
-> +	writel(RD_IRQ_PEND_BIT(p),
-> +	       mbox->regs[0] + SUNXI_MSGBOX_READ_IRQ_STATUS(local_n));
-
-[Severity: High]
-Is there a race condition here similar to the one in the interrupt handler?
-
-If a message arrives after the while loop finishes but before the pending
-status is cleared, the interrupt could be lost.
-
-> +
-> +	/* Enable receive IRQ */
-
-[ ... ]
-
-> +static int sun55i_msgbox_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev =3D &pdev->dev;
-> +	struct mbox_chan *chans;
-> +	struct sun55i_msgbox *mbox;
-> +	int i, ret, irq_cnt, local_n;
-
-[ ... ]
-
-> +	mbox->reset =3D devm_reset_control_get_optional_shared(dev, NULL);
-> +	if (IS_ERR(mbox->reset)) {
-> +		ret =3D PTR_ERR(mbox->reset);
-> +		goto err_disable_clk;
-> +	}
-> +
-> +	ret =3D reset_control_deassert(mbox->reset);
-> +	if (ret)
-> +		goto err_disable_clk;
-
-[Severity: High]
-Will this shared reset control be correctly balanced on failure and removal?
-
-The shared reset control is manually deasserted here, incrementing its usage
-count, but it appears there are no corresponding reset_control_assert() cal=
-ls
-in the err_disable_clk error path or in sun55i_msgbox_remove().
-
-This can prevent the physical hardware reset line from ever being asserted
-again, affecting other devices sharing the reset line.
-
-> +
-> +	/* Disable all read IRQs and clear status */
-
-[ ... ]
-
-> +	for (i =3D 0; i < irq_cnt; i++) {
-> +		int irq =3D platform_get_irq(pdev, i);
-> +
-> +		if (irq > 0) {
-> +			ret =3D devm_request_irq(dev, irq, sun55i_msgbox_irq,
-> +					       IRQF_SHARED, dev_name(dev), mbox);
-> +			if (ret)
-> +				dev_warn(dev, "failed to request irq %d: %d\n", irq, ret);
-
-[Severity: High]
-If devm_request_irq() fails, could this cause an unhandled interrupt storm?
-
-The driver ignores the failure and only prints a warning. Later,
-sun55i_msgbox_startup() unconditionally unmasks the hardware receive interr=
-upt.
-
-If the hardware asserts the IRQ line and there is no registered handler,
-the IRQ core will eventually disable the shared IRQ line permanently,
-breaking all devices sharing it.
-
-> +		}
-> +	}
-> +
-> +	chans =3D devm_kcalloc(dev, SUN55I_NUM_CHANS, sizeof(*chans), GFP_KERNE=
-L);
-
-[ ... ]
-
-> +	return 0;
-> +
-> +err_disable_clk:
-> +	clk_disable_unprepare(mbox->clk);
-> +	return ret;
-> +}
-
-[Severity: High]
-Does this error path leak the shared reset control?
-
-Since reset_control_deassert() was called earlier, returning here without
-calling reset_control_assert() leaves the usage count unbalanced.
-
-> +
-> +static void sun55i_msgbox_remove(struct platform_device *pdev)
-> +{
-> +	struct sun55i_msgbox *mbox =3D platform_get_drvdata(pdev);
-> +
-> +	mbox_controller_unregister(&mbox->controller);
-> +	clk_disable_unprepare(mbox->clk);
-> +}
-
-[Severity: High]
-Could this lead to an unclocked MMIO access panic if an interrupt fires dur=
-ing
-module unload?
-
-The shared interrupt is registered using devm_request_irq() in probe, which
-means devres will unregister it after this remove function returns.
-
-Because the hardware clock is manually disabled here before the IRQ handler
-is unregistered by devres, if another device sharing the IRQ line triggers =
-an
-interrupt in this window, sun55i_msgbox_irq() will execute and try to read
-from unclocked MMIO registers, resulting in a system crash.
-
-Additionally, because devres cleans up resources in reverse order,
-the mbox->controller.chans array will be freed before the IRQ is unregister=
-ed,
-leading to a use-after-free if the interrupt fires.
-
-Also, does this function need to call reset_control_assert() to balance the
-deassert call from probe?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260922034711.1902=
-53-1-tcmichals@gmail.com?part=3D2
+>  .../mailbox/allwinner,sun55i-a523-msgbox.yaml |  93 ++
+>  .../remoteproc/allwinner,sun55i-rproc.yaml    | 152 +++
+>  .../arm64/boot/dts/allwinner/sun55i-a523.dtsi |  39 +
+>  drivers/mailbox/Kconfig                       |  20 +
+>  drivers/mailbox/Makefile                      |   3 +
+>  drivers/mailbox/sun55i-msgbox.c               | 337 +++++++
+>  drivers/mailbox/sun55i_msgbox_test.c          | 296 ++++++
+>  drivers/remoteproc/Kconfig                    |  19 +
+>  drivers/remoteproc/Makefile                   |   2 +
+>  drivers/remoteproc/sunxi_rproc.c              | 905 ++++++++++++++++++
+>  drivers/remoteproc/sunxi_rproc_test.c         | 442 +++++++++
+>  11 files changed, 2308 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/mailbox/allwinner,s=
+un55i-a523-msgbox.yaml
+>  create mode 100644 Documentation/devicetree/bindings/remoteproc/allwinne=
+r,sun55i-rproc.yaml
+>  create mode 100644 drivers/mailbox/sun55i-msgbox.c
+>  create mode 100644 drivers/mailbox/sun55i_msgbox_test.c
+>  create mode 100644 drivers/remoteproc/sunxi_rproc.c
+>  create mode 100644 drivers/remoteproc/sunxi_rproc_test.c
+>
+> --
+> 2.53.0
+>
