@@ -1,71 +1,37 @@
-Received: from mail-oi2-f13.google.com (mail-oi2-f13.google.com [74.125.231.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B9C35203C
-	for <linux-sunxi@lists.linux.dev>; Tue, 22 Sep 2026 00:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091961E5018;
+	Tue, 22 Sep 2026 00:48:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790037935; cv=none; b=MypctD8Zqb7+ryBHQl7cSY73URyamII3FkzkYUL/HdTOzYCo9HjkWUEQSWl4eZ5cRD4NZyQy9XywnSQmW6mgsTyH75YKd6fl7rxJks8NuJn1skyknLKXnGTYHHNik7O1WS1wwDHSBGT4XsRydw8ufdy5GOHiDsqcwOp1iFDeZ5o=
+	t=1790038133; cv=none; b=p02durkB8PcpIKRiH0gzy82Mv4cNJtyY2ecJ117oMMCmCaMJ4UazU50XW+TbRn43apsN8FG19wZmuDEXElnkBOUYwIC4gt5qsDJThMrapX5MNNemp/aqy7sxo8hP9Kijua3PMZZxJOvpvEgpI8xoVCw32WEnXhi7vjT7siBMGyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790037935; c=relaxed/simple;
-	bh=e9hk5Tsdquyr+5avHPEA7bcfLf2nOdnHsiLzbvu4On4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=grD7W9BLcN5lF1YA4PAI8ZLDZoT7KvdA0pLMjcdYTGbZhsUbK0AOJjJS+8OmoYUC5X8G6yJQjS9iQNozEVGtUVGBK07mf2z4Nd2GeqMeR40s/VU1jr7dtTr8z0FSbTz/zKf49d3fwdOrI65gstxtHxsFMaKoDOESxLwKHAKvHro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rhIZS39D; arc=none smtp.client-ip=74.125.231.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790038133; c=relaxed/simple;
+	bh=MhECZ01GWljS+dSYSDphB4oUMuaC49wghxWhnDKzGhI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=sH4vLAaAKOqWVgKGZbAmBBBh/aQIQg6NIM0g3u3PBXJ0dYEFDDfbem5zYHrjbGzmLzHb0tb2cjwRQwjTcSf9Wxt8sD0ghOakPBSBobMfi7mlFpZB9zyaco88gdACbeGuw7OCZhzEIbkE1S0RglksvphR1YOhKpMdicEjI0zmXrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xax4A2m5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rhIZS39D"
-Received: by mail-oi2-f13.google.com with SMTP id 5614622812f47-4c13f2685f2so1996591b6e.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 17:45:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790037931; x=1790642731; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gFndLx5Yqc+lsDlrSDVoBXxkYOfQ85XX/QivbJQF5Mw=;
-        b=rhIZS39Dt+44Iqhtxv/iYgdjTgCzftPzEHI5j58DvpkFhbqwG6AhaY5qfvOen2Dea3
-         PEgRBCEIvcwBhz4uUKs3Y9IUCDDaujNMs0fYqFpQUzeTAMrNLai7P4zJ/sxNJhz2ByU4
-         dZ8e35OzQFZQq00Z2RqgZUQoHq76WxcjrJMCYUrweGZrxFe6wE0C/loxe8w7IQpJUsoM
-         2dAzZGAVt0Y/ZwQtTuSaTj6RqTY4q0vOv8J12OxBsTElj1YY+crWW54oSdUaedvzs8S9
-         N2E8WhBFXwaLZHrCW0DvBMKFDJtzQXTuuAL/JVv1nKGJgzZedvjIk3RHedOHafiKu7pN
-         ZHkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790037931; x=1790642731;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gFndLx5Yqc+lsDlrSDVoBXxkYOfQ85XX/QivbJQF5Mw=;
-        b=T5POkv1ln5TfX+vFl2r8GLJWKTZ7b8h6hlSOJJmEuK9t/qgBYdc0efGGh+tLk3ge4v
-         dtUgblzAmeCfLv7XMF930Ynu8hf90cUjMKdMepEXdsfev1K939ApxoCOFBnYNGcg3rqG
-         aYBLsEn2XaJouR2gPeC2W9sOOzGu6dKn1wdwCjkDliAaI2WZ9+pTN82tQs8JCFppJq5b
-         gZ8Oo15H19lpOz9E1KqiIG8wSw6AVLWn3IdzZ0h0lkBVw1mKs6eKtqOkaYGlO6R3HIbn
-         YTPR3Z1XFQkql/e9uXeXUEsB0L6c/GxPZSyIqs6a3Plm09zrV1CfmyclalnuOkRonX2w
-         VL8g==
-X-Forwarded-Encrypted: i=1; AKwUvBzkP2UHoirOT6swlQxEjSc99bdPazEypSMrqsfRX4HdBE3CJn0I6PKEQJWm43h3v9pMnn2h+p9OMU8C8Q==@lists.linux.dev
-X-Gm-Message-State: AFuF++mH8BD85uwPQ/hGuyUjIulubmCgw9YuJ9L+Y4QEA5lMpZo5BPNw
-	iwTznRkxvgdB4aA0Gph118N98GjRs9bVQ312HRCVNpRsuFZr7nBY4aeL2Y1XdHtG
-X-Gm-Gg: AYBFou0N8QwjvIcmEvBr7m8h1R45m5whs+bGkAQ4zx3lrlnrxhvEJcra/pGSx0cw8Mp
-	zIzOrij5Lh6TPRYgYE6LM0SPCElSbHGk+yCbNmo+VUQ3WFw4vEbsEPIu3GMzhsV9ncjrdVTwwNJ
-	5GJUzVBuc8VDB9PwiQ9rS/Z79BHdz+xCP51BAWQLT/sqb2l5Adr0u0SDvrAGShsAMJ1EhYjJPps
-	GXmAWvjMyHaOa7elxMuP97nP8wPT8CqWf0lY9KuFAkxLjkiwKZsRyBrAPdDdxLuZg62pjFDWEX1
-	LL1iKA1L8en02M1b9RhOL2/7yyK5OHQDbOPCRm0vcFKsfkMkjC38qAseZ4mg1GOxOKTXZEv4Czj
-	e4mwdL1b7sieBPKrOm1k9BA9vgITPpDQ3iVTXZysB4GlpznkhUGvA9bSY58x8FGAtIkSmUfw4Dy
-	Hdx3m+LYG9xdXsb+TmVU5yQgce5D9FSjathJc/Q+ybbZfTrqR08Sc3ZGwJgRzh28b7n/kf987cC
-	AA0buNefSYoy0R2lluXrUPyo6HCOBzuweWaylwJzuRURbIagdivRHEe0YjjjygX40FpJRZr0UOF
-	U8Ddo+CazUCmd5yygHxZV4VSVjz6R83zvpnsNNdgAkyedbUQKEDWDSMmbLlrTNsCVXSG34ls8Y1
-	JHyTBd3/vOicU2rJNt1nF2xnnu0/4Nhjg
-X-Received: by 2002:a05:6808:1701:b0:4b9:a8ac:487 with SMTP id 5614622812f47-4ccf91570e3mr11567524b6e.37.1790037931601;
-        Mon, 21 Sep 2026 17:45:31 -0700 (PDT)
-Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4d4bb6be7b3sm60201b6e.0.2026.09.21.17.45.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 17:45:30 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Mon, 21 Sep 2026 18:45:26 -0600
-Subject: [PATCH net-next v5 3/3] net: stmmac: sun8i: add support for
- Allwinner H616 EMAC1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xax4A2m5"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7FFD0C2BCB3;
+	Tue, 22 Sep 2026 00:48:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790038132;
+	bh=MhECZ01GWljS+dSYSDphB4oUMuaC49wghxWhnDKzGhI=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=Xax4A2m5o3qrpoh+RsXBuRryi62bfZGB1vbojfeLz6ggLJvW5qO8K3Q5XqgsVoK9c
+	 WJ5ocrHFOEgCgB1PSmGfNjElvxMn47J27m5QMOyHZ7SK4RtDhmdP/d5BOXmItQkiGl
+	 ruNM7PxYrTa/oFVmkX8d9BFpDUljAyVZOTTiKP5MwYF5FWpu1j1J5VRDnzG0jyH7Qb
+	 kZRvwRMYj2i+/N6ord2dsJnZ/FuDZ6xymUD0zGVQinZoTjxJYnGaFoXKikXEq1FsGl
+	 d9XNkBhHMhEqXzSKt0lPWHTnd5NlpjdyQXsqcldMPBaOP8kVL9uQvCRSu4wkjoeOh0
+	 FgThoEtk2SOvA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5508CC982F0;
+	Tue, 22 Sep 2026 00:48:52 +0000 (UTC)
+From: Jaidev Shastri via B4 Relay <devnull+jaidevshastri.vt.edu@kernel.org>
+Date: Mon, 21 Sep 2026 20:48:49 -0400
+Subject: [PATCH] soc: sunxi: sram: order the publication of base against
+ sram_dev
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,93 +40,119 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260921-submit-h616-emac1-v1-v5-3-ada661ed9e9b@gmail.com>
-References: <20260921-submit-h616-emac1-v1-v5-0-ada661ed9e9b@gmail.com>
-In-Reply-To: <20260921-submit-h616-emac1-v1-v5-0-ada661ed9e9b@gmail.com>
-To: Richard Genoud <richard.genoud@bootlin.com>, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- LABBE Corentin <clabbe.montjoie@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
- Jose Abreu <joabreu@synopsys.com>
-Cc: Alastair D'Silva <alastair@d-silva.org>, 
- Maxime Ripard <mripard@kernel.org>, 
- James Hilliard <james.hilliard1@gmail.com>, netdev@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>
-X-Mailer: b4 0.15.2
+Message-Id: <20260921-mb-sunxi-sram-v1-1-ad7817f0ee7d@vt.edu>
+X-B4-Tracking: v=1; b=H4sIAHDQsWoC/yXMwQ6CMBAE0F8he3ZNKU1Ff8V4aOsqa0I1u0JIC
+ P9ui8c3mZkVlIRJ4dKsIDSz8jsXtIcG0hDyk5DvxWCN9eZsWxwj6pQXRpUwomtTZ/s+OO8NlM1
+ H6MHL/ne9/a1TfFH61pPaiEEJo4SchhrtnE/HDiU52LYfZR29qpEAAAA=
+X-Change-ID: 20260921-mb-sunxi-sram-41c3288a4660
+To: Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Jaidev Shastri <jaidevshastri@vt.edu>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790038131; l=2938;
+ i=jaidevshastri@vt.edu; s=20260921; h=from:subject:message-id;
+ bh=iWOUCfUb74J3AaIrMMoha+tqbbn7gGU2kZjJNz75+qo=;
+ b=xNk3bETupvhxPj+ON3wVvUrT00jS57UuN8Fn/ZStgW4M+sscHW5o3tqneSp1mYeN0l0G53/Sb
+ TmEtkw7niOuDlqX1aVZUwXlG4rAhSg8GVuFGrkqvbw+7ityyJaG8aaV
+X-Developer-Key: i=jaidevshastri@vt.edu; a=ed25519;
+ pk=J7+xYJRlTPds+pv5hbqFFRqGCpDeJDzmZT1ggRwj7/0=
+X-Endpoint-Received: by B4 Relay for jaidevshastri@vt.edu/20260921 with
+ auth_id=1044
+X-Original-From: Jaidev Shastri <jaidevshastri@vt.edu>
+Reply-To: jaidevshastri@vt.edu
 
-The H616 secondary EMAC uses a separate system-control clock register
-and supports only RMII at 10/100 Mbps. It connects internally to the
-co-packaged AC200 or AC300 EPHY and has no external PHY pins.
+From: Jaidev Shastri <jaidevshastri@vt.edu>
 
-Add an EMAC1 variant using the dedicated register and enable only RMII.
-Leave PHY initialization to the PHY driver instead of using the H3
-internal-PHY controls. No RX or TX clock delays are configured for this
-RMII-only variant.
+sunxi_sram_claim() is called from the probe functions of the EMAC, the
+video engine and other consumers. It gates on the file-scope base
+pointer:
 
-Co-developed-by: Richard Genoud <richard.genoud@bootlin.com>
-Signed-off-by: Richard Genoud <richard.genoud@bootlin.com>
-Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Alastair D'Silva <alastair@d-silva.org>
-Tested-by: Alastair D'Silva <alastair@d-silva.org>
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+	if (!base)
+		return -EPROBE_DEFER;
+
+and then walks sram_dev->of_node in sunxi_sram_of_parse().
+sunxi_sram_probe() writes sram_dev and then base, both with plain
+stores, and the claimer reads both with plain loads. Neither the two
+stores nor the two loads are ordered, so a claimer on another CPU can
+pass the gate and dereference sram_dev == NULL.
+
+Keep the mapped registers in a local and publish base with
+smp_store_release() once sram_dev is set; read it with
+smp_load_acquire() in sunxi_sram_claim(). The error value is still
+stored to base so that a failed probe keeps reporting it to claimers.
+
+Found with MBCheck, a static herd7-based memory consistency checker.
+
+Signed-off-by: Jaidev Shastri <jaidevshastri@vt.edu>
 ---
- drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/soc/sunxi/sunxi_sram.c | 28 +++++++++++++++++++++-------
+ 1 file changed, 21 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index 9598c386bb21..0ea1860cf203 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -81,6 +81,13 @@ static const struct reg_field sun8i_syscon_reg_field = {
- 	.msb = 31,
- };
+diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
+index 2ccaeacf8..0e0b86ad3 100644
+--- a/drivers/soc/sunxi/sunxi_sram.c
++++ b/drivers/soc/sunxi/sunxi_sram.c
+@@ -266,10 +266,14 @@ int sunxi_sram_claim(struct device *dev)
+ 	int err;
+ 	int count = 0;
  
-+/* EMAC1 clock register @ 0x34 in the "system control" address range */
-+static const struct reg_field sun8i_syscon_reg_field_emac1 = {
-+	.reg = 0x34,
-+	.lsb = 0,
-+	.msb = 31,
-+};
-+
- /* EMAC clock register @ 0x164 in the CCU address range */
- static const struct reg_field sun8i_ccu_reg_field = {
- 	.reg = 0x164,
-@@ -143,6 +150,13 @@ static const struct emac_variant emac_variant_h6 = {
- 	.tx_delay_max = 7,
- };
+-	if (IS_ERR(base))
+-		return PTR_ERR(base);
++	void __iomem *regs;
  
-+static const struct emac_variant emac_variant_h616_emac1 = {
-+	.syscon_field = &sun8i_syscon_reg_field_emac1,
-+	/* The co-packaged AC200/AC300 PHY does not use the H3 PHY controls. */
-+	.soc_has_internal_phy = false,
-+	.support_rmii = true,
-+};
+-	if (!base)
++	/* Pairs with smp_store_release() in sunxi_sram_probe(). */
++	regs = smp_load_acquire(&base);
++	if (IS_ERR(regs))
++		return PTR_ERR(regs);
 +
- #define EMAC_BASIC_CTL0 0x00
- #define EMAC_BASIC_CTL1 0x04
- #define EMAC_INT_STA    0x08
-@@ -1277,6 +1291,8 @@ static const struct of_device_id sun8i_dwmac_match[] = {
- 		.data = &emac_variant_a64 },
- 	{ .compatible = "allwinner,sun50i-h6-emac",
- 		.data = &emac_variant_h6 },
-+	{ .compatible = "allwinner,sun50i-h616-emac1",
-+		.data = &emac_variant_h616_emac1 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, sun8i_dwmac_match);
++	if (!regs)
+ 		return -EPROBE_DEFER;
+ 
+ 	if (!dev || !dev->of_node)
+@@ -410,6 +414,7 @@ static int __init sunxi_sram_probe(struct platform_device *pdev)
+ 	const struct sunxi_sramc_variant *variant;
+ 	struct device *dev = &pdev->dev;
+ 	struct regmap *regmap;
++	void __iomem *regs;
+ 	int ret;
+ 
+ 	sram_dev = &pdev->dev;
+@@ -420,12 +425,21 @@ static int __init sunxi_sram_probe(struct platform_device *pdev)
+ 
+ 	dev_set_drvdata(dev, (struct sunxi_sramc_variant *)variant);
+ 
+-	base = devm_platform_ioremap_resource(pdev, 0);
+-	if (IS_ERR(base))
+-		return PTR_ERR(base);
++	regs = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(regs)) {
++		base = regs;
++		return PTR_ERR(regs);
++	}
++
++	/*
++	 * base is the gate that sunxi_sram_claim() tests before it walks
++	 * sram_dev->of_node. Publish it after sram_dev so that a claimer on
++	 * another CPU that passes the gate also sees sram_dev.
++	 */
++	smp_store_release(&base, regs);
+ 
+ 	if (variant->num_emac_clocks || variant->has_ldo_ctrl) {
+-		regmap = devm_regmap_init_mmio(dev, base, &sunxi_sram_regmap_config);
++		regmap = devm_regmap_init_mmio(dev, regs, &sunxi_sram_regmap_config);
+ 		if (IS_ERR(regmap))
+ 			return PTR_ERR(regmap);
+ 
 
--- 
-2.53.0
+---
+base-commit: 93f51579e7df248780214094418f205253383cc5
+change-id: 20260921-mb-sunxi-sram-41c3288a4660
+
+Best regards,
+--  
+Jaidev Shastri <jaidevshastri@vt.edu>
+
 
