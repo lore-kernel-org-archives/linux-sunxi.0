@@ -1,210 +1,206 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9ED32B9B5
-	for <linux-sunxi@lists.linux.dev>; Tue, 22 Sep 2026 06:34:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162744E01FF
+	for <linux-sunxi@lists.linux.dev>; Tue, 22 Sep 2026 07:02:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790058903; cv=none; b=FX+UuutE+HoW1/2I8ZBiFdI4sqIwNQy3CHVA6v3nzMnvtuCJ6lCsUegZBqRxdldh9+OMHfellN1r9FVl7TrM/sMis0Avx0Rz7C9RHmsscciXJfNJ507dMfDcN7DZG16kyPiKN4OphMARPYZhfvo3u1QF8meOydlOLNqqtcSWPRE=
+	t=1790060541; cv=none; b=s+IKCmt24hPJWAu8J2NsRzuanpN2JPwMR36OTwaKqyRZeiy02yLgPCRjAmFHlBb70D/Yx4zxGFkVSgSZO/YfwqHW8GkNuk8b7uYuwjhR36PBDI7UGe42pH+QFIWIWCCtQdEFNJ2EkSQkq8roWDA1bK3rkBJyF/hwN8/vS4ZnAG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790058903; c=relaxed/simple;
-	bh=gtIzdKDRrRJHsTR7VVJeCz+WRMfeqWMHi6riR07zm28=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cK0/zBbkWKEYDhrGXRN6RkMbJB8peAe1GXPi0kMConlT3j0KuTxxG6uaca/LpmKkWciV9t0uNoLC5Mr0ClTzewZjUPFVNqWllbarZ+RTWx4grQW/jUSjDopqtc7zkmydxhxnvTLTqoJnSwD363Tf7KnL5YCMsVtvPQ5FvLbhLZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J8luqjx1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790060541; c=relaxed/simple;
+	bh=6dkRJLP/5BVAiu7H1TmYvn256NTDtpUQJ1vIReWXtjw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iuAWUMUXJen3DZKlZpyUlAJJrkj0z/5hFLUMdGcX62XDrxaKDK/vH0b+io52UfUscXuCy/go89LkVPYQxQbzuMkodsv/YOerWFKR6sUVmSv2IpBc/hk8IDpxLyyp9ajWUqJZ401vEDdxriyvGDsebFrqbCtixtFyJcUQRYAe7Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YFAWr1LL; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J8luqjx1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F1481F00893
-	for <linux-sunxi@lists.linux.dev>; Tue, 22 Sep 2026 06:34:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790058894;
-	bh=SkQD57V7JHFau1jup0BLrsztOOqS85TLE+zrMo+mVMw=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=J8luqjx1maAA/RFdUzkIsV+aAVweDmumzDdQb9JlhC2kWOb6vIuqq5aNJpX7hcbR4
-	 DJWubJ5IJisJUo3NvutO0lzGx0lUMjpZLUQp58VDENcD+sNtxZoxEaWYI2RSiFQXpJ
-	 gr7y/12rsItcE16W+IgVgTbY5UxJOL1s6EEAOAKsxB63KbK6g07nPEKZi5BxjBrtz+
-	 9flhRdviQePTIMvk/WKGWUIMDv0SqwAwaL1NnD7dbbq6ecArSDDIqdF7yrQLQyq3cW
-	 T/vVl39blmETUh44RQ/CRShg2Y1LrHaCgYHtmLe0nMeL6d52tjU2hs3sav2AQTRb7m
-	 XSauLOD4lWQOg==
-Received: by mail-lr2-f16.google.com with SMTP id 38308e7fff4ca-3a2ff176d5bso30334391fa.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 21 Sep 2026 23:34:53 -0700 (PDT)
-X-Gm-Message-State: AFuF++mtijPnqGukecKqQcGvK4Xj0OdnI/Ch0/zOQIpjRRRJUbYh/DTD
-	6mPaYKhVI6/FMIY9ErByL2qDNpN4/Qii67/YC4vseC7PsD2MSEFSX9N6XMxI2mCzhrIbCFuwyGh
-	OsaYa2FdwaYlGnEsb1yR66ZRNODz+clo=
-X-Received: by 2002:a2e:be9a:0:b0:3a5:f044:fcbd with SMTP id
- 38308e7fff4ca-3a5fc0d325fmr27952131fa.23.1790058892276; Mon, 21 Sep 2026
- 23:34:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YFAWr1LL"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id BA293C23DB0;
+	Tue, 22 Sep 2026 07:03:04 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 49D5A60580;
+	Tue, 22 Sep 2026 07:02:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C1E2010329239;
+	Tue, 22 Sep 2026 09:02:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1790060536; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=ssQctI4h9bdCd7Y/524FINFJI5J01KhR4UPJhm0pNBM=;
+	b=YFAWr1LLVPWBrxuMYK0hZGy1a9yCo0Nryg9J/+kO3L8XBlB5PwXIeteAPxAyT4nVS9qe4b
+	GPOc2KqgV06I4V9vWpO2WPZUpnljfwYP5gKWtfMY3aJ+GGg3rMX5jYtp955pzYzH8GGjrY
+	vUAov3HahwFm+Gcex1Z2BBpHI6r4Xii9g9w6/EvWYqPCI8iUzNnoppvERzT3sFdc4ZEaH4
+	3zuJKBdjX6sqM6Ylt6v5n2Zr80SEA2eeefyT/7lexB9WbF6VtyjDfz1NEdE6bTIYv7QyRn
+	PzY3wJXFJ3ZWHaN8A7l73tH08UG6fl5M67qjFINyf7Enh8Tqfww6Mw6IoX9yow==
+Message-ID: <3c1a0626-f3f7-49ea-8029-2c4cbb994ef9@bootlin.com>
+Date: Tue, 22 Sep 2026 09:02:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260922034711.190253-1-tcmichals@gmail.com>
-In-Reply-To: <20260922034711.190253-1-tcmichals@gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 22 Sep 2026 14:34:39 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66_AaPnwErV72eF=KQ2k15spXA2UJcugnOcGcp5PAKVXw@mail.gmail.com>
-X-Gm-Features: AcwNN1UIojt2XmXHGQHix01SWO7NXJi2-7p4KR1fGp1WZitbr68Mh7hKMkbttTY
-Message-ID: <CAGb2v66_AaPnwErV72eF=KQ2k15spXA2UJcugnOcGcp5PAKVXw@mail.gmail.com>
-Subject: Re: [PATCH 0/7] remoteproc/mailbox: add Allwinner A523/A527/T527 E907
- RISC-V support
-To: Tim Michals <tcmichals@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, jernej.skrabec@gmail.com, samuel@sholland.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v5 1/3] net: stmmac: sun8i: reset the MAC after
+ PHY initialization
+To: James Hilliard <james.hilliard1@gmail.com>,
+ Richard Genoud <richard.genoud@bootlin.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ LABBE Corentin <clabbe.montjoie@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>,
+ Jose Abreu <joabreu@synopsys.com>
+Cc: Alastair D'Silva <alastair@d-silva.org>,
+ Maxime Ripard <mripard@kernel.org>, netdev@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20260921-submit-h616-emac1-v1-v5-0-ada661ed9e9b@gmail.com>
+ <20260921-submit-h616-emac1-v1-v5-1-ada661ed9e9b@gmail.com>
+Content-Language: en-US
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+In-Reply-To: <20260921-submit-h616-emac1-v1-v5-1-ada661ed9e9b@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
 Hi,
 
-On Tue, Sep 22, 2026 at 11:47=E2=80=AFAM Tim Michals <tcmichals@gmail.com> =
-wrote:
->
-> This patch series introduces mainline Linux support for the Alibaba T-Hea=
-d
-> XuanTie E907 (RV32IMAFDC @ 200 MHz) RISC-V auxiliary co-processor and the
-> 4-port hardware Message Box IP integrated into Allwinner A523, A527, and
-> T527 (sun55i) SoCs.
->
-> The series adds the standalone 4-port hardware Message Box driver with
-> KUnit tests, the XuanTie RemoteProc driver with da_to_va KUnit tests, the
-> associated Devicetree binding schemas, and DTS node enablement.
->
-> Background & Hardware Architecture
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> Allwinner sun55i SoCs integrate an octa-core ARM Cortex-A55 cluster
-> alongside an auxiliary XuanTie E907 RISC-V co-processor. The co-processor
-> boots from on-chip dedicated SRAM Space 0 (Host PA 0x07280000 / Core DA
-> 0x3FFC0000, 256 KB), can access secondary switchable SRAM Space 1 (Host
-> PA 0x072C0000 / Core DA 0x40000000, 256 KB), and interacts with external
-> DDR DRAM across the SoC's internal AXI bus.
->
-> Inter-processor communication (IPC) is coordinated via a 4-port hardware
-> Message Box controller (CPUX_MSGBOX at 0x03003000). The mailbox acts as a
-> star crossbar connecting four processors on the silicon die:
->   - Port 0: ARM Cortex-A55 host cluster
->   - Port 1: Cadence Tensilica HiFi4 Audio DSP
->   - Port 2: Power Management Unit (CPUS)
->   - Port 3: XuanTie E907 RISC-V co-processor
->
-> The Cortex-A55 exposes 12 logical channels (4 per remote processor), wher=
-e
-> Channels 8..11 route directly to the XuanTie E907.
->
-> Hardware Validation & Silicon Evidence
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> This driver series has been extensively validated on physical silicon usi=
-ng
-> the Radxa Cubie A5E development board (Allwinner A527 / T527) running
-> mainline Linux PREEMPT_RT:
->
-> 1. In-Kernel KUnit Tests:
->    - sun55i_msgbox_test: Register mapping, channel routing, and interrupt
->      mask bit manipulation across all 4 ports.
->    - sunxi_rproc_test: Comprehensive da_to_va address translation across
->      SRAM Space 0 (Host PA & Core DA), SRAM Space 1, DDR DRAM carveouts,
->      and trace memory regions.
->
-> 2. Target Automated Test Suite:
->    - testBasic.elf: Core reset de-assertion, SRAM boot, MISA CSR
->      verification (0x40901125), and heartbeat logging via debugfs trace0.
->    - testStringBinaryTrace0.elf: Sustained trace0 ring-buffer streaming,
->      hardware single-precision FPU math (sine wave calculation), and
->      packed binary telemetry parsing.
->    - testCrash.elf: Machine-mode exception trap (mtvec) verification,
->      capturing full register autopsy (mepc, mcause=3D0x2, 31 GPRs) upon
->      intentional illegal instruction while the host remains stable.
->    - testPingRpmsg.elf: Full Linux VirtIO RPMsg framework validation
->      over dynamic DDR CMA buffers. Tested 1,000 round-trip ping-pong
->      packets with 100% success rate, measuring ~175 us average RTT
->      latency and 5.37 MB/s bandwidth at 512-byte VirtIO buffer size.
->
-> PREEMPT_RT Real-Time Compliance
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-> When the E907 announces a new RPMsg channel via Name Service announcement=
-,
-> the kernel's rpmsg_char/virtio_rpmsg_bus layers acquire sleeping mutexes
-> (device_register, blocking_notifier_call_chain). Calling these from
-> hard-IRQ context triggers "scheduling while atomic" warnings on PREEMPT_R=
-T
-> kernels. In sunxi_rproc.c, the mailbox callback defers the VirtIO vring
-> interrupt handler via schedule_work(&priv->vq_work), ensuring 100% clean
-> operation on PREEMPT_RT kernels.
->
-> Design Decisions for Maintainer Review
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> 1. Standalone drivers/mailbox/sun55i-msgbox.c vs sun6i-msgbox.c:
->    The existing sun6i-msgbox.c driver is architected around a legacy
->    2-core point-to-point mailbox with flat global registers. The sun55i
->    hardware is a 4-processor crossbar where registers are banked per
->    processor in independent 0x100-byte apertures with hardware routing
->    tables and 8-entry FIFOs. A clean standalone controller driver
->    was implemented to avoid extensive conditional branches across every
->    function.
->
-> 2. Devicetree YAML Schemas:
->    Both allwinner,sun55i-a523-msgbox.yaml and allwinner,sun55i-rproc.yaml
->    have been created and pass dt_binding_check and checkpatch.pl cleanly.
->
-> Acknowledgements & References
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> Thanks to the Linux-sunxi community and YuzukiHD for SyterKit and
-> FreeRTOS-HIFI4-DSP as independent references to cross-check register
-> offsets, SRAM mappings, and clock/reset sequencing on the T527 and A733.
->
->
-> Tim Michals (7):
->   dt-bindings: mailbox: add Allwinner sun55i msgbox schema
->   mailbox: sun55i: add Allwinner sun55i/sun60i 4-port Message Box driver
->   mailbox: sun55i: add KUnit tests for routing and registers
->   dt-bindings: remoteproc: add allwinner sun55i rproc binding
->   remoteproc: sunxi: add allwinner riscv remoteproc driver
->   remoteproc: sunxi: add KUnit tests for da_to_va address translation
->   arm64: dts: allwinner: add a523 msgbox and remoteproc nodes
+On 9/22/26 02:45, James Hilliard wrote:
+> The MAC software reset needs a running receive clock from the PHY.
+> Resetting the MAC at the end of probe therefore fails when the PHY driver
+> has not been loaded or its probe has deferred on a missing supplier. The
+> failure removes the MAC and its MDIO bus, so loading the missing driver
+> later cannot recover the interface without reprobing the MAC.
+> 
+> Perform the software reset in the DMA reset callback instead. The stmmac
+> core calls it during hardware setup after attaching and initializing the
+> PHY, and resumes a suspended PHY before reopening or resuming the MAC.
+> Mask interrupts before requesting the reset and retain the existing
+> DMA and interrupt-register clearing even if the reset times out. Return
+> reset errors through the normal hardware-setup error path.
+> 
+> Remove the unconditional reset from probe. Keep the separate H3 MDIO-mux
+> reset after switching the mux and powering the selected PHY, since it is
+> needed to latch the selected interface before MDIO accesses.
+> 
+> Fixes: 9f93ac8d4085 ("net-next: stmmac: Add dwmac-sun8i")
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 
-There are many review comments from Sashiko, even a critical one.
-Please go through them.
+Tested on H2S that it doesn't break the platform,
 
-Also, please use just one compatible string for the SoC family, unless
-you have knowledge of some differences. They are the same die and the
-IP cores should be identical.
+Tested-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
 
-Last, please send the full series to all parties involved. Do not send
-different patches to different people. Everyone should get the same
-stuff so we all have the full picture. Unless you split the series in
-two, one for the mailbox and one for the remoteproc.
+Maxime
 
+> ---
+>  drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 53 +++++++++++------------
+>  1 file changed, 26 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> index 48c52eb96233..9598c386bb21 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> @@ -269,11 +269,33 @@ static const struct emac_variant emac_variant_h6 = {
+>  #define SYSCON_ETCS_EXT_GMII	0x1
+>  #define SYSCON_ETCS_INT_GMII	0x2
+>  
+> +static int sun8i_dwmac_reset(void __iomem *ioaddr)
+> +{
+> +	u32 v;
+> +
+> +	v = readl(ioaddr + EMAC_BASIC_CTL1);
+> +	writel(v | 0x01, ioaddr + EMAC_BASIC_CTL1);
+> +
+> +	/* The timeout was previously set to 10ms, but some board (OrangePI0)
+> +	 * need more if no cable plugged. 100ms seems OK
+> +	 */
+> +	return readl_poll_timeout(ioaddr + EMAC_BASIC_CTL1, v,
+> +				  !(v & 0x01), 100, 100000);
+> +}
+> +
+>  /* sun8i_dwmac_dma_reset() - reset the EMAC
+>   * Called from stmmac via stmmac_dma_ops->reset
+>   */
+>  static int sun8i_dwmac_dma_reset(void __iomem *ioaddr)
+>  {
+> +	int ret;
+> +
+> +	writel(0, ioaddr + EMAC_INT_EN);
+> +
+> +	/* The PHY receive clock must be running for the reset to complete. */
+> +	ret = sun8i_dwmac_reset(ioaddr);
+> +
+> +	/* Leave DMA and interrupts disabled even if the reset timed out. */
+>  	writel(0, ioaddr + EMAC_RX_CTL1);
+>  	writel(0, ioaddr + EMAC_TX_CTL1);
+>  	writel(0, ioaddr + EMAC_RX_FRM_FLT);
+> @@ -281,7 +303,7 @@ static int sun8i_dwmac_dma_reset(void __iomem *ioaddr)
+>  	writel(0, ioaddr + EMAC_TX_DESC_LIST);
+>  	writel(0, ioaddr + EMAC_INT_EN);
+>  	writel(0x1FFFFFF, ioaddr + EMAC_INT_STA);
+> -	return 0;
+> +	return ret;
+>  }
+>  
+>  /* sun8i_dwmac_dma_init() - initialize the EMAC
+> @@ -738,27 +760,6 @@ static void sun8i_dwmac_flow_ctrl(struct mac_device_info *hw,
+>  	writel(v, ioaddr + EMAC_TX_FLOW_CTL);
+>  }
+>  
+> -static int sun8i_dwmac_reset(struct stmmac_priv *priv)
+> -{
+> -	u32 v;
+> -	int err;
+> -
+> -	v = readl(priv->ioaddr + EMAC_BASIC_CTL1);
+> -	writel(v | 0x01, priv->ioaddr + EMAC_BASIC_CTL1);
+> -
+> -	/* The timeout was previously set to 10ms, but some board (OrangePI0)
+> -	 * need more if no cable plugged. 100ms seems OK
+> -	 */
+> -	err = readl_poll_timeout(priv->ioaddr + EMAC_BASIC_CTL1, v,
+> -				 !(v & 0x01), 100, 100000);
+> -
+> -	if (err) {
+> -		dev_err(priv->device, "EMAC reset timeout\n");
+> -		return err;
+> -	}
+> -	return 0;
+> -}
+> -
+>  /* Search in mdio-mux node for internal PHY node and get its clk/reset */
+>  static int get_ephy_nodes(struct stmmac_priv *priv)
+>  {
+> @@ -895,7 +896,9 @@ static int mdio_mux_syscon_switch_fn(int current_child, int desired_child,
+>  		/* After changing syscon value, the MAC need reset or it will
+>  		 * use the last value (and so the last PHY set).
+>  		 */
+> -		ret = sun8i_dwmac_reset(priv);
+> +		ret = sun8i_dwmac_reset(priv->ioaddr);
+> +		if (ret)
+> +			dev_err(priv->device, "EMAC reset timeout\n");
+>  	}
+>  	return ret;
+>  }
+> @@ -1217,10 +1220,6 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
+>  			dev_err(&pdev->dev, "Failed to register mux\n");
+>  			goto dwmac_mux;
+>  		}
+> -	} else {
+> -		ret = sun8i_dwmac_reset(priv);
+> -		if (ret)
+> -			goto dwmac_remove;
+>  	}
+>  
+>  	pm_runtime_put(&pdev->dev);
+> 
 
-Thanks
-ChenYu
-
-
->  .../mailbox/allwinner,sun55i-a523-msgbox.yaml |  93 ++
->  .../remoteproc/allwinner,sun55i-rproc.yaml    | 152 +++
->  .../arm64/boot/dts/allwinner/sun55i-a523.dtsi |  39 +
->  drivers/mailbox/Kconfig                       |  20 +
->  drivers/mailbox/Makefile                      |   3 +
->  drivers/mailbox/sun55i-msgbox.c               | 337 +++++++
->  drivers/mailbox/sun55i_msgbox_test.c          | 296 ++++++
->  drivers/remoteproc/Kconfig                    |  19 +
->  drivers/remoteproc/Makefile                   |   2 +
->  drivers/remoteproc/sunxi_rproc.c              | 905 ++++++++++++++++++
->  drivers/remoteproc/sunxi_rproc_test.c         | 442 +++++++++
->  11 files changed, 2308 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/mailbox/allwinner,s=
-un55i-a523-msgbox.yaml
->  create mode 100644 Documentation/devicetree/bindings/remoteproc/allwinne=
-r,sun55i-rproc.yaml
->  create mode 100644 drivers/mailbox/sun55i-msgbox.c
->  create mode 100644 drivers/mailbox/sun55i_msgbox_test.c
->  create mode 100644 drivers/remoteproc/sunxi_rproc.c
->  create mode 100644 drivers/remoteproc/sunxi_rproc_test.c
->
-> --
-> 2.53.0
->
