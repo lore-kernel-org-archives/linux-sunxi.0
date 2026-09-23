@@ -1,77 +1,82 @@
-Received: from mail-ej2-f41.google.com (mail-ej2-f41.google.com [74.125.228.169])
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63E553A3BF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D3C57983A
 	for <linux-sunxi@lists.linux.dev>; Wed, 23 Sep 2026 20:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790194993; cv=none; b=qDJeNB7FuLtCwFjJZM17/KAXrjhTLkfQlFkMLSENaggRDBSVetg170r7XY4NNLwNE/9H6ZHo8y+7onRFb37gr9rM8VRMn2NdbPkRQkCR9BNQc6ttGhnyIq74k2eJYcsf7vQEBpb3+GenAmRJaA+lTmv3h4zXokWyZhYNcIZN2Y8=
+	t=1790194994; cv=none; b=rzcLxRJ6qxwBgWTRbJiQR0b4BzhWLDgV7aBw/PsNhctOTyOw6983r0qhn3kzqmp4OhNbcCEpCfTykDR/mckhmJP5Vh+qh3CBNlAdtF+xGn6bHFLbtLi/Vn3Prx1/FD1FSPgIQVf6AFu8hP081T0ftqRK7kM96vThxTQr4rwLWoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790194993; c=relaxed/simple;
-	bh=iGxLkAPjn7iwM0RTaaX+V0ufn+VTyGjgMAZb+r2eUQ4=;
+	s=arc-20240116; t=1790194994; c=relaxed/simple;
+	bh=IKu+NW7V12nnMBgKKHdP7rj1fpU2GspG4UzSnncTVMc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VwNqch83DW70Ngt8D5kFkVIFMwcGMS4a2qHi3Szwmwzj5eZ32hHWaHEL4b+ykmTspPRXtSfxrVlwCdJwSbLh6zG8LfvtYztpo8iLCJo7WvVWEn24N9glN219ClmjCv+cKbVXUuyYNoCFUfBf5GQoUaPrr80twEd9VAwBDfKvbe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sVdaHYwk; arc=none smtp.client-ip=74.125.228.169
+	 MIME-Version; b=F45cev1/OuKFqQ0N59sGdz5tmR6fJPcK/3AZHvC2thhqSZaYFl89gsbvIsUaFi8fRB4P2f1tTffZkO5iMM/gPJtcRexmuH58E63Z8nAouK9vKUJkZJs2gz+z67OWVvy3eEBI4F1H0dZzTM4Kto3IKzYNi1MRsVHoXeqE3UhdA+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GKfftO2M; arc=none smtp.client-ip=74.125.228.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sVdaHYwk"
-Received: by mail-ej2-f41.google.com with SMTP id a640c23a62f3a-c254fa663bfso237996566b.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GKfftO2M"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f56039dso204116366b.3
         for <linux-sunxi@lists.linux.dev>; Wed, 23 Sep 2026 13:23:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790194985; x=1790799785; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790194983; x=1790799783; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=SnMP+yO9gTVCT1ht/mZTNiN+id9GPVSfGNROClqfyxw=;
-        b=sVdaHYwknyggzAKv5A+z+oMbwBwb6dBBTCWo6cOzbV5yx8JMgE+54o+R+wmWM2LCmp
-         O8y06rqErjIhEmhKBz+1/N+znBP/nqM1lkjjUm7K7d82+6pjmHYWtRroWw2e7zDIVZeO
-         cHyK7cBYYxGMfObZ65BuubozGteQLb7OH8qvbe5AEwjAcrE/VwEV3qHhaCpSrbFeTTvH
-         vNaS9KJKxzdK3gpBIUbu2uVIaQ4qz8jIR+O0PT+v0yShJGzUTp5BsCgSamfKUa4R3SN5
-         v4uckA4T+v41O1ecleRp2+WJCsq6qLmj9xAlyaPGdfvMRlr0903wGkunqjmVewOfXQA8
-         N8KA==
+        bh=qQkzg0CGegWquCnbwRamX/sZPF4fvz02MpKEACpVE4E=;
+        b=GKfftO2MqV2G8UBDsuGyNSSYZe2LqgUMD2KEA+QU0CRskpIfn6qIOcnNU/KnfWIs5m
+         IzgdHnbI3itT7MP68GlMjyRsbZ6GwpyPIGXPbUNwSZ+L9/thXjCKWy2PCvq6fCxflMt5
+         +hooOTqqHrZYDp/FCBCmzU1izIzlDo+Y6589I3JMbeFF4s5nWpsIBqfo86lLXplrJ3eU
+         NiPmc8d3chvFkz9AMHZVKoGP/YX/jyBk/whAzGIoLPOfJ95LYHU8o4zNGz3M8D/TLRYR
+         y2mLrDS7C8NsK97b/vNkShvmnWcKyFUAzcD9x0stiECvb2HjrSHsaA49i7HQ+NkAJYYR
+         zdDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790194985; x=1790799785;
+        d=1e100.net; s=20260707; t=1790194983; x=1790799783;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SnMP+yO9gTVCT1ht/mZTNiN+id9GPVSfGNROClqfyxw=;
-        b=FE7k0QK1obpAFuxGQqY2Sdg7wmr0AMGEuVbGN5khGtnh3l6fE8cx4OIz06bHkIwF2X
-         f+PUjEmWsU1qEyMeXn69YUj/VSLOd2lWWpIxtvO0dq3NAewxhS9nhxcQvtvI33QydtNF
-         uG+DTCN1yB+VzeRFvVNFOpxnBIREpuQuVX3FuU0k80luIfVje106IW/hrm9SBtVrI/2n
-         uIeBFBQ8zCNePPx4lvQqVJhxvcBYYfWDzGfbv+ggNMs0BfmHbUOcnXUCTn4qJeV3zElP
-         0QANkDVzjzmzfbT+dW2Ajm37yK6gzbSAgTAHHJAFAf7FtxHbM7oZj5hn9olUFsT54C5I
-         27Nw==
-X-Forwarded-Encrypted: i=1; AKwUvBwpuh9psLFVh2aIHypxwlxNcM+n9Qk1NFBigw5Zh5qAt+KYsCa/4hjuC1oh+W+AYHC/Ky+wdgNQyH88Zw==@lists.linux.dev
-X-Gm-Message-State: AFuF++l0KlPN2/+JGu302+LHjYOvjz28LHKEsaFahcK/qeVlBH8JeVyG
-	v2Gh6y4bjz7TdW8ajRUHLPHpU5YgWenJ+qbUQVYpXop7mKbYmLdzORPz
-X-Gm-Gg: AYBFou0hwjN0UefOThN0K0xbOPDNjLmfyOuWkgw7fJ0HUdeFglVbxxAV136+vgD7FI+
-	LeoRMqG10fadXN2TieXYDc/gq+91VnDHzwFUCq0qtvGBVs/eE8limd+WBxHdYea+RymJ8l0WVFx
-	K3cK//qu1q24hOi1WQbs5RSnw9xDpfG3bq5FhnGtRU9oIjgBeeS7wxUwQhmFvESGL6TI9WvpiJt
-	T0Dd/jQ4e521etcsfPmlLjLnKfrsVFsyof64kYyLYcZXssqtS2dTvqS6MlbJeuT5xvlkBRhT4LR
-	dqfEHQYkGS9P70jaluL+ruqpJ5cz6lsLrIOYaGI0Zmc35mskN9A8taNNrICqaS7dkLKkZtR7Ttj
-	qLboqpScTu9TQLmjCiT/b9Fj1W6thoo482s5n/xv8dgA9hFyxEiQdQ8nRAB/SwiteR09x8oNYQS
-	3VSOr5d10pbaW/yA1A37fNJ3RYenO6F+ZLGwpWlR4kIssmhrWPpsMJhYDlRvhmegpgxheoR9wR5
-	F5c3lo9A8J7orS5mZM/Bp2/Ga8P2iZwk++O1XBSuOw=
-X-Received: by 2002:a17:907:3c8f:b0:c29:f5d5:5a92 with SMTP id a640c23a62f3a-c2ac23ec44fmr24127066b.28.1790194984695;
-        Wed, 23 Sep 2026 13:23:04 -0700 (PDT)
+        bh=qQkzg0CGegWquCnbwRamX/sZPF4fvz02MpKEACpVE4E=;
+        b=wBUn+BMrxh6lks48soJCCKdIEz5ii+t4jKgPk0cVBGM8KRAM2FOjJHonH3ZhI986yl
+         /jYM2qLsf5qE5PRH9oVp1hCRbXhL4oHO30Q8udk89hoinNW66BVr6JF31Z+pW5QFNjeP
+         wWlKX2+d67WyEnOmgw6PpBj1/SNtG6cHocX++QqCNYFHyWPFRN7q8ahPkvr+CZx1dag0
+         pw1JaR0lATApX6BomLdojbEEJkW+BJToBvzwx0yTvFubwqknbZuTJMC2NoAtAIDUb7KY
+         27zQchbsytF9qzLCMyyjKRlL8Aep76bBbIHg0Mlz/8g69VHvz8KijmcOX78QR5kBkbQu
+         syXw==
+X-Forwarded-Encrypted: i=1; AKwUvBzBUNTdbgnfGkJRmOpbzii7h4B6Ll+Zz3AQdRC0IPz9Kgl8DmmkFAi7RzmvspKlJVrFVxSCDkLsqEfvLw==@lists.linux.dev
+X-Gm-Message-State: AFuF++n8eHtG/3RGBtl2+2XXjPFtClVRkOQmeOJAcVVai2KnVpkalJ5A
+	IDVmRKAIhZhXW/gyGD0juI4Ir7SZ037Z3K74i+5yuYI74p2eOfsIHCzb
+X-Gm-Gg: AYBFou0/f4vDaSS5mR+UdYQcK4u2FCX4S+P7yHUv5AXPEH8bxkNFdAdRHLP5tf6B29j
+	m8M2XL8ilis7V9VTvfehSGliLcDMRyalbD1jo1FZNhuQ6iio5M3REeN81dEOqpRnMSpXTsC2+Vq
+	a07MNFj7QSQUQJa0/WeXOERYR04YKBcSq1xwVhmG0d2pL8swqwMgKox+buCvKQ79Aw8RT+nKMTV
+	7IazFLM43EOlcpNDrtGXFW0YH2mTGBdOTdB25D+J2Q47rlod7Kgc/K1OHTWsfz0bekx5u3HmJb0
+	2KZ6TNN8VwNAAZFxwb76j+hDhUJ74qUk/mRZCUMKQCdPThErUR1HXRviQ5eGVa8jvAwkwa2AQAF
+	MDjMgNXO0K9EuudMXFp7ZWlluPyZLBpYJjyHOkNwzzhsETDBKHCwFvQto4jcTcR9h4+Xvcmf0rJ
+	a+BI/Q+hvL50+NtsGrihjuchtMFNIbXnnD6nhxSAENFCi/v7IqvSL2yNrKtXbR93wLf6Lib0cs0
+	HbVtcIrKDvGvBsn4ojjkS4tx0jZ3483
+X-Received: by 2002:a17:907:a893:b0:c29:4915:83cb with SMTP id a640c23a62f3a-c2ac262664fmr19261066b.39.1790194982908;
+        Wed, 23 Sep 2026 13:23:02 -0700 (PDT)
 Received: from debian (ip-78-137-176-146.broadband.digiweb.ie. [78.137.176.146])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2aae5c8a44sm177243566b.20.2026.09.23.13.23.03
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2aae5c8a44sm177243566b.20.2026.09.23.13.23.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 13:23:04 -0700 (PDT)
+        Wed, 23 Sep 2026 13:23:02 -0700 (PDT)
 From: Pablo Mazzini <pmazzini@gmail.com>
 To: Alexandre Belloni <alexandre.belloni@bootlin.com>,
 	Chen-Yu Tsai <wens@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Samuel Holland <samuel@sholland.org>
 Cc: Pablo Mazzini <pmazzini@gmail.com>,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-rtc@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v1 06/11] rtc: sun6i: add Allwinner B288 compatible
-Date: Wed, 23 Sep 2026 21:16:56 +0100
-Message-ID: <20260923201701.43391-6-pmazzini@gmail.com>
+Subject: [PATCH v1 05/11] dt-bindings: rtc: sun6i-a31: add Allwinner B288
+Date: Wed, 23 Sep 2026 21:16:55 +0100
+Message-ID: <20260923201701.43391-5-pmazzini@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260923201701.43391-1-pmazzini@gmail.com>
 References: <20260923201701.43391-1-pmazzini@gmail.com>
@@ -83,25 +88,33 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The driver only uses one alarm interrupt, so no functional change.
+The B288 RTC wires one alarm interrupt, not two.
 
 Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
 ---
- drivers/rtc/rtc-sun6i.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml        | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-index 7fc60880e409..cd6ac5bb20cd 100644
---- a/drivers/rtc/rtc-sun6i.c
-+++ b/drivers/rtc/rtc-sun6i.c
-@@ -859,6 +859,7 @@ static int sun6i_rtc_probe(struct platform_device *pdev)
- static const struct of_device_id sun6i_rtc_dt_ids[] = {
- 	{ .compatible = "allwinner,sun6i-a31-rtc" },
- 	{ .compatible = "allwinner,sun8i-a23-rtc" },
-+	{ .compatible = "allwinner,sun8i-b288-rtc" },
- 	{ .compatible = "allwinner,sun8i-h3-rtc" },
- 	{ .compatible = "allwinner,sun8i-r40-rtc" },
- 	{ .compatible = "allwinner,sun8i-v3-rtc" },
+diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+index f2b91186ed37..1699e3576b91 100644
+--- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
++++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+@@ -19,6 +19,7 @@ properties:
+       - enum:
+           - allwinner,sun6i-a31-rtc
+           - allwinner,sun8i-a23-rtc
++          - allwinner,sun8i-b288-rtc
+           - allwinner,sun8i-h3-rtc
+           - allwinner,sun8i-r40-rtc
+           - allwinner,sun8i-v3-rtc
+@@ -162,6 +163,7 @@ allOf:
+         compatible:
+           contains:
+             enum:
++              - allwinner,sun8i-b288-rtc
+               - allwinner,sun8i-r40-rtc
+               - allwinner,sun50i-h616-rtc
+               - allwinner,sun50i-r329-rtc
 -- 
 2.53.0
 
