@@ -1,127 +1,145 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A32546E00C;
-	Wed, 23 Sep 2026 20:32:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D030A43DEA3;
+	Wed, 23 Sep 2026 20:34:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790195569; cv=none; b=lc37tM0yWYZS/f0u5Y0hXxDIsWNGE4xkB7eRyXsPLZOjrGBBCfD6Y3sCKcXJ1RH0aBQQIzWtaD779ADUhzaKAG4re+ybFaJLCRBByqwbLzJh8P2abYsqDoPOBP4U3/PH0FxgD/kadgfWH931id9mtIvR7F65qScflMXtm4K+Xww=
+	t=1790195688; cv=none; b=I0OWnSJAF4+oZTqWRZosgxC0LlbYWteR+HJkkH3l9+Sn448RlgTmI3YwYkeHpjPGjXZoyX4cC0v8BNz0wtlcVP4zCTQHnKKyfQE+6mrRTeGyRZq1/lg8YW7L2zhwg+yNgqmqNHj8nkEOGSP5mqss8Nh1C7wgOOi30hR1/uTXJL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790195569; c=relaxed/simple;
-	bh=jOIuBSDLgqnq5i3O+mOpZQVHELyojHFL+19pVrMlFLY=;
+	s=arc-20240116; t=1790195688; c=relaxed/simple;
+	bh=Jk5ulvdGQcNVR0ri8LNRaYyJeMS1cs0lX2hZnaRW8Fc=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=OFZKvBWYAxSUvikGe+gje9MuTeiYYikC9BYku/NgloIqdlreIyHzq8Z50HAl/Un1e/H8OGg+PUH2g8ybaN5KpeCBD95QH/bqtrK2IVYBfKFTbx850klrij5/SVFLwmuMYiZwFa+WQADf9Y0zeKdJ2pvQAbVIlTY4oL+SnwAp5HA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NjhnE3Tt; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=m83GukbqrtmXSiR0obChJyjSzTmgdI728Ch7daty0r4x3Exueypq7NwvAZC1Q+EthSEEF/EMTXxsNeCWWCpPfFxXMR+cJ4M5Vw3EqoRBpmBjO4q9OrqYU9cgQzohrzV7RseWM9SJV3LcvSS4kGmCtUqTlY+KzLKgRLVFhWT2Ya4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Msd3/UXU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NjhnE3Tt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D50001F0089B;
-	Wed, 23 Sep 2026 20:32:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Msd3/UXU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DA231F000FF;
+	Wed, 23 Sep 2026 20:34:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790195567;
-	bh=61hWGlGnxUyjZcUGCAvzN827u9qnq9cpQsPStC0wlN8=;
+	s=k20260515; t=1790195677;
+	bh=w+aeGkTJ7JiclhipvXtXVdOJhP85yAoECKiV3zSlJVA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NjhnE3TtRqS0G0s1s5niDKm+TrZL8aV1wZw//YP2RpQmHv6L+Yg8gseEuX481RcR6
-	 7ZscIkM+OFTsLvWUhR9DxPYYvRQMtCv0/uJ8SQycWzf40BFwrv1+aY1stpqLI+dSw2
-	 BdvEaz+deH9pjy6FqFBkL/f3oZkucbb2+94jtgWPm0QO+lNJ25Te5yxZsj0ahPAAK2
-	 EsQPddJVoVpTZLjhVQQukelHPv4DiQV6e9yMT05FZWFmr5SHv1OiR8qz3RQekDbQJ0
-	 Ohsbq+rVIz6Bk65AQ3ZW3cIFKhlj7+FxloK1kxfcEl60U03aNNfPZt7+eYOELjkWCj
-	 R7XWtJT5n7blg==
+	b=Msd3/UXU8fE8ESF1u6hgVGLw4/jz6yiNkTzQi1MI2X8r57oMq34hTTtUaMrF0jxGc
+	 q6s4ZnD5zKLhP4cV6Ajvcd03nP/O0RCkXqMko5G55NWAO5YkxRRV5XOl0ENMllLeRp
+	 LqDbDHt5U/F/nppVxmBVVCfFlvVfgfC6HcIHpo1tQN/G2+7ymG17YXNkxKSl9olOOU
+	 dEjom5jvZYv7pZWiJi+PN/FDdmfKQGr7QJYSdGXenp1XppRHd+u6JUSmfXaIfL6+1r
+	 EqQT1iQXKiSN96lXSCa3lu7PL85E57ntEXlCLYhzNRcvG3r1DtdNs4IEOEGAm+/hNv
+	 bwRCGa2AQpmTw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v1 03/11] dt-bindings: pinctrl: add Allwinner B288 pin
- controller
+Subject: Re: [PATCH v1 11/11] ARM: sunxi: add B288 and the PocketBook Verse
+ board
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Pablo Mazzini" <pmazzini@gmail.com>
-Cc: robh@kernel.org, conor+dt@kernel.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
-In-Reply-To: <20260923201701.43391-3-pmazzini@gmail.com>
+Cc: robh@kernel.org, linux-sunxi@lists.linux.dev, conor+dt@kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20260923201701.43391-11-pmazzini@gmail.com>
 References: <20260923201701.43391-1-pmazzini@gmail.com>
- <20260923201701.43391-3-pmazzini@gmail.com>
+ <20260923201701.43391-11-pmazzini@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 23 Sep 2026 20:32:46 +0000
-Message-Id: <20260923203246.D50001F0089B@smtp.kernel.org>
+Date: Wed, 23 Sep 2026 20:34:37 +0000
+Message-Id: <20260923203437.8DA231F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [Medium] dt-bindings: pinctrl: missing reference to core pinctrl schema
-- [Medium] dt-bindings: pinctrl: missing input-debounce breaks sunxi standa=
-rd feature
-- [Low] dt-bindings: pinctrl: missing minItems: 4 for exact interrupt banks
+- [Medium] arm: sunxi: uart0 console missing pinctrl configuration
+- [Medium] arm: sunxi: missing enable-method and cpucfg node for Cortex-A7 =
+SMP bringup
 --
 
-commit f5fef062c858980d1528aafec20b7e540cfb4cbb
+commit fe74da2c07014471bb495768fef663601319d9c4
 Author: Pablo Mazzini <pmazzini@gmail.com>
 
-dt-bindings: pinctrl: add Allwinner B288 pin controller
+ARM: sunxi: add B288 and the PocketBook Verse board
 
-This commit introduces device tree bindings for the Allwinner B288 pin
-controller. It defines the required properties, clocks, interrupts, and
-provides an example node.
+This commit adds device tree support for the Allwinner B288 SoC and the
+PocketBook Verse (PB629) board. It explicitly notes that
+arm,cpu-registers-not-fw-configured is required due to the boot0 bootloader
+failing to set virtual timer registers.
 
-> diff --git a/Documentation/devicetree/bindings/pinctrl/allwinner,sun8i-b2=
-88-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/allwinner,sun8i=
--b288-pinctrl.yaml
+> diff --git a/arch/arm/boot/dts/allwinner/sun8i-b288-pocketbook-verse.dts =
+b/arch/arm/boot/dts/allwinner/sun8i-b288-pocketbook-verse.dts
 > new file mode 100644
-> index 0000000000000..806da97ab708a
+> index 0000000000000..91c89d5a097e6
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pinctrl/allwinner,sun8i-b288-pinc=
-trl.yaml
-> @@ -0,0 +1,108 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/pinctrl/allwinner,sun8i-b288-pinctrl.=
-yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner B288 Pin Controller
+> +++ b/arch/arm/boot/dts/allwinner/sun8i-b288-pocketbook-verse.dts
+[ ... ]
+> +&uart0 {
+> +	status =3D "okay";
+> +};
 
 [Severity: Medium]
-Should this schema include an allOf block referencing the core pinctrl
-schema? Omitting the core schema reference while using
-additionalProperties: false below causes schema validation to reject
-standard pinctrl properties (like pinctrl-names or pinctrl-0) on the
-provider node.
+Does this node need to reference the uart0_pb_pins pinctrl configuration?
+
+The base sun8i-b288.dtsi defines uart0_pb_pins specifically to configure th=
+e=20
+pins for uart0, and this board file designates uart0 as the console UART.
+
+Neither file assigns this pinctrl configuration to the uart0 node (for exam=
+ple,
+by adding pinctrl-names =3D "default"; pinctrl-0 =3D <&uart0_pb_pins>;).
+
+Relying on the bootloader (like boot0 or U-Boot) to implicitly leave the pi=
+ns
+correctly multiplexed can be brittle, and might cause the serial console to
+break across suspend/resume cycles where the pinctrl driver may reinitialize
+or power-cycle the pin banks.
 
 [ ... ]
-
-> +  interrupts:
-> +    description:
-> +      One interrupt per bank of external interrupt capable pins.
-> +    maxItems: 4
-
-[Severity: Low]
-Could this allow device trees with incomplete interrupt configurations
-(1 to 3 items) to silently pass validation? If the hardware requires
-exactly 4 interrupt banks, should there be a matching minItems: 4
-constraint alongside maxItems: 4?
-
+> diff --git a/arch/arm/boot/dts/allwinner/sun8i-b288.dtsi b/arch/arm/boot/=
+dts/allwinner/sun8i-b288.dtsi
+> new file mode 100644
+> index 0000000000000..58668d5813680
+> --- /dev/null
+> +++ b/arch/arm/boot/dts/allwinner/sun8i-b288.dtsi
 [ ... ]
-
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - gpio-controller
-> +  - "#gpio-cells"
-> +  - interrupt-controller
-> +  - "#interrupt-cells"
+> +	cpus {
+> +		#address-cells =3D <1>;
+> +		#size-cells =3D <0>;
 > +
-> +additionalProperties: false
+> +		cpu0: cpu@0 {
+> +			compatible =3D "arm,cortex-a7";
+> +			device_type =3D "cpu";
+> +			reg =3D <0>;
+> +			clocks =3D <&ccu CLK_CPUX>;
+> +			clock-names =3D "cpu";
+> +		};
+> +
+> +		cpu1: cpu@1 {
+> +			compatible =3D "arm,cortex-a7";
+> +			device_type =3D "cpu";
+> +			reg =3D <1>;
+> +			clocks =3D <&ccu CLK_CPUX>;
+> +			clock-names =3D "cpu";
+> +		};
+> +	};
 
 [Severity: Medium]
-By setting additionalProperties: false here without defining
-input-debounce in the properties block, will this prevent device trees
-from configuring input debouncing? The sunxi pinctrl driver expects and
-parses this property for all SoC variants with external interrupts, but
-this schema will reject it.
+Will the kernel fail to bring up CPU1 without an enable-method and cpucfg n=
+ode?
+
+The commit message explicitly states the platform relies on Allwinner's
+proprietary boot0 bootloader, which implies it does not use TF-A and thus l=
+acks
+PSCI firmware support.
+
+On ARMv7, without PSCI, the kernel requires an enable-method property
+(e.g., enable-method =3D "allwinner,sun8i-a23") on the CPU nodes to route t=
+o the
+correct secondary core bringup routines in mach-sunxi/platsmp.c.
+
+Additionally, legacy Allwinner SMP bringup requires a cpucfg hardware node =
+to
+assert resets and power on the secondary cores.
+
+Because both the enable-method property and the cpucfg node are omitted from
+this DT, will this degrade the dual-core SoC to a single-core system?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260923201701.4339=
-1-1-pmazzini@gmail.com?part=3D3
+1-1-pmazzini@gmail.com?part=3D11
