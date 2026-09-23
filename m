@@ -1,100 +1,110 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D1F49B5D9
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Sep 2026 11:27:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.204
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790162851; cv=pass; b=TO0jagxCkact2Q1iMztH/X2Hcntb871xnHCVdYAdpTfvOXOh9/fF+4Jev6Os5cUqTbZvySv+NANKQFtADH/2qHy4Nwo4xsug8zu6zNU9GJ3r7FvHSEq8VLrL257UgrNo7pI6pTLSfDSKY6e/rmrNd6giAgfNexu/huIvsxFXQQI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790162851; c=relaxed/simple;
-	bh=vvqH2hMZEJwHoLtSUckBQaIVNuafjtZTn5EFVGWbHec=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Uhy+5rKwRHUPCd6EdmiRidYuAJiuyPtFL1zDpK0LnIfVx1EA9ny2Xt4jnTGfszlwLxytC7VVkhRg12XGKTJRGAHVo3z9q/URezyjpuiPvhcK+d/jPj9So+HWSZTlOGStHfcLW1lAKs6cEwLoOo+dlVi6ILotIiJ4Q5Qb2FLpqqY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HrLQgqXs; arc=pass smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8862549B5C6;
+	Wed, 23 Sep 2026 11:28:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790162941; cv=none; b=gy3kcWFq7+3X9F+FOLAZUHJ026SOSvyOkb7FDlYtCG8WpqyZqXOfh1IlPcjaZKr+9JQs6OyjH5rsCPI91hsxa/t6u5AOheOF2onk/7YynDuQSIo1ZjciqtLVzyQ25ibX3ca3rLS6aGG2v5fY6PKeNA4jxzK9QP4zIt+foJ/k1Gs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790162941; c=relaxed/simple;
+	bh=iF/EiklNHxQXaQNDBC+UhKxnw7nq/zdgDpwyYGDGUd8=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=g49fcJwH09n52oIHJJMw+3CgAsmc/X41PQUmwspZdUUca4gp0wtqmWwkApPE2QdBE1CKbdQNMzr2q3yWxblVDL6BA0y8jt0rduVE+itxtAtLF3WY1lW0LtOagKsz2qWRzq7uzohf2QZla2mUPS2pPWm98s83UKWBPCPuzEQpA0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YqAzfQ6E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HrLQgqXs"
-Received: by mail-qk2-f12.google.com with SMTP id af79cd13be357-93910cadeafso54865885a.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 23 Sep 2026 04:27:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790162843; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Ktyjlzo4OlBSDm4HdRwH2GUP1RA7ZN1b888iZL5g6qm9QD25JFF/4EZTNPILoItw8N
-         ZRJfozR0KiVIf04EYtWjRlBBvF3/b3ggKF858iasVJp61EeeNtAbCddlBme2z1EvUl0z
-         r9go5+5VhYWaz6YOK3gcROoUrlLlVFpnLybZRGy94xEEHYW5WfqTxNc1dMG9Jd3sPNdm
-         +X6pcCytatcORHhLySVMLFakwQEBdVkt9jJ338tdJNki8r+l9NlovffGRmrcORuNdcqX
-         IcoWtxnfHo1sF6G7wi1/NnGORQLg8SvXFa76GrEtwBvOSpdFlujTA/Oy9TS+RYt8cKbA
-         /rMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vvqH2hMZEJwHoLtSUckBQaIVNuafjtZTn5EFVGWbHec=;
-        fh=RFh5y8scINFDRxLiLLqCP1Ei70qZGz05gqG54+DxXis=;
-        b=om5dV/FDhFhBWNe7HBaTb/oKbWCvoJZ4ZMbzMc+HnNOT+zXQYdjQAOVdjYHH7UULfv
-         zGTslb1BXToE9UFXOFKjSHjr5KhoMeUMgOJsfoa0KLeu2ZJ76wJdQGrY6GSJMjVDLpDR
-         9ajnIovhSpcNRq6caGpsWSUuclSZH2mYJNMc91xo9Cm0WqfV1N7Q6QVNUjrLVPuGBA+0
-         Yy2Dnt4x/mxEuzNyp58dbfaQhXE7aXuIEhGGkqZGOUgqBphzVh6QkYKE1msfwgeSxsAB
-         K94mMDSBZdjHtUixK2HLwBbcoq4fNoixIOXNpCENUGceALaoCyW6cqNY5SvoxlJiZj1P
-         +AhQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790162843; x=1790767643; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vvqH2hMZEJwHoLtSUckBQaIVNuafjtZTn5EFVGWbHec=;
-        b=HrLQgqXsWo+giaxxLeRyhsjrjdfILyHa+KCEtPNAC8IfViPilflPl08f5tiEBpRRL6
-         U5bP67RdVVLcHqWcrxsndvHkZjZwAqz/AReojVPPKcliWq8EHOQvnqvV20mADSD3EzX3
-         nT8ATRTpOGcClxkL/a/VLl0y9dlWp5lvHwOwa2t+4fzWuuSy37ukmUDQ95ZUB2HTEatp
-         OFBubIQ0mfOdjQbUjCX4RrJona3uBvjd8rLIHIm4h7lVXhTbIoMCcSe8OuO2h6RSqtoa
-         5tFC3hwZpkffhDLx7jv9hruSzf6x3l7ZYTXoGWa8cggXFRbs57UGMfPKcqLQG1t7AN3v
-         v64Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790162843; x=1790767643;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=vvqH2hMZEJwHoLtSUckBQaIVNuafjtZTn5EFVGWbHec=;
-        b=HpXQGW/jIuS9EVS9x8kSB8Uv/4ZNY4uVFcWpaHrlFHq38TbgR+p0qegEB+sumQQ8KL
-         pESdimTzoSr2xrD0T8cyVoB0Wgx4Ih21LW/PGlovnf3WPHv2MIL0+DPgc1oeINPz4nJ6
-         dVC0HDXvBpJxPllj1E8DtNqlMw3aPOExA3ezAErPWETzrUAkYcQeOHpybnp376VdVddS
-         RRyTSFhxSLQqYPEL4hvjcvUQqz8SKyny/3XsEUrF8BXo65qOkH9HTJe7ojvxL95SAJYc
-         f/RKVcvSYccZE3rsdSmouUj3y31GyyELAkmYDJ/X0svnRi3noPqYMZrl6VcYseXBuk5j
-         RDBQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw45vjGEKS7gH2aiOGFjHsX4YBoimYzGC9PC8xIbZb3gXwYoswTm2dxsunKkRAec5zDpOTPBTz9NLxyTg==@lists.linux.dev
-X-Gm-Message-State: AFuF++m8B5Z3knYEjXBP+5ff9r7R0iJb+Rphbeufj/T2U4apy0GjdgEJ
-	4lqjFRUtIkYExzuYMvN5p3NI/py04wrmH2gkG9mJqIdsjlh66qpYTfwruVzWF5N73jtuStgOsba
-	6+glARGwa0zW8nu/L+XhygzzHrrbhmOk=
-X-Gm-Gg: AYBFou1VKA8Iw7vNUdYIo8KG7ykliYViwrJk496abQhk1LrGvrjEIXMTCwF/siWs3w/
-	Em2W5xstkR2V9obwL0QQC5BTvlyYvPI7+/fTOlWJFBGACWVs3K60wgn+3hN/9pBna0aBbwnSkRx
-	CmUDcnoc6vgOdFU16ClTt1sNcDMr/ez4fBjS28QMdK40OK+a1uzUHvyxi/+k5zl2P5tIxREbqfG
-	+Q1eUuk5g8WAszrHwTu90i4/REPzuMmimW6kijRmIhWBfcr3y/93x7JnzMcDTR3xVgijXcXjqTU
-	p+0SJhYboRttCROSBhQKpV7hsDUqi5iqFwt1MNQHCM9HOVHlez/oldWvQg==
-X-Received: by 2002:a05:620a:2a07:b0:937:2d64:57ae with SMTP id
- af79cd13be357-93c24f0fcafmr343702985a.0.1790162842832; Wed, 23 Sep 2026
- 04:27:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YqAzfQ6E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F3961F000FF;
+	Wed, 23 Sep 2026 11:28:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790162930;
+	bh=1RKNQMGh4GFqfv1RaO5Pqh3hFiuSRKutVzS9zAhASZ4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=YqAzfQ6EHAbhJxnXk7YuZyfaEsQt+jhfKEtDyJBCeHJdgo8VYQPZQ+IQiNcH+R3Jx
+	 HNag0BbpFQHSBfV46Qp9W1unl68TAHkq/g0xQcgmA5PlGTTN3As7cMk+WYQ0SG9dxz
+	 Du7brZkpOv8VKPN7Ey/1rtiub6qiDAp0toO5p8Yy6KSFCcixManq4hVBI2sPAZmc/o
+	 3UZ4LD4KxdJWlNI37E9k+iVX+MZd9AC3P8wTqByUetBmFqdKso1YNpBwtmIbtIIVCY
+	 72D7SHN/KqhywDhO4FWD6Ggg42VW8j2g9eoEuLpinSAsp9SDTx9dXC6mbN0ZYe4+x9
+	 rOakBdl9SXWwQ==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 1/2] arm64: dts: allwinner: h616: orangepi-zero2w:
+ add 24-pin expansion overlay
+Reply-To: sashiko-reviews@lists.linux.dev
+To: Vladimir <anykey196@gmail.com>
+Cc: robh@kernel.org, conor+dt@kernel.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
+In-Reply-To: <20260923112009.1062-1-anykey196@gmail.com>
+References: <20260923112009.1062-1-anykey196@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 23 Sep 2026 11:28:49 +0000
+Message-Id: <20260923112850.5F3961F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260923105757.260-1-anykey196@gmail.com> <20260923110700.C331F1F00898@smtp.kernel.org>
-In-Reply-To: <20260923110700.C331F1F00898@smtp.kernel.org>
-From: =?UTF-8?B?0JLQu9Cw0LQg0KHQktCd?= <anykey196@gmail.com>
-Date: Wed, 23 Sep 2026 16:27:11 +0500
-X-Gm-Features: AclHuK_8X2-F2vjZ_B5cnOVtrt17GVI8L-zKCbR7jOO-TwWiv5aNx_f1whnBR8g
-Message-ID: <CANHPwATb77aewMK=_twoPkUcWy44M-=jcAN9XfeZwetJY=nbTw@mail.gmail.com>
-Subject: Re: [PATCH] Input: axp20x-pek - add AXP313a support
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-input@vger.kernel.org, dmitry.torokhov@gmail.com, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
 
-This is already addressed in v2 [1]: the AXP313a no longer reuses
-axp20x_info. It has its own axp313a_info without start-up/shutdown
-times, and the startup/shutdown attributes are hidden through
-is_visible(), so they are not created and no out-of-range access to
-AXP20X_PEK_KEY happens.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] dts: missing USB 2.0 nodes in 24-pin expansion board overlay
+--
+
+commit 1a9550663d27bb916af61d191100635d3dbfb863
+Author: Vladimir <anykey196@gmail.com>
+
+arm64: dts: allwinner: h616: orangepi-zero2w: add 24-pin expansion overlay
+
+This adds a devicetree overlay for the optional 24-pin expansion board, whi=
+ch
+provides two buttons on LRADC channel 0 and an IR receiver.
+
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w-24=
+pin.dtso b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w-24pin.=
+dtso
+> new file mode 100644
+> index 0000000000000..2d7e98e4b66d8
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w-24pin.dtso
+
+[ ... ]
+
+> +&lradc {
+> +	vref-supply =3D <&reg_vcc3v3>;
+> +	status =3D "okay";
+> +	wakeup-source;
+> +
+> +	button-1000 {
+> +		label =3D "KEY_1";
+> +		linux,code =3D <KEY_1>;
+> +		channel =3D <0>;
+> +		voltage =3D <1000000>;
+> +	};
+> +
+> +	button-1600 {
+> +		label =3D "KEY_ENTER";
+> +		linux,code =3D <KEY_ENTER>;
+> +		channel =3D <0>;
+> +		voltage =3D <1600000>;
+> +	};
+> +};
+> +
+> +&ir {
+> +	status =3D "okay";
+> +};
+
+[Severity: Medium]
+Are the USB 2.0 nodes missing here?
+
+The base board device tree (sun50i-h618-orangepi-zero2w.dts) explicitly lea=
+ves
+USB 2 and 3 disabled, expecting them to be enabled by an overlay. Without
+references to &ehci2, &ehci3, &ohci2, and &ohci3, the physical USB ports on=
+ the
+24-pin expansion board will remain disabled and non-functional when this
+overlay is applied.
+
+Could these nodes be added so the expansion board is fully supported?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260923112009.1062=
+-1-anykey196@gmail.com?part=3D1
