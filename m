@@ -1,145 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D030A43DEA3;
-	Wed, 23 Sep 2026 20:34:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B657144CF40;
+	Wed, 23 Sep 2026 20:36:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790195688; cv=none; b=I0OWnSJAF4+oZTqWRZosgxC0LlbYWteR+HJkkH3l9+Sn448RlgTmI3YwYkeHpjPGjXZoyX4cC0v8BNz0wtlcVP4zCTQHnKKyfQE+6mrRTeGyRZq1/lg8YW7L2zhwg+yNgqmqNHj8nkEOGSP5mqss8Nh1C7wgOOi30hR1/uTXJL8=
+	t=1790195784; cv=none; b=M+Yh7jISqXefBcnD+PvunKLjLKKKlvmpNjAudWI2WAOY8UqUz56+ZR/ETrOhu7/CsiGxfF8eJk275f+7IRyvPDMMY5bENqlvEYt+/6C3QCZsTww2gPkYNlbXOwS36UQfIUIWRMOs5BNNh1CoAEEd/fN80SuZQWfm80FN1SH2+Dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790195688; c=relaxed/simple;
-	bh=Jk5ulvdGQcNVR0ri8LNRaYyJeMS1cs0lX2hZnaRW8Fc=;
+	s=arc-20240116; t=1790195784; c=relaxed/simple;
+	bh=2RZyP8wj2BCJdxqNFQLy4whaJU9CDa4KwithoOYoSzk=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=m83GukbqrtmXSiR0obChJyjSzTmgdI728Ch7daty0r4x3Exueypq7NwvAZC1Q+EthSEEF/EMTXxsNeCWWCpPfFxXMR+cJ4M5Vw3EqoRBpmBjO4q9OrqYU9cgQzohrzV7RseWM9SJV3LcvSS4kGmCtUqTlY+KzLKgRLVFhWT2Ya4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Msd3/UXU; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=LHMsdMAcRjY6Z9coLVakdKqjQBp3laW3lbplqVn8g7wO9T+0x/0CrlrnhpkdgzetVDTGiDLMnYVi9MzhSP+HLq93/9a+6gV/qsDhzNWUMq7dV2GihVKlXrE8qfZVRhgVQnpxD+Wtl4WtaK0yoXdz3zqRyExanCAhKG9GnieQYjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=STHRA42U; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Msd3/UXU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DA231F000FF;
-	Wed, 23 Sep 2026 20:34:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="STHRA42U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 698291F000FF;
+	Wed, 23 Sep 2026 20:36:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790195677;
-	bh=w+aeGkTJ7JiclhipvXtXVdOJhP85yAoECKiV3zSlJVA=;
+	s=k20260515; t=1790195783;
+	bh=L0zCQDyrwud5b2X8p1hF6OfQ42IiAs+qNcY8pz4Xkik=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Msd3/UXU8fE8ESF1u6hgVGLw4/jz6yiNkTzQi1MI2X8r57oMq34hTTtUaMrF0jxGc
-	 q6s4ZnD5zKLhP4cV6Ajvcd03nP/O0RCkXqMko5G55NWAO5YkxRRV5XOl0ENMllLeRp
-	 LqDbDHt5U/F/nppVxmBVVCfFlvVfgfC6HcIHpo1tQN/G2+7ymG17YXNkxKSl9olOOU
-	 dEjom5jvZYv7pZWiJi+PN/FDdmfKQGr7QJYSdGXenp1XppRHd+u6JUSmfXaIfL6+1r
-	 EqQT1iQXKiSN96lXSCa3lu7PL85E57ntEXlCLYhzNRcvG3r1DtdNs4IEOEGAm+/hNv
-	 bwRCGa2AQpmTw==
+	b=STHRA42UiLij3u3J2VvQ/tonY7OFp6d+Wpf3GNotinliT2yRp4phy1EGOy9SQPtBS
+	 KkuSpF7T5bgwyC61zXs3MENMjTMyM2+rDLCpP2w4WMLvKHJA1/W1/b53f5HfYsfYSz
+	 q31Hdz7uXARlTNTDeCKTkCnuCCjhh2s+TwPi/NLu0+kphLBJXpMtyMXaEpFeX8NhdL
+	 1A3hbl+hZjMp40Mk5RrI59vUU7fTqDMMXYcS5IgJNAD40ZsMBOeCozAthGmOomPVGP
+	 nyt9iGxmC3/JvV/FjRrIWZ/0vMUvDuY3Ur0+xR36e/NushOQNNNYkp6AMY7p0d3NUH
+	 TY04GO2dpiJyA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v1 11/11] ARM: sunxi: add B288 and the PocketBook Verse
- board
+Subject: Re: [PATCH v1 02/11] clk: sunxi-ng: add Allwinner B288 CCU driver
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Pablo Mazzini" <pmazzini@gmail.com>
-Cc: robh@kernel.org, linux-sunxi@lists.linux.dev, conor+dt@kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20260923201701.43391-11-pmazzini@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org
+In-Reply-To: <20260923201701.43391-2-pmazzini@gmail.com>
 References: <20260923201701.43391-1-pmazzini@gmail.com>
- <20260923201701.43391-11-pmazzini@gmail.com>
+ <20260923201701.43391-2-pmazzini@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 23 Sep 2026 20:34:37 +0000
-Message-Id: <20260923203437.8DA231F000FF@smtp.kernel.org>
+Date: Wed, 23 Sep 2026 20:36:22 +0000
+Message-Id: <20260923203623.698291F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] arm: sunxi: uart0 console missing pinctrl configuration
-- [Medium] arm: sunxi: missing enable-method and cpucfg node for Cortex-A7 =
-SMP bringup
+- [High] clk: sunxi-ng: shared gate conflict on csi bus clocks
 --
 
-commit fe74da2c07014471bb495768fef663601319d9c4
+commit ae2cfebe5340417fd7a0871fe9800b7e3353dc68
 Author: Pablo Mazzini <pmazzini@gmail.com>
 
-ARM: sunxi: add B288 and the PocketBook Verse board
+clk: sunxi-ng: add Allwinner B288 CCU driver
 
-This commit adds device tree support for the Allwinner B288 SoC and the
-PocketBook Verse (PB629) board. It explicitly notes that
-arm,cpu-registers-not-fw-configured is required due to the boot0 bootloader
-failing to set virtual timer registers.
+This commit introduces the clock control unit (CCU) driver for the Allwinner
+B288 SoC, covering the PLLs, CPU/AHB/APB trees, module clocks, and bus
+gates and resets.
 
-> diff --git a/arch/arm/boot/dts/allwinner/sun8i-b288-pocketbook-verse.dts =
-b/arch/arm/boot/dts/allwinner/sun8i-b288-pocketbook-verse.dts
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-b288.c b/drivers/clk/sunxi-ng=
+/ccu-sun8i-b288.c
 > new file mode 100644
-> index 0000000000000..91c89d5a097e6
+> index 0000000000000..4c3ce02878d25
 > --- /dev/null
-> +++ b/arch/arm/boot/dts/allwinner/sun8i-b288-pocketbook-verse.dts
+> +++ b/drivers/clk/sunxi-ng/ccu-sun8i-b288.c
 [ ... ]
-> +&uart0 {
-> +	status =3D "okay";
-> +};
+> +static SUNXI_CCU_GATE(bus_tcon0_clk, "bus-tcon0", "ahb1",
+> +		      0x064, BIT(4), 0);
+> +static SUNXI_CCU_GATE(bus_csi_s_clk, "bus-csi-s", "ahb1",
+> +		      0x064, BIT(8), 0);
+> +static SUNXI_CCU_GATE(bus_csi_m_clk, "bus-csi-m", "ahb1",
+> +		      0x064, BIT(8), 0);
+> +static SUNXI_CCU_GATE(bus_csi_misc_clk, "bus-csi-misc", "ahb1",
+> +		      0x064, BIT(8), 0);
+> +static SUNXI_CCU_GATE(bus_adda_clk, "bus-adda", "apb1",
 
-[Severity: Medium]
-Does this node need to reference the uart0_pb_pins pinctrl configuration?
+[Severity: High]
+Does this create a shared gate conflict for the csi bus clocks?
 
-The base sun8i-b288.dtsi defines uart0_pb_pins specifically to configure th=
-e=20
-pins for uart0, and this board file designates uart0 as the console UART.
+These three distinct clock objects map to the exact same physical register
+(0x064) and gate bit (BIT(8)). Because they are declared as separate clocks,
+the Common Clock Framework tracks their reference counts independently.
 
-Neither file assigns this pinctrl configuration to the uart0 node (for exam=
-ple,
-by adding pinctrl-names =3D "default"; pinctrl-0 =3D <&uart0_pb_pins>;).
+If driver A enables the bus-csi-s clock and driver B enables the bus-csi-m
+clock, the shared gate will be turned on. However, if driver A subsequently
+disables bus-csi-s, the framework will clear the shared bit because the
+bus-csi-s reference count reached zero.
 
-Relying on the bootloader (like boot0 or U-Boot) to implicitly leave the pi=
-ns
-correctly multiplexed can be brittle, and might cause the serial console to
-break across suspend/resume cycles where the pinctrl driver may reinitialize
-or power-cycle the pin banks.
-
-[ ... ]
-> diff --git a/arch/arm/boot/dts/allwinner/sun8i-b288.dtsi b/arch/arm/boot/=
-dts/allwinner/sun8i-b288.dtsi
-> new file mode 100644
-> index 0000000000000..58668d5813680
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/allwinner/sun8i-b288.dtsi
-[ ... ]
-> +	cpus {
-> +		#address-cells =3D <1>;
-> +		#size-cells =3D <0>;
-> +
-> +		cpu0: cpu@0 {
-> +			compatible =3D "arm,cortex-a7";
-> +			device_type =3D "cpu";
-> +			reg =3D <0>;
-> +			clocks =3D <&ccu CLK_CPUX>;
-> +			clock-names =3D "cpu";
-> +		};
-> +
-> +		cpu1: cpu@1 {
-> +			compatible =3D "arm,cortex-a7";
-> +			device_type =3D "cpu";
-> +			reg =3D <1>;
-> +			clocks =3D <&ccu CLK_CPUX>;
-> +			clock-names =3D "cpu";
-> +		};
-> +	};
-
-[Severity: Medium]
-Will the kernel fail to bring up CPU1 without an enable-method and cpucfg n=
-ode?
-
-The commit message explicitly states the platform relies on Allwinner's
-proprietary boot0 bootloader, which implies it does not use TF-A and thus l=
-acks
-PSCI firmware support.
-
-On ARMv7, without PSCI, the kernel requires an enable-method property
-(e.g., enable-method =3D "allwinner,sun8i-a23") on the CPU nodes to route t=
-o the
-correct secondary core bringup routines in mach-sunxi/platsmp.c.
-
-Additionally, legacy Allwinner SMP bringup requires a cpucfg hardware node =
-to
-assert resets and power on the secondary cores.
-
-Because both the enable-method property and the cpucfg node are omitted from
-this DT, will this degrade the dual-core SoC to a single-core system?
+Could this abruptly disable the active clock for driver B, potentially
+causing hardware lockups, asynchronous external aborts, or device failure
+during standard device probe, unbind, or runtime PM sequences?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260923201701.4339=
-1-1-pmazzini@gmail.com?part=3D11
+1-1-pmazzini@gmail.com?part=3D2
