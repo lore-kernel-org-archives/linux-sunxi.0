@@ -1,144 +1,101 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0CBC493D48
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Sep 2026 13:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790171914; cv=none; b=H+py4ksct925kYpwKfyE3CKsg5RAAGvQqWgFkIdQ2hWLDbktrT7syW9y7YDemT52FVNfnvYDG4fP+HMm/oCNC3KwNgLWN7mJG22c7YyELydk0mBeslIr50L5XetJ5u806lxf2Z0hl8VkPny8DqHaOvqZbhaM+ADegvWXAeqVVug=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790171914; c=relaxed/simple;
-	bh=seaxJTJr1QFSqstIVULiAM2ADNpuuFzk/qAkkHE/eoE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B6gRGR+ZDb63bbZwZqOrwkD3KK7pKopW47yoL4ZwqMC9Aabyay3+WAMFS/CcW20ks0xgT/nLIiQ1ZehfWIUD/28kj7f/h4ldsvwlV3v3Wg+ey6CimJcqPkG5IEWw+/ZJH1OKoQ2KTU3bHJC+7q+4kUYynZG5WKQJ9p/GR41oWto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=tJnXnP8S; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from sender5-op-o15.zoho.com (sender5-op-o15.zoho.com [165.173.182.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CEE1BD9C9
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Sep 2026 14:09:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790172546; cv=pass; b=nggb6UiBTTAm4lLtkli6eHnrXDNOh/OwYoo3jad+td+P27pvGX2iuxItvxigrh9W8zENiLyA1I5fO+NsZMU8AVmfBjBF4VmmtFDwPwxKwqm0LampCdrVcDAsaExM4gus4IIi/S5/Eef9jdfo83d4gFhZ3/DYkBd8g8JscNSZ3LU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790172546; c=relaxed/simple;
+	bh=zh77WLj57tnzDN5u/ThmFJq/ky5id0Ya3MXNME0C5I8=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=bqm59+liiXMIZD2vpqHt150gWXn21Vn3vxHzbSYgHeUT5qJz+cUFrxcIAnhG9EMqtvNzOwYWPEJ+9W9O/1i9lVNVnDBtL1N2eabLxAZYxEyPkzdxBh+ICo0IvyEzzB1mdPjVNEG63HY6qtOokx/ZfU5JfkFW6P7Zcv6Bkj5/B1w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech; spf=pass smtp.mailfrom=pigmoral.tech; dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b=RK6rMu5i; arc=pass smtp.client-ip=165.173.182.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="tJnXnP8S"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 826DA1516;
-	Wed, 23 Sep 2026 06:58:28 -0700 (PDT)
-Received: from [10.57.8.59] (unknown [10.57.8.59])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E356B3F86F;
-	Wed, 23 Sep 2026 06:58:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790171912; bh=seaxJTJr1QFSqstIVULiAM2ADNpuuFzk/qAkkHE/eoE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=tJnXnP8Sxw1bW2f63cbHT/VB+QmCDJS/5cq6JlJRa/8qvbrrspWASzx3O0ihYVwsH
-	 63upJJ8K+2t80zCYxPFRKVG5oq1raYhdy+IRaILEI5SiuMAuzjrGE3wYeNp+wcKg1s
-	 Nh76mlizhUwBnVEEN88rbm+lTBnCJghfvxEzNOVc=
-Message-ID: <b01154aa-16be-4dbb-861f-d4a70da7ad83@arm.com>
-Date: Wed, 23 Sep 2026 15:58:29 +0200
+	dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b="RK6rMu5i"
+ARC-Seal: i=1; a=rsa-sha256; t=1790172521; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=F33g7b5uYY27Q/HKONhzqRoX1yUZngW8GLRy99QeATGs7iVLa6fXFXFp+bmphC2YZ65T2wOgeWVDVXReGszvhdESQBIL5SWn9E+vGgzhX2CosPnkLkv7VkczfP9OK/gmNuacDdKoXFF6KySJab3bDZH3rZotX5TdXPLalF6lCX4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1790172521; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Ctpe/eDRlFVbZnthdNX29MzI4lYShyW2hkRWR1MzG1k=; 
+	b=HDaNTViRqXcfimQKW7Gkp/dOXuanyH9mP+muyqnjCYgnCZBesP4BiMPr2P2HTfhF7qrVlQig+rCWw7FBxG99AOtaHMD2WBq5duxApQHWIculYwFfaNw6RknZYMcfoKhuIjuhrjLMpPVqidyh1bCoQvsBVjzW5j9OBQaHii/LHAY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=pigmoral.tech;
+	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
+	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1790172521;
+	s=zmail; d=pigmoral.tech; i=junhui.liu@pigmoral.tech;
+	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Cc:Cc:Subject:Subject:From:From:To:To:In-Reply-To:Reply-To;
+	bh=Ctpe/eDRlFVbZnthdNX29MzI4lYShyW2hkRWR1MzG1k=;
+	b=RK6rMu5if1UbA5uX8z+2XGVInBdJp5M94kYTk6BurTgShWL3qbYSj2gIirk1b0ym
+	X/12L8NCQvCdkpT2l2rmrnVAduQ69ZVSqtKoGEZG4du3SGql67Q6BS0oqWIs+YZKGqw
+	BgPEUD5zcFVmDoOgqslEaUVdTenyC8WmmpPTD+yU=
+Received: by smtp.zohomail.com with SMTPS id 1790172518026689.0899152113249;
+	Wed, 23 Sep 2026 07:08:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] arm64: dts: allwinner: h616: orangepi-zero2w: add
- SDIO WiFi/BT (AW859A)
-To: Vladimir <anykey196@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org
-References: <20260923112009.1062-1-anykey196@gmail.com>
- <20260923112009.1062-2-anykey196@gmail.com>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20260923112009.1062-2-anykey196@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 23 Sep 2026 22:08:30 +0800
+Message-Id: <DLMR6Y4BCAEJ.1QOAOOJRGJIN5@pigmoral.tech>
+Cc: "Junhui Liu" <junhui.liu@pigmoral.tech>, "Brian Masney"
+ <bmasney@redhat.com>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Samuel
+ Holland" <samuel@sholland.org>, <linux-clk@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH RFT 0/2] clk: sunxi-ng: fix A523/T527 single-divider
+ clocks
+From: "Junhui Liu" <junhui.liu@pigmoral.tech>
+To: "Enzo Adriano" <enzo.adriano.code@gmail.com>, <andre.przywara@arm.com>,
+ "Michael Turquette" <mturquette@baylibre.com>, "Stephen Boyd"
+ <sboyd@kernel.org>, "Chen-Yu Tsai" <wens@kernel.org>
+X-Mailer: aerc 0.22.0
+References: <20260723004856.55158e84@ryzen.lan>
+ <20260812201502.264919-1-enzo.adriano.code@gmail.com>
+ <20260921200617.3180471-1-enzo.adriano.code@gmail.com>
+In-Reply-To: <20260921200617.3180471-1-enzo.adriano.code@gmail.com>
+X-ZohoMailClient: External
 
-Hi,
+Hi Enzo,
 
-your threading looks somewhat off, and you are missing a cover letter, 
-so I am a bit lost in here. But just jumping in here:
+On Tue Sep 22, 2026 at 4:06 AM CST, Enzo Adriano wrote:
+> Hi all,
+>
+> This RFT series has been superseded by Junhui Liu's tested four-patch
+> series:
 
-On 9/23/26 13:20, Vladimir wrote:
-> Enable the SDIO bus (mmc1) and power the on-board AW859A (UWE5622)
-> WiFi/BT combo through an mmc-pwrseq-simple that resets WL_REG_ON (PG18) and
-> gates the RTC 32 kHz fanout clock (PG10), with the 3.3 V and 1.8 V supplies.
-> 
-> The pwrseq clock must be named "ext_clock" (what mmc-pwrseq-simple requests)
-> and its output pin must be muxed to the clock function, as done for the other
-> H616/H618 boards.
-> 
-> Tested on: OrangePi Zero 2W (Allwinner H618) with the out-of-tree uwe5622 driver.
-> 
-> Signed-off-by: Vladimir <anykey196@gmail.com>
-> ---
->   .../allwinner/sun50i-h618-orangepi-zero2w.dts | 42 +++++++++++++++++++
->   1 file changed, 42 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-> index ff9b40352a5..39f580af15b 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-> @@ -189,3 +189,45 @@ &usbphy {
->   	usb1_vbus-supply = <&reg_vcc5v>;
->   	status = "okay";
->   };
-> +
-> +/ {
-> +	reg_vcc33_wifi: vcc33-wifi {
-> +		/* Always-on 3.3V regulator for WiFi and BT */
+I just realized that you had already posted an equivalent fix before I
+sent mine. I have been quite busy recently and missed your series, so I
+ended up posting a duplicate. I am sorry about that.
 
-Why is this a separate regulator? Looking at the schematics, the WiFi 
-chip seems supplied by VCC-WIFI, which is connected to DCDCE/VDD33, 
-which is already modelled as reg_vcc3v3, in the .dts file.
+I will make sure to check the mailing list more carefully before posting
+patches in the future.
 
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc33-wifi";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +		regulator-always-on;
-> +		vin-supply = <&reg_vcc5v>;
-> +	};
-> +
-> +	reg_vcc_wifi_io: vcc-wifi-io {
-> +		/* Always-on 1.8V regulator for WiFi and BT IO */
+>
+>   https://lore.kernel.org/r/20260906-sunxi-clk-no-p-v1-0-cbde21c9fe69@pig=
+moral.tech
+>
+> That series implements the M-only and P-only clock conversions, was teste=
+d
+> on the Radxa Cubie A5E, and has been applied to sunxi/clk-for-7.4. Please
+> disregard this RFT series.
+>
+> Thanks to Junhui for completing and testing the fix.
+>
+> Assisted-by: Codex:gpt-5
+> I reviewed this reply and take responsibility for its contents.
+>
+> Regards,
+> Enzo
 
-Same here, VCC-WIFI-IO, which is supplied by aldo1. It's naturally the 
-same voltage as the PortG supply, already specified in the "pio" node.
-
-So I think those two regulators can go, and ...
-
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc-wifi-io";
-> +		regulator-min-microvolt = <1800000>;
-> +		regulator-max-microvolt = <1800000>;
-> +		regulator-always-on;
-> +		vin-supply = <&reg_vcc33_wifi>;
-> +	};
-> +
-> +	wifi_pwrseq: wifi-pwrseq {
-> +		compatible = "mmc-pwrseq-simple";
-> +		clocks = <&rtc CLK_OSC32K_FANOUT>;
-> +		clock-names = "ext_clock";
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&x32clk_fanout_pin>;
-> +		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>;	/* PG18 */
-> +		post-power-on-delay-ms = <200>;
-> +	};
-> +};
-> +
-> +&mmc1 {
-> +	vmmc-supply = <&reg_vcc33_wifi>;
-> +	vqmmc-supply = <&reg_vcc_wifi_io>;
-
-... be replaced here with &reg_vcc3v3 and &aldo1, respectively.
-
-And this is all depending on that we actually make DT changes for 
-devices which don't have a binding, and for which we don't specify a 
-child node in here.
-
-Cheers,
-Andre
-
-> +	mmc-pwrseq = <&wifi_pwrseq>;
-> +	bus-width = <4>;
-> +	non-removable;
-> +	mmc-ddr-1_8v;
- > +	status = "okay";> +};
-
+--=20
+Best regards,
+Junhui Liu
