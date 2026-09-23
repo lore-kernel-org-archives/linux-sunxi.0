@@ -1,61 +1,63 @@
 Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B8638DC68
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Sep 2026 10:52:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681BB45C70B
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Sep 2026 10:52:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790160743; cv=none; b=RYvhGG+JGPMTUGbGPjO1pECRfVByU+TJtmXXdJ8+KyP7AwHIhBhNHHtOcy9JXVd5vRwCoqk4/srqvTw7sM8NPvtvWoSlULqXtpTwjBRLQCh7RTKu0mIrVJET7V/vVn5fhpjemMi3JFvI4QgjDmIdzIy7/Qfu0f3d4/AeWLWx5CQ=
+	t=1790160753; cv=none; b=poK+AzzcXKnq8ijUqlGM6WBKEJTX3c86lD5emQJleXe+m0hRNGSjJNYaZZQg2+tb4mSwC8LM8k8lxRFt9Y2TyE/de1q6TNJe94tPaxHt/2DuOfbPsm7Yo0fy2OOpPhmt3vQb9WXc1EmS8HCccZ0EK054MkcQ4aMitsRwJrLOjWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790160743; c=relaxed/simple;
-	bh=OYgwkeWjfaPzXeZYfd3LbE9wNpgo6gIQfwCz7/uINqk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Fcc8ohsDkH4H6kKKf7WBKUvQChMHbsQKOqoM2T4IAj5IQUlXAl/vyu76Motv6EsY/gbLAy0ZEGTBDQMinBL2ecbTj+EfdIh+RqBLgMzuS5PHrGK/5aVYI0h4MdJWJE/pJjrHQjs3QQlAKxYzRcejqHT9eil6vucQypihg9mMPIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZuJb4KWP; arc=none smtp.client-ip=74.125.229.205
+	s=arc-20240116; t=1790160753; c=relaxed/simple;
+	bh=+KflBh12ZZZI8QcMSmdzFFhMsVPlKrJGgBcYyD3jgy0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=og3zOvtpfLdEAxRWCZLyVGouVWEphVyTIawxk4AaISB3em1YZCAGTKq7158ncwvGXZmcNB+ALkg/RzGo8iZTG0japHA4hCpW3WYbxhL1mjLtd09t9FpM9kdQ9JkTpglR+kbpdB7p4QXvqGVnNIA9vrudV4CIGVHE1YuBiHmjDt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cXKZ83nf; arc=none smtp.client-ip=74.125.229.205
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZuJb4KWP"
-Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b8c7a1aeecso604616e87.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 23 Sep 2026 03:52:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cXKZ83nf"
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b8cbb7b9cfso609862e87.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 23 Sep 2026 03:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790160734; x=1790765534; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Jd3pD5snZnHs7zfXJzo2aSY9ZvIn735yOScE5LBtrBM=;
-        b=ZuJb4KWPLk4g8j7TFh0a73ivmi3y1DaQ9e5KY27bYL6f0X22nGG+qf/Y6+Pa4U4JS0
-         LJ0nM8mVS8aTVvBeAWeBfUOcNdOduuJArCvbzcLJy9COGFG2wNzNCiwukpRyulRvl1M5
-         fK5t68jwaX45HbkR1m8lQ4wvo17ikjzp8IV3TO3q1qWkqmrX1SgdxFhZNGlKUURTvHGs
-         sUMbkOLZLKG8QsjMJpBsoXvjHpgj4N1WN4ZTruFSMK9i2VcLCHPxpjZth6NF7eBzpHZ/
-         49Cnr4ukFfoaW5+NaLfwRRJGv2zL0JcpYa9G5hVYDN8WiDEf5VApHnh4w5PCCnzht2Tj
-         W/Qg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790160734; x=1790765534;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1790160735; x=1790765535; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Jd3pD5snZnHs7zfXJzo2aSY9ZvIn735yOScE5LBtrBM=;
-        b=PSFBqo1zyXSRT8TZ/N0MULZMa7YENUQ18HiOMZfmWB/K8e9PYCxuKWB9dZQzOTvL63
-         ZHvGIAwI+1uoLwFUU+VvioPTGaxRc28japfkUJKRJnGjuL4yaKjJtbDGHSpZJwjdJSNK
-         4RHEanhtJbePNHh6jB4cXaJy8yiQBm1l5hONrpuQlK47L6RDfhuhm4WTMDcG4X5GZAok
-         JtVJT8xXa3JstX22hMz6taVVnEvmzbz7N4d2mRJWN4lkkY72254QQ1JeCRneVav0LkTH
-         CUbKEbFlirehBC8dFzOTSGGrGeh4KRcCEVQADJ8SEoPZ5JAfrL3Ley8PBg51S3DxsuTu
-         Camw==
-X-Gm-Message-State: AFuF++lvJEsf/sAveW9hW4Z6uf+qZ8e2icWTbiqaXsEeBtNf8x4+ihmf
-	V+0PGnfpMtEIAbXHEyeYnJ8kqlAsFMWkKRFH7keAcmMRK0B4k++tqqoM
-X-Gm-Gg: AYBFou3SEGCvSY88LvoPycthzl67tHfC9bT7Lc+ZjX1BfBUbxCqFEiwPXpQ79xqtIBD
-	gfEfveoK1u1bPBjw1SM4bamZ8Z95qtPX1UAEA4M93mUfWGRrx2WfJelRl2FckplhUnREipOkBMu
-	XygenjkhMCN8pqIcorTOPc2ZtC0zpY6okI172ntc3xxySIdnjz3+8EQg/EIaHb+b3VeXh/esXwS
-	UVHzY7p2vTP8tNBL1MDELJT59jle2eMw4S7JsPoC3MjQfXck8Zf110GuQsuGyi7JA1C5DM4UPjo
-	nD1oGma3bc17ReFaYvdrvtCeUQHWbP316KlvoxLK2c4mUhJq4J6V8LYFAABfaL8T6Z1wO/BbBcC
-	qDwFYwe4ui4wWqVtiZx8CfDuhNaG8ZhRfbeqABshI7zr0vec05bRP6Y8eqISknltKyaYRbkwkeg
-	geeRLXl1tOVPGrrfWdfQHN1VdRjctjsZQpHzClPbeg/A5NZw+7isBJNKK73JKgpisdZOLKElnEG
-	A5pBVubbSvYeJNVIYjKFyCBWBu5RK2GL9sh9TnN
-X-Received: by 2002:ac2:5696:0:b0:5b8:bc5e:b583 with SMTP id 2adb3069b0e04-5b8d89c6344mr856658e87.59.1790160733833;
-        Wed, 23 Sep 2026 03:52:13 -0700 (PDT)
+        bh=te0jTNRuKHVovCSM6AumUlGdx32zhFv1qUdk3kswgDc=;
+        b=cXKZ83nfu3ozW1Hlcp+/Gi8hP7pkyAvDlhg7owRd41WGfd1a6NmCH5/O5YW5V2+3GL
+         wGp2Crzxgt4K14X503kP/1SJte4A4blLS5G6SsyfJzNVDLQGcZxdPkTTKjxSnOv5CPtC
+         zmS7e633bTiYOBad51tim9hH5uWOC2FQPX7oipn5VfWCmwx1QLrVlxGS+FPtq1Cv3iRz
+         wG6ltY2O0IaWizJmZ2n5B/ERQXovu/o4B7BVK3qXZN6cLvMpgcdp/wKIDA/qr0cPJqIA
+         3xALSxxe6BcDBQ7oIg6Ks0486f4FWvxCUSGfh7zSm9VmJOgNYf1ArTk8PTJfgcr6dkJ4
+         h5lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790160735; x=1790765535;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=te0jTNRuKHVovCSM6AumUlGdx32zhFv1qUdk3kswgDc=;
+        b=RsM2dDt6AJ+1DcafCqNzGpgPDgO05zr4uh8Y2IE0t6g7zQkmO6jDjphpruWdv7XZri
+         zMLZpzBezOapUxJ7zguFB+mV0AF3KJc8gvsY4LCVC8BnAYCbGMus0JtB8cpfGjincrqq
+         Vp00YeBpJC7uYLUtaSl7ymLUDK0lezF8Y/PcwlRkT98omIDfyklUj6/jqGMInMhPK1RL
+         QeNQmllBzQDEzrjVtNrxUGQ441Qp21UkOa22jw3/h8vXsM9l5iwDFNduTxB71oCeky9K
+         amTpCJVgtl8d2OOzHxDe6aA9rsbZ3fHTW62RIH4pGL92vZ1Zuduk5YBaTQ4/hQ+DD4an
+         lzqw==
+X-Gm-Message-State: AFuF++kp8tcImEBB+LlwfGoXlAIIzWdx31rQmnKRS4empzFP7IAxuTBP
+	N0tzvM9T2CRGPym2fu5IpJEWFCHosFh9mMqA+RRANjlFpUCui7ZaUhK1
+X-Gm-Gg: AYBFou1OC8pIrbGAgXmrgSc4IF74s7BKOOOGLpwObTdgCjEP1bimx6BadAPqyZbpt99
+	tn8Begw79VhWiu5Bc8vg0q2g90E5gV7JR111u0Q3rE/G4I/ZOyLQKF2jY9x05CERSKu1xzzK1WQ
+	h/gGooMeUcKHJDAmEJNcUbzfKIk7TonE/Ja1CL60xhIdWYthoaQwH0FoqT9kXXQS6wUN862tnIy
+	8bFrw6lxzAmZTW+822lvvixsilfz4VZ99IgVBhzZvNNEjYS4sN6JHp4iL6pOSxr+x5Q36n06Hp+
+	0xkxYeNlTitmwN+xbUIDpjhqO9qYVmqvNxvo52NbN+8DhmQZIrf4mjCbjhZwpqbHdi/tBFC+McQ
+	YMs/1P5xZkw+RFC6B9HgNMpRFqRZlaf8ygmsAxZcHV26eFCpui3lgSaIJZznltG9tE9VpPQvc23
+	FPzfFlB43b+IuKwBTMmrkXUpmw+RSkpYs0y4PSehaAUah4Jl0cRvGaj0MODrbMryC1or50Q2Dcf
+	4cxBfhj52rpHoLQKU3vR+qcZo5ZdQ==
+X-Received: by 2002:a05:6512:a344:b0:5b6:183b:d214 with SMTP id 2adb3069b0e04-5b8d89cf47bmr634761e87.59.1790160734896;
+        Wed, 23 Sep 2026 03:52:14 -0700 (PDT)
 Received: from DESKTOP-7GRJKK0 ([188.226.104.175])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d8552dafsm497428e87.7.2026.09.23.03.52.11
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d8552dafsm497428e87.7.2026.09.23.03.52.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 03:52:13 -0700 (PDT)
+        Wed, 23 Sep 2026 03:52:14 -0700 (PDT)
 From: Vladimir <anykey196@gmail.com>
 To: Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -64,10 +66,12 @@ Cc: linux-sunxi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	devicetree@vger.kernel.org,
 	Vladnwx <vladnwx@users.noreply.github.com>
-Subject: [PATCH] arm64: dts: allwinner: h616: orangepi-zero2w: add 24-pin expansion buttons and IR
-Date: Wed, 23 Sep 2026 15:52:07 +0500
-Message-ID: <20260923105208.198-1-anykey196@gmail.com>
+Subject: [PATCH] arm64: dts: allwinner: h616: orangepi-zero2w: add SDIO WiFi/BT (AW859A)
+Date: Wed, 23 Sep 2026 15:52:08 +0500
+Message-ID: <20260923105208.198-2-anykey196@gmail.com>
 X-Mailer: git-send-email 2.55.0.windows.3
+In-Reply-To: <20260923105208.198-1-anykey196@gmail.com>
+References: <20260923105208.198-1-anykey196@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -78,54 +82,58 @@ Content-Transfer-Encoding: 8bit
 
 From: Vladnwx <vladnwx@users.noreply.github.com>
 
-The optional 24-pin expansion board exposes two LRADC buttons and an IR
-receiver. KEY1/KEY2 are on LRADC channel 0 (measured ~1.0 V / ~1.6 V) and are
-wired to KEY_1 / KEY_ENTER; the IR receiver is on the SoC ir controller (PH10).
+Enable the SDIO bus (mmc1) and power the on-board AW859A (UWE5622)
+WiFi/BT combo through an mmc-pwrseq-simple that resets WL_REG_ON (PG18), with
+the 3.3 V and 1.8 V supplies and the RTC 32 kHz clock.
 
-Tested on: OrangePi Zero 2W (Allwinner H618).
+Tested on: OrangePi Zero 2W (Allwinner H618) with the out-of-tree uwe5622 driver.
 
 Signed-off-by: Vladnwx <vladnwx@users.noreply.github.com>
 ---
 --- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-@@ -10,6 +10,7 @@
- 
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-+#include <dt-bindings/input/input.h>
- #include <dt-bindings/leds/common.h>
- 
- / {
-@@ -189,3 +190,31 @@
- 	usb1_vbus-supply = <&reg_vcc5v>;
+@@ -218,3 +218,43 @@
+ &ir {
  	status = "okay";
  };
 +
-+/*
-+ * Buttons and IR receiver on the optional 24-pin expansion board.
-+ * KEY1 -> KEY_1, KEY2 -> KEY_ENTER (LRADC channel 0).
-+ */
-+&lradc {
-+	vref-supply = <&reg_vcc3v3>;
-+	status = "okay";
-+	wakeup-source;
-+
-+	button-1000 {
-+		label = "KEY_1";
-+		linux,code = <KEY_1>;
-+		channel = <0>;
-+		voltage = <1000000>;
++/ {
++	reg_vcc33_wifi: vcc33-wifi {
++		/* Always-on 3.3V regulator for WiFi and BT */
++		compatible = "regulator-fixed";
++		regulator-name = "vcc33-wifi";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-always-on;
++		vin-supply = <&reg_vcc5v>;
 +	};
 +
-+	button-1600 {
-+		label = "KEY_ENTER";
-+		linux,code = <KEY_ENTER>;
-+		channel = <0>;
-+		voltage = <1600000>;
++	reg_vcc_wifi_io: vcc-wifi-io {
++		/* Always-on 1.8V regulator for WiFi and BT IO */
++		compatible = "regulator-fixed";
++		regulator-name = "vcc-wifi-io";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-always-on;
++		vin-supply = <&reg_vcc33_wifi>;
++	};
++
++	wifi_pwrseq: wifi-pwrseq {
++		compatible = "mmc-pwrseq-simple";
++		clocks = <&rtc 1>;
++		clock-names = "osc32k-out";
++		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>;	/* PG18 */
++		post-power-on-delay-ms = <200>;
 +	};
 +};
 +
-+&ir {
++&mmc1 {
++	vmmc-supply = <&reg_vcc33_wifi>;
++	vqmmc-supply = <&reg_vcc_wifi_io>;
++	mmc-pwrseq = <&wifi_pwrseq>;
++	bus-width = <4>;
++	non-removable;
++	mmc-ddr-1_8v;
 +	status = "okay";
 +};
 -- 
