@@ -1,61 +1,63 @@
-Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
+Received: from mail-lr2-f12.google.com (mail-lr2-f12.google.com [74.125.230.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9DB49CF2D
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Sep 2026 11:07:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F35419FCC
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Sep 2026 11:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790161664; cv=none; b=m+XjyLTAhNAZV+K3ue94n7Gk0mCr/+6f9G6c6dQpGDZ2mD4JSJ4NT+R0PQDFoai/qdv0g0r2jPQS1gwZT/y4O2QRUgY1ZhmltPKc0ZnT0elHNRiOtI0mYA7Y3yNx5N15VtzOHSpl+9rVdX5O3NEIzzxVthdzhfxWi9pFBHMxOhU=
+	t=1790161665; cv=none; b=EbdvG6bOjhVQJQ+EPPEFf9HILmHwG1TXQOefPuIKV01VzyanL0J1wrEtn1Rn96N/nLdr1TUS1vpi4bgOLdavglrpVEGf+Tqou3v44blYVKQbAGUC/sxmFvfKzLx5MgTlxYJaw8sZHztMLKKfgbEIrm49UrStYqnW6NmaHemOl5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790161664; c=relaxed/simple;
-	bh=LzFzKdYIt7KQIiyurFYnhAFiegOmNQVla4mXTg3pu0g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CBShz9VUDsDpfjpIbE7zO+6GbiBVTCRjUNexHVy/xb++MFqlgQ+A2n2oyuY1HZSD/HyLNJs+ElcjgBUd4kgnfJEmapI1BUalzpCBphH+8tw/TCQAlJVftQ1QWu6w7jdDIB7x1aj3M3r9uOQLL57tEQoJcRDXuetoOn3Gol8DPyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UH7q6nc4; arc=none smtp.client-ip=74.125.229.205
+	s=arc-20240116; t=1790161665; c=relaxed/simple;
+	bh=xtOAejtWejOvGymCLEMJYwRbC9yecCdHVku2MEZH2vI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pXJ24rycZRFB6uZl/Tb4xbkKHD1c9qJsTWh/zjMQQbthaXkY4rDsdho52lpjVpWxZd86gCD0fClrr8k87DKun/SAq7ji6/Ho6+14EGHDLgJ2OckTE+/mNFwPEY1drPoVeYjPjbXP6pPKenBgjyMav7BJNqRqIdw5sMwOoIZ9I7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GYf/eW8m; arc=none smtp.client-ip=74.125.230.76
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UH7q6nc4"
-Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b5e4f15b79so653787e87.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 23 Sep 2026 04:07:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GYf/eW8m"
+Received: by mail-lr2-f12.google.com with SMTP id 38308e7fff4ca-3a302c06eceso6564911fa.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 23 Sep 2026 04:07:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790161660; x=1790766460; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MMrTWA/cK4iFg9NfdW/xvRzKZHKELCHs+UzWlZTmsiw=;
-        b=UH7q6nc47mPARTZCOpfpySd3gMvHZmrkNXZOCb8mwqMEwIKDGSKRAjQUIy1LqlWTTB
-         /cST/NH2fxo6YHPNgPH6WSjWBa85A7A51Gf5CnYiVCb/uYQZO/6TNhzMR369fN8zrXmu
-         ofOmwF4o8IFljqe5n8QjqYaFaHhIMIOd2MpAppd+R2Akw1aHefxh40qUzJdyXEkYTNXw
-         P5UMFx/cwY71RzxcwOq1hIY/mHzYIJr6rM7QawtZ19dTKkM1ru5EMwGU5C0uz02998Aw
-         pTqQL18WU62DxuQ9+/J9yivJMoM4qCTDjn42vAYunBc+VhHBqa5iuxXY0SXQKzDE9UWX
-         9mBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790161660; x=1790766460;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1790161661; x=1790766461; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MMrTWA/cK4iFg9NfdW/xvRzKZHKELCHs+UzWlZTmsiw=;
-        b=RaThJIO6UagdaaKyStz/UsBZp6ojm66G4/QxeVNuMZiudNTYkJ7sEUftEWHlQdr9jY
-         G4ryPYRIwl8cGJEhDcrAAcSW5/nto/unPJpwtmyfmqfkqa8gf+KhCN+rckZEXV7cGzE8
-         EmI5tCfJlPysqYB8PqP2JTA1vN5JeF3MnDUIYT6dSTk9k9ts7Tb8cqLDVWE963TRAAcG
-         0Wo5LUG1RUcne2PkkM2LgCm+j+PVs1FTTLuKvmgikeGY0KLMjXlI0HlHlCreYkssrr8a
-         TNvNfv7mjj8vZO2mE/bpqe8g2yx4ExkkkDhUwGGz+Pe3aVAf535dwHTFrSvrZwSwjiXl
-         xk0w==
-X-Gm-Message-State: AFuF++nuveWnTJPGRHoGzbUgEs5tXrDafedGFbVF99auxBW8cwC806AD
-	GrmBaAQr1vDpo8kT4XgANNpKJqg3W5a9Xqx4mqeTVxsnQYaqcF5jgym1X66s+WlY/hxSEg==
-X-Gm-Gg: AYBFou3DTzokPepTfhuvHJ1TMR+7uNHoHqh2EWdn4KFPqzgNOYp1UBcyOZUWZ8UBJGR
-	Fg2nT8HoZWTef6QYY5rgADb5eIi0DlsUGjGJBWcfrDYD6KQ3cjX8Zyb561J2w4wmt5kWeW4GNvV
-	SOdf0/2IECEliHNl20ZZbYzlo9Z3+p5WT5Z9UW7IOg7XYNnWhRAKfCfbbss9VtZvj9H4wbINIYY
-	XzAWgHmRsiHHoSs0zuPqF+rI6kbIajj2/L0n9z2VEw6BMF7grVpFSQ2asEQdoI26JQgaN/xXIaO
-	HJbLFbirw9MrFsgoKzwtSIRQjYwJbNRIdiVuMQllsU0V+BN7ddae66E5zG6TA1e/7zBYjxujiIW
-	sCyUDYon72ZPHf6xKj20YHOSwAxU4Irvdqermk4btx8EEANPqdWi9hI6tPM/vZE2wcbQj2WHECI
-	Jff6aikMT+csBMbZnF+u6/rDkzmWTdOSMNkiwIOkL5y5ieLDsIVpPHb1AcZh8VxCxvpmlzGhgmT
-	gyd8HIoww9p34/4bvVM
-X-Received: by 2002:a05:6512:3e01:b0:5b6:17b6:2224 with SMTP id 2adb3069b0e04-5b8d89779f0mr771643e87.23.1790161660218;
-        Wed, 23 Sep 2026 04:07:40 -0700 (PDT)
+        bh=OGzrQTM25YzeF6Zl6z9UWlYe4efLXilZQQjl4hlshtg=;
+        b=GYf/eW8mzlLv2LXehkZwRZduix5/VfiFf3iAmcENAHGskNi97MkpUf1GhTgT6kjJdb
+         xKBR/1/SeOqNUt9bOQTx7j5eOVAQRKkZi0YEDLz2DlU/x3hqOppk9MeYG3u3j8prCxAm
+         SEd4UVxCCTCI9eBR6N/fyz0iewyNbDdE2LhW3V+8uSu+QaY+1tMJDGUniJJuoniIx5Rn
+         APJnTYoG7tQnW384N+sl2Zg7uY1B06rlBrdvB0Ku4AUlHrTQUkLJt7nVRfIJwQKA+nsF
+         N27emIp0QbHGgz5R0YNduPd+/Y+9Gx5n6lnFXeAHazrJBhUzH0QyEqxlvqoT1egk/8dt
+         pTgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790161661; x=1790766461;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OGzrQTM25YzeF6Zl6z9UWlYe4efLXilZQQjl4hlshtg=;
+        b=Gl/puL6qP37CYnXZyJVMC/kZMPK781EbSiOCwzT671wq1MPv6Xn8IW/xteweno8A7o
+         wl3TWmrVTrdWIxepgNQ93o1wNOIsIthCN30XtRZXLpr48BTVaRC+bb23Nmz6x1GfprUr
+         wB8qddY4zFIbcuUnTR75R2vbjPlBy1+r4nZhzdxCHdHxIrL7YfGcBXyJjPl0z/8ZV5OQ
+         dducsK3IY6vxWMLFeV1LEcFY0xV9o8UVthA8inELFHDp6V4DZgWhbh9vlYZmrmwG0CdX
+         IMapVGrdOkRYHk8lmNrPlRqyqtOm0eRoS0g7HGkGcS7HVkfTE8n54SNIpjsy2CcXKtaX
+         /3Sw==
+X-Gm-Message-State: AFuF++mrQB8bU3c/21hysl9ZvtQVR/MmEvWsENfaxAdQNJ3EXYu09Gyj
+	XtjVQVIBXiZOG7NWlL+6AFSOPjdzUfWsheilUpft3Dcm+0BjlIfivJPw
+X-Gm-Gg: AYBFou2nu8eb2ypASRKcmNkxiUEfLtWtbCHgIdJhdsMHim+/L6k6m7QE/QcVrTj4npX
+	b6Qcsr6XDG7Ns8Up0V3i1JBRuMzTyuvQkppzExqleLtu8W8g9PG9iQ1Q2Nm/Xy2tEo4/EnwvdF1
+	SUcKHfEyczBgvlVid3TJHavP3q7gZXhsMAjZc+XwewD5ap9Qn9Vv0eVd+qEIwmVTre6ommbObSe
+	b1ot6dYv4K9axq2qgETWYCIs2MM8MnzxVDVImCVRYh43Y1ixM3NWOluyKGD541s7HA5g4hfl+xh
+	1dsOPvVNWxGP3wudj5NestgnBzD7mQn1SZRS1FIbOY9PVDOFeoOCGAxiC3OkjM61hDBagOb2OmZ
+	lQDhkwZAhPkiNgk73NiOmjuuNI4LcvWKYWeqslYl75ePL7E5vHPVXOOSpWs0VZOwStWjRZdqavH
+	H9Yv0ExKBI9s6D2MUarz4a4sm+AJ8lTHimMQRtTJR8XmUiOfcBLNnPP+y1S1rO9aKeBA1D/OLsK
+	Y4g17gUVbQICncGyr0Ru3TwGXsa2Q==
+X-Received: by 2002:a05:651c:4ca:b0:3a5:b0f1:7d56 with SMTP id 38308e7fff4ca-3a63050057cmr5356761fa.0.1790161661320;
+        Wed, 23 Sep 2026 04:07:41 -0700 (PDT)
 Received: from DESKTOP-7GRJKK0 ([188.226.104.175])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d858f2f4sm521750e87.65.2026.09.23.04.07.38
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d858f2f4sm521750e87.65.2026.09.23.04.07.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 04:07:39 -0700 (PDT)
+        Wed, 23 Sep 2026 04:07:40 -0700 (PDT)
 From: Vladimir <anykey196@gmail.com>
 To: Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -63,10 +65,12 @@ To: Chen-Yu Tsai <wens@kernel.org>,
 Cc: linux-sunxi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	devicetree@vger.kernel.org
-Subject: [PATCH v2 1/2] arm64: dts: allwinner: h616: orangepi-zero2w: add 24-pin expansion overlay
-Date: Wed, 23 Sep 2026 16:07:35 +0500
-Message-ID: <20260923110736.10-1-anykey196@gmail.com>
+Subject: [PATCH v2 2/2] arm64: dts: allwinner: h616: orangepi-zero2w: add SDIO WiFi/BT (AW859A)
+Date: Wed, 23 Sep 2026 16:07:36 +0500
+Message-ID: <20260923110736.10-2-anykey196@gmail.com>
 X-Mailer: git-send-email 2.55.0.windows.3
+In-Reply-To: <20260923110736.10-1-anykey196@gmail.com>
+References: <20260923110736.10-1-anykey196@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -75,82 +79,63 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The optional 24-pin expansion board carries two buttons on LRADC channel 0
-and an IR receiver.  Keep them out of the base board .dts: with the board
-detached the LRADC input and the IR receiver pin are not driven and float,
-which can produce phantom key presses and interrupt storms.
+Enable the SDIO bus (mmc1) and power the on-board AW859A (UWE5622)
+WiFi/BT combo through an mmc-pwrseq-simple that resets WL_REG_ON (PG18), with
+the 3.3 V and 1.8 V supplies and the RTC 32 kHz clock.
 
-Provide them as a devicetree overlay instead, following the existing
-sun8i-orangepi-zero-interface-board.dtso approach.
-
-Tested on: OrangePi Zero 2W (Allwinner H618) with the 24-pin expansion board.
+Tested on: OrangePi Zero 2W (Allwinner H618) with the out-of-tree uwe5622 driver.
 
 Signed-off-by: Vladimir <anykey196@gmail.com>
 ---
- arch/arm64/boot/dts/allwinner/Makefile        |  2 +
- .../sun50i-h618-orangepi-zero2w-24pin.dtso    | 42 +++++++++++++++++++
- 2 files changed, 44 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w-24pin.dtso
+ .../allwinner/sun50i-h618-orangepi-zero2w.dts | 40 +++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index d1f768dd646..e4576030276 100644
---- a/arch/arm64/boot/dts/allwinner/Makefile
-+++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -57,6 +57,8 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-longanpi-3h.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero2w.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero2w-24pin.dtb
-+sun50i-h618-orangepi-zero2w-24pin-dtbs := sun50i-h618-orangepi-zero2w.dtb sun50i-h618-orangepi-zero2w-24pin.dtbo
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-orangepi-zero3.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-transpeed-8k618-t.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h618-yuzukihd-chameleon.dtb
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w-24pin.dtso b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w-24pin.dtso
-new file mode 100644
-index 00000000000..2d7e98e4b66
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w-24pin.dtso
-@@ -0,0 +1,42 @@
-+// SPDX-License-Identifier: (GPL-2.0-or-later OR X11)
-+/*
-+ * Device tree overlay for the Orange Pi Zero 2W 24-pin expansion board.
-+ *
-+ * The expansion board provides two buttons wired to LRADC channel 0 and an
-+ * IR receiver.  These are only present when the board is attached, so they
-+ * are deliberately kept out of the base .dts: on a bare board the LRADC
-+ * input and the IR receiver pin are not driven and float, which can cause
-+ * phantom key presses and interrupt storms.
-+ *
-+ * Apply on top of:
-+ *   arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
-+ */
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
+index ff9b40352a5..7d473274c06 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero2w.dts
+@@ -189,3 +189,43 @@ &usbphy {
+ 	usb1_vbus-supply = <&reg_vcc5v>;
+ 	status = "okay";
+ };
 +
-+/dts-v1/;
-+/plugin/;
-+
-+#include <dt-bindings/input/input.h>
-+
-+&lradc {
-+	vref-supply = <&reg_vcc3v3>;
-+	status = "okay";
-+	wakeup-source;
-+
-+	button-1000 {
-+		label = "KEY_1";
-+		linux,code = <KEY_1>;
-+		channel = <0>;
-+		voltage = <1000000>;
++/ {
++	reg_vcc33_wifi: vcc33-wifi {
++		/* Always-on 3.3V regulator for WiFi and BT */
++		compatible = "regulator-fixed";
++		regulator-name = "vcc33-wifi";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-always-on;
++		vin-supply = <&reg_vcc5v>;
 +	};
 +
-+	button-1600 {
-+		label = "KEY_ENTER";
-+		linux,code = <KEY_ENTER>;
-+		channel = <0>;
-+		voltage = <1600000>;
++	reg_vcc_wifi_io: vcc-wifi-io {
++		/* Always-on 1.8V regulator for WiFi and BT IO */
++		compatible = "regulator-fixed";
++		regulator-name = "vcc-wifi-io";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-always-on;
++		vin-supply = <&reg_vcc33_wifi>;
++	};
++
++	wifi_pwrseq: wifi-pwrseq {
++		compatible = "mmc-pwrseq-simple";
++		clocks = <&rtc 1>;
++		clock-names = "osc32k-out";
++		reset-gpios = <&pio 6 18 GPIO_ACTIVE_LOW>;	/* PG18 */
++		post-power-on-delay-ms = <200>;
 +	};
 +};
 +
-+&ir {
++&mmc1 {
++	vmmc-supply = <&reg_vcc33_wifi>;
++	vqmmc-supply = <&reg_vcc_wifi_io>;
++	mmc-pwrseq = <&wifi_pwrseq>;
++	bus-width = <4>;
++	non-removable;
++	mmc-ddr-1_8v;
 +	status = "okay";
 +};
 -- 
