@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B100A410D13;
-	Wed, 23 Sep 2026 22:20:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 749E127A47F;
+	Thu, 24 Sep 2026 02:30:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790202007; cv=none; b=OLvft5UXO4/WwVmGO/d3zunJ02XvlIZS0dSPgrxtjJOYhMvLpLJLYfyM2mxDsqSy0jtYkvgkkB7WLEVT26jOMD9bFhEWrx819wnmfwUv71pH7W3owwu//LLM1t4gUPSvKmQERYAXN13LB2bklyeiX22qmgoft5mv1GlulcJb8Gw=
+	t=1790217032; cv=none; b=WEvxWQVJfM7MpZw70VRlGpl4bzWWMyTvwH0hgOopj5fPSJUyn6t2iklFcu6pecjj5fUbm0IlpJkmaJOUkSHz3BJZOI1qYGtFV3DWninI/hUfYBxbbSX7dy2VOsPsURTJ2RRcDmPG/mtW/RdlsQ4zboELc5W/0jtVQbFluUJ5pFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790202007; c=relaxed/simple;
-	bh=052+S21nULlpvbLS5JXY/wmkVp7OavARQS40hzPiyuM=;
+	s=arc-20240116; t=1790217032; c=relaxed/simple;
+	bh=2DQDjxQ5ev+J/kUOuV42oxRMrokhMtc858unmBFKrCI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SVfl38JXch4cDkKEoCIFet2+ApY/w1ORcEn2/4pe+ZhnZXl9dfPi0MgS3GR4yI5oRCyJ7VrL5NL44WFvr+HjGQ/Zf0PL9/4/DWpocBP7DVumPrk9RJBpG6i2PP2wh/BbeppMtLAY2bVzg+P+p+IyExYSWcts1wLH9irXwgbkGw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=v4aY/kP1; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=KVVzRatoO7FLU4FMKqLfggfLv3APM0AODKTONO6YRzMNAXawNnHmi7Q38LZn2SQl0MAo8l+7AFmdKTdLHTiP5orugB143UO44QipspPYaiJlh9BsK3RyPqVnTfGw9qIxmUSAfAcTl5iqjkGxecua0HBnj2ORTc5rx9j54Dkccao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=1lYY5/UU; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="v4aY/kP1"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="1lYY5/UU"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=/r/VPJN9CDJhmNdhWRSdElLGuVctjxCds5gWyL7ngvI=; b=v4aY/kP1g/K3rv2M6AttWFUwC1
-	QPL6uHHZzQfOPCaxq40B+3gHZk9qsKy4onEhXz9XaXFX6fMxVBY+TJP+fxTspSsdFC6aiFaYRKW3A
-	6L6rN0hvI1uwQUkckiYYiAdUm76arbf3HxmCd8nAGlV3/t+Osq7K+3iTYAz9EmhW1XUE=;
+	bh=7EdbTttLfDKO/MgJ9AUmiN61aK/OlwCKLM1pw1cgtYI=; b=1lYY5/UU6MztBj10FYdL24tBcs
+	n4E04ypGvqaiNC7ImtP6OttUlXWc05wDHAxb5tt7VkM/vtoJhM47jtGO+PnJVF5DdKFSgSt48zMF3
+	jyR4qfQNdwaMIBv+jZbh48+61WM35MTzDZxOezbFdML3W3WjEi0g/jW3Iypzq6yOcZZg=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1x9VJg-006ss1-5p; Thu, 24 Sep 2026 00:19:52 +0200
-Date: Thu, 24 Sep 2026 00:19:52 +0200
+	id 1x9ZE2-006uhw-K5; Thu, 24 Sep 2026 04:30:18 +0200
+Date: Thu, 24 Sep 2026 04:30:18 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: Jerome Brunet <jbrunet@baylibre.com>
 Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
@@ -50,10 +50,11 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	linux-kernel@vger.kernel.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	Andre Przywara <andre.przywara@arm.com>
-Subject: Re: [PATCH net-next v3 0/5] net: stmmac: Add support for Allwinner
- A733 GMAC210
-Message-ID: <9cc61625-47c9-4bdf-97f0-0528f661a399@lunn.ch>
+Subject: Re: [PATCH net-next v3 3/5] net: stmmac: sun55i: Make the delay step
+ configurable
+Message-ID: <26334006-a2af-49d3-8f26-18cd44118c6b@lunn.ch>
 References: <20260923-allwinner-a733-gmac-support-v3-0-15735155a789@baylibre.com>
+ <20260923-allwinner-a733-gmac-support-v3-3-15735155a789@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,17 +63,13 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260923-allwinner-a733-gmac-support-v3-0-15735155a789@baylibre.com>
+In-Reply-To: <20260923-allwinner-a733-gmac-support-v3-3-15735155a789@baylibre.com>
 
->  * Unstable EEE/LPI: If the device stays in LPI mode long enough, the
->    link sometimes (but not always) goes down, coming back up when the
->    device exits LPI mode. This is apparently due to the PHY; the vendor
->    driver disables this feature. The solution is to use genphy with the
->    eee-broken-* DT properties or wait for the upcoming mainline driver:
->    https://lore.kernel.org/all/MN0PR19MB609154F210DF84DCB29D3696ACC62@MN0PR19MB6091.namprd19.prod.outlook.com
+> +	 * Correcting them would break the DT ABI of the published DTs.
+> +	 */
+> +	.txdly_step_ps = 100,
+> +	.rxdly_step_ps = 100,
 
-Looking at this code, it totally ignores the interface mode. So you
-have no idea what RGMII delays it is adding. When this driver gets
-fixed before being merged, your DT fragment will likely break.
+Could you be a bit more specific about what published means?
 
-       Andrew
+      Andrew
