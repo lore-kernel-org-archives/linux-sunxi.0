@@ -1,166 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1832438484;
-	Thu, 24 Sep 2026 08:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535C543E9C4
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Sep 2026 08:40:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790238432; cv=none; b=jmxLk5Q8knCc8V98KLIgM25b1ByXYzTy+X54twhoE72RhVUinALlQWbumOI/6uo/KteQuZYj9yM374/fihFXJ34HoogN5L4OvvQuHtcROTvj+PLxgsswFbONOv6ZDMg2Il6j7SlrJvvgY4R9/Ni0ik5kyou3IEGzK9HXIFlTj7Y=
+	t=1790239212; cv=none; b=D9A/KD4vNm+KRfxJvZ7N79WxGerkNeSObpJ/iQt7fLl1SUiAul7SEQyXkPWY77nFkF4dBL1JD9HIHz/5DelMZ4hZTID646elMbdNDg8we6jkuWBD0TOeEAkfPFf4VDyuYkWBJZ+miO1ykQ9mUjAa58xT1s0ObAsJ+sayF0yticY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790238432; c=relaxed/simple;
-	bh=/ZJPM/j3VoX/brreRRGCIoNNpvJ58Zubgs3wsdoVSp4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LdFCz96JEthRkNXyj1mj4XGc3ZquVnPxKTwcix2+5WJHpNFLrSV6C8l7y7B5pvVibJ0JaKg0ogB24EyFVdJFZCWU9s0BmafoWnx65CurATtzLBLlDgcav7wBliigjuFshWZynfeQX53obuKZxaxMJAEtxBeCSaYoGOFfRpun2Rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oCFteEh2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790239212; c=relaxed/simple;
+	bh=E7zgJygkJZQH6llsNGV5+YVVnlEnLIL/VfTweXUdbD4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=uVxDrsOcCqnutxrHnSjq31n/07k3W1Pq/Q7XhHUkiF3grTj5dpiEXbSRX/itlyISWT1eOyThr90NnrpXFyvEQlkMZItIQvNdldAB0XCrkEv6v0HgGnxVVWngyTYR+2NPAFvqxJl4M2FnAcZlPAPS6WhRuuDAbZFMTbH7o7+x3zM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=gZYdoYws; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oCFteEh2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 109141F000FF;
-	Thu, 24 Sep 2026 08:27:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790238430;
-	bh=HnH+9D3+g9xSe5BhyiIPrM68xeq0CDckO2idDyxHKJA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oCFteEh2pew1BUXTkT/8DALQO1Q3pccGzeSjlRD+0RHTW5Ki0nlF1c5zUadWbhc8s
-	 4GDuE/nVq/rXW6X6vBFNDRiReaRJE90tg8FTd/y9RBoDcQ3LkeZBXzFO0wC7zDUsI9
-	 LYbZhUTdMz+pc8YKhC6bCmeRVxNpzKl7huq5CkJwWuOBOI1/I0NLHF0RqMKQEdckSN
-	 50+YfsKUbjZWJX4YV4WfN00WExPdQuTT6LfU/FG/KZEby+M6ztc0RKv/atWX0moXWf
-	 pLoOYZgSA2jSLlabvL+6yVwPlWGzREr374VOnRZSY5sw1kTeiHWRqU56xfN2Q7gsh6
-	 nxC9bptrHrJ7w==
-Date: Thu, 24 Sep 2026 09:27:05 +0100
-From: Lee Jones <lee@kernel.org>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mfd@lists.linux.dev, linux-sunxi@lists.linux.dev,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH v8 2/5] mfd: axp20x-i2c: Fix i2c instantiation
-Message-ID: <20260924082705.GO3864833@google.com>
-References: <20260910-axp318-regulator-v8-0-e906a61a7f3d@baylibre.com>
- <20260910-axp318-regulator-v8-2-e906a61a7f3d@baylibre.com>
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="gZYdoYws"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e620fa473so10678235e9.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 24 Sep 2026 01:40:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1790239208; x=1790844008; darn=lists.linux.dev;
+        h=content-type:mime-version:message-id:date:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AKhJx1wEyO1XAHiYD4ulqqEa2XMnW8boyqSFRDJ87jg=;
+        b=gZYdoYwsgaUvSe1FBt/9F5EjHaOg2ZL0YRJKjeWj6lDYeI8jz4dunyt1Njjsw0HWNE
+         6dCmparCVvk1ugfATD/d9oXZ3YqqDbJk6ttNmb6icxHZUYEUS0CoCU1g0nwoXwSm17P+
+         Ri3SlokIGISM8TiC4IJ+UNPRcjBqvDcl6BDh9cU0yfQFx5WWugQS3EkqY2ZXoL6XIjIw
+         E2m9rg6Q1ADaDQXko4XHdc3BeaC3vbTpEUvoGgYqT0cFg7jVLUcHVIA5Zf1h9pwl4cSg
+         iVQbnb2NhegZ0CIdBXmVFhCLmKS5hwp46P6S6G+jivOzeX4E3RWip1bR5KOw/7rk7/zg
+         J3og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790239208; x=1790844008;
+        h=content-type:mime-version:message-id:date:references:in-reply-to
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=AKhJx1wEyO1XAHiYD4ulqqEa2XMnW8boyqSFRDJ87jg=;
+        b=UE53PTwGXZ9L9VefdAqyZ297YYRgHyW1p4GtFIFcG4pfUPTwYDLnhxcjd13X65Md2r
+         WJuQwm8NKlYbnGLq5sltTr1Cq/Rp7KcAZ0kg8E5BZqZwtA4SlcaM58KqWPD26RrRF4c6
+         L7xnQTV/7iZTNGl7gGa4Ki+MHhMNUmKJgwVbFY8flDFjN7LrJd1Mk8EqfkEQcnpv5+c0
+         DibS5jVdsu+4ihTJRuhxOiBi81iEQtHhX3QBnxQDQ4TWuDQFuZRjh4OqdmpApDTdROZe
+         lbKinVqPhAc3tD+BDEfnxLtJlaplOhtmEczrlNlchPvhRr1Zcg15DrAm9kUXbd9MiGkA
+         8/nA==
+X-Forwarded-Encrypted: i=1; AKwUvBwziHe23matLKokdqm508RbzzNsZwHCM3c59mWWvS3IF/7CgxjD0HSFPOnINdejmf2wnj+/QBBsT8frGg==@lists.linux.dev
+X-Gm-Message-State: AFuF++lngNeWBBww2uIzLue/yrIrZig7SUVPsuzLPioNemtGPoCzu2Kn
+	CdqiyJayxDGFgiNbmVr64tAusmrZ8cPZcUc5jG/WD9YhnEJ34zZ+2MHgFvzLb3NXCBI=
+X-Gm-Gg: AYBFou0g1U3VK5gVl8XuWtNTyKA7Fgwm3kwajk6ufecrHz2xy7b8ACDMlU2uX/hSU43
+	3G7LSmGLY4MxGoFB0kIUtCsCC3RISbSgV85JV9ucVSxIQIEhf9Fh/l/4LBIkqHkmb8/n7jHn2Wp
+	G/TRkNhYnV3Igj0uy5duYgi7yS/WdlMSNmP2nM2+OGP4PpK+ur3OVevMGcPcZlJaesK80iOCi0j
+	pgc9Pfr9so0Gkueg6ypxlZB8+EV88K1Ul9XXA7P3Zx8zuQ7gu4BcirfvcGbDH2r2eKypxDjBG22
+	U6B0vJFBcPqFmfIKSsmFchn8IdQ6eYPTA9luA+UYJC80oOw+Ljx9T5fEX3fn9/sBz4u8JNrl4cl
+	iAL4sjTtr9oAzEYFYzHpJTEyLHa3D9jodVkh5p1esmKYLK7EkyGr+FSQ29f93Ls8D/24g7H8NAy
+	FYMgjR53MJWRDd2rAck8GiuMiaA9owHzEHKMUZ1HbEIW4sZzaIY25En3SGODFf3x6zJPhHTC6y/
+	JVSP8NA3xQgug8Sng==
+X-Received: by 2002:a05:600c:1c0d:b0:49f:ce73:7ac with SMTP id 5b1f17b1804b1-49fe67106d6mr32623215e9.35.1790239208416;
+        Thu, 24 Sep 2026 01:40:08 -0700 (PDT)
+Received: from localhost (82-67-6-57.subs.proxad.net. [82.67.6.57])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe5cca160sm47420325e9.12.2026.09.24.01.40.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 01:40:07 -0700 (PDT)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Richard
+ Cochran <richardcochran@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, Andre Przywara
+ <andre.przywara@arm.com>
+Subject: Re: [PATCH net-next v3 0/5] net: stmmac: Add support for Allwinner
+ A733 GMAC210
+In-Reply-To: <9cc61625-47c9-4bdf-97f0-0528f661a399@lunn.ch>
+References: <20260923-allwinner-a733-gmac-support-v3-0-15735155a789@baylibre.com>
+ <9cc61625-47c9-4bdf-97f0-0528f661a399@lunn.ch>
+Date: Thu, 24 Sep 2026 10:40:07 +0200
+Message-ID: <1j7bkb9h5k.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260910-axp318-regulator-v8-2-e906a61a7f3d@baylibre.com>
+Content-Type: text/plain
 
-On Thu, 10 Sep 2026, Jerome Brunet wrote:
+On jeu. 24 sept. 2026 at 00:19, Andrew Lunn <andrew@lunn.ch> wrote:
 
-> Apparently this device never really supported i2c instantiation via
-> sysfs, because the driver does not even look at the i2c device data,
-> which are not set. It would only probe if the device matched through DT.
-> 
-> Fix that for correctness, even-though it is probably useless.
-> Add the missing AXP323 while at it.
-> 
-> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Closes: https://lore.kernel.org/r/20260717090209.2A09B1F000E9@smtp.kernel.org
-> Fixes: 41751b033aaa ("mfd: axp20x-i2c: Add i2c-ids to fix module auto-loading")
-> Acked-by: Chen-Yu Tsai <wens@kernel.org>
-> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
-> ---
->  drivers/mfd/axp20x-i2c.c   | 24 +++++++++++++-----------
->  drivers/mfd/axp20x-rsb.c   |  1 +
->  drivers/mfd/axp20x.c       |  1 -
->  include/linux/mfd/axp20x.h |  3 +--
->  4 files changed, 15 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/mfd/axp20x-i2c.c b/drivers/mfd/axp20x-i2c.c
-> index 5c93136f977e..a76bec5604c4 100644
-> --- a/drivers/mfd/axp20x-i2c.c
-> +++ b/drivers/mfd/axp20x-i2c.c
-> @@ -35,6 +35,7 @@ static int axp20x_i2c_probe(struct i2c_client *i2c)
->  	axp20x->irq = i2c->irq;
->  	dev_set_drvdata(axp20x->dev, axp20x);
->  
-> +	axp20x->variant = (kernel_ulong_t)i2c_get_match_data(i2c);
+>>  * Unstable EEE/LPI: If the device stays in LPI mode long enough, the
+>>    link sometimes (but not always) goes down, coming back up when the
+>>    device exits LPI mode. This is apparently due to the PHY; the vendor
+>>    driver disables this feature. The solution is to use genphy with the
+>>    eee-broken-* DT properties or wait for the upcoming mainline driver:
+>>    https://lore.kernel.org/all/MN0PR19MB609154F210DF84DCB29D3696ACC62@MN0PR19MB6091.namprd19.prod.outlook.com
+>
+> Looking at this code, it totally ignores the interface mode. So you
+> have no idea what RGMII delays it is adding. When this driver gets
+> fixed before being merged, your DT fragment will likely break.
 
-device_get_match_data() is bus agnostic and should still work from the
-core driver.  What's the purpose of splitting it out and adding
-additional call-sites?
+Thanks for pointing this out Andrew.
 
->  	ret = axp20x_match_device(axp20x);
->  	if (ret)
->  		return ret;
-> @@ -76,17 +77,18 @@ MODULE_DEVICE_TABLE(of, axp20x_i2c_of_match);
->  #endif
->  
->  static const struct i2c_device_id axp20x_i2c_id[] = {
-> -	{ "axp152" },
-> -	{ "axp192" },
-> -	{ "axp202" },
-> -	{ "axp209" },
-> -	{ "axp221" },
-> -	{ "axp223" },
-> -	{ "axp313a" },
-> -	{ "axp717" },
-> -	{ "axp803" },
-> -	{ "axp806" },
-> -	{ "axp15060" },
-> +	{ .name = "axp152",	.driver_data = AXP152_ID },
-> +	{ .name = "axp192",	.driver_data = AXP192_ID },
-> +	{ .name = "axp202",	.driver_data = AXP202_ID },
-> +	{ .name = "axp209",	.driver_data = AXP209_ID },
-> +	{ .name = "axp221",	.driver_data = AXP221_ID },
-> +	{ .name = "axp223",	.driver_data = AXP223_ID },
-> +	{ .name = "axp313a",	.driver_data = AXP313A_ID },
-> +	{ .name = "axp323",	.driver_data = AXP323_ID },
-> +	{ .name = "axp717",	.driver_data = AXP717_ID },
-> +	{ .name = "axp803",	.driver_data = AXP803_ID },
-> +	{ .name = "axp806",	.driver_data = AXP806_ID },
-> +	{ .name = "axp15060",	.driver_data = AXP15060_ID },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(i2c, axp20x_i2c_id);
-> diff --git a/drivers/mfd/axp20x-rsb.c b/drivers/mfd/axp20x-rsb.c
-> index 059656f2a1bd..8fdc870c1fe4 100644
-> --- a/drivers/mfd/axp20x-rsb.c
-> +++ b/drivers/mfd/axp20x-rsb.c
-> @@ -35,6 +35,7 @@ static int axp20x_rsb_probe(struct sunxi_rsb_device *rdev)
->  	axp20x->irq = rdev->irq;
->  	dev_set_drvdata(&rdev->dev, axp20x);
->  
-> +	axp20x->variant = (kernel_ulong_t)device_get_match_data(axp20x->dev);
->  	ret = axp20x_match_device(axp20x);
->  	if (ret)
->  		return ret;
-> diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
-> index 4d770e718716..de6946d4bb13 100644
-> --- a/drivers/mfd/axp20x.c
-> +++ b/drivers/mfd/axp20x.c
-> @@ -1267,7 +1267,6 @@ int axp20x_match_device(struct axp20x_dev *axp20x)
->  	const struct mfd_cell *cells_no_irq = NULL;
->  	int nr_cells_no_irq = 0;
->  
-> -	axp20x->variant = (long)device_get_match_data(dev);
->  	switch (axp20x->variant) {
->  	case AXP152_ID:
->  		axp20x->nr_cells = ARRAY_SIZE(axp152_cells);
-> diff --git a/include/linux/mfd/axp20x.h b/include/linux/mfd/axp20x.h
-> index b352661d99a1..1badb4868d17 100644
-> --- a/include/linux/mfd/axp20x.h
-> +++ b/include/linux/mfd/axp20x.h
-> @@ -997,8 +997,7 @@ static inline int axp20x_read_variable_width(struct regmap *regmap,
->  /**
->   * axp20x_match_device(): Setup axp20x variant related fields
->   *
-> - * @axp20x: axp20x device to setup (.dev field must be set)
-> - * @dev: device associated with this axp20x device
-> + * @axp20x: axp20x device to setup (.dev and variant fields must be set)
->   *
->   * This lets the axp20x core configure the mfd cells and register maps
->   * for later use.
-> 
-> -- 
-> 2.53.0
-> 
+I've changed the phy-mode to plain rgmii which seems more in line with
+what the PHY actually does.
+
+>
+>        Andrew
 
 -- 
-Lee Jones
+Jerome
