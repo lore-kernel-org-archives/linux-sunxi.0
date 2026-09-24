@@ -1,137 +1,394 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-pz2-f42.google.com (mail-pz2-f42.google.com [74.125.228.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF1D4AE8DF
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Sep 2026 16:05:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790265962; cv=none; b=a4Roddzeqb078Nsho8GU7VnckhUGMziwXKdw7zEERsgyj8iaJw5tdTQUId+KbnnG8PQDRKIgCvBTdB7eLIjGU+iRMbeWxPzO+HkakLjxwrruKKWGJRZBTRJ51BVgpCIMb/X8KbgP1UtLDtltYb12wSb05ix5TGcFOfNmS5DIfjE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790265962; c=relaxed/simple;
-	bh=3/FB35Hu5fJEEgD/yBfAAnwDqio0JQJdSJzCduCvMyY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Y4/63IIFosK+98rMajHZrhrsOWlJBc2u8qEj8x+QfITE2kwj/S3m0gEe+gb5/Chqyngy2ujY2u2nfex7McsdkmTtDZDYoBOV0wydpZIcfTgoC4zWTAM3N/yCwqX+DAlYKki4EgVQ+HFyG+h7JxcyNhGxhwfj2NrK0ZvK4dEw6Ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=HiTGtN00; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3654CB8AC
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Sep 2026 20:12:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790280764; cv=pass; b=O25GrtdKd1dzlehvh8IFCq2NJpMig4PdRxORKRWgvqww0dbxlo4g9quKcz0tMNLHx2cXeGMorjnQ4yP3c+bQ8IYopzdd2FCco6cuw0RcPwPp9gflfvMkJEFf3CcddjkhK7jjb2ZzlsK2oMuvoryGUrUq+sv0W5gORaJcyArDa+I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790280764; c=relaxed/simple;
+	bh=+fmR/U1H6avzccBRXy1O++xjv67Ls5rrWcxfYYUejZ8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OhbfWXzviUlxjNocun8m+eL5Vty4x7gYDewaVKCggcXAzxNzjrKn1UUqtOCKqzymJXVKr563IM4TbWaEpj3PMfo5f57Gi2eIAM9KS7hevDKqm8LEuc8PA/Jy+g83oJJAWfRFtqMLZ9JpcYlmz1dpqR7LLqFea8wMydRX+38PzY8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c4G200dH; arc=pass smtp.client-ip=74.125.228.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="HiTGtN00"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48442ea8f59so522941f8f.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 24 Sep 2026 09:05:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c4G200dH"
+Received: by mail-pz2-f42.google.com with SMTP id 41be03b00d2f7-cc1cebad4adso56988a12.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 24 Sep 2026 13:12:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790280756; cv=none;
+        d=google.com; s=arc-20260327;
+        b=r7dEBq2Of5QZbqeP3CU+d8xVNk7wjvqgyXHGvMW4xGMuxrXHP4eUriLo89YSwP4Ok2
+         NS34h/6JwWDklm5Wi2VaD/pKcySP+KNzOaYFU/XZPkraFT2E7N/tZshCyXE6lxCMSVDg
+         O/mDRrXyvuYwOQTqxHiKa4L2iqKYTHABQdOLVeS/9I6B8INhc36FOPpTHX3VSU8x/7dr
+         QHLK1EHh6CQOI2FjTdDO2PTmOwZXtm8bNygsTspj2BIb9c0d15fGUArH9F6uU6KXhgH+
+         2eGdg5AkazQgREoUZs9PVWjqz7xoK+HAxyt/VJAJNmr6RwYinm73am4EPB/NN0w2utpw
+         d60w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0l+jl3PEeluCBsGioL2G68K7W+3gmkNVOtgi3VkNGno=;
+        fh=dSBa4LkSk7LUNHCabZUSc7K9YBwQUfWN1A8mBRi66W8=;
+        b=Q0mOf/XkDziqeOPrlbuAWKCtxCiymIYrKRPF4O+aPSBGKqRcJUqDJp50NPLjk74Zwr
+         iD6iB0hCNCwYpSts/9NTUZ6dfWdTkuPm/4MTJnM9cENhycuvu/iO7Dmy7t1gducPnZxc
+         oh8J7/2nPcV3NzEtW0BZIaXRcNJZleWuorF8UQxZpHoE2LgzBcUL5/HAuPi1GzHNc7r2
+         KMiwoZxf8S4jKOlUQpPNOPIsCLWczRA9FrvaYEnqsIlanRyJgfSx1BoZclmjD/5lZNtD
+         If9k3onjvlLrIr8TlYcOCQQSeNHKHmtcDXkbJaXEH9zcG1qocYHWF1CiVAu1u8Vyye/4
+         nkqA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1790265957; x=1790870757; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=wm09KZgtMDDuRCaDDlw1bVTO/lDdGx5khYMsZ7nf5Wc=;
-        b=HiTGtN00PRPRIVbhPC9B57l7pyDPcxmohIifAbl0naIjlWO6QOlVuKbJvEj+37YUfD
-         AzwOndf/zus/j+0bhtsgeHPSgRVV4s1/w8xdo55g7AHlko0mt0vhwEKahy2Jc1l1o7pF
-         AUGYEOZPoR7GOHk5VHYF1AlMzxjjLfoH/GRVj+/zTzwERBp4e3Gw2nE+OOlDEZim2zFS
-         PU6TftoOqz8BDEy42A8xS60Lp5ojynAHZ/ekOmRNCVYz0ElyACagB9TXwTw7dw0AS8Mz
-         +i67IJLmEm9xaJQmydODw97dkC/H5n36CleotsE5BewZWjFozRkBu49VUG5FMJ6P6aXc
-         QjNA==
+        d=gmail.com; s=20251104; t=1790280756; x=1790885556; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0l+jl3PEeluCBsGioL2G68K7W+3gmkNVOtgi3VkNGno=;
+        b=c4G200dHGs1Aqo1behYZqWjmgnqhaGPcPPD1+gHRVIPqo1j8uLxnlY4tvhkwD8Hgc4
+         HiryabIzlTDdV0rB7oKoByOpP4415hcvPidQ/g3p273GJkZy0RGXppzna+LvUa0FeFxC
+         +qoLpBQUFb9wI00U+G0TjURArRQxHtDfEz9xc3/c1NHCnp+sdHnH/QarzCUfth4EMh4t
+         zbvZG8/ixkStwUVdY3O5gthtqzZZmE9nGLA/IO0Ol9xC16BTWgSxOitZMH3fzO8X7CAs
+         rqHlJ2tPgoJqnorwhUfcjs2OrIxcMaPfVaLDKJlRSbiyacUmizWLGcRWrFAjSCcYnCJ9
+         9QKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790265957; x=1790870757;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=wm09KZgtMDDuRCaDDlw1bVTO/lDdGx5khYMsZ7nf5Wc=;
-        b=er3QTO9Qr9WSIxdZFc/De6pfUR7sVmD9hZjWWEZr+9PHLTI6V/MONg9doA5JIXtk0H
-         Je1eb+hYKmNMNosNbyxGvHainWrtSezQ0P0dvosKN6q0Ictp+tWYgpG4w/1Ti6IvPx9h
-         sY9b/5IpS03dGY5tfDtsB4jdZCy0Ny/u2FH+vnNl7sUwLYDWRETbJkGcZ6dd+5cSjUTl
-         Fqq12XCZZQvv8fGNUURuR5/SWMXzpVMq4Ewfko43dQeJRIqe1a7Da6PFQaY5/jaWl/ay
-         VqKhFFTLGVx3Uif5KcynOEHkUv5nRe6komk2AeYH8ht2voNNfbdqGBzqFtBTlkqXVI7j
-         gMAQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxOryKgpzyhIcN57qPJDNEqokcM/RapK6b91GS/vfV1vSyTr295hDuRJKPBDnF+ph8PMviTWZQrRtwC/w==@lists.linux.dev
-X-Gm-Message-State: AFuF++nTX689KHQZWoppTtkWSiGgO2FMoQNV0yAWkfhTzOnzuoXwFLkV
-	SYC2WFeMg3JzPv3OvBTalvvPpJb/agT0cwx5tQDEsjrOs+TjxK3oZEN+QYxcRi8+R4o=
-X-Gm-Gg: AYBFou0EWaTh+efEskuk3aA/mA3Hic5okzx9f2ysUx38FNtEb7bln4cDiqvBf77o7ff
-	rHCH6kME6obn/bym8zKrGalapdw66cs8oyLt8Zy6h0A41Z4MXdpEZodkQRznWP+kVZG1SaX9+HQ
-	0cAa8ZrnrFxUxKLA5UFG/ZZntePa1koFkHNwh6QxrzW2qNjAMJ4eQ3qE6HjC5j2Ee71GqjxEox4
-	cTMTufLRAx3F76G0X+gt1wcXXeHVGgmUMH7bsMPqTg2vZ5aVo0X1u1WMze0Eq82mHEfQiMf70YU
-	QAF+qpzEk3rXmzmaakJMvpgJgDQiIAm5NCF9uXB2dWEqJI7ugqFEVM6RLmxJ7oD9tqxb7jDI4A/
-	uwge/MYSExEIWgbHJI24gYfS4V5mntvVGnSz1Md+bvZsi+3HF6c4oueUsccQjPT39GrGa6RnuCL
-	7gK17q3byqsXzNhVtuyRG2OVV7+PQjSFu6fvdwNe5C3Ymuzzd4rG+Ls9QDDQrKpGPG8AJfdnsev
-	xkfolpJNhKFybKv6g==
-X-Received: by 2002:a05:6000:2083:b0:487:342:eb28 with SMTP id ffacd0b85a97d-488716f2354mr5536245f8f.24.1790265956591;
-        Thu, 24 Sep 2026 09:05:56 -0700 (PDT)
-Received: from localhost (82-67-6-57.subs.proxad.net. [82.67.6.57])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a34a314sm57278f8f.6.2026.09.24.09.05.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 09:05:55 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-Date: Thu, 24 Sep 2026 18:05:50 +0200
-Subject: [PATCH v2] dt-bindings: i2c: mv64xxx: Add Allwinner A733
- compatible string
+        d=1e100.net; s=20260707; t=1790280756; x=1790885556;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0l+jl3PEeluCBsGioL2G68K7W+3gmkNVOtgi3VkNGno=;
+        b=xXG4Kitn+fWzVxViFT8XdoCfQILcG38856F2Bu6+RSM8pGAXzMqfgFojyzPcBujvyQ
+         Z4UQfBs6QcWj8/KDH3ipv1tFIHILURp/Ysc4UGq8wgRdMGBMhZfg+WDZIbY0Yo4bTsLd
+         N1iQus01ZQfsIDjY6Z31a04fxtvSTfiTe5m7jvt7pUY0stHOL5V0a5YDF75qnOSLo6SD
+         EqsUjQiW/3oAwaEwYWVPhEEPE5FTESsL5gUfQJtDW5G3hamwWGOkDqOj7lj2oCax10wJ
+         g7oLDiINUCTFXE285LLgwu54PaNvoRnXqxUznXJ4zOPT9EW5wfHYxw4TFjS01gcvz7eX
+         2vnA==
+X-Forwarded-Encrypted: i=1; AKwUvBzFzPnO8Oe5ya6fYb2zI7onhFv0eI+87+v1pdYS1E1qSDS+WwUEvq6LvaJJW1/rMLlFXw1HNJzuqExodA==@lists.linux.dev
+X-Gm-Message-State: AFuF++n2tsbJyMkatJNyoU3dLB67F1jazNWAnpwe5FHR4nw+uB+27tr/
+	+FQBhKooaKZzpjzeGtHkl/qj/BoAE1TlFzmJ1tP+aqOZ/8SdK5AB4QjLKidTsRhKogHY+ZKgut2
+	1HHQ7pBOR1djhuaxReIawc224yajfuZg=
+X-Gm-Gg: AYBFou1TzV1Wgi7y0btp4pVFd708GlyXD9mqA1JTeL7+5VwTMbVPnrbFpzXvVsyJJdN
+	52tqJtSfX+95XhI6ctP+V1C9pPOvjOFhgczu5aD5cbAwwkeapJ9sbRjoDgktotWe3LIrVpfDzRS
+	NUeyhT13iIPeC4g4LuQ2+sstx2wBLgS94vVjeSR7bua0ItSQ2l8NEPJqpcSgTWP8hzSe2YN5AwW
+	pcc9w0JeVuk8+kFMNVRhrAj8WgQB9HLhE/7a+SBJsILQViERXk/dUaYym8SD34T2Joqy58lhKZy
+	fT0+vvH5y4hs1LcjMYxWr4tNAUOqNy8eK1IriknfmKswW5ajvv5mtI6RQvUeZw4JqwUqNUA=
+X-Received: by 2002:a17:902:e94e:b0:2df:7e40:6f6c with SMTP id
+ d9443c01a7336-2df7e407013mr31670965ad.46.1790280755626; Thu, 24 Sep 2026
+ 13:12:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260924-allwinner-a733-i2c-compatible-v2-1-0f5f1e9af969@baylibre.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WNSw6CMBQAr2K69pl++BRX3sO4aMtDnoFCWkQN4
- e4WXbh0OclkZmERA2Fkx93CAs4UafAJ5H7HXGv8FYHqxExyWfBKcDBd9yDvMYAplQKSDtzQj2Y
- i2yFIrZWWQvMKHUuNMWBDz0//fPlyvNsbummLbkYThh6mNqD5fUpe/vnMAgTkRaEynmfS1vXJm
- ldHNuAhWWxd36SP4JTZAAAA
-X-Change-ID: 20260910-allwinner-a733-i2c-compatible-2883821809ec
-To: Chen-Yu Tsai <wens@kernel.org>, 
- Gregory CLEMENT <gregory.clement@bootlin.com>, 
- Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-i2c@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, 
- Conor Dooley <conor.dooley@microchip.com>, 
- Jerome Brunet <jbrunet@baylibre.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1582; i=jbrunet@baylibre.com;
- h=from:subject:message-id; bh=3/FB35Hu5fJEEgD/yBfAAnwDqio0JQJdSJzCduCvMyY=;
- b=owGbwMvMwCW2VtK+WnvWU3HG02pJDFlbvZLEvbbuS573+cXazpNcRs3727Jq9WuvrUlsuc5vP
- GnLHkHzjlIWBjEuBlkxRZYa7mrxd5JaX2ZN17kNM4eVCWQIAxenAEwkmpnhD5ehIO+29na1ioXR
- 63k5HTw2v71i8Pl26+GTAhOfZcwrPghUwbUw1KmsP3f/qr7Hzytu9q6t1HhuVLBFL95OeZtoRQQ
- DAA==
-X-Developer-Key: i=jbrunet@baylibre.com; a=openpgp;
- fpr=F29F26CF27BAE1A9719AE6BDC3C92AAF3E60AED9
+References: <20260923201701.43391-1-pmazzini@gmail.com> <8871e921-f66c-475b-a489-560028eb2200@arm.com>
+In-Reply-To: <8871e921-f66c-475b-a489-560028eb2200@arm.com>
+From: Pablo Mazzini <pmazzini@gmail.com>
+Date: Thu, 24 Sep 2026 21:12:01 +0100
+X-Gm-Features: AclHuK_-mnDGIb_ID5ajTTS6OK8_9vcC7qVQlZUU6wB7EYPhgJdDLHDg8SJ6_uQ
+Message-ID: <CAAxh=jsb_SGxKEisYYcg-eSbzE2iOUwnvmGUww_rUdXW64E84g@mail.gmail.com>
+Subject: Re: [PATCH v1 01/11] dt-bindings: clock: add Allwinner B288 CCU
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Brian Masney <bmasney+clk@redhat.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Jerome Brunet <jbrunet+clk@baylibre.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Maxime Ripard <mripard@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The I2C controller IP used in the Allwinner A733 SoC is
-compatible with the ones used in the other recent Allwinner SoCs.
+Hi Andre,
 
-Add the A733 specific compatible string to the list of existing names
-falling back to the allwinner,sun8i-v536-i2c string.
+thanks for the review.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
----
-This was tested on the Raxda A7A while enabling the AXP318 PMIC on S-TWI0
+> please add a cover letter
 
-Changes in v2:
-- Collect Conor's trailer.
-- Cc linux-sunxi (not matched by MAINTAINERS/b4 by default)
-- Link to v1: https://patch.msgid.link/20260707-allwinner-a733-i2c-compatible-v1-1-566340542bdd@baylibre.com
----
- Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml | 1 +
- 1 file changed, 1 insertion(+)
+Done for v2.
 
-diff --git a/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml b/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
-index c4efcef59133..2a9e723a724f 100644
---- a/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
-+++ b/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
-@@ -34,6 +34,7 @@ properties:
-               - allwinner,sun50i-h616-i2c
-               - allwinner,sun50i-r329-i2c
-               - allwinner,sun55i-a523-i2c
-+              - allwinner,sun60i-a733-i2c
-           - const: allwinner,sun8i-v536-i2c
-           - const: allwinner,sun6i-a31-i2c
-       - const: marvell,mv64xxx-i2c
+> One problem in general is the lack of access to a manual [...]
 
----
-base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
-change-id: 20260910-allwinner-a733-i2c-compatible-2883821809ec
+The descriptions come from the BSP's clk-sun8iw10.{c,h}, cross-checked
+against ccu-sun50i-a64.c - nine of the eleven PLLs are bit-identical -
+and exercised on the device up to userspace.
 
-Best regards,
---  
-Jerome
+> I am afraid you cannot push off the responsibility to other people
 
+Copy-paste mistake, sorry. Moot now: folding both bindings into the
+existing files removes those entries.
+
+> why do you need a separate binding?
+
+You're right, it's a strict subset; v2 just adds the compatible to
+allwinner,sun4i-a10-ccu.yaml.
+
+Thanks,
+Pablo
+
+
+On Thu, Sep 24, 2026 at 10:03=E2=80=AFAM Andre Przywara <andre.przywara@arm=
+.com> wrote:
+>
+> Hi Pablo,
+>
+> many thanks for sending this series, on a first glance this looks pretty
+> good.
+> As a general comment: please add a cover letter (git format-patch ...
+> --cover-letter, then edit the generated file), and explain a bit about
+> the background of this work. This would be a good place to briefly
+> describe what the B288 is, how it's related to other SoCs, how you came
+> to all this information, the firmware story, and the existing
+> limitations of this port.
+>
+> One problem in general is the lack of access to a manual, I am not even
+> sure we ever upstreamed SoC support without one. Especially the clock
+> driver is quite tricky, we would love to compare the clock descriptions
+> against some documentation.
+>
+> On 9/23/26 22:16, Pablo Mazzini wrote:
+> > The B288 (sun8iw10p1) is a dual Cortex-A7 SoC used in e-book readers.
+> >
+> > Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
+> > ---
+> >   .../clock/allwinner,sun8i-b288-ccu.yaml       | 55 ++++++++++++
+> >   include/dt-bindings/clock/sun8i-b288-ccu.h    | 90 ++++++++++++++++++=
++
+> >   include/dt-bindings/reset/sun8i-b288-ccu.h    | 45 ++++++++++
+> >   3 files changed, 190 insertions(+)
+> >   create mode 100644 Documentation/devicetree/bindings/clock/allwinner,=
+sun8i-b288-ccu.yaml
+> >   create mode 100644 include/dt-bindings/clock/sun8i-b288-ccu.h
+> >   create mode 100644 include/dt-bindings/reset/sun8i-b288-ccu.h
+> >
+> > diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun8i-b2=
+88-ccu.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun8i-b288-=
+ccu.yaml
+> > new file mode 100644
+> > index 000000000000..22b59d5b652c
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/clock/allwinner,sun8i-b288-ccu.=
+yaml
+> > @@ -0,0 +1,55 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/clock/allwinner,sun8i-b288-ccu.yaml=
+#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Allwinner B288 Clock Control Unit
+> > +
+> > +maintainers:
+> > +  - Chen-Yu Tsai <wens@csie.org>
+> > +  - Maxime Ripard <mripard@kernel.org>
+>
+> I am afraid you cannot push off the responsibility to other people,
+> especially I think Maxime wouldn't be really interested any more ;-)
+>
+> Actually, why do you need a separate binding? Wouldn't it be enough to
+> just add the compatible string to the existing
+> allwinner,sun4i-a10-ccu.yaml file? This one here looks like a subset of
+> this, and would blend in there easily.
+>
+> Cheers,
+> Andre
+>
+> > +
+> > +properties:
+> > +  "#clock-cells":
+> > +    const: 1
+> > +
+> > +  "#reset-cells":
+> > +    const: 1
+> > +
+> > +  compatible:
+> > +    const: allwinner,sun8i-b288-ccu
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: High Frequency Oscillator
+> > +      - description: Low Frequency Oscillator
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: hosc
+> > +      - const: losc
+> > +
+> > +required:
+> > +  - "#clock-cells"
+> > +  - "#reset-cells"
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - clock-names
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    ccu: clock-controller@1c20000 {
+> > +        compatible =3D "allwinner,sun8i-b288-ccu";
+> > +        reg =3D <0x01c20000 0x400>;
+> > +        clocks =3D <&osc24M>, <&osc32k>;
+> > +        clock-names =3D "hosc", "losc";
+> > +        #clock-cells =3D <1>;
+> > +        #reset-cells =3D <1>;
+> > +    };
+> > diff --git a/include/dt-bindings/clock/sun8i-b288-ccu.h b/include/dt-bi=
+ndings/clock/sun8i-b288-ccu.h
+> > new file mode 100644
+> > index 000000000000..3dc1704d001e
+> > --- /dev/null
+> > +++ b/include/dt-bindings/clock/sun8i-b288-ccu.h
+> > @@ -0,0 +1,90 @@
+> > +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
+> > +#ifndef _DT_BINDINGS_CLK_SUN8I_B288_H_
+> > +#define _DT_BINDINGS_CLK_SUN8I_B288_H_
+> > +
+> > +#define CLK_PLL_CPUX 0
+> > +#define CLK_PLL_AUDIO_BASE   1
+> > +#define CLK_PLL_VIDEO0       2
+> > +#define CLK_PLL_DDR0 3
+> > +#define CLK_PLL_PERIPH0      4
+> > +#define CLK_PLL_VIDEO1       5
+> > +#define CLK_PLL_24M  6
+> > +#define CLK_PLL_PERIPH1      7
+> > +#define CLK_PLL_DE   8
+> > +#define CLK_PLL_DDR1 9
+> > +
+> > +#define CLK_PLL_PERIPH0_2X   10
+> > +#define CLK_PLL_PERIPH1_2X   11
+> > +#define CLK_CPUX     12
+> > +#define CLK_AXI      13
+> > +#define CLK_CPUAPB   14
+> > +#define CLK_AHB1     15
+> > +#define CLK_APB1     16
+> > +#define CLK_APB2     17
+> > +
+> > +#define CLK_NAND     18
+> > +#define CLK_MMC0     19
+> > +#define CLK_MMC1     20
+> > +#define CLK_MMC2     21
+> > +#define CLK_MMC3     22
+> > +#define CLK_SPI0     23
+> > +#define CLK_SPI1     24
+> > +#define CLK_SPI2     25
+> > +#define CLK_DRAM     26
+> > +#define CLK_DE       27
+> > +#define CLK_EE       28
+> > +#define CLK_EDMA     29
+> > +#define CLK_TCON0    30
+> > +#define CLK_MBUS     31
+> > +
+> > +#define CLK_BUS_THS  32
+> > +#define CLK_BUS_NAND 33
+> > +#define CLK_BUS_SDMMC0_BUS   34
+> > +#define CLK_BUS_SDMMC1_BUS   35
+> > +#define CLK_BUS_SDMMC2_BUS   36
+> > +#define CLK_BUS_SDMMC3_BUS   37
+> > +#define CLK_BUS_SPI0 38
+> > +#define CLK_BUS_SPI1 39
+> > +#define CLK_BUS_SPI2 40
+> > +#define CLK_BUS_I2S0 41
+> > +#define CLK_BUS_I2S1 42
+> > +#define CLK_BUS_SPDIF        43
+> > +#define CLK_BUS_DSD  44
+> > +#define CLK_BUS_DMIC 45
+> > +#define CLK_BUS_USBOHCI0     46
+> > +#define CLK_BUS_USBEHCI0     47
+> > +#define CLK_BUS_USBOTG       48
+> > +#define CLK_BUS_DE   49
+> > +#define CLK_BUS_EE   50
+> > +#define CLK_BUS_TCON0        51
+> > +#define CLK_BUS_CSI_S        52
+> > +#define CLK_BUS_CSI_M        53
+> > +#define CLK_BUS_CSI_MISC     54
+> > +#define CLK_BUS_ADDA 55
+> > +#define CLK_BUS_SDRAM        56
+> > +#define CLK_BUS_PSRAM        57
+> > +#define CLK_BUS_DMA  58
+> > +#define CLK_BUS_UART0        59
+> > +#define CLK_BUS_UART1        60
+> > +#define CLK_BUS_UART2        61
+> > +#define CLK_BUS_UART3        62
+> > +#define CLK_BUS_UART4        63
+> > +#define CLK_BUS_UART5        64
+> > +#define CLK_BUS_TWI0 65
+> > +#define CLK_BUS_TWI1 66
+> > +#define CLK_BUS_TWI2 67
+> > +#define CLK_BUS_PIO  68
+> > +#define CLK_BUS_GPADC        69
+> > +#define CLK_BUS_KEYADC       70
+> > +
+> > +/*
+> > + * mmc0 and mmc1 are v4p1x controllers driven in the old timing mode, =
+which
+> > + * needs the sample and output phase clocks. mmc2 and mmc3 are newer b=
+locks
+> > + * that do their own delay calibration and have none.
+> > + */
+> > +#define CLK_MMC0_SAMPLE      71
+> > +#define CLK_MMC0_OUTPUT      72
+> > +#define CLK_MMC1_SAMPLE      73
+> > +#define CLK_MMC1_OUTPUT      74
+> > +
+> > +#endif
+> > diff --git a/include/dt-bindings/reset/sun8i-b288-ccu.h b/include/dt-bi=
+ndings/reset/sun8i-b288-ccu.h
+> > new file mode 100644
+> > index 000000000000..675145654548
+> > --- /dev/null
+> > +++ b/include/dt-bindings/reset/sun8i-b288-ccu.h
+> > @@ -0,0 +1,45 @@
+> > +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
+> > +#ifndef _DT_BINDINGS_RST_SUN8I_B288_H_
+> > +#define _DT_BINDINGS_RST_SUN8I_B288_H_
+> > +
+> > +#define RST_BUS_THS  0
+> > +#define RST_BUS_NAND 1
+> > +#define RST_BUS_MMC0 2
+> > +#define RST_BUS_MMC1 3
+> > +#define RST_BUS_MMC2 4
+> > +#define RST_BUS_MMC3 5
+> > +#define RST_BUS_SPI0 6
+> > +#define RST_BUS_SPI1 7
+> > +#define RST_BUS_SPI2 8
+> > +#define RST_BUS_I2S0 9
+> > +#define RST_BUS_I2S1 10
+> > +#define RST_BUS_SPDIF        11
+> > +#define RST_BUS_DSD  12
+> > +#define RST_BUS_DMIC 13
+> > +#define RST_USBPHY0  14
+> > +#define RST_BUS_OHCI0        15
+> > +#define RST_BUS_EHCI0        16
+> > +#define RST_BUS_OTG  17
+> > +#define RST_BUS_DE   18
+> > +#define RST_BUS_EE   19
+> > +#define RST_BUS_TCON0        20
+> > +#define RST_BUS_CSI  21
+> > +#define RST_BUS_ADDA 22
+> > +#define RST_BUS_WLAN 23
+> > +#define RST_MBUS     24
+> > +#define RST_BUS_DRAM 25
+> > +#define RST_BUS_PSRAM        26
+> > +#define RST_BUS_DMA  27
+> > +#define RST_BUS_UART0        28
+> > +#define RST_BUS_UART1        29
+> > +#define RST_BUS_UART2        30
+> > +#define RST_BUS_UART3        31
+> > +#define RST_BUS_UART4        32
+> > +#define RST_BUS_UART5        33
+> > +#define RST_BUS_I2C0 34
+> > +#define RST_BUS_I2C1 35
+> > +#define RST_BUS_I2C2 36
+> > +#define RST_BUS_GPADC        37
+> > +#define RST_BUS_KEYADC       38
+> > +
+> > +#endif
+>
