@@ -1,30 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31E2B5013CF
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Sep 2026 22:56:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D258950AC32
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Sep 2026 22:56:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790376969; cv=none; b=C8AD/iflA1C/B5BOEBd4uMQJcE9BC6jNVHiHXWnffdol9AFp5x2HeCeMvAIF8P0ZZX9er+UMHS5eNwGcLzC6XUu2B38gL9kvGeTzJ8F9iPac7mg3YQkljG/WTdjzI5VF1fshO9QwB2wx8wvSq7r967jF/7LDnHcby5vgzdUsSJI=
+	t=1790376972; cv=none; b=o1zoRwJNcJjvC8zN7D2q0aTX4SvTpa105Vucn6/w102wU+3D+XrVRmt/Il3cAiWY3E/5x5hv0lVXwBxOaWtGiNexvKuhCUz398IVxfxYLWrOh/Kc/obdpxO0obWuUX7/4CUKizMh7acwkPI6cwcbSDkwdndEz/orIoZ7enTAp3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790376969; c=relaxed/simple;
-	bh=sCbdqOYDE+J/MhWw6Yok3HLazdmH5YreU68DshgauHU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jjZjExX7wfU1YiKfwB+T/OFxzBXfBxO+mU5miDKUBBYzzJfvFA/cYtoiCfdzxa8BMjkPHX/uTC1qqFU+Rf3p8GBTZT7PA6lTUqrHdBDrRGJYLxTwiREK0X1O3ZPjjLsL4X/L1+XUT1Dpsi1TLGuepieyOqlsOGthm4PXCPpHtL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=jEMlTWxx; arc=none smtp.client-ip=217.140.110.172
+	s=arc-20240116; t=1790376972; c=relaxed/simple;
+	bh=MlmHbpVFjJLWGpCkIIoq1m9CmdLtsfdILAJsxbN9izA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=S6QpWiZ4xugiK/4CG5ZMZuZbKZ7aBdBED6WvlJrFh+qz6g8qBlZDRa98ZswNxjdLCRUVMjc6vdkx87rvaYlbAfUaCIFR+DrY31mXZGB9YQj6Me7EYdwwv3fNBo5rR6EU3FQQKzinWgr442CndP20o/Bx8SS45tvkCW3BkMd5lyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=jHrRAf/Q; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="jEMlTWxx"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="jHrRAf/Q"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 872B9169C;
-	Fri, 25 Sep 2026 15:56:00 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A050316F8;
+	Fri, 25 Sep 2026 15:56:03 -0700 (PDT)
 Received: from ryzen.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 52C2F3F632;
-	Fri, 25 Sep 2026 15:56:01 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6C1513F632;
+	Fri, 25 Sep 2026 15:56:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790376964; bh=sCbdqOYDE+J/MhWw6Yok3HLazdmH5YreU68DshgauHU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=jEMlTWxxoJMnI1UhQcnj5XtED9OG6mSOLSkwQq4h4DUEzuv3tdb0Wtm7jarX6GQhx
-	 J2T7clL381kZy90zEmj/BcPDNVCex6Rd/4n+SNPsCrDAZqA83H9DQ4P530KdJTUtZh
-	 /ZPC6Q5iziHQ8OXEux7tbwx+MXVizGtoMENRvLys=
+	t=1790376967; bh=MlmHbpVFjJLWGpCkIIoq1m9CmdLtsfdILAJsxbN9izA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=jHrRAf/QNu3dWT2v5NDeRgaWI2YshsmDD2WOOoKb/THbvwrImfDa2Q/5Fh4LLNdOD
+	 AsLwpOsII+XDn0B6HLC41GI21dDHBh4eM4T6XBTOEZxMlDDfFBQ8rErBywqixOmBux
+	 3zmLHY600OzYMCQD3r7USdKOcKbuyA+IhaTcf7VM=
 From: Andre Przywara <andre.przywara@arm.com>
 To: Stephen Boyd <sboyd@kernel.org>,
 	Brian Masney <bmasney+clk@redhat.com>,
@@ -39,10 +40,12 @@ Cc: linux-clk@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v3 0/4] arm64: allwinner: a523: Enable CPU clocks
-Date: Sat, 26 Sep 2026 00:51:08 +0200
-Message-ID: <20260925225112.14081-1-andre.przywara@arm.com>
+Subject: [PATCH v3 1/4] clk: sunxi-ng: generalise update bit
+Date: Sat, 26 Sep 2026 00:51:09 +0200
+Message-ID: <20260925225112.14081-2-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.46.4
+In-Reply-To: <20260925225112.14081-1-andre.przywara@arm.com>
+References: <20260925225112.14081-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -51,85 +54,245 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+A few of the Allwinner A523 CCU clock registers introduced an "update" bit,
+which must be set for changes to the other bits to take effect.
+Of the three clocks where this was used, it was always bit 27, so we just
+encoded this as a single bit feature flag.
 
-an update for the A523 CPU clock series, aiming at eventually lifting
-all A523 boards out of their current 768MHz misery ;-)
-This addresses the comments on the list and from Sashiko, though I took
-the freedom to ignore impossible scenarios (we cannot really remove this
-clock module), and pathological corner cases (race condition between
-registering the CCU and registering the clock notifiers).
-Changes to mention are the usage of a new clock macro based on a divider
-clock for the PLL dividers, and the rework of the PLL start routine. 
-For a more complete changelog see below. Based on v7.3-rc1.
+Now the CPU PLL also features the update bit, but puts it at bit 26, so
+this flag trick won't work anymore.
 
-==============================
-This series adds support for the CPU clock controller in the Allwinner
-A523/A527/T527 family of SoCs.
+Add an "update_bit" field to the common sunxi clock struct, which takes a
+bitmask, so we can encode any bit to use, even potentially multiple of
+them. As uninitialised fields are set to 0, we can use this as a default
+bitmask to set, so can OR this in unconditionally.
+It turns out that the "update key" feature is doing something very
+similar, so just convert it over to also use this same bitmask approach.
 
-In contrast to all earlier Allwinner SoCs, this chip features a separate
-CCU for the CPU clocks (one for each of the two clusters) and the DSU
-clock.
+Change the existing update bit users to use this new encoding, and add
+support for the ccu_nm clock on the way, since we will need it there
+shortly.
 
-Patch 1 adds some slight enhancement to the sunxi-ng clock driver
-framework, to generalise the update bit.
-Patch 2 adds the binding document for the new CCU.
-Patch 3 adds the actual clock driver, and patch 4 makes use of that by
-adding the clock description to the SoC .dtsi.
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+---
+ drivers/clk/sunxi-ng/ccu-sun55i-a523.c | 12 ++++++------
+ drivers/clk/sunxi-ng/ccu-sun6i-rtc.c   |  4 ++--
+ drivers/clk/sunxi-ng/ccu_common.h      |  8 +++-----
+ drivers/clk/sunxi-ng/ccu_div.c         |  3 +--
+ drivers/clk/sunxi-ng/ccu_gate.c        |  6 ++----
+ drivers/clk/sunxi-ng/ccu_mp.h          |  8 +++++---
+ drivers/clk/sunxi-ng/ccu_mux.c         |  8 +-------
+ drivers/clk/sunxi-ng/ccu_nm.c          |  1 +
+ 8 files changed, 21 insertions(+), 29 deletions(-)
 
-Please have a look and test!
-
-Cheers,
-Andre
-
-Changes in v3:
-- forbid #reset-cells in DT binding
-- adjust top level comment to include DSU divider bits
-- drop patch 2 in favour of using a div clock and a new macro
-- describe PLL divider clocks using new divider clock macro
-- rename 600MHz input clock name to match binding (lower case "m")
-- add MUX notifier for DSU clock as well
-- add new function to start CPU PLLs in a safer way
-- add MODULE_DEVICE_TABLE
-- drop unneeded (and now forbidden) #reset-cells from .dtsi
-- only build driver for CONFIG_ARCH_SUNXI
-
-Changes in v2:
-- rebase on v7.3-rc1
-- cover CCU_FEATURE_KEY_FIELD in update bits generalisation
-- explicitly include binding header in clock driver
-- order clocks property before enable-method in DT nodes
-
-
-Andre Przywara (4):
-  clk: sunxi-ng: generalise update bit
-  dt-bindings: clock: sun55i-a523-ccu: Add A523 CPU CCU clock controller
-  clk: sunxi-ng: add support for the A523/T527 CPU CCU
-  arm64: dts: allwinner: a523: add CPU clocks
-
- .../clock/allwinner,sun55i-a523-ccu.yaml      |  38 +-
- .../arm64/boot/dts/allwinner/sun55i-a523.dtsi |  21 +
- drivers/clk/sunxi-ng/Kconfig                  |   5 +
- drivers/clk/sunxi-ng/Makefile                 |   2 +
- drivers/clk/sunxi-ng/ccu-sun55i-a523-cpu.c    | 378 ++++++++++++++++++
- drivers/clk/sunxi-ng/ccu-sun55i-a523-cpu.h    |  24 ++
- drivers/clk/sunxi-ng/ccu-sun55i-a523.c        |  12 +-
- drivers/clk/sunxi-ng/ccu-sun6i-rtc.c          |   4 +-
- drivers/clk/sunxi-ng/ccu_common.h             |   8 +-
- drivers/clk/sunxi-ng/ccu_div.c                |   3 +-
- drivers/clk/sunxi-ng/ccu_div.h                |   5 +
- drivers/clk/sunxi-ng/ccu_gate.c               |   6 +-
- drivers/clk/sunxi-ng/ccu_mp.h                 |   8 +-
- drivers/clk/sunxi-ng/ccu_mux.c                |   8 +-
- drivers/clk/sunxi-ng/ccu_nm.c                 |   1 +
- .../dt-bindings/clock/sun55i-a523-cpu-ccu.h   |  13 +
- 16 files changed, 506 insertions(+), 30 deletions(-)
- create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-cpu.c
- create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-cpu.h
- create mode 100644 include/dt-bindings/clock/sun55i-a523-cpu-ccu.h
-
-
-base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+diff --git a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+index 20dad06b37ca3..35cddab0749b3 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
++++ b/drivers/clk/sunxi-ng/ccu-sun55i-a523.c
+@@ -386,8 +386,8 @@ static SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(mbus_clk, "mbus", mbus_parents,
+ 					    0, 0,		/* no P */
+ 					    24, 3,	/* mux */
+ 					    BIT(31),	/* gate */
+-					    CLK_IS_CRITICAL,
+-					    CCU_FEATURE_UPDATE_BIT);
++					    BIT(27),	/* update*/
++					    CLK_IS_CRITICAL, 0);
+ 
+ static const struct clk_hw *mbus_hws[] = { &mbus_clk.common.hw };
+ 
+@@ -590,8 +590,8 @@ static SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(iommu_clk, "iommu", iommu_parents,
+ 					    0, 0,	/* no P */
+ 					    24, 3,	/* mux */
+ 					    BIT(31),	/* gate */
+-					    CLK_SET_RATE_PARENT,
+-					    CCU_FEATURE_UPDATE_BIT);
++					    BIT(27),	/* update */
++					    CLK_SET_RATE_PARENT, 0);
+ 
+ static SUNXI_CCU_GATE_HWS(bus_iommu_clk, "bus-iommu", apb0_hws, 0x7bc,
+ 			  BIT(0), 0);
+@@ -609,8 +609,8 @@ static SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(dram_clk, "dram", dram_parents,
+ 					    0, 0,	/* no P */
+ 					    24, 3,	/* mux */
+ 					    BIT(31),	/* gate */
+-					    CLK_IS_CRITICAL,
+-					    CCU_FEATURE_UPDATE_BIT);
++					    BIT(27),	/* update*/
++					    CLK_IS_CRITICAL, 0);
+ 
+ static SUNXI_CCU_GATE_HWS(mbus_dma_clk, "mbus-dma", mbus_hws,
+ 			  0x804, BIT(0), 0);
+diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+index 98ae10307f438..dde56529f281d 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
++++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+@@ -214,7 +214,7 @@ static struct ccu_mux osc32k_clk = {
+ 	.mux	= _SUNXI_CCU_MUX(0, 1),
+ 	.common	= {
+ 		.reg		= LOSC_CTRL_REG,
+-		.features	= CCU_FEATURE_KEY_FIELD,
++		.update_bits	= CCU_MUX_KEY_VALUE,
+ 		.hw.init	= &osc32k_init_data,
+ 	},
+ };
+@@ -280,7 +280,7 @@ static struct ccu_mux rtc_32k_clk = {
+ 	.mux	= _SUNXI_CCU_MUX(1, 1),
+ 	.common	= {
+ 		.reg		= LOSC_CTRL_REG,
+-		.features	= CCU_FEATURE_KEY_FIELD,
++		.update_bits	= CCU_MUX_KEY_VALUE,
+ 		.hw.init	= &rtc_32k_init_data,
+ 	},
+ };
+diff --git a/drivers/clk/sunxi-ng/ccu_common.h b/drivers/clk/sunxi-ng/ccu_common.h
+index d9dc24ad55039..e0ed861735beb 100644
+--- a/drivers/clk/sunxi-ng/ccu_common.h
++++ b/drivers/clk/sunxi-ng/ccu_common.h
+@@ -17,17 +17,14 @@
+ #define CCU_FEATURE_LOCK_REG		BIT(5)
+ #define CCU_FEATURE_MMC_TIMING_SWITCH	BIT(6)
+ #define CCU_FEATURE_SIGMA_DELTA_MOD	BIT(7)
+-#define CCU_FEATURE_KEY_FIELD		BIT(8)
+ #define CCU_FEATURE_CLOSEST_RATE	BIT(9)
+ #define CCU_FEATURE_DUAL_DIV		BIT(10)
+-#define CCU_FEATURE_UPDATE_BIT		BIT(11)
+-#define CCU_FEATURE_IOSC_CALIBRATION	BIT(12)
++#define CCU_FEATURE_IOSC_CALIBRATION	BIT(11)
+ 
+ /* MMC timing mode switch bit */
+ #define CCU_MMC_NEW_TIMING_MODE		BIT(30)
+ 
+-/* Some clocks need this bit to actually apply register changes */
+-#define CCU_SUNXI_UPDATE_BIT		BIT(27)
++#define CCU_MUX_KEY_VALUE		0x16aa0000
+ 
+ struct device_node;
+ 
+@@ -36,6 +33,7 @@ struct ccu_common {
+ 	u16		reg;
+ 	u16		lock_reg;
+ 	u32		prediv;
++	u32		update_bits;
+ 
+ 	unsigned long	min_rate;
+ 	unsigned long	max_rate;
+diff --git a/drivers/clk/sunxi-ng/ccu_div.c b/drivers/clk/sunxi-ng/ccu_div.c
+index c385e0160f13b..a6e81bac18d6e 100644
+--- a/drivers/clk/sunxi-ng/ccu_div.c
++++ b/drivers/clk/sunxi-ng/ccu_div.c
+@@ -119,8 +119,7 @@ static int ccu_div_set_rate(struct clk_hw *hw, unsigned long rate,
+ 
+ 	reg = readl(cd->common.base + cd->common.reg);
+ 	reg &= ~GENMASK(cd->div.width + cd->div.shift - 1, cd->div.shift);
+-	if (cd->common.features & CCU_FEATURE_UPDATE_BIT)
+-		reg |= CCU_SUNXI_UPDATE_BIT;
++	reg |= cd->common.update_bits;
+ 
+ 	writel(reg | (val << cd->div.shift),
+ 	       cd->common.base + cd->common.reg);
+diff --git a/drivers/clk/sunxi-ng/ccu_gate.c b/drivers/clk/sunxi-ng/ccu_gate.c
+index 30673fe4e3c2c..532e661b5f4b1 100644
+--- a/drivers/clk/sunxi-ng/ccu_gate.c
++++ b/drivers/clk/sunxi-ng/ccu_gate.c
+@@ -20,8 +20,7 @@ void ccu_gate_helper_disable(struct ccu_common *common, u32 gate)
+ 	spin_lock_irqsave(common->lock, flags);
+ 
+ 	reg = readl(common->base + common->reg);
+-	if (common->features & CCU_FEATURE_UPDATE_BIT)
+-		reg |= CCU_SUNXI_UPDATE_BIT;
++	reg |= common->update_bits;
+ 	writel(reg & ~gate, common->base + common->reg);
+ 
+ 	spin_unlock_irqrestore(common->lock, flags);
+@@ -46,8 +45,7 @@ int ccu_gate_helper_enable(struct ccu_common *common, u32 gate)
+ 	spin_lock_irqsave(common->lock, flags);
+ 
+ 	reg = readl(common->base + common->reg);
+-	if (common->features & CCU_FEATURE_UPDATE_BIT)
+-		reg |= CCU_SUNXI_UPDATE_BIT;
++	reg |= common->update_bits;
+ 	writel(reg | gate, common->base + common->reg);
+ 
+ 	spin_unlock_irqrestore(common->lock, flags);
+diff --git a/drivers/clk/sunxi-ng/ccu_mp.h b/drivers/clk/sunxi-ng/ccu_mp.h
+index bb09c649bfa35..6ebb48438b5d4 100644
+--- a/drivers/clk/sunxi-ng/ccu_mp.h
++++ b/drivers/clk/sunxi-ng/ccu_mp.h
+@@ -131,7 +131,8 @@ struct ccu_mp {
+ 					     _mshift, _mwidth,		\
+ 					     _pshift, _pwidth,		\
+ 					     _muxshift, _muxwidth,	\
+-					     _gate, _flags, _features)	\
++					     _gate, _key_update,	\
++					     _flags, _features)		\
+ 	struct ccu_mp _struct = {					\
+ 		.enable	= _gate,					\
+ 		.m	= _SUNXI_CCU_DIV(_mshift, _mwidth),		\
+@@ -140,6 +141,7 @@ struct ccu_mp {
+ 		.common	= {						\
+ 			.reg		= _reg,				\
+ 			.features	= _features,			\
++			.update_bits	= _key_update,			\
+ 			.hw.init	= CLK_HW_INIT_PARENTS_DATA(_name, \
+ 								   _parents, \
+ 								   &ccu_mp_ops, \
+@@ -156,7 +158,7 @@ struct ccu_mp {
+ 					     _reg, _mshift, _mwidth,	\
+ 					     _pshift, _pwidth,		\
+ 					     _muxshift, _muxwidth,	\
+-					     _gate, _flags, 0)
++					     _gate, 0, _flags, 0)
+ 
+ #define SUNXI_CCU_DUALDIV_MUX_GATE(_struct, _name, _parents, _reg,	\
+ 				   _mshift, _mwidth,			\
+@@ -167,7 +169,7 @@ struct ccu_mp {
+ 					     _reg, _mshift, _mwidth,	\
+ 					     _pshift, _pwidth,		\
+ 					     _muxshift, _muxwidth,	\
+-					     _gate, _flags,		\
++					     _gate, 0, _flags,		\
+ 					     CCU_FEATURE_DUAL_DIV)
+ 
+ #define SUNXI_CCU_MP_DATA_WITH_MUX(_struct, _name, _parents, _reg,	\
+diff --git a/drivers/clk/sunxi-ng/ccu_mux.c b/drivers/clk/sunxi-ng/ccu_mux.c
+index 4503c9780c39f..3bb2ba5e809a3 100644
+--- a/drivers/clk/sunxi-ng/ccu_mux.c
++++ b/drivers/clk/sunxi-ng/ccu_mux.c
+@@ -12,8 +12,6 @@
+ #include "ccu_gate.h"
+ #include "ccu_mux.h"
+ 
+-#define CCU_MUX_KEY_VALUE		0x16aa0000
+-
+ static u16 ccu_mux_get_prediv(struct ccu_common *common,
+ 			      struct ccu_mux_internal *cm,
+ 			      int parent_index)
+@@ -203,11 +201,7 @@ int ccu_mux_helper_set_parent(struct ccu_common *common,
+ 
+ 	reg = readl(common->base + common->reg);
+ 
+-	/* The key field always reads as zero. */
+-	if (common->features & CCU_FEATURE_KEY_FIELD)
+-		reg |= CCU_MUX_KEY_VALUE;
+-	if (common->features & CCU_FEATURE_UPDATE_BIT)
+-		reg |= CCU_SUNXI_UPDATE_BIT;
++	reg |= common->update_bits;
+ 
+ 	reg &= ~GENMASK(cm->width + cm->shift - 1, cm->shift);
+ 	writel(reg | (index << cm->shift), common->base + common->reg);
+diff --git a/drivers/clk/sunxi-ng/ccu_nm.c b/drivers/clk/sunxi-ng/ccu_nm.c
+index df01ed3b37a6b..80aad0650f348 100644
+--- a/drivers/clk/sunxi-ng/ccu_nm.c
++++ b/drivers/clk/sunxi-ng/ccu_nm.c
+@@ -219,6 +219,7 @@ static int ccu_nm_set_rate(struct clk_hw *hw, unsigned long rate,
+ 
+ 	reg |= (_nm.n - nm->n.offset) << nm->n.shift;
+ 	reg |= (_nm.m - nm->m.offset) << nm->m.shift;
++	reg |= nm->common.update_bits;
+ 	writel(reg, nm->common.base + nm->common.reg);
+ 
+ 	spin_unlock_irqrestore(nm->common.lock, flags);
 -- 
 2.46.4
 
