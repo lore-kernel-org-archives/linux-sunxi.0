@@ -1,106 +1,135 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06EFC49E5F5;
-	Fri, 25 Sep 2026 19:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31E2B5013CF
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Sep 2026 22:56:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790365581; cv=none; b=cVd/REB/ZEuszboljxBCko+lTtyxFZNMCt/eTVOB/Za82mAELioPdXPwR/j/PnS+Cu9o0VdRK/xz1RrGEtqfjeRCTRrmrsls3t/daTPdYOHrQOZXsFWgYIvlAepvbLcWN5njKrgN8BbPgTLW9XgXin+P/3ssXpKfhOQprargAOA=
+	t=1790376969; cv=none; b=C8AD/iflA1C/B5BOEBd4uMQJcE9BC6jNVHiHXWnffdol9AFp5x2HeCeMvAIF8P0ZZX9er+UMHS5eNwGcLzC6XUu2B38gL9kvGeTzJ8F9iPac7mg3YQkljG/WTdjzI5VF1fshO9QwB2wx8wvSq7r967jF/7LDnHcby5vgzdUsSJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790365581; c=relaxed/simple;
-	bh=r6RJGVlGLF0FrcKraNNx4zfz7xdz/7vSRP7H+PLbQF0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L7Jd+F6JeDnQDDBy8wrvR4LYFyD/em4OV1fF6zs0yWlu+NDcEDLRUb537SgMJT20C2J+xySjV1P3LQ9TYxM9WqAT3Dv/9TDsUYjMA8jTdDA5sN3hVYs4cN4qtjX8FWoDQh/wk3EPK4l3opdbDXwx6qYu+KevMl5vtEiKrB0FeAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=2pm9hX62; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1790376969; c=relaxed/simple;
+	bh=sCbdqOYDE+J/MhWw6Yok3HLazdmH5YreU68DshgauHU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jjZjExX7wfU1YiKfwB+T/OFxzBXfBxO+mU5miDKUBBYzzJfvFA/cYtoiCfdzxa8BMjkPHX/uTC1qqFU+Rf3p8GBTZT7PA6lTUqrHdBDrRGJYLxTwiREK0X1O3ZPjjLsL4X/L1+XUT1Dpsi1TLGuepieyOqlsOGthm4PXCPpHtL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=jEMlTWxx; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="2pm9hX62"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=ZUN5pHcyJvvH3OmnBbLrWeM+/zZkkxuwsFuxwTvxTUE=; b=2pm9hX620kdefDI1x8sSar48MA
-	grw9ppEZSLamxgXUaAViwpIWQ1FbE07rTAX8Fa92eu8FbRoKh1Y/May3YTNzdd6imgS4+h41Caiij
-	8/sybZyoqGrceia0Qqcn4eldN4Tb6sCVDJyu/+VhWrvnGwHmQoVhiY6vAmk1qleBadI0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xABrq-007I4E-Cr; Fri, 25 Sep 2026 21:45:58 +0200
-Date: Fri, 25 Sep 2026 21:45:58 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="jEMlTWxx"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 872B9169C;
+	Fri, 25 Sep 2026 15:56:00 -0700 (PDT)
+Received: from ryzen.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 52C2F3F632;
+	Fri, 25 Sep 2026 15:56:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1790376964; bh=sCbdqOYDE+J/MhWw6Yok3HLazdmH5YreU68DshgauHU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jEMlTWxxoJMnI1UhQcnj5XtED9OG6mSOLSkwQq4h4DUEzuv3tdb0Wtm7jarX6GQhx
+	 J2T7clL381kZy90zEmj/BcPDNVCex6Rd/4n+SNPsCrDAZqA83H9DQ4P530KdJTUtZh
+	 /ZPC6Q5iziHQ8OXEux7tbwx+MXVizGtoMENRvLys=
+From: Andre Przywara <andre.przywara@arm.com>
+To: Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	Andre Przywara <andre.przywara@arm.com>
-Subject: Re: [PATCH net-next v3 0/5] net: stmmac: Add support for Allwinner
- A733 GMAC210
-Message-ID: <b41e7fe4-2ec8-428e-81ff-47e1c75003b1@lunn.ch>
-References: <20260923-allwinner-a733-gmac-support-v3-0-15735155a789@baylibre.com>
- <9cc61625-47c9-4bdf-97f0-0528f661a399@lunn.ch>
- <1j7bkb9h5k.fsf@starbuckisacylon.baylibre.com>
- <5fae3b42-552a-458a-9710-927360e58c37@lunn.ch>
- <1jv77u8yak.fsf@starbuckisacylon.baylibre.com>
- <491f043e-6dc6-4936-a490-31a3362c5b6e@lunn.ch>
- <1jse2x91oh.fsf@starbuckisacylon.baylibre.com>
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v3 0/4] arm64: allwinner: a523: Enable CPU clocks
+Date: Sat, 26 Sep 2026 00:51:08 +0200
+Message-ID: <20260925225112.14081-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.46.4
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1jse2x91oh.fsf@starbuckisacylon.baylibre.com>
+Content-Transfer-Encoding: 8bit
 
-> > You need to differentiate between small fine tuning delays, and the
-> > 2ns delay required by the RGMII standard. If the MAC is just doing
-> > fine tuning, you need to still pass PHY_INTERFACE_MODE_RGMII_ID so the
-> > PHY adds the 2ns delay. If the MAC is adding a big delay, you need to
-> > pass PHY_INTERFACE_MODE_RGMII to the PHY.
-> 
-> The PHY is one concern but the series here does not really address this
-> topic. DTS and board specific concerns will come later.
+Hi,
 
-They are all interconnected. When phy-mode says 'rgmii-id', it is the
-MAC/PHY pair which needs to decide who adds the delay. If the phy-mode
-is 'na', how does the MAC know it needs to use RGMII, not MII, as you
-said.
+an update for the A523 CPU clock series, aiming at eventually lifting
+all A523 boards out of their current 768MHz misery ;-)
+This addresses the comments on the list and from Sashiko, though I took
+the freedom to ignore impossible scenarios (we cannot really remove this
+clock module), and pathological corner cases (race condition between
+registering the CCU and registering the clock notifiers).
+Changes to mention are the usage of a new clock macro based on a divider
+clock for the PLL dividers, and the rework of the PLL start routine. 
+For a more complete changelog see below. Based on v7.3-rc1.
 
-We need to keep the big picture in mind, otherwise you could go down a
-dead end, and a dead end which makes backwards compatibility really
-messy.
+==============================
+This series adds support for the CPU clock controller in the Allwinner
+A523/A527/T527 family of SoCs.
 
-> It is really just the MAC. So, how does the MAC is supposed to
-> make the decision to amend the PHY mode ? is there a threshold you'd
-> like to recommend for this differentiation ? 
+In contrast to all earlier Allwinner SoCs, this chip features a separate
+CCU for the CPU clocks (one for each of the two clusters) and the DSU
+clock.
 
-This is the first time we have had this condition. So it has not
-really been thought about too much. Maybe 1ns. That is the middle of
-the 2ns required by RGMII.
+Patch 1 adds some slight enhancement to the sunxi-ng clock driver
+framework, to generalise the update bit.
+Patch 2 adds the binding document for the new CCU.
+Patch 3 adds the actual clock driver, and patch 4 makes use of that by
+adding the clock description to the SoC .dtsi.
 
-> I'll try to reach out, just in case. I have the schematics but without
-> the PHY doc, it does not help much.
+Please have a look and test!
 
-From that i assume you missed the other emails. Somebody from ARM give
-a link to the data sheet. It documents the strapping. Search for the
-patch adding the PHY driver, it is in that thread.
+Cheers,
+Andre
 
-	Andrew
+Changes in v3:
+- forbid #reset-cells in DT binding
+- adjust top level comment to include DSU divider bits
+- drop patch 2 in favour of using a div clock and a new macro
+- describe PLL divider clocks using new divider clock macro
+- rename 600MHz input clock name to match binding (lower case "m")
+- add MUX notifier for DSU clock as well
+- add new function to start CPU PLLs in a safer way
+- add MODULE_DEVICE_TABLE
+- drop unneeded (and now forbidden) #reset-cells from .dtsi
+- only build driver for CONFIG_ARCH_SUNXI
+
+Changes in v2:
+- rebase on v7.3-rc1
+- cover CCU_FEATURE_KEY_FIELD in update bits generalisation
+- explicitly include binding header in clock driver
+- order clocks property before enable-method in DT nodes
+
+
+Andre Przywara (4):
+  clk: sunxi-ng: generalise update bit
+  dt-bindings: clock: sun55i-a523-ccu: Add A523 CPU CCU clock controller
+  clk: sunxi-ng: add support for the A523/T527 CPU CCU
+  arm64: dts: allwinner: a523: add CPU clocks
+
+ .../clock/allwinner,sun55i-a523-ccu.yaml      |  38 +-
+ .../arm64/boot/dts/allwinner/sun55i-a523.dtsi |  21 +
+ drivers/clk/sunxi-ng/Kconfig                  |   5 +
+ drivers/clk/sunxi-ng/Makefile                 |   2 +
+ drivers/clk/sunxi-ng/ccu-sun55i-a523-cpu.c    | 378 ++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu-sun55i-a523-cpu.h    |  24 ++
+ drivers/clk/sunxi-ng/ccu-sun55i-a523.c        |  12 +-
+ drivers/clk/sunxi-ng/ccu-sun6i-rtc.c          |   4 +-
+ drivers/clk/sunxi-ng/ccu_common.h             |   8 +-
+ drivers/clk/sunxi-ng/ccu_div.c                |   3 +-
+ drivers/clk/sunxi-ng/ccu_div.h                |   5 +
+ drivers/clk/sunxi-ng/ccu_gate.c               |   6 +-
+ drivers/clk/sunxi-ng/ccu_mp.h                 |   8 +-
+ drivers/clk/sunxi-ng/ccu_mux.c                |   8 +-
+ drivers/clk/sunxi-ng/ccu_nm.c                 |   1 +
+ .../dt-bindings/clock/sun55i-a523-cpu-ccu.h   |  13 +
+ 16 files changed, 506 insertions(+), 30 deletions(-)
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-cpu.c
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun55i-a523-cpu.h
+ create mode 100644 include/dt-bindings/clock/sun55i-a523-cpu-ccu.h
+
+
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+-- 
+2.46.4
+
