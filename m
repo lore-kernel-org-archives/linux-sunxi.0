@@ -1,135 +1,430 @@
-Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
+Received: from mail-oo2-f39.google.com (mail-oo2-f39.google.com [74.125.231.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BCE395AF0
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 09:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D4C351C2E
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 15:49:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790413541; cv=none; b=A5jJIOLGEvzHahswDM4C5Wl6mcM220OZTYsE17vxc/OSraaBC/IyKSi+OVRD0uzSiWEHUS2+TL0P5j7P+cPwpnT6MdstEbHiygfrVeVuTWE3onDQz379mtsBsnLg0edVFsqMR0bfZ6J9c/HRtPYOBOoK1TA2eKVphHvHKCfv9Vg=
+	t=1790437764; cv=none; b=RdBVgJm6eu0XyPYEK36VXAmBFno3LMKZfN103CK21kNwc1i5+TCCXZRtTFIFWnkhGXFK9hYPFP3SOGuOWH7MNluL70QlgwneIzdSep0EoWiAU8jlLRz277MVR1awhIGhI3b42KvN+vaoXqii0/YnDApkfC5mYC+hFc+ywWG8qUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790413541; c=relaxed/simple;
-	bh=bOq/KC7QV2tvJFM35jOsgBb72IHn6gw8K6n9ZJ4bhiQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mgCL0HASnRcqfQA/IqbdG7pqrpz8c1VM6YYHXlINym4EZBwKwqnyB1uMy1/LGEEYb8L57ptIIS3QRixeONtf8EW1CB7vHnNsB8HFl5KNGef3dTZEpAWcUfAUVqQ6sR5qV/PbV8r3q2OV2TWGyvGsA0OzfzrYrNas6eOEsQQPcMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=embeddedlinux.blog; spf=pass smtp.mailfrom=embeddedlinux.blog; dkim=pass (2048-bit key) header.d=embeddedlinux.blog header.i=@embeddedlinux.blog header.b=yDb/8Wvp; arc=none smtp.client-ip=74.125.227.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=embeddedlinux.blog
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedlinux.blog
+	s=arc-20240116; t=1790437764; c=relaxed/simple;
+	bh=mKsrCh3EyX3MUTl4GQOQjkWr281KRW5O9fMV2Rz1s3I=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=sg2RSCTqAcIxAZ6PdqGM7LYLo2wKSQAweUdvrZO9ET5FZS0VPJIBc68eObhnO3kKFx4W+JulDxBwRPQk1+NohH277mQXzjCBY/op4lB+LENI81ahhxej//zhKZBl912hdrWJSqfnPPibsnUl/fZQ3w7nDnQ3k0AK2Aq7IZp/C6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nRwFDWVH; arc=none smtp.client-ip=74.125.231.167
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedlinux.blog header.i=@embeddedlinux.blog header.b="yDb/8Wvp"
-Received: by mail-pj2-f43.google.com with SMTP id d9443c01a7336-2db1ca069c8so7462845ad.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 02:05:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nRwFDWVH"
+Received: by mail-oo2-f39.google.com with SMTP id 46e09a7af769-81201ed7d35so1369206a34.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 08:49:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=embeddedlinux.blog; s=google; t=1790413540; x=1791018340; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=poyGQFhxfjPpwyIrTQh0fZ+JdUzuLojhwNaxF0pNYJE=;
-        b=yDb/8WvpOuVV3ZpIPiOX3q6Htrqw21vQs9EdNjMfKKYaTP9Mz/S0FFZiTTJ3ZPRgHe
-         B1mluXLq2FsxPGPiTJlmlt8OsYnc+VTXIj6AcaS/syl85d+Pit2i25EiZBvegIyCtfbN
-         UkJWOcnEnYcM+rcLsmAOg+gih5MvdlOuvJK4WPUXaPMadgoK744Bdz0lLPnsJ0DNhUgV
-         uYOodTkGqPORE6PCHRWeGOxbK8Fg1VAI89IkIZ6Wg9/EnKX4n2td5b4wQhJaDSklwS7Z
-         9JMprGFsKTQtzg15nuF3uDQ+omVUYORJwFRTG30+UuINJR2jFZmnfBes5MTI527N65lu
-         tW7Q==
+        d=gmail.com; s=20251104; t=1790437759; x=1791042559; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=OTM22SPEfYbup+eJl54RMv9g4/2KoGUSINo9By/OkIU=;
+        b=nRwFDWVHkakj+v+gmOo7NrTG0kU2Mt/dKCHbltHrbb0q5JD1+wqpv1E6jeA104ue32
+         I51AH77UxCkV0CdOz/4BUGpdDAXPKRxPVFTTT4yJ+QiSmGb0hOkg0uZUPtAOpZqIsCtJ
+         ttaaNe9uxCftqQKlwy7wU2a30z9473ouLJKBInYD56x/D1s5yznBQaki2YQrg3HXDn1m
+         J7hhxk9PRC4yGd88pVLJSkZ+hcL8FUZ/u4EOMr304kpXLrH9tvxMbhFGC/siK5Wxk6dq
+         NpwwfVPdM0Kd/ZRbCGYCjMVoEFN810Einyu3ZAG30bSmgdyhitkZsTcRAjIy/HQk8BxR
+         mWGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790413540; x=1791018340;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=poyGQFhxfjPpwyIrTQh0fZ+JdUzuLojhwNaxF0pNYJE=;
-        b=qCIMdgLnTp5wR0KbheaV65n96xI6CJxa+Ru06yeFjyDGjnRHPR6QPiT8vU8EAndj+B
-         kvGpPiGLeFG7n2oAD6Wrdw2dONVRQuOwndkSDY/ou6ITrDzp/ZL6kIqJUF14/gpRkfC4
-         AHCO1unlNjUL0rrV7jeYFL5Er+NvcRWuVD0RoL146SEgOG0NpLbIJPf6SC/3hTos3RL0
-         umo3xN59s5EZjldsEpCCVzpcyt+6iypSqTeri3v2+GGfyQ1ZFpTDVNxiLjA3i64cil+K
-         9Sq45U70j4TIvdZD3GC7HbztK1/aAjidMuiPS1fn/9Dxzb7sgIZ/4mgInxI4PyRmu7hN
-         hrVw==
-X-Forwarded-Encrypted: i=1; AKwUvBz/OFOQoFuKjLUOE6sF+iFXDTsM5IOqY74AoMALQPt+ZOOEZFET86wO6/u96kBVLC7f4CTlP76nVgRM3g==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKwDEeCcikrUBEhtJJ2kLdIzQHkVZ6kWzi+qJ/jrNk/Xd4Wbrqg
-	u8MJyB1np1gvaAQR/TGOlI170mgYAQ9ajnHVSEKlwnkWKNicJMVjatIqVtVy1W8uY9oS
-X-Gm-Gg: AYBFou1sq1H9m3OhwX5vZEzhfUA90jfjlbp+TFBwHCI5s1/XftUhr91TmKHb73+7raC
-	cfhVuDmM/TfDkEGrIerJMfuhQTRj+M2eYHOI1BwSspYyipot7k6yoGfKlufTRvie2CSXxWiHo+U
-	CR0gDRSGOpH/0DQj4V5/yPdD/uBSTsZ4PM0aQAXRYzAFHED1sdSmWd1zXQI17oXoz+7GEgib8dT
-	LVXQpWUjlt7hmTH9XZudhWQq2OPLGFvTVpF/L69F7M3fcWQzWHFIowHFrvgfS1exLRpLx6TScsn
-	Q/oJ16RaUYxv46I42NvTXB9LQbkQMixkxXWUHHsKyvXlwM9O+27T6oDtvcf2h+GApGo9GxDuUbb
-	xkelUaYrr1WcL0vrK1LbQCb4hxFwXmfvolunpNBeGwglbkXTCuKp3P8+t4v9ZKB5IlrNz2jD6nB
-	8YVweyQcbAz/QLIpW0GrFqMSWR4RYZoimA3kqNtCCDJlXzHN4J1+GLXB9P9SMMmxK0tA==
-X-Received: by 2002:a17:90b:3b90:b0:3a0:cbe2:9e00 with SMTP id 98e67ed59e1d1-3a0cbe2a110mr2426179a91.42.1790413539584;
-        Sat, 26 Sep 2026 02:05:39 -0700 (PDT)
-Received: from ltu.. ([171.245.4.151])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc787959599sm2299078a12.26.2026.09.26.02.05.35
+        d=1e100.net; s=20260707; t=1790437759; x=1791042559;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=OTM22SPEfYbup+eJl54RMv9g4/2KoGUSINo9By/OkIU=;
+        b=P5ARXyNLrc0d+1vB0U/nwcDFjYNWTnMlirCbdJtlNsbJaIrmc7RKhoP2H0E6YXltXd
+         kN8uqxviOqujTooCYYBYxMtR2bww4u9vgJm+sLJ27ELbTrBOAeZ2PvPBKQGRJ9rlOV04
+         NFMRnCVIuxAnBPQSU5IaU9dw4zJyRZzeS9cTnMvqt+tTm/nh0Ktw82HC2S7hNeynCbMd
+         tgZww58+z+ZSr7AliQwTPofEEtcV4ZJX+3NZtprvC9oImJIx2qs+dVc/f7S97cb5xP0u
+         yQFCT7GeBWpMlpdUQiDzqWtKgML9o/AvLlEDFU9Yomf67Ir0A7aGwYuOklz5SSOReDwB
+         xxZg==
+X-Forwarded-Encrypted: i=1; AKwUvBy9fnhrrz3DaBm6VboASoCuEp9bHFyUSSV/G2tBv0gpJu1og+PHV1TDTpnuXuq36fFVVvvP6vGP822C5Q==@lists.linux.dev
+X-Gm-Message-State: AFuF++lJmBZYeCYYOTY5XlGaF5ENigUW7Ge8J3pZpXiHQ2Lrh8gLsa+c
+	wTQ6XF5zan/k7dWf6PJoPjaF2c6yCYr+3rYVPSLRgnD4KmMY5s3p2Cqi
+X-Gm-Gg: AYBFou22EhNlNSPQ582sROQJsihw6Pp/ZTkXhAhcJgDYwfk5k6C4CmS0BDlyefYasJu
+	SFQSa3kve8rNmIXwZjw7h8IXzDwTkhjKkcr599NCTQ1MdxMeZtidzB/J+UDm0OKVrRYnAoSoAtZ
+	rdMF+Ty5FIVi+z5a6vUkPcJfKpBmsLxuLqsPhRJWRJM7Rk/aFdEH7SuZK2pj2foyY1CwPPJyZFQ
+	HOxViIO2m7xZa6/ldxcvGKnqNc23+f3PWVb4CNcC16JMekZIkOFoC9Vhbth0NykH6GOFO96khK9
+	/OSoViSKBsB58tFTBxHu/G1hbVZQzKT9GdYRhLxMwbYoHFVi5ICsjVeRf3TZGcHRdJulaAqYpug
+	/+HxeS7AoTVVdN5a2AR7Evi2OaZNOAl2WGkd+SvETElLyzJusmI8CzRPh18Tuqb61eEU/bnChIz
+	HjHvWvUMZbFR8PQFHv0EAFv93+p60ecEb2ESckoLAr/MnpR20j06y2OSZXWHa8utV8J86HakQye
+	vtPiV1tV6JOVY0qHgnSBOHwUoltrIbkRJJHrx6pbBfx0s9k6ft0U76z9ZB4+4UIIgaGSE0388fB
+	KL2Kwqen3jKEz/DCJMgFOHeyPasZFuPnJlOr4DN0czl9Jaxvpdo9K5xGQWUdLoenq+dZKmm8mfw
+	7lYd+oADlLLIADGH7hBNZ
+X-Received: by 2002:a05:6830:6202:b0:815:831e:af5d with SMTP id 46e09a7af769-81780d8fcd1mr8845185a34.5.1790437758611;
+        Sat, 26 Sep 2026 08:49:18 -0700 (PDT)
+Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-818e98b16d4sm5442366a34.26.2026.09.26.08.49.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 02:05:39 -0700 (PDT)
-From: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	tien.nguyenminh@embeddedlinux.blog
-Subject: [PATCH] drm/sun4i: dsi: Get the A100 mod clock at bind time
-Date: Sat, 26 Sep 2026 16:05:32 +0700
-Message-Id: <20260926090532.126025-1-tien.nguyenminh@embeddedlinux.blog>
-X-Mailer: git-send-email 2.34.1
+        Sat, 26 Sep 2026 08:49:17 -0700 (PDT)
+From: James Hilliard <james.hilliard1@gmail.com>
+Subject: [PATCH net v4 00/15] net: stmmac: preserve datapath state across
+ MTU and resume failures
+Date: Sat, 26 Sep 2026 09:48:55 -0600
+Message-Id: <20260926-submit-stmmac-reset-fixes-v1-v4-0-ec1c0250b3c9@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43OwQ6CMAwG4FchOzszOgLMk+9hPIxRYMaB2SbRE
+ N7dghfiBZNe2v752okF9BYDOyUT8zjaYIeemuyQMNPpvkVua+oZCMiFgpSHZ+Vs5CE6pw33GDD
+ yxr4w8DHlhVFlpaAGpRUj4uFx3ZFwYT1Gdv0OCbmhiQu8xDob4uDf6xNjuob/u0cleFnoDDOZI
+ gpxbp2296MZ3HpqhC0GOxgQVitAylaoVP6LyS2W7WCSMCPoK9lIDSVssXmePxmEzJZ5AQAA
+X-Change-ID: 20260921-submit-stmmac-reset-fixes-v1-7c98b92d29a9
+To: Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Joakim Zhang <qiangqing.zhang@nxp.com>, 
+ "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Christian Marangi <ansuelsmth@gmail.com>, 
+ Tiezhu Yang <yangtiezhu@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>, 
+ John Fastabend <john.fastabend@gmail.com>, 
+ Stanislav Fomichev <sdf@fomichev.me>, Serge Semin <fancer.lancer@gmail.com>, 
+ Suraj Jaiswal <quic_jsuraj@quicinc.com>, 
+ Richard Cochran <richardcochran@gmail.com>, 
+ Joao Pinto <Joao.Pinto@synopsys.com>, 
+ Vladimir Oltean <vladimir.oltean@nxp.com>, 
+ Ong Boon Leong <boon.leong.ong@intel.com>, 
+ Voon Weifeng <weifeng.voon@intel.com>, 
+ "Song, Yoong Siang" <yoong.siang.song@intel.com>, 
+ Linus Walleij <linusw@kernel.org>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Magnus Karlsson <magnus.karlsson@intel.com>, 
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
+ Simon Horman <horms@kernel.org>, 
+ =?utf-8?q?Bj=C3=B6rn_T=C3=B6pel?= <bjorn@kernel.org>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Eric Dumazet <edumazet@kernel.org>
+Cc: Richard Genoud <richard.genoud@bootlin.com>, 
+ Alastair D'Silva <alastair@d-silva.org>, Maxime Ripard <mripard@kernel.org>, 
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ linux-arm-kernel@lists.infradead.org, bpf@vger.kernel.org, 
+ ZhaoJinming <zhaojinming@uniontech.com>, 
+ Lorenzo Bianconi <lorenzo.bianconi@oss.qualcomm.com>, 
+ Ding Hui <dinghui1111@163.com>, James Hilliard <james.hilliard1@gmail.com>, 
+ linux-tegra@vger.kernel.org, linux-sunxi@lists.linux.dev
+X-Mailer: b4 0.15.2
 
-The A100 variant gets its module clock from the TCON TOP, which only
-registers its clocks when it is bound. Requesting the clock in probe
-defers the DSI forever, so the display never comes up on the D1 and
-T113, which use this variant:
+Keep the stmmac datapath coherent after failed MTU changes or hardware
+resume without changing the interface's administrative state. Retain the
+working MTU configuration for rollback, and allow ordinary down/up recovery
+when hardware cannot be restored.
 
-  sun6i-mipi-dsi 5450000.dsi: Couldn't get the DSI mod clock
+The fifteen patches put independent fixes and lifetime prerequisites ahead
+of the retained-ring MTU transaction:
 
-Request the clock at bind time instead, as the TCON driver does.
+  1. Correct the WoL/safety IRQ unwind order.
+  2. Reuse the MDIO reset GPIO across repeated resets.
+  3. Allow phylink_stop() to finish a suspended instance.
+  4. Freeze deferred AF_XDP pool teardown before device system suspend.
+  5. Serialize PHC changes and cache reset-sensitive timestamp settings.
+  6. Keep normal-size MTU changes running, including supported AF_XDP MTUs.
+  7. Unwind partial DMA allocations and fix saved RX skb ownership.
+  8. Keep DMA configurations and IRQ contexts at stable addresses, and
+     drain timer producers before cancelling their timers.
+  9. Track datapath and power ownership across MTU, XDP and ethtool reopen
+     failures, including noirq clock handling and unpowered-access guards.
+ 10. Use the tracked restart for XSK pool changes.
+ 11. Restore TC filters, steering, preemption mapping and EST before DMA.
+ 12. Allow independent references to AF_XDP DMA mappings and UMEM pages.
+ 13. Retain DMA memory until hardware confirms shutdown or reset.
+ 14. Prepare device-local interrupt masking and DMA-handler quiescence.
+ 15. Retain rings and IRQ registrations across jumbo MTU replacement.
 
-Tested on a T113-S3 with a DSI panel.
+The ownership transition and its XDP, ethtool and PM consumers land
+together, so resource cleanup does not precede the power-access guards it
+requires. The larger DMA shutdown change precedes MTU rollback, rather
+than leaving early retained-ring commits with unsafe teardown paths.
 
-Fixes: 4b71e269f5a5 ("drm/sun4i: dsi: Add the A100 variant")
-Signed-off-by: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
+The ownership states remain distinct: DOWN owns no IRQs or enabled NAPI;
+RUNNING has active queues; SUSPENDED retains rings and IRQs; HALTED retains
+rings but has released IRQs after failed MTU rollback. Collapsing the last
+two states would make close free IRQs which it no longer owns. DMA memory
+ownership is tracked separately: a failed shutdown can retain allocations
+even in DOWN until hardware acknowledges a successful reset.
+
+Jumbo rollback allocates no new buffers or IRQ registrations. RX holes are
+filled before reset without changing the old descriptors; descriptors are
+rebuilt or retired only after reset succeeds. If rollback also fails, the
+interface remains detached until down/up recovery. This cannot guarantee
+recovery from indefinitely failing hardware.
+
+Failed interfaces still receive hardware/PHY sleep handling. A failed
+datapath with MAC WoL configured rejects suspend with -EBUSY because its
+wake path is unusable; PHY-only WoL is not rejected. Timestamp filters and
+PHC registration survive an MTU change. Replay the platform PTP clock selector,
+frequency correction, PEROUT and EXTTS settings after reset; continuous PHC
+time across the reset is not preserved.
+
+Live XDP and ethtool failures leave the administratively-up interface
+detached for ordinary down/up recovery. Program attachment failures return
+an error without consuming the proposed program. BPF-link and XSK-pool
+removal still complete if their datapath restart fails, so teardown can
+release the program or pool safely. AF_XDP pool reconfiguration now pauses
+all queues and replays the MAC link while rebuilding the rings. Successful
+reconfiguration leaves the PHY running rather than powering it down and
+restarting autonegotiation. All queues and other sockets are still paused
+while their rings are rebuilt. A failed restart stops phylink without
+reconfiguring the failed MAC, then permits ordinary down/up recovery.
+
+Close and live XDP/XSK release now require stopped DMA process states
+or a completed global reset before releasing DMA memory. Unsupported
+idle-register layouts, including XGMAC and GMAC4 with more than three
+channels, use the reset fallback. Replay cached L3/L4 filters, EtherType
+steering, VLAN priority, preemption/TC mapping, PTP settings and EST before
+starting DMA. Replay failure enters the existing rollback or detached
+recovery path. Reset does not preserve continuous PHC time.
+
+If shutdown and reset both fail, retain rings, mappings and backing memory.
+AF_XDP pool teardown still completes, with independent references keeping
+its DMA mapping and UMEM pages alive. A later successful down/up reset
+reclaims them. There is no generic isolation guarantee for permanently
+unresponsive hardware: removal reports and retains unsafe DMA allocations,
+which may therefore remain pinned until reboot.
+
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+Changes in v4:
+- Reorder prerequisites ahead of their consumers. Separate the independent
+  MDIO GPIO fix and PHC/IRQ preparation, and combine datapath ownership with
+  the XDP, ethtool and PM paths which must observe it. Keep MTU rollback last.
+- Replay cached TC filters, steering, preemption mapping and EST after reset,
+  with DMA held stopped until replay succeeds. Preserve the previous cached
+  rule on installation failure and advance EST base time by whole cycles.
+- Validate TAPRIO replacements without modifying the installed schedule;
+  reject failed PHC reads and retain a valid cache after setup failure.
+- Keep control operations from accessing unpowered registers after close
+  reattaches the netdev. Permit software-only VLAN, qdisc and TC filter
+  removal, and preserve open-time power recovery. Remove cached flower,
+  steering and u32 rules while down or detached so reset cannot replay
+  filters which TC has already deleted.
+- Use phylink link replay for live XDP/XSK updates, leaving the PHY running
+  on success and balancing replay with phylink_stop() on failed restart.
+- Require a hardware idle acknowledgement or completed reset before DMA
+  memory retirement on close, XDP/XSK replacement and failed open. Retain
+  failed configurations for recovery, and defer IRQ TX recovery and resume
+  descriptor rebuilding until shutdown/reset is confirmed.
+- Add independent AF_XDP mapping/UMEM references so pool teardown can
+  complete without unmapping DMA-visible memory after a shutdown failure.
+  Document reset fallback and permanent-failure memory retention.
+- Keep shared IRQ controller lines enabled during MTU replacement. Mask DMA
+  sources at the device, protect DMA-handler quiescence with the channel
+  lock, and drain registered handlers with synchronize_irq().
+- Preserve pending DMA status while quiesced, including when hardware setup
+  restores interrupt enables. Restore saved masks on restart and leave DMA
+  sources masked when failed rollback releases the driver's IRQ handlers.
+- Reuse the final TX queue and timer drain after synchronizing IRQ handlers.
+- Restore saved RX skb ownership immediately when taking partial receive
+  state, including a budget-one completion and a DMA-owned next descriptor.
+- Cancel the EEE software timer after draining NAPI, and make GSO feature
+  checks use stable platform TBS capabilities rather than replaceable rings.
+- Reuse the MDIO reset GPIO acquired at probe and reject TC queue work when
+  the datapath is not running, except for software-only filter deletion.
+- Let carrier-down XSK TX polls complete instead of continuously repolling,
+  and remove the unused external XSK wakeup declaration.
+- Stop a PHY powered by prepare_resume() after failed ethtool setup. Publish
+  core queue counts transactionally only after the fallible open work.
+- Initialize rollback RX addresses before publishing descriptor ownership.
+  Restore the platform PTP clock selection, frequency adjustment, PEROUT and
+  EXTTS settings; serialize PHC/devlink access across reset and reject access
+  to a failed retained clock.
+- Freeze deferred XSK pool teardown before device PM. Track platform power,
+  pending clock restoration and actual PTP clock ownership separately from
+  the datapath. Avoid unpowered MAC/MDIO accesses on failed close-time
+  recovery and balance clocks even after a noirq resume failure.
+- Check unusable MAC WoL before the pending-sleep shortcut, and update
+  comments for HALTED ownership and the ethtool reopen path.
+- Link to v3: https://patch.msgid.link/20260924-submit-stmmac-reset-fixes-v1-v3-0-c031e3f3a282@gmail.com
 
-diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-index d504ae583..69987bb5b 100644
---- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-+++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-@@ -1062,6 +1062,17 @@ static int sun6i_dsi_bind(struct device *dev, struct device *master,
- 	struct sun6i_dsi *dsi = dev_get_drvdata(dev);
- 	int ret;
- 
-+	/*
-+	 * This module clock comes from the TCON TOP, which registers it only
-+	 * when it is bound, so it cannot be requested in probe.
-+	 */
-+	if (dsi->variant->has_mod_clk && !dsi->variant->set_mod_clk) {
-+		dsi->mod_clk = devm_clk_get(dev, "mod");
-+		if (IS_ERR(dsi->mod_clk))
-+			return dev_err_probe(dev, PTR_ERR(dsi->mod_clk),
-+					     "Couldn't get the DSI mod clock\n");
-+	}
-+
- 	drm_encoder_helper_add(&dsi->encoder,
- 			       &sun6i_dsi_enc_helper_funcs);
- 	ret = drm_encoder_init(drm, &dsi->encoder, &sun6i_dsi_enc_funcs,
-@@ -1160,7 +1171,7 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	if (variant->has_mod_clk) {
-+	if (variant->has_mod_clk && variant->set_mod_clk) {
- 		dsi->mod_clk = devm_clk_get(dev, "mod");
- 		if (IS_ERR(dsi->mod_clk)) {
- 			dev_err(dev, "Couldn't get the DSI mod clock\n");
--- 
-2.34.1
+Changes in v3:
+- Snapshot debugfs queue counts under RTNL with the descriptor ownership
+  check, so a reader blocked behind channel shrink uses the new topology.
+- Complete pending core sleep state during close and retry restoration on
+  open after runtime-PM acquisition. Use the installed wake state rather
+  than mutable WoL settings, and retain the pending marker if restoration
+  fails.
+- Put the independent IRQ unwind fix first, ahead of the ownership changes.
+- Correct the WoL/safety IRQ unwind order, fixing a repeated safety IRQ
+  free and a leaked WoL handler.
+- Account for live XDP release/reopen in datapath ownership. Stop DMA on
+  late IRQ failure, propagate program-attach errors without losing program
+  references, and allow BPF-link removal to complete after restart failure.
+- Replace the void AF_XDP queue-enable helpers with the tracked XDP restart.
+  Unmap a removed pool only after freeing its rings, undo failed pool
+  attachment, and preserve TBS configuration while rebuilding the channels.
+- Keep PHY/PM ownership across ethtool ring/channel changes, restoring the
+  old configuration after failed reopening and leaving the interface
+  detached for down/up recovery without a second runtime-PM put.
+  Explicitly disable the MAC during release even when link resolution has
+  not reached mac_link_up().
+- Split the MTU work into normal-size MTU handling, allocation unwind,
+  stable DMA/IRQ ownership (including timer lifetime), and the retained-ring
+  transaction. Keep the ownership change and its open/error-path adaptations
+  in the same patch.
+- Restore the PHY advertisement reduced by phylink_suspend() when stopping
+  a suspended instance, without restarting or reconfiguring the MAC, in
+  response to Andrew Lunn.
+- Keep suspend-owned PHY speed control separate from explicit driver
+  speed-down requests, so close-time power saving does not overwrite the
+  original advertisement and remains effective until the matching speed-up.
+- Suspend a stopped PHY powered back up by phylink_prepare_resume() when
+  stopping after a failed MAC resume, without repeating phy_stop().
+- Add a separate MTU transaction patch retaining old DMA resources and IRQ
+  registrations until replacement succeeds, following Andrew Lunn's request
+  to keep the old setup for failure recovery.
+- Keep DMA configuration objects at stable addresses and use persistent
+  channel objects for per-queue interrupt contexts.
+- Drain transmitters and post-completion NAPI poll tails before cancelling
+  TX timers.
+- Avoid resetting normal-size MTU changes, including all supported AF_XDP
+  MTUs, and stop rebinding live pools through temporary RXQ objects.
+- Program the new MAC receive limit before activation and restore the old
+  MTU on failure; refill old RX buffer holes before reset so rollback does
+  not require allocation.
+- Preserve coalescing, TBS state, PHC registration and timestamp filters;
+  leave a failed rollback detached with old rings retained for close.
+- Harden partial-allocation unwind.
+- Separate core sleep completion from datapath ownership so failed MTU and
+  resume paths still receive hardware PM handling, without disabling NAPI
+  twice or restarting released queues. Address the skipped-suspend issue
+  reported by Sashiko; reject an unusable MAC WoL path with -EBUSY.
+- Balance platform noirq PTP clock handling against resources still owned
+  after detached XDP cleanup.
+- Link to v2: https://patch.msgid.link/20260922-submit-stmmac-reset-fixes-v1-v2-0-d92e609be996@gmail.com
+
+Changes in v2:
+- Drop forced netif_close() and retain the interface's administrative state,
+  as requested by Maxime Chevallier.
+- Separate queue quiescence from resource release and use explicit datapath
+  state instead of a napi_disabled argument to the release helper.
+- Handle repeated suspend/resume after failure, preserve PHY/PM ownership
+  until ordinary close, and allow a fresh down/up recovery.
+- Check XDP/AF_XDP cleanup, descriptor readback and asynchronous reset work
+  while the netdev is administratively up but unavailable.
+- Explain the generic phylink suspend-to-stop transition and why restarting
+  phylink after a failed MAC resume is not a valid substitute, in response
+  to Andrew Lunn.
+- Combine the two stmmac error-path fixes so every user of the new state
+  has consistent resource and NAPI lifetime handling in one patch.
+- Link to v1: https://patch.msgid.link/20260921-submit-stmmac-reset-fixes-v1-v1-0-87a4e431ee00@gmail.com
+
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>
+To: "David S. Miller" <davem@davemloft.net>
+To: Eric Dumazet <edumazet@google.com>
+To: Jakub Kicinski <kuba@kernel.org>
+To: Paolo Abeni <pabeni@redhat.com>
+To: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+To: Alexandre Torgue <alexandre.torgue@foss.st.com>
+To: Serge Semin <fancer.lancer@gmail.com>
+To: Suraj Jaiswal <quic_jsuraj@quicinc.com>
+To: Russell King <linux@armlinux.org.uk>
+To: Andrew Lunn <andrew@lunn.ch>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+To: Joakim Zhang <qiangqing.zhang@nxp.com>
+To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+To: Alexei Starovoitov <ast@kernel.org>
+To: Daniel Borkmann <daniel@iogearbox.net>
+To: Jesper Dangaard Brouer <hawk@kernel.org>
+To: John Fastabend <john.fastabend@gmail.com>
+To: Stanislav Fomichev <sdf@fomichev.me>
+To: Richard Cochran <richardcochran@gmail.com>
+To: Christian Marangi <ansuelsmth@gmail.com>
+To: Tiezhu Yang <yangtiezhu@loongson.cn>
+To: Huacai Chen <chenhuacai@kernel.org>
+To: Joao Pinto <Joao.Pinto@synopsys.com>
+To: Vladimir Oltean <vladimir.oltean@nxp.com>
+To: Ong Boon Leong <boon.leong.ong@intel.com>
+To: Voon Weifeng <weifeng.voon@intel.com>
+To: "Song, Yoong Siang" <yoong.siang.song@intel.com>
+To: Linus Walleij <linusw@kernel.org>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+To: Magnus Karlsson <magnus.karlsson@intel.com>
+To: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+To: Simon Horman <horms@kernel.org>
+To: Björn Töpel <bjorn@kernel.org>
+To: Thierry Reding <thierry.reding@kernel.org>
+To: Jonathan Hunter <jonathanh@nvidia.com>
+To: Chen-Yu Tsai <wens@kernel.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: netdev@vger.kernel.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: bpf@vger.kernel.org
+Cc: linux-tegra@vger.kernel.org
+Cc: linux-sunxi@lists.linux.dev
+
+---
+James Hilliard (15):
+      net: stmmac: unwind the WoL IRQ after a safety IRQ request failure
+      net: stmmac: reuse the MDIO reset GPIO on resume
+      net: phylink: allow stopping a suspended instance
+      xsk: freeze deferred pool teardown during system sleep
+      net: stmmac: serialize and retain PHC configuration across reset
+      net: stmmac: leave the datapath running for normal-size MTU changes
+      net: stmmac: unwind partially allocated DMA configurations
+      net: stmmac: keep DMA configurations at stable addresses
+      net: stmmac: track datapath and power ownership across failed reopening
+      net: stmmac: use the tracked datapath restart for XSK pool changes
+      net: stmmac: restore TC offloads before restarting DMA
+      xsk: allow drivers to retain DMA mappings independently of pools
+      net: stmmac: retain DMA memory until hardware shutdown completes
+      net: stmmac: prepare device-local DMA interrupt quiescence
+      net: stmmac: retain DMA resources across MTU changes
+
+ drivers/net/ethernet/stmicro/stmmac/chain_mode.c   |    6 +-
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c  |   28 +
+ drivers/net/ethernet/stmicro/stmmac/dwmac-tegra.c  |    5 +-
+ .../net/ethernet/stmicro/stmmac/dwmac1000_dma.c    |    2 +
+ drivers/net/ethernet/stmicro/stmmac/dwmac100_dma.c |    2 +
+ drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.c   |    4 +
+ drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.h   |    8 +
+ drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c   |   29 +
+ drivers/net/ethernet/stmicro/stmmac/dwmac_dma.h    |    4 +
+ drivers/net/ethernet/stmicro/stmmac/dwmac_lib.c    |   30 +
+ drivers/net/ethernet/stmicro/stmmac/dwxgmac2_dma.c |   11 +
+ drivers/net/ethernet/stmicro/stmmac/hwif.h         |    9 +
+ drivers/net/ethernet/stmicro/stmmac/ring_mode.c    |    4 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac.h       |   64 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_ethtool.c   |   15 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_fpe.c   |    1 +
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c  | 1720 ++++++++++++++------
+ drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c  |   33 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_pcs.c   |    3 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_platform.c  |   38 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c   |  131 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_selftests.c |    8 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_tc.c    |  376 +++--
+ drivers/net/ethernet/stmicro/stmmac/stmmac_vlan.c  |    6 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_xdp.c   |   83 +-
+ drivers/net/phy/phylink.c                          |   51 +-
+ include/net/xdp_sock_drv.h                         |   23 +
+ include/net/xsk_buff_pool.h                        |    4 +
+ net/xdp/xsk_buff_pool.c                            |   53 +-
+ 29 files changed, 2049 insertions(+), 702 deletions(-)
+---
+base-commit: a7bfaba4823e3c165bb2004c74eff7c096672bc7
+change-id: 20260921-submit-stmmac-reset-fixes-v1-7c98b92d29a9
+
+Best regards,
+--  
+James Hilliard <james.hilliard1@gmail.com>
 
