@@ -1,131 +1,126 @@
-Received: from mail-dy2-f43.google.com (mail-dy2-f43.google.com [74.125.229.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender6-op-o12.zoho.com (sender6-op-o12.zoho.com [165.173.180.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817E312C534
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 03:48:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790394537; cv=none; b=IOrfn3eyV16Mlw22uRj8Kqo3/zP/yr/WuYhswZ+yJrqDsyOfBLEqTTxmIL0tEaSK8EGO3wrzxJgqWDI0PGLEexOEoEfV8RyZ2obm7IVi8Deo4IcFgUbBXuptHDtlqF6YE+KGHQVUbjFxxn5keFFg6iydwrreSTF40Flpz5Wk/kg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790394537; c=relaxed/simple;
-	bh=CLrM2wPA9wxnXi7IhEgR7GfVZFShh2FdnM2mC8plLbc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EZ8RWfaZLKqVZU4B+U9CjoXXCuJw3P6crBD4IkDvHzU/C7NV46AWJua0XMWQHpHxj1lbQmdsTKi5mbB6Jlg6isfLB9BCU8xY08f3gXfc+WDR4eTffK1hAWpm3oGWBVBf3wbdbHSJW1A5E1pSBl5a+YknSCibVn5K+exDW1l5h7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MU0KPHX4; arc=none smtp.client-ip=74.125.229.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25B738945A
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 03:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790394700; cv=pass; b=mr/PotGuZUuCB/zAp6yaVeH/LiUUjnhbxckeKbktfkZO8CThwjlw6Taadr+NwsaRIRKi1IsGiBjuTgjpUZ+7XOK9K2Gnm0IPSqhKpkh+jrj7jJK+e4qF2pfAqkZoKvGd0GJkgHtZI34doU+fGll+xsVRBxSAAK0Q35S2K1h8Q5s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790394700; c=relaxed/simple;
+	bh=AenLVsR40v/I2V8hU5aFSuC2h6bdaoca/ZaMMLXD7LY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=BVvq45k8e8d44DWd9oMY3wKdryXvQ4SgyIL0/O7KlqVKxR5JI6QznluALwccZ9XNg2OL9GV8nKSjyFbFF+DI8vXNE8pNgSGPmA1FgboxxKhzkb9Yi+dG3hogEglyN30OQGp+HLjIklJcGJPAUKH717YPg1/MV9BdkclsmVNTO60=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech; spf=pass smtp.mailfrom=pigmoral.tech; dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b=X9lR9t+O; arc=pass smtp.client-ip=165.173.180.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MU0KPHX4"
-Received: by mail-dy2-f43.google.com with SMTP id 5a478bee46e88-33bfb26865fso1302103eec.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 25 Sep 2026 20:48:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790394534; x=1790999334; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=s/TFdpTxMiYwHrmjouP2VwdkJofSRV30LB9rRr0t5Pc=;
-        b=MU0KPHX4z2isUnSrVi5I6u+g9oVnsmpvjLSGQVyuyeQf2esDz1AH6tGyF4MZXT//H6
-         dsEuRH6rlzpqYIxbyLCb1oc7K3XnimZFpx4Jln2EOZqL3lKLcgAIOszI5/73WYkyPplU
-         pEEYOEnTa7LNAyyf5I8kcMNS2PPtbGfzJIPEmZJMWtumAcpbbaudZrxUmxzu8Zts5i6X
-         +vraqoMhNZ96uo7zWgXOvRoregIgLJNQRK2uciN5+2tt+vQQ7P+0CO2d5S+If/F0G/ey
-         D+LdCLwHW7aTqHL5vLmVUgbSX5aRuVUr8poOKoHs2l9Wv3hvGGldV6z0H7vhMc5Umpp7
-         kudw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790394534; x=1790999334;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=s/TFdpTxMiYwHrmjouP2VwdkJofSRV30LB9rRr0t5Pc=;
-        b=d3Eu3ZVR4O595V3KpaitaR65e4Dy/FEpAFMXxoVonWjz0jPpylyLGYTlCamXEoHFms
-         B2FditcM+Ils+qsMGSG7PuGS8MPhmbDGuzDSCUOSwlyuXxfGHcRpQVWjzdBQG1n0bCQd
-         xaEO/QZEwgOJWPzwb2BdRHM5uaZk5fHfgZeJVr3z8MTXJmjKF8BG1YRSFp6DB/XweZ40
-         k8g2xAOTlckBf3bJZaD5yKu5ki9RHeboXjdVhxZ31qL4STaDOP/lBEeUwa0Z+W1Vro+B
-         Sme+jV6ce7n/Zsjb8ohkZjLiTEh6tgTRd1KariBmxXEduSFEzUDSHCQlBoi9SdOcGq46
-         ARCA==
-X-Forwarded-Encrypted: i=1; AKwUvByb33DOhnIsReTYt9tfwGfgfgXmBXgGKQ4dEwjzmFGglUBtnFhzl2miLCJJO+RRVArsQus2YoJLoV4wdA==@lists.linux.dev
-X-Gm-Message-State: AFuF++mp2VtG6HMHRycv4Cse6j+DS6utig90vyPq8eqveSeYbLgC9LaY
-	mYxq/gqgA50KfHDDtVeGLDA94vhSOGHQW/hH+Ub+yV1jmaZKq+q5J92y
-X-Gm-Gg: AYBFou0S4jkDv6gSUyk+nNApA+whrUlB8ULdlxdjJZFT3UnYpr92U3QcKABTNiajR3i
-	1OCdK5c406bOSFKjKTfEc1wsZBYwC+wNnn2tHjyepQVvIHiPTrm7xWAr24gVfxjVmRduHS94Nbs
-	NyVeIYdtRn5Hyeo1PIf2tlZAZ69sWz+VInBJDy7MaxIAPAc5p7Q5q8I0+Yz0T91LNqeaGniseZn
-	0/mFSdOu1TmI0H4aA+tAAftDTv7AE41NseS4v4nKKpsaC/mZShNj/HlZT4xtYc34obajmrYPd+K
-	3azVwCQaCONvp1jLseiGJHSJlzkEw1AgoMzeL60HYuyKtmjvmK8AWyKlC95cRjjKt32d7nUQlMH
-	ANEhlGSm7FF1H056Uy1tGDW7ruZgpJ7BoBBlTH+n1zLlSPriw/Cn6eVs1zDoOrFzEKOM5MquyRs
-	HhV7GoQQBwOLE7nh2pJmW0SOhKGpdohgyWRhWYQYbHAGz4ikeue0ZwpY40p7NebN4etzJlBAVb5
-	OqtHI1IOzld2m/2vbfmFlGpN6+oYfGeH3uU04/iZyNhgGl4Bw==
-X-Received: by 2002:a05:7301:7e04:b0:33b:c122:6bd4 with SMTP id 5a478bee46e88-342701bed7amr1482746eec.6.1790394532963;
-        Fri, 25 Sep 2026 20:48:52 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:375:19cf:5fee:be32])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3434958c3adsm902665eec.22.2026.09.25.20.48.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Sep 2026 20:48:52 -0700 (PDT)
-Date: Fri, 25 Sep 2026 20:48:49 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Vladimir <anykey196@gmail.com>
-Cc: Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	linux-input@vger.kernel.org, linux-pm@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2] Input: axp20x-pek - add AXP313a support
-Message-ID: <arc-Q9D1xcFn8I1q@google.com>
-References: <20260923110741.1880-1-anykey196@gmail.com>
+	dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b="X9lR9t+O"
+ARC-Seal: i=1; a=rsa-sha256; t=1790394679; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=hcdUvlqhEAhvRwAd7ZHCQT0gA3kxGMGPiAyYPWNCZ3G8o3ICf6DG8HW4XXQoyinp8Dppzog/zOwvDF3WNpPGwVQonoBsB066ELV/QNiO4yCaU6D0ywjK0pl+B8/W780RbHxzqgwGGBsUlcnlL/WfXgfOjHDi+wRp+25xj8X5SrY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1790394679; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=fV+OYR1a5s/03fbYdkCOSm1nCeOMl/C4++YXRNfv/rg=; 
+	b=A6Odpcw+ofPIswzOf3mZfaQ1MKlujgpIij6W7tJcCYX18DcMHZ1EHUxISK4UmNiQNnpL8e1TBwT8TLy0Ms2nG30G4EOJwd7Ftf9IrtGu7A/IE6QVtm5ag1/0EdCGEdngAVuZEJ5iMrbUEbeusTrWqFPPL4vZ8+x2ngxs/r6WV1g=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=pigmoral.tech;
+	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
+	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1790394679;
+	s=zmail; d=pigmoral.tech; i=junhui.liu@pigmoral.tech;
+	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Cc:Cc:Subject:Subject:From:From:To:To:In-Reply-To:Reply-To;
+	bh=fV+OYR1a5s/03fbYdkCOSm1nCeOMl/C4++YXRNfv/rg=;
+	b=X9lR9t+OuCotMH0uHQ8o8QJqXn5RtaRSmpncPreAeFoM9AHD8rLb3cP8wrVJvUJD
+	XqKQRx3lZV7yJmrtrWTjxdfdHS/1hcDrSwLiL+xO+jexE/Setw6wvVxawenMaUoITX+
+	4aUUZkQ1K0LFuuxUx2f1bh5SJrP7nKSr0x7xI6rM=
+Received: by smtp.zohomail.com with SMTPS id 1790394677967246.7571969104904;
+	Fri, 25 Sep 2026 20:51:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260923110741.1880-1-anykey196@gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 26 Sep 2026 11:51:11 +0800
+Message-Id: <DLOXXXFCEB5G.15XI8896GM7B7@pigmoral.tech>
+Cc: "Stephen Boyd" <sboyd@kernel.org>, "Brian Masney"
+ <bmasney+clk@redhat.com>, "Jerome Brunet" <jbrunet+clk@baylibre.com>,
+ "Chen-Yu Tsai" <wens@kernel.org>, "Jernej Skrabec"
+ <jernej.skrabec@gmail.com>, "Samuel Holland" <samuel@sholland.org>, "Andre
+ Przywara" <andre.przywara@arm.com>, <linux-clk@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 7/8] clk: sunxi-ng: a733: Add bus clock gates
+From: "Junhui Liu" <junhui.liu@pigmoral.tech>
+To: "Enzo Adriano" <enzo.adriano.code@gmail.com>, <junhui.liu@pigmoral.tech>
+X-Mailer: aerc 0.22.0
+References: <20260921-a733-clk-v4-0-9c184ebe9ac1@pigmoral.tech>
+ <20260921-a733-clk-v4-7-9c184ebe9ac1@pigmoral.tech>
+ <20260921200512.3179109-1-enzo.adriano.code@gmail.com>
+ <DLLYUYMR3CZT.17I8APGBH9H8S@pigmoral.tech>
+ <20260926020313.911537-1-enzo.adriano.code@gmail.com>
+In-Reply-To: <20260926020313.911537-1-enzo.adriano.code@gmail.com>
+X-ZohoMailClient: External
 
-On Wed, Sep 23, 2026 at 04:07:41PM +0500, Vladimir wrote:
-> The AXP313a MFD driver registers its power button cell as "axp313a-pek",
-> but the axp20x-pek platform id table only matches "axp20x-pek" and
-> "axp221-pek".  The power button therefore never probes on boards using the
-> AXP313a PMIC (e.g. the OrangePi Zero 2W).
-> 
-> Add the missing id table entry.  Unlike the other variants the AXP313a has
-> no PEK key/startup/shutdown registers - AXP20X_PEK_KEY (0x36) lies beyond
-> its register map (max_register = AXP313A_IRQ_STATE, 0x21) - so give it its
-> own axp20x_info without start-up/shutdown times and hide the corresponding
-> sysfs attributes, instead of exposing files that always fail with -EIO.
-> 
-> Tested on: OrangePi Zero 2W (Allwinner H618 + AXP313a), kernel 7.1.13.
-> 
-> Signed-off-by: Vladimir <anykey196@gmail.com>
+Hi Enzo,
+Thanks for the feedback.
 
-While we no longer require legal names on sign-offs we do need a "known
-identity" and just the first name does not cut.
+On Sat Sep 26, 2026 at 10:03 AM CST, Enzo Adriano wrote:
+> Hi Junhui,
+>
+> Thanks for reproducing the ahb-cpus issue. Adding clk_ignore_unused lets
+> the Cubie A7S reach an interactive initramfs shell.
+>
+> I reused the September 21 uninstrumented comparator: v7.3-rc1 plus the
+> four single-divider patches, CCU v4, the seven pinctrl patches, and the
+> minimal test DT, with only ahb_cpus_clk marked CLK_IS_CRITICAL. The Image=
+,
+> DTB and initramfs were byte-identical to that earlier comparator; the
+> only boot-argument change was adding clk_ignore_unused.
 
-> ---
->  drivers/input/misc/axp20x-pek.c | 39 ++++++++++++++++++++++++++++++++-
->  1 file changed, 38 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/input/misc/axp20x-pek.c b/drivers/input/misc/axp20x-pek.c
-> index 24f9e9d893d..b912f13b607 100644
-> --- a/drivers/input/misc/axp20x-pek.c
-> +++ b/drivers/input/misc/axp20x-pek.c
-> @@ -85,6 +85,16 @@ static const struct axp20x_info axp221_info = {
->  	.shutdown_mask = AXP20X_PEK_SHUTDOWN_MASK,
->  };
->  
-> +static const struct axp20x_info axp313a_info = {
-> +	/*
-> +	 * The AXP313a has no PEK key/startup/shutdown registers: AXP20X_PEK_KEY
-> +	 * (0x36) lies beyond the end of its register map (max_register =
-> +	 * AXP313A_IRQ_STATE, 0x21).  Leaving startup_time/shutdown_time unset
-> +	 * keeps the matching sysfs attributes from being created, so they
-> +	 * cannot fail with -EIO.
-> +	 */
+I tried to reproduce your software stack: v7.3-rc1 plus the four
+single-divider patches, CCU v4 with ahb_cpus_clk marked CLK_IS_CRITICAL,
+the seven pinctrl patches, and a minimal test DT based on my
+understanding of your description. On my Cubie A7A, it completes
+clk_disable_unused() and reaches PID 1 without clk_ignore_unused, so I
+still cannot reproduce the second failure.
 
-Maybe just say:
+>
+> Without the flag, that comparator stopped producing serial output at
+> "clk: Disabling unused clocks". With it, the confirmation run recorded:
+>
+>   [    1.263452] clk: Not disabling unused clocks
+>   [    1.292364] Run /bin/sh as init process
+>   [    1.526500] mmc0: new high speed SDXC card at address 544c
+>
+> Commands issued after the shell prompt returned the expected readiness
+> and completion markers. No panic, oops or SError appeared in the capture.
+> The RAM-only run was followed by a guarded 120-second power-off recovery,
+> which restored the vendor kernel and eMMC root.
+>
+> This narrows the second failure to the path bypassed by clk_ignore_unused=
+,
+> but does not identify an individual clock: the flag also bypasses the
+> runtime-PM acquisition and traversal before the per-clock disable calls.
+> I therefore still cannot add a Tested-by for v4 as posted.
 
-	.startup_time = NULL, /* not supported */
-	.shutdown_time = NULL, /* not supported */
-> +};
-> +
+Could you share the exact minimal DT used for the test, either by email
+or through a git branch I can access?
 
-Thanks.
+Could you also provide some details about the boot firmware you used,
+including where the U-Boot and TF-A images came from and their versions?
+I would like to reproduce the test with the same firmware and rule out
+differences in the boot firmware.
 
--- 
-Dmitry
+>
+> Assisted-by: Codex:gpt-6
+>
+> Regards,
+> Enzo
+
+--=20
+Best regards,
+Junhui Liu
