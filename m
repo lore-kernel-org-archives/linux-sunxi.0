@@ -1,167 +1,152 @@
-Received: from mail-pj2-f0.google.com (mail-pj2-f0.google.com [74.125.227.128])
+Received: from mail-ej2-f42.google.com (mail-ej2-f42.google.com [74.125.228.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87AA131E85B
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 17:10:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.128
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790442659; cv=none; b=AJ4k8tw16TN0hfx7ljt+tOAe0EOQfv711iO66MIz/QIF+QHhN+NcvqasdVhHJqs4ybZNDq2UOV8vtRlScY0Ope1VW5VgEB5S4vEVpNkAajLsma6a89pTdrIYj0AVy3ro0YCtgUocLPFRMxe2sgGiFVPQW1Bfpk80vryzhPHRLus=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790442659; c=relaxed/simple;
-	bh=1Ijmd4NtwbrxYG0QbmrAlqjExMAyCe44/2dJ1XZKKMU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jQx9RAMejhMiaDcXfsQ9FZPdgmT7cD1FmYu0yc0EkrehCegeUvumu6dBjDhvu349b8ZB9aj0VCVmqVOFvG5yHOA9NnRZvBmZ/8DFbqxTNvNrP6BbXVp6331TMnrVyHvDPK1Gb5XgqxQ0506uNDi0dr9oN61aEUHDI5kaInKu7G8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=embeddedlinux.blog; spf=pass smtp.mailfrom=embeddedlinux.blog; dkim=pass (2048-bit key) header.d=embeddedlinux.blog header.i=@embeddedlinux.blog header.b=oQZxIi9l; arc=none smtp.client-ip=74.125.227.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=embeddedlinux.blog
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedlinux.blog
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC94B37E2EC
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 17:21:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790443291; cv=pass; b=ijECorsh4JsaqxaWnld2vMyoGJ4F5n0Po0djIfOUqqML68wv9/idYOommHn4mLfNJdCBvwlQfySH//a+109GYqfuXOLorPPLULKmc/PoM6lggW1is1QdjAGieu+52H000P7URVsLUHJxbnfwg4u4lavXHKTaAQ2InQhuVsnsCPA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790443291; c=relaxed/simple;
+	bh=9u4Wqtg4qpyeBT0sOT/aJf74/jMuOahB7RDE+KuTt40=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LzOHSRgfSsgD63JorAjBKtnOoFIYnXer/JNu1cjU72nAK0QZjT7PYLmLOXiaYJIIUaOaESR4+JvSsyM6gM6++rAOqJb5QH1zSlMP7NjyinAPUbKdSGpn2fsm28ARfEZrAYgsGM94S6/7LytV+2mYlKkRIjDEoapdkAHk9JRl1bY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AYYI0XY9; arc=pass smtp.client-ip=74.125.228.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedlinux.blog header.i=@embeddedlinux.blog header.b="oQZxIi9l"
-Received: by mail-pj2-f0.google.com with SMTP id 98e67ed59e1d1-39e0e245eadso689034a91.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 10:10:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AYYI0XY9"
+Received: by mail-ej2-f42.google.com with SMTP id a640c23a62f3a-c2dc0622daaso4785066b.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 10:21:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790443288; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Pcofznj8+V/2GezVfQ7q+hBbx+XwAldwEWwB3aPcEorv/5QKiDFUegqc5S/h40Ck9w
+         0bshlxYn6vNgYoQLcpABCZEdLQ/n8Eokm9lM9eJQgJJbunfqcydDdm97pZocqC7c4IB7
+         pjR5KMrj1mz0qLsmWm0UOr/dxK/mlWzHzJvbUSJXuzyPLDu1twAhHMa3qXGrDPbCruf5
+         SUAIWhlC8aINOQt2rc0OQBNyWch/APG5CarNAj3TgdUp7TIaXacewQT1KY3+VeIZcKXd
+         av9LErVmIPwTFytSqbzqxek1ssvv4/t88Tk5FPwhSkqhN013dVi/hgE0VajzmAGJE8x7
+         Dpvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HvyozJOaCBCBuN/SvwKhJCZbcYQBkuG7QNbutM7h4GE=;
+        fh=+i4yQEf049JIDLdedX4+QFX7JH1sMJAiQd8QILSsFWc=;
+        b=Kid+9KfyaKK6F/wieHvx9xjpqgmgN4MsVxvwebaHmwoI42mMY0g6bcKIsATbZoE8yf
+         54d4GwIuham7NV7PtJsD6V9rxkKyGkDpHEnVbxKpIvwSbShAt+AtbEY+ulhlylHM5AiU
+         JvXXHRm4yLCTPEC6kCvpGPJQjFHiez2yJn8lnz/MDzHoSZefEXMxUMsjnrVJRowpJK2U
+         Vy4lOG5imZSv0sNGH3h8md2YUFRAdJPVVUSRLLOLbF0jUJKsd0uJZXpGuIhQiEGHk1wa
+         93Z9WdfvEn5XEPLSx/dLZQQ/jI6lqubNko3FE4GNhmsdArh+hi7qaFLLFmwhvmoznigg
+         6tCA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=embeddedlinux.blog; s=google; t=1790442657; x=1791047457; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=F0/79LdVzvZe+TAFF8pS9QgkNB/YVyvKTl0/c5RoqxI=;
-        b=oQZxIi9l135IgaS1LYEjXbT9Qihi5CKrT0oByObZuPk83gAPr8sMTp1wegzPntG4u5
-         QEmGBov41sBLxhmD6U+9pjUDsXklvEAF8+dNZEAJU7TnQG6i+epvmPjMUCc9I+QyTBqd
-         OUNT+kGuxb48uvx8l4IH3AnT6Dyihx25Ai+UvXtNG+pcB0UG+5sfcNwnY/S6JLma9wgp
-         g8EsgbSqiC/Tnbz0op7uvjqpH2sXJQUMA2k13a0NymlBuKyMh+Fke4Uk1Xb2agMettjQ
-         zvKr3Tb4cNtS8pL7Tw6PHA7pB4KihUJa7g2hnKy3ddYrgDrRuQBoBO5noPSj1lciU2rF
-         K2Wg==
+        d=gmail.com; s=20251104; t=1790443288; x=1791048088; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HvyozJOaCBCBuN/SvwKhJCZbcYQBkuG7QNbutM7h4GE=;
+        b=AYYI0XY9gtpG54nUKAeqaDic/bcZ3gdXmfmYLe9KnB89GpV+2g+KOGRsO6MJR61MfH
+         juu2NnAFCw+NS5iGm7NdnV0DRz6MpMM5xNzfoCML20hPUwrhORjF5oeri8/OXvR/xAu3
+         ZUEqSbP1ZLqkeIwRpVekEmmKBQgtIHyVfTk14SDApFCGhv+BxB1kRgAUfmW+8xsg+puO
+         BrNuOzUznf+xwUnsZYFLIc+fpVYCANLFR7ZHvDEaoxftpSngbSu8/aMErNjPcmrz7EJ3
+         pnUAAA5N/pHYRijmvak5Tgc3rdpRddrv5VhAcrR8f+Xji6Cd84CUArBoYYAYoBu4DLSb
+         CT8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790442657; x=1791047457;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=F0/79LdVzvZe+TAFF8pS9QgkNB/YVyvKTl0/c5RoqxI=;
-        b=aG/Ob3HR/dUMVWdbnOjK2wb6YKrw57oN1yHBqQe80TxqLd7o1/vRW8rjMos0GNdCso
-         EZ8ZUkIHvjwE+zthUbmSnTk+WYnVJuDkJqu2KdsW3NG3fZQq6dNEmsgcAm3gOhj7ggau
-         NQHgvoGZGLIocpUrP39A14X2q/mDkPP6dCRS6D5vumZKoHB6Toa2+HHb4haWbsBhYxoc
-         oH1fQGfRmAA6JjHU7QItA1J28QUKOj5FxaemDnqo8JQ4g54mN2zjGR3KGWtyBbCDhVP7
-         u3K115AW4Ocsn//NoS9ICB0KLL8LUuJui0v3xpdI7/iIyRXdaUH4tVvypJWwqYTmFfId
-         ZZyQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy2KdwarsRkTmWAvaquP0KZC5pIy8ousAtT/lbejqvzTZKw/tqcEnBdKIOEILmx9uAoZeC2uIdMn5DWyg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIIh53rSefKGl1eytduCb9C2K/330tbdLZAteP8oFHRYqnRE942
-	ETJ2ukr3WKJj2P5IFuSQGpvihpbvl9vu7gG+RBQ7r0DZ+TMR25xEuftSaCHbfU03gq2u
-X-Gm-Gg: AYBFou0mjLo/rut2J9ESxYEsFzSFkzDSHn23zyARVPqPKFZLG9K5yzPm85jCOPU/7S4
-	saRRosz40KOry5CZgvg88cmQZzbEGLLaxIknh/Nlrp/c8F5Yzsur3gaCYTSPDlsQ0JRrGfs8tmW
-	8b8YCmcs97yDkgX2XJCAq5iR83tQSwGGMalHjDVp4t+uX/ZIBzVBc7uPYzyFvuaEFM4ELKmZjQ3
-	1uehOZLeUpnPAxAZ4iW1cCm83l8xVKehG2gT8M1Mc0XAy6eccgTB6vZKPWpQaZL888/l7z5vFnK
-	Zfgca1X6nTWZpEjLa33YrwmgBhv9OXgnMCGv26ViGuoBGsNvPkHo2XP9AA/ByTl1KgwZyxSoAwp
-	zqVogyAtOtVxsC+PZmJ/DOWVrIFUB4NEvbgB2DytYqNvM6XyhQu0T6oOpsEbYH8eQELGZQzG1Bm
-	DgmKg4dllGne12sCmNpNGyQqrelUDWet6J4Y/deL3xxMXiIz7KwjNlsZymnWiBrLggag==
-X-Received: by 2002:a17:90b:4c42:b0:39e:4c80:f680 with SMTP id 98e67ed59e1d1-3a098bb66d1mr8321977a91.31.1790442656808;
-        Sat, 26 Sep 2026 10:10:56 -0700 (PDT)
-Received: from ltu.. ([171.245.4.151])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0976c7435sm17467136a91.11.2026.09.26.10.10.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 10:10:55 -0700 (PDT)
-From: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Frank Li <Frank.Li@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Chengfeng Ye <dg573847474@gmail.com>,
-	dmaengine@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	tien.nguyenminh@embeddedlinux.blog,
-	stable@vger.kernel.org
-Subject: [PATCH v3] dmaengine: sun6i: Fix potential deadlock on &sdev->lock
-Date: Sun, 27 Sep 2026 00:10:49 +0700
-Message-Id: <20260926171049.841335-1-tien.nguyenminh@embeddedlinux.blog>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20260707; t=1790443288; x=1791048088;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HvyozJOaCBCBuN/SvwKhJCZbcYQBkuG7QNbutM7h4GE=;
+        b=AVholKGRc0S+DpRegytSyi/guCitFmVKZKjHLUQ4bW56RQt51Knr0g20BPID+Syp2i
+         UWXkOV9XXm+mggqJ1XSsc4Lq2MZ1DcWK8CpXjevcCl+l7rqM93Xb4Qd2HxS5nxymAz2g
+         vUqWFImee177swcIvRhPOfm/HiVymUYBN8j1diW9OSXwcCv81su38FFz1TdlOcceZO0a
+         b+eZ8CWS9WcZPw72F+U2w/i80j6TVwJRzls5/4wN/3TfROQCKRRvPxfn9RPGlVGbhHZV
+         49TOZaXch4JDWBpqRAr/rrYHZA+vvEEecvrqOdTMypbWhs3HgUJKc+azHxzLlFOXTyLA
+         1Lng==
+X-Forwarded-Encrypted: i=1; AKwUvBwmgTOExDm9gJ/Hh4ojoL+tFM+NpAQaA+gpstunAVZ+/fmNeiUuv5Sle5PhnMylwNwIb+72sY0bHxb/aw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYL3gvl/nRb7FEOiOXxVQK9ghc2PGIihoZaZT6H+VTCjv6QbeemZ
+	EsGDLJb3aTIHTnz6IxVvsa8x1+YAQHluTtkZy44wmNcmnIv6ijRn5khgGLuzRfwwlI1IjJVkdQH
+	njLGIBJJ/v/yhuEektxi72A/XZiRomwc=
+X-Gm-Gg: AYBFou1Sn2cFKFrFucmoFQrkmry3m7av/SDXvJ/YalFozA/QFS8MUeFRyS7j/gPbDKn
+	I6CgCgmAOl3MRjUyXNXIpG8nSTWGoud0tRyOnqILE78si6eQ51yPoGazeyIE/Nz/vYdd9MFboLE
+	/d278dFD5kFUElE9QDzNi4VTRbXbGH78VqxjcGbACv7ht/FU2jb7veEuLvpEH79Ggf9BIzqHl0m
+	Dhn9v6bBl/kXSR09e2kD4QXbY6e+DotSheMuXcGUkZNfnb3Wo30xosldpMkSXqNPpOmRMapbzh+
+	1X+baJLWrCbKA6yUxAiRD34vUkwaEchVj3rKsyR07M4cHSpeXiCcMATRMlvAcWX5pu4WPCesMYr
+	5FpmRJ6eE380=
+X-Received: by 2002:a05:6402:13ca:b0:6aa:13d6:888f with SMTP id
+ 4fb4d7f45d1cf-6aae1fa590cmr5300101a12.1.1790443287630; Sat, 26 Sep 2026
+ 10:21:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260926171049.841335-1-tien.nguyenminh@embeddedlinux.blog>
+In-Reply-To: <20260926171049.841335-1-tien.nguyenminh@embeddedlinux.blog>
+From: Chengfeng Ye <nicoyip.dev@gmail.com>
+Date: Sun, 27 Sep 2026 01:21:16 +0800
+X-Gm-Features: AclHuK_oi-zKoshtXCuOOr3CsOX0yKq1NGgpk2U78md_ZK4k1diCt_1GHatAQ2s
+Message-ID: <CAAo+4rUpf=e+rVKR4FhTOuGb+xGx+yTz7KOZbrRc29ErgznuCQ@mail.gmail.com>
+Subject: Re: [PATCH v3] dmaengine: sun6i: Fix potential deadlock on &sdev->lock
+To: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
+Cc: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, dmaengine@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Chengfeng Ye <dg573847474@gmail.com>
+On Sun, Sep 27, 2026 at 1:10=E2=80=AFAM Nguyen Minh Tien
+<tien.nguyenminh@embeddedlinux.blog> wrote:
+>
+> From: Chengfeng Ye <dg573847474@gmail.com>
+>
+> As &sdev->lock is taken by the tasklet sun6i_dma_tasklet() in softirq
+> context, other users of the lock in process context should disable
+> interrupts, otherwise the tasklet can preempt a holder of the lock on
+> the same CPU and deadlock. sun6i_dma_terminate_all() and
+> sun6i_dma_pause() take it without disabling interrupts.
+>
+> This was found by an experimental static analysis tool for irq-related
+> deadlocks. Lockdep reports it too on an Allwinner T113, where the lock
+> is also taken inside the HARDIRQ-safe vc->lock:
+>
+>   [  299.389380] WARNING: possible irq lock inversion dependency detected
+>   [  299.411196] c7109568 (&sdc->lock){+.-.}-{3:3}, at: sun6i_dma_termina=
+te_all+0x40/0x2c4
+>   [  299.419137] but this lock was taken by another, HARDIRQ-safe lock in=
+ the past:
+>   [  299.426398]  (&vc->lock){-.-.}-{3:3}
+>
+> Use spin_lock_irqsave() in both places, as
+> sun6i_dma_free_chan_resources() already does.
+>
+> Fixes: 555859308723 ("dmaengine: sun6i: Add driver for the Allwinner A31 =
+DMA controller")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Chengfeng Ye <dg573847474@gmail.com>
+> [tien: rebased, added the lockdep report from a T113, Fixes and Cc stable=
+]
+> Signed-off-by: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
+> ---
+> I ran into this on a MangoPi MQ-Dual (Allwinner T113-S3): with lockdep
+> on, stopping dmatest set off the report above in
+> sun6i_dma_terminate_all(), and a small test module set it off in
+> sun6i_dma_pause(). While looking for a fix I found Chengfeng's v2 from
+> 2023. It never got a review and no longer applies, so I rebased it on
+> dmaengine next and added the lockdep report, a Fixes tag and Cc stable.
+> Chengfeng, I hope you don't mind me picking it up.
+>
+> With it, lockdep stays quiet on both paths on 7.3-rc4, and dmatest on
+> four channels passes while another channel is paused, resumed and
+> terminated in a loop.
 
-As &sdev->lock is taken by the tasklet sun6i_dma_tasklet() in softirq
-context, other users of the lock in process context should disable
-interrupts, otherwise the tasklet can preempt a holder of the lock on
-the same CPU and deadlock. sun6i_dma_terminate_all() and
-sun6i_dma_pause() take it without disabling interrupts.
 
-This was found by an experimental static analysis tool for irq-related
-deadlocks. Lockdep reports it too on an Allwinner T113, where the lock
-is also taken inside the HARDIRQ-safe vc->lock:
+Not at all, thanks for picking this three-year-old patch up and
+testing it on hardware. I=E2=80=99m glad to see the patch can move forward.
 
-  [  299.389380] WARNING: possible irq lock inversion dependency detected
-  [  299.411196] c7109568 (&sdc->lock){+.-.}-{3:3}, at: sun6i_dma_terminate_all+0x40/0x2c4
-  [  299.419137] but this lock was taken by another, HARDIRQ-safe lock in the past:
-  [  299.426398]  (&vc->lock){-.-.}-{3:3}
-
-Use spin_lock_irqsave() in both places, as
-sun6i_dma_free_chan_resources() already does.
-
-Fixes: 555859308723 ("dmaengine: sun6i: Add driver for the Allwinner A31 DMA controller")
-Cc: stable@vger.kernel.org
-Signed-off-by: Chengfeng Ye <dg573847474@gmail.com>
-[tien: rebased, added the lockdep report from a T113, Fixes and Cc stable]
-Signed-off-by: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
----
-I ran into this on a MangoPi MQ-Dual (Allwinner T113-S3): with lockdep
-on, stopping dmatest set off the report above in
-sun6i_dma_terminate_all(), and a small test module set it off in
-sun6i_dma_pause(). While looking for a fix I found Chengfeng's v2 from
-2023. It never got a review and no longer applies, so I rebased it on
-dmaengine next and added the lockdep report, a Fixes tag and Cc stable.
-Chengfeng, I hope you don't mind me picking it up.
-
-With it, lockdep stays quiet on both paths on 7.3-rc4, and dmatest on
-four channels passes while another channel is paused, resumed and
-terminated in a loop.
-
-v2: https://lore.kernel.org/20230726051727.64088-1-dg573847474@gmail.com
-
- drivers/dma/sun6i-dma.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-index 5ad9d01cf..aee32363c 100644
---- a/drivers/dma/sun6i-dma.c
-+++ b/drivers/dma/sun6i-dma.c
-@@ -887,6 +887,7 @@ static int sun6i_dma_pause(struct dma_chan *chan)
- 	struct sun6i_dma_dev *sdev = to_sun6i_dma_dev(chan->device);
- 	struct sun6i_vchan *vchan = to_sun6i_vchan(chan);
- 	struct sun6i_pchan *pchan = vchan->phy;
-+	unsigned long flags;
- 
- 	dev_dbg(dmaengine_chan_dev(chan), "vchan %p: pause\n", &vchan->vc);
- 
-@@ -894,9 +895,9 @@ static int sun6i_dma_pause(struct dma_chan *chan)
- 		writel(DMA_CHAN_PAUSE_PAUSE,
- 		       pchan->base + DMA_CHAN_PAUSE);
- 	} else {
--		spin_lock(&sdev->lock);
-+		spin_lock_irqsave(&sdev->lock, flags);
- 		list_del_init(&vchan->node);
--		spin_unlock(&sdev->lock);
-+		spin_unlock_irqrestore(&sdev->lock, flags);
- 	}
- 
- 	return 0;
-@@ -935,9 +936,9 @@ static int sun6i_dma_terminate_all(struct dma_chan *chan)
- 	unsigned long flags;
- 	LIST_HEAD(head);
- 
--	spin_lock(&sdev->lock);
-+	spin_lock_irqsave(&sdev->lock, flags);
- 	list_del_init(&vchan->node);
--	spin_unlock(&sdev->lock);
-+	spin_unlock_irqrestore(&sdev->lock, flags);
- 
- 	spin_lock_irqsave(&vchan->vc.lock, flags);
- 
-
-base-commit: 0a8dda0a15d3926422d286567f945a05328a4ac6
--- 
-2.34.1
-
+Best regards,
+Chengfeng
