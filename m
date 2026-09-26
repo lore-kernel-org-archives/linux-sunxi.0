@@ -1,71 +1,71 @@
-Received: from mail-oo2-f42.google.com (mail-oo2-f42.google.com [74.125.231.170])
+Received: from mail-oo2-f43.google.com (mail-oo2-f43.google.com [74.125.231.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EFCC3859EE
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 15:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A2A485CE7
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 15:49:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790437796; cv=none; b=CbDNLJWjEqztX9QdK3EgTFFjoeW3N0w2O/kKSrbe4qdL7OpSEMUDU/XLzaXzpb1I7Kh8Gw6Sbv4bfstzQxePPsDhVVcllBG6SlqEisb4AvLztRN4OzXt++r4Yu2mwMhPUsvy9GY05uei2Q7PxhkyOUz1FBzWuA5zTJfH4GjqLDo=
+	t=1790437801; cv=none; b=DpqTGjoj7wwK/mVitgU8ZeTPDyzmT+iSKGtmWXo7LnBUYOKB4TDxfVamJS1XsyWkPdpW0W4EbhbpvKEPGHLk/kAY2zMo1iEqiQzcpaU1WFw+kD4dwKfhDWjxyFtAycGliVcHpHlTpm9PEiMH6Y2KsQiD99jW/VYjcKibc+0GwaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790437796; c=relaxed/simple;
-	bh=pXC6u2z4QzCd600gWVJtWtoFgabkjBB/NCPNcLpiYqI=;
+	s=arc-20240116; t=1790437801; c=relaxed/simple;
+	bh=j0GelKIR+8sdSlghOzo6HZis8yz0eoknRZijzt1nYiI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UfUjnqig+ozhOf2XkJQskzgslJMeiuJ3jceZFEZwyyiJRxstJ+WJvH31Qm/jwAMF+B42RtGYjyRtYAeEatfHw+9JMIT5HNrkwpsCLZDaRhOGhJhDesz7NbAW3sTKeYlxnNl/9mVSysm6PKrCt2JFGXKWdt729IRG40KQ65YDdWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z+mSygWO; arc=none smtp.client-ip=74.125.231.170
+	 In-Reply-To:To:Cc; b=E79hWo4twTA91GYg5dzrEPETtu8HdRQxWHSRvfwogRqol4Pdfh8Ur/R+p95qishTXIK9UjZ1FgrW050rjDQ2W2HIS4XPiTRpabktheoKYbhNKGNP0hVt3eeTJOFYaVBNku9dKNq7MtU22qNGU7MsVDAv6ocESxvnC6Rze6TNcO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lJZEj13l; arc=none smtp.client-ip=74.125.231.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z+mSygWO"
-Received: by mail-oo2-f42.google.com with SMTP id 46e09a7af769-81b8e8e9cb0so10256a34.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 08:49:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lJZEj13l"
+Received: by mail-oo2-f43.google.com with SMTP id 46e09a7af769-81b15bca7dfso152823a34.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 08:49:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790437790; x=1791042590; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790437796; x=1791042596; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=5KjS+S3ybo0qYcHE4tpSaMdCm52N9S5u9el69I6IvdE=;
-        b=Z+mSygWOuK93K8iBcfu7I1YJQ7wQTH6z62nbMW3yPz9bAcpwe3eMd5pDaJ79/f4Qly
-         MTwB67DD+BAs96fx/vYBTHwuP+P/MHnJzODz1ETA8pZGQjcSjhZZ7RZ1/yvE4eIB5Cxs
-         4hUHbhmM+nBHUlGYMH4x8VgoFUZ5TU6WZps8VXjMZQMzvUd92KmzDs5lpbQVb/JDEBke
-         IWQoCXJuvLr7jmurHCqbjCcwULu7dFQO7eJamYDGlRueleufRSbwjW5LGL5+Bu/NYkX+
-         4/gn9k5nN8eF+sjRzS3UhPdb3g7jMzROngU/pmU/86UOsksjJr/xFTXiAVvWJzSmFdKI
-         HJxA==
+        bh=HLTMfxgLa8vC7MGW+mtlayhPdwf1DSymVq+0sQ7was0=;
+        b=lJZEj13ltUMHrMmelvkTZKK0aOM1SDTWnyo7Tptbtwg+5oLKlevEU83Bd0hdfbK8E2
+         fV2eSsr7skKpbmMBqZ87qVPIOI06ahoFI39ZWBAqM9nQwyvznnKmc/Mi8+XCut2w6100
+         RyLT1PY1Wn5WEWJF4KNqa6uVZ7lUSaJ9IG7wX+ArKK1TaNq9JSD4N8FrHdBL4JaMs4S0
+         HLn7rQsva8xDo5mLjasJD6h/eqFyA8chbiLF9+z27guluhof/RDzvWvXGAMdvuBCIM9O
+         2Ypvzvz2M7ceOGkpLypYNb8evgwljMBSq3r4ssi1S5vfSBVpiiWL3UvYOsrb9pVWoucw
+         NkzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790437790; x=1791042590;
+        d=1e100.net; s=20260707; t=1790437796; x=1791042596;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5KjS+S3ybo0qYcHE4tpSaMdCm52N9S5u9el69I6IvdE=;
-        b=SDeMLKBeuLYnm3RmgM9K/VWBTbczTfwKg8q8TOLWp/E2b8FPfCV1sew7+tnWr8dRWf
-         2Gg4KBUyUnMB2FiZnStRDMGd0BIuExXJbv7pLOyuneKksnVIR7Oo5qkIcoIOavh0u+Kw
-         WycTHc93l8LKCkPu2kO5kG0CRkOPdrf0sh8a4qdKw8CRYFpky8uF6rdrkMT55DtHc4Hv
-         Yq5eFj5l4tsKdDvmeRqpPEWDzYtKYv/Zo4HrrWBdmdiz7tfwi8Ji2So/cMD9uWjjFxTR
-         LaMpsdPm1Ra2Up1LvnfRQNWrdPIuilVkSBGWfIGOME8bVfoG/eidsu4jT3TCC3xG4crj
-         0Ulg==
-X-Forwarded-Encrypted: i=1; AKwUvBzET9jolzD4orkqTIU4BjQpk0fIb2FLg0oEn6aCiWFHE/EyG5AFj2aM6w1yX9zXthL9cce2DlS09VfCAw==@lists.linux.dev
-X-Gm-Message-State: AFuF++nVBawSgAo+ZLy51tFtqIb4Xjrm+GjasajTAeFtS6KXMWvfwklx
-	8xImHH1Pn/FySTH5DSdxY37cAhbRcQk5CSm4+C8moXlPUYNCngO5Dvf/
-X-Gm-Gg: AYBFou1hnTb5ZP7dIb8Ng/uyWk/3JVq1sCSsQzTJ7jAMIgAouJzz0h8QBa+iE1QZd+z
-	4hvkXn/7oufWGwUkhqUaflgKDfvD4R+6zhM7ReJL++oEq/MCRhiLbuE0n7miyj7Ui3BMKYhZPgT
-	k9dlRIYY6rIpRL6xQdtqOzFsMtBBj9KYk568Ca5F8i01hV1QRpihj3eBTrtKq1EQG7ooSqW1SS5
-	xf3SP8KDpgb1RRzJ8X/v8ZmXJpE5D2nAUNXSvZ4ICuH4EwhhQgda424cVb68ksV24dC1b9x0OXb
-	yjc+jq2vRr3iMM4B8yXAEvR1FePIcNQ72555Y7YPBB88JLpaZHJD2KyjRRF3oZ1zr31z43h/oP8
-	ZCYVH9AlAfvJbM/fC5YnE8IIn1RKQaBxpq6ikBKTBJ2CQh7n4cU1CEYqQGR5xWwPVmBrmoYJPo6
-	kIBs5VB4uFPNVmdGa/JqsesiJ2UMQTaeu/eIe7CS1xXnv7+rZgrYRDNSlf0UhOD4+vNU2yrY7YQ
-	OL8PUFie1pCwVPvk+a9GIaDShEGEkqcuk+67h9acYa2ZUDcu1hAQk0K8RncXWyd0ESMLHK0I3Ye
-	mXtc/kVbPHBqmlNN7j2IJ1L0JhT6QuAewwRpImyAbG7lZ7TS7UD1fALZSAjCwRyzVejrIKwZYY3
-	2rM21wapdnHfdnEk1MAic
-X-Received: by 2002:a05:6830:6b07:b0:811:72c5:bd19 with SMTP id 46e09a7af769-81783684b1bmr9913596a34.25.1790437789641;
-        Sat, 26 Sep 2026 08:49:49 -0700 (PDT)
+        bh=HLTMfxgLa8vC7MGW+mtlayhPdwf1DSymVq+0sQ7was0=;
+        b=l+y6nobwtYdo0ncJqdrMjX1ns8fOszx33PmcsqBvgXrxb7PdAyJNzs5NboraWa9scv
+         mfnqBR2jMlTuUfPvkkdGbVW76OlN/6hzc0aC5bOyrQodSTRHgo7XNdfyYdevtfWe6KkX
+         5OYMHoCo/FIm2jdRy0+xUIcodR4TeDm0nM4fv7TJqR83yADTWAzlcSvQPKQHJKyp8AxL
+         +udqhLG/VIij1HPUlCXbZO4P8u/OOBlvw7YY3AJRLvUDMtMUqxGkPRBvvlV6maC9vRvk
+         iH8Qe8VzeqvsKm9WkemxLXfo5auRQN7+Lp9tdVnWrzC3B+fG9uR9DyY5xCQSkWOGln/X
+         wbxQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzc1ENN1EQKOBcz1UlUBkJqqArxGY+4s8NonHZlwPjaP+nqhy12Yupd1qTbAEi8KWyKyG0QhZ+QBDL33g==@lists.linux.dev
+X-Gm-Message-State: AFuF++m8N4fu2zw98tnB/gUIUZv4gKHsUDq9e7FKNqZM0vy+iXVUvt73
+	hkF8dv5S8ebSfU8RxJeRrNVc0vknDjkY6+qbi4837PEP2Iy3ZnmuudUm
+X-Gm-Gg: AYBFou2kdCAWERIjS++HYGIAVNcGSZw6CLdslriL02HjQZ4wSzCQ9OR1HnKKvhbY0iH
+	LeQVd3vgmThj0SJipz/QMX89QwB5alwUcH+6ATxJu9OrJebzScr3Yqfa1P5mCVOePMhNdVw0gzv
+	9bv2E7iENxw3fraBjdYrwsQaP24v4iv3pvjVL9ElcIJMCogeqRVBVBlnB/2sCV2sRPMpBeRHuHH
+	feAgg/gXYMmJhhAqydDfpw1PuGVcANgrgWOeOTQ5/JwnH1CsXjdWj8tjzusuB2c6fBCqFsECP3s
+	XLQif4gGv60yln41ld+7Gn3ama0BBZXBmVrHz2C1AEQO6NdILTlj5wrJFWDNri56eXxzVF9lXZ+
+	IkbBbf4BD0SVg5JBDIE3VLcEfCWQl4HfcA7TVsC2Ki8y/6Sf5gvV2FOe/KmVk8XUrAroJqX5Ups
+	rNCqfh6UedrsiGGGF0njr7DknUgzIW4M1Gk3N10IJd5kT6RfuhoKc+gkLrOooVl0y9uobVgKmp6
+	0UXsiGZKzLtTtlIWjxaNR8Oh2Lr0DgBi2qOQYTBdnnkIjJN4M/9x+lsZ/tCUH2Yye3GR0mvI2Rp
+	P4OP/OUovEuFXi46hii/15k/O5HD33npt/z7LcrPOnwNROI8WmXKPsD03An2VQNSezn557s8fN7
+	MQIFGEtSAHSPnsOHSxn0+Mov3LCpPp9w=
+X-Received: by 2002:a05:6830:258a:b0:816:b03e:f9db with SMTP id 46e09a7af769-81780b974femr9021140a34.6.1790437791761;
+        Sat, 26 Sep 2026 08:49:51 -0700 (PDT)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-818e98b16d4sm5442366a34.26.2026.09.26.08.49.47
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-818e98b16d4sm5442366a34.26.2026.09.26.08.49.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 08:49:49 -0700 (PDT)
+        Sat, 26 Sep 2026 08:49:51 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sat, 26 Sep 2026 09:49:09 -0600
-Subject: [PATCH net v4 14/15] net: stmmac: prepare device-local DMA
- interrupt quiescence
+Date: Sat, 26 Sep 2026 09:49:10 -0600
+Subject: [PATCH net v4 15/15] net: stmmac: retain DMA resources across MTU
+ changes
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,7 +74,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260926-submit-stmmac-reset-fixes-v1-v4-14-ec1c0250b3c9@gmail.com>
+Message-Id: <20260926-submit-stmmac-reset-fixes-v1-v4-15-ec1c0250b3c9@gmail.com>
 References: <20260926-submit-stmmac-reset-fixes-v1-v4-0-ec1c0250b3c9@gmail.com>
 In-Reply-To: <20260926-submit-stmmac-reset-fixes-v1-v4-0-ec1c0250b3c9@gmail.com>
 To: Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
@@ -120,297 +120,348 @@ Cc: Richard Genoud <richard.genoud@bootlin.com>,
  linux-tegra@vger.kernel.org, linux-sunxi@lists.linux.dev
 X-Mailer: b4 0.15.2
 
-Add DMA interrupt-mask accessors for the supported cores and a
-per-channel gate protected by the channel lock. A handler invoked on a
-shared IRQ can then mask newly enabled device sources without
-acknowledging pending events or touching rings being replaced.
+Prepare the replacement configuration before quiescing the old datapath.
+Retain its rings and IRQ registrations until setup succeeds so rollback
+needs no new allocations or IRQ requests. Fill RX buffer holes before
+reset without altering active descriptors; rebuild the retained rings
+only after a successful reset.
 
-The retained-ring MTU transaction will save and restore these masks and
-synchronize the registered handlers. No interrupt-controller line needs
-to be disabled, so other devices sharing the IRQ remain serviceable.
+Mask the device DMA interrupt sources, gate shared-IRQ handlers and
+drain all registered handlers before the final transmitter and timer
+cancellation. Restore saved interrupt masks only after the selected
+rings and NAPI are ready. This leaves interrupt-controller lines
+available to unrelated devices.
 
+Program receive limits using the prospective MTU and restore the old MTU
+before rollback. Reapply PHC and TC state before starting DMA,
+preserving the PHC registration and packet timestamp filters. Continuous
+PHC time across the reset is not preserved.
+
+If rollback fails, leave the administratively-up interface detached in a
+distinct HALTED state: rings retained, NAPI disabled and IRQ
+registrations released. Close or a later down/up can finish cleanup and
+recovery without freeing IRQs twice. Retain potentially active DMA
+memory until hardware shutdown is confirmed.
+
+Fixes: 3470079687448 ("net: ethernet: stmicro: stmmac: permit MTU change with interface up")
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c  | 11 ++++++++
- .../net/ethernet/stmicro/stmmac/dwmac1000_dma.c    |  1 +
- drivers/net/ethernet/stmicro/stmmac/dwmac100_dma.c |  1 +
- drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.c   |  2 ++
- drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.h   |  2 ++
- drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c   | 11 ++++++++
- drivers/net/ethernet/stmicro/stmmac/dwmac_dma.h    |  2 ++
- drivers/net/ethernet/stmicro/stmmac/dwmac_lib.c    | 10 ++++++++
- drivers/net/ethernet/stmicro/stmmac/dwxgmac2_dma.c | 11 ++++++++
- drivers/net/ethernet/stmicro/stmmac/hwif.h         |  5 ++++
- drivers/net/ethernet/stmicro/stmmac/stmmac.h       |  2 ++
- drivers/net/ethernet/stmicro/stmmac/stmmac_main.c  | 30 ++++++++++++++++------
- 12 files changed, 80 insertions(+), 8 deletions(-)
+ drivers/net/ethernet/stmicro/stmmac/stmmac.h      |   2 +
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 216 +++++++++++++++++-----
+ 2 files changed, 173 insertions(+), 45 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index 422d3df21ed9..31bebb2a9bab 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -374,6 +374,16 @@ static void sun8i_dwmac_disable_dma_irq(struct stmmac_priv *priv,
- 	writel(value, ioaddr + EMAC_INT_EN);
- }
- 
-+static u32 sun8i_dwmac_set_dma_irq_mask(struct stmmac_priv *priv,
-+					void __iomem *ioaddr, u32 chan, u32 mask)
-+{
-+	u32 old_mask = readl(ioaddr + EMAC_INT_EN);
-+
-+	writel(mask, ioaddr + EMAC_INT_EN);
-+	readl(ioaddr + EMAC_INT_EN);
-+	return old_mask;
-+}
-+
- static void sun8i_dwmac_dma_start_tx(struct stmmac_priv *priv,
- 				     void __iomem *ioaddr, u32 chan)
- {
-@@ -579,6 +589,7 @@ static const struct stmmac_dma_ops sun8i_dwmac_dma_ops = {
- 	.enable_dma_transmission = sun8i_dwmac_enable_dma_transmission,
- 	.enable_dma_irq = sun8i_dwmac_enable_dma_irq,
- 	.disable_dma_irq = sun8i_dwmac_disable_dma_irq,
-+	.set_irq_mask = sun8i_dwmac_set_dma_irq_mask,
- 	.start_tx = sun8i_dwmac_dma_start_tx,
- 	.stop_tx = sun8i_dwmac_dma_stop_tx,
- 	.start_rx = sun8i_dwmac_dma_start_rx,
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac1000_dma.c b/drivers/net/ethernet/stmicro/stmmac/dwmac1000_dma.c
-index 4cb7e6c16bdd..2285eac69071 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac1000_dma.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac1000_dma.c
-@@ -264,6 +264,7 @@ const struct stmmac_dma_ops dwmac1000_dma_ops = {
- 	.enable_dma_reception = dwmac_enable_dma_reception,
- 	.enable_dma_irq = dwmac_enable_dma_irq,
- 	.disable_dma_irq = dwmac_disable_dma_irq,
-+	.set_irq_mask = dwmac_set_dma_irq_mask,
- 	.start_tx = dwmac_dma_start_tx,
- 	.stop_tx = dwmac_dma_stop_tx,
- 	.start_rx = dwmac_dma_start_rx,
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac100_dma.c b/drivers/net/ethernet/stmicro/stmmac/dwmac100_dma.c
-index 5ffd3c1471c4..41579d10af3c 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac100_dma.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac100_dma.c
-@@ -118,6 +118,7 @@ const struct stmmac_dma_ops dwmac100_dma_ops = {
- 	.enable_dma_transmission = dwmac_enable_dma_transmission,
- 	.enable_dma_irq = dwmac_enable_dma_irq,
- 	.disable_dma_irq = dwmac_disable_dma_irq,
-+	.set_irq_mask = dwmac_set_dma_irq_mask,
- 	.start_tx = dwmac_dma_start_tx,
- 	.stop_tx = dwmac_dma_stop_tx,
- 	.start_rx = dwmac_dma_start_rx,
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.c b/drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.c
-index fb0a4e156a7b..86b23ce39d6b 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.c
-@@ -580,6 +580,7 @@ const struct stmmac_dma_ops dwmac4_dma_ops = {
- 	.dma_tx_mode = dwmac4_dma_tx_chan_op_mode,
- 	.enable_dma_irq = dwmac4_enable_dma_irq,
- 	.disable_dma_irq = dwmac4_disable_dma_irq,
-+	.set_irq_mask = dwmac4_set_dma_irq_mask,
- 	.start_tx = dwmac4_dma_start_tx,
- 	.stop_tx = dwmac4_dma_stop_tx,
- 	.start_rx = dwmac4_dma_start_rx,
-@@ -611,6 +612,7 @@ const struct stmmac_dma_ops dwmac410_dma_ops = {
- 	.dma_tx_mode = dwmac4_dma_tx_chan_op_mode,
- 	.enable_dma_irq = dwmac4_enable_dma_irq,
- 	.disable_dma_irq = dwmac4_disable_dma_irq,
-+	.set_irq_mask = dwmac4_set_dma_irq_mask,
- 	.start_tx = dwmac4_dma_start_tx,
- 	.stop_tx = dwmac4_dma_stop_tx,
- 	.start_rx = dwmac4_dma_start_rx,
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.h b/drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.h
-index 9352107204eb..edccc09f0b03 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.h
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac4_dma.h
-@@ -184,6 +184,8 @@ void dwmac4_enable_dma_irq(struct stmmac_priv *priv, void __iomem *ioaddr,
- 			   u32 chan, bool rx, bool tx);
- void dwmac4_disable_dma_irq(struct stmmac_priv *priv, void __iomem *ioaddr,
- 			    u32 chan, bool rx, bool tx);
-+u32 dwmac4_set_dma_irq_mask(struct stmmac_priv *priv, void __iomem *ioaddr,
-+			    u32 chan, u32 mask);
- void dwmac4_dma_start_tx(struct stmmac_priv *priv, void __iomem *ioaddr,
- 			 u32 chan);
- void dwmac4_dma_stop_tx(struct stmmac_priv *priv, void __iomem *ioaddr,
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c b/drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c
-index 9af0565a9bca..477bdb081c52 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c
-@@ -155,6 +155,17 @@ void dwmac4_disable_dma_irq(struct stmmac_priv *priv, void __iomem *ioaddr,
- 	writel(value, ioaddr + DMA_CHAN_INTR_ENA(dwmac4_addrs, chan));
- }
- 
-+u32 dwmac4_set_dma_irq_mask(struct stmmac_priv *priv, void __iomem *ioaddr,
-+			    u32 chan, u32 mask)
-+{
-+	const struct dwmac4_addrs *dwmac4_addrs = priv->plat->dwmac4_addrs;
-+	u32 old_mask = readl(ioaddr + DMA_CHAN_INTR_ENA(dwmac4_addrs, chan));
-+
-+	writel(mask, ioaddr + DMA_CHAN_INTR_ENA(dwmac4_addrs, chan));
-+	readl(ioaddr + DMA_CHAN_INTR_ENA(dwmac4_addrs, chan));
-+	return old_mask;
-+}
-+
- int dwmac4_dma_interrupt(struct stmmac_priv *priv, void __iomem *ioaddr,
- 			 struct stmmac_extra_stats *x, u32 chan, u32 dir)
- {
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac_dma.h b/drivers/net/ethernet/stmicro/stmmac/dwmac_dma.h
-index 970495bccfd2..4726801253f5 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac_dma.h
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac_dma.h
-@@ -150,6 +150,8 @@ void dwmac_enable_dma_irq(struct stmmac_priv *priv, void __iomem *ioaddr,
- 			  u32 chan, bool rx, bool tx);
- void dwmac_disable_dma_irq(struct stmmac_priv *priv, void __iomem *ioaddr,
- 			   u32 chan, bool rx, bool tx);
-+u32 dwmac_set_dma_irq_mask(struct stmmac_priv *priv, void __iomem *ioaddr,
-+			   u32 chan, u32 mask);
- void dwmac_dma_start_tx(struct stmmac_priv *priv, void __iomem *ioaddr,
- 			u32 chan);
- void dwmac_dma_stop_tx(struct stmmac_priv *priv, void __iomem *ioaddr,
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac_lib.c b/drivers/net/ethernet/stmicro/stmmac/dwmac_lib.c
-index bb907db8fca1..88d904ed4685 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac_lib.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac_lib.c
-@@ -84,6 +84,16 @@ void dwmac_disable_dma_irq(struct stmmac_priv *priv, void __iomem *ioaddr,
- 	writel(value, ioaddr + DMA_CHAN_INTR_ENA(chan));
- }
- 
-+u32 dwmac_set_dma_irq_mask(struct stmmac_priv *priv, void __iomem *ioaddr,
-+			   u32 chan, u32 mask)
-+{
-+	u32 old_mask = readl(ioaddr + DMA_CHAN_INTR_ENA(chan));
-+
-+	writel(mask, ioaddr + DMA_CHAN_INTR_ENA(chan));
-+	readl(ioaddr + DMA_CHAN_INTR_ENA(chan));
-+	return old_mask;
-+}
-+
- void dwmac_dma_start_tx(struct stmmac_priv *priv, void __iomem *ioaddr,
- 			u32 chan)
- {
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_dma.c b/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_dma.c
-index ff83858ebc1f..30915d3f5230 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_dma.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwxgmac2_dma.c
-@@ -256,6 +256,16 @@ static void dwxgmac2_disable_dma_irq(struct stmmac_priv *priv,
- 	writel(value, ioaddr + XGMAC_DMA_CH_INT_EN(chan));
- }
- 
-+static u32 dwxgmac2_set_dma_irq_mask(struct stmmac_priv *priv,
-+				     void __iomem *ioaddr, u32 chan, u32 mask)
-+{
-+	u32 old_mask = readl(ioaddr + XGMAC_DMA_CH_INT_EN(chan));
-+
-+	writel(mask, ioaddr + XGMAC_DMA_CH_INT_EN(chan));
-+	readl(ioaddr + XGMAC_DMA_CH_INT_EN(chan));
-+	return old_mask;
-+}
-+
- static void dwxgmac2_dma_start_tx(struct stmmac_priv *priv,
- 				  void __iomem *ioaddr, u32 chan)
- {
-@@ -604,6 +614,7 @@ const struct stmmac_dma_ops dwxgmac210_dma_ops = {
- 	.dma_tx_mode = dwxgmac2_dma_tx_mode,
- 	.enable_dma_irq = dwxgmac2_enable_dma_irq,
- 	.disable_dma_irq = dwxgmac2_disable_dma_irq,
-+	.set_irq_mask = dwxgmac2_set_dma_irq_mask,
- 	.start_tx = dwxgmac2_dma_start_tx,
- 	.stop_tx = dwxgmac2_dma_stop_tx,
- 	.start_rx = dwxgmac2_dma_start_rx,
-diff --git a/drivers/net/ethernet/stmicro/stmmac/hwif.h b/drivers/net/ethernet/stmicro/stmmac/hwif.h
-index 3bc4d955ef5f..e1630e84e91d 100644
---- a/drivers/net/ethernet/stmicro/stmmac/hwif.h
-+++ b/drivers/net/ethernet/stmicro/stmmac/hwif.h
-@@ -197,6 +197,9 @@ struct stmmac_dma_ops {
- 			       u32 chan, bool rx, bool tx);
- 	void (*disable_dma_irq)(struct stmmac_priv *priv, void __iomem *ioaddr,
- 				u32 chan, bool rx, bool tx);
-+	/* Replace and flush the full interrupt enable mask; return the old mask. */
-+	u32 (*set_irq_mask)(struct stmmac_priv *priv, void __iomem *ioaddr,
-+			    u32 chan, u32 mask);
- 	void (*start_tx)(struct stmmac_priv *priv, void __iomem *ioaddr,
- 			 u32 chan);
- 	void (*stop_tx)(struct stmmac_priv *priv, void __iomem *ioaddr,
-@@ -263,6 +266,8 @@ struct stmmac_dma_ops {
- 	stmmac_do_void_callback(__priv, dma, enable_dma_irq, __priv, __args)
- #define stmmac_disable_dma_irq(__priv, __args...) \
- 	stmmac_do_void_callback(__priv, dma, disable_dma_irq, __priv, __args)
-+#define stmmac_set_dma_irq_mask(__priv, __args...) \
-+	stmmac_do_callback(__priv, dma, set_irq_mask, __priv, __args)
- #define stmmac_start_tx(__priv, __args...) \
- 	stmmac_do_void_callback(__priv, dma, start_tx, __priv, __args)
- #define stmmac_stop_tx(__priv, __args...) \
 diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac.h b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
-index e15bab9accce..9e711acb81fb 100644
+index 9e711acb81fb..e2b9b5b387c7 100644
 --- a/drivers/net/ethernet/stmicro/stmmac/stmmac.h
 +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
-@@ -146,6 +146,8 @@ struct stmmac_channel {
- 	struct stmmac_priv *priv_data;
- 	spinlock_t lock;
- 	u32 index;
-+	/* Protected by lock; IRQ handlers must not access the DMA rings. */
-+	bool irq_quiesced;
+@@ -279,6 +279,8 @@ enum stmmac_datapath_state {
+ 	STMMAC_DATAPATH_RUNNING,
+ 	/* Resources retained, NAPI disabled, DMA stop requested. */
+ 	STMMAC_DATAPATH_SUSPENDED,
++	/* Failed MTU rollback: rings retained, but no IRQs or running NAPI. */
++	STMMAC_DATAPATH_HALTED,
  };
  
- struct stmmac_fpe_cfg {
+ struct stmmac_priv {
 diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index 4d70645c4a4f..08049c05ffc4 100644
+index 08049c05ffc4..8964f52c26ba 100644
 --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -3267,14 +3267,30 @@ static bool stmmac_safety_feat_interrupt(struct stmmac_priv *priv)
+@@ -977,7 +977,7 @@ static void stmmac_release_ptp(struct stmmac_priv *priv)
+ }
  
- static int stmmac_napi_check(struct stmmac_priv *priv, u32 chan, u32 dir)
+ /* ptp_mutex excludes configuration and crosstimestamp operations. The
+- * spinlock also excludes atomic clock reads while changing this gate.
++ * spinlock also excludes atomic gettime callers while changing this gate.
+  */
+ static void stmmac_block_ptp(struct stmmac_priv *priv, bool block)
  {
--	int status = stmmac_dma_interrupt_status(priv, priv->ioaddr,
--						 &priv->xstats, chan, dir);
--	struct stmmac_rx_queue *rx_q = &priv->dma_conf->rx_queue[chan];
--	struct stmmac_tx_queue *tx_q = &priv->dma_conf->tx_queue[chan];
- 	struct stmmac_channel *ch = &priv->channel[chan];
-+	struct stmmac_rx_queue *rx_q;
-+	struct stmmac_tx_queue *tx_q;
- 	struct napi_struct *rx_napi;
- 	struct napi_struct *tx_napi;
- 	unsigned long flags;
-+	int status;
+@@ -2205,6 +2205,30 @@ static void stmmac_free_tx_skbufs(struct stmmac_priv *priv)
+ 		dma_free_tx_skbufs(priv, priv->dma_conf, queue);
+ }
+ 
++/* NAPI is stopped, but DMA may still be using the old rings. Fill holes in
++ * the software buffer array without changing any descriptors. If allocation
++ * fails, the old rings can continue unchanged. Otherwise rollback after a
++ * reset will not need to allocate buffers.
++ */
++static int stmmac_prepare_rx_buffers(struct stmmac_priv *priv)
++{
++	struct stmmac_dma_conf *dma_conf = priv->dma_conf;
++	u32 queue, i;
++	int ret;
 +
-+	spin_lock_irqsave(&ch->lock, flags);
-+	if (unlikely(ch->irq_quiesced)) {
-+		/* A shared IRQ may still invoke us, and DMA initialization can
-+		 * restore interrupt enables. Mask them again without acknowledging
-+		 * pending events or accessing the configuration being replaced.
-+		 */
-+		stmmac_set_dma_irq_mask(priv, priv->ioaddr, chan, 0);
-+		spin_unlock_irqrestore(&ch->lock, flags);
-+		return 0;
++	for (queue = 0; queue < priv->plat->rx_queues_to_use; queue++) {
++		struct stmmac_rx_queue *rx_q = &dma_conf->rx_queue[queue];
++
++		for (i = 0; i < dma_conf->dma_rx_size; i++) {
++			ret = stmmac_alloc_rx_buffer(priv, rx_q, &rx_q->buf_pool[i]);
++			if (ret)
++				return ret;
++		}
 +	}
-+	spin_unlock_irqrestore(&ch->lock, flags);
 +
-+	status = stmmac_dma_interrupt_status(priv, priv->ioaddr,
-+					     &priv->xstats, chan, dir);
-+	rx_q = &priv->dma_conf->rx_queue[chan];
-+	tx_q = &priv->dma_conf->tx_queue[chan];
++	return 0;
++}
++
+ /* Only after a successful DMA reset, and with all RX buffers prepared. */
+ static void stmmac_reinit_dma_desc(struct stmmac_priv *priv)
+ {
+@@ -4311,14 +4335,38 @@ static void stmmac_synchronize_irq(struct stmmac_priv *priv)
+ 			synchronize_irq(msi->tx_irq[i]);
+ }
  
- 	rx_napi = rx_q->xsk_pool ? &ch->rxtx_napi : &ch->rx_napi;
- 	tx_napi = tx_q->xsk_pool ? &ch->rxtx_napi : &ch->tx_napi;
-@@ -3995,8 +4011,7 @@ static void stmmac_free_irq(struct net_device *dev,
- 		for (j = irq_idx - 1; msi && j >= 0; j--) {
- 			if (msi->tx_irq[j] > 0) {
- 				irq_set_affinity_hint(msi->tx_irq[j], NULL);
--				free_irq(msi->tx_irq[j],
--					 &priv->channel[j]);
-+				free_irq(msi->tx_irq[j], &priv->channel[j]);
- 			}
- 		}
- 		irq_idx = priv->plat->rx_queues_to_use;
-@@ -4005,8 +4020,7 @@ static void stmmac_free_irq(struct net_device *dev,
- 		for (j = irq_idx - 1; msi && j >= 0; j--) {
- 			if (msi->rx_irq[j] > 0) {
- 				irq_set_affinity_hint(msi->rx_irq[j], NULL);
--				free_irq(msi->rx_irq[j],
--					 &priv->channel[j]);
-+				free_irq(msi->rx_irq[j], &priv->channel[j]);
- 			}
- 		}
++/* Keep the IRQ registrations, but prevent DMA handlers from using the rings.
++ * The caller drains handlers after quiescing every channel and restores their
++ * masks only once the active DMA configuration is ready again.
++ */
++static void stmmac_set_dma_irq_state(struct stmmac_priv *priv, bool enable,
++				     u32 *irq_mask)
++{
++	u32 channels = max(priv->plat->rx_queues_to_use,
++			   priv->plat->tx_queues_to_use);
++	u32 chan;
++
++	for (chan = 0; chan < channels; chan++) {
++		struct stmmac_channel *ch = &priv->channel[chan];
++		unsigned long flags;
++
++		spin_lock_irqsave(&ch->lock, flags);
++		ch->irq_quiesced = !enable;
++		if (enable)
++			stmmac_set_dma_irq_mask(priv, priv->ioaddr, chan,
++						irq_mask[chan]);
++		else
++			irq_mask[chan] = stmmac_set_dma_irq_mask(priv, priv->ioaddr,
++								 chan, 0);
++		spin_unlock_irqrestore(&ch->lock, flags);
++	}
++}
++
+ /**
+- *  stmmac_setup_dma_desc - Generate a dma_conf and allocate DMA queue
+- *  @priv: driver private structure
+- *  @mtu: MTU to setup the dma queue and buf with
+- *  Description: Allocate and generate a dma_conf based on the provided MTU.
+- *  Allocate the Tx/Rx DMA queue and init them.
+- *  Return value:
+- *  the dma_conf allocated struct on success and an appropriate ERR_PTR on failure.
++ * stmmac_setup_dma_desc - allocate and initialize a DMA configuration
++ * @priv: driver private structure
++ * @mtu: MTU to size the receive buffers for
++ * Return: the allocated configuration, or an ERR_PTR on failure
+  */
+ static struct stmmac_dma_conf *
+ stmmac_setup_dma_desc(struct stmmac_priv *priv, unsigned int mtu)
+@@ -4544,7 +4592,7 @@ static int __stmmac_open(struct net_device *dev,
+ 	priv->dma_conf = dma_conf;
  
+ 	/* The PHY is suspended when the interface is reopened without
+-	 * disconnecting the PHY, e.g. on MTU change. IEEE 802.3 allows PHYs
++	 * disconnecting the PHY, e.g. on an ethtool change. IEEE 802.3 allows PHYs
+ 	 * to stop their receive clock while powered down, but the DMA
+ 	 * software reset in stmmac_hw_setup() requires a running receive
+ 	 * clock, and phylink_start() below resumes the PHY only after the
+@@ -4699,20 +4747,22 @@ static void stmmac_quiesce(struct stmmac_priv *priv)
+ static void __stmmac_release(struct net_device *dev)
+ {
+ 	struct stmmac_priv *priv = netdev_priv(dev);
++	enum stmmac_datapath_state state = priv->datapath;
+ 
+-	/* A failed MTU reopen has already released the data path. */
++	/* There may be no resources left after detached XDP reconfiguration. */
+ 	if (priv->datapath == STMMAC_DATAPATH_DOWN)
+ 		return;
+ 
+ 	phylink_stop(priv->phylink);
+ 
+-	/* Suspend retains the resources, but has already stopped activity. */
++	/* SUSPENDED and HALTED retain rings with NAPI already disabled. */
+ 	if (priv->datapath == STMMAC_DATAPATH_RUNNING)
+ 		stmmac_quiesce(priv);
+ 	priv->datapath = STMMAC_DATAPATH_DOWN;
+ 
+ 	/* Free the IRQ lines */
+-	stmmac_free_irq(dev, REQ_IRQ_ERR_ALL, 0);
++	if (state != STMMAC_DATAPATH_HALTED)
++		stmmac_free_irq(dev, REQ_IRQ_ERR_ALL, 0);
+ 
+ 	/* Drain any final IRQ-triggered network activity before DMA shutdown. */
+ 	stmmac_stop_tx_queues(priv);
+@@ -6601,6 +6651,109 @@ static void stmmac_set_rx_mode(struct net_device *dev)
+ 	stmmac_set_filter(priv, priv->hw, dev);
+ }
+ 
++static int stmmac_reconfigure_mtu(struct net_device *dev, int mtu)
++{
++	struct stmmac_priv *priv = netdev_priv(dev);
++	struct stmmac_dma_conf *old_conf = priv->dma_conf;
++	struct stmmac_dma_conf *new_conf;
++	int old_mtu = dev->mtu;
++	int ret, restore_ret;
++	u32 irq_mask[STMMAC_CH_MAX];
++	u32 chan;
++
++	new_conf = stmmac_setup_dma_desc(priv, mtu);
++	if (IS_ERR(new_conf))
++		return PTR_ERR(new_conf);
++
++	mutex_lock(&priv->ptp_mutex);
++	stmmac_block_ptp(priv, true);
++	netif_device_detach(dev);
++	phylink_stop(priv->phylink);
++	stmmac_quiesce(priv);
++	if (stmmac_fpe_supported(priv))
++		ethtool_mmsv_stop(&priv->fpe_cfg.mmsv);
++
++	/* Drain handlers before the final TX stop and configuration swap,
++	 * and keep the registrations for rollback.
++	 */
++	stmmac_set_dma_irq_state(priv, false, irq_mask);
++	stmmac_synchronize_irq(priv);
++	stmmac_stop_tx_queues(priv);
++
++	ret = stmmac_prepare_rx_buffers(priv);
++	if (ret)
++		goto restart;
++
++	stmmac_stop_all_dma(priv);
++	phylink_prepare_resume(priv->phylink);
++
++	/* MAC receive limits must be programmed for the prospective MTU. */
++	WRITE_ONCE(dev->mtu, mtu);
++	priv->dma_conf = new_conf;
++	stmmac_reset_queues_param(priv);
++	ret = stmmac_hw_setup(dev, false, true);
++	if (ret) {
++		stmmac_stop_all_dma(priv);
++		stmmac_mac_set(priv, priv->ioaddr, false);
++		priv->dma_conf = old_conf;
++		WRITE_ONCE(dev->mtu, old_mtu);
++
++		/* Reuse the retained rings. Reinitialize them only after reset
++		 * has completed, not merely after clearing the DMA enable bits.
++		 */
++		restore_ret = stmmac_hw_setup(dev, true, true);
++		if (restore_ret) {
++			stmmac_stop_all_dma(priv);
++			stmmac_mac_set(priv, priv->ioaddr, false);
++			/* Setup may have restored DMA interrupt enables. */
++			stmmac_set_dma_irq_state(priv, false, irq_mask);
++			stmmac_free_irq(dev, REQ_IRQ_ERR_ALL, 0);
++			stmmac_stop_tx_queues(priv);
++			stmmac_stop_all_dma(priv);
++			memset(irq_mask, 0, sizeof(irq_mask));
++			stmmac_set_dma_irq_state(priv, true, irq_mask);
++			priv->datapath = STMMAC_DATAPATH_HALTED;
++			netdev_err(dev, "MTU rollback failed: %pe; interface remains detached\n",
++				   ERR_PTR(restore_ret));
++			goto free_new;
++		}
++	} else {
++		/* Hardware setup completed its reset before using the new rings.
++		 * The old DMA allocations can now be released safely.
++		 */
++		stmmac_put_dma_conf(priv, old_conf);
++		for (chan = 0; chan < priv->plat->tx_queues_to_use; chan++)
++			hrtimer_setup(&new_conf->tx_queue[chan].txtimer,
++				      stmmac_tx_timer, CLOCK_MONOTONIC,
++				      HRTIMER_MODE_REL);
++	}
++
++	stmmac_set_rx_mode(dev);
++	stmmac_vlan_restore(priv);
++	stmmac_start_all_dma(priv);
++
++restart:
++	stmmac_block_ptp(priv, false);
++	mutex_unlock(&priv->ptp_mutex);
++	stmmac_enable_all_queues(priv);
++	stmmac_set_dma_irq_state(priv, true, irq_mask);
++	stmmac_enable_all_dma_irq(priv);
++	phylink_start(priv->phylink);
++	netif_device_attach(dev);
++	for (chan = 0; chan < priv->plat->tx_queues_to_use; chan++)
++		stmmac_tx_timer_arm(priv, chan);
++	if (!ret)
++		return 0;
++	goto free_conf;
++
++free_new:
++	/* Failed rollback leaves the registered PHC inaccessible as well. */
++	mutex_unlock(&priv->ptp_mutex);
++free_conf:
++	stmmac_put_dma_conf(priv, new_conf);
++	return ret;
++}
++
+ /**
+  *  stmmac_change_mtu - entry point to change MTU size for the device.
+  *  @dev : device pointer.
+@@ -6615,9 +6768,7 @@ static void stmmac_set_rx_mode(struct net_device *dev)
+ static int stmmac_change_mtu(struct net_device *dev, int new_mtu)
+ {
+ 	struct stmmac_priv *priv = netdev_priv(dev);
+-	struct stmmac_dma_conf *old_conf = priv->dma_conf;
+ 	int txfifosz = priv->plat->tx_fifo_size;
+-	struct stmmac_dma_conf *dma_conf;
+ 	const int mtu = new_mtu;
+ 	int ret;
+ 
+@@ -6643,35 +6794,9 @@ static int stmmac_change_mtu(struct net_device *dev, int new_mtu)
+ 	 */
+ 	if (netif_running(dev) &&
+ 	    (dev->mtu > ETH_DATA_LEN || mtu > ETH_DATA_LEN)) {
+-		netdev_dbg(priv->dev, "restarting interface to change its MTU\n");
+-		/* Try to allocate the new DMA conf with the new mtu */
+-		dma_conf = stmmac_setup_dma_desc(priv, mtu);
+-		if (IS_ERR(dma_conf)) {
+-			netdev_err(priv->dev, "failed allocating new dma conf for new MTU %d\n",
+-				   mtu);
+-			return PTR_ERR(dma_conf);
+-		}
+-
+-		netif_device_detach(dev);
+-		__stmmac_release(dev);
+-
+-		ret = __stmmac_open(dev, dma_conf);
+-		if (ret) {
+-			priv->dma_conf = old_conf;
+-			stmmac_put_dma_conf(priv, dma_conf);
+-			/*
+-			 * Keep the administrative state and PHY/PM ownership until
+-			 * ndo_stop(), but prevent use of the released data path.
+-			 */
+-			netif_device_detach(dev);
+-			netdev_err(priv->dev, "failed reopening the interface after MTU change\n");
++		ret = stmmac_reconfigure_mtu(dev, mtu);
++		if (ret)
+ 			return ret;
+-		}
+-
+-		stmmac_put_dma_conf(priv, old_conf);
+-
+-		stmmac_set_rx_mode(dev);
+-		netif_device_attach(dev);
+ 	}
+ 
+ 	WRITE_ONCE(dev->mtu, mtu);
+@@ -7514,11 +7639,12 @@ static int stmmac_bpf(struct net_device *dev, struct netdev_bpf *bpf)
+ 		return -EOPNOTSUPP;
+ 
+ 	/*
+-	 * Pool removal must succeed even after a failed resume. Release the
+-	 * suspended rings before their pool or XDP buffer layout can change.
++	 * Pool removal must succeed after failed resume or MTU rollback. Release
++	 * retained rings before their pool or XDP buffer layout can change.
+ 	 * Leave the interface detached until it is closed and reopened.
+ 	 */
+-	if (priv->datapath == STMMAC_DATAPATH_SUSPENDED)
++	if (priv->datapath == STMMAC_DATAPATH_SUSPENDED ||
++	    priv->datapath == STMMAC_DATAPATH_HALTED)
+ 		__stmmac_release(dev);
+ 
+ 	switch (bpf->command) {
 
 -- 
 2.53.0
