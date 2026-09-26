@@ -1,71 +1,71 @@
 Received: from mail-oo2-f43.google.com (mail-oo2-f43.google.com [74.125.231.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298553655E0
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 15:49:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7F92E2663
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 15:49:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790437775; cv=none; b=fCidYHJJfNXkFhyyzkt/etHXufRaKTamLZozwB/Yefy7aO/HlnDPWoXo9KE8a7HyaLxqtO6mrqPY78evjXeoi5LELM8lTMTob1cZKpvZHXgp0bWzEMuIQQzDoZYh6kTApex402HHInV4Qrth/2ZPlANFJcxx5U3CZ09nlDqWHg0=
+	t=1790437780; cv=none; b=FqburIu3rI1LtkEd6bsIWlqdtP3SchQZ5Vk2YqJ4vQ958X17z2MPODYs5D/NAO5tWF0oHWz6QLPuCAv3jpX7qUlDUXdtFg4PdhVddT19rhVBtM2kq/DOehpte7kwzMirpAqRAp8t56GZbWpt0lagw1+A+XyZeGZz5mf9tgndLxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790437775; c=relaxed/simple;
-	bh=QLLzCqU0wCcXmeIHIV8TgQgW9BBj0BKW1s7r4z+lcPQ=;
+	s=arc-20240116; t=1790437780; c=relaxed/simple;
+	bh=UTFnmKMIa/HphfeRGv/w2u8lZ3AUss0q6DN+VLPgUAA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sBPfnDyxmI70pAPchF11iVK+6QCmD+G1YJxceBW42ZDyjaqxy6486ks3Wk9LPQ4pQ2dr2pPPmb8RuAikkKhWo4qrvTVZkZlRsHPb00T8kC0ZMgH9t37YZDzaDsNMCpZWMKOY+Saf9YUNunrLbt9y6bUcFm78yGEOHaVCpnG5X2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GmYINfBn; arc=none smtp.client-ip=74.125.231.171
+	 In-Reply-To:To:Cc; b=ecMqbZovxECh6yfA6+igJzYYnH5KwBFw4hHcFHncPCtuZX+IWcz7/cI4fsyq2qUK03f4m5U4Am5AWBcr0EWeh6dFF7AGcTMuOTHlpziYx4dtwuF0PiWWkTM5yFY8prEFpg6cbfYr70UaMqbcgqASKiIJbjd7tuNGGvUahEORJek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d+ST6ofx; arc=none smtp.client-ip=74.125.231.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GmYINfBn"
-Received: by mail-oo2-f43.google.com with SMTP id 46e09a7af769-81b36a8d5b5so120063a34.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 08:49:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d+ST6ofx"
+Received: by mail-oo2-f43.google.com with SMTP id 46e09a7af769-81b485c8368so89154a34.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 08:49:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790437770; x=1791042570; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790437774; x=1791042574; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=pXuc4JFXb8UPUC0fNxWljunUCLVVXc20qC1Nh0LbmgY=;
-        b=GmYINfBn0g84AsfqE1hnQNDM+ziUNDMBpYSPJE2BlDr6JvtRvpaBShZB0LMP2M3dLi
-         9T0zNEAUNABwcZUHOI4VrgKHkF1LG5gHrz69zFKrRs9jzyyYp74k6zALdqc6GOUfBn3h
-         ApP8ZG7fWVnf0BjxwiavnwzauZzyqSokc228V/aAV9DV4Ht08brjY8chr0/AP1m1cAqX
-         PBRon7F9PsYWsTYt48uXxbslWGogD72UhPas2P9pY1LG4XUIYJo/FD/QSTaImXQ0PXIE
-         ET725C2oDe5cDzTRrRNZuqCApqYZTCLecXWbdpT/5Y0yycSMU6njy16IwPugnUcDPw2B
-         01xg==
+        bh=r2upeAgz4ZvptOHZYdf2cN5u9HukHte/X4VwE60m55w=;
+        b=d+ST6ofxfVnLoJB6COZIEBsrZ+9Z1HoqwAN3njfVYIsB7YHODxXahVepZB+GiT39uC
+         wC4qgYyVDNMw5UusNX7/FAOMdeBVcym6gLmbgZGni7BRAex0GIPVG4uXpfXXwM7CysS/
+         IX6sp7ZYPwIrP5dYzXvpux4wRDlVfFCM5LsAuZPF/nHGNLap/manONDhTapI0g2gfQuu
+         Pi/0UFKkYOqDrw6ttVgKcmYXE2XPm0Drw+Shu5gIa8o8ao6b0MZHY6Nfl0UPbEsd1jR6
+         T0ztILv74S2twz9EhraDdyz7ZSloIIx5ujUD4eCk7JVN0jwHQGD3sdyKpQq6xhKPKs7c
+         CMSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790437770; x=1791042570;
+        d=1e100.net; s=20260707; t=1790437774; x=1791042574;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=pXuc4JFXb8UPUC0fNxWljunUCLVVXc20qC1Nh0LbmgY=;
-        b=nAtjwpQ+qKhILMu6ilFpq90ti7+18UgGQ71WdkrtFkSM3wXTDyhuzMt6Bldsbsqoio
-         8htR9N0HLjIXHEl3faxS6L5D+unm6KtdTEY+cNCKoE869a8WHxrhYZEH/tCVZAMxIyNL
-         FwkWZ6WkxIw2dq5MtIV5oAlsVYvMf+fBZxsjhT+5EkmXIPL5yDFeUkWqUNntS8tEr2yZ
-         rm4VZZCmm9rODDGaogbISJfLwDjeP2qPB5WDirrfpSIDZ7ZtyW/HqiEAZqyXUPEDpaWV
-         4nl/o0Zj0bQrxmvlg+L98Ss0/2SuhPFH5OyqrRZPtUmozqbBVilrgfACaO65JzHJRuPj
-         +15A==
-X-Forwarded-Encrypted: i=1; AKwUvBzrojIyT4lpHsPjKmK5V83OxS4YZK48Ukg9lt0yE550tEcbolTSj/RNFJLRtH9Zh+xf2SQ6QztDjkaOrg==@lists.linux.dev
-X-Gm-Message-State: AFuF++lRXdIVsJc1cAHEYdRs5z/DVySVRPsHlxfqPReAwXpfuwwtT6GC
-	moYtadfykZI2frGOQWFtXHs/B/DXlnnlAYg9Xj2b9p72ZupwZByCQXgg
-X-Gm-Gg: AYBFou3zpuD9qinf0tUGtTqaN4fdvEDyIv+j5VFaD6dylDm0PlhlJkz94V4TmUefSMA
-	uCikE9yCcSivq0XP09JfMxcU2nDklXR4l3qMaEr1lzGofi1eDWjR5plUOJswTbZFQ3ZZ+Xjf/Hk
-	4NhtEVNqNYY0X50+Vi+3neo2Zr4FiE+wx0yGjKkvf+C3n2zzfl4ExJAejz/keYxH0KqwTSZvU7j
-	szIWeOf/uACaW4QzrZAgaWXrpb9vIkLxWv6lrBJOnjVnR3EuzKBgTLcIVRhnMD2Ev7Sh85KO5+k
-	jl7Vzpmv1/hx7PQ5vzmE1XIEJEGAlg0L5yjhxBkto9y7ZqYwLG81M/XaXECGXBLSoR1l9q87lFb
-	FW+QB32fu0DfwIbn475Lui3xsuE9KsMxxSgEPRo1o3djpXQ/0YW8/z8pwi4+43n/npNzsut55Yw
-	CzOfWZAjCn7SIJa5jf8zRJ59xHpapQL+XDXb7Y2+kaZc511Op80OE/0v9FN9mEw0hcVBy+5aJOH
-	4hlGnMCTIF0r0FrnXs0f3N2pPW6UFEwOaTxNBTH1xWOWFbDdnRjSZAKTuHbgU2Z7nR/uThPGMI6
-	gu3YOrmgcaN+A6Be2GozA0nzuwzC+pDNIQwgaAgIoMIvgUG+4cCeNB5aKQ8QZrNqAn1fIPlOZyR
-	Ia/EQimSH4nEp8K5O3uE0
-X-Received: by 2002:a05:6830:334c:b0:819:60f4:56cd with SMTP id 46e09a7af769-81960f4adefmr3991885a34.6.1790437769815;
-        Sat, 26 Sep 2026 08:49:29 -0700 (PDT)
+        bh=r2upeAgz4ZvptOHZYdf2cN5u9HukHte/X4VwE60m55w=;
+        b=hmumdOCLOz2VioVmhInM4T02PqJ93EeXmRJRjjOtZRtlNHrpKUUIqlEnkDD2J8O+9G
+         PmQ1rzA1quaAouE9UUwOYbJV1U4H22UOOjhA+cYWfwx1Xaa2Bl/SbDTWt7sAFtQ/n3Yh
+         d6uS1/s1WXeh85se4GzvLSGXEY4BhVa2ic36/CJKZxm4JZgkjBU57Wg/+geEB7PrGzOe
+         MDykB6h+wMpU8ckFvVBSEoxpxqTXwbE45ZtwJXtkaOyX+fDNFuK3rjFfkETiIF4waupE
+         vXSOnAjGyUfRZTltnxge5cFRH8gZSf3N3TXZGjyHiZ05T6j72jCBrxpiHE9Y129ViDdh
+         aRtw==
+X-Forwarded-Encrypted: i=1; AKwUvBwDAdt3vcWwCByDrx0rwebneuDP02GAdoZFbB8GntzR7c6+9dS/K05QovuJSYmExpLhi9SPOzOe8QWuZg==@lists.linux.dev
+X-Gm-Message-State: AFuF++myawMZfndrWgtOqIiMrMH7VAoGf3r0VUG1MnkqpUpinK2l6TK/
+	lBs3QM9XnTVbKgPXjOnMZECu3xYA2BABPmpXSRs6SuNtchDJ1BZMY2gf
+X-Gm-Gg: AYBFou3ZIopIimDN9Y9Ox/HpuoiLyNpSwstjAeWXhlm6eaDwVneP4zaNYXnjRn0V5Zt
+	00fgtTS1cNTjiTloCG4ZgYS3e3tHWJtl8Nkrc0H7wAAow1GYLXOjXFiuD2n1mmNNY8yZptxCZ/j
+	vFsI5vqbp7QaUxTWVNSGxAezQsCniXCnKJ8iDLZwXuf1gNS4f2aJmrApU1L3gmQvCeHtmwSzSlB
+	/X3NCWbluWjQXS94J7aWToqITDdERSmjXZAkPxR23KBcnXWjbsA02s0clHUSvIxYiaZFWYEXXf7
+	gHp6T//kawG6BMq2lb+Ch8x+nXTIRxeCtWCGG6rwhj7wpjosB4wV3FjVAIIcGYFy3EawVBbq/i8
+	ER+roitkI9dKXl57huoBdRO6W6VNTiRfKurZGfs9Y8SymkfB+KlkXKsftIGiq9q44rm7K3VJaVc
+	xIxzm67Iz68ZMqm8gAp++KWHOixxmupRHWJ5pE1L/3cBJDJqSfC9CeyHOFKg6UX6jIAMuqPl86z
+	PPAy0VjLqvOi2QslZ8Hq4Ulf9biQ/B3Y6+TlLtK/Pvm+SRXDTCnBlE+/Aydt2lV/Ln15e8HvSkY
+	C+s5EAKzXKeLIFAIR3aa1bTzpg29Jd9AJw09wMBE1ed5tBSYNlqp6bFFEbZQbCEP6e+Ew5KzSIa
+	PE5OTIh1oUN/3+pMJUvdF
+X-Received: by 2002:a05:6830:628c:b0:804:bb22:6d42 with SMTP id 46e09a7af769-81781d92d4cmr10071685a34.17.1790437773995;
+        Sat, 26 Sep 2026 08:49:33 -0700 (PDT)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-818e98b16d4sm5442366a34.26.2026.09.26.08.49.27
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-818e98b16d4sm5442366a34.26.2026.09.26.08.49.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 08:49:29 -0700 (PDT)
+        Sat, 26 Sep 2026 08:49:33 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sat, 26 Sep 2026 09:49:00 -0600
-Subject: [PATCH net v4 05/15] net: stmmac: serialize and retain PHC
- configuration across reset
+Date: Sat, 26 Sep 2026 09:49:02 -0600
+Subject: [PATCH net v4 07/15] net: stmmac: unwind partially allocated DMA
+ configurations
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,7 +74,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260926-submit-stmmac-reset-fixes-v1-v4-5-ec1c0250b3c9@gmail.com>
+Message-Id: <20260926-submit-stmmac-reset-fixes-v1-v4-7-ec1c0250b3c9@gmail.com>
 References: <20260926-submit-stmmac-reset-fixes-v1-v4-0-ec1c0250b3c9@gmail.com>
 In-Reply-To: <20260926-submit-stmmac-reset-fixes-v1-v4-0-ec1c0250b3c9@gmail.com>
 To: Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
@@ -120,350 +120,214 @@ Cc: Richard Genoud <richard.genoud@bootlin.com>,
  linux-tegra@vger.kernel.org, linux-sunxi@lists.linux.dev
 X-Mailer: b4 0.15.2
 
-Keep the frequency correction, PEROUT requests and EXTTS selection
-independently of timestamp register contents. Cache PPS requests before
-converting units so they can be replayed after reset.
+RX and TX allocation failure paths release all configured queues, even
+when the failing queue has not allocated its buffer array or
+descriptors. Only walk buffer arrays and free coherent memory when those
+allocations exist. If TX allocation fails after RX allocation succeeds,
+release the RX resources too.
 
-Serialize timestamp writers and devlink timestamp-mode updates with a
-mutex, and let atomic gettime callers observe a reset gate under
-ptp_lock. Provide a common replay helper for later reset transactions,
-without changing PHC registration lifetime.
+Propagate RXQ memory-model registration errors instead of continuing
+with an unusable RXQ. Clear XSK RXQ bindings before the RXQ goes away,
+release any saved partial packet, and clear released resource pointers.
+This also leaves configurations which are reused after close or XDP
+reconfiguration with a consistent empty state.
 
+The MTU transaction added later relies on preparation failures being
+fully unwound without touching the currently active configuration.
+
+Take ownership of saved partial RX state at poll entry by clearing the
+saved flag and skb pointer immediately. Preserve incomplete state if the
+next descriptor is still DMA-owned. A budget-one completion must not
+leave an already delivered or freed skb reachable by the new teardown
+cleanup.
+
+Fixes: 71fedb0198cb ("net: stmmac: break some functions into RX and TX scopes")
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- drivers/net/ethernet/stmicro/stmmac/stmmac.h      |   7 ++
- drivers/net/ethernet/stmicro/stmmac/stmmac_main.c |  19 +++-
- drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c  | 131 +++++++++++++++++++---
- 3 files changed, 141 insertions(+), 16 deletions(-)
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 69 +++++++++++++++++------
+ 1 file changed, 52 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac.h b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
-index c7c876408d85..aa09b2defcd9 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac.h
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
-@@ -337,6 +337,12 @@ struct stmmac_priv {
- 	int use_riwt;
- 	int irq_wake;
- 	rwlock_t ptp_lock;
-+	/* Serialize PHC changes with a hardware reset; gettime uses ptp_lock. */
-+	struct mutex ptp_mutex;
-+	bool ptp_blocked;
-+	long ptp_scaled_ppm;
-+	u32 ptp_perout;
-+	u32 ptp_extts;
- 	/* Protects auxiliary snapshot registers from concurrent access. */
- 	struct mutex aux_ts_lock;
- 	wait_queue_head_t tstamp_busy_wait;
-@@ -404,6 +410,7 @@ void stmmac_set_ethtool_ops(struct net_device *netdev);
- 
- void stmmac_ptp_register(struct stmmac_priv *priv);
- void stmmac_ptp_unregister(struct stmmac_priv *priv);
-+int stmmac_ptp_restore(struct stmmac_priv *priv);
- int stmmac_xdp_open(struct net_device *dev);
- void stmmac_xdp_release(struct net_device *dev);
- int stmmac_get_phy_intf_sel(phy_interface_t interface);
 diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index 4f3d452c3503..8b0bc7c46df9 100644
+index bdebc5bfa2b8..1cc68c1cf37d 100644
 --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -941,6 +941,11 @@ static void stmmac_setup_ptp(struct stmmac_priv *priv)
- {
- 	int ret;
+@@ -1766,6 +1766,9 @@ static void dma_free_rx_skbufs(struct stmmac_priv *priv,
+ 	struct stmmac_rx_queue *rx_q = &dma_conf->rx_queue[queue];
+ 	int i;
  
-+	priv->ptp_scaled_ppm = 0;
-+	priv->ptp_perout = 0;
-+	priv->ptp_extts = 0;
-+	priv->ptp_blocked = false;
++	if (!rx_q->buf_pool)
++		return;
 +
- 	ret = clk_prepare_enable(priv->plat->clk_ptp_ref);
- 	if (ret < 0)
- 		netdev_warn(priv->dev,
-@@ -6285,7 +6290,8 @@ static void stmmac_common_interrupt(struct stmmac_priv *priv)
- 		for (queue = 0; queue < queues_count; queue++)
- 			stmmac_host_mtl_irq_status(priv, priv->hw, queue);
- 
--		stmmac_timestamp_interrupt(priv, priv);
-+		if (!READ_ONCE(priv->ptp_blocked))
-+			stmmac_timestamp_interrupt(priv, priv);
- 	}
+ 	for (i = 0; i < dma_conf->dma_rx_size; i++)
+ 		stmmac_free_rx_buffer(priv, rx_q, i);
  }
+@@ -1889,17 +1892,19 @@ static int __init_dma_rx_desc_rings(struct stmmac_priv *priv,
+ 	rx_q->xsk_pool = stmmac_get_xsk_pool(priv, queue);
  
-@@ -7696,6 +7702,14 @@ static int stmmac_dl_ts_coarse_set(struct devlink *dl, u32 id,
- {
- 	struct stmmac_devlink_priv *dl_priv = devlink_priv(dl);
- 	struct stmmac_priv *priv = dl_priv->stmmac_priv;
-+	unsigned long flags;
+ 	if (rx_q->xsk_pool) {
+-		WARN_ON(xdp_rxq_info_reg_mem_model(&rx_q->xdp_rxq,
+-						   MEM_TYPE_XSK_BUFF_POOL,
+-						   NULL));
++		ret = xdp_rxq_info_reg_mem_model(&rx_q->xdp_rxq,
++						 MEM_TYPE_XSK_BUFF_POOL, NULL);
++		if (ret)
++			return ret;
+ 		netdev_info(priv->dev,
+ 			    "Register MEM_TYPE_XSK_BUFF_POOL RxQ-%d\n",
+ 			    queue);
+ 		xsk_pool_set_rxq_info(rx_q->xsk_pool, &rx_q->xdp_rxq);
+ 	} else {
+-		WARN_ON(xdp_rxq_info_reg_mem_model(&rx_q->xdp_rxq,
+-						   MEM_TYPE_PAGE_POOL,
+-						   rx_q->page_pool));
++		ret = xdp_rxq_info_reg_mem_model(&rx_q->xdp_rxq,
++						 MEM_TYPE_PAGE_POOL, rx_q->page_pool);
++		if (ret)
++			return ret;
+ 		netdev_info(priv->dev,
+ 			    "Register MEM_TYPE_PAGE_POOL RxQ-%d\n",
+ 			    queue);
+@@ -1961,6 +1966,8 @@ static int init_dma_rx_desc_rings(struct net_device *dev,
+ 			dma_free_rx_skbufs(priv, dma_conf, queue);
+ 
+ 		rx_q->buf_alloc_num = 0;
++		if (rx_q->xsk_pool)
++			xsk_pool_set_rxq_info(rx_q->xsk_pool, NULL);
+ 		rx_q->xsk_pool = NULL;
+ 
+ 		queue--;
+@@ -2104,6 +2111,9 @@ static void dma_free_tx_skbufs(struct stmmac_priv *priv,
+ 
+ 	tx_q->xsk_frames_done = 0;
+ 
++	if (!tx_q->tx_skbuff_dma || !tx_q->tx_skbuff)
++		return;
 +
-+	mutex_lock(&priv->ptp_mutex);
-+	if (priv->ptp_blocked) {
-+		mutex_unlock(&priv->ptp_mutex);
-+		return -EBUSY;
+ 	for (i = 0; i < dma_conf->dma_tx_size; i++)
+ 		stmmac_free_tx_buffer(priv, dma_conf, queue, i);
+ 
+@@ -2142,10 +2152,16 @@ static void __free_dma_rx_desc_resources(struct stmmac_priv *priv,
+ 	void *addr;
+ 
+ 	/* Release the DMA RX socket buffers */
+-	if (rx_q->xsk_pool)
++	if (rx_q->xsk_pool) {
+ 		dma_free_rx_xskbufs(priv, dma_conf, queue);
+-	else
++		xsk_pool_set_rxq_info(rx_q->xsk_pool, NULL);
++	} else {
+ 		dma_free_rx_skbufs(priv, dma_conf, queue);
 +	}
-+	write_lock_irqsave(&priv->ptp_lock, flags);
++	if (rx_q->state_saved)
++		dev_kfree_skb_any(rx_q->state.skb);
++	rx_q->state.skb = NULL;
++	rx_q->state_saved = 0;
  
- 	priv->tsfupdt_coarse = ctx->val.vbool;
+ 	rx_q->buf_alloc_num = 0;
+ 	rx_q->xsk_pool = NULL;
+@@ -2158,7 +2174,8 @@ static void __free_dma_rx_desc_resources(struct stmmac_priv *priv,
  
-@@ -7708,6 +7722,8 @@ static int stmmac_dl_ts_coarse_set(struct devlink *dl, u32 id,
- 	 * reconfigure the systime, subsecond increment and addend.
- 	 */
- 	stmmac_update_subsecond_increment(priv);
-+	write_unlock_irqrestore(&priv->ptp_lock, flags);
-+	mutex_unlock(&priv->ptp_mutex);
+ 	size = stmmac_get_rx_desc_size(priv) * dma_conf->dma_rx_size;
  
- 	return 0;
+-	dma_free_coherent(priv->device, size, addr, rx_q->dma_rx_phy);
++	if (addr)
++		dma_free_coherent(priv->device, size, addr, rx_q->dma_rx_phy);
+ 
+ 	if (xdp_rxq_info_is_reg(&rx_q->xdp_rxq))
+ 		xdp_rxq_info_unreg(&rx_q->xdp_rxq);
+@@ -2166,6 +2183,10 @@ static void __free_dma_rx_desc_resources(struct stmmac_priv *priv,
+ 	kfree(rx_q->buf_pool);
+ 	if (rx_q->page_pool)
+ 		page_pool_destroy(rx_q->page_pool);
++	rx_q->buf_pool = NULL;
++	rx_q->page_pool = NULL;
++	rx_q->dma_erx = NULL;
++	rx_q->dma_rx = NULL;
  }
-@@ -8048,6 +8064,7 @@ static int __stmmac_dvr_probe(struct device *device,
  
- 	mutex_init(&priv->lock);
- 	rwlock_init(&priv->ptp_lock);
-+	mutex_init(&priv->ptp_mutex);
+ static void free_dma_rx_desc_resources(struct stmmac_priv *priv,
+@@ -2206,10 +2227,16 @@ static void __free_dma_tx_desc_resources(struct stmmac_priv *priv,
  
- 	stmmac_fpe_init(priv);
+ 	size = stmmac_get_tx_desc_size(priv, tx_q) * dma_conf->dma_tx_size;
  
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c
-index 3bfcc9760dce..bc6fe0c87e01 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c
-@@ -12,6 +12,16 @@
+-	dma_free_coherent(priv->device, size, addr, tx_q->dma_tx_phy);
++	if (addr)
++		dma_free_coherent(priv->device, size, addr, tx_q->dma_tx_phy);
  
- #define PTP_SAFE_TIME_OFFSET_NS	500000
+ 	kfree(tx_q->tx_skbuff_dma);
+ 	kfree(tx_q->tx_skbuff);
++	tx_q->tx_skbuff_dma = NULL;
++	tx_q->tx_skbuff = NULL;
++	tx_q->dma_etx = NULL;
++	tx_q->dma_entx = NULL;
++	tx_q->dma_tx = NULL;
+ }
  
-+static int stmmac_ptp_begin(struct stmmac_priv *priv)
-+{
-+	mutex_lock(&priv->ptp_mutex);
-+	if (priv->ptp_blocked) {
-+		mutex_unlock(&priv->ptp_mutex);
-+		return -EBUSY;
-+	}
-+	return 0;
-+}
-+
- /**
-  * stmmac_adjust_freq
-  *
-@@ -28,14 +38,21 @@ static int stmmac_adjust_freq(struct ptp_clock_info *ptp, long scaled_ppm)
- 	    container_of(ptp, struct stmmac_priv, ptp_clock_ops);
- 	unsigned long flags;
- 	u32 addend;
-+	int ret;
+ static void free_dma_tx_desc_resources(struct stmmac_priv *priv,
+@@ -2416,6 +2443,8 @@ static int alloc_dma_desc_resources(struct stmmac_priv *priv,
+ 		return ret;
  
--	addend = adjust_by_scaled_ppm(priv->default_addend, scaled_ppm);
-+	ret = stmmac_ptp_begin(priv);
+ 	ret = alloc_dma_tx_desc_resources(priv, dma_conf);
 +	if (ret)
-+		return ret;
++		free_dma_rx_desc_resources(priv, dma_conf);
  
- 	write_lock_irqsave(&priv->ptp_lock, flags);
--	stmmac_config_addend(priv, priv->ptpaddr, addend);
-+	addend = adjust_by_scaled_ppm(priv->default_addend, scaled_ppm);
-+	ret = stmmac_config_addend(priv, priv->ptpaddr, addend);
-+	if (!ret)
-+		priv->ptp_scaled_ppm = scaled_ppm;
- 	write_unlock_irqrestore(&priv->ptp_lock, flags);
-+	mutex_unlock(&priv->ptp_mutex);
- 
--	return 0;
-+	return ret;
- }
- 
- /**
-@@ -57,6 +74,10 @@ static int stmmac_adjust_time(struct ptp_clock_info *ptp, s64 delta)
- 	bool xmac, est_rst = false;
- 	int ret;
- 
-+	ret = stmmac_ptp_begin(priv);
-+	if (ret)
-+		return ret;
-+
- 	xmac = dwmac_is_xmac(priv->plat->core_type);
- 
- 	if (delta < 0) {
-@@ -110,6 +131,7 @@ static int stmmac_adjust_time(struct ptp_clock_info *ptp, s64 delta)
- 			netdev_err(priv->dev, "failed to configure EST\n");
- 	}
- 
-+	mutex_unlock(&priv->ptp_mutex);
- 	return 0;
- }
- 
-@@ -128,14 +150,18 @@ static int stmmac_get_time(struct ptp_clock_info *ptp, struct timespec64 *ts)
- 	    container_of(ptp, struct stmmac_priv, ptp_clock_ops);
- 	unsigned long flags;
- 	u64 ns = 0;
-+	int ret = 0;
- 
- 	read_lock_irqsave(&priv->ptp_lock, flags);
--	stmmac_get_systime(priv, priv->ptpaddr, &ns);
-+	if (priv->ptp_blocked)
-+		ret = -EBUSY;
-+	else
-+		stmmac_get_systime(priv, priv->ptpaddr, &ns);
- 	read_unlock_irqrestore(&priv->ptp_lock, flags);
- 
- 	*ts = ns_to_timespec64(ns);
- 
--	return 0;
-+	return ret;
- }
- 
- /**
-@@ -153,25 +179,34 @@ static int stmmac_set_time(struct ptp_clock_info *ptp,
- 	struct stmmac_priv *priv =
- 	    container_of(ptp, struct stmmac_priv, ptp_clock_ops);
- 	unsigned long flags;
-+	int ret;
-+
-+	ret = stmmac_ptp_begin(priv);
-+	if (ret)
-+		return ret;
- 
- 	write_lock_irqsave(&priv->ptp_lock, flags);
--	stmmac_init_systime(priv, priv->ptpaddr, ts->tv_sec, ts->tv_nsec);
-+	ret = stmmac_init_systime(priv, priv->ptpaddr, ts->tv_sec, ts->tv_nsec);
- 	write_unlock_irqrestore(&priv->ptp_lock, flags);
-+	mutex_unlock(&priv->ptp_mutex);
- 
--	return 0;
-+	return ret;
- }
- 
--static int stmmac_enable(struct ptp_clock_info *ptp,
--			 struct ptp_clock_request *rq, int on)
-+static int __stmmac_enable(struct ptp_clock_info *ptp,
-+			   struct ptp_clock_request *rq, int on)
- {
- 	struct stmmac_priv *priv =
- 	    container_of(ptp, struct stmmac_priv, ptp_clock_ops);
- 	void __iomem *ptpaddr = priv->ptpaddr;
--	struct stmmac_pps_cfg *cfg;
-+	struct stmmac_pps_cfg pps, saved, *cfg = &pps;
- 	int ret = -EOPNOTSUPP;
- 	unsigned long flags;
- 	u32 acr_value;
- 
-+	if (priv->plat->core_type == DWMAC_CORE_GMAC)
-+		return dwmac1000_ptp_enable(ptp, rq, on);
-+
- 	switch (rq->type) {
- 	case PTP_CLK_REQ_PEROUT: {
- 		struct timespec64 curr_time;
-@@ -182,8 +217,6 @@ static int stmmac_enable(struct ptp_clock_info *ptp,
- 		if (rq->perout.flags)
- 			return -EOPNOTSUPP;
- 
--		cfg = &priv->pps[rq->perout.index];
--
- 		cfg->start.tv_sec = rq->perout.start.sec;
- 		cfg->start.tv_nsec = rq->perout.start.nsec;
- 
-@@ -213,6 +246,7 @@ static int stmmac_enable(struct ptp_clock_info *ptp,
- 
- 		cfg->period.tv_sec = rq->perout.period.sec;
- 		cfg->period.tv_nsec = rq->perout.period.nsec;
-+		saved = *cfg;
- 
- 		write_lock_irqsave(&priv->ptp_lock, flags);
- 		ret = stmmac_flex_pps_config(priv, priv->ioaddr,
-@@ -220,6 +254,9 @@ static int stmmac_enable(struct ptp_clock_info *ptp,
- 					     priv->sub_second_inc,
- 					     priv->systime_flags);
- 		write_unlock_irqrestore(&priv->ptp_lock, flags);
-+		/* Some cores convert cfg->start to binary rollover units. */
-+		if (!ret)
-+			priv->pps[rq->perout.index] = saved;
- 		break;
- 	}
- 	case PTP_CLK_REQ_EXTTS: {
-@@ -265,6 +302,64 @@ static int stmmac_enable(struct ptp_clock_info *ptp,
  	return ret;
  }
+@@ -5726,6 +5755,7 @@ static int stmmac_rx(struct stmmac_priv *priv, int limit, u32 queue)
+ 	struct sk_buff *skb = NULL;
+ 	struct stmmac_xdp_buff ctx;
+ 	int xdp_status = 0;
++	bool in_progress = rx_q->state_saved;
+ 	int bufsz;
  
-+static int stmmac_enable(struct ptp_clock_info *ptp,
-+			 struct ptp_clock_request *rq, int on)
-+{
-+	struct stmmac_priv *priv =
-+		container_of(ptp, struct stmmac_priv, ptp_clock_ops);
-+	int ret;
-+
-+	ret = stmmac_ptp_begin(priv);
-+	if (ret)
-+		return ret;
-+	ret = __stmmac_enable(ptp, rq, on);
-+	if (!ret) {
-+		if (rq->type == PTP_CLK_REQ_PEROUT) {
-+			if (on)
-+				priv->ptp_perout |= BIT(rq->perout.index);
-+			else
-+				priv->ptp_perout &= ~BIT(rq->perout.index);
-+		} else if (rq->type == PTP_CLK_REQ_EXTTS) {
-+			priv->ptp_extts = on ? BIT(rq->extts.index) : 0;
-+		}
+ 	dma_dir = page_pool_get_dma_dir(rx_q->page_pool);
+@@ -5740,6 +5770,14 @@ static int stmmac_rx(struct stmmac_priv *priv, int limit, u32 queue)
+ 		stmmac_display_ring(priv, rx_head, priv->dma_conf.dma_rx_size, true,
+ 				    rx_q->dma_rx_phy, desc_size);
+ 	}
++	if (in_progress) {
++		skb = rx_q->state.skb;
++		error = rx_q->state.error;
++		len = rx_q->state.len;
++		rx_q->state.skb = NULL;
++		rx_q->state_saved = false;
 +	}
-+	mutex_unlock(&priv->ptp_mutex);
-+	return ret;
-+}
 +
-+/* Called with ptp_mutex held and PHC access blocked across the MAC reset. */
-+int stmmac_ptp_restore(struct stmmac_priv *priv)
-+{
-+	struct ptp_clock_request rq = { .type = PTP_CLK_REQ_EXTTS };
-+	unsigned long flags;
-+	u64 ns = 0, period;
-+	u32 addend;
-+	int i, ret;
-+
-+	write_lock_irqsave(&priv->ptp_lock, flags);
-+	addend = adjust_by_scaled_ppm(priv->default_addend, priv->ptp_scaled_ppm);
-+	ret = stmmac_config_addend(priv, priv->ptpaddr, addend);
-+	for (i = 0; !ret && i < STMMAC_PPS_MAX; i++) {
-+		struct stmmac_pps_cfg cfg = priv->pps[i];
-+
-+		if (!(priv->ptp_perout & BIT(i)))
-+			continue;
-+		stmmac_get_systime(priv, priv->ptpaddr, &ns);
-+		period = timespec64_to_ns(&cfg.period);
-+		/* Retain phase, but move an expired target into the future. */
-+		cfg.start = stmmac_calc_tas_basetime(timespec64_to_ktime(cfg.start),
-+						     ns + PTP_SAFE_TIME_OFFSET_NS, period);
-+		ret = stmmac_flex_pps_config(priv, priv->ioaddr, i, &cfg, true,
-+					     priv->sub_second_inc, priv->systime_flags);
-+	}
-+	write_unlock_irqrestore(&priv->ptp_lock, flags);
-+	if (ret || !priv->ptp_extts)
-+		return ret;
-+
-+	rq.extts.index = __ffs(priv->ptp_extts);
-+	return __stmmac_enable(&priv->ptp_clock_ops, &rq, 1);
-+}
-+
- /**
-  * stmmac_get_syncdevicetime
-  * @device: current device time
-@@ -287,9 +382,15 @@ static int stmmac_getcrosststamp(struct ptp_clock_info *ptp,
- {
- 	struct stmmac_priv *priv =
- 		container_of(ptp, struct stmmac_priv, ptp_clock_ops);
-+	int ret;
+ 	while (count < limit) {
+ 		unsigned int buf1_len = 0, buf2_len = 0;
+ 		enum pkt_hash_types hash_type;
+@@ -5748,12 +5786,7 @@ static int stmmac_rx(struct stmmac_priv *priv, int limit, u32 queue)
+ 		int entry;
+ 		u32 hash;
  
--	return get_device_system_crosststamp(stmmac_get_syncdevicetime,
--					     priv, NULL, xtstamp);
-+	ret = stmmac_ptp_begin(priv);
-+	if (ret)
-+		return ret;
-+	ret = get_device_system_crosststamp(stmmac_get_syncdevicetime,
-+					    priv, NULL, xtstamp);
-+	mutex_unlock(&priv->ptp_mutex);
-+	return ret;
- }
+-		if (!count && rx_q->state_saved) {
+-			skb = rx_q->state.skb;
+-			error = rx_q->state.error;
+-			len = rx_q->state.len;
+-		} else {
+-			rx_q->state_saved = false;
++		if (!in_progress) {
+ 			skb = NULL;
+ 			error = 0;
+ 			len = 0;
+@@ -5787,6 +5820,8 @@ static int stmmac_rx(struct stmmac_priv *priv, int limit, u32 queue)
  
- /* structure describing a PTP hardware clock */
-@@ -323,7 +424,7 @@ const struct ptp_clock_info dwmac1000_ptp_clock_ops = {
- 	.adjtime = stmmac_adjust_time,
- 	.gettime64 = stmmac_get_time,
- 	.settime64 = stmmac_set_time,
--	.enable = dwmac1000_ptp_enable,
-+	.enable = stmmac_enable,
- };
+ 		prefetch(np);
  
- /**
++		in_progress = status & rx_not_ls;
++
+ 		if (priv->extend_desc)
+ 			stmmac_rx_extended_status(priv, &priv->xstats, rx_q->dma_erx + entry);
+ 		if (unlikely(status == discard_frame)) {
+@@ -5961,7 +5996,7 @@ static int stmmac_rx(struct stmmac_priv *priv, int limit, u32 queue)
+ 		count++;
+ 	}
+ 
+-	if (status & rx_not_ls || skb) {
++	if (in_progress || skb) {
+ 		rx_q->state_saved = true;
+ 		rx_q->state.skb = skb;
+ 		rx_q->state.error = error;
 
 -- 
 2.53.0
