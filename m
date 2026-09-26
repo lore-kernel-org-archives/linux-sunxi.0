@@ -1,30 +1,31 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3EA132B102
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 23:26:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA39E314B66
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 23:26:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790465195; cv=none; b=IB2M41If/N+5itFfzaR3UCq0c54Jh2dZ8+yTjkKzKPOeycQGiBsJhAcr9IdWBRr6wv3hn+7hoGb/td/7NpuIeI1k1f7L6fzMlu9WfS1HGmfoGKahFkElAU5Ka4jNDluFfWIOboHz0UClSgqVB+f0QC35u5K4DXSvZmuYrOK2YUk=
+	t=1790465198; cv=none; b=EI4TInoQK81huFKTqMsEfw3916OTVdyRNIkxcGPRIIShrDZ81CXA6Ffq0qzS6sds0nIwpCQ0IdyMB5tUOW1jF6I0r54SQmDjRLj6SDb68vUZ4NtdDDwpkGJdw5SFrKoAqGkF32yoaD8kP7ekeA3Wl+CnBuaubFw6Q2LcGWRvB6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790465195; c=relaxed/simple;
-	bh=qXRsgdtUI3eUMBcjIZ2U+x5n6IUT1Yp1xou5hmMNBic=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rAbMNHqcvJwD6KFSlHGM5UY0obQMyspknMZxyud9a8mLvKhy5e8osNO78RzdYtiHx7m+h2m1XyeXtQoR9XzVDH7L3gc9gd9yThYbWHI12yxpF9CnjAUafcosSlYHSH6BN56ziP3REb4mbzUFTe2TQmBP6giwX6VqjMc8qEKIXuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=EcxKL4PB; arc=none smtp.client-ip=217.140.110.172
+	s=arc-20240116; t=1790465198; c=relaxed/simple;
+	bh=W5iZHw/9hbynSVMkDHufc1P8AF2PukWPWeCd4BJBy1A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ZaJG72ILBB6krznHDzf6ZAyjsLVTMKRpwKKS5oxaGmc7Y4nidYMIVDnlCW3jNmQhXhqVr1hbHNLxceMy7ETJp1LrCTBVtu59+TbQIryLCse0HTMujSGNb68klULay9w7NIsr/Z171jNQkFsUPR+7vVOafSupii5yjoMyEZ2GPgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=CqGsx+28; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="EcxKL4PB"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="CqGsx+28"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 840901570;
-	Sat, 26 Sep 2026 16:26:30 -0700 (PDT)
-Received: from ryzen.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A3CF3F85F;
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C397A1596;
 	Sat, 26 Sep 2026 16:26:32 -0700 (PDT)
+Received: from ryzen.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 68D633F85F;
+	Sat, 26 Sep 2026 16:26:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790465194; bh=qXRsgdtUI3eUMBcjIZ2U+x5n6IUT1Yp1xou5hmMNBic=;
-	h=From:To:Cc:Subject:Date:From;
-	b=EcxKL4PB0mFo7ASPx0Rk/bvEgjgi5o200btsxKGxohYL7po0vh3GM0VEg2dODk6jZ
-	 jD065/D5J6X8FCGjJE/9Ljma/fbBaGpFLaVi7RbFbzJBeR4geYDtprEEaCWWBb+t78
-	 YJXy/kNfvcwcGXrXh3aJYAFC98p+O26JE5IuVVNI=
+	t=1790465196; bh=W5iZHw/9hbynSVMkDHufc1P8AF2PukWPWeCd4BJBy1A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=CqGsx+28/+rPIouDhtlPfUGK+LTE/N5Ngf5iiuR+uTaiPTkCeXrkmQ6AN5VDAOEb5
+	 UYPD346wMwDFLuEDgIoEi1/CKXXZLVmk2vpElrw/OCil08N1jhq57fIKJ66fHw0QTK
+	 QlxtmAcS7VAoIiOc3FbLSfqP8jZEcz67LvkWEHEs=
 From: Andre Przywara <andre.przywara@arm.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -36,10 +37,12 @@ Cc: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	Per Larsson <per@palvencia.se>
-Subject: [PATCH v2 0/2] arm64: dts: allwinner: x96qpro+: enable Ethernet support
-Date: Sun, 27 Sep 2026 01:21:40 +0200
-Message-ID: <20260926232142.5244-1-andre.przywara@arm.com>
+Subject: [PATCH v2 1/2] arm64: dts: allwinner: a523: add EPHY 25MHz clock fanout pins
+Date: Sun, 27 Sep 2026 01:21:41 +0200
+Message-ID: <20260926232142.5244-2-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.46.4
+In-Reply-To: <20260926232142.5244-1-andre.przywara@arm.com>
+References: <20260926232142.5244-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,42 +51,45 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is an update of the X96QPro+ Ethernet series, but just the DT
-patches:
-The X96QPro+ TV box uses the second GMAC in the Allwinner H728 SoC, and
-connects its RGMII pins to a Maxio MAE0621-Q2C Ethernet PHY. That PHY
-is clocked not by a crystal oscillator, but by a clock fanout pin, so by
-the SoC.
+The Allwinner A523 SoC family provides two clock fanout pins, which are
+backed by gated clocks fixed to 25 MHz, divided down from the main
+peripheral PLL. Those are meant to clock an Ethernet PHY, and allow to
+save an external crystal oscillator typically employed for that purpose.
 
-Patch 1 in this series adds the two 25MHz PHY clock fanout pins to the
-pincontroller node in the SoC .dtsi file, which patch 2 uses to describe
-the Ethernet setup on this device.
+Add the pin descriptions of the two pins for those clocks, one is within
+the RGMII0 pins, the other within the RGMII1 pins, although the clock
+fanout works completely independently from the two MACs.
 
-Functionality-wise this series depends on the MAXIO PHY driver series,
-though only the DT binding patch from there is required to make a build
-pass, so apart from that binding patch they can be merged independently.
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Please have a look and test. Based on v7.3-rc1 and this patch:
-https://lore.kernel.org/netdev/20260926225625.25969-2-andre.przywara@arm.com/T/#u
-
-Cheers,
-Andre
-
-Changes in v2:
-- split of from MAXIO PHY patches (they go to netdev separately)
-- fix misspelt pin label
-
-Andre Przywara (2):
-  arm64: dts: allwinner: a523: add EPHY 25MHz clock fanout pins
-  arm64: dts: allwinner: a523: x96qpro+: enable Ethernet support
-
- .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 14 ++++++++++
- .../dts/allwinner/sun55i-h728-x96qpro+.dts    | 28 +++++++++++++++++++
- 2 files changed, 42 insertions(+)
-
-
-base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
-prerequisite-patch-id: ded31e4869f9628e1af7f9676c718a17cb4f7c88
+diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+index 85ef492ffeae7..ce01fad22b469 100644
+--- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
+@@ -147,6 +147,20 @@ pio: pinctrl@2000000 {
+ 			interrupt-controller;
+ 			#interrupt-cells = <3>;
+ 
++			/omit-if-no-ref/
++			ephy0_25m_pin: ephy0-25m-pin {
++				pins = "PH13";
++				allwinner,pinmux = <5>;
++				function = "ephy_25m";
++			};
++
++			/omit-if-no-ref/
++			ephy1_25m_pin: ephy1-25m-pin {
++				pins = "PJ10";
++				allwinner,pinmux = <5>;
++				function = "ephy_25m";
++			};
++
+ 			/omit-if-no-ref/
+ 			i2s2_pi_pins: i2s2-pi-pins {
+ 				pins = "PI2", "PI3", "PI4", "PI5";
 -- 
 2.46.4
 
