@@ -1,71 +1,71 @@
 Received: from mail-oo2-f39.google.com (mail-oo2-f39.google.com [74.125.231.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0033D8911
-	for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 22:00:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F9F3CC7D3
+	for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 22:00:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790546415; cv=none; b=nYB05PtDbl8cro2scP9N79pjJOkIwIP7BC4i9/nz8yQ+h4aCLSsYrUEt1AlZ3rBJx96pA7DTwEumcz9a6UoXk7F6J0c/5USeBMdP5EsatkQuNFf98Oo7+gzjZ1/rdYkT1MVePQo9deoavJ+lkbwamXpncgaI3glesbMddF+fpNU=
+	t=1790546422; cv=none; b=rSW5c+M+zWc3moepyteDOYWnbFJxB7DqDpjRlURWZahJ5sSA4fZSRve6byqRUnFijqUdwESMCzM9G+M6BiLohC1cGVlaIPcAQK8PpAU6LJNVvaSdwjbxUNIYV3QOas0TZ6FF3/KMxwpeI8LtGIMSMoaEZbNmgdbMtLEb3mp2ECQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790546415; c=relaxed/simple;
-	bh=fNZ5W/2/Y9NhrCFRu5mYO39BRvhOqZwKJ2T11wGGYzA=;
+	s=arc-20240116; t=1790546422; c=relaxed/simple;
+	bh=Wg9uOKO2uavAXfyYKzZQM2kSoq6T2GSD4zo7KjquxW8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=c0f0ULmtU3EHxc8giPUP7808MIM+yOeFYn/Eavfd5pLk1GU2wcUTeFyuCloaGTZNHlgXk/nyYmIgdZK5z4W1KkIaPbz9MiGiQN4SN2q04UZRCFNv0cel5DK/RAH6xCJVuPp7+r5S5uYfqCqHeXyNXXuULTu7n3MeT3IRlqOuPHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gwkIxij2; arc=none smtp.client-ip=74.125.231.167
+	 In-Reply-To:To:Cc; b=H2ACiq/3LVX5j23uu2bxuXqmVIATWl1cbNopchQA6hjsVWU7MjuHcDukKrf8zu5Bvjncpo5IsBlLEYG8F3e7AYISsqp2rakbxLNs3lX6/9h1GSYiVDXNq0v6qD10gLBN9vAY2eyPBVX0d9s+UMMhRqVWQe3XGFeLKsagHYJIuSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sJM4xsfU; arc=none smtp.client-ip=74.125.231.167
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gwkIxij2"
-Received: by mail-oo2-f39.google.com with SMTP id 46e09a7af769-81c3544e2b7so312706a34.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 15:00:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sJM4xsfU"
+Received: by mail-oo2-f39.google.com with SMTP id 46e09a7af769-8144632e066so1346508a34.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 15:00:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790546406; x=1791151206; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790546411; x=1791151211; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=oNKzZPMQKhE7hSuOi9nkQONCJww90d0QAWF4qh7OtfY=;
-        b=gwkIxij2vwGSR22OtnL+euRunBVBX6BnxP5whyzUXaT1m3jGHSk8zr5TI/vHO0Tc4m
-         a9LC2Bf5W9PWs22jgBO62q61L0bKN04ZWRRQN2vCEkaCdgQwfkA5A0+2vjuPuLZrNUbR
-         OKB8TpcrWqkzVYencTIXg1y/OPxlqYJLTV69V4bMXhwSZGnNlq1/A3M5ueFYhB/4gp7r
-         3ypaiNOavNCnwDu7RlHo3hJZOVPOET/cwm9Q2A/VKT62lVfm5jsoL24WNn/0puj9NPU3
-         EdX4PgOZJM3JSzVjAZojvnRxYdw9fWGhfwSNslPHxCTF/fRueu5h3eak0die6cH+jf3E
-         ZLeQ==
+        bh=uF7xnPzdi03tjllE2GYzrJD/eEbjnznIoKovj7ZFXd4=;
+        b=sJM4xsfU/+84psnVXoutp8KHUBqWp8dPByB/25Dz+juCWepeSuv8ZBbh48swq8D6KY
+         XsrBR52+edKEgJPhE1hIAKis2YZwHIVghtjsp1qRYQrGpC1eJH485G6uH3lkGTU2+iIt
+         8yieiKsaoVBPM4uj9locPH3GWvj0d1VZU4pZpsvoRSAoXjd7vmdYop7rHh9IjCTMFnft
+         cNtwDPpzGAneIAchG4GGVj13hVrysRM5Obsa1n+8+Dz9jNxEW4Lb74L0OTx4ejXN4tg8
+         RYCg+4aIqHCgVI+PRoQn4/KW+D/dkgNmOeBNr5T1rEyuH6cWcUUbCMWqvEvWkHAcP1Ac
+         yQKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790546406; x=1791151206;
+        d=1e100.net; s=20260707; t=1790546411; x=1791151211;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=oNKzZPMQKhE7hSuOi9nkQONCJww90d0QAWF4qh7OtfY=;
-        b=tAyVMGP/8J+EUUsTPFCXtjjj2yF6zf/GpmHjpC41c8LwqYEwbs5b9bFFe4YZsVbd5F
-         LqaFYRb8N63bW/RUb6UMkJSctI5UGpHxdIZtcjiJIexPtyPjGejBrTujWDSWLbSCfLxY
-         IgGALyr79ljHxov6poLUnc8u42C+GSYqffs0NmwYWOvmewmesykpkrnlY25zgmdrDm2A
-         YDItNwff5SfooMkso1Kjh3W2PVWwWeLTwGx05VkNW8qcTP73qRxW384fzcUJLvL47iYt
-         BZIF2C05gOzJaXhTkIigZpsoc8LnFQawge6lPNWMVYqPkpTmI0I+vNM3LRkPg4xeTfUQ
-         i1wg==
-X-Forwarded-Encrypted: i=1; AKwUvBz0m7wUVUhbZjJMAvqjqm4JcIYX9LRX81ZIYybgoqajwVVxmq6xU/7PukqScwY2KyVG1/k+swT0sr6PLg==@lists.linux.dev
-X-Gm-Message-State: AFuF++nGFVh6NE7V0qnW/kaF39h5qUnaRFDf+3Cl8ZGGXD7wKNDGFOgE
-	XrG3CPwTlKxEU2Zk47OcRY/tFXaFwTcRZq1AlI3WanIq47vBWo3s7q0y
-X-Gm-Gg: AYBFou0oMncf3bUuePKDKQI6oD08lYYtcdkIib58xHMPrpvb4XSxP0+Fig+NvFJMhDm
-	qQQYhSz42Ebz9NNEtJOsAtiLcMsh08XJ3atXg9/E8sKk34ezPydTTqPzc17EirTflCUJ+MFoqd+
-	yX+J/3IW1tyvUDfnBt+tliaNBSPcSI7+kU5LeNZijDsi1NwfTJsAa/Id515JBBLLj8bfGfxGVv8
-	cjl3ilOAOSc0nGVNsLI+ej+NNG1tzFK2Ccp8D8kLRIICzFbctYYJ2FropmMbi6TLVlHiPJEU2JG
-	+b4PKTegrsnglAZajhPiynpaKUNsCVJVk6BmiQfwKflCiBpyYmfUQt+GL04Hs+6RIr5JQkcov5B
-	cQCH9s4nQAW/KryoR74Dq68mpbatt+0ELL8qdadsbiMqxvnUg1FzQ73zJEZH4YPl23zVvTUavke
-	yFt1k8MkaUxHIDgrJ2SlNGnGH0Y55MNflUF4rt/Pj8zONi61kPSwxyR8rk40HtitWfWuxFz15LA
-	yAGP7BKxgXW0H04UAm2KCQ5K8aJ0c9XGwvd3NzBCbeFCB02iJvUFOpiPFS6FRXvHR5LFUbsR7fn
-	/KI5tgTNyu8tnJcafZ3FC+dyh9hyS9XZ17vw1DXcWdRLgenvjV1JSVKo4phn9qdRZqA8WXAwcdP
-	B4Y9ttAPv+Lri7ab9X68L
-X-Received: by 2002:a05:6830:2992:b0:814:8259:780c with SMTP id 46e09a7af769-81782b84589mr12482123a34.19.1790546406167;
-        Sun, 27 Sep 2026 15:00:06 -0700 (PDT)
+        bh=uF7xnPzdi03tjllE2GYzrJD/eEbjnznIoKovj7ZFXd4=;
+        b=Q6p7iCY4+FyoU4yGBE+LXXNnyp9UtbCsYz1W0RX0EZ2grTctU7j86JCWhaseAEVLzl
+         Nnz/REhZ4AYR8MdoQEdLk1LsCmoN+/lOm/AkAZBHsLKGd4c2LoLysfLwRJq9j2RgGRa3
+         IxloipSChkBQq73uiMMNOrgpUr2pd6jaheMlcpJLVipSz6mTQ6dYf5B/j7cV+jCP/5lx
+         PbQBG9U6tL/E261ZcjuH6ZFIRXJHCLy1gmm6gt+29mWwfa5W5xexit1HGXEzzMNmrZGK
+         BfCIuHLZrzetcxSZJpuk1Wa6345FTIdCag+QJ/R/GuHopl6DxomxLVMDw6L4sjU49AZR
+         jmGw==
+X-Forwarded-Encrypted: i=1; AKwUvBywcmjTo00XAFzf30HSNscl8Irq7ay8i36z3vcdTaiFr2DBCEPbV0GjvKe8x4oWmsaHQQXp/Ul4Ebb9fw==@lists.linux.dev
+X-Gm-Message-State: AFuF++nghNDvYq3RePdz8yT190IAKW3YRdbxRWM6T2n6ufxPxInedOhF
+	QVRI5I+WyIHEWbfRYYJOqK1OpiDT2nTZgwqRSNi3eeM27iuXpBZQoXqP
+X-Gm-Gg: AYBFou25Aw/tZMLivikzCa/KBPYHnLfGveWpJUuN2OasHqZxnIO5SE+dWBw54lzzXqg
+	rb1Sx5B3jgdLh0eT0iue3A6tifLr1RVcKM5Eh3zQn0VgWCXglCorQkZ70uS1afjUDNiDizYrZju
+	MKnGVpG6VurTviA2vIAQ/SPPif5H8cR8AyU9aq73m6u78N//HoIT87AJQeMbwXEVZ0GP7PYCIHN
+	C5jLXRffgr+0STX6em2szp/4/IkGCJFvg6hXc8rbbD0VzDJrh6meII7Pjb9VKCs3gzhsMipCEDf
+	+ye1TGTkYQxwL09wO1eRZtr7EdQbfbP2t4rByGa274GLn6KZCW1HIVoaATvFZ+YDvjFJ6EUfI+k
+	LAkfq4HBzBRETwUOcH2A7wiOZANFVJcNKDugbPGhyO/Z09n1X9cWpg8IptVn1dYsGhrd+aEA2ab
+	BuPRKr6znLoztOOzYTD8mkBs6heA4KAtFYlWn6M4M1K13hD1lxAo3hrs2KKGgnFZUCb3zuwerPo
+	dTHosTK0XXxoryAIOgkLfrJp+X2/Ekj20dRqY1XvDTMC4xtmSblDDLi8gLz8RGIi0rkvKHf/IMW
+	gMkBWcWucDjCxaOCMlt/rt0x5dv8A0vp9XdlmWAks/ZscMrGKz2sTrjqmB/UNRNdhiE8VGherUu
+	s2n5q9Lr12iUulio3x9YF
+X-Received: by 2002:a05:6820:8119:b0:6cd:3ffc:e338 with SMTP id 006d021491bc7-6d441996bcfmr10141053eaf.86.1790546411401;
+        Sun, 27 Sep 2026 15:00:11 -0700 (PDT)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-81b3de6f7e1sm4874147a34.22.2026.09.27.15.00.03
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-81b3de6f7e1sm4874147a34.22.2026.09.27.15.00.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 15:00:05 -0700 (PDT)
+        Sun, 27 Sep 2026 15:00:10 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sun, 27 Sep 2026 15:59:43 -0600
-Subject: [PATCH net-next v5 08/19] net: stmmac: serialize and retain PHC
- configuration across reset
+Date: Sun, 27 Sep 2026 15:59:45 -0600
+Subject: [PATCH net-next v5 10/19] net: stmmac: fix error path cleanup in
+ DMA descriptor ring allocation
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,7 +74,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260927-submit-stmmac-reset-fixes-v1-v5-8-feec6c14dd06@gmail.com>
+Message-Id: <20260927-submit-stmmac-reset-fixes-v1-v5-10-feec6c14dd06@gmail.com>
 References: <20260927-submit-stmmac-reset-fixes-v1-v5-0-feec6c14dd06@gmail.com>
 In-Reply-To: <20260927-submit-stmmac-reset-fixes-v1-v5-0-feec6c14dd06@gmail.com>
 To: Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
@@ -119,424 +119,221 @@ Cc: Richard Genoud <richard.genoud@bootlin.com>,
  Lorenzo Bianconi <lorenzo.bianconi@oss.qualcomm.com>, 
  Ding Hui <dinghui1111@163.com>, Linkui Xiao <xiaolinkui@kylinos.cn>, 
  Linkui Xiao <xiaolinkui@126.com>, linux-tegra@vger.kernel.org, 
- linux-sunxi@lists.linux.dev, James Hilliard <james.hilliard1@gmail.com>
+ linux-sunxi@lists.linux.dev, James Hilliard <james.hilliard1@gmail.com>, 
+ Ding Hui <dinghui@lixiang.com>
 X-Mailer: b4 0.15.2
 
-Keep the frequency correction, PEROUT requests and EXTTS selection
-independently of timestamp register contents. Cache PPS requests before
-converting units so they can be replayed after reset.
+From: Ding Hui <dinghui@lixiang.com>
 
-Serialize timestamp writers and devlink timestamp-mode updates with a
-mutex, and let atomic gettime callers observe a reset gate under
-ptp_lock. Provide a common replay helper for later reset transactions,
-without changing PHC registration lifetime. Reapply the cached frequency
-correction when recalculating the timestamp increment, including a
-devlink change back to fine adjustment mode.
+__alloc_dma_rx_desc_resources() and __alloc_dma_tx_desc_resources()
+allocate resources in multiple steps but return early on failure
+without cleaning up what they have already allocated. The outer
+error paths then call the free helpers on partially-initialized
+queues, which dereference pointers that were never allocated:
 
-Hold est_lock across the whole PHC time adjustment, including EST
-disable and replay. Return hardware errors instead of reporting a
-successful clock step with EST left disabled. If the clock update
-fails after disabling EST, still try to restore the installed schedule
-and preserve the first error.
+  - dma_free_rx_skbufs() and dma_free_rx_xskbufs() dereference
+    rx_q->buf_pool[i] via stmmac_free_rx_buffer(), but buf_pool
+    may be NULL if its kzalloc_objs() failed.
 
+  - dma_free_tx_skbufs() dereferences tx_q->tx_skbuff_dma[i] via
+    stmmac_free_tx_buffer(), but tx_skbuff_dma may be NULL if its
+    kzalloc_objs() failed.
+
+  - stmmac_free_tx_buffer() dereferences tx_q->xdpf[i] and
+    tx_q->tx_skbuff[i] (aliased through a union), but tx_skbuff
+    may be NULL if its allocation failed while tx_skbuff_dma
+    succeeded.
+
+Fix this by making each allocation function responsible for undoing
+its own allocations on error, following the standard kernel error
+handling pattern of cleaning up in reverse order. Also add NULL
+checks in the free helpers as a defensive measure, since they may
+be called on partially-initialized queues.
+Additionally, make __free_dma_rx_desc_resources() and
+__free_dma_tx_desc_resources() clear the pointers they free, so that
+the NULL guards in the free helpers hold reliably when the long-lived
+priv->dma_conf is reused across XDP open/release cycles.
+
+Signed-off-by: Ding Hui <dinghui@lixiang.com>
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
-Changes in v5:
-- Keep the programmed addend consistent with the cached frequency
-  correction when changing timestamp increment or adjustment mode.
-- Propagate EST disable, clock-update and replay failures from adjtime,
-  keeping est_lock held throughout the transition.
----
- drivers/net/ethernet/stmicro/stmmac/stmmac.h      |   7 +
- drivers/net/ethernet/stmicro/stmmac/stmmac_main.c |  23 ++-
- drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c  | 163 ++++++++++++++++++----
- 3 files changed, 164 insertions(+), 29 deletions(-)
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 70 +++++++++++++++++++----
+ 1 file changed, 60 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac.h b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
-index c65d95fc4760..23fd883d0509 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac.h
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
-@@ -340,6 +340,12 @@ struct stmmac_priv {
- 	int use_riwt;
- 	int irq_wake;
- 	rwlock_t ptp_lock;
-+	/* Serialize PHC changes with a hardware reset; gettime uses ptp_lock. */
-+	struct mutex ptp_mutex;
-+	bool ptp_blocked;
-+	long ptp_scaled_ppm;
-+	u32 ptp_perout;
-+	u32 ptp_extts;
- 	/* Protects auxiliary snapshot registers from concurrent access. */
- 	struct mutex aux_ts_lock;
- 	wait_queue_head_t tstamp_busy_wait;
-@@ -407,6 +413,7 @@ void stmmac_set_ethtool_ops(struct net_device *netdev);
- 
- void stmmac_ptp_register(struct stmmac_priv *priv);
- void stmmac_ptp_unregister(struct stmmac_priv *priv);
-+int stmmac_ptp_restore(struct stmmac_priv *priv);
- int stmmac_xdp_open(struct net_device *dev);
- void stmmac_xdp_release(struct net_device *dev);
- int stmmac_get_phy_intf_sel(phy_interface_t interface);
 diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index 4e80548ecfe9..a8e5e86e0ead 100644
+index d9d676ae1c82..258de45d122c 100644
 --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -607,6 +607,7 @@ static void stmmac_update_subsecond_increment(struct stmmac_priv *priv)
- 	bool xmac = dwmac_is_xmac(priv->plat->core_type);
- 	u32 sec_inc = 0;
- 	u64 temp = 0;
-+	u32 addend;
- 
- 	stmmac_config_hw_tstamping(priv, priv->ptpaddr, priv->systime_flags);
- 
-@@ -626,7 +627,8 @@ static void stmmac_update_subsecond_increment(struct stmmac_priv *priv)
- 	 */
- 	temp = (u64)(temp << 32);
- 	priv->default_addend = div_u64(temp, priv->plat->clk_ptp_rate);
--	stmmac_config_addend(priv, priv->ptpaddr, priv->default_addend);
-+	addend = adjust_by_scaled_ppm(priv->default_addend, priv->ptp_scaled_ppm);
-+	stmmac_config_addend(priv, priv->ptpaddr, addend);
- }
- 
- /**
-@@ -954,6 +956,11 @@ static int stmmac_setup_ptp(struct stmmac_priv *priv)
- 		return 0;
+@@ -1767,7 +1767,7 @@ static void stmmac_free_tx_buffer(struct stmmac_priv *priv,
+ 					 DMA_TO_DEVICE);
  	}
  
-+	priv->ptp_scaled_ppm = 0;
-+	priv->ptp_perout = 0;
-+	priv->ptp_extts = 0;
-+	priv->ptp_blocked = false;
-+
- 	ret = clk_prepare_enable(priv->plat->clk_ptp_ref);
- 	if (ret < 0) {
- 		netdev_warn(priv->dev,
-@@ -6329,7 +6336,8 @@ static void stmmac_common_interrupt(struct stmmac_priv *priv)
- 		for (queue = 0; queue < queues_count; queue++)
- 			stmmac_host_mtl_irq_status(priv, priv->hw, queue);
+-	if (tx_q->xdpf[i] &&
++	if (tx_q->xdpf && tx_q->xdpf[i] &&
+ 	    (tx_q->tx_skbuff_dma[i].buf_type == STMMAC_TXBUF_T_XDP_TX ||
+ 	     tx_q->tx_skbuff_dma[i].buf_type == STMMAC_TXBUF_T_XDP_NDO)) {
+ 		xdp_return_frame(tx_q->xdpf[i]);
+@@ -1777,7 +1777,7 @@ static void stmmac_free_tx_buffer(struct stmmac_priv *priv,
+ 	if (tx_q->tx_skbuff_dma[i].buf_type == STMMAC_TXBUF_T_XSK_TX)
+ 		tx_q->xsk_frames_done++;
  
--		stmmac_timestamp_interrupt(priv, priv);
-+		if (!READ_ONCE(priv->ptp_blocked))
-+			stmmac_timestamp_interrupt(priv, priv);
- 	}
+-	if (tx_q->tx_skbuff[i] &&
++	if (tx_q->tx_skbuff && tx_q->tx_skbuff[i] &&
+ 	    tx_q->tx_skbuff_dma[i].buf_type == STMMAC_TXBUF_T_SKB) {
+ 		dev_kfree_skb_any(tx_q->tx_skbuff[i]);
+ 		tx_q->tx_skbuff[i] = NULL;
+@@ -1800,6 +1800,10 @@ static void dma_free_rx_skbufs(struct stmmac_priv *priv,
+ 	struct stmmac_rx_queue *rx_q = &dma_conf->rx_queue[queue];
+ 	int i;
+ 
++	/* buf_pool may not be allocated if alloc failed early */
++	if (!rx_q->buf_pool)
++		return;
++
+ 	for (i = 0; i < dma_conf->dma_rx_size; i++)
+ 		stmmac_free_rx_buffer(priv, rx_q, i);
  }
+@@ -1841,6 +1845,10 @@ static void dma_free_rx_xskbufs(struct stmmac_priv *priv,
+ 	struct stmmac_rx_queue *rx_q = &dma_conf->rx_queue[queue];
+ 	int i;
  
-@@ -7762,6 +7770,14 @@ static int stmmac_dl_ts_coarse_set(struct devlink *dl, u32 id,
- {
- 	struct stmmac_devlink_priv *dl_priv = devlink_priv(dl);
- 	struct stmmac_priv *priv = dl_priv->stmmac_priv;
-+	unsigned long flags;
++	/* buf_pool may not be allocated if alloc failed early */
++	if (!rx_q->buf_pool)
++		return;
 +
-+	mutex_lock(&priv->ptp_mutex);
-+	if (priv->ptp_blocked) {
-+		mutex_unlock(&priv->ptp_mutex);
-+		return -EBUSY;
+ 	for (i = 0; i < dma_conf->dma_rx_size; i++) {
+ 		struct stmmac_rx_buffer *buf = &rx_q->buf_pool[i];
+ 
+@@ -2136,6 +2144,10 @@ static void dma_free_tx_skbufs(struct stmmac_priv *priv,
+ 	struct stmmac_tx_queue *tx_q = &dma_conf->tx_queue[queue];
+ 	int i;
+ 
++	/* tx_skbuff_dma may not be allocated if alloc failed early */
++	if (!tx_q->tx_skbuff_dma)
++		return;
++
+ 	tx_q->xsk_frames_done = 0;
+ 
+ 	for (i = 0; i < dma_conf->dma_tx_size; i++)
+@@ -2193,13 +2205,20 @@ static void __free_dma_rx_desc_resources(struct stmmac_priv *priv,
+ 	size = stmmac_get_rx_desc_size(priv) * dma_conf->dma_rx_size;
+ 
+ 	dma_free_coherent(priv->device, size, addr, rx_q->dma_rx_phy);
++	rx_q->dma_erx = NULL;
++	rx_q->dma_rx = NULL;
++	rx_q->dma_rx_phy = 0;
+ 
+ 	if (xdp_rxq_info_is_reg(&rx_q->xdp_rxq))
+ 		xdp_rxq_info_unreg(&rx_q->xdp_rxq);
+ 
+ 	kfree(rx_q->buf_pool);
+-	if (rx_q->page_pool)
++	rx_q->buf_pool = NULL;
++
++	if (rx_q->page_pool) {
+ 		page_pool_destroy(rx_q->page_pool);
++		rx_q->page_pool = NULL;
 +	}
-+	write_lock_irqsave(&priv->ptp_lock, flags);
+ }
  
- 	priv->tsfupdt_coarse = ctx->val.vbool;
+ static void free_dma_rx_desc_resources(struct stmmac_priv *priv,
+@@ -2241,9 +2260,16 @@ static void __free_dma_tx_desc_resources(struct stmmac_priv *priv,
+ 	size = stmmac_get_tx_desc_size(priv, tx_q) * dma_conf->dma_tx_size;
  
-@@ -7774,6 +7790,8 @@ static int stmmac_dl_ts_coarse_set(struct devlink *dl, u32 id,
- 	 * reconfigure the systime, subsecond increment and addend.
- 	 */
- 	stmmac_update_subsecond_increment(priv);
-+	write_unlock_irqrestore(&priv->ptp_lock, flags);
-+	mutex_unlock(&priv->ptp_mutex);
+ 	dma_free_coherent(priv->device, size, addr, tx_q->dma_tx_phy);
++	tx_q->dma_etx = NULL;
++	tx_q->dma_entx = NULL;
++	tx_q->dma_tx = NULL;
++	tx_q->dma_tx_phy = 0;
+ 
+ 	kfree(tx_q->tx_skbuff_dma);
++	tx_q->tx_skbuff_dma = NULL;
++
+ 	kfree(tx_q->tx_skbuff);
++	tx_q->tx_skbuff = NULL;
+ }
+ 
+ static void free_dma_tx_desc_resources(struct stmmac_priv *priv,
+@@ -2311,15 +2337,19 @@ static int __alloc_dma_rx_desc_resources(struct stmmac_priv *priv,
+ 	}
+ 
+ 	rx_q->buf_pool = kzalloc_objs(*rx_q->buf_pool, dma_conf->dma_rx_size);
+-	if (!rx_q->buf_pool)
+-		return -ENOMEM;
++	if (!rx_q->buf_pool) {
++		ret = -ENOMEM;
++		goto err_destroy_pool;
++	}
+ 
+ 	size = stmmac_get_rx_desc_size(priv) * dma_conf->dma_rx_size;
+ 
+ 	addr = dma_alloc_coherent(priv->device, size, &rx_q->dma_rx_phy,
+ 				  GFP_KERNEL);
+-	if (!addr)
+-		return -ENOMEM;
++	if (!addr) {
++		ret = -ENOMEM;
++		goto err_free_buf_pool;
++	}
+ 
+ 	if (priv->extend_desc)
+ 		rx_q->dma_erx = addr;
+@@ -2335,10 +2365,22 @@ static int __alloc_dma_rx_desc_resources(struct stmmac_priv *priv,
+ 	ret = xdp_rxq_info_reg(&rx_q->xdp_rxq, priv->dev, queue, napi_id);
+ 	if (ret) {
+ 		netdev_err(priv->dev, "Failed to register xdp rxq info\n");
+-		return -EINVAL;
++		goto err_free_dma;
+ 	}
  
  	return 0;
- }
-@@ -8114,6 +8132,7 @@ static int __stmmac_dvr_probe(struct device *device,
- 	mutex_init(&priv->lock);
- 	mutex_init(&priv->est_lock);
- 	rwlock_init(&priv->ptp_lock);
-+	mutex_init(&priv->ptp_mutex);
- 
- 	stmmac_fpe_init(priv);
- 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c
-index db5610f0fbab..b34711231227 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c
-@@ -13,6 +13,16 @@
- 
- #define PTP_SAFE_TIME_OFFSET_NS	500000
- 
-+static int stmmac_ptp_begin(struct stmmac_priv *priv)
-+{
-+	mutex_lock(&priv->ptp_mutex);
-+	if (priv->ptp_blocked) {
-+		mutex_unlock(&priv->ptp_mutex);
-+		return -EBUSY;
-+	}
-+	return 0;
-+}
 +
- /**
-  * stmmac_adjust_freq
-  *
-@@ -29,14 +39,21 @@ static int stmmac_adjust_freq(struct ptp_clock_info *ptp, long scaled_ppm)
- 	    container_of(ptp, struct stmmac_priv, ptp_clock_ops);
- 	unsigned long flags;
- 	u32 addend;
-+	int ret;
- 
--	addend = adjust_by_scaled_ppm(priv->default_addend, scaled_ppm);
-+	ret = stmmac_ptp_begin(priv);
-+	if (ret)
-+		return ret;
- 
- 	write_lock_irqsave(&priv->ptp_lock, flags);
--	stmmac_config_addend(priv, priv->ptpaddr, addend);
-+	addend = adjust_by_scaled_ppm(priv->default_addend, scaled_ppm);
-+	ret = stmmac_config_addend(priv, priv->ptpaddr, addend);
-+	if (!ret)
-+		priv->ptp_scaled_ppm = scaled_ppm;
- 	write_unlock_irqrestore(&priv->ptp_lock, flags);
-+	mutex_unlock(&priv->ptp_mutex);
- 
--	return 0;
++err_free_dma:
++	dma_free_coherent(priv->device, size, addr, rx_q->dma_rx_phy);
++	rx_q->dma_erx = NULL;
++	rx_q->dma_rx = NULL;
++err_free_buf_pool:
++	kfree(rx_q->buf_pool);
++	rx_q->buf_pool = NULL;
++err_destroy_pool:
++	page_pool_destroy(rx_q->page_pool);
++	rx_q->page_pool = NULL;
 +	return ret;
  }
  
- /**
-@@ -55,7 +72,12 @@ static int stmmac_adjust_time(struct ptp_clock_info *ptp, s64 delta)
- 	u32 sec, nsec;
- 	u32 quotient, reminder;
- 	int neg_adj = 0;
--	bool xmac, est_rst = false;
-+	bool xmac;
-+	int ret, err;
+ static int alloc_dma_rx_desc_resources(struct stmmac_priv *priv,
+@@ -2391,14 +2433,14 @@ static int __alloc_dma_tx_desc_resources(struct stmmac_priv *priv,
+ 
+ 	tx_q->tx_skbuff = kzalloc_objs(struct sk_buff *, dma_conf->dma_tx_size);
+ 	if (!tx_q->tx_skbuff)
+-		return -ENOMEM;
++		goto err_free_skbuff_dma;
+ 
+ 	size = stmmac_get_tx_desc_size(priv, tx_q) * dma_conf->dma_tx_size;
+ 
+ 	addr = dma_alloc_coherent(priv->device, size,
+ 				  &tx_q->dma_tx_phy, GFP_KERNEL);
+ 	if (!addr)
+-		return -ENOMEM;
++		goto err_free_skbuff;
+ 
+ 	if (priv->extend_desc)
+ 		tx_q->dma_etx = addr;
+@@ -2408,6 +2450,14 @@ static int __alloc_dma_tx_desc_resources(struct stmmac_priv *priv,
+ 		tx_q->dma_tx = addr;
+ 
+ 	return 0;
 +
-+	ret = stmmac_ptp_begin(priv);
-+	if (ret)
-+		return ret;
- 
- 	xmac = dwmac_is_xmac(priv->plat->core_type);
- 
-@@ -68,24 +90,32 @@ static int stmmac_adjust_time(struct ptp_clock_info *ptp, s64 delta)
- 	sec = quotient;
- 	nsec = reminder;
- 
--	/* If EST is enabled, disabled it before adjust ptp time. */
-+	/* Keep the installed schedule stable across the entire clock step. */
- 	mutex_lock(&priv->est_lock);
- 	if (priv->est.enable) {
--		est_rst = true;
--		stmmac_est_configure(priv, priv, &priv->est,
--				     priv->plat->clk_ptp_rate, false);
-+		ret = stmmac_est_configure(priv, priv, &priv->est,
-+					   priv->plat->clk_ptp_rate, false);
-+		if (ret)
-+			goto out_unlock;
- 	}
--	mutex_unlock(&priv->est_lock);
- 
- 	write_lock_irqsave(&priv->ptp_lock, flags);
--	stmmac_adjust_systime(priv, priv->ptpaddr, sec, nsec, neg_adj, xmac);
-+	ret = stmmac_adjust_systime(priv, priv->ptpaddr, sec, nsec, neg_adj, xmac);
- 	write_unlock_irqrestore(&priv->ptp_lock, flags);
- 
--	/* Calculate new basetime and re-configured EST after PTP time adjust. */
--	if (est_rst)
--		stmmac_setup_est(priv);
-+	/* Also try to restore EST after a failed clock update. Keep the first
-+	 * error, but do not report success if only schedule replay failed.
-+	 */
-+	if (priv->est.enable) {
-+		err = __stmmac_setup_est(priv);
-+		if (!ret)
-+			ret = err;
-+	}
- 
--	return 0;
-+out_unlock:
-+	mutex_unlock(&priv->est_lock);
-+	mutex_unlock(&priv->ptp_mutex);
-+	return ret;
++err_free_skbuff:
++	kfree(tx_q->tx_skbuff);
++	tx_q->tx_skbuff = NULL;
++err_free_skbuff_dma:
++	kfree(tx_q->tx_skbuff_dma);
++	tx_q->tx_skbuff_dma = NULL;
++	return -ENOMEM;
  }
  
- /**
-@@ -103,14 +133,18 @@ static int stmmac_get_time(struct ptp_clock_info *ptp, struct timespec64 *ts)
- 	    container_of(ptp, struct stmmac_priv, ptp_clock_ops);
- 	unsigned long flags;
- 	u64 ns = 0;
-+	int ret = 0;
- 
- 	read_lock_irqsave(&priv->ptp_lock, flags);
--	stmmac_get_systime(priv, priv->ptpaddr, &ns);
-+	if (priv->ptp_blocked)
-+		ret = -EBUSY;
-+	else
-+		stmmac_get_systime(priv, priv->ptpaddr, &ns);
- 	read_unlock_irqrestore(&priv->ptp_lock, flags);
- 
- 	*ts = ns_to_timespec64(ns);
- 
--	return 0;
-+	return ret;
- }
- 
- /**
-@@ -128,25 +162,34 @@ static int stmmac_set_time(struct ptp_clock_info *ptp,
- 	struct stmmac_priv *priv =
- 	    container_of(ptp, struct stmmac_priv, ptp_clock_ops);
- 	unsigned long flags;
-+	int ret;
-+
-+	ret = stmmac_ptp_begin(priv);
-+	if (ret)
-+		return ret;
- 
- 	write_lock_irqsave(&priv->ptp_lock, flags);
--	stmmac_init_systime(priv, priv->ptpaddr, ts->tv_sec, ts->tv_nsec);
-+	ret = stmmac_init_systime(priv, priv->ptpaddr, ts->tv_sec, ts->tv_nsec);
- 	write_unlock_irqrestore(&priv->ptp_lock, flags);
-+	mutex_unlock(&priv->ptp_mutex);
- 
--	return 0;
-+	return ret;
- }
- 
--static int stmmac_enable(struct ptp_clock_info *ptp,
--			 struct ptp_clock_request *rq, int on)
-+static int __stmmac_enable(struct ptp_clock_info *ptp,
-+			   struct ptp_clock_request *rq, int on)
- {
- 	struct stmmac_priv *priv =
- 	    container_of(ptp, struct stmmac_priv, ptp_clock_ops);
- 	void __iomem *ptpaddr = priv->ptpaddr;
--	struct stmmac_pps_cfg *cfg;
-+	struct stmmac_pps_cfg pps, saved, *cfg = &pps;
- 	int ret = -EOPNOTSUPP;
- 	unsigned long flags;
- 	u32 acr_value;
- 
-+	if (priv->plat->core_type == DWMAC_CORE_GMAC)
-+		return dwmac1000_ptp_enable(ptp, rq, on);
-+
- 	switch (rq->type) {
- 	case PTP_CLK_REQ_PEROUT: {
- 		struct timespec64 curr_time;
-@@ -157,8 +200,6 @@ static int stmmac_enable(struct ptp_clock_info *ptp,
- 		if (rq->perout.flags)
- 			return -EOPNOTSUPP;
- 
--		cfg = &priv->pps[rq->perout.index];
--
- 		cfg->start.tv_sec = rq->perout.start.sec;
- 		cfg->start.tv_nsec = rq->perout.start.nsec;
- 
-@@ -188,6 +229,7 @@ static int stmmac_enable(struct ptp_clock_info *ptp,
- 
- 		cfg->period.tv_sec = rq->perout.period.sec;
- 		cfg->period.tv_nsec = rq->perout.period.nsec;
-+		saved = *cfg;
- 
- 		write_lock_irqsave(&priv->ptp_lock, flags);
- 		ret = stmmac_flex_pps_config(priv, priv->ioaddr,
-@@ -195,6 +237,9 @@ static int stmmac_enable(struct ptp_clock_info *ptp,
- 					     priv->sub_second_inc,
- 					     priv->systime_flags);
- 		write_unlock_irqrestore(&priv->ptp_lock, flags);
-+		/* Some cores convert cfg->start to binary rollover units. */
-+		if (!ret)
-+			priv->pps[rq->perout.index] = saved;
- 		break;
- 	}
- 	case PTP_CLK_REQ_EXTTS: {
-@@ -240,6 +285,64 @@ static int stmmac_enable(struct ptp_clock_info *ptp,
- 	return ret;
- }
- 
-+static int stmmac_enable(struct ptp_clock_info *ptp,
-+			 struct ptp_clock_request *rq, int on)
-+{
-+	struct stmmac_priv *priv =
-+		container_of(ptp, struct stmmac_priv, ptp_clock_ops);
-+	int ret;
-+
-+	ret = stmmac_ptp_begin(priv);
-+	if (ret)
-+		return ret;
-+	ret = __stmmac_enable(ptp, rq, on);
-+	if (!ret) {
-+		if (rq->type == PTP_CLK_REQ_PEROUT) {
-+			if (on)
-+				priv->ptp_perout |= BIT(rq->perout.index);
-+			else
-+				priv->ptp_perout &= ~BIT(rq->perout.index);
-+		} else if (rq->type == PTP_CLK_REQ_EXTTS) {
-+			priv->ptp_extts = on ? BIT(rq->extts.index) : 0;
-+		}
-+	}
-+	mutex_unlock(&priv->ptp_mutex);
-+	return ret;
-+}
-+
-+/* Called with ptp_mutex held and PHC access blocked across the MAC reset. */
-+int stmmac_ptp_restore(struct stmmac_priv *priv)
-+{
-+	struct ptp_clock_request rq = { .type = PTP_CLK_REQ_EXTTS };
-+	unsigned long flags;
-+	u64 ns = 0, period;
-+	u32 addend;
-+	int i, ret;
-+
-+	write_lock_irqsave(&priv->ptp_lock, flags);
-+	addend = adjust_by_scaled_ppm(priv->default_addend, priv->ptp_scaled_ppm);
-+	ret = stmmac_config_addend(priv, priv->ptpaddr, addend);
-+	for (i = 0; !ret && i < STMMAC_PPS_MAX; i++) {
-+		struct stmmac_pps_cfg cfg = priv->pps[i];
-+
-+		if (!(priv->ptp_perout & BIT(i)))
-+			continue;
-+		stmmac_get_systime(priv, priv->ptpaddr, &ns);
-+		period = timespec64_to_ns(&cfg.period);
-+		/* Retain phase, but move an expired target into the future. */
-+		cfg.start = stmmac_calc_tas_basetime(timespec64_to_ktime(cfg.start),
-+						     ns + PTP_SAFE_TIME_OFFSET_NS, period);
-+		ret = stmmac_flex_pps_config(priv, priv->ioaddr, i, &cfg, true,
-+					     priv->sub_second_inc, priv->systime_flags);
-+	}
-+	write_unlock_irqrestore(&priv->ptp_lock, flags);
-+	if (ret || !priv->ptp_extts)
-+		return ret;
-+
-+	rq.extts.index = __ffs(priv->ptp_extts);
-+	return __stmmac_enable(&priv->ptp_clock_ops, &rq, 1);
-+}
-+
- /**
-  * stmmac_get_syncdevicetime
-  * @device: current device time
-@@ -262,9 +365,15 @@ static int stmmac_getcrosststamp(struct ptp_clock_info *ptp,
- {
- 	struct stmmac_priv *priv =
- 		container_of(ptp, struct stmmac_priv, ptp_clock_ops);
--
--	return get_device_system_crosststamp(stmmac_get_syncdevicetime,
--					     priv, NULL, xtstamp);
-+	int ret;
-+
-+	ret = stmmac_ptp_begin(priv);
-+	if (ret)
-+		return ret;
-+	ret = get_device_system_crosststamp(stmmac_get_syncdevicetime,
-+					    priv, NULL, xtstamp);
-+	mutex_unlock(&priv->ptp_mutex);
-+	return ret;
- }
- 
- /* structure describing a PTP hardware clock */
-@@ -298,7 +407,7 @@ const struct ptp_clock_info dwmac1000_ptp_clock_ops = {
- 	.adjtime = stmmac_adjust_time,
- 	.gettime64 = stmmac_get_time,
- 	.settime64 = stmmac_set_time,
--	.enable = dwmac1000_ptp_enable,
-+	.enable = stmmac_enable,
- };
- 
- /**
+ static int alloc_dma_tx_desc_resources(struct stmmac_priv *priv,
 
 -- 
 2.53.0
