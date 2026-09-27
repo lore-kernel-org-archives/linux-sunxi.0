@@ -1,121 +1,146 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1223B2FCA;
-	Sun, 27 Sep 2026 15:50:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE7F3B14D7;
+	Sun, 27 Sep 2026 16:29:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790524208; cv=none; b=bdhSae3VDkRz9ux4xxqtKxRdl1CZQUqaV74nFiIzbhUPPQrFwiXd/sULSz4S5qW3ZBuTIdYWs4NxLko92pWnqESpGm9ZtjH/iq0gTikLIyosi2Fy35dvjZLvqx4iqjiMG8CqC5rBbnyPFAK0TR526Z+irky3TD508S0G9S8GAqI=
+	t=1790526547; cv=none; b=eN+WjkxVpkz2v2JHPHYVshsPVH96hRhnWKnv2Nl4YTLJD7d1t+aZKW8QWBl4k9d86buKUiGp8eRrjaiTg2yp4EJ4UAIrVYZnVZZr48E6tBvdrq5z481I7+S2Nskow5NQU0dx98v3Qzu5/lk5QmB/8JjkGyfMGur1Pye3Th0h8cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790524208; c=relaxed/simple;
-	bh=CEs8jJTg1IbI6xr9K1eZ9cZINfJQPvy3J0K9LwvAig4=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=W2tY1Eo3saYVm9rUolEbPI5RDq/Uy+BzvLxzBDGZzMy4KKqISs5UrJ9k6vJSe4Pl4DdAFsL+lBIH5haEznahDPsesV3ohWzll+G5nPpW7wIwdPjU9UBMpDywEQ4yVVkH1khwcJYChxEUVRfFfoiwblxeHs3ZbQZNlsnfeKsG+SY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZljS/43Z; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790526547; c=relaxed/simple;
+	bh=NFwGvC4VcTSAbSA8FSD8ChPzP4PPCj/LwW9t2T9a8zA=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=D0UAO1QBZJ7l3BItuB2YR0IZSK79+zoNAT/03S1tC4jC+Hfc1MxXx+sZyLhOPoJRT9Ad8tw6NA/TbLI0qJSl+/xddwoprT1XTIjgv3gD5OvTY7F4kYtj3D1Hta2GjoJfJiuHc7zxn/+857iSdIfLKe6ICAKYXARWcxib8E995Vo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IggNfbCO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZljS/43Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06FB61F000FF;
-	Sun, 27 Sep 2026 15:50:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IggNfbCO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 002D31F000FF;
+	Sun, 27 Sep 2026 16:29:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790524207;
-	bh=0nMk8Z2X3+PO6Urp05IHH+Xi1G1Roa6nXTtbB9DZAb4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ZljS/43Z7/ZJFJirfAWTc0xcCp40A/P5eyPXSiMtyLKxwrJxZ4fofJ6m3aQuXTczL
-	 laKWzzcAf3cpMOMeTsLPVLFmWEwT0okWyxzH/6eI53AKqDNn5OAJYG4WTBQCP/gMw4
-	 k5LICRVluMTt2X8jzUiuj9A7qePBo/7w+NmAnvL7BDtN2xhnXau+i154JVuewB7pcC
-	 3QAaLizxRivAKMG/5nrXYlPKA9di8LuCpEkxR49fcBiOpoQGC8AGiNUTgWxJjplpwV
-	 JhYnSoqcxVxAscV0uBxGEEoa1JARGBYUuVSD7Q33Nr2gqfi6S4AHdF3SeZ58SyKB4B
-	 yQGBIuYvG4drQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v4 15/15] net: stmmac: retain DMA resources across
- MTU changes
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "James Hilliard" <james.hilliard1@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, bpf@vger.kernel.org
-In-Reply-To: <20260926-submit-stmmac-reset-fixes-v1-v4-15-ec1c0250b3c9@gmail.com>
-References: <20260926-submit-stmmac-reset-fixes-v1-v4-0-ec1c0250b3c9@gmail.com>
- <20260926-submit-stmmac-reset-fixes-v1-v4-15-ec1c0250b3c9@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 27 Sep 2026 15:50:06 +0000
-Message-Id: <20260927155007.06FB61F000FF@smtp.kernel.org>
+	s=k20260515; t=1790526546;
+	bh=lMcI0XjYXxee6gQybGjy+nF52Zob3DzrgHJzmXEp8fc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=IggNfbCOWc3Qu2tHK8WHnDs24hP2X51WEjGQiUMCT3DAKwlWx+bJ2owge4SRyItne
+	 p/YpydwrSEs+xZKdAH785auXYfIjvrNKDIDBUAxAo/fiCqY00BehgZU5c54oX8hC6K
+	 K9jCzqmBItHAHdjk8iSth2KVRjfPInxo3/LlNMAG2uthWkQ0tLYPpdGi3TJsngGu/y
+	 w8Vx/fxAHLAzMU15096FUduU0PNkJDGiVCemZpXViZtmcBbX7bDWUs6r7rFjhsykYP
+	 RZxgnrIIqHOLoUnECh48i98eyWQRZi62VyGfLtyp9IkvBhsi4xxoVEGsUWWYjDTz2y
+	 xDD4ugM5ILP0w==
+Subject: Re: [PATCH net-next v15 2/9] dt-bindings: phy: document the serdes
+ PHY on sa8255p
+From: netdev-bot+sashiko@kernel.org
+To: bartosz.golaszewski@oss.qualcomm.com
+Cc: andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, vkoul@kernel.org,
+ peppe.cavallaro@st.com, wens@kernel.org, jernej.skrabec@gmail.com,
+ neil.armstrong@linaro.org, khilman@baylibre.com, jbrunet@baylibre.com,
+ shawnguo@kernel.org, festevam@gmail.com, jan.petrous@oss.nxp.com, s32@nxp.com,
+ mohd.anwar@oss.qualcomm.com, romain.gantois@bootlin.com,
+ geert+renesas@glider.be, magnus.damm@gmail.com, mripard@kernel.org,
+ christophe.roullier@foss.st.com, brgl@kernel.org, radu@rendec.net,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, dfustini@tenstorrent.com,
+ linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org,
+ linux-mips@vger.kernel.org, imx@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ sophgo@lists.linux.dev, linux-riscv@lists.infradead.org,
+ bartosz.golaszewski@linaro.org
+Date: Sun, 27 Sep 2026 16:29:03 +0000
+Message-ID: <179052654351.2160803.11432185989352625433@kernel.org>
+In-Reply-To: <20260923-qcom-sa8255p-emac-v15-2-e82f33720737@oss.qualcomm.com>
+References: <20260923-qcom-sa8255p-emac-v15-2-e82f33720737@oss.qualcomm.com>
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] net: stmmac: double disable of NAPI causing deadlock in stmmac_rec=
-onfigure_mtu()
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
+
+Low priority / nit picks for your consideration:
+
+- [Low] In the new binding
+  Documentation/devicetree/bindings/phy/qcom,sa8255p-dwmac-sgmii-…
+
 --
 
-commit ed7896fe947ec45eb3dddd37b9ca9ed5f20ea4e9
-Author: James Hilliard <james.hilliard1@gmail.com>
+dt-bindings: phy: document the serdes PHY on sa8255p
 
-net: stmmac: retain DMA resources across MTU changes
+This commit adds a new binding for the SGMII/SerDes PHY on Qualcomm sa8255p
+platforms. The hardware is the same as sa8775p rev3, but here firmware
+manages the PHY over SCMI.
 
-This commit modifies the MTU change procedure to prepare the replacement
-configuration before quiescing the old datapath. It retains the rings and I=
-RQ
-registrations until setup succeeds so rollback needs no new allocations, and
-leaves the interface detached in a distinct HALTED state if rollback fails.
-
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/=
-net/ethernet/stmicro/stmmac/stmmac_main.c
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> diff --git a/Documentation/devicetree/bindings/phy/qcom,sa8255p-dwmac-sgmii-phy.yaml b/Documentation/devicetree/bindings/phy/qcom,sa8255p-dwmac-sgmii-phy.yaml
+> new file mode 100644
+> index 0000000000000..9e846e3815555
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/qcom,sa8255p-dwmac-sgmii-phy.yaml
 
 [ ... ]
 
-> @@ -6601,6 +6651,109 @@ static void stmmac_set_rx_mode(struct net_device =
-*dev)
->  	stmmac_set_filter(priv, priv->hw, dev);
->  }
-> =20
-> +static int stmmac_reconfigure_mtu(struct net_device *dev, int mtu)
-> +{
-> +	struct stmmac_priv *priv =3D netdev_priv(dev);
-> +	struct stmmac_dma_conf *old_conf =3D priv->dma_conf;
-> +	struct stmmac_dma_conf *new_conf;
-> +	int old_mtu =3D dev->mtu;
-> +	int ret, restore_ret;
-> +	u32 irq_mask[STMMAC_CH_MAX];
-> +	u32 chan;
+> +  power-domains:
+> +    maxItems: 1
 > +
-> +	new_conf =3D stmmac_setup_dma_desc(priv, mtu);
-> +	if (IS_ERR(new_conf))
-> +		return PTR_ERR(new_conf);
+> +  power-domain-names:
+> +    maxItems: 1
+
+[Severity: Low]
+This isn't a bug, but should power-domain-names pin its value here?
+
+The property is listed under required, and the example uses "serdes".
+However, the only constraint is maxItems: 1. A node with
+power-domain-names = "foo" would still pass dt_binding_check, so the value
+of a required property is left undefined in the ABI.
+
+The other firmware-managed sa8255p bindings fix their names with const
+entries. For example, qcom,sa8255p-geni-i2c.yaml has:
+
+  power-domain-names:
+    items:
+      - const: power
+      - const: perf
+
+qcom,sa8255p-ethqos.yaml, added later in this series, does the same with
+core and mdio.
+
+power-domains also has no description, so the binding doesn't say what the
+single domain represents.
+
+Could this use items: - const: serdes for power-domain-names, and add an
+items: - description: entry for power-domains? Another option is to drop
+power-domain-names, since there is only one entry.
+
+The driver added later in the series (phy-qcom-sgmii-eth-scmi.c) doesn't
+look the domain up by name. The driver core attaches the single domain
+automatically, so an unexpected name causes no runtime failure. The concern
+is limited to the schema and the ABI definition.
+
 > +
-> +	mutex_lock(&priv->ptp_mutex);
-> +	stmmac_block_ptp(priv, true);
-> +	netif_device_detach(dev);
-> +	phylink_stop(priv->phylink);
-> +	stmmac_quiesce(priv);
-
-[Severity: High]
-Does this unconditional call to stmmac_quiesce() lead to a double-disable of
-NAPI if the interface is already in the HALTED state?
-
-If stmmac_reconfigure_mtu() fails to rollback after a hardware setup error,
-the interface state is set to STMMAC_DATAPATH_HALTED with NAPI left disable=
-d,
-but the device remains administratively up (netif_running(dev) remains true=
-).
-
-If an MTU change is attempted again, stmmac_change_mtu() will call
-stmmac_reconfigure_mtu() a second time. This unconditional stmmac_quiesce()
-call will invoke stmmac_disable_all_queues(), resulting in a second
-napi_disable() on the already disabled NAPI instances. This can cause the
-kernel to deadlock in napi_disable_locked() while waiting for
-NAPIF_STATE_SCHED to clear.
-
-> +	if (stmmac_fpe_supported(priv))
-> +		ethtool_mmsv_stop(&priv->fpe_cfg.mmsv);
+> +  "#phy-cells":
+> +    const: 0
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - "#phy-cells"
+> +  - power-domains
+> +  - power-domain-names
 
 [ ... ]
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260926-submit-stm=
-mac-reset-fixes-v1-v4-0-ec1c0250b3c9@gmail.com?part=3D15
+> +        power-domains = <&scmi7_dvfs 0>;
+> +        power-domain-names = "serdes";
+> +    };
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260923-qcom-sa8255p-emac-v15-0-e82f33720737%40oss.qualcomm.com
