@@ -1,63 +1,63 @@
-Received: from mail-oo2-f39.google.com (mail-oo2-f39.google.com [74.125.231.167])
+Received: from mail-oo2-f37.google.com (mail-oo2-f37.google.com [74.125.231.165])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0CD23F40D
-	for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 00:20:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.167
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B470242D70
+	for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 00:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.165
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790468451; cv=none; b=b/kvLImvkL3nTzqaeZbchU1oWMW38guNK9JHiZvADMfxL0tlFuKouKrI2Sx9wZCmhSf+uAX+Agj7kjRyHJ3nJwIQ3yYEGspL/FGCRo3nvEMjaBkMEEW11msiXM9mlsWUVb1vav22aeH/yuvKqHNV5rRb0ynhB7u6YbevxzlxWt8=
+	t=1790468455; cv=none; b=k25k6JGfZur4c+q2PCgZH0IjyINfDRlzQ2vx2F4+9zXD1YVOdLupN2gjflymA0uhvPQa1LC70Q26YK+svVTGgkBbFcuezdLKkPc3Oy/IuNqXC9cI+tiBUAj9IkcYUKybSTifgK44LtdwJqpHHsdGpDKYC8VDnYCdrVTDAbRnZlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790468451; c=relaxed/simple;
-	bh=KUqMhiQcS4AgsYPuncz05+mw8gLtazXZDPzDeOszHBs=;
+	s=arc-20240116; t=1790468455; c=relaxed/simple;
+	bh=GIeFzqkf+t90OFEOly3kIqkEDK9YoFqQscjmy9Bb7zM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PEhj+L4MAnzTJUc5XV85+KwzT+7on522gDhfdKLv14fI4DvNHLrtbJoK0BF0MM0hwmHnIs5C4NKnz/F7ryNVUHtb8j0vJV0XrMt6PTphpFP8sTegrXE0yZf7sGUKcQnJLjUi/JsO20LdhSzoXZFZj/IkdecErOa1DC+d8Lv6cpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KB+Ok63j; arc=none smtp.client-ip=74.125.231.167
+	 MIME-Version; b=Oigjb8oynfwYiVnbMD85UlbnGdn8n80tgHr6PvJYobYDbi3qGmiivRqP1vH0N0ZTDUyOer0KSGqYKXjaxVmh/qhNMF9MlLvtIld/OY72y+LYV7YNeGobIRV5+YZom4wHLiVflNQGk+xVszkmWJTimAQ4fGFLUuEdKXKx2Hrsj6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G3uhclwG; arc=none smtp.client-ip=74.125.231.165
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KB+Ok63j"
-Received: by mail-oo2-f39.google.com with SMTP id 46e09a7af769-7f4f0cfb33cso1562285a34.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 17:20:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G3uhclwG"
+Received: by mail-oo2-f37.google.com with SMTP id 46e09a7af769-80032c08611so1594482a34.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 17:20:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790468448; x=1791073248; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790468451; x=1791073251; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=B5J3pzpTC8euWZ64R9GaI6gZQCXcNFJ4o9q8CcjL5ik=;
-        b=KB+Ok63jy7y2mGEol08MfjoMp0CKsqnur4T0MrtbNDzgNYnSYIvf8zbZjxCUWllsDH
-         0bwGTPM2vI86wik4zegrXkAIRN5d5RwqDxyulb4jSi+K9nEOGWVad5plCJuaxnBG0gqP
-         1VOoUO74WlWfgoaRe+JuUPUYY+lgovENsYJRanhxZ+n/Gr/LhyT+2i4PalIyx9Bweqq2
-         63HYb69MElHo98mLoUGyMgPERdfPKW4YVzpfO2ESzftKYrNkyNrsQ0GNHvFaTNpgtEXe
-         jcoiTNrOUhAv1YI08XTBFDjHGOqilUPuYPYjN2/t7nZRKJGkavI/VmGfWTiT9ml63ClO
-         +jyw==
+        bh=hI4LzcR5N9hwvq4XXdv1TVoYIFqgkaE3x77LOlHbgrY=;
+        b=G3uhclwGxWoyN80LvPbOfg9qECtlOAAeFX4f4CxtGs6jRify2qDhpFrT2Aim7iQBaE
+         2mnj83KnTcVvjay8FqOMpAGTaIyj6vVTngQuRO5/Ne54X/6y60A/Bkbvn9LkXouEKfYl
+         lfxXvbL9GnNuFkGtiT2nDi0o91G7sO0BkQcz7k4zFhyui1aKc0jtnAZ3wZdfyK9mzKel
+         BCvHDtUE6AGkuG2UeyTc6RRMzhaQuffxXNBDMeY6AwRQ9tOphgSI1TW8O2eLFQDXfdIk
+         sToBE1YnnibxCeoIf14vKSAyx+ATUvygeaDtON+rYqbrY+QAHo8hgnm0u5rwTCOaBhm7
+         jwBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790468448; x=1791073248;
+        d=1e100.net; s=20260707; t=1790468451; x=1791073251;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=B5J3pzpTC8euWZ64R9GaI6gZQCXcNFJ4o9q8CcjL5ik=;
-        b=oM9IBsQvKMX2fSxWKuZ6zVOqR02tEotisOALZ4HePQNA3zrcarfAvVLGPEQ+ScTJWl
-         6CdV0G4AGlLFozHnKT6NbBDF25vZ8qJI4gF+LRGLIpsqGZJyGDDzeGN0l6qF8h1ajFen
-         2LHxoUODz0lPOxP6BIxxiFrC9Ugp2HAMEZbfB8U04/A4tc5nrjcpyiTmsN4fWGWA5sE5
-         eVanAMERu9KgXwvfWyAWrtzZPf9+UtLuQu8AaP8NbBIB2+kASVaeuwOVPUtAgGqkYcvY
-         VlR95Mva/N92xqtp7f6O4OfeCF4uaOI7gjx6iyL6rx1fl5QZJIckBexDKqotXUU/jmeD
-         xC3A==
-X-Gm-Message-State: AFuF++mIRMhEf7NPULKac8buqynPSdST5A6oAspuFTQmjITrec5RaZou
-	na0vCr5od/4pn0URZyexMxe8igaz9Dfk9TBkarkBT3XmPj3IweAHU0X3tnPL1J7s
-X-Gm-Gg: AYBFou0h/zMn2A1GkAwCzljzKO3SJR5Q/x6+M7NcE4mXXWBiU57q/6agEsrPVOHI30C
-	PaQEgDjy/Ae0g9mDBL7B5Mg3OYD5LbxXBuCjum6DFFYxnn9jdcgMmCkh+EbSpyLmMpI2HQmyzWA
-	kk13y8jwh5nI1/6oAq5Ih+CEqC83w3UnaSCXmPWfDcIsCvd0AXsT6RTUzkJsz9SnsAfDBFYkXK5
-	7FvrAxZhkmrt89aGqNtmKfVBpVjjSbb/Bx79avuLu9Amnw6L5Kw+OEDCf6DtpwNlc7XSGZsPrWe
-	xAUZOsi0tfSfwyGf/0FlayUpDXN/Hv5x/Oj/eGvQLJgzsSy2tNH5GgzOJmCPtt8Hw2XxKcjKW4e
-	T1qxEKvlu34/Zxc2Lfc+5eU9ueeHvXaLRcdX+eQEeCvVs0glSwoUht3yQxH3VXzNO+8MCAYFPi9
-	/pXiKITsPaYW/nFNeIZ+NQmuVx8CotMbpJ7HjkQ5inqvWo4FkYMiyZgLal9ACbaTsG+2MzkZBfW
-	z+aAycyoVXGjgl1ATIzuA==
-X-Received: by 2002:a05:6820:290e:b0:6d8:6dcf:54c7 with SMTP id 006d021491bc7-6d86dcf582fmr353279eaf.82.1790468448578;
-        Sat, 26 Sep 2026 17:20:48 -0700 (PDT)
+        bh=hI4LzcR5N9hwvq4XXdv1TVoYIFqgkaE3x77LOlHbgrY=;
+        b=JVXxq/4fPweyL4wY7phBxPgDV0GTIxufiawVfHn6d42SAu7kBdBQ1fw+jL6wxkQ0pE
+         gTPmSdD0iwJEnHaNRXVO5oqrwWpUEzJ1Gop/0O2TDu6HlfDes6x/4k5uUKQAP14gH75k
+         SsNuT7SKkyHFyXJzjKOmHWSZ4O2bRSaFtvVDaHdbY9daThOBJNp9J3Hfem6PD32bgLkS
+         y/YWteqfQpL2SeP1H3bcz7RWKVD3iQa3AVEqDfnxU1cxfA3G0BelN3+SCIFi0vcrpdOQ
+         nLiEgU1Dzx0cBXRWhM3SgCzG8WAtUxdIprDNTNwnaVWrT7/KLm1+QDuDxg7tGJJB7aKK
+         K1kQ==
+X-Gm-Message-State: AFuF++mEDB6hRy1/EtI16hglHtR8hoWC2Oi4rAfvvG8caDn2B9+AMHjY
+	JaHW04C2/dchzGc1fNAr7DiAEzwWcDse7U0se5Tr0WkIYX8PIIlyH+0r3iJ03+5B
+X-Gm-Gg: AYBFou1Xg42arkVB2/4pWfIpJ65pSYdiI6S5Xao9WVCufEOPdmQ4G645KUEqZWhem1m
+	wb9ToaAjWm1yGwJCQhRYpLjYl2O7XG40YJEoyVKMqZGYvZNY+6O1nfOu7C2CkcWz1N2BrKsSXUh
+	Sq9Z3t4SUaWGDM6aSUMKhaNYjZHUjXZoc1v6ImyQ9fPROz5ssgH4G4oFGS2lR88Px3gnf9AlK1g
+	eNBCdxDgskLfK/PVJf034rPSj/2/HMi0LB/q4Apsjdp7jEPkWISjLo5dfSpjdE2bFcAbhWvg7Ye
+	/bYBCjtLiIAyIr25Vv5Ny5OJFxbxvZ15hkOY4tHOd0QvW1AF55qqNhf6ONQi97veO74987OFaHR
+	TOAm5QkDl0dS8UHYzywZ8VVKF4heFgpLXZjC7U2F/DRkVylFwyEWBnilSJeO5HMpTajwUQL7ddO
+	Blfyf8qJDpJgsXSgD97GgKWbIp9kbRGPYWss4QWBwpoFiURwJJrzNiRqMQPwn1gULkHLxx4TvK7
+	Mr6M/SJhP9xGLbR3UV6Ww==
+X-Received: by 2002:a05:6820:3107:b0:6c9:80d8:a1e7 with SMTP id 006d021491bc7-6d43fd7af20mr9804934eaf.36.1790468451131;
+        Sat, 26 Sep 2026 17:20:51 -0700 (PDT)
 Received: from tcmichals-5759.lan ([2607:fb91:3584:35a9:66f8:2cb5:aa80:21fd])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6d8828e1ea0sm838989eaf.6.2026.09.26.17.20.46
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6d8828e1ea0sm838989eaf.6.2026.09.26.17.20.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 17:20:47 -0700 (PDT)
+        Sat, 26 Sep 2026 17:20:50 -0700 (PDT)
 From: Tim Michals <tcmichals@gmail.com>
 To: linux-sunxi@lists.linux.dev,
 	linux-remoteproc@vger.kernel.org
@@ -74,9 +74,9 @@ Cc: devicetree@vger.kernel.org,
 	krzk+dt@kernel.org,
 	conor+dt@kernel.org,
 	Tim Michals <tcmichals@gmail.com>
-Subject: [PATCH v2 1/7] dt-bindings: mailbox: add Allwinner sun55i msgbox schema
-Date: Sat, 26 Sep 2026 19:20:10 -0500
-Message-ID: <20260927002021.797069-2-tcmichals@gmail.com>
+Subject: [PATCH v2 2/7] mailbox: sun55i: add Allwinner sun55i/sun60i 4-port Message Box driver
+Date: Sat, 26 Sep 2026 19:20:11 -0500
+Message-ID: <20260927002021.797069-3-tcmichals@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260927002021.797069-1-tcmichals@gmail.com>
 References: <20260922034711.190253-1-tcmichals@gmail.com>
@@ -89,128 +89,501 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add Device Tree binding schema for the Allwinner 4-port hardware
-Message Box controller found on sun55i (A523, A527, T527) and
-sun60i (A733) SoCs.
+Add driver for the 4-port hardware Message Box controller found on
+Allwinner A523, A527, T527 (sun55i) and A733 (sun60i) SoCs.
 
-The message box connects the ARM Cortex-A55 host cluster to the
-HiFi4 Audio DSP, Power Management Unit (CPUS), and XuanTie RISC-V
-co-processor across 12 logical channels with 8-entry hardware FIFOs.
+The controller acts as a hardware crossbar connecting four heterogeneous
+processor cores (ARM Cortex-A55, Tensilica HiFi4 DSP, CPUS, and XuanTie
+E907 RISC-V) across 12 logical channels with 8-entry hardware message FIFOs.
 
 Signed-off-by: Tim Michals <tcmichals@gmail.com>
 ---
- .../mailbox/allwinner,sun55i-a523-msgbox.yaml | 102 ++++++++++++++++++
- 1 file changed, 102 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/mailbox/allwinner,sun55i-a523-msgbox.yaml
+ drivers/mailbox/Kconfig         |  10 +
+ drivers/mailbox/Makefile        |   1 +
+ drivers/mailbox/sun55i-msgbox.c | 375 ++++++++++++++++++++++++++++++++
+ drivers/mailbox/sun55i-msgbox.h |  58 +++++
+ 4 files changed, 444 insertions(+)
+ create mode 100644 drivers/mailbox/sun55i-msgbox.c
+ create mode 100644 drivers/mailbox/sun55i-msgbox.h
 
-diff --git a/Documentation/devicetree/bindings/mailbox/allwinner,sun55i-a523-msgbox.yaml b/Documentation/devicetree/bindings/mailbox/allwinner,sun55i-a523-msgbox.yaml
+diff --git a/drivers/mailbox/Kconfig b/drivers/mailbox/Kconfig
+index ab869769e278..9067f5161276 100644
+--- a/drivers/mailbox/Kconfig
++++ b/drivers/mailbox/Kconfig
+@@ -332,6 +332,16 @@ config SUN6I_MSGBOX
+ 	  various Allwinner SoCs. This mailbox is used for communication
+ 	  between the application CPUs and the power management coprocessor.
+ 
++config SUN55I_MSGBOX
++	tristate "Allwinner sun55i/sun60i 4-port Message Box"
++	depends on ARCH_SUNXI || COMPILE_TEST
++	default ARCH_SUNXI
++	help
++	  Mailbox implementation for the 4-port hardware message box present in
++	  Allwinner A523/A527/T527 (sun55i) and A733 (sun60i) SoCs. This mailbox
++	  provides 12 hardware FIFO channels for communication between the
++	  Cortex-A55 host, CPUS, HiFi4 DSP, and XuanTie E907 RISC-V coprocessors.
++
+ config SPRD_MBOX
+ 	tristate "Spreadtrum Mailbox"
+ 	depends on ARCH_SPRD || COMPILE_TEST
+diff --git a/drivers/mailbox/Makefile b/drivers/mailbox/Makefile
+index 45dc59bb3e7f..aa17f9d0acd4 100644
+--- a/drivers/mailbox/Makefile
++++ b/drivers/mailbox/Makefile
+@@ -70,6 +70,7 @@ obj-$(CONFIG_MTK_VCP_MBOX)	+= mtk-vcp-mailbox.o
+ obj-$(CONFIG_ZYNQMP_IPI_MBOX)	+= zynqmp-ipi-mailbox.o
+ 
+ obj-$(CONFIG_SUN6I_MSGBOX)	+= sun6i-msgbox.o
++obj-$(CONFIG_SUN55I_MSGBOX)	+= sun55i-msgbox.o
+ 
+ obj-$(CONFIG_SPRD_MBOX)		+= sprd-mailbox.o
+ 
+diff --git a/drivers/mailbox/sun55i-msgbox.c b/drivers/mailbox/sun55i-msgbox.c
 new file mode 100644
-index 000000000000..6b0c7ff70c9f
+index 000000000000..928e52e08bad
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/mailbox/allwinner,sun55i-a523-msgbox.yaml
-@@ -0,0 +1,102 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/mailbox/allwinner,sun55i-a523-msgbox.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/mailbox/sun55i-msgbox.c
+@@ -0,0 +1,375 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Allwinner sun55i/sun60i 4-Port Hardware Message Box Driver
++ *
++ * Copyright (C) 2026 Tim Michals <tcmichals@gmail.com>
++ * Based on vendor sunxi-msgbox driver by Allwinner Technology Co., Ltd.
++ */
 +
-+title: Allwinner sun55i 4-Port Message Box
++#include <linux/bitfield.h>
++#include <linux/clk.h>
++#include <linux/device.h>
++#include <linux/err.h>
++#include <linux/interrupt.h>
++#include <linux/io.h>
++#include <linux/kernel.h>
++#include <linux/mailbox_controller.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/reset.h>
++#include <linux/spinlock.h>
 +
-+maintainers:
-+  - Tim Michals <tcmichals@gmail.com>
-+  - Samuel Holland <samuel@sholland.org>
++#include "sun55i-msgbox.h"
 +
-+description:
-+  The hardware message box on sun55i (A523, A527, T527) and sun60i (A733)
-+  SoCs is a 4-port multi-processor mailbox controller connecting the ARM
-+  Cortex-A55 host cluster, HiFi4 Audio DSP, Power Management Unit (CPUS),
-+  and XuanTie RISC-V co-processor.
++/*
++ * Hardware routing table for Cortex-A55 host (local_id = 0):
++ *   local_n = 0 -> CPUS (remote_id = SUN55I_PROC_CPUS, remote_n = 0) -> Channels 0..3
++ *   local_n = 1 -> DSP  (remote_id = SUN55I_PROC_DSP,  remote_n = 0) -> Channels 4..7
++ *   local_n = 2 -> RV   (remote_id = SUN55I_PROC_RV,   remote_n = 2) -> Channels 8..11
++ */
++const struct sun55i_route sun55i_msgbox_arm_routes[SUN55I_NUM_ROUTES] = {
++	[0] = { .remote_id = SUN55I_PROC_CPUS, .remote_n = 0 },
++	[1] = { .remote_id = SUN55I_PROC_DSP,  .remote_n = 0 },
++	[2] = { .remote_id = SUN55I_PROC_RV,   .remote_n = 2 },
++};
 +
-+  It features independent 256-byte register banks for each processor port,
-+  12 logical channels on the host (4 per remote processor), and 8-entry
-+  hardware FIFOs with level interrupts.
++#if IS_ENABLED(CONFIG_SUN55I_MSGBOX_KUNIT_TEST)
++EXPORT_SYMBOL_GPL(sun55i_msgbox_arm_routes);
++#endif
 +
-+properties:
-+  compatible:
-+    enum:
-+      - allwinner,sun55i-a523-msgbox
-+      - allwinner,sun55i-t527-msgbox
-+      - allwinner,sun60i-a733-msgbox
++static inline struct sun55i_msgbox *to_sun55i_msgbox(struct mbox_chan *chan)
++{
++	return chan->con_priv;
++}
 +
-+  reg:
-+    maxItems: 4
-+    description:
-+      Register banks for each of the four processor ports. Each port has
-+      an independent 256-byte register bank.
++void sun55i_chan_to_route(int chan_idx, int *local_n, int *p,
++			  int *remote_id, int *remote_n)
++{
++	if (chan_idx < 0 || chan_idx >= SUN55I_NUM_CHANS) {
++		*local_n = 0;
++		*p = 0;
++		*remote_id = 0;
++		*remote_n = 0;
++		return;
++	}
++	*local_n = chan_idx / SUN55I_CHANS_PER_PROC;
++	*p = chan_idx % SUN55I_CHANS_PER_PROC;
++	*remote_id = sun55i_msgbox_arm_routes[*local_n].remote_id;
++	*remote_n = sun55i_msgbox_arm_routes[*local_n].remote_n;
++}
 +
-+  reg-names:
-+    items:
-+      - const: arm
-+      - const: dsp
-+      - const: cpus
-+      - const: rv
++#if IS_ENABLED(CONFIG_SUN55I_MSGBOX_KUNIT_TEST)
++EXPORT_SYMBOL_GPL(sun55i_chan_to_route);
++#endif
 +
-+  clocks:
-+    maxItems: 1
++irqreturn_t sun55i_msgbox_irq(int irq, void *dev_id)
++{
++	struct sun55i_msgbox *mbox = dev_id;
++	irqreturn_t ret = IRQ_NONE;
++	int i, local_n, p, chan_idx;
 +
-+  resets:
-+    maxItems: 1
++	for (local_n = 0; local_n < SUN55I_NUM_ROUTES; local_n++) {
++		void __iomem *local_base = mbox->regs[0];
++		u32 en, stat, pending;
 +
-+  interrupts:
-+    minItems: 1
-+    maxItems: 4
-+    description:
-+      One interrupt per processor port in port order (arm, dsp, cpus, rv).
-+      The ARM host port interrupt is required; remote port interrupts are
-+      optional. Use interrupt-names to identify which ports are present when
-+      providing a partial list.
++		en = readl(local_base + SUNXI_MSGBOX_READ_IRQ_ENABLE(local_n));
++		stat = readl(local_base + SUNXI_MSGBOX_READ_IRQ_STATUS(local_n));
++		pending = en & stat;
 +
-+  interrupt-names:
-+    minItems: 1
-+    maxItems: 4
-+    items:
-+      enum:
-+        - arm
-+        - dsp
-+        - cpus
-+        - rv
++		if (!pending)
++			continue;
 +
-+  '#mbox-cells':
-+    const: 1
-+    description: "channel number (0-11: 0-3 CPUS, 4-7 DSP, 8-11 RISC-V)"
++		for (p = 0; p < SUN55I_CHANS_PER_PROC; p++) {
++			if (!(pending & RD_IRQ_PEND_BIT(p)))
++				continue;
 +
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - clocks
-+  - resets
-+  - interrupts
-+  - '#mbox-cells'
++			chan_idx = local_n * SUN55I_CHANS_PER_PROC + p;
 +
-+additionalProperties: false
++			/*
++			 * Clear pending status BEFORE draining the FIFO to seal
++			 * the TOCTOU race: any new message arriving while draining
++			 * will re-assert the hardware pending bit, guaranteeing
++			 * a subsequent interrupt and preventing blackholed IPC data.
++			 */
++			writel(RD_IRQ_PEND_BIT(p),
++			       local_base + SUNXI_MSGBOX_READ_IRQ_STATUS(local_n));
 +
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
++			/* Cap drain at FIFO_MAX to prevent CPU lockup from a runaway remote */
++			for (i = 0; i < SUN55I_FIFO_MAX; i++) {
++				u32 msg;
 +
-+    mailbox@3003000 {
-+        compatible = "allwinner,sun55i-a523-msgbox";
-+        reg = <0x03003000 0x1000>,
-+              <0x07094000 0x1000>,
-+              <0x07120000 0x1000>,
-+              <0x07136000 0x1000>;
-+        reg-names = "arm", "dsp", "cpus", "rv";
-+        clocks = <&ccu 120>;
-+        resets = <&ccu 45>;
-+        interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 181 IRQ_TYPE_LEVEL_HIGH>,
-+                     <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
-+        interrupt-names = "arm", "dsp", "cpus", "rv";
-+        #mbox-cells = <1>;
-+    };
++				if (!(readl(local_base +
++					    SUNXI_MSGBOX_MSG_STATUS(local_n, p)) & MSG_NUM_MASK))
++					break;
++				msg = readl(local_base + SUNXI_MSGBOX_MSG_FIFO(local_n, p));
++				mbox_chan_received_data(&mbox->controller.chans[chan_idx], &msg);
++			}
++
++			ret = IRQ_HANDLED;
++		}
++	}
++
++	return ret;
++}
++
++#if IS_ENABLED(CONFIG_SUN55I_MSGBOX_KUNIT_TEST)
++EXPORT_SYMBOL_GPL(sun55i_msgbox_irq);
++#endif
++
++static int sun55i_msgbox_send_data(struct mbox_chan *chan, void *data)
++{
++	struct sun55i_msgbox *mbox = to_sun55i_msgbox(chan);
++	int n = chan - mbox->controller.chans;
++	int local_n, p, remote_id, remote_n;
++	u32 msg = 0;
++
++	if (data)
++		memcpy(&msg, data, sizeof(msg));
++
++	sun55i_chan_to_route(n, &local_n, &p, &remote_id, &remote_n);
++
++	writel(msg, mbox->regs[remote_id] + SUNXI_MSGBOX_MSG_FIFO(remote_n, p));
++	return 0;
++}
++
++static int sun55i_msgbox_startup(struct mbox_chan *chan)
++{
++	struct sun55i_msgbox *mbox = to_sun55i_msgbox(chan);
++	int n = chan - mbox->controller.chans;
++	int i, local_n, p, remote_id, remote_n;
++	unsigned long flags;
++	u32 val;
++
++	sun55i_chan_to_route(n, &local_n, &p, &remote_id, &remote_n);
++
++	/* Flush any stale receive data (bounded to FIFO_MAX) */
++	for (i = 0; i < SUN55I_FIFO_MAX; i++) {
++		if (!(readl(mbox->regs[0] + SUNXI_MSGBOX_MSG_STATUS(local_n, p)) & MSG_NUM_MASK))
++			break;
++		readl(mbox->regs[0] + SUNXI_MSGBOX_MSG_FIFO(local_n, p));
++	}
++
++	/* Clear pending status */
++	writel(RD_IRQ_PEND_BIT(p),
++	       mbox->regs[0] + SUNXI_MSGBOX_READ_IRQ_STATUS(local_n));
++
++	/* Enable receive IRQ */
++	spin_lock_irqsave(&mbox->lock, flags);
++	val = readl(mbox->regs[0] + SUNXI_MSGBOX_READ_IRQ_ENABLE(local_n));
++	val |= RD_IRQ_EN_BIT(p);
++	writel(val, mbox->regs[0] + SUNXI_MSGBOX_READ_IRQ_ENABLE(local_n));
++	spin_unlock_irqrestore(&mbox->lock, flags);
++
++	return 0;
++}
++
++static void sun55i_msgbox_shutdown(struct mbox_chan *chan)
++{
++	struct sun55i_msgbox *mbox = to_sun55i_msgbox(chan);
++	int n = chan - mbox->controller.chans;
++	int i, local_n, p, remote_id, remote_n;
++	unsigned long flags;
++	u32 val;
++
++	sun55i_chan_to_route(n, &local_n, &p, &remote_id, &remote_n);
++
++	/* Disable receive IRQ */
++	spin_lock_irqsave(&mbox->lock, flags);
++	val = readl(mbox->regs[0] + SUNXI_MSGBOX_READ_IRQ_ENABLE(local_n));
++	val &= ~RD_IRQ_EN_BIT(p);
++	writel(val, mbox->regs[0] + SUNXI_MSGBOX_READ_IRQ_ENABLE(local_n));
++	spin_unlock_irqrestore(&mbox->lock, flags);
++
++	/* Clear pending status and flush (bounded to FIFO_MAX) */
++	writel(RD_IRQ_PEND_BIT(p),
++	       mbox->regs[0] + SUNXI_MSGBOX_READ_IRQ_STATUS(local_n));
++	for (i = 0; i < SUN55I_FIFO_MAX; i++) {
++		if (!(readl(mbox->regs[0] + SUNXI_MSGBOX_MSG_STATUS(local_n, p)) & MSG_NUM_MASK))
++			break;
++		readl(mbox->regs[0] + SUNXI_MSGBOX_MSG_FIFO(local_n, p));
++	}
++}
++
++static bool sun55i_msgbox_last_tx_done(struct mbox_chan *chan)
++{
++	struct sun55i_msgbox *mbox = to_sun55i_msgbox(chan);
++	int n = chan - mbox->controller.chans;
++	int local_n, p, remote_id, remote_n;
++	u32 count;
++
++	sun55i_chan_to_route(n, &local_n, &p, &remote_id, &remote_n);
++
++	count = readl(mbox->regs[remote_id] + SUNXI_MSGBOX_MSG_STATUS(remote_n, p)) & MSG_NUM_MASK;
++	return count < SUN55I_FIFO_MAX;
++}
++
++static bool sun55i_msgbox_peek_data(struct mbox_chan *chan)
++{
++	struct sun55i_msgbox *mbox = to_sun55i_msgbox(chan);
++	int n = chan - mbox->controller.chans;
++	int local_n, p, remote_id, remote_n;
++	u32 count;
++
++	sun55i_chan_to_route(n, &local_n, &p, &remote_id, &remote_n);
++
++	count = readl(mbox->regs[0] + SUNXI_MSGBOX_MSG_STATUS(local_n, p)) & MSG_NUM_MASK;
++	return count > 0;
++}
++
++const struct mbox_chan_ops sun55i_msgbox_chan_ops = {
++	.send_data    = sun55i_msgbox_send_data,
++	.startup      = sun55i_msgbox_startup,
++	.shutdown     = sun55i_msgbox_shutdown,
++	.last_tx_done = sun55i_msgbox_last_tx_done,
++	.peek_data    = sun55i_msgbox_peek_data,
++};
++
++#if IS_ENABLED(CONFIG_SUN55I_MSGBOX_KUNIT_TEST)
++EXPORT_SYMBOL_GPL(sun55i_msgbox_chan_ops);
++#endif
++
++static int sun55i_msgbox_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct mbox_chan *chans;
++	struct sun55i_msgbox *mbox;
++	int i, ret, irq_cnt, local_n;
++
++	mbox = devm_kzalloc(dev, sizeof(*mbox), GFP_KERNEL);
++	if (!mbox)
++		return -ENOMEM;
++
++	spin_lock_init(&mbox->lock);
++
++	/* Allocate channels early before touching any hardware */
++	chans = devm_kcalloc(dev, SUN55I_NUM_CHANS, sizeof(*chans), GFP_KERNEL);
++	if (!chans)
++		return -ENOMEM;
++
++	for (i = 0; i < SUN55I_NUM_CHANS; i++)
++		chans[i].con_priv = mbox;
++
++	for (i = 0; i < SUN55I_MAX_PROCESSORS; i++) {
++		mbox->regs[i] = devm_platform_ioremap_resource(pdev, i);
++		if (IS_ERR(mbox->regs[i]))
++			return dev_err_probe(dev, PTR_ERR(mbox->regs[i]),
++					     "failed to map resource %d\n", i);
++	}
++
++	mbox->clk = devm_clk_get(dev, NULL);
++	if (IS_ERR(mbox->clk))
++		return dev_err_probe(dev, PTR_ERR(mbox->clk), "failed to get clock\n");
++
++	ret = clk_prepare_enable(mbox->clk);
++	if (ret)
++		return dev_err_probe(dev, ret, "failed to enable clock\n");
++
++	mbox->reset = devm_reset_control_get_optional_shared(dev, NULL);
++	if (IS_ERR(mbox->reset)) {
++		ret = PTR_ERR(mbox->reset);
++		goto err_disable_clk;
++	}
++
++	ret = reset_control_deassert(mbox->reset);
++	if (ret)
++		goto err_disable_clk;
++
++	/* Disable all read IRQs and clear status */
++	for (local_n = 0; local_n < SUN55I_NUM_ROUTES; local_n++) {
++		writel(0, mbox->regs[0] + SUNXI_MSGBOX_READ_IRQ_ENABLE(local_n));
++		writel(U32_MAX, mbox->regs[0] + SUNXI_MSGBOX_READ_IRQ_STATUS(local_n));
++	}
++
++	irq_cnt = platform_irq_count(pdev);
++	if (irq_cnt < 0) {
++		ret = irq_cnt;
++		goto err_assert_reset;
++	}
++
++	for (i = 0; i < irq_cnt; i++) {
++		int irq = platform_get_irq(pdev, i);
++
++		if (irq < 0) {
++			ret = irq;
++			goto err_free_irqs;
++		}
++
++		ret = request_irq(irq, sun55i_msgbox_irq,
++				  IRQF_SHARED, dev_name(dev), mbox);
++		if (ret) {
++			dev_err(dev, "failed to request irq %d: %d\n", irq, ret);
++			goto err_free_irqs;
++		}
++		mbox->irqs[i] = irq;
++		mbox->num_irqs = i + 1;
++	}
++
++	mbox->controller.dev           = dev;
++	mbox->controller.ops           = &sun55i_msgbox_chan_ops;
++	mbox->controller.chans         = chans;
++	mbox->controller.num_chans     = SUN55I_NUM_CHANS;
++	mbox->controller.txdone_irq    = false;
++	mbox->controller.txdone_poll   = true;
++	mbox->controller.txpoll_period = 1;
++
++	platform_set_drvdata(pdev, mbox);
++
++	ret = mbox_controller_register(&mbox->controller);
++	if (ret) {
++		dev_err_probe(dev, ret, "failed to register controller\n");
++		goto err_free_irqs;
++	}
++
++	return 0;
++
++err_free_irqs:
++	/* Mask all hardware read IRQs and free registered IRQs before cutting clocks */
++	for (local_n = 0; local_n < SUN55I_NUM_ROUTES; local_n++)
++		writel(0, mbox->regs[0] + SUNXI_MSGBOX_READ_IRQ_ENABLE(local_n));
++	for (i = 0; i < mbox->num_irqs; i++)
++		free_irq(mbox->irqs[i], mbox);
++err_assert_reset:
++	reset_control_assert(mbox->reset);
++err_disable_clk:
++	clk_disable_unprepare(mbox->clk);
++	return ret;
++}
++
++static void sun55i_msgbox_remove(struct platform_device *pdev)
++{
++	struct sun55i_msgbox *mbox = platform_get_drvdata(pdev);
++	int local_n, i;
++
++	mbox_controller_unregister(&mbox->controller);
++
++	/* Mask hardware interrupts and free IRQs before asserting reset and disabling clock */
++	for (local_n = 0; local_n < SUN55I_NUM_ROUTES; local_n++)
++		writel(0, mbox->regs[0] + SUNXI_MSGBOX_READ_IRQ_ENABLE(local_n));
++
++	for (i = 0; i < mbox->num_irqs; i++)
++		free_irq(mbox->irqs[i], mbox);
++
++	reset_control_assert(mbox->reset);
++	clk_disable_unprepare(mbox->clk);
++}
++
++static const struct of_device_id sun55i_msgbox_of_match[] = {
++	{ .compatible = "allwinner,sun55i-a523-msgbox" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, sun55i_msgbox_of_match);
++
++static struct platform_driver sun55i_msgbox_driver = {
++	.driver = {
++		.name = "sun55i-msgbox",
++		.of_match_table = sun55i_msgbox_of_match,
++	},
++	.probe = sun55i_msgbox_probe,
++	.remove = sun55i_msgbox_remove,
++};
++module_platform_driver(sun55i_msgbox_driver);
++
++MODULE_AUTHOR("Tim Michals <tcmichals@gmail.com>");
++MODULE_DESCRIPTION("Allwinner sun55i/sun60i 4-Port Message Box Driver");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/mailbox/sun55i-msgbox.h b/drivers/mailbox/sun55i-msgbox.h
+new file mode 100644
+index 000000000000..2ab79a9149c0
+--- /dev/null
++++ b/drivers/mailbox/sun55i-msgbox.h
+@@ -0,0 +1,58 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _SUN55I_MSGBOX_H_
++#define _SUN55I_MSGBOX_H_
++
++#include <linux/bitfield.h>
++#include <linux/bits.h>
++#include <linux/interrupt.h>
++#include <linux/mailbox_controller.h>
++#include <linux/spinlock.h>
++
++#define SUN55I_PROC_ARM			0
++#define SUN55I_PROC_DSP			1
++#define SUN55I_PROC_CPUS		2
++#define SUN55I_PROC_RV			3
++
++#define SUN55I_MAX_PROCESSORS		4
++#define SUN55I_CHANS_PER_PROC		4
++#define SUN55I_NUM_ROUTES		(SUN55I_MAX_PROCESSORS - 1)
++#define SUN55I_NUM_CHANS		(SUN55I_NUM_ROUTES * SUN55I_CHANS_PER_PROC)
++#define SUN55I_FIFO_MAX			8
++
++#define SUNXI_MSGBOX_OFFSET(n)			(0x100 * (n))
++#define SUNXI_MSGBOX_READ_IRQ_ENABLE(n)		(0x020 + SUNXI_MSGBOX_OFFSET(n))
++#define SUNXI_MSGBOX_READ_IRQ_STATUS(n)		(0x024 + SUNXI_MSGBOX_OFFSET(n))
++#define SUNXI_MSGBOX_WRITE_IRQ_ENABLE(n)	(0x030 + SUNXI_MSGBOX_OFFSET(n))
++#define SUNXI_MSGBOX_WRITE_IRQ_STATUS(n)	(0x034 + SUNXI_MSGBOX_OFFSET(n))
++#define SUNXI_MSGBOX_FIFO_STATUS(n, p)		(0x050 + SUNXI_MSGBOX_OFFSET(n) + 0x4 * (p))
++#define SUNXI_MSGBOX_MSG_STATUS(n, p)		(0x060 + SUNXI_MSGBOX_OFFSET(n) + 0x4 * (p))
++#define SUNXI_MSGBOX_MSG_FIFO(n, p)		(0x070 + SUNXI_MSGBOX_OFFSET(n) + 0x4 * (p))
++
++#define RD_IRQ_EN_BIT(p)			BIT((p) * 2)
++#define RD_IRQ_PEND_BIT(p)			BIT((p) * 2)
++#define MSG_NUM_MASK				GENMASK(3, 0)
++
++struct sun55i_route {
++	u8 remote_id;
++	u8 remote_n;
++};
++
++struct sun55i_msgbox {
++	struct mbox_controller controller;
++	void __iomem *regs[SUN55I_MAX_PROCESSORS];
++	struct clk *clk;
++	struct reset_control *reset;
++	int irqs[SUN55I_MAX_PROCESSORS];
++	int num_irqs;
++	/* Protects concurrent MMIO register access */
++	spinlock_t lock;
++};
++
++extern const struct sun55i_route sun55i_msgbox_arm_routes[SUN55I_NUM_ROUTES];
++extern const struct mbox_chan_ops sun55i_msgbox_chan_ops;
++
++void sun55i_chan_to_route(int chan_idx, int *local_n, int *p,
++			  int *remote_id, int *remote_n);
++irqreturn_t sun55i_msgbox_irq(int irq, void *dev_id);
++
++#endif /* _SUN55I_MSGBOX_H_ */
 -- 
 2.43.0
 
