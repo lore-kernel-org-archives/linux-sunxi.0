@@ -1,111 +1,153 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F7924E4C6;
-	Sun, 27 Sep 2026 00:27:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375A625333F;
+	Sun, 27 Sep 2026 00:30:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790468880; cv=none; b=TlN2jl8CQNJ7euOGBaA+jctqBgSz+bvoTDYB7GRrJ+8ac3t9h1MjaZ/AT9tS1W2HGK2X/+8JYuvHUlqByqnRZShX2Vwe6yTPlwQthsji6LAl4MnxBZAEb38Z6MmrR/0Z7OtQ7cwqxlmIvpvbyFO3rItIa6dgWKFXP1Nnw7ubisc=
+	t=1790469020; cv=none; b=uPonmfHm2EdXTRC5FYVK0Qdq2YkVCXHDnCEu/yF/MoBXE2eQZxpTDPHcFJ+xu7KuPkuo8iTlT/2o0z8D35fGNoiamdfwsMy5InCMmgTgLqkcPQFoZ80rM5n36MhTReI+5PCl7eWtnxP6sMQHr8ckSn1wvOVXJkJFXoDGbiVHL5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790468880; c=relaxed/simple;
-	bh=pU2oqt1KSRhUUEgePbm/psqSUmYBWGcpDt1Jr3+h5aI=;
+	s=arc-20240116; t=1790469020; c=relaxed/simple;
+	bh=UhfeCVl8+OjjXo8DXmcI80oHvhSrdaeJP6M6+NxIIbA=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=g3r9eFngNw+v1IQYIitQygxfds7w1+EKM0gMn4GuU/JM0WhOpYCwMYXdD0Wyee8WSsQ8TtyV3RAsl9iCavDhoLui221qAI9DeT1Q8dYZ4SOK802bgq9sGcv7uR1PCiVgRXqlePuiCAg56XsOkKc345GdzjETbLxZIwwkUsvc4/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mr0HS2jC; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=B3qN7ZQBm6EUaBzMAN+CanTR3ORcZHxl0F/ak40/+j28DSaqo/o1Pw+DviCevTjD/NMTi5a3Y/IG0wgC8lG91eNKWO1QWvcQkXVdWHnwQ+0r9N78wl5EhuSEZluS1CMnF5I8+LEZGnOx4/5HH1MMNh5EsMiOt2E5+BObTft2vA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jic/1q4E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mr0HS2jC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E65581F000FF;
-	Sun, 27 Sep 2026 00:27:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jic/1q4E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 244211F000FF;
+	Sun, 27 Sep 2026 00:30:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790468879;
-	bh=/MnnG7I1tR3vc8iv4Uy5LePLqYm2RRXSQjMe51xO/nk=;
+	s=k20260515; t=1790469015;
+	bh=3pxkHFWxnv54amSrAdoHjnhWqEss/pbu8YOZF+elwFM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mr0HS2jCIXFu7gaCikIlILVVzftyglDnj3W4LetcWlwOzcvu7SHEjsrLORPaJc4ao
-	 lF0EVdSUPteGNs3gCp1VzPWcbmLC5G9i2HlwhrK2Ic66YfOpXT2lHe9U6wna2RHvy6
-	 q/cp8P6HuvzQJXe0Dd2o4uXHdsoRfF+eKeSfu8VNe8K+uX/Phll0DlWHf3j/MIgX2Y
-	 n7sSmEfjaF5Ab3ctue8nLOjuawy4U4rWsFU8cvhP8ILXa+Px3CPRUt/0j/bPU0UOnU
-	 gyBi3QLbAuc3fbJN5Ak3drKAE2nErpKYBm2xa4Rc/G1NGS7zM/rMlMBSsQ6+snjYt9
-	 fjnilslgQxJCA==
+	b=jic/1q4EY8rJbvsczxXFeqQ6lQIBSjsxCFX38SERTmAIPkTJpFtZYLEsKEw7EAfC3
+	 FXNg34s10HPwXQzQPYXt23/Xhc/DF4yMXJw9PlnH9DpRcdwQMmt48Bdw9muhqY3CvI
+	 7C+LJ08pwlwF5VhGQkSB4QgunBiR72A2KBcy8Q3UrHwqsHsltrgeSjkOOSBgf1BoXl
+	 l03G+QaDr0ZcNkwcOBi7NgbYLQQuD5C6y/boxc42uhGGkthVS4j64oMpIJyItmfFPI
+	 S+al2QLKHuLH6JhosIk8kmlGy3+kYj4ojgfGjMFkyQMtgPR+0HpWGNSAGzAD4KctRU
+	 lRiA3VsMUHFXg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 4/7] dt-bindings: remoteproc: add Allwinner
- sun55i-rproc schema
+Subject: Re: [PATCH v2 1/7] dt-bindings: mailbox: add Allwinner sun55i
+ msgbox schema
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Tim Michals" <tcmichals@gmail.com>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260927002021.797069-5-tcmichals@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20260927002021.797069-2-tcmichals@gmail.com>
 References: <20260922034711.190253-1-tcmichals@gmail.com>
  <20260927002021.797069-1-tcmichals@gmail.com>
- <20260927002021.797069-5-tcmichals@gmail.com>
+ <20260927002021.797069-2-tcmichals@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 27 Sep 2026 00:27:58 +0000
-Message-Id: <20260927002758.E65581F000FF@smtp.kernel.org>
+Date: Sun, 27 Sep 2026 00:30:14 +0000
+Message-Id: <20260927003015.244211F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
-- [Medium] dt-bindings: missing constraint for required 'r_sram'/'r_sram1' =
-in reg-names
+- [Medium] dt-bindings: incomplete schema constraints for interrupt-names
+- [Medium] dt-bindings: A527 SoC compatible string missing from schema
+- [Low] dt-bindings: register bank size mismatch between description and ex=
+ample
 --
 
-commit cc7b4893d8220b754d0e23e60a9d997c33b1c0c3
+commit a5a15af0e6145674274afe29234b0c38ce4cb1b7
 Author: Tim Michals <tcmichals@gmail.com>
-Subject: dt-bindings: remoteproc: add Allwinner sun55i-rproc schema
 
-This commit adds a Device Tree binding schema for the Allwinner XuanTie
-E906/E907 RISC-V remoteproc on sun55i SoCs. It defines resources such as
-memory-mapped registers, clocks, resets, and mailboxes required to manage
-the co-processor.
+    dt-bindings: mailbox: add Allwinner sun55i msgbox schema
 
-> diff --git a/Documentation/devicetree/bindings/remoteproc/allwinner,sun55=
-i-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/allwinner,sun55=
-i-rproc.yaml
+This commit adds a Device Tree binding schema for the Allwinner 4-port hard=
+ware
+Message Box controller found on sun55i (A523, A527, T527) and sun60i (A733)
+SoCs. It defines the constraints for properties like registers, clocks, res=
+ets,
+and interrupts.
+
+> diff --git a/Documentation/devicetree/bindings/mailbox/allwinner,sun55i-a=
+523-msgbox.yaml b/Documentation/devicetree/bindings/mailbox/allwinner,sun55=
+i-a523-msgbox.yaml
 > new file mode 100644
-> index 0000000000000..53e3f4faaa768
+> index 0000000000000..6b0c7ff70c9fb
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/remoteproc/allwinner,sun55i-rproc=
-.yaml
+> +++ b/Documentation/devicetree/bindings/mailbox/allwinner,sun55i-a523-msg=
+box.yaml
+> @@ -0,0 +1,102 @@
+[ ... ]
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun55i-a523-msgbox
+> +      - allwinner,sun55i-t527-msgbox
+> +      - allwinner,sun60i-a733-msgbox
+
+[Severity: Medium]
+The commit message explicitly claims to add support for the Message Box
+controller on "sun55i (A523, A527, T527)". The compatible enum provides
+strings for A523, T527, and A733, but entirely omits an entry for A527.
+
+Device trees attempting to declare A527 support will fail validation or
+must misleadingly use the A523 string without backing documentation.
+
+Should "allwinner,sun55i-a527-msgbox" be included in this enum?
+
+> +
+> +  reg:
+> +    maxItems: 4
+> +    description:
+> +      Register banks for each of the four processor ports. Each port has
+> +      an independent 256-byte register bank.
+
+[Severity: Low]
+Does this description accurately reflect the register bank size?
+
+The text states each port has a 256-byte register bank, but the example
+later in the schema maps the hardware's 4KB-aligned register banks (0x1000
+bytes):
+
+        reg =3D <0x03003000 0x1000>,
+              <0x07094000 0x1000>,
+              <0x07120000 0x1000>,
+              <0x07136000 0x1000>;
+
+This creates a documentation mismatch. Should the description be updated
+to match the 4K page-aligned size used in practice?
 
 [ ... ]
-
-> +  reg:
+> +  interrupts:
 > +    minItems: 1
 > +    maxItems: 4
 > +    description:
-> +      Memory-mapped register regions. The following named regions are
-> +      supported (all optional except at least one of r_sram or r_sram1) -
-> +      "cfg" for RISC-V core control and boot-vector registers,
-> +      "r_sram" for dedicated MCU SRAM Space 0,
-> +      "r_sram1" for switchable MCU SRAM Space 1,
-> +      "remap" for the hardware remap control register.
-> +
-> +  reg-names:
-> +    minItems: 1
-> +    maxItems: 4
-> +    items:
-> +      enum:
-> +        - cfg
-> +        - r_sram
-> +        - r_sram1
-> +        - remap
+> +      One interrupt per processor port in port order (arm, dsp, cpus, rv=
+).
+> +      The ARM host port interrupt is required; remote port interrupts are
+> +      optional. Use interrupt-names to identify which ports are present =
+when
+> +      providing a partial list.
+[ ... ]
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - clocks
+> +  - resets
+> +  - interrupts
+> +  - '#mbox-cells'
 
 [Severity: Medium]
-The description for reg explicitly states that at least one of r_sram or
-r_sram1 is required, but the schema for reg-names allows any single item
-from the enum (such as just cfg) to pass validation.
+The schema description for interrupts explicitly states that interrupt-names
+must be used to identify ports when providing a partial list of optional
+interrupts.
 
-If a device tree node is created with only cfg or remap in reg-names, it
-will silently pass offline device tree validation despite lacking the
-required SRAM regions.
+However, interrupt-names is not marked as a required property here. As a
+result, device tree nodes with ambiguous, partial interrupt lists can
+silently pass validation, leaving dependent software unable to reliably
+map the provided interrupts to their respective hardware ports.
 
-Should an additional constraint be added to enforce the presence of at least
-one SRAM region so that incomplete device trees are caught during validatio=
-n?
+Could this be enforced in the schema constraints?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260927002021.7970=
-69-1-tcmichals@gmail.com?part=3D4
+69-1-tcmichals@gmail.com?part=3D1
