@@ -1,162 +1,111 @@
-Received: from mail-oo2-f38.google.com (mail-oo2-f38.google.com [74.125.231.166])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE46F257ACF
-	for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 00:21:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F7924E4C6;
+	Sun, 27 Sep 2026 00:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790468468; cv=none; b=W/67FXYySzw2Aiy6LtXEaO7J2Mg/wCBlAlC8yPR5K0ZASsCnsGFmyOEbMxiTgmx+lpntuwCMv33YC0gujzdynR237S/TeyOciGbEGgMRUZtyrjPV89qziMJ2qezvt+4EhNXw33kECTWJkc234gTV46u9fK14WSrvMyAuxlNKdQU=
+	t=1790468880; cv=none; b=TlN2jl8CQNJ7euOGBaA+jctqBgSz+bvoTDYB7GRrJ+8ac3t9h1MjaZ/AT9tS1W2HGK2X/+8JYuvHUlqByqnRZShX2Vwe6yTPlwQthsji6LAl4MnxBZAEb38Z6MmrR/0Z7OtQ7cwqxlmIvpvbyFO3rItIa6dgWKFXP1Nnw7ubisc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790468468; c=relaxed/simple;
-	bh=8/pV73x78jrNfWMKzRpgQhL/uS+KEamSLh1zpjcATE4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DnHOrG8djOQWrgZT8efwo05wLxE48p1GuZcgJiYpNlOo+/wdkqgox99g6siJiJ0a/Sj1L31dH/zQCmNbpniiJNBYWDKGWM36oJVFrvz8x49h5/B6M3WcUJKp3WHEReIPmOfMHZBw3W0aRRPljjj2nuqnhqO8DG6JqjcIcCP8duw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sIUmwKXX; arc=none smtp.client-ip=74.125.231.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790468880; c=relaxed/simple;
+	bh=pU2oqt1KSRhUUEgePbm/psqSUmYBWGcpDt1Jr3+h5aI=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=g3r9eFngNw+v1IQYIitQygxfds7w1+EKM0gMn4GuU/JM0WhOpYCwMYXdD0Wyee8WSsQ8TtyV3RAsl9iCavDhoLui221qAI9DeT1Q8dYZ4SOK802bgq9sGcv7uR1PCiVgRXqlePuiCAg56XsOkKc345GdzjETbLxZIwwkUsvc4/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mr0HS2jC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sIUmwKXX"
-Received: by mail-oo2-f38.google.com with SMTP id 46e09a7af769-81be5042c56so50846a34.0
-        for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 17:21:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790468464; x=1791073264; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=TIkNGJES0hm9OJqnA5eP6Pl3OVYCfTyaqkdgFUAgvWM=;
-        b=sIUmwKXXGQNxUq7+tYNiyZdO3PBJmeyqb6xDrOEsOPEXf1Jp/Of/YjY95Cdo9sE0s3
-         049DECAQSc5ffFy1EeWIjFO6Hrb2Af2ueeiWBLUE9KPJdayEhFW1rQ0NVRS4cHch5XGJ
-         prZl9wBaB4CgExDr+fuyzGW61F0C1Sid9oYvCOizh0GE8XXhEEfquOJT+OA4uSlEgra9
-         q1nhlPuMgjkbT+Tw6quJdj38XOghqNHNZoVwmcnkeAONuu/QrSzCdJYvk5Vq4XzL86Au
-         HQbeRKRUd8Y+viZ2qmNMXpymKbVY/jGMvWlNgzo8C2Co1Mu8csG8v5XMKpYoc7JkPHYq
-         Es4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790468464; x=1791073264;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TIkNGJES0hm9OJqnA5eP6Pl3OVYCfTyaqkdgFUAgvWM=;
-        b=uITsG440G1b1v6xBDpKTcoHhpueLochTBABJbaKixf8O8YoSS7CjBADqiQmnLxLFlh
-         DAvCoWMhk9q/bsT3M3lwhxeLzl4c6F94UbggfzmBsVTikZH9BNlfTXaVdf3EFnz/yTsW
-         2Jy2EDyYyHDhy2tuStAxShselNZdNH60qSgnURsQBzzErotJaGXsT++8mnpMiQIIr+ul
-         +YQ98sh78yQfwDsEIPmpb4I6sknjNs7npUCmcD9lAHxH4SE60rn0kGiAUY5paip2vcqR
-         64+7FnsGT235s6/9JbLh7Wqb5RuLnOlrj7f9DCEtAn86LBaEY4zjCmAiRVDU5fM7oHW6
-         Vxmw==
-X-Gm-Message-State: AFuF++ktDrOYqSRCeXixfGRXHQL5n4Z+nBNWaDldG2c/Wgidw/MvFvvJ
-	Xndkcr66qyrJu4H4dFHziKnk8u4pVehecf2xwWS4vIXl3s+wpLwTOhIGNzhQ+FRM
-X-Gm-Gg: AYBFou10xDUm1ecpPbRQYoYSNnDdYswENMFlqVR7BhDj99RZr++wj06o7CRn55g57cC
-	CTaZCH0+Gt6m6PTKJ2pcCL9UwbdESD/iZIJdNyFD0pz/yHvveEEea0RmSGwZAKq/QcCViLr8Zmh
-	lcn+EWAUYGFHlYjVqWbnWPYdTm2o2HQ2UbxLEBAyt4YIlgFw/pZqhjZswIw8nEUGFUAnEWzrJy3
-	+R9q2hv4LAfSoy76PlEr9zy2PfMhNCwhvxj0APvYe1aWpwV4LmO+cFDEMFCUYLxuA21+X+ZgIZ8
-	QLc220J06xHUo/7Lfr3s1dz020uQI6y9vfZZjCDb4KnTDDE89WQ7fXwZhW2KQfZMKZAW1/AHcHu
-	QlgJYH6e8VF40kGVwkbHOuta7Wofp4fNoX+cVbkodv6Tcw3SlnLr1aEADzgrfK21tridZKuJ9Dl
-	qFuYYgjMY7RsrgOJBRKQjmfoQ2hz8P/emTZ35AuuvBA0rZEM8P+5mPPET3lxogIwdmTKq3dsasu
-	I81miVjlSBrA3XEt8lBQQ==
-X-Received: by 2002:a05:6820:61d:b0:6be:137b:3f98 with SMTP id 006d021491bc7-6d5b869c1f6mr6321898eaf.22.1790468464256;
-        Sat, 26 Sep 2026 17:21:04 -0700 (PDT)
-Received: from tcmichals-5759.lan ([2607:fb91:3584:35a9:66f8:2cb5:aa80:21fd])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6d8828e1ea0sm838989eaf.6.2026.09.26.17.21.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 17:21:03 -0700 (PDT)
-From: Tim Michals <tcmichals@gmail.com>
-To: linux-sunxi@lists.linux.dev,
-	linux-remoteproc@vger.kernel.org
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	andersson@kernel.org,
-	mathieu.poirier@linaro.org,
-	jassisinghbrar@gmail.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	Tim Michals <tcmichals@gmail.com>
-Subject: [PATCH v2 7/7] arm64: dts: allwinner: add a523 msgbox and remoteproc nodes
-Date: Sat, 26 Sep 2026 19:20:16 -0500
-Message-ID: <20260927002021.797069-8-tcmichals@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260927002021.797069-1-tcmichals@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mr0HS2jC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E65581F000FF;
+	Sun, 27 Sep 2026 00:27:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790468879;
+	bh=/MnnG7I1tR3vc8iv4Uy5LePLqYm2RRXSQjMe51xO/nk=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=mr0HS2jCIXFu7gaCikIlILVVzftyglDnj3W4LetcWlwOzcvu7SHEjsrLORPaJc4ao
+	 lF0EVdSUPteGNs3gCp1VzPWcbmLC5G9i2HlwhrK2Ic66YfOpXT2lHe9U6wna2RHvy6
+	 q/cp8P6HuvzQJXe0Dd2o4uXHdsoRfF+eKeSfu8VNe8K+uX/Phll0DlWHf3j/MIgX2Y
+	 n7sSmEfjaF5Ab3ctue8nLOjuawy4U4rWsFU8cvhP8ILXa+Px3CPRUt/0j/bPU0UOnU
+	 gyBi3QLbAuc3fbJN5Ak3drKAE2nErpKYBm2xa4Rc/G1NGS7zM/rMlMBSsQ6+snjYt9
+	 fjnilslgQxJCA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 4/7] dt-bindings: remoteproc: add Allwinner
+ sun55i-rproc schema
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Tim Michals" <tcmichals@gmail.com>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20260927002021.797069-5-tcmichals@gmail.com>
 References: <20260922034711.190253-1-tcmichals@gmail.com>
  <20260927002021.797069-1-tcmichals@gmail.com>
+ <20260927002021.797069-5-tcmichals@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 27 Sep 2026 00:27:58 +0000
+Message-Id: <20260927002758.E65581F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Add the hardware mailbox (CPUX_MSGBOX) node and the XuanTie E907 RISC-V
-remoteproc node for Allwinner A523/A527/T527 SoCs.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] dt-bindings: missing constraint for required 'r_sram'/'r_sram1' =
+in reg-names
+--
 
-Connect the remoteproc node to the MCU CCU clocks (bus, core, sram,
-msgbox) and resets (cfg, core, sram, msgbox) and mailbox channels 8 & 9
-for bidirectional host-coprocessor IPC.
+commit cc7b4893d8220b754d0e23e60a9d997c33b1c0c3
+Author: Tim Michals <tcmichals@gmail.com>
+Subject: dt-bindings: remoteproc: add Allwinner sun55i-rproc schema
 
-Signed-off-by: Tim Michals <tcmichals@gmail.com>
----
- .../arm64/boot/dts/allwinner/sun55i-a523.dtsi | 39 +++++++++++++++++++
- 1 file changed, 39 insertions(+)
+This commit adds a Device Tree binding schema for the Allwinner XuanTie
+E906/E907 RISC-V remoteproc on sun55i SoCs. It defines resources such as
+memory-mapped registers, clocks, resets, and mailboxes required to manage
+the co-processor.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-index 85ef492ffeae..b4699c4df5e9 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-@@ -605,6 +605,23 @@ dma: dma-controller@3002000 {
- 			#dma-cells = <1>;
- 		};
- 
-+		msgbox: mailbox@3003000 {
-+			compatible = "allwinner,sun55i-a523-msgbox";
-+			reg = <0x03003000 0x1000>,
-+			      <0x07094000 0x1000>,
-+			      <0x07120000 0x1000>,
-+			      <0x07136000 0x1000>;
-+			reg-names = "arm", "dsp", "cpus", "rv";
-+			clocks = <&ccu CLK_BUS_MSGBOX>;
-+			resets = <&ccu RST_BUS_MSGBOX>;
-+			interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 181 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "arm", "dsp", "cpus", "rv";
-+			#mbox-cells = <1>;
-+		};
-+
- 		sid: efuse@3006000 {
- 			compatible = "allwinner,sun55i-a523-sid",
- 				     "allwinner,sun50i-a64-sid";
-@@ -1144,5 +1161,27 @@ npu: npu@7122000 {
- 			resets = <&mcu_ccu RST_BUS_MCU_NPU>;
- 			power-domains = <&ppu PD_NPU>;
- 		};
-+
-+		rproc: remoteproc@7130000 {
-+			compatible = "allwinner,sun55i-a523-rproc";
-+			reg = <0x07130000 0x1000>,
-+			      <0x07280000 0x40000>,
-+			      <0x072c0000 0x40000>,
-+			      <0x07010364 0x4>;
-+			reg-names = "cfg", "r_sram", "r_sram1", "remap";
-+			clocks = <&mcu_ccu CLK_BUS_MCU_RISCV_CFG>,
-+				 <&mcu_ccu CLK_MCU_RISCV>,
-+				 <&mcu_ccu CLK_BUS_MCU_PUBSRAM>,
-+				 <&mcu_ccu CLK_BUS_MCU_RISCV_MSGBOX>;
-+			clock-names = "bus", "core", "sram", "msgbox";
-+			resets = <&mcu_ccu RST_BUS_MCU_RISCV_CFG>,
-+				 <&mcu_ccu RST_BUS_MCU_RISCV_CORE>,
-+				 <&mcu_ccu RST_BUS_MCU_PUBSRAM>,
-+				 <&mcu_ccu RST_BUS_MCU_RISCV_MSGBOX>;
-+			reset-names = "cfg", "core", "sram", "msgbox";
-+			mboxes = <&msgbox 8>, <&msgbox 9>;
-+			mbox-names = "rx", "tx";
-+			status = "disabled";
-+		};
- 	};
- };
--- 
-2.43.0
+> diff --git a/Documentation/devicetree/bindings/remoteproc/allwinner,sun55=
+i-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/allwinner,sun55=
+i-rproc.yaml
+> new file mode 100644
+> index 0000000000000..53e3f4faaa768
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/remoteproc/allwinner,sun55i-rproc=
+.yaml
 
+[ ... ]
+
+> +  reg:
+> +    minItems: 1
+> +    maxItems: 4
+> +    description:
+> +      Memory-mapped register regions. The following named regions are
+> +      supported (all optional except at least one of r_sram or r_sram1) -
+> +      "cfg" for RISC-V core control and boot-vector registers,
+> +      "r_sram" for dedicated MCU SRAM Space 0,
+> +      "r_sram1" for switchable MCU SRAM Space 1,
+> +      "remap" for the hardware remap control register.
+> +
+> +  reg-names:
+> +    minItems: 1
+> +    maxItems: 4
+> +    items:
+> +      enum:
+> +        - cfg
+> +        - r_sram
+> +        - r_sram1
+> +        - remap
+
+[Severity: Medium]
+The description for reg explicitly states that at least one of r_sram or
+r_sram1 is required, but the schema for reg-names allows any single item
+from the enum (such as just cfg) to pass validation.
+
+If a device tree node is created with only cfg or remap in reg-names, it
+will silently pass offline device tree validation despite lacking the
+required SRAM regions.
+
+Should an additional constraint be added to enforce the presence of at least
+one SRAM region so that incomplete device trees are caught during validatio=
+n?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260927002021.7970=
+69-1-tcmichals@gmail.com?part=3D4
