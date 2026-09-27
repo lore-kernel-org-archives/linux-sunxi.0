@@ -1,71 +1,71 @@
 Received: from mail-oo2-f43.google.com (mail-oo2-f43.google.com [74.125.231.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5940330CD81
-	for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 21:59:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27273BFE3E
+	for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 21:59:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790546394; cv=none; b=KQUTUr04KrYY9Bx5v4dTXD7J/oZ1nTJu44odjBPHFEuPpJHyOL672as8ubuUysk2DzX4q2t+rJrzMo4CvRJblf2DtWj0ITVDBLvbh2XKVbmu99Jk908ScATeYo8tqBqATHS+FEU05rAPsnJMUuH6XM+99yQi5NhdyxLgH4t7l7M=
+	t=1790546398; cv=none; b=PiKo5xSO2y6q+m2ByFVn38XUaxZk0ltqxVwyD5F73ymrqb39kEOqTTRTLyl1uR8tfwCQZqBxGKmIVJGu7Q0LrxUyE6w5XqoybZyF9gubTydy1DCamydES9PgM7vtChiVQQ6S+rOGyNwO5OIGrYnjJBSn11F3Idxp5JQ5UfZVMTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790546394; c=relaxed/simple;
-	bh=kRWe3zJ18nPwnbV8Vp/GoUZKSkrJS4rO4y9k1SLXFfM=;
+	s=arc-20240116; t=1790546398; c=relaxed/simple;
+	bh=Y0o1r20SUN85wmZaOSkDQLTs++Jzg9wfmOIT41V9CN8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=B6kmiD169WcOurSykYRD0Q1COsTTyzs4nwCFbkk78S0Q+Lyvh4pOm//1x+17f9Ht6I8kHkLkM6QOVceSu/Igk05cfC4d0LbkS83HNW2AKmepP72dBae8B1eC+3EoG5iw/KqK5i9NM9AZU5refJXFvZrfHSUcNNaiZ4ZPCzjIa7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pO0chnUF; arc=none smtp.client-ip=74.125.231.171
+	 In-Reply-To:To:Cc; b=PU94cOcuK/4gUdu/uilOwfHw1oKCJkAXZRUOfMLPEbcqZdK9k0nJtZI9KqSKcAaCKH9Mx4uJWKS/yGyP8paP0/ZUDeSQgeJx+ijdfDrXQYyDqZr6kTCzh7nGY+WFfAEu8nUx4uvaE4yL/4GdNzvgz3LBE5YRXSOHci4YYLglS1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hx6AeKuu; arc=none smtp.client-ip=74.125.231.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pO0chnUF"
-Received: by mail-oo2-f43.google.com with SMTP id 46e09a7af769-81b15bca7dfso665541a34.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 14:59:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hx6AeKuu"
+Received: by mail-oo2-f43.google.com with SMTP id 006d021491bc7-6d7e06de06eso417666eaf.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 14:59:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790546388; x=1791151188; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790546391; x=1791151191; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wMTK91isCtW7K3W3fSl1Ctwz86tx7+iRah3Eev0qMBA=;
-        b=pO0chnUFcmMjpQGL8javWoLRSyUWcLP72WhiMpsKUbXrTTqZUDewogu8LiGyMHkqXb
-         j1RaPb2jSVUgcIvdTVYJHrruPjo23WN7MM80uNkxS6tmCvjhAnWK/rIqs5fQ+FCnvwDX
-         8dt3J67NJvDZ/PHIsexUjb0AJvxcswcyVCSRd5mu8b3DFTJYDTe3n99sabid1Q/WeI0s
-         lQCimL6a4lhxdiPvyqigrIoOrk9D176HT33sQn0BdPTsIuGA3uhFq/OypLZ+AYSoyGYd
-         KWfh+bN/3xGozbNu0wm2LGgtQPAD8je4Q6IQkmNwxM/qSekYmBDRZoSmCtP4wPEgXzJh
-         KhqA==
+        bh=AOmjI/wuMW3PMPrcgaqqBQf7jBpBeERU9IwSvc2Be6c=;
+        b=Hx6AeKuu3lmVJayhFnFDxNoh3exNTOWQstyluvTOTO+OmY1DRoqI1bJXtYnlkCIYLr
+         fJ0q18a4KVs7DVGjaanVXMQuUCd+v5XxiiAEU8nJp7r3QX2McFPzPdN8CWwtxoi248J8
+         fTOmB5JwiTaik1NexgFsJXmB1F2lScgjSyL87pqe1lcdNOtRZMBkYwEnLW9uyX6Omeqr
+         ogt8ODTbwF5GKk7Db6oK2uwllQdezgLay17NJ+0gpFsS7F1ldheAVTIUuTwFksESJo9e
+         jpD13S3ovg0nTvKyPsn6yFupdFPgjaAUs1Vt/SjRkcHJi5zL+H9Ak//QN79M5cT6HG5O
+         bfVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790546388; x=1791151188;
+        d=1e100.net; s=20260707; t=1790546391; x=1791151191;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=wMTK91isCtW7K3W3fSl1Ctwz86tx7+iRah3Eev0qMBA=;
-        b=BMaZELZ2W9V8zJ2AqBTjPBNLflGjN8UrzGr5oyR6B+XOOYWmKnK5TqBUV4S8MOB/IH
-         ThO5dnipBC3bIxPPsyH/xMblB6Xpdhpt3NBNIJjkaR+P96EKEAFK9Zh4jn18EhEctULB
-         /NaUkTrdUdcvRKUAvTrvM3MKY9gTWGLj4I4JtJTMO+G8ZMPY40nwwiMCi0MYFWXeIYys
-         G7v5pB9judBNvj43/cgIHKVvHdSLNeNzZOnwrZCwULAxAI3sEUx9K2JFmhPo0DbyM0Cy
-         XsjVQm9nqBRfcaOmQ0oCJuyCF3ksdcFDGYBXg+gd91eeICCdNQw9AwV3IQwtCJzoCKiR
-         H27w==
-X-Forwarded-Encrypted: i=1; AKwUvBz5ujCUruMbecnK5MUFrP6mzhsbQBtPxwMQHLyVD6xwovnR+mqy+MzFoaMnHvre8Ka7Xo/pOVPSwFO81Q==@lists.linux.dev
-X-Gm-Message-State: AFuF++kmvHTQ/0iGzzPetICZvm1BDw8xpdWFm+oYTjhBECAjXKy+pxL7
-	xUsJubeMZsp56EkHqQYMEHXCpJHOSgX5y9f8FIjqi0MUW0DBsa8f1n0I
-X-Gm-Gg: AYBFou3ZoECBNmHRKCxO9z21Mfz9PujoaiiEfhh9pj3xCrL8SEM5xGgdsCqXx014qXt
-	RNi1k/wka9keF2D801N8E5gSihR2bOODyf5xpWFy9sAfPAD0c4WEoC+Wyd8LVpoTOqJj963TzUT
-	yhWymRZlv90byg5tahu37Vd+R0napQwIg7wUIi2HSaudJuwvUcCPCxD//rxulz1E3ojRtBP7nzB
-	VVhtoy++cAH19uRvpm58wQWfctP7C5kyiJhZwMuWZHA8cIdINCT0nwlQYqEyQxFe5cqaIWuNOP7
-	A7M4PwlhG4fmr9cAcYdOsLqfnq/HDisDISKxIOZm+1z3ZSbfOA9UQreSYCXMigyln0+BFTPnEA4
-	pgmyb0eXZG7f4Z6DoKfLfhKGarP4fbLTncIBRRtRUN5QgvW6zeERIHKiuAvvggXGNP4BZYIEbFH
-	mKsCvK0taJ3yRKIRPnVzkp3Y7wHSYDMSZcxpZygwdoEiVnzF+JcdCOadPvY36yrIVieo96yxaYg
-	A8F2sqjGX+1C4ulihCVoCOH1fPpHu2dlv1i0V2H5sq79FGk7xpjzC5dilijCuxkuP+V69yx/8FY
-	U9OvjFljHQZs3DUK8NU4oGsfXRSU/tC8MZz1uvkDgm/ufU1jfyf9nmJsBt+u1DIFGU0ybpqOG+D
-	2B3o8eNdjxraasrwsSJGVObbd+qf9I5A=
-X-Received: by 2002:a05:6820:81cf:b0:6b9:8413:89b8 with SMTP id 006d021491bc7-6d4411d2841mr11892599eaf.57.1790546388198;
-        Sun, 27 Sep 2026 14:59:48 -0700 (PDT)
+        bh=AOmjI/wuMW3PMPrcgaqqBQf7jBpBeERU9IwSvc2Be6c=;
+        b=XO+kZLAcHuZZgC2Rmq6X4DL5QCR7+9Zkvk1gn7i98PgbN2ErJL75OkwuGz7PvLZnzH
+         17qaa4LfUJrcnvMwHKWBjReRuWVIhpUisQ6Pmb+Dk5HgAlFq6GMXJxZ3LUwrz8Z529N5
+         CYAZ4Kec+9WGH1In8uMPDFRZFnZ9elA9tWR37SMd2KvmYF1Nm17i+9v3JSiMyyE6EU8p
+         ESP3QE8nsLjVh9YEA9pS02U9ULpNdzlA4Yv/VLQ7GEzWFQsEeV3Y+NEWT50oh5Blf6LE
+         1jIBxLABb0MFA1vtjsFgpfleAo/K52KajyCqVXrNFIJO6ctBnW5940l4WZo9zBqRX5qR
+         7Scw==
+X-Forwarded-Encrypted: i=1; AKwUvBwpl+iR6+uKk57DzGeccDhSfIiQxBvpmqN/Fyvv6LhYqhFfmv7wBKNkr5WTmnSixxiNkn//QLMHLh4FMA==@lists.linux.dev
+X-Gm-Message-State: AFuF++mJS0W8uFWjb5sG8uxnKoHqn3FIY6402jeBvvjtD3Nm5Lt1AESj
+	z2RwKae0onjvtTQ2izczimksOPLW7eT3Ve+mlAX/7wu9i/pIqnAljpFQ
+X-Gm-Gg: AYBFou2SwGdswK06fTu0IxB8b4c9wuEaWIixkMxLWtZlQZw7HPgrZ6KcZ5vq8rDsGuo
+	6XfS5JJKrHF3rH8ycOGllzeA0fIt6fNNkcWju0ddJ6268KyogSSh7kpg58V6y2JXGiTFphpkQPy
+	PY/NJR5fPxId9V2Tsd5t9qLbcvIq4EAhwCC8z9mvalobixLrl5I2/XQiPeB2qUti1RgHQmjeOVQ
+	Fxn4Zj62XFuw2lzBehzirWre4t5ToFXinbfAnC/IwmS0RqQMNTybusT9rUoq28e5iO0T00LYvgs
+	pjTUUPGdCIrhyADVFAhx9ZAeghnJQz87Z5REBzirkQj3KXoZeyqn8TFShulTPpwggTw9WjPrW//
+	nARAmoyFwJBqqpgeiG/HUJKA46Fv8G4dOM5UqTDLKeXHJWiA09iYx/dzs6Gwuo+kDDcNA2MmEQM
+	baWMSjB36TDi+FoOo6mIeCAW/Xt8LMqZXGxa8F92Cja2K+U0kE657KM1Xa1/3bhe7m7gHtq9X19
+	sxiTgbW/lOmQexwv5IcBRsu7s7UKABTAYOkRsFbOLsMR/5LX62N9tXAqX2hxs39uaq94tBQe98s
+	EPEbz3X+AwHbw3YLuU36kURlSEa3qIhEcLngt/bx2CA2T0P3SYhggNn3YfbtH0b9uLEBxrI47kQ
+	4BglxH3TJnnqZvhkItYDg
+X-Received: by 2002:a05:6820:811:b0:6d8:e5d4:9539 with SMTP id 006d021491bc7-6d8e5d495e2mr1540745eaf.25.1790546390675;
+        Sun, 27 Sep 2026 14:59:50 -0700 (PDT)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-81b3de6f7e1sm4874147a34.22.2026.09.27.14.59.45
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-81b3de6f7e1sm4874147a34.22.2026.09.27.14.59.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 14:59:47 -0700 (PDT)
+        Sun, 27 Sep 2026 14:59:50 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sun, 27 Sep 2026 15:59:36 -0600
-Subject: [PATCH net-next v5 01/19] net: stmmac: unwind the WoL IRQ after a
- safety IRQ request failure
+Date: Sun, 27 Sep 2026 15:59:37 -0600
+Subject: [PATCH net-next v5 02/19] net: stmmac: request the MDIO reset GPIO
+ only once
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,7 +74,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260927-submit-stmmac-reset-fixes-v1-v5-1-feec6c14dd06@gmail.com>
+Message-Id: <20260927-submit-stmmac-reset-fixes-v1-v5-2-feec6c14dd06@gmail.com>
 References: <20260927-submit-stmmac-reset-fixes-v1-v5-0-feec6c14dd06@gmail.com>
 In-Reply-To: <20260927-submit-stmmac-reset-fixes-v1-v5-0-feec6c14dd06@gmail.com>
 To: Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
@@ -119,52 +119,148 @@ Cc: Richard Genoud <richard.genoud@bootlin.com>,
  Lorenzo Bianconi <lorenzo.bianconi@oss.qualcomm.com>, 
  Ding Hui <dinghui1111@163.com>, Linkui Xiao <xiaolinkui@kylinos.cn>, 
  Linkui Xiao <xiaolinkui@126.com>, linux-tegra@vger.kernel.org, 
- linux-sunxi@lists.linux.dev, James Hilliard <james.hilliard1@gmail.com>
+ linux-sunxi@lists.linux.dev, James Hilliard <james.hilliard1@gmail.com>, 
+ stable@vger.kernel.org
 X-Mailer: b4 0.15.2
 
-The IRQ setup paths request the MAC IRQ, then the optional WoL IRQ, then
-the common safety IRQ. If requesting the safety IRQ fails, cleanup must
-release the WoL and MAC IRQs, but not the failed safety IRQ.
+From: Linkui Xiao <xiaolinkui@kylinos.cn>
 
-The REQ_IRQ_ERR_SFTY case instead frees the safety IRQ and skips the WoL
-IRQ. Allocation fault injection during live XDP reopening reproduces a
-"Trying to free already-free IRQ" warning and leaves the WoL handler
-registered after the datapath resources have been released. A subsequent
-open can then fail to request that still-owned IRQ.
+stmmac_mdio_reset() calls devm_gpiod_get_optional() every time it runs.
+A GPIO line can only be requested once, so from the second call on
+gpiod_request_commit() returns -EBUSY. devm_gpiod_get_optional() only
+turns -ENOENT into NULL, hence the error is passed straight back and
+stmmac_mdio_reset() bails out before pulsing "snps,reset" and before
+running the STE101P MDC workaround.
 
-Move safety IRQ cleanup before REQ_IRQ_ERR_SFTY and WoL IRQ cleanup
-after it. This restores reverse acquisition order for both shared and
-MSI IRQ setup, including unwind after failures in later per-queue IRQ
-requests.
+The first call, made by of_mdiobus_register(), succeeds, so the failure
+is only visible later on: every resume that does not use WoL goes
+through stmmac_resume() -> stmmac_mdio_reset(), and that caller ignores
+the return value, so the PHY silently stays un-reset.
 
-Fixes: 5c2215167d12 ("net: stmmac: Add driver support for common safety IRQ")
+The descriptor used to be requested exactly once: stmmac_mdio_reset()
+resolved "snps,reset-gpio" itself and cached the GPIO number in
+stmmac_mdio_bus_data::reset_gpio, and commit ae26c1c6cb9b ("stmmac: fix
+PHY reset during resume") relies on that cache to reuse the line on
+every call. commit 7c86f20d15b7 ("net: stmmac: use GPIO descriptors in
+stmmac_mdio_reset") replaced it with a devm_gpiod_get_optional() that
+caches nothing, so the request is repeated on every call and fails from
+the second one on.
+
+Parse the whole reset description, the GPIO and "snps,reset-delays-us",
+in stmmac_mdio_register() at probe time, and keep it in struct
+stmmac_priv. This is where devm-gpiod is meant to be used: the line is
+acquired with the device and released with it, and any failure to
+acquire it is reported during probe instead of being ignored by
+stmmac_resume(). stmmac_mdio_reset() then only pulses the cached line,
+with the delays that were read once and for all at probe time.
+
+Cache the request and delays for DT devices regardless of
+mdio_bus_data->needs_reset. That flag controls the registration-time
+bus reset callback, but system resume calls stmmac_mdio_reset()
+directly. The reset routine no longer looks at the device tree: where
+the description is absent the cached descriptor is NULL and the delays
+are zero, so the pulse remains a no-op.
+
+Keep acquisition conditional on CONFIG_STMMAC_PLATFORM, matching the
+reset callback, so non-platform configurations do not request an unused
+GPIO. Also skip acquisition for a disabled MDIO child: registering that
+bus returns -ENODEV without calling its reset callback, and the driver
+must retain the existing disabled-bus success path even if the unused
+GPIO is unavailable. Remove the unnecessary gpio_desc forward declaration.
+
+Fixes: 7c86f20d15b7 ("net: stmmac: use GPIO descriptors in stmmac_mdio_reset")
+Cc: stable@vger.kernel.org
+Signed-off-by: Linkui Xiao <xiaolinkui@kylinos.cn>
+Co-developed-by: James Hilliard <james.hilliard1@gmail.com>
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/net/ethernet/stmicro/stmmac/stmmac.h      |  2 +
+ drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c | 50 +++++++++++------------
+ 2 files changed, 27 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index 3ad9252bf6ae..894de213b92f 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -3828,13 +3828,13 @@ static void stmmac_free_irq(struct net_device *dev,
- 			free_irq(msi->sfty_ce_irq, dev);
- 		fallthrough;
- 	case REQ_IRQ_ERR_SFTY_CE:
--		if (priv->wol_irq > 0 && priv->wol_irq != dev->irq)
--			free_irq(priv->wol_irq, dev);
--		fallthrough;
--	case REQ_IRQ_ERR_SFTY:
- 		if (priv->sfty_irq > 0 && priv->sfty_irq != dev->irq)
- 			free_irq(priv->sfty_irq, dev);
- 		fallthrough;
-+	case REQ_IRQ_ERR_SFTY:
-+		if (priv->wol_irq > 0 && priv->wol_irq != dev->irq)
-+			free_irq(priv->wol_irq, dev);
-+		fallthrough;
- 	case REQ_IRQ_ERR_WOL:
- 		free_irq(dev->irq, dev);
- 		fallthrough;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac.h b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
+index 4fc96b317d79..83c30b39f704 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac.h
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
+@@ -287,6 +287,8 @@ struct stmmac_priv {
+ 
+ 	unsigned int pause_time;
+ 	struct mii_bus *mii;
++	struct gpio_desc *mdio_reset_gpio;
++	u32 mdio_reset_delays[3];
+ 
+ 	struct stmmac_pcs *integrated_pcs;
+ 
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+index afe98ff5bdcb..63287ad9652f 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+@@ -384,33 +384,16 @@ int stmmac_mdio_reset(struct mii_bus *bus)
+ 	struct stmmac_priv *priv = netdev_priv(bus->priv);
+ 	unsigned int mii_address = priv->hw->mii.addr;
+ 
+-#ifdef CONFIG_OF
+-	if (priv->device->of_node) {
+-		struct gpio_desc *reset_gpio;
+-		u32 delays[3] = { 0, 0, 0 };
++	if (priv->mdio_reset_delays[0])
++		msleep(DIV_ROUND_UP(priv->mdio_reset_delays[0], 1000));
+ 
+-		reset_gpio = devm_gpiod_get_optional(priv->device,
+-						     "snps,reset",
+-						     GPIOD_OUT_LOW);
+-		if (IS_ERR(reset_gpio))
+-			return PTR_ERR(reset_gpio);
++	gpiod_set_value_cansleep(priv->mdio_reset_gpio, 1);
++	if (priv->mdio_reset_delays[1])
++		msleep(DIV_ROUND_UP(priv->mdio_reset_delays[1], 1000));
+ 
+-		device_property_read_u32_array(priv->device,
+-					       "snps,reset-delays-us",
+-					       delays, ARRAY_SIZE(delays));
+-
+-		if (delays[0])
+-			msleep(DIV_ROUND_UP(delays[0], 1000));
+-
+-		gpiod_set_value_cansleep(reset_gpio, 1);
+-		if (delays[1])
+-			msleep(DIV_ROUND_UP(delays[1], 1000));
+-
+-		gpiod_set_value_cansleep(reset_gpio, 0);
+-		if (delays[2])
+-			msleep(DIV_ROUND_UP(delays[2], 1000));
+-	}
+-#endif
++	gpiod_set_value_cansleep(priv->mdio_reset_gpio, 0);
++	if (priv->mdio_reset_delays[2])
++		msleep(DIV_ROUND_UP(priv->mdio_reset_delays[2], 1000));
+ 
+ 	/* This is a workaround for problems with the STE101P PHY.
+ 	 * It doesn't complete its reset until at least one clock cycle
+@@ -608,6 +591,23 @@ int stmmac_mdio_register(struct net_device *ndev)
+ 	if (!mdio_bus_data)
+ 		return 0;
+ 
++	/* Resume calls stmmac_mdio_reset() even when registration does not
++	 * install a bus reset callback, so cache its resources in both cases.
++	 */
++	if (IS_ENABLED(CONFIG_STMMAC_PLATFORM) && dev_of_node(priv->device) &&
++	    (!mdio_node || of_device_is_available(mdio_node))) {
++		priv->mdio_reset_gpio =
++			devm_gpiod_get_optional(priv->device, "snps,reset",
++						GPIOD_OUT_LOW);
++		if (IS_ERR(priv->mdio_reset_gpio))
++			return PTR_ERR(priv->mdio_reset_gpio);
++
++		device_property_read_u32_array(priv->device,
++					       "snps,reset-delays-us",
++					       priv->mdio_reset_delays,
++					       ARRAY_SIZE(priv->mdio_reset_delays));
++	}
++
+ 	stmmac_mdio_bus_config(priv);
+ 
+ 	new_bus = mdiobus_alloc();
 
 -- 
 2.53.0
