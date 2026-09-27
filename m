@@ -1,83 +1,40 @@
-Received: from mail-vs2-f39.google.com (mail-vs2-f39.google.com [74.125.227.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A4F29D26E
-	for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 23:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.39
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790550952; cv=pass; b=VGzx6UbnTdzXU6dLE/1CfH/35+kJty4t0sW6U5eGNCItB2LMU63TDM0RJUVkwxKb8wLl4ijksbT8ep6DwdOjCcc5vpH1xfe2Gnm6n3pRZivoyTQLzxKKUTrucSfyPjtheCkjuPn6uocNu+2YKzTSc+oxg8CpR59a+xI8U+ahX+g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790550952; c=relaxed/simple;
-	bh=Ou3b3cWlbHbJ+7kgTjQuk4/2d8eoHkAAMLMLbj2Apo4=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5E543876CD
+	for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 23:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790552157; cv=none; b=LKOWg9qCiQky2Mh7YhtJYOr2Mis7zNjGWmAvjmhM4jtvCYGcOQGzufvvRgEeBNGCwtB4YQnhyTHsJ8+0jNTWG+Odj1Otui2cuWWoexeZ4LTx8PGgMEw73mTrmvh2gQo7EDL4zwSlKtLPPLdpqIlZ63XrdxKfxeMk5ypNmtUaByg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790552157; c=relaxed/simple;
+	bh=zUczv42xnBRKDUlSGntImfEdrqpq77GiCQwYtmt81sM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J8Tk4jMOfgOHbiRicSUQ5xdLbgQwUKBdqSSGlR+qnjgC1LTNf/1xxz/q6vOaSIzjIN6PxZzZyyLkakNACudmTTRCyGEE3z7I4PR5FmQ57+u6dpLna4S6mS27ijNCYJXWQV6bh0EGBXmCsRnmS+yLcDLB3ecnU+snmGnU7CM0D18=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JCR2xiZX; arc=pass smtp.client-ip=74.125.227.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=ZlDF+8fMYxCtwC3O0xk830NirEIOx0wBwp1gvXOwOK8ncCcHAJzkummuALAxS3s/1H0DZoUGf2a2IVL6oMFrHbOQA2qNM/5LUB/aYwYh5DCHI5hZf9fh/3ZiKR63Bjbz+f2ZzEOItlTsxleCLTUDqABB7ORnydvucsHsXix/+a8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MG4l3pXr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JCR2xiZX"
-Received: by mail-vs2-f39.google.com with SMTP id 71dfb90a1353d-5ccfbaf6da8so571070e0c.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 16:15:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790550950; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Zq5hZbY5BxWslx2rSKaPCjP5o38HB6zdedKDyY/WNq5nvSK9P6+QzAGDZ8BHb5RlWr
-         KuEeE5/kAHekgFs/On9CRoTsK1OeB+sqXc7TvZDOSMs0Qm+3gJtTCVCOjQDbOAEDH84P
-         hWrQeDuE5Vyr/ekt3Rpc0ZuD+k/hvpAsOhp5t81SoRZK5BCFE3MlrLW3ERLPU9y9LJ2j
-         CEHU7lBvDJGPG5bwcRzrJqo92NGMtF0nWiFIwZaD5eZaokQca5lFNz6eTtrE+5fAL4Tj
-         /QpQA7+KiXMLtyBffoAxneHeS4NGHk52pGvbjt77E+X2eF4FsjKdwDbUxBph2P3TTdxK
-         YoqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Ou3b3cWlbHbJ+7kgTjQuk4/2d8eoHkAAMLMLbj2Apo4=;
-        fh=ncoTePvAaRsNiVNBpOYBEiNlFBN7Us1JYkp5mANYmdk=;
-        b=cJvVjDkKkqg+SLZBQ3G3If58t9t8FA/JJ6CZu0sL4c2coBU5zt7eGljlL+pfjD2reH
-         skCpKohQA1ziW7r4VXIcBYZ9mPfZrQ8PKzVslErHoOlG/wiNC8BlRBQ78PHYeLY7r1ZU
-         hbzuNMYlt7AzwFroSj1FaMN08SchY78lnC8jfEOrXmEwVZI3uZNaUqEgExA7jrCv+K7V
-         7SbmNiIQJ3JplwKn/2mcIywstuL3CqWdyIsCO/fo404Y54UaHw+3Ao2FMwbz9e7eibwr
-         Wd6iBpOy1yaLFJLmJyLBFQVCzPyolTPf8X5hNmaIEZALSJDJWD/TWIp84+GxDaey6cvm
-         rNiw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790550950; x=1791155750; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Ou3b3cWlbHbJ+7kgTjQuk4/2d8eoHkAAMLMLbj2Apo4=;
-        b=JCR2xiZX3iF7ywTR0kz2tw5OLj76C8ec4gKn6nxbsP2PbpErlMHyYZivxrX+hpJkd/
-         AEkDIFl6NZLdj8iIldSFIsomLrKiCILlyypPSpTeAuT6J2fulnxrHqq6bt86z+MEX8Y2
-         zY2YD9tx0AvLfVec/1mDovOem/jsIa7pxfVjnNjLeuzZH2Gfuj0ys34Eie2aJ9ei29y4
-         CAWoB37LgJDCBKx530nxA2WBRSglZw0JMVxruHjMpwgUTJHTB/YG1IOGbB9ESwaira+3
-         QWptNBipYWs15vPP75JN0XSuhM5ybx/jY88abec6k7hiUGF6OF/tpbdbmmK3P7Vk0gO+
-         nr4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790550950; x=1791155750;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Ou3b3cWlbHbJ+7kgTjQuk4/2d8eoHkAAMLMLbj2Apo4=;
-        b=s3XszVSqab0XP+n1yRwomBEYYmGz2TehUZFb1NrwOXlmrqJbrA/U4pKvx2nhoz/0Yv
-         U6iWjMby/SH7eD+mB3Rq3gvLnv5z2qSJQU/NuvIRf11e76111hr9ZHO66FlkXflH8Rnf
-         Qkt8la5MNbLRiubGj8b+22kQkKGfgKpt063tgLyK5qzO4fV6M3SNU1QZVNyYz7PE+fGv
-         Rh8VWt3LRwGOMXTxZTUAnKFrOMCQtaJuyqi0NPl0FGcPpEVCXkwv+ol8ws/fvkkZG+Hg
-         o+XYzWs3+jnX1TXmy0lcnd1Tjydk3scKRhyH+LT2gDhjS8nqq8V1gNn8jMLiztsyX7rl
-         VUmA==
-X-Forwarded-Encrypted: i=1; AKwUvBzGrEonqtZCGhmvj3lhulycI7zw8e8498KVPqapteLcvuP3jPKMskpXGzWwUvnZZctSSjL48pM2rVoKLg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIpbeCc4pe+uJR8nNuZhsmRWn0g34X2UmJhmRwsIfzXAhLN4Efv
-	zSJGoGyXzXChg43juTz2KcUo81YWNForgegGhGlTmugEPcn6Y+R2WejvkNikbu5LnPZjTnrKgDX
-	mqcrFvOffROsUUgr7DptiNaRgW/FZShw=
-X-Gm-Gg: AYBFou1p2LPJAfXly4/BrqnbvnfwF0nFTqNce0ln4zT5UZyI084Rkfqw0M/vxFk6FRz
-	RbeDRtz9B0McrkLwVM3ySk3gRs8mGUV+PuwuSiJ10PiB4OH3uok5JgVtX4BRPzmb3dr/vpG8ZFQ
-	iswdqqsjUrgSnRxaWE+VAW9RHY9GKqrna4MJOWwhUa20CSzspI3uw7xsjIeW6qN/UswDPpyi0RM
-	lL0vRWwYdff6ZLXKNdZJlzxRNbm0VtgD9V1MYi14d0oedQcHLMoZ+P7WEIjRNBXad/A/1otSVYh
-	nDe6E6F86HrHdXNLikeo8TPbaUhYMqQ0TnCWfSDvtiCGGiRvzUcbNJi+HljJYLb3hQjsr+1aIo6
-	ktOezm4ssf0q4OSXd9DVXQj1rrtbt0RYwHp9yR3yjlTkoLgVQukaRE+i+/bp9rmjuqw/qc2fmVF
-	8PYZwr9u9wg0E87ZtIsCUotpPpfbgsDaP6GU/M+Y3iRfsW
-X-Received: by 2002:a05:6102:1627:b0:7a5:673f:9a37 with SMTP id
- ada2fe7eead31-7af1eef5929mr3482037137.15.1790550949793; Sun, 27 Sep 2026
- 16:15:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MG4l3pXr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C8AC1F0089E
+	for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 23:35:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790552155;
+	bh=zUczv42xnBRKDUlSGntImfEdrqpq77GiCQwYtmt81sM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=MG4l3pXrmLQikpOj1nFptIcrJ3kSNKrgOvojutXhYWAChjwZ+A9kB9Q4ZaJLfkHrG
+	 8XkM+Afyy7TQ1h95nasz1z5+jzJdDn5PzerWLZGbEfRKfODKJXvhuFp66O1AVkO//V
+	 FeOCg7UQ868vXpQmpq4bPTNxsuWaec0d1QQNBcGnwQ4vh7vWWJQZkh4/rcnqsm4IuB
+	 cn0NY7g1mmJAQ57p5ZW8AMMvTkItYflbuxgHgoBdG86oDw40QHBEZ/6qoretLrAm4s
+	 a0YZmyZqzDMGYo510Dt4WRJAO/jQwsgYPiv7BysivCe3eXM6fVGOYNAeBbZEHEIeaJ
+	 b6RNt6XqnLV+w==
+Received: by mail-lr2-f34.google.com with SMTP id 38308e7fff4ca-3a6595b02ebso13286691fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 16:35:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzoyrUgKMMnQyxJTPan28i4LgqdnEc/F7mr2In+K/c7wiEmFfX3VffzSA9LEb9Th3nlmpd7QX0U280OBQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJPbRvjQfmdPfTZn7USnOWWqrPiSzZAVwRgqW+IqqtNXuIlq15j
+	HLIDibwFeGA57Wchse1HhWrcxPYpcEGQPwnohQXiHzl0kWPRJp0wQx29KcTiXkLjAPv/gMpYT5a
+	RAywA9o9rJQ0dvCDpGcZwHpoODhyyZ4g=
+X-Received: by 2002:a05:6512:b92:b0:5b8:f562:d232 with SMTP id
+ 2adb3069b0e04-5b8f562d300mr836313e87.53.1790552153978; Sun, 27 Sep 2026
+ 16:35:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -85,18 +42,19 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <20260927-submit-stmmac-reset-fixes-v1-v5-0-feec6c14dd06@gmail.com>
- <20260927151043.7c8dfb36@kernel.org>
-In-Reply-To: <20260927151043.7c8dfb36@kernel.org>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sun, 27 Sep 2026 17:15:38 -0600
-X-Gm-Features: AclHuK_THxkPfcffLWRyKYWHUWs5mZ9sx2wsFti5QobsyH-hd7-eV_3I5VuXwpA
-Message-ID: <CADvTj4pZpJBAa99F322jBetg96axu_Dbv-iKAWwhOUqe==EE1A@mail.gmail.com>
-Subject: Re: [PATCH net-next v5 00/19] net: stmmac: preserve datapath state
- across MTU and resume failures
-To: Jakub Kicinski <kuba@kernel.org>
+ <20260927-submit-stmmac-reset-fixes-v1-v5-2-feec6c14dd06@gmail.com>
+In-Reply-To: <20260927-submit-stmmac-reset-fixes-v1-v5-2-feec6c14dd06@gmail.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Mon, 28 Sep 2026 01:35:42 +0200
+X-Gmail-Original-Message-ID: <CAD++jL=6Ov5BPK1naX6orzMsrJPm_g6SkdRaU6Ji+okXMFaZdQ@mail.gmail.com>
+X-Gm-Features: AclHuK8bRJUtWoB2-ejh2LEjrHa5vNcye2LD6vhX4uf9CtkXYnbSEGRsJ5xc6Kc
+Message-ID: <CAD++jL=6Ov5BPK1naX6orzMsrJPm_g6SkdRaU6Ji+okXMFaZdQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v5 02/19] net: stmmac: request the MDIO reset
+ GPIO only once
+To: James Hilliard <james.hilliard1@gmail.com>
 Cc: Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
 	Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
 	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, 
 	Maxime Chevallier <maxime.chevallier@bootlin.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
@@ -108,7 +66,6 @@ Cc: Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>,
 	Richard Cochran <richardcochran@gmail.com>, Joao Pinto <Joao.Pinto@synopsys.com>, 
 	Vladimir Oltean <vladimir.oltean@nxp.com>, Ong Boon Leong <boon.leong.ong@intel.com>, 
 	Voon Weifeng <weifeng.voon@intel.com>, "Song, Yoong Siang" <yoong.siang.song@intel.com>, 
-	Linus Walleij <linusw@kernel.org>, 
 	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
 	Magnus Karlsson <magnus.karlsson@intel.com>, 
 	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Simon Horman <horms@kernel.org>, 
@@ -123,48 +80,75 @@ Cc: Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>,
 	ZhaoJinming <zhaojinming@uniontech.com>, 
 	Lorenzo Bianconi <lorenzo.bianconi@oss.qualcomm.com>, Ding Hui <dinghui1111@163.com>, 
 	Linkui Xiao <xiaolinkui@kylinos.cn>, Linkui Xiao <xiaolinkui@126.com>, linux-tegra@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, Rayagond Kokatanur <rayagond@vayavyalabs.com>, 
-	Ding Hui <dinghui@lixiang.com>
+	linux-sunxi@lists.linux.dev, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 27, 2026 at 4:10=E2=80=AFPM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
+Hi James,
+
+On Sun, Sep 27, 2026 at 11:59=E2=80=AFPM James Hilliard
+<james.hilliard1@gmail.com> wrote:
+
+> From: Linkui Xiao <xiaolinkui@kylinos.cn>
 >
-> On Sun, 27 Sep 2026 15:59:35 -0600 James Hilliard wrote:
-> > Keep the stmmac datapath coherent after failed MTU changes or hardware
-> > resume without changing the interface's administrative state. Retain th=
-e
-> > working MTU configuration for rollback, and allow ordinary down/up
-> > recovery when hardware cannot be restored.
+> stmmac_mdio_reset() calls devm_gpiod_get_optional() every time it runs.
+> A GPIO line can only be requested once, so from the second call on
+> gpiod_request_commit() returns -EBUSY. devm_gpiod_get_optional() only
+> turns -ENOENT into NULL, hence the error is passed straight back and
+> stmmac_mdio_reset() bails out before pulsing "snps,reset" and before
+> running the STE101P MDC workaround.
 >
-> Please read:
-> https://www.kernel.org/doc/html/latest/process/maintainer-netdev.html
+> The first call, made by of_mdiobus_register(), succeeds, so the failure
+> is only visible later on: every resume that does not use WoL goes
+> through stmmac_resume() -> stmmac_mdio_reset(), and that caller ignores
+> the return value, so the PHY silently stays un-reset.
 >
-> The limit is 15 patches per tree, you have 22 outstanding to
-> net-next right now.
+> The descriptor used to be requested exactly once: stmmac_mdio_reset()
+> resolved "snps,reset-gpio" itself and cached the GPIO number in
+> stmmac_mdio_bus_data::reset_gpio, and commit ae26c1c6cb9b ("stmmac: fix
+> PHY reset during resume") relies on that cache to reuse the line on
+> every call. commit 7c86f20d15b7 ("net: stmmac: use GPIO descriptors in
+> stmmac_mdio_reset") replaced it with a devm_gpiod_get_optional() that
+> caches nothing, so the request is repeated on every call and fails from
+> the second one on.
+>
+> Parse the whole reset description, the GPIO and "snps,reset-delays-us",
+> in stmmac_mdio_register() at probe time, and keep it in struct
+> stmmac_priv. This is where devm-gpiod is meant to be used: the line is
+> acquired with the device and released with it, and any failure to
+> acquire it is reported during probe instead of being ignored by
+> stmmac_resume(). stmmac_mdio_reset() then only pulses the cached line,
+> with the delays that were read once and for all at probe time.
+>
+> Cache the request and delays for DT devices regardless of
+> mdio_bus_data->needs_reset. That flag controls the registration-time
+> bus reset callback, but system resume calls stmmac_mdio_reset()
+> directly. The reset routine no longer looks at the device tree: where
+> the description is absent the cached descriptor is NULL and the delays
+> are zero, so the pulse remains a no-op.
+>
+> Keep acquisition conditional on CONFIG_STMMAC_PLATFORM, matching the
+> reset callback, so non-platform configurations do not request an unused
+> GPIO. Also skip acquisition for a disabled MDIO child: registering that
+> bus returns -ENODEV without calling its reset callback, and the driver
+> must retain the existing disabled-bus success path even if the unused
+> GPIO is unavailable. Remove the unnecessary gpio_desc forward declaration=
+.
+>
+> Fixes: 7c86f20d15b7 ("net: stmmac: use GPIO descriptors in stmmac_mdio_re=
+set")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Linkui Xiao <xiaolinkui@kylinos.cn>
+> Co-developed-by: James Hilliard <james.hilliard1@gmail.com>
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 
-Oh, I had bundled some prerequisite patches to avoid breaking the review
-bot since my fix for prerequisite handling for the review bot doesn't appea=
-r
-to be live quite yet(it was merged but the live server looks to be on an ol=
-der
-tag still).
+Dostoyevsky commit message, I didn't read it. Ask the agent
+to be terse.
 
-https://github.com/sashiko-dev/sashiko/pull/389
+I looked at the code and from a GPIO PoV it does the right
+thing: use 1 as asserted and 0 as de-asserted RESET line.
 
-That just got merged so that shouldn't be an issue going forwards as I
-assume it should go live soon.
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-This was originally on the net tree but I had switched to net-next since
-some additional prerequisite commits were only in net-next and I was
-trying to avoid conflicts or having to bundle the patches to avoid breaking
-the review bot.
-
-https://lore.kernel.org/all/8ed1298a-4c29-4db3-b76e-c8d34f91b4c9@bootlin.co=
-m/
-
-I guess I could move this back to net and specify the prerequisites with b4
-metadata. It isn't entirely clear to me which branch is appropriate for thi=
-s
-however.
+Yours,
+Linus Walleij
