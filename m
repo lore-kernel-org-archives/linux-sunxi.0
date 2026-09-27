@@ -1,45 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375A625333F;
-	Sun, 27 Sep 2026 00:30:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B6A175A7F;
+	Sun, 27 Sep 2026 00:31:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790469020; cv=none; b=uPonmfHm2EdXTRC5FYVK0Qdq2YkVCXHDnCEu/yF/MoBXE2eQZxpTDPHcFJ+xu7KuPkuo8iTlT/2o0z8D35fGNoiamdfwsMy5InCMmgTgLqkcPQFoZ80rM5n36MhTReI+5PCl7eWtnxP6sMQHr8ckSn1wvOVXJkJFXoDGbiVHL5s=
+	t=1790469082; cv=none; b=og/Qo1PW6C30s1XL+SIy3+WyVaUe/EEbsxbTx1SJr6Re6/LCXk/Yi2ll8SPJH4d0AH9XQpguwXgGw/YRwIHcT5JX/T3Jx8Y6EqQpfEXIqNvppYozNd1KtUjQcoxpBXs2l3Crmnw0tv5+NGq9rsiUNH7Z9ZmGpyzuoStboPHiFDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790469020; c=relaxed/simple;
-	bh=UhfeCVl8+OjjXo8DXmcI80oHvhSrdaeJP6M6+NxIIbA=;
+	s=arc-20240116; t=1790469082; c=relaxed/simple;
+	bh=YORTb5yutXDV5H673UOiPG5EgMUGQfBx5ymK0UccKgo=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=B3qN7ZQBm6EUaBzMAN+CanTR3ORcZHxl0F/ak40/+j28DSaqo/o1Pw+DviCevTjD/NMTi5a3Y/IG0wgC8lG91eNKWO1QWvcQkXVdWHnwQ+0r9N78wl5EhuSEZluS1CMnF5I8+LEZGnOx4/5HH1MMNh5EsMiOt2E5+BObTft2vA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jic/1q4E; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=KlcvdOPprjm0xvyUBWAfKNTONJCIaSI/Chk4V8Ifm9gNIZdk1oWIFpABDlJMcMNtbjaM1sy8R/VmBWWZUMJY68r+0WxitgsrBCR9mkZ7VmxZc7RvP9D6UOhlqXcpeff4VR0I/PO6stzulJFO6/Mzrs3qLI5ucPkJWxx8iXIhnH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ojuo7u4T; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jic/1q4E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 244211F000FF;
-	Sun, 27 Sep 2026 00:30:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ojuo7u4T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14C351F000FF;
+	Sun, 27 Sep 2026 00:31:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790469015;
-	bh=3pxkHFWxnv54amSrAdoHjnhWqEss/pbu8YOZF+elwFM=;
+	s=k20260515; t=1790469081;
+	bh=H7qpkZKC54dnRx7tycWTlHDfjrGOf3huD2YCeKG11p0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=jic/1q4EY8rJbvsczxXFeqQ6lQIBSjsxCFX38SERTmAIPkTJpFtZYLEsKEw7EAfC3
-	 FXNg34s10HPwXQzQPYXt23/Xhc/DF4yMXJw9PlnH9DpRcdwQMmt48Bdw9muhqY3CvI
-	 7C+LJ08pwlwF5VhGQkSB4QgunBiR72A2KBcy8Q3UrHwqsHsltrgeSjkOOSBgf1BoXl
-	 l03G+QaDr0ZcNkwcOBi7NgbYLQQuD5C6y/boxc42uhGGkthVS4j64oMpIJyItmfFPI
-	 S+al2QLKHuLH6JhosIk8kmlGy3+kYj4ojgfGjMFkyQMtgPR+0HpWGNSAGzAD4KctRU
-	 lRiA3VsMUHFXg==
+	b=Ojuo7u4TzbCKATVhMD6MPv4gyamm7IVNC1jmwaX7yZA4mzkvcduEvwhgObKJQ+nXZ
+	 AZrj3F9ED0BNbxsLI1bpiii+tYJdls7DbzwZLmmI3FQ+PjUPCQX+as2G2Wam96AmL9
+	 XYBNiM4KHI9CKK92XhyKqPR0ycNvh0lLjhc+6FmjO6lz1yW+jDJ2qRyZZBlTzuzKgm
+	 F0ahPOn/g9Aj617CooC0L5P8JmEx2EfJifmiVnhyTGt3fdbrIMEsOWN2iPuPPbaiL1
+	 mU6+VBQ4UzQbUvR8aQAwMvP3kTmx+/7Z3O3WFi5mNkPQDC1IKh+EWXYrorqv4D64Fa
+	 EDulYk0aEdhuA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 1/7] dt-bindings: mailbox: add Allwinner sun55i
- msgbox schema
+Subject: Re: [PATCH v2 3/7] mailbox: sun55i: add KUnit test suite for sun55i
+ msgbox driver
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Tim Michals" <tcmichals@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20260927002021.797069-2-tcmichals@gmail.com>
+Cc: devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20260927002021.797069-4-tcmichals@gmail.com>
 References: <20260922034711.190253-1-tcmichals@gmail.com>
  <20260927002021.797069-1-tcmichals@gmail.com>
- <20260927002021.797069-2-tcmichals@gmail.com>
+ <20260927002021.797069-4-tcmichals@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 27 Sep 2026 00:30:14 +0000
-Message-Id: <20260927003015.244211F000FF@smtp.kernel.org>
+Date: Sun, 27 Sep 2026 00:31:20 +0000
+Message-Id: <20260927003121.14C351F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,106 +48,109 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
 Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
-- [Medium] dt-bindings: incomplete schema constraints for interrupt-names
-- [Medium] dt-bindings: A527 SoC compatible string missing from schema
-- [Low] dt-bindings: register bank size mismatch between description and ex=
-ample
+- [Medium] test: MMIO endianness bug in mock registers causes test failures=
+ on BE
+- [Low] build: missing SUN55I_MSGBOX dependency for KUnit test config
+- [Low] test: mock bypass causes startup() flush test to silently succeed v=
+ia failsafe
 --
 
-commit a5a15af0e6145674274afe29234b0c38ce4cb1b7
+commit cd5e63e730e04c965eb8f6c0be2bc107e7e91214
 Author: Tim Michals <tcmichals@gmail.com>
 
-    dt-bindings: mailbox: add Allwinner sun55i msgbox schema
+mailbox: sun55i: add KUnit test suite for sun55i msgbox driver
 
-This commit adds a Device Tree binding schema for the Allwinner 4-port hard=
-ware
-Message Box controller found on sun55i (A523, A527, T527) and sun60i (A733)
-SoCs. It defines the constraints for properties like registers, clocks, res=
-ets,
-and interrupts.
+Adds a KUnit test suite for the Allwinner sun55i hardware Message Box
+driver, validating channel routing, mock MMIO message sending, and
+interrupt handling.
 
-> diff --git a/Documentation/devicetree/bindings/mailbox/allwinner,sun55i-a=
-523-msgbox.yaml b/Documentation/devicetree/bindings/mailbox/allwinner,sun55=
-i-a523-msgbox.yaml
-> new file mode 100644
-> index 0000000000000..6b0c7ff70c9fb
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mailbox/allwinner,sun55i-a523-msg=
-box.yaml
-> @@ -0,0 +1,102 @@
-[ ... ]
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - allwinner,sun55i-a523-msgbox
-> +      - allwinner,sun55i-t527-msgbox
-> +      - allwinner,sun60i-a733-msgbox
-
-[Severity: Medium]
-The commit message explicitly claims to add support for the Message Box
-controller on "sun55i (A523, A527, T527)". The compatible enum provides
-strings for A523, T527, and A733, but entirely omits an entry for A527.
-
-Device trees attempting to declare A527 support will fail validation or
-must misleadingly use the A523 string without backing documentation.
-
-Should "allwinner,sun55i-a527-msgbox" be included in this enum?
-
-> +
-> +  reg:
-> +    maxItems: 4
-> +    description:
-> +      Register banks for each of the four processor ports. Each port has
-> +      an independent 256-byte register bank.
+> diff --git a/drivers/mailbox/Kconfig b/drivers/mailbox/Kconfig
+> index 9067f5161276a..af51794d260df 100644
+> --- a/drivers/mailbox/Kconfig
+> +++ b/drivers/mailbox/Kconfig
+> @@ -342,6 +342,16 @@ config SUN55I_MSGBOX
+>  	  provides 12 hardware FIFO channels for communication between the
+>  	  Cortex-A55 host, CPUS, HiFi4 DSP, and XuanTie E907 RISC-V coprocessor=
+s.
+> =20
+> +config SUN55I_MSGBOX_KUNIT_TEST
+> +	tristate "KUnit tests for Allwinner sun55i msgbox" if !KUNIT_ALL_TESTS
+> +	depends on KUNIT
+> +	default KUNIT_ALL_TESTS
 
 [Severity: Low]
-Does this description accurately reflect the register bank size?
+Should this test configuration also depend on SUN55I_MSGBOX?
 
-The text states each port has a 256-byte register bank, but the example
-later in the schema maps the hardware's 4KB-aligned register banks (0x1000
-bytes):
+If the kernel is built with SUN55I_MSGBOX as a module and the test is
+built-in, or if the driver is disabled completely, could this cause
+undefined reference linker errors since the test links against symbols
+exported by the driver?
 
-        reg =3D <0x03003000 0x1000>,
-              <0x07094000 0x1000>,
-              <0x07120000 0x1000>,
-              <0x07136000 0x1000>;
-
-This creates a documentation mismatch. Should the description be updated
-to match the 4K page-aligned size used in practice?
-
+> diff --git a/drivers/mailbox/sun55i_msgbox_test.c b/drivers/mailbox/sun55=
+i_msgbox_test.c
+> new file mode 100644
+> --- /dev/null
+> +++ b/drivers/mailbox/sun55i_msgbox_test.c
 [ ... ]
-> +  interrupts:
-> +    minItems: 1
-> +    maxItems: 4
-> +    description:
-> +      One interrupt per processor port in port order (arm, dsp, cpus, rv=
-).
-> +      The ARM host port interrupt is required; remote port interrupts are
-> +      optional. Use interrupt-names to identify which ports are present =
-when
-> +      providing a partial list.
+> +static struct mock_msgbox_fixture *create_mock_fixture(struct kunit *tes=
+t)
+> +{
+> +	struct mock_msgbox_fixture *fix;
+> +	int i;
 [ ... ]
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - clocks
-> +  - resets
-> +  - interrupts
-> +  - '#mbox-cells'
+> +	for (i =3D 0; i < SUN55I_MAX_PROCESSORS; i++)
+> +		fix->mbox.regs[i] =3D (void __iomem *)fix->regs[i];
 
 [Severity: Medium]
-The schema description for interrupts explicitly states that interrupt-names
-must be used to identify ports when providing a partial list of optional
-interrupts.
+Will this cause the KUnit tests to fail unconditionally on big-endian
+architectures?
 
-However, interrupt-names is not marked as a required property here. As a
-result, device tree nodes with ambiguous, partial interrupt lists can
-silently pass validation, leaving dependent software unable to reliably
-map the provided interrupts to their respective hardware ports.
+The test fixture uses a host-endian u32 array for mock memory, but the
+driver uses readl() and writel(). On a big-endian host, the device
+accessors will perform a byte-swap, resulting in scrambled values when
+reading from or writing to the mock registers.
 
-Could this be enforced in the schema constraints?
+[ ... ]
+> +static void mock_rx_cb(struct mbox_client *cl, void *data)
+> +{
+[ ... ]
+> +	/*
+> +	 * Emulate hardware FIFO pop behavior: reading a word from the
+> +	 * message FIFO decrements MSG_STATUS in real hardware.
+> +	 */
+> +	if (sink->status_reg && (*sink->status_reg & MSG_NUM_MASK) > 0)
+> +		(*sink->status_reg)--;
+> +}
+[ ... ]
+> +static void test_functional_startup_flushes_stale_fifo(struct kunit *tes=
+t)
+> +{
+> +	struct mock_msgbox_fixture *fix =3D create_mock_fixture(test);
+> +	u32 en_idx =3D SUNXI_MSGBOX_READ_IRQ_ENABLE(2) / 4;
+> +	u32 stat_idx =3D SUNXI_MSGBOX_READ_IRQ_STATUS(2) / 4;
+> +	u32 msg_stat_idx =3D SUNXI_MSGBOX_MSG_STATUS(2, 0) / 4;
+> +	u32 fifo_idx =3D SUNXI_MSGBOX_MSG_FIFO(2, 0) / 4;
+> +	int ret;
+> +
+> +	/* Simulate stale messages present in hardware FIFO before channel open=
+ */
+> +	fix->regs[0][msg_stat_idx] =3D 4;
+> +	fix->regs[0][fifo_idx] =3D 0xDEADBEEF;
+> +
+> +	ret =3D sun55i_msgbox_chan_ops.startup(&fix->chans[8]);
+> +	KUNIT_EXPECT_EQ(test, ret, 0);
+
+[Severity: Low]
+Does test_functional_startup_flushes_stale_fifo() pass here solely due
+to the driver's hardcoded failsafe boundary?
+
+Since the readl() calls in the driver's startup() function do not trigger
+the mock IRQ callback mock_rx_cb() (the only place where the mock MSG_STATUS
+count is decremented), the status count never drops.
+
+The test intends to simulate a 4-message flush, but it appears the driver
+loop will spin until it hits the SUN55I_FIFO_MAX boundary cap instead.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260927002021.7970=
-69-1-tcmichals@gmail.com?part=3D1
+69-1-tcmichals@gmail.com?part=3D3
