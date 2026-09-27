@@ -1,111 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF1F3909A8;
-	Sun, 27 Sep 2026 15:18:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600273909A8;
+	Sun, 27 Sep 2026 15:18:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790522291; cv=none; b=dqO6zsuXSgE1fk7hizNmgRtd9OGxZHGeZJAX1QXjag3gDmlgtQLL74qqR22w3W5K8AdTEmnX/t7P+sF6GlN94poty9Mjx/P1Ws2FIFC6nhczillG4NPUy1m/B8hxGtq1fwva/btarBa99YgBF/bjuyidiVdzxDHvZ+j/BnoJ1iE=
+	t=1790522333; cv=none; b=nE/5O/2jq/84TEUOx+GljdjRWWwDzeHuN1mTEDulxrIsPPqkSJWJTKL91hqQAmxNw1P84OsR5/6QbbtzDEl1//7TBraz8n35kG9wEhli7Wy9pi5znHFYZQM3BFGA1/h9flJGoZTJOgtqsP1+ahJ0pqCMteZiWH9jD2DbiUZN0dI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790522291; c=relaxed/simple;
-	bh=N/pfH0xZsEfcG9/r4dQNycUrzlMbYpK9dCcAT87HA/s=;
+	s=arc-20240116; t=1790522333; c=relaxed/simple;
+	bh=sz3mE0aNvTBitGYqiKsVcL/guwvkJYn9bygbCfEOIXU=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=NmI+zX5z8V+hfURt6g1fTQwPQwVIuR8mSlSalOOocMPa9ycQIReOoc+gWKI2WfwyNryP0Wvf3BEs55Oz/qazEfzmolzp07W4WD7YdE1jPXLkVUlCxMYGKEjw8tECkYBdusvQ8coD/TrN4wnOrGr1IQI+RKa81D+LFHwhdkSALvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f52K8ZLd; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=Dba500BdgjL9uVRpPqNHKvqcSikBraAfca8Mq5xqS3lfSKrqyKyXZoFbMZKUJPLiCe69mK77NXnXIySBG0Ic5lFBeaPvMUYNXE+cO6tugLuJ/ET8siwffFbYxhKhTB5JRbZREryMmXnqljQOeh3jUfoa2HsuKJIEAsPQPBv5ZRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KOM+KVnS; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f52K8ZLd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1997C1F000FF;
-	Sun, 27 Sep 2026 15:18:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KOM+KVnS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8A351F000FF;
+	Sun, 27 Sep 2026 15:18:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790522290;
-	bh=GC6W/3UhkOiYxyOeEuxjsTtwL/lI567R73swv/WeMss=;
+	s=k20260515; t=1790522332;
+	bh=sz3mE0aNvTBitGYqiKsVcL/guwvkJYn9bygbCfEOIXU=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=f52K8ZLdEUSdgbhsxYBa+EtXje9rrL970nYkXn2WQ3Tadss9/g/fFeyg9+RytJi2s
-	 pbeNO7N8/nuZkfU3r6HGs0YvcVCxS7y827fhg3SkZF6sJ6/+s3bElmKWaxuneAVjw/
-	 vGfF8Q8kbaO/Nbmifd2gVv4IKZ+2AEORSNbu5+OZQwY6W7tycRb+6CDpOUr93pIFDR
-	 ruemFAJ8kEZ7xSNx7lG1i7HHULJmbcHlBYMs3bnX99d1qLVBWmKYiI+Do7uUebiVm7
-	 HOEWUfeh6309oXDQAQi7FvMp9ISjAkpbHy4Jq9LZQx7/8V4tkmNmzWa5u33uPUMHlv
-	 yHqiAdG2KR1yg==
+	b=KOM+KVnSQhJRNwVYrYJE01eQrX+He0JVYBjJo48WEnhIKE6z87JJQCEVeTpX3JR/y
+	 h7CZ+K/HFFGtFm+hoyl2q2CdrOsj3unhpjgPoVmuJ60IcGxl/8oI/fCL8bSlniIkda
+	 JnKGEMeooUkurHej2fvZ9t9ZlvfktmXqLqEP0zVPTJmUzC/7W/42IxIHt+DXvOkZS5
+	 Iuhw59wZ6Zy03m+9BepQma02Y359zAHg5z19MwZlkcBDCJth9BaOvRpSk6dC4CNYVu
+	 Iqb+nkgcBcIEKjPHBVhMpPU4qHt59b768ezegzms1JADzzQJB4nNaHFfaoDNrV00AP
+	 tFtQIY4+0eLQw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 03/11] dt-bindings: pinctrl: sun4i-a10: add Allwinner
- B288
+Subject: Re: [PATCH v2 06/11] rtc: sun6i: add Allwinner B288 compatible
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Pablo Mazzini" <pmazzini@gmail.com>
-Cc: robh@kernel.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, conor+dt@kernel.org
-In-Reply-To: <20260927151016.186493-4-pmazzini@gmail.com>
+Cc: linux-rtc@vger.kernel.org, "Alexandre Belloni" <alexandre.belloni@bootlin.com>, linux-sunxi@lists.linux.dev
+In-Reply-To: <20260927151016.186493-7-pmazzini@gmail.com>
 References: <20260927151016.186493-1-pmazzini@gmail.com>
- <20260927151016.186493-4-pmazzini@gmail.com>
+ <20260927151016.186493-7-pmazzini@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 27 Sep 2026 15:18:09 +0000
-Message-Id: <20260927151810.1997C1F000FF@smtp.kernel.org>
+Date: Sun, 27 Sep 2026 15:18:51 +0000
+Message-Id: <20260927151851.B8A351F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] dt-bindings: pinctrl: sunxi: missing b288 interrupts constraint =
-validation
---
+> The driver only uses one alarm interrupt, so no functional change.
+>=20
+> Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
 
-commit 5d0ff1f67ca22e7e0aeb81a6bb9183820225e5b3
-Author: Pablo Mazzini <pmazzini@gmail.com>
-
-dt-bindings: pinctrl: sun4i-a10: add Allwinner B288
-
-The B288 driver takes its mux values from the DT, so allwinner,pinmux
-becomes an allowed property here, required for this compatible only.
-
-> diff --git a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a1=
-0-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-=
-a10-pinctrl.yaml
-> index 45b7a0b6c626d..6fe3b64107349 100644
-> --- a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinct=
-rl.yaml
-> +++ b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinct=
-rl.yaml
-> @@ -39,6 +39,7 @@ properties:
->        - allwinner,sun8i-a33-pinctrl
->        - allwinner,sun8i-a83t-pinctrl
->        - allwinner,sun8i-a83t-r-pinctrl
-> +      - allwinner,sun8i-b288-pinctrl
-
-[Severity: Medium]
-Since this compatible is for hardware with exactly 4 interrupt banks, shoul=
-dn't
-it also be added to the later allOf constraints block in this file that
-enforces exact hardware limits for interrupts?
-
-For example:
-
-  - if:
-      properties:
-        compatible:
-          enum:
-            - allwinner,sun6i-a31-pinctrl
-            - allwinner,sun6i-a31s-pinctrl
-            - allwinner,sun50i-h6-pinctrl
-            - allwinner,sun8i-b288-pinctrl
-    then:
-      properties:
-        interrupts:
-          minItems: 4
-          maxItems: 4
-
-Without this, validation for this variant falls back to the broad global de=
-fault
-of 1 to 8 interrupts.
-
-Does this allow a device tree with an incorrect number of interrupts for the
-B288 to silently pass validation?
-
->        - allwinner,sun8i-h3-pinctrl
->        - allwinner,sun8i-h3-r-pinctrl
->        - allwinner,sun8i-r40-pinctrl
+Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260927151016.1864=
-93-1-pmazzini@gmail.com?part=3D3
+93-1-pmazzini@gmail.com?part=3D6
+
