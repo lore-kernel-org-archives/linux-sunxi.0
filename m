@@ -1,172 +1,215 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98DCE5FDA7;
-	Sun, 27 Sep 2026 00:32:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3828175A7F;
+	Sun, 27 Sep 2026 00:33:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790469138; cv=none; b=uGnjQXkX1YSbq7sIjcxlAH/yDSX6/xxtHWTOvJiGmnypMUtRxIfCt6qMuS+YEBDvKdpRb5Drlo5yzLSVPi6+gIhsrgIe5jf6MRKwfyXbyD4PUjS6YXpdgJ6qkWNE88MDkrwiEUskSv6W2dXe0LI1Lmxr46vvc9vCUhUGFZwXGeg=
+	t=1790469184; cv=none; b=fED2rrkWdzFx5MMCOvDqH9mbpG+fGotHfLQu6z2fKmgOahHMe59+W6M0As9ai+W0fyuFBc+I2zrKve4hKmhePgM1okU+YRTXLBzAzM2BS3zepiBY6PcvTakeAzchHktZ8BgDWAXAh4bswDeWKbDeB/AK7W94xfxG0GH50e8AcpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790469138; c=relaxed/simple;
-	bh=Jxmv543NS8Am2xgs+1ivvnkUlMgIWjcEtimKgs6GYjM=;
+	s=arc-20240116; t=1790469184; c=relaxed/simple;
+	bh=WwqvmEa1vg+WDFnnzZ53bexVQ4i8spCkEiUtnM7Q5i8=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=ZbtY8glVMbeDPLcDzZbd0+DgCS41IMvTZGFI1TlTjbZSTjoYOKTMi1i68nU3eaw54n3B6pzis7m4rgPlOeoTcn0TfPW8oYVoswmrNfbrcUmSk3SwIXzMl5jCUtNSbqSXOzdBmFIe6OGvjopDcd5++Apt92qym8LfaF3O8iMzaHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F400B1F000FF;
-	Sun, 27 Sep 2026 00:32:16 +0000 (UTC)
+	 Message-Id; b=JulIJTZZP/ybhKUnVz9nruMoCUjvcWk7rVyZY5fM8kniUEM1vig03Y1R4Vw1wHSFjNZtq5/r4gxbY13NQd/kVbfKJmP+TLMQNdZxrfXMOJpMJ4LAGKOog+H3d99yGJD6LhPU5TmQNX/BQXa4qi06jqKvlv3/yq6C+NwglYXSBOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EBHG3tOn; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EBHG3tOn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D69591F000FF;
+	Sun, 27 Sep 2026 00:33:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790469183;
+	bh=AowVa/f84DDfgFos0j1aelU2mgZ113mob+KTxM8h7N8=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=EBHG3tOnxjXJdJqkjZvwaVgrTZ7nHBqaKUfVdMds5wRHztLU4T1tPh2uOCqMLpbv+
+	 mW3c0ty1usBwlDH21p9AYSeogoBbZ4UmHep1GFv8kBiMFgmWHPHhyw5wyBzjrZwKN+
+	 osCaocgOv6WqRuMeHktiID/9QEpHjhSB2G/vsnLQhwp09vmC5kwkFAz1BzvI8+eKwY
+	 hQNlOTfbRXmwCpQqb249wfGRlVmlh1IqfMBvT6a9BNPT742jgcUsjgc0aLdQGhDYl1
+	 bu6uUZevqCcxGrFubtgz60YHNiedwkOxt44IbTY3mZywZGuqMXsfNRdSr38+Krg8k/
+	 Cy1D0hN9pE+bQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 6/7] remoteproc: sunxi: add KUnit test suite for
- sunxi remoteproc driver
+Subject: Re: [PATCH v2 2/7] mailbox: sun55i: add Allwinner sun55i/sun60i
+ 4-port Message Box driver
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Tim Michals" <tcmichals@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org
-In-Reply-To: <20260927002021.797069-7-tcmichals@gmail.com>
+Cc: conor+dt@kernel.org, robh@kernel.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
+In-Reply-To: <20260927002021.797069-3-tcmichals@gmail.com>
 References: <20260922034711.190253-1-tcmichals@gmail.com>
  <20260927002021.797069-1-tcmichals@gmail.com>
- <20260927002021.797069-7-tcmichals@gmail.com>
+ <20260927002021.797069-3-tcmichals@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 27 Sep 2026 00:32:16 +0000
-Message-Id: <20260927003216.F400B1F000FF@smtp.kernel.org>
+Date: Sun, 27 Sep 2026 00:33:02 +0000
+Message-Id: <20260927003302.D69591F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
 s) to consider:
-- [Medium] remoteproc: sunxi: KUnit test mock MMIO reads fail on big-endian
-- [Medium] remoteproc: sunxi: false positive KUnit test for kick_msg
-- [Low] remoteproc: sunxi: missing Kconfig dependency for KUnit tests
+- [High] mailbox: sun55i: out-of-bounds array write in probe due to unbound=
+ed DT irq_cnt
+- [High] mailbox: sun55i: incorrect last_tx_done polling condition breaks T=
+X semantics
+- [High] mailbox: sun55i: NULL pointer dereference in IRQ handler during te=
+ardown
+- [High] mailbox: sun55i: lockless multi-IRQ concurrency causes FIFO underf=
+low
 --
 
-commit a4fcce16cf194ed8872772bf791e111976827604
+commit d294abbd2180fd12203dc082ff7e6d574533c041
 Author: Tim Michals <tcmichals@gmail.com>
 
-remoteproc: sunxi: add KUnit test suite for sunxi remoteproc driver
-   =20
-Add comprehensive in-kernel KUnit unit test suite (34 tests) for the
-Allwinner sunxi remoteproc driver.
+mailbox: sun55i: add Allwinner sun55i/sun60i 4-port Message Box driver
 
-> diff --git a/drivers/remoteproc/Kconfig b/drivers/remoteproc/Kconfig
-> index d35b033b9106d..c2bddfd955665 100644
-> --- a/drivers/remoteproc/Kconfig
-> +++ b/drivers/remoteproc/Kconfig
-[ ... ]
-> @@ -396,6 +396,16 @@ config SUNXI_REMOTEPROC
->  	  co-processor on Allwinner A523, A527, and T527 SoCs via the
->  	  remote processor framework.
-> =20
-> +config SUNXI_REMOTEPROC_KUNIT_TEST
-> +	tristate "KUnit tests for Allwinner sunxi remoteproc" if !KUNIT_ALL_TES=
-TS
-> +	depends on KUNIT
+This commit adds a mailbox driver for the 4-port hardware Message Box
+controller found on Allwinner sun55i and sun60i SoCs. It implements hardware
+FIFO communication across 12 logical channels for multiple heterogeneous co=
+res.
 
-[Severity: Low]
-Will this allow incompatible build configurations?
-
-If the test is built-in (=3Dy) but the driver is built as a module (=3Dm) or
-disabled (=3Dn), the linker will fail with undefined references since vmlin=
-ux
-cannot link against module-only symbols. Should this include a
-depends on SUNXI_REMOTEPROC statement to enforce proper dependencies?
-
-> +	default KUNIT_ALL_TESTS
-> +	help
-> +	  KUnit tests for the Allwinner sunxi_rproc driver, covering
-> +	  da_to_va() address translation logic and boundary conditions
-> +	  across dedicated SRAM spaces, DRAM carveouts, and trace regions.
-> +	  Say Y here to run these tests during boot or via kunit.py.
-> +
->  endif # REMOTEPROC
-
-> diff --git a/drivers/remoteproc/sunxi_rproc_test.c b/drivers/remoteproc/s=
-unxi_rproc_test.c
+> diff --git a/drivers/mailbox/sun55i-msgbox.c b/drivers/mailbox/sun55i-msg=
+box.c
 > new file mode 100644
-> index 0000000000000..2546f850f30bd
+> index 0000000000000..928e52e08bad4
 > --- /dev/null
-> +++ b/drivers/remoteproc/sunxi_rproc_test.c
+> +++ b/drivers/mailbox/sun55i-msgbox.c
+> @@ -0,0 +1,375 @@
 [ ... ]
-> +static void test_start_bootaddr_programming(struct kunit *test)
+> +irqreturn_t sun55i_msgbox_irq(int irq, void *dev_id)
 > +{
-> +	struct test_context *ctx =3D create_test_ctx(test);
-> +	int ret;
+> +	struct sun55i_msgbox *mbox =3D dev_id;
+> +	irqreturn_t ret =3D IRQ_NONE;
+> +	int i, local_n, p, chan_idx;
 > +
-> +	ctx->priv.cfg_va =3D (void __iomem *)ctx->mock_cfg_regs;
-> +	ctx->rproc.bootaddr =3D 0x40014000;
+> +	for (local_n =3D 0; local_n < SUN55I_NUM_ROUTES; local_n++) {
+> +		void __iomem *local_base =3D mbox->regs[0];
+
+[Severity: High]
+Does this lockless loop allow multiple concurrent handlers on different CPU=
+s to
+inspect and process the same hardware channels simultaneously?
+
+Since sun55i_msgbox_probe() registers the exact same handler for multiple I=
+RQs
+using request_irq(), if two remote processors send messages concurrently, b=
+oth
+IRQs fire, executing the handler on different CPUs simultaneously.
+
+Both CPUs would see the same pending bit and race to drain the exact same
+channel, leading to a TOCTOU race where the second CPU reads from an empty =
+FIFO,
+resulting in a hardware underflow and delivery of a corrupt message.
+
+> +		u32 en, stat, pending;
 > +
-> +	ret =3D sunxi_rproc_start(&ctx->rproc);
-> +	KUNIT_EXPECT_EQ(test, ret, 0);
-> +
-> +	/* Check that bootaddr was written to STA_ADD_REG (offset 0x204) */
-> +	KUNIT_EXPECT_EQ(test, ctx->mock_cfg_regs[E906_STA_ADD_REG / 4], 0x40014=
-000U);
-
-[Severity: Medium]
-Could this direct array read cause spurious test failures on big-endian
-architectures?
-
-The driver code uses writel() for I/O register programming, which mandates a
-little-endian memory layout and performs automatic byte-swapping on
-big-endian CPUs. Directly reading the raw u32 array elements bypasses this.
-On a big-endian architecture, the direct read will interpret the
-little-endian bytes in memory as a big-endian integer, returning a
-byte-swapped value instead of the expected 0x40014000. Should this test use
-readl() to retrieve the value in CPU-endian format?
-
+> +		en =3D readl(local_base + SUNXI_MSGBOX_READ_IRQ_ENABLE(local_n));
+> +		stat =3D readl(local_base + SUNXI_MSGBOX_READ_IRQ_STATUS(local_n));
+> +		pending =3D en & stat;
 [ ... ]
-> +static void test_prepare_and_unprepare_remap(struct kunit *test)
+> +static bool sun55i_msgbox_last_tx_done(struct mbox_chan *chan)
 > +{
-> +	struct test_context *ctx =3D create_test_ctx(test);
-> +	int ret;
+> +	struct sun55i_msgbox *mbox =3D to_sun55i_msgbox(chan);
+> +	int n =3D chan - mbox->controller.chans;
+> +	int local_n, p, remote_id, remote_n;
+> +	u32 count;
+> +
+> +	sun55i_chan_to_route(n, &local_n, &p, &remote_id, &remote_n);
+> +
+> +	count =3D readl(mbox->regs[remote_id] + SUNXI_MSGBOX_MSG_STATUS(remote_=
+n, p)) & MSG_NUM_MASK;
+> +	return count < SUN55I_FIFO_MAX;
+> +}
+
+[Severity: High]
+Does returning true when the FIFO is not full falsely signal transmission
+completion to the polling framework?
+
+The mailbox framework polls last_tx_done() to know when a message has been
+consumed by the remote processor. Returning true while the message is still=
+ in
+the FIFO (count < SUN55I_FIFO_MAX) falsely signals completion.
+
+The framework will then prematurely send subsequent messages, leading to a
+hardware FIFO overflow and dropped IPC messages.
+
 [ ... ]
-> +	/* prepare() should set SUNXI_REMAP_SRAMA3_2_BIT (bit 1) */
-> +	ret =3D sunxi_rproc_prepare(&ctx->rproc);
-> +	KUNIT_EXPECT_EQ(test, ret, 0);
-> +	KUNIT_EXPECT_EQ(test, ctx->mock_remap_reg & SUNXI_REMAP_SRAMA3_2_BIT,
-> +			SUNXI_REMAP_SRAMA3_2_BIT);
-
-[Severity: Medium]
-Does this bitwise check need to account for endianness as well?
-
-Because writel() wrote the bit in little-endian order, this native bitwise
-check against mock_remap_reg will also fail on big-endian systems.
-
-[ ... ]
-> +static void test_kick_stores_vqid(struct kunit *test)
+> +static int sun55i_msgbox_probe(struct platform_device *pdev)
 > +{
-> +	struct test_context *ctx =3D create_test_ctx(test);
+[ ... ]
+> +	irq_cnt =3D platform_irq_count(pdev);
+> +	if (irq_cnt < 0) {
+> +		ret =3D irq_cnt;
+> +		goto err_assert_reset;
+> +	}
 > +
-> +	/* Verify kick_msg stores the passed vqid to avoid stack UAF */
-> +	ctx->priv.kick_msg =3D 0xDEADBEEF;
-> +	ctx->priv.tx_chan =3D NULL; /* Avoid mbox_send_message dispatch */
+> +	for (i =3D 0; i < irq_cnt; i++) {
+> +		int irq =3D platform_get_irq(pdev, i);
 > +
-> +	sunxi_rproc_kick(&ctx->rproc, 1);
-> +	/* Without tx_chan, returns before writing kick_msg */
-> +	KUNIT_EXPECT_EQ(test, ctx->priv.kick_msg, 0xDEADBEEFU);
+> +		if (irq < 0) {
+> +			ret =3D irq;
+> +			goto err_free_irqs;
+> +		}
+> +
+> +		ret =3D request_irq(irq, sun55i_msgbox_irq,
+> +				  IRQF_SHARED, dev_name(dev), mbox);
+> +		if (ret) {
+> +			dev_err(dev, "failed to request irq %d: %d\n", irq, ret);
+> +			goto err_free_irqs;
+> +		}
+> +		mbox->irqs[i] =3D irq;
+> +		mbox->num_irqs =3D i + 1;
+> +	}
 
-[Severity: Medium]
-Is this test validating the intended assignment?
+[Severity: High]
+Can this write overflow the mbox->irqs array if irq_cnt exceeds 4?
 
-The test intentionally sets ctx->priv.tx_chan to NULL to prevent dispatchin=
-g.
-However, looking at sunxi_rproc_kick(), this triggers an early return guard:
+The driver retrieves irq_cnt directly from the device tree via
+platform_irq_count() without bounds checking. If a device tree provides 5 or
+more interrupts, the unconditional loop will write out of bounds of the
+fixed-size 4-element mbox->irqs array, corrupting memory of adjacent fields=
+ in
+the sun55i_msgbox structure.
 
-void sunxi_rproc_kick(struct rproc *rproc, int vqid)
-{
-        ...
-        if (!priv->tx_chan)
-                return;
+[ ... ]
+> +static void sun55i_msgbox_remove(struct platform_device *pdev)
+> +{
+> +	struct sun55i_msgbox *mbox =3D platform_get_drvdata(pdev);
+> +	int local_n, i;
+> +
+> +	mbox_controller_unregister(&mbox->controller);
+> +
+> +	/* Mask hardware interrupts and free IRQs before asserting reset and di=
+sabling clock */
 
-        priv->kick_msg =3D (u32)vqid;
-        ...
-}
+[Severity: High]
+Does unregistering the controller here before masking hardware interrupts a=
+nd
+freeing IRQs leave a race window open for a NULL pointer dereference?
 
-Consequently, the assignment to priv->kick_msg never occurs. The test then
-asserts against the unmodified initial 0xDEADBEEFU value, which passes
-spuriously without actually exercising the assignment logic.
+During device removal, mbox_controller_unregister() calls mbox_free_channel=
+(),
+which invokes sun55i_msgbox_shutdown() and clears the chan->cl pointer.
+
+While sun55i_msgbox_shutdown() masks the interrupt via MMIO, it fails to
+synchronize the kernel IRQ subsystem via synchronize_irq().
+
+If an interrupt handler is already running concurrently on another CPU, it =
+will
+proceed to read the FIFO and invoke mbox_chan_received_data() from
+sun55i_msgbox_irq(), which dereferences the now-NULL chan->cl->rx_callback
+pointer.
+
+> +	for (local_n =3D 0; local_n < SUN55I_NUM_ROUTES; local_n++)
+> +		writel(0, mbox->regs[0] + SUNXI_MSGBOX_READ_IRQ_ENABLE(local_n));
+> +
+> +	for (i =3D 0; i < mbox->num_irqs; i++)
+> +		free_irq(mbox->irqs[i], mbox);
+> +
+> +	reset_control_assert(mbox->reset);
+> +	clk_disable_unprepare(mbox->clk);
+> +}
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260927002021.7970=
-69-1-tcmichals@gmail.com?part=3D6
+69-1-tcmichals@gmail.com?part=3D2
