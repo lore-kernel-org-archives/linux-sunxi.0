@@ -1,132 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4492D0620;
-	Sun, 27 Sep 2026 15:29:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823D6283FCE;
+	Sun, 27 Sep 2026 15:50:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790522957; cv=none; b=JOJrnY/10hunHBJniiIsi3i1Ocm2wuHrfxzYuDwJtOoQPxmrL2ep2SiCZ3YxQLAoElJEVAR3XQktLzALrUgSmzVv9ABhr6hBRmdb7mBQuSDQJ3gWZLSIVapEgtrcmBM66VRNiqyjtLCN4EktWc/Wbt4ZhIz1ISo73oD+/BnqKN4=
+	t=1790524206; cv=none; b=sBNXG6L46MF/8Zvx6Dx+JVL5tiBiU4PcRA4VLPQT0BV1C7R/pyzMXLUo30U1daKCDlsZHak/koM1FlhYbliw/Ut4JWKVV35uFD1pCfhhlWd5tD7rf38syjbIMbRbRPvxR/2EMSI6x7RtJ/kF7jVm7+7KQxGzFwReXVGsyioaycs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790522957; c=relaxed/simple;
-	bh=VLiPdDsLVT16n6ghmv5NUCt+5x30URL+9lzOl9R2Br4=;
+	s=arc-20240116; t=1790524206; c=relaxed/simple;
+	bh=YFxNBK5aeDrvVDt9YPAj/1V/e0fYWSOgWbQN2AvUs3M=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=QlCv8nE822T45aLFssdAWf1OCkNQg0c9kEkyVmPAQ+EsbJXpY4SuPtU8w5IpOFv9wpVafaYpUgyPifEfp9JbpdGLu3ABV/8hFzI53ZYvCU37Vg0OnJYtgF9KqjHKi739YCK/OLY4ExPueJI5YK8+JKwtoC6/qvV/ORXxKoZlEek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VUFiAp1S; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=tgV6o4sQpYbvJDbl78EYF7+nZd7Aks85mp2wQie4Lyoncx6IntLlUnW77fMrfxNpkQm+RyalguHiPTHtwr6OL7hrfhkXGQmPdFemhbMmIfoAkV7jRknLsqNepxoM7mASKDYouiqyvysdLfi4QEucUMbONNjISDU6HUy2dpo19k8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkF0I38M; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VUFiAp1S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 320081F000FF;
-	Sun, 27 Sep 2026 15:29:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bkF0I38M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE0A61F000FF;
+	Sun, 27 Sep 2026 15:50:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790522956;
-	bh=HJs8/Vh9L+mBCZ+S+KWLE/lR3SXeSdCjHyvRUCphIKc=;
+	s=k20260515; t=1790524205;
+	bh=nlKTAoU1f99lRWqUhNL53qJBX5TgunD9FpTHd+gs2WU=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=VUFiAp1SDCt6vEhEu0NPAO+Wta+3YDhl7bvr1n9lHKHaZNXJYfcF7wxfI44jVMpsk
-	 g8L6+PhiEAkjBt74cFrRqECAk5jbFRBDm/iYl+57pIxgW39hTslrp1spLVmdR3dkYE
-	 8+o0eGx+lQkCTK0VzlEpwzur2oMl4d2I3c4Zuyp87rwfp53chQcjX5NWy3NUbQUZjS
-	 +IZWamx4BA608yQfxYC+ggY3fcIPG+a8S7zAUgbulY2PI2yCCurxq2vCPsi6TFHREw
-	 81wQjt1m+rzyFSRyTTlC8IcrldVrhwvWtRwjHeLxvoF3r3GnV8/PH2tJxF562LiW1k
-	 zsERfmL3X6Mbg==
+	b=bkF0I38Myr+pR3E2epcWjZwW5+7cx/draESF0G6tC1eFTzTK45moBIryM2s2YxdOH
+	 Mf+7bUFriFnTGWc5ER627uZZOxhtFFK6xAlKtjF82iX6z4D3GO/Z9SVHKUxM/Y4MGk
+	 NbS+UCysYGcXn0EqRKZq6gynRjUwsI5R0SbYUns1hYViQ7A/Pu+usVzU9rbAgKtdVr
+	 DZp6lRJCWM7FDUrQ6aVlfId3W4Kx0t8q8xA6nV9HAvdD7gZ/YjGWCsOXMaHSwWhkvj
+	 ZEsrkmtl2LiEPtmF7flYhv4s5VhDbQqnejjmcxJDqekoCcBCryZzfdH34a0zCVAEEA
+	 1dkD6VGvbXhvg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 11/11] ARM: sunxi: add B288 and the PocketBook Verse
- board
+Subject: Re: [PATCH net v4 09/15] net: stmmac: track datapath and power
+ ownership across failed reopening
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Pablo Mazzini" <pmazzini@gmail.com>
-Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, robh@kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20260927151016.186493-12-pmazzini@gmail.com>
-References: <20260927151016.186493-1-pmazzini@gmail.com>
- <20260927151016.186493-12-pmazzini@gmail.com>
+To: "James Hilliard" <james.hilliard1@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, bpf@vger.kernel.org
+In-Reply-To: <20260926-submit-stmmac-reset-fixes-v1-v4-9-ec1c0250b3c9@gmail.com>
+References: <20260926-submit-stmmac-reset-fixes-v1-v4-0-ec1c0250b3c9@gmail.com>
+ <20260926-submit-stmmac-reset-fixes-v1-v4-9-ec1c0250b3c9@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 27 Sep 2026 15:29:15 +0000
-Message-Id: <20260927152916.320081F000FF@smtp.kernel.org>
+Date: Sun, 27 Sep 2026 15:50:04 +0000
+Message-Id: <20260927155004.DE0A61F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] arm: missing SMP enable-method prevents secondary CPU boot
-- [Low] serial: missing pinctrl assignment for uart0
+- [High] net: stmmac: IRQ storm and permanent disablement due to IRQ_NONE r=
+eturn on wakeup
 --
 
-commit 5bd2057523d9c0e8b398682ab9b915f189883892
-Author: Pablo Mazzini <pmazzini@gmail.com>
+commit d1c65d817aaf24471fe20e2504c91eda25ba350f
+Author: James Hilliard <james.hilliard1@gmail.com>
 
-ARM: sunxi: add B288 and the PocketBook Verse board
+net: stmmac: track datapath and power ownership across failed reopening
 
-This commit introduces device tree support for the Allwinner B288 SoC and
-the PocketBook Verse board. It configures the CPU, timers, and basic
-peripherals like MMC, I2C, and UART.
+This patch tracks datapath and power ownership for stmmac interfaces across
+failed reopening attempts. It separates core sleep cleanup from platform
+and clock restoration, adding guards to skip accessing unpowered MMIO
+registers via a hw_unavailable flag.
 
-> diff --git a/arch/arm/boot/dts/allwinner/sun8i-b288-pocketbook-verse.dts =
-b/arch/arm/boot/dts/allwinner/sun8i-b288-pocketbook-verse.dts
-> new file mode 100644
-> index 0000000000000..91c89d5a097e6
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/allwinner/sun8i-b288-pocketbook-verse.dts
-
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/=
+net/ethernet/stmicro/stmmac/stmmac_main.c
+> index c4ba97d57b47e..22a65c1c16810 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 [ ... ]
-
-> +&uart0 {
-> +	status =3D "okay";
-> +};
-
-[Severity: Low]
-Is the pin control configuration missing here? The uart0 node is enabled, b=
-ut
-it lacks the pinctrl-names and pinctrl-0 properties.=20
-
-There is a uart0_pb_pins group defined in sun8i-b288.dtsi, but it appears t=
-o be
-unreferenced. Without explicit pinctrl properties, the kernel might rely on=
- the
-bootloader's initial pin state, which could lead to a broken serial console
-after suspend/resume cycles.
-
-[ ... ]
-
-> diff --git a/arch/arm/boot/dts/allwinner/sun8i-b288.dtsi b/arch/arm/boot/=
-dts/allwinner/sun8i-b288.dtsi
-> new file mode 100644
-> index 0000000000000..f5feec87defcc
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/allwinner/sun8i-b288.dtsi
-
-[ ... ]
-
-> +	cpus {
-> +		#address-cells =3D <1>;
-> +		#size-cells =3D <0>;
+> @@ -6377,6 +6571,12 @@ static irqreturn_t stmmac_interrupt(int irq, void =
+*dev_id)
+>  	struct net_device *dev =3D (struct net_device *)dev_id;
+>  	struct stmmac_priv *priv =3D netdev_priv(dev);
+> =20
+> +	if (READ_ONCE(priv->hw_unavailable)) {
+> +		if (priv->irq_wake)
+> +			pm_wakeup_event(priv->device, 0);
+> +		return IRQ_NONE;
+> +	}
 > +
-> +		cpu0: cpu@0 {
-> +			compatible =3D "arm,cortex-a7";
-> +			device_type =3D "cpu";
-> +			reg =3D <0>;
-> +			clocks =3D <&ccu CLK_CPUX>;
-> +			clock-names =3D "cpu";
-> +		};
+>  	/* Check if adapter is up */
+>  	if (test_bit(STMMAC_DOWN, &priv->state))
+>  		return IRQ_HANDLED;
+
+[Severity: High]
+When the device is suspended with Wake-on-LAN enabled, will returning
+IRQ_NONE here cause an interrupt storm?
+
+If a magic packet wakes the system, it asserts the MAC's level-triggered
+interrupt line. During the resume_noirq phase, the generic IRQ subsystem
+unmasks the interrupt line and this handler is called.
+
+Because hw_unavailable is still true until the later system resume callback
+phase, this code returns IRQ_NONE without acknowledging the interrupt at the
+MAC hardware or masking the IRQ line. For a level-triggered shared interrup=
+t,
+this causes the interrupt controller to immediately re-trigger, creating
+an infinite IRQ storm that permanently disables the IRQ line.
+
+[ ... ]
+> @@ -6399,6 +6599,12 @@ static irqreturn_t stmmac_mac_interrupt(int irq, v=
+oid *dev_id)
+>  	struct net_device *dev =3D (struct net_device *)dev_id;
+>  	struct stmmac_priv *priv =3D netdev_priv(dev);
+> =20
+> +	if (READ_ONCE(priv->hw_unavailable)) {
+> +		if (priv->irq_wake)
+> +			pm_wakeup_event(priv->device, 0);
+> +		return IRQ_NONE;
+> +	}
 > +
-> +		cpu1: cpu@1 {
-> +			compatible =3D "arm,cortex-a7";
-> +			device_type =3D "cpu";
-> +			reg =3D <1>;
-> +			clocks =3D <&ccu CLK_CPUX>;
-> +			clock-names =3D "cpu";
-> +		};
-> +	};
+>  	/* Check if adapter is up */
+>  	if (test_bit(STMMAC_DOWN, &priv->state))
+>  		return IRQ_HANDLED;
 
-[Severity: Medium]
-Does the cpus block or the cpu1 node need an enable-method property to
-properly bring up the secondary core?=20
-
-Because this board uses Allwinner's boot0 rather than PSCI, the kernel's
-smp_init() sequence may not have the necessary operations to wake this
-secondary core if a custom enable-method isn't defined, which would result =
-in
-the loss of SMP functionality.
+[Severity: High]
+Does this dedicated MAC interrupt handler suffer from the same IRQ storm
+issue as stmmac_interrupt above when returning IRQ_NONE during a wakeup
+event?
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260927151016.1864=
-93-1-pmazzini@gmail.com?part=3D11
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260926-submit-stm=
+mac-reset-fixes-v1-v4-0-ec1c0250b3c9@gmail.com?part=3D9
