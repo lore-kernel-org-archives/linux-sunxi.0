@@ -1,63 +1,63 @@
-Received: from mail-oo2-f42.google.com (mail-oo2-f42.google.com [74.125.231.170])
+Received: from mail-oo2-f39.google.com (mail-oo2-f39.google.com [74.125.231.167])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71FB621CC71
-	for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 00:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0CD23F40D
+	for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 00:20:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.167
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790468449; cv=none; b=WL6gbJnQaptWnjl+vETv7zwqVtR5PddPe45GgIJ8gVef8Q9BF9F4LShjECXBWdshD67wwlTNNzQxYHHTS+6LBPgwH98T4V12PzcwJGrxX9649JvhVoz64kjoal+/aZYPCl12zc/RWsWVGeeHOezl+VlKbgqMmGLgujLRnAt7P9w=
+	t=1790468451; cv=none; b=b/kvLImvkL3nTzqaeZbchU1oWMW38guNK9JHiZvADMfxL0tlFuKouKrI2Sx9wZCmhSf+uAX+Agj7kjRyHJ3nJwIQ3yYEGspL/FGCRo3nvEMjaBkMEEW11msiXM9mlsWUVb1vav22aeH/yuvKqHNV5rRb0ynhB7u6YbevxzlxWt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790468449; c=relaxed/simple;
-	bh=pIgWIFT5N66+ElgmyL0ptveGg+SgSTu6eak3aWh6SSw=;
+	s=arc-20240116; t=1790468451; c=relaxed/simple;
+	bh=KUqMhiQcS4AgsYPuncz05+mw8gLtazXZDPzDeOszHBs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KdFU14hu712OAhwfCIyFw9SN63jXonps1XQu0s3DhRU5BjYeWV62KUmwSv456ZJKxkQyvkmFvWaNT32FKrb+vZZEPJeONK6X3uxAgHdZ+BAOHLBQ0yQ3UJkdu4RBCNjwvbF1y72PZWBX+GdWKOXY+Lwwc/pABOUjGT3i/h1QKtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aZdtaxHB; arc=none smtp.client-ip=74.125.231.170
+	 MIME-Version; b=PEhj+L4MAnzTJUc5XV85+KwzT+7on522gDhfdKLv14fI4DvNHLrtbJoK0BF0MM0hwmHnIs5C4NKnz/F7ryNVUHtb8j0vJV0XrMt6PTphpFP8sTegrXE0yZf7sGUKcQnJLjUi/JsO20LdhSzoXZFZj/IkdecErOa1DC+d8Lv6cpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KB+Ok63j; arc=none smtp.client-ip=74.125.231.167
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aZdtaxHB"
-Received: by mail-oo2-f42.google.com with SMTP id 006d021491bc7-6d817a94745so211150eaf.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 17:20:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KB+Ok63j"
+Received: by mail-oo2-f39.google.com with SMTP id 46e09a7af769-7f4f0cfb33cso1562285a34.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 26 Sep 2026 17:20:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790468446; x=1791073246; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790468448; x=1791073248; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=M/uFEla/GtxpFVr3xLABytiXJscVZoLUgKFlKGO+PW8=;
-        b=aZdtaxHBZ0J5g60jD68Ey5eXCw+ZT6CPHeABv3J2nMujxZjgitMoAjbZcDJO4B04VT
-         tWFq+ufBt/b9m1aOV8I+VZttRc04NN5nrbkX7bYDol50/AsRLL+acDi2dyphB2XgvBsg
-         G4Vr2Mzrq/LAXqzpbY22WszFfjwfxI+PBzRGOOfScdrJkOl45g3S5ok1wy2oyWn+4nB6
-         gI863qsB1E1O4NiuRyAWZVTef8XrJDd5jCSesz1txq6gP/o3q8qqdNzy7acAIegI8pnh
-         mI+/ILA3xmzg0gOZv9J4AplKe5DRhrjKLnqnhS3nc2f4uGgcMqDVtagbGpqCei2Sz7GZ
-         LDcQ==
+        bh=B5J3pzpTC8euWZ64R9GaI6gZQCXcNFJ4o9q8CcjL5ik=;
+        b=KB+Ok63jy7y2mGEol08MfjoMp0CKsqnur4T0MrtbNDzgNYnSYIvf8zbZjxCUWllsDH
+         0bwGTPM2vI86wik4zegrXkAIRN5d5RwqDxyulb4jSi+K9nEOGWVad5plCJuaxnBG0gqP
+         1VOoUO74WlWfgoaRe+JuUPUYY+lgovENsYJRanhxZ+n/Gr/LhyT+2i4PalIyx9Bweqq2
+         63HYb69MElHo98mLoUGyMgPERdfPKW4YVzpfO2ESzftKYrNkyNrsQ0GNHvFaTNpgtEXe
+         jcoiTNrOUhAv1YI08XTBFDjHGOqilUPuYPYjN2/t7nZRKJGkavI/VmGfWTiT9ml63ClO
+         +jyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790468446; x=1791073246;
+        d=1e100.net; s=20260707; t=1790468448; x=1791073248;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=M/uFEla/GtxpFVr3xLABytiXJscVZoLUgKFlKGO+PW8=;
-        b=NDW+QlhtgHK5JUbUg28INgsIHizaObF7bBKrAo/D+y1Mt5oWA88jwviRMXP9NhKG3n
-         vJAap5U7lmLnZik2ocnoPkH8+V+17Nea6hB/qzxJf968VND89rznPzzH7JQZAdorKiCi
-         oDex7DSmrnLfDv5once5eF7Vnc4cwAHyalOdBliqdn5uYDmYztMr5DvDf4SNBmyMI/Mx
-         EzmEzeoLIvBI+boW8wN1bGeSO2nXsWAc5f5vJ5KImPkHX0KsoEhoaWP9WrkFgswiJJ9F
-         ooPKxr8pRXtOwCMFfC4lWkdghDRNn4ctTS4Osug4NM59JEgKGOE9NgatgrV5CrSwDkGR
-         YZQQ==
-X-Gm-Message-State: AFuF++nCCe7jocJZjnkCxJ51lolFcHCxsJdDS85BxzUVqNUi+QKFzwtq
-	t5MSHxCP/8UuHGaHqV/GW39cB/W2Bl4Mltv3E0onsvydZeFvrzSEsmYbin9YkzA2
-X-Gm-Gg: AYBFou3jS9k2g+/c/E67fyAVbp1rs6z30iBYss/cbzyy4kd0BoT46Yrpiuy8+sLb7DJ
-	cj6guElO41cdE0cdXI9WSlEkJ4sSgURWfSO3vDaC+g1ne+KWEEMpH/psQvaZpcNz6ah6BjJJmFb
-	Ct+X92CxlWv5r1/LWqwaLpDuxgr4w3fqdK/V+Ap2G5Wvws+o3mHu4NtMSRy9n3who7/fE9tjtEg
-	Rq3/iO+Sg8Zk1CNb+MH7uw1Rj2nnFpa3jWmTZDxUUaE9HfItTzyoXLDI97o3sHGvx+TlmUDfqZo
-	+b2+WJUYC3WPdGWebX4Tefd0IsqgLahBmtwwmmNB9adweZW4IbKQRbJNguw6T7RUPzbge2xwvb8
-	RM+BSSMQsL4/QidNbr/WSNkx3uZJEb3FunyeRlT86JLKK/9kpT5BmY5R11J4XcIacoywvD5+d7F
-	2IBgcExJRjKkzY9I8lAmmyOrI/OLO9iIMf8PG80tRVLzWgcVXHvoo533T/74zS9H/czmLVtc+NE
-	psWQYi5/98n6xYqVIQ9gw==
-X-Received: by 2002:a05:6820:a28b:20b0:6d7:a325:35e4 with SMTP id 006d021491bc7-6d7a32536e3mr1067214eaf.2.1790468446180;
-        Sat, 26 Sep 2026 17:20:46 -0700 (PDT)
+        bh=B5J3pzpTC8euWZ64R9GaI6gZQCXcNFJ4o9q8CcjL5ik=;
+        b=oM9IBsQvKMX2fSxWKuZ6zVOqR02tEotisOALZ4HePQNA3zrcarfAvVLGPEQ+ScTJWl
+         6CdV0G4AGlLFozHnKT6NbBDF25vZ8qJI4gF+LRGLIpsqGZJyGDDzeGN0l6qF8h1ajFen
+         2LHxoUODz0lPOxP6BIxxiFrC9Ugp2HAMEZbfB8U04/A4tc5nrjcpyiTmsN4fWGWA5sE5
+         eVanAMERu9KgXwvfWyAWrtzZPf9+UtLuQu8AaP8NbBIB2+kASVaeuwOVPUtAgGqkYcvY
+         VlR95Mva/N92xqtp7f6O4OfeCF4uaOI7gjx6iyL6rx1fl5QZJIckBexDKqotXUU/jmeD
+         xC3A==
+X-Gm-Message-State: AFuF++mIRMhEf7NPULKac8buqynPSdST5A6oAspuFTQmjITrec5RaZou
+	na0vCr5od/4pn0URZyexMxe8igaz9Dfk9TBkarkBT3XmPj3IweAHU0X3tnPL1J7s
+X-Gm-Gg: AYBFou0h/zMn2A1GkAwCzljzKO3SJR5Q/x6+M7NcE4mXXWBiU57q/6agEsrPVOHI30C
+	PaQEgDjy/Ae0g9mDBL7B5Mg3OYD5LbxXBuCjum6DFFYxnn9jdcgMmCkh+EbSpyLmMpI2HQmyzWA
+	kk13y8jwh5nI1/6oAq5Ih+CEqC83w3UnaSCXmPWfDcIsCvd0AXsT6RTUzkJsz9SnsAfDBFYkXK5
+	7FvrAxZhkmrt89aGqNtmKfVBpVjjSbb/Bx79avuLu9Amnw6L5Kw+OEDCf6DtpwNlc7XSGZsPrWe
+	xAUZOsi0tfSfwyGf/0FlayUpDXN/Hv5x/Oj/eGvQLJgzsSy2tNH5GgzOJmCPtt8Hw2XxKcjKW4e
+	T1qxEKvlu34/Zxc2Lfc+5eU9ueeHvXaLRcdX+eQEeCvVs0glSwoUht3yQxH3VXzNO+8MCAYFPi9
+	/pXiKITsPaYW/nFNeIZ+NQmuVx8CotMbpJ7HjkQ5inqvWo4FkYMiyZgLal9ACbaTsG+2MzkZBfW
+	z+aAycyoVXGjgl1ATIzuA==
+X-Received: by 2002:a05:6820:290e:b0:6d8:6dcf:54c7 with SMTP id 006d021491bc7-6d86dcf582fmr353279eaf.82.1790468448578;
+        Sat, 26 Sep 2026 17:20:48 -0700 (PDT)
 Received: from tcmichals-5759.lan ([2607:fb91:3584:35a9:66f8:2cb5:aa80:21fd])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6d8828e1ea0sm838989eaf.6.2026.09.26.17.20.44
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6d8828e1ea0sm838989eaf.6.2026.09.26.17.20.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 17:20:45 -0700 (PDT)
+        Sat, 26 Sep 2026 17:20:47 -0700 (PDT)
 From: Tim Michals <tcmichals@gmail.com>
 To: linux-sunxi@lists.linux.dev,
 	linux-remoteproc@vger.kernel.org
@@ -74,12 +74,13 @@ Cc: devicetree@vger.kernel.org,
 	krzk+dt@kernel.org,
 	conor+dt@kernel.org,
 	Tim Michals <tcmichals@gmail.com>
-Subject: [PATCH v2 0/7] remoteproc: sunxi: Add Allwinner XuanTie E907 RemoteProc and Message Box support
-Date: Sat, 26 Sep 2026 19:20:09 -0500
-Message-ID: <20260927002021.797069-1-tcmichals@gmail.com>
+Subject: [PATCH v2 1/7] dt-bindings: mailbox: add Allwinner sun55i msgbox schema
+Date: Sat, 26 Sep 2026 19:20:10 -0500
+Message-ID: <20260927002021.797069-2-tcmichals@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260922034711.190253-1-tcmichals@gmail.com>
+In-Reply-To: <20260927002021.797069-1-tcmichals@gmail.com>
 References: <20260922034711.190253-1-tcmichals@gmail.com>
+ <20260927002021.797069-1-tcmichals@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -88,187 +89,128 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch series (v2) introduces mainline Linux support for the Alibaba
-T-Head XuanTie E907 (RV32IMAFCX @ 200 MHz) RISC-V auxiliary co-processor
-integrated into Allwinner A523, A527, and T527 (sun55i) SoCs.
+Add Device Tree binding schema for the Allwinner 4-port hardware
+Message Box controller found on sun55i (A523, A527, T527) and
+sun60i (A733) SoCs.
 
-The series adds a standalone 4-port hardware Message Box driver, the
-XuanTie RemoteProc driver, the associated Devicetree binding schemas,
-in-kernel KUnit unit test suites (68 total tests, 100% pass rate),
-and DT node enablement.
+The message box connects the ARM Cortex-A55 host cluster to the
+HiFi4 Audio DSP, Power Management Unit (CPUS), and XuanTie RISC-V
+co-processor across 12 logical channels with 8-entry hardware FIFOs.
 
-Hardware Architecture & Memory Map
-==================================
-Allwinner sun55i SoCs integrate an octa-core ARM Cortex-A55 cluster
-alongside an auxiliary XuanTie E907 RISC-V co-processor. The co-processor
-boots from on-chip dedicated SRAM Space 0 (Host PA 0x07280000 / Core DA
-0x3FFC0000, 256 KB), can access secondary switchable SRAM Space 1 (Host PA
-0x072C0000 / Core DA 0x40000000, 256 KB), and interacts with external DDR
-DRAM across the SoC's internal AXI bus.
-
-Inter-processor communication (IPC) is coordinated via a 4-port hardware
-Message Box controller (CPUX_MSGBOX at 0x03003000). The mailbox acts as a
-star crossbar connecting four processors on the silicon die:
-  - Port 0: ARM Cortex-A55 host cluster
-  - Port 1: Cadence Tensilica HiFi4 Audio DSP
-  - Port 2: Power Management Unit (CPUS)
-  - Port 3: XuanTie E907 RISC-V co-processor
-
-The Cortex-A55 exposes 12 logical channels (4 per remote processor),
-where Channels 8..11 route directly to the XuanTie E907.
-
-Changes from RFC v1 to v2 & Responses to Reviewer Feedback
-==========================================================
-
-1. Device Tree Binding Schemas (Krzysztof Kozlowski & Rob Herring):
-   - allwinner,sun55i-rproc.yaml:
-     * Constrained 'compatible' from an enum to a single 'const'
-       string: 'allwinner,sun55i-a523-rproc', as A523, A527, and T527
-       share the same silicon die (per upstream policy).
-     * Replaced inline enum arrays in 'reg-names', 'clock-names', and
-       'reset-names' with explicit, positional '- const:' lists.
-     * Dropped redundant 'minItems: 2' on 'mboxes'
-       (maxItems: 2 is sufficient).
-     * Replaced '$ref: types.yaml' on 'firmware-name' with
-       'maxItems: 1'.
-     * Defined 'memory-region' and 'memory-region-names' with explicit
-       items instead of freeform text description.
-     * Dropped redundant 'status: true' (inherited from base schema).
-     * Dropped '|' block literal markers on single-line descriptions.
-     * Replaced symbolic CCU clock/reset macro constants in example
-       with raw hex values so schema validation succeeds in
-       standalone CI trees.
-   - allwinner,sun55i-a523-msgbox.yaml:
-     * Dropped redundant 'minItems: 4' on 'reg'.
-     * Dropped redundant one-line descriptions on 'clocks' and 'resets'.
-     * Clarified 'interrupts': added 'interrupt-names' and explained
-       in description that Port 0 (ARM host) interrupt is mandatory
-       for reception, while remote port interrupts (DSP, CPUS, RV)
-       are optional depending on board routing.
-   - sun55i-a523.dtsi:
-     * Replaced two-string compatible with single const
-       'allwinner,sun55i-a523-rproc'.
-     * Maintained strictly sorted unit address order for
-       msgbox@3003000 and rproc@7130000.
-
-2. RemoteProc Lifecycle & Teardown Hardening
-   (Bjorn Andersson & Mathieu Poirier):
-   - Moved INIT_WORK(&priv->vq_work) before
-     mbox_request_channel_byname() to eliminate race conditions
-     executing or cancelling uninitialized work structs on early
-     interrupt or probe deferral.
-   - Masked crash IRQ with disable_irq() at the start of
-     sunxi_rproc_remove() to prevent crash interrupts against deleted
-     rproc instances.
-   - Switched async mailbox sends to struct member 'priv->kick_msg'
-     to eliminate stack pointer escape and use-after-free hazards.
-   - In sunxi_rproc_start(), ensured STA_ADD_REG boot vector is
-     written while core execution reset (rst_core) is asserted,
-     guaranteeing deterministic entry at bootaddr upon reset release.
-   - Added integer overflow checking ('len == 0 || da > U64_MAX - len')
-     and defensive memory boundary guards in sunxi_rproc_da_to_va().
-   - Configured 32-bit DMA coherent mask via dma_set_coherent_mask().
-
-3. Mailbox Driver Hardening (Jassi Brar):
-   - Added synchronize_irq() across all registered interrupts in
-     sun55i_msgbox_remove() before gating clocks and asserting reset
-     to prevent concurrent bus aborts on unclocked MMIO during teardown.
-   - Added defensive bounds checking in sun55i_chan_to_route() to
-     safely clamp invalid channel indices (< 0 or >= 12).
-   - Bounded all hardirq FIFO drain loops and startup/shutdown flush
-     loops to SUN55I_FIFO_MAX (8 iterations) to eliminate CPU
-     starvation or RCU stalls under coprocessor message flood conditions.
-   - In sun55i_msgbox_irq(), cleared pending interrupt status before
-     reading the message FIFO to seal a TOCTOU race.
-
-4. PREEMPT_RT Real-Time Compliance:
-   - When the E907 announces a new RPMsg channel via Name Service
-     announcement, virtio_rpmsg_bus acquires sleeping mutexes
-     (device_register, blocking_notifier_call_chain). Calling these
-     from hardirq context triggers a fatal "scheduling while atomic"
-     bug under PREEMPT_RT.
-   - The driver implements a workqueue-deferred notification
-     architecture (vq_work), which safely shifts vring processing to
-     a preemptible kernel worker thread, ensuring 100% PREEMPT_RT
-     compliance with zero jitter.
-
-5. Comprehensive In-Kernel KUnit Test Suites (68 Tests):
-   - Added sunxi_rproc_test.c (34 tests) covering da_to_va() translation
-     across Space 0, Space 1, DRAM carveout, and trace buffers, integer
-     wraparound guards, corrupted ELF segments, malformed resource
-     tables, and lifecycle mocks.
-   - Added sun55i_msgbox_test.c (34 tests) covering 12-channel routing
-     formulas, register offset macros, mock MMIO FIFO send/read,
-     bounded drain limits, burst interleaving, crosstalk isolation,
-     and simultaneous 3-route concurrency.
-   - Both test suites execute with 68/68 passed, 0 failed, 0 skipped.
-
-Physical Silicon Validation Evidence
-====================================
-The complete driver series has been rigorously validated on physical
-silicon using the Radxa Cubie A5E development board (Allwinner A527 /
-T527) running mainline Linux 7.1.0 PREEMPT_RT across three distinct
-hardware profiles:
-
-  Profile 1: Standard Linux VirtIO RPMsg over DDR CMA Carveout
-    - 1,000 pings: 100% success (0 timeouts, 0 corrupted packets).
-    - Latency: 189.70 us avg RTT, 4.83 us jitter.
-    - Throughput: 2,995.5 msgs/sec, 2.83 MB/s bidirectional bandwidth.
-    - DRAM bulk transfer: 4,498.5 msgs/sec, 4.39 MB/sec.
-
-  Profile 2: Pure On-Chip SRAM Space 1 VirtIO
-    - Vrings and message buffers mapped directly to on-chip SRAM Space 1.
-    - 1,000 pings: 100% success (0 corrupted packets).
-    - Latency: 136.57 us avg RTT.
-    - Throughput: 7,281.8 msgs/sec, 6.89 MB/s bidirectional bandwidth.
-
-  Profile 3: Userspace UIO Direct Mailbox & Shared SRAM
-    - Hardware mailbox bound to generic-uio with userspace doorbell.
-    - 1,000 pings: 100% success.
-    - Latency: 13.76 us avg RTT (50th percentile: 13.58 us).
-    - Throughput: 65,986.6 msgs/sec, 64.44 MB/sec bidirectional bandwidth.
-
-All kernel dmesg logs across all profile reboots and stress benchmarks
-remained 100% clean of call traces, oopses, and bug warnings.
-
-Code Hygiene
-============
-All patches have been verified with scripts/checkpatch.pl --strict and
-pass with 0 errors and 0 warnings.
-
-Tim Michals (7):
-  dt-bindings: mailbox: add Allwinner sun55i msgbox schema
-  mailbox: sun55i: add Allwinner sun55i/sun60i 4-port Message Box driver
-  mailbox: sun55i: add KUnit test suite for sun55i msgbox driver
-  dt-bindings: remoteproc: add Allwinner sun55i-rproc schema
-  remoteproc: sunxi: add Allwinner XuanTie RISC-V remoteproc driver
-  remoteproc: sunxi: add KUnit test suite for sunxi remoteproc driver
-  arm64: dts: allwinner: add a523 msgbox and remoteproc nodes
-
- .../mailbox/allwinner,sun55i-a523-msgbox.yaml | 102 ++
- .../remoteproc/allwinner,sun55i-rproc.yaml    | 146 +++
- .../arm64/boot/dts/allwinner/sun55i-a523.dtsi |  39 +
- drivers/mailbox/Kconfig                       |  20 +
- drivers/mailbox/Makefile                      |   2 +
- drivers/mailbox/sun55i-msgbox.c               | 375 +++++++
- drivers/mailbox/sun55i-msgbox.h               |  58 ++
- drivers/mailbox/sun55i_msgbox_test.c          | 823 ++++++++++++++++
- drivers/remoteproc/Kconfig                    |  18 +
- drivers/remoteproc/Makefile                   |   2 +
- drivers/remoteproc/sunxi_rproc.c              | 922 ++++++++++++++++++
- drivers/remoteproc/sunxi_rproc.h              | 116 +++
- drivers/remoteproc/sunxi_rproc_test.c         | 701 +++++++++++++
- 13 files changed, 3324 insertions(+)
+Signed-off-by: Tim Michals <tcmichals@gmail.com>
+---
+ .../mailbox/allwinner,sun55i-a523-msgbox.yaml | 102 ++++++++++++++++++
+ 1 file changed, 102 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/mailbox/allwinner,sun55i-a523-msgbox.yaml
- create mode 100644 Documentation/devicetree/bindings/remoteproc/allwinner,sun55i-rproc.yaml
- create mode 100644 drivers/mailbox/sun55i-msgbox.c
- create mode 100644 drivers/mailbox/sun55i-msgbox.h
- create mode 100644 drivers/mailbox/sun55i_msgbox_test.c
- create mode 100644 drivers/remoteproc/sunxi_rproc.c
- create mode 100644 drivers/remoteproc/sunxi_rproc.h
- create mode 100644 drivers/remoteproc/sunxi_rproc_test.c
 
-base-commit: 5c4d4169604b335c38bbc79bc1fc03042981fc6f
+diff --git a/Documentation/devicetree/bindings/mailbox/allwinner,sun55i-a523-msgbox.yaml b/Documentation/devicetree/bindings/mailbox/allwinner,sun55i-a523-msgbox.yaml
+new file mode 100644
+index 000000000000..6b0c7ff70c9f
+--- /dev/null
++++ b/Documentation/devicetree/bindings/mailbox/allwinner,sun55i-a523-msgbox.yaml
+@@ -0,0 +1,102 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/mailbox/allwinner,sun55i-a523-msgbox.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Allwinner sun55i 4-Port Message Box
++
++maintainers:
++  - Tim Michals <tcmichals@gmail.com>
++  - Samuel Holland <samuel@sholland.org>
++
++description:
++  The hardware message box on sun55i (A523, A527, T527) and sun60i (A733)
++  SoCs is a 4-port multi-processor mailbox controller connecting the ARM
++  Cortex-A55 host cluster, HiFi4 Audio DSP, Power Management Unit (CPUS),
++  and XuanTie RISC-V co-processor.
++
++  It features independent 256-byte register banks for each processor port,
++  12 logical channels on the host (4 per remote processor), and 8-entry
++  hardware FIFOs with level interrupts.
++
++properties:
++  compatible:
++    enum:
++      - allwinner,sun55i-a523-msgbox
++      - allwinner,sun55i-t527-msgbox
++      - allwinner,sun60i-a733-msgbox
++
++  reg:
++    maxItems: 4
++    description:
++      Register banks for each of the four processor ports. Each port has
++      an independent 256-byte register bank.
++
++  reg-names:
++    items:
++      - const: arm
++      - const: dsp
++      - const: cpus
++      - const: rv
++
++  clocks:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  interrupts:
++    minItems: 1
++    maxItems: 4
++    description:
++      One interrupt per processor port in port order (arm, dsp, cpus, rv).
++      The ARM host port interrupt is required; remote port interrupts are
++      optional. Use interrupt-names to identify which ports are present when
++      providing a partial list.
++
++  interrupt-names:
++    minItems: 1
++    maxItems: 4
++    items:
++      enum:
++        - arm
++        - dsp
++        - cpus
++        - rv
++
++  '#mbox-cells':
++    const: 1
++    description: "channel number (0-11: 0-3 CPUS, 4-7 DSP, 8-11 RISC-V)"
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - clocks
++  - resets
++  - interrupts
++  - '#mbox-cells'
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++
++    mailbox@3003000 {
++        compatible = "allwinner,sun55i-a523-msgbox";
++        reg = <0x03003000 0x1000>,
++              <0x07094000 0x1000>,
++              <0x07120000 0x1000>,
++              <0x07136000 0x1000>;
++        reg-names = "arm", "dsp", "cpus", "rv";
++        clocks = <&ccu 120>;
++        resets = <&ccu 45>;
++        interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 181 IRQ_TYPE_LEVEL_HIGH>,
++                     <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
++        interrupt-names = "arm", "dsp", "cpus", "rv";
++        #mbox-cells = <1>;
++    };
 -- 
 2.43.0
 
