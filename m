@@ -1,71 +1,71 @@
-Received: from mail-oo2-f36.google.com (mail-oo2-f36.google.com [74.125.231.164])
+Received: from mail-oo2-f42.google.com (mail-oo2-f42.google.com [74.125.231.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25AF945560A
-	for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 22:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.164
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D3E450917
+	for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 22:00:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790546435; cv=none; b=fvSKfPs8TC2lS9VcmaDQZOGkBsnKRgbJFQO/L9m6y1hMko+TaK+gDV+mE/H7YLEYfDW9vOKuwu+rpubUtpBMlYJtrLNrYerP41RNw/biT8h2r/WLDRydzhhHn20l+qTF+uwqyksY5//+Z2Ch8NcwVfgObIAAAVUv0O+9AoVloqw=
+	t=1790546436; cv=none; b=TMezlRj5mjtqwUXZnRjnD6oX5Ni9YqBsbx0zJjRp+4Ahcus+64A4mVcj1++/wNUaPaBEdY1gAE3KOiiPkTYQ5Ku2AJqDnfMWXNOTFOrlo8Yucc5xX7Jj+gtiaolk7maJJ+Nbnzg0+hIA53uGH+4IL5nk4OSMnW/rVqqWItUeiYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790546435; c=relaxed/simple;
-	bh=gZXSjVV+EhPzqrz1y5g+JcyjmC0K8V1222JL7roYnrA=;
+	s=arc-20240116; t=1790546436; c=relaxed/simple;
+	bh=i82rXsPXr5BvSIGo+y39qg6b41tpeiBPkr+Ivprgbh8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GRB6chEexG8BDM+EyXvdGku0nn7oieE5TYqcokuuv5Hc7v4UrFRyGHLux0cYsETlBUBdoWMwLZTMwZZL5PSrEq3nxRLjiE4g0ORjgrNHfT+UZKng8G408tnzzM8Ajk7MOj1MhfjIzCbCoQiBZxy3u60qvy3SWqTBkX8wlIJgnMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fymyXIOQ; arc=none smtp.client-ip=74.125.231.164
+	 In-Reply-To:To:Cc; b=kW229GNhYDQEdlZwZvkCw4FcAmoPYJyzuFnMVcJ3uVTg7MBw/LYJ4gb7ZBI2DJsD2nMD6Y+C8qkLMVPnfFBAPEpEiU5sI9bMSNUreh3Wmr4egPQilkag0XKbxEy39E7OEXycIoVzEtMXNvN2EoaMm7da9Afbyi4E/kX6stNfLHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gCSGU7kW; arc=none smtp.client-ip=74.125.231.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fymyXIOQ"
-Received: by mail-oo2-f36.google.com with SMTP id 006d021491bc7-6d762782f99so448721eaf.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 15:00:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gCSGU7kW"
+Received: by mail-oo2-f42.google.com with SMTP id 006d021491bc7-6d79b1f928cso470975eaf.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 15:00:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790546429; x=1791151229; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790546426; x=1791151226; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=5SnaOI9os24/FlLLZlHcaQE+bseaAXy0CLUFqMKAceU=;
-        b=fymyXIOQUqCnFeIzfBKjkyTa3rxnZS5CQUg82+FPPueXhwNoJnkC/rY3LWpkVb29+6
-         1m1KiZKH91OjQyLjF0rXSYfADeEKb6plLxblui4XvouyMJT+ADT6RKJgJcT0KpJf1zrd
-         jLlFFm+WhzmUVNS1Ch9Uk8F+EoQuJTXLUAEH9ovUpLCIS3q53mH4SExXv36hjfomuX3l
-         mC0vwgch34DKlWQSO4AyIlpGEET98nfatsSK3Ef72LVbKm7bUyrGCF+nutXQdCskEw76
-         WZeJ8nxz7CEaJ2x3PsD2vYxl3o1nEwjg/6QIUPSXpqAz1qcAB2VR1DtIK/gi63Dy1pP9
-         HseQ==
+        bh=lD84VmNHyuDi5sN9BWRPY67CA1UQsdRVGAGzNHELzk0=;
+        b=gCSGU7kWGCugLaarzPiGCja/Rgdo21mWAt1PtNEqYdrcT2RHsLNDZRg6c2N+Bz5m7G
+         AacpcVISkJ54mJIW0LcZbyQsjbZo2Cxa7ktJNKeGHFLklA/UTvxs2/ixx5qt0VpzdbFr
+         L9olUzEKyVaxzhqzGxfe1HRS+j72cSiknIqqTwTXK4+DndvIACQBPTR4xfChpX2nk9wg
+         SQC8SNqplFKbrxTzDmIjd/rZGFVNnCRiR9UoQLtaSnUH75OBIxbWcRx9ZoFFX3ibq4jL
+         A3KY/SdZZhck4ohU7bBdP2xyKXz0OC7jqablmX2XsAuWBqa6zOjLg29K/i3gyG8NtgQk
+         cMqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790546429; x=1791151229;
+        d=1e100.net; s=20260707; t=1790546426; x=1791151226;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=5SnaOI9os24/FlLLZlHcaQE+bseaAXy0CLUFqMKAceU=;
-        b=Fn0NhfrBlTR9kVTCKBMFxFA0sf+3IaJgobZgksaUBz9LzVPOHptKOoCxx9SyNw3vyZ
-         +3rnZY8eR2Em8tR6CknOZtv0yLMkvBsCvjLM5iaUyGfCxLblZfmdc+/q7sE/LH7s2C6J
-         HaHiohdZ+7/lhLrYcHsyURTwBockbF41+v29fgp/faztd2v32ur9WBkAtH55zlXjSrnN
-         Y0n5fdbD97LoyCT16tcb+PbgAUej/u4ljWO7b01AAgR8FFPT0wwMghFxuxNwNDwaYZc5
-         VAYHWHoaZh1EWZSYgqM80HoHs2PSVDD59cLh4fFqB+hMn2F4x+NInb5yxIt4xzBraEoi
-         gpxQ==
-X-Forwarded-Encrypted: i=1; AKwUvBypMOsEQWZKw2LoNG2jur5NrQ8rrIH4ppD4uszIlCb1pyHXHIyvvu7ViCefB8LaH+90zEbMmfzRgpTZCg==@lists.linux.dev
-X-Gm-Message-State: AFuF++mWxx/dBgmj0V4s8X/5Bnq4Jk4cLRK+WjxVvgxx0e5O7Nh4mIVk
-	U6BuDH9EcnWtRDsKwCs3K+u30RCrU0dDpfQ8n75vcVfQQLqAomRBKTK3
-X-Gm-Gg: AYBFou3/LVPmdl6YtG79QaoYrgxxcrPA4Qixe1cTM819Mes85243TX1Ix1BZi0blam7
-	qf+3nOyBI7ud6ewfax4ArarUIGFJtp+bW+33lMOsPM5lU2zvEvQRXqZfPwmGDkZ3Fc1KBlFCZIv
-	9BWlDYB1lDdVYYjfqQRbn+XlotmN28de13sEjH1JOJg8loE9BvLZTQu6Inf0XTP+MPm+j2O1DHd
-	3Py135vQQeONavFKoiLcliav6dFqpHmH+L+Ezlng/Rv+b55Vb/ZUs4F4btpzF4xvaNvV8CEOnbO
-	G6EBqOEWkvg/YGybxKbIOqk3DstYWkiwCydTP8u/LmYMMaVww11DTm5KJN0imEeogzaauuDo67A
-	A9IwckIQPRR6IeavtuYTDDv8NjMAENwJ4Dgje4Ie4Sc4g3NuRoV3aF9Sfv8vXtG51pXUNlbdJCJ
-	VxciGQtNpqMx8zfAfoiRoGT79zgv/Hn8Rj0Q9691p+1oBhXCdblod3e9c9oh5YJefROYnhs+Rrw
-	0iwg0oLYAHbSTXmRKqUvjnM/kfXCBIdwZlTn6+ZgCnHPF8tj2rojVbJ20Zb2Q60orMCIdr84iho
-	98wcM3Se6Ga8Y2Cim+B72Uw437G9NH8tjbx/CPypoMTY6hkgRzNDBkPoXqhXzseC7TOjNJicHJB
-	DffZQ7unkTKF+dWeisVwc
-X-Received: by 2002:a4a:e90c:0:b0:6c7:7668:a2a5 with SMTP id 006d021491bc7-6d43f4bd3d0mr10312715eaf.25.1790546429037;
-        Sun, 27 Sep 2026 15:00:29 -0700 (PDT)
+        bh=lD84VmNHyuDi5sN9BWRPY67CA1UQsdRVGAGzNHELzk0=;
+        b=P3HrTEyjTyDo6h+1XX9eRuiD2VqRXUGec+ERQqhLjYGQ+1GnLzLnPISUKeAYIEGM9I
+         CFAiYPYTiUXsZaRGjxd9iTyDfoxr4ggojUwC54/kTYdU/Rv6Bl4GPdaT+MFQJrrf/TXP
+         Wki9y09lvxhDgOR1qvlSeiNYi7KDQ5tPTqxB+R01vLIqyDr6AWQ7ZsCyvIBGyUY4mU2+
+         diGpscJCbYR5aXAOqYs/FGzpif5Z7la8ze9wPOYZ77dNEW1T88G6kWYBFo5ULUesPg5d
+         GLCFbyuzvnmykHb4XEj7QtrAJzkpUnhic3ps5kMqUJamHL4CjYW0ODURCFq5wZ3XxtbB
+         cwWg==
+X-Forwarded-Encrypted: i=1; AKwUvBztGKwReUqVmRTmgm/b3dBCjx+C27owArcnPblRaex7APpqloTeT61uWxESUKkwarnmMuI58Gs5DdPSjQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++ndZUxFo3u/TbtKGSb4RlXnq0mgFIjsFNyARVRCCMinsJU/V3Ta
+	CdmQAFOZtHujl5GNJ1EZlZCaAURPmqfAc/jl8sIchUv2ChnlsZzokEsl
+X-Gm-Gg: AYBFou0q9kTABSvoxaVn9SLqMsLAEJbTJ1pSIuTuaiGcMYxgvu627N0YBcGpEGSmO8z
+	9xOxW3PlVd67vV3NuXbOWNJ+ZOAHKvrKcp9bD6U0B+djub2F3ppls9eGra5beFRcNjwICl1V1Oc
+	0GVh8kb51Heuv6m+ozYagmDNAeGHIgQK85Fw9ovKo2FNIv1MpUvsVEw2EPTnKxg5Tj1+ocdb1Ts
+	AfbnOz32E9uvqmDaTzycGjlKKdl2OzI+Ee30dFZ9zoT+FHwHS98tgo9O7YbHrx7A6mVOAAKQ0oZ
+	6DuhbV4u9jFZP4SvgkgPUnbFGbCEMcExaod/KDzBvFWqnUtWpfswOJA55+hSoW9e4UTOrT1hSxK
+	EjVf1F5M2ImqrSXelbbNYSHm/ROV1OAarh7na3hRtSbNUrXKqAgUX2wqzRJzbz1xxxQ29KXUhG/
+	zc1ItHIlj4kSBmryCRJb4Ab6MFfzHfhoJ7Yguxo0dqQnaVJTCBR9nZ/QHr+sb5TNIUEWeJ/cQB9
+	RZxij1ElqRyBFYVZNTlK3rjaybVVz7dIA0K0vRM4sLCERnIOvcyX1rkwg+qpblso1FuxcnVP6Jy
+	jyKFeGjIIwtgpNwFvHTYFqfBWQviDZq43dRQDvBuU1hogvNcHTvKyP16Zknu/wD2szpf41G/55m
+	x4o5snP7Fr/+Vtb/Anq5W
+X-Received: by 2002:a05:6820:c89:b0:6d8:bba5:6589 with SMTP id 006d021491bc7-6d8bba56c55mr1492864eaf.48.1790546426064;
+        Sun, 27 Sep 2026 15:00:26 -0700 (PDT)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-81b3de6f7e1sm4874147a34.22.2026.09.27.15.00.26
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-81b3de6f7e1sm4874147a34.22.2026.09.27.15.00.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 15:00:28 -0700 (PDT)
+        Sun, 27 Sep 2026 15:00:25 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sun, 27 Sep 2026 15:59:51 -0600
-Subject: [PATCH net-next v5 16/19] xsk: allow drivers to retain DMA
- mappings independently of pools
+Date: Sun, 27 Sep 2026 15:59:50 -0600
+Subject: [PATCH net-next v5 15/19] net: stmmac: restore TC offloads before
+ restarting DMA
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,7 +74,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260927-submit-stmmac-reset-fixes-v1-v5-16-feec6c14dd06@gmail.com>
+Message-Id: <20260927-submit-stmmac-reset-fixes-v1-v5-15-feec6c14dd06@gmail.com>
 References: <20260927-submit-stmmac-reset-fixes-v1-v5-0-feec6c14dd06@gmail.com>
 In-Reply-To: <20260927-submit-stmmac-reset-fixes-v1-v5-0-feec6c14dd06@gmail.com>
 To: Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
@@ -122,244 +122,724 @@ Cc: Richard Genoud <richard.genoud@bootlin.com>,
  linux-sunxi@lists.linux.dev, James Hilliard <james.hilliard1@gmail.com>
 X-Mailer: b4 0.15.2
 
-An unsuccessful device shutdown does not make its DMA memory safe to
-unmap. AF_XDP pool removal must nevertheless complete: the last socket
-release invokes the driver detach callback and then destroys the pool,
-regardless of the callback's return value.
+A DMA software reset loses MAC filters and the MTL gate schedule, not
+just the ring addresses. Build on Lorenzo Bianconi's EST replay helper
+and embedded schedule state to restore the remaining offloads during
+ordinary hardware setup and resume. The later live-XDP reset fallback
+and retained-ring MTU transaction use the same restoration.
 
-Provide an independent reference to the existing DMA mapping and its
-UMEM pages. A driver can take it while installing rings and release it
-after DMA has actually stopped. Retain the pool and buffer-head storage
-separately from the pool users reference which triggers teardown. This
-lets a driver keep DMA-owned frames out of the reusable free list even
-after socket teardown has released its fill and completion rings.
+Keep the parsed L3/L4 rule rather than only its cookie. Program from
+that saved definition both when installing a rule and after reset. Do
+not publish a partially programmed replacement; restore the previous
+slot when installation fails. Keep runtime VLAN priorities in the
+existing queue configuration and replay EtherType steering and the
+configured preemption/TC mapping. Preserve the additional fragment size.
 
-Return retained buffers only after DMA shutdown, before dropping the DMA
-reference. Keeping pages pinned alone does not prevent an active pool
-from recycling a frame still reachable by hardware. The retained metadata
-does not permit other pool operations after detach.
+Use stmmac_setup_est() after timestamp initialization, with the PTP mutex
+held. Read the counter internally under the PTP lock so reset replay can
+run while public PHC operations remain blocked. Advance the saved base
+time by whole cycles when necessary. Delay DMA start until filters,
+timestamp state and the gate schedule have been restored. Propagate a
+replay error through the existing rollback or detached recovery path.
 
-Keep the DMA device and the mapping's netdev lookup key allocated,
-without taking a netdev usage reference that would prevent unregister.
-Save the mapping attributes and unmap before dropping the last retained
-UMEM reference. Mapping reference operations are serialized by RTNL,
-like the existing mapping list operations.
+Build and validate TAPRIO replacements separately, including the PHC time
+read, and publish the saved schedule only after hardware setup succeeds.
+Keep the previous schedule on rejection and attempt to restore it after
+a programming error. A rejected first install must not leave an enabled
+zero-cycle cache for PHC adjustment or reset replay. Serialize schedule
+publication with those consumers under the PTP mutex.
+
+Pass the unpublished schedule to the same EST base-time and hardware
+programming helper used by open, resume and PHC time adjustment. Keep
+public TAPRIO requests gated while the PHC is blocked, without blocking
+internal reset replay.
 
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
-Changes in v5:
-- Retain pool/head storage independently of socket users so DMA-owned
-  frames need not be returned to the free list during pool removal.
-- Keep the saved mapping in a separate reference object, since detach
-  clears the pool's device and DMA lookup state.
----
- include/net/xdp_sock_drv.h  | 25 +++++++++++++++++
- include/net/xsk_buff_pool.h |  7 +++++
- net/xdp/xsk_buff_pool.c     | 67 +++++++++++++++++++++++++++++++++++++++++++--
- 3 files changed, 96 insertions(+), 3 deletions(-)
+ drivers/net/ethernet/stmicro/stmmac/stmmac.h      |   8 +
+ drivers/net/ethernet/stmicro/stmmac/stmmac_est.c  |  29 ++-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_est.h  |   4 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_fpe.c  |   1 +
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c |  32 +--
+ drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c  |   2 +-
+ drivers/net/ethernet/stmicro/stmmac/stmmac_tc.c   | 275 +++++++++++++---------
+ 7 files changed, 216 insertions(+), 135 deletions(-)
 
-diff --git a/include/net/xdp_sock_drv.h b/include/net/xdp_sock_drv.h
-index d94aeb506379..a39768b1c00f 100644
---- a/include/net/xdp_sock_drv.h
-+++ b/include/net/xdp_sock_drv.h
-@@ -95,6 +95,22 @@ static inline void xsk_pool_dma_unmap(struct xsk_buff_pool *pool,
- 	xp_dma_unmap(pool, attrs);
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac.h b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
+index 38370f2cbe87..04d08b2c1e3f 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac.h
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac.h
+@@ -151,6 +151,9 @@ struct stmmac_fpe_cfg {
+ 	struct ethtool_mmsv mmsv;
+ 	const struct stmmac_fpe_reg *reg;
+ 	u32 fpe_csr;	/* MAC_FPE_CTRL_STS reg cache */
++	u32 preemptible_tcs;
++	u32 add_frag_size;
++	bool mapping_configured;
+ };
+ 
+ struct stmmac_tc_entry {
+@@ -194,6 +197,10 @@ struct stmmac_flow_entry {
+ 	unsigned long cookie;
+ 	unsigned long action;
+ 	u8 ip_proto;
++	u32 ip4_src;
++	u32 ip4_dst;
++	u16 port_src;
++	u16 port_dst;
+ 	int in_use;
+ 	int idx;
+ 	int is_l4;
+@@ -440,6 +447,7 @@ void stmmac_set_ethtool_ops(struct net_device *netdev);
+ void stmmac_ptp_register(struct stmmac_priv *priv);
+ void stmmac_ptp_unregister(struct stmmac_priv *priv);
+ int stmmac_ptp_restore(struct stmmac_priv *priv);
++int stmmac_tc_restore_filters(struct stmmac_priv *priv);
+ int stmmac_xdp_open(struct net_device *dev);
+ void stmmac_xdp_release(struct net_device *dev);
+ int stmmac_get_phy_intf_sel(phy_interface_t interface);
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_est.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_est.c
+index 49edfebbc39e..059ef60c13d0 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_est.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_est.c
+@@ -80,29 +80,42 @@ static int est_configure(struct stmmac_priv *priv, struct stmmac_est *cfg,
+ 	return 0;
  }
  
-+/* RTNL must be held. Retain mappings, pages and buffer metadata without
-+ * postponing the socket's detach callback. Do not return DMA-owned buffers
-+ * with xsk_buff_free() until hardware has stopped, even after pool removal.
-+ * Afterwards, free those buffers before putting the reference. This does not
-+ * retain the FILL/COMPLETION rings or allow other pool operations after detach.
-+ */
-+static inline struct xsk_dma_ref *xsk_pool_dma_get(struct xsk_buff_pool *pool)
-+{
-+	return xp_dma_get(pool);
-+}
-+
-+static inline void xsk_pool_dma_put(struct xsk_dma_ref *ref)
-+{
-+	xp_dma_put(ref);
-+}
-+
- static inline int xsk_pool_dma_map(struct xsk_buff_pool *pool,
- 				   struct device *dev, unsigned long attrs)
+-int __stmmac_setup_est(struct stmmac_priv *priv)
++/* Program either the installed schedule or an unpublished replacement. */
++int __stmmac_setup_est(struct stmmac_priv *priv, struct stmmac_est *est)
  {
-@@ -432,6 +448,15 @@ static inline void xsk_pool_dma_unmap(struct xsk_buff_pool *pool,
+ 	struct timespec64 current_time, time;
+ 	ktime_t current_time_ns, basetime;
++	unsigned long flags;
++	u64 now;
+ 	u64 cycle_time;
+ 	int err;
+ 
+ 	lockdep_assert_held(&priv->est_lock);
++	lockdep_assert_held(&priv->ptp_mutex);
+ 
+-	priv->ptp_clock_ops.gettime64(&priv->ptp_clock_ops, &current_time);
++	if (!priv->ptp_enabled)
++		return -EOPNOTSUPP;
++
++	/* Reset replay owns ptp_mutex while public PHC reads are blocked. */
++	read_lock_irqsave(&priv->ptp_lock, flags);
++	err = stmmac_get_systime(priv, priv->ptpaddr, &now);
++	read_unlock_irqrestore(&priv->ptp_lock, flags);
++	if (err)
++		return err;
++	current_time = ns_to_timespec64(now);
+ 	current_time_ns = timespec64_to_ktime(current_time);
+ 
+-	time.tv_nsec = priv->est.btr_reserve[0];
+-	time.tv_sec = priv->est.btr_reserve[1];
++	time.tv_nsec = est->btr_reserve[0];
++	time.tv_sec = est->btr_reserve[1];
+ 	basetime = timespec64_to_ktime(time);
+ 
+-	cycle_time = (u64)priv->est.ctr[1] * NSEC_PER_SEC + priv->est.ctr[0];
++	cycle_time = (u64)est->ctr[1] * NSEC_PER_SEC + est->ctr[0];
+ 
+ 	time = stmmac_calc_tas_basetime(basetime, current_time_ns, cycle_time);
+-	priv->est.btr[0] = (u32)time.tv_nsec;
+-	priv->est.btr[1] = (u32)time.tv_sec;
++	est->btr[0] = (u32)time.tv_nsec;
++	est->btr[1] = (u32)time.tv_sec;
+ 
+-	err = stmmac_est_configure(priv, priv, &priv->est,
++	err = stmmac_est_configure(priv, priv, est,
+ 				   priv->plat->clk_ptp_rate, true);
+ 	if (err)
+ 		netdev_err(priv->dev, "failed to re-configure EST\n");
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_est.h b/drivers/net/ethernet/stmicro/stmmac/stmmac_est.h
+index b4d1a1f04f10..5665e7a53994 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_est.h
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_est.h
+@@ -66,14 +66,14 @@
+ 
+ extern const struct stmmac_est_ops dwmac510_est_ops;
+ 
+-int __stmmac_setup_est(struct stmmac_priv *priv);
++int __stmmac_setup_est(struct stmmac_priv *priv, struct stmmac_est *est);
+ static inline int stmmac_setup_est(struct stmmac_priv *priv)
  {
+ 	int ret = 0;
+ 
+ 	mutex_lock(&priv->est_lock);
+ 	if (priv->est.enable)
+-		ret = __stmmac_setup_est(priv);
++		ret = __stmmac_setup_est(priv, &priv->est);
+ 	mutex_unlock(&priv->est_lock);
+ 
+ 	return ret;
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_fpe.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_fpe.c
+index c889204a7aa5..067ea1f5134b 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_fpe.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_fpe.c
+@@ -195,6 +195,7 @@ void stmmac_fpe_set_add_frag_size(struct stmmac_priv *priv, u32 add_frag_size)
+ 	value = readl(ioaddr + reg->mtl_fpe_reg);
+ 	writel(u32_replace_bits(value, add_frag_size, FPE_MTL_ADD_FRAG_SZ),
+ 	       ioaddr + reg->mtl_fpe_reg);
++	priv->fpe_cfg.add_frag_size = add_frag_size;
  }
  
-+static inline struct xsk_dma_ref *xsk_pool_dma_get(struct xsk_buff_pool *pool)
-+{
-+	return NULL;
-+}
-+
-+static inline void xsk_pool_dma_put(struct xsk_dma_ref *ref)
-+{
-+}
-+
- static inline int xsk_pool_dma_map(struct xsk_buff_pool *pool,
- 				   struct device *dev, unsigned long attrs)
- {
-diff --git a/include/net/xsk_buff_pool.h b/include/net/xsk_buff_pool.h
-index a7df573784fd..df7e20fe5ae3 100644
---- a/include/net/xsk_buff_pool.h
-+++ b/include/net/xsk_buff_pool.h
-@@ -11,6 +11,7 @@
- #include <net/xdp.h>
+ #define ALG_ERR_MSG "TX algorithm SP is not suitable for one-to-many mapping"
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index 95757f3cbc64..f5060924dae8 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -3829,6 +3829,11 @@ static int stmmac_hw_setup(struct net_device *dev)
+ 		if (ret)
+ 			return ret;
+ 	}
++	ret = stmmac_tc_restore_filters(priv);
++	if (ret)
++		return ret;
++	if (stmmac_fpe_supported(priv))
++		stmmac_fpe_set_add_frag_size(priv, priv->fpe_cfg.add_frag_size);
  
- struct xsk_buff_pool;
-+struct xsk_dma_ref;
- struct xdp_rxq_info;
- struct xsk_cb_desc;
- struct xsk_queue;
-@@ -38,6 +39,8 @@ struct xsk_dma_map {
- 	dma_addr_t *dma_pages;
- 	struct device *dev;
- 	struct net_device *netdev;
-+	struct xdp_umem *umem;
-+	unsigned long attrs;
- 	refcount_t users;
- 	struct list_head list; /* Protected by the RTNL_LOCK */
- 	u32 dma_pages_cnt;
-@@ -52,6 +55,8 @@ struct xsk_buff_pool {
- 	spinlock_t xsk_tx_list_lock;
- 	refcount_t users;
- 	struct xdp_umem *umem;
-+	/* Pool/head storage; DMA references must not postpone socket teardown. */
-+	refcount_t refs;
- 	struct work_struct work;
- 	/* Protects generic receive in shared and non-shared umem mode. */
- 	spinlock_t rx_lock;
-@@ -143,6 +148,8 @@ void xp_fill_cb(struct xsk_buff_pool *pool, struct xsk_cb_desc *desc);
- int xp_dma_map(struct xsk_buff_pool *pool, struct device *dev,
- 	       unsigned long attrs, struct page **pages, u32 nr_pages);
- void xp_dma_unmap(struct xsk_buff_pool *pool, unsigned long attrs);
-+struct xsk_dma_ref *xp_dma_get(struct xsk_buff_pool *pool);
-+void xp_dma_put(struct xsk_dma_ref *ref);
- struct xdp_buff *xp_alloc(struct xsk_buff_pool *pool);
- u32 xp_alloc_batch(struct xsk_buff_pool *pool, struct xdp_buff **xdp, u32 max);
- bool xp_can_alloc(struct xsk_buff_pool *pool, u32 count);
-diff --git a/net/xdp/xsk_buff_pool.c b/net/xdp/xsk_buff_pool.c
-index c58f56f24a9c..8c71974494c9 100644
---- a/net/xdp/xsk_buff_pool.c
-+++ b/net/xdp/xsk_buff_pool.c
-@@ -12,6 +12,11 @@
- 
- #define ETH_PAD_LEN (ETH_HLEN + 2 * VLAN_HLEN  + ETH_FCS_LEN)
- 
-+struct xsk_dma_ref {
-+	struct xsk_dma_map *dma_map;
-+	struct xsk_buff_pool *pool;
-+};
-+
- void xp_add_xsk(struct xsk_buff_pool *pool, struct xdp_sock *xs)
- {
- 	if (!xs->tx)
-@@ -34,7 +39,7 @@ void xp_del_xsk(struct xsk_buff_pool *pool, struct xdp_sock *xs)
- 
- void xp_destroy(struct xsk_buff_pool *pool)
- {
--	if (!pool)
-+	if (!pool || !refcount_dec_and_test(&pool->refs))
- 		return;
- 
- 	kvfree(pool->tx_descs);
-@@ -68,6 +73,7 @@ struct xsk_buff_pool *xp_create_and_assign_umem(struct xdp_sock *xs,
- 	pool = kvzalloc_flex(*pool, free_heads, entries);
- 	if (!pool)
- 		goto out;
-+	refcount_set(&pool->refs, 1);
- 
- 	pool->heads = kvzalloc_objs(*pool->heads, umem->chunks);
- 	if (!pool->heads)
-@@ -360,7 +366,8 @@ static struct xsk_dma_map *xp_find_dma_map(struct xsk_buff_pool *pool)
- }
- 
- static struct xsk_dma_map *xp_create_dma_map(struct device *dev, struct net_device *netdev,
--					     u32 nr_pages, struct xdp_umem *umem)
-+					     u32 nr_pages, struct xdp_umem *umem,
-+					     unsigned long attrs)
- {
- 	struct xsk_dma_map *dma_map;
- 
-@@ -376,6 +383,8 @@ static struct xsk_dma_map *xp_create_dma_map(struct device *dev, struct net_devi
- 
- 	dma_map->netdev = netdev;
- 	dma_map->dev = dev;
-+	dma_map->umem = umem;
-+	dma_map->attrs = attrs;
- 	dma_map->dma_pages_cnt = nr_pages;
- 	refcount_set(&dma_map->users, 1);
- 	list_add(&dma_map->list, &umem->xsk_dma_list);
-@@ -430,6 +439,58 @@ void xp_dma_unmap(struct xsk_buff_pool *pool, unsigned long attrs)
- }
- EXPORT_SYMBOL(xp_dma_unmap);
- 
-+struct xsk_dma_ref *xp_dma_get(struct xsk_buff_pool *pool)
-+{
-+	struct xsk_dma_map *dma_map;
-+	struct xsk_dma_ref *ref;
-+
-+	ASSERT_RTNL();
-+	if (!pool->dma_pages)
-+		return NULL;
-+	dma_map = xp_find_dma_map(pool);
-+	if (WARN_ON_ONCE(!dma_map))
-+		return NULL;
-+
-+	ref = kmalloc_obj(*ref);
-+	if (!ref)
-+		return NULL;
-+	ref->dma_map = dma_map;
-+	ref->pool = pool;
-+	refcount_inc(&pool->refs);
-+	refcount_inc(&dma_map->users);
-+	xdp_get_umem(dma_map->umem);
-+	get_device(dma_map->dev);
-+	/* Keep the mapping's lookup key alive without preventing unregister. */
-+	get_device(&dma_map->netdev->dev);
-+	return ref;
-+}
-+EXPORT_SYMBOL_GPL(xp_dma_get);
-+
-+void xp_dma_put(struct xsk_dma_ref *ref)
-+{
-+	struct xsk_dma_map *dma_map;
-+	struct net_device *netdev;
-+	struct xdp_umem *umem;
-+	struct device *dev;
-+
-+	ASSERT_RTNL();
-+	if (!ref)
-+		return;
-+	dma_map = ref->dma_map;
-+	dev = dma_map->dev;
-+	netdev = dma_map->netdev;
-+	umem = dma_map->umem;
-+	if (refcount_dec_and_test(&dma_map->users))
-+		__xp_dma_unmap(dma_map, dma_map->attrs);
-+	/* Unmap before the final reference can unpin the UMEM pages. */
-+	xdp_put_umem(umem, false);
-+	put_device(&netdev->dev);
-+	put_device(dev);
-+	xp_destroy(ref->pool);
-+	kfree(ref);
-+}
-+EXPORT_SYMBOL_GPL(xp_dma_put);
-+
- static void xp_check_dma_contiguity(struct xsk_dma_map *dma_map)
- {
- 	u32 i;
-@@ -487,7 +548,7 @@ int xp_dma_map(struct xsk_buff_pool *pool, struct device *dev,
- 		return 0;
+ 	/* Initialize Safety Features */
+ 	stmmac_safety_feat_configuration(priv);
+@@ -3891,9 +3896,6 @@ static int stmmac_hw_setup(struct net_device *dev)
+ 		stmmac_enable_tbs(priv, priv->ioaddr, enable, chan);
  	}
  
--	dma_map = xp_create_dma_map(dev, pool->netdev, nr_pages, pool->umem);
-+	dma_map = xp_create_dma_map(dev, pool->netdev, nr_pages, pool->umem, attrs);
- 	if (!dma_map)
- 		return -ENOMEM;
+-	/* Start the ball rolling... */
+-	stmmac_start_all_dma(priv);
+-
+ 	phylink_rx_clk_stop_block(priv->phylink);
+ 	stmmac_set_hw_vlan_mode(priv, priv->hw);
+ 	phylink_rx_clk_stop_unblock(priv->phylink);
+@@ -4441,16 +4443,17 @@ static int __stmmac_open(struct net_device *dev,
+ 	if (ret)
+ 		goto init_error;
  
+-	/* The core soft reset in stmmac_hw_setup() clears the MTL_EST
+-	 * registers, so re-apply the taprio offload after PTP is up.
+-	 */
+-	ret = stmmac_setup_est(priv);
+-	if (ret < 0)
+-		goto est_error;
+-
+ 	stmmac_init_coalesce(priv);
+ 
+ 	stmmac_vlan_restore(priv);
++	mutex_lock(&priv->ptp_mutex);
++	ret = stmmac_setup_est(priv);
++	mutex_unlock(&priv->ptp_mutex);
++	if (ret)
++		goto irq_error;
++
++	/* All reset-sensitive offloads must be installed before DMA runs. */
++	stmmac_start_all_dma(priv);
+ 
+ 	ret = stmmac_request_irq(dev);
+ 	if (ret)
+@@ -4478,7 +4481,6 @@ static int __stmmac_open(struct net_device *dev,
+ 	for (chan = 0; chan < priv->plat->tx_queues_to_use; chan++)
+ 		hrtimer_cancel(&priv->dma_conf->tx_queue[chan].txtimer);
+ 
+-est_error:
+ 	stmmac_release_ptp(priv);
+ init_error:
+ 	/* Undo phylink_prepare_resume() even if hardware setup failed before
+@@ -8892,10 +8894,11 @@ int stmmac_resume(struct device *dev)
+ 
+ init_coalesce:
+ 	mutex_lock(&priv->ptp_mutex);
+-	stmmac_block_ptp(priv, false);
+-	mutex_unlock(&priv->ptp_mutex);
+ 	ret = stmmac_setup_est(priv);
+-	if (ret < 0)
++	if (!ret)
++		stmmac_block_ptp(priv, false);
++	mutex_unlock(&priv->ptp_mutex);
++	if (ret)
+ 		goto error_stop_dma;
+ 
+ 	stmmac_init_coalesce(priv);
+@@ -8905,6 +8908,7 @@ int stmmac_resume(struct device *dev)
+ 
+ 	stmmac_vlan_restore(priv);
+ 
++	stmmac_start_all_dma(priv);
+ 	stmmac_enable_all_queues(priv);
+ 	stmmac_enable_all_dma_irq(priv);
+ 	stmmac_unmask_pci_irq(priv);
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c
+index b34711231227..f27c6ff210a3 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c
+@@ -107,7 +107,7 @@ static int stmmac_adjust_time(struct ptp_clock_info *ptp, s64 delta)
+ 	 * error, but do not report success if only schedule replay failed.
+ 	 */
+ 	if (priv->est.enable) {
+-		err = __stmmac_setup_est(priv);
++		err = __stmmac_setup_est(priv, &priv->est);
+ 		if (!ret)
+ 			ret = err;
+ 	}
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_tc.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_tc.c
+index cac2b6e34c94..06089d47f373 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_tc.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_tc.c
+@@ -15,12 +15,17 @@
+ static int tc_config_preemption(struct stmmac_priv *priv,
+ 				struct netlink_ext_ack *extack, u32 preemptible_tcs)
+ {
+-	/* Qdisc teardown must not access unpowered registers. */
+-	if (priv->hw_unavailable)
+-		return 0;
++	int ret = 0;
+ 
+-	return stmmac_fpe_map_preemption_class(priv, priv->dev, extack,
+-					      preemptible_tcs);
++	/* Qdisc teardown still clears the saved mapping after failed resume. */
++	if (!priv->hw_unavailable)
++		ret = stmmac_fpe_map_preemption_class(priv, priv->dev, extack,
++						      preemptible_tcs);
++	if (!ret) {
++		priv->fpe_cfg.preemptible_tcs = preemptible_tcs;
++		priv->fpe_cfg.mapping_configured = true;
++	}
++	return ret;
+ }
+ 
+ static void tc_fill_all_pass_entry(struct stmmac_tc_entry *entry)
+@@ -520,31 +525,15 @@ static int tc_add_ip4_flow(struct stmmac_priv *priv,
+ {
+ 	struct flow_rule *rule = flow_cls_offload_flow_rule(cls);
+ 	struct flow_dissector *dissector = rule->match.dissector;
+-	bool inv = entry->action & STMMAC_FLOW_ACTION_DROP;
+ 	struct flow_match_ipv4_addrs match;
+-	u32 hw_match;
+-	int ret;
+ 
+ 	/* Nothing to do here */
+ 	if (!dissector_uses_key(dissector, FLOW_DISSECTOR_KEY_IPV4_ADDRS))
+ 		return -EINVAL;
+ 
+ 	flow_rule_match_ipv4_addrs(rule, &match);
+-	hw_match = ntohl(match.key->src) & ntohl(match.mask->src);
+-	if (hw_match) {
+-		ret = stmmac_config_l3_filter(priv, priv->hw, entry->idx, true,
+-					      false, true, inv, hw_match);
+-		if (ret)
+-			return ret;
+-	}
+-
+-	hw_match = ntohl(match.key->dst) & ntohl(match.mask->dst);
+-	if (hw_match) {
+-		ret = stmmac_config_l3_filter(priv, priv->hw, entry->idx, true,
+-					      false, false, inv, hw_match);
+-		if (ret)
+-			return ret;
+-	}
++	entry->ip4_src = ntohl(match.key->src) & ntohl(match.mask->src);
++	entry->ip4_dst = ntohl(match.key->dst) & ntohl(match.mask->dst);
+ 
+ 	return 0;
+ }
+@@ -555,11 +544,7 @@ static int tc_add_ports_flow(struct stmmac_priv *priv,
+ {
+ 	struct flow_rule *rule = flow_cls_offload_flow_rule(cls);
+ 	struct flow_dissector *dissector = rule->match.dissector;
+-	bool inv = entry->action & STMMAC_FLOW_ACTION_DROP;
+ 	struct flow_match_ports match;
+-	u32 hw_match;
+-	bool is_udp;
+-	int ret;
+ 
+ 	/* Nothing to do here */
+ 	if (!dissector_uses_key(dissector, FLOW_DISSECTOR_KEY_PORTS))
+@@ -567,10 +552,7 @@ static int tc_add_ports_flow(struct stmmac_priv *priv,
+ 
+ 	switch (entry->ip_proto) {
+ 	case IPPROTO_TCP:
+-		is_udp = false;
+-		break;
+ 	case IPPROTO_UDP:
+-		is_udp = true;
+ 		break;
+ 	default:
+ 		return -EINVAL;
+@@ -578,23 +560,46 @@ static int tc_add_ports_flow(struct stmmac_priv *priv,
+ 
+ 	flow_rule_match_ports(rule, &match);
+ 
+-	hw_match = ntohs(match.key->src) & ntohs(match.mask->src);
+-	if (hw_match) {
+-		ret = stmmac_config_l4_filter(priv, priv->hw, entry->idx, true,
+-					      is_udp, true, inv, hw_match);
++	entry->port_src = ntohs(match.key->src) & ntohs(match.mask->src);
++	entry->port_dst = ntohs(match.key->dst) & ntohs(match.mask->dst);
++
++	entry->is_l4 = true;
++	return 0;
++}
++
++static int tc_config_flow(struct stmmac_priv *priv,
++			  const struct stmmac_flow_entry *entry)
++{
++	bool inv = entry->action & STMMAC_FLOW_ACTION_DROP;
++	bool udp = entry->ip_proto == IPPROTO_UDP;
++	int ret;
++
++	/* Clear the whole slot, including matches removed by a replacement. */
++	ret = stmmac_config_l3_filter(priv, priv->hw, entry->idx, false,
++				      false, false, false, 0);
++	if (ret || !entry->in_use)
++		return ret;
++	if (entry->ip4_src) {
++		ret = stmmac_config_l3_filter(priv, priv->hw, entry->idx, true,
++					      false, true, inv, entry->ip4_src);
+ 		if (ret)
+ 			return ret;
+ 	}
+-
+-	hw_match = ntohs(match.key->dst) & ntohs(match.mask->dst);
+-	if (hw_match) {
++	if (entry->ip4_dst) {
++		ret = stmmac_config_l3_filter(priv, priv->hw, entry->idx, true,
++					      false, false, inv, entry->ip4_dst);
++		if (ret)
++			return ret;
++	}
++	if (entry->port_src) {
+ 		ret = stmmac_config_l4_filter(priv, priv->hw, entry->idx, true,
+-					      is_udp, false, inv, hw_match);
++					    udp, true, inv, entry->port_src);
+ 		if (ret)
+ 			return ret;
+ 	}
+-
+-	entry->is_l4 = true;
++	if (entry->port_dst)
++		return stmmac_config_l4_filter(priv, priv->hw, entry->idx, true,
++					      udp, false, inv, entry->port_dst);
+ 	return 0;
+ }
+ 
+@@ -630,6 +635,7 @@ static int tc_add_flow(struct stmmac_priv *priv,
+ {
+ 	struct stmmac_flow_entry *entry = tc_find_flow(priv, cls, false);
+ 	struct flow_rule *rule = flow_cls_offload_flow_rule(cls);
++	struct stmmac_flow_entry new = {};
+ 	int i, ret;
+ 
+ 	if (!entry) {
+@@ -638,23 +644,33 @@ static int tc_add_flow(struct stmmac_priv *priv,
+ 			return -ENOENT;
+ 	}
+ 
+-	ret = tc_parse_flow_actions(priv, &rule->action, entry,
++	new.idx = entry->idx;
++	ret = tc_parse_flow_actions(priv, &rule->action, &new,
+ 				    cls->common.extack);
+ 	if (ret)
+ 		return ret;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(tc_flow_parsers); i++) {
+-		ret = tc_flow_parsers[i].fn(priv, cls, entry);
++		ret = tc_flow_parsers[i].fn(priv, cls, &new);
+ 		if (!ret)
+-			entry->in_use = true;
++			new.in_use = true;
+ 		else if (ret == -EOPNOTSUPP)
+ 			return ret;
+ 	}
+ 
+-	if (!entry->in_use)
++	if (!new.in_use)
+ 		return -EINVAL;
+ 
+-	entry->cookie = cls->cookie;
++	ret = tc_config_flow(priv, &new);
++	if (ret) {
++		/* Do not publish a rule that was only partially programmed. */
++		if (tc_config_flow(priv, entry))
++			netdev_err(priv->dev, "failed to restore flower filter %d\n",
++				   entry->idx);
++		return ret;
++	}
++	new.cookie = cls->cookie;
++	*entry = new;
+ 	return 0;
+ }
+ 
+@@ -740,6 +756,8 @@ static int tc_add_vlan_flow(struct stmmac_priv *priv,
+ 
+ 		prio = BIT(match.key->vlan_priority);
+ 		stmmac_rx_queue_prio(priv, priv->hw, prio, tc);
++		priv->plat->rx_queues_cfg[tc].prio = prio;
++		priv->plat->rx_queues_cfg[tc].use_prio = true;
+ 
+ 		entry->in_use = true;
+ 		entry->cookie = cls->cookie;
+@@ -761,6 +779,8 @@ static int tc_del_vlan_flow(struct stmmac_priv *priv,
+ 
+ 	if (stmmac_tc_active(priv))
+ 		stmmac_rx_queue_prio(priv, priv->hw, 0, entry->tc);
++	priv->plat->rx_queues_cfg[entry->tc].prio = 0;
++	priv->plat->rx_queues_cfg[entry->tc].use_prio = true;
+ 
+ 	entry->in_use = false;
+ 	entry->cookie = 0;
+@@ -935,6 +955,45 @@ static int tc_setup_cls(struct stmmac_priv *priv,
+ 	return ret;
+ }
+ 
++int stmmac_tc_restore_filters(struct stmmac_priv *priv)
++{
++	int i, ret;
++
++	for (i = 0; i < priv->flow_entries_max; i++) {
++		struct stmmac_flow_entry *entry = &priv->flow_entries[i];
++
++		if (!entry->in_use)
++			continue;
++		ret = tc_config_flow(priv, entry);
++		if (ret)
++			return ret;
++	}
++	for (i = 0; i < priv->rfs_entries_total; i++) {
++		struct stmmac_rfs_entry *entry = &priv->rfs_entries[i];
++
++		if (!entry->in_use)
++			continue;
++		switch (entry->type) {
++		/* VLAN priorities are replayed by stmmac_mtl_configuration(). */
++		case STMMAC_RFS_T_VLAN:
++			break;
++		case STMMAC_RFS_T_LLDP:
++			stmmac_rx_queue_routing(priv, priv->hw, PACKET_DCBCPQ,
++						entry->tc);
++			break;
++		case STMMAC_RFS_T_1588:
++			stmmac_rx_queue_routing(priv, priv->hw, PACKET_PTPQ,
++						entry->tc);
++			break;
++		}
++	}
++	/* The XGMAC callback also restores the runtime TC-to-queue mapping. */
++	if (priv->fpe_cfg.mapping_configured)
++		return tc_config_preemption(priv, NULL,
++					    priv->fpe_cfg.preemptible_tcs);
++	return 0;
++}
++
+ struct timespec64 stmmac_calc_tas_basetime(ktime_t old_base_time,
+ 					   ktime_t current_time,
+ 					   u64 cycle_time)
+@@ -958,7 +1017,7 @@ struct timespec64 stmmac_calc_tas_basetime(ktime_t old_base_time,
+ 	return time;
+ }
+ 
+-static void tc_taprio_map_maxsdu_txq(struct stmmac_priv *priv,
++static void tc_taprio_map_maxsdu_txq(struct stmmac_est *est,
+ 				     struct tc_taprio_qopt_offload *qopt)
+ {
+ 	u32 num_tc = qopt->mqprio.qopt.num_tc;
+@@ -975,7 +1034,7 @@ static void tc_taprio_map_maxsdu_txq(struct stmmac_priv *priv,
+ 		count = qopt->mqprio.qopt.count[i];
+ 
+ 		for (j = offset; j < offset + count; j++)
+-			priv->est.max_sdu[j] = qopt->max_sdu[i] + ETH_HLEN - ETH_TLEN;
++			est->max_sdu[j] = qopt->max_sdu[i] + ETH_HLEN - ETH_TLEN;
+ 	}
+ }
+ 
+@@ -984,10 +1043,10 @@ static int tc_taprio_configure(struct stmmac_priv *priv,
+ {
+ 	u32 size, wid = priv->dma_cap.estwid, dep = priv->dma_cap.estdep;
+ 	struct netlink_ext_ack *extack = qopt->mqprio.extack;
++	struct timespec64 qopt_time;
+ 	u64 ctr = qopt->cycle_time;
+-	struct timespec64 time;
+-	u32 *gcl = NULL;
+-	int i, ret = 0;
++	struct stmmac_est *est;
++	int i, ret;
+ 
+ 	if (qopt->base_time < 0)
+ 		return -ERANGE;
+@@ -1032,48 +1091,43 @@ static int tc_taprio_configure(struct stmmac_priv *priv,
+ 		return -EOPNOTSUPP;
+ 	}
+ 
+-	mutex_lock(&priv->est_lock);
+-
+ 	if (qopt->cmd == TAPRIO_CMD_DESTROY)
+ 		goto disable;
+-	if (priv->hw_unavailable) {
+-		ret = -EHOSTDOWN;
+-		goto unlock;
+-	}
+-
+-	if (qopt->num_entries > dep) {
+-		ret = -EINVAL;
+-		goto unlock;
+-	}
+-
+-	if (!qopt->cycle_time) {
+-		ret = -ERANGE;
+-		goto unlock;
+-	}
++	if (priv->hw_unavailable)
++		return -EHOSTDOWN;
++	if (!priv->ptp_enabled || !priv->ptp_clock_ops.gettime64)
++		return -EOPNOTSUPP;
++	/* Unlike reset replay, a new schedule requires an accessible PHC. */
++	if (priv->ptp_blocked)
++		return -EBUSY;
+ 
+-	if (qopt->cycle_time_extension >= BIT(wid + 7)) {
+-		ret = -ERANGE;
+-		goto unlock;
+-	}
++	if (qopt->num_entries > dep)
++		return -EINVAL;
++	if (!qopt->cycle_time)
++		return -ERANGE;
++	if (qopt->cycle_time_extension >= BIT(wid + 7))
++		return -ERANGE;
+ 
+-	gcl = kzalloc(sizeof(*gcl) * EST_GCL, GFP_KERNEL);
+-	if (!gcl) {
+-		ret = -ENOMEM;
+-		goto unlock;
+-	}
++	/* Build the replacement without changing the installed schedule. An
++	 * entry rejected below must not leave an enabled, zero-cycle cache for
++	 * PHC adjustment or reset replay to consume.
++	 */
++	est = kzalloc_obj(*est);
++	if (!est)
++		return -ENOMEM;
+ 
+ 	size = qopt->num_entries;
++	est->gcl_size = size;
++	est->enable = true;
++
+ 	for (i = 0; i < size; i++) {
+ 		s64 delta_ns = qopt->entries[i].interval;
+ 		u32 gates = qopt->entries[i].gate_mask;
+ 
+-		if (delta_ns > GENMASK(wid - 1, 0)) {
++		if (delta_ns > GENMASK(wid - 1, 0) ||
++		    gates > GENMASK(31 - wid, 0)) {
+ 			ret = -ERANGE;
+-			goto free_gcl;
+-		}
+-		if (gates > GENMASK(31 - wid, 0)) {
+-			ret = -ERANGE;
+-			goto free_gcl;
++			goto free_est;
+ 		}
+ 
+ 		switch (qopt->entries[i].command) {
+@@ -1087,61 +1141,59 @@ static int tc_taprio_configure(struct stmmac_priv *priv,
+ 			break;
+ 		default:
+ 			ret = -EOPNOTSUPP;
+-			goto free_gcl;
++			goto free_est;
+ 		}
+ 
+-		gcl[i] = delta_ns | (gates << wid);
++		est->gcl[i] = delta_ns | (gates << wid);
+ 	}
+ 
+-	memset(&priv->est, 0, sizeof(priv->est));
+-	memcpy(priv->est.gcl, gcl, sizeof(priv->est.gcl));
+-	priv->est.gcl_size = size;
+-
+-	time = ktime_to_timespec64(qopt->base_time);
+-	priv->est.btr_reserve[0] = (u32)time.tv_nsec;
+-	priv->est.btr_reserve[1] = (u32)time.tv_sec;
++	qopt_time = ktime_to_timespec64(qopt->base_time);
++	est->btr_reserve[0] = (u32)qopt_time.tv_nsec;
++	est->btr_reserve[1] = (u32)qopt_time.tv_sec;
++	est->ctr[0] = do_div(ctr, NSEC_PER_SEC);
++	est->ctr[1] = (u32)ctr;
++	est->ter = qopt->cycle_time_extension;
+ 
+-	priv->est.ctr[0] = do_div(ctr, NSEC_PER_SEC);
+-	priv->est.ctr[1] = (u32)ctr;
++	tc_taprio_map_maxsdu_txq(est, qopt);
+ 
+-	priv->est.ter = qopt->cycle_time_extension;
+-	tc_taprio_map_maxsdu_txq(priv, qopt);
+-
+-	ret = __stmmac_setup_est(priv);
++	mutex_lock(&priv->est_lock);
++	ret = __stmmac_setup_est(priv, est);
+ 	if (ret)
+-		goto disable;
++		goto restore;
+ 
+ 	ret = tc_config_preemption(priv, extack, qopt->mqprio.preemptible_tcs);
+ 	if (ret)
+-		goto disable;
+-
+-	priv->est.enable = true;
+-	kfree(gcl);
++		goto restore;
+ 
++	priv->est = *est;
+ 	mutex_unlock(&priv->est_lock);
++free_est:
++	kfree(est);
++	return ret;
+ 
+-	return 0;
++restore:
++	/* A failed hardware update must not publish the rejected schedule. */
++	if (stmmac_est_configure(priv, priv, &priv->est,
++				 priv->plat->clk_ptp_rate, priv->est.enable))
++		netdev_err(priv->dev, "failed to restore EST\n");
++	mutex_unlock(&priv->est_lock);
++	goto free_est;
+ 
+ disable:
++	mutex_lock(&priv->est_lock);
+ 	priv->est.enable = false;
+ 	if (!priv->hw_unavailable)
+ 		stmmac_est_configure(priv, priv, &priv->est,
+ 				     priv->plat->clk_ptp_rate, false);
+-	/* Reset taprio status */
++	/* Reset taprio stats */
+ 	for (i = 0; i < priv->plat->tx_queues_to_use; i++) {
+ 		priv->xstats.max_sdu_txq_drop[i] = 0;
+ 		priv->xstats.mtl_est_txq_hlbf[i] = 0;
+ 		priv->xstats.mtl_est_txq_hlbs[i] = 0;
+ 	}
+-	i = tc_config_preemption(priv, extack, 0);
+-	if (qopt->cmd == TAPRIO_CMD_DESTROY)
+-		ret = i;
+-free_gcl:
+-	kfree(gcl);
+-unlock:
+ 	mutex_unlock(&priv->est_lock);
+ 
+-	return ret;
++	return tc_config_preemption(priv, extack, 0);
+ }
+ 
+ static void tc_taprio_stats(struct stmmac_priv *priv,
+@@ -1182,7 +1234,10 @@ static int tc_setup_taprio(struct stmmac_priv *priv,
+ 	switch (qopt->cmd) {
+ 	case TAPRIO_CMD_REPLACE:
+ 	case TAPRIO_CMD_DESTROY:
++		/* Serialize cache publication with PHC adjustment and reset replay. */
++		mutex_lock(&priv->ptp_mutex);
+ 		err = tc_taprio_configure(priv, qopt);
++		mutex_unlock(&priv->ptp_mutex);
+ 		break;
+ 	case TAPRIO_CMD_STATS:
+ 		tc_taprio_stats(priv, qopt);
 
 -- 
 2.53.0
