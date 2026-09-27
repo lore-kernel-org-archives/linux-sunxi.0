@@ -1,215 +1,372 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3828175A7F;
-	Sun, 27 Sep 2026 00:33:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B791D54FA;
+	Sun, 27 Sep 2026 00:33:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790469184; cv=none; b=fED2rrkWdzFx5MMCOvDqH9mbpG+fGotHfLQu6z2fKmgOahHMe59+W6M0As9ai+W0fyuFBc+I2zrKve4hKmhePgM1okU+YRTXLBzAzM2BS3zepiBY6PcvTakeAzchHktZ8BgDWAXAh4bswDeWKbDeB/AK7W94xfxG0GH50e8AcpE=
+	t=1790469220; cv=none; b=t31m1LkMlGTKPPPnw1qw6dQCwd1OLVyajAwLXJ4lwaiIApDcT2NN6hj8hI19UXrI8tgSY/EhmJwl5FV+46pqevdkmPE+mhrbWO3WqdgRj/mGNDdgR+Cy2Te7Rc3wC3lmpnWCV/saJTd/+luq9ojVEzg/Da771TWrC1c9cFmfmbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790469184; c=relaxed/simple;
-	bh=WwqvmEa1vg+WDFnnzZ53bexVQ4i8spCkEiUtnM7Q5i8=;
+	s=arc-20240116; t=1790469220; c=relaxed/simple;
+	bh=q327XeqqI8gQTR3uth+c3vZx5GDF2iWRYzc7FHKricg=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=JulIJTZZP/ybhKUnVz9nruMoCUjvcWk7rVyZY5fM8kniUEM1vig03Y1R4Vw1wHSFjNZtq5/r4gxbY13NQd/kVbfKJmP+TLMQNdZxrfXMOJpMJ4LAGKOog+H3d99yGJD6LhPU5TmQNX/BQXa4qi06jqKvlv3/yq6C+NwglYXSBOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EBHG3tOn; arc=none smtp.client-ip=100.103.45.18
+	 Message-Id; b=k200UtMGYWcDck1WT9WNzThCBpDWrz2SVqF9fGp156xVF+D2+sGeHmeVIhpFkAYXQSS5f44TyHGTK89Hcal0+8ieYoPPC9yQg/hWVk0VFDVUIPuYzchSFWNkfxIFm3eBYTM2UTPFDHxBh1OrUh3c8MJ8x7i3Gha2+zzm8GuyKq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=baC2EbqK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EBHG3tOn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D69591F000FF;
-	Sun, 27 Sep 2026 00:33:02 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="baC2EbqK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB0E21F000FF;
+	Sun, 27 Sep 2026 00:33:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790469183;
-	bh=AowVa/f84DDfgFos0j1aelU2mgZ113mob+KTxM8h7N8=;
+	s=k20260515; t=1790469219;
+	bh=bzJh2atWvK8VAlXleJPm8Es8rlqFmh+gHDftz+bJXlc=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=EBHG3tOnxjXJdJqkjZvwaVgrTZ7nHBqaKUfVdMds5wRHztLU4T1tPh2uOCqMLpbv+
-	 mW3c0ty1usBwlDH21p9AYSeogoBbZ4UmHep1GFv8kBiMFgmWHPHhyw5wyBzjrZwKN+
-	 osCaocgOv6WqRuMeHktiID/9QEpHjhSB2G/vsnLQhwp09vmC5kwkFAz1BzvI8+eKwY
-	 hQNlOTfbRXmwCpQqb249wfGRlVmlh1IqfMBvT6a9BNPT742jgcUsjgc0aLdQGhDYl1
-	 bu6uUZevqCcxGrFubtgz60YHNiedwkOxt44IbTY3mZywZGuqMXsfNRdSr38+Krg8k/
-	 Cy1D0hN9pE+bQ==
+	b=baC2EbqKYE+JaEiuJMpxTNzGg7MpRoKt5QdQzpI1mKp7kMuauZ/CaYq5HZXSr8sPE
+	 UgzRtE0F2T0TyEEoEmtEc5kSgY3gs9iyxvgkNfLFj2U/uu8sxAtXKQYSykoZEVqg07
+	 uSr5rSQxH7nnT5Cm8W7KauiskyWBqzPXJlRmjlcE57/zeMzgCp12RJIGdMQi5xVyH8
+	 8/oc2FQpl4nL09Uia7AAlNl9EVjVoPwK5oQNGNK7Vd78nkCb4LCjsfZ2IUKgeBVN0V
+	 DZTjA/4oxpW3xiaONsz99TOqSkMBEkq2avDcnJGQDgwbxoO2P1txGipCo4Cf7XsFJs
+	 urSeQqtkNHWDQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 2/7] mailbox: sun55i: add Allwinner sun55i/sun60i
- 4-port Message Box driver
+Subject: Re: [PATCH v2 5/7] remoteproc: sunxi: add Allwinner XuanTie RISC-V
+ remoteproc driver
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Tim Michals" <tcmichals@gmail.com>
-Cc: conor+dt@kernel.org, robh@kernel.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
-In-Reply-To: <20260927002021.797069-3-tcmichals@gmail.com>
+Cc: devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20260927002021.797069-6-tcmichals@gmail.com>
 References: <20260922034711.190253-1-tcmichals@gmail.com>
  <20260927002021.797069-1-tcmichals@gmail.com>
- <20260927002021.797069-3-tcmichals@gmail.com>
+ <20260927002021.797069-6-tcmichals@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 27 Sep 2026 00:33:02 +0000
-Message-Id: <20260927003302.D69591F000FF@smtp.kernel.org>
+Date: Sun, 27 Sep 2026 00:33:38 +0000
+Message-Id: <20260927003338.CB0E21F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
-s) to consider:
-- [High] mailbox: sun55i: out-of-bounds array write in probe due to unbound=
-ed DT irq_cnt
-- [High] mailbox: sun55i: incorrect last_tx_done polling condition breaks T=
-X semantics
-- [High] mailbox: sun55i: NULL pointer dereference in IRQ handler during te=
-ardown
-- [High] mailbox: sun55i: lockless multi-IRQ concurrency causes FIFO underf=
-low
+Thank you for your contribution! Sashiko AI review found 10 potential issue=
+(s) to consider:
+- [High] remoteproc: sunxi: unbalanced disable_irq via crash_irq_enabled ra=
+ce
+- [High] remoteproc: sunxi: race on kick_msg and immediate txdone corrupts =
+mailbox
+- [High] remoteproc: sunxi: double mapping of DT regions with conflicting a=
+ttributes
+- [High] remoteproc: sunxi: premature core execution due to broken reset fa=
+llback logic
+- [High] remoteproc: sunxi: UAF of virtqueues due to late mailbox interrupts
+- [High] remoteproc: sunxi: UAF of priv in probe error path due to workqueu=
+e teardown
+- [High] remoteproc: sunxi: UAF of rproc in remove due to crash_irq_enabled=
+ data race
+- [Medium] remoteproc: sunxi: da_to_va translates unmatched ATT addresses a=
+s host PAs
+- [Medium] remoteproc: sunxi: missing teardown of crash IRQ on start failur=
+e leaks state
+- [Medium] remoteproc: sunxi: missing write flush of boot address causes ex=
+ecution race
 --
 
-commit d294abbd2180fd12203dc082ff7e6d574533c041
+commit e007f2bf04fe297a7d71605516a9a9ee48e727ef
 Author: Tim Michals <tcmichals@gmail.com>
 
-mailbox: sun55i: add Allwinner sun55i/sun60i 4-port Message Box driver
+remoteproc: sunxi: add Allwinner XuanTie RISC-V remoteproc driver
 
-This commit adds a mailbox driver for the 4-port hardware Message Box
-controller found on Allwinner sun55i and sun60i SoCs. It implements hardware
-FIFO communication across 12 logical channels for multiple heterogeneous co=
-res.
+Add remoteproc driver for the auxiliary Alibaba T-Head XuanTie E907
+RISC-V co-processor found on Allwinner A523, A527, and T527 SoCs.
 
-> diff --git a/drivers/mailbox/sun55i-msgbox.c b/drivers/mailbox/sun55i-msg=
-box.c
-> new file mode 100644
-> index 0000000000000..928e52e08bad4
+> diff --git a/drivers/remoteproc/sunxi_rproc.c b/drivers/remoteproc/sunxi_=
+rproc.c
+> index 0000000000000..fbb0ee8a91105
 > --- /dev/null
-> +++ b/drivers/mailbox/sun55i-msgbox.c
-> @@ -0,0 +1,375 @@
+> +++ b/drivers/remoteproc/sunxi_rproc.c
 [ ... ]
-> +irqreturn_t sun55i_msgbox_irq(int irq, void *dev_id)
+> +static irqreturn_t sunxi_rproc_crash_handler(int irq, void *data)
 > +{
-> +	struct sun55i_msgbox *mbox =3D dev_id;
-> +	irqreturn_t ret =3D IRQ_NONE;
-> +	int i, local_n, p, chan_idx;
+> +	struct sunxi_rproc *priv =3D data;
+> +	struct rproc *rproc =3D priv->rproc;
 > +
-> +	for (local_n =3D 0; local_n < SUN55I_NUM_ROUTES; local_n++) {
-> +		void __iomem *local_base =3D mbox->regs[0];
-
-[Severity: High]
-Does this lockless loop allow multiple concurrent handlers on different CPU=
-s to
-inspect and process the same hardware channels simultaneously?
-
-Since sun55i_msgbox_probe() registers the exact same handler for multiple I=
-RQs
-using request_irq(), if two remote processors send messages concurrently, b=
-oth
-IRQs fire, executing the handler on different CPUs simultaneously.
-
-Both CPUs would see the same pending bit and race to drain the exact same
-channel, leading to a TOCTOU race where the second CPU reads from an empty =
-FIFO,
-resulting in a hardware underflow and delivery of a corrupt message.
-
-> +		u32 en, stat, pending;
+> +	dev_err(priv->dev, "Hardware crash event received from %s core!\n",
+> +		priv->cfg ? priv->cfg->name : "remote");
+> +	if (priv->crash_irq_enabled) {
+> +		disable_irq_nosync(irq);
+> +		priv->crash_irq_enabled =3D false;
+> +	}
+> +	rproc_report_crash(rproc, RPROC_FATAL_ERROR);
 > +
-> +		en =3D readl(local_base + SUNXI_MSGBOX_READ_IRQ_ENABLE(local_n));
-> +		stat =3D readl(local_base + SUNXI_MSGBOX_READ_IRQ_STATUS(local_n));
-> +		pending =3D en & stat;
-[ ... ]
-> +static bool sun55i_msgbox_last_tx_done(struct mbox_chan *chan)
-> +{
-> +	struct sun55i_msgbox *mbox =3D to_sun55i_msgbox(chan);
-> +	int n =3D chan - mbox->controller.chans;
-> +	int local_n, p, remote_id, remote_n;
-> +	u32 count;
-> +
-> +	sun55i_chan_to_route(n, &local_n, &p, &remote_id, &remote_n);
-> +
-> +	count =3D readl(mbox->regs[remote_id] + SUNXI_MSGBOX_MSG_STATUS(remote_=
-n, p)) & MSG_NUM_MASK;
-> +	return count < SUN55I_FIFO_MAX;
+> +	return IRQ_HANDLED;
 > +}
 
 [Severity: High]
-Does returning true when the FIFO is not full falsely signal transmission
-completion to the polling framework?
+Could this lockless check of priv->crash_irq_enabled race with
+sunxi_rproc_stop() or sunxi_rproc_remove()?
 
-The mailbox framework polls last_tx_done() to know when a message has been
-consumed by the remote processor. Returning true while the message is still=
- in
-the FIFO (count < SUN55I_FIFO_MAX) falsely signals completion.
+If a hardware crash occurs concurrently with the core being stopped or remo=
+ved,
+both threads can evaluate priv->crash_irq_enabled as true. Both paths will
+independently disable the IRQ, incrementing the disable depth to 2.
 
-The framework will then prematurely send subsequent messages, leading to a
-hardware FIFO overflow and dropped IPC messages.
+When the remote core is restarted via sunxi_rproc_start(), enable_irq() is
+only called once, which leaves the crash IRQ permanently masked at the
+hardware level.
 
-[ ... ]
-> +static int sun55i_msgbox_probe(struct platform_device *pdev)
-> +{
-[ ... ]
-> +	irq_cnt =3D platform_irq_count(pdev);
-> +	if (irq_cnt < 0) {
-> +		ret =3D irq_cnt;
-> +		goto err_assert_reset;
-> +	}
-> +
-> +	for (i =3D 0; i < irq_cnt; i++) {
-> +		int irq =3D platform_get_irq(pdev, i);
-> +
-> +		if (irq < 0) {
-> +			ret =3D irq;
-> +			goto err_free_irqs;
-> +		}
-> +
-> +		ret =3D request_irq(irq, sun55i_msgbox_irq,
-> +				  IRQF_SHARED, dev_name(dev), mbox);
-> +		if (ret) {
-> +			dev_err(dev, "failed to request irq %d: %d\n", irq, ret);
-> +			goto err_free_irqs;
-> +		}
-> +		mbox->irqs[i] =3D irq;
-> +		mbox->num_irqs =3D i + 1;
-> +	}
+Also, could this race result in a Use-After-Free during removal?
 
-[Severity: High]
-Can this write overflow the mbox->irqs array if irq_cnt exceeds 4?
-
-The driver retrieves irq_cnt directly from the device tree via
-platform_irq_count() without bounds checking. If a device tree provides 5 or
-more interrupts, the unconditional loop will write out of bounds of the
-fixed-size 4-element mbox->irqs array, corrupting memory of adjacent fields=
- in
-the sun55i_msgbox structure.
-
-[ ... ]
-> +static void sun55i_msgbox_remove(struct platform_device *pdev)
-> +{
-> +	struct sun55i_msgbox *mbox =3D platform_get_drvdata(pdev);
-> +	int local_n, i;
-> +
-> +	mbox_controller_unregister(&mbox->controller);
-> +
-> +	/* Mask hardware interrupts and free IRQs before asserting reset and di=
-sabling clock */
-
-[Severity: High]
-Does unregistering the controller here before masking hardware interrupts a=
+If the interrupt handler clears the flag before sunxi_rproc_remove() evalua=
+tes
+it, the remove path skips disable_irq(). It then continues to rproc_del() a=
 nd
-freeing IRQs leave a race window open for a NULL pointer dereference?
+frees the rproc structure while the interrupt handler is concurrently execu=
+ting
+rproc_report_crash(rproc, RPROC_FATAL_ERROR).
 
-During device removal, mbox_controller_unregister() calls mbox_free_channel=
-(),
-which invokes sun55i_msgbox_shutdown() and clears the chan->cl pointer.
-
-While sun55i_msgbox_shutdown() masks the interrupt via MMIO, it fails to
-synchronize the kernel IRQ subsystem via synchronize_irq().
-
-If an interrupt handler is already running concurrently on another CPU, it =
-will
-proceed to read the FIFO and invoke mbox_chan_received_data() from
-sun55i_msgbox_irq(), which dereferences the now-NULL chan->cl->rx_callback
-pointer.
-
-> +	for (local_n =3D 0; local_n < SUN55I_NUM_ROUTES; local_n++)
-> +		writel(0, mbox->regs[0] + SUNXI_MSGBOX_READ_IRQ_ENABLE(local_n));
+[ ... ]
+> +int sunxi_rproc_prepare(struct rproc *rproc)
+> +{
+> +	struct sunxi_rproc *priv =3D rproc->priv;
+> +	const struct sunxi_rproc_cfg *cfg =3D priv->cfg ? priv->cfg : &sun55i_r=
+iscv_cfg;
+> +	int ret;
 > +
-> +	for (i =3D 0; i < mbox->num_irqs; i++)
-> +		free_irq(mbox->irqs[i], mbox);
+> +	/* 1. Deassert configuration & SRAM bus resets */
+> +	if (priv->rst_cfg) {
+> +		ret =3D reset_control_deassert(priv->rst_cfg);
+
+[Severity: High]
+Does this cause the core to start executing prematurely if rst_cfg acts as =
+the
+execution reset?
+
+In sunxi_rproc_prepare(), rst_cfg is unconditionally deasserted to allow
+register access. Later in sunxi_rproc_start(), if the optional rst_core is
+missing, the code falls back to deasserting rst_cfg again:
+
+int sunxi_rproc_start(struct rproc *rproc)
+{
+    ...
+    if (priv->rst_core) {
+        ret =3D reset_control_deassert(priv->rst_core);
+    ...
+    } else if (priv->rst_cfg) {
+        ret =3D reset_control_deassert(priv->rst_cfg);
+
+Because rst_cfg was already deasserted in prepare(), the remote core actual=
+ly
+starts executing before the firmware segments are fully loaded and before
+the boot address is programmed.
+
+[ ... ]
+> +int sunxi_rproc_start(struct rproc *rproc)
+> +{
+[ ... ]
+> +	/*
+> +	 * Program boot vector while the core execution reset is held.
+> +	 * The CFG block bus was un-gated during prepare() via rst_cfg.
+> +	 */
+> +	if (priv->cfg_va) {
+> +		writel((u32)rproc->bootaddr, priv->cfg_va + cfg->boot_reg_offset);
+> +		dev_dbg(priv->dev, "STA_ADD set to 0x%08x\n", (u32)rproc->bootaddr);
+> +	}
 > +
-> +	reset_control_assert(mbox->reset);
-> +	clk_disable_unprepare(mbox->clk);
+> +	/* Release core execution reset so the core begins execution at bootadd=
+r */
+> +	if (priv->rst_core) {
+> +		ret =3D reset_control_deassert(priv->rst_core);
+> +		if (ret) {
+> +			dev_err(priv->dev, "failed to release core reset: %d\n", ret);
+> +			return ret;
+> +		}
+
+[Severity: Medium]
+Is a read-back of the CFG register necessary to explicitly flush the posted
+boot address write?
+
+Without flushing the writel() before deasserting the core reset, the SoC
+interconnect might deliver the reset deassertion before the boot address
+reaches the CFG block. This could cause the core to begin execution from a
+stale or zero address.
+
+[Severity: Medium]
+If reset_control_deassert() fails, does this error path leave the crash IRQ
+enabled for an offline core?
+
+Returning early bypasses the required IRQ cleanup, leaving the IRQ active
+and the system vulnerable to spurious interrupts during retry attempts.
+
+[ ... ]
+> +void sunxi_rproc_kick(struct rproc *rproc, int vqid)
+> +{
+> +	struct sunxi_rproc *priv =3D rproc->priv;
+> +	int ret;
+> +
+> +	if (!priv->tx_chan)
+> +		return;
+> +
+> +	/*
+> +	 * Use priv->kick_msg rather than a stack-local variable. The mailbox
+> +	 * controller runs with tx_block=3Dfalse, so mbox_send_message() may
+> +	 * queue the pointer and return before the hardware reads the message.
+> +	 * A stack-local vqid would be a use-after-return at that point.
+> +	 */
+> +	priv->kick_msg =3D (u32)vqid;
+> +	ret =3D mbox_send_message(priv->tx_chan, &priv->kick_msg);
+> +	if (ret < 0)
+> +		dev_err_ratelimited(priv->dev, "failed to send mailbox kick: %d\n", re=
+t);
+> +
+> +	mbox_client_txdone(priv->tx_chan, 0);
 > +}
+
+[Severity: High]
+Does this create a data race on priv->kick_msg during concurrent kicks?
+
+Different virtqueues on multiple CPUs can execute sunxi_rproc_kick()
+concurrently. Since they both assign to the single shared priv->kick_msg
+variable without a lock, a concurrent kick will overwrite it before the
+hardware processes the queue, causing dropped notifications.
+
+Also, does calling mbox_client_txdone() immediately after a non-blocking se=
+nd
+break the mailbox queue pacing?
+
+By falsely signaling TX completion, the framework will submit the next
+message immediately, potentially clobbering the controller's TX registers
+while the first message is still physically transmitting.
+
+[ ... ]
+> +void *sunxi_rproc_da_to_va(struct rproc *rproc, u64 da, size_t len, bool=
+ *is_iomem)
+> +{
+> +	struct sunxi_rproc *priv =3D rproc->priv;
+> +	u64 sys;
+[ ... ]
+> +	/*
+> +	 * 1. Translate core-local device addresses (DA) to system bus
+> +	 * addresses (Host PA) using the SoC address translation table (ATT).
+> +	 */
+> +	if (sunxi_rproc_da_to_sys(priv, da, len, &sys, is_iomem) =3D=3D 0) {
+> +		if (priv->r_sram_va && sys >=3D priv->r_sram_phys &&
+> +		    (sys + len) <=3D (priv->r_sram_phys + priv->r_sram_size))
+> +			return (__force void *)(priv->r_sram_va + (sys - priv->r_sram_phys));
+[ ... ]
+> +	}
+> +
+> +	/*
+> +	 * 2. Device Tree Memory Regions (Trace buffer, DRAM carveout, or
+> +	 * dynamically-assigned SRAM regions whose host PA is supplied via DT).
+> +	 */
+> +	if (priv->trace_va && da >=3D priv->trace_phys &&
+
+[Severity: Medium]
+Should there be an early return here if the ATT translation succeeds but fa=
+ils
+to match a valid mapped memory window?
+
+If sunxi_rproc_da_to_sys() returns 0 but the resulting sys address isn't fo=
+und
+in any mapped window, the code falls through to the Device Tree fallback
+checks.
+
+In the fallback block, it mistakenly compares the original device address (=
+da)
+against the host physical addresses (e.g. priv->trace_phys). If a da happens
+to overlap numerically with a host PA, it will improperly translate the
+address and return an invalid virtual pointer.
+
+[ ... ]
+> +static int sunxi_rproc_parse_memory_regions(struct rproc *rproc)
+> +{
+[ ... ]
+> +		if (name && (strstr(name, "trace") || of_node_name_eq(rmem_np, "trace"=
+))) {
+> +			priv->trace_phys =3D res.start;
+> +			priv->trace_size =3D resource_size(&res);
+> +			priv->trace_va =3D devm_memremap(dev, res.start, resource_size(&res),
+> +						       MEMREMAP_WB);
+[ ... ]
+> +		} else if (name && (strstr(name, "dram") || strstr(name, "vram"))) {
+> +			priv->dram_phys =3D res.start;
+> +			priv->dram_size =3D resource_size(&res);
+> +			priv->dram_va =3D devm_memremap(dev, res.start, resource_size(&res),
+> +						      MEMREMAP_WB);
+[ ... ]
+> +		}
+> +
+> +		/* Reuse existing SRAM mapping if region overlaps, else ioremap */
+> +		if (priv->r_sram1_va && res.start =3D=3D priv->r_sram1_phys)
+> +			va =3D (__force void *)priv->r_sram1_va;
+> +		else if (priv->r_sram_va && res.start =3D=3D priv->r_sram_phys)
+> +			va =3D (__force void *)priv->r_sram_va;
+> +		else
+> +			va =3D (__force void *)devm_ioremap_wc(dev, res.start, resource_size(=
+&res));
+
+[Severity: High]
+Does this establish conflicting memory mappings for the trace and dram regi=
+ons?
+
+After creating the initial mapping using devm_memremap() with Write-Back
+cacheability (MEMREMAP_WB), the loop lacks a continue statement or an else
+branch.
+
+Execution falls through to the fallback block where it maps the exact same
+physical memory again using devm_ioremap_wc() (Write-Combining). Mapping the
+same physical address space concurrently with mismatched caching attributes
+is undefined behavior on ARM64 and can cause silent cache corruption.
+
+[ ... ]
+> +static int sunxi_rproc_probe(struct platform_device *pdev)
+> +{
+[ ... ]
+> +err_mbox_release:
+> +	cancel_work_sync(&priv->vq_work);
+> +	/*
+> +	 * mbox_request_channel_byname() can return ERR_PTR on failure.
+> +	 * Guard with IS_ERR() to avoid calling mbox_free_channel() with
+> +	 * an invalid pointer, which would panic on the first dereference.
+> +	 */
+> +	if (priv->rx_chan && !IS_ERR(priv->rx_chan))
+> +		mbox_free_channel(priv->rx_chan);
+
+[Severity: High]
+Does cancelling the workqueue before shutting down the mailbox channel
+introduce a Use-After-Free risk?
+
+Because mbox_free_channel() happens after cancel_work_sync(), the mailbox
+remains active. If an RX interrupt fires immediately after the cancellation,
+the callback can re-queue priv->vq_work.
+
+When the probe function returns an error, devres will free the priv
+structure. The workqueue would then execute the dangling work item and
+dereference the freed pointer.
+
+[ ... ]
+> +static void sunxi_rproc_remove(struct platform_device *pdev)
+> +{
+> +	struct rproc *rproc =3D platform_get_drvdata(pdev);
+> +	struct sunxi_rproc *priv =3D rproc->priv;
+[ ... ]
+> +	rproc_del(rproc);
+> +
+> +	if (priv->rx_chan) {
+> +		mbox_free_channel(priv->rx_chan);
+> +		priv->rx_chan =3D NULL;
+> +	}
+
+[Severity: High]
+Does calling rproc_del() before tearing down the mailbox expose a window for
+virtqueue Use-After-Free?
+
+rproc_del() stops the remote processor and destroys all virtio
+resources and virtqueues. However, the mailbox channel remains active.
+
+If a late interrupt is received, the mailbox IRQ callback will queue vq_wor=
+k,
+which unconditionally calls rproc_vq_interrupt(). Executing this against the
+already destroyed virtqueues will result in a crash.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260927002021.7970=
-69-1-tcmichals@gmail.com?part=3D2
+69-1-tcmichals@gmail.com?part=3D5
