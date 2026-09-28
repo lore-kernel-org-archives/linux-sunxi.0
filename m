@@ -1,93 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB049332EBD;
-	Mon, 28 Sep 2026 12:23:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B534EB875;
+	Mon, 28 Sep 2026 16:51:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790598182; cv=none; b=oPKNPMVSnp9e0JhSvEw16XMeYfIsfMUZe76Mswy9blLWTvcnlaMrg5XYndT1JiYn4ESQSS6odjK3z+mqUEiegGJi5GDdyAnbN+C1ty99PhOaE2DQCkMAb6JydGX3/mDtpdGrArGUAoN7m0KEG7+iap9ozjdWpV4qlWNSUyu3jb0=
+	t=1790614268; cv=none; b=kw7qp0ujbn0g0aq3/ACLDGtbqU9++Q+dDEDYPmez0G1tPRL02CjrsVfVz3mK29T53qkVlrSnJwCxFDoMrXseIMjKZ0flhNG3+bXv1Nca3mwkPTxKtI5zo14JX9+bn6bgmLJlRodt9OcyaKbwYlkyrP4p62rQAr7IZn501YPj3Zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790598182; c=relaxed/simple;
-	bh=6fwJ4i3NDqYT8BexAHF55cqi10Og3PkaSv4LXWi0VG0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=lTjladIp/1iu1hbozwh9kIGI60vE1VMvbaUfvo9R0gqNaTrSyW3OiXJNtNJjWSTLfU0XZhNU01rUtWO1L2WCFYGVjRuFjxkk+lvBshFy2gcU8ZPlAtL9+xAnOwRX50k+g6F/1K+idRvl/UG6JS7wag0bZsGavxUvWNHp52jKJDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GCMTonux; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790614268; c=relaxed/simple;
+	bh=7qujMjalLm+fR9p2YtYH4uWTPdLVJMOUVJv4gYWrE8Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sOpZFGBqSjQ1AsAmrwBEXc6025vfBDSar0ujcaVV2QVgCl8wcRjEGP2P5A1qeBYqSYzDW4Jt11VdGnp+SMbuj1ajZlulJauRL2ZuR+oISCFL9E8JBlex4Lhj5RDCcL11jczqyJVU9zUUEKQ5KAsyOGYtFv13rdsWPDY7eUyLNwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OVcc4nwt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GCMTonux"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFB151F000FF;
-	Mon, 28 Sep 2026 12:23:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OVcc4nwt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DD871F000FF;
+	Mon, 28 Sep 2026 16:51:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790598181;
-	bh=6fwJ4i3NDqYT8BexAHF55cqi10Og3PkaSv4LXWi0VG0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=GCMTonuxt0X9cGbbLXwM9v+dUY4s/DLM/5HBoABlAfRf7Pc3beikMJzuZ7VzFTmpx
-	 SQxjixgjnxTMt/ASnUuBaTnVlPHllDXh1hoP4RI+wV3mKC6qvnzGuuDPSmt4KDx1NJ
-	 X68eCaCRPbLqNaDvn+OztXSnQoR56kaZXJUFzcHhuJt9mJ5HYFVY82OSQriRV5TnVF
-	 iQcAS6+scw/YOl/P+5qecNySMY8IdBLNRNUJq/hecldhkYQVkh6b8oHhXdjjVQDYYT
-	 FU9rqL4wlUzR8GrVSZ29UjS7u/hhl/K5FhR2oLsq6GoCCYwz1HcDoyPt+GdUgfsTWl
-	 6zIVhvIrgAsLA==
-From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-To: James Hilliard <james.hilliard1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit
- <hkallweit1@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, "Russell King (Oracle)"
- <rmk+kernel@armlinux.org.uk>, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Christian Marangi <ansuelsmth@gmail.com>,
- Tiezhu Yang <yangtiezhu@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, John
- Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev
- <sdf@fomichev.me>, Serge Semin <fancer.lancer@gmail.com>, Suraj Jaiswal
- <quic_jsuraj@quicinc.com>, Richard Cochran <richardcochran@gmail.com>,
- Joao Pinto <Joao.Pinto@synopsys.com>, Vladimir Oltean
- <vladimir.oltean@nxp.com>, Ong Boon Leong <boon.leong.ong@intel.com>, Voon
- Weifeng <weifeng.voon@intel.com>, "Song, Yoong Siang"
- <yoong.siang.song@intel.com>, Linus Walleij <linusw@kernel.org>, Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>, Magnus Karlsson
- <magnus.karlsson@intel.com>, Maciej Fijalkowski
- <maciej.fijalkowski@intel.com>, Simon Horman <horms@kernel.org>, Thierry
- Reding <thierry.reding@kernel.org>, Jonathan Hunter
- <jonathanh@nvidia.com>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Jose
- Abreu <Jose.Abreu@synopsys.com>, Yao Zi <me@ziyao.cc>, Philipp Zabel
- <p.zabel@pengutronix.de>
-Cc: Richard Genoud <richard.genoud@bootlin.com>, Alastair D'Silva
- <alastair@d-silva.org>, Maxime Ripard <mripard@kernel.org>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, bpf@vger.kernel.org, ZhaoJinming
- <zhaojinming@uniontech.com>, Lorenzo Bianconi
- <lorenzo.bianconi@oss.qualcomm.com>, Ding Hui <dinghui1111@163.com>,
- Linkui Xiao <xiaolinkui@kylinos.cn>, Linkui Xiao <xiaolinkui@126.com>,
- linux-tegra@vger.kernel.org, linux-sunxi@lists.linux.dev, James Hilliard
- <james.hilliard1@gmail.com>
-Subject: Re: [PATCH net-next v5 16/19] xsk: allow drivers to retain DMA
- mappings independently of pools
-In-Reply-To: <20260927-submit-stmmac-reset-fixes-v1-v5-16-feec6c14dd06@gmail.com>
-References: <20260927-submit-stmmac-reset-fixes-v1-v5-0-feec6c14dd06@gmail.com>
- <20260927-submit-stmmac-reset-fixes-v1-v5-16-feec6c14dd06@gmail.com>
-Date: Mon, 28 Sep 2026 14:22:58 +0200
-Message-ID: <875wzp4lb1.fsf@all.your.base.are.belong.to.us>
+	s=k20260515; t=1790614266;
+	bh=7qujMjalLm+fR9p2YtYH4uWTPdLVJMOUVJv4gYWrE8Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=OVcc4nwtk75SjYcZBGTZBLVBZdYzxJNk3wCeIOjJUcHdOzA28qnXyoMHtALghanJc
+	 TZlDrvfBIx/0/Qf8U1OF70LV/xFJXyubsPVOUCk47JaN7BmzHZ/udeZiTlIBfJbiq5
+	 89eTp4DvJ4j058sTLQZze5JLuGrGNMxnEMTdHG9APGrGkRl6n/R6+4HSoGzgc53LKA
+	 GylfwUKKoCrjhjbidIsU30R8FN59svuN5tLUC9HVKyQt8miRZmQ0/BJPfD2s8hhiOk
+	 fctHLUGySdovImS4cSVXTo3ugfeUy4I7mgHVRgWgvuaJXU1L4MuriR2MOJrh0Lu+Iu
+	 aQsyONrMj0bDw==
+Date: Mon, 28 Sep 2026 17:51:00 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
+Cc: Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Bastian Germann <bage@debian.org>, linux-remoteproc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] dt-bindings: hwlock: sun6i: Add compatible for
+ Allwinner D1
+Message-ID: <20260928-reorder-laborious-73515b6ef657@spud>
+References: <20260927025626.69614-1-tien.nguyenminh@embeddedlinux.blog>
+ <20260927025626.69614-3-tien.nguyenminh@embeddedlinux.blog>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="MUxTtFBeNtxJvpZQ"
+Content-Disposition: inline
+In-Reply-To: <20260927025626.69614-3-tien.nguyenminh@embeddedlinux.blog>
 
-James Hilliard <james.hilliard1@gmail.com> writes:
+--MUxTtFBeNtxJvpZQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> An unsuccessful device shutdown does not make its DMA memory safe to
-> unmap.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-Why does this need an AF_XDP API? Can stmmac fence DMA before releasing
-the pool? Please show a case where stop and reset fail, DMA remains
-active, and the driver cannot isolate it.
+--MUxTtFBeNtxJvpZQ
+Content-Type: application/pgp-signature; name=signature.asc
 
+-----BEGIN PGP SIGNATURE-----
 
-Bj=C3=B6rn
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCarqa9AAKCRB4tDGHoIJi
+0lVQAP49KPJ6ClOf6NzSjcHl7OvrOuUz/0otTRx2Ry1qRLGnFgEAub8iEEd4aYlo
+TYoCQmOGZ2i8zKTGaXDzcxb42/ym2Qo=
+=Rij2
+-----END PGP SIGNATURE-----
+
+--MUxTtFBeNtxJvpZQ--
