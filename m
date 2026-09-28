@@ -1,203 +1,115 @@
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6493B19DE
-	for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 23:49:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790552969; cv=pass; b=sm4SxgW0/i5Esej9zfHNQw2Hvg4/ZCcPr/0VUQ0Hb1WQuMR/WxAFzVf1UymwzLi6GAe7bsUcRSfZMHZcyKKtIGi+3szEZqlDWdOxBBLWX/sH1yuYUBZhKT9WhgW+n1YVcbSLjkwym1yHboGKdmTFTu/EqgHWfY3FgocQoAhqFFE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790552969; c=relaxed/simple;
-	bh=aj5nUGzscZlYh9Hwnq0OGDa+XHJvROniWRXccwlok3k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JXC1peKFdtVPtKqFMiCATmqTwSGuraneUBmTBCMwP9ddTqpB5mzyCgNcB0l4nabS8eXoeFbBOirciRkeFGJ0O58oHPmHsaRSUjrjmZzwwkZsv9s8vv8664OpONFNYzjvEztKzU41x3MfAMTxYm/liPnTPc4TdS/vR43t2P979h4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k6dT5XA+; arc=pass smtp.client-ip=209.85.217.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC85E361950
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Sep 2026 05:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790573626; cv=none; b=vDWqRE5Q4fMM8sgXVosdXMsGpjYLny+qug8hJ1OoHHetldnGsQ+c0WaFs1u3vpLsu6NPmKku1/6IjCNRPkBXzDxP+Xqxz/E5EGk18row6q4plxX2xd54L+B2OYbSac9+6nuNw1GuSjNQKoCfxM5TVDTHwML3Gpxfu/Dvw0hVtKw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790573626; c=relaxed/simple;
+	bh=uYcDseqHvGO7pf58koHZZL1WwrZN1tDf1U0Kzn9ndTg=;
+	h=From:To:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=DjB39iLTPUDVKq7U9MCXgEa22wgipLS4VU2UXVZiBbewUkSSQ/zOrYfewcmGm2iCVgFuLhH6zg3wC8LALyrrqTYJKqMOnI0xEtehj4gYUnN1rIEH1jUQ2Eye32/QvUjCJqQNeXwyxX4NWFFgvdosonAPgZ7ISN+hZJUyCPSbbrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=HO6Z00u1; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k6dT5XA+"
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-7b58fd93b32so102406137.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 27 Sep 2026 16:49:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790552965; cv=none;
-        d=google.com; s=arc-20260327;
-        b=FRqF/7xTkneVc84abU/CPVHwoesX6G5obAU62ZDR6UePbup3eNqY6/DhoXyc5JbfdA
-         FKXa993EPmJg26tjKmOtnThKfn6HYh08+43n1rsiTP60xccewiKl5VsyL0DFLbdLT42r
-         ZAi8E4BZh8OiSgKUINBv/nTVh91U/AMBjstKy80PR4JCgeePR1Tneic0T1FMjj/cuqPS
-         AllIqosROIUzIL1GfKewQpXvl/vj2UtwXUg5hod+S7NwBJgMrsQ59G6IFnciu67MO7X4
-         TEX8YRo22FtM/kNkrvwaQTLuWiXA9viut/bMEpznAJ0Ao8edHiMNZ0svyQPFpgYU154y
-         v9Dw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=aj5nUGzscZlYh9Hwnq0OGDa+XHJvROniWRXccwlok3k=;
-        fh=uruB61QpdLvXsm13MeU3BmXWpQW/0HECnG0/I2m0L38=;
-        b=jpnys+lGrHAV0ipr+hygclroqPpFvmpgxvEYwJ0pbivhsQyeTpIrB2P/ldm5i81/hR
-         N6klwOaC2pyGzYxna0Xzpm2OymRrnPM+M7RtLGIdfmkRwE5e50tNebgKl5FXNt6d33+0
-         RglmuV3j68d1mXoB2Kjg+67s1zAmY69cX1xQclq17cI9TQ2CemSroa4IzUzGt5pG1Cg8
-         /lOJwSoI5LkB5qeIelmvbUC3awH6hiD/2PF2kMWCc9qr2UIUjxpPHrATNR0wJdN6AlRf
-         dPRo5/7SYCoQxDIARzpXF+sIkmLfLZDe0dZ063qcrTHUqyth7nctXJF7kuMse4d48WP7
-         LvaQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790552965; x=1791157765; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=aj5nUGzscZlYh9Hwnq0OGDa+XHJvROniWRXccwlok3k=;
-        b=k6dT5XA+19J38Yu2JfGYo8v8H1Stnt2Rg5OcT0ARa+a5nnqdoc0UsPtdDZgWCguCV7
-         GvoTLjSs9K+67vBDsymMY/FIwofPdG0DNdaV6YVJRg/JElXeSdrBW1B7f2/7hqNHMIGI
-         qpRqR7gWfqr0JKfxR6BQx4yuPRINuAK+GnyBr6ygNkUCDC/dvkAUL+0FBM1gFzJw44Os
-         EhdUnJA1QXbrWtvJzS65JLj+KjCj4HcYF9/hP7f5i+WFMWiYjk44bofOFDGki/yMywJq
-         8cojWkj7OC3Qhui68pF2fkAgdgvL06xjqhp1A40E4Tu/QP993jq/5Drq89G0lnSgT2iT
-         pg6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790552965; x=1791157765;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aj5nUGzscZlYh9Hwnq0OGDa+XHJvROniWRXccwlok3k=;
-        b=uPsvhO/bQubpjieQbYbPRhG5SG8Rns2gHxJK6DqLzpmiB+O5GG1/98DOEtXCoF68dh
-         o0ZNJizpvFg7AJ89ugs10hwMcbInNUoccPf8v4zXx+AjIg9Onztp20HgWYdPEg4qTmAc
-         fsOg8KWg+mNtdwfO4FH9NE0DXoML8xGbCm7lGzSjIbPLN16L754PCdl5MBzRiNapQddF
-         96WqBxcXypw/bJj/G0qLe0mSB7Dhfo8djLfri9FYE/N+qjrFl6toWJqgjFXIl3ZugbIb
-         oy3IuX6lCMOKDQbOwoBCPQ7lnny++YhGxbiK1gyCuLNVA2HbtXbAZR2I7apgmqCTlJFt
-         2HeQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz+EcM182LHIVZXLMPpk+47OBBY+fwm0RDOrdzgfS5n4QeK0pVbgjrUyJi75llYMWOW/Od3LoYoU6JMOA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKdj2MCe2kqeo2sPWsoc7D1bK9lK+oI07AxKirYAdwFj/cfovjC
-	clsdh6XfvQg/Jee1sFHpNrQhR+n7qgLZd/t5bcQ+Ob+x9GblHjo0Wj2j5G6VdweZxEIRUHAt0pY
-	KPiJK2OXM2jwIrTZQETy7uYTDt/B+PbY=
-X-Gm-Gg: AYBFou1GdVE91eXtoNEJr6rO6TKo+q0y6XqdojRHV3yjW6mdIvCLfEs5DrcSKRM1eD6
-	H7F14L42AbhNOX9CQ8iGUgd4k70Io/jC4A+qTbRro+xVeGDjfHqYHdryLXFGaiv9O28uWzxA02T
-	TlfDLZmu98qtS/d9gnyTgzLYaTB47kFCp/B1/B13hcjoLnK+UyKGbTZfY+ClDq2PxwbCwRJB0H/
-	uErPrEN3qoLrtAqg0DZoF+jXlxTbFBfwIsoCJTSv7iWlPn1SRYT/SWthw5rYEQzVlfpqgPw8KSw
-	oc/LQNOGnf+QVJAGSzm1NrbSKN8bnOUBUbgyjsyREowznbtGYly0DbD0lvYa1jGDsTdlicljatN
-	gxEkCLuWDJln1axDlf1I2+J+pzo3x5YKNSn0M5Rk9OuWTIyT1sB1JX1A7MVNrGGL8IouMkZWtRe
-	4HL9noKoh13KCc9aUuWQaLctBDHuPMQkwEpm8XzZW46MC+
-X-Received: by 2002:a67:f24b:0:b0:784:a925:3f0c with SMTP id
- ada2fe7eead31-7af19524bedmr2659589137.0.1790552965528; Sun, 27 Sep 2026
- 16:49:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HO6Z00u1"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 462621A0FD3;
+	Mon, 28 Sep 2026 05:33:40 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 077BD604FF;
+	Mon, 28 Sep 2026 05:33:40 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id F3E97102F1E29;
+	Mon, 28 Sep 2026 07:33:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1790573617; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=T990KGr2rKx5jCUSvUS8jX/LmqLCPwnfvjmSkriKfxo=;
+	b=HO6Z00u1RVNoE3+bxHzAY3LLITxQ86B/wuzjZUI5xqkdPFrhuYViyBh8lGV0EjqHjegsV3
+	TN0u6iV6oowQLlQKkpRjZ0wrQ5OY2H9p5DP2av7N7GcEHSKxzqQaNQ/+Z+GsVyR8r6tmPs
+	wztaux9g6NdGtKfV80D8Roi9zEgvUY5kaNtLSQAMe+RUWF1xIscA7WAyJHgJv++jjHEOtC
+	Ny4+0qfImeaJXmWy11Z9GIX0ESUy0j90n41guE4Jchi0u+5PEBcXTorucZmmRQ3b5vJCe1
+	+sSmYPBYlXUI+7fUx01JwzQnus0NMrPlmB4Oi5zEgx1QVExVsKchfBwxD2Umcg==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Chen-Yu Tsai <wens@kernel.org>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Liu Ying <victor.liu@nxp.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Francesco Dolcini <francesco@dolcini.it>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Marcus Folkesson <marcus.folkesson@gmail.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Yannick Fertre <yannick.fertre@foss.st.com>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+ Philippe Cornu <philippe.cornu@foss.st.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Adrien Grassein <adrien.grassein@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, Simha BN <simhavcs@gmail.com>, 
+ CK Hu <ck.hu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>, 
+ Yongxing Mou <yongxing.mou@oss.qualcomm.com>, 
+ Abel Vesa <abelvesa@kernel.org>, Chris Morgan <macromorgan@hotmail.com>, 
+ Martinez Canillas <javierm@redhat.com>, dri-devel@lists.freedesktop.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ imx@lists.linux.dev, linux-mediatek@lists.infradead.org, 
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, 
+ linux-stm32@st-md-mailman.stormreply.com, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260913123331.100293-3-krzysztof.kozlowski@oss.qualcomm.com>
+References: <20260913123331.100293-3-krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: (subset) [PATCH 1/2] dt-bindings: display: Use consistent
+ indentation in the example
+Message-Id: <179057359762.92994.13773102514654073802.b4-ty@b4>
+Date: Mon, 28 Sep 2026 07:33:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260927-submit-stmmac-reset-fixes-v1-v5-0-feec6c14dd06@gmail.com>
- <20260927-submit-stmmac-reset-fixes-v1-v5-2-feec6c14dd06@gmail.com> <CAD++jL=6Ov5BPK1naX6orzMsrJPm_g6SkdRaU6Ji+okXMFaZdQ@mail.gmail.com>
-In-Reply-To: <CAD++jL=6Ov5BPK1naX6orzMsrJPm_g6SkdRaU6Ji+okXMFaZdQ@mail.gmail.com>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sun, 27 Sep 2026 17:49:14 -0600
-X-Gm-Features: AclHuK-WcfEa6FiZhcRlahLtNjX_NT7F91zfb25DNSpArVL9Tas2WI3NpVSANt4
-Message-ID: <CADvTj4pU6EXgx1-dupQoQBm8OrrvAeR5NyCk4of7zya2V=yvEw@mail.gmail.com>
-Subject: Re: [PATCH net-next v5 02/19] net: stmmac: request the MDIO reset
- GPIO only once
-To: Linus Walleij <linusw@kernel.org>
-Cc: Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
-	Heiner Kallweit <hkallweit1@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>, 
-	Maxime Chevallier <maxime.chevallier@bootlin.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Christian Marangi <ansuelsmth@gmail.com>, Tiezhu Yang <yangtiezhu@loongson.cn>, 
-	Huacai Chen <chenhuacai@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	John Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>, 
-	Serge Semin <fancer.lancer@gmail.com>, Suraj Jaiswal <quic_jsuraj@quicinc.com>, 
-	Richard Cochran <richardcochran@gmail.com>, Joao Pinto <Joao.Pinto@synopsys.com>, 
-	Vladimir Oltean <vladimir.oltean@nxp.com>, Ong Boon Leong <boon.leong.ong@intel.com>, 
-	Voon Weifeng <weifeng.voon@intel.com>, "Song, Yoong Siang" <yoong.siang.song@intel.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Simon Horman <horms@kernel.org>, 
-	=?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, 
-	Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Jose Abreu <Jose.Abreu@synopsys.com>, Yao Zi <me@ziyao.cc>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Richard Genoud <richard.genoud@bootlin.com>, 
-	"Alastair D'Silva" <alastair@d-silva.org>, Maxime Ripard <mripard@kernel.org>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, bpf@vger.kernel.org, 
-	ZhaoJinming <zhaojinming@uniontech.com>, 
-	Lorenzo Bianconi <lorenzo.bianconi@oss.qualcomm.com>, Ding Hui <dinghui1111@163.com>, 
-	Linkui Xiao <xiaolinkui@kylinos.cn>, Linkui Xiao <xiaolinkui@126.com>, linux-tegra@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16.0
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Sun, Sep 27, 2026 at 5:35=E2=80=AFPM Linus Walleij <linusw@kernel.org> w=
-rote:
->
-> Hi James,
->
-> On Sun, Sep 27, 2026 at 11:59=E2=80=AFPM James Hilliard
-> <james.hilliard1@gmail.com> wrote:
->
-> > From: Linkui Xiao <xiaolinkui@kylinos.cn>
-> >
-> > stmmac_mdio_reset() calls devm_gpiod_get_optional() every time it runs.
-> > A GPIO line can only be requested once, so from the second call on
-> > gpiod_request_commit() returns -EBUSY. devm_gpiod_get_optional() only
-> > turns -ENOENT into NULL, hence the error is passed straight back and
-> > stmmac_mdio_reset() bails out before pulsing "snps,reset" and before
-> > running the STE101P MDC workaround.
-> >
-> > The first call, made by of_mdiobus_register(), succeeds, so the failure
-> > is only visible later on: every resume that does not use WoL goes
-> > through stmmac_resume() -> stmmac_mdio_reset(), and that caller ignores
-> > the return value, so the PHY silently stays un-reset.
-> >
-> > The descriptor used to be requested exactly once: stmmac_mdio_reset()
-> > resolved "snps,reset-gpio" itself and cached the GPIO number in
-> > stmmac_mdio_bus_data::reset_gpio, and commit ae26c1c6cb9b ("stmmac: fix
-> > PHY reset during resume") relies on that cache to reuse the line on
-> > every call. commit 7c86f20d15b7 ("net: stmmac: use GPIO descriptors in
-> > stmmac_mdio_reset") replaced it with a devm_gpiod_get_optional() that
-> > caches nothing, so the request is repeated on every call and fails from
-> > the second one on.
-> >
-> > Parse the whole reset description, the GPIO and "snps,reset-delays-us",
-> > in stmmac_mdio_register() at probe time, and keep it in struct
-> > stmmac_priv. This is where devm-gpiod is meant to be used: the line is
-> > acquired with the device and released with it, and any failure to
-> > acquire it is reported during probe instead of being ignored by
-> > stmmac_resume(). stmmac_mdio_reset() then only pulses the cached line,
-> > with the delays that were read once and for all at probe time.
-> >
-> > Cache the request and delays for DT devices regardless of
-> > mdio_bus_data->needs_reset. That flag controls the registration-time
-> > bus reset callback, but system resume calls stmmac_mdio_reset()
-> > directly. The reset routine no longer looks at the device tree: where
-> > the description is absent the cached descriptor is NULL and the delays
-> > are zero, so the pulse remains a no-op.
-> >
-> > Keep acquisition conditional on CONFIG_STMMAC_PLATFORM, matching the
-> > reset callback, so non-platform configurations do not request an unused
-> > GPIO. Also skip acquisition for a disabled MDIO child: registering that
-> > bus returns -ENODEV without calling its reset callback, and the driver
-> > must retain the existing disabled-bus success path even if the unused
-> > GPIO is unavailable. Remove the unnecessary gpio_desc forward declarati=
-on.
-> >
-> > Fixes: 7c86f20d15b7 ("net: stmmac: use GPIO descriptors in stmmac_mdio_=
-reset")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Linkui Xiao <xiaolinkui@kylinos.cn>
-> > Co-developed-by: James Hilliard <james.hilliard1@gmail.com>
-> > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
->
-> Dostoyevsky commit message, I didn't read it. Ask the agent
-> to be terse.
 
-That commit message style mostly just came from the imported patch,
-I'll change it to be more terse in the next revision:
-https://lore.kernel.org/all/20260921015727.2643540-1-xiaolinkui@126.com/
+On Sun, 13 Sep 2026 14:33:32 +0200, Krzysztof Kozlowski wrote:
+> Correct indentation in the examples to consistent 2- or 4-spaces
+> indentation to fix dt-check-style warnings ("example 0
+> [indent-consistent] indent mismatch ...").  Preferred is 4-spaces, but
+> re-indenting entire example just for that is too much churn.
 
-> I looked at the code and from a GPIO PoV it does the right
-> thing: use 1 as asserted and 0 as de-asserted RESET line.
->
-> Reviewed-by: Linus Walleij <linusw@kernel.org>
->
-> Yours,
-> Linus Walleij
+Applied, thanks!
+
+[1/2] dt-bindings: display: Use consistent indentation in the example
+      commit: 370c5d9004f8b754351981d59fc26851bf943e93
+
+Best regards,
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+
