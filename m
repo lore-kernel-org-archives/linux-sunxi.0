@@ -1,177 +1,130 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010048.outbound.protection.outlook.com [52.101.69.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72916442118;
-	Tue, 29 Sep 2026 19:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790708811; cv=fail; b=f49dIQOj8z8ab4gXE2wc54UdBRwr87qLcCuqg4kkSY0cju7eW041uBnbLSnG9X0LXbX5boDIKxvUKLQh/AaZgZe5GijwoZZgw/WkmhU7KFTO+UGYb50BMdHB9/loBxlWNABVAdP1FN98RKy+V5i3cmBmmN0IZ7HZiJ/YIRGoH3o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790708811; c=relaxed/simple;
-	bh=IP3Gt4np9PcFDuAnZ6bOjT8lPH3LJeu7L6Kj9Htd1E8=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=YP6wTmq4kEnbLNuziY5nqwDD/XnBMWadSPiiCesf3wy6QD4vrr+KahtIu1iRGZP4sVF0HA6blUyMLcGxuAvSfw2o6+Ox0w/rQupapH+gEyZiQ2TZwZYeLvnFyOJOXNHKWObKS0G1HfVTyvIDydbBHbW37ekbC8oP3Ewn192LSlE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=fWXFGd80; arc=fail smtp.client-ip=52.101.69.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA2148821D
+	for <linux-sunxi@lists.linux.dev>; Tue, 29 Sep 2026 20:37:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790714244; cv=none; b=LaCRs8u22kLcutJg7G605pb2HApx5/IEAqs4g8eCAxN6zYm/Zbf3fSSHLSL/v4pRIbcxMog80krlOBhaCM7Wbz4DhOB+Mdus5P+RKVrYTLpWcAZnaN3yTDfaFIt3NARte6bYAJ7fGOH6SUXSdmjwX7U35cnZbbyiBPm/COFo5U0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790714244; c=relaxed/simple;
+	bh=Gqvcy2MOOYrL8Gno0HNWN9hEb57iEhrmpV/Bp5STDho=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iNfvDnSv2pn+hI5Nmj+D9eDlHjUbct5sYDPtoid4DLRSzUO7VINFyjAUhcuNO2P8OYu6xN3DBG5yAj6XObyf5a8gBYbOO46g67EY+ZFvZ/VCKsnpr9NBtzXc0IoiH5iuW0qJKCR8/wetDvNuok/UP24FKlssLy5AiOAr1B/c+6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dmYFsz9W; arc=none smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="fWXFGd80"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CBjPF8xjvai8+rk71VMj+ZFJAXmn20eQM/ksWpPhPWlUX+mNehiqgmW3L/u2tAsW++n8mRh3W0z0fr8wwWFw3e/8Kl2VbZ7WWP9un4vcnnaY08oplFB6XvLsamWbUErWyuSwwyFqrzhhF+ZXbnZC2V/iZOuqNOMVZw1tnvVfPlgoIcuw5+HyLGVHLjS+44grhz72GfCv8Y/MqYEhG943MPHoKXn7hCqq+ueUjgx6bDayEDltfqbrFqMsnc15fPyTNjQ8CXywQm4dHHMipUz4uwZ5kKASFl55pVvDO6wwomTD38gf0gbM346uzZPrGOgPIvTffqcxVFMtjkoP/1Dh1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HeT0xizABDVvfmPND3KOkhjqtTL/Ptu1R9Ha+08a+5Y=;
- b=YXhLt1l2kTIR+Y0Blr9Amrynf+hPNdOkYDPA9wr3DNZYjCxCPXCRannyPfYV7oAxcvSb7mzVtUdFgqxiXIJCtivK9RvTsgODEW9XCb0pseT9dA5KRHeTONWlEF2I6+TGHY1SgFGGlq19ln8STEvTI/kvNEme8GQIS8xFGYDpH/1VIcrjQ2WQrdLd8rlZpeGT6pUbh5lue7WCTLvqcCTLncSI5742OEjMfl7+tSuoTFW/NHKCnPoltjU/Q8yQb1WhKWTgVAIprMJt3U/m8o35yOmX1aG8zgCeYorTJR0mwiMojYghlVls67QePV974OzCApGp3F8rg2mUMjR+gL6DwQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HeT0xizABDVvfmPND3KOkhjqtTL/Ptu1R9Ha+08a+5Y=;
- b=fWXFGd809HS9kequLTYdZXCukNcWuabLcpXtdq28DXz0VvMGMwTloIl4F6/6ffE0ZjxmLhd6k89veMJIEbBGqCymKdtbEZHx8PJDUkFN+DiCoLapTM5Pbr0z++alBr9Wivd8lhLZG5lFIcaP5++7jue9MBftS5RHY2GYLR0ySgq+dgiPZ9iwAyvoHkEK7QCbwFTVcVj98M8ku1IV55aCvbyUhZtKqlt7Z4u/ZZ02XBYXC6YvfxuCJjAqCoRVhiJ/qcQ+EQ8IMJrW+AxCxKXaqqLeDRR1d49JZrMAMW7X2NAFwe7748nK6DIeQKFCy6m11+1Zdk0+TgeQmn1Zxh3GWQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
- by AMBPR04MB759424.eurprd04.prod.outlook.com (2603:10a6:20b:799::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.19; Tue, 29 Sep
- 2026 19:06:46 +0000
-Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
- ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0451.022; Tue, 29 Sep 2026
- 19:06:46 +0000
-From: Frank.Li@oss.nxp.com
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dmYFsz9W"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-48434392b02so3987630f8f.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 29 Sep 2026 13:37:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790714241; x=1791319041; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=uc6m/QNpalNv4a9wmqg9O0BMMr47ojwjmucGyrpTpAA=;
+        b=dmYFsz9W5gkd5g00STEtVFF2TCYtu+zOZxdlKAhDG0Y5JP+yqPM2uHFrqn8DEjErtR
+         nxPbA1GORA3BxJe2nkyofrwXmB6rRA961Qdf62jGwTUjtMwmfidyHa8/grQjoTYkT5gq
+         w66ePRg3Vfr6SuBMTJb+7dJP9bFrIxcsCv/UeVIVivOdi+JvzF2453AMyX0IXmJCjad5
+         BQBAcNO+WG2JdRcWB2gwYKnLGY7DY+dXhmkNsfS4rOVPefTzzGnhfFKioYOkjZkqdM7X
+         Cb1b7JfG9vwrAH+ICUtFVdkB32deMtBDgM9aqLPW+CZTfNDac1vRVWPmuzvmL+ayc0k3
+         nVNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790714241; x=1791319041;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=uc6m/QNpalNv4a9wmqg9O0BMMr47ojwjmucGyrpTpAA=;
+        b=a3TsS0/bwt82QqyaKU7TfszxBqctmdYy1rOTHGyIcaLW4X5ppWuADqOc3VNFQ0uDw0
+         o6rQy6M/nKFxlSIInqJSZGO6WQa3kEsIJ2a+8bUpp5bil3mF6io9IhCLeiXvNsxT66GQ
+         SpZVNB2updzzMrl9/d7RjLTPd43DlwW+kBol6e50MXZPdwz4Wry5JxwkQ+3X5R0htTN3
+         3T519ErTIDzgJqzM8EHGwcDYsLsR7dEefSwm742WOhS566PeSEUJnYhlHJ5MDk4ecODo
+         If7QUYVCoHwIRvNhgAwmAIKxNznE2WVvZ1Y15mQ17k+JHtL7BQVytNRHQ1GJg6nU133H
+         vu2w==
+X-Forwarded-Encrypted: i=1; AKwUvByBicTTDaK74p14YzuNVH2eL+30udnzZw2fRgTAjY2iN73+fQyl04IQN6iCEqgETG9OVK50lD4xMREPHg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJVAHNSm9BazaZnfrYRNgjsFZ4jiX+SIlkBBL68kJxhGXfslou2
+	WsS96Ff7uS4aJCZfbMFuadH/ZtTrSItEujj+xEVjTekveLkSu3Ubh3pu
+X-Gm-Gg: AYBFou1dB8gCioBCX7bUIK+uvmbnDvgT750UV1qXAIOXwb/cludG2b7S5OFFZABEVUp
+	xjj9qJNCLqil6yfBRJjqLo0fw5qW7WjUSOddxLViiiuTptqEC5pfeRxnxZgLCgglR5vtk8Xzuke
+	zJQ/Nr9r7OESiE6F0CfQkC8YOnyFHh6Ps62LOvRGXlySCrD8aFg+B3rSnBY90zeAQufRFghNL5O
+	t62Pv/sFYq0XO8T73cGg+Mgiee4kGelmnYj0Sr8W//Lr619/a9jkJpPlfjoRDntXME0xe6bDZip
+	bSdR2g/mX4iov7pz4507m2UrIizDmWRa3QoqDF4hh2Fl10Vw2c3ZZKmmQ75cyvE5CxNRwppT3+q
+	M8gzDbAXR5kj5an0fPda8bCbKrjL7cQEtEwNWMTNV7QKb4oyhzVncrNrXx9MnhnI0nZQt5PZTer
+	REUilvvLP9xEMKJzBnSDUp0/sLu30ZCXid53o56pUD0WSoTwhxH/jd5jS991f21zswJlOvLxpSm
+	GSv9Jfu3lDPI49RZPW5DXNMNumWbc9j6SrPNB9drskl
+X-Received: by 2002:a05:6000:381:b0:487:27f9:83d with SMTP id ffacd0b85a97d-48afe782c3amr766701f8f.50.1790714241257;
+        Tue, 29 Sep 2026 13:37:21 -0700 (PDT)
+Received: from debian (ip-78-137-176-146.broadband.digiweb.ie. [78.137.176.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48afe6a9624sm1237578f8f.24.2026.09.29.13.37.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2026 13:37:20 -0700 (PDT)
+From: Pablo Mazzini <pmazzini@gmail.com>
+To: Linus Walleij <linusw@kernel.org>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	bui duc phuc <phucduc.bui@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Kees Cook <kees@kernel.org>,
-	Li Youhong <liyouhong@kylinos.cn>,
-	Frank Li <Frank.Li@nxp.com>,
-	netdev@vger.kernel.org (open list:NETWORKING DRIVERS),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
-	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support),
-	linux-kernel@vger.kernel.org (open list)
-Cc: vkoul@kernel.org,
-	imx@lists.linux.dev
-Subject: [PATCH 1/1] net: allwinner: remove dmaengine_desc_free()
-Date: Tue, 29 Sep 2026 15:06:36 -0400
-Message-ID: <20260929190640.3516766-1-Frank.Li@oss.nxp.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CYXPR02CA0073.namprd02.prod.outlook.com
- (2603:10b6:930:ce::20) To GV2PR04MB11799.eurprd04.prod.outlook.com
- (2603:10a6:150:2cf::9)
+	Andre Przywara <andre.przywara@arm.com>
+Cc: Pablo Mazzini <pmazzini@gmail.com>,
+	linux-gpio@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] pinctrl: sunxi: dt: number the IRQ banks from the first one that has IRQs
+Date: Tue, 29 Sep 2026 21:36:34 +0100
+Message-ID: <20260929203634.32998-1-pmazzini@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|AMBPR04MB759424:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4f5d9efe-2c0b-4c8e-ae96-08df1e5cceb2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|19092799006|366016|376014|23010399003|7416014|921020|5023799004|18002099003|10067099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	kYoHH08lNuxdHP/cQCIyXLxFnRb+AgBsFtZaP9X88JsO7NFhY9xgRKVn3XteWxjHaO6YABrFajF+Pke1XHAdWAnZjxoMw1QIQRIzItaoM3OnOgK6lJ35BXlktKv3uklgXfPTViTp+qA30y+3YJ06xXHDi2RV6tbq9I5uBeutlxmBqr0YgsvDgYu7kk3AQyUzpQG18CVXZvccTdcHxEX7/Pp5qAwnnoQPDfukbDz6NUPPXvaVaa0SqLzSL+B2T/ct6OG3yIwPuqrKDUJNoIBPF0qyW4kIvjfP+lYoSKc3ip6nUywT7BHpiib1FPHRhbLRiLJqIq2cZasPdX1wBlqqYmoEbwv06AtGmm1MbmVGWNrdYFS4kwEKG5uQBAtLUXxHRse1u+wVHm4P4PQI9LxyGxKZs+agA11exVP+UpB9tBvnfA7ww3Zx1xo04NP7baASGmJgZzM2Kqf51HFmm+HxqWuMzASnAL4IUm4lKhKVs921P4XogYEDcabNi+K21gJrT1/sSu3F5aQS3k+yhY4uEnmmeYPhxDN6BGctlEI8BGdaGwYvVkvBKPkShZgWcjfRvsf/icm1/k23v3yrkd737EegxgxAA0MSC6YjP9nkUHwHlUaJzHok1Kk14wn/qNDPRZKgdsCS3XdwBX9XNsmOPtPOMJMnwt1obKT8LcvsYO8H7Kaea/cbzZW2xLWZ2movZGQifYINYpxEP3uvB3IdYA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(366016)(376014)(23010399003)(7416014)(921020)(5023799004)(18002099003)(10067099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?0x08VXYqpyU/WDK+992EPn2g86BrM83qXZp0hocK95/CSrhkUFg/RAKBhrZk?=
- =?us-ascii?Q?KV2o3smfbGPAiICxyyW4WIOP9hlyzNkggC02SO0SA1QfAfXolU06TRFJ2u6a?=
- =?us-ascii?Q?B2hFAX7P8nHCLADWeAZLV+dLCnkbIdiNRbo09AypvqF60HD768ZMSsQlDU96?=
- =?us-ascii?Q?gCB4RFFSFlu/rh4iIuhbOvAeAHysjn0L9B45zwzvMjW0UjkvefWWIQ8ZMJTz?=
- =?us-ascii?Q?8NvM4mx+kVV/9/05Lkkn3UvuzDdcozglEh1BOF06iCIyNfzZMcbIbas/eVCw?=
- =?us-ascii?Q?lndPpkgy2+PzOx3s+KCxR6syDmGbN3XK/8Zi/wrSXDOU8W3c51q27m7RVTDn?=
- =?us-ascii?Q?x/cK9nY2In1bRq8JpBbUf3bI30P/WxKY/5SYydfgRADWb5afAVUNyiVJGdr3?=
- =?us-ascii?Q?5+iL4NDOei9s81brpGVzg9dSPh4clqikYTnHh6YEnul7s/B8p5tiFMTcT77V?=
- =?us-ascii?Q?8uCk9zvJD4H+WSWt6B2UgKbtteh23HlDybQTYceexEiovXBslmalGktmeLf1?=
- =?us-ascii?Q?t5gHIaIvBFX/8xeVWaPHBcpLU4xsbYSnx7RBLMD6Jbb2SKKKdVCkHhXw1Wc4?=
- =?us-ascii?Q?gnPEt4Ed46gS45D8kKn0J+u8uE1XawglusLHvFlVNn21hewkTjYY1bF1p6qw?=
- =?us-ascii?Q?msPJwIxAN9kJju5IOQizpp2i7EBxsSwPeqq2dMUMEGN4CE/Z7ePbHZnTLKCu?=
- =?us-ascii?Q?GiORCHXsls/xGS7WVJ9RJHC1k6koVECxYy8GEM4EBND9D76rwVBzK1r48GOh?=
- =?us-ascii?Q?CQQ6LNyFsX1Hht/HlfxolBlgAB5UBarb9Tz+0umO80XicE12OoMHVsT9Frft?=
- =?us-ascii?Q?94G//hP2+tFoYw4T6z2SlVdC3Z5NwqAnwScgVScwlXciPDk80F7BUEI8TyxI?=
- =?us-ascii?Q?+LIHuSCw8tQeOmfMR7jnT/WZicJcZWHIgtCI0Xwlu3xm2pdVp2ih23uJpK/J?=
- =?us-ascii?Q?PQASbUSgl0OUZDXiNPUDnuj64fW05I1s1RaEwWDKFh+Sn2Rdbf6+18P1NswD?=
- =?us-ascii?Q?4qtKHyWnmyLTN/9rrp+xEl91eT6Fr9OBna2R4GG/qdJNYPE74Pa7nbOv3mI9?=
- =?us-ascii?Q?/s1L+Yx79f1zRvEnMDIZZYErIpTQFgUGHADFjEJBfQ2BMpjyaBy/91CXC0rr?=
- =?us-ascii?Q?enbUjzdHM34EVh32Oe3N2PM+6g+UPlLdqnrQEZecYv3z42l3sKx7yWRGwG4c?=
- =?us-ascii?Q?sPiHDRpr2yfox4SOvTGNstZitOUkob7ux1X14vPHHGzO6XfA3tJCuxnuxiaZ?=
- =?us-ascii?Q?iUSmbs7B9ZeXcWSX6LHv+/gWTs570C+LHbglmDCft2Qdx8vN6CKLa42bQ0ZM?=
- =?us-ascii?Q?Nk5DtUz+RFe63B0Hpq+pR3bSNDM/WbaKHPXb6yVa9mw58afs5u628A/lI6TF?=
- =?us-ascii?Q?O0qBrVPwFYbnFCmVY8Wvh8a4yhc5eE9jtPr/vxeDKnYsYS4CHoMl7uMPJ+F2?=
- =?us-ascii?Q?ltJAcuQpwiBxYvp89aar1IzszwxIxe2q3xtPeGIP76CJAd1B6snQdtBukh7N?=
- =?us-ascii?Q?HNNhPzE/NXNcgmCipRH4RgCvUcCSUtyqg8Df7QeDqD169yGq6kjyXn5NXJiH?=
- =?us-ascii?Q?+7EMfVBbS6oYB1AmEbL6iJ+Jfm0zaFEYbQ9Wfg40XRuVNasML32iE2ymMeMZ?=
- =?us-ascii?Q?er096qoKGaTmFFcSLVv0G+ElLut10Tom972MC09327f6wE/ewZZ1+LICrJJv?=
- =?us-ascii?Q?VeaiwG2nk8fdVJaDZ66xb9+m9ScXK4ybfTyvz1WHwrZYoWKljjS+P88v+AUf?=
- =?us-ascii?Q?CNYSB59tURnF7lubLbQLfF+KUSX56BFxIQZ4uSVEJ6/lcJWhjkDE?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f5d9efe-2c0b-4c8e-ae96-08df1e5cceb2
-X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2026 19:06:46.5203
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JoQV21bz4VITnyDUTn7hVf6kR6kc+ngHo5NlhiVuqKmsvgcIX2bpg1TKxQ7k1Yq2RzvgBHih3ss3lEjT6c8nWfVzqG2ZuQFTGpNVu/5GqdB593rlrLOThoy4LcbYmFAn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR04MB759424
+Content-Transfer-Encoding: 8bit
 
-From: Frank Li <Frank.Li@nxp.com>
+prepare_function_table() assumes the first pin is in bank 0. On the
+A523, which has no PA pins, every IRQ bank is numbered one too high:
+the last bank writes past the end of irq_array, and interrupts are
+looked up at the wrong offsets.
 
-dmaengine_desc_free() is designed for DMA_CTRL_REUSE. If DMA_CTRL_REUSE
-is not set, dmaengine_desc_free() will return -EPERM.
+Count the IRQ banks from the first bank that has interrupts.
 
-	if (!dmaengine_desc_test_reuse(desc))
-		return -EPERM;
-
-So calling dmaengine_desc_free() does nothing.
-dmaengine_terminate_(a)sync() will free all already allocated descriptors.
-
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
+Fixes: f5e2cd34b12f ("pinctrl: sunxi: allow reading mux values from DT")
+Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
 ---
- drivers/net/ethernet/allwinner/sun4i-emac.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/net/ethernet/allwinner/sun4i-emac.c b/drivers/net/ethernet/allwinner/sun4i-emac.c
-index 0ba67a55705d6..09b2abdfc9e84 100644
---- a/drivers/net/ethernet/allwinner/sun4i-emac.c
-+++ b/drivers/net/ethernet/allwinner/sun4i-emac.c
-@@ -300,7 +300,7 @@ static int emac_dma_inblk_32bit(struct emac_board_info *db,
- 	if (!req) {
- 		dev_err(db->dev, "alloc emac dma req error.\n");
- 		ret = -ENOMEM;
--		goto alloc_req_err;
-+		goto prepare_err;
- 	}
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c b/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+index 50a16f3bd131..9c5eb21a86a5 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+@@ -208,7 +208,7 @@ static int prepare_function_table(struct device *dev, struct device_node *pnode,
+ 	 * The extra functions will be filled in later.
+ 	 */
+ 	irq_bank = 0;
+-	last_bank = 0;
++	last_bank = -1;
+ 	for (i = 0; i < npins; i++) {
+ 		struct sunxi_desc_pin *pin = &pins[i];
+ 		int bank = (pin->pin.number - pin_base) / PINS_PER_BANK;
+@@ -221,16 +221,14 @@ static int prepare_function_table(struct device *dev, struct device_node *pnode,
+ 		func[1].muxval = 1;
  
- 	desc->callback_param = req;
-@@ -319,9 +319,6 @@ static int emac_dma_inblk_32bit(struct emac_board_info *db,
- submit_err:
- 	emac_free_dma_req(req);
- 
--alloc_req_err:
--	dmaengine_desc_free(desc);
+ 		if (irq_mux) {
+-			if (bank > last_bank)
++			if (last_bank >= 0 && bank > last_bank)
+ 				irq_bank++;
+ 			func[lastfunc].muxval = irq_mux;
+ 			func[lastfunc].irqbank = irq_bank;
+ 			func[lastfunc].irqnum = pin->pin.number % PINS_PER_BANK;
+ 			func[lastfunc].name = "irq";
+-		}
 -
- prepare_err:
- 	dma_unmap_single(db->dev, rxbuf, count, DMA_FROM_DEVICE);
- 	return ret;
+-		if (bank > last_bank)
+ 			last_bank = bank;
++		}
+ 
+ 		pin->functions = func;
+ 
 -- 
-2.43.0
+2.53.0
 
