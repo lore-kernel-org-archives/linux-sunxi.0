@@ -1,158 +1,213 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C975539791
-	for <linux-sunxi@lists.linux.dev>; Tue, 29 Sep 2026 17:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790702137; cv=none; b=YxIooWqWQLR7pXjb1/lmeoYBwvpYfNGi8E4gkv1mMnQaDT3PcyhDAPuEqECZyac14wr7uwH5DrCJH+oZrUQVwfgQJ9xTq6uaqsCzjshZT7oh9bYkGeGByLdQ8DDBIPVgaxqzad0pVRXe0xEbQNOlUmHl/EGWg21Wc15gx1cVUaY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790702137; c=relaxed/simple;
-	bh=zIe0KG3lCKETMKNwyZ7USTtDkAG4C6Fy+0s+JFPdz80=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=jnHVu6nj3KYeobDSO5FuHO7kSd4ObwAQP5nhBB6HegWSPmH/YdD4+ZYy2axBWq8UhQUWM3yf/imN9pHLWJqbVJ7G8BguDDaQYRmzDrCUVEsU/bDbRkQL3mQl77A1xREh2lIGZTMkPmbaoBmgSE9zx62Pn0yfX4u7f4Sy+RzbHes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=hOg4pK1G; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296CB3A2559
+	for <linux-sunxi@lists.linux.dev>; Tue, 29 Sep 2026 17:27:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790702847; cv=pass; b=T9X4VSYN1l1mxnGaQVKwS4c4Vn9oAki73KrDRX6g7/NObFv/E4skFCcprNV8RMcR6XmtJEXLYPHGGOlKkyepjfMNE1sh//lhjVsloqPIY57pPJuMPyIFY4LwYG4rlBw7sgIcJasuJw/lQz3pWq5UFOXhoh9wgpBib7o+aTz1dVk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790702847; c=relaxed/simple;
+	bh=p/GHIp4Q+wktNYmNZSYzDRjvrWbldK01OubfVytpjns=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZRsBpzqeGBdZhBrM9PUDBaQY7RjoQBUoefnZZO3J8+IJQXxYNXZH1BUopA6YjtZU166F7Hu7xc7b+kTe6kUYBlY+GtI3sjjbyEtLCZyV0IE8DAqKkV+Z+sD8EUvcgSI2QZVbZfvf0/X/wfPHZj/ceqteRD8x01urlXxI/PME65s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech; spf=pass smtp.mailfrom=pigmoral.tech; dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b=q9JliJP0; arc=pass smtp.client-ip=165.173.180.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="hOg4pK1G"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccf3ca626so27762625e9.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 29 Sep 2026 10:15:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1790702134; x=1791306934; darn=lists.linux.dev;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gliMXdJJkSbMhSXEgRAl5Ekvovgp6Cfw/QE4Z+KNG5E=;
-        b=hOg4pK1GWyMMiJimAJBZcFDUq6tp15JyawSkE5mms+wfpA7GoCPrwfiu45pptvvvL0
-         cmtNA2QQo2hQlrc8iGtBYinTYxOKu8Mg9qquF7ZBXlbyLrD24FdZr9mb9dEZGOMMEhAJ
-         zOJFsFgrir4QdmkHbH74rI8HdQ6S+cFVSY89PWXVmvxvLR/JbliJ7j6d6gvEj/TxySxf
-         CaYN6csbqLIAK7G3QCFJTcPJDOdel0mSSe/wkACF1p/2YJ+QO01vxqd8+ZcAAKceJhTg
-         mxJ4v3VOH6naQEb2XqzxCgKH4bdZ12qu/g7FoKPNYW7skYePOj4mREvMhBzpcPyucW8Z
-         RnjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790702134; x=1791306934;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=gliMXdJJkSbMhSXEgRAl5Ekvovgp6Cfw/QE4Z+KNG5E=;
-        b=2gy0EUPpqA2cuR8fu3E1KSypGSDPvjDjVrvKNiybQlK8u3YpyN1MfL9dXNvzt0DvPF
-         UcexWrlmTzGLrnKofCiJPD0w99ESf3cXOpBKegq6MzpBFS3zPGEIkl7NWXJiOYq+IMjI
-         BVUngzYQytZedJ82ZVwgbVceP29Jyor+3kcVA9Ye4aaX3t9KedoysgiNjvj80zFUp2w5
-         ScCknwhyoS3tfY1fdd6mZP+lIcbfJang9RgcZUJx49INJEhzSMoqPGY7thnZjrQeNdJf
-         8IRORDUgaCj2eTFo7Zct2R2gsgb0N1F2irLMk0j2akkxnz3ukhxo97MSqGbRpas0in6V
-         TQQQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxby77rX/3hOrNN/TS1sZ/+HMVgAfab+Ru+17clY7Ow/wn4Or/B4vy5Uomg7Ushcm3WPHb7KTvIrXF8Hg==@lists.linux.dev
-X-Gm-Message-State: AFuF++liyIr0twXfo9w0lGlQl/tZkcsXyWLX4xSeLbc1s5rNwjlfx84/
-	/GI0TqpChGQ6h1M4OwQCR6oLlj0XSWEAaMLwWOsGp7NaWWlKVPFlVttZazLxzvQZlY8=
-X-Gm-Gg: AYBFou198x7qGwejrRXBI0BswLdEXLOR07Y7SbdSn1rkqpR7jIkRbNSEOfsYG7O9o3G
-	yd6eO/VCI+x+vRxV/KgWYJATgw1bntrva3LyzJ6WI+gRo1DOeM8gAP7NLPsJ6Z6Y/8k3TveNlG4
-	rAM5NaeN38JoiESKbku7FgHblCKMV3njZxYsMAlpnBRFKJf9nqOSRb7obWbNmhQ9YByG+UfDr+V
-	Xmq7ui4GxF4ezSX9SbRYAH1d6xclU6CD+Fjy7+WwDRFFtW5XI0lOoNHmPyxUJz7l6FVr1anYlie
-	cQTccmKDBhZx1CDxJGFRWEjPUxOFeRgv224He0Ih6lZGcb/naiNX7qhuPXNT6DzsPGVAFx9jsGJ
-	rxcO85ax8SR8Nd1QsfSfi78QOf1d3Ernd8kdfc+pmNazVHrB0DR9YjSccbrKpURceDmuz/RnwpJ
-	5EbA6PVRwxyuKvnPvOuJbrJP01r8iUfw1TDTSuCvadNbxqDGaJcxtMNyym7xhDzmZMTSqYjPgdB
-	9tAR1fjmEVutf7Oqg==
-X-Received: by 2002:a05:600c:530f:b0:49f:ffdc:939d with SMTP id 5b1f17b1804b1-49fffdc9a4amr125086635e9.9.1790702133757;
-        Tue, 29 Sep 2026 10:15:33 -0700 (PDT)
-Received: from localhost (82-67-6-57.subs.proxad.net. [82.67.6.57])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a00cfae123sm101113665e9.13.2026.09.29.10.15.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 10:15:33 -0700 (PDT)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Richard
- Cochran <richardcochran@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, Andre Przywara
- <andre.przywara@arm.com>
-Subject: Re: [PATCH net-next v3 0/5] net: stmmac: Add support for Allwinner
- A733 GMAC210
-In-Reply-To: <93870bce-b18e-4eed-a9ca-1d01313c61a7@lunn.ch>
-References: <20260923-allwinner-a733-gmac-support-v3-0-15735155a789@baylibre.com>
- <9cc61625-47c9-4bdf-97f0-0528f661a399@lunn.ch>
- <1j7bkb9h5k.fsf@starbuckisacylon.baylibre.com>
- <5fae3b42-552a-458a-9710-927360e58c37@lunn.ch>
- <1jv77u8yak.fsf@starbuckisacylon.baylibre.com>
- <491f043e-6dc6-4936-a490-31a3362c5b6e@lunn.ch>
- <1jse2x91oh.fsf@starbuckisacylon.baylibre.com>
- <b41e7fe4-2ec8-428e-81ff-47e1c75003b1@lunn.ch>
- <1jecec3xnd.fsf@starbuckisacylon.baylibre.com>
- <93870bce-b18e-4eed-a9ca-1d01313c61a7@lunn.ch>
-Date: Tue, 29 Sep 2026 19:15:32 +0200
-Message-ID: <1ja4p03rnv.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b="q9JliJP0"
+ARC-Seal: i=1; a=rsa-sha256; t=1790702811; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Vhhckjv+Fp9yy4wONDWghNm8HBWYDPtQP4iYbZ5xTE/f1J1j/UhiLDupiUCbMaX8BTClRmThYqiMVmMTmSAxpObBydaYTRbap3rz4IhQIlQsruJ03s1flgXyhpbiNjguPmgqY+fL4SqarZxkFm1rCCMjp2Zo2Dhs6dJYuIw+uyQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1790702811; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=uKbN1/2S72+Ds1i9QYOJgPbItX37Pf7LrEr2RrJNMN4=; 
+	b=I9HiVCyFW/1dAlPhxJ0la2SqCxljMxY/marh5UT/+nXeVr6rsnC1GKJ6jHqzHvj7m5dIJJfcR8A8T4no7G8lUETym9Wi7xyLlsrgVt/oOqPF1q1QhBLLgKc6N3siQpEfAJKrVxMxUy/bj0KBVvyK9o/E/A7jGsoU+uv+4Rfb5OE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=pigmoral.tech;
+	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
+	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1790702811;
+	s=zmail; d=pigmoral.tech; i=junhui.liu@pigmoral.tech;
+	h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+	bh=uKbN1/2S72+Ds1i9QYOJgPbItX37Pf7LrEr2RrJNMN4=;
+	b=q9JliJP0jLlP954Aqp+Kr1YUHjUf0M7ZEwkXLgClIxWO7tgXZzu6LHb3BQ6q5kvt
+	qpk/BcEHv14/tz/PfYwNz6alvs3mrovAK2EgnsqTOkRAduAuPw+4kpVrWpl0/LM+Odo
+	bJlkPug2cseu+GgF8sEfAFGplXcltN6E6Acv/toc=
+Received: by smtp.zohomail.com with SMTPS id 1790702810475424.1998192636315;
+	Tue, 29 Sep 2026 10:26:50 -0700 (PDT)
+From: Junhui Liu <junhui.liu@pigmoral.tech>
+Subject: [PATCH v5 0/8] clk: sunxi-ng: Add support for Allwinner A733 CCU
+ and PRCM
+Date: Wed, 30 Sep 2026 01:26:07 +0800
+Message-Id: <20260930-a733-clk-v5-0-11175b41cd2d@pigmoral.tech>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22QS2rDMBRFt2I0roJ+tiwTSvdROpCfnxLR+FPJM
+ Skhe69sF+yWTARX6Jwr7p1EDB4jqbI7CTj56PsuhfwlI3C23Qmpb1ImgomCpYNaLSWFyydljXL
+ AmDXOAEnPh4DO3xbV+0fKZx/HPnwv5onPt6tEcrZJJk4ZlUWt0NRCqVy/Df7U9sFeDiPCmcyiS
+ Wyw5nwHiwQbrRpellAjg2ew3GDD8h0sE5wzJ2TppAFdPoPVDhb7ZjU3Ay8V1mgs8P/wYx0k4Nc
+ 1TTquq5AWY7TLpFV2/P1SQeO1u/lF2/V0WCeBukHBwTgszF/367x1bSNS6NvWj1U26YOkAXhqf
+ fwAgGvNKNABAAA=
+X-Change-ID: 20260202-a733-clk-0d4fc00a9f9c
+To: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Junhui Liu <junhui.liu@pigmoral.tech>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>
+Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ netdev@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>, 
+ Enzo Adriano <enzo.adriano.code@gmail.com>, 
+ Andre Przywara <andre.przywara@arm.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6367;
+ i=junhui.liu@pigmoral.tech; h=from:subject:message-id;
+ bh=p/GHIp4Q+wktNYmNZSYzDRjvrWbldK01OubfVytpjns=;
+ b=owGbwMvMwCWWvDb1VEXc8j+Mp9WSGLJ2f9m0uvIjT8M6D1kb3+js7l0rYgUSORcuef0+8kR5f
+ T2/RoR3RykLgxgXg6yYIguXv/g/ax2eb0cEWu/DzGFlAhnCwMUpABPRkGX473w0OP7o+4LDr1zP
+ hhaJWernXflodeDhu1O+3LF8J0tMXBj+cNybKnfYJUUmy7xlX4zCL7Ml3oWmB7T85jkKL5kifyC
+ HFwA=
+X-Developer-Key: i=junhui.liu@pigmoral.tech; a=openpgp;
+ fpr=15B30CC69C4BF0CC3C08F85A2A90CDC122DF37BF
+X-ZohoMailClient: External
 
-On mar. 29 sept. 2026 at 18:10, Andrew Lunn <andrew@lunn.ch> wrote:
+Add support for the main CCU and the PRCM module (R-CCU) found in the
+Allwinner A733 SoC. The clock architecture is derived from the previous
+A523 design, with the MCU_CCU removed and the clock tree extended for
+the additional functional blocks found on the A733.
 
->> Thanks for the heads up. So if I'm reading the doc correctly the PHY
->> adds 2ns
->>  * on RX if there a 4.7k pull-up on RXD0
->>  * on TX if there a 4.7k pull-up on RXD1
->> 
->> The schematics for the board are available here [1]
->> 
->> * 4.7k pull-up on RXD0: so we should have 2ns Rx from the PHY
->> * 4.7k pull-down on RXD1: no idea what this does. Presumably no delay ?
->> 
->> I've cross-checked the HW, the resistors are actually fitted as the
->> schematic says they are.
->> 
->> With the HW setup, the MAC setup that works for me remains
->> 
->> 	tx-internal-delay-ps = <1620>;
->> 	rx-internal-delay-ps = <1800>;
->
-> These values suggests there are delays on both Rx an Tx.
+The A733 introduces a "pll-ref" clock that normalizes the physical
+oscillator frequency, which can be 19.2MHz, 24MHz, or 26MHz, into a
+consistent 24MHz reference for the PLL clock tree.
 
-I did not mean to suggest :)
+The peripheral, video, and DE PLLs provide multiple independently gated
+outputs with programmable dividers. Model these outputs as separate
+divider-and-gate child clocks. Also follow the documented hierarchy for
+the derived peripheral PLL outputs. The explicitly named PLL_AUDIO1 /2
+and /5 outputs are modeled as fixed-factor clocks, with their divider
+fields initialized accordingly.
 
-To be clear, we have no control over the PHY delay.
-The strapping/doc says the PHY provide 2ns on Rx, none on Tx (presumably)
+Also extend the sunxi-ng SDM (Sigma-Delta Modulation) support for the
+dual-pattern register layout used by the A733 PLLs. PLL_AUDIO0 uses the
+dual-pattern SDM support to synthesize its fractional output.
+PLL_AUDIO1 does not expose fractional rates, but its SDM controls are
+modeled so that stale settings left by firmware can be disabled when an
+integer rate is programmed.
 
-But I must add 1.62ns on Tx and 1.8ns on Rx through the MAC for the link
-to work properly (the values above).
+The actual parents of a small number of bus gates are not documented in
+the user manual. Follow the vendor BSP and keep these gates parented to
+"hosc" until more complete hardware information is available.
 
-I don't have an explanation for this. I assume the PHY actually adds no
-delay, maybe the strapping implementation is broken. Maybe the PCB the
-already adds a little delay which is why the MAC just need to add a
-little less than 2ns.
+This series depends on the A523 single-divider clock fixes [1], which
+add feature support to the M-only clock macro used by the MBUS and DRAM0
+clocks. The prerequisite series has been applied to the
+sunxi/clk-for-7.4 branch.
 
->
->> 
->> I know it is not aligned with what it expected but still.
->
-> I'm flexible, if in the end this is what is required, that is fine. It
-> will need a comment explaining why it is needed, why the guidelines
-> are not being followed.
->
-> Where i have real problems is with developers who don't respect what
-> the guidelines say, even when their hardware could do what is
-> asked. They just do the minimum to make it work, and call it done.
->
-> The comment is then important, because i don't want developers using
-> this as an excuse not to do the correct thing.
+Link: https://patch.msgid.link/20260906-sunxi-clk-no-p-v1-0-cbde21c9fe69@pigmoral.tech [1]
+Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
+---
+Changes in v5:
+- Add the CLK_GIC binding ID, inserted after CLK_TRACE
+- Add the GIC clock and mark it critical
+- Fix the continuation line alignment of the trace clock
+- Mark ahb-cpus critical
+- Link to v4: https://patch.msgid.link/20260921-a733-clk-v4-0-9c184ebe9ac1@pigmoral.tech
 
-Sure, no problem. I'll add a comment in DT when I'll submit it,
-explaining what we have found regarding the PHY strapping and effects.
+Changes in v4:
+- Model the MBUS and DRAM0 clocks as M-only clocks
+- Base the series on the A523 single-divider clock fixes
+- Link to v3: https://patch.msgid.link/20260905-a733-clk-v3-0-50f238f39c78@pigmoral.tech
 
->
->      Andrew
+Changes in v3:
+- Patch 1: Rename the clock/reset binding headers with the allwinner vendor
+  prefix, use BSD-2-Clause for their dual license, and reorder the binding
+  properties according to the preferred schema layout
+- Patches 1 and 4: Drop the undocumented 12X suffix from the video and DE
+  PLL core clock names and binding IDs
+- Patch 2: Require all PAT1 enable bits to be set when checking whether SDM
+  is enabled
+- Patch 4: Model the independently gated peripheral, video, and DE PLL
+  outputs as programmable-divider child clocks
+- Patch 4: Follow the documented hierarchy for the derived peripheral PLL
+  outputs
+- Patch 4: Model the explicitly named PLL_AUDIO1 /2 and /5 outputs as
+  fixed-factor clocks and initialize their divider fields accordingly
+- Patch 4: Model the PLL_AUDIO1 SDM controls so stale firmware settings are
+  disabled when an integer rate is programmed
+- Patch 4: Add the missing module device table and remove an unused include
+- Patch 6: Replace the MP helpers used by timer clocks, which have no M
+  divider, with the corresponding P-only helpers
+- Patch 7: Document the unresolved parents of bus gates kept on hosc and
+  fix the APB/AHB IOMMU1 system clock names
+- Patches 3 and 8: Make the reset maps const
+- Link to v2: https://patch.msgid.link/20260711-a733-clk-v2-0-974d188cbe0c@pigmoral.tech
 
--- 
-Jerome
+Changes in v2:
+- Rework the clocks property in DT bindings to source hosc directly from
+  the oscillator to adapt to the new RTC binding
+- Clean up the SDM dual-pattern helper macro and add the missing enable
+  parameter for pll-audio0
+- Number single-instance clocks with 0, e.g. GPU0, VE_ENC0/VE_DEC0,
+  DRAM0, NAND0, GPADC0, THS0, etc
+- Correct 8x PLL post-divider names to 12x for video and DE PLLs
+  (pll-videoX-12x, pll-de-12x)
+- Drop gic, cpu-peri, nsi clocks
+- Rename clocks: OWA -> SPDIF, USB_REF -> USB01_REF, HDMI_ESM -> HDCP_ESM,
+  PWMCTRL -> PWM
+- Mark bus-dram0, ahb-store and mbus-store critical to avoid DMA, MMC and
+  SPI NOR failures when unused clocks are disabled
+- Switch PRCM timer clocks to P-only helpers
+- Fix bus gate bit positions for UARTs and correct the sysdap register
+  address
+- Interleave bus clocks into function clocks
+- Link to v1: https://lore.kernel.org/r/20260310-a733-clk-v1-0-36b4e9b24457@pigmoral.tech
+
+---
+Junhui Liu (8):
+      dt-bindings: clk: sun60i-a733-ccu: Add Allwinner A733 support
+      clk: sunxi-ng: sdm: Add dual patterns support
+      clk: sunxi-ng: a733: Add PRCM CCU
+      clk: sunxi-ng: a733: Add PLL clocks support
+      clk: sunxi-ng: a733: Add bus clocks support
+      clk: sunxi-ng: a733: Add mod clocks support
+      clk: sunxi-ng: a733: Add bus clock gates
+      clk: sunxi-ng: a733: Add reset lines
+
+ .../bindings/clock/allwinner,sun60i-a733-ccu.yaml  |  107 +
+ drivers/clk/sunxi-ng/Kconfig                       |   10 +
+ drivers/clk/sunxi-ng/Makefile                      |    4 +
+ drivers/clk/sunxi-ng/ccu-sun60i-a733-r.c           |  273 +++
+ drivers/clk/sunxi-ng/ccu-sun60i-a733.c             | 2406 ++++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu_sdm.c                     |   52 +-
+ drivers/clk/sunxi-ng/ccu_sdm.h                     |   29 +-
+ .../dt-bindings/clock/allwinner,sun60i-a733-ccu.h  |  291 +++
+ .../clock/allwinner,sun60i-a733-r-ccu.h            |   39 +
+ .../dt-bindings/reset/allwinner,sun60i-a733-ccu.h  |  129 ++
+ .../reset/allwinner,sun60i-a733-r-ccu.h            |   23 +
+ 11 files changed, 3337 insertions(+), 26 deletions(-)
+---
+base-commit: e5e04726cdd043e309677071ab1b65a4b18f422b
+change-id: 20260202-a733-clk-0d4fc00a9f9c
+prerequisite-message-id: <20260906-sunxi-clk-no-p-v1-0-cbde21c9fe69@pigmoral.tech>
+prerequisite-patch-id: 0df2ae41836b86fd868dfa01ddfde57f888f761a
+prerequisite-patch-id: 88f3a431e7c551a9fa732f062188f10fdd362eeb
+prerequisite-patch-id: 3e88bc873c909059d1199f82cda4013765e7a5e5
+prerequisite-patch-id: 0dbc27cd7417352319a0705a051dff35085e8922
+
+Best regards,
+--  
+Junhui Liu <junhui.liu@pigmoral.tech>
+
