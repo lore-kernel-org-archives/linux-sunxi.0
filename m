@@ -1,247 +1,177 @@
-Received: from sender5-op-o15.zoho.com (sender5-op-o15.zoho.com [165.173.182.15])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010048.outbound.protection.outlook.com [52.101.69.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59DEC544D6A
-	for <linux-sunxi@lists.linux.dev>; Tue, 29 Sep 2026 17:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72916442118;
+	Tue, 29 Sep 2026 19:06:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790702916; cv=pass; b=E05+dnmP8joX7vAUwUCy3oI18ak4KP5kuBcC1MRt0RZyljmKzH2XjNuKQmRI0jSWrLQchODRpegyIAGeHplcTbjFCzbsD2kbFqoTX81LRiSgXbqUPOg+/zc3XlQvcgPVwZnZ/cSlR8AY0UKcwjSWHEaBOslM+CiZY+HqfWfmHZo=
+	t=1790708811; cv=fail; b=f49dIQOj8z8ab4gXE2wc54UdBRwr87qLcCuqg4kkSY0cju7eW041uBnbLSnG9X0LXbX5boDIKxvUKLQh/AaZgZe5GijwoZZgw/WkmhU7KFTO+UGYb50BMdHB9/loBxlWNABVAdP1FN98RKy+V5i3cmBmmN0IZ7HZiJ/YIRGoH3o=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790702916; c=relaxed/simple;
-	bh=XdT2iJdckE28YBUVfkZ3eyryqxQGnL/JDWvrAO60CLI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fgWfGz/Fo/jD4LDQbACr6cUmI9AvnBXt7ytAzwGSye6JJfz/M/4CIoMTi03WwMvApexwaMe/1OKDC+bmYB13a9Dq78oYVweSnDXyUZQ37NXiovA2F4I2RnKdxhfBYO9YNwlnWFVRIbTnS1d355N6lCitk9Cf/OpRe1nWclo2DTk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech; spf=pass smtp.mailfrom=pigmoral.tech; dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b=lItJDZGf; arc=pass smtp.client-ip=165.173.182.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
+	s=arc-20240116; t=1790708811; c=relaxed/simple;
+	bh=IP3Gt4np9PcFDuAnZ6bOjT8lPH3LJeu7L6Kj9Htd1E8=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=YP6wTmq4kEnbLNuziY5nqwDD/XnBMWadSPiiCesf3wy6QD4vrr+KahtIu1iRGZP4sVF0HA6blUyMLcGxuAvSfw2o6+Ox0w/rQupapH+gEyZiQ2TZwZYeLvnFyOJOXNHKWObKS0G1HfVTyvIDydbBHbW37ekbC8oP3Ewn192LSlE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=fWXFGd80; arc=fail smtp.client-ip=52.101.69.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b="lItJDZGf"
-ARC-Seal: i=1; a=rsa-sha256; t=1790702885; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Wyn6AUI9gFlvzj08i1fD7/dOmBycKRXMHTGATD8bAq+T5S0tCCPIezwszJMiStqEf5DanbNIw0jQ2WL0pDXfbf5Ou38Nx9JvIQrXzwcJbLSozsmCi3zR4VjPLcwVpoCd5PXai6fHyAOeoHe1KqlHC2869evCtZdHU2xyGzX8QdI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1790702885; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Z9xKr36T7cCv0D99bQk1KgbtvplOO9pUVM2GS00wRTU=; 
-	b=LOOYGZipPupR/QsmAsG4gYW2ilWh12Vy4ErQQG0YAzfZm7dJwnMuRykG0Wcdn79ONSBers3Uc+2rF4+qoOv2SSJ5az0o5GV7Q2dgE2G346pRRTHH4aLuM27Iei6ZpCrOKbImXd3IaOJAULCzg/+/wAN6AMSrtY5CvmFXaXvcvu4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=pigmoral.tech;
-	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
-	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1790702885;
-	s=zmail; d=pigmoral.tech; i=junhui.liu@pigmoral.tech;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=Z9xKr36T7cCv0D99bQk1KgbtvplOO9pUVM2GS00wRTU=;
-	b=lItJDZGfEKqVRvhZEy+O//gWEo/wSx2UdMRT/YqObCM2Hl3x5o5hOwt4lRT9IIUU
-	q4KLIDJM2aoHp3ecKtwg2vutQOtRnefoPW7xK5qZZMA2kXJZ3KmVU3GTEBGc02QE1JI
-	7QXpnpNFp86sndqNbIscFnrtcgksrpLWaHicTc1A=
-Received: by smtp.zohomail.com with SMTPS id 1790702884696829.796239581199;
-	Tue, 29 Sep 2026 10:28:04 -0700 (PDT)
-From: Junhui Liu <junhui.liu@pigmoral.tech>
-Date: Wed, 30 Sep 2026 01:26:15 +0800
-Subject: [PATCH v5 8/8] clk: sunxi-ng: a733: Add reset lines
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="fWXFGd80"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CBjPF8xjvai8+rk71VMj+ZFJAXmn20eQM/ksWpPhPWlUX+mNehiqgmW3L/u2tAsW++n8mRh3W0z0fr8wwWFw3e/8Kl2VbZ7WWP9un4vcnnaY08oplFB6XvLsamWbUErWyuSwwyFqrzhhF+ZXbnZC2V/iZOuqNOMVZw1tnvVfPlgoIcuw5+HyLGVHLjS+44grhz72GfCv8Y/MqYEhG943MPHoKXn7hCqq+ueUjgx6bDayEDltfqbrFqMsnc15fPyTNjQ8CXywQm4dHHMipUz4uwZ5kKASFl55pVvDO6wwomTD38gf0gbM346uzZPrGOgPIvTffqcxVFMtjkoP/1Dh1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HeT0xizABDVvfmPND3KOkhjqtTL/Ptu1R9Ha+08a+5Y=;
+ b=YXhLt1l2kTIR+Y0Blr9Amrynf+hPNdOkYDPA9wr3DNZYjCxCPXCRannyPfYV7oAxcvSb7mzVtUdFgqxiXIJCtivK9RvTsgODEW9XCb0pseT9dA5KRHeTONWlEF2I6+TGHY1SgFGGlq19ln8STEvTI/kvNEme8GQIS8xFGYDpH/1VIcrjQ2WQrdLd8rlZpeGT6pUbh5lue7WCTLvqcCTLncSI5742OEjMfl7+tSuoTFW/NHKCnPoltjU/Q8yQb1WhKWTgVAIprMJt3U/m8o35yOmX1aG8zgCeYorTJR0mwiMojYghlVls67QePV974OzCApGp3F8rg2mUMjR+gL6DwQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HeT0xizABDVvfmPND3KOkhjqtTL/Ptu1R9Ha+08a+5Y=;
+ b=fWXFGd809HS9kequLTYdZXCukNcWuabLcpXtdq28DXz0VvMGMwTloIl4F6/6ffE0ZjxmLhd6k89veMJIEbBGqCymKdtbEZHx8PJDUkFN+DiCoLapTM5Pbr0z++alBr9Wivd8lhLZG5lFIcaP5++7jue9MBftS5RHY2GYLR0ySgq+dgiPZ9iwAyvoHkEK7QCbwFTVcVj98M8ku1IV55aCvbyUhZtKqlt7Z4u/ZZ02XBYXC6YvfxuCJjAqCoRVhiJ/qcQ+EQ8IMJrW+AxCxKXaqqLeDRR1d49JZrMAMW7X2NAFwe7748nK6DIeQKFCy6m11+1Zdk0+TgeQmn1Zxh3GWQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by AMBPR04MB759424.eurprd04.prod.outlook.com (2603:10a6:20b:799::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.19; Tue, 29 Sep
+ 2026 19:06:46 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0451.022; Tue, 29 Sep 2026
+ 19:06:46 +0000
+From: Frank.Li@oss.nxp.com
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	bui duc phuc <phucduc.bui@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Kees Cook <kees@kernel.org>,
+	Li Youhong <liyouhong@kylinos.cn>,
+	Frank Li <Frank.Li@nxp.com>,
+	netdev@vger.kernel.org (open list:NETWORKING DRIVERS),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
+	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support),
+	linux-kernel@vger.kernel.org (open list)
+Cc: vkoul@kernel.org,
+	imx@lists.linux.dev
+Subject: [PATCH 1/1] net: allwinner: remove dmaengine_desc_free()
+Date: Tue, 29 Sep 2026 15:06:36 -0400
+Message-ID: <20260929190640.3516766-1-Frank.Li@oss.nxp.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CYXPR02CA0073.namprd02.prod.outlook.com
+ (2603:10b6:930:ce::20) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260930-a733-clk-v5-8-11175b41cd2d@pigmoral.tech>
-References: <20260930-a733-clk-v5-0-11175b41cd2d@pigmoral.tech>
-In-Reply-To: <20260930-a733-clk-v5-0-11175b41cd2d@pigmoral.tech>
-To: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
- Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Junhui Liu <junhui.liu@pigmoral.tech>, Paul Walmsley <pjw@kernel.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- netdev@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>, 
- Enzo Adriano <enzo.adriano.code@gmail.com>, 
- Andre Przywara <andre.przywara@arm.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7014;
- i=junhui.liu@pigmoral.tech; h=from:subject:message-id;
- bh=XdT2iJdckE28YBUVfkZ3eyryqxQGnL/JDWvrAO60CLI=;
- b=kA0DAAoWY61lynhep/wByyZiAGq79M7I6RNNydBhpFXZpCT3e8KAPzD7gWDl1YaXQguWolk+9
- Ih1BAAWCgAdFiEECk8X/jssDPbEEIXfY61lynhep/wFAmq79M4ACgkQY61lynhep/zv9AD8Dg4H
- 3PXp9bszsRqffgdRc08XpSIXZXCTHv672zWM2XMA/j/CwDePxZ/eD7B8PIC0qYHHljMpmZfFaCv
- fRCPR2awJ
-X-Developer-Key: i=junhui.liu@pigmoral.tech; a=openpgp;
- fpr=15B30CC69C4BF0CC3C08F85A2A90CDC122DF37BF
-X-ZohoMailClient: External
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|AMBPR04MB759424:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4f5d9efe-2c0b-4c8e-ae96-08df1e5cceb2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|19092799006|366016|376014|23010399003|7416014|921020|5023799004|18002099003|10067099003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	kYoHH08lNuxdHP/cQCIyXLxFnRb+AgBsFtZaP9X88JsO7NFhY9xgRKVn3XteWxjHaO6YABrFajF+Pke1XHAdWAnZjxoMw1QIQRIzItaoM3OnOgK6lJ35BXlktKv3uklgXfPTViTp+qA30y+3YJ06xXHDi2RV6tbq9I5uBeutlxmBqr0YgsvDgYu7kk3AQyUzpQG18CVXZvccTdcHxEX7/Pp5qAwnnoQPDfukbDz6NUPPXvaVaa0SqLzSL+B2T/ct6OG3yIwPuqrKDUJNoIBPF0qyW4kIvjfP+lYoSKc3ip6nUywT7BHpiib1FPHRhbLRiLJqIq2cZasPdX1wBlqqYmoEbwv06AtGmm1MbmVGWNrdYFS4kwEKG5uQBAtLUXxHRse1u+wVHm4P4PQI9LxyGxKZs+agA11exVP+UpB9tBvnfA7ww3Zx1xo04NP7baASGmJgZzM2Kqf51HFmm+HxqWuMzASnAL4IUm4lKhKVs921P4XogYEDcabNi+K21gJrT1/sSu3F5aQS3k+yhY4uEnmmeYPhxDN6BGctlEI8BGdaGwYvVkvBKPkShZgWcjfRvsf/icm1/k23v3yrkd737EegxgxAA0MSC6YjP9nkUHwHlUaJzHok1Kk14wn/qNDPRZKgdsCS3XdwBX9XNsmOPtPOMJMnwt1obKT8LcvsYO8H7Kaea/cbzZW2xLWZ2movZGQifYINYpxEP3uvB3IdYA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(366016)(376014)(23010399003)(7416014)(921020)(5023799004)(18002099003)(10067099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?0x08VXYqpyU/WDK+992EPn2g86BrM83qXZp0hocK95/CSrhkUFg/RAKBhrZk?=
+ =?us-ascii?Q?KV2o3smfbGPAiICxyyW4WIOP9hlyzNkggC02SO0SA1QfAfXolU06TRFJ2u6a?=
+ =?us-ascii?Q?B2hFAX7P8nHCLADWeAZLV+dLCnkbIdiNRbo09AypvqF60HD768ZMSsQlDU96?=
+ =?us-ascii?Q?gCB4RFFSFlu/rh4iIuhbOvAeAHysjn0L9B45zwzvMjW0UjkvefWWIQ8ZMJTz?=
+ =?us-ascii?Q?8NvM4mx+kVV/9/05Lkkn3UvuzDdcozglEh1BOF06iCIyNfzZMcbIbas/eVCw?=
+ =?us-ascii?Q?lndPpkgy2+PzOx3s+KCxR6syDmGbN3XK/8Zi/wrSXDOU8W3c51q27m7RVTDn?=
+ =?us-ascii?Q?x/cK9nY2In1bRq8JpBbUf3bI30P/WxKY/5SYydfgRADWb5afAVUNyiVJGdr3?=
+ =?us-ascii?Q?5+iL4NDOei9s81brpGVzg9dSPh4clqikYTnHh6YEnul7s/B8p5tiFMTcT77V?=
+ =?us-ascii?Q?8uCk9zvJD4H+WSWt6B2UgKbtteh23HlDybQTYceexEiovXBslmalGktmeLf1?=
+ =?us-ascii?Q?t5gHIaIvBFX/8xeVWaPHBcpLU4xsbYSnx7RBLMD6Jbb2SKKKdVCkHhXw1Wc4?=
+ =?us-ascii?Q?gnPEt4Ed46gS45D8kKn0J+u8uE1XawglusLHvFlVNn21hewkTjYY1bF1p6qw?=
+ =?us-ascii?Q?msPJwIxAN9kJju5IOQizpp2i7EBxsSwPeqq2dMUMEGN4CE/Z7ePbHZnTLKCu?=
+ =?us-ascii?Q?GiORCHXsls/xGS7WVJ9RJHC1k6koVECxYy8GEM4EBND9D76rwVBzK1r48GOh?=
+ =?us-ascii?Q?CQQ6LNyFsX1Hht/HlfxolBlgAB5UBarb9Tz+0umO80XicE12OoMHVsT9Frft?=
+ =?us-ascii?Q?94G//hP2+tFoYw4T6z2SlVdC3Z5NwqAnwScgVScwlXciPDk80F7BUEI8TyxI?=
+ =?us-ascii?Q?+LIHuSCw8tQeOmfMR7jnT/WZicJcZWHIgtCI0Xwlu3xm2pdVp2ih23uJpK/J?=
+ =?us-ascii?Q?PQASbUSgl0OUZDXiNPUDnuj64fW05I1s1RaEwWDKFh+Sn2Rdbf6+18P1NswD?=
+ =?us-ascii?Q?4qtKHyWnmyLTN/9rrp+xEl91eT6Fr9OBna2R4GG/qdJNYPE74Pa7nbOv3mI9?=
+ =?us-ascii?Q?/s1L+Yx79f1zRvEnMDIZZYErIpTQFgUGHADFjEJBfQ2BMpjyaBy/91CXC0rr?=
+ =?us-ascii?Q?enbUjzdHM34EVh32Oe3N2PM+6g+UPlLdqnrQEZecYv3z42l3sKx7yWRGwG4c?=
+ =?us-ascii?Q?sPiHDRpr2yfox4SOvTGNstZitOUkob7ux1X14vPHHGzO6XfA3tJCuxnuxiaZ?=
+ =?us-ascii?Q?iUSmbs7B9ZeXcWSX6LHv+/gWTs570C+LHbglmDCft2Qdx8vN6CKLa42bQ0ZM?=
+ =?us-ascii?Q?Nk5DtUz+RFe63B0Hpq+pR3bSNDM/WbaKHPXb6yVa9mw58afs5u628A/lI6TF?=
+ =?us-ascii?Q?O0qBrVPwFYbnFCmVY8Wvh8a4yhc5eE9jtPr/vxeDKnYsYS4CHoMl7uMPJ+F2?=
+ =?us-ascii?Q?ltJAcuQpwiBxYvp89aar1IzszwxIxe2q3xtPeGIP76CJAd1B6snQdtBukh7N?=
+ =?us-ascii?Q?HNNhPzE/NXNcgmCipRH4RgCvUcCSUtyqg8Df7QeDqD169yGq6kjyXn5NXJiH?=
+ =?us-ascii?Q?+7EMfVBbS6oYB1AmEbL6iJ+Jfm0zaFEYbQ9Wfg40XRuVNasML32iE2ymMeMZ?=
+ =?us-ascii?Q?er096qoKGaTmFFcSLVv0G+ElLut10Tom972MC09327f6wE/ewZZ1+LICrJJv?=
+ =?us-ascii?Q?VeaiwG2nk8fdVJaDZ66xb9+m9ScXK4ybfTyvz1WHwrZYoWKljjS+P88v+AUf?=
+ =?us-ascii?Q?CNYSB59tURnF7lubLbQLfF+KUSX56BFxIQZ4uSVEJ6/lcJWhjkDE?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f5d9efe-2c0b-4c8e-ae96-08df1e5cceb2
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2026 19:06:46.5203
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JoQV21bz4VITnyDUTn7hVf6kR6kc+ngHo5NlhiVuqKmsvgcIX2bpg1TKxQ7k1Yq2RzvgBHih3ss3lEjT6c8nWfVzqG2ZuQFTGpNVu/5GqdB593rlrLOThoy4LcbYmFAn
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR04MB759424
 
-Add the reset lines for the Allwinner A733 SoC. These reset control bits
-are integrated into the Bus Gate Reset (BGR) registers, typically
-sharing the same register address with their corresponding bus clock
-gates. Integrate them into the main CCU driver using the existing
-sunxi-ng ccu_reset framework, allowing the CCU to also function as a
-reset controller for the SoC.
+From: Frank Li <Frank.Li@nxp.com>
 
-Tested-by: Jerome Brunet <jbrunet@baylibre.com>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
+dmaengine_desc_free() is designed for DMA_CTRL_REUSE. If DMA_CTRL_REUSE
+is not set, dmaengine_desc_free() will return -EPERM.
+
+	if (!dmaengine_desc_test_reuse(desc))
+		return -EPERM;
+
+So calling dmaengine_desc_free() does nothing.
+dmaengine_terminate_(a)sync() will free all already allocated descriptors.
+
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
- drivers/clk/sunxi-ng/ccu-sun60i-a733.c | 126 +++++++++++++++++++++++++++++++++
- 1 file changed, 126 insertions(+)
+ drivers/net/ethernet/allwinner/sun4i-emac.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
-index b077e5d2f32c..dff3300b9849 100644
---- a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
-@@ -19,6 +19,7 @@
- #include <dt-bindings/reset/allwinner,sun60i-a733-ccu.h>
+diff --git a/drivers/net/ethernet/allwinner/sun4i-emac.c b/drivers/net/ethernet/allwinner/sun4i-emac.c
+index 0ba67a55705d6..09b2abdfc9e84 100644
+--- a/drivers/net/ethernet/allwinner/sun4i-emac.c
++++ b/drivers/net/ethernet/allwinner/sun4i-emac.c
+@@ -300,7 +300,7 @@ static int emac_dma_inblk_32bit(struct emac_board_info *db,
+ 	if (!req) {
+ 		dev_err(db->dev, "alloc emac dma req error.\n");
+ 		ret = -ENOMEM;
+-		goto alloc_req_err;
++		goto prepare_err;
+ 	}
  
- #include "ccu_common.h"
-+#include "ccu_reset.h"
+ 	desc->callback_param = req;
+@@ -319,9 +319,6 @@ static int emac_dma_inblk_32bit(struct emac_board_info *db,
+ submit_err:
+ 	emac_free_dma_req(req);
  
- #include "ccu_div.h"
- #include "ccu_gate.h"
-@@ -2196,11 +2197,136 @@ static struct clk_hw_onecell_data sun60i_a733_hw_clks = {
- 	.num	= CLK_FANOUT3 + 1,
- };
- 
-+static const struct ccu_reset_map sun60i_a733_ccu_resets[] = {
-+	[RST_BUS_ITS_PCIE0]		= { 0x574, BIT(16) },
-+	[RST_BUS_IOMMU0_SYS]		= { 0x58c, BIT(16) },
-+	[RST_BUS_MSI_LITE0_AHB]		= { 0x594, BIT(16) },
-+	[RST_BUS_MSI_LITE0_MBUS]	= { 0x594, BIT(17) },
-+	[RST_BUS_MSI_LITE1_AHB]		= { 0x59c, BIT(16) },
-+	[RST_BUS_MSI_LITE1_MBUS]	= { 0x59c, BIT(17) },
-+	[RST_BUS_MSI_LITE2_AHB]		= { 0x5a4, BIT(16) },
-+	[RST_BUS_MSI_LITE2_MBUS]	= { 0x5a4, BIT(17) },
-+	[RST_BUS_IOMMU1_SYS]		= { 0x5b4, BIT(16) },
-+	[RST_BUS_DMA0]			= { 0x704, BIT(16) },
-+	[RST_BUS_DMA1]			= { 0x70c, BIT(16) },
-+	[RST_BUS_SPINLOCK]		= { 0x724, BIT(16) },
-+	[RST_BUS_MSGBOX]		= { 0x744, BIT(16) },
-+	[RST_BUS_PWM0]			= { 0x784, BIT(16) },
-+	[RST_BUS_PWM1]			= { 0x78c, BIT(16) },
-+	[RST_BUS_DBG]			= { 0x7a4, BIT(16) },
-+	[RST_BUS_SYSDAP]		= { 0x7ac, BIT(16) },
-+	[RST_BUS_TIMER0]		= { 0x850, BIT(16) },
-+	[RST_BUS_DE0]			= { 0xa04, BIT(16) },
-+	[RST_BUS_DI]			= { 0xa24, BIT(16) },
-+	[RST_BUS_G2D]			= { 0xa44, BIT(16) },
-+	[RST_BUS_EINK]			= { 0xa6c, BIT(16) },
-+	[RST_BUS_DE_SYS]		= { 0xa74, BIT(16) },
-+	[RST_BUS_VE_ENC0]		= { 0xa8c, BIT(16) },
-+	[RST_BUS_VE_DEC0]		= { 0xa8c, BIT(18) },
-+	[RST_BUS_CE]			= { 0xac4, BIT(16) },
-+	[RST_BUS_CE_SYS]		= { 0xac4, BIT(17) },
-+	[RST_BUS_NPU_CORE]		= { 0xb04, BIT(16) },
-+	[RST_BUS_NPU_AXI]		= { 0xb04, BIT(17) },
-+	[RST_BUS_NPU_AHB]		= { 0xb04, BIT(18) },
-+	[RST_BUS_NPU_SRAM]		= { 0xb04, BIT(19) },
-+	[RST_BUS_GPU0]			= { 0xb24, BIT(16) },
-+	[RST_BUS_DRAM0]			= { 0xc0c, BIT(16) },
-+	[RST_BUS_NAND0]			= { 0xc8c, BIT(16) },
-+	[RST_BUS_MMC0]			= { 0xd0c, BIT(16) },
-+	[RST_BUS_MMC1]			= { 0xd1c, BIT(16) },
-+	[RST_BUS_MMC2]			= { 0xd2c, BIT(16) },
-+	[RST_BUS_MMC3]			= { 0xd3c, BIT(16) },
-+	[RST_BUS_UFS_AHB]		= { 0xd8c, BIT(16) },
-+	[RST_BUS_UFS_AXI]		= { 0xd8c, BIT(17) },
-+	[RST_BUS_UFS_PHY]		= { 0xd8c, BIT(18) },
-+	[RST_BUS_UFS_CORE]		= { 0xd8c, BIT(19) },
-+	[RST_BUS_UART0]			= { 0xe00, BIT(16) },
-+	[RST_BUS_UART1]			= { 0xe04, BIT(16) },
-+	[RST_BUS_UART2]			= { 0xe08, BIT(16) },
-+	[RST_BUS_UART3]			= { 0xe0c, BIT(16) },
-+	[RST_BUS_UART4]			= { 0xe10, BIT(16) },
-+	[RST_BUS_UART5]			= { 0xe14, BIT(16) },
-+	[RST_BUS_UART6]			= { 0xe18, BIT(16) },
-+	[RST_BUS_I2C0]			= { 0xe80, BIT(16) },
-+	[RST_BUS_I2C1]			= { 0xe84, BIT(16) },
-+	[RST_BUS_I2C2]			= { 0xe88, BIT(16) },
-+	[RST_BUS_I2C3]			= { 0xe8c, BIT(16) },
-+	[RST_BUS_I2C4]			= { 0xe90, BIT(16) },
-+	[RST_BUS_I2C5]			= { 0xe94, BIT(16) },
-+	[RST_BUS_I2C6]			= { 0xe98, BIT(16) },
-+	[RST_BUS_I2C7]			= { 0xe9c, BIT(16) },
-+	[RST_BUS_I2C8]			= { 0xea0, BIT(16) },
-+	[RST_BUS_I2C9]			= { 0xea4, BIT(16) },
-+	[RST_BUS_I2C10]			= { 0xea8, BIT(16) },
-+	[RST_BUS_I2C11]			= { 0xeac, BIT(16) },
-+	[RST_BUS_I2C12]			= { 0xeb0, BIT(16) },
-+	[RST_BUS_SPI0]			= { 0xf04, BIT(16) },
-+	[RST_BUS_SPI1]			= { 0xf0c, BIT(16) },
-+	[RST_BUS_SPI2]			= { 0xf14, BIT(16) },
-+	[RST_BUS_SPIF]			= { 0xf1c, BIT(16) },
-+	[RST_BUS_SPI3]			= { 0xf24, BIT(16) },
-+	[RST_BUS_SPI4]			= { 0xf2c, BIT(16) }, /* From the vendor kernel. */
-+	[RST_BUS_GPADC0]		= { 0xfc4, BIT(16) },
-+	[RST_BUS_THS0]			= { 0xfe4, BIT(16) },
-+	[RST_BUS_IRRX]			= { 0x1004, BIT(16) },
-+	[RST_BUS_IRTX]			= { 0x100c, BIT(16) },
-+	[RST_BUS_LRADC]			= { 0x1024, BIT(16) },
-+	[RST_BUS_SGPIO]			= { 0x1064, BIT(16) }, /* From the vendor kernel. */
-+	[RST_BUS_LPC]			= { 0x1084, BIT(16) }, /* From the vendor kernel. */
-+	[RST_BUS_I2SPCM0]		= { 0x120c, BIT(16) },
-+	[RST_BUS_I2SPCM1]		= { 0x121c, BIT(16) },
-+	[RST_BUS_I2SPCM2]		= { 0x122c, BIT(16) },
-+	[RST_BUS_I2SPCM3]		= { 0x123c, BIT(16) },
-+	[RST_BUS_I2SPCM4]		= { 0x124c, BIT(16) },
-+	[RST_BUS_SPDIF]			= { 0x128c, BIT(16) },
-+	[RST_BUS_DMIC]			= { 0x12cc, BIT(16) },
-+	[RST_USB_PHY0]			= { 0x1300, BIT(30) },
-+	[RST_BUS_OHCI0]			= { 0x1304, BIT(16) },
-+	[RST_BUS_EHCI0]			= { 0x1304, BIT(20) },
-+	[RST_BUS_OTG]			= { 0x1304, BIT(24) },
-+	[RST_USB_PHY1]			= { 0x1308, BIT(30) },
-+	[RST_BUS_OHCI1]			= { 0x130c, BIT(16) },
-+	[RST_BUS_EHCI1]			= { 0x130c, BIT(20) },
-+	[RST_BUS_USB2]			= { 0x135c, BIT(16) },
-+	[RST_BUS_PCIE_PWRUP]		= { 0x138c, BIT(16) },
-+	[RST_BUS_PCIE]			= { 0x138c, BIT(17) },
-+	[RST_BUS_SERDES]		= { 0x13c4, BIT(16) },
-+	[RST_BUS_GMAC0]			= { 0x141c, BIT(16) },
-+	[RST_BUS_GMAC0_AXI]		= { 0x141c, BIT(17) },
-+	[RST_BUS_GMAC1]			= { 0x142c, BIT(16) }, /* From the vendor kernel. */
-+	[RST_BUS_GMAC1_AXI]		= { 0x142c, BIT(17) }, /* From the vendor kernel. */
-+	[RST_BUS_TCON_LCD0]		= { 0x1504, BIT(16) },
-+	[RST_BUS_TCON_LCD1]		= { 0x150c, BIT(16) },
-+	[RST_BUS_TCON_LCD2]		= { 0x1514, BIT(16) }, /* From the vendor kernel. */
-+	[RST_BUS_LVDS0]			= { 0x1544, BIT(16) },
-+	[RST_BUS_LVDS1]			= { 0x154c, BIT(16) },
-+	[RST_BUS_DSI0]			= { 0x1584, BIT(16) },
-+	[RST_BUS_DSI1]			= { 0x158c, BIT(16) },
-+	[RST_BUS_TCON_TV0]		= { 0x1604, BIT(16) },
-+	[RST_BUS_TCON_TV1]		= { 0x160c, BIT(16) },
-+	[RST_BUS_EDP]			= { 0x164c, BIT(16) },
-+	[RST_BUS_HDMI_MAIN]		= { 0x168c, BIT(16) },
-+	[RST_BUS_HDMI_SUB]		= { 0x168c, BIT(17) },
-+	[RST_BUS_HDMI_HDCP]		= { 0x168c, BIT(18) },
-+	[RST_BUS_DPSS_TOP0]		= { 0x16c4, BIT(16) },
-+	[RST_BUS_DPSS_TOP1]		= { 0x16cc, BIT(16) },
-+	[RST_BUS_VIDEO_OUT0]		= { 0x16e4, BIT(16) },
-+	[RST_BUS_VIDEO_OUT1]		= { 0x16ec, BIT(16) },
-+	[RST_BUS_LEDC]			= { 0x1704, BIT(16) },
-+	[RST_BUS_DSC]			= { 0x1744, BIT(16) },
-+	[RST_BUS_CSI]			= { 0x1844, BIT(16) },
-+	[RST_BUS_VIDEO_IN]		= { 0x1884, BIT(16) },
-+	[RST_BUS_APB2JTAG]		= { 0x1c04, BIT(16) },
-+};
-+
- static const struct sunxi_ccu_desc sun60i_a733_ccu_desc = {
- 	.ccu_clks	= sun60i_a733_ccu_clks,
- 	.num_ccu_clks	= ARRAY_SIZE(sun60i_a733_ccu_clks),
- 
- 	.hw_clks	= &sun60i_a733_hw_clks,
-+
-+	.resets		= sun60i_a733_ccu_resets,
-+	.num_resets	= ARRAY_SIZE(sun60i_a733_ccu_resets),
- };
- 
- static const u32 pll_regs[] = {
-
+-alloc_req_err:
+-	dmaengine_desc_free(desc);
+-
+ prepare_err:
+ 	dma_unmap_single(db->dev, rxbuf, count, DMA_FROM_DEVICE);
+ 	return ret;
 -- 
-2.55.0
+2.43.0
 
