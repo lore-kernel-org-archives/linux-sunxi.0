@@ -1,130 +1,131 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+Received: from mail-pz2-f39.google.com (mail-pz2-f39.google.com [74.125.228.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CA2148821D
-	for <linux-sunxi@lists.linux.dev>; Tue, 29 Sep 2026 20:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4F04E1C88
+	for <linux-sunxi@lists.linux.dev>; Tue, 29 Sep 2026 21:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790714244; cv=none; b=LaCRs8u22kLcutJg7G605pb2HApx5/IEAqs4g8eCAxN6zYm/Zbf3fSSHLSL/v4pRIbcxMog80krlOBhaCM7Wbz4DhOB+Mdus5P+RKVrYTLpWcAZnaN3yTDfaFIt3NARte6bYAJ7fGOH6SUXSdmjwX7U35cnZbbyiBPm/COFo5U0=
+	t=1790717369; cv=none; b=ovi5w2CESwa1Hio6me8bLf8A6PwCGtpV+Sy788F9o5DVdJqdogs7jymvc5ZKuAVshk8/xnJlN64OLz0eW/9M+fVGPMckHoTqvKqnDTP4L3M643CfBhALt882nvVFEba6sXo+7R45vLKie+F/TKZBNQekdVtyKSYpemutcxBtk0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790714244; c=relaxed/simple;
-	bh=Gqvcy2MOOYrL8Gno0HNWN9hEb57iEhrmpV/Bp5STDho=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iNfvDnSv2pn+hI5Nmj+D9eDlHjUbct5sYDPtoid4DLRSzUO7VINFyjAUhcuNO2P8OYu6xN3DBG5yAj6XObyf5a8gBYbOO46g67EY+ZFvZ/VCKsnpr9NBtzXc0IoiH5iuW0qJKCR8/wetDvNuok/UP24FKlssLy5AiOAr1B/c+6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dmYFsz9W; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790717369; c=relaxed/simple;
+	bh=ySN2jKS9dHhRYoH81doQjhzbQkfdJK+9O/ToilcRwv8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WL1Qt5Pyh6vWugoSOpR3kmS9lN+UMs6SQ9INTDV/vncwYlmnyk5RGpGBbVRcNYz7MeK1ohZ4Gtd0tf6kzmy7GaDltZR6eIeS7NOSU79Lax3ve4zazvgJHMEoLBHsRARW4aNY6NBz3mgfraYZPx45HefH8w6Ngoy8g/pHluSz/Y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to; spf=none smtp.mailfrom=dama.to; dkim=pass (2048-bit key) header.d=dama-to.20251104.gappssmtp.com header.i=@dama-to.20251104.gappssmtp.com header.b=Ml+9zNBY; arc=none smtp.client-ip=74.125.228.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dama.to
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dmYFsz9W"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-48434392b02so3987630f8f.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 29 Sep 2026 13:37:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=dama-to.20251104.gappssmtp.com header.i=@dama-to.20251104.gappssmtp.com header.b="Ml+9zNBY"
+Received: by mail-pz2-f39.google.com with SMTP id d2e1a72fcca58-88103e47f72so3238455b3a.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 29 Sep 2026 14:29:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790714241; x=1791319041; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uc6m/QNpalNv4a9wmqg9O0BMMr47ojwjmucGyrpTpAA=;
-        b=dmYFsz9W5gkd5g00STEtVFF2TCYtu+zOZxdlKAhDG0Y5JP+yqPM2uHFrqn8DEjErtR
-         nxPbA1GORA3BxJe2nkyofrwXmB6rRA961Qdf62jGwTUjtMwmfidyHa8/grQjoTYkT5gq
-         w66ePRg3Vfr6SuBMTJb+7dJP9bFrIxcsCv/UeVIVivOdi+JvzF2453AMyX0IXmJCjad5
-         BQBAcNO+WG2JdRcWB2gwYKnLGY7DY+dXhmkNsfS4rOVPefTzzGnhfFKioYOkjZkqdM7X
-         Cb1b7JfG9vwrAH+ICUtFVdkB32deMtBDgM9aqLPW+CZTfNDac1vRVWPmuzvmL+ayc0k3
-         nVNA==
+        d=dama-to.20251104.gappssmtp.com; s=20251104; t=1790717367; x=1791322167; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:from:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=EyT+xHf5qLUoWCtLPqQerMtkJAwK/AAEHgHwEUT5UR4=;
+        b=Ml+9zNBYYg9DiBpfLDD5OdijQm+iGuyQMGBYpErRuXEM/fNhk7A50Rh7vURDy29MYI
+         Gxxe8RjXZq8kiJ9AZqLHYuH1tvj4ClSUisNlNO5aM2IxK89oxpHUJIGxZpugV4+8MZ+e
+         fiO9opr1nnXf3W+5+dXtueU+dzqkVEV1NACxUs1rsph9pDilkBu4hEpYe8gwjNRwG+Nv
+         Iykn0ei8DZ3/b25F2P33E3bI+WtRn1mMu7LX0S+yGBXJLz+7g0ZTvGqnvWgY8ctS4WG7
+         nxFRkR6/UhJaqfxkBx7ne0Oo4W0yVl712Ekn7+eBjJbvcudOW3avJ2vYiPKzC1IxPcdz
+         CZYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790714241; x=1791319041;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uc6m/QNpalNv4a9wmqg9O0BMMr47ojwjmucGyrpTpAA=;
-        b=a3TsS0/bwt82QqyaKU7TfszxBqctmdYy1rOTHGyIcaLW4X5ppWuADqOc3VNFQ0uDw0
-         o6rQy6M/nKFxlSIInqJSZGO6WQa3kEsIJ2a+8bUpp5bil3mF6io9IhCLeiXvNsxT66GQ
-         SpZVNB2updzzMrl9/d7RjLTPd43DlwW+kBol6e50MXZPdwz4Wry5JxwkQ+3X5R0htTN3
-         3T519ErTIDzgJqzM8EHGwcDYsLsR7dEefSwm742WOhS566PeSEUJnYhlHJ5MDk4ecODo
-         If7QUYVCoHwIRvNhgAwmAIKxNznE2WVvZ1Y15mQ17k+JHtL7BQVytNRHQ1GJg6nU133H
-         vu2w==
-X-Forwarded-Encrypted: i=1; AKwUvByBicTTDaK74p14YzuNVH2eL+30udnzZw2fRgTAjY2iN73+fQyl04IQN6iCEqgETG9OVK50lD4xMREPHg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJVAHNSm9BazaZnfrYRNgjsFZ4jiX+SIlkBBL68kJxhGXfslou2
-	WsS96Ff7uS4aJCZfbMFuadH/ZtTrSItEujj+xEVjTekveLkSu3Ubh3pu
-X-Gm-Gg: AYBFou1dB8gCioBCX7bUIK+uvmbnDvgT750UV1qXAIOXwb/cludG2b7S5OFFZABEVUp
-	xjj9qJNCLqil6yfBRJjqLo0fw5qW7WjUSOddxLViiiuTptqEC5pfeRxnxZgLCgglR5vtk8Xzuke
-	zJQ/Nr9r7OESiE6F0CfQkC8YOnyFHh6Ps62LOvRGXlySCrD8aFg+B3rSnBY90zeAQufRFghNL5O
-	t62Pv/sFYq0XO8T73cGg+Mgiee4kGelmnYj0Sr8W//Lr619/a9jkJpPlfjoRDntXME0xe6bDZip
-	bSdR2g/mX4iov7pz4507m2UrIizDmWRa3QoqDF4hh2Fl10Vw2c3ZZKmmQ75cyvE5CxNRwppT3+q
-	M8gzDbAXR5kj5an0fPda8bCbKrjL7cQEtEwNWMTNV7QKb4oyhzVncrNrXx9MnhnI0nZQt5PZTer
-	REUilvvLP9xEMKJzBnSDUp0/sLu30ZCXid53o56pUD0WSoTwhxH/jd5jS991f21zswJlOvLxpSm
-	GSv9Jfu3lDPI49RZPW5DXNMNumWbc9j6SrPNB9drskl
-X-Received: by 2002:a05:6000:381:b0:487:27f9:83d with SMTP id ffacd0b85a97d-48afe782c3amr766701f8f.50.1790714241257;
-        Tue, 29 Sep 2026 13:37:21 -0700 (PDT)
-Received: from debian (ip-78-137-176-146.broadband.digiweb.ie. [78.137.176.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48afe6a9624sm1237578f8f.24.2026.09.29.13.37.19
+        d=1e100.net; s=20260707; t=1790717367; x=1791322167;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=EyT+xHf5qLUoWCtLPqQerMtkJAwK/AAEHgHwEUT5UR4=;
+        b=1JPHLXO0QqGs2TM2auYSoC6Hzmkuviy4xmRR/BZbPVqK29aCDhrlsLL1ENb/+Ryl9g
+         amTmSy3WD+pkZ737mfBOdGPegqKfThS4EXlUw1wpo6EopqMoC1Az85P5vCSby9XCF3qX
+         dgE+Mo9TUwNhA1LCRWnAglK9hUUdF4AQoBA7QWLD1W4JJcL2rx38sOrcnFNFL0cjVtDQ
+         CJIOvb0saCoLaPMgdHxVlm7TcCibWbEsXJy8YsPF49W9pwyEvNQ6JdORYBJfKc8L81fZ
+         +BccuHHu5A3hN61ajgax/tFcy5OxSOw2/ZzYeIyakJ4vCoXtU1C1/qXMrIsdVUH0mU86
+         hCUw==
+X-Forwarded-Encrypted: i=1; AKwUvBzwFloK9x3gYOQcW88LZPDSPQrzAgbigT4Qc8rTYgenG97Ni11yUblIGCa4dZ1g9GOzdT/t+Dsq9/Fm9w==@lists.linux.dev
+X-Gm-Message-State: AFuF++lVtw3ilG2vZf99TFohAFtVyM5M0D1LOJvf+oubh+k8vqnZ6f0g
+	brIqJJ4Uh/doTVdOddtbLcvuFkyxCCsd/6r1mITMakZnlG+3QvQR0f1NgPTQjxzE9og=
+X-Gm-Gg: AYBFou2nCuh10+EJYT1yjagjCtWmoNRuw0IdUN7AI/+hHaVhR60ubNw3JAINB9Ftf+R
+	tnRQOb6lmfYrHn5PLT+Y7rnmfYb7+ldq7qzzpRZ3fbAbc22AEnujBL094GRIMWc0w/kpu6A928i
+	cpxrYW/qECzVj8eKooyr5gw9C7/r8ajht7G1DUHJNy4ui+UA4dcmY7AO8bRutdYCPyPdr1CpXbR
+	/+4ZbmYZkAtwvFdn+BNTabywD6/lII1lT+4Yxzgp5oGI/KYgyM3cRI+MnqzOWQdAOn4YpAx1T92
+	oANbYpvFNy5//CmuSR1eR9uR46t4KglKYgsU3Po61FgGm0FJgDxwPMeC/YrB9BplAhBszD94DEM
+	dAk+KQNCYOiPTktydm6MNis0zfEKKoD1TNeGgwlQn0BRfXmZoPCkPm2mXaW8PHth2ec3OUReX27
+	irhgMnhCoNrMGNOC6U6lKka/4CW8PErG9UwD0BQJqO3Wwunqtf4v6LXc32YifS9dH/RCshkE3EW
+	jMFUj8+2v5L
+X-Received: by 2002:a05:6a00:4186:b0:881:f5e1:6e7f with SMTP id d2e1a72fcca58-886c48b54bcmr338925b3a.31.1790717366754;
+        Tue, 29 Sep 2026 14:29:26 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:57::])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8868866150bsm495163b3a.3.2026.09.29.14.29.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 13:37:20 -0700 (PDT)
-From: Pablo Mazzini <pmazzini@gmail.com>
-To: Linus Walleij <linusw@kernel.org>,
+        Tue, 29 Sep 2026 14:29:26 -0700 (PDT)
+Date: Tue, 29 Sep 2026 14:29:25 -0700
+From: Joe Damato <joe@dama.to>
+To: Frank.Li@oss.nxp.com
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>
-Cc: Pablo Mazzini <pmazzini@gmail.com>,
-	linux-gpio@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] pinctrl: sunxi: dt: number the IRQ banks from the first one that has IRQs
-Date: Tue, 29 Sep 2026 21:36:34 +0100
-Message-ID: <20260929203634.32998-1-pmazzini@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	bui duc phuc <phucduc.bui@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+	Kees Cook <kees@kernel.org>, Li Youhong <liyouhong@kylinos.cn>,
+	Frank Li <Frank.Li@nxp.com>,
+	"open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>,
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>, vkoul@kernel.org,
+	imx@lists.linux.dev
+Subject: Re: [PATCH 1/1] net: allwinner: remove dmaengine_desc_free()
+Message-ID: <arwttakXqJndFXGe@devvm20253.cco0.facebook.com>
+Mail-Followup-To: Joe Damato <joe@dama.to>, Frank.Li@oss.nxp.com,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	bui duc phuc <phucduc.bui@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+	Kees Cook <kees@kernel.org>, Li Youhong <liyouhong@kylinos.cn>,
+	Frank Li <Frank.Li@nxp.com>,
+	"open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>,
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>, vkoul@kernel.org,
+	imx@lists.linux.dev
+References: <20260929190640.3516766-1-Frank.Li@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260929190640.3516766-1-Frank.Li@oss.nxp.com>
 
-prepare_function_table() assumes the first pin is in bank 0. On the
-A523, which has no PA pins, every IRQ bank is numbered one too high:
-the last bank writes past the end of irq_array, and interrupts are
-looked up at the wrong offsets.
+On Tue, Sep 29, 2026 at 03:06:36PM -0400, Frank.Li@oss.nxp.com wrote:
+> From: Frank Li <Frank.Li@nxp.com>
+> 
+> dmaengine_desc_free() is designed for DMA_CTRL_REUSE. If DMA_CTRL_REUSE
+> is not set, dmaengine_desc_free() will return -EPERM.
+> 
+> 	if (!dmaengine_desc_test_reuse(desc))
+> 		return -EPERM;
+> 
+> So calling dmaengine_desc_free() does nothing.
+> dmaengine_terminate_(a)sync() will free all already allocated descriptors.
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>  drivers/net/ethernet/allwinner/sun4i-emac.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 
-Count the IRQ banks from the first bank that has interrupts.
-
-Fixes: f5e2cd34b12f ("pinctrl: sunxi: allow reading mux values from DT")
-Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
----
- drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c b/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
-index 50a16f3bd131..9c5eb21a86a5 100644
---- a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
-@@ -208,7 +208,7 @@ static int prepare_function_table(struct device *dev, struct device_node *pnode,
- 	 * The extra functions will be filled in later.
- 	 */
- 	irq_bank = 0;
--	last_bank = 0;
-+	last_bank = -1;
- 	for (i = 0; i < npins; i++) {
- 		struct sunxi_desc_pin *pin = &pins[i];
- 		int bank = (pin->pin.number - pin_base) / PINS_PER_BANK;
-@@ -221,16 +221,14 @@ static int prepare_function_table(struct device *dev, struct device_node *pnode,
- 		func[1].muxval = 1;
- 
- 		if (irq_mux) {
--			if (bank > last_bank)
-+			if (last_bank >= 0 && bank > last_bank)
- 				irq_bank++;
- 			func[lastfunc].muxval = irq_mux;
- 			func[lastfunc].irqbank = irq_bank;
- 			func[lastfunc].irqnum = pin->pin.number % PINS_PER_BANK;
- 			func[lastfunc].name = "irq";
--		}
--
--		if (bank > last_bank)
- 			last_bank = bank;
-+		}
- 
- 		pin->functions = func;
- 
--- 
-2.53.0
-
+Reviewed-by: Joe Damato <joe@dama.to>
