@@ -1,149 +1,243 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987A7372680;
-	Wed, 30 Sep 2026 15:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2C64D5988;
+	Wed, 30 Sep 2026 16:02:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790783908; cv=none; b=gCIuKL/co9iKZgEUoUr56bLHZBPAhkVIZFdSL/rUk8Nnp5OWTowQZJ0hj0psMVJ7c/KbqmoEeU2towHBnkaZi2QLU7U/A3k5sdfPgvA1AUK7SWOunYeYi70rLofNPXqO75YtSsDQHEhA6o3P/X1UbhbjLzkH9/6c2iRIkWXQCvM=
+	t=1790784168; cv=none; b=ur8/r+Ks0FoPl5XIiYw0xfp3TovddYa6cJcPRWznzI27etFhUjMcDU2wxf9/WsljAtngQNA3KQOtiQqkQzVeloe3QIg0UUAZ5Pot7BUaRNJXPPO6hwfEAawOCjcyU/PUoVMrUTe3NJWlkhkDW1uOUjzTOZ5mfRXRcC7rJ/icV3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790783908; c=relaxed/simple;
-	bh=7+uOAdwvRA5Phs71HOWvHd2WnABdLy2EzB8eI2nyFFE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HAakLdJaLgdWqb3r4ptT/nhaXTakfbd77II2aLsEYDQCCJKGev5L3zp8oDP3i/JnxKqSmhu3FnlJhAQux6nf9B0tg5Q4MyNvPN0Ves0YekxTUKQ/0ryTWh6yRbDh4O0tgULVDnhWoySjYLvzGI+Q4UYc7yiiDgnPOJu76FLFleA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=L2tfF9HC; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1790784168; c=relaxed/simple;
+	bh=oZ60RQ3RAUH9o028q27iCPYaxwoLzOK6qfTZayYkeKU=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=i6LUjnJ0equ0W0UpEeb3IBgtc1dw7AmQk7PfkK90u0xTr4xAOFmfbUFitQYa/wsO1+3zBHVGj88rtWOLRGWlV+w+bHUm7TzB1XjArBgyvQyL4QFYBZcxd3vjZ5BDpzpqcChxLrhCoi8tSZLW3jY8TSEeL/+k90/7Dr3aKH+juSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gVt4I23Y; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="L2tfF9HC"
-Received: from ideasonboard.com (unknown [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 34D4C34;
-	Wed, 30 Sep 2026 17:56:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1790783786;
-	bh=7+uOAdwvRA5Phs71HOWvHd2WnABdLy2EzB8eI2nyFFE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L2tfF9HC3qurjOKRXYDMqOKASmD+Fr11uViI6pruu4IK+X2gjb+Qrc0LPbo2ClC/i
-	 pQ50KvP2bVEDVqeebyd/BBPmVqkW68rD+oEjTdYgMuso89FKaU5zYqVN2gKEIaX8Kh
-	 049B+Gb1N/HvapsKch/NcZ4isnk/qWbGR2u6qN6Y=
-Date: Wed, 30 Sep 2026 17:58:14 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Joel Stanley <joel@jms.id.au>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Paul Cercueil <paul@crapouillou.net>, 
-	Anitha Chrisanthus <anitha.chrisanthus@intel.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Alexey Brodkin <abrodkin@synopsys.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Michal Simek <michal.simek@amd.com>, 
-	Daniel Scally <dan.scally@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Eddie James <eajames@linux.ibm.com>, 
-	Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
-	Yunfei Dong <yunfei.dong@mediatek.com>, Minghsiu Tsai <minghsiu.tsai@mediatek.com>, 
-	Houlong Wei <houlong.wei@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>, 
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Srinivas Kandagatla <srini@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ge Gordon <gordon.ge@bst.ai>, 
-	Adrian Hunter <adrian.hunter@intel.com>, Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Peter Chen <peter.chen@cixtech.com>, Fugang Duan <fugang.duan@cixtech.com>, 
-	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, BST Linux Kernel Upstream Group <bst-upstream@bstai.top>, 
-	Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, Vijendar Mukunda <Vijendar.Mukunda@amd.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, 
-	CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-media@vger.kernel.org, openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org, 
-	kernel@collabora.com, linux-tegra@vger.kernel.org, linux-mmc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
-	sound-open-firmware@alsa-project.org
-Subject: Re: [PATCH 21/42] media: arm: mali-c55: Use
- devm_of_reserved_mem_device_init()
-Message-ID: <ar0xb9md8E76G5VI@zed>
-References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
- <20260703193855.110619-22-mukesh.ojha@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gVt4I23Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4708B1F000FF;
+	Wed, 30 Sep 2026 16:02:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790784164;
+	bh=FPvvlnYEt9JiyeQ6R+pFnMJQtrCnxbyPM+ONSmeT5vc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=gVt4I23Y3ZQ+TkB1RylF9tarKijgBLMWYtwOVde09Mhfz19CBy7GhTfq24xhNJ9ry
+	 pHP3qesJ02uk7wmc5NWvh7gcXsE5syZSUCV0NcqYg2zHC/F1qTHOEO4Z81r/riYD0e
+	 f+Bj1Te5yzoyGA2N9qqZ8YPzv20EDFwmq+yp7V+/hqOrCushDXwbgb6nGRZxwogp0J
+	 NMkVYieIbOYuOxlxj5tzhVh7/uZXknzxOAXF7a8gvuJpncH8Qfc6tAgGYTlQY8Un2y
+	 TnQ23+hq2hFejf9ifgVBVoijLkBNuwrMu+AXhpX5dlfyIDU8l+QS1IHe836vVv64Sz
+	 Q+bmw0NdUgVMg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 2/3] media: sunxi: Add support for the D1 CSIC
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Nguyen Minh Tien" <tien.nguyenminh@embeddedlinux.blog>
+Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, media-ci@linuxtv.org, linux-sunxi@lists.linux.dev, robh@kernel.org
+In-Reply-To: <20260930154835.402684-3-tien.nguyenminh@embeddedlinux.blog>
+References: <20260930154835.402684-1-tien.nguyenminh@embeddedlinux.blog>
+ <20260930154835.402684-3-tien.nguyenminh@embeddedlinux.blog>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 30 Sep 2026 16:02:43 +0000
+Message-Id: <20260930160244.4708B1F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260703193855.110619-22-mukesh.ojha@oss.qualcomm.com>
 
-Hi Mukesh
+Thank you for your contribution! Sashiko AI review found 5 potential issue(=
+s) to consider:
+- [High] pm: crash in IRQ handler due to missing pm_runtime_get_if_active()
+- [High] media: UAF of sun20i_csi structure on device unbind
+- [High] media: UAF of csi->source when sensor is unbound while streaming
+- [Medium] pm: hardware left powered on after driver removal due to async p=
+m_runtime_put
+- [Medium] media: potential NULL dereference in sun20i_csi_bridge_enum_mbus=
+_code()
+--
 
-On Sat, Jul 04, 2026 at 01:08:34AM +0530, Mukesh Ojha wrote:
-> Use the devres-managed devm_of_reserved_mem_device_init() instead of
-> the manual of_reserved_mem_device_init()/of_reserved_mem_device_release()
-> pair, letting the device resource manager handle cleanup automatically.
->
-> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+commit 48923ca6acd2a7bc065ae49a8c19a8a6d69a0531
+Author: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
 
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+    media: sunxi: Add support for the D1 CSIC
+   =20
+    Add a driver for the parallel input of the D1 CSIC and its first DMA
+    engine. The parser is a bridge subdev and the DMA engine a capture video
+    device, set up through the media controller API.
 
-I'll collect this single patch for the Mali-C55 PR for v7.4
+> diff --git a/drivers/media/platform/sunxi/sun20i-csi/sun20i_csi.c b/drive=
+rs/media/platform/sunxi/sun20i-csi/sun20i_csi.c
+> new file mode 100644
+> index 0000000000000..eed29bc61348b
+> --- /dev/null
+> +++ b/drivers/media/platform/sunxi/sun20i-csi/sun20i_csi.c
+> @@ -0,0 +1,1357 @@
 
-> ---
->  drivers/media/platform/arm/mali-c55/mali-c55-core.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-core.c b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> index 94a389b3f833..afbec11f69f8 100644
-> --- a/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-core.c
-> @@ -801,14 +801,12 @@ static int mali_c55_probe(struct platform_device *pdev)
->  	if (ret)
->  		return dev_err_probe(dev, ret, "failed to acquire resets\n");
->
-> -	of_reserved_mem_device_init(dev);
-> +	devm_of_reserved_mem_device_init(dev);
->  	vb2_dma_contig_set_max_seg_size(dev, UINT_MAX);
->
->  	ret = __mali_c55_power_on(mali_c55);
-> -	if (ret) {
-> -		dev_err_probe(dev, ret, "failed to power on\n");
-> -		goto err_release_mem;
-> -	}
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to power on\n");
->
->  	ret = mali_c55_check_hwcfg(mali_c55);
->  	if (ret)
-> @@ -847,9 +845,6 @@ static int mali_c55_probe(struct platform_device *pdev)
->  	kfree(mali_c55->context.registers);
->  err_power_off:
->  	__mali_c55_power_off(mali_c55);
-> -err_release_mem:
-> -	of_reserved_mem_device_release(dev);
-> -
->  	return ret;
->  }
->
-> @@ -864,7 +859,6 @@ static void mali_c55_remove(struct platform_device *pdev)
->  	}
->  	pm_runtime_disable(&pdev->dev);
->  	kfree(mali_c55->context.registers);
-> -	of_reserved_mem_device_release(&pdev->dev);
->  }
->
->  static const struct of_device_id mali_c55_of_match[] = {
-> --
-> 2.53.0
->
+[ ... ]
+
+> +static irqreturn_t sun20i_csi_irq(int irq, void *data)
+> +{
+> +	struct sun20i_csi *csi =3D data;
+> +	u32 status;
+> +
+> +	status =3D sun20i_csi_read(csi, SUN20I_CSI_DMA_INT_STA_REG);
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[Severity: High]
+Does this code crash the system if an interrupt arrives while the device is
+suspended?
+
+The IRQ handler accesses hardware registers unconditionally without verifyi=
+ng
+if the device is active. devm_request_irq() is called before
+pm_runtime_enable() in sun20i_csi_probe(). If the bootloader left the
+interrupt pending, the IRQ fires immediately before the device is powered o=
+n.
+Additionally, since the IRQ is not disabled during runtime suspend, any
+spurious interrupt while suspended triggers a synchronous external abort wh=
+en
+reading hardware registers while clocks are disabled.
+
+Should this use pm_runtime_get_if_active() to verify the device is active
+before accessing registers?
+
+[ ... ]
+
+> +static int sun20i_csi_bridge_init_state(struct v4l2_subdev *sd,
+> +					struct v4l2_subdev_state *state)
+> +{
+> +	*v4l2_subdev_state_get_format(state, SUN20I_CSI_PAD_SINK) =3D
+> +		sun20i_csi_default_fmt;
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[Severity: Medium]
+Can this cause a NULL pointer dereference?
+
+The format pointer for the unvalidated sink pad is dereferenced directly in
+an initialization callback without framework validation guarantees.
+v4l2_subdev_state_get_format() can return NULL.
+
+> +	*v4l2_subdev_state_get_format(state, SUN20I_CSI_PAD_SOURCE) =3D
+> +		sun20i_csi_default_fmt;
+> +
+> +	return 0;
+> +}
+> +
+> +static int
+> +sun20i_csi_bridge_enum_mbus_code(struct v4l2_subdev *sd,
+> +				 struct v4l2_subdev_state *state,
+> +				 struct v4l2_subdev_mbus_code_enum *code)
+> +{
+
+[ ... ]
+
+> +	/* The source pad passes on the sink pad format. */
+> +	if (code->pad =3D=3D SUN20I_CSI_PAD_SOURCE) {
+> +		const struct v4l2_mbus_framefmt *fmt;
+> +
+> +		if (code->index)
+> +			return -EINVAL;
+> +		fmt =3D v4l2_subdev_state_get_format(state, SUN20I_CSI_PAD_SINK);
+> +		code->code =3D fmt->code;
+                ^^^^^^^^^^^^^^^^^^^^^^^
+[Severity: Medium]
+Is it safe to assume fmt is non-NULL here?
+
+In enum_mbus_code(), the core wrapper validates the state for the SOURCE pa=
+d.
+The driver then unconditionally dereferences the format returned for the
+opposite SINK pad. A check for one pad does not validate another.
+
+[ ... ]
+
+> +static int sun20i_csi_bridge_disable_streams(struct v4l2_subdev *sd,
+> +					     struct v4l2_subdev_state *state,
+> +					     u32 pad, u64 streams_mask)
+> +{
+> +	struct sun20i_csi *csi =3D sd_to_csi(sd);
+> +	int ret;
+> +
+> +	ret =3D v4l2_subdev_disable_streams(csi->source, csi->source_pad,
+> +					  BIT_ULL(0));
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[Severity: High]
+Does this code dereference a freed pointer if the sensor is unbound while
+streaming?
+
+If the sensor subdevice is unbound (e.g., via sysfs) while the CSIC is
+streaming, the async notifier core unbinds the sensor, but the CSIC driver
+lacks an .unbind callback to clear the csi->source pointer. When streaming =
+is
+subsequently stopped by userspace, sun20i_csi_bridge_disable_streams()
+dereferences the freed csi->source pointer.
+
+[ ... ]
+
+> +static void sun20i_csi_stop_streaming(struct vb2_queue *queue)
+> +{
+> +	struct sun20i_csi *csi =3D vb2_get_drv_priv(queue);
+> +
+> +	v4l2_subdev_disable_streams(&csi->subdev, SUN20I_CSI_PAD_SOURCE,
+> +				    BIT_ULL(0));
+> +	sun20i_csi_dma_stop(csi);
+> +	video_device_pipeline_stop(&csi->vdev);
+> +	sun20i_csi_return_buffers(csi, VB2_BUF_STATE_ERROR);
+> +	pm_runtime_put(csi->dev);
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+[Severity: Medium]
+Will this leave hardware powered on if the driver is unbound?
+
+This queues an asynchronous suspend which is vulnerable to being cancelled =
+by
+driver removal. If the driver is unbound while streaming,
+vb2_video_unregister_device() stops streaming synchronously, queuing an asy=
+nc
+suspend via pm_runtime_put(). The remove function then finishes and devres
+calls pm_runtime_disable(), which cancels the pending async suspend.
+
+Should this use pm_runtime_put_sync() instead?
+
+[ ... ]
+
+> +static int sun20i_csi_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev =3D &pdev->dev;
+> +	struct sun20i_csi *csi;
+> +	int ret;
+> +
+> +	csi =3D devm_kzalloc(dev, sizeof(*csi), GFP_KERNEL);
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[Severity: High]
+Does this allocation tie the video device lifetime to the driver binding
+rather than the V4L2 file descriptors?
+
+The structure embedding the video device is managed by devres. If userspace
+holds /dev/videoX open when the driver unbinds, the remove function
+completes and devres frees the structure. When userspace later closes the
+file descriptor, v4l2_release() accesses the video_device embedded in the
+freed structure, causing a Use-After-Free.
+
+> +	if (!csi)
+> +		return -ENOMEM;
+
+[ ... ]
+
+> +static void sun20i_csi_remove(struct platform_device *pdev)
+> +{
+> +	struct sun20i_csi *csi =3D platform_get_drvdata(pdev);
+> +
+> +	/* This stops streaming, which needs the whole pipeline. */
+> +	vb2_video_unregister_device(&csi->vdev);
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[Severity: High]
+Does this code unregister the device without waiting for file descriptors to
+close?
+
+This synchronously stops streaming during driver unbind and unregisters the
+device but does not wait for file descriptors to close. This allows the
+devres cleanup to race with userspace closing the file, leading to the Use-
+After-Free issue mentioned in sun20i_csi_probe().
+
+Additionally, it immediately precedes the devres cleanup that cancels the
+async put queued in sun20i_csi_stop_streaming().
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260930154835.4026=
+84-1-tien.nguyenminh@embeddedlinux.blog?part=3D2
