@@ -1,129 +1,116 @@
-Received: from mail-pz2-f37.google.com (mail-pz2-f37.google.com [74.125.228.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECD249E5FE
-	for <linux-sunxi@lists.linux.dev>; Wed, 30 Sep 2026 10:47:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790765278; cv=pass; b=BY/mj/rdOyB34TB4h4xSXqVvLwWbT5ruZ+sygC0kMWvlvGZtevdndUOl+3qghhHTOFgTxkh48baoNhUQdHi95DS0PPG37Sj5oKumgJoHILdFD9bWhAyJ1qG5XndNea8l2xYPk9IRuLtZvGSxWTRCsTPIwjcm0Oqnk+02Fnze72U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790765278; c=relaxed/simple;
-	bh=BJbbh5rIl1dEuHCd/t+PuKNfcL4FcSDDMLm4FZ7TkbY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m5eefoDY1Essrhn+wsXJY8E31FeHhL6Y4Vg34au2QcTuDBpvgeVf3IMkXps9eqgTtB3u6GFbH2IU65hLGbr0H2nemVgl4r5J1i6NUFowKEEVjmw5Hwud4gcvKVUm+M5z9C1Z3KZgZirhKlsHBYANMGKjAF6OkTQQhPOyDuJQY/c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g7jAfo14; arc=pass smtp.client-ip=74.125.228.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7948E476CFD
+	for <linux-sunxi@lists.linux.dev>; Wed, 30 Sep 2026 11:03:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790766227; cv=none; b=TerWZ/8B7XJIVHB2LiGPjL7RXNSS5zRI8eP2XKnk8UgkE0OuuSbgYoQLlHXwKpyrUYpb3Br23SH4CWCzFGr7TmNTc3yFnDCu9tZ5XK5STYEp5+MySO1F5W6On3FJWSxKqMEQtFwjJTf5PEurkzbJhdDA70VlsIHNmnF5VjKa0eA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790766227; c=relaxed/simple;
+	bh=P5GhoLKF2u9Fjqvd7Iavxwi8Ttw4P05+pmiYTacWllQ=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=TZDFOeuT5gAOekULzVNXac4MR66txFd0jyAt75+bNRyqRtODAS9fnuHQpGXv5bOfbQ6cuZtodRuspuIO/0DvoQowCvjHqLPYsAGuFYN6wwRp7Ygn9jt7hNsWozYKuXAUKDRxyj0IxcTpMm95yb5ijVe5NQcKJLdtnbG2klZau+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=pr6gP+dM; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g7jAfo14"
-Received: by mail-pz2-f37.google.com with SMTP id d2e1a72fcca58-8873070bcd0so158188b3a.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 30 Sep 2026 03:47:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790765268; cv=none;
-        d=google.com; s=arc-20260327;
-        b=cE9QvydBXaz6E+O2ZuNKExqW7bMBy+E+W/t24wxDSMyAMBU9viGTDNKMvVk4WDPpKi
-         J8/AkgIIwuwWV/ZRGPweuKo+Wz9KafinZDr5Y98vtwkS6IlZUGmcFyJuNpyKXnsLMj0H
-         BvCKdtTS+BkMiH3A8KairoYZfDQIdtLoMU5Gx43t+abjZvibLPY9Qjx2Kz4DeyHS91f7
-         0i96HPv4IyrGepApvjVvR6nICi174du24Zrg+PNZwqsYr6ezAeCON8QbU7REQzA2j+tz
-         CH/MdVPMdmpjsW9/XPjIevOD/QdfDO4tBIYMybYHu9+b+/0BKiffrxrO0mjDzqCIOPkK
-         b5xg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=frNDlYzQ/8uu7EJKdkeWFduTnVj3NcJs9Yyw7Sysjok=;
-        fh=kPT+PLKxFavMmxIqQ9ZfXtI+8zYnKDYcZeyFPRu1CvQ=;
-        b=i6mUO7uNcRVnfqlgxjqwragkvMNwhJvAHRup6WmYi9Xy4ddM2F36gmMY5i0uwxqZdV
-         NpY/ovormOQj5KAZCEmvhTj+8MvpsU7sKO2VfxE/9EQSbt08rq6dH/m1cajEP62CWtwp
-         oRcf05z5AwntjSDYeLmNd770yd+xbXQCgGwEMQSR+4BIQnDs5dnqVVsfRBkCU9Y80vHC
-         t6vNgYnVgS9waKJtJTiMfOAMtLFBwhWOv+S2/XQtTp6M3zBBe5D7kQp9rzdtvIgwbcxS
-         eM5rETBcM0bvlonLMMg5pNBVZjqTjojtzJr0OljHCZ408j2nODCc4HBds+lpSqNxru5k
-         DsQA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790765268; x=1791370068; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=frNDlYzQ/8uu7EJKdkeWFduTnVj3NcJs9Yyw7Sysjok=;
-        b=g7jAfo147t7tbmv3kaXnbFfLiqqjfjgXKBrUYTQYTakeilKyUq9DMDk2Cs6aX08ug/
-         8h/iygguhIjjacQDoOiUgiTYe9VrQR1yKBhIlqj8qfOQcddZWk/0zck2FagyH/aUHffg
-         /nDCZJbRhfPwPxzVNFaH7iSt58C2yahD81nxU4IbjEJ2tV0//lI6dw5T7Ghzjx5ZjG2d
-         e1NXnHPcDeyIevpzXgbaq3OpDe/30L/fKq3sJUjXWWIsB/fbH8kqKyYmJaxj8P6Gg5H6
-         MlJoeZO6U0Sgcbndhk8KIDfVov73bzxkFtJCVKmIRph3ZgDJwJIgbwx4vBm8db4Zi3lZ
-         6yag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790765268; x=1791370068;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=frNDlYzQ/8uu7EJKdkeWFduTnVj3NcJs9Yyw7Sysjok=;
-        b=hFFXnCX9HbNql/8DGRgAHiPhZE3SpuFq2ExRHt8cS70VX87y0JzdCgUsNJ8Os1TiIU
-         zC0n5VOs6x31z0ZCGsSO36qhLIVToXDjh5/xMN9aFpkcSSq9MeBxS3Iq88+2RfFSCXw2
-         bG5gGe6nX86o4hpVxNvG+ugTTOx4N8WHyo8fYp9hBGD/m2VgpLxCPD+NFcJZ5787AFFc
-         MhUQco5Pq7iK61dCxvGzG3ZW8TqnYaA/Afsr1wz0I6H+zeNx18BZdWkGgIfAk/gEgszd
-         dnzXzpHRFC67HFYhskDsgcQKUSBt8zvrfzXs+aeYD1v3xPaCQ/XvCMpNkAMTTA+etnT9
-         e4ag==
-X-Forwarded-Encrypted: i=1; AKwUvBwHrBBS/6QcbvgdmLP6Z7C+Sza1dg+UkoVa2CSb3lWbN1WZ81a47eTkLOaMMITcOgfOyoGW8e7AdlHM/w==@lists.linux.dev
-X-Gm-Message-State: AFuF++myhpCJCEj4wb1/3mEQQW3vuR0Pb9Xfg3uyx8jTO7bOG9A2z7ZB
-	a8YB1Dhe5rxNQuTaQyp8ZUhgcCCGhvD4hC6BRcfXn86Pn/x+qtozBvHAig8J/x28daTw7KdaX/j
-	gGYzrLf9Px20MglOPNDm1GfyLZr5cjfo=
-X-Gm-Gg: AYBFou16/7taHreJKA7uWx54Pdk6ddFdOZyrMlnb3VsD+mhnUkjiv+RAD5Nxh5TA1PW
-	PMRzqyHSFbUqV2id5u5cDSZKEH/S9X24OlrjRNHPNCVHM66rHQaRkgwACHz8i5WLDKkDRt9Dw8N
-	d7M2HeZlQVenZiJik3zTfk1Yg88GHoZxQuJ6V+gSWEvpiPzSDXLs+DBI61EM7vYSwvMsJOERGTZ
-	dIYKh+4Ov1kWH/NcwkMTonq5e01mBf4oVhZraEMGodj+vcLKggbiP+Q6f1d2UpU4Z88VePAdcmb
-	wN+KF5KUTdHMndiNUoi/MvXKlYOCUThaXMPB1X2jX889ysFzs11pMkci9Cym11PRqj2Wm08=
-X-Received: by 2002:a05:6a00:6c8d:b0:880:3b31:a4bb with SMTP id
- d2e1a72fcca58-8874a89ae36mr654876b3a.20.1790765268145; Wed, 30 Sep 2026
- 03:47:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="pr6gP+dM"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 3F0B91A107A;
+	Wed, 30 Sep 2026 11:03:36 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 09A8C60749;
+	Wed, 30 Sep 2026 11:03:36 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D8F3810328F7B;
+	Wed, 30 Sep 2026 13:03:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1790766213; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=ijJfwiKLlTSy9rxP4IMNmmV3iD9aU2IeJcZz/YO1yr0=;
+	b=pr6gP+dMr69oYimKPOIdbp5KMj8d5ltUTNrztyVmewFeK+Il/fJwZkQVcY1nvsumKPbiFp
+	H+ixPwd120YzUC2kNP+ksnghILPnhKRL92J8mbAFq2TrnUc3B16wIb7KsEtjPtsVQxw8Q9
+	4/upitHqXbTfcvdntbX4OARxD27oUI9GIPuzJtCGPaoTj+zXGWoJdplv5vS9pAsh6yNJ1z
+	KE3KLIVbSwaW4bGLL1nl7D/0JciPTA0k/hGlQf6fe88M1BXOItrDU0obTgAzs/Ba+Ixhz6
+	CL4CHf+Nsc6ONlTiDttt0XVoOG9hX6Q0d3ROfYoslREjggy+K5FSmP7xNjL8nA==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Dmitry Baryshkov <lumag@kernel.org>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, Algea Cao <algea.cao@rock-chips.com>, 
+ Daniel Stone <daniels@collabora.com>, Liu Ying <victor.liu@nxp.com>, 
+ Phong LE <ple@baylibre.com>, Helge Deller <deller@gmx.de>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: kernel@collabora.com, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, 
+ linux-fbdev@vger.kernel.org, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Sashiko <sashiko-bot@kernel.org>, 
+ Diederik de Haas <diederik@cknow-tech.com>, 
+ Maud Spierings <maud_spierings@hotmail.com>
+In-Reply-To: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
+References: <20260901-dw-hdmi-qp-scramb-v11-0-bc12954a0688@collabora.com>
+Subject: Re: (subset) [PATCH v11 00/74] Add HDMI 2.0 support to DW HDMI QP
+ TX
+Message-Id: <179076619955.542608.8005316063997157342.b4-ty@b4>
+Date: Wed, 30 Sep 2026 13:03:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260927151016.186493-1-pmazzini@gmail.com> <20260927151016.186493-6-pmazzini@gmail.com>
- <20260930-camouflaged-koel-of-resistance-7b09f5@quoll>
-In-Reply-To: <20260930-camouflaged-koel-of-resistance-7b09f5@quoll>
-From: Pablo Mazzini <pmazzini@gmail.com>
-Date: Wed, 30 Sep 2026 11:47:05 +0100
-X-Gm-Features: AclHuK8o0ZcgRpk54PvKUPvKEFYR13nUvSknbUcihyLHytfHbaM-Aa-FPmvKY64
-Message-ID: <CAAxh=jsr1M-RHfqPF-hgQnM+RmH_D82=YX==Vn5-r2=1AB9eMA@mail.gmail.com>
-Subject: Re: [PATCH v2 05/11] dt-bindings: rtc: sun6i-a31: add Allwinner B288
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-rtc@vger.kernel.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Krzysztof,
-
-Thanks, will fix in v3.
-
-Regards,
-Pablo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16.0
+X-Last-TLS-Session-Version: TLSv1.3
 
 
+On Tue, 01 Sep 2026 21:50:24 +0300, Cristian Ciocaltea wrote:
+> Enable HDMI 2.0 display modes (e.g. 4K@60Hz) on the Synopsys DW HDMI QP
+> TX controller, as found in Rockchip RK3576 & RK3588 SoCs, by adding SCDC
+> management for high TMDS clock ratio and scrambling.  Since SCDC state
+> is lost on sink disconnects, the bridge driver needs to trigger a CRTC
+> reset during connector detection.
+> 
+> To support this at the DRM infrastructure level, the series first
+> introduces the HDMI version enum, then prepares for changing the
+> signature of drmm_connector_hdmi_init(), i.e. dropping the vendor,
+> product, supported_formats and max_bpc arguments, which are being moved
+> into struct drm_connector_hdmi_funcs, by temporarily renaming the helper
+> to drmm_connector_hdmi_ini2().  This lets the new signature be
+> introduced under the original name while callers are converted
+> incrementally.  Note the transitional name matches the original's length
+> so continuation-line arguments stay aligned to the opening parenthesis,
+> keeping the diff to the identifier itself and avoiding re-alignment
+> churn.
+> 
+> [...]
 
-On Wed, Sep 30, 2026 at 11:10=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.o=
-rg> wrote:
->
-> On Sun, Sep 27, 2026 at 04:10:10PM +0100, Pablo Mazzini wrote:
-> > The B288 RTC wires one alarm interrupt, not two.
-> >
-> > Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
-> > ---
-> >  .../devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml        | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
->
-> Seems like valid and unaddressed comment from Sashiko, so dropping from
-> DT Patchwork.
->
-> Best regards,
-> Krzysztof
->
+Applied, thanks!
+
+[12/74] drm/bridge: Fix unlocked list_del in drm_bridge_add()
+        commit: b62e3db8cdc1680e1c3390591e872f485148541a
+[14/74] drm/bridge: Fix unlocked list access in drm_bridge_attach()
+        commit: 57889076afd1be890150c32ffde3b691fe5707c8
+
+Best regards,
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+
