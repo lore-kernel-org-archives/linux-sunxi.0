@@ -1,103 +1,125 @@
-Received: from mout02.posteo.de (mout02.posteo.de [185.67.36.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 786F43BCD12
-	for <linux-sunxi@lists.linux.dev>; Wed, 30 Sep 2026 14:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.66
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C3FC4E36D0
+	for <linux-sunxi@lists.linux.dev>; Wed, 30 Sep 2026 15:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790777177; cv=none; b=IW9IvNJZ09l+rPs5FzWMz1VeO0GFY15jNJLz5haS4/jVv4hTPJg4VmRaloNc6CmQDIzMAGRbxPNsxOabaBGka9y3bVDsvFt6+4oVmsHHBsKj/K4UoxWabpgarw4t8PWH/hRAOGCXts4x54E9A8KiSM0m3dt01Vj9kvd0RdGmrT4=
+	t=1790782043; cv=none; b=tAYINzZOB4UWwnLwVJj3YqY3tpcjXiHFlGXedGIpEpTVrx0VKMvM3SA94wAnu9pBy4S9cEY/pJ1pop+5iH2ohpMmnRX8HA/5GqhUYqYSyN6C9kjwx87QBNGED6aTq2E6sJlK66VflwH5sCQqFgTwVsFlQTp1Ik1z7P3uikyB5pE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790777177; c=relaxed/simple;
-	bh=9bx6coMoBdOLnpZ1etpmYrgE196fZ3EXrtZZ7FD3iVU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M88mOWlEzQHpPIm5N0MvnPW0ana6BHEu1fZjWX6OrTnW7pWh+F6tDpAJbFgZMcGQeBnWkCHlaXOObZaGojlVN11LfElGI3+96iUdW4r3ZbeolSRGdTf3goWEYJPp+cf/4eZthhTIik/nLMPX99mTKg3xfHmdEUTxtNO2xr6qPCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=SAHqxUi6; arc=none smtp.client-ip=185.67.36.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
+	s=arc-20240116; t=1790782043; c=relaxed/simple;
+	bh=BMxuuBMmXl1PbkW1d5zdKSxy6yBqqDoKYBJRc1IY+1E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O/lumYkJWvj6o9zA6qk7xn79hbor0fWBYPtqP3H+nuQvQzLVw3z2rKTDrf22oKCOikdsko0Sler0B9YAdsvWY03uUM+F3JiEZ7+TbKjJwfEtLcUAuAoaXnywWUYX4z9rV3FdhQUO/Wj68YEShvcQuYYyZblldz+mWbmXILHBdZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Ufz6GsZa; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="SAHqxUi6"
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout02.posteo.de (Postfix) with ESMTPS id E35DE240103
-	for <linux-sunxi@lists.linux.dev>; Wed, 30 Sep 2026 16:05:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=posteo.net;
-	s=1984.8680eb; t=1790777147;
-	bh=z8s3bGJeeJqZuJkbjfTcGgrs2VSs73dz7rSX2XlTyr8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:From;
-	b=SAHqxUi6lCbmYp932P1f2i/YrVBBZQ/P2YoNuXKzcnDZ69H9JfyTG4dw2Y9oavRDY
-	 AELQS5IF9UeTg2VK1JZb5vZXFeh3lcR5vQZFeJZxvgcyNuoEB1qJVLW2go1WnvIC9P
-	 3FajJYyMSjYaLSOsKNsQF3Nnk/OiwWHsMMOeTeFtANXyd7ub0zvBL4aTiqzmSB3oFl
-	 sA8MHsz2FI0UYMP5Wg/5xnXS6IfLuMB/MnjdqdnQKb8xZQF45DllVNJ82h3qehLOXR
-	 IjN6HokgmhsUtPXfZhrkpwIQKd3rAjwWcOI12MqTMnfmGwNF7h40Pm+pr5KAkkQihf
-	 kW59komk6TUrg==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4hvxdy1xn9z9rxb;
-	Wed, 30 Sep 2026 16:05:42 +0200 (CEST)
-Date: Wed, 30 Sep 2026 14:05:47 +0000
-From: Wilken Gottwalt <wilken.gottwalt@posteo.net>
-To: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
-Cc: Bjorn Andersson <andersson@kernel.org>, Baolin Wang
- <baolin.wang@linux.alibaba.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu
- Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, Paul Walmsley <pjw@kernel.org>, Palmer
- Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre
- Ghiti <alex@ghiti.fr>, Philipp Zabel <p.zabel@pengutronix.de>, Andre
- Przywara <andre.przywara@arm.com>, Bastian Germann <bage@debian.org>,
- linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] riscv: dts: allwinner: d1-t113: Add the hardware
- spinlock
-Message-ID: <20260930160541.040ccc0e@posteo.net>
-In-Reply-To: <20260930130221.129529-1-tien.nguyenminh@embeddedlinux.blog>
-References: <20260927025626.69614-1-tien.nguyenminh@embeddedlinux.blog>
-	<20260927025626.69614-4-tien.nguyenminh@embeddedlinux.blog>
-	<20260927132707.5f484946@posteo.net>
-	<20260930130221.129529-1-tien.nguyenminh@embeddedlinux.blog>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Ufz6GsZa"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9FD5F497;
+	Wed, 30 Sep 2026 08:27:13 -0700 (PDT)
+Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6B8613F86F;
+	Wed, 30 Sep 2026 08:27:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1790782037; bh=BMxuuBMmXl1PbkW1d5zdKSxy6yBqqDoKYBJRc1IY+1E=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Ufz6GsZaOrldhgHWcIdahvrycYQ9GDFBm3l+cT3+cMhONUG/0Rv/0az0MGzvP64f6
+	 KTHAjTCiKEngiedp52jDkZJYi/hnC2/k4MYgWXNaMPJKwG035bteweSdmZsisjJQFE
+	 bLQG4cHtgkx0P07s5PbauauhTJ3n/txuJPmeC15k=
+Message-ID: <a15d179f-8a43-4b4a-8bd5-fc0afecad6e0@arm.com>
+Date: Wed, 30 Sep 2026 17:27:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] pinctrl: sunxi: dt: number the IRQ banks from the first
+ one that has IRQs
+To: Pablo Mazzini <pmazzini@gmail.com>, Linus Walleij <linusw@kernel.org>,
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260929203634.32998-1-pmazzini@gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20260929203634.32998-1-pmazzini@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 30 Sep 2026 20:02:21 +0700
-Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog> wrote:
+Hi Pablo,
 
-> Hi Wilken,
+thanks for sending a patch!
+
+On 9/29/26 22:36, Pablo Mazzini wrote:
+> prepare_function_table() assumes the first pin is in bank 0. On the
+> A523, which has no PA pins, every IRQ bank is numbered one too high:
+> the last bank writes past the end of irq_array, and interrupts are
+> looked up at the wrong offsets.
+
+Yes, this is a known issue, and I already provided a quite different fix 
+for this[1]: the A523 manual actually lists a PortA GPIO interrupt, even 
+though this is pretty likely not functional. But specifying this IRQ in 
+the DT fixes the problem as well.
+The DT binding does not say how the IRQs are assigned to the GPIO ports, 
+so from that point of view my solution is similarly usable as yours - 
+though admittedly yours looks a little better and more future proof.
+
+I guess we now need to figure out how we want to handle this in the 
+future, and add an explanation to the binding. The A733 has a similar 
+problem: PortA does not exist. This time the manual does not explicitly 
+specify a GPIO IRQ, but conspicuously leaves a gap before the PortB GPIO 
+IRQ, so we can use that as well.
+
+Linus, Chen-Yu, Jernej: what do you think?
+
+Cheers,
+Andre
+
+[1] 
+https://lore.kernel.org/linux-sunxi/20260327113006.3135663-4-andre.przywara@arm.com/
+
 > 
-> > Wouldn't it make more sense to add the "allwinner,sun20i-d1-hwspinlock" line to
-> > the driver in the sun6i_hwspinlock_ids struct, drop
-> > "allwinner,sun6i-a31-hwspinlock" here in the D1 device tree and update the yaml
-> > file accordingly?
+> Count the IRQ banks from the first bank that has interrupts.
 > 
-> Thanks for looking at it. Bjorn hasn't replied yet, so I looked a bit
-> more at the naming. I'd like to keep the A31 fallback: it's the usual
-> pattern, other blocks in this dtsi do the same (timer, I2S, LED
-> controller), and Conor already acked the binding in 2/3. If Bjorn
-> prefers a driver entry instead, I'm fine to change it.
-
-Yeah, Conor was a bit quick to act here, such things happen often with patchsets
-made out of documentation/devicetrees and code. Though, the get clock and resets
-patch is fine. The driver could use some modernization.
-
-> > Oh, and I may be able to test it against the D1, I own a Sipeed Nezha.
+> Fixes: f5e2cd34b12f ("pinctrl: sunxi: allow reading mux values from DT")
+> Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
+> ---
+>   drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c | 8 +++-----
+>   1 file changed, 3 insertions(+), 5 deletions(-)
 > 
-> That would be great. You don't need FreeRTOS for it: I tested with a
-> small Linux module that takes each lock and checks the status
-> register. I can clean it up for the single-core D1 and send it.
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c b/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+> index 50a16f3bd131..9c5eb21a86a5 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+> @@ -208,7 +208,7 @@ static int prepare_function_table(struct device *dev, struct device_node *pnode,
+>   	 * The extra functions will be filled in later.
+>   	 */
+>   	irq_bank = 0;
+> -	last_bank = 0;
+> +	last_bank = -1;
+>   	for (i = 0; i < npins; i++) {
+>   		struct sunxi_desc_pin *pin = &pins[i];
+>   		int bank = (pin->pin.number - pin_base) / PINS_PER_BANK;
+> @@ -221,16 +221,14 @@ static int prepare_function_table(struct device *dev, struct device_node *pnode,
+>   		func[1].muxval = 1;
+>   
+>   		if (irq_mux) {
+> -			if (bank > last_bank)
+> +			if (last_bank >= 0 && bank > last_bank)
+>   				irq_bank++;
+>   			func[lastfunc].muxval = irq_mux;
+>   			func[lastfunc].irqbank = irq_bank;
+>   			func[lastfunc].irqnum = pin->pin.number % PINS_PER_BANK;
+>   			func[lastfunc].name = "irq";
+> -		}
+> -
+> -		if (bank > last_bank)
+>   			last_bank = bank;
+> +		}
+>   
+>   		pin->functions = func;
+>   
 
-Uhm, the Linux-only test doesn't work as a hwspinlock test, it misses the entire
-point of the primitive. A hwspinlock arbitrates between two independent agents,
-in this case, Linux running on the C906 core and FreeRTOS running on the HiFi
-DSP, both sharing the same memory bus and other hardware. If Linux is the only
-one who ever takes the locks, it is simultaneously writer and reader of the status
-register, so the test cannot fail even for a broken (or fake) implementation. That
-would basically test nothing at all, well, maybe it would be some kind of bring-up
-test, but overall quite useless.
-
-greetings,
-Wilken
