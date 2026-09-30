@@ -1,46 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C897E3C1D50;
-	Wed, 30 Sep 2026 10:08:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1446317173;
+	Wed, 30 Sep 2026 10:10:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790762938; cv=none; b=hvFs4TddArvrdLGVSK5LvWYSIaMGX7Erc1HecA8xmFXbLwR38YfNfL6JL/ocKFA41XsYgBcPRnx+lpDgCnkaT9msbz6o8OQEC+KBrKLSJzdLj44798hkUYK6iJfH6dT1MC4j8Quac9HdnMFCw3wJ2Fe/rGasU/h8zlZx7CmtVvU=
+	t=1790763039; cv=none; b=MqPbhsclhE7OOWYDw69O74+YDYeS1yrhHm+G+7BZU1qt1TAPA9+DFTHNliqd9fe3R3X6Tp+isHlylzm1cmUcbtiwRY8YBfZgowi8aO8jwWXhkTZH5RiveHzRXtVviXsqYcvz+d4Cojr51oBlSUwX+SKO9x0JW6WG9kkwtRaEP20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790762938; c=relaxed/simple;
-	bh=buCFauJ8I1YR713FwXqzSWSJ1tE97/QhQ/t03u4hOEg=;
+	s=arc-20240116; t=1790763039; c=relaxed/simple;
+	bh=onxhY7qFW3wqD6tIOnfRIki+3UkB41+NNqfblBmh3Lc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wr4VV2zU5tkDY6kLfAmJkdTEywKdKzJFNNqma6D/Z35kBefnA5HIRmP6UpLz/vMbC14RDxWHHqChtfJx3u0/jrxNLWQ8ygw+Ed/wYEuAKpOq/jGc/diMdDF+sXIckFMqbxEMBCN5lCzwa9xTbTz8RkmXwxlT4A1TLpMU9DGEaFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hZxfu/o6; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=XMo0f6fYLpu9qxTbObi8XB2pFBR4Ub7/QWwKAWjSQYHYUHe3Lv8SE8LSX7jB92NoKJ3H+yXEFy02iO4YhRNpNH0YR0Xug12rN4wbdHIX3mzrejkmvFdQ7eg3MqBP6SiMz8kcaivRuK5f5AEW+3JbrwIV9mXBBZokncho6eKRC2A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mgEkZ1Sy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hZxfu/o6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 741F51F000FF;
-	Wed, 30 Sep 2026 10:08:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mgEkZ1Sy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42C2A1F000FF;
+	Wed, 30 Sep 2026 10:10:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790762937;
-	bh=pBwNF67IVGVLonh6bLp06bYjXyfvFFbgj27kTxohZtg=;
+	s=k20260515; t=1790763038;
+	bh=vHfIlpHAKIFPPGeTX2D09og3//FoLgPKp4mRy4VEQkU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hZxfu/o6KtJngutnETKwZaEKPZvZmscsFdJ0RqI679tuJ3B3JqqutWA4FvU2opCri
-	 ZeSGAuIgyYddWDwHdsD3E727rSlm5ZZ5rbzhUN70iDvNT387n+gi6hsSVvmmUy1fCM
-	 fVUg9Fv+acBsdK5TWlZTJ5Lx4thvPUA5gKLSoLgce6XbhCff2y9LSnXiDBo/8RoMnD
-	 07rlqnYShBDGMS1nIsyqnES7HC6WPp1MeE528xYhlsMPKofGxH3Obr0/2vc35Vgvjg
-	 TovKlNY7qT/bVUXZE+Zv/l6qzmtHs5ahAIsBONBgPK1DYFR47ftKfexxIcTemWOqMM
-	 Jp9sHmwHhEW2A==
-Date: Wed, 30 Sep 2026 12:08:53 +0200
+	b=mgEkZ1SyRI8K37jdaZ0dnzHrhi0Z4YkrL7rpHe1/qvh5qnww2L/4cGvKrG3fIgaPh
+	 sHq1rdElmDjtY478yz461FFYX9i8EQin91eBehPi4WpGiUML69OB1/Urk9ZNQ+C+4l
+	 rYhzUqYgozRhik33xsAPMhTubLycjkvwgaHWzn6IrABHP0hCFH+iD2w7KFAMTOGjHE
+	 dWmgwsTARIRVkFhBxoW3baqzV3oaM2oHOSEJMIo7yF8rv1vjAVpr1Qh+2K+s3U8acZ
+	 fdfD05lIscrAE4aFgN7Plo3XddfeRgYneuncnujFREihuFURjvEEgz2fSSbIo+ReMP
+	 nibLEDiMIalww==
+Date: Wed, 30 Sep 2026 12:10:34 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Pablo Mazzini <pmazzini@gmail.com>
-Cc: Brian Masney <bmasney+clk@redhat.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Jerome Brunet <jbrunet+clk@baylibre.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Maxime Ripard <mripard@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 01/11] dt-bindings: clock: sun4i-a10-ccu: add
- Allwinner B288
-Message-ID: <20260930-controversial-pastoral-raven-dd05fc@quoll>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 05/11] dt-bindings: rtc: sun6i-a31: add Allwinner B288
+Message-ID: <20260930-camouflaged-koel-of-resistance-7b09f5@quoll>
 References: <20260927151016.186493-1-pmazzini@gmail.com>
- <20260927151016.186493-2-pmazzini@gmail.com>
+ <20260927151016.186493-6-pmazzini@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -49,16 +47,19 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260927151016.186493-2-pmazzini@gmail.com>
+In-Reply-To: <20260927151016.186493-6-pmazzini@gmail.com>
 
-On Sun, Sep 27, 2026 at 04:10:06PM +0100, Pablo Mazzini wrote:
-> The B288 (sun8iw10p1) is a dual Cortex-A7 SoC used in e-book readers.
-> Its CCU needs only the two oscillator inputs, so it fits the existing
-> schema without changes.
+On Sun, Sep 27, 2026 at 04:10:10PM +0100, Pablo Mazzini wrote:
+> The B288 RTC wires one alarm interrupt, not two.
 > 
 > Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
+> ---
+>  .../devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml        | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Seems like valid and unaddressed comment from Sashiko, so dropping from
+DT Patchwork.
 
 Best regards,
 Krzysztof
