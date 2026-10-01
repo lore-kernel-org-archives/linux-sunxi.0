@@ -1,42 +1,42 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE1F388E69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18CEC37A498
 	for <linux-sunxi@lists.linux.dev>; Thu,  1 Oct 2026 01:15:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790817308; cv=none; b=JrZn4ejjGqfvWcAq485VP9L2gGJzAqxwpeDCXPJeGS6+vU3lDPed6L4gg8x8xhz3oYUPdSewttSiXqQ9nNyX5aZV8UXFcTakdKZ9TcMWwimN6KABsNaBuY7XOZ6djI4n7vpyXAliIB+vAUBIvFFVFqrnDY5/LW+BHiwxhOCmFvI=
+	t=1790817307; cv=none; b=jKmmtmrbhbfWTFSg85WoR9IKIyqX0dOr1pL7BPhdAMPKBvGPhZyA1mwDEqLt4wzq0Uj+M2DuSFLJohJbRynhOcfloZEn2WbhL/9Ptb2k9dFOZ3yfgpIDHtT/p7fHF4kRj5sxlJM4EoGkSTQvOauYP7jwkWkwYk08i0+EIOzeAkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790817308; c=relaxed/simple;
-	bh=DB5PODYXy2kTpjxX6UTzF7oxk3JRTsiShBO+9zBy3Sk=;
+	s=arc-20240116; t=1790817307; c=relaxed/simple;
+	bh=trz+pg8TdAmiapUzXFOsDd1JTCIdVAs8CD5I44OX+Hk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VrOwy0/FEdTr0SRN7DB0uAIaFR/HFmdIWzhLss5YNRw2Tlm3vNpuJajwaGD/LWcZC2rndNhGRAjEYvHYeTJF3O+5yYL6AxJRJBodmDPcAxp7ybg5EWiQRZrHTGhXJhb4xNlZXJ6NjgeEiIwCOdONoHE+1lMwz8kDAi/4TbP0Ry0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Zs4utTKB; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=H+51yfnpluuP//Mf9xl5bN/9SRxclTQt5PQwdWDZwCYc3jUTCXGKm0gwn6II0q2smgGKWkiInnxRrabjW4kNwKMxOBqL+5Kmu7B0reEvvpsEfcU0UaDzyOAZZ5KlalqeuHLMymosIlP/OBo10gC4L8XnZK4HfF3J5CEtGJg41P4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=izeOJWKA; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Zs4utTKB"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="izeOJWKA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
 	s=mail; t=1790817300;
-	bh=DB5PODYXy2kTpjxX6UTzF7oxk3JRTsiShBO+9zBy3Sk=;
+	bh=trz+pg8TdAmiapUzXFOsDd1JTCIdVAs8CD5I44OX+Hk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Zs4utTKBVDuyiChnNSINLLgvURyuHzEy7D9SmPF4SXs1EXITeY3M+lb4TBQBkqZUJ
-	 Wtl4yCc6/FGlJmmYEOsPOb5n8ii3MRnUHFlUzjXI3Jkyeg3lJf0CK4Jqss+md9YIu5
-	 omy6QcJnIMxQkZHgXfQ/KNHJNF2GzLfLaAYinQNI88NkvUsJ4jnjDp5IwuDafCuvrm
-	 /SdXYDgSC5BlUx0C/4UU8NEuzItAw9fWUJvMUL34Ln+e8UyQQVXuhEcAmpmaxF7oYY
-	 R1qbXO9mntYLhs6+aq9W+Q7hGSdfZgUt3CwNzCNGTIs8nZzACNvotR+/r5p7t5gdYh
-	 GgSDJbA4NwPGg==
+	b=izeOJWKAI6UcIH+uKv09mw3+Ceir8XOZOZUYbLKS6GBbMnG0W1cVjaKwqZpH1i334
+	 VAssMy6QGwHjA3L1tn/4v8KWYr3vHP4P8xf/ysOowiJj8/2QCMJTxVNkvllB8z89l4
+	 EmkKUnLIO5Qv9RwmQwDkId/b4oUq6era9yer6hiLrFu3W6Y2eXyp62V4WdcIZO0fF5
+	 jkIitmTBylHgCo/TW8GWBayz8trDyqLB8rcYDWc+Rdf+TDmMrWVohaNY6wW4vdc6El
+	 CRDivybezBOJCxGFHCMlVX35bFQhR92eToUhIRl4mILohBhM6dHBEstECk4qv4bPk1
+	 EGwGexRqi6CVg==
 Received: from localhost (unknown [100.64.0.241])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id EB38217E0A27;
-	Thu, 01 Oct 2026 03:14:59 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9E11017E0B0F;
+	Thu, 01 Oct 2026 03:15:00 +0200 (CEST)
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 01 Oct 2026 04:14:34 +0300
-Subject: [PATCH 3/8] drm/bridge: ite-it6263: Drop redundant .mode_valid
- hook
+Date: Thu, 01 Oct 2026 04:14:35 +0300
+Subject: [PATCH 4/8] drm/bridge: ite-it6263: Advertise HDMI 1.3
+ capabilities
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261001-bridge-advert-hdmi-caps-v1-3-f8806570e243@collabora.com>
+Message-Id: <20261001-bridge-advert-hdmi-caps-v1-4-f8806570e243@collabora.com>
 References: <20261001-bridge-advert-hdmi-caps-v1-0-f8806570e243@collabora.com>
 In-Reply-To: <20261001-bridge-advert-hdmi-caps-v1-0-f8806570e243@collabora.com>
 To: Andrzej Hajda <andrzej.hajda@intel.com>, 
@@ -65,69 +65,78 @@ Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 X-Mailer: b4 0.15.2
 
-Bridges using DRM_BRIDGE_OP_HDMI expect connectors to be created through
-drm_bridge_connector_init(), thereby relying on the bridge connector's
-.mode_valid hook to invoke drm_hdmi_connector_mode_valid().
+Bridges using DRM_BRIDGE_OP_HDMI are expected to provide the supported
+HDMI version.  This is not enforced yet, but will become mandatory once
+the migration to the caps-based HDMI connector initialization API is
+complete.
 
-The generic helper computes the mode's TMDS character rate and forwards
-it to the bridge's .hdmi_tmds_char_rate_valid callback through the
-connector HDMI funcs.  This covers exactly what
-it6263_bridge_mode_valid() does for 8 bpc RGB444, but due to being
-output-format aware, it also handles the validation more thoroughly.
+Advertise HDMI 1.3 support for IT6263, covering the 225 MHz TMDS
+character rate currently documented by the driver, which is within the
+HDMI 1.3 limit of 340 MHz.  Additionally, keep the stricter 150 MHz
+effective mode limit by setting max_tmds_char_rate from
+MAX_PIXEL_CLOCK_KHZ.
 
-Both the connector and bridge .mode_valid hooks are invoked during
-mode validation through drm_mode_validate_pipeline(), so the custom
-bridge hook is redundant.  Drop it.
+The existing .hdmi_tmds_char_rate_valid() hook checks both the pixel
+clock and TMDS character rate.  Since the bridge only supports 8 bpc
+RGB444, these are equivalent for supported modes, making the 225 MHz
+TMDS rate check unreachable once the 150 MHz pixel-clock limit is
+applied.
 
-While at it, remove the now-unused drm_hdmi_helper.h include.
+drm_bridge_connector_atomic_check() invokes
+drm_atomic_helper_connector_hdmi_check(), which rejects modes whose
+computed TMDS character rate exceeds the connector's max_tmds_char_rate
+before invoking the driver's .tmds_char_rate_valid hook.  Since
+max_tmds_char_rate now carries the existing effective limit,
+it6263_hdmi_tmds_char_rate_valid() is redundant.  Drop it.
 
 Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 ---
- drivers/gpu/drm/bridge/ite-it6263.c | 16 ----------------
- 1 file changed, 16 deletions(-)
+ drivers/gpu/drm/bridge/ite-it6263.c | 17 ++---------------
+ 1 file changed, 2 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bridge/ite-it6263.c
-index 21ac8e58b9d2..550999491086 100644
+index 550999491086..e8e0197171e1 100644
 --- a/drivers/gpu/drm/bridge/ite-it6263.c
 +++ b/drivers/gpu/drm/bridge/ite-it6263.c
-@@ -15,7 +15,6 @@
- #include <linux/regmap.h>
- #include <linux/regulator/consumer.h>
- 
--#include <drm/display/drm_hdmi_helper.h>
- #include <drm/display/drm_hdmi_state_helper.h>
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-@@ -669,20 +668,6 @@ static void it6263_bridge_atomic_enable(struct drm_bridge *bridge,
- 	regmap_write(regmap, HDMI_REG_PKT_GENERAL_CTRL, ENABLE_PKT | REPEAT_PKT);
+@@ -738,20 +738,6 @@ it6263_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+ 	return input_fmts;
  }
  
 -static enum drm_mode_status
--it6263_bridge_mode_valid(struct drm_bridge *bridge,
--			 const struct drm_display_info *info,
--			 const struct drm_display_mode *mode)
+-it6263_hdmi_tmds_char_rate_valid(const struct drm_bridge *bridge,
+-				 const struct drm_display_mode *mode,
+-				 unsigned long long tmds_rate)
 -{
--	unsigned long long rate;
+-	if (mode->clock > MAX_PIXEL_CLOCK_KHZ)
+-		return MODE_CLOCK_HIGH;
 -
--	rate = drm_hdmi_compute_mode_clock(mode, 8, DRM_OUTPUT_COLOR_FORMAT_RGB444);
--	if (rate == 0)
--		return MODE_NOCLOCK;
+-	if (tmds_rate > MAX_HDMI_TMDS_CHAR_RATE_HZ)
+-		return MODE_CLOCK_HIGH;
 -
--	return bridge->funcs->hdmi_tmds_char_rate_valid(bridge, mode, rate);
+-	return MODE_OK;
 -}
 -
- static int it6263_bridge_attach(struct drm_bridge *bridge,
- 				struct drm_encoder *encoder,
- 				enum drm_bridge_attach_flags flags)
-@@ -831,7 +816,6 @@ static const struct drm_bridge_funcs it6263_bridge_funcs = {
- 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
- 	.atomic_create_state = drm_atomic_helper_bridge_create_state,
- 	.attach = it6263_bridge_attach,
--	.mode_valid = it6263_bridge_mode_valid,
- 	.atomic_disable = it6263_bridge_atomic_disable,
- 	.atomic_enable = it6263_bridge_atomic_enable,
+ static int it6263_hdmi_clear_avi_infoframe(struct drm_bridge *bridge)
+ {
+ 	struct it6263 *it = bridge_to_it6263(bridge);
+@@ -821,7 +807,6 @@ static const struct drm_bridge_funcs it6263_bridge_funcs = {
  	.detect = it6263_bridge_detect,
+ 	.edid_read = it6263_bridge_edid_read,
+ 	.atomic_get_input_bus_fmts = it6263_bridge_atomic_get_input_bus_fmts,
+-	.hdmi_tmds_char_rate_valid = it6263_hdmi_tmds_char_rate_valid,
+ 	.hdmi_clear_avi_infoframe = it6263_hdmi_clear_avi_infoframe,
+ 	.hdmi_write_avi_infoframe = it6263_hdmi_write_avi_infoframe,
+ 	.hdmi_clear_hdmi_infoframe = it6263_hdmi_clear_hdmi_infoframe,
+@@ -883,6 +868,8 @@ static int it6263_probe(struct i2c_client *client)
+ 	it->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
+ 	it->bridge.vendor = "ITE";
+ 	it->bridge.product = "IT6263";
++	it->bridge.supported_hdmi_ver = HDMI_VERSION_1_3;
++	it->bridge.max_tmds_char_rate = 1000ULL * MAX_PIXEL_CLOCK_KHZ;
+ 
+ 	return devm_drm_bridge_add(dev, &it->bridge);
+ }
 
 -- 
 2.55.0
