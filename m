@@ -1,112 +1,96 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C347F38DC61
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Oct 2026 01:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DBDA37B41E
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Oct 2026 01:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790817311; cv=none; b=S1Nbr7yFhJi9ZsjGnPgqTfSCtG2tRWFjETZk/S5lFPyBjd83JUEu8b3WcpsMEuWABSUNpd+atHYU6E9aElZ2O0uasuxM9ya9IO4oCRZBBckYZQvQWDF8CftXQehwuoQVTEurRGXudQ4P5oVhHhSAser/3zeGY5tAJnRkxwMYxyc=
+	t=1790817796; cv=none; b=FbHD0J8dkdjZEq3EA11q0A6or/iz1Czh0b+SERl+OdeuqmZkr9bHEKROM1TfpzOGhf37rqlZ98s3ZnW3o8G89Qio2IcMGcgP/XvIs9wYumdxaB+ZEDWqpWVamZWa7NBp4M6mPnVjPoD6akpwx6EH0kXVtnOeGqgn4DZILjVZQEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790817311; c=relaxed/simple;
-	bh=/25mUQVhbWdrJiq1vpQHSF057oLy+euJM19YMqCX+Fs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RS5b73tEzHIWkj8cdwN01R5uV4eBKIBPEoP/FCCMmKnfQwrxRa4ouZYnaQ79vfI5Aj2f80hvAQfvPe2pW4c2TwOXhJO87qOIt0N37QYGudES5DOKIK13HCdTlDPBw84wBi+iyZAG+g3yDccFFGOgxT/WBtQaLcWBu3C/1RVvB2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=qy0IfcYw; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1790817796; c=relaxed/simple;
+	bh=HsbQOHvqfssogLXpU/r3/oOHz6BEqmCs0QQyip/F21Q=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=bhzAM3rBK99vRAAV/UCxi0jrLlFCEuaL7N3+N29CKJhxeIzBRtW2JskLoiiCPL7oc92eApvpeV8rqaEmp7MxTQvsNWCf6r0oMQVVAcUYQ+DmLMzfojoF+C2qnoXPDbd10iyyrdvq/pmLtjuWon3cy064CxNIH3b8hTlT60xZbuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d8qg/VWa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="qy0IfcYw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1790817302;
-	bh=/25mUQVhbWdrJiq1vpQHSF057oLy+euJM19YMqCX+Fs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=qy0IfcYwYMkPi7M6MjB0Job0164tgQdM2YlGW9gSTT3RHOMAFYpQ52kGNwvXehXCJ
-	 JC3fGzF7HAIh5txk3TClUKVwovHTkNkmSmFGKw+md3YR8wGOr8TcajisSekUgegtvw
-	 9AY/Mcbs+OWgL8WhHvYtIQ9mUmVuk6DeDLAohV9n/ujoGg7DgrTH+yAL9EAY45RE53
-	 y+L3XmHCE/vbnq4oYpWys6r1PIPUeuAFzXBZX/9EaD7gQMKWXWY0XqCa/3dA1TFWzn
-	 yrvwkLo8/PZRlWuPwWFDJXyKSsJxBm2Qzy/3bs4s9h/0TWsRD3mTM5K6K6LhRDBxZV
-	 hI2v/m1irEJCA==
-Received: from localhost (unknown [100.64.0.241])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id A9D3217E1047;
-	Thu, 01 Oct 2026 03:15:02 +0200 (CEST)
-From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Date: Thu, 01 Oct 2026 04:14:38 +0300
-Subject: [PATCH 7/8] drm/rockchip: rk3066_hdmi: Advertise HDMI 1.4
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d8qg/VWa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C82B1F000FF;
+	Thu,  1 Oct 2026 01:23:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790817793;
+	bh=vTvZeF/Nhnq3jiQ437lHxmC8RA2jQksT3rwH45GKqd4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=d8qg/VWaOcKEaQTC+roW0LKXNO7GVASAE3A9D8lrq6DqVo9tt3T+MqfJo/y/b4JTC
+	 WrQt07Yjl1rx3Js0dzjVxeUjfRFCQ4mJkVgkNlWbSesoEpk2z0RELKM5nKuMNToAck
+	 B8y7tcuV5UBHvp+v2/7WhKE5N+6BWiIHquCque/Kap0S3d5g8YryP9wABiEs1oUXf4
+	 8uvQD+JrAmIF1fiSjP/v61SMPqyz94M82X/GguZoVI3ShDeYqt8lm7jABMHOo1M7Nu
+	 KPkglDhbQWkkq7qIyHKlZugyziJMBAn7KZs1tTNV5xY7goIxdXXGAJ3dxlRC7e880s
+	 RnwfefH4B8b6Q==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 4/8] drm/bridge: ite-it6263: Advertise HDMI 1.3
  capabilities
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Cristian Ciocaltea" <cristian.ciocaltea@collabora.com>
+Cc: linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org
+In-Reply-To: <20261001-bridge-advert-hdmi-caps-v1-4-f8806570e243@collabora.com>
+References: <20261001-bridge-advert-hdmi-caps-v1-0-f8806570e243@collabora.com>
+ <20261001-bridge-advert-hdmi-caps-v1-4-f8806570e243@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 01 Oct 2026 01:23:12 +0000
+Message-Id: <20261001012313.3C82B1F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261001-bridge-advert-hdmi-caps-v1-7-f8806570e243@collabora.com>
-References: <20261001-bridge-advert-hdmi-caps-v1-0-f8806570e243@collabora.com>
-In-Reply-To: <20261001-bridge-advert-hdmi-caps-v1-0-f8806570e243@collabora.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andy Yan <andy.yan@rock-chips.com>, Liu Ying <victor.liu@nxp.com>, 
- Phong LE <ple@baylibre.com>, Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-X-Mailer: b4 0.15.2
 
-Bridges using DRM_BRIDGE_OP_HDMI are now expected to also provide a
-supported HDMI version.  This is not yet enforced, but will become
-mandatory once the migration to the new caps-based HDMI connector
-initialization API is completed.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Low] Unused macro MAX_HDMI_TMDS_CHAR_RATE_HZ left as dead code
+--
 
-The RK3066 HDMI TX supports HDMI 1.4a, as described in commit
-f84d3d37b7fb ("drm: rockchip: introduce rk3066 hdmi").  However, the
-driver does not currently enforce a maximum TMDS character rate, it only
-filters non-CEA modes and excludes VIC 1 (640x480) via the .mode_valid
-callback.
+commit 4c0965b876d8cee6ad2805996d389a95afff88cf
+Author: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
 
-Advertise HDMI 1.4 support for now so that modes exceeding the 340 MHz
-TMDS limit are rejected by the core.
+drm/bridge: ite-it6263: Advertise HDMI 1.3 capabilities
 
-Reviewed-by: Heiko Stuebner <heiko@sntech.de>
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
----
- drivers/gpu/drm/rockchip/rk3066_hdmi.c | 2 ++
- 1 file changed, 2 insertions(+)
+This commit advertises HDMI 1.3 support for the IT6263 bridge and sets the
+maximum TMDS character rate. It also removes the now-redundant
+it6263_hdmi_tmds_char_rate_valid() hook, as the core DRM helper handles
+these checks before invoking the driver's hook.
 
-diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-index f28d6a883e09..f748700b0ba6 100644
---- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-+++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
-@@ -14,6 +14,7 @@
- #include <drm/drm_probe_helper.h>
- 
- #include <linux/clk.h>
-+#include <linux/hdmi.h>
- #include <linux/mfd/syscon.h>
- #include <linux/platform_device.h>
- #include <linux/regmap.h>
-@@ -712,6 +713,7 @@ rk3066_hdmi_register(struct drm_device *drm, struct rk3066_hdmi *hdmi)
- 	hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
- 	hdmi->bridge.vendor = "Rockchip";
- 	hdmi->bridge.product = "RK3066 HDMI";
-+	hdmi->bridge.supported_hdmi_ver = HDMI_VERSION_1_4;
- 
- 	hdmi->bridge.ddc = rk3066_hdmi_i2c_adapter(hdmi);
- 	if (IS_ERR(hdmi->bridge.ddc))
+> diff --git a/drivers/gpu/drm/bridge/ite-it6263.c b/drivers/gpu/drm/bridge=
+/ite-it6263.c
+> index 550999491086e..e8e0197171e10 100644
+> --- a/drivers/gpu/drm/bridge/ite-it6263.c
+> +++ b/drivers/gpu/drm/bridge/ite-it6263.c
+> @@ -738,20 +738,6 @@ it6263_bridge_atomic_get_input_bus_fmts(struct drm_b=
+ridge *bridge,
+>  	return input_fmts;
+>  }
+> =20
+> -static enum drm_mode_status
+> -it6263_hdmi_tmds_char_rate_valid(const struct drm_bridge *bridge,
+> -				 const struct drm_display_mode *mode,
+> -				 unsigned long long tmds_rate)
+> -{
+> -	if (mode->clock > MAX_PIXEL_CLOCK_KHZ)
+> -		return MODE_CLOCK_HIGH;
+> -
+> -	if (tmds_rate > MAX_HDMI_TMDS_CHAR_RATE_HZ)
 
--- 
-2.55.0
+[Severity: Low]
+With the removal of the it6263_hdmi_tmds_char_rate_valid() hook, the macro
+MAX_HDMI_TMDS_CHAR_RATE_HZ in drivers/gpu/drm/bridge/ite-it6263.c is no
+longer referenced anywhere. Should this unused macro also be removed to
+prevent leaving dead code behind?
 
+> -		return MODE_CLOCK_HIGH;
+> -
+> -	return MODE_OK;
+> -}
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261001-bridge-adv=
+ert-hdmi-caps-v1-0-f8806570e243@collabora.com?part=3D4
