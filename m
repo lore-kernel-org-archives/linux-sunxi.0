@@ -1,127 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D0BC34752E;
-	Thu,  1 Oct 2026 06:17:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D218E3DA5A3
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Oct 2026 07:32:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790835435; cv=none; b=cANgAfq55aJXr3sFX/URpVdIPxiZgkKxXV7mUSiaREAPtH1PeZy7jBtE2xKbijsu67PFrOQONbv3wl7AZm1I+eL3WRSU1P9A0kwo1uHfrBi8QxaiN6Qdu3BI0/SsCXAsPwQcJHa3Z3iOhpxhBkE0s2Objot7pEIsLONqMJDWf20=
+	t=1790839932; cv=none; b=AzBax2WnKjmoBub+nyvH+VIU5mbY/CuZOXxKIRknSjRoyt1uKISkaa7ADJzOMY2RttGzcYYsgcObglFa2oghZGpouWLKGlvr5VZcTodqDQWRv6wi3U5znNFZGLPuXJGSP2/hJ/K1YA2j+DXdw/zVATlYMBGa/zj4kG+S4M1JGBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790835435; c=relaxed/simple;
-	bh=n+3z0xJa5JG4pA86dr6v8CGEo07+uUvnuqMftIe7JY0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=USkTZ9Rynhp4AousjG0fiP3rO6U+WV+peyFaTCS5xsdzF7hEsQx8Pt47JT4eeorOM0IsPAD91125fy2vma68YEiPe9vsTyJQcArja+lY/HdAoF3sdouLO++zz9IdUZPtSfxS37taEH8U6bKlxg6TShLL5GPyh9JwbPADElljZwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SO/13ZUP; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790839932; c=relaxed/simple;
+	bh=ELdBCMU5f7/O4ZMIta9o4UVKjIIZnw/X5SSJeT3GM90=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f8E6jaCdXJFLgCso5Pq37yLe7Noi/eKdnWBx8HenuRnjp/f9w7GUX1mD+iMkr9wAp4j6UZofUD9gw+2s4Kwwr1HCbzuJStecFG0i/EzzG5+AcV7cyd57/GbVX796+0GTteelV+dpXzssZ6cTElEb1wghAOpXtsfRwH6/Tr8/uvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m9ED6Xoy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SO/13ZUP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D0DB1F000FF;
-	Thu,  1 Oct 2026 06:17:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m9ED6Xoy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 728201F000FF
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Oct 2026 07:32:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790835433;
-	bh=yvPInNVMUowwCsvJI/H0YVtLjuxYlHv6SPUDpD5X1Uc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SO/13ZUPRnFCpA3vLkxwYxUXn9YBDekZZ131RC3yPAIu468TZOTuyfR9uaG/ngt5b
-	 yQHZJ/hAWCCNCtFpqF2aW35Da9Bx2s9GmsBx9z5cweqVQXTBTNOiefh8c0oPJNKpvQ
-	 XC8iuQ2+T5hXGib6JrZvKZfB6NU1bwDCVTTpDjif9qqvrSJw4CqHJkLF6l1jsHav0K
-	 1QD8D6j2UQZViiX3adhLjB7hcAfTl5vJUfHtNR7g/UoTVRQMUUY/nbc88AFs4GFemX
-	 9yOM+rIzNW3zvVfrpwJDIrqI4GqcrhbKjBViwUp47cdFibHl3YJA+ncN4aZiC9K93d
-	 ctFwKg6215aOg==
-Date: Thu, 1 Oct 2026 08:17:09 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Tim Michals <tcmichals@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, linux-remoteproc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
-	andersson@kernel.org, mathieu.poirier@linaro.org, jassisinghbrar@gmail.com, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Subject: Re: [PATCH v2 4/7] dt-bindings: remoteproc: add Allwinner
- sun55i-rproc schema
-Message-ID: <20261001-armored-wild-saiga-c5c3ae@quoll>
-References: <20260922034711.190253-1-tcmichals@gmail.com>
- <20260927002021.797069-1-tcmichals@gmail.com>
- <20260927002021.797069-5-tcmichals@gmail.com>
+	s=k20260515; t=1790839930;
+	bh=ELdBCMU5f7/O4ZMIta9o4UVKjIIZnw/X5SSJeT3GM90=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=m9ED6XoyFU6f6NSxPdVX7ZgGtbARjsD/CvfZD8tuhOkiZ6dKnPRKSRSktb3gLidmc
+	 VPbCeYi2IKHwWOv9a94mqT6hb1QyGGIuQBER4nXjiOTZRozsX037c2spwbLmYAMdft
+	 hSocy81uy0QFI/ZtDOvX28+07QuujnXHssLX3bpIUqE7ULrFoS3pV03E333y7RCNzK
+	 HsH5YwqLVDE8Ag8eULAvrQkln7YBVbnRdOZn5XnVa80W1ViRxENJZnXfTYVrjFagcy
+	 G3vUUO2AFJbwfAf2/N1XRAUG8lpRgJF09f4ryfCh5u+wg5DjSHuu95Tq7PJHOpKRZi
+	 qrKAsvE+hguKQ==
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5ba418c79ccso963114e87.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 01 Oct 2026 00:32:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwJTJYZtRCk9NoRe01yZYgHyLeB9geH/DDJ2kMaxjI5smfD+4V/D0d/gqzmzDn3JW4Tmt2poyFZffVlGw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJBVaO9HzuW/RCDj2+RBm+z0SwYrKMk8AnFRzybY15Jx8AtM9eD
+	NILtgGMIKNuwnWwFXzSBC9m7lpXsy2f9aoO9MK8zX8nNdG8BCbHS0451IuKIHT5VJBjIG3xytnw
+	FZj+jS9fvwl525RrBdWYRbghSsfDUiSlFNfJTldcGvA==
+X-Received: by 2002:ac2:42d0:0:b0:5b8:f97f:7a22 with SMTP id
+ 2adb3069b0e04-5ba405ec7a1mr1161789e87.54.1790839929167; Thu, 01 Oct 2026
+ 00:32:09 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 1 Oct 2026 10:32:07 +0300
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 1 Oct 2026 10:32:07 +0300
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260930163334.60b4a88c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260927002021.797069-5-tcmichals@gmail.com>
+References: <20260923-qcom-sa8255p-emac-v15-0-e82f33720737@oss.qualcomm.com>
+ <20260923-qcom-sa8255p-emac-v15-1-e82f33720737@oss.qualcomm.com> <20260930163334.60b4a88c@kernel.org>
+Date: Thu, 1 Oct 2026 10:32:07 +0300
+X-Gmail-Original-Message-ID: <CAMRc=MeUx2iHf8-d9yjZZ=n7VaG_GROvO2dW-bxavAS+XbGMFg@mail.gmail.com>
+X-Gm-Features: AclHuK8P_ZwjJ__3SNp9LNTCdpGSDaQAP4RQWoM4JsBj1lq1vbQDeX8sSTrNEMU
+Message-ID: <CAMRc=MeUx2iHf8-d9yjZZ=n7VaG_GROvO2dW-bxavAS+XbGMFg@mail.gmail.com>
+Subject: Re: [PATCH net-next v15 1/9] net: phy: aquantia: fix system interface
+ type not updated in forced mode
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Vinod Koul <vkoul@kernel.org>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, Shawn Guo <shawnguo@kernel.org>, 
+	Fabio Estevam <festevam@gmail.com>, Jan Petrous <jan.petrous@oss.nxp.com>, s32@nxp.com, 
+	Mohd Ayaan Anwar <mohd.anwar@oss.qualcomm.com>, Romain Gantois <romain.gantois@bootlin.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Maxime Ripard <mripard@kernel.org>, Christophe Roullier <christophe.roullier@foss.st.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Radu Rendec <radu@rendec.net>, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, Drew Fustini <dfustini@tenstorrent.com>, 
+	linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org, 
+	linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	sophgo@lists.linux.dev, linux-riscv@lists.infradead.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, stable@vger.kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Sep 26, 2026 at 07:20:13PM -0500, Tim Michals wrote:
-> Add Device Tree binding schema for the Allwinner XuanTie E907 RISC-V
-> remote processor subsystem integrated into Allwinner A523, A527, and
-> T527 (sun55i) SoCs.
-> 
-> The binding defines the memory resources (configuration registers,
-> SRAM Space 0, SRAM Space 1, and optional remap controller), clocks,
-> resets, reserved memory regions, and hardware mailbox channels.
-> 
-> Signed-off-by: Tim Michals <tcmichals@gmail.com>
-> ---
->  .../remoteproc/allwinner,sun55i-rproc.yaml    | 146 ++++++++++++++++++
->  1 file changed, 146 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/remoteproc/allwinner,sun55i-rproc.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/remoteproc/allwinner,sun55i-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/allwinner,sun55i-rproc.yaml
-> new file mode 100644
-> index 000000000000..53e3f4faaa76
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/remoteproc/allwinner,sun55i-rproc.yaml
-> @@ -0,0 +1,146 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/remoteproc/allwinner,sun55i-rproc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner XuanTie E906/E907 RISC-V Remoteproc
-> +
-> +maintainers:
-> +  - Jernej Skrabec <jernej.skrabec@gmail.com>
-> +  - Samuel Holland <samuel@sholland.org>
-> +  - Tim Michals <tcmichals@gmail.com>
-> +
-> +description:
-> +  The Allwinner T527, A527, and A523 (sun55i) SoCs integrate a T-Head
-> +  (XuanTie) E906 or E907 RISC-V co-processor alongside the ARM Cortex-A55
-> +  cluster. The co-processor runs bare-metal firmware loaded and lifecycle-
-> +  managed by the Linux remoteproc framework.
-> +
-> +  The driver controls CCU-integrated clocks (bus, core) and resets
-> +  (cfg, core), programs the hardware boot-vector register, maps
-> +  internal SRAM (SRAM_A3) windows, and connects to the Allwinner
-> +  hardware mailbox (CPUX_MSGBOX) for VirtIO RPMsg IPC.
-> +
-> +properties:
-> +  compatible:
-> +    const: allwinner,sun55i-a523-rproc
-> +
-> +  reg:
-> +    minItems: 1
-> +    maxItems: 4
-> +    description:
-> +      Memory-mapped register regions. The following named regions are
-> +      supported (all optional except at least one of r_sram or r_sram1) -
-> +      "cfg" for RISC-V core control and boot-vector registers,
-> +      "r_sram" for dedicated MCU SRAM Space 0,
-> +      "r_sram1" for switchable MCU SRAM Space 1,
-> +      "remap" for the hardware remap control register.
-> +
-> +  reg-names:
-> +    minItems: 1
-> +    maxItems: 4
-> +    items:
-> +      enum:
-> +        - cfg
-> +        - r_sram
-> +        - r_sram1
-> +        - remap
+On Thu, 1 Oct 2026 01:33:34 +0200, Jakub Kicinski <kuba@kernel.org> said:
+> On Wed, 23 Sep 2026 17:14:35 +0200 Bartosz Golaszewski wrote:
+>> aqr_gen1_read_status() decodes the MDIO_PHYXS_VEND_IF_STATUS register
+>> to determine which SerDes interface the PHY is currently using on its
+>> system side and stores the result in phydev->interface. phylink relies
+>> on this value to configure the MAC.
+>>
+>> The autoneg == AUTONEG_DISABLE check is not correct:
+>> MDIO_PHYXS_VEND_IF_STATUS is set by the PHY firmware based on the
+>> negotiated link speed, not based on whether autoneg was used to reach
+>> it. When the link comes up at 1G in forced mode, the register correctly
+>> reads SGMII, but the early return prevents phydev->interface from being
+>> updated. It stays at whatever value it held before (typically 2500BASE-X
+>> from the initial autoneg run), so phylink configures the MAC for the
+>> wrong interface and the link cannot come up.
+>>
+>> Remove the autoneg guard so that the system interface type is always
+>> decoded when the link is up.
+>>
+>> Cc: stable@vger.kernel.org
+>> Fixes: 110a2432c520 ("net: phy: aquantia: add downshift support")
+>> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+>
+> Sounds like a real regression, is it? Should we ship it to Linus
+> tomorrow so that it makes 7.3? stable + next does not compute for me
+>
 
-So you completely ignored my feedback and sent exactly the same.
+Yes, this is independent from the rest of the series and a small fix. It sounds
+good to send it upstream ASAP.
 
-Best regards,
-Krzysztof
-
+Bart
