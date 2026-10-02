@@ -1,131 +1,190 @@
-Received: from mail-pj2-f38.google.com (mail-pj2-f38.google.com [74.125.227.166])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28185499F1D
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Oct 2026 20:26:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.166
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790886408; cv=pass; b=mfVB39m1v0s8pau29hWtSKJReLDvGhEpiDspd3rLGob8MoJvetFV00XSeToSFr0r9hR8wCEnvNFJ0VZjx6qzqos29CT9sIUZBdZU0Mbd8hV5qMsk/2ETk39iyrYx/4f+UpA94vKOX1Bk07oPK/Bfc+PHylUjFSFSlE7pKRe9qFg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790886408; c=relaxed/simple;
-	bh=v6TVfXTKVxrz9QFCIxsDL9oMH4UbJ/LAus5tXSrEGYs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WzPNWyvXNsWlg+A4vdXF0fgXkccRjWehEEsqr7ETFvaM8l0NhoA3o3fFT22M/cxkBx4JQlFQI3DlYxEjHScRDh3gnmNbV34cHOcBZlFNhEZuiDgSQXDokuKdBsM8epxhFDrQv9FylaCKN6bqL2ovSbYP7QzO4eEzv8dpDkMWuYY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a4a5mB2p; arc=pass smtp.client-ip=74.125.227.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB6A3D954F;
+	Fri,  2 Oct 2026 06:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790921648; cv=none; b=ryZKPYN1yTv8UBUHr6+8BaZyvVC3rz55YXeXcH1WvVg1NmBrhsv65usE6PV11Wq+5u86evjPlSY8L/dXKQLIZxnDm3ntE0jdrfYFvkofe7Uzpz15HbNNamDur8CxDVvGOaJfMMvOusII7hdL0reBKQWE1aGWtSE7fA425bCw2jQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790921648; c=relaxed/simple;
+	bh=cq858TTpwbQ0a6M0Ph7oRdQebhWSEztcpX+aOvu+QWM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t56vyYIKjnV8AZz5ETIdBTm4ZV4VrnFb0YB6/Q9xjRKTVhoRQDDDidzgv5lNel8osbWK6ghqaGkA45skhIMUju1ANO7yx+PE4NNEga3eBszxBav6bBV0XaIPPggjvdKhcc0zPtT+ChAUGr2YlCjoUgEgzxgIKqqXCysTiXjWLGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E4is420E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a4a5mB2p"
-Received: by mail-pj2-f38.google.com with SMTP id 98e67ed59e1d1-3a4b4770191so1611597a91.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 01 Oct 2026 13:26:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790886406; cv=none;
-        d=google.com; s=arc-20260327;
-        b=BnZmTWideopf+T13wSghjMANAek9nrwfzDCBvQo68HILkirkBpifUoaHWTRRpYba1F
-         jFdqDvVOjIy9VqT9DndmPMDn3TOoh6E8YGOUZQ3I9We3byl/3Y3LAyYEqc+nICpHCTiL
-         XA/Zzo8VF24zdIhHRW+oMY478DQBiHmi44YxHHe8Xg9xKXQBfWuNheSxU6BoiyW92tcO
-         zl2emlFrpPdzIqdfiQGcSOxgr/PL3GSel5lx3h5eHgZB4phk33Af5DE6MkSf/4fyBK04
-         bwoQ5bn6S0dLxMQRmKYXIzC21kaGVplZokZqLMKne7jmYFMTnq/1C1Go4bkqHl7H2JWZ
-         wyvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=v6TVfXTKVxrz9QFCIxsDL9oMH4UbJ/LAus5tXSrEGYs=;
-        fh=v0aJcA/2rIDkIDTMZWusMn4ONkwepUM9KkowmCTtFRM=;
-        b=roQhMEEZqhv+/go1BOiW0sslW4NxJxlQCoeckNY1rK3fFBOeXZ407b3eMvltgTs9I+
-         b+TdXPnq7oLOkPhyKpNubFiPed8iim1dOI1cyIVw5mYZOWBCf69YiPdY4KiV1Adka6bu
-         ahcynkpCUlcsaG447GquKC4kKk07qf9r4bKcK2VHS3W4IBMYsJiGj1HegpIfUuybIAjW
-         D1hNQxbZ2qTsO8PjHTYv3nWMhrsidLqGvwRuU4yNFilx2wkI5ATcprHfnrPSYmk5un53
-         F0ovN+wZTgbx026ydmFxc/oUAA8++DgxG6+P645Mlj53j9YfqZR9FFbaeoscAjRMm34m
-         Mp6g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790886406; x=1791491206; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=v6TVfXTKVxrz9QFCIxsDL9oMH4UbJ/LAus5tXSrEGYs=;
-        b=a4a5mB2pOTpQh5NeHIsuVl1WD4RgXrK7eh6KvyKAY+FuO+oItkPGgbDYUVzyz6dp67
-         hH0PcMwkQCAeJXgoUlze5nb4DyDzioPrOquzq/yQtJMzSH34BCEFSYzcQo7hJWNIAPD4
-         mGopUNJ1L5liKtd66REjY7TERIqlcMxCiXz6KXn++ZirT2/LtZ6WPKfKLjU+GTz/v1t5
-         FSmEFqmMjgY+hw0v90iKAO0Lg/jp+Xi1k/YUd1/c2poFRju3MC9MkmNEVnoAsxPu/HKB
-         2f3437UWkn8cvsR7Mig7kazaAJbkDnssGqtkQnSFGmXxi8X/uk4AbIK7OSyw2UyPVTlR
-         Do1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790886406; x=1791491206;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=v6TVfXTKVxrz9QFCIxsDL9oMH4UbJ/LAus5tXSrEGYs=;
-        b=VbuGBOP9o/5t4NxAXaRKYkmgXQD+JGJAig9IubucIhb14MVGCmRD34VRT2h/xhPNC5
-         bG01+bYyzR+jKuVqY7mQHD4N/Z3nzLWWdu3legO98MYILt0NqpUIF09hB7vn/ZbYCOxG
-         y7B/dDIXRGHsisuGotsQS76oFk8ez7Me7/micxbqrDZNOQuU0Jb5DaV1/kP2WqImRHpQ
-         VUxrY7f0d2Gs8E/gYmfKZjxo74Syt3gFG+Gg2dbydp9ohVCCx6I2WBIS0oxqDR47PPp9
-         UF1XB14iPHh6+USmnUTdGGVJsq/a4EdHs6qaqixHxmjvvr1svNZnbjvx4Sas7tSlE9KQ
-         psww==
-X-Forwarded-Encrypted: i=1; AKwUvBzq51I2KNByZdDJOtVDcp4+ctmgSpGsk+P0AIEnZCmao7tnZk5Ods1PR2ld5k97iroT2wcSaVztqJWmiQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYL/2Q1ukM70TD6Bm3pmk/0PXSVxNSAqe6EfNErXTN3OTTP0OItD
-	X8WPAxzsLhga33rIqwFOo128+202v1t5o6RPmMPpeucN0i5TjZLNJSHk7yumblYa10xBCqDMssv
-	LqxQ5BVvEAGq+ZB/kJPTtagukmxeeJ3M=
-X-Gm-Gg: AYBFou1L4qptdw0T5NdiV8qawzHfmfyzHTD2HkbaZIoG0jJZGOBBBIo0qOtiChGX8lh
-	q37YaZTGw9RvRKwjWKkJx7m/Vve40Umw3qHm/FbjcRuPrphTSpqjXr5U9voMLX0Yqsxk/WoSgvp
-	a0NYii8KYwqry7+UGY+H4CEPejGYILV9235fGWfSN41n+F1BJlbBT518duX6XpTCWC+orbRaFXP
-	oXHhbYrF1x9Fi56sVtmMi+U8oHKOBzw1FGvTb1RMa/5jzNm9KjkfL3EwIlfZbcKU0mLnF+8moFX
-	WyXxGlSt4TlSDLVRCOQINWH09mjBTDTEma/BNYZ0Nj7wpxS86Kn3ogGKx3cjtuFfVXBA0Zg=
-X-Received: by 2002:a17:90b:2f04:b0:39e:6c69:f46f with SMTP id
- 98e67ed59e1d1-3a6ceb1b955mr639282a91.46.1790886406217; Thu, 01 Oct 2026
- 13:26:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E4is420E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06B681F000FF;
+	Fri,  2 Oct 2026 06:14:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790921647;
+	bh=mF7zPZZiyi1UeenhlWbnxlNgGDfxL0sUjRand4J9S74=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=E4is420Ey8dJrq/CWtEZBCbozdYPW6MAF9HME2Oi5mlvh4uoSxUmI9bYPYsq8y8ZW
+	 lMaj4TBBJ2zI/+pvBZNzDLjxBkdgS/S+ui74xsoSohOW3YLlw7L0Wq3U/SgKJrFqkQ
+	 f+fxrSkWfduX2JsWz8rYszQyF8B+LmhlN6zCSPhTxCVGDxqGgo3SLFnYIWPK0Ba4LI
+	 AayGMqrcQmP/Bd+0FdMVqbicTQMVVzG5TJeAIrmHulVwb6Cc6Uhu8yMsJiyeNTARhX
+	 lv78X4k/ASMTleeuT/atNXOUbzRSjkx7cyivo2RHHnNpsGM3rrgSZNDR23FSGvHIH+
+	 TEl+uDcCvm4aA==
+Date: Fri, 2 Oct 2026 08:14:02 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: media: Add Allwinner D1 CSIC
+Message-ID: <20261002-angelic-wombat-of-chemistry-af8a67@quoll>
+References: <20260930154835.402684-1-tien.nguyenminh@embeddedlinux.blog>
+ <20260930154835.402684-2-tien.nguyenminh@embeddedlinux.blog>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260929203634.32998-1-pmazzini@gmail.com> <a15d179f-8a43-4b4a-8bd5-fc0afecad6e0@arm.com>
- <CAD++jL=wEKZ5nRofe09heO8uUa4Cd12SYz3+XPhsStioQ5XTXQ@mail.gmail.com>
- <d9e249b7-baf9-4ad3-a3ae-b9765feca5d8@arm.com> <CAD++jL=bhQ8Pj12wgCi8RaRTEUcrXzhHm+EYA67dBEvn8P_rCw@mail.gmail.com>
-In-Reply-To: <CAD++jL=bhQ8Pj12wgCi8RaRTEUcrXzhHm+EYA67dBEvn8P_rCw@mail.gmail.com>
-From: Pablo Mazzini <pmazzini@gmail.com>
-Date: Thu, 1 Oct 2026 21:26:01 +0100
-X-Gm-Features: AclHuK9su90nDg_1A2BHnYBV31GZYMfhNVL2X1sfHL0TTMmKMafI4E752265Oww
-Message-ID: <CAAxh=js3PiveOSst0brWjw7q+pOXTUbKNahOUcwyEuM0oW0gpg@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: sunxi: dt: number the IRQ banks from the first
- one that has IRQs
-To: Linus Walleij <linusw@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260930154835.402684-2-tien.nguyenminh@embeddedlinux.blog>
 
-Hi Andre, Linus,
+On Wed, Sep 30, 2026 at 10:48:33PM +0700, Nguyen Minh Tien wrote:
+> +maintainers:
+> +  - Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
+> +
+> +description:
+> +  The CSIC found in the Allwinner D1, D1s and T113 receives video from a
+> +  parallel camera interface and writes it to memory. It contains a parser for
+> +  the camera bus and two DMA engines.
+> +
+> +properties:
+> +  compatible:
+> +    const: allwinner,sun20i-d1-csi
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    items:
+> +      - description: DMA engine 0
+> +      - description: DMA engine 1
+> +      - description: Parser 0
+> +      - description: Top-level block (CSI_TOP_PKT)
+> +
+> +  clocks:
+> +    items:
+> +      - description: Bus clock
+> +      - description: Module clock
+> +      - description: DRAM clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: bus
+> +      - const: mod
+> +      - const: ram
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    description: Parallel input port, connect to a parallel sensor
+> +    unevaluatedProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          bus-width:
+> +            const: 8
 
-The B288 only has IRQ banks for PB, PD, PF and PG (banks 0-3). With the
-current code it would need a made-up first interrupt; with this patch it
-doesn't.
+If it is const, why do you exactly need it in the DT?
 
-Which way would you prefer for B288?
+> +
+> +          pclk-sample: true
+> +          hsync-active: true
+> +          vsync-active: true
 
-Thanks,
-Pablo
+Drop these three.
 
-On Thu, Oct 1, 2026 at 8:28=E2=80=AFPM Linus Walleij <linusw@kernel.org> wr=
-ote:
->
-> On Thu, Oct 1, 2026 at 2:31=E2=80=AFPM Andre Przywara <andre.przywara@arm=
-.com> wrote:
->
-> > So we could revert the DT patch, and take Pablo's code patch, with a
-> > Fixes: tag, but that would create some broken combinations meanwhile.
->
-> I see it like this was a bug in the DTS file, so this if fine as-is.
->
-> > And in any case we should add a word to the binding document, to pin
-> > down what's expected here.
->
-> Can we enforce it with YAML constraints or is it too open-ended?
->
-> Yours,
-> Linus Walleij
+> +
+> +        required:
+> +          - bus-width
+
+No second port to the ISP?
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/sun20i-d1-ccu.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/reset/sun20i-d1-ccu.h>
+> +
+> +    csi@5800000 {
+> +        compatible = "allwinner,sun20i-d1-csi";
+> +        reg = <0x05800000 0x400000>;
+> +        interrupts = <111 IRQ_TYPE_LEVEL_HIGH>,
+> +                     <112 IRQ_TYPE_LEVEL_HIGH>,
+> +                     <116 IRQ_TYPE_LEVEL_HIGH>,
+> +                     <122 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&ccu CLK_BUS_CSI>,
+> +                 <&ccu CLK_CSI_TOP>,
+> +                 <&ccu CLK_MBUS_CSI>;
+> +        clock-names = "bus", "mod", "ram";
+> +        resets = <&ccu RST_BUS_CSI>;
+> +
+> +        port {
+> +            endpoint {
+> +                remote-endpoint = <&ov5640_ep>;
+> +                bus-width = <8>;
+> +                hsync-active = <1>; /* Active high */
+> +                vsync-active = <0>; /* Active low */
+> +                pclk-sample = <1>;  /* Rising */
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f5eff489a8..f4c45c4678 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -905,6 +905,13 @@ L:	linux-crypto@vger.kernel.org
+>  S:	Maintained
+>  F:	drivers/crypto/allwinner/
+>  
+> +ALLWINNER D1 CSIC DRIVER
+> +M:	Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +T:	git git://linuxtv.org/media.git
+
+Drop, unless you actually have their commit rights and manage patches. I
+would say mailing list is also here redundant (duplicating), but I
+stopped pointing to it.
+
+Best regards,
+Krzysztof
+
