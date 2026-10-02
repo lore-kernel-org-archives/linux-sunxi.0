@@ -1,190 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB6A3D954F;
-	Fri,  2 Oct 2026 06:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EAA94398F5
+	for <linux-sunxi@lists.linux.dev>; Fri,  2 Oct 2026 07:34:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790921648; cv=none; b=ryZKPYN1yTv8UBUHr6+8BaZyvVC3rz55YXeXcH1WvVg1NmBrhsv65usE6PV11Wq+5u86evjPlSY8L/dXKQLIZxnDm3ntE0jdrfYFvkofe7Uzpz15HbNNamDur8CxDVvGOaJfMMvOusII7hdL0reBKQWE1aGWtSE7fA425bCw2jQ=
+	t=1790926457; cv=none; b=f0hmPwMOqyP9Q4NAduSH7fxdjtp4red0Fin4vTmtKYqsD0GKDaCVh7/lzhzWzteuonR59Qk7Uim2UOmQsC9+avWu1PuufeCCrpWRP8r7FFVHMbZaaGxQayagrfgstt8aWOBlsBNORHFZtDXkephiW+QCyzvdollOqChf4JIVx1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790921648; c=relaxed/simple;
-	bh=cq858TTpwbQ0a6M0Ph7oRdQebhWSEztcpX+aOvu+QWM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t56vyYIKjnV8AZz5ETIdBTm4ZV4VrnFb0YB6/Q9xjRKTVhoRQDDDidzgv5lNel8osbWK6ghqaGkA45skhIMUju1ANO7yx+PE4NNEga3eBszxBav6bBV0XaIPPggjvdKhcc0zPtT+ChAUGr2YlCjoUgEgzxgIKqqXCysTiXjWLGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E4is420E; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790926457; c=relaxed/simple;
+	bh=wHPJMvxCXUL7kh2YiGSSJKGGA4Kla42O4+XtKi3QZRQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l7WWOZ5wJCTlDECP4FvSP9mp7N9N5FgvTigAq/BTz9MIMjmphe6IhNjQ2r6jveJHcr+nn2tIrdEVBA427TcPD17pL4E2w3BGGUM0MDHOJjuLrwBAOsiCQqwUk+4lNJRwkiaxcY+PPtjp8o20Opd6HIHDIDJ2X4Ip4/Gu/SuWIn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=pizWrtD+; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E4is420E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06B681F000FF;
-	Fri,  2 Oct 2026 06:14:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790921647;
-	bh=mF7zPZZiyi1UeenhlWbnxlNgGDfxL0sUjRand4J9S74=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=E4is420Ey8dJrq/CWtEZBCbozdYPW6MAF9HME2Oi5mlvh4uoSxUmI9bYPYsq8y8ZW
-	 lMaj4TBBJ2zI/+pvBZNzDLjxBkdgS/S+ui74xsoSohOW3YLlw7L0Wq3U/SgKJrFqkQ
-	 f+fxrSkWfduX2JsWz8rYszQyF8B+LmhlN6zCSPhTxCVGDxqGgo3SLFnYIWPK0Ba4LI
-	 AayGMqrcQmP/Bd+0FdMVqbicTQMVVzG5TJeAIrmHulVwb6Cc6Uhu8yMsJiyeNTARhX
-	 lv78X4k/ASMTleeuT/atNXOUbzRSjkx7cyivo2RHHnNpsGM3rrgSZNDR23FSGvHIH+
-	 TEl+uDcCvm4aA==
-Date: Fri, 2 Oct 2026 08:14:02 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans Verkuil <hverkuil@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: media: Add Allwinner D1 CSIC
-Message-ID: <20261002-angelic-wombat-of-chemistry-af8a67@quoll>
-References: <20260930154835.402684-1-tien.nguyenminh@embeddedlinux.blog>
- <20260930154835.402684-2-tien.nguyenminh@embeddedlinux.blog>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="pizWrtD+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1790926462; x=1822462462;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wHPJMvxCXUL7kh2YiGSSJKGGA4Kla42O4+XtKi3QZRQ=;
+  b=pizWrtD+G1lt2+gV2FSlSeZ4jKWrmxaW8l6I+BXP93kvqPOkxfwxTgO2
+   FSb67D0aoM5Gp2GjP3Oj8l+FWaL/6e9r+N+3xKMFxu3RfepGIT1MtSnYQ
+   SJwArs+aqxwz5pPrKQ0HCGK70gks78opAH1EKYnX0rxUdYRCsEwl4kN2S
+   qe+FOFx/CVCVpGnw42dhuwVTz6Jq5VjsFru5hDFUC1lW1cU1w4v9HlaY1
+   xVikA/mrIGHQ3HqeslYB1L38RLvpOKwNmyt/nwN24GXQoo2GAd0N7I+7q
+   w9IIJitMohUs6VjdxyTIxaRmrL31Ao7iOzJm+qnI4puaQ4OOtiuBkyO7E
+   A==;
+X-CSE-ConnectionGUID: r7j903UGQAm9ZyzcfxLZYA==
+X-CSE-MsgGUID: Ghtw/+SVRXmIT6lYQ9URDg==
+X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
+   d="asc'?scan'208";a="64483102"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 00:34:21 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.87.71) by
+ chn-vm-ex4.mchp-main.com (10.10.87.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.49; Fri, 2 Oct 2026 00:34:14 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex01.mchp-main.com (10.10.85.143)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.58 via Frontend
+ Transport; Fri, 2 Oct 2026 00:34:11 -0700
+Date: Fri, 2 Oct 2026 08:32:51 +0100
+From: Conor Dooley <conor.dooley@microchip.com>
+To: Wilken Gottwalt <wilken.gottwalt@posteo.net>
+CC: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>, Bjorn Andersson
+	<andersson@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
+	<jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Paul
+ Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+	<aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Philipp Zabel
+	<p.zabel@pengutronix.de>, Andre Przywara <andre.przywara@arm.com>, Bastian
+ Germann <bage@debian.org>, <linux-remoteproc@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-riscv@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 3/3] riscv: dts: allwinner: d1-t113: Add the hardware
+ spinlock
+Message-ID: <20261002-matted-tux-5b4059bc305a@wendy>
+References: <20260927025626.69614-1-tien.nguyenminh@embeddedlinux.blog>
+ <20260927025626.69614-4-tien.nguyenminh@embeddedlinux.blog>
+ <20260927132707.5f484946@posteo.net>
+ <20260930130221.129529-1-tien.nguyenminh@embeddedlinux.blog>
+ <20260930160541.040ccc0e@posteo.net>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="sdponSZJtp17DGxT"
 Content-Disposition: inline
-In-Reply-To: <20260930154835.402684-2-tien.nguyenminh@embeddedlinux.blog>
+In-Reply-To: <20260930160541.040ccc0e@posteo.net>
 
-On Wed, Sep 30, 2026 at 10:48:33PM +0700, Nguyen Minh Tien wrote:
-> +maintainers:
-> +  - Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
-> +
-> +description:
-> +  The CSIC found in the Allwinner D1, D1s and T113 receives video from a
-> +  parallel camera interface and writes it to memory. It contains a parser for
-> +  the camera bus and two DMA engines.
-> +
-> +properties:
-> +  compatible:
-> +    const: allwinner,sun20i-d1-csi
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    items:
-> +      - description: DMA engine 0
-> +      - description: DMA engine 1
-> +      - description: Parser 0
-> +      - description: Top-level block (CSI_TOP_PKT)
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus clock
-> +      - description: Module clock
-> +      - description: DRAM clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: bus
-> +      - const: mod
-> +      - const: ram
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    description: Parallel input port, connect to a parallel sensor
-> +    unevaluatedProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          bus-width:
-> +            const: 8
+--sdponSZJtp17DGxT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If it is const, why do you exactly need it in the DT?
+On Wed, Sep 30, 2026 at 02:05:47PM +0000, Wilken Gottwalt wrote:
+> On Wed, 30 Sep 2026 20:02:21 +0700
+> Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog> wrote:
+>=20
+> > Hi Wilken,
+> >=20
+> > > Wouldn't it make more sense to add the "allwinner,sun20i-d1-hwspinloc=
+k" line to
+> > > the driver in the sun6i_hwspinlock_ids struct, drop
+> > > "allwinner,sun6i-a31-hwspinlock" here in the D1 device tree and updat=
+e the yaml
+> > > file accordingly?
+> >=20
+> > Thanks for looking at it. Bjorn hasn't replied yet, so I looked a bit
+> > more at the naming. I'd like to keep the A31 fallback: it's the usual
+> > pattern, other blocks in this dtsi do the same (timer, I2S, LED
+> > controller), and Conor already acked the binding in 2/3. If Bjorn
+> > prefers a driver entry instead, I'm fine to change it.
+>=20
+> Yeah, Conor was a bit quick to act here, such things happen often with pa=
+tchsets
+> made out of documentation/devicetrees and code. Though, the get clock and=
+ resets
+> patch is fine. The driver could use some modernization.
 
-> +
-> +          pclk-sample: true
-> +          hsync-active: true
-> +          vsync-active: true
+I dunno, was I too quick to act? The patched looked correct to me, since
+it was using a fallback to a device that it appears to be compatible
+with. Had the series done what you're suggesting, my review feedback
+would have been to tell the Tien to add a fallback.
 
-Drop these three.
+> > Bjorn, what do you think? Just stay with the "allwinner,sun6i-a31-hwspi=
+nlock"
+> > string or add all the possible combinations like
+> > "allwinner,sun8i-h2-plus-hwspinlock" or "allwinner,sun8i-a83t-hwspinloc=
+k".
+> > I mean, it is just a naming game and there are 10+ SoCs supporting this
+> > spinlock register file
 
-> +
-> +        required:
-> +          - bus-width
+All devices compatible with the a31 should use the a31 as a fallback.
 
-No second port to the ISP?
+>=20
+> > > Oh, and I may be able to test it against the D1, I own a Sipeed Nezha.
+> >=20
+> > That would be great. You don't need FreeRTOS for it: I tested with a
+> > small Linux module that takes each lock and checks the status
+> > register. I can clean it up for the single-core D1 and send it.
+>=20
+> Uhm, the Linux-only test doesn't work as a hwspinlock test, it misses the=
+ entire
+> point of the primitive. A hwspinlock arbitrates between two independent a=
+gents,
+> in this case, Linux running on the C906 core and FreeRTOS running on the =
+HiFi
+> DSP, both sharing the same memory bus and other hardware. If Linux is the=
+ only
+> one who ever takes the locks, it is simultaneously writer and reader of t=
+he status
+> register, so the test cannot fail even for a broken (or fake) implementat=
+ion. That
+> would basically test nothing at all, well, maybe it would be some kind of=
+ bring-up
+> test, but overall quite useless.
+>=20
+> greetings,
+> Wilken
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/sun20i-d1-ccu.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/reset/sun20i-d1-ccu.h>
-> +
-> +    csi@5800000 {
-> +        compatible = "allwinner,sun20i-d1-csi";
-> +        reg = <0x05800000 0x400000>;
-> +        interrupts = <111 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <112 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <116 IRQ_TYPE_LEVEL_HIGH>,
-> +                     <122 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&ccu CLK_BUS_CSI>,
-> +                 <&ccu CLK_CSI_TOP>,
-> +                 <&ccu CLK_MBUS_CSI>;
-> +        clock-names = "bus", "mod", "ram";
-> +        resets = <&ccu RST_BUS_CSI>;
-> +
-> +        port {
-> +            endpoint {
-> +                remote-endpoint = <&ov5640_ep>;
-> +                bus-width = <8>;
-> +                hsync-active = <1>; /* Active high */
-> +                vsync-active = <0>; /* Active low */
-> +                pclk-sample = <1>;  /* Rising */
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f5eff489a8..f4c45c4678 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -905,6 +905,13 @@ L:	linux-crypto@vger.kernel.org
->  S:	Maintained
->  F:	drivers/crypto/allwinner/
->  
-> +ALLWINNER D1 CSIC DRIVER
-> +M:	Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +T:	git git://linuxtv.org/media.git
+--sdponSZJtp17DGxT
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Drop, unless you actually have their commit rights and manage patches. I
-would say mailing list is also here redundant (duplicating), but I
-stopped pointing to it.
+-----BEGIN PGP SIGNATURE-----
 
-Best regards,
-Krzysztof
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCar9eIwAKCRB4tDGHoIJi
+0p10AP9/ioX41wO3u+Ep+AHx1ux3KGM/2eXkT+zQtRgHe+Ll6AEAqpqAiNT7fmis
+SGhitgPYrUVaxNjBfdVhopPHpmJeHQs=
+=nN6V
+-----END PGP SIGNATURE-----
 
+--sdponSZJtp17DGxT--
