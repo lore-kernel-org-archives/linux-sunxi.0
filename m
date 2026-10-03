@@ -1,136 +1,226 @@
-Received: from mail-dy2-f43.google.com (mail-dy2-f43.google.com [74.125.229.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB091F938
-	for <linux-sunxi@lists.linux.dev>; Sat,  3 Oct 2026 01:27:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790990848; cv=none; b=amLTyUp9aiqEFEdLrrdL6HMISdy7EvfsLMHzrhcebcTvesempEAFkoyE276umzIx8tI1TALgUhCNloqa/Lkg5hHmDoYiGGwRSwA5xFk/rrGj9fibobqXkt8lD/tsvGX3OlszGfuWCxXHcq0RhwOZzFkKnLG/o/TXKRr7HUNc4Wc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790990848; c=relaxed/simple;
-	bh=sAvpzAz2NZN5YAKhznAkiQ3ghITlK/H3MC0boz/bWb4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eKvxJTzqeb4hJcjf9FhV8r2VgkkugeJUhZzQSzU29inPEe/3RgBV7zzpFv6lIV5i9RdWpNGOvRamYWxOtowoj62YdiRNvWix7dwjGBM0IGOnwjGzvb5lLw6thBj/3+7UbPWUlwoPGznAkxITeQTpfcX5nCqyV1GcnrDjEgOldMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=ossystems.com.br; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.229.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=ossystems.com.br
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy2-f43.google.com with SMTP id 5a478bee46e88-33e46a156f4so172808eec.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 02 Oct 2026 18:27:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790990843; x=1791595643;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=luvk4RSDKwxoXOLtb/naS+7NpP4AkbeMINi5BwnyOQg=;
-        b=FvkjcJwsjWWSy4En2voVkwMjTEcVfb06/OgGogUU8Z0W6ymwRTskAwAPfUlstm9/Fg
-         ljMWa9p1eRl8cLniq+IJXG9uwrW5iCvLzpZneB/go21yf28Cj0KfOwjGP33+LlrWmJ7g
-         Qx/PNh1j5QZJQ/UchxWZ+TrQS5XFnW5ovJAaYfp3zcXxcdttLMCB6dCo4dk/5xSF++X7
-         0mimfdCG9Sa2bMxgKtw1ttz4Z/NYo1QoPGE6x90pxFG8bQD2eALBIX5bFgwkyTsd2k9R
-         JUX14r7ybHymsdWrwS3urXfi45hacd7W2elbKhh6EopVn0tPf3otJLYSs0lAh1oFmpCZ
-         jd9w==
-X-Forwarded-Encrypted: i=1; AKwUvBz0APR74jMU8bqMvBLeq95jXjsjk97kHSBIoY4dnJmXnImYm2dUyHdqSFQ4Hf9u96TkUYa91fG1UDfdjA==@lists.linux.dev
-X-Gm-Message-State: AFuF++nHRRyKfTiWpWy2ICDyOUqnqnX2YcxBhFnhDkhypvgU4C9oVo5+
-	F+MbS9ThTzL8dZ8HyBr+PaqO3P1MqXHt60D0Zdg3ezTf2RTG4wRvpzmR
-X-Gm-Gg: AYBFou1QWX24BdEY7wrQ2QA2gouM//YBjkT8zeFDNgxDmwgcdU/P9ah48l+oGDgbS+m
-	LpnmnsiAqewVjA/X/3QL4Z+tJVfheqw0/hwHGaKgPkzIH6rqEqI80aP4x3Css0/lIzxB9fbWqt0
-	zPkO9Fhr07p7PrvDAL4EzZVvGlhPqYdVeoaBwykcaCQT4/ayMjM/GFbTmbVjxdCXREQa2d0DEdr
-	d/Omef47yoq9QYJypF9DhLtUc/d7sGcokvuk/2d+Zqbwm9sr1dDAYWEnhKOZ8iBGd9CMzffxOYe
-	7IbzqEcGQ2X+UOBx3YZp7rkE9gJpdbRCPsKVJEsirZTTFllmLKUSJytPb6JiQIwpV1L6eDH1l7v
-	NxESuBoE2ZCNanY3IQBcBgvTSM6psh47u2g2Qa/X1lkaGhYix0MoG1Ph1rWbcScfin1tQFYC1nI
-	Ss8CP/usiHtZhqOCgbzaMAj9ErFIL6bjddy6l3eMoxki62LXG2F/OsSOaHO7+SDQFG0gRemP1bx
-	eOux2+YXdkp0vrC/kW5udN6LFkMd3GELVXRiMfGcG/JU8YXiJktnp9X3vQ8CMoi50HJdRZLSXMb
-	nHH79pIj6uOeTpn0uNOd9317wKNeaz0yKpEh73/y1BtQ
-X-Received: by 2002:a05:7022:f51a:b0:151:cba2:effc with SMTP id a92af1059eb24-151cba2f2ffmr1217637c88.30.1790990843319;
-        Fri, 02 Oct 2026 18:27:23 -0700 (PDT)
-Received: from localhost ([201.89.183.74])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-151fcec9a95sm1116843c88.15.2026.10.02.18.27.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 18:27:22 -0700 (PDT)
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 2/2] ARM: dts: sun8i-r40: Add SID node and THS calibration
-Date: Fri,  2 Oct 2026 22:25:36 -0300
-Message-ID: <20261003012534.418820-5-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261003012534.418820-3-otavio@ossystems.com.br>
-References: <20261003012534.418820-3-otavio@ossystems.com.br>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942EC3B42C7
+	for <linux-sunxi@lists.linux.dev>; Sat,  3 Oct 2026 12:52:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791031980; cv=pass; b=P6FaLmPucmFuzfz/t6k60HIjRBAZ6o8MBBA6GPQLP+ek5qHkDEuhVdppm+TBfqHBi2n/pHpOlw0Wugj/9gGpGrYh72mcu2Z3lIiWwElJ4UfGI8MLQ4jU5SBJTCTfkqzXYzzlZS07HzWrFnIyqbrJMzAz4iHkz/UYX4NDfHJ9Nn0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791031980; c=relaxed/simple;
+	bh=rH14carUj0uSQqIYD5FEvx8V6DrzhIC+GPdnpvka0pM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=sjKKmnaf/UMQdfqX9w4oog61Q50KOz3iHEL1lBLs6Bhf06zcwgPBA7MFOCXwDQ0sGefW6K8zTzUzb/spPMHkdOpgIfgkMRDzBv8j/B4vNH67/5CQ9ePlxoanDRagZiiBKczvFAo8DfUk1ImEucKNC/+jb6RdBTtMBngJE/LRPTQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech; spf=pass smtp.mailfrom=pigmoral.tech; dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b=NcNoKS1c; arc=pass smtp.client-ip=165.173.180.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b="NcNoKS1c"
+ARC-Seal: i=1; a=rsa-sha256; t=1791031939; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=N5vt+iiHQmegh8SyIvLQAUi/f2vSOUw9Z9mN4vteHwlOWTE4409DJodDQF5EkRZNNI0TPyqm/MGA8uJ1Ioo93Cy9VtqAL82OGHcE7dPOUVcDxWgG++iyd5Aatnp2CNrONz4v8lTl8odyrZ62C5QzKzNLyf9TGlucNq2QrxcLJno=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1791031939; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=w9AGJ2+NMj0TzmkVZNqdUpfodPO1cSXhGRHZ/sEBZS8=; 
+	b=lOLp+AnBm+oAYiJ6gKX/8SnHJ+Z7hqO0RnfS42v81HGtL1WRXtB4n/ASPZ28t8dTTjrsgg04dX1V0yVC9L5wbTNt16x8cGSbcF0LumQiW0mItpj/JuVFHU90kfeGQdLCw5HTAupV9FOgiAObpwDWtmEcw48zA60ShPVeVrKxsaQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=pigmoral.tech;
+	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
+	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1791031939;
+	s=zmail; d=pigmoral.tech; i=junhui.liu@pigmoral.tech;
+	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:Reply-To;
+	bh=w9AGJ2+NMj0TzmkVZNqdUpfodPO1cSXhGRHZ/sEBZS8=;
+	b=NcNoKS1cOcBSYTvhxhBySCVO9GEvTQJ2o4AjxuwLzD3RQ2hda0qzJm1wX9BrRGCO
+	1gKy70NWKW4Avd7awRlod4hQIxxeDcqLXnF9/O4/fOXCMZ92QlEuH0WDRbs3WW4lCOI
+	Qqk53dxVOoXI8x61uIvSXgdFzt6FwD5p4CFHmy7A=
+Received: by smtp.zohomail.com with SMTPS id 1791031938348944.7508385072523;
+	Sat, 3 Oct 2026 05:52:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 03 Oct 2026 20:52:08 +0800
+Message-Id: <DLV7TXB5Q2PM.EYY9YISYPCR@pigmoral.tech>
+Subject: Re: [PATCH v5 0/8] clk: sunxi-ng: Add support for Allwinner A733
+ CCU and PRCM
+From: "Junhui Liu" <junhui.liu@pigmoral.tech>
+To: "Junhui Liu" <junhui.liu@pigmoral.tech>, "Stephen Boyd"
+ <sboyd@kernel.org>, "Brian Masney" <bmasney+clk@redhat.com>, "Jerome
+ Brunet" <jbrunet+clk@baylibre.com>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Chen-Yu Tsai" <wens@kernel.org>, "Jernej Skrabec"
+ <jernej.skrabec@gmail.com>, "Samuel Holland" <samuel@sholland.org>,
+ "Philipp Zabel" <p.zabel@pengutronix.de>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Alexandre Ghiti" <alex@ghiti.fr>, "Richard Cochran"
+ <richardcochran@gmail.com>
+Cc: <linux-clk@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+ <netdev@vger.kernel.org>, "Jerome Brunet" <jbrunet@baylibre.com>, "Enzo
+ Adriano" <enzo.adriano.code@gmail.com>, "Andre Przywara"
+ <andre.przywara@arm.com>, "Krzysztof Kozlowski"
+ <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: aerc 0.22.0
+References: <20260930-a733-clk-v5-0-11175b41cd2d@pigmoral.tech>
+In-Reply-To: <20260930-a733-clk-v5-0-11175b41cd2d@pigmoral.tech>
+X-ZohoMailClient: External
 
-Without the calibration cell, the THS driver leaves the sensor
-calibration registers at their reset value (0x800) and the reported
-temperatures drift from the real die temperature by a chip-dependent
-offset.
+Hi folks,
 
-Add the SID node at 0x01c1b000 and wire the thermal sensor to its
-factory calibration at eFuse offset 0x40, one 16-bit word for each of
-the two sensors.
+Gentle ping on this series.
 
-The R40 user manual gives the size of the thermal sensor key (32 bits)
-but not its offset. The vendor SDK key map names 0x48 "thermal_sensor",
-but that word is zero on all the boards checked. On an A40i running the
-Boardcon vendor kernel, the THS_0_1_CDATA register holds exactly the
-eFuse word at 0x40 (0x08780875), which confirms the location.
+It would be great if this could make it into v7.4, as other A733 drivers
+can then be developed on top of the clock/reset support provided by this
+series.
 
-Tested on two Boardcon EMA40i (A40i) boards: THS_0_1_CDATA now holds
-the eFuse word at 0x40 of each chip (0x082d0822 and 0x083d0838) instead
-of the reset value 0x08000800.
+On Wed Sep 30, 2026 at 1:26 AM CST, Junhui Liu wrote:
+> Add support for the main CCU and the PRCM module (R-CCU) found in the
+> Allwinner A733 SoC. The clock architecture is derived from the previous
+> A523 design, with the MCU_CCU removed and the clock tree extended for
+> the additional functional blocks found on the A733.
+>
+> The A733 introduces a "pll-ref" clock that normalizes the physical
+> oscillator frequency, which can be 19.2MHz, 24MHz, or 26MHz, into a
+> consistent 24MHz reference for the PLL clock tree.
+>
+> The peripheral, video, and DE PLLs provide multiple independently gated
+> outputs with programmable dividers. Model these outputs as separate
+> divider-and-gate child clocks. Also follow the documented hierarchy for
+> the derived peripheral PLL outputs. The explicitly named PLL_AUDIO1 /2
+> and /5 outputs are modeled as fixed-factor clocks, with their divider
+> fields initialized accordingly.
+>
+> Also extend the sunxi-ng SDM (Sigma-Delta Modulation) support for the
+> dual-pattern register layout used by the A733 PLLs. PLL_AUDIO0 uses the
+> dual-pattern SDM support to synthesize its fractional output.
+> PLL_AUDIO1 does not expose fractional rates, but its SDM controls are
+> modeled so that stale settings left by firmware can be disabled when an
+> integer rate is programmed.
+>
+> The actual parents of a small number of bus gates are not documented in
+> the user manual. Follow the vendor BSP and keep these gates parented to
+> "hosc" until more complete hardware information is available.
+>
+> This series depends on the A523 single-divider clock fixes [1], which
+> add feature support to the M-only clock macro used by the MBUS and DRAM0
+> clocks. The prerequisite series has been applied to the
+> sunxi/clk-for-7.4 branch.
+>
+> Link: https://patch.msgid.link/20260906-sunxi-clk-no-p-v1-0-cbde21c9fe69@=
+pigmoral.tech [1]
+> Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
+> ---
+> Changes in v5:
+> - Add the CLK_GIC binding ID, inserted after CLK_TRACE
+> - Add the GIC clock and mark it critical
+> - Fix the continuation line alignment of the trace clock
+> - Mark ahb-cpus critical
+> - Link to v4: https://patch.msgid.link/20260921-a733-clk-v4-0-9c184ebe9ac=
+1@pigmoral.tech
+>
+> Changes in v4:
+> - Model the MBUS and DRAM0 clocks as M-only clocks
+> - Base the series on the A523 single-divider clock fixes
+> - Link to v3: https://patch.msgid.link/20260905-a733-clk-v3-0-50f238f39c7=
+8@pigmoral.tech
+>
+> Changes in v3:
+> - Patch 1: Rename the clock/reset binding headers with the allwinner vend=
+or
+>   prefix, use BSD-2-Clause for their dual license, and reorder the bindin=
+g
+>   properties according to the preferred schema layout
+> - Patches 1 and 4: Drop the undocumented 12X suffix from the video and DE
+>   PLL core clock names and binding IDs
+> - Patch 2: Require all PAT1 enable bits to be set when checking whether S=
+DM
+>   is enabled
+> - Patch 4: Model the independently gated peripheral, video, and DE PLL
+>   outputs as programmable-divider child clocks
+> - Patch 4: Follow the documented hierarchy for the derived peripheral PLL
+>   outputs
+> - Patch 4: Model the explicitly named PLL_AUDIO1 /2 and /5 outputs as
+>   fixed-factor clocks and initialize their divider fields accordingly
+> - Patch 4: Model the PLL_AUDIO1 SDM controls so stale firmware settings a=
+re
+>   disabled when an integer rate is programmed
+> - Patch 4: Add the missing module device table and remove an unused inclu=
+de
+> - Patch 6: Replace the MP helpers used by timer clocks, which have no M
+>   divider, with the corresponding P-only helpers
+> - Patch 7: Document the unresolved parents of bus gates kept on hosc and
+>   fix the APB/AHB IOMMU1 system clock names
+> - Patches 3 and 8: Make the reset maps const
+> - Link to v2: https://patch.msgid.link/20260711-a733-clk-v2-0-974d188cbe0=
+c@pigmoral.tech
+>
+> Changes in v2:
+> - Rework the clocks property in DT bindings to source hosc directly from
+>   the oscillator to adapt to the new RTC binding
+> - Clean up the SDM dual-pattern helper macro and add the missing enable
+>   parameter for pll-audio0
+> - Number single-instance clocks with 0, e.g. GPU0, VE_ENC0/VE_DEC0,
+>   DRAM0, NAND0, GPADC0, THS0, etc
+> - Correct 8x PLL post-divider names to 12x for video and DE PLLs
+>   (pll-videoX-12x, pll-de-12x)
+> - Drop gic, cpu-peri, nsi clocks
+> - Rename clocks: OWA -> SPDIF, USB_REF -> USB01_REF, HDMI_ESM -> HDCP_ESM=
+,
+>   PWMCTRL -> PWM
+> - Mark bus-dram0, ahb-store and mbus-store critical to avoid DMA, MMC and
+>   SPI NOR failures when unused clocks are disabled
+> - Switch PRCM timer clocks to P-only helpers
+> - Fix bus gate bit positions for UARTs and correct the sysdap register
+>   address
+> - Interleave bus clocks into function clocks
+> - Link to v1: https://lore.kernel.org/r/20260310-a733-clk-v1-0-36b4e9b244=
+57@pigmoral.tech
+>
+> ---
+> Junhui Liu (8):
+>       dt-bindings: clk: sun60i-a733-ccu: Add Allwinner A733 support
+>       clk: sunxi-ng: sdm: Add dual patterns support
+>       clk: sunxi-ng: a733: Add PRCM CCU
+>       clk: sunxi-ng: a733: Add PLL clocks support
+>       clk: sunxi-ng: a733: Add bus clocks support
+>       clk: sunxi-ng: a733: Add mod clocks support
+>       clk: sunxi-ng: a733: Add bus clock gates
+>       clk: sunxi-ng: a733: Add reset lines
+>
+>  .../bindings/clock/allwinner,sun60i-a733-ccu.yaml  |  107 +
+>  drivers/clk/sunxi-ng/Kconfig                       |   10 +
+>  drivers/clk/sunxi-ng/Makefile                      |    4 +
+>  drivers/clk/sunxi-ng/ccu-sun60i-a733-r.c           |  273 +++
+>  drivers/clk/sunxi-ng/ccu-sun60i-a733.c             | 2406 ++++++++++++++=
+++++++
+>  drivers/clk/sunxi-ng/ccu_sdm.c                     |   52 +-
+>  drivers/clk/sunxi-ng/ccu_sdm.h                     |   29 +-
+>  .../dt-bindings/clock/allwinner,sun60i-a733-ccu.h  |  291 +++
+>  .../clock/allwinner,sun60i-a733-r-ccu.h            |   39 +
+>  .../dt-bindings/reset/allwinner,sun60i-a733-ccu.h  |  129 ++
+>  .../reset/allwinner,sun60i-a733-r-ccu.h            |   23 +
+>  11 files changed, 3337 insertions(+), 26 deletions(-)
+> ---
+> base-commit: e5e04726cdd043e309677071ab1b65a4b18f422b
+> change-id: 20260202-a733-clk-0d4fc00a9f9c
+> prerequisite-message-id: <20260906-sunxi-clk-no-p-v1-0-cbde21c9fe69@pigmo=
+ral.tech>
+> prerequisite-patch-id: 0df2ae41836b86fd868dfa01ddfde57f888f761a
+> prerequisite-patch-id: 88f3a431e7c551a9fa732f062188f10fdd362eeb
+> prerequisite-patch-id: 3e88bc873c909059d1199f82cda4013765e7a5e5
+> prerequisite-patch-id: 0dbc27cd7417352319a0705a051dff35085e8922
+>
+> Best regards,
+> -- =20
+> Junhui Liu <junhui.liu@pigmoral.tech>
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- arch/arm/boot/dts/allwinner/sun8i-r40.dtsi | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi b/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi
-index f0ed802a9d08e..c7c9cad695ca4 100644
---- a/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi
-+++ b/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi
-@@ -485,6 +485,18 @@ ohci1: usb@1c19400 {
- 			status = "disabled";
- 		};
- 
-+		sid: efuse@1c1b000 {
-+			compatible = "allwinner,sun8i-r40-sid",
-+				     "allwinner,sun50i-a64-sid";
-+			reg = <0x01c1b000 0x400>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			ths_calibration: thermal-sensor-calibration@40 {
-+				reg = <0x40 0x4>;
-+			};
-+		};
-+
- 		ehci2: usb@1c1c000 {
- 			compatible = "allwinner,sun8i-r40-ehci", "generic-ehci";
- 			reg = <0x01c1c000 0x100>;
-@@ -832,7 +844,8 @@ ths: thermal-sensor@1c24c00 {
- 			clock-names = "bus", "mod";
- 			interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
- 			resets = <&ccu RST_BUS_THS>;
--			/* TODO: add nvmem-cells for calibration */
-+			nvmem-cells = <&ths_calibration>;
-+			nvmem-cell-names = "calibration";
- 			#thermal-sensor-cells = <1>;
- 		};
- 
--- 
-2.55.0
+--=20
+Best regards,
+Junhui Liu
 
