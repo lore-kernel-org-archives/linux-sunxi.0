@@ -1,138 +1,93 @@
-Received: from sender5-op-o12.zoho.com (sender5-op-o12.zoho.com [165.173.182.12])
+Received: from mail-43100.protonmail.ch (mail-43100.protonmail.ch [185.70.43.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8693FBB5E
-	for <linux-sunxi@lists.linux.dev>; Sat,  3 Oct 2026 15:24:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791041055; cv=pass; b=ow/WHNdKrJgIvc+VXqkhEMen/zBEV3II8BygVuHg4NRaLMqWGHVdy+382++Bi9Ilre9kEQkuvnMH4GtEIp6thhjCQfU57cB6h57SQZ5zc8sxPVfuacfpW9mFi82JSpA0cX6f9aqUJnt5Epm+L6aGOflAFhTeef7wF9IohiJtBds=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791041055; c=relaxed/simple;
-	bh=m4X/RhhMPONFFNOGIFwjTcEamNfPucpOxeJgUJZ/0xg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=s/NSAg+frM5AHhIq6TgXsdPgAxtL9fhWWPP6HdbQnpweyWaUAVGsfwbpD4Dtsv9t81nFJmF6Cwqa2W0Zq/bqCaD2TlHVdiK/t4MM/6Zy28AN5woNxMDWgWPOXVMYqs5fzwxEoMjVPYNelF1nJR89FCEYChtQqs85Of9IlciaxzU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech; spf=pass smtp.mailfrom=pigmoral.tech; dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b=mR/f9bi1; arc=pass smtp.client-ip=165.173.182.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7951033E348
+	for <linux-sunxi@lists.linux.dev>; Sat,  3 Oct 2026 16:51:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.100
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791046305; cv=none; b=YqX+4UXYI0oeR8HWtehT5W9CxZp1UuwftAgk5IJQ63wBUugSS4GJLJ9qNKlIMnIfIS+BeJv55Cmt8R6VW83oG6uU+cJGDVueG74buPPIY8tTfS5vaxoIeJ8n8YZTFKIv/potJPBq1KSKLofDyfaTab5e4PEIhMaH2+nYMwZtv6c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791046305; c=relaxed/simple;
+	bh=iN2dacuD2WXWVPe3pa7Hiwu4Q8mHr64UNBGkwL/Vsxo=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XjiSBHxsUxKuu8U5bestQNY0mY1XAZfOopd6DZU5pa+fkpJwYb7YTetfFvYLRfmTB5C6rRo663cmVx/wvmFlGAjGC696zFn1iV5/qzB0WSKZTry0+icL0I8dMk2eT9pBAbrF92xkEuH0j2WtwJuXc7fW/QAdfL5JcumwofAZ3jQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=NPj4ASj3; arc=none smtp.client-ip=185.70.43.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b="mR/f9bi1"
-ARC-Seal: i=1; a=rsa-sha256; t=1791041012; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Mla9QlvbKLfkIGm5F8CLZaJ0IQ2tiUxPFt+eAf2jLpuoig8zEBtn5uQsaJ5fe+elg6gB69uM9dXHYX9ayyO5LmTGJdop/MOrRhNpHrdo0qdObawACrVXlXAWDQ0qgfPeeT6XKTqCmDO9IrWMqnd9gA+Y+Q7mchB6dc5Xp5kBwVw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1791041012; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=m4X/RhhMPONFFNOGIFwjTcEamNfPucpOxeJgUJZ/0xg=; 
-	b=T4v4+0UI7Q4e5xYrfbMQKzgVpyzxQncJImxKtVRjbWv7lTg6QmYaeWR6QvDA5LdQBbBqDdsyR1deGQIQxq0zD/Ha+zs+5fqXqcz/1tFspaK3fKHcVt2nlldw7tJfD1ePxqM5dhAGpzi7YDhV5b476VZ4FjjWnhd4NLeVdxxbzCQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=pigmoral.tech;
-	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
-	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1791041012;
-	s=zmail; d=pigmoral.tech; i=junhui.liu@pigmoral.tech;
-	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:From:From:To:To:Cc:Cc:Subject:Subject:In-Reply-To:Reply-To;
-	bh=m4X/RhhMPONFFNOGIFwjTcEamNfPucpOxeJgUJZ/0xg=;
-	b=mR/f9bi16V5mpGJwGJF+eRlDykL3W+2i8B+eqzU1eydlpkvJ17Svx0r+gWyIP7/A
-	MS/k9V7KXnUWpgm7pwW1H7ihOCim1+nTZ0tyTCX0T59AV4i5TxafSGCaa8Nl+mtGLua
-	Kw8NwmBd1xY5WSb/ol7TylPdSFTELIhIWejKV9bw=
-Received: by smtp.zohomail.com with SMTPS id 1791041011797544.830040683923;
-	Sat, 3 Oct 2026 08:23:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="NPj4ASj3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail2; t=1791046291; x=1791305491;
+	bh=jhnKxC1jfYQTIuTmaIFSI31CFkT8/+tMwqpFmimI1mE=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=NPj4ASj3XEB0AC4FSjoNSNY4thPPfkhDBceN/B6WWS+OtBflPV1mvNX8MFPV4VWrJ
+	 GkSGEHVXJAlj863kX7PKt3+YeM/wbnItd53pFWe9wJrrvhLcW5llncYSe4ERPi+kO2
+	 p7MNtEO4eHGAVsLe3q/7l28e68457E8nhgNnpp5sVYNeMaeCWxaSvsXWhwamcRYQMY
+	 jdR2D8BWxlanXhb46a6pJgkqEBFU4aVU6ZKDv/7jG2NY/PzJ3mOrUzC/suFYCKdfpm
+	 mt+AAma/lVJL5I9QzILJvPtnP+WwNmtEXWwt9WDETHlRbbx2Gj2a0UBn0FrypYQpgW
+	 sKWGp2wa3lCTw==
+Date: Sat, 03 Oct 2026 16:51:24 +0000
+To: Junhui Liu <junhui.liu@pigmoral.tech>
+From: Norman Herms <dockseed@proton.me>
+Cc: wens@kernel.org, Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>, linux-clk@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, netdev@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>, Enzo Adriano <enzo.adriano.code@gmail.com>, Andre Przywara <andre.przywara@arm.com>
+Subject: Re: [PATCH v5 3/8] clk: sunxi-ng: a733: Add PRCM CCU
+Message-ID: <IX5E2OTO5TApj5Vn4djIoBmcguIRvSNmVwcbXPiXUUGdVZr1NAJHSRomSnI2U5zgW9LWkNXJUpSIlkvHGCwlb1n6mYkGZoH4l1EOvNgua38=@proton.me>
+In-Reply-To: <DLVAHLGLB6W5.1X87X6JJ6MY5H@pigmoral.tech>
+References: <20260930-a733-clk-v5-0-11175b41cd2d@pigmoral.tech> <20260930-a733-clk-v5-3-11175b41cd2d@pigmoral.tech> <CAGb2v65q8w6NLzTtuMX3HZR98nAvR=Z4ODUCFZb5j3TgkDu_3Q@mail.gmail.com> <DLVAHLGLB6W5.1X87X6JJ6MY5H@pigmoral.tech>
+Feedback-ID: 144388465:user:proton
+X-Pm-Message-ID: f0d0ad3ff4b1cce1df4b4fde15de0e8f3c9593c9
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 03 Oct 2026 23:23:22 +0800
-Message-Id: <DLVB1PLRC8GV.2YX3NP2B1KV2A@pigmoral.tech>
-From: "Junhui Liu" <junhui.liu@pigmoral.tech>
-To: "Norman Herms" <dockseed@proton.me>, "Junhui Liu"
- <junhui.liu@pigmoral.tech>
-Cc: <wens@kernel.org>, "Stephen Boyd" <sboyd@kernel.org>, "Brian Masney"
- <bmasney+clk@redhat.com>, "Jerome Brunet" <jbrunet+clk@baylibre.com>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Jernej Skrabec"
- <jernej.skrabec@gmail.com>, "Samuel Holland" <samuel@sholland.org>,
- "Philipp Zabel" <p.zabel@pengutronix.de>, "Paul Walmsley" <pjw@kernel.org>,
- "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
- "Alexandre Ghiti" <alex@ghiti.fr>, "Richard Cochran"
- <richardcochran@gmail.com>, <linux-clk@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <linux-riscv@lists.infradead.org>, <netdev@vger.kernel.org>, "Jerome
- Brunet" <jbrunet@baylibre.com>, "Enzo Adriano"
- <enzo.adriano.code@gmail.com>, "Andre Przywara" <andre.przywara@arm.com>,
- "Krzysztof Kozlowski" <krzysztof.kozlowski@oss.qualcomm.com>, "Yixun Lan"
- <dlan@gentoo.org>
-Subject: Re: [PATCH v5 0/8] clk: sunxi-ng: Add support for Allwinner A733
- CCU and PRCM
-X-Mailer: aerc 0.22.0
-References: <20260930-a733-clk-v5-0-11175b41cd2d@pigmoral.tech>
- <CAGb2v66O7Ze=TiHO_5q=76QpU8ZXraFyV+HfO+_HpkTDr1U-nQ@mail.gmail.com>
- <DLVA17A4RRG7.2ECQKV3SJDAGI@pigmoral.tech>
- <BZm0Br5_P98xkwslO2JLeCMSyqps8EfQzDnH1Ox34cpoxCpkznXDa4RUM40-b1WKuZ3w3Cy0LPBE31oL8T1nq1Z8iT9Z51wUJBRp3iQIn-Y=@proton.me>
-In-Reply-To: <BZm0Br5_P98xkwslO2JLeCMSyqps8EfQzDnH1Ox34cpoxCpkznXDa4RUM40-b1WKuZ3w3Cy0LPBE31oL8T1nq1Z8iT9Z51wUJBRp3iQIn-Y=@proton.me>
-X-ZohoMailClient: External
 
-Hi Norman,
+Hi Junhui, ChenYu,
 
-Thanks for testing this. You saved my A7Z board from an almost certain
-sacrifice. :)
-
-On Sat Oct 3, 2026 at 11:05 PM CST, Norman Herms wrote:
-> Hi Junhui,
+> > The three bus dividers are secure by default, and either need to be tog=
+gled
+> > to non-secure by the bootloader, or (I'm guessing) the system is runnin=
+g
+> > without secure boot and the secure access bit isn't in effect.
+> >
+> > Please add a comment about this.
 >
->> Thanks for pointing this out. This is indeed something I had not
->> considered before. I will try enabling secure boot on my spare Cubie A7Z
->> board and test it on actual hardware.
->
-> First a correction to my earlier reply in this thread. I answered
-> ChenYu's "presumably ... the secure/non-secure access bit isn't in
-> effect" with "yes" and quoted the UM note that these registers are
-> always non-secure in non-security mode. On our non-fused A7S boards
-> (SID + 0xA0 =3D 0, also when read from EL3) that does not hold for every
-> register. Read from EL3 with a test BL31, CCMU_SEC_SWITCH_REG is 0x7
-> after BL31's security setup, S_TWD_BGR_REG is 0x1 and the SPC status
-> registers are 0xffffffff, but from non-secure all of them read 0, and
-> non-secure writes to the first two do not stick. So secure filtering
-> is active on these parts even without the fuse.
+> Okay, I will add a comment explaining this.
 
-I will double-check this on my side and add the relevant comments as
-Chen-Yu suggested.
+A data point for that comment, measured since my last reply. For the
+registers behind a security switch, ChenYu's guess holds on our boards.
+Two test BL31s, each clearing a switch again after
+sunxi_security_setup(), then reads and writes from U-Boot at
+non-secure EL2:
 
->
->> For the PLL and AHB/APB bus clock controls, the user manual indicates
->> that the relevant security bits can be set by TF-A to allow the kernel
->> to access these registers. This also appears to be how this has
->> traditionally been handled on sunxi platforms. So I think we can do the
->> same in TF-A for the A733.
->
-> That is what the BL31 on our boards does: PRCM_SEC_SWITCH_REG |=3D 0x7
-> and 0x7 to CCMU_SEC_SWITCH_REG at CCU + 0x1F00, as the vendor BL31
-> does. From EL3 both read 0 before and 0x7 after. The 0x1F00 versus
-> 0x0F00 trap in the A733 TF-A port is in my first reply.
->
->> For bus_r_twd_clk, I will test whether the register is indeed always
->> secure. If it is, I think the clock can be removed from the kernel and
->> left enabled by its hardware reset value or by the boot firmware.
->
-> On our non-fused boards it is already inaccessible from the non-secure
-> side (reads 0, writes ignored). From EL3 it reads 0x1, the UM default,
-> so the gate is open. Details are in my reply to ChenYu on patch 3/8,
-> which crossed with yours.
+- PRCM_SEC_SWITCH_REG bit 0 cleared (0x07010290 reads 0x6): r-ahb
+  reads 0x03000000 and r-apb1 0x04000000, the values EL3 reads, and a
+  write to r-apb0 (0 -> 1 -> 0) sticks.
 
-Understood. This bus gate is therefore not meaningful to the kernel,
-so I will remove the clock in the next version.
+- CCMU_SEC_SWITCH_REG cleared to 0 (PLL, BUS and MBUS secure): PLL_PERI0,
+  AHB, APB0, APB1, TRACE, the AHB and MBUS master gating, NSI and MBUS
+  read the values EL3 reads. Writes to PLL_NPU pattern 0 and to TRACE
+  stick, and U-Boot's own write to the MBUS gate enable register
+  (0x4 -> 0x804) sticks.
 
->
-> Same boards and caveats as before: AI agents (Claude) on my boards, a
-> report, not a Tested-by.
->
-> Thanks,
-> Norman
+So on these non-fused parts (SID + 0xA0 =3D 0) the switch bits do not
+gate non-secure access, as the UM notes on these registers say for
+non-security mode. With secure boot enabled, the bootloader has to set
+them; we cannot test that.
 
---=20
-Best regards,
-Junhui Liu
+That narrows what I wrote earlier about secure filtering without the
+fuse: on our boards it applies to the registers the UM marks as fixed
+secure (S_TWD_BGR_REG), to CCMU_SEC_SWITCH_REG itself and to the SPC
+status words, not to the registers behind a switch. We tested a sample
+of each switch group, not every register.
 
+One board, AI agents (Claude) on my board as before, so a report, not
+a Tested-by.
+
+Thanks,
+Norman
