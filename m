@@ -1,35 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f41.google.com (mail-dy2-f41.google.com [74.125.229.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BFA13A6EEC;
-	Fri,  2 Oct 2026 10:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9572BEFFD
+	for <linux-sunxi@lists.linux.dev>; Sat,  3 Oct 2026 01:27:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790937608; cv=none; b=L3L0BMD8Ybnlx8z8Xn/ZiJQuVhRtjoxJyPwSmCNladnM7T2f8ip6Co/RzSjndChZ/l9Jn35LVx5vSKead2XSPFp0PHvSAPKO8Tq3bKAxkup5HJu8+hUp/X01NfsXsSenVBBDHaFjY4pQq8kENHBwqeJBM6e7JlR2w4gjpO/RXxg=
+	t=1790990839; cv=none; b=XAtMAsz2bLU0A9FUZdtEw2QM6TJ8ypO+xCnUX9lTCRU0i+nweFFzpWiaBPa/8sO2RBLecYYcLnUX9mhaDshRtuEmLbNdeokh8CZucWkqZeg4A37uEE+X4KBSTNWrTz/ckkrs4272WqotbbkR/dntPneMsJ62Bx3kc60yvxU6+aY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790937608; c=relaxed/simple;
-	bh=KQ1HOpFFK/1H/Cdbs2aDLG+TrVClcAEG+HQZxLwdj6s=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=F7oX4NnDRxUEpTYhl4xiGJ+PrZnKjWSXo4ckeLvxq9seBk/0Qd8DVvj/MhdvEft0S2schvB2nZa3OkdUH2rGRsRbz+fo+vD+TorekrG2YiieNODUyRJzyNnXAX8meA4joaKRwdkoWhtAziNtFrCI0YW72HYbmOy8SscKCR3cm0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lyCuXvLv; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lyCuXvLv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C041A1F000FF;
-	Fri,  2 Oct 2026 10:40:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790937606;
-	bh=r4INfRqpxT7YhPd+W06NysuXddY9wGvptiUPCAUf84Q=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=lyCuXvLvrukBpLA5Oi0fuVfgDeW7EReHHvoKZu6zcpIWq/1NDdNVlVB11rBiizCn7
-	 ULtta7vJTQso8vCLmTCzRS+obSLOuhGqjYEI2V+SXCV7vkIWWN7Rq3YtdzhcUYSPJh
-	 8d2mJlulPkrCQCG1TaesS9XxTloiQ9iL4b3PWTTgZzMn7JAj3Zcs3FvzxycawVB1lj
-	 brOGbKH8dvgzsZGDa2SemNmROVp+X1U8YPbzRDc0n3fj1DrHYhpKuF+flS9nXmzFCS
-	 A0TpJHnOHU6a6+oE1c2RhRnnJWnQNh8Oj+Sve7hRxLGqT7CS8Q6O2UbmFtFksdRlrP
-	 yW8ECfZto62Wg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id B448C38119E9;
-	Fri,  2 Oct 2026 10:40:06 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1790990839; c=relaxed/simple;
+	bh=xzGuW9gBVTdyd8yJ5Di7BkVfGMr1p8p6MG98+qrsbh4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R4zEw+iwmEClYjE6caYrRZoQbTfkgbCbVzm+MkF2T2vqc8zN1w48vDmDpgnkjscP/Az/sNEFZIApnuWxazWGM9OE0WT9HBNaQVpT6RYuxY5GrqEH/NUSaSMPiM8Z6zG0nejBD+tMXtJKPpnllrHiTcZaPWSlAeNAblSJBiwnU/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=ossystems.com.br; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.229.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=ossystems.com.br
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy2-f41.google.com with SMTP id 5a478bee46e88-344447f9c3dso121567eec.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 02 Oct 2026 18:27:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790990836; x=1791595636;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Z/BU06CtUrguuFA4ph2pK8mOWJDR8MrG8VSMsF7a8eg=;
+        b=nb+sY9DJXzASTR4TO15p+jrGAkcvgwbILeujqop8RwXXNggxzGzO/iDeii95kTc0Qx
+         QfdmYkJlL1JoSRrzLy/pwRS/VrQP6EyYpgWPW+TS+35ShT3C2gXum2Fx+bUfxoqB+ei+
+         id8bwejLPEX6HiSfgof3pb4Ij9YSip8Ig7+dJb5NFW+6g7ypX8X1SBclnPZ43HYgPyyP
+         tyW/tqCUU341U1PqQlhKuAA6TimyYKIJ/YedjmnV2gepiBb5np7GvGmiOoKRmXxsKP7o
+         Wcpcl/ajY2IRgdrCxFc+W2v1k/x/PtwtmOhnNMIXOa9B79Wms1dMQQV8gKBn4sq/DQlP
+         8LcA==
+X-Forwarded-Encrypted: i=1; AKwUvBwvTx5DheGMyj++Qbs7lx0QoYVMT8gVZsl/xUbV7uwvG7/K8UG1TUpOG618GYIarCvrT2568KS2EiPA4A==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJETDuZ4BCmt5DbWUR6v+pharFGPFrjmZ+coi00kELxdXg2Jxb8
+	Ze4sRZAmzA5zNG8OlYFcgxKWinRaRc5xoII83LKQKyoaQigj/LEKeKZx
+X-Gm-Gg: AYBFou3UXtOLrOGPbd9ZkjJ5tQzdkNSAkTn4vVhBSuP80l2cQhBDOGRgPJquOHRlr0a
+	ywiX/ec3ElM7Ul4QuDpK+WckvbKm5JZ474IXlTWGMtku6TfNrzyfHo2l2Of/p2s9jthEyLikK12
+	/fX7df5guIzXCXp4AWsyKElKl4hioeCJUevBcyWtP88y7MzWIRWF/IfWPnUUXLnOP+Kb03m3ton
+	MH58bgLSPH5Bmx+wf6yh+Li7+jgZbQz6w7x/1lIbWhktlOBsuwqLzt5vyqlU4Qc9fkkODXeHJ4E
+	VkgE+9IBD+08fpDr04V3x3+fevD4l2GmPcHKw3d4FNxSF8Yo1Y0PQ2VvDFvfG5WzeL3aZJSpLr0
+	wHfFIRNDEE1m42GqZb7UsSK5dy13pRwSAKG6zCD/UWM0OQBuCenDQC7l5txW8B9AdpXXTNIMAwn
+	K1jc+vqM4+eBQljwy3YzjJIiPkRkErhN+XQIsfa13sCS3KF/kMwXghy8KM1EHILKf3GHkbdPeUv
+	uOw5bMZ4hSb/ptTw+OGKJ+HF7F42P7sau2xoX9HmWRtzt3xzByCsXbE85yDqxummRRexh/AoQ3i
+	LujMS1L+uHh5WaT4Sjl0AvLZrmNY2NcpJcE/mrHxM+r8bYiA2/Cr4pk=
+X-Received: by 2002:a05:7301:77c4:b0:33b:b0c8:73d2 with SMTP id 5a478bee46e88-34f14f18d51mr4593744eec.3.1790990836120;
+        Fri, 02 Oct 2026 18:27:16 -0700 (PDT)
+Received: from localhost ([201.89.183.74])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34f067301b5sm10442242eec.1.2026.10.02.18.27.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Oct 2026 18:27:15 -0700 (PDT)
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH 0/2] Add SID and THS calibration for Allwinner R40
+Date: Fri,  2 Oct 2026 22:25:34 -0300
+Message-ID: <20261003012534.418820-3-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -37,46 +70,33 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH 1/1] net: allwinner: remove dmaengine_desc_free()
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <179093760553.3349832.499337152312400934.git-patchwork-notify@kernel.org>
-Date: Fri, 02 Oct 2026 10:40:05 +0000
-References: <20260929190640.3516766-1-Frank.Li@oss.nxp.com>
-In-Reply-To: <20260929190640.3516766-1-Frank.Li@oss.nxp.com>
-To: Frank Li <Frank.Li@oss.nxp.com>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, wens@kernel.org,
- jernej.skrabec@gmail.com, samuel@sholland.org,
- bartosz.golaszewski@oss.qualcomm.com, andre.przywara@arm.com,
- phucduc.bui@gmail.com, arnd@arndb.de, kees@kernel.org, liyouhong@kylinos.cn,
- Frank.Li@nxp.com, netdev@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, vkoul@kernel.org, imx@lists.linux.dev
 
-Hello:
+The R40 thermal sensor node has no calibration data. The THS driver
+then keeps the calibration registers at their reset value (0x800), and
+the reported temperatures have a chip-dependent offset.
 
-This patch was applied to netdev/net.git (main)
-by David S. Miller <davem@davemloft.net>:
+This series adds the R40 SID (eFuse) controller and connects the THS
+node to its factory calibration at eFuse offset 0x40.
 
-On Tue, 29 Sep 2026 15:06:36 -0400 you wrote:
-> From: Frank Li <Frank.Li@nxp.com>
-> 
-> dmaengine_desc_free() is designed for DMA_CTRL_REUSE. If DMA_CTRL_REUSE
-> is not set, dmaengine_desc_free() will return -EPERM.
-> 
-> 	if (!dmaengine_desc_test_reuse(desc))
-> 		return -EPERM;
-> 
-> [...]
+Patch 1 adds the R40 compatible to the SID binding, with the A64
+compatible as fallback. The SID driver needs no change.
 
-Here is the summary with links:
-  - [1/1] net: allwinner: remove dmaengine_desc_free()
-    https://git.kernel.org/netdev/net/c/71a77ab76e74
+Patch 2 adds the SID node to sun8i-r40.dtsi and the nvmem cell for the
+THS calibration.
 
-You are awesome, thank you!
+Checked with dt_binding_check, and with dtbs_check on all R40, V40 and
+T3 board DTBs. No warnings. Tested on two Boardcon EMA40i (A40i) boards.
+
+Otavio Salvador (2):
+  dt-bindings: nvmem: SID: Add binding for R40 SID controller
+  ARM: dts: sun8i-r40: Add SID node and THS calibration
+
+ .../bindings/nvmem/allwinner,sun4i-a10-sid.yaml   |  1 +
+ arch/arm/boot/dts/allwinner/sun8i-r40.dtsi        | 15 ++++++++++++++-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
+
+
+base-commit: ff47652a4b66c067c765a7ad464d930b5a9367cc
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.55.0
 
