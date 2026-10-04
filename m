@@ -1,43 +1,39 @@
-Received: from mail-43100.protonmail.ch (mail-43100.protonmail.ch [185.70.43.100])
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7951033E348
-	for <linux-sunxi@lists.linux.dev>; Sat,  3 Oct 2026 16:51:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739583F328A
+	for <linux-sunxi@lists.linux.dev>; Sun,  4 Oct 2026 06:39:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791046305; cv=none; b=YqX+4UXYI0oeR8HWtehT5W9CxZp1UuwftAgk5IJQ63wBUugSS4GJLJ9qNKlIMnIfIS+BeJv55Cmt8R6VW83oG6uU+cJGDVueG74buPPIY8tTfS5vaxoIeJ8n8YZTFKIv/potJPBq1KSKLofDyfaTab5e4PEIhMaH2+nYMwZtv6c=
+	t=1791095947; cv=none; b=tO4U8QGpZDbs4mgfRGAR1VEe4bkZAW/nMrLkmItiLPH75xRUFag5nsb2Sc2bNfgFErj5azGNQR1TwO211M4t6o3+uMMGy6aeQRLM+iy/9p/M7ahg93Ll4c3D+dR5eJoRfonKsntmQU8skZpd+EUF/ljcYtBEGC+P/nQNz1Tsk2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791046305; c=relaxed/simple;
-	bh=iN2dacuD2WXWVPe3pa7Hiwu4Q8mHr64UNBGkwL/Vsxo=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XjiSBHxsUxKuu8U5bestQNY0mY1XAZfOopd6DZU5pa+fkpJwYb7YTetfFvYLRfmTB5C6rRo663cmVx/wvmFlGAjGC696zFn1iV5/qzB0WSKZTry0+icL0I8dMk2eT9pBAbrF92xkEuH0j2WtwJuXc7fW/QAdfL5JcumwofAZ3jQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=NPj4ASj3; arc=none smtp.client-ip=185.70.43.100
+	s=arc-20240116; t=1791095947; c=relaxed/simple;
+	bh=Y7EjX751Z2kdVCaCpsvCYVebDfqPAwGp3Im7F4WlXSk=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=ZbXeY1vBeD+4b/7SPy45KmtLP0q3qPcitvJy6dVUZcrAJ14BXwecD8GzNO7xnDZhPPLr0hamDIpf+ib02ZvPfKM2O0lKKIkZBUSrmmsFt4kOb0RPUIAyyocq9jYkt7/L+Y0IBtReS4C1dZUhLObrY3/FLpOZfa0Ai/rH42QRJPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=E2Ez0S4t; arc=none smtp.client-ip=185.70.43.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="NPj4ASj3"
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="E2Ez0S4t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail2; t=1791046291; x=1791305491;
-	bh=jhnKxC1jfYQTIuTmaIFSI31CFkT8/+tMwqpFmimI1mE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=NPj4ASj3XEB0AC4FSjoNSNY4thPPfkhDBceN/B6WWS+OtBflPV1mvNX8MFPV4VWrJ
-	 GkSGEHVXJAlj863kX7PKt3+YeM/wbnItd53pFWe9wJrrvhLcW5llncYSe4ERPi+kO2
-	 p7MNtEO4eHGAVsLe3q/7l28e68457E8nhgNnpp5sVYNeMaeCWxaSvsXWhwamcRYQMY
-	 jdR2D8BWxlanXhb46a6pJgkqEBFU4aVU6ZKDv/7jG2NY/PzJ3mOrUzC/suFYCKdfpm
-	 mt+AAma/lVJL5I9QzILJvPtnP+WwNmtEXWwt9WDETHlRbbx2Gj2a0UBn0FrypYQpgW
-	 sKWGp2wa3lCTw==
-Date: Sat, 03 Oct 2026 16:51:24 +0000
-To: Junhui Liu <junhui.liu@pigmoral.tech>
+	s=ypm3tercgjcidctqjyemeslyim.protonmail2; t=1791095940;
+	x=1791355140; bh=jkeBQXMC0mxk0cVDHkusiZ0VJqmjJ/qXxgzgEOL765k=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=E2Ez0S4tFO8YVQ8T5qWnVIic2lvgr3uh0+BneFzPTl3KOrw/shTnKvF9OrARpxbl9
+	 p03kHEZDlviTZPO3vjguFBd1Fd/ypPxNdH3jJdwBq/RoGgCD4YK1TeIN2sWZEIpEhw
+	 OL7zWysttLIM+ka6wB+hWoWgcf9VkX7OMObcCozhI68Ej6WGmu3oN4uBs+pFH9Z22E
+	 8F7Elywq9okdORKCk22Y2YHkvW3uHjZb98eHXULmXerj47t2Mfu2TcwSdPb/iccbxm
+	 /CpXcM5zZ3l+WhTyr4imdHXixLGOKvyKTTAb3Om5fQgXWaU1SWErzz5YSU8zImtvjp
+	 84KUwJA+ryfFg==
+Date: Sun, 04 Oct 2026 06:38:56 +0000
+To: Andre Przywara <andre.przywara@arm.com>, Linus Walleij <linusw@kernel.org>
 From: Norman Herms <dockseed@proton.me>
-Cc: wens@kernel.org, Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>, linux-clk@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, netdev@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>, Enzo Adriano <enzo.adriano.code@gmail.com>, Andre Przywara <andre.przywara@arm.com>
-Subject: Re: [PATCH v5 3/8] clk: sunxi-ng: a733: Add PRCM CCU
-Message-ID: <IX5E2OTO5TApj5Vn4djIoBmcguIRvSNmVwcbXPiXUUGdVZr1NAJHSRomSnI2U5zgW9LWkNXJUpSIlkvHGCwlb1n6mYkGZoH4l1EOvNgua38=@proton.me>
-In-Reply-To: <DLVAHLGLB6W5.1X87X6JJ6MY5H@pigmoral.tech>
-References: <20260930-a733-clk-v5-0-11175b41cd2d@pigmoral.tech> <20260930-a733-clk-v5-3-11175b41cd2d@pigmoral.tech> <CAGb2v65q8w6NLzTtuMX3HZR98nAvR=Z4ODUCFZb5j3TgkDu_3Q@mail.gmail.com> <DLVAHLGLB6W5.1X87X6JJ6MY5H@pigmoral.tech>
+Cc: Pablo Mazzini <pmazzini@gmail.com>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, "linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: pinctrl: sunxi: a733: irq_banks too small for port K
+Message-ID: <lqyUiTS5jK5vqN8dT8ByLl8sBPTW6eSDG_13v8UAkVIUCnnxLv4UBrlHTm0c7f4brqOd5ur4sDdgld0Ol4usnXOHgJscjqwJl2BrzPpJk5Y=@proton.me>
 Feedback-ID: 144388465:user:proton
-X-Pm-Message-ID: f0d0ad3ff4b1cce1df4b4fde15de0e8f3c9593c9
+X-Pm-Message-ID: 9d76db5c45f7d18900f3d56a77fb38acbbf9487a
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -47,47 +43,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Junhui, ChenYu,
+Andre, Linus,
 
-> > The three bus dividers are secure by default, and either need to be tog=
-gled
-> > to non-secure by the bootloader, or (I'm guessing) the system is runnin=
-g
-> > without secure boot and the secure access bit isn't in effect.
-> >
-> > Please add a comment about this.
->
-> Okay, I will add a comment explaining this.
+Observation on "pinctrl: sunxi: add support for the Allwinner A733"
+(Andre's series [2], now in linusw/devel for 7.4):
+the A733 pinctrl description sets .irq_banks =3D 10, but PA does not
+exist there, and prepare_function_table() in pinctrl-sunxi-dt.c counts
+IRQ banks from PA, so PB is 1 and PK is 10. This is the same
+numbering problem as in Pablo's thread [1].
 
-A data point for that comment, measured since my last reply. For the
-registers behind a security switch, ChenYu's guess holds on our boards.
-Two test BL31s, each clearing a switch again after
-sunxi_security_setup(), then reads and writes from U-Boot at
-non-secure EL2:
+With irq_banks =3D 10, PK (26 pins, bank 10):
+ - sunxi_pinctrl_init_with_flags() allocates irq_array for 320
+   entries but sunxi_pinctrl_build_state() writes PK to 320..345
+   (104 bytes past the end) at every probe;
+ - PK gets no parent interrupt and its hwirqs are outside the IRQ
+   domain, so there are no GPIO interrupts on port K.
 
-- PRCM_SEC_SWITCH_REG bit 0 cleared (0x07010290 reads 0x6): r-ahb
-  reads 0x03000000 and r-apb1 0x04000000, the values EL3 reads, and a
-  write to r-apb0 (0 -> 1 -> 0) sticks.
+Measured on two Radxa Cubie A7S boards, same kernel (v7.3-rc5 plus
+this series), once as is and once with irq_banks =3D 11. Requesting
+edge detection on PK0 through the GPIO v2 character device fails
+with ENXIO as is and works with irq_banks =3D 11. PB0 as a control
+works in both cases.
 
-- CCMU_SEC_SWITCH_REG cleared to 0 (PLL, BUS and MBUS secure): PLL_PERI0,
-  AHB, APB0, APB1, TRACE, the AHB and MBUS master gating, NSI and MBUS
-  read the values EL3 reads. Writes to PLL_NPU pattern 0 and to TRACE
-  stick, and U-Boot's own write to the MBUS gate enable register
-  (0x4 -> 0x804) sticks.
+KASAN (generic) does not report the overflow on either board. devres
+rounds the allocation up to the whole kmalloc bucket, so the 104
+bytes still lie inside the object. The out-of-bounds write is
+therefore invisible to KASAN here.
 
-So on these non-fused parts (SID + 0xA0 =3D 0) the switch bits do not
-gate non-secure access, as the UM notes on these registers say for
-non-security mode. With secure boot enabled, the bootloader has to set
-them; we cannot test that.
+Regarding Pablo's thread: with the convention Andre preferred there
+(count from PA, placeholder interrupt in the DT), the A733 needs
+irq_banks =3D 11, which also matches the binding (exactly 11
+interrupts). 10 would only be right with the renumbering from
+Pablo's patch, which is not applied.
 
-That narrows what I wrote earlier about secure filtering without the
-fuse: on our boards it applies to the registers the UM marks as fixed
-secure (S_TWD_BGR_REG), to CCMU_SEC_SWITCH_REG itself and to the SPC
-status words, not to the registers behind a switch. We tested a sample
-of each switch group, not every register.
+I am not a kernel developer. The measurements were run on my boards
+by AI agents, and the analysis was done with the help of an AI
+assistant (Claude). This is a report, not a Tested-by.
 
-One board, AI agents (Claude) on my board as before, so a report, not
-a Tested-by.
+[1] https://lore.kernel.org/linux-sunxi/20260929203634.32998-1-pmazzini@gma=
+il.com/
+[2] https://lore.kernel.org/linux-sunxi/20260910133519.459011-1-andre.przyw=
+ara@arm.com/
 
 Thanks,
 Norman
