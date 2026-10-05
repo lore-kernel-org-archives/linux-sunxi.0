@@ -1,33 +1,33 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90F8B426D03
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Oct 2026 09:02:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 306D34349A2
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Oct 2026 09:17:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791190946; cv=none; b=J0pJEV65SmNhRBAGTvkeiBh5qF6qSwuklRFILY4QBB0tnzTWuV8E/1ueIqv3FBqv+8652GfN96jqW1a875HeZQiogSrux3JXOGxpo0XQkyUv4xLFN+g232bi/jdM2sDZtRwce9UBFJoV1ab5ezeKif317U5dGxnQubZiJULdg5w=
+	t=1791191839; cv=none; b=qOc0i8HUV6IHQ7jDL6PXOl3eVR6axyR46GAP8N3gO3GSlDaoxWidTcd+6b9Kni3bPSFvDOv5bvhe8T+4dhKXQx7culNSHaauzTRpGNm6iM2zPA/YqjxxaNSv7D9RLYz1rpKjD1htA7d83O/mVr4JBe1wuG5xv+KuDqvUfA9WWQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791190946; c=relaxed/simple;
-	bh=wzKbXcm9aX7tddsl1dJRDbixjLaOCm42RIzbP5lg+5Y=;
+	s=arc-20240116; t=1791191839; c=relaxed/simple;
+	bh=HVeqBCma9XhPQYuXr7Z1BFby/I89QIvKhp1Qz/Sy+Fc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cdl0oLLUCyoz+b+pLCnNCiIC/M0Nx+lDKvRLJDYEJEe+dTbnTHqsRnjz/5giz8cfhyhYWD/V9V79tFa51f80GwGosWL/TimDg6oBhRiPL0JwRLXAgeoIo2JgB9cKDz8tUC4JBm78CXYkzIMTsf6TljTsI6E22v2Q7oKgu12UePY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=BWUNNiOd; arc=none smtp.client-ip=217.140.110.172
+	 In-Reply-To:Content-Type; b=hPoHx7F0/G1oNmvSrmaBqdmaDVH12/YVUzwioDYmDINyhVn6ToxqCHPks/S406vnukUPkbrLUddr3BJxPQe2xtb6Kxg6uc8vPmSZ8BOf3eyhmmkNlAtWVWBN8fKUpRjaKeMB0i4lWzUdVA4CTaKjeu61N5fIArfw6hTQvxVFG2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=lpUkjIKq; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="BWUNNiOd"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="lpUkjIKq"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 50279152B;
-	Mon,  5 Oct 2026 02:02:13 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D8221152B;
+	Mon,  5 Oct 2026 02:17:12 -0700 (PDT)
 Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 62B473F66F;
-	Mon,  5 Oct 2026 02:02:14 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ED5D03F66F;
+	Mon,  5 Oct 2026 02:17:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1791190936; bh=wzKbXcm9aX7tddsl1dJRDbixjLaOCm42RIzbP5lg+5Y=;
+	t=1791191836; bh=HVeqBCma9XhPQYuXr7Z1BFby/I89QIvKhp1Qz/Sy+Fc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BWUNNiOdSkAjCx/IrsnnuZPHK2MQ2nujJ8LoSUkIn6VrEYUzdLL9Mv9EF+A4BPRIL
-	 d6U7CO5/r+w7SziIcjVnSQD3GMX1h6pWF2pAJuVXXkAZrSVCM3Lgw60iN35eQx1/e6
-	 5aMEwUajUHrIWyqQwVtsBi4/l5dMrhFp18PkN6I4=
-Message-ID: <2c75983e-5e63-4613-a9a8-055015d04bbf@arm.com>
-Date: Mon, 5 Oct 2026 11:02:05 +0200
+	b=lpUkjIKqVD2+wgOZwWjHfaqcnAIOIiZd3eLZsf6wSBSB4hW0xAMMT3/10Lmlrwifu
+	 CN9yeYzy+LatTmrx6kdYmZFt+2+4QqkeIsWO4jHmUJbkhdKQV+jDepAzXQYqnw21Fc
+	 AcKyquEiAMypKcdXGDJ87Dsc2jJveIx5ZKcjOXDk=
+Message-ID: <4ac4c90f-887e-4545-9c26-9706bdaa1a79@arm.com>
+Date: Mon, 5 Oct 2026 11:17:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -35,99 +35,215 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] ARM: dts: sun8i-r40: Add SID node and THS calibration
-To: Otavio Salvador <otavio@ossystems.com.br>, Chen-Yu Tsai
- <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Srinivas Kandagatla
- <srini@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+Subject: Re: [PATCH v5 7/8] clk: sunxi-ng: a733: Add bus clock gates
+To: Junhui Liu <junhui.liu@pigmoral.tech>, wens@kernel.org
+Cc: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>,
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>,
+ linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20261003012534.418820-3-otavio@ossystems.com.br>
- <20261003012534.418820-5-otavio@ossystems.com.br>
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ netdev@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>,
+ Enzo Adriano <enzo.adriano.code@gmail.com>
+References: <20260930-a733-clk-v5-0-11175b41cd2d@pigmoral.tech>
+ <20260930-a733-clk-v5-7-11175b41cd2d@pigmoral.tech>
+ <CAGb2v65Lqo7NiFhc2GYdfY7+jkC4Y+p6=Zy85HOFmXJzT0u1fg@mail.gmail.com>
+ <DLWMN3TYBP9F.3N62QFP7QEE9U@pigmoral.tech>
 Content-Language: en-GB
 From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20261003012534.418820-5-otavio@ossystems.com.br>
+In-Reply-To: <DLWMN3TYBP9F.3N62QFP7QEE9U@pigmoral.tech>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Otavio,
+Hi,
 
-thanks for sending the patch!
-
-On 10/3/26 03:25, Otavio Salvador wrote:
-> Without the calibration cell, the THS driver leaves the sensor
-> calibration registers at their reset value (0x800) and the reported
-> temperatures drift from the real die temperature by a chip-dependent
-> offset.
+On 10/5/26 06:41, Junhui Liu wrote:
+> Hi Chen-Yu,
 > 
-> Add the SID node at 0x01c1b000 and wire the thermal sensor to its
-> factory calibration at eFuse offset 0x40, one 16-bit word for each of
-> the two sensors.
+> On Sun Oct 4, 2026 at 7:03 PM CST, Chen-Yu Tsai wrote:
+>> On Tue, Sep 29, 2026 at 7:28 PM Junhui Liu <junhui.liu@pigmoral.tech> wrote:
+>>>
+>>> Add the bus clock gates that control access to the devices' register
+>>> interface on the Allwinner A733 SoC. These clocks are typically
+>>> single-bit controls in the BGR registers, covering UARTs, SPI, I2C, and
+>>> various multimedia engines. It also includes bus gates for system
+>>> components like the IOMMU and MSI-lite interfaces.
+>>>
+>>> Also mark the ahb-store, mbus-store and ahb-cpus clocks as critical.
+>>> Disabling either store gate breaks access to boot/storage devices such
+>>> as MMC and SPI NOR, while gating ahb-cpus hangs any access to the CPUS
+>>> power domain registers when unused clocks are disabled.
+>>>
+>>> Tested-by: Jerome Brunet <jbrunet@baylibre.com>
+>>> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+>>> Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
+>>> ---
+>>>   drivers/clk/sunxi-ng/ccu-sun60i-a733.c | 492 ++++++++++++++++++++++++++++++++-
+>>>   1 file changed, 491 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+>>> index 1b2d4d36ec4c..b077e5d2f32c 100644
+>>> --- a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+>>> +++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+>>> @@ -4,6 +4,10 @@
+>>>    * Copyright (C) 2026 Junhui Liu <junhui.liu@pigmoral.tech>
+>>>    * Based on the A523 CCU driver:
+>>>    *   Copyright (C) 2023-2024 Arm Ltd.
+>>> + *
+>>> + * TODO: The real parents of some bus gates, including its-pcie0-aclk,
+>>> + * msi-lite, npu, ufs, sgpio, lpc and i2spcm, are not documented in the
+>>> + * manual. For now, follow the vendor BSP, which keeps them on hosc.
+>>>    */
+>>
+>> [...]
+>>
+>>> @@ -510,9 +522,118 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE_FEAT(mbus_clk, "mbus", mbus_parents, 0x588
+>>>                                             BIT(31),     /* gate */
+>>>                                             CLK_IS_CRITICAL,
+>>>                                             CCU_FEATURE_UPDATE_BIT);
+>>> +static const struct clk_hw *mbus_hws[] = { &mbus_clk.common.hw };
+>>> +
+>>> +static SUNXI_CCU_GATE_HWS(mbus_iommu0_sys_clk, "mbus-iommu0-sys", mbus_hws, 0x58c, BIT(0), 0);
+>>> +static SUNXI_CCU_GATE_HWS(apb_iommu0_sys_clk, "apb-iommu0-sys", apb0_hws, 0x58c, BIT(1), 0);
+>>> +static SUNXI_CCU_GATE_HWS(ahb_iommu0_sys_clk, "ahb-iommu0-sys", ahb_hws, 0x58c, BIT(2), 0);
+>>> +
+>>> +static SUNXI_CCU_GATE_DATA(bus_msi_lite0_clk, "bus-msi-lite0", hosc, 0x594, BIT(0), 0);
+>>> +static SUNXI_CCU_GATE_DATA(bus_msi_lite1_clk, "bus-msi-lite1", hosc, 0x59c, BIT(0), 0);
+>>> +static SUNXI_CCU_GATE_DATA(bus_msi_lite2_clk, "bus-msi-lite2", hosc, 0x5a4, BIT(0), 0);
+>>> +
+>>> +static SUNXI_CCU_GATE_HWS(mbus_iommu1_sys_clk, "mbus-iommu1-sys", mbus_hws, 0x5b4, BIT(0), 0);
+>>> +static SUNXI_CCU_GATE_HWS(apb_iommu1_sys_clk, "apb-iommu1-sys", apb0_hws, 0x5b4, BIT(1), 0);
+>>> +static SUNXI_CCU_GATE_HWS(ahb_iommu1_sys_clk, "ahb-iommu1-sys", ahb_hws, 0x5b4, BIT(2), 0);
+>>
+>>> +static SUNXI_CCU_GATE_HWS(ahb_ve_dec_clk, "ahb-ve-dec", ahb_hws,
+>>> +                         0x5c0, BIT(0), 0);
+>>> +static SUNXI_CCU_GATE_HWS(ahb_ve_enc_clk, "ahb-ve-enc", ahb_hws,
+>>> +                         0x5c0, BIT(1), 0);
+>>> +static SUNXI_CCU_GATE_HWS(ahb_vid_in_clk, "ahb-vid-in", ahb_hws,
+>>> +                         0x5c0, BIT(2), 0);
+>>> +static SUNXI_CCU_GATE_HWS(ahb_vid_cout0_clk, "ahb-vid-cout0", ahb_hws,
+>>> +                         0x5c0, BIT(3), 0);
+>>> +static SUNXI_CCU_GATE_HWS(ahb_vid_cout1_clk, "ahb-vid-cout1", ahb_hws,
+>>> +                         0x5c0, BIT(4), 0);
+>>> +static SUNXI_CCU_GATE_HWS(ahb_de_clk, "ahb-de", ahb_hws,
+>>> +                         0x5c0, BIT(5), 0);
+>>> +static SUNXI_CCU_GATE_HWS(ahb_npu_clk, "ahb-npu", ahb_hws,
+>>> +                         0x5c0, BIT(6), 0);
+>>> +static SUNXI_CCU_GATE_HWS(ahb_gpu0_clk, "ahb-gpu0", ahb_hws,
+>>> +                         0x5c0, BIT(7), 0);
+>>> +static SUNXI_CCU_GATE_HWS(ahb_serdes_clk, "ahb-serdes", ahb_hws,
+>>> +                         0x5c0, BIT(8), 0);
+>>> +static SUNXI_CCU_GATE_HWS(ahb_usb_sys_clk, "ahb-usb-sys", ahb_hws,
+>>> +                         0x5c0, BIT(9), 0);
+>>> +static SUNXI_CCU_GATE_HWS(ahb_msi_lite0_clk, "ahb-msi-lite0", ahb_hws,
+>>> +                         0x5c0, BIT(16), 0);
+>>> +static SUNXI_CCU_GATE_HWS(ahb_store_clk, "ahb-store", ahb_hws,
+>>> +                         0x5c0, BIT(24), CLK_IS_CRITICAL);
+>>> +static SUNXI_CCU_GATE_HWS(ahb_cpus_clk, "ahb-cpus", ahb_hws,
+>>> +                         0x5c0, BIT(28), CLK_IS_CRITICAL);
+>>
+>> I suspect these refer to a AHB-AHB bridge for the various subsystems shown
+>> in the memory map. That would explain why when the "ahb-store" clock is
+>> gated, the storage bits stop working.
+>>
+>> If that's the case, we should describe it as the parent of each storage
+>> peripheral bus gate's parent. Same would go for the other types. I haven't
+>> checked what the BSP does though.
 > 
-> The R40 user manual gives the size of the thermal sensor key (32 bits)
-> but not its offset. The vendor SDK key map names 0x48 "thermal_sensor",
-> but that word is zero on all the boards checked. On an A40i running the
-> Boardcon vendor kernel, the THS_0_1_CDATA register holds exactly the
-> eFuse word at 0x40 (0x08780875), which confirms the location.
+> As Norman mentioned in his reply, the vendor BSP also does not model
+> this hierarchy and instead models these gates as independent clocks
+> parented to the oscillator. The manual does not describe the hierarchy
+> either, so I don't think we have enough information to model it
+> differently at this point.
 
-So in some U-Boot BSP sources on github I see 
-arch/arm/include/asm/arch-sun8iw11p1/sid.h putting the sensor at 0x34 
-(like the H3 or A64).
-Can you check the values there? I see that Tina-Linux puts them at 0x40, 
-as you reported, and it's probably more reliable there than in the 
-U-Boot sources, but it's worth double checking.
+Well, I wouldn't use the BSP as a good example on how to model the clock 
+tree, they have been very misguided in the past.
+What the BSP does is to add just more input/gate MBUS clocks for each 
+device, which is something I think we should avoid.
+To that regard using them as parent clocks for the existing gates, as 
+Chen-Yu suggested, sounds like a good idea: We keep a single clock for 
+the devices, but still can turn both clocks off (I think, not tested).
 
-The rest looks alright (checked the manual and how the compatible string 
-is handled in the driver), so if you can confirm that it's 0x40:
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Thanks,
+Cheers,
 Andre
 
+> I will add comments explaining why ahb_store_clk, mbus_store_clk, and
+> ahb_cpus_clk are marked critical.
 > 
-> Tested on two Boardcon EMA40i (A40i) boards: THS_0_1_CDATA now holds
-> the eFuse word at 0x40 of each chip (0x082d0822 and 0x083d0838) instead
-> of the reset value 0x08000800.
+>>
+>>> +static SUNXI_CCU_GATE_HWS(mbus_iommu0_clk, "mbus-iommu0", mbus_hws,
+>>> +                         0x5e0, BIT(0), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_iommu1_clk, "mbus-iommu1", mbus_hws,
+>>> +                         0x5e0, BIT(1), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_desys_clk, "mbus-desys", mbus_hws,
+>>> +                         0x5e0, BIT(11), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_ve_enc0_gate_clk, "mbus-ve-enc0-gate", mbus_hws,
+>>> +                         0x5e0, BIT(12), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_ve_dec0_gate_clk, "mbus-ve-dec0-gate", mbus_hws,
+>>> +                         0x5e0, BIT(14), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_gpu0_clk, "mbus-gpu0", mbus_hws,
+>>> +                         0x5e0, BIT(16), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_npu_clk, "mbus-npu", mbus_hws,
+>>> +                         0x5e0, BIT(18), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_vid_in_clk, "mbus-vid-in", mbus_hws,
+>>> +                         0x5e0, BIT(24), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_serdes_clk, "mbus-serdes", mbus_hws,
+>>> +                         0x5e0, BIT(28), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_msi_lite0_clk, "mbus-msi-lite0", mbus_hws,
+>>> +                         0x5e0, BIT(29), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_store_clk, "mbus-store", mbus_hws,
+>>> +                         0x5e0, BIT(30), CLK_IS_CRITICAL);
+>>
+>> Same thing for the MBUS clocks.
+>>
+>>> +static SUNXI_CCU_GATE_HWS(mbus_msi_lite2_clk, "mbus-msi-lite2", mbus_hws,
+>>> +                         0x5e0, BIT(31), 0);
+>>> +
+>>> +static SUNXI_CCU_GATE_HWS(mbus_dma0_clk, "mbus-dma0", mbus_hws,
+>>> +                         0x5e4, BIT(0), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_ve_enc0_clk, "mbus-ve-enc0", mbus_hws,
+>>> +                         0x5e4, BIT(1), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_ce_clk, "mbus-ce", mbus_hws,
+>>> +                         0x5e4, BIT(2), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_dma1_clk, "mbus-dma1", mbus_hws,
+>>> +                         0x5e4, BIT(3), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_nand_clk, "mbus-nand", mbus_hws,
+>>> +                         0x5e4, BIT(5), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_csi_clk, "mbus-csi", mbus_hws,
+>>> +                         0x5e4, BIT(8), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_isp_clk, "mbus-isp", mbus_hws,
+>>> +                         0x5e4, BIT(9), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_gmac0_clk, "mbus-gmac0", mbus_hws,
+>>> +                         0x5e4, BIT(11), 0);
+>>> +/* Undocumented, taken from the vendor kernel. */
+>>> +static SUNXI_CCU_GATE_HWS(mbus_gmac1_clk, "mbus-gmac1", mbus_hws,
+>>> +                         0x5e4, BIT(12), 0);
+>>> +static SUNXI_CCU_GATE_HWS(mbus_ve_dec0_clk, "mbus-ve-dec0", mbus_hws,
+>>> +                         0x5e4, BIT(18), 0);
+>>
+>> [...]
+>>
+>> The remaining definitions look correct (minus the vendor BSP ones which I
+>> couldn't check at this time).
+>>
+>> I didn't check the clock list additions.
+>>
+>> Consider this
+>>
+>> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+>>
 > 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->   arch/arm/boot/dts/allwinner/sun8i-r40.dtsi | 15 ++++++++++++++-
->   1 file changed, 14 insertions(+), 1 deletion(-)
+> Thanks!
 > 
-> diff --git a/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi b/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi
-> index f0ed802a9d08e..c7c9cad695ca4 100644
-> --- a/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi
-> +++ b/arch/arm/boot/dts/allwinner/sun8i-r40.dtsi
-> @@ -485,6 +485,18 @@ ohci1: usb@1c19400 {
->   			status = "disabled";
->   		};
->   
-> +		sid: efuse@1c1b000 {
-> +			compatible = "allwinner,sun8i-r40-sid",
-> +				     "allwinner,sun50i-a64-sid";
-> +			reg = <0x01c1b000 0x400>;
-> +			#address-cells = <1>;
-> +			#size-cells = <1>;
-> +
-> +			ths_calibration: thermal-sensor-calibration@40 {
-> +				reg = <0x40 0x4>;
-> +			};
-> +		};
-> +
->   		ehci2: usb@1c1c000 {
->   			compatible = "allwinner,sun8i-r40-ehci", "generic-ehci";
->   			reg = <0x01c1c000 0x100>;
-> @@ -832,7 +844,8 @@ ths: thermal-sensor@1c24c00 {
->   			clock-names = "bus", "mod";
->   			interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
->   			resets = <&ccu RST_BUS_THS>;
-> -			/* TODO: add nvmem-cells for calibration */
-> +			nvmem-cells = <&ths_calibration>;
-> +			nvmem-cell-names = "calibration";
->   			#thermal-sensor-cells = <1>;
->   		};
->   
+>>
+>> We can change the AHB / MBUS clock parents later if we do figure it out.
+>>
+>>
+>> ChenYu
+> 
 
