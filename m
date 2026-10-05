@@ -1,161 +1,124 @@
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D31F2E2DDD
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Oct 2026 15:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B864D4868
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Oct 2026 17:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791215416; cv=none; b=C6uX1AtOu1/Dvg7H4kZG3lLT/TpZUhyMmxaLXnmhaUyA7JNQrMVujB4J8LyEivdeV9R8IIMfDGbrtmgKgryeHDZae3OoY6q75UgTc62e9qYE1Ak7vgfQxyR3d1tcpJeqBISJhEHazT8MfDFlwOS0/wusB7x0GfILL7MhKgcOzVk=
+	t=1791221160; cv=none; b=iZjaFkOkpiwe7SbhbUawgYbIQcLn7uD7t/Fox5EhvSTq77wVubryokAOuhXknYR+Sj+5l1NYGPSfRmcVMfQHNaa5sSu4paPfrbwV+MdcsHwR4XR18NOp4s+Dhl7LBHeoMEn0bev6EQGsT2f9GeIcDfbBjCxU3ctDe3vd6qn5uD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791215416; c=relaxed/simple;
-	bh=vdpsJ3hZNyAcL4ng7ir9nttQMH7WO6n1mJsbI2s3ZfQ=;
-	h=From:MIME-Version:References:In-Reply-To:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pTJRH9iE0/yB09PpcCnmkwJm2fokVbUSA4HaiQfk42dGesmVedKWNd+D92sL0bNSaX7Bd4CKiiWQFluAAxjz8mmGE+DWIvMpRbP98yFFmh3BrbHucP/8mj7Xj/31gr+SmYYEelMUNhpeTgeDbceRGC92QPgaIIklKUlJhKPCBOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ossystems.com.br; spf=pass smtp.mailfrom=ossystems.com.br; dkim=pass (2048-bit key) header.d=ossystems.com.br header.i=@ossystems.com.br header.b=o3YWyVTl; arc=none smtp.client-ip=209.85.217.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ossystems.com.br
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ossystems.com.br
+	s=arc-20240116; t=1791221160; c=relaxed/simple;
+	bh=1TovBGqb+S+doAvi0jZy2UcBL66zBbQNb/CjU/As8cs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SzIGEMNKKI913AXosgZLrdpkRgi7j5bJ06DEZCY3KMUZtjxxnow2JSf5Q1BLvnOG+/vM6/E6W0A5oDlOkgX6sma8vN34tg+Qz6pfinUYhzxqeyrxj3s/d4qWO9G1I1HgYNXc76yLxfxF9VLCaFvNWmOoav8NcKCqxPseDRBO15I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fusdbF4P; arc=none smtp.client-ip=74.125.224.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ossystems.com.br header.i=@ossystems.com.br header.b="o3YWyVTl"
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-7bec5112765so1462340137.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 05 Oct 2026 08:50:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fusdbF4P"
+Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-66c9995ca60so82103d50.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 05 Oct 2026 10:25:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems.com.br; s=os; t=1791215414; x=1791820214; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:in-reply-to:references:mime-version:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=C54WbketwFUMnlhWt0X/x+0i291DYrFlSIzr7u5PmQc=;
-        b=o3YWyVTlXRsiYBTimFi39jc+FRJq09/KI4lJ7aKu88tSqk9eERbU8MpXxSNiLF86ty
-         n34dYzbp9U1QdYHH/MqW+TKI9KcDTHizJgci36AM+T+bsPyAuGz5HhuuEL673pZOh9UH
-         8wn5Sw4AAamkEOhktYGzdPQd79SdhYj6hiQCdquJ1B9jVkxVj3/00zXm0io16XgZqddw
-         BLDqCkBl9LBIXfNuTznOXdzbtsOXxjaNt9GQ1zr+XOT4dQbRyBXku5NrViXJBdM7YeAr
-         7BrgLFI3HAI4ZBbX02Hy/KFP2EZZ5xgBXBNXWEWS70PLfQkGDbbgiUaIlcMxlX0yWsKk
-         Qn3g==
+        d=gmail.com; s=20251104; t=1791221157; x=1791825957; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=B2r0pjGElK1T1XiGX8hF3bDF5aD44JQI3Axp9h+wJZA=;
+        b=fusdbF4P3EisrwKYC/YhOXSHpLqXvs05g+yC4l9X6TNCUcoiB2qzIHmrNx81fOj6sd
+         jTKXf510E8I1ClxWqNWNGu7ply6cxl4wx/3eWyEzraBPByTsi9OvgGtKZizxG6YvCPbH
+         4TlwMdAEwUQ9H9/m2Ceoyw2qWuJFekmV+7M9ZSq0YcrbBIMfejgZ/BZSla1TV+RylX5p
+         UEXChlrDMaxHh9av3zRFz0VaYT1emTYt1McS3o+jsfNIXixCXxd8sZwqwsnwHaD7trPz
+         PbA9MOkxPFHNX5t7LIbXrsFTG4mEOKitpKdIOfJew94FyQK9yaFPKRNe6jZuSt8TbeGl
+         LWpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791215414; x=1791820214;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:in-reply-to:references:mime-version:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=C54WbketwFUMnlhWt0X/x+0i291DYrFlSIzr7u5PmQc=;
-        b=MY+eEgp3FOMnBezG3pcoRvC1iEu6XG9ZJfJ1MHccVK056UlVt+st/70s2BnUOZT4ou
-         HbGsrhjX+zQGiCn6AN9gjuFEARcc30CCdJESF7uzqgN51EtlehibWqWvDeAgrd/Bg4Pl
-         9nDa87eMISwIr6nLQQyI8Cb7Mam/STBLRHxpLIndrH8NvMlzZ/HW51mccmnAtFJlLK+0
-         l3BhiiKoxc/KIEhSRg++HaV2QvKqmSe515ql3kZ9AV4EHYRyhcRXNkXEc/5qiGKnBUFq
-         07HExCwSbm/1Id4uhfUhPme8k2V4qk6K5U6mykvVbuOIGTn360/b94oPbqvunJby+qxq
-         7ChA==
-X-Forwarded-Encrypted: i=1; AKwUvBzv7pJAtzC47LxcYOtSd9x/zvFDM973+dVlrpM+Zj4DeTV+32ll8xJQqR4GV61iJD7d339g0y+x1k3DOQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYL4e/5GN5q6J21BgtkLxCc3e2k5WBkpvTdD25ownTh/4qPImaWP
-	S7+oHyKjBiy70lZoppl/APBsnv10PLlJjex2zSMWOAUrPr+xynuj8yYYLb4jzRIRvZBaMhG8M17
-	Kh1JUa54=
-X-Gm-Gg: AYBFou3ONH2ubkTPSmR6H364+kA3h7QlZ9gSyluu4C+jQTJHNKTa3evo0Js+xJ7Ioki
-	ZBBeiNO+TEgo5hr+4E0zYMATb3uYXAU/j5tWefNiT2uYhpdW5puRBm4cTvaaIJdIp0xYgiUHG0p
-	55mz8vaNEPQDx3mg46J8wTEAJhVD/faqTsEG+rtTj/JBjqDVe/3PXxgVFaucylLuPZLYa009a3b
-	fkXU6zuG7PCy+mUjpP762ThsZ6uOVjykfztk+6PF4yqdkYxskJDvoRVBACcDB4KVGxeQ0fQtYed
-	awOLVlQem7kfozDKhg3aZpkOyLcRp8jQYgA4DthSKxNukRaWp0y8U3MI6CYW6jbNvEZgNCKSoyn
-	35rsoILF6z7kpJPf7SiUZbrV7t13DFTwSNQ6YO3pf4lWvEo1HIMsx0cgal+cQ/Z/ixJjzvwkAF6
-	hS3vsofoZ5wAAyYXZZSI1GQpemot42E+cVtP8YHhTCZUx7fVvisOrSHuYAuHWWoyzP92uyS74Fa
-	F5p2K4fDTjkCbdChqRPnoDeHpTLfG4Z6kkAiNGCvBAYHGHtY+/6
-X-Received: by 2002:a05:6102:638a:10b0:7c2:598a:9def with SMTP id ada2fe7eead31-7c2598aafefmr1485055137.25.1791215413756;
-        Mon, 05 Oct 2026 08:50:13 -0700 (PDT)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7c0ff5c2776sm10368045137.5.2026.10.05.08.50.10
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Oct 2026 08:50:10 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-98c786605e7so707602241.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 05 Oct 2026 08:50:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxZdKPywGdZN1xBDbTtmKiTJmDIr/1ZVTUxxEgtfO8gCpxJewgOu9BHFy9ffGAyinuMjpCEIhB06pSGuQ==@lists.linux.dev
-X-Received: by 2002:a05:6102:50a1:b0:7c3:2f13:d905 with SMTP id
- ada2fe7eead31-7c32f13da5fmr1970603137.3.1791215410224; Mon, 05 Oct 2026
- 08:50:10 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791221157; x=1791825957;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=B2r0pjGElK1T1XiGX8hF3bDF5aD44JQI3Axp9h+wJZA=;
+        b=Sp5ZDdJVA56nvCQnnws+SJIItFRo+e3l9S15vSkgvm3KH1Yzx0AWsT8S4s5F2z/vz8
+         IuXANJHM3R7LSUEQSMH5xVjYmYWy+ATKAgSk8Gvh9gakGjKFvsucpK6y93oUKH0Fr/AG
+         J39vjuwsmUBXgYJUD50bv14/jqcEhScrRAgUMDoYkYTas183AjKuo8uOwiwzooMdH+oG
+         RUHODHkXa3kbd7sm47jWv2Dxxcv8Wpj7Xvn/dBIimdvgttTvbmdePghWotX0lLAurnXh
+         B3CWiBFPeCI35E3PKFIb2t1VtYxbIaAx4eKtUUKRS/DD7yF4+5xEnKcOmUoCoW6S9YMy
+         L65w==
+X-Forwarded-Encrypted: i=1; AKwUvBxxMW86NcwSxK4oRNeBlRDSyWUzCbbipM9BIjBh/ziDYH3p104jY1DflDqO0u7UK6iUYGfnilCtXQ9NnA==@lists.linux.dev
+X-Gm-Message-State: AFuF++kqWK9WZJvSRF34uYmsHFJ8XRweLBLPquC9AxTTsCG1+k7EIQwR
+	i2+84LySxCL+mk0tl/82RaBgggGqcaXjeV724oZyUC+t+v0pXLlgmO1H
+X-Gm-Gg: AYBFou2y7TGj4Y+GVk8MzoZHv2Bz8r4rrXds70ZKd/w+vRxKZ+1XWreLkqbrmtXsU80
+	nT/JZ3jsXjBZbaHs1dEHwljydtN7+6KuwZToXubs/QzKKE4LWitO6Q+bzfM1cxvcXc8HeRwU1il
+	/+gqJFovmL8GEYQoWHqdQ9eRhJr/zgYll1fyse9+yovFUNPt3dR3+os5jG7U/A75Y1en9ETWL1I
+	jnhkVyuXBFYWDErvh7DUu7lm4pYp8gHiMe9TqKxlP95UT4AF7FUQZn+UOGv54Yy1S8rWh86XffP
+	3r7WJsQq/sM707cN3MYFZFEhyoQCmyP4W7djOtC52GOFrpoDz/4DFIBBMQJfwfC67+juXqfZaHq
+	U+tSW5WOU0zivj7+xM7lyjx+jr8ZboufAx45EJM3IeSwdhEv2dO0SJTmgTMkDyq1rrDBNpjYOGK
+	qBPJ7KWlWQ3PpqnBgL/vrn/kU7+Miq8yuubILV4KzQCu0h/KIBMHE87tj9rr+lazUZRrnp7QLQg
+	CFu135vInjwznyoxDJg2hUkLkFvNeOYTdOU1DOD6EUGvUp+Jl81X1oKXWYGqWZlNlRiCR5IZL/d
+	zpAkOA==
+X-Received: by 2002:a05:690e:4142:b0:677:d05a:4800 with SMTP id 956f58d0204a3-677f386139fmr150914d50.25.1791221157435;
+        Mon, 05 Oct 2026 10:25:57 -0700 (PDT)
+Received: from MaquinaLab.. ([179.179.237.181])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-677c1b1b585sm3449969d50.5.2026.10.05.10.25.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Oct 2026 10:25:57 -0700 (PDT)
+From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+To: linux-serial@vger.kernel.org
+Cc: gregkh@linuxfoundation.org,
+	jirislaby@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	andriy.shevchenko@linux.intel.com,
+	ilpo.jarvinen@linux.intel.com,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Enzo Adriano <enzo.adriano.code@gmail.com>
+Subject: [PATCH 0/3] serial: 8250_dw: Allwinner A733 UART support
+Date: Mon,  5 Oct 2026 14:25:35 -0300
+Message-ID: <20261005172538.398522-1-vinicius.eduardo.pedrosa@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261003012534.418820-3-otavio@ossystems.com.br>
- <20261003012534.418820-5-otavio@ossystems.com.br> <2c75983e-5e63-4613-a9a8-055015d04bbf@arm.com>
-In-Reply-To: <2c75983e-5e63-4613-a9a8-055015d04bbf@arm.com>
-Date: Mon, 5 Oct 2026 12:49:57 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKr2FQ2xeg-u_UQ-krUGsaU3mcWjWYfPAPd7V=ks2=GwzQ@mail.gmail.com>
-X-Gm-Features: AclHuK9M-oP6_gI2ooGV7CYgI6qML-uXhAEOVd9YWl1vJlrxk84aNQ57MoMLtgc
-Message-ID: <CAP9ODKr2FQ2xeg-u_UQ-krUGsaU3mcWjWYfPAPd7V=ks2=GwzQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ARM: dts: sun8i-r40: Add SID node and THS calibration
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Andre,
+I'm bringing up mainline on the Radxa Cubie A7Z (Allwinner A733). The
+console worked until the first termios change from userspace, then
+stopped taking interrupts.
 
-Thanks for the review.
+Patch 1 fixes that in the generic driver: with a DLF register present,
+dw8250_setup_port() replaces the BUSY-safe divisor hook, and the LCR
+retry path then restores IER into DLH. It's tagged for stable.
 
-Em seg., 5 de out. de 2026 =C3=A0s 06:02, Andre Przywara
-<andre.przywara@arm.com> escreveu:
->
-> Hi Otavio,
->
-> thanks for sending the patch!
->
-> On 10/3/26 03:25, Otavio Salvador wrote:
-> > Without the calibration cell, the THS driver leaves the sensor
-> > calibration registers at their reset value (0x800) and the reported
-> > temperatures drift from the real die temperature by a chip-dependent
-> > offset.
-> >
-> > Add the SID node at 0x01c1b000 and wire the thermal sensor to its
-> > factory calibration at eFuse offset 0x40, one 16-bit word for each of
-> > the two sensors.
-> >
-> > The R40 user manual gives the size of the thermal sensor key (32 bits)
-> > but not its offset. The vendor SDK key map names 0x48 "thermal_sensor",
-> > but that word is zero on all the boards checked. On an A40i running the
-> > Boardcon vendor kernel, the THS_0_1_CDATA register holds exactly the
-> > eFuse word at 0x40 (0x08780875), which confirms the location.
->
-> So in some U-Boot BSP sources on github I see
-> arch/arm/include/asm/arch-sun8iw11p1/sid.h putting the sensor at 0x34
-> (like the H3 or A64).
-> Can you check the values there? I see that Tina-Linux puts them at 0x40,
-> as you reported, and it's probably more reliable there than in the
-> U-Boot sources, but it's worth double checking.
->
-> The rest looks alright (checked the manual and how the compatible string
-> is handled in the driver), so if you can confirm that it's 0x40:
->
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Patches 2-3 add an A733 compatible with two quirks: no clk_set_rate()
+around termios (the baud clock is a fixed bus gate), and no DLF probe
+(offset 0xc0 is an RS485 control register).
 
-Yes, I checked 0x34. The BPI U-Boot sid.h for sun8iw11p1 puts the
-thermal key there, but that word is zero on every A40i I dumped: three
-boards on mainline with this patch, and the Boardcon board on its
-vendor kernel. 0x48 is zero too. Only 0x40 holds two plausible 12-bit
-values:
+Tested on a Cubie A7Z, with local DT and clock changes that aren't part
+of this series. The console worked in both directions and a termios
+stress loop ran without stalls or corrupted bytes. The no-DLF check in
+patch 3 was reworked after that run (an if block in place of a goto),
+and this exact revision hasn't been booted yet.
 
-  board 1: 0x08780875 (vendor kernel, THS_0_1_CDATA =3D 0x08780875)
-  board 2: 0x082d0822
-  board 3: 0x083d0838
+The A733 DTSI isn't in linux-next yet. Enzo Adriano's posted version
+uses plain "snps,dw-apb-uart" for uart0, so it would need the new
+compatible once this lands.
 
-The value differs per board, and on the vendor kernel THS_0_1_CDATA
-holds exactly the word at 0x40. With this patch, CDATA on boards 2 and
-3 also matches their word at 0x40. So 0x40 it is, matching Tina Linux.
+Based on tty-next.
 
-I also compared the MMIO window at SID + 0x200 with the register-based
-readout (the H3 method) across several boots. All 64 words matched, so
-the R40 doesn't seem to have the H3 readout problem.
+Vinicius Pedrosa (3):
+  serial: 8250_dw: Keep the BUSY-safe divisor hook when DLF is present
+  dt-bindings: serial: snps-dw-apb-uart: Add Allwinner A733
+  serial: 8250_dw: Add Allwinner A733 UART
 
-Best regards,
-Otavio
+ .../bindings/serial/snps-dw-apb-uart.yaml     |  1 +
+ drivers/tty/serial/8250/8250_dw.c             | 25 ++++++++++++++++++-
+ drivers/tty/serial/8250/8250_dwlib.c          | 22 ++++++++--------
+ drivers/tty/serial/8250/8250_dwlib.h          |  1 +
+ 4 files changed, 38 insertions(+), 11 deletions(-)
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854
+
+base-commit: 36844ea19656fb41278799ef3d5cd52120d89149
+-- 
+2.43.0
