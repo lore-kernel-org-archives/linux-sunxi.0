@@ -1,113 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711F94D9F81;
-	Mon,  5 Oct 2026 17:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80D7C4D6C46
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Oct 2026 17:59:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791221659; cv=none; b=scElPLFzg+3oVz0Ae99EBIQZOtwLSY6tr/lhqQV9+n60TNWy++eaxUajd7lpwA6w4tDrn9MnP+9WyC9i1Wq+FYc+S4Dr9ruXyS26na/cBUfbz9Jd47s4RVr05Z/+xD2/Vlvl8hGthzdzCavU9wktMnxfPatAyMqYocdphyCWYRY=
+	t=1791223193; cv=none; b=ocPNppY9tjNezwVD6pW6R6iktdlU/qz9vOH0ttatKK49X+HmWlMlGAb4bUcwV+c3O90DqoDNHhL69YWVrXm1Av7YGeRq3dkdsrnPVMQfsFbCt89wyNP2qJtLEfu+XyJc6kMG1SQZppQtlr33aTHoyECEoFSA8C/oRpVuZmAfGhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791221659; c=relaxed/simple;
-	bh=pDqwHNafpoLXPhLqCPAiIMzBz6dYwF1PKCI+ZHir8QQ=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=m/8TxOf+mGRsjcSJz9st2w40bGGq12x6sMqTdvXkk3dyuXhWrV9gDd7CjfqGLrFmwzl8FhFxIlM0soyds2xpFjQBZWtoYS5fRAUgL/EhVEYUtEPyqrs+OSKjvhrrMhaR5ja3Z9P8DWFcEDGbENXja4p5XdAlW3KdUikWToFUEFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XAshF4N3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791223193; c=relaxed/simple;
+	bh=cRiCIWvgrOFVHHfKVQ0qn93tLHDE7Dwo5Noh1dy8EtA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DCjaO6aZHInc8qjRJ0UWYx07hhb6OFXTrYWv8VKx04UX2PGkxO6e4tyIl2Gpqy0bVUGQUpvzzxhCU3PPfg+nkGryjZnfd6RjyKPKOhMMASBuLhQ/7/n/RgVA5i3njzBIhBDo2JsavxtAkTAiSpq79XDHqfG+i3O1P0iKH2tOOy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=AwnX6RbW; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XAshF4N3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 870D51F000FF;
-	Mon,  5 Oct 2026 17:34:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791221657;
-	bh=UbP82uNvwU7DMI342WunqOfPuho8S7H5eb6BJ2lZ9rY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=XAshF4N3VPRk6/f2ygB8Q7Ep4g4F24+moVNA6B2/YjMOGC5NqhDDTk0daKwITBBC/
-	 26Gugw5/8gqy9OUXVvyt33iIUhZkBo9TtE8RfZbm1vT/JwXUCZZ+HdxuGyrRCo/RtZ
-	 GsAJk9wq5NVjrw9r748GyaPS/eLPhU0CDFS5SgcqaEhNyKJNLbIfcK6wpUqLfM1CwU
-	 xla1hXfICsbJ9y4lLDSLIvWy19T7zlvO16VOR1vTRYN/dssXBpHV77DAIkK+3f84b5
-	 CIhAjNhrIV3bDLIebsw958JaHzuufg4l8AILK4/ieu5ZK6M3ataA56yjLWAdgM8K7A
-	 ohud3dEjM4RFA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/3] dt-bindings: serial: snps-dw-apb-uart: Add
- Allwinner A733
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Vinicius Pedrosa" <vinicius.eduardo.pedrosa@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, conor+dt@kernel.org, linux-serial@vger.kernel.org, robh@kernel.org
-In-Reply-To: <20261005172538.398522-3-vinicius.eduardo.pedrosa@gmail.com>
-References: <20261005172538.398522-1-vinicius.eduardo.pedrosa@gmail.com>
- <20261005172538.398522-3-vinicius.eduardo.pedrosa@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 05 Oct 2026 17:34:17 +0000
-Message-Id: <20261005173417.870D51F000FF@smtp.kernel.org>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="AwnX6RbW"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DC63E152B;
+	Mon,  5 Oct 2026 10:59:38 -0700 (PDT)
+Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8945B3F86F;
+	Mon,  5 Oct 2026 10:59:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1791223182; bh=cRiCIWvgrOFVHHfKVQ0qn93tLHDE7Dwo5Noh1dy8EtA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=AwnX6RbWnAxHYsHmazTdgBo+b1/m6pn5xh6PtT9gyzU7SeYlXRBbbFZx9KP1nXjfv
+	 dBlFOJCVlBelU38PvNQAeT5rP+2h+3FyFAxUT4kOcHpYC0qkjqqYOAcbTPloyfNR1q
+	 GsnoQhY/6jlIlq+7O9QMMAVU/IcfIBBvya3fEAk0=
+Date: Mon, 5 Oct 2026 19:54:38 +0200
+From: Andre Przywara <andre.przywara@arm.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Otavio Salvador <otavio@ossystems.com.br>, Chen-Yu Tsai
+ <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Srinivas Kandagatla <srini@kernel.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] ARM: dts: sun8i-r40: Add SID node and THS
+ calibration
+Message-ID: <20261005195438.6368d092@ryzen.lan>
+In-Reply-To: <CAP9ODKr2FQ2xeg-u_UQ-krUGsaU3mcWjWYfPAPd7V=ks2=GwzQ@mail.gmail.com>
+References: <20261003012534.418820-3-otavio@ossystems.com.br>
+	<20261003012534.418820-5-otavio@ossystems.com.br>
+	<2c75983e-5e63-4613-a9a8-055015d04bbf@arm.com>
+	<CAP9ODKr2FQ2xeg-u_UQ-krUGsaU3mcWjWYfPAPd7V=ks2=GwzQ@mail.gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] dt-bindings: Invalid snps,dw-apb-uart fallback for Allwinner A733
---
+On Mon, 5 Oct 2026 12:49:57 -0300
+Otavio Salvador <otavio.salvador@ossystems.com.br> wrote:
 
-commit 51cd638ddbc823709bc6b8874d8c1f36411d5573
-Author: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+Hi Otavio,
 
-dt-bindings: serial: snps-dw-apb-uart: Add Allwinner A733
+> Thanks for the review.
+>=20
+> Em seg., 5 de out. de 2026 =C3=A0s 06:02, Andre Przywara
+> <andre.przywara@arm.com> escreveu:
+> >
+> > Hi Otavio,
+> >
+> > thanks for sending the patch!
+> >
+> > On 10/3/26 03:25, Otavio Salvador wrote:
+> > > Without the calibration cell, the THS driver leaves the sensor
+> > > calibration registers at their reset value (0x800) and the reported
+> > > temperatures drift from the real die temperature by a chip-dependent
+> > > offset.
+> > >
+> > > Add the SID node at 0x01c1b000 and wire the thermal sensor to its
+> > > factory calibration at eFuse offset 0x40, one 16-bit word for each of
+> > > the two sensors.
+> > >
+> > > The R40 user manual gives the size of the thermal sensor key (32 bits)
+> > > but not its offset. The vendor SDK key map names 0x48 "thermal_sensor=
+",
+> > > but that word is zero on all the boards checked. On an A40i running t=
+he
+> > > Boardcon vendor kernel, the THS_0_1_CDATA register holds exactly the
+> > > eFuse word at 0x40 (0x08780875), which confirms the location.
+> >
+> > So in some U-Boot BSP sources on github I see
+> > arch/arm/include/asm/arch-sun8iw11p1/sid.h putting the sensor at 0x34
+> > (like the H3 or A64).
+> > Can you check the values there? I see that Tina-Linux puts them at 0x40,
+> > as you reported, and it's probably more reliable there than in the
+> > U-Boot sources, but it's worth double checking.
+> >
+> > The rest looks alright (checked the manual and how the compatible string
+> > is handled in the driver), so if you can confirm that it's 0x40:
+> >
+> > Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+>=20
+> Yes, I checked 0x34. The BPI U-Boot sid.h for sun8iw11p1 puts the
+> thermal key there, but that word is zero on every A40i I dumped: three
+> boards on mainline with this patch, and the Boardcon board on its
+> vendor kernel. 0x48 is zero too. Only 0x40 holds two plausible 12-bit
+> values:
 
-This commit adds the Allwinner A733 UART compatible string to the DesignWare
-APB UART bindings, specifying "snps,dw-apb-uart" as a fallback. It mentions
-that the baud clock cannot change rate and offset 0xc0 is an RS485 control
-register rather than a DLF register.
+Yes, I found my BananaPi-M2 Berry, and can confirm that 0x34 holds 0,
+and 0x40 reads 0x085a0857.
 
-> diff --git a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.ya=
-ml b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
-> index 86dc259193112..aa8cab5ba3d33 100644
-> --- a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
-> +++ b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
-> @@ -51,6 +51,7 @@ properties:
->            - const: renesas,rzn1-uart
->        - items:
->            - enum:
-> +              - allwinner,sun60i-a733-uart
+So all fine, 0x40 it is.
 
-[Severity: High]
-Is it safe to use "snps,dw-apb-uart" as a fallback for the A733?
+Thanks for checking, and my tag of course stands.
 
-When an OS binds to the generic "snps,dw-apb-uart" fallback, the 8250_dwlib
-driver auto-probes offset 0xc0 (DW_UART_DLF) to detect DLF support:
+>=20
+>   board 1: 0x08780875 (vendor kernel, THS_0_1_CDATA =3D 0x08780875)
+>   board 2: 0x082d0822
+>   board 3: 0x083d0838
+>=20
+> The value differs per board, and on the vendor kernel THS_0_1_CDATA
+> holds exactly the word at 0x40. With this patch, CDATA on boards 2 and
+> 3 also matches their word at 0x40. So 0x40 it is, matching Tina Linux.
+>=20
+> I also compared the MMIO window at SID + 0x200 with the register-based
+> readout (the H3 method) across several boots. All 64 words matched, so
+> the R40 doesn't seem to have the H3 readout problem.
 
-drivers/tty/serial/8250/8250_dwlib.c:dw8250_setup_port() {
-    ...
-    old_dlf =3D dw8250_readl_ext(p, DW_UART_DLF);
-    dw8250_writel_ext(p, DW_UART_DLF, ~0U);
-    ...
-}
+Yes, we have never seen this issue again, it seems to have been a
+one-off bug.
 
-Because 0xc0 is an active R/W RS485 register on the A733, the auto-probe wi=
-ll
-falsely succeed. The generic driver will then set p->set_divisor =3D
-dw8250_set_divisor, which blindly overwrites the RS485 bits with fractional
-divisor calculations on every baud rate change.
-
-Can this corrupt the RS485 configuration and potentially trigger unintended
-hardware states (such as bus collisions) on the RS485 line?
-
-Furthermore, the generic fallback lacks the DW_UART_QUIRK_SKIP_SET_RATE
-quirk, so it will erroneously attempt to call clk_set_rate() on the bus clo=
-ck
-gate during baud rate changes:
-
-drivers/tty/serial/8250/8250_dw.c:dw8250_set_termios() {
-    ...
-    ret =3D clk_set_rate(d->clk, newrate);
-    ...
-}
-
-Given that the generic fallback driver actively misbehaves on this hardware,
-should the compatible definition omit the fallback string so that unmodified
-kernels do not attempt to drive the A733 incorrectly?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261005172538.3985=
-22-1-vinicius.eduardo.pedrosa@gmail.com?part=3D2
+Cheers,
+Andre
