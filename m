@@ -1,212 +1,133 @@
-Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B0993BB9EB
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Oct 2026 20:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=119.15.109.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A42352BE639
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Oct 2026 21:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791319953; cv=none; b=T/v8im7jJu5Sri63/KL6F2+HFCcMls6dBzI5ur2iv2RX9fm/7mTomPK2yaUpv3ljgNdD4/nSKl/BwUtAQmTSjUecXvrZn1DlPmm2h587nZxKtZZ6EqD5pzgVx7J7gPa1J1YCQEQhBxP6u3d2Tmsf8U+P4RmgQ+vmBVfVkVJcG18=
+	t=1791320611; cv=none; b=SPr6uJ+xHXLzewjQ1RfJOaGAuccs7QuwvAsPW5WWoG4ySBwy0Y4s/s6VdidyUqVP0k95rRM2XWeAauskbqifTYZobI2qts2e2vA+9tOJi7M1/fYM5jKq+XUvlS9RAb2nOlFHsGEXiJdGqleupmaukuR/3XTYcFbJR6sdhmTiBF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791319953; c=relaxed/simple;
-	bh=/SvnYaz/607ptvbRe23q4AT9zWa1Vk9y7RGhbzZ0fUY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=nhiYRdb2QT9+NYN7wnQWwnhkoLF1F11S4XOHCQ/3EQn30XTHTa7z51R887PCA/7zjMWFZyCyZtdudfBQ98FhIvIPxH4Cd79ElalDD7Dh3KY51U2znNezULQX1CeryTARVrVWzoFDE0lfnVdLqAsJXWEZkGlxooa8BIhhMJb2yU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org; spf=pass smtp.mailfrom=d-silva.org; dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.b=P55FS4g0; arc=none smtp.client-ip=119.15.109.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
+	s=arc-20240116; t=1791320611; c=relaxed/simple;
+	bh=ISf7Lb0t6b8ylOEcWRDSL9BmaWLi8p6rYhKIlR06ZHE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eopD4WvLdalX/5CfcWlLJK5LsqiDx400aLh4Evbut8cAjJOOgBDtcWVTDfBmFUCbrOlgbhfKOO9hedU+qjuwgc4AZ9F/zkNWr3AjRWkZafgmfuyor4QFkeA3RBCXrw3uMWziJ45IArw7mIm+rIHiwMYkeb5Nha/dNrozBqK0CW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BnVxBzCI; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.b="P55FS4g0"
-Received: from hawking.lan (ntp.lan [10.0.1.1])
-	by www.nmnhosting.com (Postfix) with ESMTPSA id D513B405EB;
-	Wed,  7 Oct 2026 07:52:20 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
-	t=1791319941;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=/SvnYaz/607ptvbRe23q4AT9zWa1Vk9y7RGhbzZ0fUY=;
-	b=P55FS4g0kprbDn5b/Qgc59mtvF6NT0T4n8jlGT2GtQDAtV+l2j3lMpEt4miujNvItIy8YU
-	VCnw1f8CJtRXwTAiR0n16ERhDAa5WbBU/8N1JaZgM7G8meSw6wIaX7cBi62sYfi7AvAABQ
-	hpNYS96RIE59QoznE4BbQjO88/yTwlzmvKBsTor9C8vQxzwB1/Dv9gQfrnIBxeeaZvzh6A
-	PRsnodqBbTAAt5JJQrXIIaj/pMPxKKL9Bqt+ceRqYfWp7tLIWgFcNt0V1hdBybHGGTaqHb
-	iHkKcJfIi8jj7ZJ5cDyaJnDYKIy1wft+f/RwpwRhLepkVFcdhSx0xlNnTopPQw==
-X-GPT-Reason: legitimate_personal_technical; The email is a highly
-	technical, peer-to-peer engineering discussion regarding firmware
-	(TF-A) and SoC (Allwinner A733) development; it matches the personal
-	mailbox of the sender (alastair@d-silva.org) and contains specific,
-	non-generic technical details like commit hashes and hardware
-	specifications; the links point to reputable developer platforms
-	(github.com) and the content reflects a professional, collaborative
-	technical workflow without any signs of phishing or unsolicited
-	marketing.
-Message-ID: <556cd32394062960a3ea4af0011155cfa83ae91f.camel@d-silva.org>
-Subject: Re: [TF-A / sunxi] Allwinner A733 (sun60iw2) TF-A Support &
- Validation on Orange Pi 4 Pro
-From: Alastair D'Silva <alastair@d-silva.org>
-To: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, Andre
- Przywara <andre.przywara@arm.com>
-Cc: Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev
-Date: Wed, 07 Oct 2026 07:52:20 +1100
-In-Reply-To: <whzyZ-3mTjSNFzcz-TbNtw@gmail.com>
-References: <d30ac7e4f380c2b9d446ae128ef9f4e4aaa2326a.camel@d-silva.org>
-	 <whzyZ-3mTjSNFzcz-TbNtw@gmail.com>
-Autocrypt: addr=alastair@d-silva.org; prefer-encrypt=mutual;
- keydata=mQINBGactvoBEADBFM2HqfQUUM4j40ZQPyYzmnM8S6zrycO0ipDDPMs7nZMzyzGzOdqfS
- VB/tuYvZOOKVWzJuWJ5aT/YyHx54r3L+D5hTkEG0sXPVJky3yTS9sbHEMSLBHb8TVVuhPVPuieV4g
- Nkqg5POMTidk8xAw50WpV++tUlewXVSciehnuCQPXhXMP7FcCh4uO8LdN7E8m7ir1LafKTFfoWPah
- KVT8NGG9r+ucrFcN5F+VnHxTDaI68yRPkNdtUWmp22wIX1KwDCtKFrndYO4p5Hv2hlDKomsuIIHHn
- muQGRwuh0xpf0nVJNF8ETZHMzxQLfo3e/HvxBFOTkwY9w7CuuQFZchbhS0I3PfmGT0+jiNcdfqjDC
- fPPB5uhy+DkR6wO72vuwFYUrpU2mdliDSdKEtWBHulnXMJjpBOXetfIwhI8G2dTVg59lN5i9DvJZc
- 7y1Sp+qfZQ4P9qpYZyQEKR4GNDOdnm6F2LW2cZkcyAU/Ii765zdDMTQMIzZNSxT/FcDd0K1voTNRl
- QHbQw+kmIMhzSv2JefcC9oNbE0XYzcBDNP5T3O/4itOQ90GCKQEPAbIPeBjlQif7kkyvo/H6yv4s9
- duuK7zbJD9AID/+KGLkpU3p68VDB/C2ZSb9rQz3p1CJNSfsX/CPk7sPqA7RKZ4a2B0hSJ2pJCncNZ
- KXtMlkkm/FmewARAQABtCdBbGFzdGFpciBEJ1NpbHZhIDxhbGFzdGFpckBkLXNpbHZhLm9yZz6JAl
- EEEwEKADsWIQTQGemDFwqYyU/dBWv75AdnjVo60gUCZpy2+gIbAwULCQgHAgIiAgYVCgkICwIEFgI
- DAQIeBwIXgAAKCRD75AdnjVo60qHZEACJnLfpS71Hk8bX0CLCNJ5wgqdZD3pBHEdbv9Ux9kRlZp4a
- ZFwlg9ltwBjl2dZP3PLtD9xQdsdYKVippKd5a7ZZC2y81oDaHjeC9LnPYn8+ce3mGE/+gRyoNfToY
- N06DeUNJKSlZ9t11UIqZCgfp12u16/Yrigy8C4ihEeHXlLhNX6JkeJR5gsHXJnC7vSuMZY+Qz2R72
- ZidWg+cd2WDMGop5sbTvc+55q94A7vTMlWzaix5HdbEUA3sd2U0dMBju5QodRGGhDQMcCu64TydRD
- MtMzzOk9ThJ036ze3HASWGOppyQmaw58k+XNzbHlr9Sc1LsFUNF7zpWXac2rzlywbyRAdFIT/TC76
- hy9zOkwIo2nwA/tdIwLx1j0UZPpAMQmcDUvJqZh6sE+fv6HN0yMPr+sSYJmriMt8Z6leCEHQXOHVI
- SI5z5FvV3coMmHYRq6aXpfs/8SLiYgkV3B0HE/E18Y3j1OkeLYoqIH1VfzQZeCSL/S77NYvk60/MV
- 1HFSyqLdUR3uWZI4uZzoEcMoB0GX33uCTp2Ntc00+wSntwekCUQLCMLUb7dZrbpVuobHoWWtkiD2I
- uE5kAiaVwwwzM0BUwiM6VzVoKbeECz93rdsNtwoDqM0NtzoISC46H/BKVQ9mRNXDO4ThEBpJ4H2Tn
- mPNRYYcR0u2mNy1EJII04w==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BnVxBzCI"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c2e43f3d1fdso464449166b.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 06 Oct 2026 14:03:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791320608; x=1791925408; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ylT2JTUORypj+MjhE+jQDW+T/v8WU4XCGcgTDo3Q5yQ=;
+        b=BnVxBzCI7nK42E7tlkq5NjSimAanLuVwH9JqmZNTuEcH8s6rUTVsFLAfhUwjJv+LU/
+         RBTLY3dsM8jteJhHiAS3aIbWrK4XggXJDpUigcBenvwciug8D8R925z0n5ePeNqDTN7e
+         rD8B7jS15kQ8TMJwmON/3sizI2z8se/m3rTom/1ULM2oKMrVbbF+tg8173SnK6PmyKmY
+         N4GBMAk4O30F4xjiHBmxUcevG9e16VGPzdWTfQ5QuL+u3vStExbJ4qM9IbubQKJUEwrL
+         ORuSuyBOsif2P0rQf/e6BBFC4wI64AWC6IiHBoCmW7lTulqbQp5ZhAgAksYOJTgoyOmO
+         MELA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791320608; x=1791925408;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ylT2JTUORypj+MjhE+jQDW+T/v8WU4XCGcgTDo3Q5yQ=;
+        b=2dANxR7SzLhJIGQlUSbG0w332PR43yqi9Pqfk5wNlczUwziGr+VMuhTrB6mhz09lwm
+         pefFVZPTQ+chMaVygCjPo1tVOmUl5w343R8d8Y+kNIG7Xj/binVxWakgMr+crhpSuhcm
+         aluoSP9Vli+m2CPGy0uYapKX5jGeqaH2bqqyitq4/nUKDSxn5qBYT1OTeJFlKdM+Ragc
+         h1xy/j77nwOCrXuuwkRBBKXzjV15RilU1nVbLpJzlFWxadbVZuDPWt9At+A1qXNZQf+b
+         8kUelHIlunquU/0hq4yt2X3F969+vqJqLkvxOpAdjR8a7l6YZ+lXTouazVYfXYUbPgeS
+         Ktnw==
+X-Forwarded-Encrypted: i=1; AKwUvBzm1tXDm9favcDnO+W7G41nNeBLkaAj2W/9iAkJCvV0PlsE9ee1ssks30/Cb389B9dZq4BQe0hxW0+GiQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++k/wY0Y0ciDZnb7OMMHv34H6Vn/YFaybPmmW7Ja6VCPvBkJ395e
+	LvL3J2r1epU1WFoZV7kZTCg+iNVf04ePdzlmSDUHfoU/3xhdDI+Er1oC
+X-Gm-Gg: AYBFou0Iamwej0tkY8CI67p+haVzLR6fUAMc/b0WcqtfWcLoB2gChqDgg6JELdnYG8F
+	Loqyolsy7E/AcZyh9smr36BdzKtSunt9QWWuJCMyf6YtGU2mvebw3OZlTK9OAzu3IRRwY+OKIkP
+	wezMtWBkmFR+jJmOtbcx16/px7pB0ArRwIk41bG20Rzf0DhTeQGpvBXD31wWx5J0kHVbQwW+FZC
+	vvhwQe54ZcXp1YvvZjO6CjxwkKoPLZ/O0yZ33xTuPATD83bK4dI2ZPkweBBYCJUoFwkw4O7Euu/
+	7Z/ZmEZOYOPiEJ1ozZu65bb9s6FlBtVjEurcnR2KRLtUvHS9R1rJE+Q3RBR4Bnl9xDJQgTHC/Kh
+	Ot8nTERBGj8PgCnmsFCrwMJLC0IdpZlQMkAtuZOx9VcSpIj9QnuIPPas7XW86f3OqWdiodZFUn9
+	mQFl6uEgTJoCpAyy68G9odgt2lw1I9I26fn7pEUN3fEqwut+9GdC6LLzNyAAsgD7kDMtrOm7Rto
+	ILwPZZQRSaPRJXpRan8Qj6+WNXJTsmh
+X-Received: by 2002:a17:907:8992:b0:c29:5021:f6f8 with SMTP id a640c23a62f3a-c317c0bc3a7mr23014166b.36.1791320607819;
+        Tue, 06 Oct 2026 14:03:27 -0700 (PDT)
+Received: from debian (ip-78-137-176-146.broadband.digiweb.ie. [78.137.176.146])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c317c2f9938sm8483166b.50.2026.10.06.14.03.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2026 14:03:26 -0700 (PDT)
+From: Pablo Mazzini <pmazzini@gmail.com>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Andre Przywara <andre.przywara@arm.com>,
+	linux-gpio@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Pablo Mazzini <pmazzini@gmail.com>
+Subject: [PATCH] pinctrl: sunxi: dt: do not accumulate npins across probe attempts
+Date: Tue,  6 Oct 2026 22:03:13 +0100
+Message-ID: <20261006210313.43163-1-pmazzini@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2026-10-06 at 19:42 +0200, Jernej =C5=A0krabec wrote:
-> Hi!
->=20
-> Dne torek, 6. oktober 2026 ob 14:16:49 Srednjeevropski poletni =C4=8Das j=
-e Alastair D'Silva napisal(a):
-> > Hi Andre, Jernej,
-> >=20
-> > I have been working on upstream support for the Allwinner A733 (sun60iw=
-2)
-> > SoC using the Xunlong Orange Pi 4 Pro as my test vehicle.
-> >=20
-> > Building on top of Jernej's in-flight A523/A733 groundwork (specificall=
-y
-> > commit 5bc9605cb "feat(allwinner): add A733 support"), I have developed
-> > and verified a clean 6-commit series that completes BL31 enablement for
-> > the A733 without requiring vendor out-of-tree SMC hacks.
-> >=20
-> > Summary of What Was Implemented:
-> > 1. Disable SCPI in Favor of Native PSCI:
-> > =C2=A0=C2=A0 Explicitly sets SUNXI_PSCI_USE_SCPI :=3D 0 in sun60i_a733/=
-platform.mk to
-> > =C2=A0=C2=A0 avoid compiling unused SCPI driver dependencies.
->=20
-> Don't do that. A733 (as does A523) has ARISC core, so porting Crust
-> firmware is possible.
->=20
+init_pins_table() adds to npins in the driver's static descriptor, so
+after a probe deferral the count doubles and the next probe fails with
+"pin 0 already registered". Count into a local instead.
 
-Understood completely. The intention was simply that because Crust is
-not yet ported to NCAT2, native PSCI is required to boot today. I will
-ensure SCPI is not hard-disabled (using SUNXI_PSCI_USE_SCPI ?=3D 0 with
-native PSCI default), so that when Crust support is developed for the
-ARISC core on A523/A733, it drops in without conflict.
+Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
+---
+ drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-> >=20
-<snip>
->=20
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c b/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+index 50a16f3bd131..1c1888394cf1 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+@@ -75,7 +75,7 @@ static struct sunxi_desc_pin *init_pins_table(struct device *dev,
+ 					      struct sunxi_pinctrl_desc *desc)
+ {
+ 	struct sunxi_desc_pin *pins, *cur_pin;
+-	int name_size = 0;
++	int name_size = 0, npins = 0;
+ 	int port_base = desc->pin_base / PINS_PER_BANK;
+ 	char *pin_names, *cur_name;
+ 	int i, j;
+@@ -85,7 +85,7 @@ static struct sunxi_desc_pin *init_pins_table(struct device *dev,
+ 	 * Also work out how much memory we need to store all the pin names.
+ 	 */
+ 	for (i = 0; i < SUNXI_PINCTRL_MAX_BANKS; i++) {
+-		desc->npins += pins_per_bank[i];
++		npins += pins_per_bank[i];
+ 		if (pins_per_bank[i] < 10) {
+ 			/* 4 bytes for "PXy\0" */
+ 			name_size += pins_per_bank[i] * 4;
+@@ -98,12 +98,14 @@ static struct sunxi_desc_pin *init_pins_table(struct device *dev,
+ 		}
+ 	}
+ 
+-	if (desc->npins == 0) {
++	if (npins == 0) {
+ 		dev_err(dev, "no ports defined\n");
+ 		return ERR_PTR(-EINVAL);
+ 	}
+ 
+-	pins = devm_kcalloc(dev, desc->npins, sizeof(*pins), GFP_KERNEL);
++	desc->npins = npins;
++
++	pins = devm_kcalloc(dev, npins, sizeof(*pins), GFP_KERNEL);
+ 	if (!pins)
+ 		return ERR_PTR(-ENOMEM);
+ 
+-- 
+2.52.0
 
-> > 6. Per-Core Security Re-arm on PSCI CPU_ON:
-> > =C2=A0=C2=A0 Added sunxi_security_setup_core(core) to re-configure only=
- the waking
-> > =C2=A0=C2=A0 core's SPC decode port in sunxi_pwr_domain_on_finish(), av=
-oiding full
-> > =C2=A0=C2=A0 SoC peripheral security re-initialization on hotplug.
->=20
-> Is this something that can be done for every SoC?
->=20
-
-Yes, this applies to the whole NCAT2 family (both A523 and A733).
-On NCAT2 SoCs, the Security Permission Controller (SPC) introduced
-per-core CPU decode registers (SUNXI_SPC_CPU_DECPORT_SET_REG). When an
-individual core transitions out of power-down via PSCI CPU_ON, hardware
-resets that core's decode port to Secure-only.
-
-Older SoCs (A64/H5/H6) only have peripheral decode ports, so they never
-encountered this. Because A523 and A733 share sunxi_native_pm_ncat2.c,
-calling sunxi_security_setup_core(core) in sunxi_pwr_domain_on_finish()
-directly benefits both A523 and A733, while remaining an invisible
-no-op for SoCs that do not define per-core decode registers.
-
-> >=20
-> > Validation on Physical Hardware:
-> > I verified this series on actual Orange Pi 4 Pro hardware across the
-> > entire software stack:
-> > - 8-Core SMP Boot: Clean bring-up of 2x Cortex-A76 + 6x Cortex-A55 unde=
-r
-> > =C2=A0 Linux 7.x with dual-cluster cpufreq.
-> > - PSCI Dynamic CPU Hotplug: Verified cycling secondary cores 1=E2=80=93=
-7 offline
-> > =C2=A0 and back online under load.
-> > - PSCI System Reset: Clean reboot via PSCI SYSTEM_RESET.
-> > - Hardware Qualification: Passed full automated qualification testing
-> > =C2=A0 across all SoC peripherals un-gated by BL31, including PCIe Gen3=
- (NVMe),
-> > =C2=A0 Display Engine 3.5 DRM, GMAC, SD card IDMAC, Crypto Engine V5 (H=
-WRNG),
-> > =C2=A0 NPU, THS, and PMIC.
-> >=20
-> > Related Repositories & Test Environment:
-> > For reproducibility or inspection of how this integrates end-to-end,
-> > the corresponding branches are available here:
-> > - TF-A (sun60i_a733):
-> > =C2=A0 https://github.com/InfernoEmbedded/arm-trusted-firmware/commits/=
-sun60i_a733
-> > - U-Boot (v2026.07 rebase with 100% open-source SPL & freestanding C PM=
-U
-> > =C2=A0 firmware, completely replacing vendor boot0 blobs):
-> > =C2=A0 https://github.com/InfernoEmbedded/u-boot/commits/feature/sunxi-=
-a733-orangepi4pro
-> > - Linux Kernel (7.x edge with A733 DT and driver support):
-> > =C2=A0 https://github.com/InfernoEmbedded/linux/commits/feature/sunxi-a=
-733-orangepi4pro
-> >=20
-> > Upstream Coordination:
-> > The TF-A commits are prepared with Gerrit Change-Id headers.
-> >=20
-> > Jernej, Andre:
-> > How would you prefer to coordinate this for review.trustedfirmware.org?
-> > - Should I submit these 6 commits to Gerrit as dependent changes on top
-> > =C2=A0 of your A523/A733 branch?
-> > - Or would you prefer to squash/fold these fixes directly into the base
-> > =C2=A0 A733 submission before pushing?
->=20
-> What fixes?
-s/fixes/patches/
-
->=20
-> >=20
-> > I am happy to follow whichever approach works best for you.
->=20
-> I'm fine if you or someone else takes over upstreaming A523 and A733.
-> This would need fixing comments which are already on Gerrit.
->=20
-
-I am happy to take ownership of reviving and upstreaming the combined
-A523 and A733 series on Gerrit. I will rebase the base A523 patches,
-address the open review comments (such as the standalone watchdog #if
-syntax and GIC driver feedback), and stack the A733 enablement on top.
-One note on testing: I only have physical A733 hardware on hand
-(Orange Pi 4 Pro), where I have verified the full stack (SMP, hotplug,
-PSCI reboot, and peripherals). For A523, I will ensure it compile-tests
-cleanly across all sunxi configs, and then ask you or others on the list
-with A523 hardware for a quick Tested-by verification on boot.
-
-
---=20
-Alastair D'Silva
-0493 18 5566
