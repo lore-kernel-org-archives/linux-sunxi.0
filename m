@@ -1,81 +1,194 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3690C3E0C4A;
-	Mon,  5 Oct 2026 21:54:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3559F3AFAF0
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Oct 2026 09:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791237272; cv=none; b=JJVvUYLWrSfduT//BHYZKDaHP7SviZYyuORZpKx2B4sdmsRsgPfV+lW+L346qGKKSuyn9XrQf3XLh81qtA8gUC2hk7046yxdywfjN4wUiaYPAI0Km/t1iga5fUHIKkirqSx+tzNaf5zmIwDDVCU4a5WFJ9W6cbgeiDo9qskjowI=
+	t=1791280027; cv=none; b=X57LqRr4PWuutDAe1ryhLdEvLEkWlJmmG9A9/hQJY2NceamROlCbWdmAbHSiMlSX2mDinDfqz2gi5nV9Q+lhPjMZvN2Vii9j+/uR5rmQsIGVHmIYpSHFEwgJsI6hy9oZDq3R18fFq3EZpfMWyO/h988eIJmt8kpLJ3JuIRPnLkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791237272; c=relaxed/simple;
-	bh=0GoCDQxk+MK/a/Y0Cm/d/dW90szQsP1QF0JC95gXcU8=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=t+nOIbUJNFdUxmbY2Dqjm0m3Uo5ng0jz5PYIu3lgP9ikxb8elRiTkmzCanoxfLV/b3bpQWOxCqeh0Is+koKdW2G7+GWr2k2lay3YGEiFvUnrGOsrw3tKdBmabYROZ09STwJ2xmDH9553vSCwQ37wQbThirYY6SGPBlx0kKK37jo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ISVZ0fMQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791280027; c=relaxed/simple;
+	bh=FLHj0G5aOhXs16x0OKE7+C6AYvH6VvieuGt1QUJ8GBU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mDIhkqcLpDY2XOS4wpP6z2uEKpk40oGC87IWJNo05lQjdrmfzeYpxr2/1K1TOwRignKnzjLwpe9ns+DkQqWNxJ8pkrPvR6+TjMGVBr1PcTuKp7QndfwLMBw6tOKgbKf94sih/kB2Mo88W6kJf4ZBdz6S1x6nvTydFQCnVPjUA8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Q3i20Eq+; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ISVZ0fMQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B2A81F00893;
-	Mon,  5 Oct 2026 21:54:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791237271;
-	bh=KWApHxVAycrmj9U4cHRketIuFvl3SRCgeaBmnuVaOMM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=ISVZ0fMQqwu28M13Kg5taiF5LoBT9WqHlagxrbLdj2WfeAp0CvhlBesVncVaADjA8
-	 ZaTgICt8QR6QCvZgstzgzioAVjW4NcachkBCpAMtqA3jZGgpRuyH2vY+pubYnlMG0F
-	 zwoHGd2TMK7JutXs/QjSSTlQ/T7kmwyoURfwzAwpeU/UD+DTNqU0o0PSZsmrDLnyoq
-	 eY5hAnNyLri8mE93Vx+plEbxAizP17WrVY3ssAqfzeZTdK2dNWdSMC3kMaGn0QC+Bo
-	 rf38wzNqlXIPLz8/cR/QshlveR8WwRSrrrzU/BJwI9HdNHRCyIWrDJU3nSM/+gon+J
-	 zXjsmLzH6JEeg==
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Maxime Ripard <mripard@kernel.org>, 
- Paul Kocialkowski <paulk@sys-base.io>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
- devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20260712030011.3778169-1-wens@kernel.org>
-References: <20260712030011.3778169-1-wens@kernel.org>
-Subject: Re: (subset) [PATCH v3 0/7] arm64: allwinner: h616: Support Video
- Engine
-Message-Id: <179123726826.376978.5395078957108502245.b4-ty@kernel.org>
-Date: Tue, 06 Oct 2026 05:54:28 +0800
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Q3i20Eq+"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D46B1516;
+	Tue,  6 Oct 2026 02:47:00 -0700 (PDT)
+Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 483123F763;
+	Tue,  6 Oct 2026 02:47:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1791280023; bh=FLHj0G5aOhXs16x0OKE7+C6AYvH6VvieuGt1QUJ8GBU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Q3i20Eq+Va1cYGLHzHDjsaxDQ6/8kKdT9HfUX2/YU9b59PkMqzReJ3bYlgbAAACi7
+	 MVlx22Wz3O4rozJTYWcAV6Uxl4T3QAkRD0Nv2E/eWhLIzHp5Y4oTvw9/PrA5w/GZCd
+	 byo17B/sRhxboDUuQH/48nb+kLyKHpqoHkaAG+w0=
+Message-ID: <db561de8-cef7-4945-93ee-b0d434eb806b@arm.com>
+Date: Tue, 6 Oct 2026 11:46:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] serial: 8250_dw: Add Allwinner A733 UART
+To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
+ linux-serial@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, jirislaby@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, andriy.shevchenko@linux.intel.com,
+ ilpo.jarvinen@linux.intel.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ Enzo Adriano <enzo.adriano.code@gmail.com>
+References: <20261005172538.398522-1-vinicius.eduardo.pedrosa@gmail.com>
+ <20261005172538.398522-4-vinicius.eduardo.pedrosa@gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20261005172538.398522-4-vinicius.eduardo.pedrosa@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
 
-On Sun, 12 Jul 2026 11:00:03 +0800, Chen-Yu Tsai wrote:
-> This is v3 of my Allwinner H616 Cedrus series. The series is ready to be
-> merged.
+Hi Vinicius,
+
+On 10/5/26 19:25, Vinicius Pedrosa wrote:
+> The A733 UART is clocked from its bus clock gate, which can't change
+> rate. dw8250_set_termios() still gates it around a no-op clk_set_rate()
+> on every termios change. That stalls the character being shifted out
+> and corrupts it on the wire. Use the existing SKIP_SET_RATE quirk, as
+> other SoCs with a fixed UART clock do.
 > 
-> Changes since v2:
-> - Dropped "drivers:" from cedrus driver patch subject
+> Offset 0xc0 is the RS485 control register on this SoC (A733 User
+> Manual, UART_485_CTL), not DLF. dw8250_setup_port() writes all ones
+> there, reads back a nonzero 9-bit value and takes it for a 9-bit DLF.
+> Every later divisor change then writes the fractional divisor into the
+> RS485 control register. Add a NO_DLF quirk so dwlib skips that probe.
+
+many thanks for digging into this, and superficially it looks like the 
+right thing to do. But looking into some manuals, it seems like 
+Allwinner added this RS485 support on registers +0xc0, 0xc4 and 0xc8 
+already a while ago: I find it in the H6, H616, A523 manuals, for 
+instance. And while register 0x50004c0 ignores writes on the H616, the 
+corresponding 0x25004c0 reacts on the A523, so at least that one is 
+already broken.
+So as Sashiko mentioned, we would technically need to drop the fallback 
+compatible, and doing this also for the A523 would break all older 
+kernels, so that isn't a good option.
+
+Now when I write 0xffffffff into +0xc0 on the A523, I read 0x9f back, so 
+there are zero bits in the middle, which doesn't match the expected 
+contiguous bitmask for the fractional divider bits.
+So I was wondering if we should refine the DLF detection instead? Only 
+when the readback from 0xc0 returns some 2^n-1 value we assume DLF is 
+implemented?
+
+Alternatively making DLF a (negative?) DT/ACPI property instead, and 
+keep the fallback compatible?
+I guess this all depends a bit on what the snps,dw-apb-uart compatible 
+string really covers, and if Allwinner hacked^Wchanged the IP, by adding 
+their RS485 bits on top of on older Designware IP, or if this is a valid 
+configuration.
+
+Cheers,
+Andre
+
+> Signed-off-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+> ---
+>   drivers/tty/serial/8250/8250_dw.c    | 13 +++++++++++++
+>   drivers/tty/serial/8250/8250_dwlib.c | 22 ++++++++++++----------
+>   drivers/tty/serial/8250/8250_dwlib.h |  1 +
+>   3 files changed, 26 insertions(+), 10 deletions(-)
 > 
-> Changes since v1:
-> - Fixed IOMMU ports on H616 (patch 7)
-> - Updated comment about VP9 on H616
-> 
-> [...]
-
-Applied to sunxi/dt-for-7.4 in sunxi, thanks!
-
-[5/7] arm64: dts: allwinner: sun50i-h6: Add missing SRAM region for video engine
-      https://git.kernel.org/sunxi/linux/c/d7287d940f3c
-[6/7] arm64: dts: allwinner: sun50i-h6: Add missing IOMMU for video engine
-      https://git.kernel.org/sunxi/linux/c/965a49fc413d
-[7/7] arm64: dts: allwinner: sun50i-h616: Add video engine
-      https://git.kernel.org/sunxi/linux/c/eabc3c090e81
-
-Best regards,
--- 
-Chen-Yu Tsai <wens@kernel.org>
+> diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/8250_dw.c
+> index ba414306c98a..ea33aa644cda 100644
+> --- a/drivers/tty/serial/8250/8250_dw.c
+> +++ b/drivers/tty/serial/8250/8250_dw.c
+> @@ -52,6 +52,7 @@
+>   #define DW_UART_QUIRK_CPR_VALUE		BIT(5)
+>   #define DW_UART_QUIRK_IER_KICK		BIT(6)
+>   #define DW_UART_QUIRK_SKIP_EMPTY_FIFO_READ	BIT(7)
+> +#define DW_UART_QUIRK_NO_DLF		BIT(8)
+>   
+>   /*
+>    * Number of consecutive IIR_NO_INT interrupts required to trigger interrupt
+> @@ -606,6 +607,8 @@ static void dw8250_quirks(struct uart_port *p, struct dw8250_data *data)
+>   		p->serial_out = dw8250_serial_out38x;
+>   	if (quirks & DW_UART_QUIRK_SKIP_SET_RATE)
+>   		p->set_termios = dw8250_do_set_termios;
+> +	if (quirks & DW_UART_QUIRK_NO_DLF)
+> +		data->data.no_dlf = true;
+>   	if (quirks & DW_UART_QUIRK_IS_DMA_FC) {
+>   		data->data.dma.txconf.device_fc = 1;
+>   		data->data.dma.rxconf.device_fc = 1;
+> @@ -892,6 +895,15 @@ static const struct dw8250_platform_data dw8250_skip_set_rate_data = {
+>   	.quirks = DW_UART_QUIRK_SKIP_SET_RATE,
+>   };
+>   
+> +/*
+> + * The baud clock is the bus clock gate, whose rate cannot change, and offset
+> + * 0xc0 is the RS485 control register rather than DLF.
+> + */
+> +static const struct dw8250_platform_data dw8250_sun60i_a733_data = {
+> +	.usr_reg = DW_UART_USR,
+> +	.quirks = DW_UART_QUIRK_SKIP_SET_RATE | DW_UART_QUIRK_NO_DLF,
+> +};
+> +
+>   static const struct dw8250_platform_data dw8250_intc10ee = {
+>   	.usr_reg = DW_UART_USR,
+>   	.quirks = DW_UART_QUIRK_IER_KICK,
+> @@ -913,6 +925,7 @@ static const struct dw8250_platform_data dw8250_tda54 = {
+>   
+>   static const struct of_device_id dw8250_of_match[] = {
+>   	{ .compatible = "snps,dw-apb-uart", .data = &dw8250_dw_apb },
+> +	{ .compatible = "allwinner,sun60i-a733-uart", .data = &dw8250_sun60i_a733_data },
+>   	{ .compatible = "cavium,octeon-3860-uart", .data = &dw8250_octeon_3860_data },
+>   	{ .compatible = "marvell,armada-38x-uart", .data = &dw8250_armada_38x_data },
+>   	{ .compatible = "renesas,rzn1-uart", .data = &dw8250_renesas_rzn1_data },
+> diff --git a/drivers/tty/serial/8250/8250_dwlib.c b/drivers/tty/serial/8250/8250_dwlib.c
+> index 9bb02a4ab11f..9c6f3d926ad5 100644
+> --- a/drivers/tty/serial/8250/8250_dwlib.c
+> +++ b/drivers/tty/serial/8250/8250_dwlib.c
+> @@ -209,16 +209,18 @@ void dw8250_setup_port(struct uart_port *p)
+>   	}
+>   	up->capabilities |= UART_CAP_NOTEMT;
+>   
+> -	/* Preserve value written by firmware or bootloader  */
+> -	old_dlf = dw8250_readl_ext(p, DW_UART_DLF);
+> -	dw8250_writel_ext(p, DW_UART_DLF, ~0U);
+> -	reg = dw8250_readl_ext(p, DW_UART_DLF);
+> -	dw8250_writel_ext(p, DW_UART_DLF, old_dlf);
+> -
+> -	if (reg) {
+> -		pd->dlf_size = fls(reg);
+> -		p->get_divisor = dw8250_get_divisor;
+> -		p->set_divisor = dw8250_set_divisor;
+> +	if (!pd->no_dlf) {
+> +		/* Preserve value written by firmware or bootloader  */
+> +		old_dlf = dw8250_readl_ext(p, DW_UART_DLF);
+> +		dw8250_writel_ext(p, DW_UART_DLF, ~0U);
+> +		reg = dw8250_readl_ext(p, DW_UART_DLF);
+> +		dw8250_writel_ext(p, DW_UART_DLF, old_dlf);
+> +
+> +		if (reg) {
+> +			pd->dlf_size = fls(reg);
+> +			p->get_divisor = dw8250_get_divisor;
+> +			p->set_divisor = dw8250_set_divisor;
+> +		}
+>   	}
+>   
+>   	reg = dw8250_readl_ext(p, DW_UART_UCV);
+> diff --git a/drivers/tty/serial/8250/8250_dwlib.h b/drivers/tty/serial/8250/8250_dwlib.h
+> index ee7a07fac0f6..ca0dfd6d056e 100644
+> --- a/drivers/tty/serial/8250/8250_dwlib.h
+> +++ b/drivers/tty/serial/8250/8250_dwlib.h
+> @@ -88,6 +88,7 @@ struct dw8250_port_data {
+>   	/* Hardware configuration */
+>   	u32			cpr_value;
+>   	u8			dlf_size;
+> +	bool			no_dlf;		/* Offset 0xc0 is not DLF */
+>   
+>   	/* RS485 variables */
+>   	bool			hw_rs485_support;
 
