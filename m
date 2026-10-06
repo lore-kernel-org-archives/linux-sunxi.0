@@ -1,164 +1,346 @@
-Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
+Received: from sender6-op-o12.zoho.com (sender6-op-o12.zoho.com [165.173.180.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014903AA1BB
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Oct 2026 12:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=119.15.109.137
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791289347; cv=none; b=opcOwXQvZpqfzlv/pND5rDLBzGo79trb/+QW2yD+5JE1YhOe/gGLWeGZNqjjidVPRY7QyQ9knS6PpMyQp3N5QYUYQZmWKeODbVQeASNWFaw1eR7voGrTMJbQq/lVogqdUvIZeFExG2fSAxWdRSIEe/yy4W6Ahn8/zBRucTNrbpM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791289347; c=relaxed/simple;
-	bh=YplGbF3iuD94IgnEW3S0fPyQ73CBw677bsAYWGaMc6M=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=elY4cM95mwzL5cfNK5pjiRYJUgSUmkG9sZFBx8Jl9Bi2chxklagK4K9IiUtb188Y8xxFcBiDcFMtKTUTNonmVxgT4xGop04rOuWwAWmZuy3RSjFVR4KLp/VO7OKlTt2UoF1mTZ5n8mOlZ4+kxHjuxVtCrhGRT/O1YCqBS50WcbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org; spf=pass smtp.mailfrom=d-silva.org; dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.b=cDtaOKNP; arc=none smtp.client-ip=119.15.109.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 106F3488229
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Oct 2026 14:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791298302; cv=pass; b=DLNGbX8o9Kco7MF4rSYbirfWR6DtllMgh/q8hm/MwandS603b4lNOGFQOdLZFz45M1XAEDspKCFfhQaj1eI+5TPa0ZH4CdNb3nwhKnaChMTPP1km2+vBtn/Y3kx8ubTzw+pGW/EB8Fb8e46pAPPqrKzhhn5iG9WmowP+kO2rkQ0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791298302; c=relaxed/simple;
+	bh=xp4TpAnZJ8pV/cSJVVO6TBBgOg0fs10ejIwlTXONutI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=RzXrFsFPX2ChOY5MTVx32XtIzYMiQPLWSjWaD6AANTOYrxD1/3wPVx9aSfG4uMU29RCshwIczfoWsADt7cIz+GS/5RGygeXUXRW4+ocvH8P4w18EHlKk/zc5ChUmeAcMHuRBPCNavxwiHuZY6E6cK3PKz+hO4IRXXCe76VAr2b4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech; spf=pass smtp.mailfrom=pigmoral.tech; dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b=IVzgev0T; arc=pass smtp.client-ip=165.173.180.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.b="cDtaOKNP"
-Received: from hawking.lan (ntp.lan [10.0.1.1])
-	by www.nmnhosting.com (Postfix) with ESMTPSA id 7F7FD405B2
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Oct 2026 23:22:05 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
-	t=1791289325;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
-	bh=/cSVtyM9FBrN0S4VjZHpBjHV5PEGkWiQJ5S0wheXU0Y=;
-	b=cDtaOKNPZ4VgNpSr/4j31Xqb7/moXSDPK5LhiOa5hpDZa7h3dpopxBszimllNDWOSBFQJB
-	d+d3/iB7VDfBX7et9rrjfeRwmzrvqYZx/xADoatMxFrksXRDjjo7ve9MxCYRHK1fzZTYIn
-	HGDU5s8sujkM8GSMwpX2hz2ST7vaEBXUF1N2iihVtrakYsQ9PhJaQY+yjO3gF9I/bD8mv7
-	7BkLs+0hOKWqiCNtoD9eHgn7hh/zxm9NffB9nBIn+YdwJRY0gFi6brh7u3RBZcITNFGYxE
-	IOR4RQSvy6SvKYeS+qR6NLBWs7QwHjern/O+Q6ry0eaRZykBbrSmKtOt+80oWA==
-X-GPT-Reason: legitimate; the email is a highly technical, peer-to-peer
-	engineering communication regarding open-source firmware development
-	(TF-A/Allwinner A733); the sender identity (alastair@d-silva.org)
-	matches the personal/business profile provided in the context;
-	the content includes specific technical details (commit IDs, memory
-	addresses, hardware specs) and links to legitimate GitHub repositories
-	(github.com) rather than phishing domains; there are no urgency
-	tactics, and the request for coordination on review.trustedfirmware.org
-	aligns perfectly with a professional software engineering workflow.
-Message-ID: <c8d7c508075e081219a0ed9ec8650aebade205db.camel@d-silva.org>
-Subject: [TF-A / sunxi] Allwinner A733 (sun60iw2) TF-A Support & Validation
- on Orange Pi 4 Pro
-From: Alastair D'Silva <alastair@d-silva.org>
-To: linux-sunxi@lists.linux.dev
-Date: Tue, 06 Oct 2026 23:22:05 +1100
-Autocrypt: addr=alastair@d-silva.org; prefer-encrypt=mutual;
- keydata=mQINBGactvoBEADBFM2HqfQUUM4j40ZQPyYzmnM8S6zrycO0ipDDPMs7nZMzyzGzOdqfS
- VB/tuYvZOOKVWzJuWJ5aT/YyHx54r3L+D5hTkEG0sXPVJky3yTS9sbHEMSLBHb8TVVuhPVPuieV4g
- Nkqg5POMTidk8xAw50WpV++tUlewXVSciehnuCQPXhXMP7FcCh4uO8LdN7E8m7ir1LafKTFfoWPah
- KVT8NGG9r+ucrFcN5F+VnHxTDaI68yRPkNdtUWmp22wIX1KwDCtKFrndYO4p5Hv2hlDKomsuIIHHn
- muQGRwuh0xpf0nVJNF8ETZHMzxQLfo3e/HvxBFOTkwY9w7CuuQFZchbhS0I3PfmGT0+jiNcdfqjDC
- fPPB5uhy+DkR6wO72vuwFYUrpU2mdliDSdKEtWBHulnXMJjpBOXetfIwhI8G2dTVg59lN5i9DvJZc
- 7y1Sp+qfZQ4P9qpYZyQEKR4GNDOdnm6F2LW2cZkcyAU/Ii765zdDMTQMIzZNSxT/FcDd0K1voTNRl
- QHbQw+kmIMhzSv2JefcC9oNbE0XYzcBDNP5T3O/4itOQ90GCKQEPAbIPeBjlQif7kkyvo/H6yv4s9
- duuK7zbJD9AID/+KGLkpU3p68VDB/C2ZSb9rQz3p1CJNSfsX/CPk7sPqA7RKZ4a2B0hSJ2pJCncNZ
- KXtMlkkm/FmewARAQABtCdBbGFzdGFpciBEJ1NpbHZhIDxhbGFzdGFpckBkLXNpbHZhLm9yZz6JAl
- EEEwEKADsWIQTQGemDFwqYyU/dBWv75AdnjVo60gUCZpy2+gIbAwULCQgHAgIiAgYVCgkICwIEFgI
- DAQIeBwIXgAAKCRD75AdnjVo60qHZEACJnLfpS71Hk8bX0CLCNJ5wgqdZD3pBHEdbv9Ux9kRlZp4a
- ZFwlg9ltwBjl2dZP3PLtD9xQdsdYKVippKd5a7ZZC2y81oDaHjeC9LnPYn8+ce3mGE/+gRyoNfToY
- N06DeUNJKSlZ9t11UIqZCgfp12u16/Yrigy8C4ihEeHXlLhNX6JkeJR5gsHXJnC7vSuMZY+Qz2R72
- ZidWg+cd2WDMGop5sbTvc+55q94A7vTMlWzaix5HdbEUA3sd2U0dMBju5QodRGGhDQMcCu64TydRD
- MtMzzOk9ThJ036ze3HASWGOppyQmaw58k+XNzbHlr9Sc1LsFUNF7zpWXac2rzlywbyRAdFIT/TC76
- hy9zOkwIo2nwA/tdIwLx1j0UZPpAMQmcDUvJqZh6sE+fv6HN0yMPr+sSYJmriMt8Z6leCEHQXOHVI
- SI5z5FvV3coMmHYRq6aXpfs/8SLiYgkV3B0HE/E18Y3j1OkeLYoqIH1VfzQZeCSL/S77NYvk60/MV
- 1HFSyqLdUR3uWZI4uZzoEcMoB0GX33uCTp2Ntc00+wSntwekCUQLCMLUb7dZrbpVuobHoWWtkiD2I
- uE5kAiaVwwwzM0BUwiM6VzVoKbeECz93rdsNtwoDqM0NtzoISC46H/BKVQ9mRNXDO4ThEBpJ4H2Tn
- mPNRYYcR0u2mNy1EJII04w==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+	dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b="IVzgev0T"
+ARC-Seal: i=1; a=rsa-sha256; t=1791298248; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=UrTUQfRR23+2xgdIqR7ufPIOQtXKYEmKzw22QZhkDTRkUab/dXpLLIeAWpsl6J04gQiIMaUqdHrfSYj8ibT4ScL49qqjdzpIVcBEJKje09vkKiZXEEksPT182OnrG4X+AdE6e2W8lepWIJfDNvDge4Ndm7ChAwmRXPbv1RggZX8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1791298248; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=qW3JrXnSc/0PGNO65eZiaUtPOoi0orx1PmmfsGlG284=; 
+	b=Xj2v+E9DkNWwKyCFm2GwLlNrxcTWxTlvN5+DvEqO+/hXb2vXDpbGTR0p/ojgC0qyNODoqtSJOKEx5O7sm4yRM8zPuynEs1phkbJQ3J06K8XP6ZlSa4GOtFEJkv3TpQHkTrnsemxK6CSymjoeSlEQMrhHU3fGUQkMbGr8Gr0vS7U=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=pigmoral.tech;
+	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
+	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1791298248;
+	s=zmail; d=pigmoral.tech; i=junhui.liu@pigmoral.tech;
+	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Cc:Cc:Subject:Subject:From:From:To:To:In-Reply-To:Reply-To;
+	bh=qW3JrXnSc/0PGNO65eZiaUtPOoi0orx1PmmfsGlG284=;
+	b=IVzgev0T1bHj9svuH4dGyZFR2ISdAvkNrGwqY/VQGNW1gWvE2brirG7Zu7Qsx7Sm
+	MUoiK6yo8bKGQx0d+lqAhNanirS+dz2/1HQhaKWDTtKEV7f3kkHDbRTJIiyYhExFQUq
+	/rYY1dLRM0wiVdFTN8BS07NGFSFnzKJ7Tqbr9idE=
+Received: by smtp.zohomail.com with SMTPS id 1791298245153771.1925389458397;
+	Tue, 6 Oct 2026 07:50:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 06 Oct 2026 22:50:34 +0800
+Message-Id: <DLXU88MGGIWX.2IUEKEMBTV4QC@pigmoral.tech>
+Cc: "Stephen Boyd" <sboyd@kernel.org>, "Brian Masney"
+ <bmasney+clk@redhat.com>, "Jerome Brunet" <jbrunet+clk@baylibre.com>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Jernej Skrabec"
+ <jernej.skrabec@gmail.com>, "Samuel Holland" <samuel@sholland.org>,
+ "Philipp Zabel" <p.zabel@pengutronix.de>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Alexandre Ghiti" <alex@ghiti.fr>, "Richard Cochran"
+ <richardcochran@gmail.com>, <linux-clk@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
+ <linux-riscv@lists.infradead.org>, <netdev@vger.kernel.org>, "Jerome
+ Brunet" <jbrunet@baylibre.com>, "Enzo Adriano"
+ <enzo.adriano.code@gmail.com>
+Subject: Re: [PATCH v5 7/8] clk: sunxi-ng: a733: Add bus clock gates
+From: "Junhui Liu" <junhui.liu@pigmoral.tech>
+To: "Andre Przywara" <andre.przywara@arm.com>, "Junhui Liu"
+ <junhui.liu@pigmoral.tech>, <wens@kernel.org>
+X-Mailer: aerc 0.22.0
+References: <20260930-a733-clk-v5-0-11175b41cd2d@pigmoral.tech>
+ <20260930-a733-clk-v5-7-11175b41cd2d@pigmoral.tech>
+ <CAGb2v65Lqo7NiFhc2GYdfY7+jkC4Y+p6=Zy85HOFmXJzT0u1fg@mail.gmail.com>
+ <DLWMN3TYBP9F.3N62QFP7QEE9U@pigmoral.tech>
+ <4ac4c90f-887e-4545-9c26-9706bdaa1a79@arm.com>
+In-Reply-To: <4ac4c90f-887e-4545-9c26-9706bdaa1a79@arm.com>
+X-ZohoMailClient: External
 
-Hi Andre, Jernej,
+Hi Andre, Chen-Yu,
 
-I have been working on upstream support for the Allwinner A733 (sun60iw2)
-SoC using the Xunlong Orange Pi 4 Pro as my test vehicle.
+I ran some tests and now have a better understanding of the clock
+hierarchy. Please see the results below.
 
-Building on top of Jernej's in-flight A523/A733 groundwork (specifically
-commit 5bc9605cb "feat(allwinner): add A733 support"), I have developed
-and verified a clean 6-commit series that completes BL31 enablement for
-the A733 without requiring vendor out-of-tree SMC hacks.
+On Mon Oct 5, 2026 at 5:17 PM CST, Andre Przywara wrote:
+> Hi,
+>
+> On 10/5/26 06:41, Junhui Liu wrote:
+>> Hi Chen-Yu,
+>>=20
+>> On Sun Oct 4, 2026 at 7:03 PM CST, Chen-Yu Tsai wrote:
+>>> On Tue, Sep 29, 2026 at 7:28=E2=80=AFPM Junhui Liu <junhui.liu@pigmoral=
+.tech> wrote:
+>>>>
+>>>> Add the bus clock gates that control access to the devices' register
+>>>> interface on the Allwinner A733 SoC. These clocks are typically
+>>>> single-bit controls in the BGR registers, covering UARTs, SPI, I2C, an=
+d
+>>>> various multimedia engines. It also includes bus gates for system
+>>>> components like the IOMMU and MSI-lite interfaces.
+>>>>
+>>>> Also mark the ahb-store, mbus-store and ahb-cpus clocks as critical.
+>>>> Disabling either store gate breaks access to boot/storage devices such
+>>>> as MMC and SPI NOR, while gating ahb-cpus hangs any access to the CPUS
+>>>> power domain registers when unused clocks are disabled.
+>>>>
+>>>> Tested-by: Jerome Brunet <jbrunet@baylibre.com>
+>>>> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+>>>> Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
+>>>> ---
+>>>>   drivers/clk/sunxi-ng/ccu-sun60i-a733.c | 492 +++++++++++++++++++++++=
++++++++++-
+>>>>   1 file changed, 491 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c b/drivers/clk/sunx=
+i-ng/ccu-sun60i-a733.c
+>>>> index 1b2d4d36ec4c..b077e5d2f32c 100644
+>>>> --- a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+>>>> +++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+>>>> @@ -4,6 +4,10 @@
+>>>>    * Copyright (C) 2026 Junhui Liu <junhui.liu@pigmoral.tech>
+>>>>    * Based on the A523 CCU driver:
+>>>>    *   Copyright (C) 2023-2024 Arm Ltd.
+>>>> + *
+>>>> + * TODO: The real parents of some bus gates, including its-pcie0-aclk=
+,
+>>>> + * msi-lite, npu, ufs, sgpio, lpc and i2spcm, are not documented in t=
+he
+>>>> + * manual. For now, follow the vendor BSP, which keeps them on hosc.
+>>>>    */
+>>>
+>>> [...]
+>>>
+>>>> @@ -510,9 +522,118 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE_FEAT(mbus_=
+clk, "mbus", mbus_parents, 0x588
+>>>>                                             BIT(31),     /* gate */
+>>>>                                             CLK_IS_CRITICAL,
+>>>>                                             CCU_FEATURE_UPDATE_BIT);
+>>>> +static const struct clk_hw *mbus_hws[] =3D { &mbus_clk.common.hw };
+>>>> +
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_iommu0_sys_clk, "mbus-iommu0-sys", mbu=
+s_hws, 0x58c, BIT(0), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(apb_iommu0_sys_clk, "apb-iommu0-sys", apb0_=
+hws, 0x58c, BIT(1), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(ahb_iommu0_sys_clk, "ahb-iommu0-sys", ahb_h=
+ws, 0x58c, BIT(2), 0);
+>>>> +
+>>>> +static SUNXI_CCU_GATE_DATA(bus_msi_lite0_clk, "bus-msi-lite0", hosc, =
+0x594, BIT(0), 0);
+>>>> +static SUNXI_CCU_GATE_DATA(bus_msi_lite1_clk, "bus-msi-lite1", hosc, =
+0x59c, BIT(0), 0);
+>>>> +static SUNXI_CCU_GATE_DATA(bus_msi_lite2_clk, "bus-msi-lite2", hosc, =
+0x5a4, BIT(0), 0);
+>>>> +
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_iommu1_sys_clk, "mbus-iommu1-sys", mbu=
+s_hws, 0x5b4, BIT(0), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(apb_iommu1_sys_clk, "apb-iommu1-sys", apb0_=
+hws, 0x5b4, BIT(1), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(ahb_iommu1_sys_clk, "ahb-iommu1-sys", ahb_h=
+ws, 0x5b4, BIT(2), 0);
+>>>
+>>>> +static SUNXI_CCU_GATE_HWS(ahb_ve_dec_clk, "ahb-ve-dec", ahb_hws,
+>>>> +                         0x5c0, BIT(0), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(ahb_ve_enc_clk, "ahb-ve-enc", ahb_hws,
+>>>> +                         0x5c0, BIT(1), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(ahb_vid_in_clk, "ahb-vid-in", ahb_hws,
+>>>> +                         0x5c0, BIT(2), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(ahb_vid_cout0_clk, "ahb-vid-cout0", ahb_hws=
+,
+>>>> +                         0x5c0, BIT(3), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(ahb_vid_cout1_clk, "ahb-vid-cout1", ahb_hws=
+,
+>>>> +                         0x5c0, BIT(4), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(ahb_de_clk, "ahb-de", ahb_hws,
+>>>> +                         0x5c0, BIT(5), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(ahb_npu_clk, "ahb-npu", ahb_hws,
+>>>> +                         0x5c0, BIT(6), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(ahb_gpu0_clk, "ahb-gpu0", ahb_hws,
+>>>> +                         0x5c0, BIT(7), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(ahb_serdes_clk, "ahb-serdes", ahb_hws,
+>>>> +                         0x5c0, BIT(8), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(ahb_usb_sys_clk, "ahb-usb-sys", ahb_hws,
+>>>> +                         0x5c0, BIT(9), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(ahb_msi_lite0_clk, "ahb-msi-lite0", ahb_hws=
+,
+>>>> +                         0x5c0, BIT(16), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(ahb_store_clk, "ahb-store", ahb_hws,
+>>>> +                         0x5c0, BIT(24), CLK_IS_CRITICAL);
+>>>> +static SUNXI_CCU_GATE_HWS(ahb_cpus_clk, "ahb-cpus", ahb_hws,
+>>>> +                         0x5c0, BIT(28), CLK_IS_CRITICAL);
+>>>
+>>> I suspect these refer to a AHB-AHB bridge for the various subsystems sh=
+own
+>>> in the memory map. That would explain why when the "ahb-store" clock is
+>>> gated, the storage bits stop working.
+>>>
+>>> If that's the case, we should describe it as the parent of each storage
+>>> peripheral bus gate's parent. Same would go for the other types. I have=
+n't
+>>> checked what the BSP does though.
+>>=20
+>> As Norman mentioned in his reply, the vendor BSP also does not model
+>> this hierarchy and instead models these gates as independent clocks
+>> parented to the oscillator. The manual does not describe the hierarchy
+>> either, so I don't think we have enough information to model it
+>> differently at this point.
+>
+> Well, I wouldn't use the BSP as a good example on how to model the clock=
+=20
+> tree, they have been very misguided in the past.
 
-Summary of What Was Implemented:
-1. Disable SCPI in Favor of Native PSCI:
-   Explicitly sets SUNXI_PSCI_USE_SCPI :=3D 0 in sun60i_a733/platform.mk to
-   avoid compiling unused SCPI driver dependencies.
-2. Generalize SUNXI_BL31_IN_DRAM and Relocate A733 BL31:
-   Because U-Boot SPL on this SoC is ~136 KB due to embedded LPDDR5 PMU
-   firmware, SRAM headroom is insufficient for BL31. I generalized
-   SUNXI_BL31_IN_DRAM to allow platform override of BL31_BASE and
-   BL31_LIMIT (placing A733 BL31 in DRAM at 0x48000000), dynamically
-   named the reserved-memory DT node (tf-a@%lx), and added
-   common/fdt_wrappers.c to allwinner-common.mk for SUNXI_AMEND_DTB builds.
-3. Dedicated 4KB Per-Core Stack for DRAM BL31:
-   Enlarged PLATFORM_STACK_SIZE to 4KB per core when SUNXI_BL31_IN_DRAM is
-   enabled.
-4. Cortex-A76 Silicon Errata Workarounds:
-   Enabled applicable Cortex-A76 errata workarounds in platform.mk for
-   the performance cores.
-5. Security Controller Un-gating:
-   Configured the Security Permission Controller (SPC) decode ports and
-   bypass register, CCU CPU interconnect clocks and resets, DMAC0
-   security gate, and dual IOMMU auto-bypass in sunxi_security_setup().
-   This eliminates the need for vendor SMC fastcall backdoors
-   (0xC000FF05 / 0xC000FF06) when running normal-world drivers.
-6. Per-Core Security Re-arm on PSCI CPU_ON:
-   Added sunxi_security_setup_core(core) to re-configure only the waking
-   core's SPC decode port in sunxi_pwr_domain_on_finish(), avoiding full
-   SoC peripheral security re-initialization on hotplug.
+Understood. I will not rely on the BSP's clock hierarchy.
 
-Validation on Physical Hardware:
-I verified this series on actual Orange Pi 4 Pro hardware across the
-entire software stack:
-- 8-Core SMP Boot: Clean bring-up of 2x Cortex-A76 + 6x Cortex-A55 under
-  Linux 7.x with dual-cluster cpufreq.
-- PSCI Dynamic CPU Hotplug: Verified cycling secondary cores 1=E2=80=937 of=
-fline
-  and back online under load.
-- PSCI System Reset: Clean reboot via PSCI SYSTEM_RESET.
-- Hardware Qualification: Passed full automated qualification testing
-  across all SoC peripherals un-gated by BL31, including PCIe Gen3 (NVMe),
-  Display Engine 3.5 DRM, GMAC, SD card IDMAC, Crypto Engine V5 (HWRNG),
-  NPU, THS, and PMIC.
+> What the BSP does is to add just more input/gate MBUS clocks for each=20
+> device, which is something I think we should avoid.
+> To that regard using them as parent clocks for the existing gates, as=20
+> Chen-Yu suggested, sounds like a good idea: We keep a single clock for=20
+> the devices, but still can turn both clocks off (I think, not tested).
 
-Related Repositories & Test Environment:
-For reproducibility or inspection of how this integrates end-to-end,
-the corresponding branches are available here:
-- TF-A (sun60i_a733):
-  https://github.com/InfernoEmbedded/arm-trusted-firmware/commits/sun60i_a7=
-33
-- U-Boot (v2026.07 rebase with 100% open-source SPL & freestanding C PMU
-  firmware, completely replacing vendor boot0 blobs):
-  https://github.com/InfernoEmbedded/u-boot/commits/feature/sunxi-a733-oran=
-gepi4pro
-- Linux Kernel (7.x edge with A733 DT and driver support):
-  https://github.com/InfernoEmbedded/linux/commits/feature/sunxi-a733-orang=
-epi4pro
+I tested bus-mmc0, bus-mmc2, bus-spi0, bus-ufs, bus-nand0, and
+bus-spif individually. Disabling each bus gate made the corresponding
+controller's MMIO registers inaccessible: reads either returned zero or
+a fixed invalid value.
 
-Upstream Coordination:
-The TF-A commits are prepared with Gerrit Change-Id headers.
+With those individual bus gates enabled, disabling ahb-store made the
+MMIO registers of all those controllers inaccessible. Restoring
+ahb-store made them accessible again.
 
-Jernej, Andre:
-How would you prefer to coordinate this for review.trustedfirmware.org?
-- Should I submit these 6 commits to Gerrit as dependent changes on top
-  of your A523/A733 branch?
-- Or would you prefer to squash/fold these fixes directly into the base
-  A733 submission before pushing?
+Based on these results, I plan to make ahb-store the parent of the
+following bus clocks in the next version:
 
-I am happy to follow whichever approach works best for you.
+  bus-nand0
+  bus-mmc0
+  bus-mmc1
+  bus-mmc2
+  bus-mmc3
+  bus-spi0
+  bus-spi1
+  bus-spi2
+  bus-spif
+  bus-spi3
+  bus-spi4
+  bus-ufs
 
-Cheers,
+I directly tested MMC0, MMC2, SPI0, SPIF, NAND0, and UFS. The remaining
+instances use the same type of bus gates in the same storage subsystem,
+so I plan to model them in the same way.
 
---=20
-Alastair D'Silva
+For mbus-store, testing with MMC0 and UFS showed that disabling it
+breaks the storage DMA paths.
 
---=20
-Alastair D'Silva
-0493 18 5566
+Most of these storage controllers do not have dedicated MBUS gate
+clocks, so there is no clock that can be parented to mbus-store to model
+their DMA dependency. I therefore plan to keep mbus-store marked as
+CLK_IS_CRITICAL, as we already do for the main mbus clock. For NAND,
+which does have a dedicated mbus-nand gate, I will make mbus-store its
+parent.
+
+I also tested NVMe, but disabling either ahb-store or mbus-store had no
+effect on it.
+
+Does this approach look reasonable to you?
+
+Best regards,
+Junhui Liu
+
+>
+> Cheers,
+> Andre
+>
+>> I will add comments explaining why ahb_store_clk, mbus_store_clk, and
+>> ahb_cpus_clk are marked critical.
+>>=20
+>>>
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_iommu0_clk, "mbus-iommu0", mbus_hws,
+>>>> +                         0x5e0, BIT(0), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_iommu1_clk, "mbus-iommu1", mbus_hws,
+>>>> +                         0x5e0, BIT(1), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_desys_clk, "mbus-desys", mbus_hws,
+>>>> +                         0x5e0, BIT(11), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_ve_enc0_gate_clk, "mbus-ve-enc0-gate",=
+ mbus_hws,
+>>>> +                         0x5e0, BIT(12), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_ve_dec0_gate_clk, "mbus-ve-dec0-gate",=
+ mbus_hws,
+>>>> +                         0x5e0, BIT(14), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_gpu0_clk, "mbus-gpu0", mbus_hws,
+>>>> +                         0x5e0, BIT(16), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_npu_clk, "mbus-npu", mbus_hws,
+>>>> +                         0x5e0, BIT(18), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_vid_in_clk, "mbus-vid-in", mbus_hws,
+>>>> +                         0x5e0, BIT(24), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_serdes_clk, "mbus-serdes", mbus_hws,
+>>>> +                         0x5e0, BIT(28), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_msi_lite0_clk, "mbus-msi-lite0", mbus_=
+hws,
+>>>> +                         0x5e0, BIT(29), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_store_clk, "mbus-store", mbus_hws,
+>>>> +                         0x5e0, BIT(30), CLK_IS_CRITICAL);
+>>>
+>>> Same thing for the MBUS clocks.
+>>>
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_msi_lite2_clk, "mbus-msi-lite2", mbus_=
+hws,
+>>>> +                         0x5e0, BIT(31), 0);
+>>>> +
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_dma0_clk, "mbus-dma0", mbus_hws,
+>>>> +                         0x5e4, BIT(0), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_ve_enc0_clk, "mbus-ve-enc0", mbus_hws,
+>>>> +                         0x5e4, BIT(1), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_ce_clk, "mbus-ce", mbus_hws,
+>>>> +                         0x5e4, BIT(2), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_dma1_clk, "mbus-dma1", mbus_hws,
+>>>> +                         0x5e4, BIT(3), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_nand_clk, "mbus-nand", mbus_hws,
+>>>> +                         0x5e4, BIT(5), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_csi_clk, "mbus-csi", mbus_hws,
+>>>> +                         0x5e4, BIT(8), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_isp_clk, "mbus-isp", mbus_hws,
+>>>> +                         0x5e4, BIT(9), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_gmac0_clk, "mbus-gmac0", mbus_hws,
+>>>> +                         0x5e4, BIT(11), 0);
+>>>> +/* Undocumented, taken from the vendor kernel. */
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_gmac1_clk, "mbus-gmac1", mbus_hws,
+>>>> +                         0x5e4, BIT(12), 0);
+>>>> +static SUNXI_CCU_GATE_HWS(mbus_ve_dec0_clk, "mbus-ve-dec0", mbus_hws,
+>>>> +                         0x5e4, BIT(18), 0);
+>>>
+>>> [...]
+>>>
+>>> The remaining definitions look correct (minus the vendor BSP ones which=
+ I
+>>> couldn't check at this time).
+>>>
+>>> I didn't check the clock list additions.
+>>>
+>>> Consider this
+>>>
+>>> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+>>>
+>>=20
+>> Thanks!
+>>=20
+>>>
+>>> We can change the AHB / MBUS clock parents later if we do figure it out=
+.
+>>>
+>>>
+>>> ChenYu
+>>=20
