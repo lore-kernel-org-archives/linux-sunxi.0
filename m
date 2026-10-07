@@ -1,72 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B9945D5D2;
-	Wed,  7 Oct 2026 10:36:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C551F470EB9
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 Oct 2026 10:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791369421; cv=none; b=YQYoPVllea2LsD4RVdmUsswREWW6+91ZM0AthKlOxexR2FFmeoOk4A8MvLmGNBwbo+6yAFx6Y/6My4rs7auZw7k4cEDm0tYeb7YyWS0gX7+nCS7BdcUYPNFRJknRAcCID5ZbDBHXkRFMg03GJufMyKdnFGpbvQ8jHNwOFr5uARw=
+	t=1791369818; cv=none; b=d7Nv3LDAjNDnjtmsydxs8Oi9lU2o+RTWbucW9zxzoC9zAidzWlAnkrsC3JB9Nlda/h3lVqbnIhLFiVtMw1W19oWR1Yt5khStvBJCiDGk0guHNnE7kFChpR8j9p7JgTC0Pb10mWqOp6lcN/ACwZgkjve7m9+zEBWjT0L+qqHD8kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791369421; c=relaxed/simple;
-	bh=1rmlolJFZxCCwJgiNLg8QppYZKafCV1r7ap26grEgNU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U03RXUBbyYPhNkspwyy+eGbX5mj0qSqJtCVEohENsBRxcNmFZ+kpb3TYQAaDB3rJwlkbwJCNwNR59fGh+IBwaqXHiy0jwvfVKfU2sxy/r7RSoa9o7PuOGik1DrayVstjoAon0GUrCtyET/4EQlz/6F6l87CF0RofJy2uozdlBs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=auK1Ztio; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791369818; c=relaxed/simple;
+	bh=tZU3znEXh/uLIUG/2fb75uXkzqbS+S44wZ9CridvcCc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SUyniCgdeC4gOuQ+MMtubOgVHm5IhmqLWB4rawg8YCcegij2kz+QfPTCd+PZNEgALF5lS2Rgku7J3dnlU8MaVfo5tBFd0mpctcNkwhVCLss1RLASzN94pYfYR/A49PNvWIFiXrKr3eXcTC/YqEwPYJWWOK5dC3MHdaTl5eGM1iE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CphSWWDn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="auK1Ztio"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6E851F0089B;
-	Wed,  7 Oct 2026 10:36:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CphSWWDn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29E871F0089F
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 Oct 2026 10:43:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791369389;
-	bh=1rmlolJFZxCCwJgiNLg8QppYZKafCV1r7ap26grEgNU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=auK1ZtioATbPb/HOhEqnFvtfrrwLIp4Hx1nvIK3kO+F8wF4P9Hl1E811eJvT2szZ9
-	 zK37YdKubWTJgbp+SGHVZv26uNJtCn6vQcN7FsozlSUb0qIQhluFAFl5m/B5G5LnP1
-	 iBbm5nT4hPNutH8UpG1TIrdSoDdHPrMREr1ceJ30kpwCd6F5EMCSaA9PBjWiaVXIG9
-	 9/0m0sYUFoia2Q67fNytAizv9THhQE+YI/0MorHy7pAL467kRyRokbYAQ+M93sanVx
-	 iVB7+UL6obbbRgPiN14SudhtoR/vve8IkgaTtMdfBZgZtGApS3N7iIVI1cYyCihCJ4
-	 /imBfxe+ZLYlA==
-Date: Wed, 7 Oct 2026 11:36:24 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-Cc: linux-serial@vger.kernel.org, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, andriy.shevchenko@linux.intel.com,
-	ilpo.jarvinen@linux.intel.com, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	Enzo Adriano <enzo.adriano.code@gmail.com>
-Subject: Re: [PATCH 2/3] dt-bindings: serial: snps-dw-apb-uart: Add Allwinner
- A733
-Message-ID: <20261007-9f3c1d7a611bbe349339a3a8@squawk>
-References: <20261005172538.398522-1-vinicius.eduardo.pedrosa@gmail.com>
- <20261005172538.398522-3-vinicius.eduardo.pedrosa@gmail.com>
+	s=k20260515; t=1791369792;
+	bh=tZU3znEXh/uLIUG/2fb75uXkzqbS+S44wZ9CridvcCc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=CphSWWDnNBQIhr3M3z/LttDsZdUFcltjorC3JEUTtDfO6LOwOzNRmbeUhzcFjbJf4
+	 xyAoSnALV5NWzV4Hw2/I/O5ogmBau2dKrIs31W3ryj90CkRTNBx8kLPsg+bX4uEsZ6
+	 jAtZlsIZ4pkU3p7DVFENQOR44myUbzOsWlIUWzno6jHuuztkyLWemDj6PsFFuPJaxm
+	 dAMsBHr6hSwEPkVoCqEUjvuo3TVhSLaCrnY+0DZnsJKEO6bmzq4ieQcZU+N3FU9Z/b
+	 lit+Z0KGtjQQSfmk7oWJFMFwY0uRJU5vwWUjOfIIyQbUgLX/zm13hpa8Z/a9IL4xEf
+	 y8yRjzkyB7Z9Q==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5bcb2eceb3eso1372972e87.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 07 Oct 2026 03:43:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBxIU10XQbktsj4DxHnQYLg4++3eC55zrqu44K/FAL9XUZkdWyMZT5Y1zxm8WiDsCQMfrXCcjY0b61yR8g==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJqCULawi1cWSK1N83bn3nWKAjf21Bf7SI1R8LnY1c33VheRdCA
+	mtzorvoEkgtzn9fy+vcGEOUMJOxe4Pyd79uoFiNBphAUgw35GS9VWQ+TjBuMBv7FYzf+Qtm6FkS
+	0Prw4HVPEaPDCsMK6PrckM31o6i70Zok=
+X-Received: by 2002:a05:6512:1384:b0:5ba:4472:75d4 with SMTP id
+ 2adb3069b0e04-5bcd06c1b27mr555897e87.10.1791369790920; Wed, 07 Oct 2026
+ 03:43:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iXnLyLOgw7A8YKtI"
-Content-Disposition: inline
-In-Reply-To: <20261005172538.398522-3-vinicius.eduardo.pedrosa@gmail.com>
+References: <lqyUiTS5jK5vqN8dT8ByLl8sBPTW6eSDG_13v8UAkVIUCnnxLv4UBrlHTm0c7f4brqOd5ur4sDdgld0Ol4usnXOHgJscjqwJl2BrzPpJk5Y=@proton.me>
+ <20261004225724.0b821e9c@ryzen.lan>
+In-Reply-To: <20261004225724.0b821e9c@ryzen.lan>
+From: Linus Walleij <linusw@kernel.org>
+Date: Wed, 7 Oct 2026 12:42:58 +0200
+X-Gmail-Original-Message-ID: <CAD++jL=v9iiAndsPEmCn2QfrWJEEvGCwQQzMwY6QT6xR7Uh=MQ@mail.gmail.com>
+X-Gm-Features: AclHuK-YxAeDefZ88KcDng2EEUMdgtWxZiqOozdJ8Jk_iHK1xMkQpwOglF-Fr6k
+Message-ID: <CAD++jL=v9iiAndsPEmCn2QfrWJEEvGCwQQzMwY6QT6xR7Uh=MQ@mail.gmail.com>
+Subject: Re: pinctrl: sunxi: a733: irq_banks too small for port K
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Norman Herms <dockseed@proton.me>, Pablo Mazzini <pmazzini@gmail.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
+	"linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---iXnLyLOgw7A8YKtI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Sun, Oct 4, 2026 at 11:02=E2=80=AFPM Andre Przywara <andre.przywara@arm.=
+com> wrote:
+> Norman Herms <dockseed@proton.me> wrote:
+>
+> Hi Norman,
+>
+> > Andre, Linus,
+> >
+> > Observation on "pinctrl: sunxi: add support for the Allwinner A733"
+> > (Andre's series [2], now in linusw/devel for 7.4):
+> > the A733 pinctrl description sets .irq_banks =3D 10, but PA does not
+> > exist there, and prepare_function_table() in pinctrl-sunxi-dt.c counts
+> > IRQ banks from PA, so PB is 1 and PK is 10. This is the same
+> > numbering problem as in Pablo's thread [1].
+> >
+>
+> So I blame AI, but that below is a lot of words for a simple problem:
+> the number of IRQ banks should be 11, not 10. If we go with the dummy
+> IRQ. There are no official DTs for the A733 yet, so we need to decide
+> there, and I guess that depends on the outcome of the A523 problem.
+> I will send a fix after -rc1, with one of the solutions - unless you
+> beat me to it.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
+Sounds good to me, and yeah the AI just loves to talk, to the
+point of making you not see the forest for all the trees. :/
 
---iXnLyLOgw7A8YKtI
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCasYgqAAKCRB4tDGHoIJi
-0vAnAQDqt34T+iseL5sVvpFwrHRSgMZwRPjwBIRWnWXrtuaLkgD+LgAKSQ6O2eZb
-O2f1MNcJ+wQX6IBwYvnG/bFRhgNxqQU=
-=5S91
------END PGP SIGNATURE-----
-
---iXnLyLOgw7A8YKtI--
+Yours,
+Linus Walleij
