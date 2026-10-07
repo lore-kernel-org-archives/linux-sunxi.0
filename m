@@ -1,138 +1,172 @@
-Received: from sender5-pp-g123.zoho.com (sender5-pp-g123.zoho.com [165.173.182.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BDF55B206
-	for <linux-sunxi@lists.linux.dev>; Wed,  7 Oct 2026 03:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0103F12CB
+	for <linux-sunxi@lists.linux.dev>; Wed,  7 Oct 2026 05:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.178
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791344133; cv=pass; b=mM2VeQSQEid9LeI9RLMJmw5bxxPolizoqZtds+sB3tv96Q74LVTbe/G7S/2QPZkD22ppQEXEn4vlZDOSs/uKWgBduTgwN2z+nc1Txg7nK4U9QF6Qfj6YTtE4MBsb2iynjM8zcgB8PE/kEm9FBSZZL6hBYf1znmz7yEM6lNK2Wh4=
+	t=1791352739; cv=pass; b=hFyjhyO/zZCnO/0n/G4VOUHfn5u9wu19ELg3ZPhOMl4H1Ri9TEs2nGMj+hjEfrat2NNhqwP0iRSr+TZI9lM9sY4dU2FsR2cd4G+yMreCT5ntJzgk3Ntu2btU1totSq/ti314Eck2+hqLz7wFosypqbrEHkkModZGwwP8iBQ3kiY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791344133; c=relaxed/simple;
-	bh=tT28eRbBX/xWqcGm7Vdom8PM07D1NYc0Wz80OC3tjzw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=vEN5EzPamRthcgBhldy/0CM7EG6K6yAvf9LPW1sfzqLGr40ms6fye7l0jg1N5xpDtq3hCvt4QCfpdJ4XzIdQeG39p9b5fbXTy4HhmzAhIfsfRio6j74MAJYYIykuWfG6s2N7wrL7xuX9dZ4ljAfcEXhOydfCyOGP4a3bo9GXwxs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech; spf=pass smtp.mailfrom=pigmoral.tech; dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b=ngjjKCMT; arc=pass smtp.client-ip=165.173.182.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
+	s=arc-20240116; t=1791352739; c=relaxed/simple;
+	bh=egWNEyrcah0jamvRkd2t3iPlF/zp1CsncVLF5ZQhZ7E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cdgYLt9GcWrY2vRO3pUOIMKllpLkCfyjnkOCAZowAlEI2rCkmrzdZrco5kOzRI219vKZD2ZlLdmxjDaUaZIaCNkcFO/KrMdWCpqEGrS8Pu5N1Fvyhi5xxH6QW1OmaUXDDFijO92ChG7HHmiQ/LrMdlAr/5HLZlniRIkxesZPDgg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tFmlTv4I; arc=pass smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b="ngjjKCMT"
-ARC-Seal: i=1; a=rsa-sha256; t=1791344101; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=EMt2HxZjGxKqN3KMja356Ejlm4RJ3ba7GuoEX6EUHQ11KKvVi/AlTLXrVwZkxPQFoHXC2LwGWUjI5cwh53QZConfu700rGSNok0yINxejDfgC4WPDw5S0pJqMo6zSdJiN0CpO7ReMGrXY/KVAefrmvMEFgrCdz1MsMrReBIMc90=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1791344101; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=7EEv66TfkkqDC0vBD6k5R4XJT1WUveDu+xqFWjFMwS8=; 
-	b=l09IKvPiFoQMX2AX3F1fOIWVtTXZREcVQyzldMWz0+tZ8xOSQYyblRiDWkWmxg4EZ5zBLoXBv3b9B0s6Z0q2Fny0MWidmzBKZsDWz4s/sdjCyBYR5a6VNIQn40ecbW82JoQ9oCDbnNvyOF0d5ymxtqwYHoXTK3mqdQn+11WsUOo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=pigmoral.tech;
-	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
-	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1791344101;
-	s=zmail; d=pigmoral.tech; i=junhui.liu@pigmoral.tech;
-	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:To:To:Cc:Cc:Subject:Subject:From:From:In-Reply-To:Reply-To;
-	bh=7EEv66TfkkqDC0vBD6k5R4XJT1WUveDu+xqFWjFMwS8=;
-	b=ngjjKCMToI6FGmexYDJ/b1KiQmPlOSMsEgTrZ1Bj27Cu5QVcCjFprimUKNkf1sYU
-	A5Bksc5nvWbdRiJ5nUGNCEssIHzFQgZ9YVyrNw6nk+G1S4Q6xuauG+CvM6kkgkftsNq
-	RzjUMpRmbx+tDp0XBw4HCwVTxhtGOhNEnUh06Anw=
-Received: by smtp.zohomail.com with SMTPS id 1791344099855931.7368458013717;
-	Tue, 6 Oct 2026 20:34:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tFmlTv4I"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2e2e0f3dd40so24159385ad.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 06 Oct 2026 22:58:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791352736; cv=none;
+        d=google.com; s=arc-20260327;
+        b=qD3mz63PARZQX8lcqpyNT87BkA1MdGhWJ0H2LrOGwLDIEFNLR9Zq6rzbDFCr/N7bql
+         4/hmC/s9/3JZpBPwQwzLxy70sq8DmNvZ4QSuL2wFW4548YuGvJZvB7R9fA71KFEIhsw0
+         zh/o8RAUII5kgohzJI3X51T9Oz7gFn0QlVkYEGIsdxJwp0Dq/cTW0JoKTg1X7nQYbnHO
+         smQcxZvA0bkfnoLeJW39duWhciJhEz1rHuXeSsSR7TS714OfS9RgbOcUYjSxvhQG2pRU
+         Sr0kCzWszL0ZYb2QjfPFmW9qph2KKGA31ipXbxEH/UDVbqPv6JAvI1oV2is0HDx7/zPI
+         JhXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=fvX6CzIo0lUP4hTcnMKg9GH46W029kkAuFQl56PR8ug=;
+        fh=pJxq13JMNNNHc4Rn2/UK8Se1PrKfAKKFmCc9I0vSQig=;
+        b=ks2QK7MJqtB7ASVEe++ohxzmssmuxU3Xm9kYzmd7biMDSAHghrzdU34/SXKzjRlFqR
+         tK9KOr1RuuzHvdQE7E3yqGsUJXRcfEAHEKbEk0zOxGyBe4cAx4Qk3zBxF7hhCaNpjnb9
+         OYww8fNiXrDdqQ+w8iHxRpehN5Cs56xdsYFLme63QHqOqM8FkU8IuvQOn2EjBvyzWk08
+         mfgqXGtu8p7cNNH9d6rFK1IKZp9LJxHrzSff5pmTaG+xtifKbExriotm4UKktMOMpZ8J
+         7MVaRATZ+dNe66TyDrgEgY7K8hSNBis/iMnCO4XO4DjuDU7ilzEqoHqyvyaHOxAhSu++
+         qXBA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791352736; x=1791957536; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=fvX6CzIo0lUP4hTcnMKg9GH46W029kkAuFQl56PR8ug=;
+        b=tFmlTv4INSiEnSUCzhV7lNsXUdMhQHpRjtk823ulK+fs86mueyAjD+5EiRAD9VqPFV
+         NrcnpdHq3e27djBV9YxbWEEuK2eicJS7TXyTj4I1OTQpdTcx3BDYuDvvSlNS05o5wDPa
+         Pjd72bLjgWDZiLl4X116FU0+MVJ2fieIq88AOqfumBzy3tpZq0EBoMZaRJxtQNKUpPVR
+         diZHIcYJS9+X9+S5HdZxH7jDwCJ1ghLyUhMZ6zRXiWC5oI8Io7niC2gPqqAynTjZKdMw
+         HjTx4GMXihugaNAwAazeSXbp1WNXmVI3sZmbLOlOTNsMGLz5PfHaQUHqkC+9WTyXeb1p
+         oc9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791352736; x=1791957536;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fvX6CzIo0lUP4hTcnMKg9GH46W029kkAuFQl56PR8ug=;
+        b=fTr5B6T7cCThtBJxYm0XfdqIVRCLMlBxHsWJtinOsJNNDZsga3ngQ6SEpno7n4n4NW
+         c0/Kuid9nuCGVQE6aSYJu95Vh8ntLo6vWKGGyMMeCMHQ0cRUfNkD2BVjhL1gxFX3SKCY
+         h7lY8qufQGpSsWenG6ENmw7glHFrWRbM0C3OZBFpfp96hHsuRI1rfn8Qcp8epSeF2scv
+         WMQPR0Uf8/vIUAXv0P/iDHGtUmmXI8klvt6vFAekdEPcO0wIr5X4neJGHXfUYvrXA1kM
+         oBNnG1TwWi0XCLJN07qq72veZEcNdi+HpzswK2QlC6rNUtWPb2e16CoKEf3Vd4NccW74
+         1ATQ==
+X-Forwarded-Encrypted: i=1; AKwUvByD/0oi4GjTb/a35NQYHmnQ+gNuvCPWNAJ+tb1x4Ro/yM//BKIjT0Nwq6H2LRIiJZDV/p0IbQ2d2HtwXA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJWsJ0EDmUG3jTJ5+Gjlr6zqD3K57j7scYkPXpLyqgCBL8RVAip
+	s/4Q2NU47BpoBFME2b9PkntUt4AvyU0HyYCj5f5jO/SYwzQl6/QoPwLFBF+X0ggB9Hm5Cwpy4hz
+	YVqytUHPlcG/VKb+oQQoe/NnAB+hwt60lS7o7kV3cnYAO
+X-Gm-Gg: AYBFou3+tUYaM0VfCHDkCiHsnRgozEeyEYmx+DdAPkEtnyyBPyTlvX8DzG1kxWztOIg
+	Bc/EUYuSVAUIi6jKcM5adhDR+jrbrpJhI0F1YaRMt9rBqravJEn06CFIjlPzeT3G7IksGFZJgvT
+	lse1WqYTASfwOw3nZeftPxbzgeYIUgiGdj2tf2OwW5vnzYAiribFmsSEED4uqar0HbJLjfRDWHY
+	JkZiXCxO0j+lbpsTaT2J/s5FP/db1zHmceGJ+xEpWIrjBMg3y4LBUFS3OaSeSF4+SDdLyhe/Rkr
+	hozmoMjVn/bRwBRr9qEbLVbQ6ZkKH+qVKqsyVtqK9m63K0Pzb9ng6siF8D9/2HPfQyEEIbY=
+X-Received: by 2002:a17:903:2c0f:b0:2e1:2ce5:677a with SMTP id
+ d9443c01a7336-2e6003b5d0emr12356995ad.16.1791352736407; Tue, 06 Oct 2026
+ 22:58:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20261006210313.43163-1-pmazzini@gmail.com> <20261007012337.6765eae7@ryzen.lan>
+In-Reply-To: <20261007012337.6765eae7@ryzen.lan>
+From: Pablo Mazzini <pmazzini@gmail.com>
+Date: Wed, 7 Oct 2026 06:58:40 +0100
+X-Gm-Features: AclHuK9so5s6SVHKBrMxWd9wydw_PDXudCltTNho_5K9L0MuDF1LhfNqIbWLxW0
+Message-ID: <CAAxh=jvd=dR4anQ9P=f=NtUePTfXY0SSR6PXxc8VvDcjP+ni2g@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: sunxi: dt: do not accumulate npins across probe attempts
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 07 Oct 2026 11:34:49 +0800
-Message-Id: <DLYAHDTH3129.3AYF0OSHL8RJ8@pigmoral.tech>
-To: "Vinicius Pedrosa" <vinicius.eduardo.pedrosa@gmail.com>, "Junhui Liu"
- <junhui.liu@pigmoral.tech>, "Stephen Boyd" <sboyd@kernel.org>, "Brian
- Masney" <bmasney+clk@redhat.com>, "Jerome Brunet"
- <jbrunet+clk@baylibre.com>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Chen-Yu Tsai" <wens@kernel.org>, "Jernej Skrabec"
- <jernej.skrabec@gmail.com>, "Samuel Holland" <samuel@sholland.org>,
- "Philipp Zabel" <p.zabel@pengutronix.de>, "Paul Walmsley" <pjw@kernel.org>,
- "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
- "Alexandre Ghiti" <alex@ghiti.fr>, "Richard Cochran"
- <richardcochran@gmail.com>
-Cc: <linux-clk@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
- <netdev@vger.kernel.org>, "Jerome Brunet" <jbrunet@baylibre.com>, "Enzo
- Adriano" <enzo.adriano.code@gmail.com>, "Andre Przywara"
- <andre.przywara@arm.com>, "Norman Herms" <dockseed@proton.me>
-Subject: Re: [PATCH v5 3/8] clk: sunxi-ng: a733: Add PRCM CCU
-From: "Junhui Liu" <junhui.liu@pigmoral.tech>
-X-Mailer: aerc 0.22.0
-References: <20260930-a733-clk-v5-0-11175b41cd2d@pigmoral.tech>
- <20260930-a733-clk-v5-3-11175b41cd2d@pigmoral.tech>
- <20261005183038.417798-1-vinicius.eduardo.pedrosa@gmail.com>
-In-Reply-To: <20261005183038.417798-1-vinicius.eduardo.pedrosa@gmail.com>
-X-ZohoMailClient: External
 
-Hi Vinicius,
+Yes, that's simpler, thanks. Will do that in v2.
 
-Thanks for testing.
-
-On Tue Oct 6, 2026 at 2:30 AM CST, Vinicius Pedrosa wrote:
-> Hi Junhui,
+On Wed, Oct 7, 2026 at 12:23=E2=80=AFAM Andre Przywara <andre.przywara@arm.=
+com> wrote:
 >
-> On Wed Sep 30, 2026 at 1:26 AM CST, Junhui Liu wrote:
->> +static SUNXI_CCU_GATE_HW(bus_r_msgbox_clk, "bus-r-msgbox", &r_ahb_clk.c=
-ommon.hw, 0x17c, BIT(0), 0);
+> On Tue,  6 Oct 2026 22:03:13 +0100
+> Pablo Mazzini <pmazzini@gmail.com> wrote:
 >
-> [...]
+> Hi Pablo,
 >
->> +static SUNXI_CCU_GATE_HW(bus_r_riscv_clk, "bus-r-riscv", &r_apb0_clk.co=
-mmon.hw,
->> +			 0x21c, BIT(0), 0);
+> > init_pins_table() adds to npins in the driver's static descriptor, so
+> > after a probe deferral the count doubles and the next probe fails with
+> > "pin 0 already registered". Count into a local instead.
 >
-> I'm bringing up mainline on a Radxa Cubie A7Z (PCB V1.11, 1 GiB). With
-> 7.3-rc6, this series and a local common-DT integration, PSCI reboot and
-> power-off hang once unused clocks are disabled. The boot chain uses
-> vendor boot0/BL31 and source-built SCP/U-Boot.
+> Can't we just initialise desc->npins to 0, at the beginning of
+> init_pins_table? I think Sashiko suggested that even...
 >
-> Keeping both of these gates enabled fixes reboot; either alone still
-> hangs. With only these two marked CLK_IS_CRITICAL, reboot returns to
-> boot0 and power-off drops DCDC1 from 3.3 V to 0.7 V and turns off the
-> green LED with power still connected. I haven't checked whether each
-> gate is needed for power-off on its own.
+> Cheers,
+> Andre
 >
-> My guess is that BL31 talks to the SCP for these, but I haven't traced
-> it, and it may be specific to the vendor firmware.
-
-Yes, it appears that the vendor SCP firmware runs on the E902 core
-instead of the ARISC OR100 core on the A733. Disabling either
-bus-r-riscv or bus-r-msgbox breaks the SCPI communication path between
-TF-A and the SCP firmware.
-
+> >
+> > Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
+> > ---
+> >  drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c | 10 ++++++----
+> >  1 file changed, 6 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c b/drivers/pinctrl=
+/sunxi/pinctrl-sunxi-dt.c
+> > index 50a16f3bd131..1c1888394cf1 100644
+> > --- a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+> > +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+> > @@ -75,7 +75,7 @@ static struct sunxi_desc_pin *init_pins_table(struct =
+device *dev,
+> >                                             struct sunxi_pinctrl_desc *=
+desc)
+> >  {
+> >       struct sunxi_desc_pin *pins, *cur_pin;
+> > -     int name_size =3D 0;
+> > +     int name_size =3D 0, npins =3D 0;
+> >       int port_base =3D desc->pin_base / PINS_PER_BANK;
+> >       char *pin_names, *cur_name;
+> >       int i, j;
+> > @@ -85,7 +85,7 @@ static struct sunxi_desc_pin *init_pins_table(struct =
+device *dev,
+> >        * Also work out how much memory we need to store all the pin nam=
+es.
+> >        */
+> >       for (i =3D 0; i < SUNXI_PINCTRL_MAX_BANKS; i++) {
+> > -             desc->npins +=3D pins_per_bank[i];
+> > +             npins +=3D pins_per_bank[i];
+> >               if (pins_per_bank[i] < 10) {
+> >                       /* 4 bytes for "PXy\0" */
+> >                       name_size +=3D pins_per_bank[i] * 4;
+> > @@ -98,12 +98,14 @@ static struct sunxi_desc_pin *init_pins_table(struc=
+t device *dev,
+> >               }
+> >       }
+> >
+> > -     if (desc->npins =3D=3D 0) {
+> > +     if (npins =3D=3D 0) {
+> >               dev_err(dev, "no ports defined\n");
+> >               return ERR_PTR(-EINVAL);
+> >       }
+> >
+> > -     pins =3D devm_kcalloc(dev, desc->npins, sizeof(*pins), GFP_KERNEL=
+);
+> > +     desc->npins =3D npins;
+> > +
+> > +     pins =3D devm_kcalloc(dev, npins, sizeof(*pins), GFP_KERNEL);
+> >       if (!pins)
+> >               return ERR_PTR(-ENOMEM);
+> >
 >
-> Would it make sense to mark them CLK_IS_CRITICAL, like bus-r-cpucfg
-> already is? I can test the next revision on this board either way.
-
-Mainline TF-A uses native PSCI for reboot and power-off on the NCAT2
-family. Even if Crust is ported to the A733 in the future, I would
-expect it to run on the ARISC OR100 core rather than the E902 core.
-
-(Also see discussion in [1].)
-
-The E902 may also be supported by the Linux remoteproc and mailbox
-drivers in the future. In that case, bus-r-riscv and bus-r-msgbox
-should be managed by their respective drivers instead of being kept
-enabled globally.
-
-I don't know if marking these clocks as CLK_IS_CRITICAL just for the
-vendor SCP firmware is a good idea...
-
-[1] https://lore.kernel.org/linux-sunxi/556cd32394062960a3ea4af0011155cfa83=
-ae91f.camel@d-silva.org/T/#u
-
->
-> Thanks,
-> Vinicius
-
---=20
-Best regards,
-Junhui Liu
