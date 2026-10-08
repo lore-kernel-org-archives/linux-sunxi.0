@@ -1,114 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D653AEF22;
-	Thu,  8 Oct 2026 07:14:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 996133D3CFF
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 Oct 2026 07:50:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791443677; cv=none; b=AT+5V0Har0kBkd5Hx6aC42UVv8PKWVeWCH1mLE5BNFqsi4XSfy6MdyLImmXszekbw1tINSf0R3iO4bkBg/lTyIey/ioGgIvQ/IOZllrNj3+8O4xR36L8cUeHc1Iwx3tL3YDCblulBYT+yFKwRzbZeDKFuux2en/3Y3XZ7nUw0rY=
+	t=1791445854; cv=none; b=C4m9psFPUlArqnfkGpznppfYFU5lBfNFmkztkstvkzq+hjOnuI9z12NmOnRucP1eE1Y5jfo1K3bgx1OGSjVnJwLp8UWY3cIVcfX0evaLK9OB9mQoTf+PrOp6jd4kdpgXJXC43fUe/7do/lVtsDDNCf5WRRuA9UYp5JLdj29Kf7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791443677; c=relaxed/simple;
-	bh=Al8+VIKGWcxGhYyRaeMpCro0EDWhQL2GdHl//h0s4MQ=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=CzJzzphrHzstPxS3wm5ouWP7l5q31ofMTqQ1ZVnRgQNMk/pnJFZ9sOYn47m9GinjtyRehCaYSJuLpI24YNjlz0WAdzXacVZXuAd6wBpohcLM1FkKipxd366FWe8ibv33FZWeVXr6GhKrH8Dg5OtYsSt5lOpmWlUGJCKvFGEefxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hhbNkvpu; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791445854; c=relaxed/simple;
+	bh=M7FNo7bgBUiaWI/HcaQdIdCBXfKJLk20mb3qyz9nUno=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V33ROtSfdGHRv3bSayEyLmyH+HKUvogTGotijkVAogjqZUrzBySxi9J/NBSGrFXmWvXfV0WjQj5M4H9394cS35RwbJcEh55Z5/NwLdCAqlZPUB6W8783nTcVhxSgGgg0DLEI8vG6HrxgvSHMvn4ZvHKXjsV1z5uFhQdJy4pWzyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=WruXY8bo; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hhbNkvpu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F8D41F000FF;
-	Thu,  8 Oct 2026 07:14:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791443676;
-	bh=fYftf/Su62EUrYUf6blYPGhehrDzs/z2OLT9geCyA8k=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=hhbNkvpuOPygjgYsFStv9E0RgIjhNCYJwUEu/8GYXgVNf1UPp+cxBC5dJ6Mc09LAh
-	 l27Uzx3XKns+0nsbuOK6mPS2q2iGcile21+ki9LTGc3zDrJU74cQB8CTYlFXQ1bZLL
-	 SsRhF2LcLCA+RTm7WKGvLW5Kxv9xeLB2FNLf/f2Sy0O0C590W0nZUMAtFJpkIsPHxi
-	 HPYFMqCK6ku4aaq3NJvsvaWF3CZV8LhAQjfMV3Tuy53hJSB4FVDtGsdJ7ePODzrdyM
-	 6Nb038rtu4ahglDWK72ExH9XnIq1J2rzKSxiKU/bVx/MVjZbhaKPHY++gcqiJOEX0S
-	 /7xqm1nBJiRuw==
-From: Mark Brown <broonie@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
- Alexandru Gagniuc <mr.nuke.me@gmail.com>, 
- Olliver Schinagl <o.schinagl@ultimaker.com>, 
- Jonas Rebmann <jre@pengutronix.de>
-Cc: linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- kernel@pengutronix.de, Marc Kleine-Budde <mkl@pengutronix.de>, 
- Tobias Schramm <t.schramm@manjaro.org>
-In-Reply-To: <20260914-spi-sun4i-fixes-v3-0-9fe919d5cecf@pengutronix.de>
-References: <20260914-spi-sun4i-fixes-v3-0-9fe919d5cecf@pengutronix.de>
-Subject: Re: [PATCH v3 0/6] spi: spi-sun4i: assorted fixes
-Message-Id: <179130066333.150114.1591753111573299755.b4-ty@b4>
-Date: Tue, 06 Oct 2026 17:31:03 +0200
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="WruXY8bo"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 906B61516;
+	Thu,  8 Oct 2026 00:50:47 -0700 (PDT)
+Received: from [192.168.178.72] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 919353F959;
+	Thu,  8 Oct 2026 00:50:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1791445850; bh=M7FNo7bgBUiaWI/HcaQdIdCBXfKJLk20mb3qyz9nUno=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=WruXY8bopBSNctghFvI9GjTqI11dUVfJNNXm7mmPDtfD+stzVxn15wyrJqYoJoAbM
+	 dc4UCzdiloByiV4ihV+DpAtpow+9tmDOHN1OmU15LZfRMWAy3cv/FyXuqNNgmC33Af
+	 38uGRqrsjRkL7XEBmLtEKfw5g8VV96G9cwXmkj/U=
+Message-ID: <6bb97a9e-cc9c-48c0-bf6d-3a1c6e8048f2@arm.com>
+Date: Thu, 8 Oct 2026 09:50:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 03/11] dt-bindings: pinctrl: sun4i-a10: add Allwinner
+ B288
+To: Rob Herring <robh@kernel.org>, Pablo Mazzini <pmazzini@gmail.com>
+Cc: Chen-Yu Tsai <wens@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Linus Walleij <linusw@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20261005202731.153971-1-pmazzini@gmail.com>
+ <20261005202731.153971-4-pmazzini@gmail.com>
+ <20261007211626.GA338242-robh@kernel.org>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20261007211626.GA338242-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2091; i=broonie@kernel.org;
- h=from:subject:message-id; bh=Al8+VIKGWcxGhYyRaeMpCro0EDWhQL2GdHl//h0s4MQ=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBqx0LUIXMhyrvOstkVy0FxPa1zNc8ZuG7T2x7tb
- 1y74cN4wp+JATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCasdC1AAKCRAk1otyXVSH
- 0M35B/4kUlR7nD0lYrEwWvVkYsWDVwvaKgRLOc2ITC8JrxazDJ86Vtclvy/EIT6tBMMdiAQcAeE
- PgrkLGNeICYjJw6j2kw3hvAthfGmpslblAEcWtpPc1KIS687D6HzL5C6vJf7hAJ2k84iXyunNN9
- jH/3CwFRvxPzqpp3h7wOUhaCgEfE2wQlM7szs2yJ/jm46v9ZlICntQuSJKuSUTsb6D3/QF3h8rw
- g0NsyYZHZ6ZWf3KfBD4sfVOYuWsNHaB0CFxfQUx8miVE8hegvWg4q4az80NTt09bVa/ofbvIoXh
- SeGUE3nWL8cGNm1i97WrLnTZ3TVh/yc7koKpVkZrPUr2d9JR
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Mon, 14 Sep 2026 17:35:54 +0200, Jonas Rebmann wrote:
-> spi: spi-sun4i: assorted fixes
+Hi,
+
+On 10/7/26 23:16, Rob Herring wrote:
+> On Mon, Oct 05, 2026 at 09:27:23PM +0100, Pablo Mazzini wrote:
+>> The B288 driver takes its mux values from the DT, so allwinner,pinmux
+>> becomes an allowed property here, required for this compatible only.
+>>
+>> Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
+>> ---
+>>   .../pinctrl/allwinner,sun4i-a10-pinctrl.yaml  | 22 +++++++++++++++++++
+>>   1 file changed, 22 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml
+>> index 45b7a0b6c626..b1f093d218f5 100644
+>> --- a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml
+>> +++ b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml
+>> @@ -39,6 +39,7 @@ properties:
+>>         - allwinner,sun8i-a33-pinctrl
+>>         - allwinner,sun8i-a83t-pinctrl
+>>         - allwinner,sun8i-a83t-r-pinctrl
+>> +      - allwinner,sun8i-b288-pinctrl
+>>         - allwinner,sun8i-h3-pinctrl
+>>         - allwinner,sun8i-h3-r-pinctrl
+>>         - allwinner,sun8i-r40-pinctrl
+>> @@ -120,6 +121,15 @@ patternProperties:
+>>           $ref: /schemas/types.yaml#/definitions/uint32
+>>           enum: [10, 20, 30, 40]
+>>   
+>> +      allwinner,pinmux:
+>> +        $ref: /schemas/types.yaml#/definitions/uint32-array
+>> +        description:
+>> +          Pinmux selector value, for each pin. Only used by SoCs whose
+>> +          driver takes the mux values from the DT instead of an in-driver
+>> +          table. Almost every time this value is the same for all pins, so
+>> +          any array shorter than the number of pins will repeat the last
+>> +          value, to allow just specifying a single cell, for all cells.
 > 
-> This is a series of patches for the spi-sun4i driver, some of which have
-> been sitting around for a while.
-> 
-> 1-4 are fixes and 5 is a small patch that introduces reporting of the
-> effective SPI speed.
-> 
-> [...]
+> Perhaps new platforms should move to the common 'pinmux' property?
 
-Applied to
+If you mean to just drop the allwinner prefix: this has been discussed, 
+but NAKed, because the generic property carries a different semantic. 
+And implementing that generic behaviour in the existing sunxi pinctrl 
+driver would be quite some effort (read: a rewrite), without any obvious 
+win, so we decided back then to not boil the ocean here, and just go 
+with a special property.
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-7.4
-
-Thanks!
-
-[1/6] spi: spi-sun4i: sun4i_spi_transfer_one(): fix transfers for SUN4I_FIFO_DEPTH
-      https://git.kernel.org/broonie/spi/c/f3ce7a3ca82b
-[2/6] spi: spi-sun4i: sun4i_spi_fill_fifo(): always apply A10 FIFO fill level workaround
-      https://git.kernel.org/broonie/spi/c/ee109e2bbea0
-[3/6] spi: spi-sun4i: sun4i_spi_transfer_one(): fix setting of clock rate
-      https://git.kernel.org/broonie/spi/c/672ba6d88324
-[4/6] spi: spi-sun4i: sun4i_spi_handler(): fix race condition between transfer completion and RX FIFO interrupt
-      https://git.kernel.org/broonie/spi/c/b8f09251da78
-[5/6] spi: spi-sun4i: sun4i_spi_transfer_one(): add error handling at clock setup
-      https://git.kernel.org/broonie/spi/c/a3df049084c7
-[6/6] spi: spi-sun4i: sun4i_spi_transfer_one(): report effectively used speed_hz of transfer
-      https://git.kernel.org/broonie/spi/c/b42ff8dc7e54
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+Cheers,
+Andre
 
