@@ -1,93 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27679397321;
-	Fri,  9 Oct 2026 15:59:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961D43128DF
+	for <linux-sunxi@lists.linux.dev>; Fri,  9 Oct 2026 16:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791561554; cv=none; b=qHJkzXJIoVBPjozX3KJugB4E2kxogc44qeKWJ5ngqzdwzY+ZT4X98ruFp4p6X0C94QUFhnaXhXZbZfOAjx/Q66wGVVGKRDOb086QsvL026KiNywq+39izqvtULi3rJuvKhUxG/pGoqyTrX7DhAmXU6pIpIJW99/4hKQA6j+WF3E=
+	t=1791562472; cv=none; b=SBAYD5T/Mdn9ObpykexWtnbdYSUr44t5SL+ABFBaCIfV0Xct9j9m38ciofZquWmUUzngioK4+JdtvxXbZJiWN2L+i2jzs1ixGVQp5MQYin3lW2cR8PCUFwuqIf/TOK1+aXWbUCuVUHk0n/jPkYB2FLpd8Bsb6tAUba93ws3vB9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791561554; c=relaxed/simple;
-	bh=wnaaT1nqO/Ii0l8aFb7o/PFEOMnVS+Ui+4CihCIIkGs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Uf1I/EVFsl82+CV77EqYkhVaUxC9BU2a2vnQcN4lzn+gS5Vhrrtp4b6L3A7ChZ+fCixcljqg/VHmxpHgnG2uylZj8tF5S+cyPX53v104yFc34nb2N0cR0Qd+61PxgE0Jq4rvmWicqj6Yi8vWzGi9YXLOnhqPKpSA6xfdFT6PhPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T/oUPf8/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791562472; c=relaxed/simple;
+	bh=Vcn4NPPUw7msa5Ka/ooKHnLzEl9KExl9mTsGAowXuHc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IaIjJAVt86RPsrBpcRONaXal8b6VrlRf/gP4d1aVSiqeubaF84ZjZXyn5siRbDrHbMMlWgkJbISxtYWgejXncSDs742TU4l6Uug7Q7o7EA7zrySAJ87cggwBdY++OokzWVihnl5ZC2ObQD4f8G+FHybg+pP/RyjYO74dZy84cBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IwUGZG/g; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T/oUPf8/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 542351F000FF;
-	Fri,  9 Oct 2026 15:59:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791561551;
-	bh=WfkXHdpcpLPKxJAFSi3EJTz5mjIUGnvIy8zdj94PVfs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=T/oUPf8/UhNiR9fonQpaCJkjH2g0S3nU7rilibnrJa6zwwksFbp3Br4FusMFursCA
-	 LwSxDZkXmRB3Z+KMKD2Ab8atR38BG0mQt8yze1hNq1M6LLPcbOhJi0wuWXFUBULjeJ
-	 +pL6RU8y60/xBk4PghdJXi2hoVVrtz6+Np/RcS4VDSXkoghR7M99mkaCg3dijCdx4e
-	 ROqAf5pqJ7PuL1c3fP1fjQSPWppKpdIMz0EJs0OxuHM/ZEMQ1cOkhKT9iMmoXZIyYP
-	 qulXlC0vVWH0/naN2ZG4/jSe9RCaARnlcHBvEgAXK0RxnfONM5iZVppKdiZLoFZBVu
-	 8jb0bPazWalXg==
-Date: Fri, 9 Oct 2026 17:59:06 +0200
-From: Brian Masney <masneyb@kernel.org>
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Jernej Skrabec <jernej@kernel.org>,
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org
-Subject: Re: [GIT PULL] Allwinner Clock Changes for 7.4
-Message-ID: <askPSvFT1uDZ9sLm@x1g10>
-References: <asZYyy4D2PkhjE3q@home.wens.tw>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IwUGZG/g"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cc502d509c0so2735392a12.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 09 Oct 2026 09:14:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791562471; x=1792167271; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Vcn4NPPUw7msa5Ka/ooKHnLzEl9KExl9mTsGAowXuHc=;
+        b=IwUGZG/gg2VBYMQUyiHIoohuHGLnFOO++iweLxkLRLLu0sFvTmt3thZcqQEZJi6Ak7
+         GIjJp+lIK62nmq2hYXFmFa9Nfy1Gcs8OdhmRNi2Tk88+nabZSXfYUsTTX7enRnG/VEg7
+         wikuggcNZ7Pf9T7elyLFHGLLPV3ng4ZyOEhIT/vwxPvFdLHreUjbxFxN8I0+lsSzkyoo
+         htUVUc/NR+T2lf+RaT/rmQotWA+XmosE8GCEFsfrPwxuDGUilbyOd7CaQ2Vu0f/7YLhM
+         T6UIHX1ME9crlp+flWmGHUNSOr61M6nX0xNHogGKbGLAE0QNobAQcg77oouHbzpI1XtR
+         Nz8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791562471; x=1792167271;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Vcn4NPPUw7msa5Ka/ooKHnLzEl9KExl9mTsGAowXuHc=;
+        b=1hZljDjYzRqxAjfXwp1Ej0VMFkOIjpQRF/rqIg7GsT2YjjPlNarujtJgiXuu5vrvaI
+         Q7tYyUDuIDtAxqKeAMw3uUgUx1DAgSWFiGHkFWnu0p8tWEXOJlwiQN1TdBQY3TTYkCkZ
+         MNUZAANVWYObxeCcOvml8ofm/CiLPX4lw4dbSReDqslIyg6rx22VWqAck6rziAi7DIAz
+         1BX4ozvL5tVVUPhMhIls8rOG7aS1DzBwDREP5h3IjU1BY5w26wcW4I3K7MHG6+1uGQA/
+         PrNH1VNa+fw1Zz7wLeK8w02hUQszm622KtDons65495w87RHJbXI67k4Fx5OQkVDqQZG
+         gdvg==
+X-Forwarded-Encrypted: i=1; AKwUvBw1LCa/HWKodA+0O6Jg+Odg08h4GKUAVWG1ct18necV0gLetoPsr6vjnEXRuWnA9KwN+qRDXGnTW8L/gQ==@lists.linux.dev
+X-Gm-Message-State: AFuF++md4jqh0ol6E1JE7NHe3eROBTY/Dz+h6lKyf6PlOb7Ofw2FRqAU
+	cOnIVJubHZNkoQedDVSldIUk1MxskfCa3qqqosYfKd9R99mQFqpzZfWe
+X-Gm-Gg: AYBFou2F+59efR92r1M+2LTltn/wWOh1Q/eVIYq+LpDdesmDFKjHUIXsH4BBwQziEYO
+	QW/8ZQI2Rh9bByqEKJP9myBavANTz9cpOdM+7aKQ4iPs1MJAKEiI8x6pAwOhporku7AxMO9m233
+	e6yALpeLiCNsjHEeksbx5H6Xx3xBn6Gwln82ucgUZgQs4zi71G95RgGMKlY1Po8BG0nURvW/zyT
+	cnK77wwGPc116wa2/++SeRbA7jzFp0+FNWV4OvWZHrKYHjDYPMJGnngIEb+iaXUZ2E5n8sUsd23
+	KQrvWs9zWaklSo6LDl1muDg07l7OS86MX3A0Eb6E3e3baMrVCjU8rn52fPD1cMWiUzE+Em2OsIS
+	QSOcb0sc5AdmyqzL38rnfEUAaca6Rrt8mrh7unjLfDC376Q6//u+4eUiKcxrH7rf7Tu0nuO8dCZ
+	rNyOqvjBPgtlmNgKp66RPvxuVIu8Y3/7hPmTohhYZm/SfXoATAUqQ9jdWM+c5uRJfALRv/vw4ot
+	flOmiXJjrGm+eZw4JkHbwJEZAlI+vEHiBmBV6+ytyCfuGXNCuSqV+3kEofJ8ZbPPec3OUH48Cl+
+	TFFzkAk=
+X-Received: by 2002:a05:6a20:9c15:b0:3e0:bbb8:bbdb with SMTP id adf61e73a8af0-3e16be9eb80mr2032774637.47.1791562470854;
+        Fri, 09 Oct 2026 09:14:30 -0700 (PDT)
+Received: from MaquinaLab.. ([179.179.237.181])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-896c43ae1d3sm1355530b3a.48.2026.10.09.09.14.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Oct 2026 09:14:30 -0700 (PDT)
+From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>,
+	Yixun Lan <dlan@gentoo.org>
+Cc: u-boot@lists.u-boot-project.org,
+	linux-sunxi@lists.linux.dev,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Tom Rini <trini@konsulko.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Paul Kocialkowski <contact@paulk.fr>,
+	Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v3 0/9] sunxi: Add support for A733 SoC
+Date: Fri,  9 Oct 2026 13:14:09 -0300
+Message-ID: <20261009161409.256732-1-vinicius.eduardo.pedrosa@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <3f57db40-a604-4800-b15f-2d159a3a5ca7@arm.com>
+References: <20260113-01-a733-soc-support-v3-0-f19dcd098f60@gentoo.org> <20261009120356.194364-1-vinicius.eduardo.pedrosa@gmail.com> <3f57db40-a604-4800-b15f-2d159a3a5ca7@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <asZYyy4D2PkhjE3q@home.wens.tw>
-User-Agent: Mutt/2.4.2 (2026-08-30)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 07, 2026 at 10:35:55PM +0800, Chen-Yu Tsai wrote:
-> The following changes since commit cee9395acd8043be0644b25c34bfa86623f2b935:
-> 
->   Linux 7.3-rc1 (2026-08-30 13:34:40 -0700)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-for-7.4
-> 
-> for you to fetch changes up to 9ef62592b80c7ffb8cd987d889f659c1dc4f9f16:
-> 
->   clk: sunxi-ng: ccu_common: Use readl_relaxed_poll_timeout_atomic for PLL lock (2026-09-20 17:32:54 +0800)
-> 
-> ----------------------------------------------------------------
-> Allwinner Clock Changes for 7.4
-> 
-> Allwinner sunxi-ng clk library's single divider clk type gained support
-> for the update bit, and various single divider clks in the A523 driver
-> are converted to correctly use the single divider type.
-> 
-> The "wait for lock" helper is changed to use atomic MMIO polling, as it
-> could be used when timekeeping is not available yet, and *sleep() doesn't
-> work correctly
-> 
-> ----------------------------------------------------------------
-> Alastair D'Silva (1):
->       clk: sunxi-ng: ccu_common: Use readl_relaxed_poll_timeout_atomic for PLL lock
-> 
-> Junhui Liu (4):
->       clk: sunxi-ng: div: Add feature support to M clock macro
->       clk: sunxi-ng: sun55i-a523-ccu: Use M-only clocks for MBUS, IOMMU and DRAM
->       clk: sunxi-ng: sun55i-a523-ccu: Use P-only clocks for high-speed timers
->       clk: sunxi-ng: sun55i-a523-r-ccu: Use P-only clocks for timers
-> 
->  drivers/clk/sunxi-ng/ccu-sun55i-a523-r.c |  37 ++++-----
->  drivers/clk/sunxi-ng/ccu-sun55i-a523.c   | 128 ++++++++++++++-----------------
->  drivers/clk/sunxi-ng/ccu_common.c        |   2 +-
->  drivers/clk/sunxi-ng/ccu_div.h           |  18 ++++-
->  4 files changed, 89 insertions(+), 96 deletions(-)
+Hi Andre,
 
-Merged into clk-next.
+Sorry about the wording. I kept repeating it to give context to people
+who might be reading the thread for the first time, but I see how it
+came across. I'm building on Yixun's work and yours, and I should have
+made that clearer.
 
-Brian
+> Honest question, is it really *you*, or is it some LLM?
+
+Yes, it's really me. I've been working with embedded systems for many
+years, but I'm new to public contributions, as you've probably noticed.
+I do use AI to help me research tools, handle some tedious tasks, and
+improve my English when writing emails. English isn't my native
+language, and I sometimes rely on it too much for the wording. But the
+hardware work is real, and I take responsibility for what I send.
+
+> Why not? Probing DRAM is somewhat the idea of that routine, and it
+> should restore the previous values it overwrote? So have you tried
+> running that?
+
+I haven't. I was concerned about overlapping BL31, but I should have
+looked more carefully at how the routine works before ruling it out.
+I'll check the probe range and try it.
+
+Understood that the FEL workaround is temporary, so I'll drop the size
+header idea. If it's useful, I can test your U-Boot proper series on the
+A7Z when you post it.
+
+Thanks for your time and guidance.
+
+Vinicius
