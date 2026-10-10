@@ -1,97 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from sender6-pp-e105.zoho.com (sender6-pp-e105.zoho.com [165.173.180.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 135C819DF6A;
-	Sat, 10 Oct 2026 15:54:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791647695; cv=none; b=ex+b5nGOctiw5dbUoWxK1qI63lxckG79SxAV6aTblqOz0OIzTy5PoRZ+2yDwlHOnk2FZrL+phK15IcnGOYYigXgoWgA26ibvCfPgTyBiaWd9Fveyy4vvfn4bdbJZSla9rf6eL5gL/QYKPW5lYt6Y1zu7fwOprUYSG6ceOVj6mII=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791647695; c=relaxed/simple;
-	bh=0WnTX6JFAKOwNBzueJdRfq3UFsWECoWcNzTd9e4Y7Rg=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=br4xvSM6q19hW8OcaOCjRNG/Wzcu+1w+ubb2+8VWjXepTXFVdyEFe4POjY+TltUfE4OlFxuI5gawJzzo78362BTe+3M0LRwrYZXkqaMgAsgNcha6Nxra7fccfCVANukEx4IEIQ9ynIAhz1y5N/3tloFL6VcjU5mvMJR/vFCiu0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X7XUcIsB; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F9813B58C;
+	Sat, 10 Oct 2026 17:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.105
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791652195; cv=pass; b=MzDaIUVabU1qX+OD1xxVOvYIkr3JljTJzxFmZvtaHG6Ch4xI2AsQEcuHHV0hk3qnxPbCBwumLJRkEPIgZaUlJOm3qRGmuSs+G4o9k64s1IVeG+BuZcARgbDSXFiq1wzQcGmI4UODJSIN9IwsIDkMwnxp0URWyX2GyWZgZbzHN8o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791652195; c=relaxed/simple;
+	bh=/zxAKR58iJyDSi4nZh1eLUziL2e+4QGrhKQGoOdfmBc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=MgIYDEJpWCpieYnIm2w3mk01Tb7gPkUiP4QGRoBR9mzoGxa2QtPcX4hoWhLg631viCPqdpTZovR4p0twCual931Rnqkm6GqvOT8WEvcsXIJltmIuD8kn8cTn8OP7RfIJAXJycB1IVmkkfiIjyF7QSdfELXipHZ2uCj2ZcM2lXW0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech; spf=pass smtp.mailfrom=pigmoral.tech; dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b=U/uWeRZU; arc=pass smtp.client-ip=165.173.180.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X7XUcIsB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18EA81F000FF;
-	Sat, 10 Oct 2026 15:54:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791647693;
-	bh=kag0Uy2qggUnzDfGrLenknHgY0Ukpn3ly0Z92YI9DdI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=X7XUcIsBAkomm7lMoox7C8ecbaXYKE4GRqCeLGVc8byA7/Lp7TVQxzCETpgxKo0gh
-	 4+kwBXj0JLEpyM57FR511Ym2Dd2CKJLM5OL1zPZPiefW1osRpNPLvc/kCnAROUnJEx
-	 zrGvlX/qi2j18y7o5BsN6KxgB7Cyq8FsQHbTDGJdV7RhxLYP84Vtn/aOMOkgv2UOxQ
-	 uUkkrlYfnCFu1NJObfqswOKdmZXEO5KdOKg93+mOLgTMe1By0QG89MA8NG0CJAV8ZJ
-	 ZVFDlyJgCNK91MFtMQ9Deett+6AMp/fUvo7Jw4nlw7hm4yBz6qaFGcUA6KKd2aqjBv
-	 V70HaepaU9v+w==
-Message-ID: <sashiko-outbox-166706@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 7/8] clk: sunxi-ng: a733: Add bus clock gates
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Junhui Liu" <junhui.liu@pigmoral.tech>
-Cc: linux-clk@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20261009-a733-clk-v6-7-ae8178fce7e8@pigmoral.tech>
-References: <20261009-a733-clk-v6-0-ae8178fce7e8@pigmoral.tech>
- <20261009-a733-clk-v6-7-ae8178fce7e8@pigmoral.tech>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 10 Oct 2026 15:54:52 +0000
+	dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=junhui.liu@pigmoral.tech header.b="U/uWeRZU"
+ARC-Seal: i=1; a=rsa-sha256; t=1791652187; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=nxr8HfIDUaKsX7L7P2AxOfgY4psqViDeVGoegqIogZQOCSUxXSZFW0e4nQXm29ZP3qhS5FaKvcIm7zdlCldhPmgjPwpIe3b5VzjYF2+IHl7S5agdKtiKLdDIrn0a548WDmtjV7vMGwVs/OYD8Ji+APf67G6Lt0sYWFu/uQeX9rA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1791652187; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=XI2lMiI9M516ZvoW8NXLevRqWxxdnnNPZ68nblQAcz4=; 
+	b=fvFfD9tw0tqtdPanfbTOQHdUjQt9R0DPBYZq6ZBm1hd9pY6yKrSQumieJ2gr9jTxefjYdAfbBKN12ULVw+c47xuull4Sc51LBZoPcfmyCEiMCKLO0owpZHcwxU13YC0udX6Iz9G7YBE+x6eyaVI9RDLsOOsM0jzTxozCoI0at/s=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=pigmoral.tech;
+	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
+	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1791652187;
+	s=zmail; d=pigmoral.tech; i=junhui.liu@pigmoral.tech;
+	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Cc:Cc:Subject:Subject:From:From:To:To:In-Reply-To:Reply-To;
+	bh=XI2lMiI9M516ZvoW8NXLevRqWxxdnnNPZ68nblQAcz4=;
+	b=U/uWeRZUbmG6wRKALxODvJSXgzS7bSV5sVSz9yby4ojZfFMCsBPHat9mMzMFjQY6
+	Q9L7stQjMHmXwDy8PDJ691RvJ1avRR2Xx9j6Qgfl9ks2dZbX2nIyaJilhkeDat33UKG
+	DI5WV9VUZRknYv8lr1WBB5pLM/IHN1hhLWsP6UQU=
+Received: by smtp.zohomail.com with SMTPS id 179165218602419.75079290365079;
+	Sat, 10 Oct 2026 10:09:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 11 Oct 2026 01:09:39 +0800
+Message-Id: <DM1BOWOKF9OM.21QWSA1L8WH3U@pigmoral.tech>
+Cc: <linux-clk@vger.kernel.org>, <robh@kernel.org>, <conor+dt@kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH v6 7/8] clk: sunxi-ng: a733: Add bus clock gates
+From: "Junhui Liu" <junhui.liu@pigmoral.tech>
+To: <sashiko-reviews@lists.linux.dev>, "Junhui Liu"
+ <junhui.liu@pigmoral.tech>
+X-Mailer: aerc 0.22.0
+References: <20261009-a733-clk-v6-0-ae8178fce7e8@pigmoral.tech>
+ <20261009-a733-clk-v6-7-ae8178fce7e8@pigmoral.tech>
+ <sashiko-outbox-166706@kernel.org>
+In-Reply-To: <sashiko-outbox-166706@kernel.org>
+X-ZohoMailClient: External
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] clk: sunxi-ng: ahb_store_clk is missing CLK_IS_CRITICAL flag
---
+On Sat Oct 10, 2026 at 11:54 PM CST, sashiko-bot wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+e(s) to consider:
+> - [High] clk: sunxi-ng: ahb_store_clk is missing CLK_IS_CRITICAL flag
+> --
+>
+> commit f3ca9c131f39f726826090f6af6752e7b39c004c
+> Author: Junhui Liu <junhui.liu@pigmoral.tech>
+>
+> clk: sunxi-ng: a733: Add bus clock gates
+>
+> This commit adds bus clock gates that control access to the device regist=
+er
+> interfaces on the Allwinner A733 SoC. It also intends to mark the ahb-sto=
+re,
+> mbus-store, and ahb-cpus clocks as critical to prevent access breakage to
+> boot and storage devices.
+>
+>> diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c b/drivers/clk/sunxi-=
+ng/ccu-sun60i-a733.c
+>> --- a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+>> +++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+>
+> [ ... ]
+>
+>> +static SUNXI_CCU_GATE_HWS(ahb_msi_lite0_clk, "ahb-msi-lite0", ahb_hws,
+>> +			  0x5c0, BIT(16), 0);
+>> +
+>> +/* This gate controls access to the storage controller MMIO registers. =
+*/
+>> +static SUNXI_CCU_GATE_HWS(ahb_store_clk, "ahb-store", ahb_hws,
+>> +			  0x5c0, BIT(24), 0);
+>
+> [Severity: High]
+> The commit message notes that the ahb-store clock should be marked as
+> critical, but the definition of ahb_store_clk here uses 0 for its flags
+> parameter instead of CLK_IS_CRITICAL.
 
-commit f3ca9c131f39f726826090f6af6752e7b39c004c
-Author: Junhui Liu <junhui.liu@pigmoral.tech>
+Oops, I forgot to update the commit message accordingly. I will send a
+new version to update it.
 
-clk: sunxi-ng: a733: Add bus clock gates
+>
+> During late boot, the Common Clock Framework automatically disables any
+> clocks that have no active consumers holding a reference to them.
+>
+> Could this omission allow the framework to inadvertently gate the storage
+> controller MMIO registers, leading to a system freeze or storage probe
+> failures?
 
-This commit adds bus clock gates that control access to the device register
-interfaces on the Allwinner A733 SoC. It also intends to mark the ahb-store,
-mbus-store, and ahb-cpus clocks as critical to prevent access breakage to
-boot and storage devices.
+ahb_store_clk has already been set as the parent of the NAND, MMC, SPI,
+SPIF and UFS bus gates. Therefore, when any storage-related peripheral is
+in use, ahb_store_clk will be enabled through the clock dependency, so it
+no longer needs the CLK_IS_CRITICAL flag.
 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c b/drivers/clk/sunxi-n=
-g/ccu-sun60i-a733.c
-> --- a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
-
-[ ... ]
-
-> +static SUNXI_CCU_GATE_HWS(ahb_msi_lite0_clk, "ahb-msi-lite0", ahb_hws,
-> +			  0x5c0, BIT(16), 0);
-> +
-> +/* This gate controls access to the storage controller MMIO registers. */
-> +static SUNXI_CCU_GATE_HWS(ahb_store_clk, "ahb-store", ahb_hws,
-> +			  0x5c0, BIT(24), 0);
-
-[Severity: High]
-The commit message notes that the ahb-store clock should be marked as
-critical, but the definition of ahb_store_clk here uses 0 for its flags
-parameter instead of CLK_IS_CRITICAL.
-
-During late boot, the Common Clock Framework automatically disables any
-clocks that have no active consumers holding a reference to them.
-
-Could this omission allow the framework to inadvertently gate the storage
-controller MMIO registers, leading to a system freeze or storage probe
-failures?
-
-> +static const struct clk_hw *ahb_store_hws[] =3D { &ahb_store_clk.common.=
-hw };
-> +
-> +/* Keep enabled for access to the CPUS domain registers. */
-> +static SUNXI_CCU_GATE_HWS(ahb_cpus_clk, "ahb-cpus", ahb_hws,
-> +			  0x5c0, BIT(28), CLK_IS_CRITICAL);
+>
+>> +static const struct clk_hw *ahb_store_hws[] =3D { &ahb_store_clk.common=
+.hw };
+>> +
+>> +/* Keep enabled for access to the CPUS domain registers. */
+>> +static SUNXI_CCU_GATE_HWS(ahb_cpus_clk, "ahb-cpus", ahb_hws,
+>> +			  0x5c0, BIT(28), CLK_IS_CRITICAL);
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261009-a733-clk-v=
-6-0-ae8178fce7e8@pigmoral.tech?part=3D7
+Best regards,
+Junhui Liu
