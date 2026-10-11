@@ -1,117 +1,72 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6144A2FE074
-	for <linux-sunxi@lists.linux.dev>; Sun, 11 Oct 2026 20:02:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047AD353A65
+	for <linux-sunxi@lists.linux.dev>; Sun, 11 Oct 2026 20:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791748937; cv=none; b=EDCDmb/JbCcY/nwK3i8UZLzOY9ut0/run75GYnWU9M/pkaR8g8wxsJPKgXWoPlcaH/W0konY+lUYKFxnCSJqsLsOJ7zysZ/hSrqScHbNZ/5HW3U+PKveCySZ6wAQV0PgGHVitybHzK6XFC/BjFFS93gfJcD9QCX+zPZlsynYoF0=
+	t=1791750479; cv=none; b=lDJiP2Z+i5wQInrcndbUPJTcxLOmDcieSAzo2XEWhP2+ekidVMgK/sLVLcKrMnqS0Ff64B13YVzJEvNfIMhM0W1sPCsfuWqxan9KrO8nZXAoOhZ98eeJQHwLB69YZJYR/nvEXhneRNQbFflnj5MjwJhLBPFbLfJXg2TPaER86p0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791748937; c=relaxed/simple;
-	bh=326GNDd72hglJsFR0UqrA3uZDZ0kIfBw7vV/pEKINwQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MJH/6UP6Nv3uq3FIAkdvt0Foaj3jqK0v12qblDVk6tNR74SSffXxmHXiGtlPFFHM9mgIT/yjAwmGmyU/jfJaC4yIXWMIeNBV0Zlja8V/uBhN9PpN7fULe9oiA2u0CNeaFSBZ0t5YS7X+gAkIbBgPZeurVoTs/ZS8WxVHlrSjkFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WZPv5Lsz; arc=none smtp.client-ip=209.85.217.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791750479; c=relaxed/simple;
+	bh=C4mwaLGCa57klLjJDqHf8uXMvhxCEah6UJYl7mGVUNc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XBR2Uboc1uMvuaISd71MDG8ySWXrWHo859A4eDdxSGsDc8gmiuQSfTvwma/KlAmTtr3iGrmNt03SpmpomG+OWXm3HJAg8vDicMoluiUy8sqf4Qt1+e9hJRM8DfFghGjV5IstWS9KmQete0MKayC5X8UjOJfBh4uMA5qZS8tdCKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fMAyCurt; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WZPv5Lsz"
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-7c1916da745so2925572137.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 11 Oct 2026 13:02:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791748935; x=1792353735; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=326GNDd72hglJsFR0UqrA3uZDZ0kIfBw7vV/pEKINwQ=;
-        b=WZPv5Lsz10mFb/8a9bbsUz8lpBYdTc7AEOOSOMI98+DJrVVeGWKmY2CJ9epdpD099B
-         P6hHyFW6KccF8f63qLV7qVwENY2RbwN+973vDB3mSV4aSoEQ8JmSR0Vk/QtWWkm78jnU
-         hZfMeYDqRJ6Gr+/Fg/Y678drie75p7nGrsgyyZIYVIMJHCy8cEVNHNZ7GhNPyPsRo482
-         ro0dSJDTWEhyJY+WD6uWEZ2ShhojY2COGcq6ptbIW3NEwn1BVhL1dEi5ETP1G3v9JIwg
-         2bYTisYffpUrlTmFLF9NtrTZPVP8EA1pmXBc3jm0vJfrdUlJ9Uvjdht1oIWq9G++vhaY
-         q8EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791748935; x=1792353735;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=326GNDd72hglJsFR0UqrA3uZDZ0kIfBw7vV/pEKINwQ=;
-        b=q4Y8XpIXvM/FenAipagDeX7BrxPAkSzyo05rCsNZAdwzBikwStx6womSOHcNPDfdvg
-         Yp/O8eBr1cJcncb44lbmxBGx4MBcSE4ISlyuAPkbzayuKzMLdDgcTYh9v7HCA6Y1PoXZ
-         sD+4tPt3PcitER93b58fCOyFm9WrASS9E7D3WJBrdMibB3Al5qsZeJjTd7oBEZz8YiJc
-         Ttm1aib6rWSOopxVYH928Ur1cguy5OUzzaZ7HfUXGEhrerWkiB5q+4MIsn4G644d0XdN
-         XcQ22bV8CONxhJtKAQXjlnag0nIvWqMwi1f9jGjVj/gwOcTC9ySmDrJD6vi1uR1Hdax9
-         tl8w==
-X-Forwarded-Encrypted: i=1; AKwUvBwRud2jdQ79Ay5e1s2My/JlGKWWITFzoVAfnqhfpQWWoPhL5la/7q5fWuuBnpYa3y3dHAR2lhM0kei3cA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKQK0L2EigwpBIm/hNP6LGwOnCXOhfe9yNSBTip25Pu53xt3bjX
-	A3ncb5Cg9Vxlpzbfekq1AWEP3Qisp2nZ6jJ0p3zqtatgI0KlD8yFn22O
-X-Gm-Gg: AYBFou1KkFDYO2UZFRy/nz7IfsF+vGN4pXAiUWtopjh6h3UtJFOspne81eGwY383H+b
-	lZPl0UMvzhYizUQnsexeRNJGD8X/MUyOR9gN4FQ2EmD9duYBsoZ19BEReiiKZyGZiSrah0Htbuy
-	e5MwfE/1R3LJSHLJCi/hD2SJ16YgZPDfgyZjFme2Y6E1KhpdNutAldbGUFXCU2+e5mA7om6Lso+
-	mNmJdK83TaAn5XYUmy9BjG0M2d1ynU1Fxc2Mk87ZgFqUKAQXIgHT8auGdeiOLp+mqhCKzX8zfLw
-	63sz2Y3xYgRxzHMFxpmO4sHJoDk6f0nlC6lVvCJV2BiDSv2SgbsIJMyHCD2ZuxpyGh7StRK5yw8
-	gdhYeGGexRrBTHgQkXEZNyZA92h7/1hJjebkW9is7tfX0A5VBvkl0UQyJUOtAUe+++F3Z9VMW8Q
-	xKtfqZxIqyShTSRaE2tjT3NasBlqM12tdhchqW1JAL6t9cyCzbXRNViwdxEXDm9QZH7WOfDmCxD
-	uGKSuFBA9eWrz68qvrDVz1LQY6iODJ2G1Nk5vW+izTHGHCAoaW+jJep1Ph0PdneCMM8o3wO0Ryj
-	dPWeCAtZa6indaTWvg==
-X-Received: by 2002:a05:6102:44c1:20b0:7c2:37c5:dd21 with SMTP id ada2fe7eead31-7cb39ffa0c0mr1416020137.17.1791748935266;
-        Sun, 11 Oct 2026 13:02:15 -0700 (PDT)
-Received: from MaquinaLab.. ([179.179.237.181])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99003ee656bsm5190361241.5.2026.10.11.13.02.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 13:02:14 -0700 (PDT)
-From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-To: Junhui Liu <junhui.liu@pigmoral.tech>
-Cc: Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Enzo Adriano <enzo.adriano.code@gmail.com>,
-	linux-clk@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v6 0/8] clk: sunxi-ng: Add support for Allwinner A733 CCU and PRCM
-Date: Sun, 11 Oct 2026 17:01:53 -0300
-Message-ID: <20261011200153.575096-1-vinicius.eduardo.pedrosa@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261009-a733-clk-v6-0-ae8178fce7e8@pigmoral.tech>
-References: <20261009-a733-clk-v6-0-ae8178fce7e8@pigmoral.tech>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fMAyCurt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C84EA1F0089C
+	for <linux-sunxi@lists.linux.dev>; Sun, 11 Oct 2026 20:27:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791750478;
+	bh=C4mwaLGCa57klLjJDqHf8uXMvhxCEah6UJYl7mGVUNc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=fMAyCurttbzhgWTUnrXWc3iEZ9/89VpnCcCUd6twqlry2XlRD4jZPKzXoIjJtxUvK
+	 YntVcAybqLQJ+iyRPHOTj4SShhC4NHGwE4+w/ruEqMDXkk7XIHPha8RRbxGDG4/YCO
+	 +QIoIhs/NsRZfuqhbct5dHDVrY+1fkM7u+BrbQhEfD0PC5zbr9u39ZA3sFfgzcrJ4F
+	 dvZ2MticRw8bx5UfbzlDmH3ZHUzu4ssI0GaD4iZIAWhYyzC6tygdpA27yEOmpn+8ey
+	 xjBKiglMiQEbm1OfGbCDb7myeX7IVJE9xXGeUS71ckcNOMxLP4456QNkuoqJWb0ugg
+	 Xa6CkVYXbSxJA==
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3a87e23860cso15500261fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 11 Oct 2026 13:27:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzprofTDDh5mUBOWwuxvIItbg1XRUfXKX39GLzvmzAh/z7t2Cd+SDpItDhKzaPWhyEFD1CMgeB4k4isTQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIgNT3CETt0VEnbfk/RNGXgZXnex9N8hfYQJB/+ehBizfR9vJm6
+	l8oMjYSxXRXE15CsvJuP/DbE0kAGHBRyr2rflXr5FY0Zofm2SxUMoKIot9yev0spCoGVvmuRqIG
+	thmtRlYlDtTNRsfd/fw+7Ax19+FuFehA=
+X-Received: by 2002:a05:651c:2121:b0:3a9:dd56:bc59 with SMTP id
+ 38308e7fff4ca-3a9dd56c399mr6626541fa.13.1791750477604; Sun, 11 Oct 2026
+ 13:27:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260910133519.459011-1-andre.przywara@arm.com> <20261008194719.328146-1-vinicius.eduardo.pedrosa@gmail.com>
+In-Reply-To: <20261008194719.328146-1-vinicius.eduardo.pedrosa@gmail.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Sun, 11 Oct 2026 22:27:44 +0200
+X-Gmail-Original-Message-ID: <CAD++jLnOmttzkrT7pa=o5pRq_o90p3a2_ssHX_odQ6dFS3_x_w@mail.gmail.com>
+X-Gm-Features: AclHuK-jhop6QweQuut3yS6CaY8pcraf3pdrsXYPB174sqV2QY9XVovESPN3qi0
+Message-ID: <CAD++jLnOmttzkrT7pa=o5pRq_o90p3a2_ssHX_odQ6dFS3_x_w@mail.gmail.com>
+Subject: Re: [PATCH 0/7] pinctrl: sunxi: Add Allwinner A733 support
+To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Yixun Lan <dlan@gentoo.org>, Enzo Adriano <enzo.adriano.code@gmail.com>, 
+	linux-gpio@vger.kernel.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Junhui,
+On Thu, Oct 8, 2026 at 9:47=E2=80=AFPM Vinicius Pedrosa
+<vinicius.eduardo.pedrosa@gmail.com> wrote:
 
-I tested v6 on a Radxa Cubie A7Z (A733, 1 GiB LPDDR4), Linux 7.3-rc6
-with the eight patches as posted. On top of that I have Andre's pinctrl,
-Enzo's DT work and my local DT/UART/pinctrl changes. TF-A and U-Boot are
-built from source, with local changes; boot0 and SCP are still the vendor
-ones.
+> Would you be OK with disabling the io-bias programming for A733/A733-R
+> as a fix for now, and doing proper voltage mode support later? If so
+> I'll send the two patches, with Fixes: tags for 0535bfbfa97b and
+> 31d68e10381c.
 
-It cold boots from microSD to systemd with 8 CPUs, with the unused-clock
-cleanup active and no clk_ignore_unused.
+Just send the patches so we can review and discuss, no need to
+ask permission, if it's not OK we simply don't apply them. :D
 
-About ahb-store without CLK_IS_CRITICAL: clk_summary showed mmc0,
-bus-mmc0 and ahb-store disabled at idle, enabled during O_DIRECT reads,
-and disabled again afterwards, over three cycles. The hashes matched,
-and there were no MMC or clock errors in the logs. mbus-store stayed on.
-
-A native PSCI reboot also worked without the local critical flags on
-bus-r-riscv and bus-r-msgbox, and the data was intact afterwards.
-
-These tests cover boot, MMC and reboot on this board, not all clocks,
-resets or secure boot.
-
-Tested-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-
-Thanks,
-Vinicius
+Yours.
+Linus Walleij
