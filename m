@@ -1,72 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047AD353A65
-	for <linux-sunxi@lists.linux.dev>; Sun, 11 Oct 2026 20:27:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F283542FCCC
+	for <linux-sunxi@lists.linux.dev>; Sun, 11 Oct 2026 23:13:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791750479; cv=none; b=lDJiP2Z+i5wQInrcndbUPJTcxLOmDcieSAzo2XEWhP2+ekidVMgK/sLVLcKrMnqS0Ff64B13YVzJEvNfIMhM0W1sPCsfuWqxan9KrO8nZXAoOhZ98eeJQHwLB69YZJYR/nvEXhneRNQbFflnj5MjwJhLBPFbLfJXg2TPaER86p0=
+	t=1791760408; cv=none; b=RQIot793mV6iZFZivmPIMIRhanC1GcQckdI1xOm2GGQSKk5iRhTLl6Yczar6VXgo6GO766hT9DJXdobWtI5cASjnsqLmQw7e1LjZkOb9Am/5ACwK24e7OhWXwvUA/Bp0MizYGQkr5gxmgyfzukrQ/ue3dnGC6CCz5ndCFccgRws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791750479; c=relaxed/simple;
-	bh=C4mwaLGCa57klLjJDqHf8uXMvhxCEah6UJYl7mGVUNc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XBR2Uboc1uMvuaISd71MDG8ySWXrWHo859A4eDdxSGsDc8gmiuQSfTvwma/KlAmTtr3iGrmNt03SpmpomG+OWXm3HJAg8vDicMoluiUy8sqf4Qt1+e9hJRM8DfFghGjV5IstWS9KmQete0MKayC5X8UjOJfBh4uMA5qZS8tdCKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fMAyCurt; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791760408; c=relaxed/simple;
+	bh=oxW4Ujc2C6PLvH6PLF1Dxb2THQi6y4w5CW1TMZdBXv0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bFaHzcWiyJ/0q+vga9W7sVyw/OEP7+/2HR/L3eiXwVyrr3WF0UgYzX8LgwiHXkbpVd2ShFim1YKBCbJ8rpmMBveLzE/En4vO39QD8FEXeX9dy/3argqAatmT0DHd/khmsxOOMUy0aDe9ZBJDv44W0V2qSnMS/Jzj9ul9+8y/Wr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=l/H5Mjiw; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fMAyCurt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C84EA1F0089C
-	for <linux-sunxi@lists.linux.dev>; Sun, 11 Oct 2026 20:27:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791750478;
-	bh=C4mwaLGCa57klLjJDqHf8uXMvhxCEah6UJYl7mGVUNc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=fMAyCurttbzhgWTUnrXWc3iEZ9/89VpnCcCUd6twqlry2XlRD4jZPKzXoIjJtxUvK
-	 YntVcAybqLQJ+iyRPHOTj4SShhC4NHGwE4+w/ruEqMDXkk7XIHPha8RRbxGDG4/YCO
-	 +QIoIhs/NsRZfuqhbct5dHDVrY+1fkM7u+BrbQhEfD0PC5zbr9u39ZA3sFfgzcrJ4F
-	 dvZ2MticRw8bx5UfbzlDmH3ZHUzu4ssI0GaD4iZIAWhYyzC6tygdpA27yEOmpn+8ey
-	 xjBKiglMiQEbm1OfGbCDb7myeX7IVJE9xXGeUS71ckcNOMxLP4456QNkuoqJWb0ugg
-	 Xa6CkVYXbSxJA==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3a87e23860cso15500261fa.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 11 Oct 2026 13:27:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzprofTDDh5mUBOWwuxvIItbg1XRUfXKX39GLzvmzAh/z7t2Cd+SDpItDhKzaPWhyEFD1CMgeB4k4isTQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIgNT3CETt0VEnbfk/RNGXgZXnex9N8hfYQJB/+ehBizfR9vJm6
-	l8oMjYSxXRXE15CsvJuP/DbE0kAGHBRyr2rflXr5FY0Zofm2SxUMoKIot9yev0spCoGVvmuRqIG
-	thmtRlYlDtTNRsfd/fw+7Ax19+FuFehA=
-X-Received: by 2002:a05:651c:2121:b0:3a9:dd56:bc59 with SMTP id
- 38308e7fff4ca-3a9dd56c399mr6626541fa.13.1791750477604; Sun, 11 Oct 2026
- 13:27:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="l/H5Mjiw"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a180fbeef5so11951735e9.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 11 Oct 2026 16:13:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1791760405; x=1792365205; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=oxW4Ujc2C6PLvH6PLF1Dxb2THQi6y4w5CW1TMZdBXv0=;
+        b=l/H5Mjiwx9UC3V2ZW6FCCwMz2V1zSxItD+AyrwLw7t5Edz4D6/x2xCvu2SO9J7MY5K
+         nHNL9XdUeV3qBfe2zAu8eydrdU8XrVZ7hS/nYVG5n8tOYKbhI2udIIltw27/7EEm6lVB
+         5qSju76ooX8A+RccXB603yqpthdQl/WPMp2LHjPIL5dLw+et243aAqx1Tvftn5ETcib7
+         lC1fZ16yC7uO/on12Nna9XBKMx/jB/8m5Qw66OA/l5WRlo8JJLdlH34NuCeCrvfYHzB6
+         IVRNpk0VQEy+RGD7klJxE8L+Zdn24adaSNyo+ZDZmXa9dY23sRl01uP1s5753mmGKCdM
+         cGCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791760405; x=1792365205;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oxW4Ujc2C6PLvH6PLF1Dxb2THQi6y4w5CW1TMZdBXv0=;
+        b=LSP5WB4VRmMcGVlYe6OQTBnrZq4mVwSCiLDg0NeQ75kt9f5oUwpGdce+LTh621HvkU
+         mwjswUHOgyAGEXXBwdJNZ5VOKkXK2yEm9qtMbHfELc1eOXr75spzyeLVEqffqdrG25YC
+         juAG98pMuBSzGm+4QMs3c9QjNlkJm02Y7KHwqQYUtszPcwaRzAFcPRgnJVqNtFXt+NB4
+         Kucl0DUzD3w4ECpnOdXHUDV3/GS1ZLeR6nYACDSOwivk4I+ZVJD+hBLuZfRn3vtKK1ZK
+         LTMFSm6tA9nAGdjHvstndCw0JzDdKmM6euZXlduG46gCzH72a6eRsiRoWozMH4PKCLTB
+         toKA==
+X-Forwarded-Encrypted: i=1; AKwUvBzT0jqq3/D4RzkH4IXAM73ZOnYtWd7CB9fA5Jb9F01nZf79JBTtD/N+1lD9qgcJXO2jTUIqrpgZ4eNQzQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJj6IWpkIdLnZ4vxyXJVCULW6EmJdPYkl2Ze1N+4+Gx4Fs1Gf0W
+	2TeUVVAsae5NyNK3/Dyb/h49ipzqEedEFy12y1v7h3IrRso2OClEtX7kRSm+BCV77W0=
+X-Gm-Gg: AYBFou30Pl/7QyR4R/fT2MNBvo9LYKSqz9meNrl5tNKPZWG+9Ceqc7S8Z7JRihGpOHr
+	O4obfHUhFW6Dt+jVz4wmgIr4Ho/H0/XMhklGRFeNTt5uM3vqqrJP2A25c4jKfxOqhJ92CtbYEff
+	OVE0YBeGDgBUklxUDyxYrzH1gHeSVA8jBxFTD6lzdxyFgp8uDh9z1aAcq1Czbv29/LEx6GC4dEl
+	WWctlPaMDjvuuIMGEbE7zNTPmqIyg4MsOPgnhRSKb0CT7lifD92ElfJr4f3BkNIPDu1GgHyOD4F
+	oKtfC2b3nCvvLCy48n7OMJVW/NaYxBwh/mGaAmG0HSMk+0zNsUbqJK/jaurOQrIFunpkb7h1KO7
+	xX5elcGoTvYj5xz5l0kpqX2YKG3XtYq1+Wgdc+D+xnEm9RrJctGIPwtTFIMIG17E3gIhPDW1r8c
+	+D+QVwIP633wlAWLDp8egtqfQbOnntdlRIpDLkO2d5fBnWzhRkKDFSq/cDCXpwIJ4r16LgeBhlf
+	68=
+X-Received: by 2002:a05:600c:3f0c:b0:4a1:85d9:13be with SMTP id 5b1f17b1804b1-4a18e498471mr165188775e9.20.1791760404876;
+        Sun, 11 Oct 2026 16:13:24 -0700 (PDT)
+Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4a18bea1021sm222382515e9.10.2026.10.11.16.13.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Oct 2026 16:13:24 -0700 (PDT)
+Date: Mon, 12 Oct 2026 01:13:23 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] media: sunxi: Add support for the D1 CSIC
+Message-ID: <aswXwdgpWTVoItYy@monoceros>
+References: <20260930154835.402684-1-tien.nguyenminh@embeddedlinux.blog>
+ <20260930154835.402684-3-tien.nguyenminh@embeddedlinux.blog>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260910133519.459011-1-andre.przywara@arm.com> <20261008194719.328146-1-vinicius.eduardo.pedrosa@gmail.com>
-In-Reply-To: <20261008194719.328146-1-vinicius.eduardo.pedrosa@gmail.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Sun, 11 Oct 2026 22:27:44 +0200
-X-Gmail-Original-Message-ID: <CAD++jLnOmttzkrT7pa=o5pRq_o90p3a2_ssHX_odQ6dFS3_x_w@mail.gmail.com>
-X-Gm-Features: AclHuK-jhop6QweQuut3yS6CaY8pcraf3pdrsXYPB174sqV2QY9XVovESPN3qi0
-Message-ID: <CAD++jLnOmttzkrT7pa=o5pRq_o90p3a2_ssHX_odQ6dFS3_x_w@mail.gmail.com>
-Subject: Re: [PATCH 0/7] pinctrl: sunxi: Add Allwinner A733 support
-To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Yixun Lan <dlan@gentoo.org>, Enzo Adriano <enzo.adriano.code@gmail.com>, 
-	linux-gpio@vger.kernel.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="qngddyqnkwhditii"
+Content-Disposition: inline
+In-Reply-To: <20260930154835.402684-3-tien.nguyenminh@embeddedlinux.blog>
 
-On Thu, Oct 8, 2026 at 9:47=E2=80=AFPM Vinicius Pedrosa
-<vinicius.eduardo.pedrosa@gmail.com> wrote:
 
-> Would you be OK with disabling the io-bias programming for A733/A733-R
-> as a fix for now, and doing proper voltage mode support later? If so
-> I'll send the two patches, with Fixes: tags for 0535bfbfa97b and
-> 31d68e10381c.
+--qngddyqnkwhditii
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH 2/3] media: sunxi: Add support for the D1 CSIC
+MIME-Version: 1.0
 
-Just send the patches so we can review and discuss, no need to
-ask permission, if it's not OK we simply don't apply them. :D
+On Wed, Sep 30, 2026 at 10:48:34PM +0700, Nguyen Minh Tien wrote:
+> +#include <linux/mod_devicetable.h>
 
-Yours.
-Linus Walleij
+Please rely on <linux/platform_device.h> to provide of_device_id and
+drop the inclusion of <linux/mod_devicetable.h> which does more harm
+than good.
+
+If you really want an include for of_device_id, use
+<linux/device-id/of.h>
+
+Best regards
+Uwe
+
+--qngddyqnkwhditii
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmrMGBAACgkQj4D7WH0S
+/k5tCggArhjqsIMxWZn1mdwNpWwWCgDbuq6GCyhWvxK6/4SoEqOcbECNykQJkcqM
+gvBI7Zcz8K+t3TTUvkpf5ten3RucpB85MIpw2zPZyT7UNFTU4XpVJ9KXFNT6G57g
+GknahtuMpdBREceO6pO3vd/yn8VMXV8clPTPXpgNywW5t6z3QOzEz0IcrZMJb8V6
+cSCkPm8gLqPQcJsxc5Jwdjzt/xaeUIEVlS9TgyVY6BrcotwmfGeJsCPubGsR35Dv
+rCHn8rkKSLOaUBG2rAWF26nch4TvC8JDsPDVi5/HJBfJhBqHK5hOi/Nri4WSmi8T
+kVp10DCvNgThgd+VEI82L4IL+a9Oig==
+=gnsw
+-----END PGP SIGNATURE-----
+
+--qngddyqnkwhditii--
