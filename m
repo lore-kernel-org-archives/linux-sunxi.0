@@ -1,146 +1,301 @@
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2BE4BD78D
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 18:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791830520; cv=none; b=E6DFyI0P0JG6rgwVBupKTvxoHR1fqkh+2Yfgjh1QgRu89J2o1/zlBuaKm4BQTMSzbnxWHJ0GSQ3R7xKKuAgDt18NcesyI/gKRMsGt8CxFydyksAvpUjcdL+SH80VdxwTK+tB9H3QZaG2qrcHd8DKVCFcKISls8+pvzi7MTFcZEg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791830520; c=relaxed/simple;
-	bh=+7IEebuXjPysbU/EOLi4stnxpBM6T6QymSauphGxL/4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EMZwLSHo/6oWY0KfyBmM0+YC/nHlXb0SClVAMlM4wCiHTabeEjnJ7wK49z+RQHWHN6dthn5q9bFl8LJEnPw1UGA9doGVZ3QjM6/W3EvJCIXzkZVvWv1B892ZFfLa0t2+2VjqbYYCizKeOU3hqaMpAc62Vcj/iLaMpIGcJ+6WAuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HNL1evLd; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABED37DAA9
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 19:17:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791832658; cv=pass; b=iobZrjpWebmQHn2kQJ8pfJJ7Rknna+mJOd87Zz4QWnOsoHfS+tB7QhNQaeIVDcYmTzSoY2RuAccpwbG2f6TdXzH0rx/75MO1OTVPr1ax3WzahxUVMTQOYeP1Hv5YHVkj3gmXi45Jd41lGZyYWItmJkqUg8+wOYEEJxCaGWlv3+Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791832658; c=relaxed/simple;
+	bh=0NroonrhKu8HwhfLgxgL5i69Qnwboi0dL0/KlCJxyMU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tgehOobDk9MGFAGXFgBQpYlyLsaTB03hBOhpZvjW4qphEqmMyppJ4uDijHgbAhJ3tyK5+wUQp/6Po2tzB6ePTQ58/lkvdmk4ooJAXyRd+OvsoO8Vkl1J8X/s9/HsVl74xtQAuDi7eMzjK0K3cDlXdpZBfazMj9Qm61wJT/LGbvo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mwZ3ZkWt; arc=pass smtp.client-ip=209.85.217.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HNL1evLd"
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5e67a6b3633so737719e0c.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 11:41:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mwZ3ZkWt"
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-7c02791cadcso633929137.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 12:17:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791832655; cv=none;
+        d=google.com; s=arc-20260327;
+        b=BcJOqRrw1NpjieAzRFEWeRPaDbP2rQaHFM+/k2Gqumg/6nptUgylFOKx3MRz4B7rhN
+         TRzQlYvKcA8CUXpeKJ9wm5kbKJve0S+4kU27PGNk1Ip3MRv6lSD4XVrQyEpLUv4pCViJ
+         54lm0NMt5rrwXWc9oJ/4DgmoQBpYzLFRTeJSJBJFhRYjuH/fh7aaCwVrq5/1mSvjpLYz
+         UgsNJ+9L7aW0znnPYrJfCGZ4bE4P9NcV/P3EzfVqzezGbTjNd561GVwGl6p79FJ3i/lk
+         nnsFVcFSHapyaXW+6F+OaNzIvRWPLTyNbM65MjvmmPa2jFxbsVnehF0BnhjITbIiIGte
+         uqjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=uPLLkky/mBMG1bxMgcOlfanOcStnyU9/PqoEofggCR0=;
+        fh=tsjNzzyGYucsvNpbc59O1QRdU0JC0RIursMcO7Vn3qI=;
+        b=DPJWZqwey+P16Ugmc8CQue4UEa9IQUK003KwQvYEk1U/lmOLTSZ8NoeVe8xVDmA4Un
+         jkxOSMHrhmbgeLrOXYMLGRmzVGejCR3zYroDv6PLRgKvth4BtWBUBIDQWDw3RVfyO6N3
+         BPsDZMYzjlJWr0cWgGxFiXeAr3i7G1qLgftxGt5HgVHB6UPv+B2OeIENZPeZeWKqbIp5
+         fp1zKchqQtePR5r8iRWGETv0n8Wihyg76pjFyHgzo4lO7Fmeu8YOXjYbWnP+XOyiKSQn
+         KuQXOuHkO3JoOCeecWOaLEWmfcD/WTdEPiy7dAxGG7iJ3bXq0tWaYIMLifhX4wAQlHjZ
+         RWBA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791830518; x=1792435318; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=1AyANQsh/NuLrShgUzGL88ky2h7L2MDCXmZx5EOLv9g=;
-        b=HNL1evLdrGqBiT9DqJlEH350rEn8eU3/Td11fPxL5j9ln2N6ELirmtRDBGFji+CFfD
-         68Fztf5CLbFCFNj7LlAss5GoRdUAUnns2vpVrWQ4qp1didkqf0OQdL+LXNU97Lyk669o
-         25zCJ1s6Yvxr99uo7yu++goB3kJWEVo5tT4yjls1seGZcWfc00oOCw6GE244tcRTffzl
-         PJdMjl+3lmtuvcsoEYGt5/IFvi2FAxZWklzgJsarJKIcw6fANJi0LQDCG/wJU/QxbFOH
-         ph65Ab/Qj2MrV7dHDGp63UVJqVqWPAoOysWMpW8wIM10OoUkO7OB86ITACDt4rG2V6ia
-         Jp1g==
+        d=gmail.com; s=20251104; t=1791832655; x=1792437455; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=uPLLkky/mBMG1bxMgcOlfanOcStnyU9/PqoEofggCR0=;
+        b=mwZ3ZkWtvlYdIhwryH72reR94OCxhS4qVHqwGDc9A62kMvk+LEFwJ4xrNfH0eQNZxG
+         etqB6j4UW1X4fJduOgBY2YRpB0cJTS0OX5oqiL3HC3WX45HDOjh+K+IhZQWy/e9hRzR8
+         ztPBCcO+6a/6nSnVxeiio4D6FgjOtRsZHtd4ExRTBZ22KWYqA6LvKn3JhPSZ/yYFSV0J
+         idx9hEnKPp8MgtzA8vCPUcgnwZNdNOAXtEsMLBDe+8/QJxTlo4A74dVmMy+jMc7e2Zs9
+         uqfLE6YLmq7oLZ8cusENwAb8/l5uP4Dx3tzRbYVClLVV9omnwxCNyuLEQFfifU6Fu/uf
+         bFiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791830518; x=1792435318;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1AyANQsh/NuLrShgUzGL88ky2h7L2MDCXmZx5EOLv9g=;
-        b=VbYtu3gDyA5rjf5wHgn/2DJlae7oprEL771zQINi7k8TMDaFnuNlddEch+I0rRwdhY
-         Xghmpe1sUyPpC7HTbpiE9fkD92XWaD4eGp9CYFJPwCpKaFz1xzxRiB/HxXw/u3K1E6ZH
-         bV9HWu2yt+raoApUFujbTtvXWVZtO6ieYlHOodvUAbbsVF5BJMS4tjRZ1l2soxMtRqfX
-         Kfd/dodMOBy6f87X+ZAIS57xzhAZphvGcG1zqqNHU/9L3y3fEWgePZE19C77TrSKiFVS
-         Wi23IW29Y1jFxRA5wwfUb3LrRweNsV3IZVgTkFI6ibBJzC0OgbfOS3SEzlovfSgZPKWB
-         +laA==
-X-Forwarded-Encrypted: i=1; AKwUvBwre9O3iw+2am//O0SsF6xYLcoAaw4F+RrgTY+AXL7a++7cbpXmbc0SMGGioiX2rWV7ZCC9HShmliB2hA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJCRzcFhfS6Ji0tyqj0lehwj5pHAYLw3lD5Ppy7kgyz2+dN+Xg0
-	vWxTTHyqT6o3cbBG3VC/U6aY/zvC6eWUBDGXwtTQRYQfMxxgNQl6Y+zI
-X-Gm-Gg: AYBFou32W6q3EaDaFj6UkID+9r+q5LVs03OeYnjsQ3psyTrlAbsrHFbaQ8m5tJ1m8iT
-	L+x4Qm8COXNS/wGs8SxWd3gOG03YaGg1hoxKkZmOMOCAfylQp45ELi3PnKfBickywtFa7C5nGf3
-	V/Yd9j5LBTEnopq65QalHzxwkDO7p48lbksJrO+YhL3ZQ0fpATBKkcQnK1784XLwmfzU8KQgMbw
-	WszXt28O+rL8OSCenZsMFWMb7v5ALd/LAZl1PFxl66J+moyZkl+aXTpWg3bpaJnCb0rKnFjiESm
-	rw0BOlgyaBfHB5MH2d41/lHBbrkhe7VEh5900cbmOo59p9B4BvMW98Dj2fLXcOS/pRFr+Ht9P59
-	D1vytkpe5gieSsx0BMVXx/HyeYoqOK/Ad6z/Em+T8DWEAfCoRvAYfXR/F8DB++hx1qTYzPlIHhV
-	4rA5vGQBmkJfswqwMrttQCtiY7RIt8pEnxr0cHRwcEs+wk0i5pihQ7zzH4rIri3XwMorxFXlA2K
-	b2J3n9smigT8oxpKBWAh92FF+jduUm6fAl0FiS1XNDbtMl8yY6g0lXaIiZLvt/5bXbwrq1XHR6K
-	Fxq8RyJqiinJqScNQQ==
-X-Received: by 2002:a05:6102:26c2:b0:7a7:195a:1b2a with SMTP id ada2fe7eead31-7cb377f59d3mr2545886137.36.1791830518290;
-        Mon, 12 Oct 2026 11:41:58 -0700 (PDT)
-Received: from MaquinaLab.. ([179.179.244.163])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99003f230b8sm6830180241.8.2026.10.12.11.41.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2026 11:41:57 -0700 (PDT)
-From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-To: linusw@kernel.org
-Cc: wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	andre.przywara@arm.com,
-	linux-gpio@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] pinctrl: sunxi: a733-r: use the A733 I/O voltage fields
-Date: Mon, 12 Oct 2026 15:41:29 -0300
-Message-ID: <20261012184130.548261-3-vinicius.eduardo.pedrosa@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261012184130.548261-1-vinicius.eduardo.pedrosa@gmail.com>
-References: <20261012184130.548261-1-vinicius.eduardo.pedrosa@gmail.com>
+        d=1e100.net; s=20260707; t=1791832655; x=1792437455;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uPLLkky/mBMG1bxMgcOlfanOcStnyU9/PqoEofggCR0=;
+        b=N9dJY9T3sE0RpvbFHoijO2ElXoEjZ0PrZ9trxHnHEkksuwa/oc9KG5fw/qlYIE6rVb
+         gJ0IPYYm9ljbg0wvCZzOxt7EBfTrmoWoTfoOwGztMClhwVGvyo7pEFtN71ZIIiv+W8sa
+         g6DN6PtGTbGCE2tp3vfhvYPUA6rIQgXLxyaypuNwoaTOkxGzyDgPthEs2reY2JURoHtt
+         KQn8kdajo44PIInstsshQz48qKJWIAsWtSBdOJTB4Fo7DPO5hVFehmlDCMApDdG8JHvy
+         SzJ4Z/jZBKbc1Q1A9cfNSw1cCJ74SjPMsO84qWdspF4I7TVf7hlspIWtIarG4x68WWFP
+         aXYQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx+1FU1b/nUbkB3j9gwqBT8ei+vB7lklFl9ufPRJsQLvraPuZtxejSBfMB0cAB103p6T6QnZ8t05DmJLg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJeIkmribD0PFMzvkda7Ajsg+giAKb/CRnm+Iv1veYEO5+byavT
+	tLBmItifwEliUEcKF6YKN4iRW7d8G3N4xNtaYoi3uV55R1Jxgpm9W3amVYHxbxZb/D45AgT5trm
+	St5RjoURuOCCZKoAaAiqXwM9ynI/1VPg=
+X-Gm-Gg: AYBFou1e+pa93ShqPMw5sFRsGXBnnqvEcwUcq7wiuTrTr8JW8TbdeLaeL2riMaVnO8s
+	jFmP6X265DJ1fiQxp4zXYK54yPRW/PYuHNxqxDxxiiLm9YpkOe9l3k5SdvBxVO7MdzK/xcnwK2a
+	t0dcwSKsTkJNANJJh4jcWCqfpv0GkbnuNVHn9d1FuOwz/ZI1TEf66Jt5aCPZyf5ORPbQEQFFtG9
+	CvixOIJzcNyvBJkIRp+Hs/OdDAxJSq752ePaSMZ+MhAAEmKWCBq8kHJZXBzF2reRxjgmcwW3BCl
+	yMQMBea7UqUUdMZDJJ2LmxkvIUsDzqMABGNldlVghzlzW6gPugCJR6CYAYZdOiSsWHS8rlh4jl2
+	+F9lrxR7G7FbRzFpy+XIH07WK8T0ILlwZsSotxsCMOFc/l5AxvIK0RoLY1yMno76AnU8ndO0j1Y
+	/BcB/LcaHWDfrKOlJSJGqVy/bTyBc6+WdXRGZLX/yIf2Oa
+X-Received: by 2002:a05:6102:6c7:b0:7c1:8aa5:36d6 with SMTP id
+ ada2fe7eead31-7cb372821a6mr2739066137.11.1791832654562; Mon, 12 Oct 2026
+ 12:17:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260914-submit-sunxi-nand-vendor-oob-layout-v1-v6-0-2fb084fe0751@gmail.com>
+ <20260914-submit-sunxi-nand-vendor-oob-layout-v1-v6-1-2fb084fe0751@gmail.com>
+ <8733ua23xs.fsf@bootlin.com> <CADvTj4pmtGZ4c04q+5AE3trrfshToD7BPtF-8kPxPRZ25hOTRw@mail.gmail.com>
+ <877bjmzqkr.fsf@bootlin.com>
+In-Reply-To: <877bjmzqkr.fsf@bootlin.com>
+From: James Hilliard <james.hilliard1@gmail.com>
+Date: Mon, 12 Oct 2026 13:17:23 -0600
+X-Gm-Features: AclHuK_F8iNKqf1C4Ki3QntMVw0O_GSO7mPk67Uyart16gEEmw2VFpP4md4WlVw
+Message-ID: <CADvTj4ppQannShF+dkLreST94g_vSAg4QdMqxhNORzkvci3O1A@mail.gmail.com>
+Subject: Re: [PATCH v6 01/18] mtd: rawnand: sunxi: drain interrupts before
+ reusing the completion
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Maxime Ripard <mripard@kernel.org>, Richard Genoud <richard.genoud@bootlin.com>, 
+	Masahiro Yamada <yamada.masahiro@socionext.com>, Boris Brezillon <bbrezillon@kernel.org>, 
+	Brian Norris <computersforpeace@gmail.com>, linux-mtd@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The A733 R-PIO shares the A523-R descriptor, and with it the A523
-inverted one-bit encoding and the access to PIO_POW_MOD_CTL. Its
-SGPIO_POW_MOD_SEL has two-bit fields instead, and the manual documents
-no control register at offset 0x344. With PL in fixed 3.3 V mode, as
-read on a Radxa Cubie A7Z (0x000aaaaa), running the old helper on the
-host with a 3.3 V request for PL gives 0x000aaaab, which is fixed
-1.8 V. This was not run on the board.
+On Mon, Oct 12, 2026 at 1:06=E2=80=AFPM Miquel Raynal <miquel.raynal@bootli=
+n.com> wrote:
+>
+> On 12/10/2026 at 12:26:00 -06, James Hilliard <james.hilliard1@gmail.com>=
+ wrote:
+>
+> > On Mon, Oct 12, 2026 at 12:02=E2=80=AFPM Miquel Raynal
+> > <miquel.raynal@bootlin.com> wrote:
+> >>
+> >> Hi James,
+> >>
+> >> On 14/09/2026 at 15:09:47 -06, James Hilliard <james.hilliard1@gmail.c=
+om> wrote:
+> >>
+> >> > A timed-out wait can return while the interrupt handler is still usi=
+ng
+> >> > the previous operation's interrupt status and enable mask. Starting =
+the
+> >> > next wait calls init_completion() on the same object, which can rese=
+t its
+> >> > waitqueue lock while the old handler calls complete(). The old handl=
+er
+> >> > can also complete the new wait or restore an obsolete interrupt mask=
+.
+> >> >
+> >> > Initialize the completion once in probe and use reinit_completion() =
+for
+> >> > each interrupt-driven wait. On timeout, disable and synchronize the =
+IRQ
+> >> > before masking controller interrupts and acknowledging the waited-fo=
+r
+> >> > events. Draining the handler first also prevents a partial-event han=
+dler
+> >> > from rewriting the enable mask after it has been cleared. Flush thes=
+e
+> >> > register writes before re-enabling the IRQ line, leaving the control=
+ler's
+> >> > interrupt sources masked.
+> >> >
+> >> > For successful waits, move complete() after the handler's register u=
+pdates
+> >> > so that the next operation cannot race with those updates. Keep poll=
+ing
+> >> > unchanged and leave controller and DMA abort handling to the existin=
+g
+> >> > callers.
+> >> >
+> >> > Fixes: 1fef62c1423b ("mtd: nand: add sunxi NAND flash controller sup=
+port")
+> >> > Cc: stable@vger.kernel.org
+> >> > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> >> > ---
+> >>
+> >> So from the commit log I understand that you are fixing a race. The
+> >> problem seems legitimate.
+> >>
+> >> >  drivers/mtd/nand/raw/sunxi_nand.c | 26 ++++++++++++++++++++------
+> >> >  1 file changed, 20 insertions(+), 6 deletions(-)
+> >> >
+> >>
+> >> ...
+> >>
+> >> > @@ -414,12 +416,13 @@ static irqreturn_t sunxi_nfc_interrupt(int irq=
+, void *dev_id)
+> >> >       if (!(ien & st))
+> >> >               return IRQ_NONE;
+> >> >
+> >> > -     if ((ien & st) =3D=3D ien)
+> >> > -             complete(&nfc->complete);
+> >> > -
+> >> > +     /* Finish updating the interrupt state before waking the next =
+operation. */
+> >> >       writel(st & NFC_INT_MASK, nfc->regs + NFC_REG_ST);
+> >> >       writel(~st & ien & NFC_INT_MASK, nfc->regs + NFC_REG_INT);
+> >> >
+> >> > +     if ((ien & st) =3D=3D ien)
+> >> > +             complete(&nfc->complete);
+> >> > +
+> >> >       return IRQ_HANDLED;
+> >> >  }
+> >> >
+> >> > @@ -435,16 +438,19 @@ static int sunxi_nfc_wait_events(struct sunxi_=
+nfc *nfc, u32 events,
+> >> >               timeout_ms =3D NFC_DEFAULT_TIMEOUT_MS;
+> >> >
+> >> >       if (!use_polling) {
+> >> > -             init_completion(&nfc->complete);
+> >> > +             reinit_completion(&nfc->complete);
+> >>
+> >> The whole change around (re)init_completion looks relevant (here and i=
+n the handler).
+> >>
+> >> >
+> >> >               writel(events, nfc->regs + NFC_REG_INT);
+> >> >               ret =3D wait_for_completion_timeout(&nfc->complete,
+> >> >                                               msecs_to_jiffies(timeo=
+ut_ms));
+> >> > -             if (!ret)
+> >> > +             if (!ret) {
+> >> > +                     /* Drain the handler before it can restore an =
+old IRQ mask. */
+> >> > +                     disable_irq(nfc->irq);
+> >>
+> >> disable_irq() for serializing accesses to a single register?
+> >
+> > The intention was to drain an in-flight handler before cleaning up the
+> > timed-out wait, rather than just serialize the register write.
+>
+> I guess here you relate to the race explained below.
+>
+> > disable_irq() provides that synchronization as well as masking the line=
+.
+> > It is only used on timeout, and this IRQ is requested without
+> > IRQF_SHARED.
+>
+> This is clearly debatable, since we can identify the IRQ, that flag
+> could (should, maybe) have been set. With your approach it would have
+> been even more impacting. But that's not the point.
 
-Give the A733-R its own descriptor with the PL and PM fields, and
-leave the A523-R as it is.
+Agreed. I mentioned this to describe the current registration, not to
+rule out IRQ sharing.
 
-Fixes: 31d68e10381c ("pinctrl: sunxi: a523-r: add a733-r compatible string")
-Signed-off-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
----
- drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c | 26 +++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
+> > A spinlock could also address this, provided it covers the handler's
+> > status/enable reads through complete(), together with the waiter's
+> > cleanup and rearming. Protecting only the register writes would leave
+> > the handler able to act on an old snapshot.
+>
+> I'm not sure what you call "only the register writes", you can call
+> complete() from within the lock if that makes sense for this case,
+> yes. complete() does not block so it is fine.
 
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
-index cffc1e53eef1..1aa7f32035e1 100644
---- a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
-@@ -30,11 +30,33 @@ static struct sunxi_pinctrl_desc a523_r_pinctrl_data = {
- 	.pin_base = PL_BASE,
- };
- 
-+/*
-+ * The A733 R-PIO has the A523 one's layout, but its SGPIO_POW_MOD_SEL uses
-+ * two-bit fields, and the manual documents no control register at offset 0x344.
-+ */
-+static const u32 a733_r_io_bias_masks[SUNXI_PINCTRL_MAX_BANKS] = {
-+	[0] = GENMASK(1, 0),	/* PL */
-+	[1] = GENMASK(3, 2),	/* PM */
-+};
-+
-+static struct sunxi_pinctrl_desc a733_r_pinctrl_data = {
-+	.irq_banks = ARRAY_SIZE(a523_r_irq_bank_map),
-+	.irq_bank_map = a523_r_irq_bank_map,
-+	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL_2BIT,
-+	.io_bias_masks = a733_r_io_bias_masks,
-+	.pin_base = PL_BASE,
-+};
-+
- static int a523_r_pinctrl_probe(struct platform_device *pdev)
- {
-+	struct sunxi_pinctrl_desc *desc = &a523_r_pinctrl_data;
-+
-+	if (of_device_is_compatible(pdev->dev.of_node,
-+				    "allwinner,sun60i-a733-r-pinctrl"))
-+		desc = &a733_r_pinctrl_data;
-+
- 	return sunxi_pinctrl_dt_table_init(pdev, a523_r_nr_bank_pins,
--					   a523_r_irq_bank_muxes,
--					   &a523_r_pinctrl_data,
-+					   a523_r_irq_bank_muxes, desc,
- 					   SUNXI_PINCTRL_NCAT2_REG_LAYOUT);
- }
- 
--- 
-2.43.0
+Yes, agreed. I meant that protecting just the writel() calls would leave
+the snapshot unprotected. A lock covering the handler's st/ien reads
+through the register updates and complete(), with matching protection
+in the waiter's cleanup and rearming, would address that.
 
+>
+> ...
+>
+> >> commit log, I now disagree with the first part of:
+> >>
+> >> >The old handler can also complete the new wait or restore an obsolete=
+ interrupt mask.
+> >>
+> >> "complete the new wait"? I don't see how a stale handler completes the
+> >> next wait given the handler is a hard IRQ and the interrupt enable
+> >> register is cleared on timeout.
+> >
+> > The case I had in mind is an already-running handler on another CPU:
+> >
+> > CPU 0: Read st and ien for operation A.
+> > CPU 1: Time out operation A, mask/acknowledge its interrupts,
+> >        then eventually reinitialize the completion for operation B.
+> > CPU 0: Call complete() based on the saved st and ien from operation A.
+>
+> For this to fire, the hard IRQ handler on CPU0 would have to be stopped
+> between reading st/ien and calling complete() long enough to span:
+> - A's timeout
+> - A's cleanup
+> - B's wait being rearmed
+> On this hardware, how is this reachable?
+
+CONFIG_PREEMPT_RT provides a concrete mechanism. The driver requests this
+IRQ with flags =3D 0, without IRQF_NO_THREAD, so the handler is
+forced-threaded. A higher-priority task can preempt that IRQ thread
+after it reads st/ien:
+
+CPU0: The IRQ thread reads st/ien for A and is then preempted.
+CPU1: A's wait times out, performs cleanup, and eventually reinitializes
+    the completion and rearms the wait for B.
+CPU0: The IRQ thread resumes and calls complete() using A's snapshot.
+
+Clearing the controller's interrupt-enable register on CPU1 does not
+cancel the running IRQ thread or invalidate its saved values. The late
+complete() therefore acts on the completion now being used for B.
+
+This does not require a prolonged non-preemptible hard IRQ or a hardware
+stall.
+
+>
+> > Clearing the device's enable register does not invalidate those local
+> > values or wait for the running handler to finish. Hard-IRQ context
+> > prevents this overlap on the same CPU, but not across CPUs.
+> >
+> > That distinction was not explicit enough in the commit message. I'm
+> > open to a different implementation; the requirement I wanted to preserv=
+e
+> > is that the old handler cannot update the mask or signal the completion
+> > after the waiter has cleaned up and reused it.
+>
+> Miqu=C3=A8l
