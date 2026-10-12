@@ -1,160 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28E647C0ED;
-	Mon, 12 Oct 2026 10:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F36854A261A
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 15:41:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791800956; cv=none; b=FkoqBoLjTX2WfN6WE3LthlP1LjRoaPW4AZ0/f6be9uFiaYkr8c9PWiivLECiCgXWdfiIL5q/G69ANysPY6qGdAN4zJdTVaQb4M4GAQ76kggZVC/2mDzsVKkRHcmh1T6/cu4o3D6ixD9id2uNGroRiFTsBCEddUJ7LKNqJB506aU=
+	t=1791819681; cv=none; b=YnNqo3tvx9QE1j1Ygkl7sheXM/vjx/i/SVpOtG93i1qfgS9wyZNGcePzc+VTBANS7Z/jQYAb2tBHm7J5+tTFOhQY/iqIFHc49sgn5n9jyaOz17e/+6/fxQWF8NOAgcIB9LHqMP8qbnOzJumSSZJ5tOwSHRHpXdOAf956UCZigvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791800956; c=relaxed/simple;
-	bh=FxX/DV3Hd+gdPs+NLTFar8Ial//uJec9/23QuYexUgk=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=YgMiLez4VNQjFtQ+eUVLz/0+0UKEpaeI8/AD0BEUNsQnFUt1JYkhz0VmGiqLmQOQcWwq7aMevbIj8EPtiRCi1QVZvJcn763lfAQ6vuFG251Bf06aFZbY2ymlAA+ZTrHIfyT3cHQ8N6sWOnbloljJtOko8Wak9vLC2z5jfTfsL2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nZPAzy3T; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791819681; c=relaxed/simple;
+	bh=6hIXKln0CcY8+dmF/mGHOQKELRUsVLfH9Caoqcta/KM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bkOBBl2r0NLIT3ZNAaiU8/IQkThDOnlT7+wmIU+OzNjoFSIxcMFrjnKA4jxLgvx6SSqLivgbO8ls5gcYzLRao0eODzNPP4V84eC2xF9amMhiQve8DBdDlTe2U4M0ho4jXKoZF083iqs3Nnm84PwrQEdYVps7swjSW5mFMLllTHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m3z+ybvK; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nZPAzy3T"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27CD81F0089B;
-	Mon, 12 Oct 2026 10:29:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791800948;
-	bh=e6cS3WZpM3m966MAnnV/raCQy4PoeQp0AU6aTChnu3o=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=nZPAzy3TiZbmiQGPxGiKU1nSBPiirrXRAfpeXlBqz+YyM8ZUhIhhZ0HZFJT0wVrJm
-	 9erxLnHqhxmn1grTwysMSaVKvieIXng7hRNMQFWefgq7FlIu0oFo3XhU1kBlGimj5A
-	 0Gzb4y3Xp/h23zBPUSK2xz58T/DbYgbW1Ee/PyzdIWHXml5iJR/0yBB5bTQj5IfPsG
-	 dMDUFYIK9LFg7KXQqNTW0gpo+ig2ciLGzNLOCKzkPozwHz+5QtcnPwXIRTp2qf4GiH
-	 B6MkX29nuiwhxW2JFllVDoZRp2Cl0c/9hssBkUAU1TnWZNGLmkqoWqS14t/+CtnCG7
-	 NP822aCG5uUlQ==
-Message-ID: <sashiko-outbox-167955@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 04/11] pinctrl: sunxi: add Allwinner B288 pin
- controller driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Pablo Mazzini" <pmazzini@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, linux-gpio@vger.kernel.org
-In-Reply-To: <20261012100816.331033-5-pmazzini@gmail.com>
-References: <20261012100816.331033-1-pmazzini@gmail.com>
- <20261012100816.331033-5-pmazzini@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 12 Oct 2026 10:29:07 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m3z+ybvK"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-825487fb37bso1298233a34.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 08:41:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791819679; x=1792424479; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=6hIXKln0CcY8+dmF/mGHOQKELRUsVLfH9Caoqcta/KM=;
+        b=m3z+ybvKGiSI57HMmpD2CFRFiiawhsUIJj6xzrj6LYcvvgQgIwz9Ah2BskZRiY2kTe
+         dqUF1MOPHXA482ZMk3O06pTPx36lEoFvA1GtLHwOngc2z+RkeRk4zm49nz0oZpbslJRF
+         vXCwUweuzWgXibGczRd4Zx8CaDMhm4o+hOx2aeFD0X/X0ywty1BTA3GGcZEgfDX/3YfK
+         I2c/M6D7jLCuX21qBarcwfx07EEwiYigXXEaBFlNDBEXzLEYBCWZFZejpC1SPE185pO8
+         opZJW+TRngBfXSHWTSD5nbD9nJMMbtB856z3tGDVMwn14gg52BFjZ5/Cn1k0WcxATWJM
+         CXbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791819679; x=1792424479;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6hIXKln0CcY8+dmF/mGHOQKELRUsVLfH9Caoqcta/KM=;
+        b=hxdQgE/E4/5/voXJTEqRZkKWGXKWeq8sRSg1iznn395CYC8JysSu50GGtQcFMdDtyf
+         mxXUpGej7XIxbKFP7KXW5oV23H0iMHevJ8uq7w4XULdzWvC4UJAA/7vIoTm73vuItPCN
+         GMhBlsvgNATnsP4HLnlAjAJ7Ls9xGTxR0Q1yicPCowkcD80u8p7DIIawCZJC0hbvUl8n
+         kGrJ0lxSB991v9Q0mEhkciMimvkQI90sE4avsGElwiiANvqt6Y2cPpHM8cy5VS/bmsYK
+         FzY+CDp6oKV2oSmAPQaym3F6qaiaqncKgkDqykEjuLg9lwnYvb9PwiVQpbBaDWeu9DFt
+         cnPg==
+X-Forwarded-Encrypted: i=1; AKwUvBwC690KiJOE2LHRa6hANWGDHbjY9xagQo4KaIpPBuqXNYW5Bb9rOpyA+7ahXjcWYG/nIlToTXkv3XZdtw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLGNnR92QZbh5zcEyYZnmlhevvnfsFBuEGgr2CWsHP3gHHg1gGJ
+	M6ABiL34mjw29qf9M8Lo8/CsBamOr3RJ+FNWO+X6iBusCPe0/N5wmgDW
+X-Gm-Gg: AYBFou1DWO9x0zSF8hRaZJN7uKv/d+fGf2TfQdXBCzLflGszcln8ML0OwHL3qdp/Fii
+	7Myc6g59wnTa8RAyt3YKI3S5tdKp5VR8k9tW7hzSXVPZ2mA1Vhp12CVmBFRK+8k4Gf4djKEG6xI
+	OFu9aQGul3aXqz++R8d1rkKHILvnZhXOtvsMNsRfAmCc5hDh3Fl7/FH9FCOFDXtTb+b4LopHPPa
+	mbkhxznZNemPsV0la4rWRXlCQ+UcgQGgaM2dTndKdauba/0T2mMZggNg4hWpOrgGkRl68yOOd7Z
+	HGKLIlO/RxrhlksRBSzsrRuPs2Tz+AHFcHedLwH2Nf1hy3y1geDh2cMjsHS7oBePd/SndQN8GQT
+	DCd2sYFcJYbJT2sttmW/2symEdMELygaxiCh8e1iXUynngQaKIhE/UExmssIfJWEcZid/GlWDqY
+	5uFKtbOjxGHRWOTjmm17m/d1oQsHMxaYFCFA1cae0huNSq0IEJ+9HdujhorteFCYbSOzb3w/9gO
+	3BqeqZmHsSvvNYuDHgNYs4/UwWAn+yWopAGE++2vup3O93NAOw=
+X-Received: by 2002:a05:6808:c40f:b0:4f4:d914:8603 with SMTP id 5614622812f47-50c4c7a2ecamr11290630b6e.15.1791819678716;
+        Mon, 12 Oct 2026 08:41:18 -0700 (PDT)
+Received: from AMD.home.internal (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-518a72a6048sm5842486b6e.5.2026.10.12.08.41.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2026 08:41:17 -0700 (PDT)
+From: Enzo Adriano <enzo.adriano.code@gmail.com>
+To: junhui.liu@pigmoral.tech
+Cc: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	linux-clk@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v6 0/8] clk: sunxi-ng: Add support for Allwinner A733 CCU and PRCM
+Date: Mon, 12 Oct 2026 11:41:16 -0400
+Message-ID: <20261012-a733-ccu-v6-a7s-test-eff62a3e9eba@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261011200153.575096-1-vinicius.eduardo.pedrosa@gmail.com>
+References: <20261009-a733-clk-v6-0-ae8178fce7e8@pigmoral.tech> <20261011200153.575096-1-vinicius.eduardo.pedrosa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] pinctrl: sunxi: out-of-bounds write in irq_array when Bank 0 has 0=
- pins
-- [High] pinctrl: sunxi: Missing irq_bank_map breaks B288 IRQ offsets and d=
-omain size
-- [High] pinctrl: sunxi: probe deferral crash due to npins accumulation
---
+Hi Junhui, Vinicius,
 
-commit 6057aa70ee139132fe0176fd6bf4d482c87bdc64
-Author: Pablo Mazzini <pmazzini@gmail.com>
+I can add a scoped result from a 4 GiB Cubie A7S using the vendor boot
+chain. With v6 unchanged, unused-clock cleanup enabled and no
+clk_ignore_unused, all eight CPUs reach a RAM-root console.
 
-pinctrl: sunxi: add Allwinner B288 pin controller driver
+Ten cycles of 15 seconds idle followed by a 64 MiB O_DIRECT read show
+mmc0, bus-mmc0 and ahb-store disabled while idle and enabled during the
+read. Two additional 4 MiB direct reads at each offset give matching
+hashes. Card-write counters stay zero. GIC remains enabled at a reported
+480 MHz; MMC operates at 50 MHz, 4-bit, 3.3 V. The board returns to vendor
+Linux after the test. This agrees with the parent-gate behavior Vinicius
+reported, on a different board and boot chain.
 
-This commit adds a new pin controller driver for the Allwinner B288 SoC,
-supporting 80 pins across ports B, C, D, F, and G. It uses DT-provided
-mux values and specifies 4 banks of external interrupts.
+Correction to my earlier storage description: this is microSD on
+SDMMC0, not eMMC. The eMMC footprint on this A7S test unit is unpopulated;
+this result says nothing about eMMC on A7A/A7Z variants.
 
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun8i-b288.c b/drivers/pinctrl=
-/sunxi/pinctrl-sun8i-b288.c
-> new file mode 100644
-> index 0000000000000..f973c2b3f2eba
-> --- /dev/null
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sun8i-b288.c
-> @@ -0,0 +1,49 @@
-[ ... ]
-> +/* PH0 exists only on the BSP's FPGA platform and is omitted. */
-> +static const u8 b288_nr_bank_pins[SUNXI_PINCTRL_MAX_BANKS] =3D
-> +/*	  PA  PB  PC  PD  PE  PF  PG */
-> +	{  0, 17, 15, 29,  0,  7, 12 };
+The test kernel is v7.3-rc1 plus the public dependencies and local
+pinctrl/MMC prerequisites: IRQ-bank allocation, firmware bias preservation,
+a read-only PF supply provider, MMC error handling and two DT pinctrl
+retry/parser fixes. ITS is disabled in the board DT because enabling it
+still stalls early initialization with this vendor boot chain. The GIC
+clock is already marked critical in v6 and remained enabled throughout
+these tests. I did not add critical flags to the storage clocks.
 
-[Severity: High]
-Since Bank 0 (PA) has 0 pins, does this cause an out-of-bounds write in
-the core sunxi pinctrl driver?
+A further eight-CPU run read the full 119850 MiB card with O_DIRECT to
+EOF, with zero card-write counters, and returned to vendor Linux. This
+is a microSD/boot test report, not whole-CCU qualification. I have not
+validated LPIs, voltage switching, native PSCI reboot, suspend or other
+CCU consumers.
 
-In drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c:prepare_function_table(),
-last_bank and irq_bank are initialized to 0. When processing PB (bank 1),
-the condition (bank > last_bank) evaluates to true (1 > 0), causing irq_bank
-to erroneously increment to 1.
+Thanks,
+Enzo
 
-This shifts the logical IRQ bank indices for PB, PD, PF, and PG to
-1, 2, 3, and 4 instead of 0, 1, 2, and 3.
-
-Later, sunxi_pinctrl_build_state() configures the interrupts:
-
-    int irqnum =3D func->irqnum + func->irqbank * IRQ_PER_BANK;
-    pctl->irq_array[irqnum] =3D pin->pin.number;
-
-For PG (irqbank 4), irqnum will be between 128 and 139. However, irq_array
-is allocated for exactly 4 banks (128 elements) in
-sunxi_pinctrl_init_with_flags(), which would result in an out-of-bounds
-write past the end of the array.
-
-> +
-> +static const u8 b288_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =3D
-> +/*	  PA  PB  PC  PD  PE  PF  PG */
-> +	{  0,  6,  0,  6,  0,  6,  6 };
-> +
-> +static struct sunxi_pinctrl_desc b288_pinctrl_data =3D {
-> +	.irq_banks	=3D 4,
-> +};
-
-[Severity: High]
-Does omitting the irq_bank_map array break external interrupts?
-
-Without an irq_bank_map, drivers/pinctrl/sunxi/pinctrl-sunxi.h:
-sunxi_irq_hw_bank_num() returns the sequential logical irqbank indices.
-
-Because the irq_bank offset is already shifted to 1, 2, 3, and 4, these
-logical indices will be used as physical hardware bank offsets.
-
-This incorrectly maps PD, PF, and PG to hardware banks 2, 3, and 4 instead
-of their actual hardware indices 3, 5, and 6.
-
-Additionally, because PG receives irqbank 4, its out_hwirq is calculated
-as 4 * 32 + irqnum (>=3D 128), which exceeds the bounds of the 128-entry
-IRQ domain created during probe.
-
-> +
-> +static int b288_pinctrl_probe(struct platform_device *pdev)
-> +{
-> +	return sunxi_pinctrl_dt_table_init(pdev, b288_nr_bank_pins,
-> +					   b288_irq_bank_muxes,
-> +					   &b288_pinctrl_data, 0);
-> +}
-
-[Severity: High]
-Could this lead to a kernel panic during a probe deferral?
-
-The driver passes the static b288_pinctrl_data descriptor to
-sunxi_pinctrl_dt_table_init(), which calls init_pins_table() and
-accumulates the total pin count:
-
-    desc->npins +=3D pins_per_bank[i];
-
-If the driver probe defers, desc->npins will double on the next attempt
-(from 80 to 160) because the static descriptor is reused.
-
-The pins array is then allocated for 160 elements, but only the first 80
-will have their .pin.name populated.
-
-During DT parsing in fill_pin_function(), if an unrecognized pin name is
-encountered, the search loops over the oversized array and evaluates:
-
-    if (!strcmp(pins[pin].pin.name, name))
-        break;
-
-Iterating past index 79 would call strcmp() with a NULL pointer for
-.pin.name, causing a panic.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261012100816.3310=
-33-1-pmazzini@gmail.com?part=3D4
+Assisted-by: Codex:gpt-6
