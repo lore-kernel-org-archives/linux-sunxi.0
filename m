@@ -1,79 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0990F439F99
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 06:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2968245A287
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 08:40:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791787534; cv=none; b=RTgTrg+wf8uyiOL1zPD5fwWK6dazeqrBV+yeKZya3MbG31K6Pw2MhnPg2+FBRF6v/NPTF9nBYzDCIMQGBEsb3ChQWXMo2P8weQjua5uugwvb4WWddbP1CbQXxqs6e0AGfVH//Yi+M2nINGgZkA3ywaihYMZkcSdcAHcAf7aqjNc=
+	t=1791794432; cv=none; b=L0NvAp35N53mQGWO+IJ7aN6grb7vJ6WSgO54NG6GBYnKVFHQnQF9mb3STWPPNW4fdjc2SxY6L+yfAxUhUSb1CCNtxi8qMIhPfLqDIfcUdKEVyHp38DG12vNqoe2PfeYUJ0hugyfsH+zG1K6oa8JAicKuyHD36KdDfUBQce0Lr6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791787534; c=relaxed/simple;
-	bh=alOZHux+rGEt3OfowMT6XXYGyL+I6z73cmmhhJJwrjU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c0n4c7LtrxseBujR0KOdA5uZW8IsUYdaE7icSD84HYvwZhi9Wg/AyjY9foMfmkb6bJ0TD6/q5wI0SGi0HO6mwqGDgqyb8kXrIE0LX2sihwqJMgOrof4I2Iw1vY4x9rXCHekkU40fyqudZ0JiTAnwY5C4q57yfK1vm5jZY9rx1XI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IhaLhiZJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791794432; c=relaxed/simple;
+	bh=3acPOqONrLSgFKsfMg1vrNwvcicAeebuv1jTEDu2lI0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Vtlsg3dI2chk5huSwnJ32D2fyesmnMKjZ0Pd0EpaL08SX/ZjbvASCivAbk2qC1kQJpf35L78DTifa8A4HC3LKR8XB1b7iuT/2dmBx5TUUK52BN8JeiGD/JbyJk/o2O8QP0qdu8wRQLZo/7N/LFYsc7kndP49IbxHSWfhTLxCQps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=QeBL8p1n; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IhaLhiZJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A84651F00A16
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 06:45:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791787532;
-	bh=rHRhyeJJgvjTRWFM2lkaFF4bn6Y6uY9RdWmXZLzzy/U=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=IhaLhiZJo9uS26VlKwLdvMYpJNCGYxtG2z0r3xBmjd7Mo1MuDBAjKSECWVysHGagh
-	 saiS6x/+gr9rkZNvYRkjEyM6maTZJz6qchu2g+BR1QoFWyaqWIF6qPJi5gj+Se0u2/
-	 HHGH1BlHIW7fPs3HfJnbG9ocW7DQXRiiDuroRnuMB1BEF1jWy4xJWzCaQHuOkpE8xU
-	 m95V7oX4N3uUI4ZOMIMis4gQVmUXO03EQA0WElLvIQcVwZRpWz0d31fba9tXPRNo2N
-	 lbD0OgP6bpIeg0ABs04yrMlHF6m3xcllHpzjEJYO404NAIlujApGh+H89jFInYOY5z
-	 6mtuWAuAJtCzQ==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3a980c01033so13187631fa.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 11 Oct 2026 23:45:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxfuL6kmv302Ql59uAz826VzGTnt0DdWvycgwsvLo16//9S7JLIQPt4fA/4iswmg5UU7wZPNB9QR1J71A==@lists.linux.dev
-X-Gm-Message-State: AFq9FYK7/UN35gUfT/9ZBXm/p5mjGACJMR7CGLpmFgtS2g58e6jb4Zqe
-	Je/J0U9NagIBpRevO85ludqlT+wTnvESLy6a9labu2KeUOSXwX4TXCup8Q1+OUFtvF7116bjLCt
-	0VD12t0BXc4i5JVRYFcUVeu3tZQJD/bE=
-X-Received: by 2002:a05:651c:a38e:20b0:3a9:f132:11ae with SMTP id
- 38308e7fff4ca-3a9f1321220mr164111fa.22.1791787531105; Sun, 11 Oct 2026
- 23:45:31 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="QeBL8p1n"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CF9EE1650;
+	Mon, 12 Oct 2026 01:40:25 -0700 (PDT)
+Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B41EA3F66F;
+	Mon, 12 Oct 2026 01:40:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1791794429; bh=3acPOqONrLSgFKsfMg1vrNwvcicAeebuv1jTEDu2lI0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QeBL8p1nmOxulVfYhZsdUz35b2f/XQND/DCDMC+Bx6ksy5y5X8n8d7OHCkX5tYh7U
+	 WKJP0q1BR+BZUlFPNboMC41r+nBKjwd2UjbDBx0GFAEswa7PGDy9/lhufIuApyGTnn
+	 wpsufSLGQhNPEmR1IUFb+1S8CDoUsbU0s5hCd4eI=
+Message-ID: <803c1787-999e-4239-bccd-b89e7a066961@arm.com>
+Date: Mon, 12 Oct 2026 10:40:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261001022415.913959-1-iuncuim@gmail.com> <20261001022415.913959-2-iuncuim@gmail.com>
- <20261012-worthy-terrific-sunfish-3acbab@quoll>
-In-Reply-To: <20261012-worthy-terrific-sunfish-3acbab@quoll>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Mon, 12 Oct 2026 14:45:18 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67qkWscB2peNoY=ruhRPEpFd1pXVdbR4pJcpGfv4ZPurA@mail.gmail.com>
-X-Gm-Features: AclHuK9HAKGtAlKRnjyjmrvJQfRp1uKpd11aie7YIZiINEatGkmlqkHIIaIp89A
-Message-ID: <CAGb2v67qkWscB2peNoY=ruhRPEpFd1pXVdbR4pJcpGfv4ZPurA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] dt-bindings: vendor-prefixes: Add vendor prefix
- for Teclast
-To: Krzysztof Kozlowski <krzk@kernel.org>, Mikhail Kalashnikov <iuncuim@gmail.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Andre Przywara <andre.przywara@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] pinctrl: sunxi: dt: do not accumulate npins across
+ probe attempts
+To: Pablo Mazzini <pmazzini@gmail.com>, Linus Walleij <linusw@kernel.org>
+Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20261007060107.62221-1-pmazzini@gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20261007060107.62221-1-pmazzini@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 12, 2026 at 2:43=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On Thu, Oct 01, 2026 at 10:24:12AM +0800, Mikhail Kalashnikov wrote:
-> > Teclast is a Chinese consumer-electronics brand. Add its vendor prefix
-> > so that board compatible strings can use it.
-> >
-> > Assisted-by: OpenCode:DeepSeek-V4.1-Flash
-> > Signed-off-by: Mikhail Kalashnikov <iuncuim@gmail.com>
-> > ---
-> >  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
-> >  1 file changed, 2 insertions(+)
->
-> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Hi,
 
-I have the same change from Andre already merged. It should be visible
-in -next.
+On 10/7/26 08:01, Pablo Mazzini wrote:
+> init_pins_table() adds to npins in the driver's static descriptor, so
+> after a probe deferral the count doubles and the next probe fails with
+> "pin 0 already registered". Reset it first.
+
+Yes, thanks, this is what I had in mind. And I think it deserves some 
+backports:
+
+> Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
+
+Fixes: f5e2cd34b12f ("pinctrl: sunxi: allow reading mux values from DT")
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+> v2: reset npins instead of counting into a local (Andre)
+> 
+>   drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c b/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+> index 50a16f3bd131..8bcd566593ae 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+> @@ -84,6 +84,7 @@ static struct sunxi_desc_pin *init_pins_table(struct device *dev,
+>   	 * Find the total number of pins.
+>   	 * Also work out how much memory we need to store all the pin names.
+>   	 */
+> +	desc->npins = 0;
+>   	for (i = 0; i < SUNXI_PINCTRL_MAX_BANKS; i++) {
+>   		desc->npins += pins_per_bank[i];
+>   		if (pins_per_bank[i] < 10) {
+
