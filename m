@@ -1,83 +1,78 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BD694779BF
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 10:09:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E983E5A32
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 10:09:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791799790; cv=none; b=fMjMSuKQTatVJfS0KBuBg4jidIztuykcPeDT1tN8tv17JTrFiJsAemav5FD0p7ICXOU6odC9fs1dijN8q2AQpJXqu5eCYQnNAZNrjgK+0kVWXYNS9N2gSX9h6eAFbx2tefIuAYcC4trv0QojkhYNE4SjL2AArd61YLsvhkecKqI=
+	t=1791799793; cv=none; b=ro55aCMoPIlwsuQAOsrAhs1QQBIGzWDKFbIoj23PjePscW3WNKxv5Hug/kX6iOmpkiVGUSjFIp9nPLVqqHV3HSyt0P2i2n/HoaRFL2q+UM7BAYGVriQXDMp8cyursNKDyu4bzZ/6wusKykvDQ77yt+byz5eaxVIOHajQ6EPtbQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791799790; c=relaxed/simple;
-	bh=lqFyZF/H6AwrrMe7UJI3gtjvDDPQczserSqPhG0tCVg=;
+	s=arc-20240116; t=1791799793; c=relaxed/simple;
+	bh=AEwkqg61I2qghq9yeHFLrk33B2hYIGSTQL7NqqYg8tI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kKK0ZMfn2631g3xTJtU+7N2NB4xRmPWi6xdWZVBZ3qhjmn2n35BViU2UCXwumhNEUi547P0M1eY2tBvi3tHbwCo9EAOOy4rzKJ3SzhSLCvDhgwZ026J8QLvHF2klaJuSAsqn+JfnzMHGD2OuMtNz8TIUWAF52jt9qypW7CHTYmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jml48YBo; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version; b=KZjD5Rd1wivEc2DZYIV2Z4f5l1ElvUmUE3hG1IHAw7mSVxhUotT8Z4ePHg20AL6BGrQ5la2D8utjMUPec/p4JsWC099Gcp45i7zuNuctCx5FlJCGpwWIKbS/7UgCfmAVldDnfBJewTxPbQOfTlRghJQSgxR9ySHoCpv5jvcS9ik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UXXMEA+i; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jml48YBo"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a16bc2278aso11359375e9.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 03:09:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UXXMEA+i"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso20151985e9.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 03:09:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791799777; x=1792404577; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1791799779; x=1792404579; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=bSIEEiVdbd5GTxTHiyeMgIrG8fJXeKWJLeUgPGtIm2c=;
-        b=jml48YBocEOARgiNqBptGZKjW6ACeqrrcbF1NQCp6HNiHUz2Ct5/n729X2COxYmfmK
-         wBRebJOtcyYKBz7FXXJtBNZbAlKHKrp7esJyEYcVDAndc5AapPCp57uWMp1NW6UzETH8
-         1Nxbz+O6OwTPjaxRjtjq6vRManNf0UU4IUXHzATXaJzPs7MIDmOaF3wcTLJhVdplUyL8
-         bD/anrA683T+Ne/g1eiNClsIutfDL4Ta4Xz0O6Z7nisfVq8sfbqvGJrcYn48e+9qsLnK
-         nTK6653VsqjgOn00UadMGgvv4+uRLebFFtliLOL8xEJMzwJI6oXiSGgnoE/O49qu6p2r
-         qAaw==
+        bh=6VogQbUFurz7GXGcstM5xSZa/4W+tRC0ptaL75OewR0=;
+        b=UXXMEA+io4PnEWt426+10SloNe+ISYkEPzzTudedefqXEir/LRVVA6PPYnu9VUXVkO
+         +nrC2RYFdLrb3Vt7GXkAmDpvj+kBDmSrd+0R6DZTLkH5QZXzg7tB+RD32GH1FoKxCfej
+         kVySf/2HApjCgl9cN7gYAzOp6n9JbQGbrqTxdmBFgbx/iCi2espuV1JctVFYl8aofAlq
+         qxHBHwSfBhpMqq4k5tGbKPFRjRax0QrcKeT37KoiL6ED3b52VaI7//3byQt/QcmM6NpI
+         7rZfaq/KBo2uBcKO9yG09OMIYFwdzFnNwwV3VnFRdG9zIKKICLjYKo9JGy1wzCcEJjrB
+         tUXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791799777; x=1792404577;
+        d=1e100.net; s=20260707; t=1791799779; x=1792404579;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bSIEEiVdbd5GTxTHiyeMgIrG8fJXeKWJLeUgPGtIm2c=;
-        b=qsFP1zgj+esBMPA8f1dqJyP/fFej93JiaC9xl0EAnu5auiaGVX+RmUzSBoOk4e7zSf
-         ZVBrkktqoRC42EXLWKjb8tGhX6SNRDeUNiub15se0BzHWtEpDFOqeMZGssUbDeiTENfB
-         YOGuEmMcuE2UNzNZKuuqr/hG47ttQJbxBbnpmCnrgSjo0zpiK87b9sh0RKcj6BNyBiME
-         YMSHvl6kl5gBpXc5TpjRWshIo3cJeHXWj5VVYdafTZ3KYZ2fNRVuzKsYJrpXepD3VMx4
-         vL9T6I8FH6Qp3ASnaXZTZ81HIq8AdzRzlIumIgX8FDoEe8vujp24LXJznGnrUawhnR1P
-         gmRQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxWcHFhRJ51KUoMXuchgZVXRwrxS4oLCYyUrT9ada4BKlaJJ5Q8mNrwoNCrjjHyCEwJD2Yk8UYY2XkivQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJnLwL2J19sqOyAysVi4E8Lag+6aO9Cve3N3xvIMmg+wykryA1L
-	RHNnghqEa5xdGdBjCZiXTfHL7yVO3Gwc6gILk5IM5j7yQHlmdwLGti9J
-X-Gm-Gg: AYBFou3gJ0QLARs+0+2OSuL13gb4MG98HP780K/QTgiL7mYMAl5VRj/IuYBFldpF3fu
-	0yLq7SabQcQonq0OJNzyLcpNlNM4A57knC4wKND4aZExg2+w28dsNn567uzJOAiaXjfZz5s15XV
-	+ynORj2P2TcxBqYufZcVcTSUcDp2+akgrhjJzD/niZfRRB3iZAURzQFG3SAKgeq4ktAbeqMbbGe
-	LSBX2Dv+WJ/xCVmgzbUH6ECpss3msNIJtE+pIKDFGAtMISzeflL37AffTNGCQck67NyQ169Ag9h
-	HM6vRTYWL3a4/1emD1fUDTVHgM+/8bFPc6u+AZWACI3xvpRhNCsBjrbSnRgk1qLKvd+T0vUpvYD
-	5T4gQ+k1HVjflrKtvLFoKpje8/MH5+mU/NPFdoKXvCNthCL+DBHj/oclSRsdFcUthTN1lmWcrXi
-	5drFZfN7BuPjPxW8JY6O4/TL2EB8oWLbpXuUSdhHSzvC1Acd0rPYAySeu+/Y2ZoLPJ4RW1vDHCG
-	+M8KlZxoCTEJ1B+97FSF5Ctd21iCmMl
-X-Received: by 2002:a05:600c:6290:b0:4a1:813f:2a61 with SMTP id 5b1f17b1804b1-4a18e4ad518mr163049805e9.15.1791799777253;
-        Mon, 12 Oct 2026 03:09:37 -0700 (PDT)
+        bh=6VogQbUFurz7GXGcstM5xSZa/4W+tRC0ptaL75OewR0=;
+        b=02MXofTkx3pTz+Ye3dR0GG3whm5Xd1vN8BN4gRAw/v5NpiyujTAj4uEifTj9TzX1qd
+         pkLFxbBlBHYu9jzHnMb8xYJntyK/UMPizB1bU/wAtWSNhnS3G/EoYiaKQfqCCZ7EcFAd
+         LHx+LDW8pNQVYR6eg+3H6eSp+gARbz6zWjbslyxkam/Rfen+HPYupHuI59LqdwkmFEGO
+         fgF9TxTUqpJqlJDSDSV8my8qYUKWRRwqofFSvyZPJcVx6uAXVolMbixhrn58+3jG+INo
+         IUQg3OmggT84H5S4ZD8W9z+iixypZhap8IgAk45GHETi4+Ww5c+nwrIORq92f9sjPwYi
+         uRcQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxNKe28XlWZEg+/uMp70OeTpiyI3EqmQR1pDhq49ytJhVgpX2U50z4eNZvLybZRrf4DAwvX7Z0J9sapPg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIKhm4Ye9PTdfmHCFL+DUu7elh7/v7Ib5iDDDqEs3W7eZS+O0+D
+	vRq59FWyX3nlo4VNANF71vF9/9ReaWp8/e9KM2HLSHZ2cpXpT0tA2HPZ
+X-Gm-Gg: AYBFou3OLS/PXaE7hMX78U98aJh96PqolkDvWIouxd7sn9KdzRZLZAD81G7/eHoAcKj
+	eoc3Dc9N6nHN2Iyf5MnFEwYy5Roicc1pkfclFNvcffhmg6ujqhSASjd/JThIP1EkuaV7+FeLrqe
+	YoYww4PUaRGD0V7h4RYrGOg48hrShdyFX/sh19Zom+gNF14KwEnTTxG1xb20ycBWPHorWHkXrtT
+	d3DfnBKQVCvOW9B0dxiPnmybG2WckaYwPjZjJKsn+vO0MU/IsikQ6MP+PilXa1dBFiZwsqIccqo
+	jSZSNN3lPWJldzUrR34fUZFA8t1WTbQOpzB4goY0Bhr31oNRG4TY1g+DIJ+pOoIi8KYuOMfoxKC
+	S005xX+vnvfsL4wYjVsHVmInufEaoJQhtbSSdb59spqBde1lvk3R+AFtYHkLhRsKTrJZZ6beYv+
+	CKf9qbSpFAxPAm1Mt51Emg4K7rqP28EAfXXB+XqhWcw9kcVv4XIxmn9nfDu0mTomczNom02mXMe
+	kG122ng8QVINKfjPrf5BERsgXDlShe6
+X-Received: by 2002:a05:600c:3f16:b0:4a0:2150:55fb with SMTP id 5b1f17b1804b1-4a18e44395bmr161917225e9.4.1791799778944;
+        Mon, 12 Oct 2026 03:09:38 -0700 (PDT)
 Received: from debian (ip-78-137-176-146.broadband.digiweb.ie. [78.137.176.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a192d3efb6sm166229885e9.1.2026.10.12.03.09.36
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a192d3efb6sm166229885e9.1.2026.10.12.03.09.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2026 03:09:36 -0700 (PDT)
+        Mon, 12 Oct 2026 03:09:38 -0700 (PDT)
 From: Pablo Mazzini <pmazzini@gmail.com>
 To: Alexandre Belloni <alexandre.belloni@bootlin.com>,
 	Chen-Yu Tsai <wens@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh@kernel.org>,
 	Samuel Holland <samuel@sholland.org>
 Cc: Pablo Mazzini <pmazzini@gmail.com>,
 	Andre Przywara <andre.przywara@arm.com>,
-	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-rtc@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v4 05/11] dt-bindings: rtc: sun6i-a31: add Allwinner B288
-Date: Mon, 12 Oct 2026 11:08:10 +0100
-Message-ID: <20261012100816.331033-6-pmazzini@gmail.com>
+Subject: [PATCH v4 06/11] rtc: sun6i: add Allwinner B288 compatible
+Date: Mon, 12 Oct 2026 11:08:11 +0100
+Message-ID: <20261012100816.331033-7-pmazzini@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261012100816.331033-1-pmazzini@gmail.com>
 References: <20261012100816.331033-1-pmazzini@gmail.com>
@@ -89,42 +84,37 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The B288 RTC wires one alarm interrupt, not two.
+The 32 kHz clocks are the same as the A23's. Only one alarm interrupt
+is wired, which is all the driver uses.
 
 Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- .../devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml       | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/rtc/rtc-sun6i.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-index f2b91186ed37..ebe35f893f8c 100644
---- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-+++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-@@ -19,6 +19,7 @@ properties:
-       - enum:
-           - allwinner,sun6i-a31-rtc
-           - allwinner,sun8i-a23-rtc
-+          - allwinner,sun8i-b288-rtc
-           - allwinner,sun8i-h3-rtc
-           - allwinner,sun8i-r40-rtc
-           - allwinner,sun8i-v3-rtc
-@@ -82,6 +83,7 @@ allOf:
-           contains:
-             enum:
-               - allwinner,sun8i-a23-rtc
-+              - allwinner,sun8i-b288-rtc
-               - allwinner,sun8i-r40-rtc
-               - allwinner,sun8i-v3-rtc
+diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+index 7fc60880e409..05004e80ac08 100644
+--- a/drivers/rtc/rtc-sun6i.c
++++ b/drivers/rtc/rtc-sun6i.c
+@@ -350,6 +350,10 @@ static void __init sun8i_a23_rtc_clk_init(struct device_node *node)
+ CLK_OF_DECLARE_DRIVER(sun8i_a23_rtc_clk, "allwinner,sun8i-a23-rtc",
+ 		      sun8i_a23_rtc_clk_init);
  
-@@ -162,6 +164,7 @@ allOf:
-         compatible:
-           contains:
-             enum:
-+              - allwinner,sun8i-b288-rtc
-               - allwinner,sun8i-r40-rtc
-               - allwinner,sun50i-h616-rtc
-               - allwinner,sun50i-r329-rtc
++/* The B288 RTC clocks are the same as the A23's */
++CLK_OF_DECLARE_DRIVER(sun8i_b288_rtc_clk, "allwinner,sun8i-b288-rtc",
++		      sun8i_a23_rtc_clk_init);
++
+ static const struct sun6i_rtc_clk_data sun8i_h3_rtc_data = {
+ 	.rc_osc_rate = 16000000,
+ 	.fixed_prescaler = 32,
+@@ -859,6 +863,7 @@ static int sun6i_rtc_probe(struct platform_device *pdev)
+ static const struct of_device_id sun6i_rtc_dt_ids[] = {
+ 	{ .compatible = "allwinner,sun6i-a31-rtc" },
+ 	{ .compatible = "allwinner,sun8i-a23-rtc" },
++	{ .compatible = "allwinner,sun8i-b288-rtc" },
+ 	{ .compatible = "allwinner,sun8i-h3-rtc" },
+ 	{ .compatible = "allwinner,sun8i-r40-rtc" },
+ 	{ .compatible = "allwinner,sun8i-v3-rtc" },
 -- 
 2.52.0
 
