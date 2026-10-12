@@ -1,75 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E8E547255A
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 09:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBED478E51
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 10:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791797453; cv=none; b=pDrNUauZAecRpPbzpIYploVJELW1NHWlsGGqWyRPR9k8bRAK3K+kVgrQ6dxMgjxaXQX/fH/pbS1EHaxtui+u7iXW41XrMFm0oCinngBB6Y6X3hxQNyTSTUHM4y81wHXw7x/vGVTvAhs+25j/uKsPn2DxPWr6N2RYXOvkzI1BlaE=
+	t=1791799727; cv=none; b=eD0FyTpdA4BhuC1dRDTAzDtie8m1DCHwrsQCD2MYZ3IqEQtak2dq8WPwO05PoDzdYT+JtQ+K+VzrXpmftyUwd08DQp2ucmQDFSppexJeZFevlyttxPUrHQu0/pdX7d4eQq3jLuiz+dMxMRDHJ+He54T8aD39TIehurVGu5QXYgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791797453; c=relaxed/simple;
-	bh=JcOgKF4XM/l9A+xkMjDxwLxSXbEYIbrK+MMKAo104Mo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JRi31rbKiSFgZ4Jb69ojlpZhqzECnpRS4lHKJy3eycGlZo4s8BAzH8GS+uRGgSjJTucmJlbThW2oChVBWcXnXfQGLw/JI+cHFVN3F8kQNBfMwuLi9Q8u3zRPgeAiMAHlSRC7xLobxg3NwQuK91uxPkqdZkwmodbuhBNFL/t006Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y0RiYvbb; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791799727; c=relaxed/simple;
+	bh=8Mnnl0Z3pOG5cs0RKth4xk3lylmk99qeafTSSPrIRo8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TIxv1p4BhtFiXhNT7fTD0GlPBnEVRHsqnE70V0On/4VBAzBmpjTWKx6BLc0DuE1cpfyhr1lRL3PbFIICLt5ifbKX/pngvB2sb8f4R4i8HLOzej6BY9OzFyoZBaPKXHvv8XhId3U0R9KDsfIhVIp1aYO0T6LqUQMqt22esH9dPQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jJKY3Fll; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y0RiYvbb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FA501F008A3
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 09:30:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791797452;
-	bh=JcOgKF4XM/l9A+xkMjDxwLxSXbEYIbrK+MMKAo104Mo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Y0RiYvbbyQjLEt9FzUTJMM8Ke7og2fwaGtrMdHSeL0MMJbsKO3JmoIbOXz58033pV
-	 3l1KyJx/foVS8pHbPVTnGUB6kh1D5LVTL6LcNzURvkolpFl3HmxRLF7CPu/Va7N5R6
-	 wCVD3zYPx6v5mmWxtP8qAhJ1LxlrJNh5+mC21vD8x2KlUMtCAKhPEImaMUpjWp/Ble
-	 VbAzrViPrm1/hMcSxKQuactdtNPnofxbeJ5ZBb+X48/772/fISYDW0mPl7HU0ha0bc
-	 Y5C/WUlk6Gda1kRmAmEKayCNdpMv/DKhf1S2GrPPOotX70oa862QNIHwAbWhDmSnvy
-	 EmWuJD7nVEZ8A==
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5ba328513b9so1236341e87.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 02:30:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBzDKf1tpktsJJNOXU8KHtCBE7QJqqxYQl+GLhwCK5Al3uewryrgIy4yHL1m+s0vpsqDdE9hd0AEDmh3qA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYL/LY78442iHP7R5MOjVKpQtDBjSpJaKUouS5DRpUYvaLa+D2o4
-	Yu6LlS6HMmWa7V5SF18PEZMxGNgoGVgDicVEpkXN0VD1SOKZKql3zV6yo3Kg2bomNf5IDinopXN
-	LhOYnv2Z3hyAisAPr/Wx8okgK4Mx1pcc=
-X-Received: by 2002:a05:6512:6882:10b0:5bc:e45b:bec9 with SMTP id
- 2adb3069b0e04-5bce45bc053mr1468335e87.35.1791797450757; Mon, 12 Oct 2026
- 02:30:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jJKY3Fll"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a161d9b8c7so11099495e9.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 03:08:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791799715; x=1792404515; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=58Hpz3IL7+FBFo99aVZrTh8mHeTaosnWqfT/ede3fC0=;
+        b=jJKY3FllKIzwIJOtGpdpVxQyI00NLT1uBWt1eaEuEvdvcTfpztk4OeAoSxB2UYBOo8
+         vDJ7gKl+w4iquCEvJtPs+4w7SKcdadjO+qqMrcCVXoqSxYkDvMjrPXN6VRKDdM+98kyg
+         UZDjV8SAhHrtspuYPpK6JxcnQDhGF0yL8y4HiOPyJxErPvUJ7pv/6hCliYzVLaBYExgT
+         WcV0O8H4hPuv47WcTwaniwsn1+iePUL2USO5fsF+7kHhQvuNSdvf4wIHikT02C5FWoFR
+         dCjPQDKwyzEgvyvStzdGF+qlxty1xbpweTmYtMNIcUP/6hlQAR+Vaj8sr6gOJYjl/1lf
+         qX6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791799715; x=1792404515;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=58Hpz3IL7+FBFo99aVZrTh8mHeTaosnWqfT/ede3fC0=;
+        b=iY3nL50mELP0asGZhawiQVDybKHlFI3Rxp0dt3PMNoFC9SDslLLvw17Sx+Z6oyPkMO
+         l98oU/LoIJBQxhhHxIjEnArl1RIFKIe8Hy9+GoRcVyR3Zu/PJPeTehS2rs45jW65YmvE
+         mQuu6StVpeAqTz2iHJE2RdKsPOaFxMcjEGUu6khlKz34Lw7hWRbBT6tpz7DaH8UCPa/K
+         fuRsxQlJMsLjMr8uWg4UCSrt8mO3NdYS+VrBYty5saiOMIXwtE0KY7R7jNuR7cfjGeM+
+         leoICaxk5To/wZ9NBrVAGq+S15SVeFDVbWyDL8//DYv6hIIzZ6PusIm9T5FV10Sl1vfO
+         ORdA==
+X-Forwarded-Encrypted: i=1; AKwUvBzoP0mxsXbPJR5iR49X6/mVl9vi4KSjWyU+Wbvr0zPNDJyUgcFQUQ1Gtgnozgj0LeBQANPBLO2KSkNmFg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJKyJ0Dyad1h2LucfXRunMDWHU8obbJx2u6TYrsvVoC7Obh5Ee2
+	eCNOuWaDhVsSANL28yh4MmawmOyMLh0aAWa6FovoeGSLfZZ+njhk+CCr
+X-Gm-Gg: AYBFou1XyYXDz5w2B4Zt4U5OyE0Z8L/15doIJ6yP4hj9Iup37z+A+gHGHm46FkF8PZi
+	l3b7VEtvLUHq5e6c6Mc42HVcL/GsAS9jQXE90qyKQJgYwADaHNSgJqbSAC+YkufI4UiktCPKamy
+	JELNjd4T25H4bbuBiJN01FHpmGuwsV4pllkcAT20D0GQaPxgKWY4IrUZslPuB+lnGLwrDeQciDz
+	Q3n+KESYkDLQjp5d1ARTtMtwVABQ8vwmmx8B9+f9SjbCOjIkNYtJ/fuAZYT7AFfN/yBvB0VZYPe
+	Hj7/5VSZsdBsSGTbpWrZfSWCZmfE5OE4clML4KGDad/OHcI24R+ZblocQspJtgdmDDNfVaft8pf
+	wCPe+FOWpi+s8egCgJb++KhojdnUZQ4jwwdmyEQ6X8Ciyi++DUe0T5vbMtjbUXm1SR+AUPKI/lB
+	YowgKwiVBieurt0se1gHc7XBSY8PrQQVhGG7KApvT5j+F6hYf4reeLvvomiHkjcv2T/LygBheh7
+	Goss60fLl1vbtW1ZeNEdX/b2KH33GJu
+X-Received: by 2002:a05:600c:64c8:b0:49d:1df6:2592 with SMTP id 5b1f17b1804b1-4a18e4c41b0mr155420775e9.21.1791799713755;
+        Mon, 12 Oct 2026 03:08:33 -0700 (PDT)
+Received: from debian (ip-78-137-176-146.broadband.digiweb.ie. [78.137.176.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a192d3efb6sm166229885e9.1.2026.10.12.03.08.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2026 03:08:33 -0700 (PDT)
+From: Pablo Mazzini <pmazzini@gmail.com>
+To: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Pablo Mazzini <pmazzini@gmail.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rtc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-watchdog@vger.kernel.org
+Subject: [PATCH v4 00/11] ARM: sunxi: add Allwinner B288 and the PocketBook Verse
+Date: Mon, 12 Oct 2026 11:08:05 +0100
+Message-ID: <20261012100816.331033-1-pmazzini@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261007060107.62221-1-pmazzini@gmail.com>
-In-Reply-To: <20261007060107.62221-1-pmazzini@gmail.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Mon, 12 Oct 2026 11:30:38 +0200
-X-Gmail-Original-Message-ID: <CAD++jL=ooz2tMZFrZ_ssH15QSf-hxJJ7kGhRxhBFRx9QAdhNtA@mail.gmail.com>
-X-Gm-Features: AclHuK_cjy8EpD9hefzb7XTUyJ7Wfeeo56o29JsaDB2w0FmhBq4yW8z0mIp2Xg0
-Message-ID: <CAD++jL=ooz2tMZFrZ_ssH15QSf-hxJJ7kGhRxhBFRx9QAdhNtA@mail.gmail.com>
-Subject: Re: [PATCH v2] pinctrl: sunxi: dt: do not accumulate npins across
- probe attempts
-To: Pablo Mazzini <pmazzini@gmail.com>
-Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 7, 2026 at 8:01=E2=80=AFAM Pablo Mazzini <pmazzini@gmail.com> w=
-rote:
+The Allwinner B288 (sun8iw10p1) is a dual Cortex-A7 SoC used in e-book
+readers. This series adds the CCU and pin controller drivers, the RTC,
+I2C, NMI and watchdog compatibles, the SoC .dtsi, and one board: the
+PocketBook Verse (PB629), a 6" reader.
 
-> init_pins_table() adds to npins in the driver's static descriptor, so
-> after a probe deferral the count doubles and the next probe fails with
-> "pin 0 already registered". Reset it first.
->
-> Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
-> ---
-> v2: reset npins instead of counting into a local (Andre)
+The B288 is closest to the A64: most of its PLLs are bit-identical.
+The clock and pin descriptions come from Allwinner's BSP, cross-checked
+against ccu-sun50i-a64.c. Tested on a PB629, boots to userspace.
 
-Patch applied for fixes!
+The pin controller relies on "pinctrl: sunxi: dt: number the IRQ banks
+from the first one that has IRQs" for correct PIO interrupt mapping.
 
-Yours,
-Linus Walleij
+Changes since v3:
+  - CCU: reference parents with clk_parent_data and clk_hw pointers,
+    as newer sunxi-ng drivers do; add the audio PLL's sigma-delta
+    settings, as on the A64; fix the PLL_24M rate and parent the PLLs
+    to it.
+  - RTC: register the 32 kHz clocks, reusing the A23 data (Sashiko).
+  - DTS: take osc32k from the RTC, as on the A64.
+  - DTS: allow the eMMC up to 150 MHz, as on the A523.
+
+Changes since v2:
+  - Drop the MMC binding patch, applied by Ulf.
+  - Rebase onto sunxi/for-next.
+  - Constrain the RTC clock outputs and pinctrl interrupts in the
+    bindings (Sashiko).
+  - Add a B288 watchdog compatible (Andre).
+  - DTS: drop the memory node, the arch timer workaround and the
+    sunxi.c entry; add disable-wp and the eMMC 1.8V modes; DLDO1 no
+    longer always-on; mainline pin function names (Andre).
+
+Changes since v1:
+  - Add this cover letter.
+  - Drop both new bindings; add the compatibles to the existing
+    allwinner,sun4i-a10-{ccu,pinctrl}.yaml instead.
+  - Rewrite the pinctrl driver in the DT-provided pinmux style.
+
+Pablo Mazzini (11):
+  dt-bindings: clock: sun4i-a10-ccu: add Allwinner B288
+  clk: sunxi-ng: add Allwinner B288 CCU driver
+  dt-bindings: pinctrl: sun4i-a10: add Allwinner B288
+  pinctrl: sunxi: add Allwinner B288 pin controller driver
+  dt-bindings: rtc: sun6i-a31: add Allwinner B288
+  rtc: sun6i: add Allwinner B288 compatible
+  dt-bindings: i2c: mv64xxx: add Allwinner B288
+  dt-bindings: interrupt-controller: add Allwinner B288 NMI
+  dt-bindings: watchdog: sun4i-a10-wdt: add Allwinner B288
+  dt-bindings: arm: sunxi: add PocketBook Verse
+  ARM: dts: allwinner: add B288 and the PocketBook Verse
+
+ .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+ .../clock/allwinner,sun4i-a10-ccu.yaml        |   1 +
+ .../bindings/i2c/marvell,mv64xxx-i2c.yaml     |   1 +
+ .../allwinner,sun7i-a20-sc-nmi.yaml           |   1 +
+ .../pinctrl/allwinner,sun4i-a10-pinctrl.yaml  |  22 +
+ .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml |   3 +
+ .../watchdog/allwinner,sun4i-a10-wdt.yaml     |   1 +
+ arch/arm/boot/dts/allwinner/Makefile          |   1 +
+ .../allwinner/sun8i-b288-pocketbook-verse.dts | 114 +++
+ arch/arm/boot/dts/allwinner/sun8i-b288.dtsi   | 292 +++++++
+ drivers/clk/sunxi-ng/Kconfig                  |   5 +
+ drivers/clk/sunxi-ng/Makefile                 |   1 +
+ drivers/clk/sunxi-ng/ccu-sun8i-b288.c         | 749 ++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu-sun8i-b288.h         |  10 +
+ drivers/pinctrl/sunxi/Kconfig                 |  10 +
+ drivers/pinctrl/sunxi/Makefile                |   1 +
+ drivers/pinctrl/sunxi/pinctrl-sun8i-b288.c    |  49 ++
+ drivers/rtc/rtc-sun6i.c                       |   5 +
+ include/dt-bindings/clock/sun8i-b288-ccu.h    |  82 ++
+ include/dt-bindings/reset/sun8i-b288-ccu.h    |  45 ++
+ 20 files changed, 1398 insertions(+)
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-b288-pocketbook-verse.dts
+ create mode 100644 arch/arm/boot/dts/allwinner/sun8i-b288.dtsi
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-b288.c
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-b288.h
+ create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun8i-b288.c
+ create mode 100644 include/dt-bindings/clock/sun8i-b288-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun8i-b288-ccu.h
+
+-- 
+2.52.0
+
