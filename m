@@ -1,138 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF573ED11B;
-	Mon, 12 Oct 2026 10:19:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623623F54AE;
+	Mon, 12 Oct 2026 10:21:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791800377; cv=none; b=t6FPZ2FY9ZSEsakP7ot2jlk4efnmFbE81A7ixC6ytXwjTsSBfspuSkiM1EcSh2TMlrH7EeSznFH6OjgJ0o/srByjNGEDhtgryvYNNYPe9iDTrX2lv7Bo1U4OtlXUNtxOm/jL2NSCj/EIU0dwkJQWQpHSKPZ5A/j54xClSzZSKyo=
+	t=1791800528; cv=none; b=VokWpFtf/vFeab5wMXma+nXB1VBjUkemLYjZDsQkwHafsIz7I7lXrwUCGJnfEkAqA54jPha/Ojnsxu7WKogXdmYn7K4k/Le5ffWX5Uxp7r9bwk4rZPe6Fg8jYiGPDxKHLhkfCIWLDh5NdN4bdHEGqmYploRhFfxczfiDflXh9vA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791800377; c=relaxed/simple;
-	bh=uRmfa/ccrE/pLG20bedCyFP+1gx3AxwoScnTUK22Bic=;
+	s=arc-20240116; t=1791800528; c=relaxed/simple;
+	bh=3TiYQNgjiqyYCFVtetRXPC2T1t46OvhBF3BDdkAKE7k=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=bjkgNqqPL2dOttFAmmcWHQlKm/QxAcCFhTDtC3WpGXxNuCEpXAAWpcrnmXRqKpy9Dtuc2NYFgashDGgCmUEWFZ+3TdSjVLuyNqugZCC2F7Vi90DOnUaZr9ycBMGks9mm5TNgaX3+lEyoJipJsVc9u/uhBKQsimS8IydJxKIzXzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IhK42Y27; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=mcuSYzabK1lcsq7m7cmwdoiI4MZw48JAmYxmJ5LlitFrwIotKHHspJ2RgbgOuvdM5lKQmkMNRiPsu2yiaVX1cY8i7HzTWU4nokZXRn3YbWTWRw7Sk3HnnRMXcJPVomkW03pgBZHSjcwm3sb+gY0Wlns8Es/YjZTASCN2b/nCStc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PPRFeW5c; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IhK42Y27"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB53B1F0089B;
-	Mon, 12 Oct 2026 10:19:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PPRFeW5c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF2C41F008A2;
+	Mon, 12 Oct 2026 10:21:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791800366;
-	bh=DTyxrAdMMx+C7Q1ABG8GATN9ef2GvzDsTwF2mpWlaOg=;
+	s=k20260515; t=1791800507;
+	bh=iPkwnxITGvmUXP1HuWb6DGGfN0C5MPcFO3HBlq8MprY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=IhK42Y27PpDb4+NjGS3/6tlYQJMOz/z7YH9D1p0e9KxCdNoLEHvXjeZjrDzKRtqMJ
-	 U2zj5XLsfjUO3hPwrcUv9ZhOoPnj2ubPpQeYB4thEKcAI/nFaFYQmH3G2bQ5Sj0L7S
-	 9PomD5FJs2KHA6amX0yWODW+CfsB66pE1XpO15Hpn8zLfAxwdCHJiES6k2v0nENtrz
-	 Ovdo0zGdDXByIPUpNzcI04Jdkhb9iq6kUp3K5Xme7LedLU1jAIRiMg1G9Pfxx/ZKjN
-	 zv5Gn+0xjRp7Xf512Hrwp0UMFRCI9wYRCcDChB1oErgdLByii3pBEb41oHAYM0cYJk
-	 BdLLyWKdTZD3g==
-Message-ID: <sashiko-outbox-167946@kernel.org>
+	b=PPRFeW5c2uVuVbP+BObt0aJ2ImaDh4ge2ltQoZlyRpUgDFxfZW3jPT4SVmrgGAgv+
+	 wveCTca+th/HABySu+3KKcydQvqzr8q+Sss18bbUDhGk+c30w84mo31OViXZeVnw2g
+	 fdYhRYlRi0TPP0/dc++YKNnYcScWV9k0s+aqL922etZqzKur6WXFFsplF35mOAqeue
+	 i81lv02jXgvucRLwF/S740did3QGXhzY3axpoAjGX9TmmhMHeeIYzADpl0G+vA68qw
+	 HskLrPN4pkHKiEXDy2krqYMbv5Zpo/qvZYDBSOedQyvzpnvAsmaN7+QsghKmEh/bbK
+	 o3iUkCZSCbIbw==
+Message-ID: <sashiko-outbox-167950@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 06/11] rtc: sun6i: add Allwinner B288 compatible
+Subject: Re: [PATCH v4 02/11] clk: sunxi-ng: add Allwinner B288 CCU driver
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Pablo Mazzini" <pmazzini@gmail.com>
-Cc: "Alexandre Belloni" <alexandre.belloni@bootlin.com>, linux-sunxi@lists.linux.dev, linux-rtc@vger.kernel.org
-In-Reply-To: <20261012100816.331033-7-pmazzini@gmail.com>
+Cc: linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20261012100816.331033-3-pmazzini@gmail.com>
 References: <20261012100816.331033-1-pmazzini@gmail.com>
- <20261012100816.331033-7-pmazzini@gmail.com>
+ <20261012100816.331033-3-pmazzini@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 12 Oct 2026 10:19:25 +0000
+Date: Mon, 12 Oct 2026 10:21:47 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] rtc: sun6i: missing ERR_PTR check causes crash in probe on clk_reg=
-ister failure
-- [Medium] rtc: sun6i: resource leak of losc clock on initialization error =
-path
-- [Low] rtc: sun6i: memory leak of rtc structure in sun6i_rtc_clk_init erro=
-r path
+- [Medium] clk: sunxi-ng: missing parent index table for tcon0_clk
 --
 
-commit 903d00f6b5cb6afede9ad6ad5fca01853d776ce4
+commit 3f9c552550550b015864167770907fa314ac3239
 Author: Pablo Mazzini <pmazzini@gmail.com>
-Subject: rtc: sun6i: add Allwinner B288 compatible
 
-This commit adds support for the Allwinner B288 RTC by reusing the A23
-clock configuration. It maps the new compatible string
-allwinner,sun8i-b288-rtc to the existing initialization functions.
+clk: sunxi-ng: add Allwinner B288 CCU driver
 
-> diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-> index 7fc60880e4094..05004e80ac089 100644
-> --- a/drivers/rtc/rtc-sun6i.c
-> +++ b/drivers/rtc/rtc-sun6i.c
-> @@ -350,6 +350,10 @@ static void __init sun8i_a23_rtc_clk_init(struct dev=
-ice_node *node)
->  CLK_OF_DECLARE_DRIVER(sun8i_a23_rtc_clk, "allwinner,sun8i-a23-rtc",
->  		      sun8i_a23_rtc_clk_init);
-> =20
-> +/* The B288 RTC clocks are the same as the A23's */
-> +CLK_OF_DECLARE_DRIVER(sun8i_b288_rtc_clk, "allwinner,sun8i-b288-rtc",
-> +		      sun8i_a23_rtc_clk_init);
-> +
+This commit introduces the Allwinner B288 CCU driver, covering the PLLs,
+the CPU/AHB/APB tree, module clocks, bus gates, and resets. The driver
+is noted to be closely related to the A64 CCU.
 
-[Severity: High]
-Does adding this compatible string expose an issue in the error handling
-of sun6i_rtc_clk_init on registration failure?
-
-If clk_register fails for rtc->losc, the function returns an error
-pointer and jumps to the err_register label. Since the global sun6i_rtc
-pointer is already assigned to the allocated rtc struct earlier:
-
-sun6i_rtc_clk_init()
-    /* Yes, I know, this is ugly. */
-    sun6i_rtc =3D rtc;
-    ...
-    rtc->losc =3D clk_register(NULL, &rtc->hw);
-    if (IS_ERR(rtc->losc)) {
-        pr_crit("Couldn't register the LOSC clock\n");
-        goto err_register;
-    }
-
-The probe function sun6i_rtc_probe later fetches this dangling pointer:
-
-sun6i_rtc_probe()
-    struct sun6i_rtc_dev *chip =3D sun6i_rtc;
-    ...
-    clk_prepare_enable(chip->losc);
-
-Can this lead to a kernel panic when clk_prepare_enable attempts to
-dereference the error pointer stored in chip->losc?
-
-[Severity: Medium]
-Additionally, if clk_register succeeds for rtc->losc but a later clock
-registration fails, triggering the jump to err_register, does this
-cleanup path leak the rtc->losc clock?
-
-sun6i_rtc_clk_init()
-err_register:
-    clk_hw_unregister_fixed_rate(rtc->int_osc);
-err:
-    kfree(clk_data);
-
-The err_register path unregisters rtc->int_osc but appears to omit
-calling clk_unregister(rtc->losc).
-
-[Severity: Low]
-Does the err cleanup path also leak the dynamically allocated rtc
-structure?
-
-sun6i_rtc_clk_init()
-    rtc =3D kzalloc_obj(*rtc);
-    ...
-err:
-    kfree(clk_data);
-
-The error path frees clk_data but seems to omit freeing the allocated
-rtc structure.
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-b288.c b/drivers/clk/sunxi-ng=
+/ccu-sun8i-b288.c
+> new file mode 100644
+> index 0000000000000..c53afd6f9af98
+> --- /dev/null
+> +++ b/drivers/clk/sunxi-ng/ccu-sun8i-b288.c
 
 [ ... ]
 
+> +/* DE_CFG @ 0x104, EE_CFG @ 0x108, EDMA_CFG @ 0x10c -- M[3:0] mux[26:24]=
+ gate 31 */
+> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(de_clk, "de", de_parents, 0x104,
+> +				      0, 4, 24, 3, BIT(31), CLK_SET_RATE_PARENT);
+> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(ee_clk, "ee", de_parents, 0x108,
+> +				      0, 4, 24, 3, BIT(31), CLK_SET_RATE_PARENT);
+> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(edma_clk, "edma", de_parents, 0x10=
+c,
+> +				      0, 4, 24, 3, BIT(31), CLK_SET_RATE_PARENT);
+> +
+> +/* TCON_CFG @ 0x118 -- mux[26:24] gate 31, no divider */
+> +static SUNXI_CCU_MUX_DATA_WITH_GATE(tcon0_clk, "tcon0", tcon0_parents, 0=
+x118,
+> +				    24, 3,		/* mux */
+> +				    BIT(31),		/* gate */
+> +				    CLK_SET_RATE_PARENT);
+
+[Severity: Medium]
+Does the B288 hardware actually use a 1:1 index mapping (0 and 1) for this
+TCON mux?
+
+The closely related A64 SoC uses a {0, 2} index mapping for its TCON PLLs.
+Because SUNXI_CCU_MUX_DATA_WITH_GATE defaults to a 1:1 mapping, if a display
+driver requests to use pll_video1 for the TCON, the CCU driver will write
+index 1 to the mux register. If the hardware maps the second parent to index
+2 instead of 1, this will result in incorrect clock parent selection and co=
+uld
+break video output.
+
+If a custom mapping is needed, it might be slightly tricky to define since =
+the
+ccu_mux.h framework currently lacks a SUNXI_CCU_MUX_DATA_TABLE_WITH_GATE
+macro to combine a table with clk_parent_data.
+
+> +
+> +/* MBUS_CFG @ 0x15c -- M[2:0] mux[25:24] gate 31 */
+> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(mbus_clk, "mbus", mbus_parents, 0x=
+15c,
+> +				      0, 3, 24, 2, BIT(31), CLK_IS_CRITICAL);
+
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261012100816.3310=
-33-1-pmazzini@gmail.com?part=3D6
+33-1-pmazzini@gmail.com?part=3D2
