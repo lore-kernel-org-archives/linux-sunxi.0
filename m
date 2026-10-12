@@ -1,38 +1,38 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E6452F270
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Oct 2026 17:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195F652B1E8
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Oct 2026 17:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791913873; cv=none; b=OQd7l2ERaNBKuQilp2gd43iYn04WBRjJgmpoFTJrro6Pk6fIUl2aFhsz81pf4i8HYMnjJ7gqyI6d67OwOQtiIn1fEXiutkY5RXAfZ9afuOuBTHQcrf3fAz8sYS7q8P8JC6PulTHj+ca/HADxzGsUuUvb+zl8C3s19Gj8/u0sWRA=
+	t=1791913959; cv=none; b=DntrJZX3dQpj1V5qigStt3Cvv4nR4ENjpBEOJbaupLgL2TIT0kuWoJF5o8TfCuKaoWLLYSAReiAoCRtDm5UcJcwd/avC0biyyX0tuP3e+IKQW1No19aeW+mQpZFClN71BG+am/mLrBOliTZQ/A/v8iXzK+r+OVZq/CEcoDzA4C4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791913873; c=relaxed/simple;
-	bh=iquteC2WLun4rL54eIEjgx3C2ts8WjjltRIkjPLgyLc=;
+	s=arc-20240116; t=1791913959; c=relaxed/simple;
+	bh=qc27dw1bGRtz0RsRjqoL5oDeZuL03UbAX3nPsjTnkxU=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Gd+o54ergtJY70EtL9pT9RNcHPDlXvBlXcZgD12hRny8zmeSXtcMFIvBTwmJ8SKJiPGWLL4L0PfpdA9DdF3m1NQ1laANJf1sTzskLdgJEft6JB6+pMBCJ6/CtfdChMT+VODEydN7pDEb+nJTzc36/syXhPmt3RfexrSP66B+f60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CA8kUzz7; arc=none smtp.client-ip=185.246.85.4
+	 MIME-Version:Content-Type; b=M9yCGvNjQ64fHjiq9g5qzofxrDisU9bXe/KCffoS5sXLBRYjhsk0DJOKjlQrhymz18QZD7dvgU4a4DKohiXy2n+AkFe2fQyvrLpkNsCB121WTHhSgtUKUs7+hifDRV/WbiQwSnfMyt6zjkpgm7mCKN/igWXdxnExGH9lsTjtLxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=dlyBDyHE; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CA8kUzz7"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="dlyBDyHE"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 04BC14E41214
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Oct 2026 17:51:09 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id CE3681A1217
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Oct 2026 17:52:36 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id BC20860362
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Oct 2026 17:51:08 +0000 (UTC)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id A1B0160362
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Oct 2026 17:52:36 +0000 (UTC)
 Received: by mail.galae.net (Postcow, from userid 0)
-	id 45A9611D7183A; Tue, 13 Oct 2026 19:49:27 +0200 (CEST)
+	id 8CBB811D7188E; Tue, 13 Oct 2026 19:49:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1791913868; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1791913955; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=iquteC2WLun4rL54eIEjgx3C2ts8WjjltRIkjPLgyLc=;
-	b=CA8kUzz70Yau2YqKPnZuTTGXQGw5yB8K960DedkPqoJS7iOd7dyP3zvv+VM0u9pyTcW0YR
-	CgF1XFjq8O48v/mHTQqwwLFvu7we5nMVe6Rf7VTRDOrg9SNaLt96+1N3PgGJDtB/EeyBq6
-	wXBj+GUensbPj3C1zQe0Haww8jH0it2wzP/YaNSfcIQYtQ/jswD+jcPhCA8h8jOcwJWU9U
-	8vI3WUpgdNv+R5ZDn/8p8J+75xYgy4RawbgM+OGi7DIqxM5c0EhaEEU1tyiC+ZcSSr4Mpd
-	Nb3PaUddEwKoCN+iZfTpDWQPtyCd9N4UDJZKXHO3HW0XqFrHKpQXtnde4BPGfg==
+	bh=Bw7bv2pnfae4cMWiRM1MW1DbGUPZqrWolE0VMUTTkds=;
+	b=dlyBDyHEvUw0pOrBm1dttwDKz4oNZ+hpsYV67qP+BBGu8c6O+fFdC5t/ngeVZNHu0La1ka
+	VgUq02uqBuXDZ+p5fpIHiVfio1h/IWPacwx2vE6urr55F19F3xStkOJH5VPxaB677hOOLc
+	JgBA8WgYySOn2mbQ9ZuTX/yQr9yIh0nd3Ovn4KDx3CkHrxW3qrMqDFQ5EDSgJB6CzmUsCr
+	DRXOAphFCnWv88nM+nbVh7wV0JduCt+NRVgNMTHgRnn5AVxpRbkIVO5wVa92Q+OBcpMt2I
+	VU+SayXWm2rN+c4Cc8TxZkkJnAFZrvYq6LtnJsorYvFuIHt+q9CA17+E8gCn7w==
 Authentication-Results: mail.galae.net;
 	none
 From: Miquel Raynal <miquel.raynal@bootlin.com>
@@ -48,14 +48,17 @@ Cc: Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
   linux-mtd@lists.infradead.org,  devicetree@vger.kernel.org,
   linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev,
   linux-kernel@vger.kernel.org,  stable@vger.kernel.org
-Subject: Re: [PATCH v6 00/18] mtd: rawnand: sunxi: support the Allwinner
- randomized OOB format
-In-Reply-To: <20260914-submit-sunxi-nand-vendor-oob-layout-v1-v6-0-2fb084fe0751@gmail.com>
-	(James Hilliard's message of "Mon, 14 Sep 2026 15:09:46 -0600")
+Subject: Re: [PATCH v6 01/18] mtd: rawnand: sunxi: drain interrupts before
+ reusing the completion
+In-Reply-To: <CADvTj4pmtGZ4c04q+5AE3trrfshToD7BPtF-8kPxPRZ25hOTRw@mail.gmail.com>
+	(James Hilliard's message of "Mon, 12 Oct 2026 12:26:00 -0600")
 References: <20260914-submit-sunxi-nand-vendor-oob-layout-v1-v6-0-2fb084fe0751@gmail.com>
+	<20260914-submit-sunxi-nand-vendor-oob-layout-v1-v6-1-2fb084fe0751@gmail.com>
+	<8733ua23xs.fsf@bootlin.com>
+	<CADvTj4pmtGZ4c04q+5AE3trrfshToD7BPtF-8kPxPRZ25hOTRw@mail.gmail.com>
 User-Agent: mu4e 1.12.12; emacs 30.2
-Date: Mon, 12 Oct 2026 10:06:50 +0200
-Message-ID: <871p9v4a1x.fsf@bootlin.com>
+Date: Mon, 12 Oct 2026 21:06:28 +0200
+Message-ID: <877bjmzqkr.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -64,68 +67,177 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-TUID: hUm30DN6Lpz6
+X-TUID: +aYWktH/6v0I
 X-Last-TLS-Session-Version: None
-X-Rspamd-Queue-Id: 45A9611D7183A
-X-Spamd-Result: default: False [0.58 / 30.00];
-	BAYES_HAM(-1.82)[87.08%];
+X-Rspamd-Queue-Id: 8CBB811D7188E
+X-Spamd-Result: default: False [1.30 / 30.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	DATE_IN_PAST(1.00)[33];
+	BAYES_HAM(-0.10)[60.96%];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_ZERO(0.00)[0];
-	ARC_NA(0.00)[];
 	TAGGED_RCPT(0.00)[dt];
-	DKIM_SIGNED(0.00)[bootlin.com:s=dkim];
 	FREEMAIL_TO(0.00)[gmail.com];
 	BCC(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[bootlin.com:s=dkim];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
 	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	URIBL_BLOCKED(0.00)[localhost:rdns,localhost:helo,bootlin.com:mid];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	FREEMAIL_CC(0.00)[nod.at,ti.com,kernel.org,gmail.com,sholland.org,bootlin.com,socionext.com,lists.infradead.org,vger.kernel.org,lists.linux.dev];
 	MAILCOW_DOMAIN_HEADER_FROM(0.00)[bootlin.com];
+	URIBL_BLOCKED(0.00)[bootlin.com:mid,bootlin.com:email,localhost:rdns,localhost:helo];
 	TO_DN_SOME(0.00)[]
 
-Hi James,
-
-On 14/09/2026 at 15:09:46 -06, James Hilliard <james.hilliard1@gmail.com> w=
+On 12/10/2026 at 12:26:00 -06, James Hilliard <james.hilliard1@gmail.com> w=
 rote:
 
-> Allwinner NAND firmware leaves the bad-block marker in the randomizer
-> data stream. On H6/H616 it also places all protected user data before the
-> first ECC step. These choices differ from the mainline format, which
-> keeps the physical marker plain and maximizes the H6/H616 user-data area.
+> On Mon, Oct 12, 2026 at 12:02=E2=80=AFPM Miquel Raynal
+> <miquel.raynal@bootlin.com> wrote:
+>>
+>> Hi James,
+>>
+>> On 14/09/2026 at 15:09:47 -06, James Hilliard <james.hilliard1@gmail.com=
+> wrote:
+>>
+>> > A timed-out wait can return while the interrupt handler is still using
+>> > the previous operation's interrupt status and enable mask. Starting the
+>> > next wait calls init_completion() on the same object, which can reset =
+its
+>> > waitqueue lock while the old handler calls complete(). The old handler
+>> > can also complete the new wait or restore an obsolete interrupt mask.
+>> >
+>> > Initialize the completion once in probe and use reinit_completion() for
+>> > each interrupt-driven wait. On timeout, disable and synchronize the IRQ
+>> > before masking controller interrupts and acknowledging the waited-for
+>> > events. Draining the handler first also prevents a partial-event handl=
+er
+>> > from rewriting the enable mask after it has been cleared. Flush these
+>> > register writes before re-enabling the IRQ line, leaving the controlle=
+r's
+>> > interrupt sources masked.
+>> >
+>> > For successful waits, move complete() after the handler's register upd=
+ates
+>> > so that the next operation cannot race with those updates. Keep polling
+>> > unchanged and leave controller and DMA abort handling to the existing
+>> > callers.
+>> >
+>> > Fixes: 1fef62c1423b ("mtd: nand: add sunxi NAND flash controller suppo=
+rt")
+>> > Cc: stable@vger.kernel.org
+>> > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+>> > ---
+>>
+>> So from the commit log I understand that you are fixing a race. The
+>> problem seems legitimate.
+>>
+>> >  drivers/mtd/nand/raw/sunxi_nand.c | 26 ++++++++++++++++++++------
+>> >  1 file changed, 20 insertions(+), 6 deletions(-)
+>> >
+>>
+>> ...
+>>
+>> > @@ -414,12 +416,13 @@ static irqreturn_t sunxi_nfc_interrupt(int irq, =
+void *dev_id)
+>> >       if (!(ien & st))
+>> >               return IRQ_NONE;
+>> >
+>> > -     if ((ien & st) =3D=3D ien)
+>> > -             complete(&nfc->complete);
+>> > -
+>> > +     /* Finish updating the interrupt state before waking the next op=
+eration. */
+>> >       writel(st & NFC_INT_MASK, nfc->regs + NFC_REG_ST);
+>> >       writel(~st & ien & NFC_INT_MASK, nfc->regs + NFC_REG_INT);
+>> >
+>> > +     if ((ien & st) =3D=3D ien)
+>> > +             complete(&nfc->complete);
+>> > +
+>> >       return IRQ_HANDLED;
+>> >  }
+>> >
+>> > @@ -435,16 +438,19 @@ static int sunxi_nfc_wait_events(struct sunxi_nf=
+c *nfc, u32 events,
+>> >               timeout_ms =3D NFC_DEFAULT_TIMEOUT_MS;
+>> >
+>> >       if (!use_polling) {
+>> > -             init_completion(&nfc->complete);
+>> > +             reinit_completion(&nfc->complete);
+>>
+>> The whole change around (re)init_completion looks relevant (here and in =
+the handler).
+>>
+>> >
+>> >               writel(events, nfc->regs + NFC_REG_INT);
+>> >               ret =3D wait_for_completion_timeout(&nfc->complete,
+>> >                                               msecs_to_jiffies(timeout=
+_ms));
+>> > -             if (!ret)
+>> > +             if (!ret) {
+>> > +                     /* Drain the handler before it can restore an ol=
+d IRQ mask. */
+>> > +                     disable_irq(nfc->irq);
+>>
+>> disable_irq() for serializing accesses to a single register?
+>
+> The intention was to drain an in-flight handler before cleaning up the
+> timed-out wait, rather than just serialize the register write.
 
-[...]
+I guess here you relate to the race explained below.
 
-> Assisted-by: Codex:gpt-6-astra
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-> ---
+> disable_irq() provides that synchronization as well as masking the line.
+> It is only used on timeout, and this IRQ is requested without
+> IRQF_SHARED.
 
-I am sorry but I do not want to proceed further with this series.
+This is clearly debatable, since we can identify the IRQ, that flag
+could (should, maybe) have been set. With your approach it would have
+been even more impacting. But that's not the point.
 
-Even though I am not capable of finger pointing what is wrong in the
-diffs nor in the commit logs, I do not understand most of it. I cannot
-clearly explain why, but I have had a hard time trying to understand
-what the commits were doing. The risk is that nobody would then be able
-to further maintain this driver and I am not willing to take that
-option. The kernel policy so far has been to ensure readability and
-maintainability, and my gut feeling is that this series is going
-sideways wrt this major constraint.
+> A spinlock could also address this, provided it covers the handler's
+> status/enable reads through complete(), together with the waiter's
+> cleanup and rearming. Protecting only the register writes would leave
+> the handler able to act on an old snapshot.
 
-Also, from a Linux kernel point of view, we generally just do not
-support vendor specific layouts. I already told so Richard Genoud back
-when he was working on H616.
+I'm not sure what you call "only the register writes", you can call
+complete() from within the lock if that makes sense for this case,
+yes. complete() does not block so it is fine.
 
-With this added to the pile, I prefer not to merge the entire series. I
-can still take some of the fixes if you feel like they would be relevant
-anyway. In which case I invite you to send a v7 with just the few fixes
-you think are actually relevant outside of the randomized layout
-support.
+...
 
-Thank you for your understanding,
+>> commit log, I now disagree with the first part of:
+>>
+>> >The old handler can also complete the new wait or restore an obsolete i=
+nterrupt mask.
+>>
+>> "complete the new wait"? I don't see how a stale handler completes the
+>> next wait given the handler is a hard IRQ and the interrupt enable
+>> register is cleared on timeout.
+>
+> The case I had in mind is an already-running handler on another CPU:
+>
+> CPU 0: Read st and ien for operation A.
+> CPU 1: Time out operation A, mask/acknowledge its interrupts,
+>        then eventually reinitialize the completion for operation B.
+> CPU 0: Call complete() based on the saved st and ien from operation A.
+
+For this to fire, the hard IRQ handler on CPU0 would have to be stopped
+between reading st/ien and calling complete() long enough to span:
+- A's timeout
+- A's cleanup
+- B's wait being rearmed
+On this hardware, how is this reachable?
+
+> Clearing the device's enable register does not invalidate those local
+> values or wait for the running handler to finish. Hard-IRQ context
+> prevents this overlap on the same CPU, but not across CPUs.
+>
+> That distinction was not explicit enough in the commit message. I'm
+> open to a different implementation; the requirement I wanted to preserve
+> is that the old handler cannot update the mask or signal the completion
+> after the waiter has cleaned up and reused it.
+
 Miqu=C3=A8l
