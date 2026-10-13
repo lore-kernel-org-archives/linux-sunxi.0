@@ -1,209 +1,245 @@
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23A43BF68D
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 21:44:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791841449; cv=pass; b=pTWTi3UqoDtn3dJ37lBIaHKQ9t7qxuvQYREhQvU8oJ3iTN9P39CIwaoqquRGR2gWl+OG9zbSBatIknlkjmqUehMM/v/coUX1I0mKa8IllaZfpGKPPSx8p/hUJUsR8vEf1mnRXL/7iMyH9YfY6/w1rJy+1hshgwUUZn124+By9ns=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791841449; c=relaxed/simple;
-	bh=4rQCMA0YD118aHw+hhFF9+PsdILXF6N9UmQsk1sUyMI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=tVshG1fTkZBiNMHsCK76U6mYfN889ON71sGAvdidOXKPdUSdi5ngA4Xe/neeCZJ1nHyD2vg+yLoEbfNpZpfsjFYO9o/xoZIPjnadGvlySBu2uNfgRX7bQx9VnTcSv21hTKB6rKkJRqRDgMhqhnRCUTUWWrB42MVflsgHnulR2UY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r7I5cOSI; arc=pass smtp.client-ip=209.85.222.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C37DE31DD97
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Oct 2026 14:03:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791900206; cv=none; b=Xr1z3rPts8Iczn1gg25/G1iDRKVB2CAVPVb8UXD1zE9qadH1vKggzVnyyxRRzgGFGsv0bEuq0BP/419LXuMIQWp8XoHx6GHlnZjBR7BMXyCvcNcq1YNwrfChP8GFqxpT0dLpZnmm7mHBq1fwsL7AhFtTQEsa9s/dXzAJxCEbaMo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791900206; c=relaxed/simple;
+	bh=1IefC3iuQUrnFqoYEi0MFPNxQjrKAvxqtbUvGiWeLsc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CX05ysrw9REbAWBopOj5CWWCBSr7B2gUZrr04BbTDI+9AyNpK2sIXnaKawHq+b4hBic+lVWwQuWx74HuKrXDIEzfiXasJzm5JGqkHD0OymDTII7Td1BSEOJyEoIzhgP1cjyqzeS3usQjZROiQcrgbAcYff13X/JEB48hNQ6sM/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Z2Cw41gu; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r7I5cOSI"
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-98c78660542so1033527241.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 12 Oct 2026 14:44:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791841446; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Fkbdy8yMjeJeaE+tg1xwXg1eCkgc0mdvGuxog7x6C0fIgW64U6/vL+wbBqaPLaxhLz
-         bB9V+d4hVKIH7G1cZUKrWXPuJRxJyN4eJ0Yg4jP+IJ5Uq/ueENs/Thy7HRbvAU/DJjIT
-         KfIQx32cr5B8j21Jl/90G5x0KgphUEf0Qlv3Hi1EO079xzXZX3uSTglG+l3Si9b5lQ0i
-         P04dfSyqifDztlPWQc/d43lqL+PXDhbnbT+/RNBL5RCyg8wkcKb6ZA0zx1FkaC0avcXZ
-         vy640TNRAVXF65LjzZAMdz3Vj0uPSotmCXCwaFrFBXYyjfxeLe59cScPidp9yqI3DGHS
-         v0lw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=IgcW+mBezfmaVemco2WC7GasvmmjoylpddtvtSsj0OQ=;
-        fh=W2H/RLPD/2ZaEY0xUWzUNagnMiLJqtcZxuxq6hTrn8g=;
-        b=KjkoIa8Ke6FkAAW/A5A2+2SCLaa+c2MwELF2f30fnLX0uBh0Cf7S5la5v4HnELzYAr
-         DBDN0p+NAid2aqcQZ0bBgsyFufxOyiU/u8cCIlLG0gnC3M1zN5C7OGxs0sBQzrMo1Xjt
-         U8bkEm/dtiJjVUrbRSRlLhTTp8suRxb9mn0zo5jN+khSeY/HqtNkuPDUZ6MmVDoMznF9
-         mk7ie/I72KbdRPp26AbdlP6Gn4YFRnQX6YVWW7Vpj4l5GHaeS1FhU5JHvcBhvQWhkoXG
-         9yG6htaz+AINXIYbLOGF5J030CRg9jb03OCMAJ5p7zIKgUVPRfeQyIZOXuHIIrRnZfs5
-         O1aQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791841446; x=1792446246; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=IgcW+mBezfmaVemco2WC7GasvmmjoylpddtvtSsj0OQ=;
-        b=r7I5cOSIGsG23oNwiq0jbdDJtczUyPrH6ikHtbfx/f/n9zWQcqAVB4/AZEn42WdVUN
-         zpAWKuC4BQ+S1wEAu1tniCML1Yh50KRX+IgU3JXI0QdZJX3oFJunHwlhbi0a4U5R+Zhj
-         3YVTdDLGGX6yK/x1VdhUTrzmNbBklXCrk4ZVHjw5PWDCN/S4UFq+BPMKSroLTG/EQzRi
-         8pN67VBgHffCmDHzkhUB+x+sdw84ImuDdFKkF7MwcFx1nnzXgs+Q5YcvKMh6j8a6EQEH
-         5lDxgyXbc8I5IK+C1MXyTZsxgV5HZcl+1T2u8EQScmnHBdO+mKW2wY7b/PmghI0ZrLBW
-         xvhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791841446; x=1792446246;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=IgcW+mBezfmaVemco2WC7GasvmmjoylpddtvtSsj0OQ=;
-        b=jw5gIK0NBeEYZ3bJv0TZ5f0ua8/UBNBkWwmk77EMKjE6CyiNfLb3jTGOx/64IDbtSy
-         H54ujgF9EbsNvoDDNp5wbUStWAEijfFzbNPAlS+VPKtoinUkP6ssFTvbnMOcjCH2Av1d
-         2fGTHtCf5T7+XIXb05ZBEnf+y5M/5lR+dtSOza1/+fEMhewWJdE/q32iNd359jt2sULx
-         l7MHf/CepJk9D9uGuxpXewEtAuH0Rb9XBfJgpyznqxw/O/WNyQYWVzgFDuyj9mO3aYdq
-         MYOvi9nlnW8NmYbafkhfLCwbRnGpzUsua08GmaEc8N8nV2mzbOKlSjqEYeOqHmLPPxUr
-         zJ6Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxz7HsK7D5xvYtxFgWVBmXE8vs3ia75uxtLMoF9wsTJuk3E3JEdMRTiZg1GnHkyDWtTWKExAKwVFobjkg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJU0sU1paqIU1vwSH7s4uaSTcpNOkXnRn1C9braIiv6Y4i9GMxh
-	VD/L7q+udl3Tw8VA2PBcC9yodJbiRiBuhvQEpa4PQGulhI9WBy/Ol11O3wAqfJ619YHcvERUYwd
-	3lC0edC2Kc1onosKmlujkg50LTti4VpM=
-X-Gm-Gg: AYBFou0LYnVQrUzTcRjIqp/gVfyU0V5ZmQiuBJxGBVWQKDZ2kM4Gn2qRgwtS0jNW04o
-	2zHIhdPYlzIumRNk55ZE/HNE5/TKtIbVUahtQaCZosM24Dcl4veNuOGRFf1aYrKs2efeOvxHpLX
-	zrlZc1bzWztlcvEH65n6wPO0wjWWtKFLtZUKnw9JagzF43vX8tJr5lrk4yQ28lUPgWocVnovGZG
-	deLu6NYt4pKyzO4lLVMvuDxUpOZ9aq6AtVpALTJkTmdyoDpxogTLL9ktUu//2Fa98WsBvXhX4mZ
-	YZk+Ucyf29Ope6k96jphLz6yljN9YePNimKcVLHwLqzPnsH558pwk1007YliwWLQkr6EP1XC2N4
-	Ur1LHrVaBxTiWVgOxgbmezj3HcYfQB/IN2kuRjmozay8gGdmaZFNX9JWkSvBu8izAaQVC40D+MJ
-	m3lDSnsi2P5H0jpp9ok+KjQkWfBdnbVbSfWFsO9oex3AuuPybI9fAoVLo=
-X-Received: by 2002:a05:6102:5814:b0:79e:2b00:b4da with SMTP id
- ada2fe7eead31-7cb3a0059admr2967326137.6.1791841445569; Mon, 12 Oct 2026
- 14:44:05 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Z2Cw41gu"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D04F9169E;
+	Tue, 13 Oct 2026 07:03:18 -0700 (PDT)
+Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9C3F03F7B4;
+	Tue, 13 Oct 2026 07:03:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1791900202; bh=1IefC3iuQUrnFqoYEi0MFPNxQjrKAvxqtbUvGiWeLsc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Z2Cw41guH8GdudzEKSB7rd8ujbuphgZqVU4LW2T+IQrL6T21Zy11jE3OaKQsDLwRC
+	 othZfQKLHSspMreGKNHWL9k0xpwsRfwXQfuc3DCcvZUhCbY4ofr3q2EKx605NiZGtL
+	 pjM52We2Gi12vcgotT+j2A4R9qWqC8yg14Yd9xIw=
+Message-ID: <35a421f1-c3f2-4863-938b-b516f5e3d2e6@arm.com>
+Date: Tue, 13 Oct 2026 16:03:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260914-submit-sunxi-nand-vendor-oob-layout-v1-v6-0-2fb084fe0751@gmail.com>
- <20260914-submit-sunxi-nand-vendor-oob-layout-v1-v6-1-2fb084fe0751@gmail.com>
- <8733ua23xs.fsf@bootlin.com> <CADvTj4pmtGZ4c04q+5AE3trrfshToD7BPtF-8kPxPRZ25hOTRw@mail.gmail.com>
- <877bjmzqkr.fsf@bootlin.com> <CADvTj4ppQannShF+dkLreST94g_vSAg4QdMqxhNORzkvci3O1A@mail.gmail.com>
- <87pkxey725.fsf@bootlin.com>
-In-Reply-To: <87pkxey725.fsf@bootlin.com>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Mon, 12 Oct 2026 15:43:54 -0600
-X-Gm-Features: AclHuK9S8X-EJbG6Jz0l1nDWbI3paRApUkydjtgW5vHKMROEOTWMTqhZBvuvO68
-Message-ID: <CADvTj4p-o=EQMq-6E1q2=NOmQbscAVGMUbwX+Wh4R0v5kbXe_w@mail.gmail.com>
-Subject: Re: [PATCH v6 01/18] mtd: rawnand: sunxi: drain interrupts before
- reusing the completion
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Maxime Ripard <mripard@kernel.org>, Richard Genoud <richard.genoud@bootlin.com>, 
-	Masahiro Yamada <yamada.masahiro@socionext.com>, Boris Brezillon <bbrezillon@kernel.org>, 
-	Brian Norris <computersforpeace@gmail.com>, linux-mtd@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] pinctrl: sunxi: a733: program the two-bit I/O voltage
+ fields
+To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>, linusw@kernel.org
+Cc: wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+ linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20261012184130.548261-1-vinicius.eduardo.pedrosa@gmail.com>
+ <20261012184130.548261-2-vinicius.eduardo.pedrosa@gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20261012184130.548261-2-vinicius.eduardo.pedrosa@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 12, 2026 at 2:53=E2=80=AFPM Miquel Raynal <miquel.raynal@bootli=
-n.com> wrote:
->
->
-> >> >> commit log, I now disagree with the first part of:
-> >> >>
-> >> >> >The old handler can also complete the new wait or restore an obsol=
-ete interrupt mask.
-> >> >>
-> >> >> "complete the new wait"? I don't see how a stale handler completes =
-the
-> >> >> next wait given the handler is a hard IRQ and the interrupt enable
-> >> >> register is cleared on timeout.
-> >> >
-> >> > The case I had in mind is an already-running handler on another CPU:
-> >> >
-> >> > CPU 0: Read st and ien for operation A.
-> >> > CPU 1: Time out operation A, mask/acknowledge its interrupts,
-> >> >        then eventually reinitialize the completion for operation B.
-> >> > CPU 0: Call complete() based on the saved st and ien from operation =
-A.
-> >>
-> >> For this to fire, the hard IRQ handler on CPU0 would have to be stoppe=
-d
-> >> between reading st/ien and calling complete() long enough to span:
-> >> - A's timeout
-> >> - A's cleanup
-> >> - B's wait being rearmed
-> >> On this hardware, how is this reachable?
-> >
-> > CONFIG_PREEMPT_RT provides a concrete mechanism. The driver requests th=
-is
-> > IRQ with flags =3D 0, without IRQF_NO_THREAD, so the handler is
-> > forced-threaded. A higher-priority task can preempt that IRQ thread
-> > after it reads st/ien:
->
-> That argument only appears in this reply. It is not in the commit log
-> nor in the diff, both of which reason about a hard IRQ, no? I'll happily
-> take the PREEMPT_RT case into account: in that configuration the case is
-> reachable, but it reads as a justification added after the fact.
+Hi,
 
-Yes, PREEMPT_RT was a later concrete explanation of how the race
-could occur. I should have made that distinction explicit.
+On 10/12/26 20:41, Vinicius Pedrosa wrote:
+> The A733 GPIO_POW_MOD_SEL register has a two-bit field per bank, but
+> the A733 uses the helper written for one bit per bank, so a request
+> for one bank can change the field of another one. With the register
+> as firmware leaves it on a Radxa Cubie A7Z (the fields of PB, PC, PD,
+> PE, PG, PH, PJ and PK in automatic mode, 0x01155550), a PJ request at
+> 1.8 V turns the PE field into fixed 1.8 V (0x01155750).
+> 
+> Add a variant that takes the field of each bank from a mask table. It
 
-The original rationale for disable_irq() was to establish a clear
-boundary between the old handler and timeout cleanup.
+Why do we need a table? The bit assignment is a linear
+[bank * 2 + 1:bank * 2], no?
 
-Simply masking the controller interrupts does not stop an already
-running handler. A partial-event handler can subsequently restore
-an obsolete remaining-event mask. A handler whose saved status
-satisfies the wait can instead signal the completion after the
-waiter has moved on.
+> keeps automatic mode and a fixed 3.3 V mode that already fits, and
+> writes only the field of the requested bank. PF is left out: its field
+> (11:10) is known, but it is tied to the MMC vqmmc voltage switching.
 
-disable_irq() prevents further IRQ dispatch and waits for existing
-handling to finish. Cleanup can then mask and acknowledge the controller
-events without the old handler modifying that state afterwards. The
-register readback flushes those writes before re-enabling the IRQ.
+I don't think this redirection is legit. Yes, PortF could be supplied by 
+VCC-IO, but surely that port always has to stay at 3.3V, as the 
+datasheet requires.
+So I would not treat PortF special here.
 
-This also keeps the additional synchronization on the timeout path,
-without introducing a driver lock into every successful interrupt and
-wait setup. The checks at the time established that the caller could
-sleep, the handler did not require the NAND controller mutex held by
-the caller, and the IRQ was not registered as shared.
+> PI is left out as well, since its supply domain is not documented.
 
-Sashiko's report[0] was the starting point and mentioned both
-synchronize_irq() and disable_irq(). The ordering above was the
-reasoning for the implementation, rather than the suggestion alone.
-It was not based on an RT priority-inheritance analysis or a measured
-performance comparison with a spinlock.
+Mmmh, but isn't that just because it's not exposed on the A733 package? 
+Similar to what we saw on the A523: the registers for the banks are 
+clearly there, it's just the manual doesn't mention them, because they 
+are not used in the particular SoC version. If I read 0x2000480, I see 
+at least 8 pins there (all bits set), and 0x2000488 reads 0xf, so there 
+are 17 pins on PortI.
+And if we don't use PI pins or the PI supply in the DT, we will never 
+try to adjust the PI voltage withstand, so there is no problem.
 
-[0] https://lore.kernel.org/all/20260909085434.C8F201F00A3A@smtp.kernel.org=
-/
+> Only silicon revision B, as reported through SMCCC, is programmed,
+> since the encoding is documented for that revision only.
 
-> Then, I'm curious to know how the AI justifies the use of disable_irq()
-> as the RT-appropriate choice: doesn't it block without a timeout on the
-> very IRQ thread the scenario relies on being starved (and gives no
-> priority inheritance)?
+Where does this come from? Where is it documented to be applicable for 
+only a single revision?
 
-Yes, it waits without a timeout and does not provide priority
-inheritance. I would not present it as the better choice for bounded
-RT recovery latency.
+I will send what I came up with in a minute, feel free to poke holes in 
+there (it's just compile tested).
 
-A spinlock_t-based implementation can provide priority inheritance on
-RT, provided the handler holds it from the status/enable reads through
-the register updates and complete(), with corresponding protection in
-the waiter. That improves recovery under priority inversion, but adds
-locking to normal interrupt handling and wait setup/cleanup.
+Cheers,
+Andre
 
-There is a real limitation: if the IRQ thread remains starved, recovery
-cannot finish, and other NAND operations can remain blocked behind the
-controller lock. So the operation timeout does not bound the entire
-cleanup. The argument for this implementation is the straightforward
-handler-lifetime boundary and absence of additional normal-path
-locking, not that error-path latency can never matter.
+> Computed with both helpers on that register value, the old one changes
+> it and the new one leaves it as it is.
+> 
+> Fixes: 0535bfbfa97b ("pinctrl: sunxi: add support for the Allwinner A733")
+> Signed-off-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+> ---
+>   drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c | 15 +++++-
+>   drivers/pinctrl/sunxi/pinctrl-sunxi.c       | 57 +++++++++++++++++++++
+>   drivers/pinctrl/sunxi/pinctrl-sunxi.h       |  6 +++
+>   3 files changed, 77 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c b/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
+> index ca82f08a3a65..6f5757b8adea 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
+> @@ -21,10 +21,23 @@ static const u8 a733_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =
+>   /*	  PA  PB  PC  PD  PE  PF  PG  PH  PI  PJ  PK */
+>   	{  0, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14};
+>   
+> +/* PA is not implemented. PF and PI are left to the firmware, so are not listed. */
+> +static const u32 a733_io_bias_masks[SUNXI_PINCTRL_MAX_BANKS] = {
+> +	[1] = GENMASK(25, 24),	/* PB, VCC-IO */
+> +	[2] = GENMASK(5, 4),	/* PC */
+> +	[3] = GENMASK(7, 6),	/* PD */
+> +	[4] = GENMASK(9, 8),	/* PE */
+> +	[6] = GENMASK(13, 12),	/* PG */
+> +	[7] = GENMASK(15, 14),	/* PH */
+> +	[9] = GENMASK(19, 18),	/* PJ */
+> +	[10] = GENMASK(21, 20),	/* PK */
+> +};
+> +
+>   static struct sunxi_pinctrl_desc a733_pinctrl_data = {
+>   	.irq_banks = 10,
+>   	.irq_read_needs_mux = true,
+> -	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
+> +	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL_2BIT,
+> +	.io_bias_masks = a733_io_bias_masks,
+>   };
+>   
+>   static int a733_pinctrl_probe(struct platform_device *pdev)
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> index 3ee5012463da..8e62111d3409 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> @@ -10,6 +10,8 @@
+>    * warranty of any kind, whether express or implied.
+>    */
+>   
+> +#include <linux/arm-smccc.h>
+> +#include <linux/bitfield.h>
+>   #include <linux/clk.h>
+>   #include <linux/export.h>
+>   #include <linux/gpio/driver.h>
+> @@ -722,6 +724,58 @@ static const struct pinconf_ops sunxi_pconf_ops = {
+>   	.pin_config_group_set	= sunxi_pconf_group_set,
+>   };
+>   
+> +/*
+> + * The two-bit encoding is documented for A733 silicon revision B, which
+> + * firmware reports through the SMCCC SOC_ID call. Do not assume it for any
+> + * other revision, or when the firmware does not tell.
+> + */
+> +#define SUNXI_A733_SOC_ID		0x091e1903
+> +#define SUNXI_A733_REV_B		1
+> +
+> +static bool sunxi_pinctrl_a733_rev_b(void)
+> +{
+> +#ifdef CONFIG_HAVE_ARM_SMCCC_DISCOVERY
+> +	s32 id = arm_smccc_get_soc_id_version();
+> +
+> +	/* Bit 23 is the JEP106 parity bit. */
+> +	return id >= 0 && (id & ~BIT(23)) == SUNXI_A733_SOC_ID &&
+> +	       arm_smccc_get_soc_id_revision() == SUNXI_A733_REV_B;
+> +#else
+> +	return false;
+> +#endif
+> +}
+> +
+> +/*
+> + * Fields: 0 and 2 fixed 3.3V, 1 automatic, 3 fixed 1.8V. Leave automatic
+> + * mode and any other supply voltage to the firmware, and touch only the
+> + * field of this bank.
+> + */
+> +static void sunxi_pinctrl_set_io_bias_2bit(struct sunxi_pinctrl *pctl,
+> +					   unsigned int bank, int uV)
+> +{
+> +	u32 mask = pctl->desc->io_bias_masks[bank];
+> +	unsigned long flags;
+> +	u32 val, cur, reg;
+> +
+> +	if (!mask || !sunxi_pinctrl_a733_rev_b())
+> +		return;
+> +
+> +	if (uV >= 1620000 && uV <= 1980000)
+> +		val = 3;
+> +	else if (uV >= 2970000 && uV <= 3630000)
+> +		val = 2;
+> +	else
+> +		return;
+> +
+> +	raw_spin_lock_irqsave(&pctl->lock, flags);
+> +	reg = readl(pctl->membase + pctl->pow_mod_sel_offset);
+> +	cur = field_get(mask, reg);
+> +	if (cur != 1 && cur != val && !(val == 2 && cur == 0))
+> +		writel((reg & ~mask) | field_prep(mask, val),
+> +		       pctl->membase + pctl->pow_mod_sel_offset);
+> +	raw_spin_unlock_irqrestore(&pctl->lock, flags);
+> +}
+> +
+>   static int sunxi_pinctrl_set_io_bias_cfg(struct sunxi_pinctrl *pctl,
+>   					 unsigned pin,
+>   					 struct regulator *supply)
+> @@ -795,6 +849,9 @@ static int sunxi_pinctrl_set_io_bias_cfg(struct sunxi_pinctrl *pctl,
+>   		       pctl->membase + pctl->pow_mod_sel_offset);
+>   		raw_spin_unlock_irqrestore(&pctl->lock, flags);
+>   		return 0;
+> +	case BIAS_VOLTAGE_PIO_POW_MODE_SEL_2BIT:
+> +		sunxi_pinctrl_set_io_bias_2bit(pctl, bank, uV);
+> +		return 0;
+>   	default:
+>   		return -EINVAL;
+>   	}
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+> index 7c2f29e75519..c37170b2e4f4 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+> @@ -130,6 +130,11 @@ enum sunxi_desc_bias_voltage {
+>   	 */
+>   	BIAS_VOLTAGE_PIO_POW_MODE_CTL,
+>   	BIAS_VOLTAGE_PIO_POW_MODE_CTL_INV,
+> +	/*
+> +	 * Bias voltage is set through two-bit fields in PIO_POW_MOD_SEL_REG,
+> +	 * whose positions are given by io_bias_masks[], as seen on A733.
+> +	 */
+> +	BIAS_VOLTAGE_PIO_POW_MODE_SEL_2BIT,
+>   };
+>   
+>   struct sunxi_desc_function {
+> @@ -155,6 +160,7 @@ struct sunxi_pinctrl_desc {
+>   	bool				irq_read_needs_mux;
+>   	bool				disable_strict_mode;
+>   	enum sunxi_desc_bias_voltage	io_bias_cfg_variant;
+> +	const u32			*io_bias_masks;
+>   };
+>   
+>   struct sunxi_pinctrl_function {
 
->
-> Thanks,
-> Miqu=C3=A8l
