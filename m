@@ -1,190 +1,132 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB6CF531608
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Oct 2026 17:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAB67541E52
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Oct 2026 22:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791913971; cv=none; b=AbZ3QIEmqbzwEfrn0IBlFSQosV8Sp9YCSJFB3j1yx78HWhJIoiRDfySHekTYvCPO5cbloiwRPF8zavBxwhxYul6+yuiGoQq5jKO/AUyvQLXyLuKp2YP27PVam3h0TQFswzoS53IFqI+ymSiaR8Hjwu2iesWX7BOPru3LYUzQe7k=
+	t=1791929637; cv=none; b=HIne1Gc6DF88g/G1C7mfN185EjyTTuvFk4Lkoj1MFnaiiN8lole/1QU5deyhgmyc2h6ONAgXFbHno0aNnabNG/cER60KIHcVkAIGbORZLlxn/tylbAk6G7dRHY10R/U/Gzj0gGPoR6QJjYdAbLQ2WlMlZWJfOUq460ULWHsxnIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791913971; c=relaxed/simple;
-	bh=Z6sQzfOjJE3zZ6rA3iiYJzCKffn9Za8LnqtjvIZELqs=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=AilqSdjFWuID0AFHOOk88LYK+2wdAAOTsvtGNVjhf9kCCPqpPgEZnViotbKnvEi4e7TxlhqoyuPU8iXj9lK1R5Yk0cXcYVYCkaVZISWPWynKDjKneyLLfCg8cpZMgWkkj4MW3XTEjAivnFAztOYU9SdIXv2xkG4LBiIaaDL+swU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SUnnAEgE; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1791929637; c=relaxed/simple;
+	bh=b9BtCWGkJHn0bMKGND0IyL2uVXPmtmkcN+nYesDBUN0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=gLWbkd3bpNrWWDFaUYHF6lW1ame2/SFgexzI6v+zmrltSlGci5uIA9eqWR0767WNU+lJb+yGH9PvLE73FdhxdqR9hCs209prtGkwX2gNx4o7qMoDETGfGQMWbZ+IdZKcjm7SUy78WOcbouUgO6VVICItQfaD3DAj7HOTX4K5adY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=C1rfY83B; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SUnnAEgE"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id CDE15C653FD
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Oct 2026 17:53:43 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3908860362
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Oct 2026 17:52:48 +0000 (UTC)
-Received: by mail.galae.net (Postcow, from userid 0)
-	id AB1A211D718A4; Tue, 13 Oct 2026 19:49:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1791913967; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=eN09B8iBlF64T0aTmOSgm5Y2C78SY2TacmK0ll+reUk=;
-	b=SUnnAEgE0qqDRLCbqUWJV+gLfNjru6WkvDVVifdcUYnctmaoH+rTmcHZFSOjWY7YneWK0w
-	9eVIGi8bHD7yN6Hb2XAjlB6Ko9gsNbo/Bk4AMZkTAjcVsrMmSa74NqN145bHuMk5J8Wfmd
-	3XWxuhqc/nXWFnQ1IaYeFKPIJq6ud9dXpwOGbdPjP0EQ44z/v/4+BcC4JlUTcP2/s+odoG
-	w0NbfDGSi2cjNB/wI+ifvC3R3tpf0UQAQJ11Zosh/kxBdFzTS32GHiKt9/IAQ/Io38CzBD
-	Y06X8BNvyrCdY1OOBLndz5fDnYqytUQHK1zt2EWC3mh/zldgttQVaR6O84XW+A==
-Authentication-Results: mail.galae.net;
-	none
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Richard Weinberger <richard@nod.at>,  Vignesh Raghavendra
- <vigneshr@ti.com>,  Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski
- <krzk+dt@kernel.org>,  Conor Dooley <conor+dt@kernel.org>,  Chen-Yu Tsai
- <wens@kernel.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>,  Samuel
- Holland <samuel@sholland.org>,  Maxime Ripard <mripard@kernel.org>,
-  Richard Genoud <richard.genoud@bootlin.com>,  Masahiro Yamada
- <yamada.masahiro@socionext.com>,  Boris Brezillon <bbrezillon@kernel.org>,
-  Brian Norris <computersforpeace@gmail.com>,
-  linux-mtd@lists.infradead.org,  devicetree@vger.kernel.org,
-  linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev,
-  linux-kernel@vger.kernel.org,  stable@vger.kernel.org
-Subject: Re: [PATCH v6 01/18] mtd: rawnand: sunxi: drain interrupts before
- reusing the completion
-In-Reply-To: <20260914-submit-sunxi-nand-vendor-oob-layout-v1-v6-1-2fb084fe0751@gmail.com>
-	(James Hilliard's message of "Mon, 14 Sep 2026 15:09:47 -0600")
-References: <20260914-submit-sunxi-nand-vendor-oob-layout-v1-v6-0-2fb084fe0751@gmail.com>
-	<20260914-submit-sunxi-nand-vendor-oob-layout-v1-v6-1-2fb084fe0751@gmail.com>
-User-Agent: mu4e 1.12.12; emacs 30.2
-Date: Mon, 12 Oct 2026 20:01:51 +0200
-Message-ID: <8733ua23xs.fsf@bootlin.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="C1rfY83B"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AE8101688;
+	Tue, 13 Oct 2026 15:13:50 -0700 (PDT)
+Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D28A93F871;
+	Tue, 13 Oct 2026 15:13:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1791929634; bh=b9BtCWGkJHn0bMKGND0IyL2uVXPmtmkcN+nYesDBUN0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=C1rfY83BkHnie2RRXlgSM0spEEod8PgaPuxpFHc0TfWCkwwT6A+J9lbPVQbi8/Zob
+	 ds7qUjs0sZ6cvcThatuxZSggPOanDyou4n0L/87Y0HuAIEiVR1Tc0g8g8GPkxnWb+f
+	 wWG5VvHpBfAHhVr89J/Rly0sMuxkD70ypumHEPhs=
+Date: Wed, 14 Oct 2026 00:13:34 +0200
+From: Andre Przywara <andre.przywara@arm.com>
+To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+Cc: Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Jerome Brunet <jbrunet@baylibre.com>, Yixun Lan
+ <dlan@gentoo.org>, Enzo Adriano <enzo.adriano.code@gmail.com>,
+ linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFT] pinctrl: sunxi: Fix A733 withstand programming
+Message-ID: <20261014001334.54dcf0b5@ryzen.lan>
+In-Reply-To: <20261013172427.328177-1-vinicius.eduardo.pedrosa@gmail.com>
+References: <20261013142351.771229-1-andre.przywara@arm.com>
+	<20261013172427.328177-1-vinicius.eduardo.pedrosa@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-TUID: 6eu8W/K5efM3
-X-Last-TLS-Session-Version: None
-X-Rspamd-Queue-Id: AB1A211D718A4
-X-Spamd-Result: default: False [1.40 / 30.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	BAYES_HAM(-0.00)[24.09%];
-	TAGGED_RCPT(0.00)[dt];
-	RCVD_COUNT_ZERO(0.00)[0];
-	FREEMAIL_TO(0.00)[gmail.com];
-	BCC(0.00)[];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[bootlin.com:s=dkim];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FREEMAIL_CC(0.00)[nod.at,ti.com,kernel.org,gmail.com,sholland.org,bootlin.com,socionext.com,lists.infradead.org,vger.kernel.org,lists.linux.dev];
-	MAILCOW_DOMAIN_HEADER_FROM(0.00)[bootlin.com];
-	URIBL_BLOCKED(0.00)[localhost:rdns,localhost:helo,bootlin.com:mid];
-	TO_DN_SOME(0.00)[]
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi James,
+On Tue, 13 Oct 2026 14:23:38 -0300
+Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com> wrote:
 
-On 14/09/2026 at 15:09:47 -06, James Hilliard <james.hilliard1@gmail.com> w=
-rote:
+Hi Vinicius,
 
-> A timed-out wait can return while the interrupt handler is still using
-> the previous operation's interrupt status and enable mask. Starting the
-> next wait calls init_completion() on the same object, which can reset its
-> waitqueue lock while the old handler calls complete(). The old handler
-> can also complete the new wait or restore an obsolete interrupt mask.
->
-> Initialize the completion once in probe and use reinit_completion() for
-> each interrupt-driven wait. On timeout, disable and synchronize the IRQ
-> before masking controller interrupts and acknowledging the waited-for
-> events. Draining the handler first also prevents a partial-event handler
-> from rewriting the enable mask after it has been cleared. Flush these
-> register writes before re-enabling the IRQ line, leaving the controller's
-> interrupt sources masked.
->
-> For successful waits, move complete() after the handler's register updates
-> so that the next operation cannot race with those updates. Keep polling
-> unchanged and leave controller and DMA abort handling to the existing
-> callers.
->
-> Fixes: 1fef62c1423b ("mtd: nand: add sunxi NAND flash controller support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-> ---
+thanks for having a look and testing it!
 
-So from the commit log I understand that you are fixing a race. The
-problem seems legitimate.
+> Thanks for the RFT. I found two things when checking it against the A733
+> manual and my Cubie A7Z.
+> 
+> PB is an exception to bank * 2: its VCC-IO field is at bits 25:24, while
+> bits 3:2 are reserved.
 
->  drivers/mtd/nand/raw/sunxi_nand.c | 26 ++++++++++++++++++++------
->  1 file changed, 20 insertions(+), 6 deletions(-)
->
+So PortB has no supply of its own, instead it's always supplied by
+VCC-IO. That was even more common on older SoCs, with also PortH and
+PortF being supplied by that. Which somewhat means that this is broken
+there as well?
 
-...
+> With the board's SEL value (0x01155550), a 3.3 V
 
-> @@ -414,12 +416,13 @@ static irqreturn_t sunxi_nfc_interrupt(int irq, voi=
-d *dev_id)
->  	if (!(ien & st))
->  		return IRQ_NONE;
->=20=20
-> -	if ((ien & st) =3D=3D ien)
-> -		complete(&nfc->complete);
-> -
-> +	/* Finish updating the interrupt state before waking the next operation=
-. */
->  	writel(st & NFC_INT_MASK, nfc->regs + NFC_REG_ST);
->  	writel(~st & ien & NFC_INT_MASK, nfc->regs + NFC_REG_INT);
->=20=20
-> +	if ((ien & st) =3D=3D ien)
-> +		complete(&nfc->complete);
-> +
->  	return IRQ_HANDLED;
->  }
->=20=20
-> @@ -435,16 +438,19 @@ static int sunxi_nfc_wait_events(struct sunxi_nfc *=
-nfc, u32 events,
->  		timeout_ms =3D NFC_DEFAULT_TIMEOUT_MS;
->=20=20
->  	if (!use_polling) {
-> -		init_completion(&nfc->complete);
-> +		reinit_completion(&nfc->complete);
+What do you mean with "the board's SEL value"? That's not the SoC reset
+value, is it? So who programs that value, and why?
 
-The whole change around (re)init_completion looks relevant (here and in the=
- handler).
+> request produces 0x01155558, leaving VCC-IO untouched.
 
->=20=20
->  		writel(events, nfc->regs + NFC_REG_INT);
->  		ret =3D wait_for_completion_timeout(&nfc->complete,
->  						msecs_to_jiffies(timeout_ms));
-> -		if (!ret)
-> +		if (!ret) {
-> +			/* Drain the handler before it can restore an old IRQ mask. */
-> +			disable_irq(nfc->irq);
+... naturally, because nothing in mainline sets VCC-IO, which is beyond
+the SoC's GPIO bank offset.
 
-disable_irq() for serializing accesses to a single register? It
-certainly works but I don't think it is so common to use it like that,
-for such simple cases. Typically in this case I would have used a
-spinlock maybe? Or even better, why not just avoid the race entirely
-and handle the register in the waiter? You certainly don't need to write
-it in the IRQ handler. You can handle the IRQ configuration at the
-device level, which will also prevent the need for your extra
-readl "barrier" before enabling the IRQ.
+> I also think we should preserve AUTO (01). On my A7Z with vendor 5.15,
+> PF=10 resulted in 22 SDR104 read timeouts and no rootfs, while PF=01 and
+> PF=11 reached login.
 
-Furthermore, now that I have a better understanding, re-reading the
-commit log, I now disagree with the first part of:
+So this means you hacked the register in the vendor kernel, for the
+sake of an experiment? And I guess this just means that the vendor
+kernel uses UHS, and uses register 0x70 to switch PortF to 1.8V? So you
+need either auto or 1.8V for it to work, the same problem we hit with
+PortC on the A523.
 
->The old handler can also complete the new wait or restore an obsolete inte=
-rrupt mask.
+> This was one run per setting with one card, not a
+> mainline before/after test. In my mainline setup, MMC0 already requests PF
+> with a fixed 3.3 V supply, so the RFT would replace AUTO with 10 even
+> without voltage switching. Preserving AUTO requires no special case for PF.
 
-"complete the new wait"? I don't see how a stale handler completes the
-next wait given the handler is a hard IRQ and the interrupt enable
-register is cleared on timeout.
+So can you say whether you observed a real problem with either the
+current (broken) code, or with one the fixes? I am still confused about
+your reports, whether they are just experiments, and comparing to the
+BSP, or looking at the manual, or whether there is an actually observed
+problem.
 
-Thanks,
-Miqu=C3=A8l
+> I boot-tested your RFT with two small fixups for PB and AUTO on my Cubie
+> A7Z (rev B). UART0 and MMC0 work, and GPIO_POW_MOD_SEL remains at
+> 0x01155550. No voltage-field writes were expected with this DT. I haven't
+> tested the RFT as posted.
+> 
+> I agree the full table and PI exclusion aren't needed, and found no
+> evidence for restricting the encoding to revision B.
+
+Thanks for the confirmation, and just curious where this revB
+restriction came from, originally?
+
+> A733-R still needs its own descriptor for the two-bit PL/PM fields. I'm
+> happy for your RFT to supersede my patch 1 once PB and AUTO are addressed,
+> and I'll rebase the A733-R fix on it.
+> 
+> I have the PB/AUTO fixups and the A733-R patch ready, and can send them if
+> useful.
+
+Well, this is getting really messy, isn't it? I never understood why
+the IP even allows manual programming if there is an automatic setting.
+Did you find any recommendation? IIRC manuals for other SoCs did
+recommend one or the other method. If AUTO works, and is used by the
+BSP, then we can just use that, but in a much simpler way: either use 
+BIAS_VOLTAGE_NONE, or create a new AUTO name (better), and then skip
+the whole action in sunxi_pinctrl_set_io_bias_cfg(). Instead just once
+program the GPIO_POW_MOD_SEL to "all auto", once at init time.
+Curious what others think about this.
+
+Cheers,
+Andre
