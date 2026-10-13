@@ -1,180 +1,227 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E323A514745
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Oct 2026 15:08:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCAD853FD36
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Oct 2026 15:38:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.181
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791904089; cv=pass; b=PcICffGJxBT4h7hypux099AWb7S68FUXhRXMehwGx0flJ5+PqxqkAhNv8IFgZBGsY9fncX9O/AHUdQH0GzmVlx19DaMwyIHZHJZFyk5BTnGxDJT5gb/x1dAmaMOLV2NDgkt0IbatsWHsRdXRIqmf9ZkayGWPNxe9UpM7NqhHhPg=
+	t=1791905916; cv=pass; b=euNARrsqxj+iHWIukn0vFIIFGMqjBP9awXR+CrI3K5DpE+pq1t+C6Wy3xQVYJGMF+N+HvXjl6wl3va9/lVrZmwq2iOsJ97HUJMuVBfzfDBFI27BnUM3dwib1tBUaBPoeiSv1ElWWIt48WRkNZ8JmUEcioUnpeIEJOI8RynqXG1I=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791904089; c=relaxed/simple;
-	bh=kSeEty/pyx+v4Qu7BrqL5A6bwA+hTSmxB+Kegwde04I=;
+	s=arc-20240116; t=1791905916; c=relaxed/simple;
+	bh=MmxvBPYPduVdw8BoM1SgfvslPMhQ/xEwnTrDO4SQWvk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OPTRxT7ngJDXVxELXSeu132a4zy2pszLNrzio5skFDyGPU9tFD+vTdiBAWyRFTrfwvvA+lcLe/SQHIlU89RSOHWG5IjpCcBhtzzQfG8BEyxFrkSUNbjjqW02ZvHNyOETCnfg5x8A6U+9GpnDaa0X6TXfnGMBbAWVCNa2BknIov8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L9qnzBoO; arc=pass smtp.client-ip=209.85.214.177
+	 To:Cc:Content-Type; b=ZZGKu5D9fZv6+PbGDNAodrfYauBQgE+7BYZUTrD6h2Y2yiTG3ktmILTOTroJtNdHfAnMEo2kdXZBLRDqLRG2CEJd8Rlx6h8uPmS7Iytp2MtTCfwlnJwmwoUFoJHqLmReNwIB8lam9diddPglJzEIVGCmmsdbTBJE37RVoW5pxRI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ARhVQjuk; arc=pass smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L9qnzBoO"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2e8d2574fd9so17024005ad.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 13 Oct 2026 08:08:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791904087; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ARhVQjuk"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8917c712f32so1408530b3a.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 13 Oct 2026 08:38:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791905914; cv=none;
         d=google.com; s=arc-20260327;
-        b=OdBeX++ImKM0Kq3KhNrIgsr+/bGtP+ONLDHojz8h2ErHnHOrdR/sdZJ8m1Ife0DUo1
-         +Oyq2bUmmDpwbQ1xUnGKdKnFDqBMLgvqMpLWdaIuhXz1K3O+39U6w1Vxz5tbgpL4LNUX
-         u6XtYUybS71/b/VA3R3urI2nTD2eavIrXx1EAQef4wJa/ZkfKmXgo0Vz7H3XnPj6P5F+
-         UzyjfJI6DvZnXIUKUM0wRvymeJBE4gWD1K1z1JYCVf/O3jsFGrKpqvmoDSLwCckDAAtk
-         uidioUHDhFZF03WTKSYtZE6Q79rB2E8V3Xmi8iDDjsy/3xfJ5FZeukSXkThDABznOEbf
-         6KtA==
+        b=f4q2fuETTKTqZOPb9kVZz5CfBSys0quAGYbSMUAX0F8YJYi9QxKo1WZg62GtOpVw8X
+         vX/UceGOetM4KNAAINhaPuAft43APbF0j6EndwTAB6DkF6cA0xQHtRj5RDXTj7mfOPPc
+         t6Blw9xMUmWbWZ61WE8WA+UxkC+TQjF4q+3b23mpRvDZHOmL15ac7WYAkMGVybZitxw7
+         RAM5FA9NDNCeTk66Pp3R6wF5lnEiQdsgvFigwHVm5HEWKFwkvVC6NxjPPGjCqXu2L5Zs
+         2GsJrnBFOAFTORwspHRC8ba/D2dforJO0g4bnU9SrQ9+2FDvz7nxbVCqykuks0kg4W0G
+         /PvA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=LQ5BAPQzf5De6H7G8HN1TYce8oTd+xAhm08KbGTjuS4=;
-        fh=0VgAKZm7iS0o85eYpp0anjZA8GREtFVdc5LeomWgex0=;
-        b=iHeDdCuHyTWjLmqtLlfRC9FyApb+ZH/NvUiGdWzTbbgGG1sgKaDJFgddt4piiOxCh5
-         KpSj8kmK+D3M8KqSBPSv3lzpgBNJPzt432FErTey2W/Rg/lhHsVNwYHYpq/4us1isn0h
-         Cb2OZzF21IuT8w1gUYjTo73h7fj1iywi40cHwyqo9jTJK0jIuXbCuBq20f2fgOXnSeXd
-         cnPe8Ed71dY9ISROkgNsiZ5KOsleGGgZm4kXYXUwwyKmDh/XQOObPOdKW3UupdDaiHJS
-         bp+Q0iLhWWijT+HIHvOR6vNRtlfUSlS9quTZV0YvUjDtYzXhFerdcGf0X3Va39ZRE7Hr
-         42og==;
+        bh=bNxkY3u/s5WVXvWEK0xK5d2WbLkBdvB2WEBpPBk1aiw=;
+        fh=KC96VAKKF9T4FWqzKtg9kMsthPCpSrKJemiA/YIX7uA=;
+        b=KS695nqs8aZ0Nmv68uA7nhHBjPO+Bp13d55h2XWNh6U8VkGCpq9jGVGiGL/J+Y1Qxe
+         JA69w5o3jV88o+yNMleQCz3gNGTvk11owkuDLvv3LBGBn+IrIJj/aTmrJQZf0JHBDTZH
+         SdGnvlwWmI/iw0q6gBx0iou4X4CuoaWHaWR00WKCJR37aJGvWvBldPB3ZaZlofmpbrsx
+         jiKT3LLApZPoNR7d8y8LQlxSOZCCOGt2WMfO7z8YAQrh5Yypd/vbO/YP4HAgUQ6w+ib8
+         JUiNlWVKwwtE2rJo1Dtgwyjz4XFrUSUoFp967PpQ9EWjZp37qfuVF8buDCFk8NZ+VejQ
+         0q1g==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791904087; x=1792508887; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1791905914; x=1792510714; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=LQ5BAPQzf5De6H7G8HN1TYce8oTd+xAhm08KbGTjuS4=;
-        b=L9qnzBoOufpzJpKxDacrDDZd5wUKpnsz8VLGc8uOa1jshSY2pFo6tks6p13HB7GMhj
-         7Mlrx6qcvEl0I9t4s3YLF3UzhmXNfMboD2qmWDNhcuwXlb6ww5+VHgIuanU24ThGNpMG
-         iiNmhAZ4eaf3RDnWqpgqNuTtpSeOrPw1CNZF5RfDeSnlrpyklYlbtgHTRVq9ds8IaZ+w
-         TGMaT0PdkhzMn2Q7lFlZtmvzls/53lSP+0SDWYlomFevPb44ONc/yJ0bQN5UiWGqqjlg
-         AceeHLh01cu/QXaHEv522VWR2ySB+UNEf2TVoPl4Dwc6a4OygOqeu+7EJd2KiQDLWw6M
-         qPkA==
+        bh=bNxkY3u/s5WVXvWEK0xK5d2WbLkBdvB2WEBpPBk1aiw=;
+        b=ARhVQjukgkNE4c6OX0P1KYq8r8ZL2Of1YYrEkv44XMTXwgiu5dYlw2/nBFyRvgM15Z
+         OsfpaDJt2OJAsmisKgIRq00PCTJqWWw3k2Yu4E2MHV19CvQHaPGbZ1OiwK+aPIdAXG0z
+         zoFYxSZxiugzGf9pKVzlSL0xHJ9Fse4UbNBqpfGVH9ucx3cqPENtHjgb4dqsZdFq7fJC
+         Bj2EtT5m5MaM8nhcStQMobCL5CS4vf3gCzi0iYHM9fo2egdHOWE3htpsyS9+/iKT4Ke/
+         yakDt+a2cKRH9sN50nOPrXNQ2SffhTo5AOHK2s2nJ0+sbWZxcbZYvxX38sQttfZeEnS+
+         FWxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791904087; x=1792508887;
+        d=1e100.net; s=20260707; t=1791905914; x=1792510714;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=LQ5BAPQzf5De6H7G8HN1TYce8oTd+xAhm08KbGTjuS4=;
-        b=0doeB7rdXbvB0LXPTuY1nQP+xG0vci1vgGk6zufar4a+4ICw+LZiJWuo5YKz06MHtM
-         jy+Mqwo06ENGWhkUNcYeUak2Y898h8TjdkROcm5uon7dSvHR1xUjwinFTTgpbQefN2Ry
-         TPN0Mod9Ui0fmxXdq/iWhylaM23PXZX6CUIpZz276m8oW7Wn0hUHDeBhrrCPnCSvFxEi
-         7CVL847dp9gEUR9sh5DgM3/i7EXOYYxqJBeZPQksEcrC/Ou7xy8fHGYx2SM7DyMZ4Wgz
-         wPXmo0BDC/NfT48IXNZ0AG6DqAmAV1hyItjNxt1XnIkvbYaHd5hbEAojFNeT2zJF8HwL
-         4Zzw==
-X-Forwarded-Encrypted: i=1; AKwUvBwG122dIin8zlc7pAO4AtqmSRX+tcnxJJOxgK0q4jVhtOFzOGSilg+nKEgIx/jPCJFXjuK2Jcig3S7z0A==@lists.linux.dev
-X-Gm-Message-State: AFq9FYK0VbR0gagE7eQySprLIV9/pYfObbEBLKMK0BEI3V2mhjHC0dbu
-	GX1CpnF3BvdGPSmDZ2JYNB2a/KY2RcpI6dbqcqE13YIUBTcxpKd1ERWfJEWVdw4tXP8Vh8tWWd/
-	8djMnWj8bw+VdzWEDE0FNUQY4C/9Ocl8=
-X-Gm-Gg: AYBFou1V79Uhpi7srqoCWn8wS2sUE7cflLp4DSure9PBaE0Imr7GJO4b5CwXSrQR+mk
-	JkkdFbo1fum1fCNX0EoS9SvTOv9RsT15Q6Nr11xX5SlEqRZ9mytTXyCTrOA3t1+xTJenQUOzU1u
-	ZXMUb1e9VH1nit2A3YD/j4YtlyXRZv4QlPrKGXBb42si+8IKwwBhQlCtmVVL4C0GXs5KWv/hRJ2
-	I2kgILnjKbZ5Ja3Z8bjzmROMEt2Yrkdo+pVIqHagNkZO3TTMnxynEP1SNhNKDoK4AyuDbucEy6A
-	aMWxL4Y+1B9bSEWJcZGpzzOPpKyoET1ZK8cPQZQLMuhrvde74/Urk0QfGrttJFU251eJoj0=
-X-Received: by 2002:a17:902:fc4e:b0:2dd:c170:2d4d with SMTP id
- d9443c01a7336-2e842abcb40mr130264665ad.24.1791904086913; Tue, 13 Oct 2026
- 08:08:06 -0700 (PDT)
+        bh=bNxkY3u/s5WVXvWEK0xK5d2WbLkBdvB2WEBpPBk1aiw=;
+        b=P7Qas3Ji5aVkQzIb5/sI+AGuhVxBquU9bLLh+c4kSoFY5JttfM8COaFwphVvC4+mEu
+         srhQuiLLH5HnW2+xxrevQ8C0o6F+4KcfrzHJVONTVNqRtD+djqZ7DXFxrhc0W+vlkVV8
+         XJv9zNimTOlxrqftmnTpuH0yIepNErQXNVZp2c0q3qcDMWtgm7qDNgdCIIluc4svNUHc
+         BI+o1pb8CgKCGEHDuVglULMc8Y4bzdMYQOMuD7R+dpN6Cr1kwHjVh4SS7UJjxaajPZ1u
+         NKjRXyt8QemBsFVKDdOB5K/Upm8+kwYJxMDnWW/FmlHDo+h8iZgjk+UdVdgHf2c5TpmI
+         OGIQ==
+X-Gm-Message-State: AFq9FYKT1auqDLD6fmdti37l5jOm1lMr6pWiuUBspRAB+ex/7PIceU5W
+	JG+Hxcyt44TSnWLkZv/MxXqOwxAWPOQWRMP/AjG+5tgIQjcJJhJJO8EGOE7NfNCiIHKlFo6squ9
+	2ZiCNwFv96C9QTbhuv21jfTPOW8ECglDkftFw1x4D+w==
+X-Gm-Gg: AYBFou1qUxbPMAXoyLC8j6wD98/zu9pWxO6HvfMI6XIzQAgJlROiW3GmWl8s54dwfGa
+	SUQKvsvtCpQGPNZif6ZzS0JE1UrPPn7o2bnpoZnJTE8sxRr8UPNqLt00Imfsue0REQ75k7wxK09
+	eeIL/N0gcsXK78X9nVLZ7vGqP1TLMWofqKh2+FSsfQhix4UbIXRCFTtbljqHRCCUpne4Ntkr9+9
+	avNheefwhM6zI2W/xumSwFh8s+iqHK6pPys+wMNb+4+eHnVxtyMH0nB6EjbZoWFUfPQBUz8NCXa
+	Jjm5CW44Rfy5mUwmFmEqXHb3EkUfLvgc38gaHVzMelaKURaMt7DZxecJhwEmLqtPwcBPvhA=
+X-Received: by 2002:a05:6a00:bb8d:b0:878:34d7:6994 with SMTP id
+ d2e1a72fcca58-897c73f479amr10672060b3a.36.1791905914108; Tue, 13 Oct 2026
+ 08:38:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261012100816.331033-1-pmazzini@gmail.com> <20261012100816.331033-3-pmazzini@gmail.com>
- <sashiko-outbox-167950@kernel.org>
-In-Reply-To: <sashiko-outbox-167950@kernel.org>
+References: <20261012100816.331033-1-pmazzini@gmail.com> <20261012100816.331033-5-pmazzini@gmail.com>
+ <sashiko-outbox-167955@kernel.org>
+In-Reply-To: <sashiko-outbox-167955@kernel.org>
 From: Pablo Mazzini <pmazzini@gmail.com>
-Date: Tue, 13 Oct 2026 16:07:39 +0100
-X-Gm-Features: AclHuK_pl3pWqTJLvh0wYDQbXNbwPmw0G3N4wD6Ym2FvqFNGBQBI95gOlewMvjs
-Message-ID: <CAAxh=jvSRyW3XwnyV2RVHH9FZvq9A7A7ruXNSpAgXzdcCNjGeA@mail.gmail.com>
-Subject: Re: [PATCH v4 02/11] clk: sunxi-ng: add Allwinner B288 CCU driver
+Date: Tue, 13 Oct 2026 16:38:08 +0100
+X-Gm-Features: AclHuK-szTY3pRI5JWHXFDmrUzH8TEpBh3ImxWAXWDJL8aPlx3tl18XJIvM_QJ8
+Message-ID: <CAAxh=jthj+HhtfuHpxBiDhG09dTiojg_zcFReczeHojnRzzyQg@mail.gmail.com>
+Subject: Re: [PATCH v4 04/11] pinctrl: sunxi: add Allwinner B288 pin
+ controller driver
 To: sashiko-reviews@lists.linux.dev
-Cc: linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
+Cc: linux-sunxi@lists.linux.dev, linux-gpio@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-The B288 has pll-video0 and pll-video1 at TCON0 mux values 0 and 1, so
-the plain mapping is right.
+The first two come from the IRQ bank numbering in
+prepare_function_table(), which this patch depends on [1]. Andre plans
+to send a fix after -rc1 [2].
 
-BSP: https://github.com/pocketbook/kernel-b288/blob/e30bb2ed149410ef2d3245e=
-a01192833d44c4e46/drivers/clk/sunxi/clk-sun8iw10.c#L468
-Wiki: https://linux-sunxi.org/B288/Clocks
+The third is fixed by "pinctrl: sunxi: dt: do not accumulate npins
+across probe attempts" [3], which Linus has applied.
 
-On Mon, Oct 12, 2026 at 11:21=E2=80=AFAM <sashiko-bot@kernel.org> wrote:
+[1] https://lore.kernel.org/linux-sunxi/20260929203634.32998-1-pmazzini@gma=
+il.com/
+[2] https://lore.kernel.org/r/20261004225724.0b821e9c@ryzen.lan
+[3] https://lore.kernel.org/r/20261007060107.62221-1-pmazzini@gmail.com
+
+On Mon, Oct 12, 2026 at 11:29=E2=80=AFAM <sashiko-bot@kernel.org> wrote:
 >
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+> Thank you for your contribution! Sashiko AI review found 3 potential issu=
 e(s) to consider:
-> - [Medium] clk: sunxi-ng: missing parent index table for tcon0_clk
+> - [High] pinctrl: sunxi: out-of-bounds write in irq_array when Bank 0 has=
+ 0 pins
+> - [High] pinctrl: sunxi: Missing irq_bank_map breaks B288 IRQ offsets and=
+ domain size
+> - [High] pinctrl: sunxi: probe deferral crash due to npins accumulation
 > --
 >
-> commit 3f9c552550550b015864167770907fa314ac3239
+> commit 6057aa70ee139132fe0176fd6bf4d482c87bdc64
 > Author: Pablo Mazzini <pmazzini@gmail.com>
 >
-> clk: sunxi-ng: add Allwinner B288 CCU driver
+> pinctrl: sunxi: add Allwinner B288 pin controller driver
 >
-> This commit introduces the Allwinner B288 CCU driver, covering the PLLs,
-> the CPU/AHB/APB tree, module clocks, bus gates, and resets. The driver
-> is noted to be closely related to the A64 CCU.
+> This commit adds a new pin controller driver for the Allwinner B288 SoC,
+> supporting 80 pins across ports B, C, D, F, and G. It uses DT-provided
+> mux values and specifies 4 banks of external interrupts.
 >
-> > diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-b288.c b/drivers/clk/sunxi-=
-ng/ccu-sun8i-b288.c
+> > diff --git a/drivers/pinctrl/sunxi/pinctrl-sun8i-b288.c b/drivers/pinct=
+rl/sunxi/pinctrl-sun8i-b288.c
 > > new file mode 100644
-> > index 0000000000000..c53afd6f9af98
+> > index 0000000000000..f973c2b3f2eba
 > > --- /dev/null
-> > +++ b/drivers/clk/sunxi-ng/ccu-sun8i-b288.c
->
+> > +++ b/drivers/pinctrl/sunxi/pinctrl-sun8i-b288.c
+> > @@ -0,0 +1,49 @@
 > [ ... ]
+> > +/* PH0 exists only on the BSP's FPGA platform and is omitted. */
+> > +static const u8 b288_nr_bank_pins[SUNXI_PINCTRL_MAX_BANKS] =3D
+> > +/*     PA  PB  PC  PD  PE  PF  PG */
+> > +     {  0, 17, 15, 29,  0,  7, 12 };
 >
-> > +/* DE_CFG @ 0x104, EE_CFG @ 0x108, EDMA_CFG @ 0x10c -- M[3:0] mux[26:2=
-4] gate 31 */
-> > +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(de_clk, "de", de_parents, 0x104,
-> > +                                   0, 4, 24, 3, BIT(31), CLK_SET_RATE_=
-PARENT);
-> > +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(ee_clk, "ee", de_parents, 0x108,
-> > +                                   0, 4, 24, 3, BIT(31), CLK_SET_RATE_=
-PARENT);
-> > +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(edma_clk, "edma", de_parents, 0x=
-10c,
-> > +                                   0, 4, 24, 3, BIT(31), CLK_SET_RATE_=
-PARENT);
-> > +
-> > +/* TCON_CFG @ 0x118 -- mux[26:24] gate 31, no divider */
-> > +static SUNXI_CCU_MUX_DATA_WITH_GATE(tcon0_clk, "tcon0", tcon0_parents,=
- 0x118,
-> > +                                 24, 3,              /* mux */
-> > +                                 BIT(31),            /* gate */
-> > +                                 CLK_SET_RATE_PARENT);
+> [Severity: High]
+> Since Bank 0 (PA) has 0 pins, does this cause an out-of-bounds write in
+> the core sunxi pinctrl driver?
 >
-> [Severity: Medium]
-> Does the B288 hardware actually use a 1:1 index mapping (0 and 1) for thi=
-s
-> TCON mux?
+> In drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c:prepare_function_table(),
+> last_bank and irq_bank are initialized to 0. When processing PB (bank 1),
+> the condition (bank > last_bank) evaluates to true (1 > 0), causing irq_b=
+ank
+> to erroneously increment to 1.
 >
-> The closely related A64 SoC uses a {0, 2} index mapping for its TCON PLLs=
-.
-> Because SUNXI_CCU_MUX_DATA_WITH_GATE defaults to a 1:1 mapping, if a disp=
-lay
-> driver requests to use pll_video1 for the TCON, the CCU driver will write
-> index 1 to the mux register. If the hardware maps the second parent to in=
-dex
-> 2 instead of 1, this will result in incorrect clock parent selection and =
-could
-> break video output.
+> This shifts the logical IRQ bank indices for PB, PD, PF, and PG to
+> 1, 2, 3, and 4 instead of 0, 1, 2, and 3.
 >
-> If a custom mapping is needed, it might be slightly tricky to define sinc=
-e the
-> ccu_mux.h framework currently lacks a SUNXI_CCU_MUX_DATA_TABLE_WITH_GATE
-> macro to combine a table with clk_parent_data.
+> Later, sunxi_pinctrl_build_state() configures the interrupts:
+>
+>     int irqnum =3D func->irqnum + func->irqbank * IRQ_PER_BANK;
+>     pctl->irq_array[irqnum] =3D pin->pin.number;
+>
+> For PG (irqbank 4), irqnum will be between 128 and 139. However, irq_arra=
+y
+> is allocated for exactly 4 banks (128 elements) in
+> sunxi_pinctrl_init_with_flags(), which would result in an out-of-bounds
+> write past the end of the array.
 >
 > > +
-> > +/* MBUS_CFG @ 0x15c -- M[2:0] mux[25:24] gate 31 */
-> > +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(mbus_clk, "mbus", mbus_parents, =
-0x15c,
-> > +                                   0, 3, 24, 2, BIT(31), CLK_IS_CRITIC=
-AL);
+> > +static const u8 b288_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =3D
+> > +/*     PA  PB  PC  PD  PE  PF  PG */
+> > +     {  0,  6,  0,  6,  0,  6,  6 };
+> > +
+> > +static struct sunxi_pinctrl_desc b288_pinctrl_data =3D {
+> > +     .irq_banks      =3D 4,
+> > +};
+>
+> [Severity: High]
+> Does omitting the irq_bank_map array break external interrupts?
+>
+> Without an irq_bank_map, drivers/pinctrl/sunxi/pinctrl-sunxi.h:
+> sunxi_irq_hw_bank_num() returns the sequential logical irqbank indices.
+>
+> Because the irq_bank offset is already shifted to 1, 2, 3, and 4, these
+> logical indices will be used as physical hardware bank offsets.
+>
+> This incorrectly maps PD, PF, and PG to hardware banks 2, 3, and 4 instea=
+d
+> of their actual hardware indices 3, 5, and 6.
+>
+> Additionally, because PG receives irqbank 4, its out_hwirq is calculated
+> as 4 * 32 + irqnum (>=3D 128), which exceeds the bounds of the 128-entry
+> IRQ domain created during probe.
+>
+> > +
+> > +static int b288_pinctrl_probe(struct platform_device *pdev)
+> > +{
+> > +     return sunxi_pinctrl_dt_table_init(pdev, b288_nr_bank_pins,
+> > +                                        b288_irq_bank_muxes,
+> > +                                        &b288_pinctrl_data, 0);
+> > +}
+>
+> [Severity: High]
+> Could this lead to a kernel panic during a probe deferral?
+>
+> The driver passes the static b288_pinctrl_data descriptor to
+> sunxi_pinctrl_dt_table_init(), which calls init_pins_table() and
+> accumulates the total pin count:
+>
+>     desc->npins +=3D pins_per_bank[i];
+>
+> If the driver probe defers, desc->npins will double on the next attempt
+> (from 80 to 160) because the static descriptor is reused.
+>
+> The pins array is then allocated for 160 elements, but only the first 80
+> will have their .pin.name populated.
+>
+> During DT parsing in fill_pin_function(), if an unrecognized pin name is
+> encountered, the search loops over the oversized array and evaluates:
+>
+>     if (!strcmp(pins[pin].pin.name, name))
+>         break;
+>
+> Iterating past index 79 would call strcmp() with a NULL pointer for
+> .pin.name, causing a panic.
 >
 > --
 > Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261012100816.33=
-1033-1-pmazzini@gmail.com?part=3D2
+1033-1-pmazzini@gmail.com?part=3D4
