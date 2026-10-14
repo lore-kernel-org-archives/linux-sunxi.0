@@ -1,132 +1,196 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAB67541E52
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Oct 2026 22:13:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791929637; cv=none; b=HIne1Gc6DF88g/G1C7mfN185EjyTTuvFk4Lkoj1MFnaiiN8lole/1QU5deyhgmyc2h6ONAgXFbHno0aNnabNG/cER60KIHcVkAIGbORZLlxn/tylbAk6G7dRHY10R/U/Gzj0gGPoR6QJjYdAbLQ2WlMlZWJfOUq460ULWHsxnIM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791929637; c=relaxed/simple;
-	bh=b9BtCWGkJHn0bMKGND0IyL2uVXPmtmkcN+nYesDBUN0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gLWbkd3bpNrWWDFaUYHF6lW1ame2/SFgexzI6v+zmrltSlGci5uIA9eqWR0767WNU+lJb+yGH9PvLE73FdhxdqR9hCs209prtGkwX2gNx4o7qMoDETGfGQMWbZ+IdZKcjm7SUy78WOcbouUgO6VVICItQfaD3DAj7HOTX4K5adY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=C1rfY83B; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700B34AF9FA
+	for <linux-sunxi@lists.linux.dev>; Wed, 14 Oct 2026 10:03:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.182
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791972211; cv=pass; b=qH8JeboSvukTzanitN1Ux03QPrshKuP8I5KtbjE9HSwAIGhL/y9aqhkRr/wnFDEPi5Mc3Q3hEJ9RmJnx9UBC0tYtYvMCg0eKzpbiKuj1D8Xz1+yGKRkHHCO5+2YtH0JIAnhfa1Tw88Ahs8AuHKkahlS4l966hQvhZNf0ofLDIZ8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791972211; c=relaxed/simple;
+	bh=X4IPUWRzqd3vNvyDbKw42IC1Li/8214eRkoZv4hcu5A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Lf/q/5ulDBeSmQ+Kr7yNMm0hbQrNskAbbAdf6lInmcT6/V/aGxeIDvUfjqZFTNsZPwXXn1lGEx6XzqfSeBANJEepKYSvQPVqfjheNXMgB4Tuqmf+3eK8jjZ5Iv53/wf+WIn9lNHc1kq2ezPKpGVJloUt+tojC4DnaSjUJcqnQVY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P1/q7/wd; arc=pass smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="C1rfY83B"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AE8101688;
-	Tue, 13 Oct 2026 15:13:50 -0700 (PDT)
-Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D28A93F871;
-	Tue, 13 Oct 2026 15:13:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1791929634; bh=b9BtCWGkJHn0bMKGND0IyL2uVXPmtmkcN+nYesDBUN0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=C1rfY83BkHnie2RRXlgSM0spEEod8PgaPuxpFHc0TfWCkwwT6A+J9lbPVQbi8/Zob
-	 ds7qUjs0sZ6cvcThatuxZSggPOanDyou4n0L/87Y0HuAIEiVR1Tc0g8g8GPkxnWb+f
-	 wWG5VvHpBfAHhVr89J/Rly0sMuxkD70ypumHEPhs=
-Date: Wed, 14 Oct 2026 00:13:34 +0200
-From: Andre Przywara <andre.przywara@arm.com>
-To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-Cc: Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Jerome Brunet <jbrunet@baylibre.com>, Yixun Lan
- <dlan@gentoo.org>, Enzo Adriano <enzo.adriano.code@gmail.com>,
- linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFT] pinctrl: sunxi: Fix A733 withstand programming
-Message-ID: <20261014001334.54dcf0b5@ryzen.lan>
-In-Reply-To: <20261013172427.328177-1-vinicius.eduardo.pedrosa@gmail.com>
-References: <20261013142351.771229-1-andre.przywara@arm.com>
-	<20261013172427.328177-1-vinicius.eduardo.pedrosa@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P1/q7/wd"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2e942864693so1296715ad.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 14 Oct 2026 03:03:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791972210; cv=none;
+        d=google.com; s=arc-20260327;
+        b=VVgaTlpi6i3P50NOd/FWboFA30EWG/YiBvX9rsdbpL+Upo0LcCyJPfKLxj/K9XwvO2
+         khxwqDc0iJmDYF59BuzrOF8+KlKj66gxEUXSvjs4ewC29OPqMlES0fGAaB+TVQS1WJWi
+         hVYNfVPRPTxq3TBdNygkEeULSWN+I94sjCEnPNhrqiay8bvn6Akx5zLItdc+tIPZV78k
+         N9UV6tkiFnILhRv/ruDOLSeeS4cIODRh9KyDJt2CBAjeVBDePwzJ1J8lKFcOI9W2rkOj
+         BIvRWqHQVooYcRuoh1giL/jqxiNUJyQFYbWfEom6960bj7Cg65qj4fkXNPucysq3l7CU
+         Y9ZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=TkBY0USOLdA22gx/2rOX5OcC9aCnCnZClTEGNm0xQJA=;
+        fh=qGb0FiGBd3Bnd/Q3tgrGdzT+c9sGn/4Yc8UvhTFZrlA=;
+        b=QcevxtcwK/flsCmONSyRU8QbV+Hp5W2jeMUOHcsEaRRCFhCpxVltm9pTWkARFgW25U
+         FrZusKBQrc8uQcKCbtqvRIhTr6PMnW08anDzE/oouD52E3i+DUFNC0PNpneghiGs4tbw
+         VIAltc02tmFdWYKRYLaAzpZHaNGBW9WhuG7YC3g9mQWYiPAYXZFE8TCpwS687X8WP9JT
+         VEfMoVTpr7Cfr/sV/pYpyieLJXIIJzu1E2/7/L+0QBRo2SqVJSWEkOS08OUzwUi35xMu
+         N4Nc70QkVqYh9X/GB/bwe7vjvinI0FAUOiql6EFfZVn9zDQbxomYJ7RFE0qWu0/0+ONc
+         9dpQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791972210; x=1792577010; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=TkBY0USOLdA22gx/2rOX5OcC9aCnCnZClTEGNm0xQJA=;
+        b=P1/q7/wd/NUp+vJfNIi3hV2xWa+wVEmj88F5guTPn4drblmTQzduz/9bpJEQ7zxTfE
+         DpMGpXjcw3qnjJGlIG3OkYkI69+4aheUgSt9T1/5G8lAuOYwTiKqy1LGsrQb7ffy3oqT
+         zZXp39Nd5us9lxA8l2BKHH13XCfg7tEjwRQM+n26tS0KtZdBF2UEaJNnWKG9Vk4jdCdW
+         CpCbf/A3UB+ZBieLjUOpDAzp0VVNdZKco4NPHG0K/Li85C30YajmiP56MJWh+DxAHRYm
+         sMWvDdIX4V/79Sh9QC7rM1vUFWO+UhqD3Pq2DtxnI6We0oBG3oY1G1Ne708l8TwlFjuX
+         I2EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791972210; x=1792577010;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TkBY0USOLdA22gx/2rOX5OcC9aCnCnZClTEGNm0xQJA=;
+        b=Tex5pr1gc6qhx/k+Ds1xXoYaERa19PS5wBsbisyM0RLU6RSzGYjncwbzNTtYk7+ey8
+         k7qcixagFCHwYLu2CYOTKUGLK9/q9mxl3bE1V+gKkG5crj/AKxIo2xbyelZOXGHBgjn0
+         jGUj9e/UeaebQwSCNezaBQpbMU9sDx8cAIPg+lgi+WO17aoxqOoJu3P0VYku/eQMQ+jx
+         yvxiOR9VigYwaDxdmhW2a09sH4Y71gPLH9kcNEpXwG7ixhmLs1TxjlY+WbKz4rphn2g1
+         5G9WL/ZkZn5D+XfuvtkJkO3L/4R/IVTTudUY0zO7lIuYlJVo0CfLBYFE+G2n6uTCmX1Y
+         wYNQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxoG2G4KEaUOMBVbLATvAR7RQ9PcxaAx2tF81bxSC46WWhmfKfmCvLItP+ddiYuqD3yoaE2j59Q/GUHNw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJPtOyUr49DDycRjrTzqUzO4oiExbWvuG/FxkOsp7Y7jZ+3czQl
+	FyKVQPf1zLESkplhfoiuPcYA8/oZbCgGR09SbB5yOxp7bcAuQv8LylecwvypJEQTpC+TGi1c9eW
+	sVwEG6dluMz3Ga1/pzgEVEFSMSg/kH+c=
+X-Gm-Gg: AYBFou0Tpf8VcQkUpkl6MBlf8ATue8gTC7TOnh9lmfC+Nqbf/gAyyh+lUxdUntryoPb
+	BCLCAN8xoeNpRWe0PEbfh5jc+oKP0pl8Qrh7/bAV/ekIsldIvlM6qIV7xWc7IuaEN0myTpkgvnW
+	RqppyZysJTWnei1uCrPvv+NRGe4MjfTkLaZQIJD9tS3rWBjcl0sJQatSAzAVrC3lyA9/SXC33FP
+	crXGaDD8bI0pXGnepJuGyRmCcrl+TTwzwxiFGUYH4S+CtXeeyli8VHUe5gk0YW3MKnbjOOlQ99M
+	tqjGxY38rh7H716gW28ljfEoHmpSnV6E3KHWaHUcNHa792WUpNXNriX4khW3S71+89btpg==
+X-Received: by 2002:a17:902:c40d:b0:2e2:dc50:16a8 with SMTP id
+ d9443c01a7336-2e842cfd967mr144835445ad.27.1791972209741; Wed, 14 Oct 2026
+ 03:03:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20261012100816.331033-1-pmazzini@gmail.com> <20261012100816.331033-7-pmazzini@gmail.com>
+ <sashiko-outbox-167946@kernel.org>
+In-Reply-To: <sashiko-outbox-167946@kernel.org>
+From: Pablo Mazzini <pmazzini@gmail.com>
+Date: Wed, 14 Oct 2026 11:03:01 +0100
+X-Gm-Features: AclHuK_IjvhnMV0ZgXT4S6uhoftE_NPkdNnWLTaSlgrxF5SaMhOEDanyjwfKrQs
+Message-ID: <CAAxh=juJViKpvj3hBdWE0E2Z5jLLGqc6EWRqD0aZnr40sPHQWA@mail.gmail.com>
+Subject: Re: [PATCH v4 06/11] rtc: sun6i: add Allwinner B288 compatible
+To: sashiko-reviews@lists.linux.dev
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-sunxi@lists.linux.dev, 
+	linux-rtc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 13 Oct 2026 14:23:38 -0300
-Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com> wrote:
+These are in sun6i_rtc_clk_init(), which this patch reuses unchanged for
+the B288, so they apply to all the SoCs using it. I can look into it
+separately.
 
-Hi Vinicius,
-
-thanks for having a look and testing it!
-
-> Thanks for the RFT. I found two things when checking it against the A733
-> manual and my Cubie A7Z.
-> 
-> PB is an exception to bank * 2: its VCC-IO field is at bits 25:24, while
-> bits 3:2 are reserved.
-
-So PortB has no supply of its own, instead it's always supplied by
-VCC-IO. That was even more common on older SoCs, with also PortH and
-PortF being supplied by that. Which somewhat means that this is broken
-there as well?
-
-> With the board's SEL value (0x01155550), a 3.3 V
-
-What do you mean with "the board's SEL value"? That's not the SoC reset
-value, is it? So who programs that value, and why?
-
-> request produces 0x01155558, leaving VCC-IO untouched.
-
-... naturally, because nothing in mainline sets VCC-IO, which is beyond
-the SoC's GPIO bank offset.
-
-> I also think we should preserve AUTO (01). On my A7Z with vendor 5.15,
-> PF=10 resulted in 22 SDR104 read timeouts and no rootfs, while PF=01 and
-> PF=11 reached login.
-
-So this means you hacked the register in the vendor kernel, for the
-sake of an experiment? And I guess this just means that the vendor
-kernel uses UHS, and uses register 0x70 to switch PortF to 1.8V? So you
-need either auto or 1.8V for it to work, the same problem we hit with
-PortC on the A523.
-
-> This was one run per setting with one card, not a
-> mainline before/after test. In my mainline setup, MMC0 already requests PF
-> with a fixed 3.3 V supply, so the RFT would replace AUTO with 10 even
-> without voltage switching. Preserving AUTO requires no special case for PF.
-
-So can you say whether you observed a real problem with either the
-current (broken) code, or with one the fixes? I am still confused about
-your reports, whether they are just experiments, and comparing to the
-BSP, or looking at the manual, or whether there is an actually observed
-problem.
-
-> I boot-tested your RFT with two small fixups for PB and AUTO on my Cubie
-> A7Z (rev B). UART0 and MMC0 work, and GPIO_POW_MOD_SEL remains at
-> 0x01155550. No voltage-field writes were expected with this DT. I haven't
-> tested the RFT as posted.
-> 
-> I agree the full table and PI exclusion aren't needed, and found no
-> evidence for restricting the encoding to revision B.
-
-Thanks for the confirmation, and just curious where this revB
-restriction came from, originally?
-
-> A733-R still needs its own descriptor for the two-bit PL/PM fields. I'm
-> happy for your RFT to supersede my patch 1 once PB and AUTO are addressed,
-> and I'll rebase the A733-R fix on it.
-> 
-> I have the PB/AUTO fixups and the A733-R patch ready, and can send them if
-> useful.
-
-Well, this is getting really messy, isn't it? I never understood why
-the IP even allows manual programming if there is an automatic setting.
-Did you find any recommendation? IIRC manuals for other SoCs did
-recommend one or the other method. If AUTO works, and is used by the
-BSP, then we can just use that, but in a much simpler way: either use 
-BIAS_VOLTAGE_NONE, or create a new AUTO name (better), and then skip
-the whole action in sunxi_pinctrl_set_io_bias_cfg(). Instead just once
-program the GPIO_POW_MOD_SEL to "all auto", once at init time.
-Curious what others think about this.
-
-Cheers,
-Andre
+On Mon, Oct 12, 2026 at 11:19=E2=80=AFAM <sashiko-bot@kernel.org> wrote:
+>
+> Thank you for your contribution! Sashiko AI review found 3 potential issu=
+e(s) to consider:
+> - [High] rtc: sun6i: missing ERR_PTR check causes crash in probe on clk_r=
+egister failure
+> - [Medium] rtc: sun6i: resource leak of losc clock on initialization erro=
+r path
+> - [Low] rtc: sun6i: memory leak of rtc structure in sun6i_rtc_clk_init er=
+ror path
+> --
+>
+> commit 903d00f6b5cb6afede9ad6ad5fca01853d776ce4
+> Author: Pablo Mazzini <pmazzini@gmail.com>
+> Subject: rtc: sun6i: add Allwinner B288 compatible
+>
+> This commit adds support for the Allwinner B288 RTC by reusing the A23
+> clock configuration. It maps the new compatible string
+> allwinner,sun8i-b288-rtc to the existing initialization functions.
+>
+> > diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+> > index 7fc60880e4094..05004e80ac089 100644
+> > --- a/drivers/rtc/rtc-sun6i.c
+> > +++ b/drivers/rtc/rtc-sun6i.c
+> > @@ -350,6 +350,10 @@ static void __init sun8i_a23_rtc_clk_init(struct d=
+evice_node *node)
+> >  CLK_OF_DECLARE_DRIVER(sun8i_a23_rtc_clk, "allwinner,sun8i-a23-rtc",
+> >                     sun8i_a23_rtc_clk_init);
+> >
+> > +/* The B288 RTC clocks are the same as the A23's */
+> > +CLK_OF_DECLARE_DRIVER(sun8i_b288_rtc_clk, "allwinner,sun8i-b288-rtc",
+> > +                   sun8i_a23_rtc_clk_init);
+> > +
+>
+> [Severity: High]
+> Does adding this compatible string expose an issue in the error handling
+> of sun6i_rtc_clk_init on registration failure?
+>
+> If clk_register fails for rtc->losc, the function returns an error
+> pointer and jumps to the err_register label. Since the global sun6i_rtc
+> pointer is already assigned to the allocated rtc struct earlier:
+>
+> sun6i_rtc_clk_init()
+>     /* Yes, I know, this is ugly. */
+>     sun6i_rtc =3D rtc;
+>     ...
+>     rtc->losc =3D clk_register(NULL, &rtc->hw);
+>     if (IS_ERR(rtc->losc)) {
+>         pr_crit("Couldn't register the LOSC clock\n");
+>         goto err_register;
+>     }
+>
+> The probe function sun6i_rtc_probe later fetches this dangling pointer:
+>
+> sun6i_rtc_probe()
+>     struct sun6i_rtc_dev *chip =3D sun6i_rtc;
+>     ...
+>     clk_prepare_enable(chip->losc);
+>
+> Can this lead to a kernel panic when clk_prepare_enable attempts to
+> dereference the error pointer stored in chip->losc?
+>
+> [Severity: Medium]
+> Additionally, if clk_register succeeds for rtc->losc but a later clock
+> registration fails, triggering the jump to err_register, does this
+> cleanup path leak the rtc->losc clock?
+>
+> sun6i_rtc_clk_init()
+> err_register:
+>     clk_hw_unregister_fixed_rate(rtc->int_osc);
+> err:
+>     kfree(clk_data);
+>
+> The err_register path unregisters rtc->int_osc but appears to omit
+> calling clk_unregister(rtc->losc).
+>
+> [Severity: Low]
+> Does the err cleanup path also leak the dynamically allocated rtc
+> structure?
+>
+> sun6i_rtc_clk_init()
+>     rtc =3D kzalloc_obj(*rtc);
+>     ...
+> err:
+>     kfree(clk_data);
+>
+> The error path frees clk_data but seems to omit freeing the allocated
+> rtc structure.
+>
+> [ ... ]
+>
+> --
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261012100816.33=
+1033-1-pmazzini@gmail.com?part=3D6
