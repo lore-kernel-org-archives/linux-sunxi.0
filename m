@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A493C55C1CF
-	for <linux-sunxi@lists.linux.dev>; Wed, 14 Oct 2026 18:03:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0888563FA7
+	for <linux-sunxi@lists.linux.dev>; Wed, 14 Oct 2026 18:08:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792000992; cv=none; b=RC3SlBm/b703VZCAr+DLTd1LbiPG5fo4ew1SOGJO7YFsXxWloYBmiYBT3pOffFkSD0tGskLL53VqDGfv46R/c8IDD4qqKSK27f4j/L9nwKoLVY20LjCBk0FspvPI+7MVFrbf83CsezDV1dgqZYBm1CitCGGMO5U0oKfCjHeEvSw=
+	t=1792001305; cv=none; b=A3eo1PBORFvvOfQpbB+dJQELNj5UB2HVX7Rg1ymmOgvUSlavtcFQYfMurEbtV5brGqQcjgOrMCf5V2Or3yq0sr5Lu80Qt8+sYtrTNNCZsh/oIEkb1TGFaaRds6d7PqUPtdAFiCvUxwfeh6eCBYATc89Zjf2yji+r96KICKHocck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792000992; c=relaxed/simple;
-	bh=N3+8uRef+Hj2Vk3KUdYbnY+yCrSQX1xSZXKZXXkZn34=;
+	s=arc-20240116; t=1792001305; c=relaxed/simple;
+	bh=QzQQdXRRLJojN5KwYnugbI1XFC6Q1TiOhaYuE6BrEwI=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=lb4LAcBhD2G5HBBtaYYRdVaiSdWCueAzWuIj9yFP0ccVpiu2ELBuZnfuGaSHLiw9gP9H8C9JR5frc85RXF+KyhGvHgjhqJQE38nXcAnWTW1EKtLboAB8HbCF/z6syluKbDiW7dOV1WeRIY6f1E64xo4PfHyrflbFGXWTwJugL68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U+Xq5y1P; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=NjKZLqNPRDG5KxnrL4ql5dY0HS/svtKGZDZ5AtsPpblzXGdwgfwEwN9UlCU33P+7DpKJ8HaMyZ+7NWTfEf+gv4XOF1FffFVAfnn+qQIqbXOgFhzcahiZMFu9myrJHbeIB/KjXdlAUxUEnDuK3dDKux4Ch9QRpCDNMptNR4gv56U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LNCQPmGn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U+Xq5y1P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC0711F000C4;
-	Wed, 14 Oct 2026 18:03:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LNCQPmGn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD9301F000C5;
+	Wed, 14 Oct 2026 18:08:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792000991;
-	bh=on7++y1kVxk+KyGl3YCQVu1Vvwafb/0JuLSAqwBBpag=;
+	s=k20260515; t=1792001303;
+	bh=aORF5Paq9pA6RqT6h54XsidXEbg1AOyu/T8W7o94gsU=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=U+Xq5y1P9pqCU387xSghyhEcIkUSDj0KgMba2gz6OxetBdePnNA1jFL/uhh5u/Ije
-	 4PYMB7NKaJnxnbYFdYmtMoUcP7QmJOALKJtHclMKsMZDuIj5l1M2ud9atqPlQiRph/
-	 B3+X4ZXmBB4Opl2CgGnbXMOtByBp6XCHLYffbUNWyYwGjcwvDLk1Fk3ti555/9vESZ
-	 41PPCLsVQpoGeSoUIwZLxapDL/0OvrzM7jGtAY363CdEKmgL04Gaj6msJbwdIagZcE
-	 uvYc1/XqknQAthu4oc6Pp2Dpuwga94gjOsi3ryw9y1YErDtwS1NwZF2SE/ksBJXsU0
-	 OqkkBoS4bsIPg==
-Message-ID: <sashiko-outbox-171648@kernel.org>
+	b=LNCQPmGn0I3kuQlWMfqj5c+CVQO5VjBo4F1oIFB74bLbYIGh88mvEeZTsIJ+NbrOz
+	 mHC6KgNSfL8eQzPTaTOalVnbUTegI1b9VpbhHKFI5YdKcBbltHz29UqbV/RO2AC4sY
+	 pws18GnNSjW9a1yi8vVzHtN+OknR3boFrjlQ9ADVcBb5xZNMmOntJ8fdHm3K/lF73Q
+	 YSC3MEORSwKYll0O+ZgeCIkdCI/xlO2tPtM7vGKgZPB4g2Qmpw6S7m5G+Jb5aG7xrT
+	 EXVZWSpyVk7HoaaQbrPEB8Ob5PW20l0phOKt3z0X2gi5NsM4+f5++fbuh3CGmYJnqZ
+	 nV20hNl7Yk76g==
+Message-ID: <sashiko-outbox-171662@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 56/75] drm/atomic-state-helper: Rename
- connector_tv_reset to state_init
+Subject: Re: [PATCH 61/75] drm/sun4i: tv: Convert to atomic_create_state
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Maxime Ripard" <mripard@kernel.org>
 Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20261014-drm-no-more-connector-reset-v1-56-586c9c026823@kernel.org>
+In-Reply-To: <20261014-drm-no-more-connector-reset-v1-61-586c9c026823@kernel.org>
 References: <20261014-drm-no-more-connector-reset-v1-0-586c9c026823@kernel.org>
- <20261014-drm-no-more-connector-reset-v1-56-586c9c026823@kernel.org>
+ <20261014-drm-no-more-connector-reset-v1-61-586c9c026823@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Oct 2026 18:03:10 +0000
+Date: Wed, 14 Oct 2026 18:08:22 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -47,85 +46,83 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] drm: Incomplete state decoupling causes NULL deref in tv_margins_s=
-tate_init
+- [High] drm: NULL pointer dereference when initializing TV connector state
 --
 
-commit 44e808ff1921e4945725ba2420217e2015fc2db5
+commit a85a6a0ad13c063d072cdcda87267ea8867cafa3
 Author: Maxime Ripard <mripard@kernel.org>
 
-drm/atomic-state-helper: Rename connector_tv_reset to state_init
+drm/sun4i: tv: Convert to atomic_create_state
 
-This commit renames drm_atomic_helper_connector_tv_reset to
-drm_atomic_helper_connector_tv_state_init. It adds a connector state
-parameter to decouple the initialization from the reset hook, preparing it
-for contexts like atomic_create_state where the connector state isn't
-assigned yet.
+The sun4i TV connector reset implementation is converted to an
+atomic_create_state hook. It creates the pristine state and initializes
+the analog TV properties.
 
-> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/=
-drm_atomic_state_helper.c
-> index 6238066fd5d60..1424c4873251c 100644
-> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_tv.c b/drivers/gpu/drm/sun4i/sun=
+4i_tv.c
+> index ea86f8a6a35e7..a68e5f7a03d2c 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_tv.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_tv.c
 [ ... ]
-> @@ -501,16 +501,17 @@ void drm_atomic_helper_connector_tv_margins_state_i=
-nit(struct drm_connector_stat
->  EXPORT_SYMBOL(drm_atomic_helper_connector_tv_margins_state_init);
-> =20
->  /**
-> - * drm_atomic_helper_connector_tv_reset - Resets Analog TV connector pro=
-perties
-> + * drm_atomic_helper_connector_tv_state_init - Initializes Analog TV con=
-nector properties
-> + * @state: the DRM State object
->   * @connector: DRM connector
->   *
-> - * Resets the analog TV properties attached to a connector
-> + * Initializes the analog TV properties attached to a connector
->   */
-> -void drm_atomic_helper_connector_tv_reset(struct drm_connector *connecto=
-r)
-> +void drm_atomic_helper_connector_tv_state_init(struct drm_connector_stat=
-e *state,
-> +					       struct drm_connector *connector)
+> -static void sun4i_tv_connector_reset(struct drm_connector *connector)
+> +static struct drm_connector_state *
+> +sun4i_tv_connector_create_state(struct drm_connector *connector)
 >  {
->  	struct drm_device *dev =3D connector->dev;
->  	struct drm_cmdline_mode *cmdline =3D &connector->cmdline_mode;
-> -	struct drm_connector_state *state =3D connector->state;
->  	struct drm_property *prop;
->  	uint64_t val;
-> =20
-[ ... ]
-> @@ -574,7 +575,7 @@ void drm_atomic_helper_connector_tv_reset(struct drm_=
-connector *connector)
->  	drm_atomic_helper_connector_tv_margins_state_init(connector->state,
->  							  connector);
+> -	drm_atomic_helper_connector_reset(connector);
+> -	drm_atomic_helper_connector_tv_state_init(connector->state, connector);
+> +	struct drm_connector_state *connector_state;
+> +
+> +	connector_state =3D drm_atomic_helper_connector_create_state(connector);
+> +	if (IS_ERR(connector_state))
+> +		return connector_state;
+> +
+> +	drm_atomic_helper_connector_tv_state_init(connector_state, connector);
 
 [Severity: High]
-Since the new state parameter is added to decouple this function from
-the reset hook, should this call pass the newly provided state instead of
-connector->state?
+Does this trigger a NULL pointer dereference during initialization?
 
-When a driver like vc4_vec calls this via its atomic_create_state hook,
-connector->state is not yet assigned and is NULL.
+When the DRM core resets the connector state, it explicitly clears the old
+state before invoking the .atomic_create_state hook:
 
-Passing connector->state here forwards a NULL pointer to
-drm_atomic_helper_connector_tv_margins_state_init(), which then writes
-directly to state->tv.margins.left, leading to a NULL pointer dereference
-during device probe:
+drm_mode_config_connector_reset_with_create_state() {
+        ...
+        if (connector->state) {
+                ...
+                connector->state =3D NULL;
+        }
+        return drm_mode_config_connector_create_state(connector);
+}
 
-void drm_atomic_helper_connector_tv_margins_state_init(struct drm_connector=
-_state *state,
-						       struct drm_connector *connector)
-{
-	struct drm_cmdline_mode *cmdline =3D &connector->cmdline_mode;
+The core helper drm_atomic_helper_connector_tv_state_init() then mistakenly
+passes the unassigned connector->state down to the margins initialization
+instead of the newly allocated state:
 
-	state->tv.margins.left =3D cmdline->tv_margins.left;
+drm_atomic_helper_connector_tv_state_init() {
+        ...
+        drm_atomic_helper_connector_tv_margins_state_init(connector->state,
+                                                          connector);
+}
 
+This causes drm_atomic_helper_connector_tv_margins_state_init() to
+unconditionally dereference the NULL state pointer:
+
+drm_atomic_helper_connector_tv_margins_state_init(state, ...) {
+        ...
+        state->tv.margins.left =3D cmdline->tv_margins.left;
+        ...
+}
+
+The previous .reset hook implementation masked this core helper bug because
+it assigned connector->state prior to calling the TV state initialization
+helper.
+
+Could we fix the core helper to pass the correct state pointer, or should
+this driver handle the initialization differently to avoid the crash?
+
+> +
+> +	return connector_state;
 >  }
-> -EXPORT_SYMBOL(drm_atomic_helper_connector_tv_reset);
-> +EXPORT_SYMBOL(drm_atomic_helper_connector_tv_state_init);
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014-drm-no-mor=
-e-connector-reset-v1-0-586c9c026823@kernel.org?part=3D56
+e-connector-reset-v1-0-586c9c026823@kernel.org?part=3D61
