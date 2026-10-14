@@ -1,196 +1,204 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 700B34AF9FA
-	for <linux-sunxi@lists.linux.dev>; Wed, 14 Oct 2026 10:03:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791972211; cv=pass; b=qH8JeboSvukTzanitN1Ux03QPrshKuP8I5KtbjE9HSwAIGhL/y9aqhkRr/wnFDEPi5Mc3Q3hEJ9RmJnx9UBC0tYtYvMCg0eKzpbiKuj1D8Xz1+yGKRkHHCO5+2YtH0JIAnhfa1Tw88Ahs8AuHKkahlS4l966hQvhZNf0ofLDIZ8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791972211; c=relaxed/simple;
-	bh=X4IPUWRzqd3vNvyDbKw42IC1Li/8214eRkoZv4hcu5A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Lf/q/5ulDBeSmQ+Kr7yNMm0hbQrNskAbbAdf6lInmcT6/V/aGxeIDvUfjqZFTNsZPwXXn1lGEx6XzqfSeBANJEepKYSvQPVqfjheNXMgB4Tuqmf+3eK8jjZ5Iv53/wf+WIn9lNHc1kq2ezPKpGVJloUt+tojC4DnaSjUJcqnQVY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P1/q7/wd; arc=pass smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 014322EEE75;
+	Wed, 14 Oct 2026 10:48:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791974889; cv=none; b=gCu1Nm1x31NlBR3RQ1u5lFtrj92iIyfS2zNsBRAyp4r8Q+5Z51+QmyVZQdfx+wp0IIQJ+h7BEAHJ3ymYtB3J+JCXZ06hJ+A9q6rQgehhuO0Z+9btU/IQXmED7p3AZ01bOL9s/8XykhebVLVTrOxeNJCeYU9GrSIsRRye3nc2FfA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791974889; c=relaxed/simple;
+	bh=GVCpDbrRjbZ4Pi/31sCr9DOZ+YzuYodsxC36J9LaJk4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XfecYzsacsPFOBEQMwNULv7wrBUwHaO381+deBk1bXEEHNSjc6UddruXrWiMjnYG3EZlGJQiMil6FwkSomAbK3CG6voF6K6VfyTOfk6Tbvlys9YziZEMCP0z7QqBG6Wh3/gEiL5sV+rD4oCfk8JEIQiCBBUJAogSjZFjahAHYi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kBLwjNL4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P1/q7/wd"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2e942864693so1296715ad.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 14 Oct 2026 03:03:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791972210; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VVgaTlpi6i3P50NOd/FWboFA30EWG/YiBvX9rsdbpL+Upo0LcCyJPfKLxj/K9XwvO2
-         khxwqDc0iJmDYF59BuzrOF8+KlKj66gxEUXSvjs4ewC29OPqMlES0fGAaB+TVQS1WJWi
-         hVYNfVPRPTxq3TBdNygkEeULSWN+I94sjCEnPNhrqiay8bvn6Akx5zLItdc+tIPZV78k
-         N9UV6tkiFnILhRv/ruDOLSeeS4cIODRh9KyDJt2CBAjeVBDePwzJ1J8lKFcOI9W2rkOj
-         BIvRWqHQVooYcRuoh1giL/jqxiNUJyQFYbWfEom6960bj7Cg65qj4fkXNPucysq3l7CU
-         Y9ZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=TkBY0USOLdA22gx/2rOX5OcC9aCnCnZClTEGNm0xQJA=;
-        fh=qGb0FiGBd3Bnd/Q3tgrGdzT+c9sGn/4Yc8UvhTFZrlA=;
-        b=QcevxtcwK/flsCmONSyRU8QbV+Hp5W2jeMUOHcsEaRRCFhCpxVltm9pTWkARFgW25U
-         FrZusKBQrc8uQcKCbtqvRIhTr6PMnW08anDzE/oouD52E3i+DUFNC0PNpneghiGs4tbw
-         VIAltc02tmFdWYKRYLaAzpZHaNGBW9WhuG7YC3g9mQWYiPAYXZFE8TCpwS687X8WP9JT
-         VEfMoVTpr7Cfr/sV/pYpyieLJXIIJzu1E2/7/L+0QBRo2SqVJSWEkOS08OUzwUi35xMu
-         N4Nc70QkVqYh9X/GB/bwe7vjvinI0FAUOiql6EFfZVn9zDQbxomYJ7RFE0qWu0/0+ONc
-         9dpQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791972210; x=1792577010; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=TkBY0USOLdA22gx/2rOX5OcC9aCnCnZClTEGNm0xQJA=;
-        b=P1/q7/wd/NUp+vJfNIi3hV2xWa+wVEmj88F5guTPn4drblmTQzduz/9bpJEQ7zxTfE
-         DpMGpXjcw3qnjJGlIG3OkYkI69+4aheUgSt9T1/5G8lAuOYwTiKqy1LGsrQb7ffy3oqT
-         zZXp39Nd5us9lxA8l2BKHH13XCfg7tEjwRQM+n26tS0KtZdBF2UEaJNnWKG9Vk4jdCdW
-         CpCbf/A3UB+ZBieLjUOpDAzp0VVNdZKco4NPHG0K/Li85C30YajmiP56MJWh+DxAHRYm
-         sMWvDdIX4V/79Sh9QC7rM1vUFWO+UhqD3Pq2DtxnI6We0oBG3oY1G1Ne708l8TwlFjuX
-         I2EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791972210; x=1792577010;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TkBY0USOLdA22gx/2rOX5OcC9aCnCnZClTEGNm0xQJA=;
-        b=Tex5pr1gc6qhx/k+Ds1xXoYaERa19PS5wBsbisyM0RLU6RSzGYjncwbzNTtYk7+ey8
-         k7qcixagFCHwYLu2CYOTKUGLK9/q9mxl3bE1V+gKkG5crj/AKxIo2xbyelZOXGHBgjn0
-         jGUj9e/UeaebQwSCNezaBQpbMU9sDx8cAIPg+lgi+WO17aoxqOoJu3P0VYku/eQMQ+jx
-         yvxiOR9VigYwaDxdmhW2a09sH4Y71gPLH9kcNEpXwG7ixhmLs1TxjlY+WbKz4rphn2g1
-         5G9WL/ZkZn5D+XfuvtkJkO3L/4R/IVTTudUY0zO7lIuYlJVo0CfLBYFE+G2n6uTCmX1Y
-         wYNQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxoG2G4KEaUOMBVbLATvAR7RQ9PcxaAx2tF81bxSC46WWhmfKfmCvLItP+ddiYuqD3yoaE2j59Q/GUHNw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJPtOyUr49DDycRjrTzqUzO4oiExbWvuG/FxkOsp7Y7jZ+3czQl
-	FyKVQPf1zLESkplhfoiuPcYA8/oZbCgGR09SbB5yOxp7bcAuQv8LylecwvypJEQTpC+TGi1c9eW
-	sVwEG6dluMz3Ga1/pzgEVEFSMSg/kH+c=
-X-Gm-Gg: AYBFou0Tpf8VcQkUpkl6MBlf8ATue8gTC7TOnh9lmfC+Nqbf/gAyyh+lUxdUntryoPb
-	BCLCAN8xoeNpRWe0PEbfh5jc+oKP0pl8Qrh7/bAV/ekIsldIvlM6qIV7xWc7IuaEN0myTpkgvnW
-	RqppyZysJTWnei1uCrPvv+NRGe4MjfTkLaZQIJD9tS3rWBjcl0sJQatSAzAVrC3lyA9/SXC33FP
-	crXGaDD8bI0pXGnepJuGyRmCcrl+TTwzwxiFGUYH4S+CtXeeyli8VHUe5gk0YW3MKnbjOOlQ99M
-	tqjGxY38rh7H716gW28ljfEoHmpSnV6E3KHWaHUcNHa792WUpNXNriX4khW3S71+89btpg==
-X-Received: by 2002:a17:902:c40d:b0:2e2:dc50:16a8 with SMTP id
- d9443c01a7336-2e842cfd967mr144835445ad.27.1791972209741; Wed, 14 Oct 2026
- 03:03:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kBLwjNL4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2FD31F000FF;
+	Wed, 14 Oct 2026 10:48:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791974887;
+	bh=cfdwL4eK2wRiumJlSJtGztn4niiqjSBnFr1jXdJdAc0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=kBLwjNL4NFxitt6Ejou3P4IR+QeLReCvtd6Q42SmrkJDDTuUrXeyuQ7+7psO9JjLI
+	 qccR+XslpvSqXDSzSi8V1vYufQxMwzOGi9mhkd9D5PlIlu8wm2yIa9W6jykFLQBB0W
+	 J+Q2j4JT4aR5WZXNY/exsbj9rh1xdO6xiP6wYOFYZIy9dAumzjdQ00GV/+wY50TUKq
+	 N8fEDw1kLw7lz8tpmOn/y5NlGTHub+oAArRzQgAzysjkxcM8DGAgDMoCPf30lVtja4
+	 +z5kZFhDWPjMZWc4nk2K5HEfQqLeBSOmtLFpkGNeVWq8IUE+F1qmsDQVGTwC0wJFPW
+	 tx5tRb+eLPP+Q==
+Date: Wed, 14 Oct 2026 11:48:01 +0100
+From: Lee Jones <lee@kernel.org>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mfd@lists.linux.dev, linux-sunxi@lists.linux.dev,
+	Sashiko <sashiko-bot@kernel.org>
+Subject: Re: [PATCH v8 2/5] mfd: axp20x-i2c: Fix i2c instantiation
+Message-ID: <20261014104801.GI199624@google.com>
+References: <20260910-axp318-regulator-v8-0-e906a61a7f3d@baylibre.com>
+ <20260910-axp318-regulator-v8-2-e906a61a7f3d@baylibre.com>
+ <20260924082705.GO3864833@google.com>
+ <1jy0cq94na.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20261012100816.331033-1-pmazzini@gmail.com> <20261012100816.331033-7-pmazzini@gmail.com>
- <sashiko-outbox-167946@kernel.org>
-In-Reply-To: <sashiko-outbox-167946@kernel.org>
-From: Pablo Mazzini <pmazzini@gmail.com>
-Date: Wed, 14 Oct 2026 11:03:01 +0100
-X-Gm-Features: AclHuK_IjvhnMV0ZgXT4S6uhoftE_NPkdNnWLTaSlgrxF5SaMhOEDanyjwfKrQs
-Message-ID: <CAAxh=juJViKpvj3hBdWE0E2Z5jLLGqc6EWRqD0aZnr40sPHQWA@mail.gmail.com>
-Subject: Re: [PATCH v4 06/11] rtc: sun6i: add Allwinner B288 compatible
-To: sashiko-reviews@lists.linux.dev
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-sunxi@lists.linux.dev, 
-	linux-rtc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1jy0cq94na.fsf@starbuckisacylon.baylibre.com>
 
-These are in sun6i_rtc_clk_init(), which this patch reuses unchanged for
-the B288, so they apply to all the SoCs using it. I can look into it
-separately.
+Note:
 
-On Mon, Oct 12, 2026 at 11:19=E2=80=AFAM <sashiko-bot@kernel.org> wrote:
->
-> Thank you for your contribution! Sashiko AI review found 3 potential issu=
-e(s) to consider:
-> - [High] rtc: sun6i: missing ERR_PTR check causes crash in probe on clk_r=
-egister failure
-> - [Medium] rtc: sun6i: resource leak of losc clock on initialization erro=
-r path
-> - [Low] rtc: sun6i: memory leak of rtc structure in sun6i_rtc_clk_init er=
-ror path
-> --
->
-> commit 903d00f6b5cb6afede9ad6ad5fca01853d776ce4
-> Author: Pablo Mazzini <pmazzini@gmail.com>
-> Subject: rtc: sun6i: add Allwinner B288 compatible
->
-> This commit adds support for the Allwinner B288 RTC by reusing the A23
-> clock configuration. It maps the new compatible string
-> allwinner,sun8i-b288-rtc to the existing initialization functions.
->
-> > diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-> > index 7fc60880e4094..05004e80ac089 100644
-> > --- a/drivers/rtc/rtc-sun6i.c
-> > +++ b/drivers/rtc/rtc-sun6i.c
-> > @@ -350,6 +350,10 @@ static void __init sun8i_a23_rtc_clk_init(struct d=
-evice_node *node)
-> >  CLK_OF_DECLARE_DRIVER(sun8i_a23_rtc_clk, "allwinner,sun8i-a23-rtc",
-> >                     sun8i_a23_rtc_clk_init);
+--- checkpatch.pl (3 issues) ---
+Line 2: WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+Line 3: ERROR: Invalid commit separator - some tools may have problems applying this
+----------------------------------
+
+On Thu, 24 Sep 2026, Jerome Brunet wrote:
+
+> On jeu. 24 sept. 2026 at 09:27, Lee Jones <lee@kernel.org> wrote:
+> 
+> > On Thu, 10 Sep 2026, Jerome Brunet wrote:
 > >
-> > +/* The B288 RTC clocks are the same as the A23's */
-> > +CLK_OF_DECLARE_DRIVER(sun8i_b288_rtc_clk, "allwinner,sun8i-b288-rtc",
-> > +                   sun8i_a23_rtc_clk_init);
-> > +
->
-> [Severity: High]
-> Does adding this compatible string expose an issue in the error handling
-> of sun6i_rtc_clk_init on registration failure?
->
-> If clk_register fails for rtc->losc, the function returns an error
-> pointer and jumps to the err_register label. Since the global sun6i_rtc
-> pointer is already assigned to the allocated rtc struct earlier:
->
-> sun6i_rtc_clk_init()
->     /* Yes, I know, this is ugly. */
->     sun6i_rtc =3D rtc;
->     ...
->     rtc->losc =3D clk_register(NULL, &rtc->hw);
->     if (IS_ERR(rtc->losc)) {
->         pr_crit("Couldn't register the LOSC clock\n");
->         goto err_register;
->     }
->
-> The probe function sun6i_rtc_probe later fetches this dangling pointer:
->
-> sun6i_rtc_probe()
->     struct sun6i_rtc_dev *chip =3D sun6i_rtc;
->     ...
->     clk_prepare_enable(chip->losc);
->
-> Can this lead to a kernel panic when clk_prepare_enable attempts to
-> dereference the error pointer stored in chip->losc?
->
-> [Severity: Medium]
-> Additionally, if clk_register succeeds for rtc->losc but a later clock
-> registration fails, triggering the jump to err_register, does this
-> cleanup path leak the rtc->losc clock?
->
-> sun6i_rtc_clk_init()
-> err_register:
->     clk_hw_unregister_fixed_rate(rtc->int_osc);
-> err:
->     kfree(clk_data);
->
-> The err_register path unregisters rtc->int_osc but appears to omit
-> calling clk_unregister(rtc->losc).
->
-> [Severity: Low]
-> Does the err cleanup path also leak the dynamically allocated rtc
-> structure?
->
-> sun6i_rtc_clk_init()
->     rtc =3D kzalloc_obj(*rtc);
->     ...
-> err:
->     kfree(clk_data);
->
-> The error path frees clk_data but seems to omit freeing the allocated
-> rtc structure.
->
-> [ ... ]
->
-> --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261012100816.33=
-1033-1-pmazzini@gmail.com?part=3D6
+> >> Apparently this device never really supported i2c instantiation via
+> >> sysfs, because the driver does not even look at the i2c device data,
+> >> which are not set. It would only probe if the device matched through DT.
+> >> 
+> >> Fix that for correctness, even-though it is probably useless.
+> >> Add the missing AXP323 while at it.
+> >> 
+> >> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> >> Closes: https://lore.kernel.org/r/20260717090209.2A09B1F000E9@smtp.kernel.org
+> >> Fixes: 41751b033aaa ("mfd: axp20x-i2c: Add i2c-ids to fix module auto-loading")
+> >> Acked-by: Chen-Yu Tsai <wens@kernel.org>
+> >> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+> >> ---
+> >>  drivers/mfd/axp20x-i2c.c   | 24 +++++++++++++-----------
+> >>  drivers/mfd/axp20x-rsb.c   |  1 +
+> >>  drivers/mfd/axp20x.c       |  1 -
+> >>  include/linux/mfd/axp20x.h |  3 +--
+> >>  4 files changed, 15 insertions(+), 14 deletions(-)
+> >> 
+> >> diff --git a/drivers/mfd/axp20x-i2c.c b/drivers/mfd/axp20x-i2c.c
+> >> index 5c93136f977e..a76bec5604c4 100644
+> >> --- a/drivers/mfd/axp20x-i2c.c
+> >> +++ b/drivers/mfd/axp20x-i2c.c
+> >> @@ -35,6 +35,7 @@ static int axp20x_i2c_probe(struct i2c_client *i2c)
+> >>  	axp20x->irq = i2c->irq;
+> >>  	dev_set_drvdata(axp20x->dev, axp20x);
+> >>  
+> >> +	axp20x->variant = (kernel_ulong_t)i2c_get_match_data(i2c);
+> >
+> > device_get_match_data() is bus agnostic and should still work from the
+> > core driver.  What's the purpose of splitting it out and adding
+> > additional call-sites?
+> 
+> device_get_match_data() works when the data comes through that path,
+> which is generally the case.
+> 
+> i2c_get_match_data() calls device_get_match_data() then fallback to the
+> i2c_device_ids. It covers the instanciation from sysfs mainly, not
+> something usual.
+> 
+> As explained in the description, this changes plugs a hole identified by
+> sashiko that technically exists but I highly doubt anyone will
+> instanciate the PMIC through that interface. Those things do not really
+> come as breakout boards ... That being said, it is cheap to fix.
+
+I'm confused.
+
+We already call device_get_match_data() in axp20x_match_device().
+
+So if you populate .driver_data in axp20x_i2c_id[], you should be
+able to drop these changes altogether, no?
+
+> >>  	ret = axp20x_match_device(axp20x);
+> >>  	if (ret)
+> >>  		return ret;
+> >> @@ -76,17 +77,18 @@ MODULE_DEVICE_TABLE(of, axp20x_i2c_of_match);
+> >>  #endif
+> >>  
+> >>  static const struct i2c_device_id axp20x_i2c_id[] = {
+> >> -	{ "axp152" },
+> >> -	{ "axp192" },
+> >> -	{ "axp202" },
+> >> -	{ "axp209" },
+> >> -	{ "axp221" },
+> >> -	{ "axp223" },
+> >> -	{ "axp313a" },
+> >> -	{ "axp717" },
+> >> -	{ "axp803" },
+> >> -	{ "axp806" },
+> >> -	{ "axp15060" },
+> >> +	{ .name = "axp152",	.driver_data = AXP152_ID },
+> >> +	{ .name = "axp192",	.driver_data = AXP192_ID },
+> >> +	{ .name = "axp202",	.driver_data = AXP202_ID },
+> >> +	{ .name = "axp209",	.driver_data = AXP209_ID },
+> >> +	{ .name = "axp221",	.driver_data = AXP221_ID },
+> >> +	{ .name = "axp223",	.driver_data = AXP223_ID },
+> >> +	{ .name = "axp313a",	.driver_data = AXP313A_ID },
+> >> +	{ .name = "axp323",	.driver_data = AXP323_ID },
+> >> +	{ .name = "axp717",	.driver_data = AXP717_ID },
+> >> +	{ .name = "axp803",	.driver_data = AXP803_ID },
+> >> +	{ .name = "axp806",	.driver_data = AXP806_ID },
+> >> +	{ .name = "axp15060",	.driver_data = AXP15060_ID },
+> >>  	{ }
+> >>  };
+> >>  MODULE_DEVICE_TABLE(i2c, axp20x_i2c_id);
+> >> diff --git a/drivers/mfd/axp20x-rsb.c b/drivers/mfd/axp20x-rsb.c
+> >> index 059656f2a1bd..8fdc870c1fe4 100644
+> >> --- a/drivers/mfd/axp20x-rsb.c
+> >> +++ b/drivers/mfd/axp20x-rsb.c
+> >> @@ -35,6 +35,7 @@ static int axp20x_rsb_probe(struct sunxi_rsb_device *rdev)
+> >>  	axp20x->irq = rdev->irq;
+> >>  	dev_set_drvdata(&rdev->dev, axp20x);
+> >>  
+> >> +	axp20x->variant = (kernel_ulong_t)device_get_match_data(axp20x->dev);
+> >>  	ret = axp20x_match_device(axp20x);
+> >>  	if (ret)
+> >>  		return ret;
+> >> diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
+> >> index 4d770e718716..de6946d4bb13 100644
+> >> --- a/drivers/mfd/axp20x.c
+> >> +++ b/drivers/mfd/axp20x.c
+> >> @@ -1267,7 +1267,6 @@ int axp20x_match_device(struct axp20x_dev *axp20x)
+> >>  	const struct mfd_cell *cells_no_irq = NULL;
+> >>  	int nr_cells_no_irq = 0;
+> >>  
+> >> -	axp20x->variant = (long)device_get_match_data(dev);
+> >>  	switch (axp20x->variant) {
+> >>  	case AXP152_ID:
+> >>  		axp20x->nr_cells = ARRAY_SIZE(axp152_cells);
+> >> diff --git a/include/linux/mfd/axp20x.h b/include/linux/mfd/axp20x.h
+> >> index b352661d99a1..1badb4868d17 100644
+> >> --- a/include/linux/mfd/axp20x.h
+> >> +++ b/include/linux/mfd/axp20x.h
+> >> @@ -997,8 +997,7 @@ static inline int axp20x_read_variable_width(struct regmap *regmap,
+> >>  /**
+> >>   * axp20x_match_device(): Setup axp20x variant related fields
+> >>   *
+> >> - * @axp20x: axp20x device to setup (.dev field must be set)
+> >> - * @dev: device associated with this axp20x device
+> >> + * @axp20x: axp20x device to setup (.dev and variant fields must be set)
+> >>   *
+> >>   * This lets the axp20x core configure the mfd cells and register maps
+> >>   * for later use.
+> >> 
+> >> -- 
+> >> 2.53.0
+> >> 
+> >
+> > -- 
+> > Lee Jones
+> 
+> -- 
+> Jerome
+
+-- 
+Lee Jones
