@@ -1,122 +1,217 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E054349BA;
-	Thu, 15 Oct 2026 07:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27EF451DAEA
+	for <linux-sunxi@lists.linux.dev>; Thu, 15 Oct 2026 10:56:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792048801; cv=none; b=ZfZ6yoywzDviJ6PoVAX/vniuLcY4gr3ZppqaC/9zrTfn4EGwA6y8nkpj+YlkGYlWGX5GaBuJrFAIZkOH53s7OIFuofJnnpckFzvPhGTrcp3wF7Fb3/6O0HB5IdCOXHrHUeXhT+Xpihm38P7zMr900yTJyFrF7A5uBArEY9s7KIg=
+	t=1792061798; cv=none; b=V/fF6uXKfOwB1MExNj1pjB8kS2KlSjFfkqT4CvXQBrC6grFyhpUBR2O98qDItOIPO9tsSSqjA2TB9AtqK3MhFXzhgcseBfYTGgROBhUbyN0xNUOuhdENuVMM7zjQO9rOa047/MXpU/oIRpaK9cAgC09ya3IFH6hToQ20oYwH05w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792048801; c=relaxed/simple;
-	bh=qolKMPgaE8eWxeIr/0flsIM3PsJ+ucbodpca0yrAjUw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r648+tDn+cBdlzn6ZCPHUZ+NEevOmRqYMLSSlNQFxAwJWMZFNrbFxApP0u8FaAZjRsEf9gqM57Wi/X0sEip8seRM9wX6Nr8UbZ1Xb51ckZcZ+VBbZQKEj0ml0mHos4w8OOYZFHwLMntzn6HXdCUMLUfHyHQ7Ar4P/RJ9nRcnF9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=2dhabvrm; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=AkUw+EUC; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1792061798; c=relaxed/simple;
+	bh=S1PIC3wKQTDDci8lwC23vpBiusOdlWahInRSLS5ETB4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X+hmurNGECJhoRlqi6ZXyr4N0piGmfiLDp10IhaDp+OwXQco85v26Y+tY4NpFu5qx/uEH74WkYfCM87wWTluIvpH5ZEmHAmlM9LQmOqew2qUTtv2w0mf27VjkR9ietuktpNPsZ5DD9NIlfIs2NiQmzPfqYTGOpKookJJ9E+TQR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=QSkoQFAW; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="2dhabvrm";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="AkUw+EUC"
-Date: Thu, 15 Oct 2026 09:19:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1792048785;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pMYu6XVNal0AJcS3PUZBVy2r/rGrO8ylXWPO84VbQeo=;
-	b=2dhabvrmaiB4B2VAEeswkB7yZk+pT6F/neoH/LS31NDI2EasvjB3yVv4534B6du3DDiMSw
-	gMrc965fNvSGCVlP87f6uNl3leecQv3nIZRDmwfmb8S2h/cJW559zsz1m+2w3dBJKq/Ruc
-	CwYvgSTmAKPw18wco3hfv5EYFXB0cfCf1E5PBGBQET2HTHFjkzd2aEsSZKUubuexi86NZu
-	9JjQ++YpNiWDfm8w5sPlbjl7kAfi5zXU47N+ESy5a776vyVgUcr93gLbDSCiqK1Q+sWEDr
-	PfqofcDMr1vdOjhET3/jJZnJZC2gee+wkLn2s1LESxe+zvqTtxnEuGerbM2Mdg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1792048785;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pMYu6XVNal0AJcS3PUZBVy2r/rGrO8ylXWPO84VbQeo=;
-	b=AkUw+EUCmsaDH+sGC2dLGo8hwRAJMoyzJ70p9vgVLsV/6hgT9AkOw03tMby+l6jzeW5i4D
-	mP6nSW669f2bkfAg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Richard Genoud <richard.genoud@bootlin.com>,
-	Boris Brezillon <bbrezillon@kernel.org>,
-	Masahiro Yamada <yamada.masahiro@socionext.com>,
-	Brian Norris <computersforpeace@gmail.com>,
-	linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org
-Subject: Re: [PATCH v7 04/16] mtd: rawnand: sunxi: drain interrupts before
- reusing the completion
-Message-ID: <20261015071943.7OihPadq@linutronix.de>
-References: <20261014-submit-sunxi-nand-vendor-oob-layout-v1-v7-0-5d3fc6ad2da1@gmail.com>
- <20261014-submit-sunxi-nand-vendor-oob-layout-v1-v7-4-5d3fc6ad2da1@gmail.com>
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="QSkoQFAW"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:From:Cc:To:Subject:
+	MIME-Version:Date:Message-ID:From:Reply-To;
+	bh=lAHDMsmXMQc9ClsQNuoru5dlKaeKEOapfS4GgGRuOGk=; b=QSkoQFAWt+ELeyIxQs3KbBtABy
+	LjDPcSUGMEgkMDXFsMY3+C9kGoBM7Sv/M6D9t1rHbPta1IoyNP389tGTl7C9X7dFhYG+xY+AYXABw
+	d18OLefdd+tqK4PPmCp6bY0+21mypVR6QYVmz6zbuHEMuzl++ZkMX2ypfYFVeCGv3J0xeBeK8CDZf
+	YnsTWBAkQTUvy3/+1Nm5s3gblwqhx1Tuduk5bH9xf/EtC9MdNPyY7SG4u6Vwxy8Zf/tz3nwElkiFP
+	iIUxDl16digk4aPHG0z1L7qjq7F/MJfb/m8Z+Dmn5iY2bmJ0j9ETbURxOzLqjbbMQiFGXim39blXe
+	sdGU8w6g==;
+Received: from [179.105.94.163] (helo=[192.168.0.2])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1xHJ87-000VFO-5p; Thu, 15 Oct 2026 12:56:11 +0200
+Message-ID: <1ae560be-63a2-425e-bd47-ed279448eeec@igalia.com>
+Date: Thu, 15 Oct 2026 07:56:05 -0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261014-submit-sunxi-nand-vendor-oob-layout-v1-v7-4-5d3fc6ad2da1@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 56/75] drm/atomic-state-helper: Rename connector_tv_reset
+ to state_init
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev
+References: <20261014-drm-no-more-connector-reset-v1-0-586c9c026823@kernel.org>
+ <20261014-drm-no-more-connector-reset-v1-56-586c9c026823@kernel.org>
+From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>
+Content-Language: en-US
+Autocrypt: addr=mcanal@igalia.com; keydata=
+ xsBNBGcCwywBCADgTji02Sv9zjHo26LXKdCaumcSWglfnJ93rwOCNkHfPIBll85LL9G0J7H8
+ /PmEL9y0LPo9/B3fhIpbD8VhSy9Sqz8qVl1oeqSe/rh3M+GceZbFUPpMSk5pNY9wr5raZ63d
+ gJc1cs8XBhuj1EzeE8qbP6JAmsL+NMEmtkkNPfjhX14yqzHDVSqmAFEsh4Vmw6oaTMXvwQ40
+ SkFjtl3sr20y07cJMDe++tFet2fsfKqQNxwiGBZJsjEMO2T+mW7DuV2pKHr9aifWjABY5EPw
+ G7qbrh+hXgfT+njAVg5+BcLz7w9Ju/7iwDMiIY1hx64Ogrpwykj9bXav35GKobicCAwHABEB
+ AAHNIE1hw61yYSBDYW5hbCA8bWNhbmFsQGlnYWxpYS5jb20+wsCRBBMBCAA7FiEE+ORdfQEW
+ dwcppnfRP/MOinaI+qoFAmcCwywCGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQ
+ P/MOinaI+qoUBQgAqz2gzUP7K3EBI24+a5FwFlruQGtim85GAJZXToBtzsfGLLVUSCL3aF/5
+ O335Bh6ViSBgxmowIwVJlS/e+L95CkTGzIIMHgyUZfNefR2L3aZA6cgc9z8cfow62Wu8eXnq
+ GM/+WWvrFQb/dBKKuohfBlpThqDWXxhozazCcJYYHradIuOM8zyMtCLDYwPW7Vqmewa+w994
+ 7Lo4CgOhUXVI2jJSBq3sgHEPxiUBOGxvOt1YBg7H9C37BeZYZxFmU8vh7fbOsvhx7Aqu5xV7
+ FG+1ZMfDkv+PixCuGtR5yPPaqU2XdjDC/9mlRWWQTPzg74RLEw5sz/tIHQPPm6ROCACFls7A
+ TQRnAsMsAQgAxTU8dnqzK6vgODTCW2A6SAzcvKztxae4YjRwN1SuGhJR2isJgQHoOH6oCItW
+ Xc1CGAWnci6doh1DJvbbB7uvkQlbeNxeIz0OzHSiB+pb1ssuT31Hz6QZFbX4q+crregPIhr+
+ 0xeDi6Mtu+paYprI7USGFFjDUvJUf36kK0yuF2XUOBlF0beCQ7Jhc+UoI9Akmvl4sHUrZJzX
+ LMeajARnSBXTcig6h6/NFVkr1mi1uuZfIRNCkxCE8QRYebZLSWxBVr3h7dtOUkq2CzL2kRCK
+ T2rKkmYrvBJTqSvfK3Ba7QrDg3szEe+fENpL3gHtH6h/XQF92EOulm5S5o0I+ceREwARAQAB
+ wsB2BBgBCAAgFiEE+ORdfQEWdwcppnfRP/MOinaI+qoFAmcCwywCGwwACgkQP/MOinaI+qpI
+ zQf+NAcNDBXWHGA3lgvYvOU31+ik9bb30xZ7IqK9MIi6TpZqL7cxNwZ+FAK2GbUWhy+/gPkX
+ it2gCAJsjo/QEKJi7Zh8IgHN+jfim942QZOkU+p/YEcvqBvXa0zqW0sYfyAxkrf/OZfTnNNE
+ Tr+uBKNaQGO2vkn5AX5l8zMl9LCH3/Ieaboni35qEhoD/aM0Kpf93PhCvJGbD4n1DnRhrxm1
+ uEdQ6HUjWghEjC+Jh9xUvJco2tUTepw4OwuPxOvtuPTUa1kgixYyG1Jck/67reJzMigeuYFt
+ raV3P8t/6cmtawVjurhnCDuURyhUrjpRhgFp+lW8OGr6pepHol/WFIOQEg==
+In-Reply-To: <20261014-drm-no-more-connector-reset-v1-56-586c9c026823@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 2026-10-14 19:33:51 [-0600], James Hilliard wrote:
-> --- a/drivers/mtd/nand/raw/sunxi_nand.c
-> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-> @@ -454,16 +457,19 @@ static int sunxi_nfc_wait_events(struct sunxi_nfc *nfc, u32 events,
->  		timeout_ms = NFC_DEFAULT_TIMEOUT_MS;
->  
->  	if (!use_polling) {
-> -		init_completion(&nfc->complete);
-> +		reinit_completion(&nfc->complete);
->  
->  		writel(events, nfc->regs + NFC_REG_INT);
->  
->  		ret = wait_for_completion_timeout(&nfc->complete,
->  						msecs_to_jiffies(timeout_ms));
-> -		if (!ret)
-> +		if (!ret) {
-> +			/* Drain the handler before it can restore an old IRQ mask. */
-> +			disable_irq(nfc->irq);
->  			ret = -ETIMEDOUT;
-> -		else
-> +		} else {
->  			ret = 0;
-> +		}
->  
->  		writel(0, nfc->regs + NFC_REG_INT);
->  	} else {
-> @@ -476,6 +482,12 @@ static int sunxi_nfc_wait_events(struct sunxi_nfc *nfc, u32 events,
->  
->  	writel(events & NFC_INT_MASK, nfc->regs + NFC_REG_ST);
->  
-> +	if (!use_polling && ret) {
-> +		/* Flush the mask and acknowledgment before re-enabling the IRQ. */
-> +		readl(nfc->regs + NFC_REG_INT);
-> +		enable_irq(nfc->irq);
+Hi Maxime,
 
-Shouldn't you re-read NFC_REG_ST, checking if the event became true even
-in the case of a timeout?
-Say the interrupt wake the thread but the thread never had a chance
-to run. The timer (on another CPU) had a chance to run and did wake this
-thread. Checking the event in the timeout case would help to prevent
-that.
+On 14/10/26 14:27, Maxime Ripard wrote:
+> Recent commits renamed other reset helpers to use the state_init
+> suffix when they only initialize properties rather than allocate or
+> update the object state itself.
+> 
+> drm_atomic_helper_connector_tv_reset() falls in the same category:
+> it initializes the analog TV properties from the kernel command line
+> defaults without allocating any state. It also reads the connector
+> state through connector->state, coupling it to the reset path.
+> 
+> Rename it to drm_atomic_helper_connector_tv_state_init() and pass
+> the connector state explicitly as a parameter. This decouples it
+> from the reset hook and prepares for the conversion to
+> atomic_create_state where connector->state is not yet assigned.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+> Cc: "Maíra Canal" <mcanal@igalia.com>
+> Cc: Chen-Yu Tsai <wens@kernel.org>
+> Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> Cc: Samuel Holland <samuel@sholland.org>
+> Cc: linux-sunxi@lists.linux.dev
+> ---
+>   drivers/gpu/drm/drm_atomic_state_helper.c | 11 ++++++-----
+>   drivers/gpu/drm/sun4i/sun4i_tv.c          |  2 +-
+>   drivers/gpu/drm/vc4/vc4_vec.c             |  2 +-
+>   include/drm/drm_atomic_state_helper.h     |  3 ++-
+>   4 files changed, 10 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index 6238066fd5d6..1424c4873251 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -499,20 +499,21 @@ void drm_atomic_helper_connector_tv_margins_state_init(struct drm_connector_stat
+>   	state->tv.margins.bottom = cmdline->tv_margins.bottom;
+>   }
+>   EXPORT_SYMBOL(drm_atomic_helper_connector_tv_margins_state_init);
+>   
+>   /**
+> - * drm_atomic_helper_connector_tv_reset - Resets Analog TV connector properties
+> + * drm_atomic_helper_connector_tv_state_init - Initializes Analog TV connector properties
+> + * @state: the DRM State object
+>    * @connector: DRM connector
+>    *
+> - * Resets the analog TV properties attached to a connector
+> + * Initializes the analog TV properties attached to a connector
+>    */
+> -void drm_atomic_helper_connector_tv_reset(struct drm_connector *connector)
+> +void drm_atomic_helper_connector_tv_state_init(struct drm_connector_state *state,
+> +					       struct drm_connector *connector)
+>   {
+>   	struct drm_device *dev = connector->dev;
+>   	struct drm_cmdline_mode *cmdline = &connector->cmdline_mode;
+> -	struct drm_connector_state *state = connector->state;
+>   	struct drm_property *prop;
+>   	uint64_t val;
+>   
+>   	prop = dev->mode_config.tv_mode_property;
+>   	if (prop)
+> @@ -572,11 +573,11 @@ void drm_atomic_helper_connector_tv_reset(struct drm_connector *connector)
+>   			state->tv.hue = val;
+>   
+>   	drm_atomic_helper_connector_tv_margins_state_init(connector->state,
 
-> +	}
-> +
->  	if (ret)
->  		dev_err(nfc->dev, "wait interrupt timedout\n");
->  
+Shouldn't it be s/connector->state/state here?
 
-Sebastian
+Best regards,
+- Maíra
+
+>   							  connector);
+>   }
+> -EXPORT_SYMBOL(drm_atomic_helper_connector_tv_reset);
+> +EXPORT_SYMBOL(drm_atomic_helper_connector_tv_state_init);
+>   
+>   /**
+>    * drm_atomic_helper_connector_tv_check - Validate an analog TV connector state
+>    * @connector: DRM Connector
+>    * @state: the DRM State object
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_tv.c b/drivers/gpu/drm/sun4i/sun4i_tv.c
+> index ce22f1662c0c..ea86f8a6a35e 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_tv.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_tv.c
+> @@ -406,11 +406,11 @@ static const struct drm_connector_helper_funcs sun4i_tv_comp_connector_helper_fu
+>   };
+>   
+>   static void sun4i_tv_connector_reset(struct drm_connector *connector)
+>   {
+>   	drm_atomic_helper_connector_reset(connector);
+> -	drm_atomic_helper_connector_tv_reset(connector);
+> +	drm_atomic_helper_connector_tv_state_init(connector->state, connector);
+>   }
+>   
+>   static const struct drm_connector_funcs sun4i_tv_comp_connector_funcs = {
+>   	.fill_modes		= drm_helper_probe_single_connector_modes,
+>   	.destroy		= drm_connector_cleanup,
+> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
+> index 792b7b39be59..98cece1e48d8 100644
+> --- a/drivers/gpu/drm/vc4/vc4_vec.c
+> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
+> @@ -379,11 +379,11 @@ vc4_vec_connector_detect(struct drm_connector *connector, bool force)
+>   }
+>   
+>   static void vc4_vec_connector_reset(struct drm_connector *connector)
+>   {
+>   	drm_atomic_helper_connector_reset(connector);
+> -	drm_atomic_helper_connector_tv_reset(connector);
+> +	drm_atomic_helper_connector_tv_state_init(connector->state, connector);
+>   }
+>   
+>   static int
+>   vc4_vec_connector_set_property(struct drm_connector *connector,
+>   			       struct drm_connector_state *state,
+> diff --git a/include/drm/drm_atomic_state_helper.h b/include/drm/drm_atomic_state_helper.h
+> index 4dac741af22c..5e8619aeef21 100644
+> --- a/include/drm/drm_atomic_state_helper.h
+> +++ b/include/drm/drm_atomic_state_helper.h
+> @@ -69,11 +69,12 @@ void __drm_atomic_helper_connector_state_init(struct drm_connector_state *conn_s
+>   void __drm_atomic_helper_connector_reset(struct drm_connector *connector,
+>   					 struct drm_connector_state *conn_state);
+>   void drm_atomic_helper_connector_reset(struct drm_connector *connector);
+>   struct drm_connector_state *
+>   drm_atomic_helper_connector_create_state(struct drm_connector *connector);
+> -void drm_atomic_helper_connector_tv_reset(struct drm_connector *connector);
+> +void drm_atomic_helper_connector_tv_state_init(struct drm_connector_state *state,
+> +					       struct drm_connector *connector);
+>   int drm_atomic_helper_connector_tv_check(struct drm_connector *connector,
+>   					 struct drm_atomic_commit *state);
+>   void drm_atomic_helper_connector_tv_margins_state_init(struct drm_connector_state *state,
+>   						       struct drm_connector *connector);
+>   void
+> 
+
