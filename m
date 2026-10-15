@@ -1,115 +1,189 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5DB133939C;
-	Thu, 15 Oct 2026 01:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792029020; cv=none; b=SZBsHR3kNtLc8d1i3QjnKLe/X5mCWhb9VdqlIsOCgcv/PRzTF9h65vBfiqABOkCmjIWRotCmShrKKvtDXtG6Idiy/kHxrFdsx9Frz+oPaOaCIB1rvbX0IkF49yef5KVNz6dy1uabhCYK4tHI3ojCmR8/VlZ1asBGDgmMKktKSmU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792029020; c=relaxed/simple;
-	bh=lqzqa6mXZFZB56ZiAqpMIdWmUh42nRNUKyxJ3d69eCw=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=ZoYQ+qGDUXB8IPZMwaUpcke0DsQwnUnYPS6IuP//crfevdXkYI5l+sj+OhF2QR7qyleizN7ERRBg23tVsOTqeFnVvf15rwhHWuJMXPJhf/p6Wj0sheqEIMs7nf8/EejeON4Hi1jaD/y3zt6EQnZ0FJckoEV6o58Lpy3RUliNI3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PGJf06ng; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783CF350298
+	for <linux-sunxi@lists.linux.dev>; Thu, 15 Oct 2026 02:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792032435; cv=pass; b=T7b7H0+wyWqIR6KkeXAv2Joy+2dK6ZOCcFFEdlYANJE6v1g8nlHMrrk/io0sbOdJgNeu5lKuqmljTbkEAVlw8Dvoj5Lp6ErGlFge/Wjp4salcZEoiq2M06vos8UNsBGC+8DMpXLaIhkYeFKLqFUdKc6V9aowj7x30+d0bntLloY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792032435; c=relaxed/simple;
+	bh=16GbWlEqbR86iNc8/Kds0QNYGdsCxKka1B+rvUYPHwU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=D5WuIPjmW23IOGnzBlWtVhWAbn0b1Pa8OqMQQiZZB0HMSSwLMfEuEQsL/3d4FvsFlY9k4mW05JO1Rcy5WNhYsWd/UjDV0EXNRAaoQOgwwgTJmGyLdOxuJFjBJysc3IvLIba3F+gzjmjAuhYa7AlllN+zJWuNclJU8MBIbUbSN90=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jj9m2OQu; arc=pass smtp.client-ip=209.85.222.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PGJf06ng"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A73B1F000C4;
-	Thu, 15 Oct 2026 01:50:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792029019;
-	bh=XqCsBBDToclNhntWS7LwgwCgD6io3q7EceQlCXtUiuU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=PGJf06ngwaQwr3biaCaU9TpAVmbFprp7n3Ipjgw+QnNJyDJ6lP8jJISWbjlWWJsTa
-	 R4RnmmLTaQliAuKDYnjo3ypOGMbGxsfj+RMFnYjUcWW3bzl9BaQ5I0esD/h9ePfMHb
-	 nRY17QRgTs9OdkABkpahY0OK4HO82/qPvVlZKtB06Mckthp7Vq/FQzBScGiNcbOZmy
-	 2P5NykZAhpS4+7brbXgufHXsK839w8P4xnvYIGRtHHfw+7oSyHH0GDGYx9pxMcL+fW
-	 9Eb+VF+d+U3mHcBgLwxvNNLOUO44ZX5amNIGycT8tAl16/mZ1Xi9XwXYcl6Y9HWqMy
-	 7zXqFugGYiDvw==
-Message-ID: <sashiko-outbox-172123@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 06/16] mtd: rawnand: sunxi: select the pattern ID for
- the current ECC step
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "James Hilliard" <james.hilliard1@gmail.com>, "Miquel Raynal" <miquel.raynal@bootlin.com>, "Richard
- Weinberger" <richard@nod.at>, "Vignesh Raghavendra" <vigneshr@ti.com>, "Sebastian
- Andrzej Siewior" <bigeasy@linutronix.de>, "Clark Williams" <clrkwllms@kernel.org>, "Steven
- Rostedt" <rostedt@goodmis.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>
-Cc: "Chen-Yu Tsai" <wens@kernel.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Samuel
- Holland" <samuel@sholland.org>, "Maxime Ripard" <mripard@kernel.org>, "Richard
- Genoud" <richard.genoud@bootlin.com>, "Boris Brezillon" <bbrezillon@kernel.org>, "Masahiro
- Yamada" <yamada.masahiro@socionext.com>, "Brian Norris" <computersforpeace@gmail.com>, linux-mtd@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20261014-submit-sunxi-nand-vendor-oob-layout-v1-v7-6-5d3fc6ad2da1@gmail.com>
-References: <20261014-submit-sunxi-nand-vendor-oob-layout-v1-v7-0-5d3fc6ad2da1@gmail.com>
- <20261014-submit-sunxi-nand-vendor-oob-layout-v1-v7-6-5d3fc6ad2da1@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Oct 2026 01:50:16 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jj9m2OQu"
+Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-99075306daaso85015241.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 14 Oct 2026 19:47:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792032432; cv=none;
+        d=google.com; s=arc-20260327;
+        b=LJRH0CGEh7ZLeqClIgM2i4Gv7JTSHSL5Rwz8VAoT44wq3gA0BIKbXgitT2E+10mXSe
+         2A5nbGVf0ZLDbuGVt/+zVBdsp65ngyb+Nvo9hDSDsmjmHWELMWYOVs9Bl+aEcVIbkvS1
+         i2mE5PmjfQ9pIC9UgHtRIlJ/SrOBanMhZOegRL2HtXRn/fRe7UF4f/E/uwRIsip31tNr
+         jZhxBwqv0TSv0YBa5JXKVH9nb1NpmmP/SwIBpgYzsPanIO0x3NZDgz6ylUWxj1KB++l8
+         zuy7F+ILD2ae3YHDgRGVAOb3iZWy0lcDkW7QcZS7yT6BbklZG1gPTLogVpcsOJQ4Cmpp
+         IvZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=16GbWlEqbR86iNc8/Kds0QNYGdsCxKka1B+rvUYPHwU=;
+        fh=XRHcd/LAdOAznFIuF0xkpanLtB21gAoLZMffSM4JRKI=;
+        b=T8KRBGxL97OxSmviRHlbOtQQQoyOAK9+4Qy1/TVkgu1qeheTAtFxP7FU+/dJybpXOz
+         HTQRuIjKT3tXAHckvWuoaYbgiSODme4iVHcZDW7LUHL5QNeZdWvBKBZCrtXlCPpdOp1h
+         7AMUZTKTv2bpp5WAUKqbCo4b3g7JvwKTqtaBVyjlxENQ6NAJN6Mf9Fv5MuYFFEvgFW7Q
+         VfYQkHvN/AoH7t+MB4lu0MVq/KCkD6C1q5oBSzaWKA9Qpeo0wcoQHYqymfGqK30RP179
+         xqtUOe8mniXFG0BomsleHG2MN08hO6qfaFyJ4wHP3d47QcJQ6u7OWyT9fHzB7Jf3oJFi
+         rYpw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792032432; x=1792637232; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=16GbWlEqbR86iNc8/Kds0QNYGdsCxKka1B+rvUYPHwU=;
+        b=Jj9m2OQu1PtUA+F9ykgjEfCjtg3itsXorn/FU1mFB9GqVE/8p4E8OmdFbsobSSMCy3
+         BoD7RADt9bVojAlqfU6Wi0bGHp13dz9li/Ke55UVnH+UZz9v/88BUYI/B+vc+xZ9YHKF
+         5F045ihTaMcU3y5ZARtw4oWkE/vSRMxKvh3RFYUI4bBruGDqDf+pXVsU42zCapY/8r4c
+         i3DDLJ52LGfFv/3gne8jo2NieP1FNP4tBiLDWlKWSQoE4vO6Gj6lgcxRbBZXuAxhe9PA
+         eCKe4aN2IHFbTdJCg/9fqp0M8eVupJecxw6B4HYQnHgFhc8UNYUTXZzGd3uhWsmeHgKi
+         5t0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792032432; x=1792637232;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=16GbWlEqbR86iNc8/Kds0QNYGdsCxKka1B+rvUYPHwU=;
+        b=AlieMj6FEdpv4Gb6oS2VedPKlyQSrWl8gFIRZMSNfkNyXdo1wVYeMPZZ6WZpNM5gO/
+         k3c9xTiQ3taobotYLuwP8gvJuYMpWuRHtEXSrE1tZDaMehyC8ALvNaz8AEB4JbAO4wuw
+         AzkiKrx5RSng7xvcjyGVvHmQF3Lbd5OQHtWBL8wTeQCrG0H3/3njD1Mj2NtI9Eni0BJm
+         nfQkASJMZdLnxtDFCYdtyK3k6xRJfjhGySvDjlWeBl15KZVGvrJrGV/6fSg2JSI0kjVD
+         1wfmcEDRsTA3k8Bqdgi6FgLKni7KSQIpHa0oZSJD6XF3LndpdlLyGxss8wspjZPXflbV
+         EeXg==
+X-Forwarded-Encrypted: i=1; AKwUvBzdqh5/wrNS0/gkcihxmrNS0Bgp49tikn69U0bvbzxOPmi9uUx9uv+TwwT7kS4UvKeTntkoPb8vR7CGFA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKxMGtGnaorvytEUJIjvIhrXIOLKeFeN8ANvUCoXy2/E/tQo52E
+	Y914EugdkCjA2nc6c1V00eEZslMBSH+su/MekX/qXi7dTYUsTby+KG3KLrgysa4dXd527hTqAh5
+	/8nyb41KhUy+N+8G2ZYb+FqZMs/5E8b4=
+X-Gm-Gg: AYBFou1Fxq25bOe60+3vXJ6knjjrUALqvW6ZzcMkV29sEYDNOF/MvtCm6i6nBKf/v9X
+	ZZMYIdCRjfElTCLesnOfjr1z1o3tBw2cdn3Ezl/kbenHOUGPBzZ7nny5Cqnho2EVKyUi3dM33rQ
+	Bv1/2+yiVW3sHRP1gM6wF7jTOSpQCsdk4oqucGizkphrrRtErKiKIofz3NQHGhe93Ge2xSeooNp
+	w5OvRwIMiPmRgwBAsMlFlaBjJFK/I8ZsOpBjwfAkqEHuu+zghURxJVp7kBzQhN4LMIdqjhNlOa9
+	expG5dn42hJb8QYBQK3RvoOHknlmM9MngiwdQM3oRhmYe9ssZf1FrJ69tut8uJwqD4oLPfWxnvS
+	x3q7TuHdRRwj2LmrL4RQVCHK73lAvHTxrT4uOMBsrtP4KfYhJH2kiYraj9d3hybvJ+REF90DwbG
+	FOPAchseDWfJdPC2dAx2eKwgqzDxFfxgJIW2xVYmJCuFOk
+X-Received: by 2002:a05:6102:418b:b0:7c3:2f13:d905 with SMTP id
+ ada2fe7eead31-7cb3668b831mr6416805137.3.1792032432146; Wed, 14 Oct 2026
+ 19:47:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20260914-submit-sunxi-nand-vendor-oob-layout-v1-v6-0-2fb084fe0751@gmail.com>
+ <871p9v4a1x.fsf@bootlin.com>
+In-Reply-To: <871p9v4a1x.fsf@bootlin.com>
+From: James Hilliard <james.hilliard1@gmail.com>
+Date: Wed, 14 Oct 2026 20:47:00 -0600
+X-Gm-Features: AclHuK8WjfPBl-snALh8yjK0sT9hEMdsL68lGw63Y8O6sDBZaP8Ds_BfAoAdcJg
+Message-ID: <CADvTj4oCVOBiY-55OJt3xFaOiBrFVixmK=AmTRt40iEisDSO2g@mail.gmail.com>
+Subject: Re: [PATCH v6 00/18] mtd: rawnand: sunxi: support the Allwinner
+ randomized OOB format
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Maxime Ripard <mripard@kernel.org>, Richard Genoud <richard.genoud@bootlin.com>, 
+	Masahiro Yamada <yamada.masahiro@socionext.com>, Boris Brezillon <bbrezillon@kernel.org>, 
+	Brian Norris <computersforpeace@gmail.com>, linux-mtd@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] mtd: rawnand: sunxi: PIO mode overwrites zero pattern with SRAM =
-garbage
---
+On Mon, Oct 12, 2026 at 2:06=E2=80=AFAM Miquel Raynal <miquel.raynal@bootli=
+n.com> wrote:
+>
+> Hi James,
+>
+> On 14/09/2026 at 15:09:46 -06, James Hilliard <james.hilliard1@gmail.com>=
+ wrote:
+>
+> > Allwinner NAND firmware leaves the bad-block marker in the randomizer
+> > data stream. On H6/H616 it also places all protected user data before t=
+he
+> > first ECC step. These choices differ from the mainline format, which
+> > keeps the physical marker plain and maximizes the H6/H616 user-data are=
+a.
+>
+> [...]
+>
+> > Assisted-by: Codex:gpt-6-astra
+> > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> > ---
+>
+> I am sorry but I do not want to proceed further with this series.
+>
+> Even though I am not capable of finger pointing what is wrong in the
+> diffs nor in the commit logs, I do not understand most of it. I cannot
+> clearly explain why, but I have had a hard time trying to understand
+> what the commits were doing.
 
-commit 6c354ef3bc88ac95cdf40b092e5c146de75aa789
-Author: James Hilliard <james.hilliard1@gmail.com>
-Subject: mtd: rawnand: sunxi: select the pattern ID for the current ECC step
+I think I may have identified a substantial part of what made v6
+difficult to follow. Format-specific handling was interspersed with the
+PIO and DMA transfer paths, which also implemented similar ECC-result,
+OOB retrieval and erased-chunk handling separately. Reviewing a change
+required following those interactions across several functions.
 
-This commit fixes the pattern-ID register check during ECC exception mode.
-It updates the correction helper to test the bit corresponding to the
-current hardware step rather than always checking bit zero, which ensures
-DMA processing classifies physical all-zero and all-ones data blocks
-correctly.
+v7 01/16, "mtd: rawnand: sunxi: centralize OOB handling" [0], separates
+those responsibilities without changing behavior. The transfer functions
+retain command sequencing, DMA ownership and randomizer control.
+Per-chip OOB operations handle layout setup, marker transformation and
+interpretation of completed reads. The existing formats share their
+read-interpretation logic.
 
-> diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sun=
-xi_nand.c
-> index 57df88099206a..8256982d1d565 100644
-> --- a/drivers/mtd/nand/raw/sunxi_nand.c
-> +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-> @@ -1101,7 +1101,7 @@ static int sunxi_nfc_hw_ecc_correct(struct nand_chi=
-p *nand, u8 *data, u8 *oob,
->  	if (pattern_found & BIT(step)) {
->  		u8 pattern;
-> =20
-> -		if (unlikely(!(readl(nfc->regs + NFC_REG_PAT_ID(nfc)) & 0x1))) {
-> +		if (unlikely(!(readl(nfc->regs + NFC_REG_PAT_ID(nfc)) & BIT(step)))) {
->  			pattern =3D 0x0;
+The Allwinner addition in v7 16/16, "mtd: rawnand: sunxi: support the
+Allwinner randomized OOB format" [1], now has a clear boundary: its
+layout and page-classification rules live in dedicated callbacks,
+selected through the opt-in attach path. Its erased-page and bad-page
+policy is separate from the existing formats' interpretation.
 
-[Severity: Medium]
-When the pattern is identified as 0x0, the *erased out parameter remains
-false. Later in sunxi_nfc_oob_read_batch(), the code checks this boolean
-and handles PIO mode (!read->dma) by copying directly from SRAM:
+Common hardware helpers remain shared, but adding this format no longer
+requires scattering format-specific branches through the PIO and DMA
+sequencing. That should make both its behavior and the preservation of
+existing behavior easier to review.
 
-sunxi_nfc_oob_read_batch() {
-    ...
-    if (erased) {
-        read->has_erased_chunk =3D true;
-        continue;
-    }
+[0] https://lore.kernel.org/r/20261014-submit-sunxi-nand-vendor-oob-layout-=
+v1-v7-1-5d3fc6ad2da1@gmail.com/
+[1] https://lore.kernel.org/r/20261014-submit-sunxi-nand-vendor-oob-layout-=
+v1-v7-16-5d3fc6ad2da1@gmail.com/
 
-    if (!read->dma)
-        memcpy_fromio(data, nfc->regs + NFC_RAM0_BASE, ecc->size);
-    ...
-}
+> The risk is that nobody would then be able
+> to further maintain this driver and I am not willing to take that
+> option. The kernel policy so far has been to ensure readability and
+> maintainability, and my gut feeling is that this series is going
+> sideways wrt this major constraint.
+>
+> Also, from a Linux kernel point of view, we generally just do not
+> support vendor specific layouts. I already told so Richard Genoud back
+> when he was working on H616.
+>
+> With this added to the pile, I prefer not to merge the entire series. I
+> can still take some of the fixes if you feel like they would be relevant
+> anyway. In which case I invite you to send a v7 with just the few fixes
+> you think are actually relevant outside of the randomized layout
+> support.
 
-If scrambling is enabled for a physical all-zero block read in PIO mode,
-will this memcpy_fromio() overwrite the valid zeros populated in
-sunxi_nfc_hw_ecc_correct() with descrambled pseudo-random garbage from
-the SRAM?
+In v7 the behavior-preserving refactor comes first, followed by separate fi=
+xes
+and optimizations. Patches 1-14 do not depend on the binding and Allwinner
+format in patches 15-16, so they can be considered independently.
 
-It appears this regression leaves PIO broken while fixing DMA zero
-pattern reads.
-
->  		} else {
->  			pattern =3D 0xff;
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014-submit-sun=
-xi-nand-vendor-oob-layout-v1-v7-0-5d3fc6ad2da1@gmail.com?part=3D6
+>
+> Thank you for your understanding,
+> Miqu=C3=A8l
