@@ -1,154 +1,134 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC0E49A3C2
-	for <linux-sunxi@lists.linux.dev>; Fri, 16 Oct 2026 12:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652D625393E;
+	Fri, 16 Oct 2026 14:58:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792154163; cv=none; b=jn4EGmxqdF+3SGNA03iQxLIse4spfSt7cytvGd+AcJJ22zq2kHRNnBZOkwoz2JqZgklE7YkscRbm2yUWQaCDsagY9KZIZqGhQoXgiJUYkDfUfEf76Z6qFJruznOxmjp2622cVYapZgGv/BJc9KEqIh2FZ/Jsukx6SoOyQu+sdvs=
+	t=1792162710; cv=none; b=a4j8EPqD53DMp4zwTIVEaLkneDKLvi36uQCJgc7mrdCafQajjJNXX3cHv6XmQlONOeAGXfCJnV/0o30h9qXpZpUGQ4vZ7W8C4jxLMNs0CKlAMo6vP+zloM8e7OWq3rQifqLFzcijmx9tJp8zdjtwVN68OJxuhUvHOFuYxIIiggU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792154163; c=relaxed/simple;
-	bh=x1FsBrPCSkdZJtG+HdqZMYtb7qe84QtVBUwI7EaPUHw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EaOPnG4WK8/Z7STBNhv3UJdJI2kJQqYkSZpKi8Znx/LrO8BB5sf0TfnJn5vw/vdv1hxMiukFV/nIcyYgi8ZxD0oE6hrNC1FboGZGTpiswDKs+N6/LvhQ+jEl4NEm91KyJcCRMTb2egjNH7CAx4s8YYriKrxD7T1dUBa0TmnkSOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lG6tifYO; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792162710; c=relaxed/simple;
+	bh=P+i/1P6kAVyRCsimt7I10I57QvG7dcXXak0hAzw9nPE=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=luGD8Xcj5bq4rVYXFQK9GlEBxJLhNSp0KHIE6HJmkB2Kb//ou6S4V/pAYpUIdOXjEDP55y9tZtCFRu+imzNh/LuURN7dLiETGoxcCHZERlHoVfoZvwGif7OmVGdg0FGBwH8zW5mgw7cpdmX9z2EqofLvGW+L9qfhqmd/XuKZohI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BofuF3E0; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lG6tifYO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D2911F000C4;
-	Fri, 16 Oct 2026 12:35:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BofuF3E0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C56C51F000C4;
+	Fri, 16 Oct 2026 14:58:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792154157;
-	bh=K5ujFTPNI8d5JuoGTXJQu2ch1Jer/YBRO4cp15Sdgus=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lG6tifYOh0hiaMRrjZ+4kvFGvg/AC/9H8e5J+neAbbWsfzNugPRd7OVLLfExYahqb
-	 86RGR5ufsE5WVew218k2GvQk7YjDSVXX+agN//lFon5UvI2+z4y5o4PPzsYaHN3Xy+
-	 iZi4RFuGMtYiPIcTSD1OQtr/C+2nTncjFIRpyNdNE0wLbtN5GSX20EfOiAEx9AbpYX
-	 w5fbmpdF0T3OwqCZBiNYGmYiazIrKzTdZmSPoEJDcTbJNoEjQIw/IzxFrpHXGyAOPs
-	 wq6EZWdVr8EQ9G2nLqgS7swNZMwrHwF/EZVRJvBNjNikea58vqgyngB7xmOvzxlTlq
-	 Eiy1bzmmnQNIg==
-Date: Fri, 16 Oct 2026 14:35:54 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@kernel.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 56/75] drm/atomic-state-helper: Rename connector_tv_reset
- to state_init
-Message-ID: <atIaBCZtyGIZHanm@houat>
-References: <20261014-drm-no-more-connector-reset-v1-0-586c9c026823@kernel.org>
- <20261014-drm-no-more-connector-reset-v1-56-586c9c026823@kernel.org>
- <1ae560be-63a2-425e-bd47-ed279448eeec@igalia.com>
+	s=k20260515; t=1792162709;
+	bh=NloS2JQ8zk67r6FG92N8ouwpSmvC4h1LM3iGLYFZXbE=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=BofuF3E0SnbBZba+pwhXjPk7yrZ6vFxvkZ03LaQczA3hqzlKAxeE+UUqVYg6yvIU6
+	 ksPW6Q8Dfp6tDYzqYWE8uF2tGIU9QGKA6OLT6mXraF4n1e2ralk4yDH/8lgaRuLBFU
+	 xj9Hvpoq2q2xRcZNzBZL31x7DnGCIywuiqPkOKh9nhSzr/k7npzpDWo62QB4QZUpau
+	 F2gmqx7VU7UToeaygWpidh5IQc66mxn5JviO+ghTX4QpyzFn1JwjKAiB4MYf3jISNh
+	 IT1sOkcnrTHFL0ZV8/LPYnaBDaLC0YjPHQAAFy5KZG+E6UeNvFokQh454VgKxR+rww
+	 FiAQ89Q0bkLEQ==
+Message-ID: <sashiko-outbox-174508@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next v3 1/2] net: stmmac: Introduce group arguments
+ for enable/disable_dma_irq
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Daniel Thompson" <daniel@riscstar.com>
+Cc: bpf@vger.kernel.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20261015-tc956x-stmmac-no_irq_teardown-v3-1-8189870be545@riscstar.com>
+References: <20261015-tc956x-stmmac-no_irq_teardown-v3-0-8189870be545@riscstar.com>
+ <20261015-tc956x-stmmac-no_irq_teardown-v3-1-8189870be545@riscstar.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 16 Oct 2026 14:58:28 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="ag4zz2wpi4nkqtta"
-Content-Disposition: inline
-In-Reply-To: <1ae560be-63a2-425e-bd47-ed279448eeec@igalia.com>
 
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] net: stmmac: hardcoded generic OTHER masks break variant-specific =
+IRQs
+--
 
---ag4zz2wpi4nkqtta
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 56/75] drm/atomic-state-helper: Rename connector_tv_reset
- to state_init
-MIME-Version: 1.0
+commit 6b53d33b472c115af2d55abc75c5663ee8048b05
+Author: Daniel Thompson <daniel@riscstar.com>
 
-Hi Ma=EDra,
+net: stmmac: Introduce group arguments for enable/disable_dma_irq
 
-On Thu, Oct 15, 2026 at 07:56:05AM -0300, Ma=EDra Canal wrote:
-> Hi Maxime,
->=20
-> On 14/10/26 14:27, Maxime Ripard wrote:
-> > Recent commits renamed other reset helpers to use the state_init
-> > suffix when they only initialize properties rather than allocate or
-> > update the object state itself.
-> >=20
-> > drm_atomic_helper_connector_tv_reset() falls in the same category:
-> > it initializes the analog TV properties from the kernel command line
-> > defaults without allocating any state. It also reads the connector
-> > state through connector->state, coupling it to the reset path.
-> >=20
-> > Rename it to drm_atomic_helper_connector_tv_state_init() and pass
-> > the connector state explicitly as a parameter. This decouples it
-> > from the reset hook and prepares for the conversion to
-> > atomic_create_state where connector->state is not yet assigned.
-> >=20
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> > Cc: "Ma=EDra Canal" <mcanal@igalia.com>
-> > Cc: Chen-Yu Tsai <wens@kernel.org>
-> > Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-> > Cc: Samuel Holland <samuel@sholland.org>
-> > Cc: linux-sunxi@lists.linux.dev
-> > ---
-> >   drivers/gpu/drm/drm_atomic_state_helper.c | 11 ++++++-----
-> >   drivers/gpu/drm/sun4i/sun4i_tv.c          |  2 +-
-> >   drivers/gpu/drm/vc4/vc4_vec.c             |  2 +-
-> >   include/drm/drm_atomic_state_helper.h     |  3 ++-
-> >   4 files changed, 10 insertions(+), 8 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/dr=
-m/drm_atomic_state_helper.c
-> > index 6238066fd5d6..1424c4873251 100644
-> > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> > @@ -499,20 +499,21 @@ void drm_atomic_helper_connector_tv_margins_state=
-_init(struct drm_connector_stat
-> >   	state->tv.margins.bottom =3D cmdline->tv_margins.bottom;
-> >   }
-> >   EXPORT_SYMBOL(drm_atomic_helper_connector_tv_margins_state_init);
-> >   /**
-> > - * drm_atomic_helper_connector_tv_reset - Resets Analog TV connector p=
-roperties
-> > + * drm_atomic_helper_connector_tv_state_init - Initializes Analog TV c=
-onnector properties
-> > + * @state: the DRM State object
-> >    * @connector: DRM connector
-> >    *
-> > - * Resets the analog TV properties attached to a connector
-> > + * Initializes the analog TV properties attached to a connector
-> >    */
-> > -void drm_atomic_helper_connector_tv_reset(struct drm_connector *connec=
-tor)
-> > +void drm_atomic_helper_connector_tv_state_init(struct drm_connector_st=
-ate *state,
-> > +					       struct drm_connector *connector)
-> >   {
-> >   	struct drm_device *dev =3D connector->dev;
-> >   	struct drm_cmdline_mode *cmdline =3D &connector->cmdline_mode;
-> > -	struct drm_connector_state *state =3D connector->state;
-> >   	struct drm_property *prop;
-> >   	uint64_t val;
-> >   	prop =3D dev->mode_config.tv_mode_property;
-> >   	if (prop)
-> > @@ -572,11 +573,11 @@ void drm_atomic_helper_connector_tv_reset(struct =
-drm_connector *connector)
-> >   			state->tv.hue =3D val;
-> >   	drm_atomic_helper_connector_tv_margins_state_init(connector->state,
->=20
-> Shouldn't it be s/connector->state/state here?
+The enable_dma_irq/disable_dma_irq functions take two booleans, rx and tx,
+that identify which interrupts should be disabled. Replace these with a sin=
+gle
+bitflag argument, group. This allows a third group to be added which is use=
+d to
+enable/disable other sources of DMA interrupt.
 
-Yes, it should be. It's going to be fixed in the next version, thanks!
-Maxime
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c b/drivers/n=
+et/ethernet/stmicro/stmmac/dwmac4_lib.c
+> index a0249715fafaf..7c5881ca61e8b 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac4_lib.c
+[ ... ]
+> @@ -109,30 +109,39 @@ void dwmac4_set_rx_ring_len(struct stmmac_priv *pri=
+v, void __iomem *ioaddr,
+>  	writel(len, ioaddr + DMA_CHAN_RX_RING_LEN(dwmac4_addrs, chan));
+>  }
+> =20
+> +static u32 dwmac4_enable_dma_mask(u32 group)
+> +{
+> +	u32 mask =3D 0;
+> +
+> +	if (group & STMMAC_DMA_IRQ_RX)
+> +		mask |=3D DMA_CHAN_INTR_ENA_RIE;
+> +	if (group & STMMAC_DMA_IRQ_TX)
+> +		mask |=3D DMA_CHAN_INTR_ENA_TIE;
+> +	if (group & STMMAC_DMA_IRQ_OTHER)
+> +		mask |=3D DMA_CHAN_INTR_DEFAULT_MASK &
+> +			~(DMA_CHAN_INTR_ENA_RIE | DMA_CHAN_INTR_ENA_TIE);
+> +
+> +	return mask;
+> +}
 
---ag4zz2wpi4nkqtta
-Content-Type: application/pgp-signature; name="signature.asc"
+[Severity: High]
+Does hardcoding DMA_CHAN_INTR_DEFAULT_MASK here cause a regression for
+hardware variants that require different bit layouts for summary and abnorm=
+al
+interrupts?
 
------BEGIN PGP SIGNATURE-----
+For example, 4.10a uses a different mask DMA_CHAN_INTR_DEFAULT_MASK_4_10
+during channel initialization, where AIE is BIT 14 rather than BIT 15. Since
+the generic mask is used here, an attempt to disable STMMAC_DMA_IRQ_OTHER
+interrupts could fail to clear the AIE bit on 4.10a hardware, potentially
+causing an interrupt storm or use-after-free if unmasked interrupts fire
+during XDP ring reconfiguration.
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCatIaKQAKCRAnX84Zoj2+
-dhc2AYDikiyvZ7pA69z4NLHxRQqwbwh3GFryw/2J6W65qf6Bb0XH4sah0UV/tbuZ
-+qRy8FgBgJoo85c7y2zvSICho+qjJzX/b4MPZIVZygwSOIr3Ld5k641amh1nBZzc
-HTwG2TLutg==
-=9+cI
------END PGP SIGNATURE-----
+[ ... ]
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac_lib.c b/drivers/ne=
+t/ethernet/stmicro/stmmac/dwmac_lib.c
+> index a0383f9486c2d..d746527198546 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac_lib.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac_lib.c
+[ ... ]
+> +static u32 dwmac_enable_dma_mask(u32 group)
+> +{
+> +	u32 mask =3D 0;
+> +
+> +	if (group & STMMAC_DMA_IRQ_RX)
+> +		mask |=3D DMA_INTR_DEFAULT_RX;
+> +	if (group & STMMAC_DMA_IRQ_TX)
+> +		mask |=3D DMA_INTR_DEFAULT_TX;
+> +	if (group & STMMAC_DMA_IRQ_OTHER)
+> +		mask |=3D DMA_INTR_DEFAULT_MASK &
+> +			~(DMA_INTR_DEFAULT_RX | DMA_INTR_DEFAULT_TX);
 
---ag4zz2wpi4nkqtta--
+[Severity: High]
+Could this hardcoded mask also cause a regression for Loongson MACs?
+
+Loongson hardware uses a custom mask layout DMA_INTR_DEFAULT_MASK_LOONGSON
+because it has specific bits like NIS_TX (BIT 18) and NIS_RX (BIT 17). This
+generic mask does not cover those bits, meaning they might remain enabled
+when attempting to mask STMMAC_DMA_IRQ_OTHER interrupts.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261015-tc956x-stm=
+mac-no_irq_teardown-v3-0-8189870be545@riscstar.com?part=3D1
