@@ -1,105 +1,129 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB8E6459AE9
-	for <linux-sunxi@lists.linux.dev>; Fri, 16 Oct 2026 09:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F0046A60B
+	for <linux-sunxi@lists.linux.dev>; Fri, 16 Oct 2026 09:16:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792141522; cv=none; b=ATc1WH8IcgH2ucmPYyR6HqfW2q3sZN/qfxXEYYy5upv0KMOPnv2vBwTPWhL80AG80yEAIuvYGQ5D2GhFbOOZzNduFUbBVsFaQ/53SE5So32d/Uw8KTfJpUn49ar54pFA3eY6BXPVCRbbNpMrhaA0NSVgaq/1BnHdv6trpu52U7Q=
+	t=1792142213; cv=none; b=bT7bHEi011wA8Kb3z8Nhyeb0O149KRiIgwreVuIU5dzX9SREzJX9tF/nTpkw0MGzR9HbYYPypKJD0ztkngdia8zdttv2CJl0amoEAD0slQA0SNTEbvnMe7nmGyKIQ4p4ku879Y9yOMfROwunlSoxlW/d16xB+Xd8Of3b0cBfkuE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792141522; c=relaxed/simple;
-	bh=Eo9WwXqvDCM49chcBfGJpbXusjDoU1ewi49ePAmjZdM=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=k1w1dHHFtQm3dat4CUUUX3WJOQve7Jan0PlQnzKft+mOb1RHJTKJWPikwCo/kJRFjPkbxVuf139nig3sJ7knRTNiSURafgGjJHCu6BrV/5srlFUl3W9Dp4hA07Rf6JFHLkvgB9VAt5EIk6gKdLo8XL3JvDFLhyvhJQt6rgfFqBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JvNL4I1G; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1792142213; c=relaxed/simple;
+	bh=ai9MfUDsLMrOANsUSxxVfX+O4G/JDDcBHOLTt7LkqcQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ba/FM/XvzLhIPESskEnOQ3XlqQa57hmEAlyYm+Z4ewn+jS5IFmX/nuompcCt+BYgcKGTQI/arBMmJg4v4mcqYMEY4BevoDBhk0NlXblfaSE5W9JU5cLPMqbpuJ9nWkUhPi01Oj0lQKY4RGEuDVdQ5fwgTqeFRG9TSArfjRrtduM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AsRThJiA; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JvNL4I1G"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id E14A61A1236;
-	Fri, 16 Oct 2026 09:05:18 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 991A16075D;
-	Fri, 16 Oct 2026 09:05:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 351DD103281F4;
-	Fri, 16 Oct 2026 11:05:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1792141516; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=jCdlTsgAIWlVV/nbciw4oCCYrsIamAoo02qs3IUr8ls=;
-	b=JvNL4I1GFqj1N6rLJYaDTiAX1o1PQkUdS4oGWRv5kj7C/UAGbv3VABGAMLSyIstQUFrO2A
-	QOS/iSZ8T6R2tQkG8HcSN74yew58DcQiq2XsBCxIVz0Xxi2KvI3KQ5GbhmmcpfaILw+idO
-	lsiUoMmfEg9Kv7FwRdYLYXRJbj02o17TxE/boDZtk2qf+QNTLjMCd8aKczzDp3ZNHZJSWi
-	yYNxb+q1dabTu60SX84PI9KjUY8KTXK11qt4Rk9OI4y0cxt7eWDhf2J4mKKTy0/okZR2km
-	rCEK2VU+wvSkA7kQyXgLZ+UwNZqtXNrEH3G+qNb8qO8eEUGSWfSTkniXrPdcSw==
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andy Yan <andy.yan@rock-chips.com>, Liu Ying <victor.liu@nxp.com>, 
- Phong LE <ple@baylibre.com>, Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20261001-bridge-advert-hdmi-caps-v1-0-f8806570e243@collabora.com>
-References: <20261001-bridge-advert-hdmi-caps-v1-0-f8806570e243@collabora.com>
-Subject: Re: [PATCH 0/8] drm: Advertise supported HDMI version in HDMI
- drivers
-Message-Id: <179214150460.3306936.7520883316826804246.b4-ty@b4>
-Date: Fri, 16 Oct 2026 11:05:04 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AsRThJiA"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48c4649b35bso1223071f8f.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 16 Oct 2026 02:16:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792142209; x=1792747009; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4KTdYf650btZ39bV7YwPDv6HMsfHiIuQdDKLBGUjjZY=;
+        b=AsRThJiAEsLYgvBwq/RFWiZgzQHo2VKUeJElnEkuCeOTt2FcdxhZq+uPhQlE5uuBS8
+         puEQw5PrpX7YjXbGP7pehpzOJd8sD7cKHBQQJQm3KyXErlMzAcIVLDhFD1L2hvfUj8EV
+         rZMz3izqBsz7TfIQ9eqJW7E1YgMBmbDnQssSdPGre1P5kx0xQ7HtrCWThnLWltpeLEV5
+         P7mh3Nikb8Mc5TOdDVsnjZfC5En9m66bwxIMpwn+QCNnPb3UGZ7c9r+k8boAPCdYmuMY
+         Tz5oUGagdMZ0gkTpjLyTz+8lfKiPZ0bnzRND8oY8PRAwM1N+xlfsLJMWUd4kAu/BmkVg
+         +W1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792142209; x=1792747009;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4KTdYf650btZ39bV7YwPDv6HMsfHiIuQdDKLBGUjjZY=;
+        b=wsfZ0bSAlxOEXBUXj+PihW7EwmQDwhHemFjowYv5W5AyCOnBafoO8lWImFCJ1GFaGV
+         rezy8I+P/8UjaSJY2SF8udRHI1EJC3YNBW79nXHotcb5opWdoScDB3aRH5whAXtZM9aj
+         nBocP7SMDMF+StUfviSS3m0lCVxtaca+ftKR6y5EFI2CJQYZ5SCu34cs3Mk+0gf9zJi+
+         420vstwK+rD9gbhPALt1v10VX0gjQ+ASzDH6ihznjUvKnrutg1Tf2KfrCQ2jA/GWsBEu
+         VOVHwBjmtgFiZasmRlRc6oYrUmv/M5m/FCoaHzAhxOsBG+WMlZQTrSpnTiRDq6jniS1C
+         WA8g==
+X-Forwarded-Encrypted: i=1; AKwUvBxNWPYc8WyLDkChqlyfof/lheQEKiFdqclDwvxsgXsrP7CPG0mwv45aqIg+QSduu4PgQixVe/r2VY3J2g==@lists.linux.dev
+X-Gm-Message-State: AFq9FYL/ykew9YQuO/AnnmHR4Y/Oe+jCLsBwAgz5xs2bhPr/RITyjjk/
+	3x1o4f7NHxwlW9C2h2HKpVegjj4OXZUmJ5E9yR5kR8jSPJEFEW6MJzI+
+X-Gm-Gg: AYBFou0BQCnl79aKhguN2TPeZQOd+afBmFbGHj7+q0GDldZEBcnxoqX1Vv+kwS9+nVg
+	lD+q6jjVUkPZ3T5r2g2xcT0WnP0Xh6n3QXX6oqvPIULaXmvmv8Eh3UkZS7tRU8dAuSYXHogDAw7
+	eq14wgTFdpk+7+hq8QjE2e0AFDu2db1o0FRicm31K3aSa24cLGu2WRvkde5F2fXd+EOijiTRCyf
+	uEYn7I5jU4gRABs95p3b6GUXX6yaMs+wecT1JfmWg+nse9btMt5Aqp9g7GyB2SbyE1DRVI17wDw
+	goQe0U5FOR/fi8g4BKnZstAij2IMc508WFDPiWTdoMwhbOPoLmFj4FDm6B/yUl7zpaY1MsSmGWc
+	nfhJDa6fT8NSNjL4u/uMyZxNL1OLa664kE07zCx272Gmabma7EzB4jUrNsB3gbFwRxUq/TXAA6y
+	4RcaMZ34qocPMn5lzkFESO0FRv5ngl6BD9NsvYRzF5MmkV72RMNQHQa3F/1u8=
+X-Received: by 2002:adf:e014:0:20b0:48a:eeb7:5e5c with SMTP id ffacd0b85a97d-48ddf064b52mr19497686f8f.32.1792142208964;
+        Fri, 16 Oct 2026 02:16:48 -0700 (PDT)
+Received: from debian.tfbnw.net ([2620:10d:c092:400::4:7d8a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4ee183sm3692331f8f.29.2026.10.16.02.16.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 02:16:43 -0700 (PDT)
+From: Pablo Mazzini <pmazzini@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>,
+	u-boot@lists.u-boot-project.org
+Cc: Tom Rini <trini@konsulko.com>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 0/7] sunxi: add the Allwinner B288 and the PocketBook Verse
+Date: Fri, 16 Oct 2026 10:16:01 +0100
+Message-ID: <20261016091608.121842-1-pmazzini@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16.0
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
+
+The Allwinner B288 (sun8iw10p1) is a dual Cortex-A7 SoC used in e-book
+readers. This series adds SPL and U-Boot support for it, and one board:
+the PocketBook Verse (PB629).
+
+The DT is still under review for Linux. Until it reaches
+dts/upstream, the last patch carries a copy in arch/arm/dts.
+
+Tested on a PB629.
+
+Pablo Mazzini (7):
+  sunxi: add support for the Allwinner B288
+  sunxi: dram: support the Allwinner B288
+  dt-bindings: clock: add the Allwinner B288 CCU
+  clk: sunxi: add the Allwinner B288 gates and resets
+  pinctrl: sunxi: add the Allwinner B288 PIO
+  mmc: sunxi: B288 mmc0/mmc1 run off PLL_PERIPH0 2x
+  sunxi: add the PocketBook Verse
+
+ arch/arm/cpu/armv7/sunxi/psci.c              |   9 +-
+ arch/arm/dts/Makefile                        |   2 +
+ arch/arm/dts/sun8i-b288-pocketbook-verse.dts | 114 ++++++++
+ arch/arm/dts/sun8i-b288.dtsi                 | 292 +++++++++++++++++++
+ arch/arm/include/asm/arch-sunxi/cpu.h        |   1 +
+ arch/arm/include/asm/arch-sunxi/cpu_sun4i.h  |  16 +-
+ arch/arm/mach-sunxi/Kconfig                  |  14 +
+ arch/arm/mach-sunxi/board.c                  |   4 +
+ arch/arm/mach-sunxi/clock_sun6i.c            |   1 +
+ arch/arm/mach-sunxi/cpu_info.c               |   2 +
+ arch/arm/mach-sunxi/dram_sunxi_dw.c          |  97 +++++-
+ board/sunxi/MAINTAINERS                      |   6 +
+ configs/pocketbook_verse_defconfig           |  10 +
+ drivers/clk/sunxi/Kconfig                    |   7 +
+ drivers/clk/sunxi/Makefile                   |   1 +
+ drivers/clk/sunxi/clk_b288.c                 | 101 +++++++
+ drivers/clk/sunxi/clk_sunxi.c                |   5 +
+ drivers/mmc/sunxi_mmc.c                      |   7 +
+ drivers/pinctrl/sunxi/Kconfig                |   5 +
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c        |  22 ++
+ include/dt-bindings/clock/sun8i-b288-ccu.h   |  82 ++++++
+ include/dt-bindings/reset/sun8i-b288-ccu.h   |  45 +++
+ include/sunxi_gpio.h                         |   1 +
+ 23 files changed, 827 insertions(+), 17 deletions(-)
+ create mode 100644 arch/arm/dts/sun8i-b288-pocketbook-verse.dts
+ create mode 100644 arch/arm/dts/sun8i-b288.dtsi
+ create mode 100644 configs/pocketbook_verse_defconfig
+ create mode 100644 drivers/clk/sunxi/clk_b288.c
+ create mode 100644 include/dt-bindings/clock/sun8i-b288-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun8i-b288-ccu.h
 
 
-On Thu, 01 Oct 2026 04:14:31 +0300, Cristian Ciocaltea wrote:
-> This series consists of patches 50-57 from "[PATCH v11 00/74] Add HDMI
-> 2.0 support to DW HDMI QP TX" [1], to set the supported HDMI version for
-> the HDMI connector/bridge drivers that currently leave it unset - except
-> the MediaTek HDMI driver (for now), as it requires non-trivial changes:
-> there is a core library shared between two variants, one being HDMI 2.0
-> compliant.
-> 
-> [...]
-
-Applied, thanks!
-
-[1/8] drm/bridge: adv7511: Advertise HDMI 1.2 capabilities
-      commit: 1f132660fb27da37327fed3d4fdc617f95c1431e
-[2/8] drm/bridge: inno-hdmi: Advertise HDMI 1.2 capabilities
-      commit: c132910e9d13a0c4c3476f55ad7562070d96c19a
-[3/8] drm/bridge: ite-it6263: Drop redundant .mode_valid hook
-      commit: 31112c84ca79576b8c62316b40272106ac39511f
-[4/8] drm/bridge: ite-it6263: Advertise HDMI 1.3 capabilities
-      commit: bd66cb40383b43cd4ed4b3ea1a39779161fface5
-[5/8] drm/bridge: ite-it66121: Advertise HDMI 1.2 capabilities
-      commit: 3af64ea1229dab57233531feda8908486cf9dcc6
-[6/8] drm/bridge: lontium-lt9611: Advertise HDMI 1.4 capabilities
-      commit: 3c5e687fdb8cff644c700b145289a36400d1b04d
-[7/8] drm/rockchip: rk3066_hdmi: Advertise HDMI 1.4 capabilities
-      commit: 9283faedfc5fab0a47ca41ee6ac7b2a556da7081
-[8/8] drm/sun4i: hdmi: Convert to drmm_connector_hdmi_init()
-      commit: 101bd6d1d0aa2770129b47d03791a7120ba0cad8
-
-Best regards,
+base-commit: 65a7532545336e4b73e049a69436e255da7df961
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+2.52.0
 
