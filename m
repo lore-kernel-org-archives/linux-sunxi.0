@@ -1,72 +1,72 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BB443E4B0
-	for <linux-sunxi@lists.linux.dev>; Fri, 16 Oct 2026 09:17:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E428F3BE17E
+	for <linux-sunxi@lists.linux.dev>; Fri, 16 Oct 2026 09:17:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792142225; cv=none; b=b8rlKGzL1C3x9BS/tqUETd6eiMDpmNr85w37aYQsHkD5kINHCxXdTdsHmao94e44OT7q6i5kcey9sgjQPeFRlUwrSklephje7Ym9gJIyGAIxYXi6OlJjlLoZNcw9HpRihpYk2stw+pc3TFdDrQ73g6pcCdmltIq9iT0dWxiZSBU=
+	t=1792142228; cv=none; b=N02YjrxsBYmaedjPMolM5KpYNJaOGfEtZzg4nyhvjBblgPILdBU90Dx5JqrauwnSHWO9RSu3S/8aWYV0ihaWp/lDu3w89H+9f+H1hAFtdsNjJRdgvsPJNQrw98qt/E0D964cFPWjEhzGdvB2nZi1Ofaow0r1k+u/IUNdCRVNSRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792142225; c=relaxed/simple;
-	bh=Ifbyio3c3i98SGgUP6c8F0DhtgS7RsGBfozDg9MTn+U=;
+	s=arc-20240116; t=1792142228; c=relaxed/simple;
+	bh=BTM1eH6dabHVTGt0lQ7T38psoEJBrrB0zhDjJWVQISA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jxYF1sAPV03Af1vx7cBGdzJpAbRAbNhyAH1TJAzF0H8cdRJLrxWxqFXsEwYK6mKnApkJEviyJaQlfSX/s32o6m8fMVOxmXd8irJSu6Cj77tNlNoAutQxHIVOIZdBPbCuBD0rlFPYckarx9So+zAqTO34P3UyQmP02mZxawGRwPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m9865AZ+; arc=none smtp.client-ip=209.85.128.42
+	 MIME-Version; b=F3HyJB48NW6M6EpjQQuhaKEwBRC5v9SFkjQZ7nbFSb3wVT2UhlWNVQ5gA8sdpdFOB42meZMmtXdhhmSVAz0DE+Ms7C/UwE7D4c0f9ios+4IDMWL/6o0NhnPf6VUImKhtob68Dh3nk8Z4os4ZG4qqG+DrDSWw+9ydCnBuTjnp9h0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hYx8CNfk; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m9865AZ+"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a022fee0caso58201475e9.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 16 Oct 2026 02:17:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hYx8CNfk"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4980fe6b3beso4827225e9.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 16 Oct 2026 02:17:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792142220; x=1792747020; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1792142225; x=1792747025; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=/kk7HOnRLnBu9xh7gP1Xg9Ul+E0GB0GrdeLhfGQE8DU=;
-        b=m9865AZ+IitnNE2JxPKOmoQFoWqOZDJpy2BwjHTmrKQQousP0ydm5KtMllCDXCLIjh
-         YHx9dW0y6lb3jq+PnNQzm5O97V7/pwMNG8sUnuE0HqaOAliA4vyh1V6dtLx3Mr13sZtf
-         2hLmUToIAdZA/dW7l9xa5ZzvH+PCRqYjCfwXeUJzcAMIVAOdScaPZmNbFF+30h9LDMjB
-         DfidOiBG+1/y3KwV+MIR5Gictj4TBZ9+TxLUiwkhEAaphP52C+ZYLlxJMQk10w3EWTvV
-         XER8AxNZr6mReeM5j/AftqC78yxksBfIAhgDdxPlksOiYseOfHRIr3bSzx3lCqnYRTNt
-         d/mA==
+        bh=yyWQF35hcWmRxlA01MHKEa5B34AI8NL/fene+IY7BiA=;
+        b=hYx8CNfkL8+f5wVW4iU1+rggu6ggm2mY+TnQx6zdlv8BIBu7l+esONxyWardFXATMw
+         u0f7BuqkMWn7x12NX0HNyagMIae0WoWN4VTbnQAaskan9/zHyIAR7RGYbYGJP/+p6ZVg
+         ll9WOwSuDSfefazI57y39cmVx1IIHOsgaEoeEVJB/MWYhN8HzVEz03HqVR5KKmK5sj9W
+         Ncs3hzfcSV1XnssvSuNW9HDFPhgB9lU/OoiPX8efaQsKIbvzoTttDpgOy+tZOGxnHBPc
+         r2CK9MqGbAQ7p79HN4SF7m+Qbfbhhbz7MXWZnjYSelgoZLYWoy/rImZW9d0moXA6M3ab
+         e3bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792142220; x=1792747020;
+        d=1e100.net; s=20260707; t=1792142225; x=1792747025;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/kk7HOnRLnBu9xh7gP1Xg9Ul+E0GB0GrdeLhfGQE8DU=;
-        b=FE+kPh0XWQtmuS0L7dctod9V+Jo2cv/y22YgMHIh/JhLCgMACsosmZj7TE79+UITw/
-         V2W7JQQTFjZMbj/5cHpbMg9IlFZT18sCGJCBB/TlCiukg4RQh9vZIrVhDS4i29yS/RF9
-         l074/KWNnucUIp24Vq+GHsEzslloy+hKMF5qWxlz/e8/fgz82AurqfCNsQYiZFk/q86R
-         ZSrs5UcsPWacqUFbvR0ly5c3eK4KbxLkx4/K67A4KoE+0QitB/E+3KjOxOA+FMQDUbO8
-         qabBOfEJDVAb3eoRD7zbbHCSgtlNTTMq5hmdDdhnr0fETlnR6oEgCHwVFYYfUdYx1+RA
-         iGxg==
-X-Forwarded-Encrypted: i=1; AKwUvBxbJrkAN2aWZop4aW8ZSEGGNm55eGG9Po8n6yRXBgSGXKHKmh/syY0HHOW44/E81EIZqJQoGrmkugOhsA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYI44xmAtd5k90TocEF21me9JeNnbrQjqVUMEaTxuc1hem4PHVYd
-	KHbSWkx+fMc6MnlqTQAcX4zJehq49qM3SfJjlKG2cG0qLVN1+wRomwik
-X-Gm-Gg: AYBFou3XSsofy9RpbvdCPuxFgd1ebKCFj2Lv+L9G9DCQRy81EkZfveSmvo8l8Hf80Al
-	TESEQuRDpwlZzAJv49kxNVHpGti5fPq3ncFMh3yXUeg/BI2N4/L+fh0tXxOJryUx5A1o0XARd7X
-	vnXRfUjfqodRQD6mml/dBOs2TN9TnUoRYOZhOPvnTrKDvhTeQxJXbm1eWvEPXD24GjQBs0B2XLl
-	8Gk7DSh8nUaRtP9Wixdn7XRYscCzzEqMqX3qfn9q6TRlakktW7s9bG8LkrESkxJeQDz4TMfsBJN
-	IiPPMVZyczOIFHhCcDzgsiSiXpgxSzLaxx/FmQC6yiuG4WR8Hc2wQn1oBTjMwmaPx7mf2FmaiY6
-	THcoFoHswD8ZFvaydDfIorUK0ryXOE6ipcmg1hsjrvbqcseeBqh6b7frsxF/0pKkgi7Us/jCM7d
-	RaHjanRzMvKbSB9oYHqpdddBICQmF1QaFcKncDOGY5aucI/YIVXOs4/b4Gs7mxFkMcWSNisQ==
-X-Received: by 2002:a05:600c:820c:b0:49c:fa21:1c81 with SMTP id 5b1f17b1804b1-4a18e4d5563mr430330745e9.22.1792142219904;
-        Fri, 16 Oct 2026 02:16:59 -0700 (PDT)
+        bh=yyWQF35hcWmRxlA01MHKEa5B34AI8NL/fene+IY7BiA=;
+        b=25xNKp+fqeKLcj7L8k04Zr4QaQJm3Tb5v9evEb5n787U3oL/R3fxN1XSxtQCdyrWre
+         nj6w7d+I3mXLS71aUS9Yc3wOUI9JcVE9PoKoKGI6biI+uUIalbHHGpaqBAdlLtX9R2tX
+         eFlreq0IoHFyfPJGnB0o7a/wwghw8QBnpLscvq9WPUztu+u3kLtox6BPsJSmPaAXE4dI
+         AxPa+OnKao1RsCatZiQUn26+c784iE317KIiS3aZh5zWDLO28nnjLxALXKGLTD17tI27
+         bOjpjdPuRdfqadg3APK7cghMVE3BFkLLDEfQXW6Zt1v1p/UvqvqpsmvsVQeoA3KBBkGR
+         9JsQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxsUqjut7NjrFO2ga1grsxsKp6y6C753JNCeqTvlxZgl2SuEYRmbecYKiHNUaNAdIIB+GO9m7saJECESw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLMyGUD1OrDSSnIhrrEJlIvEq4ewqS8R7Z4F08lyrbvnPREiFmk
+	CCllPwrV+Nx2vekwSjwWB4vi9ymw3wJ2zl7UX6fmjnjL9dn1iSP3728m
+X-Gm-Gg: AYBFou0Y9gJxESlSfCKboId/K97N4HgdHFbP3/SrkeTDIU9F720GLFlFRSZfp7H3jr/
+	/O0eDjGiATsEpY8oWzpOGB2T7AWdNYCZ3RLvi2gOXMl+NV7yjVUUV9S6JO4kBDZy5yN31NQFgb8
+	2P8y/39uznx6YisKPAEghfF3gBUzTNddSLa7JQmnFLhfzSNqZlNFAiy/4Co3dDSckDQHHvacUbA
+	O0FNmd6xTEazbeJkplrIEk9OfP5Z0qhUYyoU2VKewnyyIpX/8UdFDEknG7ZRuO8iTmQv5Usi0Rf
+	McCCIN2TBNLxvECNR0Nd5A77jMadpMFa7sQW9NfTQTsk73pP+kWDx286fPY7RJ8j91A1g1A7dhO
+	9khDOk7sZw/EceEvXKgmnN3tC1F3mexlMXSW2LalGYLYXNYEy660s8HYrHXAPZnWH+ClluN6+aB
+	0l7Z12fl6ar9DGdWiUZLTTXNCS3pJlZv9byaoIZX8FuVNwacHiyw4erEBq00M=
+X-Received: by 2002:a05:600c:484a:b0:4a1:bb4c:39c1 with SMTP id 5b1f17b1804b1-4a1c66cc388mr40791295e9.16.1792142224960;
+        Fri, 16 Oct 2026 02:17:04 -0700 (PDT)
 Received: from debian.tfbnw.net ([2620:10d:c092:400::4:7d8a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4ee183sm3692331f8f.29.2026.10.16.02.16.49
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4ee183sm3692331f8f.29.2026.10.16.02.16.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 02:16:49 -0700 (PDT)
+        Fri, 16 Oct 2026 02:17:00 -0700 (PDT)
 From: Pablo Mazzini <pmazzini@gmail.com>
 To: Andre Przywara <andre.przywara@arm.com>,
 	u-boot@lists.u-boot-project.org
 Cc: Tom Rini <trini@konsulko.com>,
 	linux-sunxi@lists.linux.dev,
 	Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Subject: [PATCH 1/7] sunxi: add support for the Allwinner B288
-Date: Fri, 16 Oct 2026 10:16:02 +0100
-Message-ID: <20261016091608.121842-2-pmazzini@gmail.com>
+Subject: [PATCH 2/7] sunxi: dram: support the Allwinner B288
+Date: Fri, 16 Oct 2026 10:16:03 +0100
+Message-ID: <20261016091608.121842-3-pmazzini@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261016091608.121842-1-pmazzini@gmail.com>
 References: <20261016091608.121842-1-pmazzini@gmail.com>
@@ -78,203 +78,244 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The B288 is a dual Cortex-A7 SoC of the sun8i family, used in e-readers.
-Its memory map follows the H3, but the RTC, CPUCFG and SID sit where the
-A20 has them, and there is no SRAM A2.
+The B288 has the DW controller and PHY of the H3, set up as on the H5.
+Gate training finds its ranks and bus width, as in the vendor code.
 
 Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
 ---
- arch/arm/cpu/armv7/sunxi/psci.c             |  9 +++++++--
- arch/arm/include/asm/arch-sunxi/cpu.h       |  1 +
- arch/arm/include/asm/arch-sunxi/cpu_sun4i.h | 16 +++++++++++++---
- arch/arm/mach-sunxi/Kconfig                 | 13 +++++++++++++
- arch/arm/mach-sunxi/board.c                 |  4 ++++
- arch/arm/mach-sunxi/clock_sun6i.c           |  1 +
- arch/arm/mach-sunxi/cpu_info.c              |  2 ++
- include/sunxi_gpio.h                        |  1 +
- 8 files changed, 42 insertions(+), 5 deletions(-)
+ arch/arm/mach-sunxi/Kconfig         |  1 +
+ arch/arm/mach-sunxi/dram_sunxi_dw.c | 97 +++++++++++++++++++++++++----
+ 2 files changed, 86 insertions(+), 12 deletions(-)
 
-diff --git a/arch/arm/cpu/armv7/sunxi/psci.c b/arch/arm/cpu/armv7/sunxi/psci.c
-index 4c30f3294b7..18a93546f16 100644
---- a/arch/arm/cpu/armv7/sunxi/psci.c
-+++ b/arch/arm/cpu/armv7/sunxi/psci.c
-@@ -53,6 +53,7 @@
-  * CPU state, rather than the older CPUCFG system.
-  */
- #define SUN8I_R528_SOFT_ENTRY			(0x1c8)
-+#define SUN8I_B288_SOFT_ENTRY			(0x1e4)
- #define SUN8I_R528_C0_RST_CTRL			(0x0000)
- #define SUN8I_R528_C0_CTRL_REG0			(0x0010)
- #define SUN8I_R528_C0_CPU_STATUS		(0x0080)
-@@ -126,6 +127,9 @@ static void __secure sunxi_cpu_set_entry(int __always_unused cpu, void *entry)
- 	} else if (IS_ENABLED(CONFIG_MACH_SUN8I_R528)) {
- 		writel((u32)entry,
- 		       SUNXI_R_CPUCFG_BASE + SUN8I_R528_SOFT_ENTRY);
-+	} else if (IS_ENABLED(CONFIG_MACH_SUN8I_B288)) {
-+		/* the B288 BROM takes the secondary entry from the RTC */
-+		writel((u32)entry, SUNXI_RTC_BASE + SUN8I_B288_SOFT_ENTRY);
- 	} else {
- 		writel((u32)entry, SUNXI_CPUCFG_BASE + SUNXI_PRIV0);
- 	}
-@@ -144,8 +148,9 @@ static void __secure sunxi_cpu_set_power(int cpu, bool on)
- 	} else if (IS_ENABLED(CONFIG_MACH_SUN8I_R40)) {
- 		clamp = (void *)SUNXI_CPUCFG_BASE + SUN8I_R40_PWR_CLAMP(cpu);
- 		pwroff = (void *)SUNXI_CPUCFG_BASE + SUN8I_R40_PWROFF;
--	} else if (IS_ENABLED(CONFIG_MACH_SUN8I_R528)) {
--		/* R528 leaves both cores powered up, manages them via reset */
-+	} else if (IS_ENABLED(CONFIG_MACH_SUN8I_R528) ||
-+		   IS_ENABLED(CONFIG_MACH_SUN8I_B288)) {
-+		/* Both leave the cores powered and manage them via reset */
- 		return;
- 	} else {
- 		if (IS_ENABLED(CONFIG_MACH_SUN6I) ||
-diff --git a/arch/arm/include/asm/arch-sunxi/cpu.h b/arch/arm/include/asm/arch-sunxi/cpu.h
-index 768c6572d6b..7515d98959d 100644
---- a/arch/arm/include/asm/arch-sunxi/cpu.h
-+++ b/arch/arm/include/asm/arch-sunxi/cpu.h
-@@ -21,5 +21,6 @@
- #define SOCID_V3S	0x1681
- #define SOCID_H5	0x1718
- #define SOCID_R40	0x1701
-+#define SOCID_B288	0x1699
- 
- #endif /* _SUNXI_CPU_H */
-diff --git a/arch/arm/include/asm/arch-sunxi/cpu_sun4i.h b/arch/arm/include/asm/arch-sunxi/cpu_sun4i.h
-index f023a4cfd93..559544daf58 100644
---- a/arch/arm/include/asm/arch-sunxi/cpu_sun4i.h
-+++ b/arch/arm/include/asm/arch-sunxi/cpu_sun4i.h
-@@ -13,7 +13,8 @@
- 
- #if defined(CONFIG_SUNXI_GEN_SUN6I) && \
-     !defined(CONFIG_MACH_SUN8I_R40) && \
--    !defined(CONFIG_MACH_SUN8I_V3S)
-+    !defined(CONFIG_MACH_SUN8I_V3S) && \
-+    !defined(CONFIG_MACH_SUN8I_B288)
- #define SUNXI_SRAM_A2_BASE		0x00040000
- #ifdef CONFIG_MACH_SUN8I_H3
- #define SUNXI_SRAM_A2_SIZE		(48 * 1024)	/* 16+32 kiB */
-@@ -77,6 +78,9 @@ defined(CONFIG_MACH_SUN50I)
- /* SID address space starts at 0x01c1400, but e-fuse is at offset 0x200 */
- #define SUNXI_SIDC_BASE			0x01c14000
- #define SUNXI_SID_BASE			0x01c14200
-+#elif defined(CONFIG_MACH_SUN8I_B288)
-+/* The H3's SID address, but with the e-fuse at offset 0, as on the A10 */
-+#define SUNXI_SID_BASE			0x01c14000
- #else
- #define SUNXI_SID_BASE			0x01c23800
- #endif
-@@ -86,7 +90,8 @@ defined(CONFIG_MACH_SUN50I)
- #define SUNXI_TP_BASE			0x01c25000
- #define SUNXI_PMU_BASE			0x01c25400
- 
--#if defined CONFIG_MACH_SUN7I || defined CONFIG_MACH_SUN8I_R40
-+#if defined CONFIG_MACH_SUN7I || defined CONFIG_MACH_SUN8I_R40 || \
-+    defined CONFIG_MACH_SUN8I_B288
- #define SUNXI_CPUCFG_BASE		0x01c25c00
- #endif
- 
-@@ -144,12 +149,17 @@ defined(CONFIG_MACH_SUN50I)
- #define SUNXI_HDMI_BASE			0x01ee0000
- #endif
- 
-+#ifdef CONFIG_MACH_SUN8I_B288
-+#define SUNXI_RTC_BASE			0x01c20400
-+#else
- #define SUNXI_RTC_BASE			0x01f00000
-+#endif
- #define SUNXI_PRCM_BASE			0x01f01400
- 
- #if defined CONFIG_SUNXI_GEN_SUN6I && \
-     !defined CONFIG_MACH_SUN8I_A83T && \
--    !defined CONFIG_MACH_SUN8I_R40
-+    !defined CONFIG_MACH_SUN8I_R40 && \
-+    !defined CONFIG_MACH_SUN8I_B288
- #define SUNXI_CPUCFG_BASE		0x01f01c00
- #endif
- 
 diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-index b0c5d3cd903..ed2402f71f2 100644
+index ed2402f71f2..0326c7a976b 100644
 --- a/arch/arm/mach-sunxi/Kconfig
 +++ b/arch/arm/mach-sunxi/Kconfig
-@@ -490,6 +490,18 @@ config MACH_SUN8I_R528
- 	select DRAM_SUN20I_D1
- 	imply OF_UPSTREAM
- 
-+config MACH_SUN8I_B288
-+	bool "sun8i (Allwinner B288)"
-+	select CPU_V7A
-+	select CPU_V7_HAS_NONSEC
-+	select CPU_V7_HAS_VIRT
-+	select ARCH_SUPPORT_PSCI
-+	select SUNXI_GEN_SUN6I
-+	select SUNXI_DRAM_DW
-+	select SUNXI_DRAM_DW_32BIT
-+	select SUPPORT_SPL
-+	imply OF_UPSTREAM
-+
- config MACH_SUN8I_V3S
- 	bool "sun8i (Allwinner V3/V3s/S3/S3L)"
- 	select CPU_V7A
-@@ -579,6 +591,7 @@ config MACH_SUN8I
+@@ -788,6 +788,7 @@ config DRAM_ODT_EN
+ 	depends on !MACH_SUN50I_H616
+ 	depends on !MACH_SUN55I_A523
+ 	default y if MACH_SUN8I_A23
++	default y if MACH_SUN8I_B288
  	default y if MACH_SUNXI_H3_H5
  	default y if MACH_SUN8I_R40
- 	default y if MACH_SUN8I_V3S
-+	default y if MACH_SUN8I_B288
+ 	default y if MACH_SUN50I
+diff --git a/arch/arm/mach-sunxi/dram_sunxi_dw.c b/arch/arm/mach-sunxi/dram_sunxi_dw.c
+index 4ed295909ce..ee96186abc6 100644
+--- a/arch/arm/mach-sunxi/dram_sunxi_dw.c
++++ b/arch/arm/mach-sunxi/dram_sunxi_dw.c
+@@ -21,6 +21,10 @@ static void mctl_phy_init(u32 val)
+ 	struct sunxi_mctl_ctl_reg * const mctl_ctl =
+ 			(struct sunxi_mctl_ctl_reg *)SUNXI_DRAM_CTL0_BASE;
  
- config RESERVE_ALLWINNER_BOOT0_HEADER
- 	bool "reserve space for Allwinner boot0 header"
-diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-index 432b1c10f92..c2b01896da9 100644
---- a/arch/arm/mach-sunxi/board.c
-+++ b/arch/arm/mach-sunxi/board.c
-@@ -153,6 +153,10 @@ static int gpio_init(void)
- 	sunxi_gpio_set_cfgpin(SUNXI_GPB(8), SUN8I_V3S_GPB_UART0);
- 	sunxi_gpio_set_cfgpin(SUNXI_GPB(9), SUN8I_V3S_GPB_UART0);
- 	sunxi_gpio_set_pull(SUNXI_GPB(9), SUNXI_GPIO_PULL_UP);
-+#elif CONFIG_CONS_INDEX == 1 && defined(CONFIG_MACH_SUN8I_B288)
-+	sunxi_gpio_set_cfgpin(SUNXI_GPB(4), SUN8I_B288_GPB_UART0);
-+	sunxi_gpio_set_cfgpin(SUNXI_GPB(5), SUN8I_B288_GPB_UART0);
-+	sunxi_gpio_set_pull(SUNXI_GPB(5), SUNXI_GPIO_PULL_UP);
- #elif CONFIG_CONS_INDEX == 1 && defined(CONFIG_MACH_SUN9I)
- 	sunxi_gpio_set_cfgpin(SUNXI_GPH(12), SUN9I_GPH_UART0);
- 	sunxi_gpio_set_cfgpin(SUNXI_GPH(13), SUN9I_GPH_UART0);
-diff --git a/arch/arm/mach-sunxi/clock_sun6i.c b/arch/arm/mach-sunxi/clock_sun6i.c
-index 657736c7ac2..d8e549a0adb 100644
---- a/arch/arm/mach-sunxi/clock_sun6i.c
-+++ b/arch/arm/mach-sunxi/clock_sun6i.c
-@@ -305,6 +305,7 @@ void clock_set_pll10(unsigned int clk)
++	/* the B288 latches the configuration before triggering */
++	if (IS_ENABLED(CONFIG_MACH_SUN8I_B288))
++		writel(val, &mctl_ctl->pir);
++
+ 	writel(val | PIR_INIT, &mctl_ctl->pir);
+ 	mctl_await_completion(&mctl_ctl->pgsr[0], PGSR_INIT_DONE, 0x1);
+ }
+@@ -48,6 +52,11 @@ static void mctl_set_bit_delays(struct dram_para *para)
+ 	for (i = 0; i < 4; i++)
+ 		writel(0x6 << 24, &mctl_ctl->dx[i].sdlr);
+ #endif
++	if (IS_ENABLED(CONFIG_MACH_SUN8I_B288)) {
++		/* boot0 uses 8 on DX0/DX1 and 6 on DX2/DX3 */
++		for (i = 0; i < 4; i++)
++			writel((i < 2 ? 0x8 : 0x6) << 24, &mctl_ctl->dx[i].sdlr);
++	}
  
- #if defined(CONFIG_MACH_SUN8I_A33) || \
-     defined(CONFIG_MACH_SUN8I_R40) || \
-+    defined(CONFIG_MACH_SUN8I_B288) || \
-     defined(CONFIG_MACH_SUN50I)
- void clock_set_pll11(unsigned int clk, bool sigma_delta_enable)
+ 	setbits_le32(&mctl_ctl->pgcr[0], 1 << 26);
+ }
+@@ -248,9 +257,24 @@ static void mctl_set_master_priority_r40(void)
+ 	MBUS_CONF(UNKNOWN3, true,    HIGH, 0, 1280,  144,   64);
+ }
+ 
++/*
++ * The B288 boot0 only sets the MBUS window timer: it leaves the per-port
++ * table, bwcr and mapr alone, so no master is bandwidth limited.
++ */
++static void mctl_set_master_priority_b288(void)
++{
++	struct sunxi_mctl_com_reg * const mctl_com =
++			(struct sunxi_mctl_com_reg *)SUNXI_DRAM_COM_BASE;
++
++	clrsetbits_le32(&mctl_com->tmr, 0xfff, 399);
++}
++
+ static void mctl_set_master_priority(uint16_t socid)
  {
-diff --git a/arch/arm/mach-sunxi/cpu_info.c b/arch/arm/mach-sunxi/cpu_info.c
-index c3a51d9956e..7c04105ad6d 100644
---- a/arch/arm/mach-sunxi/cpu_info.c
-+++ b/arch/arm/mach-sunxi/cpu_info.c
-@@ -86,6 +86,8 @@ int print_cpuinfo(void)
- 	printf("CPU:   Allwinner A33 (SUN8I %04x)\n", sunxi_get_sram_id());
- #elif defined CONFIG_MACH_SUN8I_A83T
- 	printf("CPU:   Allwinner A83T (SUN8I %04x)\n", sunxi_get_sram_id());
-+#elif defined CONFIG_MACH_SUN8I_B288
-+	printf("CPU:   Allwinner B288 (SUN8I %04x)\n", sunxi_get_sram_id());
- #elif defined CONFIG_MACH_SUN8I_H3
- 	printf("CPU:   Allwinner H3 (SUN8I %04x)\n", sunxi_get_sram_id());
- #elif defined CONFIG_MACH_SUN8I_R40
-diff --git a/include/sunxi_gpio.h b/include/sunxi_gpio.h
-index 12b54c8dda4..ad2bd0470f8 100644
---- a/include/sunxi_gpio.h
-+++ b/include/sunxi_gpio.h
-@@ -116,6 +116,7 @@ enum sunxi_gpio_number {
- #define SUN8I_A33_GPB_UART0	3
- #define SUN8I_A83T_GPB_UART0	2
- #define SUN8I_V3S_GPB_UART0	3
-+#define SUN8I_B288_GPB_UART0	2
- #define SUN50I_GPB_UART0	4
+ 	switch (socid) {
++	case SOCID_B288:
++		mctl_set_master_priority_b288();
++		return;
+ 	case SOCID_H3:
+ 		mctl_set_master_priority_h3();
+ 		return;
+@@ -430,14 +454,15 @@ static void mctl_sys_init(uint16_t socid, struct dram_para *para)
+ 	clrbits_le32(&ccm->ahb_gate0, 1 << AHB_GATE_OFFSET_MCTL);
+ 	clrbits_le32(&ccm->ahb_reset0_cfg, 1 << AHB_RESET_OFFSET_MCTL);
+ 	clrbits_le32(&ccm->pll5_cfg, CCM_PLL5_CTRL_EN);
+-	if (socid == SOCID_A64 || socid == SOCID_R40)
++	if (socid == SOCID_A64 || socid == SOCID_R40 || socid == SOCID_B288)
+ 		clrbits_le32(&ccm->pll11_cfg, CCM_PLL11_CTRL_EN);
+ 	udelay(10);
  
- #define SUNXI_GPC_NAND		2
+ 	clrbits_le32(&ccm->dram_clk_cfg, CCM_DRAMCLK_CFG_RST);
+ 	udelay(1000);
+ 
+-	if (socid == SOCID_A64 || socid == SOCID_R40) {
++	if (socid == SOCID_A64 || socid == SOCID_R40 || socid == SOCID_B288) {
++		/* The B288 feeds the controller from PLL_DDR1 (pll11), too */
+ 		clock_set_pll11(CONFIG_DRAM_CLK * 2 * 1000000, false);
+ 		clrsetbits_le32(&ccm->dram_clk_cfg,
+ 				CCM_DRAMCLK_CFG_DIV_MASK |
+@@ -464,7 +489,8 @@ static void mctl_sys_init(uint16_t socid, struct dram_para *para)
+ 	setbits_le32(&ccm->dram_clk_cfg, CCM_DRAMCLK_CFG_RST);
+ 	udelay(10);
+ 
+-	writel(socid == SOCID_H5 ? 0x8000 : 0xc00e, &mctl_ctl->clken);
++	writel((socid == SOCID_H5 || socid == SOCID_B288) ? 0x8000 : 0xc00e,
++	       &mctl_ctl->clken);
+ 	udelay(500);
+ }
+ 
+@@ -473,6 +499,14 @@ static void mctl_sys_init(uint16_t socid, struct dram_para *para)
+ #define DX_GCR_ODT_ALWAYS_ON	(0x1 << 4)
+ #define DX_GCR_ODT_OFF		(0x2 << 4)
+ 
++static void mctl_set_odtmap(struct dram_para *para)
++{
++	struct sunxi_mctl_ctl_reg * const mctl_ctl =
++			(struct sunxi_mctl_ctl_reg *)SUNXI_DRAM_CTL0_BASE;
++
++	writel(para->dual_rank ? 0x00000303 : 0x00000201, &mctl_ctl->odtmap);
++}
++
+ static int mctl_channel_init(uint16_t socid, struct dram_para *para)
+ {
+ 	struct sunxi_mctl_com_reg * const mctl_com =
+@@ -488,7 +522,7 @@ static int mctl_channel_init(uint16_t socid, struct dram_para *para)
+ 
+ 	/* setting VTC, default disable all VT */
+ 	clrbits_le32(&mctl_ctl->pgcr[0], (1 << 30) | 0x3f);
+-	if (socid == SOCID_H5)
++	if (socid == SOCID_H5 || socid == SOCID_B288)
+ 		setbits_le32(&mctl_ctl->pgcr[1], (1 << 24) | (1 << 26));
+ 	else
+ 		clrsetbits_le32(&mctl_ctl->pgcr[1], 1 << 24, 1 << 26);
+@@ -515,8 +549,9 @@ static int mctl_channel_init(uint16_t socid, struct dram_para *para)
+ 	}
+ 
+ 	/* AC PDR should always ON */
+-	clrsetbits_le32(&mctl_ctl->aciocr, socid == SOCID_H5 ? (0x1 << 11) : 0,
+-			0x1 << 1);
++	clrsetbits_le32(&mctl_ctl->aciocr,
++			(socid == SOCID_H5 || socid == SOCID_B288) ?
++			(0x1 << 11) : 0, 0x1 << 1);
+ 
+ 	/* set DQS auto gating PD mode */
+ 	setbits_le32(&mctl_ctl->pgcr[2], 0x3 << 6);
+@@ -535,7 +570,8 @@ static int mctl_channel_init(uint16_t socid, struct dram_para *para)
+ 		/* dphy & aphy phase select 270 degree */
+ 		clrsetbits_le32(&mctl_ctl->pgcr[2], (0x3 << 10) | (0x3 << 8),
+ 				(0x1 << 10) | (0x1 << 8));
+-	} else if (socid == SOCID_A64 || socid == SOCID_H5) {
++	} else if (socid == SOCID_A64 || socid == SOCID_H5 ||
++		   socid == SOCID_B288) {
+ 		/* dphy & aphy phase select ? */
+ 		clrsetbits_le32(&mctl_ctl->pgcr[2], (0x3 << 10) | (0x3 << 8),
+ 				(0x0 << 10) | (0x3 << 8));
+@@ -572,6 +608,19 @@ static int mctl_channel_init(uint16_t socid, struct dram_para *para)
+ 
+ 		mctl_phy_init(PIR_PLLINIT | PIR_DCAL | PIR_PHYRST |
+ 			      PIR_DRAMRST | PIR_DRAMINIT | PIR_QSGATE);
++	} else if (socid == SOCID_B288) {
++		/* A 24-bit zqcr value, as on the A64; the H3 quirk hangs */
++		clrsetbits_le32(&mctl_ctl->zqcr, 0xffffff, CONFIG_DRAM_ZQ);
++		mctl_set_odtmap(para);
++
++		/* DQS gating mode 1: gate training finds the ranks and lanes */
++		clrbits_le32(&mctl_ctl->pgcr[2], 0x3 << 6);
++		clrbits_le32(&mctl_ctl->dqsgmr, 0x107);
++		/* the vendor's training configuration */
++		clrsetbits_le32(&mctl_ctl->dtcr, 0xffffff, 0x3087);
++		mctl_phy_init(PIR_ZCAL | PIR_PLLINIT | PIR_PHYRST);
++		mctl_phy_init(PIR_DCAL | PIR_DRAMRST | PIR_DRAMINIT |
++			      PIR_QSGATE);
+ 	} else if (socid == SOCID_H3) {
+ 		mctl_h3_zq_calibration_quirk(para);
+ 
+@@ -636,7 +685,7 @@ static int mctl_channel_init(uint16_t socid, struct dram_para *para)
+ 	udelay(10);
+ 
+ 	/* set PGCR3, CKE polarity */
+-	if (socid == SOCID_H3 || socid == SOCID_V3S)
++	if (socid == SOCID_H3 || socid == SOCID_V3S || socid == SOCID_B288)
+ 		writel(0x00aa0060, &mctl_ctl->pgcr[3]);
+ 	else if (socid == SOCID_A64 || socid == SOCID_H5 || socid == SOCID_R40)
+ 		writel(0xc0aa0060, &mctl_ctl->pgcr[3]);
+@@ -822,6 +871,23 @@ static void mctl_auto_detect_dram_size(uint16_t socid, struct dram_para *para)
+ 	   3,  3,  3,  3,  3,  3,  3,  3,			\
+ 	   3,  3,  3,  3,  2,  0,  0      }
+ 
++/* As programmed by the B288 boot0 */
++#define SUN8I_B288_DX_READ_DELAYS				\
++	{{ 16, 17, 18, 19, 18, 19, 19, 19, 16,  0,  0 },	\
++	 { 26, 26, 26, 25, 25, 25, 25, 25, 20,  0,  0 },	\
++	 { 20, 22, 24, 22, 26, 25, 25, 25, 20,  0,  0 },	\
++	 { 21, 21, 21, 20, 20, 19, 19, 19, 18,  0,  0 }}
++#define SUN8I_B288_DX_WRITE_DELAYS				\
++	{{  0,  1,  3,  3,  3,  3,  3,  4,  3, 11,  0 },	\
++	 {  3,  3,  4,  4,  3,  3,  3,  3,  3, 11,  0 },	\
++	 {  0,  3,  3,  1,  6,  6,  5,  6,  3,  9,  0 },	\
++	 {  5,  5,  6,  6,  4,  5,  3,  3,  3,  9,  0 }}
++#define SUN8I_B288_AC_DELAYS					\
++	{  0,  0,  8,  3,  0,  0,  0,  0,			\
++	   0,  0,  0,  0,  0,  0,  0,  0,			\
++	   0,  0,  0,  0,  0,  0,  0,  0,			\
++	   0,  0,  0,  0,  3,  0,  0      }
++
+ unsigned long sunxi_dram_init(void)
+ {
+ 	struct sunxi_mctl_com_reg * const mctl_com =
+@@ -851,6 +917,10 @@ unsigned long sunxi_dram_init(void)
+ 		.dx_read_delays  = SUN8I_H3_DX_READ_DELAYS,
+ 		.dx_write_delays = SUN8I_H3_DX_WRITE_DELAYS,
+ 		.ac_delays	 = SUN8I_H3_AC_DELAYS,
++#elif defined(CONFIG_MACH_SUN8I_B288)
++		.dx_read_delays  = SUN8I_B288_DX_READ_DELAYS,
++		.dx_write_delays = SUN8I_B288_DX_WRITE_DELAYS,
++		.ac_delays	 = SUN8I_B288_AC_DELAYS,
+ #elif defined(CONFIG_MACH_SUN8I_V3S)
+ 		.dx_read_delays  = SUN8I_V3S_DX_READ_DELAYS,
+ 		.dx_write_delays = SUN8I_V3S_DX_WRITE_DELAYS,
+@@ -878,6 +948,8 @@ unsigned long sunxi_dram_init(void)
+ 	uint16_t socid = SOCID_H3;
+ #elif defined(CONFIG_MACH_SUN8I_R40)
+ 	uint16_t socid = SOCID_R40;
++#elif defined(CONFIG_MACH_SUN8I_B288)
++	uint16_t socid = SOCID_B288;
+ #elif defined(CONFIG_MACH_SUN8I_V3S)
+ 	uint16_t socid = SOCID_V3S;
+ #elif defined(CONFIG_MACH_SUN50I)
+@@ -890,12 +962,13 @@ unsigned long sunxi_dram_init(void)
+ 	if (mctl_channel_init(socid, &para))
+ 		return 0;
+ 
+-	if (para.dual_rank)
+-		writel(0x00000303, &mctl_ctl->odtmap);
+-	else
+-		writel(0x00000201, &mctl_ctl->odtmap);
++	mctl_set_odtmap(&para);
+ 	udelay(1);
+ 
++	/* the B288 trains with static DX clocks; dynamic from now on */
++	if (socid == SOCID_B288)
++		clrbits_le32(&mctl_ctl->pgcr[0], (0x3 << 14) | (0x3 << 12));
++
+ 	/* odt delay */
+ 	if (socid == SOCID_H3)
+ 		writel(0x0c000400, &mctl_ctl->odtcfg);
 -- 
 2.52.0
 
