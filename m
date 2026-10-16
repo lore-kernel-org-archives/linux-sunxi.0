@@ -1,71 +1,71 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFF1346A18
-	for <linux-sunxi@lists.linux.dev>; Fri, 16 Oct 2026 03:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353EF39B4AF
+	for <linux-sunxi@lists.linux.dev>; Fri, 16 Oct 2026 03:45:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792122334; cv=none; b=WAexiX68xEqLRzX81c1DxbPBdAp69CvfbKrUsysgykgefV3Ozbw9PsiYaKtZXhSmDLsSUVtErWQ4BUwTyXmLUb+7801S+jA/zKpFGan9BHJZSAQi5Y7Qr8631MCbkRUx9v0369HT41xCcwqzTrFgbtnY4vzbwnV2lb2/PMmBNew=
+	t=1792122336; cv=none; b=MGCYGxfwj+KajF4mhvu17xRhwrszhuDN7LxEvejxMP/j2o3yOkDfEJ7GVwXjppnAUJ03BVQPycPfrv+jC4OPvJ7EICsXjxdYBeTfmiDErY9gjNijiKnwQdvmZ09Y/EOsuHMBv3yfyWpuE+tqj0GgClNg4XzqJaRk60ctbESUpcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792122334; c=relaxed/simple;
-	bh=5swNrnjhpqGxZeyGDlWe9TNZCEAsFDPalqzTOJ3Aefg=;
+	s=arc-20240116; t=1792122336; c=relaxed/simple;
+	bh=rEuLYDr43bv01Uvpdc+7lvdWEzGSSi8n2u7CVCX1ggM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=cNbiaFaVi6AI2duwqmcj7aLvQDiCdMludEgVpXtKHZ+0JYwmdLcw0TRanLtPpg4+hGYDq+wSxSkL9OvSAx4bBQ3D3LiiiZ7pbZFnIJSIDowsmnNgZVKZJBsyjCu6ZtJcyUGA74shm10WmPCL0AssTVt8ATFo5zt6JdyE2cUlvDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=acH64NKi; arc=none smtp.client-ip=209.85.161.45
+	 In-Reply-To:To:Cc; b=cMa6ba74z10UGA2mpiUDPeVt1IHrG6Y2agni+NOe3N2kgirLZhul9UXiXPP6r+CudnfGh8FF29bUhXRjN2OFqpR1io8bDdD/K9MBqyMFegukGZex6TyMHuoKFiGeWN/XJD1arrGcMztk/XtkgbPAzXsYE5ovTT20GXh2K9FLL00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kNDeZj4W; arc=none smtp.client-ip=209.85.210.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="acH64NKi"
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-6b19e291cc6so5523559eaf.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 15 Oct 2026 20:45:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kNDeZj4W"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-823e4047037so4571154a34.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 15 Oct 2026 20:45:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792122331; x=1792727131; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1792122333; x=1792727133; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=hlWVFZs9qMdbAGtAdGz2zNdnsjoirOAt+ztYuqFoEV4=;
-        b=acH64NKiyGVn/ffUblXF4m6JX8cwlQ/OYY/knan+tu/jZZdRuIR1JlPN7lZ8gyEems
-         Qbfh91W/u0m89whCkA+FOIS4rk0lIF8z+NlCYrjG3ulRrwkTnM2vNGMCJ/zq9xbOCrTI
-         on7TUXdHE2DD8jGF6OguLArP/57xY0tAQLvlqwhRuAhWQw6IWm6KomLrSOtksMxBIhMs
-         i0A+37WMx0kObpHke8M2hQfFkL/eN/lirWuIcPhgxl3DDf0UvfetkQgXmXYXo16JcKsN
-         AfKXZ0CjSzs+lr/qTLyH6yc+PWVknsxFriq4alRDvbyzkAIEb0Y1rFxYoTnGfWvEPhwa
-         hDkw==
+        bh=piZMAcnvcZQBNALlEjasAqt9FGU3IFC9Bc/Ax/PGx1o=;
+        b=kNDeZj4W86sVQky2jPxnJPGFzgx48LJyzOKK6lbJWJqnNPpRb689ttpDHJNDDoh0B2
+         JJn0pt1DG3QdH0JHZTTHpzuIhWRy84VVF/1rBKuXQ9iOYoL9iffE2waLNN3eN82YB8yc
+         TjrnoGgmxKj5NM3Vd7HvqXC9xQRHNLBeGy4VpLZQnRv/IubfRBFdscANvt7zyngTJdU4
+         FYLo0YT3spnUnaFvkIDjUkPQsdy0z+8ijCbfDQds0l466GLGfgSBvijC+PfpV7cjVjAR
+         eF3NswwXFeAjmKiUviZi4I8CyLxGF96XLZw+zLq9OQXTrhUzHFFX3lKCmccg+4wTZ2As
+         XoJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792122331; x=1792727131;
+        d=1e100.net; s=20260707; t=1792122333; x=1792727133;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=hlWVFZs9qMdbAGtAdGz2zNdnsjoirOAt+ztYuqFoEV4=;
-        b=Uc1RpmB5qQnj4rXoZZc5P1HZAPBQBHyB8sBkrWUAngBhHKLpOAWbikXWTAkPkawkpJ
-         4jMI8Z4DGW4Pa7FADk0c3HvD+P4Iia1EJag+Mscx6aunOiRxk8StKT97uhPLgIxgSL9H
-         3jA0ZVjNV+gMgiF5XPEDOIBaqhyCl6xYb+xDR3Bvl/TuIOX40zWSRRkRRnbEnaYAEEHF
-         w+Na3MYZWS2rlVHsZMjYj39AH5JjQetg/VhaBlj+hHS7PQyaY9aERY6sOW8nP8itIBch
-         P0CUhMmuq5yPazWE3VuwaWQ0UwTRYPo1IVAxZQiPOBR3yhw+w7HocJikKKk0c/IxK4Ya
-         iXqQ==
-X-Forwarded-Encrypted: i=1; AKwUvByT8LddxzDHyIR7r7cUpFv52cm6JZ0Xw0jGSMgPVsz8ON5632ToPcAratlSbOLUj8F7whbBGwRHrUC1NQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJ5i6gDEgvmPlIMKZVSScrTMagXqeMjrHToU0laOl8lr4GWGyAP
-	4ujD9vdXh8KysuNxqD6XvRjALAf9ruIhZioLkbCBOpD5sX5F5gQBO09I
-X-Gm-Gg: AYBFou0Oq9vuKc4N7g4hw2Cm1kvussFAesV/GdRp9XWzPybNnvugi343ZVrskCqfVfj
-	mOtcLW4Oz7A1d54kMcHus/YfEoVIirEzxwIPs3Cs6XzOsvrepQ6EKaCcelfNH+5VKCc1yGAlXd+
-	uPjYlShOlm1w6h9C2grysHdHHV7NIn4GH622s85JxtuaXyW8E0epqBMiB7zAJ1vzB1QjGP3+UzM
-	4dVzZ7Y3QiOfLplL4FTx+q1cXNU6052WfnRMKVbVji6u14vAHCr2sKI+r3AIKm4wCuW2pF22XYt
-	54bnmeaES/tFleEqhCXjMEPFxSh+gtE+azyqIPQNwCroI9yRn+gc0Sk1OhIRqpfbO44GPh0ZW9t
-	6ZIkTfM2YCU1NGppT0PQVjgqgL3r9k/aoLptxjk0na12WgrjSDJ5j1aaYTOGd1SzdtK9u+8+9IT
-	syD9HDEpeOfyszgBIFZEltkGrxsA1+CYmBq6l71H+j1bOeqTyMXG/bftq0DyDkQsRm3w5AmC6bZ
-	W+I6O7MsMgQ4Mm1s5JZNvhAVSBHU7gNpiv3/8Iwa0iDrujzgMM9QVFSJkFFUTMyNWV+Papz9vX7
-	e8mMf2BRXrEE89gG/qQB7wZbM/9d9Myq0zEkMtg4doqVRQiKlnECsI4ysHPgBdKZUDa+i7JuxVy
-	QTLKuFtVRF16JCkwvvkfCVw==
-X-Received: by 2002:a05:6820:1503:b0:6d7:cd0c:752a with SMTP id 006d021491bc7-6ef0faaa6f2mr17901293eaf.54.1792122331029;
-        Thu, 15 Oct 2026 20:45:31 -0700 (PDT)
+        bh=piZMAcnvcZQBNALlEjasAqt9FGU3IFC9Bc/Ax/PGx1o=;
+        b=pmOFQC8XjhpVSua0B2ZTYdLwGqdUNwNsRJY8mt9i8VFYyGquBGMgdMM9YPVd+4yAA4
+         7qbI6cgqmGZozRTseclmyRBY9cnvHb4KJDvtMKe50hKhmFBHcuU6n6/AeFvrBl+WUIJC
+         IPC1ztqGpjlMy2U7I2pXbBhXTEGMhw4GjIC2f3+QuBWIvSg14E2hNRlVVw4Sv5zleS3A
+         uXsXQ4COm156TBNmZ/p58LvrBUzUMUX5bZKc8blK5uoYDBnt948ELyT9uPw9JWUJxTpA
+         Qh22De1nfCC8M20LfkVAXhL3wI0RRZ862NE2PzIZ8JGFqls+OhUgMIsRjNaNt+VK5uEo
+         1k9A==
+X-Forwarded-Encrypted: i=1; AKwUvBxwlKhNOiPpXUo40x9KDqO9MGuFrNRywckuClaNSvFufBIDjcWutREPOcD1srN8jILFts+UPTCt62T/QQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIf689jieMNG0WRAjfa0OdIZeAOYWU//T+uDxSEV1d993JVi60Q
+	xnanA+D0fC5cWrJJzeTR6cApFIjiKAGLTFVGJNZ59OcLHRNFIdVP82fy
+X-Gm-Gg: AYBFou2TUV2T1naOzLFQRiZ4OwpIIfBIaxXiidozL3wnMSzq4z2pxD9u97x1APUkDd+
+	Yce1n6NBhSo9laMP/yhIyVy9jsNhIW3Z3cu/SZYFamuGCynDM5k4k77AmuPiTfDMsqdAKZmqmHb
+	WMhpkdvNwAznPuQ8qDIT6AwrNXM/DqPREVyyyCsn6w9YO3H45ZG8wjsedSxoi4a6G87P8fjzUcR
+	/Fhn7iBKiaEx8fhp3wcN4zKd2rHEPNaK92z52Q0uZvVNdQTe/Ey5l8rVP+Ou1BSyzOm2xuPq/f9
+	RTYVd+BNPQhn7DqWHmqQEJbi45h9IUzNtVqmErigj591LkIbi/hBXxkabfONwTZbzfnpOxWOuyC
+	VjwJMclNwmO1Wpt6R3HCvvxmmIeWjR/8XvzIX5nS3Cheu2Greflp01nEApV2AazSGlf5bFMptRa
+	CagTg8TM3y9LLKPlmw6/7aThOTlPxaM7H86ytxRJN+SFxrOQuZJC5vrSXGO7lWVGpavgw4WzMV5
+	CEhg97Gd6Dn/yoIc7QbJ2xG5AvseN/2Fw025XDOh59Eri7mLIGz8qdPwf+ur6s8irxuXw98Ayfb
+	dtuM40rZ3dm4/G+fpYes+iQ4Xu3JFPsBqZaXSO71oIB6ptIy3aNvpJBHbXmGG2kj1qLS75yPQzg
+	OigQ+v5ImY+smjk8XhUy/EpNGHDxepKUd
+X-Received: by 2002:a05:6830:270d:b0:80c:d34f:5f63 with SMTP id 46e09a7af769-8309814be28mr19957456a34.28.1792122332994;
+        Thu, 15 Oct 2026 20:45:32 -0700 (PDT)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-8429b57870fsm834402a34.0.2026.10.15.20.45.29
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-8429b57870fsm834402a34.0.2026.10.15.20.45.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 20:45:30 -0700 (PDT)
+        Thu, 15 Oct 2026 20:45:32 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Thu, 15 Oct 2026 21:45:18 -0600
-Subject: [PATCH v8 03/17] mtd: rawnand: sunxi: propagate page-setup and
- erased-check errors
+Date: Thu, 15 Oct 2026 21:45:19 -0600
+Subject: [PATCH v8 04/17] mtd: rawnand: sunxi: drain interrupts before
+ reusing the completion
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,7 +74,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261015-submit-sunxi-nand-vendor-oob-layout-v1-v8-3-8ba4881fbee8@gmail.com>
+Message-Id: <20261015-submit-sunxi-nand-vendor-oob-layout-v1-v8-4-8ba4881fbee8@gmail.com>
 References: <20261015-submit-sunxi-nand-vendor-oob-layout-v1-v8-0-8ba4881fbee8@gmail.com>
 In-Reply-To: <20261015-submit-sunxi-nand-vendor-oob-layout-v1-v8-0-8ba4881fbee8@gmail.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>, 
@@ -95,179 +95,165 @@ Cc: Chen-Yu Tsai <wens@kernel.org>,
  devicetree@vger.kernel.org, James Hilliard <james.hilliard1@gmail.com>
 X-Mailer: b4 0.15.2
 
-The ECC read callbacks ignore nand_read_page_op() failures. A command or
-ready timeout can therefore leave the requested page unselected, yet the
-driver continues with data transfers and can report success for stale
-data. Return the setup error before starting PIO or DMA.
+The controller uses one completion for successive interrupt-driven
+waits. Some transfers wait for both command completion and DMA
+completion. The handler acknowledges each event and masks it, leaving
+any outstanding event enabled; it calls complete() when all requested
+events have arrived.
 
-After an ECC error, the driver rereads the physical data and OOB with
-randomization disabled to distinguish an erased chunk from corrupt data.
-Those rereads can also fail. Do not pass stale buffers to
-nand_check_erased_ecc_chunk() or count a transport failure as an ECC
-result: return the reread error instead. Successful erased checks retain
-their existing statistics and correction-count behavior.
+sunxi_nfc_interrupt() currently calls complete() before updating those
+registers. A successful waiter can wake on another CPU and start the
+next operation before the old handler acknowledges status or rewrites
+the mask. Move complete() after those updates so waking the waiter
+cannot precede the handler's last controller access.
 
-Route PIO read errors through ECC disable. DMA has already released its
-transfer resources before interpreting the results, and its caller
-retries a failed read in PIO. Restore the corrected/failed counters from
-before that DMA attempt so earlier steps are not counted again by the
-retry; leave bad-block counters unchanged.
+A timeout also needs to exclude an unfinished handler. With PREEMPT_RT,
+the flags-zero IRQ request is forced threaded. Near the timeout
+boundary, that thread can be preempted after reading status and enable
+bits while the waiter times out, clears the device mask and rearms the
+next wait. The saved snapshot can then restore an obsolete
+remaining-event mask or, if it satisfies the old wait, complete the new
+wait. Masking the device does not invalidate the running handler's local
+values. Repeating init_completion() can also reset its waitqueue lock
+during complete(). This lifetime problem was identified by code
+inspection during review.
 
-These unchecked returns were found by inspecting the read callbacks and
-their NAND-operation helpers.
+Initialize the completion once in probe and use reinit_completion() for
+each wait. On timeout, call disable_irq() before clearing controller
+state so existing handling finishes and no new handler can enter during
+cleanup.
 
-Fixes: 97d90da8a886 ("mtd: nand: provide several helpers to do common NAND operations")
-Fixes: 25f815f66a14 ("mtd: nand: force drivers to explicitly send READ/PROG commands")
+The hardware may have finished before the delayed handler runs, or the
+handler may complete the wait while disable_irq() drains it. Recheck
+status against the remaining enabled events before clearing either
+register. Events already acknowledged by the handler no longer appear
+in that mask; if none remain, the wait has completed. This also handles
+command and DMA events arriving separately without requiring an
+already acknowledged status bit to be set again.
+
+Then mask and acknowledge the events, read back the mask to flush those
+writes, and re-enable the IRQ line even if the recheck changed the
+timeout to success. Keep partial-event handling in the IRQ handler and
+leave polling and controller/DMA abort handling unchanged.
+
+This keeps additional synchronization on the timeout path, without a
+driver lock in every interrupt and wait. The caller can sleep, this IRQ
+is not registered as shared, and the handler does not acquire the
+controller mutex held by the caller. The tradeoff is unbounded cleanup
+latency and no priority inheritance: a starved IRQ thread can prevent
+timeout cleanup from returning and block other operations on the
+controller. This is a handler-lifetime boundary, not an RT
+recovery-latency guarantee.
+
+Fixes: 1fef62c1423b ("mtd: nand: add sunxi NAND flash controller support")
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- drivers/mtd/nand/raw/sunxi_nand.c | 56 ++++++++++++++++++++++++++++++---------
- 1 file changed, 44 insertions(+), 12 deletions(-)
+ drivers/mtd/nand/raw/sunxi_nand.c | 35 ++++++++++++++++++++++++++++-------
+ 1 file changed, 28 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
-index c2e97b8656f7..6c0d3e2d2be2 100644
+index 6c0d3e2d2be2..f7ddd4116bf4 100644
 --- a/drivers/mtd/nand/raw/sunxi_nand.c
 +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-@@ -1030,7 +1030,10 @@ static void sunxi_nfc_hw_ecc_update_stats(struct nand_chip *nand,
- 	}
+@@ -393,6 +393,7 @@ struct sunxi_nfc_caps {
+  * @chips: a list containing all the NAND chips attached to this NAND
+  *	   controller
+  * @complete: a completion object used to wait for NAND controller events
++ * @irq: NAND controller interrupt
+  * @dmac: the DMA channel attached to the NAND controller
+  * @use_mdma: use an internal MBUS DMA backend
+  * @mdma_desc: H6-style MBUS DMA descriptor
+@@ -412,6 +413,7 @@ struct sunxi_nfc {
+ 	unsigned long clk_rate;
+ 	struct list_head chips;
+ 	struct completion complete;
++	int irq;
+ 	struct dma_chan *dmac;
+ 	bool use_mdma;
+ 	struct sunxi_nfc_mdma_desc *mdma_desc;
+@@ -433,18 +435,20 @@ static irqreturn_t sunxi_nfc_interrupt(int irq, void *dev_id)
+ 	if (!(ien & st))
+ 		return IRQ_NONE;
+ 
+-	if ((ien & st) == ien)
+-		complete(&nfc->complete);
+-
++	/* Finish updating the interrupt state before waking the next operation. */
+ 	writel(st & NFC_INT_MASK, nfc->regs + NFC_REG_ST);
+ 	writel(~st & ien & NFC_INT_MASK, nfc->regs + NFC_REG_INT);
+ 
++	if ((ien & st) == ien)
++		complete(&nfc->complete);
++
+ 	return IRQ_HANDLED;
  }
  
--/* Return whether the chunk is erased, and account for its ECC result. */
-+/*
-+ * Return 1 for an erased chunk or 0 for an uncorrectable chunk, with ECC
-+ * statistics updated in either case. Negative values report transport errors.
-+ */
- static int sunxi_nfc_hw_ecc_read_error(struct nand_chip *nand,
- 				       u8 *data, int data_off,
- 				       u8 *oob, int oob_off,
-@@ -1042,10 +1045,16 @@ static int sunxi_nfc_hw_ecc_read_error(struct nand_chip *nand,
+ static int sunxi_nfc_wait_events(struct sunxi_nfc *nfc, u32 events,
+ 				 bool use_polling, unsigned int timeout_ms)
+ {
++	bool irq_disabled = false;
  	int ret;
  
- 	/* Check the physical representation for bitflips in erased pages. */
--	if (nand->options & NAND_NEED_SCRAMBLING)
--		nand_change_read_column_op(nand, data_off, data, ecc->size, false);
-+	if (nand->options & NAND_NEED_SCRAMBLING) {
-+		ret = nand_change_read_column_op(nand, data_off, data,
-+						 ecc->size, false);
-+		if (ret)
-+			return ret;
+ 	if (events & ~NFC_INT_MASK)
+@@ -454,16 +458,25 @@ static int sunxi_nfc_wait_events(struct sunxi_nfc *nfc, u32 events,
+ 		timeout_ms = NFC_DEFAULT_TIMEOUT_MS;
+ 
+ 	if (!use_polling) {
+-		init_completion(&nfc->complete);
++		reinit_completion(&nfc->complete);
+ 
+ 		writel(events, nfc->regs + NFC_REG_INT);
+ 
+ 		ret = wait_for_completion_timeout(&nfc->complete,
+ 						msecs_to_jiffies(timeout_ms));
+-		if (!ret)
+-			ret = -ETIMEDOUT;
+-		else
++		if (!ret) {
++			u32 pending, status;
++
++			/* Drain the handler before it can restore an old IRQ mask. */
++			disable_irq(nfc->irq);
++			irq_disabled = true;
++			/* The handler removes acknowledged events from the mask. */
++			pending = readl(nfc->regs + NFC_REG_INT) & events;
++			status = readl(nfc->regs + NFC_REG_ST);
++			ret = (status & pending) == pending ? 0 : -ETIMEDOUT;
++		} else {
+ 			ret = 0;
++		}
+ 
+ 		writel(0, nfc->regs + NFC_REG_INT);
+ 	} else {
+@@ -476,6 +489,12 @@ static int sunxi_nfc_wait_events(struct sunxi_nfc *nfc, u32 events,
+ 
+ 	writel(events & NFC_INT_MASK, nfc->regs + NFC_REG_ST);
+ 
++	if (irq_disabled) {
++		/* Flush the mask and acknowledgment before re-enabling the IRQ. */
++		readl(nfc->regs + NFC_REG_INT);
++		enable_irq(nfc->irq);
 +	}
- 
--	nand_change_read_column_op(nand, oob_off, oob, oob_len, false);
-+	ret = nand_change_read_column_op(nand, oob_off, oob, oob_len, false);
-+	if (ret)
-+		return ret;
- 
- 	ret = nand_check_erased_ecc_chunk(data, ecc->size, oob, oob_len, NULL, 0,
- 					  ecc->strength);
-@@ -1308,6 +1317,7 @@ static int sunxi_nfc_hw_ecc_read_chunks_dma(struct nand_chip *nand, u8 *buf,
- {
- 	struct sunxi_nand_chip *sunxi_nand = to_sunxi_nand(nand);
- 	struct sunxi_nfc *nfc = to_sunxi_nfc(nand->controller);
-+	struct mtd_info *mtd = nand_to_mtd(nand);
- 	struct nand_ecc_ctrl *ecc = &nand->ecc;
- 	struct sunxi_nfc_ecc_read read = {
- 		.buf = buf,
-@@ -1315,6 +1325,8 @@ static int sunxi_nfc_hw_ecc_read_chunks_dma(struct nand_chip *nand, u8 *buf,
- 		.oob_required = oob_required,
- 		.dma = true,
- 	};
-+	unsigned int corrected = mtd->ecc_stats.corrected;
-+	unsigned int failed = mtd->ecc_stats.failed;
- 	struct scatterlist sg;
- 	int ret, i;
- 	u32 status, pattern_found, wait;
-@@ -1366,9 +1378,19 @@ static int sunxi_nfc_hw_ecc_read_chunks_dma(struct nand_chip *nand, u8 *buf,
- 	ret = sunxi_nand->oob_ops->read_batch(nand, &read, status, pattern_found,
- 					    0, nchunks);
++
  	if (ret)
--		return ret;
-+		goto err_stats;
-+
-+	ret = sunxi_nand->oob_ops->finish_read(nand, &read, NULL);
-+	if (ret < 0)
-+		goto err_stats;
-+
-+	return ret;
+ 		dev_err(nfc->dev, "wait interrupt timedout\n");
  
--	return sunxi_nand->oob_ops->finish_read(nand, &read, NULL);
-+err_stats:
-+	/* The caller retries the whole read in PIO mode. */
-+	mtd->ecc_stats.corrected = corrected;
-+	mtd->ecc_stats.failed = failed;
-+	return ret;
- }
+@@ -2650,6 +2669,7 @@ static int sunxi_nfc_probe(struct platform_device *pdev)
+ 	nfc->dev = dev;
+ 	nand_controller_init(&nfc->controller);
+ 	INIT_LIST_HEAD(&nfc->chips);
++	init_completion(&nfc->complete);
  
- static int sunxi_nfc_hw_ecc_write_chunk(struct nand_chip *nand,
-@@ -1456,7 +1478,9 @@ static int sunxi_nfc_hw_ecc_read_page(struct nand_chip *nand, uint8_t *buf,
+ 	nfc->regs = devm_platform_get_and_ioremap_resource(pdev, 0, &r);
+ 	if (IS_ERR(nfc->regs))
+@@ -2658,6 +2678,7 @@ static int sunxi_nfc_probe(struct platform_device *pdev)
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0)
+ 		return irq;
++	nfc->irq = irq;
  
- 	sunxi_nfc_select_chip(nand, nand->cur_cs);
- 
--	nand_read_page_op(nand, page, 0, NULL, 0);
-+	ret = nand_read_page_op(nand, page, 0, NULL, 0);
-+	if (ret)
-+		return ret;
- 
- 	sunxi_nfc_hw_ecc_enable(nand);
- 
-@@ -1464,10 +1488,11 @@ static int sunxi_nfc_hw_ecc_read_page(struct nand_chip *nand, uint8_t *buf,
- 	for (i = 0; i < ecc->steps; i++) {
- 		ret = sunxi_nfc_hw_ecc_read_chunk(nand, &read, i, &cur_off);
- 		if (ret < 0)
--			return ret;
-+			goto out;
- 	}
- 
- 	ret = sunxi_nand->oob_ops->finish_read(nand, &read, &cur_off);
-+out:
- 	sunxi_nfc_hw_ecc_disable(nand);
- 
- 	return ret;
-@@ -1480,7 +1505,9 @@ static int sunxi_nfc_hw_ecc_read_page_dma(struct nand_chip *nand, u8 *buf,
- 
- 	sunxi_nfc_select_chip(nand, nand->cur_cs);
- 
--	nand_read_page_op(nand, page, 0, NULL, 0);
-+	ret = nand_read_page_op(nand, page, 0, NULL, 0);
-+	if (ret)
-+		return ret;
- 
- 	ret = sunxi_nfc_hw_ecc_read_chunks_dma(nand, buf, oob_required, page,
- 					       nand->ecc.steps);
-@@ -1505,7 +1532,9 @@ static int sunxi_nfc_hw_ecc_read_subpage(struct nand_chip *nand,
- 
- 	sunxi_nfc_select_chip(nand, nand->cur_cs);
- 
--	nand_read_page_op(nand, page, 0, NULL, 0);
-+	ret = nand_read_page_op(nand, page, 0, NULL, 0);
-+	if (ret)
-+		return ret;
- 
- 	sunxi_nfc_hw_ecc_enable(nand);
- 
-@@ -1514,10 +1543,11 @@ static int sunxi_nfc_hw_ecc_read_subpage(struct nand_chip *nand,
- 	     i < DIV_ROUND_UP(data_offs + readlen, ecc->size); i++) {
- 		ret = sunxi_nfc_hw_ecc_read_chunk(nand, &read, i, &cur_off);
- 		if (ret < 0)
--			return ret;
-+			goto out;
- 	}
- 
- 	ret = read.max_bitflips;
-+out:
- 	sunxi_nfc_hw_ecc_disable(nand);
- 
- 	return ret;
-@@ -1532,7 +1562,9 @@ static int sunxi_nfc_hw_ecc_read_subpage_dma(struct nand_chip *nand,
- 
- 	sunxi_nfc_select_chip(nand, nand->cur_cs);
- 
--	nand_read_page_op(nand, page, 0, NULL, 0);
-+	ret = nand_read_page_op(nand, page, 0, NULL, 0);
-+	if (ret)
-+		return ret;
- 
- 	ret = sunxi_nfc_hw_ecc_read_chunks_dma(nand, buf, false, page, nchunks);
- 	if (ret >= 0)
+ 	nfc->caps = of_device_get_match_data(dev);
+ 	if (!nfc->caps)
 
 -- 
 2.53.0
