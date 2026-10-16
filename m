@@ -1,130 +1,154 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FBA1EB1AA
-	for <linux-sunxi@lists.linux.dev>; Fri, 16 Oct 2026 11:47:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC0E49A3C2
+	for <linux-sunxi@lists.linux.dev>; Fri, 16 Oct 2026 12:35:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792151260; cv=none; b=iBov4CzgBv0H48kuHAS/ffbjIJJ5GOFGo8lcGzM2g9VCZRwgx3/JaIlVWICjgtM7k+5wzJxB3ebSS+keWXbr7SbVXzEPZllcT+5oXNJQa7bS6wbaUAhyI7jbSYfS2pDBLuIcwNMDkrxPkj1j+TWxTNvCZchZp7T10fQwoBXjRuU=
+	t=1792154163; cv=none; b=jn4EGmxqdF+3SGNA03iQxLIse4spfSt7cytvGd+AcJJ22zq2kHRNnBZOkwoz2JqZgklE7YkscRbm2yUWQaCDsagY9KZIZqGhQoXgiJUYkDfUfEf76Z6qFJruznOxmjp2622cVYapZgGv/BJc9KEqIh2FZ/Jsukx6SoOyQu+sdvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792151260; c=relaxed/simple;
-	bh=BYaSOzUomSuydhvlNihLqd+YPezWxkY82osHZM7wmrY=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=Oqb9kqVTOKqfuqlz5gJHBfv5Lqn5YZ7hKDbVrnkgXDPRlKPyLaY7ET41nPRULyZg1NiE1aok7WrXUSqeJ0WBYfitv83CmhZm/UvbY8eKILER6EsmzsYuk/8l7H1b7dbjS1iU+krVXpfN7AGTLwOSXl1c2cC2FGgeEoSK9koA/pQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O3InK1bq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792154163; c=relaxed/simple;
+	bh=x1FsBrPCSkdZJtG+HdqZMYtb7qe84QtVBUwI7EaPUHw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EaOPnG4WK8/Z7STBNhv3UJdJI2kJQqYkSZpKi8Znx/LrO8BB5sf0TfnJn5vw/vdv1hxMiukFV/nIcyYgi8ZxD0oE6hrNC1FboGZGTpiswDKs+N6/LvhQ+jEl4NEm91KyJcCRMTb2egjNH7CAx4s8YYriKrxD7T1dUBa0TmnkSOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lG6tifYO; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O3InK1bq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6E4C1F000C4;
-	Fri, 16 Oct 2026 11:47:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lG6tifYO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D2911F000C4;
+	Fri, 16 Oct 2026 12:35:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792151259;
-	bh=RSbmLgg4YfH5mF6pTMPPJd7h59XepvR4Zi+UMJU3DVE=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=O3InK1bqSZdQ+YnoIIIh3KdpvLS8G85B36JwkQVEzqYZGuzgGxuei6UfuALGKOpP/
-	 KO5/1BlGe/vKqlmz48TIePRpZAO6/4sX32YqscJUypTT12W6xklZvaSAMvYec/5aCu
-	 cnCL+ty6/7vv2Tc5aBcvyAChLPEG/TTHVxVHcjLcj20+C9bAVjOR40Ks7usOyak1wa
-	 nKO5DmQ+hjuFeRs58hjm6DE+w7HPAY26/MoBKzZUFu8g98XZNLuwnOXBE0uNCCzetJ
-	 sMRCGabeV5yyfx7t8X+8HGzre4nnBDwZae7B/3AUGqjGsxCfWLQlI5Sj2LWIs+8vmt
-	 cJnoe1gixBF2g==
-Message-ID: <sashiko-outbox-174251@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v1 1/3] media: sun6i-csi: capture: Align size to 16 for
- NV12_16L16
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Arash Golgol" <arash.golgol@gmail.com>, linux-sunxi@lists.linux.dev
-Cc: media-ci@linuxtv.org
-In-Reply-To: <20261016113846.8602-2-arash.golgol@gmail.com>
-References: <20261016113846.8602-1-arash.golgol@gmail.com>
- <20261016113846.8602-2-arash.golgol@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Oct 2026 11:47:38 +0000
+	s=k20260515; t=1792154157;
+	bh=K5ujFTPNI8d5JuoGTXJQu2ch1Jer/YBRO4cp15Sdgus=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lG6tifYOh0hiaMRrjZ+4kvFGvg/AC/9H8e5J+neAbbWsfzNugPRd7OVLLfExYahqb
+	 86RGR5ufsE5WVew218k2GvQk7YjDSVXX+agN//lFon5UvI2+z4y5o4PPzsYaHN3Xy+
+	 iZi4RFuGMtYiPIcTSD1OQtr/C+2nTncjFIRpyNdNE0wLbtN5GSX20EfOiAEx9AbpYX
+	 w5fbmpdF0T3OwqCZBiNYGmYiazIrKzTdZmSPoEJDcTbJNoEjQIw/IzxFrpHXGyAOPs
+	 wq6EZWdVr8EQ9G2nLqgS7swNZMwrHwF/EZVRJvBNjNikea58vqgyngB7xmOvzxlTlq
+	 Eiy1bzmmnQNIg==
+Date: Fri, 16 Oct 2026 14:35:54 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, dri-devel@lists.freedesktop.org, Chen-Yu Tsai <wens@kernel.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 56/75] drm/atomic-state-helper: Rename connector_tv_reset
+ to state_init
+Message-ID: <atIaBCZtyGIZHanm@houat>
+References: <20261014-drm-no-more-connector-reset-v1-0-586c9c026823@kernel.org>
+ <20261014-drm-no-more-connector-reset-v1-56-586c9c026823@kernel.org>
+ <1ae560be-63a2-425e-bd47-ed279448eeec@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="ag4zz2wpi4nkqtta"
+Content-Disposition: inline
+In-Reply-To: <1ae560be-63a2-425e-bd47-ed279448eeec@igalia.com>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] media: sun6i-csi: incorrect bytesperline for NV12_16L16 format
---
 
-commit 476de016f26cd243aac004fdf752c97c70ae693b
-Author: Arash Golgol <arash.golgol@gmail.com>
+--ag4zz2wpi4nkqtta
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 56/75] drm/atomic-state-helper: Rename connector_tv_reset
+ to state_init
+MIME-Version: 1.0
 
-    media: sun6i-csi: capture: Align size to 16 for NV12_16L16
+Hi Ma=EDra,
 
-This commit introduces alignment handling specific to pixel formats in the
-sun6i-csi capture driver. It sets the required alignment based on the format
-and applies it during format preparation.
+On Thu, Oct 15, 2026 at 07:56:05AM -0300, Ma=EDra Canal wrote:
+> Hi Maxime,
+>=20
+> On 14/10/26 14:27, Maxime Ripard wrote:
+> > Recent commits renamed other reset helpers to use the state_init
+> > suffix when they only initialize properties rather than allocate or
+> > update the object state itself.
+> >=20
+> > drm_atomic_helper_connector_tv_reset() falls in the same category:
+> > it initializes the analog TV properties from the kernel command line
+> > defaults without allocating any state. It also reads the connector
+> > state through connector->state, coupling it to the reset path.
+> >=20
+> > Rename it to drm_atomic_helper_connector_tv_state_init() and pass
+> > the connector state explicitly as a parameter. This decouples it
+> > from the reset hook and prepares for the conversion to
+> > atomic_create_state where connector->state is not yet assigned.
+> >=20
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> > Cc: "Ma=EDra Canal" <mcanal@igalia.com>
+> > Cc: Chen-Yu Tsai <wens@kernel.org>
+> > Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> > Cc: Samuel Holland <samuel@sholland.org>
+> > Cc: linux-sunxi@lists.linux.dev
+> > ---
+> >   drivers/gpu/drm/drm_atomic_state_helper.c | 11 ++++++-----
+> >   drivers/gpu/drm/sun4i/sun4i_tv.c          |  2 +-
+> >   drivers/gpu/drm/vc4/vc4_vec.c             |  2 +-
+> >   include/drm/drm_atomic_state_helper.h     |  3 ++-
+> >   4 files changed, 10 insertions(+), 8 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/dr=
+m/drm_atomic_state_helper.c
+> > index 6238066fd5d6..1424c4873251 100644
+> > --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> > +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> > @@ -499,20 +499,21 @@ void drm_atomic_helper_connector_tv_margins_state=
+_init(struct drm_connector_stat
+> >   	state->tv.margins.bottom =3D cmdline->tv_margins.bottom;
+> >   }
+> >   EXPORT_SYMBOL(drm_atomic_helper_connector_tv_margins_state_init);
+> >   /**
+> > - * drm_atomic_helper_connector_tv_reset - Resets Analog TV connector p=
+roperties
+> > + * drm_atomic_helper_connector_tv_state_init - Initializes Analog TV c=
+onnector properties
+> > + * @state: the DRM State object
+> >    * @connector: DRM connector
+> >    *
+> > - * Resets the analog TV properties attached to a connector
+> > + * Initializes the analog TV properties attached to a connector
+> >    */
+> > -void drm_atomic_helper_connector_tv_reset(struct drm_connector *connec=
+tor)
+> > +void drm_atomic_helper_connector_tv_state_init(struct drm_connector_st=
+ate *state,
+> > +					       struct drm_connector *connector)
+> >   {
+> >   	struct drm_device *dev =3D connector->dev;
+> >   	struct drm_cmdline_mode *cmdline =3D &connector->cmdline_mode;
+> > -	struct drm_connector_state *state =3D connector->state;
+> >   	struct drm_property *prop;
+> >   	uint64_t val;
+> >   	prop =3D dev->mode_config.tv_mode_property;
+> >   	if (prop)
+> > @@ -572,11 +573,11 @@ void drm_atomic_helper_connector_tv_reset(struct =
+drm_connector *connector)
+> >   			state->tv.hue =3D val;
+> >   	drm_atomic_helper_connector_tv_margins_state_init(connector->state,
+>=20
+> Shouldn't it be s/connector->state/state here?
 
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b=
-/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> index d90abba213098..f55edfd0b174a 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+Yes, it should be. It's going to be fixed in the next version, thanks!
+Maxime
 
-[ ... ]
+--ag4zz2wpi4nkqtta
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> @@ -665,17 +671,19 @@ static void sun6i_csi_capture_format_prepare(struct=
- v4l2_format *format)
->  {
->  	struct v4l2_pix_format *pix_format =3D &format->fmt.pix;
->  	const struct v4l2_format_info *info;
-> -	unsigned int width, height;
-> -
-> -	v4l_bound_align_image(&pix_format->width, SUN6I_CSI_CAPTURE_WIDTH_MIN,
-> -			      SUN6I_CSI_CAPTURE_WIDTH_MAX, 1,
-> -			      &pix_format->height, SUN6I_CSI_CAPTURE_HEIGHT_MIN,
-> -			      SUN6I_CSI_CAPTURE_HEIGHT_MAX, 1, 0);
-> +	unsigned int width, height, align;
-> =20
->  	if (!sun6i_csi_capture_format_find(pix_format->pixelformat))
->  		pix_format->pixelformat =3D
->  			sun6i_csi_capture_formats[0].pixelformat;
-> =20
-> +	align =3D sun6i_csi_capture_format_align(pix_format->pixelformat);
-> +
-> +	v4l_bound_align_image(&pix_format->width, SUN6I_CSI_CAPTURE_WIDTH_MIN,
-> +			      SUN6I_CSI_CAPTURE_WIDTH_MAX, align,
-> +			      &pix_format->height, SUN6I_CSI_CAPTURE_HEIGHT_MIN,
-> +			      SUN6I_CSI_CAPTURE_HEIGHT_MAX, align, 0);
-> +
->  	width =3D pix_format->width;
->  	height =3D pix_format->height;
->
-> 	info =3D v4l2_format_info(pix_format->pixelformat);
->
-> 	switch (pix_format->pixelformat) {
-> 	case V4L2_PIX_FMT_NV12_16L16:
-> 		pix_format->bytesperline =3D width * 12 / 8;
+-----BEGIN PGP SIGNATURE-----
 
-[Severity: Medium]
-Does this code violate the V4L2 API contract by incorrectly hardcoding
-bytesperline to 1.5x width as a shortcut to calculate the correct sizeimage?
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCatIaKQAKCRAnX84Zoj2+
+dhc2AYDikiyvZ7pA69z4NLHxRQqwbwh3GFryw/2J6W65qf6Bb0XH4sah0UV/tbuZ
++qRy8FgBgJoo85c7y2zvSICho+qjJzX/b4MPZIVZygwSOIr3Ld5k641amh1nBZzc
+HTwG2TLutg==
+=9+cI
+-----END PGP SIGNATURE-----
 
-The V4L2 specification requires bytesperline to reflect the stride of the
-largest plane, which for NV12 is just width. By exposing a stride of
-1.5 * width, userspace applications may compute out-of-bounds plane offsets,
-potentially leading to memory corruption or crashes within the userspace
-client.
-
-This is supported by sun6i_csi_setup_format(), which configures the
-hardware using the correct luma and chroma strides of width internally:
-
-drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c:sun6i_csi_setup_=
-format() {
-	...
-	switch (pixelformat) {
-	...
-	case V4L2_PIX_FMT_NV12_16L16:
-		luma_line =3D width;
-		chroma_line =3D width;
-		break;
-	...
-}
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261016113846.8602=
--1-arash.golgol@gmail.com?part=3D1
+--ag4zz2wpi4nkqtta--
