@@ -1,38 +1,60 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619CD43B3E2
-	for <linux-sunxi@lists.linux.dev>; Fri, 16 Oct 2026 08:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB8E6459AE9
+	for <linux-sunxi@lists.linux.dev>; Fri, 16 Oct 2026 09:05:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792140716; cv=none; b=Vzy4Fq95AuCA9jKLsSzPTyq/Kh/1PpDWsUVuxE/o+bqKcMj3Hw319xdiYO6xY7BrfLFaLT7KsfETIvk//I6RBD1C2s82FMUrCvgsJ9nu1NgmVZgT9hT4+UNAXalsa+ZGlwDiINKfPeFslaDXb98AIugYhmheap1+UIq8g7hFyig=
+	t=1792141522; cv=none; b=ATc1WH8IcgH2ucmPYyR6HqfW2q3sZN/qfxXEYYy5upv0KMOPnv2vBwTPWhL80AG80yEAIuvYGQ5D2GhFbOOZzNduFUbBVsFaQ/53SE5So32d/Uw8KTfJpUn49ar54pFA3eY6BXPVCRbbNpMrhaA0NSVgaq/1BnHdv6trpu52U7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792140716; c=relaxed/simple;
-	bh=jmoLeS4tTqLIlhpLQ4Ft9yABYozo/BQsK+CcmQXIwSQ=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=ul+Nq+fwkIjtr+4JCc6Sx8rH28cXbADjwvxToXqnFwrdLEJTZQf1834ar1331nwo2fmclNCv2encmFJ/dhPgH15hLZ8zXgDS7VvM9FZDh1g3JGCP0+qLtNw8ttnirikyz1G/KlTMQMezyIpmYA+28E5D78dgxUIs+CFNjIRHn+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=FyCLCVxk; arc=none smtp.client-ip=185.171.202.116
+	s=arc-20240116; t=1792141522; c=relaxed/simple;
+	bh=Eo9WwXqvDCM49chcBfGJpbXusjDoU1ewi49ePAmjZdM=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=k1w1dHHFtQm3dat4CUUUX3WJOQve7Jan0PlQnzKft+mOb1RHJTKJWPikwCo/kJRFjPkbxVuf139nig3sJ7knRTNiSURafgGjJHCu6BrV/5srlFUl3W9Dp4hA07Rf6JFHLkvgB9VAt5EIk6gKdLo8XL3JvDFLhyvhJQt6rgfFqBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JvNL4I1G; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="FyCLCVxk"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JvNL4I1G"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 1440FC6220F;
-	Fri, 16 Oct 2026 08:52:47 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id E14A61A1236;
+	Fri, 16 Oct 2026 09:05:18 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 48DB36075D;
-	Fri, 16 Oct 2026 08:51:50 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5481B10328C00;
-	Fri, 16 Oct 2026 10:51:37 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 991A16075D;
+	Fri, 16 Oct 2026 09:05:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 351DD103281F4;
+	Fri, 16 Oct 2026 11:05:04 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1792140708; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1792141516; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=ChS8CbLEvyFZVuYslDWXhsoD8DGk8VUp5ILUon7wnlY=;
-	b=FyCLCVxkCDn6SxkXHmUNA69irjP1CxhoV/CWQHtcj/s82zfmdSuPFeHZcqDwuI6y2RZgwc
-	wIev23C/pJfx83qUOIuOWk1zftExtkKtkdIwQ0IIFjjI/xCSIGSzbK+8YtsHQMksKb5QOW
-	gVpfKo+NHJiF47Q8YidnxrqEySqpEmuRheElrrfeFa9rtFMRHDWYM/Qzn6+tRRBQ9i21ii
-	NmV0nCvarkBkTupW8iHUMUonhdAMrNN0Q/O7QPLlV5V18cL6gu+QH4QFF2Y4yOnNh1DIN5
-	LT1+gdlbxOSU71IeNW1Xhtw34nFeySDy3R+5ybE2YAAC95oEvPJWD1RCm6YHTw==
+	bh=jCdlTsgAIWlVV/nbciw4oCCYrsIamAoo02qs3IUr8ls=;
+	b=JvNL4I1GFqj1N6rLJYaDTiAX1o1PQkUdS4oGWRv5kj7C/UAGbv3VABGAMLSyIstQUFrO2A
+	QOS/iSZ8T6R2tQkG8HcSN74yew58DcQiq2XsBCxIVz0Xxi2KvI3KQ5GbhmmcpfaILw+idO
+	lsiUoMmfEg9Kv7FwRdYLYXRJbj02o17TxE/boDZtk2qf+QNTLjMCd8aKczzDp3ZNHZJSWi
+	yYNxb+q1dabTu60SX84PI9KjUY8KTXK11qt4Rk9OI4y0cxt7eWDhf2J4mKKTy0/okZR2km
+	rCEK2VU+wvSkA7kQyXgLZ+UwNZqtXNrEH3G+qNb8qO8eEUGSWfSTkniXrPdcSw==
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Andy Yan <andy.yan@rock-chips.com>, Liu Ying <victor.liu@nxp.com>, 
+ Phong LE <ple@baylibre.com>, Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20261001-bridge-advert-hdmi-caps-v1-0-f8806570e243@collabora.com>
+References: <20261001-bridge-advert-hdmi-caps-v1-0-f8806570e243@collabora.com>
+Subject: Re: [PATCH 0/8] drm: Advertise supported HDMI version in HDMI
+ drivers
+Message-Id: <179214150460.3306936.7520883316826804246.b4-ty@b4>
+Date: Fri, 16 Oct 2026 11:05:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -41,52 +63,43 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 5/8] drm/bridge: ite-it66121: Advertise HDMI 1.2
- capabilities
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Andy Yan <andy.yan@rock-chips.com>, Liu Ying <victor.liu@nxp.com>, 
- Phong LE <ple@baylibre.com>, Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
- kernel@collabora.com, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20261001-bridge-advert-hdmi-caps-v1-5-f8806570e243@collabora.com>
-References: <20261001-bridge-advert-hdmi-caps-v1-0-f8806570e243@collabora.com>
- <20261001-bridge-advert-hdmi-caps-v1-5-f8806570e243@collabora.com>
-Date: Fri, 16 Oct 2026 10:51:32 +0200
-Message-Id: <179214069221.3071818.10591269637696395115.b4-review@b4>
 X-Mailer: b4 0.16.0
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Thu, 01 Oct 2026 04:14:36 +0300, Cristian Ciocaltea <cristian.ciocaltea@collabora.com> wrote:
-> Bridges using DRM_BRIDGE_OP_HDMI are now expected to also provide a
-> supported HDMI version.  This is not yet enforced, but will become
-> mandatory once the migration to the new caps-based HDMI connector
-> initialization API is completed.
-> 
-> Since none of the chip variants handled by the driver can drive a TMDS
-> character rate exceeding 148.5 MHz, advertise HDMI 1.2 as the supported
-> version.  HDMI 1.2 allows up to 165 MHz, so set the bridge's
-> max_tmds_char_rate to ensure the connector limit derived from
-> supported_hdmi_ver remains within the hardware capabilities.
+
+On Thu, 01 Oct 2026 04:14:31 +0300, Cristian Ciocaltea wrote:
+> This series consists of patches 50-57 from "[PATCH v11 00/74] Add HDMI
+> 2.0 support to DW HDMI QP TX" [1], to set the supported HDMI version for
+> the HDMI connector/bridge drivers that currently leave it unset - except
+> the MediaTek HDMI driver (for now), as it requires non-trivial changes:
+> there is a core library shared between two variants, one being HDMI 2.0
+> compliant.
 > 
 > [...]
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Applied, thanks!
 
+[1/8] drm/bridge: adv7511: Advertise HDMI 1.2 capabilities
+      commit: 1f132660fb27da37327fed3d4fdc617f95c1431e
+[2/8] drm/bridge: inno-hdmi: Advertise HDMI 1.2 capabilities
+      commit: c132910e9d13a0c4c3476f55ad7562070d96c19a
+[3/8] drm/bridge: ite-it6263: Drop redundant .mode_valid hook
+      commit: 31112c84ca79576b8c62316b40272106ac39511f
+[4/8] drm/bridge: ite-it6263: Advertise HDMI 1.3 capabilities
+      commit: bd66cb40383b43cd4ed4b3ea1a39779161fface5
+[5/8] drm/bridge: ite-it66121: Advertise HDMI 1.2 capabilities
+      commit: 3af64ea1229dab57233531feda8908486cf9dcc6
+[6/8] drm/bridge: lontium-lt9611: Advertise HDMI 1.4 capabilities
+      commit: 3c5e687fdb8cff644c700b145289a36400d1b04d
+[7/8] drm/rockchip: rk3066_hdmi: Advertise HDMI 1.4 capabilities
+      commit: 9283faedfc5fab0a47ca41ee6ac7b2a556da7081
+[8/8] drm/sun4i: hdmi: Convert to drmm_connector_hdmi_init()
+      commit: 101bd6d1d0aa2770129b47d03791a7120ba0cad8
+
+Best regards,
 -- 
 Luca Ceresoli, Bootlin
 Embedded Linux and Kernel engineering
 https://bootlin.com
+
 
