@@ -1,449 +1,197 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792422957;
+	b=jHW0zORP5iA4+UEc5f6YJIS7ZLD8DK2yMd0+6CQ1q7slJGd8eXIGczdaIpXP5dBkzZK4
+	 suzgLKjTgGTvbe9jS2XqWCcFHBtaEAoivcF2NviJE2EOTorgQdCYvESa76RtFymgP6mn8
+	 VZhb3BHCc6vcRw0QM5oJXNEpGZemsduNfXUxKlqF73EUeniL92ZvNqJ1mFlDgs3ayKmjk
+	 k88+zg4LjGM6dwjqFjZ1BdOtTwzAbh0QJCf/zu8wvhoeU7d2tyDYkKq7w7PFAXT2RyW4Z
+	 qm43Qo4yMio2n8/yM7y6cXWkLBKnV10mhqBwaRukAbe3He9zZQKp3sWFvwDAFu83OOA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792422957;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=rY7NXz2qfQQtnIEL3eObvxvEOIQ+EeZp99ff3bsp5sk=;
+	b=LfprZZ+hHgUJwDXm+0KS8UOXDah5T4D73bKccUFteS+a45T7K/Lg5yg0xNa86gz/XbXT
+	 Q40udK7liYfEKHxUKKCYfH4t3qwYWMYl76A6tMaR6U5cjVbcPyNM/jsb4HWrCWGtRAI5A
+	 SGt1DSDV1zrAKgB4b/mrGOxD4FgTjgbAITi0XLCYS8CyTad+yzHu321V202WI9EpgJn/9
+	 dRcPfqggG1yc7uu5EhoYcT8vZH1TFeCyFAcfipK0Zr/3q6n0Z5icIcGycvgbJL8RNZIFF
+	 mKY2cSp88gOUY9uwmpl2sArQ7trKK9nNJIfPy/jmGFKRz8K4ffG/G8rBWhT6cPIEU/g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CnpQzRLX;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7131B6479B7;
-	Mon, 19 Oct 2026 14:06:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418796; cv=none; b=OzBBpbPRlQCMxdwu+3lTOIOtU0azGaNKEL3e/J1H0UfUFY+PMispS/ekhzTwvuLL+heHETVVy5GguTCu7u7Z4XfaUVDAX/4uoi/bPQuXNiGZff/FFks07oGsC/ptt181YyBm4ekUwgdBCFYL61xCzU91x9JpHiriYd467ZjvjdE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418796; c=relaxed/simple;
-	bh=qzzqFHduJFPJ3gjpN3AgNQSdcp8ZATdEGKLZFid2SzM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iqEF4Qubet846ds0Y9SP+wp5/ie1TaWjYrGx/gE4n7U4INSVaIqjvyU27TNZZMDMCq6Xbh/0oFKYgN1ZTmWL2lfulqiAr8gTcdS+wWrWMonXzXS4v2BU7MdK5bk0G6MpvYN3wzzvkRVinAOfg1CaU1uHUUSnGla5Lom+bSP2ibg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SVsT+lpS; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA27609DCFA;
+	Mon, 19 Oct 2026 15:15:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SVsT+lpS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E87381F000C7;
-	Mon, 19 Oct 2026 14:06:32 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CnpQzRLX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 269E71F000C4;
+	Mon, 19 Oct 2026 15:15:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418794;
-	bh=3O7F2X6+k4YoUAU2Oxwl9vtYL6fJyRW+Z7I2RKsPELI=;
+	s=k20260515; t=1792422956;
+	bh=rY7NXz2qfQQtnIEL3eObvxvEOIQ+EeZp99ff3bsp5sk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=SVsT+lpSO4UhuZZin3de5iOCnl7r8MI5SpJg6+BlEprYTj1X30qaM6bgJDmUlUZi7
-	 ACiKIipiJOdIDOFHgHldozO7FMqgo/Bs6AZtmO/A44In4IO5PqL1rS9lUc/Wvisrmr
-	 vpR3W9TUSZfh4tCf09kpnQenL/DJTbaehW6HYXLuihNkJwCh9ixX/IM0odhfV223wK
-	 sbIn1h556jGx7TxK4w1yRyoUEFof21MeH2CiNFP/jIUpkgdbZioAz4xvwCbaLH9X8+
-	 WTy9tC0pHKUaWv0dA7oc2wd1+iE2YlAlBX60km1u/jouJg4tE6cO3W/xSG6AvfSb3E
-	 OeTBlFAJZiQBg==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Jerome Brunet <jbrunet@baylibre.com>,
-	Sashiko <sashiko-bot@kernel.org>,
+	b=CnpQzRLX3TYf8k0qu6IYpaMq62MrzgVnzWtCBEbdnX0IUPXFCp6FFVhb6e/W37EY7
+	 oQdkTxuZitFSXzUqh8YM+LI6hW4HWoVv72MiRtWfb/iuVaWOGKHt2j8Piy3XsHY4bv
+	 HfJH5x277Hg+W3vBh+BKJcUHigFzcPtKnByrkz6Qw0vZi1heWwAKuKjDH8y9RjWbAw
+	 ZWzbQHvwqs0XljbKJDetYNNwEqmAYS1SizYC8c9PQJ/+yV3C9kQ+UX6IhimWK6Szh4
+	 MliM2s0jWJxjgBc2N8LAVJSnUAeqxo/k14Kw0U606JcTDsTXyg4NEZpgxA/P9PGn8a
+	 a/NOnXhhwsAXA==
+From: Maxime Ripard <mripard@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+	Aun-Ali Zaidi <admin@kodeit.net>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	amd-gfx@lists.freedesktop.org,
+	Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>,
+	Rodrigo Siqueira <siqueira@igalia.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Joel Stanley <joel@jms.id.au>,
+	Dave Airlie <airlied@redhat.com>,
+	Jocelyn Falempe <jfalempe@redhat.com>,
+	Francesco Dolcini <francesco@dolcini.it>,
+	Ian Ray <ian.ray@gehealthcare.com>,
+	Martyn Welch <martyn.welch@collabora.co.uk>,
+	Peter Senna Tschudin <peter.senna@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Inki Dae <inki.dae@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	linux-samsung-soc@vger.kernel.org,
+	Alison Wang <alison.wang@nxp.com>,
+	Stefan Agner <stefan@agner.ch>,
+	Tian Tao <tiantao6@hisilicon.com>,
+	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+	Yongbang Shi <shiyongbang@huawei.com>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>,
+	linux-hyperv@vger.kernel.org,
+	Fabio Estevam <festevam@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	imx@lists.linux.dev,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+	Jianmin Lv <lvjianmin@loongson.cn>,
+	Mingcong Bai <jeffbai@aosc.io>,
+	Qianhai Wu <wuqianhai@loongson.cn>,
+	Xi Ruoyao <xry111@xry111.site>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Sean Paul <sean@poorly.run>,
+	freedreno@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	spice-devel@lists.freedesktop.org,
+	virtualization@lists.linux.dev,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-renesas-soc@vger.kernel.org,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	Iker Pedrosa <ikerpedrosam@gmail.com>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Raphael Gallais-Pou <rgallaispou@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Philippe Cornu <philippe.cornu@foss.st.com>,
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+	Yannick Fertre <yannick.fertre@foss.st.com>,
 	Chen-Yu Tsai <wens@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	sboyd@kernel.org,
-	bmasney+clk@redhat.com,
-	jbrunet+clk@baylibre.com,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	Samuel Holland <samuel@sholland.org>,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] clk: sunxi-ng: fix ccu probe clock unregister on error
-Date: Mon, 19 Oct 2026 09:53:12 -0400
-Message-ID: <20261019135441.1420968-501-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
-References: <20261019135441.1420968-1-sashal@kernel.org>
-Precedence: bulk
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	linux-tegra@vger.kernel.org,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Hans de Goede <hansg@kernel.org>,
+	LiangCheng Wang <zaq14760@gmail.com>,
+	Alex Lanzano <lanzano.alex@gmail.com>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Louis Chauvet <louis.chauvet@bootlin.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+	Ruben Wauters <rubenru09@aol.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-amlogic@lists.infradead.org,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	Danilo Krummrich <dakr@kernel.org>,
+	Lyude Paul <lyude@redhat.com>,
+	nouveau@lists.freedesktop.org,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Zack Rusin <zack.rusin@broadcom.com>,
+	Aditya Garg <aditya.garg@linux.dev>
+Subject: Re: (subset) [PATCH 00/75] drm/connector: Convert all drivers to atomic_create_state and remove reset
+Date: Mon, 19 Oct 2026 17:15:50 +0200
+Message-ID: <179242294379.2822300.2839114266297465713.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261014-drm-no-more-connector-reset-v1-0-586c9c026823@kernel.org>
+References: <20261014-drm-no-more-connector-reset-v1-0-586c9c026823@kernel.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
+List-Post: <mailto:linux-sunxi@lists.linux.dev>
+List-Help: <mailto:linux-sunxi+help@lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
+Precedence: list
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.18.57
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-From: Jerome Brunet <jbrunet@baylibre.com>
-
-[ Upstream commit 81f4ddc9f7e0c11d3e9d24d0f30023845a02f7ee ]
-
-When registering clocks with sunxi_ccu_probe(), the number of ccu_clocks
-and the number of hw clocks might be different, eventhough they usually are
-the same.
-
-If they are different, it could lead to out-of-bound access or registered
-clock left behind on error.
-
-Use a different variable when iterating on hw clocks so every registered
-clock, and only those, gets unregistered on error.
-
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://lore.kernel.org/r/20260629131254.7E34C1F00A3A@smtp.kernel.org
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
-Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
-Link: https://patch.msgid.link/20260706-a733-rtc-v4-3-f330728db3d3@baylibre.com
-Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-## Phase 1: Commit message forensics
-
-**Step 1.1: Subject line**
-Record: **[clk: sunxi-ng]** **[fix]** unregister the right set of CCU
-`clk_hw` objects when `sunxi_ccu_probe()` fails.
-
-**Step 1.2: Tags**
-Record:
-- `Reported-by: Sashiko <sashiko-bot@kernel.org>` — static-analysis bot,
-  not syzbot
-- `Closes:
-  https://lore.kernel.org/r/20260629131254.7E34C1F00A3A@smtp.kernel.org`
-- `Reviewed-by: Chen-Yu Tsai <wens@kernel.org>` — sunxi/clk maintainer
-- `Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>` (author)
-- `Link: https://patch.msgid.link/20260706-a733-rtc-v4-3-
-  f330728db3d3@baylibre.com` — **v4 3/9** of the A733 RTC series
-- `Signed-off-by: Chen-Yu Tsai <wens@kernel.org>` (applied to sunxi clk
-  tree)
-- No `Fixes:` tag (expected)
-- No `Cc: stable` (expected; not treated as a negative)
-
-**Step 1.3: Body**
-Record:
-[Bug] `sunxi_ccu_probe()` uses one index for both `desc->ccu_clks`
-(`num_ccu_clks`) and `desc->hw_clks` (`hw_clks->num`). Those lengths are
-not always equal.
-[Symptom] On probe error: **out-of-bounds** `hws[i]` access, or
-**registered clocks left behind**.
-[Version] None stated.
-[Root cause] Error-path unregister walks the leftover loop index instead
-of the hw-clock index.
-
-**Step 1.4: Hidden bug fix?**
-Record: **No disguise.** This is an explicit error-path OOB/leak fix.
-Sashiko rated the pre-existing issue **High**.
-
----
-
-## Phase 2: Diff analysis
-
-**Step 2.1: Inventory**
-Record: `drivers/clk/sunxi-ng/ccu_common.c` only; **+6 / −6**. Function:
-`sunxi_ccu_probe()`. Surgical, single-file.
-
-**Step 2.2: Code-flow change**
-Before: one `i` for (1) `ccu_clks` setup, (2) `hw_clks` register, (3)
-rate-range on `ccu_clks`, then `err_clk_unreg` does `while (--i)` over
-`hw_clks->hws[i]`. After loop (3), `i == num_ccu_clks`, so
-provider/reset failures use the wrong bound.
-After: hw-clock register/unregister uses `j`; `i` stays for `ccu_clks`.
-
-**Step 2.3: Bug mechanism**
-Record: **[memory safety / error-path leak]**
-- `num_ccu_clks > hw_clks->num` → OOB read of `hws[]`
-- `num_ccu_clks < hw_clks->num` → incomplete `clk_hw_unregister()`
-  (leak)
-`clk_hw_register()` failure already used the hw index; the clobber is
-the **rate-range loop** added later, then `of_clk_add_hw_provider()` /
-`reset_controller_register()` failures.
-
-**Step 2.4: Fix quality**
-Record: Obviously correct (separate index). Minimal. Regression risk
-**very low** (`j` is always set by `for (j = 0; …)` before any `goto
-err_clk_unreg`). No API/locking changes.
-
----
-
-## Phase 3: Git history
-
-**Step 3.1: Blame**
-Record: Probe helper from `1d80c14248d608` (2016). Error unregister from
-`5d806f9fc8e63d` / `9bec2b9c61340` (v5.16 era). The **clobber** is
-`ea977d742507e` (“Don't call hw_to_ccu_common on hw without common”,
-**v6.10-rc7**), which inserted a `num_ccu_clks` loop after hw
-registration and reused `i`.
-
-**Step 3.2: Fixes: tag**
-Record: **None.** Introducer is `ea977d742507e` (ancestor of HEAD). That
-commit was itself `Cc: stable` / `Fixes: b914ec33b391e`.
-
-**Step 3.3: File history**
-Record: Candidate `81f4ddc9f7e0c`. Nearby Jerome commits are A733 RTC
-**features** after this fix. This patch is **standalone**; later series
-patches are not prerequisites.
-
-**Step 3.4: Author**
-Record: Jerome Brunet (BayLibre, regular clk/sunxi contributor).
-Maintainer Chen-Yu Tsai reviewed and applied it.
-
-**Step 3.5: Dependencies**
-Record: Needs the three-loop `sunxi_ccu_probe()` from `ea977d742507e`.
-That is in this tree. No new helpers. **Can apply standalone.**
-
----
-
-## Phase 4: Mailing list / external
-
-**Step 4.1: Original discussion**
-Record: `b4 dig -c 81f4ddc9f7e0c` → https://patch.msgid.link/20260706-
-a733-rtc-v4-3-f330728db3d3@baylibre.com
-Series: v1 (Junhui Liu, Jan 2026) → v2/v3/v4 (Jerome). This fix first
-appears in **v3** (“Fix ccu probe helper to properly unregister clocks
-on error”), applied as **v4 3/9**.
-No NAK. Chen-Yu applied it to `sunxi/clk-for-7.3`. No reviewer `Cc:
-stable`.
-
-**Step 4.2: Recipients (`b4 dig -w`)**
-Record: Chen-Yu Tsai, Jernej Skrabec, Samuel Holland, Stephen Boyd,
-Maxime Ripard, linux-clk, linux-sunxi. Right maintainers.
-
-**Step 4.3: Bug report**
-Record: Sashiko on **v2 5/6** (msgid
-`20260629131254.7E34C1F00A3A@smtp.kernel.org`), severity **High**: error
-path uses `i == num_ccu_clks` as the `hws[]` bound → leak or OOB
-depending on driver sizes. Pre-existing, not introduced by the A733
-patch.
-
-**Step 4.4: Series**
-Record: 9-patch A733 RTC enablement. This hunk only touches
-`ccu_common.c` and does not need A733. Later patches make RTC
-`num_ccu_clks` vs `hw_clks->num` diverge more; the common-probe bug
-already exists.
-
-**Step 4.5: Stable list**
-Record: lore.kernel.org/stable search for this subject returned **no**
-dedicated stable-thread discussion. WebFetch to lore.html returned 403;
-raw mbox via curl/`b4 dig -m` succeeded.
-
----
-
-## Phase 5: Semantic / impact
-
-**Step 5.1: Functions**
-Record: `sunxi_ccu_probe()` only (plus log index).
-
-**Step 5.2: Callers**
-Record: `devm_sunxi_ccu_probe()` and `of_sunxi_ccu_probe()` in the same
-file. Called from **all** sunxi-ng CCU drivers (H6, A64, H3, D1, A10,
-RTC, …) at SoC clock probe/boot.
-
-**Step 5.3: Callees**
-Record: `clk_hw_register` / `of_clk_hw_register`,
-`of_clk_add_hw_provider`, `reset_controller_register`,
-`clk_hw_unregister`. Provider add can fail (`-ENOMEM`,
-`of_clk_set_defaults()`).
-
-**Step 5.4: Reachability**
-Record: Boot-time CCU probe on Allwinner. Failure is error-path (OOM,
-assigned-clock defaults). On failure, `of_sunxi_ccu_probe()` /
-`devm_sunxi_ccu_probe()` **kfree** the `struct sunxi_ccu` whose `lock`
-remaining clocks still point at (`cclk->lock = &ccu->lock`) if
-unregister is incomplete.
-
-**Step 5.5: Similar patterns**
-Record: `devm_sunxi_ccu_release()` already walks `hw_clks->num`
-correctly. Only the probe error path was wrong. Counts really differ,
-e.g. H6: **127** `ccu_clks` vs **CLK_NUMBER 138**; A64: **104** vs
-**115**. RTC in this tree: 12 `ccu_clks` vs `CLK_NUMBER_NO_GATES` **8**
-on H616/R329 → **OOB** if probe fails after the rate-range loop.
-
----
-
-## Phase 6: This checkout (v7.3-rc4)
-
-**Step 6.1: Buggy code here?**
-Record: **Yes.** `git describe HEAD` = `v7.3-rc4-27-gf0100363d8c37`;
-`VERSION=7 PATCHLEVEL=3`. `ea977d742507e` and `81f4ddc9f7e0c` are both
-ancestors of HEAD. Pre-fix `sunxi_ccu_probe()` at `81f4ddc9f7e0c^` still
-clobbers `i`. Bug since **v6.10**, long before 7.3.
-
-**Step 6.2: Backport difficulty**
-Record: **Clean apply** on this code (6-line index split). No refactor
-between the buggy helper and this patch.
-
-**Step 6.3: Other fixes already here?**
-Record: This **is** the fix (`81f4ddc9f7e0c`). No earlier equivalent.
-That does not mean “already selected for stable”; it is the mainline
-commit being evaluated.
-
----
-
-## Phase 7: Subsystem
-
-**Step 7.1:** Record: **clk / Allwinner sunxi-ng CCU**. **IMPORTANT**
-(every Allwinner platform’s clock controller), not core mm/net, not
-staging.
-
-**Step 7.2:** Record: Mature CCU core (2016) with ongoing SoC additions.
-Helper is shared and stable; this is not churny experimental code.
-
----
-
-## Phase 8: Impact and risk
-
-**Step 8.1:** Record: **platform-specific** — `CONFIG_SUNXI_CCU` /
-Allwinner boards (phones, SBCs, TVs). Many LTS users.
-
-**Step 8.2:** Record: Trigger = CCU **probe failure** after clocks are
-registered (`of_clk_add_hw_provider` / reset register). Not every boot.
-Not a userspace syscall. `of_clk_set_defaults()` is a realistic DT
-failure. Unprivileged users do not trigger it directly.
-
-**Step 8.3:** Record: Incomplete unregister → leak; wrong bound →
-**OOB**; leftover `clk_hw` plus `kfree(ccu)` → **UAF** on `cclk->lock`.
-Severity **HIGH** on the error path (crash / memory safety), not a
-normal-boot oops.
-
-**Step 8.4:** Record: **Benefit high** for Allwinner error-path safety;
-**risk very low** (6-line index fix). Ratio strongly favors backport.
-
----
-
-## Phase 9: Synthesis
-
-**Step 9.1: Evidence**
-
-FOR:
-- Real OOB/leak in shared CCU probe cleanup; counts differ on H6/A64/RTC
-  in this tree
-- Sashiko High; maintainer Reviewed-by + applied
-- Tiny, obviously correct, no new API
-- Bug from v6.10 (`ea977d742507e`) is in this tree
-- No extra series patches required
-
-AGAINST:
-- Error-path only (not every boot)
-- Nested in an A733 **feature** series (this patch is still self-
-  contained)
-- No live user oops; found by static review
-- No `Fixes:` / `Cc: stable` (not a negative here)
-
-UNRESOLVED:
-- lore HTML 403 (mbox/raw used instead)
-- Exact production hit rate of `of_clk_set_defaults()` failure on CCU
-  nodes
-
-**Step 9.2: Stable rules**
-1. Obviously correct and tested — **PASS** (maintainer review; logic is
-   local)
-2. Real bug affecting users — **PASS** (Allwinner CCU probe fail →
-   leak/OOB)
-3. Important (crash/corruption/deadlock/security) — **PASS** (OOB;
-   incomplete unwind + free of lock)
-4. Small and contained — **PASS** (12 lines, one function)
-5. No new features/APIs — **PASS**
-6. Can apply to this tree — **PASS**
-
-**Step 9.3: Exception category**
-Record: None (not an ID/quirk/DT/build/doc exception). It is a normal
-small bugfix.
-
-**Step 9.4: Decision**
-This tree is **7.3-rc4**. The helper and the v6.10 index-clobber exist
-here. The patch is a surgical error-path memory-safety fix for every
-sunxi-ng CCU, including OOB on RTC when `num_ccu_clks` (12) exceeds
-`hw_clks->num` (8). It meets stable rules with very low regression risk.
-
----
-
-### Problem and why it matters
-
-`sunxi_ccu_probe()` registered `hw_clks` with index `i`, then reused `i`
-to walk `ccu_clks` for rate limits. On later failure it unregistered
-with that leftover `i`. Those array lengths differ on real SoCs, so
-cleanup either walks off `hws[]` or leaves clocks registered (and can
-free the `ccu` lock those clocks still use). Stable Allwinner devices
-share this helper.
-
-### Stable rules / risk
-
-Small, reviewed, no features, applies cleanly. Benefit is avoiding
-OOB/UAF on CCU probe failure; risk is a loop-index change only.
-
-### Concerns
-
-Needs `ea977d742507e` (present here). Do not pull the rest of the A733
-series. Trigger is probe-error, not hot-path, but the failure mode is
-memory safety.
-
-Verification:
-- [Phase 1] Tags: Sashiko Reported-by/Closes, Chen-Yu Reviewed-by, msgid
-  v4 3/9; no Fixes/Cc stable
-- [Phase 2] Diff: `i` vs `j` in `sunxi_ccu_probe()`; +6/−6 in
-  `ccu_common.c`
-- [Phase 3] `git describe HEAD` → `v7.3-rc4-27-gf0100363d8c37`; blame:
-  bug from `ea977d742507e` (v6.10-rc7); `git merge-base --is-ancestor
-  ea977d742507e HEAD` → yes
-- [Phase 3] `git log --oneline -- drivers/clk/sunxi-ng/ccu_common.c`:
-  candidate `81f4ddc9f7e0c`; later commits are A733 features, not
-  prerequisites
-- [Phase 4] `b4 dig -c 81f4ddc9f7e0c` → lore msgid; `-a` v1–v4; `-w`
-  sunxi/clk maintainers; `-m` 25-message mbox; Chen-Yu applied 3/9; no
-  NAK
-- [Phase 4] Original Sashiko report (curl raw): High, wrong loop limit,
-  leak or OOB
-- [Phase 4] Stable lore search: no prior stable-thread hit
-- [Phase 5] Callers: `devm_sunxi_ccu_probe` / `of_sunxi_ccu_probe` → all
-  sunxi-ng CCU drivers
-- [Phase 5] H6 127 vs 138; A64 104 vs 115; RTC 12 vs 8
-  (`CLK_NUMBER_NO_GATES`) verified in tree
-- [Phase 5] `of_clk_add_hw_provider` can return `-ENOMEM` or
-  `of_clk_set_defaults` error
-- [Phase 6] Pre-fix source at `81f4ddc9f7e0c^` still uses one `i`;
-  current file already has `j`
-- [Phase 7] MAINTAINERS: Chen-Yu Tsai maintains `drivers/clk/sunxi-ng/`
-- [Phase 8] Failure mode: OOB / leak / possible lock UAF on probe error
-  — HIGH, error-path
-- UNVERIFIED: live user crash report beyond Sashiko; lore HTML pages
-  (403)
-
-**YES**
-
- drivers/clk/sunxi-ng/ccu_common.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/clk/sunxi-ng/ccu_common.c b/drivers/clk/sunxi-ng/ccu_common.c
-index c7e00f0c29a55..bbda75c2bc461 100644
---- a/drivers/clk/sunxi-ng/ccu_common.c
-+++ b/drivers/clk/sunxi-ng/ccu_common.c
-@@ -114,7 +114,7 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
- 			   const struct sunxi_ccu_desc *desc)
- {
- 	struct ccu_reset *reset;
--	int i, ret;
-+	int i, j, ret;
- 
- 	ccu->desc = desc;
- 
-@@ -130,8 +130,8 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
- 		cclk->lock = &ccu->lock;
- 	}
- 
--	for (i = 0; i < desc->hw_clks->num ; i++) {
--		struct clk_hw *hw = desc->hw_clks->hws[i];
-+	for (j = 0; j < desc->hw_clks->num ; j++) {
-+		struct clk_hw *hw = desc->hw_clks->hws[j];
- 		const char *name;
- 
- 		if (!hw)
-@@ -143,7 +143,7 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
- 		else
- 			ret = of_clk_hw_register(node, hw);
- 		if (ret) {
--			pr_err("Couldn't register clock %d - %s\n", i, name);
-+			pr_err("Couldn't register clock %d - %s\n", j, name);
- 			goto err_clk_unreg;
- 		}
- 	}
-@@ -186,8 +186,8 @@ static int sunxi_ccu_probe(struct sunxi_ccu *ccu, struct device *dev,
- err_del_provider:
- 	of_clk_del_provider(node);
- err_clk_unreg:
--	while (--i >= 0) {
--		struct clk_hw *hw = desc->hw_clks->hws[i];
-+	while (--j >= 0) {
-+		struct clk_hw *hw = desc->hw_clks->hws[j];
- 
- 		if (!hw)
- 			continue;
--- 
-2.53.0
-
+On Wed, 14 Oct 2026 19:26:23 +0200, Maxime Ripard wrote:
+> This is a follow-up to the plane and CRTC reset removal series, and
+> part of a larger effort to remove the reset hook from all KMS objects.
+> 
+> The connector reset hook is overloaded: it is called both at probe
+> time to create the initial software state and during suspend/resume to
+> reset hardware and software state. These two roles have different
+> requirements, and the reset hook is not fallible, making error
+> handling difficult for the initial state allocation path.
+> 
+> [...]
+
+Applied to misc/kernel.git (drm-misc-next)
+
+[73/75] drm/vmwgfx: Convert to atomic_create_state
+        commit: e6bb593b800813788dc16179d1305747ff974d00
+
+Thanks!
+Maxime
