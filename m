@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792440422;
-	b=VuMgiHCBw1zHnwY69oizUaOKYAkQS++iqOSsDVUt1ctD67h/RYnQcrzWuQCl3QufnZfb
-	 8ad9xSWnj0Xd84FUCLnO63wXQjDDVGdRHm5iVLME26IFQNPqT36OKFHKfAfCumArAvU01
-	 uAhosy2ciio0jJ1TU5ef0LBSJg7WfXFQfK0AwPBi+puFkwqLKNRI1EMoAN7Ib4D+SYek+
-	 DzV2e40gSKG40FDJaV5xVfq275JKU84XlpuOe0Rr3luTeFrzRnxzNjQD5JNPAvX0KtV4o
-	 6704qRtF/bbFF5SxR5bnTZdtLenjh4edHxfFqGwSAAH8+MsgTkMjsx83E8nz6WQGi+w==
+	t=1792440431;
+	b=n86sshhDg4VX3RtxsFulXqiIpbGM3wU8Nn5+ZfYsiP3qPqKvwa09ATp76/bGhVCJTrE1
+	 pwSXCrZ22HSI68PhQuEnO10soHrxvFqvG6OfrjYFuvhke8bWwlggz09GizcfRsClguX6R
+	 6ctoUWoGKmeSlP+aIm6PyAxONt3TQbe8TKo6/dNIChbgPyLTR5vqNhnfINHkZcTKoTI7+
+	 OOuGHepD84u3BnIAf49EMi9lEyheApP7uOSZsC3LHuuUwo2BWpZhLYcXlzlj2PpOv/2nS
+	 JlkgyM5cnkiHpNqdQKcMPWUWoqtYI3HVY+7aqYAhV6kxR2gWMNKouEYvAVy274in5tQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792440422;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792440431;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=MQXVI025privUEtANhdwM89LTKKhsWNz40cUmpuugYc=;
-	b=koyzUHxdViWwDdzbHmZcBwMMOamuwz2pwxs8r/FrYFmPpeMsKu2hcfBrJSPUscdLUebm
-	 hHC/x3eZWlJIE9JtJAlRy6Y0QkO6Gq1AO9ZniLL2Sjj8XNVjXmxQHZpgHsN6FmTR5LRIN
-	 v/OguIh0ng1w4vYgE1pRzCv6VCSysE8Tw0Ep0Wff8IhjNoTQPgJVxM0hZoOSS9/WX7HPt
-	 OmJQkZdaUbTcPCkJEON5Wf4XvJnWf9jbXRHHIkAXdowk9NxxU7eXZRjyJzHy4UDbbkmH5
-	 9FQpziEANbQWS9vekJNlPr8whGfympgu4S2HnOP5r8Sk+QPE8K4kyxZwmczwsLGsJWA==
+	bh=vseRokM4wlUiC0msrJS1ImPrMKPknh69JMExUys+m18=;
+	b=qdP4iIC2YX0MBvLfI2cLYHXUVTOZTWpQ8f4T7LkcLihuyXmK8B5128tSPnq3WmOurAQY
+	 U3enTukkFM/R/oIgzmAeV08lt6An7cBoAqgsmD2EhJnRSH5eG2wiCyTUW9RhdNOn7HlWG
+	 vSS/ANOPYU8vkNTi4BxIEwHiBla7PZbFojV3eIFmOrinUFpZnqwy75Uk8BXSv+ITsH2x0
+	 No6tEG+Up+BbV5l2v0FytmN12Tzt/K2mW78AoCM5uP/e/qW6tkA62pcDVL56nmMhj+lHC
+	 4aXjFlfjAVx3hiGgiTssXQLtxo7P+G+aG1AmXXqkmwySHg02Wvg05+PHEdVtlTDTjRg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=BHBBkb2+;
-	arc=none smtp.remote-ip=209.85.221.179
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PztEwnJv;
+	arc=none smtp.remote-ip=209.85.221.174
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2242606A31F
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Oct 2026 20:07:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F2242606A31F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F35606A322
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Oct 2026 20:07:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24F35606A322
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=BHBBkb2+
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5eac7220e9cso681351e0c.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 19 Oct 2026 13:07:01 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=PztEwnJv
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5eabf243d05so706120e0c.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 19 Oct 2026 13:07:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792440421; x=1793045221; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1792440429; x=1793045229; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MQXVI025privUEtANhdwM89LTKKhsWNz40cUmpuugYc=;
-        b=BHBBkb2+hwIvmtwy9Orfk79/j7qL3s/SasNq5YEGhojsoO7j7SDvORwDaXhEREySrq
-         m2CvMIxxFnAqtmzzm7y8KQKLw97essZ8Kje6R9/PkKVfCl77iQsAP5Mk89pF1mHI5L0r
-         PNi06FZVsu8SrYhr6Ne/EOnwTMGB1ihqUF2KCQ75yzzTcvdM5N4P5FfW659JbyQ9Rl88
-         zIkQIBDWjZtyWQ77duUQonc/9PxCo5DIh4Oe3OeXY7vmNdtPNV+x2XtiMUhxOFCMCQTe
-         /ySEJunip3DzxV8IKop/eb9MOGI18jhYQbVJxhT4Z2U637CsuU6XlPfXj0bflZkUUhEd
-         JMPg==
+        bh=vseRokM4wlUiC0msrJS1ImPrMKPknh69JMExUys+m18=;
+        b=PztEwnJva+h3aM5dSdpfk3T4yBAIbe6aP4mJn/v53kyycyV0HqZKFmZS5xUaBXUbct
+         vjlhq/PV/aQWpyFaDia1k6dEy4NpKb4MH/huLDjchOTTl3Aa6Ie79McHPgXfV5elYe0l
+         6BV/broQ8/4SWGFY8qCLtuLu/+hdwS0PcXD/Ar9J+N9IKWUMXmoSuiDAaHTCvLyiv7KG
+         mStTK5S82QI34JZVWGirwUCPSbUTskShybpsLp0apsIfJL0DlFxbQvF6IK3czwsBQv7p
+         UdU0nQ7qVuOvAP+M/QgWlyrgSn7uc3VPr+OliNijgAOzVKUyBjX5nFREX8W19kWDWhRq
+         7S4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792440421; x=1793045221;
+        d=1e100.net; s=20260707; t=1792440429; x=1793045229;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MQXVI025privUEtANhdwM89LTKKhsWNz40cUmpuugYc=;
-        b=tgkwsP61rJW/WiG2rYA9fJ2wijfYxF8RwPVjlxglzMh03Ena8eNIipfiY4a7AhdQM2
-         4vIfcfbsev3TVz1oJ++MsuuaoyNNpepVDvJ9e8GgsEZu1agCMLzjEcmRwOUO4AJgunhr
-         UNCjOeQrr0vLxOodN+TI+SoY1iRejBcM9scgVFoLHo8fwm++bID1sUl6qUHO0nYsI7ml
-         DPni1znLLLAGHK6Kq8t2cNFLAV+NeJFG9USLE2BZDFstDoBsN0xanpk7Eig9vb5B1nLO
-         J28L+AktvloUWPhU/OTWoZm30k0qVhdwoYG4gOomaxeN2lCFNQVHnpyWWDfhBjn/bKT4
-         0CPQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzCRUxXwJVVJbaiCX+50wekxjkCQEsqGSGSBwr6XohDqTHP/VKSqAtnv5I4adZ4uQt3jCwQBl3KH4nRaw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLKgWaR49TJYjJTKB7DBP3jJrdizZsuY0UTqxejL5JbkbZ7UmtG
-	g4BrBgi82JNe4RDTykDLtF3+szM3Yl3xlWFtSg5ol7Q1aDPX+AcU8ZnM
-X-Gm-Gg: AYBFou1ZVEmtFobF/1Ikyw/BzBYS7PLrcN7yWMPSsk/VuXlBmPaSZl3+ut0FJ8yCGDz
-	/Cfcx4Y0RhNGJt9d+kSqxm4mlHNGuspwhl34bJXoTWFIWKJVdDHC1defmxpUftiIdeLp3BkID3R
-	p7FNVh+/RJgXpzYmsJ8a1MmFuM6uc66DojL3DOMgkKnXF7ZBgfubfXu8ZjUtIgV3jmLXb2fTqiq
-	QIH0zjpFssLXNp22hdLJUT6EDmiG9sfH/TPv0ivkdWAhMKfYFad30CXWLqK8TA92OSOq9m80dud
-	JyOm02dw1NlEB4WxZmW6ySp9FCur2LAjc4fNUCtGup9Ao4qTwyOFSfZH3wGc0yGubtWDX86UZHS
-	8bf4P1xKDg11d7+pnwBjr29JJ9vUVWChvAzpxxxNNF9ED90Pd2U4/19gUFGQ7kvbJHxK9Tot+PY
-	TbsLRIR71JiVlXCk8qFHaHDf6YkuA/9N65by3ptCrQWPiF8de7T1sa2rn+VQEN5qnQjPYFSaStR
-	PP9dKYyE60+p468bxV0A8vhdkNOC98WRX/UCtICp01jVKEuDgdqf2I9aOVl23vYQSxCm8vSC3g5
-	4bIWfjA=
-X-Received: by 2002:a05:6122:4004:b0:5ea:7126:38a7 with SMTP id 71dfb90a1353d-5eaaa62c43cmr2437882e0c.13.1792440421005;
-        Mon, 19 Oct 2026 13:07:01 -0700 (PDT)
+        bh=vseRokM4wlUiC0msrJS1ImPrMKPknh69JMExUys+m18=;
+        b=p0HM8s90MHFx9rsT3T7CIozifjiEAIGEl0IE5dXOlbraPRPz9Gj9GIFfGL2AIdEn7G
+         6JaUlNq+FJkeTi7Wy4VwHLKS28eCwnit6fuRyc6L8vNSpXsUcW+qtI2AElNv0jEMJx++
+         yWBNKY7Cw0RzDZ3heSb4j/kqZQvK2i+P7fzVdVerdBRna4pnGyN9yo27Woj8f1gK9Qdx
+         FClzifxvJ5mI0IEpP2EoLozAJzseXXNH01dqEhXOSUFVLM8dBhnxop3/aDCwBOk+AX5b
+         A0DXMVTeom56qCE24DqsjwCkUGTvOUon4B+oBOGob/gzTJGrF7paGqc//UKfEVz0aETS
+         hARA==
+X-Forwarded-Encrypted: i=1; AKwUvBz7nhLzQcAaZKWNCwIuCb/HI9QrLB2yLRaJFsCp6pvSvH3p1lXv5sRr3y8miAmYFXElF+vW/OjGJyD7hA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKUv13I40elotXbsn5Vjco6ouHcFboA0j4h3zYKeIWPb1/9WatS
+	rg47ZdymcxJqk4kmvpYVDBFmn5tRnHMQlnM08ppqzZnAQYX/SNfAiCB+
+X-Gm-Gg: AYBFou3OJabGBNxzJ5n0G0+LuhbIls6x9NSt5qvQxCB1Kpjfv9AMLuhNwh8s3av7Y+A
+	he6ruxbI+MJkv2Xh8mpnBhhQeGImgrZI8O55WOk//Wouo4DMgH9qx69lEwSO7a1Z/eK5bPyfk3R
+	QP9oFED/qrxbtV3+ocHswxq6/0pHcxPuH4p1Ss6WPX2PSMUD8VXm2Catrw8wWucJsE3R+TfGk6K
+	+NkDmVJekAuoGmBcxmjQCxtAAA/88xyOqn0J2ZnfE2KkmmuhkCfLFxoM/cGgKIcqSvRwv1YDuWf
+	cIdAPWRcJEfOWrpgnfRGguaTgWHT0j239hD6fUXjwEbhs561UoLQUKsl3OxbV+bLXphYw943OAi
+	svr02hMFDhDEd6AzQcMxqzNC/WXsySqdjBj/+4BpfEExJIb7tzSfTM3cNodjeC30BEeDYunv/TH
+	DnHpiOelAAj2r2bebaGKzZ4h98rPl4tn7J6wzKIbvEVVx/CAOE1fDRlYs8mb/sZvYTKEfAKS0sj
+	5sdzFiQ7Fvr2UNMyg0NqDzHaMDxnoYHEBQQ8eZgCsHhPMMzvbPAAqs0VHP++tWr6MfnCk41qheL
+	JwS+KAk=
+X-Received: by 2002:a05:6123:2eb:b0:5dc:d0cb:7d6b with SMTP id 71dfb90a1353d-5eaaa65aa82mr3039279e0c.14.1792440429039;
+        Mon, 19 Oct 2026 13:07:09 -0700 (PDT)
 Received: from MaquinaLab.. ([179.179.244.163])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ea9b4776b5sm10451611e0c.3.2026.10.19.13.06.55
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ea9b4776b5sm10451611e0c.3.2026.10.19.13.07.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 13:07:00 -0700 (PDT)
+        Mon, 19 Oct 2026 13:07:07 -0700 (PDT)
 From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
 To: linux-serial@vger.kernel.org
 Cc: gregkh@linuxfoundation.org,
@@ -94,10 +94,11 @@ Cc: gregkh@linuxfoundation.org,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Enzo Adriano <enzo.adriano.code@gmail.com>
-Subject: [PATCH v2 2/4] serial: 8250_dw: Only accept a contiguous DLF readback
-Date: Mon, 19 Oct 2026 17:06:11 -0300
-Message-ID: <a79114e72d029732db6764935dde12aa5d497706.1792439398.git.vinicius.eduardo.pedrosa@gmail.com>
+	Enzo Adriano <enzo.adriano.code@gmail.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v2 3/4] dt-bindings: serial: snps-dw-apb-uart: Add Allwinner A733
+Date: Mon, 19 Oct 2026 17:06:12 -0300
+Message-ID: <09f3a181436e6f19317224e583c2fdaa787797d7.1792439398.git.vinicius.eduardo.pedrosa@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1792439398.git.vinicius.eduardo.pedrosa@gmail.com>
 References: <cover.1792439398.git.vinicius.eduardo.pedrosa@gmail.com>
@@ -112,46 +113,28 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-dw8250_setup_port() writes all ones to offset 0xc0 and treats any
-nonzero readback as the DLF register. DLF is a bit field starting at
-bit 0, so a real one reads back as a contiguous 2^n - 1 mask. On some
-Allwinner SoCs offset 0xc0 is the RS485 control register instead
-(UART_485_CTL in the A733 User Manual), whose implemented bits are not
-contiguous. The probe still takes its readback for a DLF of fls(readback)
-bits, and every later divisor change writes the fractional divisor into
-the RS485 control register.
+The Allwinner A733 UART is a DesignWare APB UART, but it needs
+SoC-specific handling so the driver can avoid stopping its clock during
+termios changes.
 
-Only accept a readback of the form 2^n - 1.
+Add an A733-specific compatible, with "snps,dw-apb-uart" as the
+fallback.
 
-The probe itself is unchanged: it still writes all ones to offset 0xc0
-and then restores the old value, so this only changes how the readback
-is interpreted.
-
-The A733 reads back 0x19f, and Andre Przywara observed 0x9f on the
-A523. Without this check the A733 RS485 control register reads 0xb after
-boot; with it, the register stays 0 across 300 termios toggle and
-restore cycles.
-
-Suggested-by: Andre Przywara <andre.przywara@arm.com>
 Signed-off-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- drivers/tty/serial/8250/8250_dwlib.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/tty/serial/8250/8250_dwlib.c b/drivers/tty/serial/8250/8250_dwlib.c
-index 325793f20256..1b0192efe162 100644
---- a/drivers/tty/serial/8250/8250_dwlib.c
-+++ b/drivers/tty/serial/8250/8250_dwlib.c
-@@ -225,7 +225,11 @@ void dw8250_setup_port(struct uart_port *p)
- 	reg = dw8250_readl_ext(p, DW_UART_DLF);
- 	dw8250_writel_ext(p, DW_UART_DLF, old_dlf);
- 
--	if (reg) {
-+	/*
-+	 * DLF is a bit field starting at bit 0, so a real one reads back as
-+	 * 2^n - 1. Any other value means this offset is something else.
-+	 */
-+	if (reg && !(reg & (reg + 1))) {
- 		pd->dlf_size = fls(reg);
- 		p->get_divisor = dw8250_get_divisor;
- 		/* Keep a hook the driver has already installed */
+diff --git a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
+index e2ca126d58ba..532392dd54cf 100644
+--- a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
++++ b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
+@@ -60,6 +60,7 @@ properties:
+           - const: renesas,rzn1-uart
+       - items:
+           - enum:
++              - allwinner,sun60i-a733-uart
+               - anlogic,dr1v90-uart
+               - brcm,bcm11351-dw-apb-uart
+               - brcm,bcm21664-dw-apb-uart
