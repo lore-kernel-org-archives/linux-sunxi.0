@@ -1,66 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792440750;
-	b=pyVNTzTrr1g3AueIGf4GaZAqe+Wnz6AKwcwGvWNJX/L3VraizEOs2dXsuLZX8Y8t5wJX
-	 kFKqHiH5tQPeXzYXgFfSy4NrQhMbyiJCVueq4XJKJSBRj+vRev2TY2dl4uNclnXa9awfb
-	 nNmBHwGedWnzCgAwWPrPisoFdH7hOxiIf6IpHV4lczDZQoJzewXvhfFxjZ4wfNXwVeJXq
-	 0jjhHOe1H6c72ZXewbNp0qXhvq48f5ylyw9jvkr/NhjKL0bSULIv+GJi2mPel5oOj1uaG
-	 RRibRU0JHzm0GuKPO8OJgLoBfzl5F4wP9oFOWcscIrc+kwJHD1v5t95OndIGD5Qfqvw==
+	t=1792440774;
+	b=lOoDFo4kYvhJhm3Ugf0rpCHqt2TAMkJrd78hRXe9KWQaQhbROrrT0NfCVR0iXvNBHE6s
+	 iu7MfdWdaJRtUvPA5bolgdiEqY/N5RSchUlUC2lNeIS6W7ogXOCo+jSPLtbXLSLT7P4C6
+	 663SsV/rMCANR9oHj5O0j6xByCx0xWc0w2ExIo5JhhAPp83KhtD1lpRu3psBhACbStC/7
+	 0jB896gnoCGzhDDQ7LrTFeYZUfv+bkwdSiyUWeUF6DDIBNd/v0huFeg5JV6d3toxjLVLX
+	 KMn8qrU2UqARsYyWv5T4oNRUrltNVNHC6degkmJXzwrW0aGA55vWxQKdXdUEWyJdEvA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792440750;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792440774;
 	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Date:From:To:
 	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To:X-Last-TLS-Session-Version;
-	bh=LTRlnK1nXG1mmQO++Uq1vusm9ibIA0GFtmdvXpx6u5o=;
-	b=dFbcl/fZr84U8DOOCoQerxff7Sn8Kk4BlvnFHbCNU921LKwjRY4wVSTDLkMRZFY7aTRE
-	 WSChWHmo4OVp8YnB+wtCb9ZlIZRoJpvmYM/8UKU6466cUG1eFZ+L4REVU9diaopXPh6Ma
-	 RPgmTw6BMls2chhWE6TwuWUODEQFOGIT77++c2//h6/ppPnManKFFjxMVfvK42W033NNw
-	 y/s/wQ/tW1r13K54RJMWtgIlQaIJhE0m3RgnaYOHbNJZWVK2fuD+xTLo8iwWm6hEHg4Ii
-	 tszO69VCxHdU64IT/+GfY9bRg9vTHzd6cotSSieGFmslnkbKMrlX4EqPxWN/0gabijA==
+	bh=bhtdHmlzv0DKoEw+Zc7TOwdDACTcoyGMeQ8adip2B7w=;
+	b=LYND8Lkq7MqrmG09BYZ1apEdjfQV/tZ03tQhUFckZX+hcpCudAq9OKAW4JnJlnFviG59
+	 bBYjBJqn9yqsfvSGdFJS4dlx7XmyYEIkBSQz/p8zNxRWKTBAF8JF1H/bWPdl5LF0Jrk1H
+	 V7xdx+qCXrViT75PQGPH/sPFTwYHATYnC85OM7moAQYHb0JnJa3pwdLYGeq3gi8+c7SXW
+	 DsSM/zeKiIwZp50Lw3dK5ijnnGVg00rBd4V6e8V9B6ljMbpYFwFM1q8rRoXXgZuqy9yam
+	 viYbzuOItnumRVDVlrBFImK+D1zkNK+9Vr3O71jUHIwPffw5H0PKM3BqzGjJqGTZ+bg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bootlin.com;
 	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=pMkKdZes;
-	arc=none smtp.remote-ip=185.171.202.116
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b="Pa3/iQqA";
+	arc=none smtp.remote-ip=185.246.84.56
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB87606A31C
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Oct 2026 20:12:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DFB87606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09CD606A320
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Oct 2026 20:12:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C09CD606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=pMkKdZes
+	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Pa3/iQqA
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 77ADEC5CD5C;
-	Mon, 19 Oct 2026 20:13:26 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id ED10F1A124D;
+	Mon, 19 Oct 2026 20:12:51 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3A33D60582;
-	Mon, 19 Oct 2026 20:12:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1DE9B10328C22;
-	Mon, 19 Oct 2026 22:12:24 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B800F60582;
+	Mon, 19 Oct 2026 20:12:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A795910328C52;
+	Mon, 19 Oct 2026 22:12:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1792440747; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=LTRlnK1nXG1mmQO++Uq1vusm9ibIA0GFtmdvXpx6u5o=;
-	b=pMkKdZesfYONkSLVd9w2zfn0x1bHOEpUnypkBOSqlSy0pjCpzKYspdAir5JIiYpA40Tyfr
-	EjcgZ0DJVHZHo05EHCXI/BO1+GZvL/FP5Dqyjdhi6X2XJxY/4ZTOjmVU5TMe8AS2ZLgQw7
-	uQ2gOhWb/KlcpBNkqlaTZlqGKb43xH4c2jA1eNPntVW1/alFEj4xd6w8iPGXsoUYJZ3/Ca
-	iNkR4NZonej30f4Ulf7DfznKNCnGACq64TIyDyKomVVDWuTq8KNvGO4Tb2y4X4BWVo/pPF
-	UblefzjSbKKriP8AWBpFPn1TeEjVoYrr+i5HxyGlyEOuOuEegW9c7eboWvvqHg==
-Date: Mon, 19 Oct 2026 22:12:24 +0200
+	t=1792440766; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 in-reply-to:references; bh=bhtdHmlzv0DKoEw+Zc7TOwdDACTcoyGMeQ8adip2B7w=;
+	b=Pa3/iQqA6vAUfEWx2TIhJVrvDVY1bNti3mgE+dD437CyxrCLMqTJ1ErML4wYetDTmcOhYK
+	PGq7h9FpP9dgS6Ncnd/AkqwJYFSPAxzZpb4yCCAjWY741cXlg2eGwlHYPABmg57+gc+sf9
+	MbVZ5UeAITIRMWz1Eh3/oQAh6vsciD1LpJEyq2XrUfqG5VY2iX+lZm5FyMaQrAOn06ueNZ
+	gi26YmOton3sKCyOeJXz0LOqt71W7hYVDciazQm48/qe7tvcsRlzC/6olMpGP/ez9o+f2V
+	tcsQpXF00uQ0CStVQxb/29i3zXwo+y347qLAYTuhPpZg18W8E8lWlZjzlv/mqw==
+Date: Mon, 19 Oct 2026 22:12:44 +0200
 From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Pablo Mazzini <pmazzini@gmail.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+To: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
-	linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Chen-Yu Tsai <wens@kernel.org>
-Subject: Re: [PATCH] rtc: sun6i: fix error handling in sun6i_rtc_clk_init()
-Message-ID: <179244056613.104236.10835769446499654446.b4-ty@b4>
-References: <20261014193220.38055-1-pmazzini@gmail.com>
+	Pablo Mazzini <pmazzini@gmail.com>
+Cc: Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-watchdog@vger.kernel.org
+Subject: Re: (subset) [PATCH v4 00/11] ARM: sunxi: add Allwinner B288 and the
+ PocketBook Verse
+Message-ID: <179244056617.104236.5769731153552958433.b4-ty@b4>
+References: <20261012100816.331033-1-pmazzini@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -72,17 +75,27 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261014193220.38055-1-pmazzini@gmail.com>
+In-Reply-To: <20261012100816.331033-1-pmazzini@gmail.com>
 X-Last-TLS-Session-Version: TLSv1.3
 
-On Wed, 14 Oct 2026 20:32:20 +0100, Pablo Mazzini wrote:
-> Set sun6i_rtc only once all clocks are registered, and unwind fully on
-> error.
+On Mon, 12 Oct 2026 11:08:05 +0100, Pablo Mazzini wrote:
+> The Allwinner B288 (sun8iw10p1) is a dual Cortex-A7 SoC used in e-book
+> readers. This series adds the CCU and pin controller drivers, the RTC,
+> I2C, NMI and watchdog compatibles, the SoC .dtsi, and one board: the
+> PocketBook Verse (PB629), a 6" reader.
+> 
+> The B288 is closest to the A64: most of its PLLs are bit-identical.
+> The clock and pin descriptions come from Allwinner's BSP, cross-checked
+> against ccu-sun50i-a64.c. Tested on a PB629, boots to userspace.
+> 
+> [...]
 
 Applied, thanks!
 
-[1/1] rtc: sun6i: fix error handling in sun6i_rtc_clk_init()
-      https://git.kernel.org/abelloni/c/2d6f97296143
+[05/11] dt-bindings: rtc: sun6i-a31: add Allwinner B288
+        https://git.kernel.org/abelloni/c/51f30cb855f0
+[06/11] rtc: sun6i: add Allwinner B288 compatible
+        https://git.kernel.org/abelloni/c/3784706c87c2
 
 Best regards,
 
