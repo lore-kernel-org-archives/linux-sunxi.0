@@ -1,101 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792461022;
-	b=bUzkpZnDHr7MOoFoyxG0MqUuBJRFmVG1GLwKDDHE/fJTYpcKSkC72bJ8sqtgDpygvveY
-	 hyY47f2S+gk1SaQx2EEjBH7KAECFUFwmD9mBdw5EUUBBxwlBzTps90/zAm7zR4lOrDsHA
-	 G7jTkdoNyqgNLEyqCosoVB8X2Zi5qoS1cEAny6ggYjV6itwgjI7jo4Wdx/SVT/usxgwWV
-	 UUVwl1BdX9puHg0rfxFEMmwI8CcEgy2rRoXvx2BfHPzbk5iqIJHNkVajLMJrB7dxSKVwV
-	 LZ1vPBwss3+5WvZ7kLEhY5IYLwdu4U3jAo+8EaGhwfQ0pHtSdGLv5H3rYmwtCIjQuQw==
+	t=1792476673;
+	b=HW+Nn58dKeIJo3Z7UBYMkRSNFfixyNzwATvVNPtAmvqETYNEQ8h6KIuNTiONz5TkgjOj
+	 y8vELwtg0Bh9d+q0wZwM40r7Nl0B+Bzw46j5myOJwpOZr8/ZmwI2hZRCKTy8dHycztG3h
+	 xy4siZNPQkiZLnT5s9yJeuyXKe78zcHds+qhfLIExnNoX8dQpdi7W9P/AGE7JoOZsCW/4
+	 yJsosZRd5Jp7dqFSSGEHznhTqsdXEQWUidARVlo0PgiWPhZpH0Dfal0Khaoy+J9BkGMbx
+	 HZvxkcGSf/a22Kv2JqPwH8JpdtrNJQUcm9LTz0TXp5zWHd26bQAdd/h2PkqgDRfRwKw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792461022;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Sender:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=iDWovBO5t1R7cL/YqgMZtu04YVJnGP0rNvIJ0GRt0YA=;
-	b=MeB1jlusH04EbtuJuQRhQ6ioHq66YELque52OVLFz27LTlYyUCp/Z2dQTZccnxLtLRpv
-	 TM/I0lANMKRLTtDs8Y6BoIhSluValoECx/Rj5v5Anvpsc0x/T7Zkc9o3+eckUh5Y5Mdeg
-	 1dE1/kb2i3SWiOb4zHWtnPBjZlQgGh60xS1YqNMYAVZs1aMsf3vBgKixYcG/zQCFV7ElA
-	 uJ/hWwJcEObr1redXo51Sd+KabZfcgMWnkk4dRkE7YSH2XSPpG6BlgbfjJGsZjuoVb2Ai
-	 dNiM/QicxHlQxEqYrvOfncNI1u6y40URCILXCpYqO3lLxJYYa32Go/NVryozhsq9NzQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792476673;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=qURdosLx8zTZ3zVvM3xem+wSvVuHh/39HXWQNT8Qr+c=;
+	b=xWcywL9tjSGEGcnQqXrYWDVuSFkasozljFdpuZdFs+bxPbatJRJDbehIofhHQIm20EjM
+	 D3Pa84eol/L8o6q1G3iAIyz50sqhA08Rkedplea8vl+KjmRgK9/5KcR2kwReW4VVWkflN
+	 FSqGja6jlULPTPrilYxJ7cE0RLZbDZDeRh2+jgFef5KrqFIlTycIFIfuFCUDbcakmCT/v
+	 J5tAnn/4g+6wX20pRuwDpFDuUI5d5xdlEAbDMOcFFVD7Xfj10as9a3LrpwEg8jifI+TXg
+	 L4TNlpj2rySdDKEecvSm7c1laxWiK3gV4zCxtxBIVofvCCB5eBRiK7ezoKYYFf+N5Hw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=roeck-us.net;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="Ibpteft/";
-	arc=none smtp.remote-ip=74.125.82.180
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=etogxosl;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03C5606A31C
-	for <linux-sunxi@lists.linux.dev>; Tue, 20 Oct 2026 01:50:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E03C5606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53FBD606A323;
+	Tue, 20 Oct 2026 06:11:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Ibpteft/
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-35943f55c06so367465eec.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 19 Oct 2026 18:50:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792461021; x=1793065821; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=iDWovBO5t1R7cL/YqgMZtu04YVJnGP0rNvIJ0GRt0YA=;
-        b=Ibpteft/LRdTTipS3unJpWfYGwoP9NB5tO71qhMJLSzIQU2w0RMbVMtdPxAOxNtGIM
-         y8OhboZWgZCp/zynfzMnZ02BhIMSQWLyvUYyD2eDEIszvkMyxqXQO3YYi0XKh4fZpl4X
-         Cd0M5xoAvScDb2f9C/B+4Ni+aRANXHbPiarLV2kxcOPRy1tPjojPtnZI/1AEFngsz3Uk
-         raba5ds9E72qqpB3ThcJl/lAsKyZSoZAWX/kIov/eMHKSuun/z6DlIvS3Tl969+T2EQL
-         ZWjqyBFLU0hlb1CE0CvqUtukiXR8yahMiIhQSr+eaa5MxHcb/4Qa8mffK4leOvICHQ9/
-         SJ+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792461021; x=1793065821;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iDWovBO5t1R7cL/YqgMZtu04YVJnGP0rNvIJ0GRt0YA=;
-        b=uKqY8bF9XoG/xOJ48uMKGx+iO/OF1+xZXMUpCHfvSynEaC3ybomXT1LMK7gePH1Yu8
-         DzKKmKOZiy9DymhY8vJh0h4Qoo5SSYtYPW+OdyHLFTsB5NT18RBi6VEa8eP8Cu9mCnaV
-         EUhVSdHQu7WquyeDIT2PGbWywq91JUbWnO4/JZiCjbNmBArhkmTQ3+HyeTh5ufIaFrA1
-         g0apm05MSP8UKxOIXxAzENo1EuFj3sFzWujhPH8vw4y1GCCrJEIs/dUG0HZAYUqd2fZ8
-         RgsPcHxHPBmbA5g3NqKT3ZnnhQHouA/YjvMMWCS/vNxPggMfMLAbiH78imr10aexffV1
-         cA5g==
-X-Forwarded-Encrypted: i=1; AKwUvBwrc8gG/qQA4E021x2F3EgBXOySJJXMzV+2NgjZvkrgFBH6d4dG5S5PVB0U5qYRbh7xMwUWpzj0UK/bjQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYI9ixqQSAxQAKYVJDgFB+A6JCjwWFpsivIfdh11rH02/4sY/glE
-	uP4WJBwpFNxe1FBo4iIEz3LJVQXRGJWYgdrMkoOosDC3Ona+yjModBY6
-X-Gm-Gg: AYBFou22GzR+f1ufrDFtd7yVZob68pTe/VKVtnivyzS50MRohitZF2eK0Ua8H69A2zn
-	csZEtk4QHQJl6H6CTe2qxZly8LHwaI3GZ8L5Ed7y8vPoMTw6iO4o83e5aFuYrzrAixDJFzIiip5
-	WGFT7gVFND21aZg2+TvWvJkDAk4X9Z0Byq1i2Sx53iUKA6pwmV/xho+4F5Csvcjbdijf8QErKFI
-	crxI5q0PJwQLAYkfbzVuiOaLD/X/4dxWogjkQcxmbBgGVb5MNmq0TiFuCQr6InmqL8+i226htX5
-	AcVEaWuA+4EZ2VMAI3VKLEVEZHKIslrenZXIokA0zCt3kQRBDrBm+yrrouU2asFuInQy4KxJlI+
-	UvMBeUbQsqRXeD7wEZewas9ERLdniux4sHhMpKTB06MPSn7Wk1c1wA41eazEorjIMarpZ/AU0+q
-	0TQ8zBRPekSQmYG0we7nsR7isc7HiLTjJvmav9YFeLM8IOi7ApPa3fx3L444LZR3vKW9mRnvT1x
-	cpxYN1VD3AI
-X-Received: by 2002:a05:7300:e7a4:b0:353:5d7a:cabe with SMTP id 5a478bee46e88-365fad8dd2dmr1501089eec.13.1792461020849;
-        Mon, 19 Oct 2026 18:50:20 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-360813b792bsm37187697eec.5.2026.10.19.18.50.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 18:50:20 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 19 Oct 2026 18:50:19 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Pablo Mazzini <pmazzini@gmail.com>
-Cc: Chen-Yu Tsai <wens@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH v4 09/11] dt-bindings: watchdog: sun4i-a10-wdt: add
- Allwinner B288
-Message-ID: <b1f2e857-134f-4bd9-84cd-fa05f43a62a5@roeck-us.net>
-References: <20261012100816.331033-1-pmazzini@gmail.com>
- <20261012100816.331033-10-pmazzini@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=etogxosl
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A79521F000C4;
+	Tue, 20 Oct 2026 06:11:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792476672;
+	bh=qURdosLx8zTZ3zVvM3xem+wSvVuHh/39HXWQNT8Qr+c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=etogxoslE6HlpKoURqYD++MGv+S1oy/dUd3bi7iK4rFPObqwFbk6Fq1EQJqbUEhbh
+	 648zYiZlOthgH3LfhIj+lHRuogvMCQmOVxaO05jgUXO0xhtZFU++DgY3ln9QrKUDDg
+	 nQ658iuxxpsPNwsMK8Y04xYjqBAtqBFVTpSTbms8KSWYjbQK1JVXfF1isxpJ0QEQ5G
+	 bjSBD+K6Vxq8fnGj1Ro8mEAQPew4T227Z2U7SOVZt3XBe3Mr69MUMFVBEJg3TgDSyO
+	 dGS3k/Qa4aFaee/J3hpd6L2ViRhqoqxboP+DURQAt8C1QZnbyk2cpc8yoxMIHJ5V4g
+	 fC/uEbrVXwkUQ==
+Message-ID: <d992e18d-31ab-4937-8780-9c9dc423082a@kernel.org>
+Date: Tue, 20 Oct 2026 08:11:06 +0200
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -105,17 +51,88 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261012100816.331033-10-pmazzini@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/4] serial: 8250_dw: Only accept a contiguous DLF
+ readback
+To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
+ linux-serial@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, andriy.shevchenko@linux.intel.com,
+ ilpo.jarvinen@linux.intel.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Enzo Adriano <enzo.adriano.code@gmail.com>
+References: <cover.1792439398.git.vinicius.eduardo.pedrosa@gmail.com>
+ <a79114e72d029732db6764935dde12aa5d497706.1792439398.git.vinicius.eduardo.pedrosa@gmail.com>
+Content-Language: en-US
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <a79114e72d029732db6764935dde12aa5d497706.1792439398.git.vinicius.eduardo.pedrosa@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 12, 2026 at 11:08:14AM +0100, Pablo Mazzini wrote:
-> Same watchdog as the A31, which it falls back to.
-> 
-> Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+On 19. 10. 26, 22:06, Vinicius Pedrosa wrote:
+> --- a/drivers/tty/serial/8250/8250_dwlib.c
+> +++ b/drivers/tty/serial/8250/8250_dwlib.c
+> @@ -225,7 +225,11 @@ void dw8250_setup_port(struct uart_port *p)
+>   	reg = dw8250_readl_ext(p, DW_UART_DLF);
+>   	dw8250_writel_ext(p, DW_UART_DLF, old_dlf);
+>   
+> -	if (reg) {
+> +	/*
+> +	 * DLF is a bit field starting at bit 0, so a real one reads back as
+> +	 * 2^n - 1. Any other value means this offset is something else.
+> +	 */
+> +	if (reg && !(reg & (reg + 1))) {
 
-Applied.
+Do I understand correctly, that this equivalent to:
+   if (is_power_of_2(reg + 1))
+?
 
-Thanks,
-Guenter
+thanks,
+-- 
+js
+suse labs
