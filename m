@@ -1,87 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792590345;
-	b=YmBktsypeW6B4HFFU6CgcXKm93b02vQH5wthYWIl2+jZnJ8oZan63h38af0Yn+OinVsa
-	 3xRmy8/edX5JKRtptIXbXljNsZWp0rJSNpi64ZjyAe44jrWKMVgxFA5nrucBo6o/kgDfg
-	 w3du+TkhxwtH/TCXn1R/HF2WKz1DnNu/KJUb1RxO9tPklnlxBNlVPqdudwKYdyR78UB2Q
-	 8pXOGEU8cbRVcaHeGaYGN/g7mh3ak4YHpdEhQxz8JjrgKWMACi/4OJZQkuyHrth7OKVEk
-	 L5FfcRVpltyCDWqM4N1vDA54+bdVkYubQHMqebeTXZsIcEzhK2uOGC8MBcZhSHTjbJw==
+	t=1792594495;
+	b=BsbcYVQD8LZjK9/YZ6xwmLGPW0qGuWG7y/XxUJp+mrgOa9xAeCfVA8MEeuvsO3ESA6dQ
+	 muUlKXVqkdHXRB+hQWJ48KO6dGRr4gBse80hPpB1LdhY2yc4y7E8l12yHAw/anH3606Sq
+	 D/FtyGCH1Z3kNq7BxJf1j9G9IY6Yw8Xy1B8+Udow0et33sycUgVzBDtw6ohdEmt4sY0zh
+	 LdI1opKcBGvK2d9FdKaE5fCLLPeV82ovzlkmtfYx0RRujbczRWOyHfjfg4ptCIaSKB3eS
+	 XPjdMYXpEJ/JRm1FTU8CMY5JX8tjJO90rDDXPfJdjMc5ZTlR83sSceuLBfNlr9Q11+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792590345;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=om8w7QXSdYKu02tw65tJ99U3eL+Sg+cuLsqMm6GZ54U=;
-	b=hNR4hAshigK9XYBNaoSGfClJWbewmd47w3ec2Pd8yuh0aQWOitVWR00w3m9IIc2BQnQm
-	 6J3H1MC+GoNxfQXEnYnrbv7W8d8P1gBjo9vA6uOD4Sit+A7OjeYX76gxdMSNPZW6htIGi
-	 w2EWX+Hjw1YvsoC3r+giKJ78SmgjrfTjYDvvMI/kZ9FXoUz9+mgWkN+FgPfdcbIADWWXg
-	 Xe4/YRHwtD0YR5mlOXQzeK8izwdiHgurFB6WX7t/J0rWKuA5QhPVCppLAyOU6gUn5E7j0
-	 YZGGhHe0V7wLnl1TMzq7ZkUjSTLEx4hoiNaziqtrHFhx7bbvlKXvl+LsZ5zt6Mv4Twg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792594495;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=x9wI+e3mIwOv7TfgzOPcvTuB5ZllHHGq2cVlkiHDhg4=;
+	b=YWiw8Y0OCrX030kKkOkoAzWIrUqz8+y2nKsDvtzGVdPPs/8RPNU6VQPFFB42zRS9CAL5
+	 k/84gkJWjPiRPwo3R8FLyg9bj8/CnVSE/j51AR5trHgg4zE0KFE/BXh9NuPy72lcLIWmg
+	 w1kmKgqbs1Wb90PgmN3pS1K8F4XvMn9lTh34iIOeOWH2qPoLXK/I8PF028IF93+H461nm
+	 plPGvt0LGCx0EXY85m98pozE7TgB0grxHpPIUl0/8EOdEpzFaH1K3tl1xa9x477ng3XBc
+	 GQdbwXKMfjw5gAPJTpZBTskeWzoV5NXLs/qoNA8QLxnHBAgp1socvy6WVOCjvsfQ02A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PE4kwjVN;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37DFF606A319
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Oct 2026 13:45:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37DFF606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=BUIXxR7L;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 636C0606A32A
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Oct 2026 14:54:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 636C0606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PE4kwjVN
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792590344; x=1824126344;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lUjLPWWlN6l1+ey7iJlAqTyXZpN23Ksa49kPyHEPupc=;
-  b=PE4kwjVNIPcdSktzGAKB86k/AHTGY8fJU+zJUhnISVefVl5XvK1GO1jA
-   aAhsN0hlG0bTiw6aAXr5oe41i4x9cMQ31+68XGq4FvjxdHJBu3EohcC7g
-   cOaW0tlAJyYeRjX8K9t+7d45z9Ohbi4Ltvk3FW+jBnrjOWaWc8M3rQHh7
-   1DZMdWNkDR7zWtN8zeItaSOw9Sg01q3JYJWrWSFwrqN74nduEeWQoW+W5
-   pg0+E5/M5e1aki8bV4Hom5F1U6DE15IK7pxK+Zy+zlUokI9p0hMp1gs35
-   qhKQEG4X/ZrOKH4ClLPYwG5or21ATb3whbhafeM1PtQ7BeJdPewAYQQob
-   w==;
-X-CSE-ConnectionGUID: z7L/F4G4RU+9OWM1fZirXA==
-X-CSE-MsgGUID: Y+TDTKI0R92kLxK+ay5N+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1346849"
-X-IronPort-AV: E=Sophos;i="6.27,170,1787036400"; 
-   d="scan'208";a="1346849"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 06:45:35 -0700
-X-CSE-ConnectionGUID: +SSgAPUWSeqSj+QSQsE4OQ==
-X-CSE-MsgGUID: Q5rODW1QRJ+XPjGyXAxLGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,170,1787036400"; 
-   d="scan'208";a="3036317"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.24])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 06:45:31 -0700
-Date: Wed, 21 Oct 2026 16:45:28 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-Cc: linux-serial@vger.kernel.org, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, ilpo.jarvinen@linux.intel.com,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Andre Przywara <andre.przywara@arm.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Enzo Adriano <enzo.adriano.code@gmail.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] serial: 8250_dw: Keep the BUSY-safe divisor hook
- when DLF is present
-Message-ID: <atjB-BnXclL3FcUm@ashevche-desk.local>
-References: <cover.1792439398.git.vinicius.eduardo.pedrosa@gmail.com>
- <cc358c2be6b0b4ea0323e4f694a581ffb667112d.1792439398.git.vinicius.eduardo.pedrosa@gmail.com>
- <20261020104753.28703-1-vinicius.eduardo.pedrosa@gmail.com>
- <athe0QikG2mzCAtd@ashevche-desk.local>
- <20261021100049.16504-1-vinicius.eduardo.pedrosa@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=BUIXxR7L
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 789A22A68;
+	Wed, 21 Oct 2026 07:54:50 -0700 (PDT)
+Received: from [10.0.153.134] (e142021.arm.com [10.0.153.134])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 011CE3F7D8;
+	Wed, 21 Oct 2026 07:54:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1792594493; bh=Q56jjRdUrfSyTENCqjYOItR4H4hbkkEVB7lVr72CSdk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=BUIXxR7Lqj1C0cgkRxEJqIG4Xqf7oO/pm85wuIGmPmyDo2OCsleYVpy5atgqS73il
+	 HjdVv+No3NvzMmSCY7twv3F9ceoliutU8sQj72sRLJkpTu8prfuAW59DvBPjOlibxZ
+	 oPfyKGmdpFqRMT/hTjhNVPf2lHoyulg4nCkGvO0A=
+Message-ID: <414bbb7a-1018-41ac-a580-cd41708c6a78@arm.com>
+Date: Wed, 21 Oct 2026 15:54:49 +0100
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -91,53 +53,65 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261021100049.16504-1-vinicius.eduardo.pedrosa@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/4] dt-bindings: serial: snps-dw-apb-uart: Add
+ Allwinner A733
+To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
+ linux-serial@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, jirislaby@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, andriy.shevchenko@linux.intel.com,
+ ilpo.jarvinen@linux.intel.com, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Enzo Adriano <enzo.adriano.code@gmail.com>,
+ Conor Dooley <conor.dooley@microchip.com>
+References: <cover.1792439398.git.vinicius.eduardo.pedrosa@gmail.com>
+ <09f3a181436e6f19317224e583c2fdaa787797d7.1792439398.git.vinicius.eduardo.pedrosa@gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <09f3a181436e6f19317224e583c2fdaa787797d7.1792439398.git.vinicius.eduardo.pedrosa@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 21, 2026 at 07:00:49AM -0300, Vinicius Pedrosa wrote:
-> On Wed, 21 Oct 2026, Andy Shevchenko wrote:
+Hi Vinicius,
+
+On 10/19/26 22:06, Vinicius Pedrosa wrote:
+> The Allwinner A733 UART is a DesignWare APB UART, but it needs
+> SoC-specific handling so the driver can avoid stopping its clock during
+> termios changes.
 > 
-> > Right, but have you read my second question in the above paragraph?
+> Add an A733-specific compatible, with "snps,dw-apb-uart" as the
+> fallback.
 > 
-> Sorry, I missed the second part of your question.
+> Signed-off-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> ---
+>   Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> If I understand you correctly, since 8250_dw.c already has the BUSY-safe
-> set_divisor, you're suggesting that it should have the matching
-> get_divisor as well, instead of pairing it with the dwlib getter.
+> diff --git a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
+> index e2ca126d58ba..532392dd54cf 100644
+> --- a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
+> +++ b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
+> @@ -60,6 +60,7 @@ properties:
+>             - const: renesas,rzn1-uart
+>         - items:
+>             - enum:
+> +              - allwinner,sun60i-a733-uart
 
-Exactly!
+So if I understand correctly, this compatible is really there for the 
+clock gating issue, right? As the DLF part is now somewhat correctly 
+auto-detected?
+Can you share what your termios test looks like? Because I assume this 
+affects more Allwinner SoCs (the DLF change definitely does).
+Then we should add more compatible strings here. If there is a simple 
+test, I am happy to run this on a bunch of boards, to give you a list.
 
-> The dwlib getter would stay for the other users of dw8250_setup_port(),
-> like 8250_lpss. Is that the structure you had in mind?
+Cheers,
+Andre
 
-8250_lpss doesn't redefine either of the _get/_set_divisor, so it won't be
-affected. But I think that 8250_lpss actually lacks of busy support that's
-why it uses simpler version of all this. Maybe we can refactor that (in
-the future?) so that we will have dwlib to provide the IDLE version of them
-for all and depending on the existence of busy functionality degrade to
-the same as just current DFL helpers.
-
-Can you check that approach?
-
-Ah, dw8250_idle_*() are already BUSY-functionality aware. So, what we need
-is to provide dw8250_idlej_*() callbacks via struct dw8250_port_data and
-make current 8250_dw::dw8250_set_divisor() to be part of dwlib.
-
-Patch 1 (dwlib): Add callback definitions for dw8250_idle_*() to struct dw8250_port_data
-Patch 2 (dw): Assign new callbacks and use them in dw8250_set_divisor()
-Patch 3 (lpss): Introduce stubs and assign new callbacks to them
-Patch 4 (dwlib): Use dw8250_idle_*() in dw8250_set_divisor()
-Patch 5 (dw): Kill now duplicate code pieces
-
-(Some of the patches might be combined, but I think the above split is not bad.)
-
-Would it work?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+>                 - anlogic,dr1v90-uart
+>                 - brcm,bcm11351-dw-apb-uart
+>                 - brcm,bcm21664-dw-apb-uart
 
