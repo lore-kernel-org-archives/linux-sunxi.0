@@ -1,108 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792597071;
-	b=fvDanrPim33RvEt7y2V3vdjGVUixiuSkUo2mAxatkRW57WfrznSCrVQUOKLmTZ3E9Li7
-	 ibElO3RrjSwRIMtv4/i8hsEz5dK/o1kky/jKg/cxlT4jPproAxbAaQq8GlsVaLyeKOTbU
-	 ezMd2aDT6Tpx+3S/tFX7nOWYiv1GFOs6CWKE+aOitvq9iOHy1uv2CjXDKT8ttIyj1znP+
-	 41QR5LYeiE+m4E0kEwSUjiMQHc81PV2GM12tnswhm39seXVruKf6jXCEh6SHvsbVlDlxW
-	 ainhhSmIvcgzzEYUlDGPhQOo7iFXcbfakHqkYP12a8udtmXuB38a4YnGSxeVLFVoB3w==
+	t=1792600685;
+	b=15G3Yn1Xn+tdQr727fLwAYciPb7TeL6Rg/CjBDDMS7CTQRZXHbGBqSCC7gxZAl/tZDRT
+	 0VYgd1H5ZbIhoq/fiThcmNKeXKBEmenpFSs81JI/W4nFR1aa2PBZsD0UFHgHOsw3HZZAq
+	 9KQDgEZ0uETW2YWYxsX1i5hx+/SG0n56+6AH9YY/e4Br0VfQeL8c1i+kCrGhUTgrSEAf3
+	 879wUw9YuMx0cKKFD9Q2J5M8mdaXu7k0QIaZO4b/Frad60VAVGm1uI9+L/Pm/HT3gaDUI
+	 fsC7WAb21rLvg6/2MgQ8rs8H7q4eBawVtOri981jTHBsW9UIhEBwm4Eo7ZpvD0ADfPg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792597071;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=pcUJNAa1d5gYFOvrKvELkQqk+wRTOdmweUM3ujZu374=;
-	b=V2ZZ/tCCOqkGy0PUhy/gN3d5HFaC7IlTE+RBa5Q3vxsJJv6QjhVmWodoQrh0XoPnI36u
-	 hV78Y5j6JAxUoxhY+9BJR64EvnrdLNtG8Ar02brUjyrnBFMpftxVYObYXAAJKRIQb6qRH
-	 WNlJhmNFnmlQAEPxQ5CBXOQvNOsAm+BlkoBVTBO5XhQqcolui9h0JNwWCvSKqyMzNVAbS
-	 zpj1t9kNSETwjQdulWx4Ao0q4102WzFBYT0eEVVul30KyDbpwk/mYTc/4eqlTVMUrZJB8
-	 cktMehviVCSx22i0JivVN9NsZyAQq4Esv5rj1Mn3+2g1qz2bf+SSCOFedR3rtZfoJWQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792600685;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=McunKYpk3SrrPsRKqQvoEpYeFEb35U72fbcZI0hzJ2Y=;
+	b=ywIMAOdJCTcqjb8Pr6gqflXYFutbex8kPGzuSAXgthVgr4COqMcN6j6iYotA7CYbRfTM
+	 A/roanGny/xc2Jy/Ra8VaybxAWe6Iyha0YsQ5RRmXXYmrET3h7cc5Hi5OyvFe+jfXv4Vq
+	 WTjDK+Y2OauWywykdOBna8fjyOSbSGMQkWVuNJIwtgUnJy3n91EMOp1NLU5GCxWL53FZl
+	 L+clOm9P2aAgUmRR1JkmEV3I37Ng23+wYHMSNkUNgJvYAOkAHHoi5HPw6JmGyLNpxpllE
+	 fmj7GLDmKnYW6+wZHE61S+h6FAMPjXkR3qBAUJ3nmb/0lWHxtqyMlIqU63BKz+zf/Vg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=S39oMMs2;
-	arc=none smtp.remote-ip=209.85.221.178
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SFaKqm+P;
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E054B606A31B
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Oct 2026 15:37:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E054B606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE94606A31D
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Oct 2026 16:38:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3EE94606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=S39oMMs2
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5eabf243d05so338397e0c.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 21 Oct 2026 08:37:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792597070; x=1793201870; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=pcUJNAa1d5gYFOvrKvELkQqk+wRTOdmweUM3ujZu374=;
-        b=S39oMMs2sUthjPEr8Ch2iq4i6l20UfPSl6Oo475a0HqOfodJFFyskA1nRS0yWY5a9L
-         WbJPrE52t+nwExSD0jpnLbN29/pKgfDxiEU7YeW9AuA38bOgQScsZdI0fvHZgbKcoLrO
-         /ghqnTHLoxx6RZv355AzEXzw4DpFqTW5mNn+fCGpMPzggKpEHnF7YHvH2WXsMM3Fmfbw
-         A1s+7d/a7QdQ1UvivlVA9CAEuPuWmjtPPeW6c6jNkH0/HWT5nPnTTaySO5rHyBCT2IhB
-         IG7uvdlvdJQ17ySx3IyusBoK7OXc0LGXRsVC1DHJvPm6PHm5H8n5XakrleQ0bUv/9xG+
-         dQWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792597070; x=1793201870;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pcUJNAa1d5gYFOvrKvELkQqk+wRTOdmweUM3ujZu374=;
-        b=TkUICTop0iHI9ZrxH9SmJKmegn3or4u7oY7RNlqATO7wYo4zGRkdfnIMRoFwnaAvOR
-         xSaumjSit1Cv85HnXrUrubrUoJW/eLTq9wMLr0MUAzYKIaONxfIR6pjQZaiehcC4AQPr
-         +SA4ljsGs6D4vftGMLKeQk6UjeVsrf1H47XssvNMhvxQNUAzyqa9XzsYX+YVsVye/PEQ
-         dd2O7xO53MoRQ93aM9FYQUWDr9IYZIXPlxQkAJKglg4ZkIqTiDEDDVu4/DutiCddUqMA
-         dGyk5mBqFRzPaDY1iiiu3jsSKtW7tFYrvuQ5mylH3bwnocUl4LavNEjqfDOjtVr7TuAI
-         ZSFA==
-X-Forwarded-Encrypted: i=1; AKwUvBxekdGa4wpCGvIRnajIIzE7MxyrZlI5W5ej+rfuRqXNX5VDFsI0DzbxKzbM5x4YgxQssJU5N3CkxScy9g==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLUFmrWDC0zitkUsrrav9G3ZYifQdgobogOmpnDf1joIUWDmris
-	wK80dp+Z9dAxX6wt0PnWGnkMz77fd72XfLFtZVHrmGHwV3odNvdBPNMB
-X-Gm-Gg: AYBFou1Rk0xvLvTxaWhdh0P4TXyyOwIvihjX/Ea3gs7S+wjZ9jaRs+CNK0ACoQssTLm
-	ufxXoLZ0oVx4ENOjzDa6f0XwUtR4m1yjqCY3Vsr+q9VEWNcC+ZVIlZszWPF3MMNqUd1lRU44Rle
-	PhrHlotW6GwnZ3whVc+BtXNo22+xCicOTtfeCfMG13JWX4wZh/blKgkh6S7x33dWZ+5s5qzkjHg
-	PU4lGmKpod7ivukGDZDf2X6oisjsJI4sBZOUUATbbtpYyqT3Y2zolPcemmcIM3zvBJXXZW2jhjJ
-	J4NGN8ZFMkqOqeynCHwOM0VFcMKT0Tz9++NqlRhIC8FIJBKMeDr5td0Ri0It9N7muNrVZMpcNC6
-	uqH5XOF1q+ntHbBCYMs4hPN3mrGRfu+8S2h8dwFbVB3wsoP/+4mjKVxNHDlD/6nzJmlATbfBH1h
-	fbJQSquyywTqeLY4DlJKQl3HvoFWM83zZYUAsUvPwUXkOmLl8HEuOlTwMZBYvxb7ySz14TvxUCT
-	fa01rQl/fRi8mlMRRBUnsA0sTFFc2taVlz5D4n5ReAyBihig9Mrd+1BBFh8rJ/PB5NAZ8yPNHfa
-	XqNiHEo4EcEPfyRXGhKILt3abquQW+jsz0of2YirHfhUrVAiXgupoOE4kBgyxpw=
-X-Received: by 2002:a05:6122:3122:b0:5ea:db3c:4a3f with SMTP id 71dfb90a1353d-5eaebc14cdemr1063889e0c.2.1792597069786;
-        Wed, 21 Oct 2026 08:37:49 -0700 (PDT)
-Received: from MaquinaLab.. ([179.179.238.247])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eae97f0a94sm3505688e0c.11.2026.10.21.08.37.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 08:37:49 -0700 (PDT)
-From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-serial@vger.kernel.org,
-	gregkh@linuxfoundation.org,
-	jirislaby@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	ilpo.jarvinen@linux.intel.com,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=SFaKqm+P
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792600684; x=1824136684;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vMG801eKnNULxoZLCiadB9NVXk+XUs6yYYb1ZD5sjAw=;
+  b=SFaKqm+PgJpRCIjiRVjeeLjlr500iLB/yKNjqtN5b8JXYzHsiMbQGIBX
+   7tXcmUPeibM2P8PKzSNnjJ9GE4/0HVpiONZAeI7rh0iDcRU0zRQbwnqp6
+   IEwXrq+kfpSySssmyPTcU5KcA6650gjMWW1bsF1U6dHdGjNdlVmTfNU7T
+   SRyo1cCRczhmzeilaIkBTKGp5zxujSiqrXb4+68E1GaDU1KlZaqEsaV3F
+   eF2rWyUxlbMAT1f8Ud4vZow5I4L4WD4ESLFq4+bOLUquCnJjWjGhE8y7B
+   fYvP7bjpNIaUafNBsUCGjIBXHfOUVwagdOKvTt7qjt4dxBPCgklDVArCG
+   A==;
+X-CSE-ConnectionGUID: t5PkOoxwRNaBndzFgCUp5A==
+X-CSE-MsgGUID: r6mcqT4lSYGpfHYwKvixyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1343775"
+X-IronPort-AV: E=Sophos;i="6.27,170,1787036400"; 
+   d="scan'208";a="1343775"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 09:38:04 -0700
+X-CSE-ConnectionGUID: +ylwMqJRRJyt1ssj5HrsVA==
+X-CSE-MsgGUID: o0cne00uTyOdAzd0bOSipg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,170,1787036400"; 
+   d="scan'208";a="3013059"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.24])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 09:38:00 -0700
+Date: Wed, 21 Oct 2026 19:37:56 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+Cc: linux-serial@vger.kernel.org, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, ilpo.jarvinen@linux.intel.com,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	Andre Przywara <andre.przywara@arm.com>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Enzo Adriano <enzo.adriano.code@gmail.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] serial: 8250_dw: Keep the BUSY-safe divisor hook when DLF is present
-Date: Wed, 21 Oct 2026 12:37:32 -0300
-Message-ID: <20261021153732.1978410-1-vinicius.eduardo.pedrosa@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <atjB-BnXclL3FcUm@ashevche-desk.local>
-References: <cover.1792439398.git.vinicius.eduardo.pedrosa@gmail.com> <cc358c2be6b0b4ea0323e4f694a581ffb667112d.1792439398.git.vinicius.eduardo.pedrosa@gmail.com> <20261020104753.28703-1-vinicius.eduardo.pedrosa@gmail.com> <athe0QikG2mzCAtd@ashevche-desk.local> <20261021100049.16504-1-vinicius.eduardo.pedrosa@gmail.com> <atjB-BnXclL3FcUm@ashevche-desk.local>
+	Enzo Adriano <enzo.adriano.code@gmail.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] serial: 8250_dw: Keep the BUSY-safe divisor hook
+ when DLF is present
+Message-ID: <atjqZPuAbHDdaexv@ashevche-desk.local>
+References: <cover.1792439398.git.vinicius.eduardo.pedrosa@gmail.com>
+ <cc358c2be6b0b4ea0323e4f694a581ffb667112d.1792439398.git.vinicius.eduardo.pedrosa@gmail.com>
+ <20261020104753.28703-1-vinicius.eduardo.pedrosa@gmail.com>
+ <athe0QikG2mzCAtd@ashevche-desk.local>
+ <20261021100049.16504-1-vinicius.eduardo.pedrosa@gmail.com>
+ <atjB-BnXclL3FcUm@ashevche-desk.local>
+ <20261021153732.1978410-1-vinicius.eduardo.pedrosa@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -112,41 +93,61 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261021153732.1978410-1-vinicius.eduardo.pedrosa@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Andy,
+On Wed, Oct 21, 2026 at 12:37:32PM -0300, Vinicius Pedrosa wrote:
+> On Wed, 21 Oct 2026, Andy Shevchenko wrote:
+> 
+> > Ah, dw8250_idle_*() are already BUSY-functionality aware. So, what we need
+> > is to provide dw8250_idle_*() callbacks via struct dw8250_port_data and
+> > make current 8250_dw::dw8250_set_divisor() to be part of dwlib.
+> >
+> > Patch 1 (dwlib): Add callback definitions for dw8250_idle_*() to struct dw8250_port_data
+> > Patch 2 (dw): Assign new callbacks and use them in dw8250_set_divisor()
+> > Patch 3 (lpss): Introduce stubs and assign new callbacks to them
+> > Patch 4 (dwlib): Use dw8250_idle_*() in dw8250_set_divisor()
+> > Patch 5 (dw): Kill now duplicate code pieces
+> >
+> > Would it work?
+> 
+> Yes, I think the approach works. Two details from checking the call
+> paths.
+> 
+> dw8250_setup_port() is skipped for Octeon (skip_autocfg), so 8250_dw
+> would still have to install the setter from probe.
 
-On Wed, 21 Oct 2026, Andy Shevchenko wrote:
+No, just pass that as a 'bool autoconf' to it, and assign those callbacks
+there, while calling dw8250_setup_port() unconditionally from _probe().
 
-> Ah, dw8250_idle_*() are already BUSY-functionality aware. So, what we need
-> is to provide dw8250_idlej_*() callbacks via struct dw8250_port_data and
-> make current 8250_dw::dw8250_set_divisor() to be part of dwlib.
->
-> Patch 1 (dwlib): Add callback definitions for dw8250_idle_*() to struct dw8250_port_data
-> Patch 2 (dw): Assign new callbacks and use them in dw8250_set_divisor()
-> Patch 3 (lpss): Introduce stubs and assign new callbacks to them
-> Patch 4 (dwlib): Use dw8250_idle_*() in dw8250_set_divisor()
-> Patch 5 (dw): Kill now duplicate code pieces
->
-> Would it work?
+It might require another patch, though (to make it a parameter first).
 
-Yes, I think the approach works. Two details from checking the call
-paths.
+> For LPSS, I wonder if the idle callbacks could simply be optional.
+> 8250_dw would provide them and LPSS could leave them NULL, avoiding
+> stubs and a separate LPSS patch. The common setter in dwlib would use
+> them when present.
 
-dw8250_setup_port() is skipped for Octeon (skip_autocfg), so 8250_dw
-would still have to install the setter from probe.
+I think it would be less flexible, also it will add an additional branch
+(actually two) each time the set_divisor is called (not that it's critical
+but just wanted to mentioned that).
 
-For LPSS, I wonder if the idle callbacks could simply be optional.
-8250_dw would provide them and LPSS could leave them NULL, avoiding
-stubs and a separate LPSS patch. The common setter in dwlib would use
-them when present.
+> I'd still prefer to keep patch 1 as the small fix with the stable tag
+> and do the refactoring as a separate follow-up series. Would that work
+> for you?
 
-I'd still prefer to keep patch 1 as the small fix with the stable tag
-and do the refactoring as a separate follow-up series. Would that work
-for you?
+I dunno, I prefer just a longer solution, but I don't know how big this issue
+is that we need to backport in that way (and not taking the whole series as a
+fix).
 
-I don't have LPSS hardware, but I can build-test the LPSS side.
+> I don't have LPSS hardware, but I can build-test the LPSS side.
 
-Thanks,
-Vinicius
+I have Intel Galileo board that uses 8250_lpss.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
