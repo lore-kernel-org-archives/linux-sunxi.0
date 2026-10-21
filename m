@@ -1,49 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792583279;
-	b=CQ9r6m6Em+zHcKU8bEVNyr/qloTS868KpWaHRzK/NWikc9+xcy31op9FUzti5n6Of3bI
-	 AWsu6+LGqxsTAsm2Q3U752qUJ3IBM4UWD6op1UE4YrEjy9mv5IjcXB8MwWDYAO+NGu2kw
-	 ozcjxU21+To4j+WDKI8Jh63OG6JoK0KCwwVLapbNM2pPAaHGaFSbyV53RYLOn3Id12G6j
-	 jYK1WlXRVP5q8K6QlG8URQMzt4t7vceH/M6sI6UbkFMc+DQHIcw2gljLDE4hjLVu6ZEjJ
-	 8Gh9JAg3K2H6HbeE/+R3AAQ7QaR91zOJrnKnFB7XeN9HMgtjoL/wdczitrnOZlGV+Rg==
+	t=1792590345;
+	b=YmBktsypeW6B4HFFU6CgcXKm93b02vQH5wthYWIl2+jZnJ8oZan63h38af0Yn+OinVsa
+	 3xRmy8/edX5JKRtptIXbXljNsZWp0rJSNpi64ZjyAe44jrWKMVgxFA5nrucBo6o/kgDfg
+	 w3du+TkhxwtH/TCXn1R/HF2WKz1DnNu/KJUb1RxO9tPklnlxBNlVPqdudwKYdyR78UB2Q
+	 8pXOGEU8cbRVcaHeGaYGN/g7mh3ak4YHpdEhQxz8JjrgKWMACi/4OJZQkuyHrth7OKVEk
+	 L5FfcRVpltyCDWqM4N1vDA54+bdVkYubQHMqebeTXZsIcEzhK2uOGC8MBcZhSHTjbJw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792583279;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer;
-	bh=UY0BY5YZcT9xFUcwEXXKGABgtDytV9atXMOzM0KH+wY=;
-	b=z5EETyBVh3udOpGIr8PjmLbfn2v9W9ZyOuqB5Gr7kEiMZSET+V+4Pzsgzja2Tl3I37kH
-	 H5EY6QQyvvfYWeo3lmpEI/g/DL7YBnol6tqBm0lcEKivnYouifj/42mPPvNevWbZmerDJ
-	 IeS6M6HiN3nNZgXIufuB88VDbLZFCntDZfFu74HkCDJ31oHympdK7U6NUZgsGUqRWpcqv
-	 YPSU2T4oLn29/NE+I9BqTZUaIS0pAEhWBifiFW739ViuM/NpKHp4/7XnkiDbcOYgyBjiW
-	 RRwvtovFEYKJ4ZjJu/c6gchDrbmAbsuEZSeL0p4y/XC2etFF3UHU2e4ft82WmGcKmsg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792590345;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=om8w7QXSdYKu02tw65tJ99U3eL+Sg+cuLsqMm6GZ54U=;
+	b=hNR4hAshigK9XYBNaoSGfClJWbewmd47w3ec2Pd8yuh0aQWOitVWR00w3m9IIc2BQnQm
+	 6J3H1MC+GoNxfQXEnYnrbv7W8d8P1gBjo9vA6uOD4Sit+A7OjeYX76gxdMSNPZW6htIGi
+	 w2EWX+Hjw1YvsoC3r+giKJ78SmgjrfTjYDvvMI/kZ9FXoUz9+mgWkN+FgPfdcbIADWWXg
+	 Xe4/YRHwtD0YR5mlOXQzeK8izwdiHgurFB6WX7t/J0rWKuA5QhPVCppLAyOU6gUn5E7j0
+	 YZGGhHe0V7wLnl1TMzq7ZkUjSTLEx4hoiNaziqtrHFhx7bbvlKXvl+LsZ5zt6Mv4Twg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YdhnBWYe;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PE4kwjVN;
+	arc=none smtp.remote-ip=192.198.163.18
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52666606A319;
-	Wed, 21 Oct 2026 11:47:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37DFF606A319
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Oct 2026 13:45:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37DFF606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YdhnBWYe
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 992091F000C4;
-	Wed, 21 Oct 2026 11:47:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792583279;
-	bh=UY0BY5YZcT9xFUcwEXXKGABgtDytV9atXMOzM0KH+wY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=YdhnBWYe3LLCjDlSmUmc7fbfmRbuuqfaySN5me/ny51WQDoQFdlIh2+8UL9tQ3WUI
-	 QLOQEHpo/RasEj1yUxSmp5WVnLLlhN48g3Gdgpk8Da3uyBRRa/yvGrSoekpmLLSlo3
-	 Ts4DDL/G29GuMseX9g/VaL9o4FJSAxHJ6wNXwITPioc8BGogc9r1dMo6sF1/O+WW1/
-	 VrMkruz4tjRP7Siphpg2GtlCcBNpsGrYoZv7ztN3r8kNPqI9BXcYNIDVCR05R9IvcU
-	 jSpGR3PcurvE7W+458ZtaW8m9gmkJWIuysihjESrJLVgPldaTk6EQv6K6Wkr+5B2IS
-	 Xf8YIIoHyE0tw==
-From: "Harry Yoo (Meta)" <harry@kernel.org>
-Date: Wed, 21 Oct 2026 12:46:50 +0100
-Subject: [PATCH slab/for-next 09/14] iommu: specify SLAB_MAY_ACCOUNT for
- slab-backed page table caches
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PE4kwjVN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792590344; x=1824126344;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lUjLPWWlN6l1+ey7iJlAqTyXZpN23Ksa49kPyHEPupc=;
+  b=PE4kwjVNIPcdSktzGAKB86k/AHTGY8fJU+zJUhnISVefVl5XvK1GO1jA
+   aAhsN0hlG0bTiw6aAXr5oe41i4x9cMQ31+68XGq4FvjxdHJBu3EohcC7g
+   cOaW0tlAJyYeRjX8K9t+7d45z9Ohbi4Ltvk3FW+jBnrjOWaWc8M3rQHh7
+   1DZMdWNkDR7zWtN8zeItaSOw9Sg01q3JYJWrWSFwrqN74nduEeWQoW+W5
+   pg0+E5/M5e1aki8bV4Hom5F1U6DE15IK7pxK+Zy+zlUokI9p0hMp1gs35
+   qhKQEG4X/ZrOKH4ClLPYwG5or21ATb3whbhafeM1PtQ7BeJdPewAYQQob
+   w==;
+X-CSE-ConnectionGUID: z7L/F4G4RU+9OWM1fZirXA==
+X-CSE-MsgGUID: Y+TDTKI0R92kLxK+ay5N+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1346849"
+X-IronPort-AV: E=Sophos;i="6.27,170,1787036400"; 
+   d="scan'208";a="1346849"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 06:45:35 -0700
+X-CSE-ConnectionGUID: +SSgAPUWSeqSj+QSQsE4OQ==
+X-CSE-MsgGUID: Q5rODW1QRJ+XPjGyXAxLGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,170,1787036400"; 
+   d="scan'208";a="3036317"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.24])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 06:45:31 -0700
+Date: Wed, 21 Oct 2026 16:45:28 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+Cc: linux-serial@vger.kernel.org, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, ilpo.jarvinen@linux.intel.com,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Andre Przywara <andre.przywara@arm.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Enzo Adriano <enzo.adriano.code@gmail.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] serial: 8250_dw: Keep the BUSY-safe divisor hook
+ when DLF is present
+Message-ID: <atjB-BnXclL3FcUm@ashevche-desk.local>
+References: <cover.1792439398.git.vinicius.eduardo.pedrosa@gmail.com>
+ <cc358c2be6b0b4ea0323e4f694a581ffb667112d.1792439398.git.vinicius.eduardo.pedrosa@gmail.com>
+ <20261020104753.28703-1-vinicius.eduardo.pedrosa@gmail.com>
+ <athe0QikG2mzCAtd@ashevche-desk.local>
+ <20261021100049.16504-1-vinicius.eduardo.pedrosa@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -53,116 +91,53 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261021-memalloc-prof-dont-waste-slabobj-ext-metadata-v1-9-096800aa3330@kernel.org>
-References: <20261021-memalloc-prof-dont-waste-slabobj-ext-metadata-v1-0-096800aa3330@kernel.org>
-In-Reply-To: <20261021-memalloc-prof-dont-waste-slabobj-ext-metadata-v1-0-096800aa3330@kernel.org>
-To: Vlastimil Babka <vbabka@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Suren Baghdasaryan <surenb@google.com>, 
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
- David Rientjes <rientjes@google.com>, Muchun Song <muchun.song@linux.dev>, 
- Hao Ge <hao.ge@linux.dev>, Pedro Falcato <pfalcato@suse.de>, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@meta.com, 
- "Harry Yoo (Meta)" <harry@kernel.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>, 
- Niklas Schnelle <schnelle@linux.ibm.com>, 
- Matthew Rosato <mjrosato@linux.ibm.com>, 
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, 
- iommu@lists.linux.dev, linux-s390@vger.kernel.org, 
- linux-sunxi@lists.linux.dev
-X-Mailer: b4 0.16.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261021100049.16504-1-vinicius.eduardo.pedrosa@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-vfio, iommufd and vhost-vdpa call iommu_map() with GFP_KERNEL_ACCOUNT
-and the gfp is passed down to the drivers' page table allocations.
-Specify SLAB_MAY_ACCOUNT when the object may be charged to a memcg.
-__GFP_ACCOUNT without SLAB_MAY_ACCOUNT will not be allowed.
+On Wed, Oct 21, 2026 at 07:00:49AM -0300, Vinicius Pedrosa wrote:
+> On Wed, 21 Oct 2026, Andy Shevchenko wrote:
+> 
+> > Right, but have you read my second question in the above paragraph?
+> 
+> Sorry, I missed the second part of your question.
+> 
+> If I understand you correctly, since 8250_dw.c already has the BUSY-safe
+> set_divisor, you're suggesting that it should have the matching
+> get_divisor as well, instead of pairing it with the dwlib getter.
 
-Paths:
-  VFIO_IOMMU_MAP_DMA -> iommu_map(GFP_KERNEL_ACCOUNT)
-    -> s390_iommu_map_pages() -> dma_walk_cpu_trans()
-    -> kmem_cache_alloc(dma_{region,page}_table_cache)
-  iommu_map(GFP_KERNEL_ACCOUNT) -> arm_v7s_map_pages()
-    -> __arm_v7s_alloc_table() -> kmem_cache_zalloc(data->l2_tables)
-  iommu_map(GFP_KERNEL_ACCOUNT) -> sun50i_iommu_map()
-    -> sun50i_dte_get_page_table() -> kmem_cache_zalloc(iommu->pt_pool)
+Exactly!
 
-Assisted-by: LLM
-Cc: Will Deacon <will@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: "Joerg Roedel (AMD)" <joro@8bytes.org>
-Cc: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>
-Cc: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
-Cc: Chen-Yu Tsai <wens@kernel.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: iommu@lists.linux.dev
-Cc: linux-s390@vger.kernel.org
-Cc: linux-sunxi@lists.linux.dev
-Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
----
- drivers/iommu/io-pgtable-arm-v7s.c | 2 +-
- drivers/iommu/s390-iommu.c         | 4 ++--
- drivers/iommu/sun50i-iommu.c       | 3 ++-
- 3 files changed, 5 insertions(+), 4 deletions(-)
+> The dwlib getter would stay for the other users of dw8250_setup_port(),
+> like 8250_lpss. Is that the structure you had in mind?
 
-diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-pgtable-arm-v7s.c
-index 1dbef8c55007..b544e5da237a 100644
---- a/drivers/iommu/io-pgtable-arm-v7s.c
-+++ b/drivers/iommu/io-pgtable-arm-v7s.c
-@@ -706,7 +706,7 @@ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
- 	data->l2_tables = kmem_cache_create("io-pgtable_armv7s_l2",
- 					    ARM_V7S_TABLE_SIZE(2, cfg),
- 					    ARM_V7S_TABLE_SIZE(2, cfg),
--					    slab_flag, NULL);
-+					    slab_flag | SLAB_MAY_ACCOUNT, NULL);
- 	if (!data->l2_tables)
- 		goto out_free_data;
- 
-diff --git a/drivers/iommu/s390-iommu.c b/drivers/iommu/s390-iommu.c
-index f148f559ac56..f308efadc87b 100644
---- a/drivers/iommu/s390-iommu.c
-+++ b/drivers/iommu/s390-iommu.c
-@@ -198,14 +198,14 @@ static int __init dma_alloc_cpu_table_caches(void)
- 	dma_region_table_cache = kmem_cache_create("PCI_DMA_region_tables",
- 						   ZPCI_TABLE_SIZE,
- 						   ZPCI_TABLE_ALIGN,
--						   0, NULL);
-+						   SLAB_MAY_ACCOUNT, NULL);
- 	if (!dma_region_table_cache)
- 		return -ENOMEM;
- 
- 	dma_page_table_cache = kmem_cache_create("PCI_DMA_page_tables",
- 						 ZPCI_PT_SIZE,
- 						 ZPCI_PT_ALIGN,
--						 0, NULL);
-+						 SLAB_MAY_ACCOUNT, NULL);
- 	if (!dma_page_table_cache) {
- 		kmem_cache_destroy(dma_region_table_cache);
- 		return -ENOMEM;
-diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
-index be3f1ce696ba..51a30969dde4 100644
---- a/drivers/iommu/sun50i-iommu.c
-+++ b/drivers/iommu/sun50i-iommu.c
-@@ -1011,7 +1011,8 @@ static int sun50i_iommu_probe(struct platform_device *pdev)
- 
- 	iommu->pt_pool = kmem_cache_create(dev_name(&pdev->dev),
- 					   PT_SIZE, PT_SIZE,
--					   SLAB_HWCACHE_ALIGN | SLAB_CACHE_DMA32,
-+					   SLAB_HWCACHE_ALIGN | SLAB_CACHE_DMA32 |
-+					   SLAB_MAY_ACCOUNT,
- 					   NULL);
- 	if (!iommu->pt_pool)
- 		return -ENOMEM;
+8250_lpss doesn't redefine either of the _get/_set_divisor, so it won't be
+affected. But I think that 8250_lpss actually lacks of busy support that's
+why it uses simpler version of all this. Maybe we can refactor that (in
+the future?) so that we will have dwlib to provide the IDLE version of them
+for all and depending on the existence of busy functionality degrade to
+the same as just current DFL helpers.
+
+Can you check that approach?
+
+Ah, dw8250_idle_*() are already BUSY-functionality aware. So, what we need
+is to provide dw8250_idlej_*() callbacks via struct dw8250_port_data and
+make current 8250_dw::dw8250_set_divisor() to be part of dwlib.
+
+Patch 1 (dwlib): Add callback definitions for dw8250_idle_*() to struct dw8250_port_data
+Patch 2 (dw): Assign new callbacks and use them in dw8250_set_divisor()
+Patch 3 (lpss): Introduce stubs and assign new callbacks to them
+Patch 4 (dwlib): Use dw8250_idle_*() in dw8250_set_divisor()
+Patch 5 (dw): Kill now duplicate code pieces
+
+(Some of the patches might be combined, but I think the above split is not bad.)
+
+Would it work?
 
 -- 
-2.54.0
+With Best Regards,
+Andy Shevchenko
+
 
