@@ -1,66 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792544703;
-	b=NmqCppAoc19KGMXVawxjPCAksaC1L0Shkbi2XRKNW0RSryw81tBy4kqfTkIIMy+J2e8d
-	 6EecUpqNMvSDoLYsHwhqQvGQ+hszU2NLNeXvaOSm3WC4kKbwODYggImQ3hqgRgrjyej6Z
-	 CFhXrP7AOODCCXPF6gXz038//RrpN1v5KtQshmk7xHypvLl7mBrzsKEnTLl7grnERax+S
-	 ubgIwTUToMXWoQEmJ0fR6SUKPNhWaRvBMWkAXoGsWxE3sPEnufjWWS5ZZlG0vpiCv2P61
-	 ARtqQtRApZqRKdL8856OaFyv5DM/IFq0bqPSzn05+biesv0t5ayFuOytDa2uY+H9B+Q==
+	t=1792549211;
+	b=i9xBa+dxzZyPEyhBQFBfnlimcTeI55miGMsX3mCarEB8DgkBFmCEhYA69Xvg6EvxaUuf
+	 yCNvZ6q11eVleS5oyF0jQVfxOsjRVv3QB5tpvdbGIgm2Utn62FO6IDyzdAKvj9vyjyIM2
+	 kYWHLju3CWHTAtCIgD1fntceA58atBCSb8zlh6skeJ3xvewxxWkAeoY0wk6m4LXSA0tcf
+	 WvJHSErU6frGRFXWOChhYURq9y3ZH9DpcDGIU3tlhT+QtOleAK9EnzUbanSIyYCXfLQo2
+	 5TcYmvUg6s6JpthnKAe+EFVcwRh0D9x9Ed5Au8l7pce964Y/kQWqtzkNqWoCeMD3HNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792544703;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=Nek6SQB9HilcNqrUDKvbjnwNeRbszXlVW1qjIvvxAf8=;
-	b=AGYQ9WvaP2AG13uI7zfRhBlDfhLdZONLMAxKrXwNlzEiBaoGmSVVrrrgIC+5EQZgtkTj
-	 awGtw8x09WnCaQN98tK8dPEs+RYGyrjUrk1FbnuGJvoXzeHgs3b1tAwhICH7fLI8ZafsG
-	 Ne14ERutplOfqRVSdVIs/pYeZYCzhw3C5sy+JdOjsxjvrCwSgCWHMP0EJXfAYKHiEuaIn
-	 yKS8m9/74m4zh2W54/ReIwlv6urr6Bv6nsGlNTQVkotelmtr2abweN5jV44nD24TZiwnN
-	 GVA90tehRRd2Zs/LE6wUzxBnCFW6wB2mQEPaJammS5/PxNCOIsAtGV+Pz2aEgA8P6yw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792549211;
+	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc;
+	bh=CPwgKGW+9+HgEnPqxnA55xboDkaUxoq5NKTXtZj/nJE=;
+	b=qSpqf2mCSgSrhwYtbrDxeTqmy8TGjBYhvWkfQNifw2DAodqMaV5uVpjIem2QlZsrBW++
+	 E8pLg2KoObaEexlqqtCHUiijNjo8HTqFtNMfc/eUmCYqtNscdlmTxOhLSVlD8610EUMPo
+	 oTkzoBCgunbbGhTt47+uX7BbITVTq4rB8oA1r3rs/aIL/aj9V6wbpVzlSJVt9Qy7tsRm/
+	 Vov0aNanMJoSoEJFxqEym/VVl8NvCYmT0Sk7dwnGI3dnLcB8QdnP50Jpb3OqfBe3vIcQ2
+	 V8/Asuc9/ViYZvUT46rXJ/7yrTt0XRGQxgk4Ri5ZkEkiNsr0cVA7LvwPCWPVfT/lh7g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CQn6XZEm;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NYaa27a+;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD140606A319;
-	Wed, 21 Oct 2026 01:05:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41433606A31E;
+	Wed, 21 Oct 2026 02:20:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CQn6XZEm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B860C1F000C9;
-	Wed, 21 Oct 2026 01:05:01 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NYaa27a+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BC5E1F000CA;
+	Wed, 21 Oct 2026 02:20:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792544702;
-	bh=Nek6SQB9HilcNqrUDKvbjnwNeRbszXlVW1qjIvvxAf8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=CQn6XZEmx4JuBxOCkGUoJxghD6fgxKGGvSTb7ELHt1bjWPlVx48I+kyKIgnc0qr7c
-	 NhgbVZWa4Lwo67KLrbjDl6sjNbG4cTE3Y5zwpFpZVpbAbOITcS/Wfx9vxPUj1slJkb
-	 WQsgQF7PJo+NWG+9REo4JUnCIzps60aCpEq1pTNgCxknuRGsxQ/gOkPWoyRJ4hCZQJ
-	 oygMrQghn5CeQf526xtBNeHcN/kfyQUR9srbICRbEtVMDVVoumuUqSJ5TVXxHPjBdT
-	 nNgxYhhdyIj2yHGGFqz+jS84eNxdAe8gyzYkwDhnv3dL3FzNUVDWKKnYaMtQSYdKhy
-	 MV4yOooKiLIxA==
-Date: Tue, 20 Oct 2026 18:05:01 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Daniel Thompson <daniel@riscstar.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Jesper Dangaard Brouer <hawk@kernel.org>,
- John Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev
- <sdf@fomichev.me>, Maxime Chevallier <maxime.chevallier@bootlin.com>, Eric
- Dumazet <edumazet@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Alex Elder <elder@riscstar.com>, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- bpf@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH net-next v3 0/2] net: stmmac: Avoid freeing and
- re-requesting IRQ during XDP set prog
-Message-ID: <20261020180501.59a77f38@kernel.org>
-In-Reply-To: <20261015-tc956x-stmmac-no_irq_teardown-v3-0-8189870be545@riscstar.com>
-References: <20261015-tc956x-stmmac-no_irq_teardown-v3-0-8189870be545@riscstar.com>
+	s=k20260515; t=1792549211;
+	bh=CPwgKGW+9+HgEnPqxnA55xboDkaUxoq5NKTXtZj/nJE=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=NYaa27a+E7gei+Ol9psKdfXfiAU6OpungqJR76z1KeeQFEFjyBLQ7xIxVzxWnluTL
+	 lv3N7b/TqCO/EiJdxHVaCU/fcS6BXhoq6fF14VrgR+8ZHJNQf46BZXs2+XZrUw9yu2
+	 /5Dr1WnBxhlBBstrX1xZ2aF6ul1B9XIocoPHlvkMtCSnKmDJeRAtjl0UvhLiY7ZJYp
+	 3UJd9MC0EZ19gJ/B5qErRGgDAFgHjiX+qs3qfbAw2AxYBptLmuv9JTlDFdtBnYRi2t
+	 k1Q1LqBg+wMQ3NJei12Fvm2YJG37ykFf7fVyuZSUo5hlj3OGXZY/EK4OAQNR3gnpqp
+	 SiLeJk2xQV++w==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id F146D3809A0D;
+	Wed, 21 Oct 2026 02:20:10 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -70,13 +53,73 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v16 0/7] net: stmmac: qcom-ethqos: add support
+ for
+ SCMI power domains
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179254920980.330607.14638814196996636300.git-patchwork-notify@kernel.org>
+Date: Wed, 21 Oct 2026 02:20:09 +0000
+References: <20261014-qcom-sa8255p-emac-v16-0-0266c2ead980@oss.qualcomm.com>
+In-Reply-To: <20261014-qcom-sa8255p-emac-v16-0-0266c2ead980@oss.qualcomm.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: andersson@kernel.org, konradybcio@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, andrew+netdev@lunn.ch,
+ davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, vkoul@kernel.org,
+ peppe.cavallaro@st.com, wens@kernel.org, jernej.skrabec@gmail.com,
+ neil.armstrong@linaro.org, khilman@baylibre.com, jbrunet@baylibre.com,
+ shawnguo@kernel.org, festevam@gmail.com, jan.petrous@oss.nxp.com,
+ s32@nxp.com, mohd.anwar@oss.qualcomm.com, romain.gantois@bootlin.com,
+ geert+renesas@glider.be, magnus.damm@gmail.com, mripard@kernel.org,
+ christophe.roullier@foss.st.com, brgl@kernel.org, edumazet@kernel.org,
+ radu@rendec.net, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, dfustini@tenstorrent.com,
+ linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org,
+ linux-mips@vger.kernel.org, imx@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ sophgo@lists.linux.dev, linux-riscv@lists.infradead.org,
+ bartosz.golaszewski@linaro.org, sashiko-bot@kernel.org,
+ martin.blumenstingl@googlemail.com, krzysztof.kozlowski@oss.qualcomm.com,
+ prabhakar.mahadev-lad.rj@bp.renesas.com
 
-On Thu, 15 Oct 2026 15:55:00 +0100 Daniel Thompson wrote:
-> Currently stmmac will run a full cycle of IRQ tear down and setup when
-> setting up a new XDP program. This makes tuning TSN systems difficult
-> because whenever a new XDP program is installed then the irq threads will
-> be stopped and restarted which will undo any thread tuning.
+Hello:
 
-Series does not apply
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Wed, 14 Oct 2026 14:36:39 +0200 you wrote:
+> Add support for the firmware-managed variant of the DesignWare MAC on
+> the sa8255p platform. This series contains new DT bindings and driver
+> changes required to support the MAC in the STMMAC driver.
+> 
+> It also reorganizes the ethqos code quite a bit to make the introduction
+> of power domains into the driver a bit easier on the eye.
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v16,1/7] net: stmmac: dwmac4: don't program the 1us tick counter without a CSR clock
+    https://git.kernel.org/netdev/net-next/c/d09d7b8e86e5
+  - [net-next,v16,2/7] dt-bindings: net: qcom: document the ethqos device for SCMI-based systems
+    https://git.kernel.org/netdev/net-next/c/534198a05d92
+  - [net-next,v16,3/7] net: stmmac: qcom-ethqos: set serdes mode before powerup
+    https://git.kernel.org/netdev/net-next/c/7af44cb9e447
+  - [net-next,v16,4/7] net: stmmac: qcom-ethqos: update phy_mode to the resolved interface in mac_finish()
+    https://git.kernel.org/netdev/net-next/c/05b3ea7346e3
+  - [net-next,v16,5/7] net: stmmac: qcom-ethqos: reuse the address of ethqos_emac_driver_data
+    https://git.kernel.org/netdev/net-next/c/92719abd6378
+  - [net-next,v16,6/7] net: stmmac: qcom-ethqos: factor out linux-level setup into a separate function
+    https://git.kernel.org/netdev/net-next/c/acf1e3db9151
+  - [net-next,v16,7/7] net: stmmac: qcom-ethqos: add support for sa8255p
+    https://git.kernel.org/netdev/net-next/c/bb3183e1c938
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
