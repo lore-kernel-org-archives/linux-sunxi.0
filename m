@@ -1,90 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.49
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792627742;
-	b=ZpVVq2ftDqH9pxZdQnr1pYP3F4h3xHRvQheGZ/hTHG379yqs8DbcPKulirIg+vrguHkF
-	 4prFBeRnlR6KwzYOZrb+bsvyorFHSKVO0hpmNk1ppFKPIzS5p4cao9nPPRKgJ8yOS1SUw
-	 rAxSuy9BychhG1hzMEW/X3ukcRjZLMiKFxpm74FCg/lE0Z1h8JakjewSN1hDvPo3urFBW
-	 d5sM0209/d0FlXhXLTMHkK5ekrzsDJ+AsIX27XZgj7Tw77wLXjOmyLO4WtSfHEGMmYfpp
-	 QtfY3YpoflfAAFwWUhGhdlb+2anUB3CJ87bQQYXSgtKzGGgJO3d+IMhzq0yNtiVnFKA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792627742;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=wotwEdh8TFdVFdbwz2jBQFukWF5WLCNBsDV31JlApTo=;
-	b=fl+8q50TNHEPyd8S9cl3Uy30yMAUvTAq32BTJ2JVHQ8F02OvpAWmPOczP+IJ6iZlaAVB
-	 RCsXGSeGBOmMj9si13grDtFrQ/MdtdLmVo7l0LkLEeRqlK3SkCwMLiwJ5cCPdDQQEv6f6
-	 GXDHVJ/Q9pkrGsH0sM5jwCXZoED0qCD+7tRcZOGWFl0sLEftVhTAOxLu0iiqLnUhU/qpw
-	 ftaBDQsDo+LJ5JI4uZOhwBMRa7ebW3lTMOgwMjx6wXOISG0euxxrqd7i22Qazmxy6vyt1
-	 ORrgGd/7Npb0GA1qEWcAbgnpGtmbTTfNEfwM+0o+aKX9rxMcCjdLCm27RXsHzrqqqrg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=YrptfQV9;
-	arc=none smtp.remote-ip=209.85.161.49
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792648802;
+	b=1NH4OJ4pv/TPo8YtQqO/ukPk8xd1p5iqmnxIbFxCEDwmqBQ5l1w4RaeMrbZRk//5BsGN
+	 LRWYW86A+tAOuT3zxE4y36IjPN3V1m1LJO+cTwirdnyj9LUaHQlsD68LX55x5jWLC2AX+
+	 f1nDgRqp2ESV3UtoK8VE3oj6ZA9olWPhiY3c0IZmjXXGCHgzlTZ2eS2HAPxKjl77Ty2oE
+	 UerR2qGXmOcyke2nKhsMd1lI1rcluUG1HC6Kj9NMG8IIKYXQ41OTMGz5iDX6mouiAdkNP
+	 iP60qijDPw2ODDAy0lvc6jOZoKQGzAK6UQIwEvfE9DISdAta359qt4QN5GR2mHdMUyw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792648802;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=HUvL51f7V9p0KcCzZsOCgyyG6v93gRvgQUjNHkLc5hE=;
+	b=M5MAlBZlJ1JyReSJtB0BSBJKCEvsMpUreBPHyNO4ccR9M1BnrcmPrg8E2fE+SCLzSML3
+	 3RCkgfnLThr+2zZT92vc0iDgrJf6lHwyXC29d7i8D3T2J3GtObMcXOKFfYCwBC0DoPjIl
+	 16DLH0tMO8iDYnhraDY59lf9MFrGwdCWVAypbCMnt6d8bUVimbUNq5FG7fSVfD/dqJZYH
+	 Pow6EF8PNZgfFrZrk0qUX+6zLj05VUljdG7egoVRsu/U0eVTVq3gTObUlGrVx3BALLtU3
+	 FBaVVZYrkZ8it5TZR+ncvZhtdhNpesQob8toJzUFGKQOd9+DmUPXjj66i6o8mJyR9EQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GzuNHu31;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 398A5606A322;
+	Thu, 22 Oct 2026 06:00:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GzuNHu31
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1792648801;
+	b=CQACgGisau1xqIKP1Ki0xxgpB5acYu8nljfPjpo0VlJtfaqbXiH7dN4/cecNgHODJ/Tb
+	 SX+cYL3mHYGpdNLiAUaKXiFsvqpmTllVL6aYhWwkVlSTdu1Y/wlibxQLauu+tNL1WNeon
+	 Kd31ITtESo4ALtzK/VPw9OB8APSI//GW+0RMVrvuwr3ycQYPAmRAG597KHnTOFuPkSNy9
+	 /yUiHBdbuT/Yx9ok+oytoU8Ap7O8m6pKX4mWuOUybzziSSEFLnrBEcyPiQYTJBp/Unudx
+	 +pwI2m48Q/ioQ3aFMXooVghquPiYBTsFNHJO/Nflq9nUdQ+IzA85u0N0k/MHklmfGyg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1792648801;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=HUvL51f7V9p0KcCzZsOCgyyG6v93gRvgQUjNHkLc5hE=;
+	b=kEDzktBxSRILa29vC4vvGXK5pGAAs7OetkXvNZ7bjDyIa5A9P/9UH51mUwtGac8K6YXK
+	 fyPrHSLOGIvVO4c1eU2tR4Czteqjpj7zsndF45f8Kyz1rW7H+iKiSSj//qBTlTfahV6en
+	 JTftEf4UFAuarRN2NI1cOqarwioofCEXUpkhEbuTcxN6o1T5PWSD6cPt44EZVESfcFHrb
+	 IoV3H4UQn8CYatbCY2bIpzpSsiH2jdZtzwyaCaUlYSkyNUKmGxsCwd0cKGhXU7anmAwXn
+	 EROTDuY6r1UmhKXO7qIrC3A5ZOD1KCO5KMJRaR8U9NYgSxvRTq42/3sOf/oxsK+LWBw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 233F1606A32D
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Oct 2026 00:09:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 233F1606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=YrptfQV9
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-703be215729so548520eaf.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 21 Oct 2026 17:09:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792627741; x=1793232541; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=wotwEdh8TFdVFdbwz2jBQFukWF5WLCNBsDV31JlApTo=;
-        b=YrptfQV9laLVs4KAhtL6gW4QvAahNuN43/vZCLmaaX5cm9xinNW1Xd930JBDSNgYm7
-         LKOU4GGBblapCLdUek9H/7NionJbbZzMboUSehAB2k02FQcan1FgvWd+AGY+8Z5JwCgl
-         nLhvbbFJO80yI9cU878C37UEh6R4UiAuwipGdHMD0A2HAf0q3YIJzPNTpa0tsXhcb2bh
-         pOlsNuzmAJ6zpeA5a+W/CJszUulf6bQkW+Q3jsUdX+UxU1DBZGJul+xVSfe2hSRuOkGZ
-         3dcYo21iNfriwE27Rdl+ZRfhUpB4eTaIKT+q/hFOcgPThLMajlvUQWHlJP/2orG9pqbm
-         aqNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792627741; x=1793232541;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wotwEdh8TFdVFdbwz2jBQFukWF5WLCNBsDV31JlApTo=;
-        b=Yxh8IeHKxtuLRvf9Scch/xjEuH3zUVDUNfBHBD75ZluJQ4D8tnj5o8DLjdfNCppQwH
-         zupiaPGFt2gv6K3GH4R7pFlmQqG0rwxBRguaYa0ppA6yhrttwvpPiPtoU2zq7Ac90gfF
-         fwMzKxOcxWSWNnlhMgTI0+6H9zqNyai93jYXaaBu9XSua1V5iYt4dIKCxHoKJaD5mZqW
-         8f1Fd9Gg/wqKpRARqC2T1GSzsUIvejSZ0FCQ/5yoowE+4+ee/fWOKa9hSKplp9CLWl9P
-         H1iSmD78nzYHyANVpF5Gpo8uPuYJ10vkAvdx/L4K/zIxu/mGl1MM8ys/gMTolvyuw+vq
-         tYWg==
-X-Forwarded-Encrypted: i=1; AKwUvBzCo1YB+Mr4ey75w8BY3mJdvJPkMDKDVGVdkMukI3IcRG1vkeNx88ALvnKaumeHpWQdJPsyQkiquQbtOg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJr+ZrCqfpk0VMUYp9YNukdU03fPuduo/XeHwhuI/idAiduqBRB
-	rP7+MlY8IFiQG/MnvWy0BbABz4n3GtJKmEucS8DKGmuoRIqGmDYY6l7U
-X-Gm-Gg: AYBFou2r6z1UIo7lQnj3uXxGRcnvjXnDodnY0Kw3gHw9WCZpRafWoZamDo3O89Pnv4A
-	WEHk1nIj9EXU1av6NWoovGTaPxccltb0D0LAKtki9xy4F9CAV55Jp+G7lIffersyMGscSnfsB3b
-	zA4DKibeGxngFgix1J3ZYfM3VOO23c/ZivBGG93fixDQF9Tq+n1o8W38yuzTICJcjOtLul5Jj6U
-	otmtVBt4jbCIYydkXlBTgXb6HdDgEKNkYXK+P39d3kOj87jk3WoX+I7Xz8vNOvwXPsBdWq76EQA
-	E7YGx77AqlUBMaIyV+L3YfyJAbM61hj7aJI23Nq26cTMd417Z2gfmXvQyBiqY5twobLClMw10OF
-	3n42waAc2wzstCqFwb8/EPJEbDWj8CCsTNlc8G/vOoFfKle7EUtjkVcXTyAG+nVsJgaeNNJ+aDt
-	3ADn/qajHfW2nVbTgkRB9CZ9Jo/Qlpf+ssktvn92J0UHZ8yyzNM4m24D0LO0GQWVEnubPGpQkVg
-	qk4lH3YWKAE6q0OfIx4A5lTp7FHVh7y4WjsDf4yVGxpixUROLM9usOA8QsSUTg4DMdnd9IVcs8d
-	29QYVuKQK4idl2FtrQMv0qSfykNzLUKlFfNnOuuzIrsLW/6pQZpCu/yedF60DzqBD+VPMFe/gZc
-	EU+Pn9uZKhPTbnBV8pZkUQZXICCgbmksv78unBHxqRfiteoso6DusteMHynHDrWrdO7sqPzKXZ4
-	61aAE=
-X-Received: by 2002:a05:6820:1889:b0:6de:aeea:5c90 with SMTP id 006d021491bc7-70940d7dd7bmr2299772eaf.26.1792627740866;
-        Wed, 21 Oct 2026 17:09:00 -0700 (PDT)
-Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-70903bc246csm3281362eaf.10.2026.10.21.17.08.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 17:09:00 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Wed, 21 Oct 2026 18:08:56 -0600
-Subject: [PATCH 2/2] clk: sunxi-ng: h616: drop the private APB2 clock
- definition
+	by smtp.kernel.org (Postfix) with ESMTPS id 4A2781F000C4;
+	Thu, 22 Oct 2026 06:00:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792648801;
+	bh=HUvL51f7V9p0KcCzZsOCgyyG6v93gRvgQUjNHkLc5hE=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=GzuNHu31nkcgETO0ZeQlMzBKieJKEqr5WJUg0dVpNxaier59N3qMfmrFHJwq7tQIJ
+	 ZISEXe72fq7YGSG323ueVeFfmZzV7sMJg+cqJKlXnIQqKyEkeVXF7dzOMn38m7MjJv
+	 ozuP3NCkDLOes7ICfAbuxj5qGociqmilRSd6UzrtxRSKBBxu/hCGqxgV68HHsSZ9Gn
+	 nPsC7dlmH6RlZm3oCpYGEAOceEHVfBsPCIMXrjXH++lXevWhOFEVrfPcwMUnMR0zbT
+	 oSBe+JnFv2rXYuxSadpQe/kAmIVAlv00pwl5iNtQLZFk7sWqVmFnt1b9dPNLOyLhWb
+	 U/+b3dprIBJYA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id CB444434FD;
+	Thu, 22 Oct 2026 05:59:59 +0000 (UTC)
+From: Cristian Filipescu via B4 Relay <devnull+filipescu.cristian.gmail.com@kernel.org>
+Subject: [PATCH v2 0/2] arm64: dts: allwinner: Support Orange Pi 3 LTS
+Date: Thu, 22 Oct 2026 05:56:04 +0000
+Message-Id: <20261022-sunxi-orangepi-3-lts-v2-0-70b899252c6a@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -96,46 +85,110 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261021-submit-sun50i-h616-apb2-clock-v1-v1-2-7b857ad1198d@gmail.com>
-References: <20261021-submit-sun50i-h616-apb2-clock-v1-v1-0-7b857ad1198d@gmail.com>
-In-Reply-To: <20261021-submit-sun50i-h616-apb2-clock-v1-v1-0-7b857ad1198d@gmail.com>
-To: Chen-Yu Tsai <wens@kernel.org>, 
+X-B4-Tracking: v=1; b=H4sIAHSl2WoC/yWM3Q6CMAxGX4X02iZYCFFfxXixjSo1ZJCVmSWEd
+ 3fVy/P9nB2Uk7DCrdkh8UdUlliBTg2EycUXo4yVgVoazi0Rao5FcEnWrYIdzpti3/krUT+4C49
+ Qr2vip5Sf9v74s2b/5rCZyxbeKaOvljBZNEvMBS2E4/gCnxZUk5UAAAA=
+X-Change-ID: 20261022-sunxi-orangepi-3-lts-43b92246a8ed
+To: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>, 
- Brian Masney <bmasney+clk@redhat.com>, 
- Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, James Hilliard <james.hilliard1@gmail.com>
-X-Mailer: b4 0.15.2
+ Andre Przywara <andre.przywara@arm.com>, linux-kernel@vger.kernel.org, 
+ Cristian Filipescu <filipescu.cristian@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792648566; l=4037;
+ i=filipescu.cristian@gmail.com; s=uboot-20261021;
+ h=from:subject:message-id;
+ bh=UWARrsbcfqqgmoUfwye7apXutTup2/cnkBWxxeBO1G8=;
+ b=Fis/SI/NwEVhlFc/JEIH4uS2Tg4IpEa6L7GSS4krojtK6zXY72tIac9VY33JDqYQLUakPuHBD
+ mf7uB3uRGEjAK/yrElPyLps0orgN6OxFJqhGscpGQQD6biyzSw/xulm
+X-Developer-Key: i=filipescu.cristian@gmail.com; a=ed25519;
+ pk=o7Ui0tU3x+X/6Pq6PZHmd2KFtOdPWttoPuNFOvdD8t0=
+X-Endpoint-Received: by B4 Relay for
+ filipescu.cristian@gmail.com/uboot-20261021 with auth_id=1255
+X-Original-From: Cristian Filipescu <filipescu.cristian@gmail.com>
+Reply-To: filipescu.cristian@gmail.com
 
-CLK_APB2 is now defined in dt-bindings/clock/sun50i-h616-ccu.h, which the
-private CCU header already includes. Remove the duplicate definition and
-update the comment describing the exported APB clocks.
+Continue Jernej Skrabec's April 2025 Orange Pi 3 LTS series, retaining
+his authorship and Rob Herring's acknowledgement of the binding patch:
+https://lore.kernel.org/linux-sunxi/20250413134318.66681-1-jernej.skrabec@gmail.com/
 
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+Add the board compatible and a device tree for the Allwinner H6-based
+Orange Pi 3 LTS, with 2 GiB LPDDR3, 8 GiB eMMC, Motorcomm YT8531C
+Ethernet PHY, USB host ports and HDMI. The wireless module's SDIO wiring
+and power supplies are described; working Wi-Fi/Bluetooth is not claimed.
+
+Changes since v1:
+- Rebase onto current mainline Linux.
+- Fix oscillator naming and use CLK_OSC32K_FANOUT.
+- Chain the GMAC and wireless 3.3 V regulators to their input supply.
+- Keep BLDO3 always on and describe the PM-bank supply.
+- Document the DCDCA/DCDCB polyphase arrangement.
+- Use rgmii-id with zero MAC delays and 1950 ps PHY RX/TX delays,
+  following the Ethernet discussion in the original review.
+- Use green PL7 as the power LED and red PL4 as the status LED.
+- Default green off and red on for Linux startup; userspace can clear
+  both at its readiness milestone. U-Boot overrides its own defaults.
+
+The device-tree hardware settings match the accompanying U-Boot series;
+only include paths differ. U-Boot boot tests of the earlier red-LED
+revision confirmed 2 GiB RAM, SD/eMMC enumeration, DHCP and ping.
+The submitted green-LED U-Boot revision also booted the Linux test
+image from SD. The corrected U-Boot handoff LED sequence has also
+been confirmed on the board.
+
+Validation:
+- Compile both the new LTS DTB and the existing Orange Pi 3 DTB.
+- Run dt_binding_check for arm/sunxi.yaml.
+- Validate both board DTBs against the full processed schema set.
+- Run checkpatch --strict, ignoring FILE_PATH_CHANGES because the new
+  DTS is already covered by the Allwinner MAINTAINERS directory pattern.
+- Build an Allwinner-focused arm64 diagnostic kernel with the required
+  drivers built in and a separate BusyBox initramfs for RAM-only testing.
+
+The proposed eMMC properties remain conservative. Higher-speed eMMC
+modes and the earlier LED drive-strength question are not resolved by
+this revision's build and schema checks.
+
+On-board Linux testing with the diagnostic CONFIG_MODULES=y kernel
+reaches the RAM shell with four CPUs and 2 GiB RAM. AXP806 regulators
+initialize successfully; SD, eMMC and an SDIO card enumerate; eth0 and
+USB host root hubs register. An earlier CONFIG_MODULES=n diagnostic
+build failed to defer pinctrl probing and timed out accessing the PMIC.
+The latest test no longer exhibits that failure.
+
+The YT8531 PHY links at 1 Gbps/full duplex; DHCP, DNS and an IPv6
+Internet ping passed (2/2 received). Two direct 8 MiB reads from each
+of SD and eMMC compared identical. Two cold starts with LED, shell and
+Ethernet checks were confirmed. Sustained transfer, external USB device
+transfers and HDMI output remain untested.
+The installed Fedora IoT deployment is untouched. The test initramfs
+clears both LEDs before opening the shell. After updating the bootloader, Cristian confirmed the complete
+sequence: green in main U-Boot, red at Starting kernel, both off at
+the diagnostic shell.
+
+Codex assisted with adapting the original DTS and review feedback,
+preparing this cover and container build/test tooling, and analyzing
+the supplied serial log. The board boot was performed by Cristian.
+
+Signed-off-by: Cristian Filipescu <filipescu.cristian@gmail.com>
 ---
- drivers/clk/sunxi-ng/ccu-sun50i-h616.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Jernej Skrabec (2):
+      dt-bindings: arm: sunxi: Add Orange Pi 3 LTS board
+      arm64: dts: allwinner: h6: Add Orange Pi 3 LTS
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.h b/drivers/clk/sunxi-ng/ccu-sun50i-h616.h
-index 7056f293a8e0..8a07c27c77d5 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.h
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.h
-@@ -40,9 +40,8 @@
- #define CLK_PSI_AHB1_AHB2	24
- #define CLK_AHB3		25
- 
--/* APB1 clock exported for PIO */
-+/* APB1 and APB2 clocks exported for PIO and UART baud clocks */
- 
--#define CLK_APB2		27
- #define CLK_MBUS		28
- 
- /* All module clocks and bus gates are exported except DRAM */
+ Documentation/devicetree/bindings/arm/sunxi.yaml   |   5 +
+ arch/arm64/boot/dts/allwinner/Makefile             |   1 +
+ .../dts/allwinner/sun50i-h6-orangepi-3-lts.dts     | 362 +++++++++++++++++++++
+ 3 files changed, 368 insertions(+)
+---
+base-commit: 4403278e4ea2f654f8130a5c03eb8b4516a0f201
+change-id: 20261022-sunxi-orangepi-3-lts-43b92246a8ed
 
--- 
-2.53.0
+Best regards,
+--  
+Cristian Filipescu <filipescu.cristian@gmail.com>
+
 
