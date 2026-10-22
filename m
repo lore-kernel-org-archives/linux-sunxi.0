@@ -1,89 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792627741;
-	b=w1BzySCdyBT6VCsaSLH+jV9p7d1W+Nl5Bk2sx/CYN7zrIZgnYTg1OI1e3i7Tml9Bn4me
-	 cBBf9MLIWjX+5a0+c5uNlRZgcceQqua6FC7Emsb3CbxiOAzozAVndUUj8WGFuKzmbQ2EU
-	 5DQdA+KdoNGDTeMBFhdE0Sq8aOOoiJ4uM+jyLFpi6q2e1Avl62U0g6xkFbVeaItE6HEti
-	 Rr8lHWGx5+WsQl/+3A+bTSiwpH6tAP+1llx5zfxEvUBYVDYqhnG2BFOw+KsdE9UqgcPT2
-	 BXJNiUv6TYJODYV+Zo3CS4pyB0QN7U7dADN26sYCF1K5g8PJdqmvjS84Fasg3WJXzSA==
+	t=1792627742;
+	b=ZpVVq2ftDqH9pxZdQnr1pYP3F4h3xHRvQheGZ/hTHG379yqs8DbcPKulirIg+vrguHkF
+	 4prFBeRnlR6KwzYOZrb+bsvyorFHSKVO0hpmNk1ppFKPIzS5p4cao9nPPRKgJ8yOS1SUw
+	 rAxSuy9BychhG1hzMEW/X3ukcRjZLMiKFxpm74FCg/lE0Z1h8JakjewSN1hDvPo3urFBW
+	 d5sM0209/d0FlXhXLTMHkK5ekrzsDJ+AsIX27XZgj7Tw77wLXjOmyLO4WtSfHEGMmYfpp
+	 QtfY3YpoflfAAFwWUhGhdlb+2anUB3CJ87bQQYXSgtKzGGgJO3d+IMhzq0yNtiVnFKA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792627741;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792627742;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=xX8Jeb7zcqlanRR5cQP8+zZOGl1Uky6hdK7k0PUYqPk=;
-	b=jiuNveODqmnOBecPnh+Ii0rWKofU1vt3PSSNQUiWNG6yrYytHB8lXGLJ//Sdodh1vSp6
-	 WdrKoX58B3WwbqH3qG3BuaTvv2V5hL3kzXkqfHVMsOUhUz7WkKiFvj/iSEyTD2u/lrghL
-	 tfX2t1H7jICDHFWV3M0/sH6Tt5gTJaqcGeXG4pVBVlqyUPbyrN4vdDPavUKdAGmO4hrmm
-	 Ogz98WcKoMaYKTjB5AfRGQAcFPSXzTuh+K9r+ahVjsOO3YsnTaCcY4iwvXGbHSorgrt9d
-	 z11JOgSa6qlPVcpe5Yy3cQbe9/DgehpWtizUl96Rvlh8ijWnAZ/ABSNlaBs21WziWrA==
+	bh=wotwEdh8TFdVFdbwz2jBQFukWF5WLCNBsDV31JlApTo=;
+	b=fl+8q50TNHEPyd8S9cl3Uy30yMAUvTAq32BTJ2JVHQ8F02OvpAWmPOczP+IJ6iZlaAVB
+	 RCsXGSeGBOmMj9si13grDtFrQ/MdtdLmVo7l0LkLEeRqlK3SkCwMLiwJ5cCPdDQQEv6f6
+	 GXDHVJ/Q9pkrGsH0sM5jwCXZoED0qCD+7tRcZOGWFl0sLEftVhTAOxLu0iiqLnUhU/qpw
+	 ftaBDQsDo+LJ5JI4uZOhwBMRa7ebW3lTMOgwMjx6wXOISG0euxxrqd7i22Qazmxy6vyt1
+	 ORrgGd/7Npb0GA1qEWcAbgnpGtmbTTfNEfwM+0o+aKX9rxMcCjdLCm27RXsHzrqqqrg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=T163Zcvy;
-	arc=none smtp.remote-ip=209.85.161.52
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=YrptfQV9;
+	arc=none smtp.remote-ip=209.85.161.49
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F3B606A321
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Oct 2026 00:09:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01F3B606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 233F1606A32D
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 Oct 2026 00:09:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 233F1606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=T163Zcvy
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-6b19e291cc6so1035438eaf.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 21 Oct 2026 17:09:00 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=YrptfQV9
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-703be215729so548520eaf.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 21 Oct 2026 17:09:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792627740; x=1793232540; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1792627741; x=1793232541; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=xX8Jeb7zcqlanRR5cQP8+zZOGl1Uky6hdK7k0PUYqPk=;
-        b=T163ZcvyIkl8lUHkJ+5B4ohdx8FQF3cDqsNAGNZ80pN53Hzz9nAwSq1fzc3C9h1sJ6
-         +CTPkI6fQxmMCG2KEdNsL7MYgFmGRSDutPwJ6JZNb0H2Q6QYPXedCT80nRL804WDv92w
-         5nFVxzZt4ycxqEDRspW/rhiSjgd21/MPyo+E6MUiWZ9FVRF7ywcRt4eFP4pPXpxPrBUt
-         xCRw1/SXwJ8dDUh1cx1IEiTz1hl9jPaMd/Va5kctfKBnCFsPfMiBMQhRLoFF7a4b0y2T
-         Wy5jIVEHxlEVFR7qqTpO8dxhPOOaSvtyqt/3Lh9rWM0QkkPO8dHRDwsfqlbV8iA5Db6r
-         lY5g==
+        bh=wotwEdh8TFdVFdbwz2jBQFukWF5WLCNBsDV31JlApTo=;
+        b=YrptfQV9laLVs4KAhtL6gW4QvAahNuN43/vZCLmaaX5cm9xinNW1Xd930JBDSNgYm7
+         LKOU4GGBblapCLdUek9H/7NionJbbZzMboUSehAB2k02FQcan1FgvWd+AGY+8Z5JwCgl
+         nLhvbbFJO80yI9cU878C37UEh6R4UiAuwipGdHMD0A2HAf0q3YIJzPNTpa0tsXhcb2bh
+         pOlsNuzmAJ6zpeA5a+W/CJszUulf6bQkW+Q3jsUdX+UxU1DBZGJul+xVSfe2hSRuOkGZ
+         3dcYo21iNfriwE27Rdl+ZRfhUpB4eTaIKT+q/hFOcgPThLMajlvUQWHlJP/2orG9pqbm
+         aqNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792627740; x=1793232540;
+        d=1e100.net; s=20260707; t=1792627741; x=1793232541;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xX8Jeb7zcqlanRR5cQP8+zZOGl1Uky6hdK7k0PUYqPk=;
-        b=hPPdFTlLfcDVV/5FYCVT0HZUT/lK/aeSkj7tRWopoUdOq0Tq1LUsNs3u5D6Ao9AaJg
-         iZQMeo4lSiuq4nt0Wv+tVaglvmuBx2qdBIyj0ZVnBaBC1mqZLHGe1rZ0NWNxaGy+9UP8
-         LZTd6aFVLKMMhzGl4TeBmqUldMC0GdBt5Z3yPGVj+3XAeTz30+BavIq9tcFzgY9Flmn4
-         6lrUjM4BER56ziPwBhudhuholH8NBFYh3MuVQ9LUurdtfBjZZGD93hgZjkfnysj3saR0
-         1IkeSKhaVP4iBGJqVjiZqox3ye1A+bBuKY0AjUkEotFW8Kv4WEzktBHZmPsWq7KCzghJ
-         x1yA==
-X-Forwarded-Encrypted: i=1; AKwUvBy+fy7NN9R89xxIEG+UCSDQ8nzhcbuwDUG0DyNXCIXI3khR5xSzdjdhxNT/M2RkiGPbpo31n3QXRzgXvQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKJoVIpYBDtbhDxG1RpWr17Qosuzds5xJpKgEjXkRW9C/uSWg3w
-	lrWbmIh6jbMmZaUX/kr6Qwb7slZPwEIy1QY9uNihSXBXxfH5rHrifvS5
-X-Gm-Gg: AYBFou0201Hh99TRVHsKF82+zZIo+8dz0sx5PK5ieS+GKrkayBhR6RfzPd5g7XKRdGN
-	xfXe7XKJ6DVLP3uy3mcdybt/oR1ZpKrs3NBJm5UOcgax9VN5mYMvkBC6KPfW/dDwnjGthsw/P3n
-	y5knFD8Vn941wnVj8FJvEpkBvXPtUyVIKuDMpH5taL5pczf+N93FON59XIvat3XUNljcMQsu5D0
-	xFfTxYcC5vFxh+xhILvnIETAL0u5AuhAM/lR2CtJCN2AjTc+cV44ci7glUkRo0Lpn6wBAd7/lEb
-	gv4E8tfmcj2c7CrRpIvVA+NID3Y5uHby9Ey74Vyn0WtfqzrLbZF2sYXgEUUpeXljD8EHo7KaH9D
-	8HtU1bNBYeHA06ZcfuEb1oabkdrUMNj++dXCErWDawWzewpynLIIzX948U9TrTB0OnygB6XCbKl
-	rttt5+BVKcVmPHPgJKnSjEf1VKMx9Y/7h1vtu0nCw3uzQXRNehGhuwoCex2XalayQsFS8Kx9f37
-	mJhmi9kKO0GaVoljTnB0BqzZsJnr4Zx3aSPtNZ7wXeUqAI4GWKLJ0T6NYBXgFPCFrF8P9Ts1QgM
-	iRlqrcwAtN8g3zOSmyHNjYCvjXgdeFRl76gyGPjroWDKf4KCGTzcELkRd0lSu1g7UQvUa/G93cU
-	0ui2wM0Brasg4hl/O6Ij+FmyPgtx3wEoOQUsEYPqMYrY9grVQrlI2OjlfIVizPvhQCh804G3q1l
-	p9
-X-Received: by 2002:a05:6820:1994:b0:702:ebe6:8009 with SMTP id 006d021491bc7-70941a50572mr2245317eaf.89.1792627739394;
-        Wed, 21 Oct 2026 17:08:59 -0700 (PDT)
+        bh=wotwEdh8TFdVFdbwz2jBQFukWF5WLCNBsDV31JlApTo=;
+        b=Yxh8IeHKxtuLRvf9Scch/xjEuH3zUVDUNfBHBD75ZluJQ4D8tnj5o8DLjdfNCppQwH
+         zupiaPGFt2gv6K3GH4R7pFlmQqG0rwxBRguaYa0ppA6yhrttwvpPiPtoU2zq7Ac90gfF
+         fwMzKxOcxWSWNnlhMgTI0+6H9zqNyai93jYXaaBu9XSua1V5iYt4dIKCxHoKJaD5mZqW
+         8f1Fd9Gg/wqKpRARqC2T1GSzsUIvejSZ0FCQ/5yoowE+4+ee/fWOKa9hSKplp9CLWl9P
+         H1iSmD78nzYHyANVpF5Gpo8uPuYJ10vkAvdx/L4K/zIxu/mGl1MM8ys/gMTolvyuw+vq
+         tYWg==
+X-Forwarded-Encrypted: i=1; AKwUvBzCo1YB+Mr4ey75w8BY3mJdvJPkMDKDVGVdkMukI3IcRG1vkeNx88ALvnKaumeHpWQdJPsyQkiquQbtOg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJr+ZrCqfpk0VMUYp9YNukdU03fPuduo/XeHwhuI/idAiduqBRB
+	rP7+MlY8IFiQG/MnvWy0BbABz4n3GtJKmEucS8DKGmuoRIqGmDYY6l7U
+X-Gm-Gg: AYBFou2r6z1UIo7lQnj3uXxGRcnvjXnDodnY0Kw3gHw9WCZpRafWoZamDo3O89Pnv4A
+	WEHk1nIj9EXU1av6NWoovGTaPxccltb0D0LAKtki9xy4F9CAV55Jp+G7lIffersyMGscSnfsB3b
+	zA4DKibeGxngFgix1J3ZYfM3VOO23c/ZivBGG93fixDQF9Tq+n1o8W38yuzTICJcjOtLul5Jj6U
+	otmtVBt4jbCIYydkXlBTgXb6HdDgEKNkYXK+P39d3kOj87jk3WoX+I7Xz8vNOvwXPsBdWq76EQA
+	E7YGx77AqlUBMaIyV+L3YfyJAbM61hj7aJI23Nq26cTMd417Z2gfmXvQyBiqY5twobLClMw10OF
+	3n42waAc2wzstCqFwb8/EPJEbDWj8CCsTNlc8G/vOoFfKle7EUtjkVcXTyAG+nVsJgaeNNJ+aDt
+	3ADn/qajHfW2nVbTgkRB9CZ9Jo/Qlpf+ssktvn92J0UHZ8yyzNM4m24D0LO0GQWVEnubPGpQkVg
+	qk4lH3YWKAE6q0OfIx4A5lTp7FHVh7y4WjsDf4yVGxpixUROLM9usOA8QsSUTg4DMdnd9IVcs8d
+	29QYVuKQK4idl2FtrQMv0qSfykNzLUKlFfNnOuuzIrsLW/6pQZpCu/yedF60DzqBD+VPMFe/gZc
+	EU+Pn9uZKhPTbnBV8pZkUQZXICCgbmksv78unBHxqRfiteoso6DusteMHynHDrWrdO7sqPzKXZ4
+	61aAE=
+X-Received: by 2002:a05:6820:1889:b0:6de:aeea:5c90 with SMTP id 006d021491bc7-70940d7dd7bmr2299772eaf.26.1792627740866;
+        Wed, 21 Oct 2026 17:09:00 -0700 (PDT)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-70903bc246csm3281362eaf.10.2026.10.21.17.08.58
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-70903bc246csm3281362eaf.10.2026.10.21.17.08.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 17:08:59 -0700 (PDT)
+        Wed, 21 Oct 2026 17:09:00 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Wed, 21 Oct 2026 18:08:55 -0600
-Subject: [PATCH 1/2] dt-bindings: clock: sun50i-h616: export the APB2 clock
+Date: Wed, 21 Oct 2026 18:08:56 -0600
+Subject: [PATCH 2/2] clk: sunxi-ng: h616: drop the private APB2 clock
+ definition
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -95,7 +96,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261021-submit-sun50i-h616-apb2-clock-v1-v1-1-7b857ad1198d@gmail.com>
+Message-Id: <20261021-submit-sun50i-h616-apb2-clock-v1-v1-2-7b857ad1198d@gmail.com>
 References: <20261021-submit-sun50i-h616-apb2-clock-v1-v1-0-7b857ad1198d@gmail.com>
 In-Reply-To: <20261021-submit-sun50i-h616-apb2-clock-v1-v1-0-7b857ad1198d@gmail.com>
 To: Chen-Yu Tsai <wens@kernel.org>, 
@@ -110,27 +111,30 @@ Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, James Hilliard <james.hilliard1@gmail.com>
 X-Mailer: b4 0.15.2
 
-UARTs use APB2 as their baud clock. Expose its existing clock ID so device
-trees can describe it separately from the per-port bus gate. Keep the
-existing clock numbering.
+CLK_APB2 is now defined in dt-bindings/clock/sun50i-h616-ccu.h, which the
+private CCU header already includes. Remove the duplicate definition and
+update the comment describing the exported APB clocks.
 
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- include/dt-bindings/clock/sun50i-h616-ccu.h | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/dt-bindings/clock/sun50i-h616-ccu.h b/include/dt-bindings/clock/sun50i-h616-ccu.h
-index 6889405f9fec..e3318772c92d 100644
---- a/include/dt-bindings/clock/sun50i-h616-ccu.h
-+++ b/include/dt-bindings/clock/sun50i-h616-ccu.h
-@@ -11,6 +11,7 @@
- #define CLK_CPUX		21
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.h b/drivers/clk/sunxi-ng/ccu-sun50i-h616.h
+index 7056f293a8e0..8a07c27c77d5 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.h
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.h
+@@ -40,9 +40,8 @@
+ #define CLK_PSI_AHB1_AHB2	24
+ #define CLK_AHB3		25
  
- #define CLK_APB1		26
-+#define CLK_APB2		27
+-/* APB1 clock exported for PIO */
++/* APB1 and APB2 clocks exported for PIO and UART baud clocks */
  
- #define CLK_DE			29
- #define CLK_BUS_DE		30
+-#define CLK_APB2		27
+ #define CLK_MBUS		28
+ 
+ /* All module clocks and bus gates are exported except DRAM */
 
 -- 
 2.53.0
