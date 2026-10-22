@@ -1,89 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792627217;
-	b=CtHh+NySdIEuESJXI4EMC7Pb9eKUSo1J7mjo2EDfQQYu4HAjD4vUwtbYAlziWHEKrJ7d
-	 6Y53gL1BamTGOpQjPBx+voLXCKC6+BEggkvhZo9nP5TypEPQI1pFUJnJ+TOSTwORmWkk7
-	 a8HRM4DXK4HmbJEY8UpxPE3WwMcq+87BZuoJESmp9FETeEBFEED5bAOCdHObBipcPCADP
-	 /UvHM5qjThwP4U8fnKS/BugyrXGImZnjC2kbyku8ZrCNd/rPZqlzCuAMeMI2exTfZ100h
-	 o4MmVciPfUgXpfHpf2v3g4I39//3otY0zxPgUEKtu2YGzYGHnzSV3saYydQNE9r+5eQ==
+	t=1792627739;
+	b=bTrnKwUU+YbNsS6SK8FQEvNMG35h902rH1fryyA+uQuBpcEybajlceCC46S07qSbIMMJ
+	 m7+62wuI/3KJ1tjrCTHpmdUZ/jOh0zmbaeBJhJR73HOg0AhWtx3MyBEvpzAG0Nby3j+P2
+	 BcWXcxNciMvz2zAAn5+0Yd7XVJTABgWy0bmq8Wmc0zuXIx6AD42cDUWQQz2vjf2IwZVQd
+	 9aMgD3P1mUaWBbey4tGCyi8086G3hEjFHWAY+lwKV3fLOz9uaByqefoUUej0Hb4Q6fbYo
+	 vOHjoIREd44qzcI94KEVMorHd0na4KZtie0FiE0Hjr8qrsqkcuf+fhMVrOCwFU4nxhQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792627217;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792627739;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
-	bh=YPuKNwql1HIbNGqoX33bMzSynPjwm2jO6JjQ4c2NRG0=;
-	b=0h0dcJSarJaWqY3IU/Lpd7uBfToIt1qIHba9xPmUlKuGR+64JsuDIhGLvDm+qtdXCLTM
-	 2IGQjubDdprtWqj2kDuqgFch1rza2uYjCfjwuyj5VBc4dUIzDgcBlhJhUdCW7IHUUUG3T
-	 AdGHJsfW8lM5AVeCleLmSHIL3DDjjR5JwJFDKb13xJfCwolAPEA7ZkirTIAkdTtmeqB4C
-	 /tjp4BT9kcFL6ClsOrTbcEpZwoDf/HYzDR2iCwi8cLvN5XFNOzzo9EK8HMKNxqcSLN3+t
-	 D6IDI0jTwDoxEKhfyiOAav0YLMIEEhnsOQa7OX1Mn4VOmw1EL6LB9sc1R8sC80qrrPg==
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=HsK5FhXQgYdk8C4XM4O6FqIbMCtFBfRXDuU2cOgaC2k=;
+	b=k5MPr80kaJWwJYpsFcA2U0zbn8q/qz3EzGCLwtUghbUrpIPPb6fDuKFEmu8oOdP0baN5
+	 RIE54NbG3no8D7A2CkgP4zNfzrN5zbFrsF5M4MA3DDPhsVlj3jIkHIPXL4o7fm9pyMofA
+	 g/0gk44VGu7YeLjDfE6ahvmwR01AHHqgC1TLtxHor/hHsKPoly77Orbjx5htQQTjLmWTQ
+	 9JrYvqBx+rcoo0l7xEkjN1SkioF4qJsRQ5YOjPMVQDznVtHS5O7RqYZlO4YGtJeHpSC+t
+	 Yt6RwYu4+NEpnem9K2FsImetxuIKHahWeyKM26NF+F/oDX6MI9wSO2HSzKz+US8M6SQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=pphv+rFk;
-	arc=none smtp.remote-ip=209.85.161.46
-Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=JrazIpzq;
+	arc=none smtp.remote-ip=209.85.161.54
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F74E606A330
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Oct 2026 00:00:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F74E606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215D4606A31D
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 Oct 2026 00:08:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 215D4606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=pphv+rFk
-Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-6dde81a6820so910661eaf.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 21 Oct 2026 17:00:15 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=JrazIpzq
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-6d290b10a35so576708eaf.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 21 Oct 2026 17:08:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792627215; x=1793232015; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20251104; t=1792627738; x=1793232538; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=YPuKNwql1HIbNGqoX33bMzSynPjwm2jO6JjQ4c2NRG0=;
-        b=pphv+rFkR8GQjyrXLPWuQWeH+6YhnYON1wippkzKwfUfKk7cbSPN2UeNOBoTITmeV/
-         5EEj7LaLe/xLqwAPwvDNvCcxKuAmE0bTewnxe90xPkSLDd8RK2kqX8GZcCRbgLr7/Fdh
-         bM7Dkvko0mAQN30kc6ynUbBsTFw79MKaBEvFnLTmiVfqjMFZ4XRovgooiDGIMejCL9Jm
-         uZHQKBA1j0seXlIQkYG2JIcDsxZLaTHlZst5ySh5CrcVke2CgDohyupREiN7oil3CoT5
-         I5QhOLwb0HrFM81XGmFn3YK/HFjHHWgiceCwu1HWX25v/fYTlREUVQh9Q0pjCwqVYX91
-         3Eqw==
+        bh=HsK5FhXQgYdk8C4XM4O6FqIbMCtFBfRXDuU2cOgaC2k=;
+        b=JrazIpzqp/mYanDuj09YBQ645I/8+eZYfVw7TA49wEwdEhO2NLxnwuRUhmXb0b0q10
+         1DfJAuiJOQkD+3QUrzC9a6BwQQOznpYbvP+30kxXQa89wUTLVY5kuK2Y8IZGBwjCfMiB
+         N4FogseI1O4A3ZPnjyvnFdyk3vCfLAWNcT7sPaV7f8jIWLb6RQ+guR4ZJTjpwHISQrRZ
+         POOTvCk70+fyC5D6FEkf8rju2uXf41pcS2iRQpPsjDGee+LHW+bKW1DC979dZyndFUHp
+         5ZVR0lt/eVv4N1svZiHzWBvB/JgLRmFsMu/dA1PqAQ5mHwcyrle3EOB5cdByyc5wbNFD
+         i0ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792627215; x=1793232015;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=YPuKNwql1HIbNGqoX33bMzSynPjwm2jO6JjQ4c2NRG0=;
-        b=DuDqh28OIQNXODwJECQH23dDB8/5V8OmIu9izisdqDQgMia1MElaqqlDGGV/hweV9p
-         nfX4dWeDoxnguwdYw4oqyE8i0MCa06b4zmqC24U0/2ets8FMGAq1+1tc68x4L2qdIfTC
-         AdWB/D1KlDI1YAWKhwMjAkbj2TwFVrEd9Di/W0FY5Ps6J9NiOR8OaAYMNye6JHm+mWfI
-         Dbqj8zxki8sBe1jOJ39sWJiX0c2YyZf364JZKsY19D7mnlNxNhgC6lBG/YfueLFnvXBc
-         cyN6d4oglZ3Rquk14CpP3TbBi2HBHuFRP9EBm5B2+uRVPHncXnCo7dX4DXZdqu1iPWUd
-         3KmA==
-X-Forwarded-Encrypted: i=1; AKwUvBztUz41t9+yVxZ70cAt0I2rSWxba7poDrY479dkni1pduAQUw/DYSs/ydUaGUvcXWUpr/WZtOo+oXxLJQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYL4vEExrH1yeuetLNfj5iVYwFiJVPMytVi/MoBW2IPX4gOQJKyF
-	QGfKh3gavVF01ZpM8Orc64P5h1WTvX1zjDKRUhhCnObSFRxdy7usngvJ
-X-Gm-Gg: AYBFou3F5O/LK4LMez/8B6iluzCzi3AGwwiGPJIhhQT7m0Zem9a/Lw3KE06tpZMZFjj
-	2fqofxy9ZGMOuQiOQNc7vTxjRHyxuJXyGFBSAdD3LgPuTwtN71J3BQMZXzQM6ZUvkEWAjr6BkGu
-	7EpFoEKrFvanymy3eCT5BEA6E77+cYmohQR0cTHsqemIZGenfSEBkj14Jmq68F5HOpVSAzotZA4
-	P703gDdN2/pSSpspGqwlG/HyLD6jVV4N5ZG0caby9hpyh7TLqEynSmrLaiENcPffrzcB4NjviVQ
-	7+Se0A35oUEvQgqClnxlfoFJXYAbxii8c6K1k///igvYzHmyCUwZDXboTYP9/XZ+gL+Ay5YkPDm
-	QuCvWCOEeNacGytTpfKlf3nCupZpLw6KuhlBbcAFIaJiKik3n2+8PiUO86RGHMcr3GTU1mzKv2z
-	uijDQvVUS+qh9Kdr3OPV0G9vMtJ5B0TUwFLxMf3dlp7lngJifm0ql6X9/0AMshKwrgqnJi9vfjq
-	qTV6p77Opzgr4uBTHf59evwrlcKEfYy2fhdkNxoiaEademFny4mWEEpndO9U3a4DuH+ybWp9Q/+
-	nn9SkHASoSGPD95NJWHfERCwtjLedQRKp55E/gTVTM8dzhVUsHao4L55glRWMylOiZg8c4YMrd5
-	kU3mcxRRoiLNI/oX4HsorjN0/9avaNHQPG4QqvxjDPxxAKsEQCjFNO+kLbMM022Ephf5mxQfXrF
-	GxJw7k3RkLbSRQchmSOScfKRcX
-X-Received: by 2002:a05:6820:c87:b0:6d2:a9c5:ec7a with SMTP id 006d021491bc7-7093fdbccf6mr2829070eaf.34.1792627214681;
-        Wed, 21 Oct 2026 17:00:14 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792627738; x=1793232538;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=HsK5FhXQgYdk8C4XM4O6FqIbMCtFBfRXDuU2cOgaC2k=;
+        b=rX1jfxWGFOMHqCnCrFAST3ePAkxja4klbcglZAcncYXCcME9mIGX5BCA4+336cqrK4
+         fYmFu+J9kmbxNXXUNYKle/fOtCCDVJuiRL/+c6chemzG9Sd9RZAO7s4GTMYoOIwucreW
+         ITfwDFWC8eeJ81OpSc4swrIjObgvBV2Flid1ddXTxmoZB6zCOY5rU9bzAHNptE8PR79g
+         LOzCF2/bnStalUHD5TuGZivWA+Fj78mtmTTvw5nAzZl/vlZEvpJzWv1sqo42nzkij7Pq
+         c+n+tCLo89FsRhFfhc8ymTkOtCj/o3mk/QPw0Sp8jvxISOfPVuKQzLJrpUO9st+kMAfm
+         xfJw==
+X-Forwarded-Encrypted: i=1; AKwUvBzOPqIHAQ/me9a94UeHSoWZhSriU76Qy6s1bVDJEOXXJPOtfk4gfI9rOGe8CHtvNXT7zR+6AgaLxtWqrQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYLsmmwViUT7rfxie/0Xx0/sBsaNECHe4guDdUnZwtnJcjCYLEkR
+	oVaMsTO9Db3a1caEY600QgMutUH7heht5y/7YXDyoyI559+B2xPkvB3C
+X-Gm-Gg: AYBFou3mW9OXFJc8Yn0HMjthnNZy6U4lMC/a8ju/5XDA95lheSHP9ukz9+wnldlfHOX
+	Mg07c4mtrkGX6YyYohJWdVyJANnrLNR6LJCwADBJybS8ea4ZmjTKSsfGUrcdjiFRDWyqq5KUHhT
+	rI/ccWP+a8+/OxDEnMFy6JQUTTXVXmUNK9p0uL/vXzciBJhQuztm2kxjPJEuLOq4HXd8gmvk+T+
+	59xYq+sgY+p2DLyMt0P7w/1ceG0C3TlrmIsZkbrRlA+5mMewToZ/40SLJQPE9Exvapzmxq0al+g
+	dKyCHVGOCQgXcMwiQrdepUBemflOSdFrPK9iMo/F8aogxTjyF0u0qOXsNnC7/b29GauNIgssLJK
+	ggACigcYa7wV7LKBtrJXTJ/d7OA7txTw4cYfjPhSLcn115gptqAEGsDfUN/Hw18g4dr9AeK4Bm3
+	AcRqDtTeAHqmDkgvLR8Bg3mpMTlhmOmYQx9vaQrLopGv+qUN7MzYB53oY8klNhOq4Z/S1f8+Mjt
+	4ZI1wF2HwexqQsqbfZkNlbGIDE7L/vjQtlCPisl6gON9UXsCCMyOaZMqiw2NnAulMo505I4KyJF
+	6SL//pP8jzb/rWr5+J1aauE3AYf6dyhG/Yt+2QVdw/AWaxwGP5d5pah8Un0TNzKZkVOCHFBKMPo
+	4Ttn9Yk8sn2CmLku6Gr9lLOhfLj/i8JHgGQ78RJ1epr86F15nfv9Bs92CQEmL+4TWsYijQRCGQJ
+	+jBA==
+X-Received: by 2002:a05:6820:5715:20b0:70a:1787:268a with SMTP id 006d021491bc7-70a178733admr1123581eaf.89.1792627737623;
+        Wed, 21 Oct 2026 17:08:57 -0700 (PDT)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-84cbddc7100sm3710064a34.24.2026.10.21.17.00.14
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-70903bc246csm3281362eaf.10.2026.10.21.17.08.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 17:00:14 -0700 (PDT)
+        Wed, 21 Oct 2026 17:08:57 -0700 (PDT)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Wed, 21 Oct 2026 18:00:12 -0600
-Subject: [PATCH] i2c: mv64xxx: protect transfers against input clock
- changes
+Subject: [PATCH 0/2] clk: sunxi-ng: h616: export the APB2 clock
+Date: Wed, 21 Oct 2026 18:08:54 -0600
+Message-Id: <20261021-submit-sun50i-h616-apb2-clock-v1-v1-0-7b857ad1198d@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -95,307 +95,41 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261021-submit-i2c-mv64xxx-clock-v1-v1-1-959ea2aa3f90@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/22PwW6EMAxEfwXl3KiJISHlV6o9OI4paQtsCYuQV
- vvvNUuPvVgae+ZpfFeFl8xFddVdLbzlkudJhH2pFA04fbDOSbQCA94asLrc4phXnYH0uPlm33d
- N3zN96c1qhyaFFiCC9UoI14X7vD/p75dTS/yTaT2QhyNiYR0XnGg4VmJY+Of1P/gfT843Kbme0
- DNP8yiVuqphgto7MiFxbXzvwLujUO2Rexc8ROQUQ3qicKVBfusq7qltWpnovKmRjYuI9i0EkCy
- nNjkSDU5dHo9fnKmpbC8BAAA=
-X-Change-ID: 20261021-submit-i2c-mv64xxx-clock-v1-5a0d8722b216
-To: Gregory CLEMENT <gregory.clement@bootlin.com>, 
- Andi Shyti <andi.shyti@kernel.org>
-Cc: linux-i2c@vger.kernel.org, linux-clk@vger.kernel.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- James Hilliard <james.hilliard1@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWNwQ6CMBBEf4Xs2dW20Qr8ivHQrousYCEtEhLCv
+ 1v0NHmTyZsVEkfhBHWxQuRZkgwhgz4UQK0LT0Z5ZAajjNXKaEwf/5YpR7gowdZqi270BqkfqMN
+ Zo61YOeKqrEoPWTNGbmT5Xdzuf86OF9O0e/eFd4nRRxeo3ausXuREfYfNEPF6PMO2fQE4WH1Sq
+ AAAAA==
+X-Change-ID: 20261021-submit-sun50i-h616-apb2-clock-v1-69e0ace9898b
+To: Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Brian Masney <bmasney+clk@redhat.com>, 
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, James Hilliard <james.hilliard1@gmail.com>
 X-Mailer: b4 0.15.2
 
-The controller's timing divisor is calculated once at probe. On Allwinner
-H616 the input is APB2, which also supplies the UARTs. Changing that shared
-clock leaves I2C using its old divisor and can change SCL during an active
-transfer.
+Expose APB2's existing clock ID so device trees can reference the UART baud
+clock independently of the per-port bus gates. Add the public binding ID
+first, then remove the redundant private definition.
 
-Register an input clock notifier for DT-configured controllers. Calculate
-the prospective timing without modifying the current divisor, then try to
-acquire the adapter bus lock. A running transfer vetoes the change; an idle
-adapter keeps the lock through POST or ABORT so a new transfer cannot start
-between validation and the actual rate change. Do not wait for the bus lock
-under the clock framework lock: a transfer may be waiting there in runtime
-resume. Also reject a change while START or STOP is still pending in an
-active controller, since software completion can precede the physical STOP.
-
-Publish the new packed divisor on POST and install it before the next
-transfer. Runtime resume reads the same cached word, so a suspended
-controller needs no register access from the notifier. Preserve the old
-timing on ABORT. Drain notifications before removing the adapter, whose
-device storage is cleared by i2c_del_adapter().
-
-Keep platform-data controllers on their supplied fixed divisors because
-they do not provide the requested bus frequency needed for recalculation.
-
+Assisted-by: Codex:gpt-6-astra
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
-Based on i2c/i2c-next with the posted clock-abort fix [0]. The notifier
-holds the adapter lock between PRE_RATE_CHANGE and POST_RATE_CHANGE or
-ABORT_RATE_CHANGE, so an aborted parent change must deliver its matching
-ABORT notification.
-
-[0] https://lore.kernel.org/r/20261021-submit-clk-parent-abort-v1-v1-1-2936181822fc@gmail.com
----
- drivers/i2c/busses/i2c-mv64xxx.c | 137 +++++++++++++++++++++++++++++++++------
- 1 file changed, 117 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/i2c/busses/i2c-mv64xxx.c b/drivers/i2c/busses/i2c-mv64xxx.c
-index 1acba628e16c..e34998b74fdd 100644
---- a/drivers/i2c/busses/i2c-mv64xxx.c
-+++ b/drivers/i2c/busses/i2c-mv64xxx.c
-@@ -24,6 +24,7 @@
- #include <linux/io.h>
- #include <linux/of.h>
- #include <linux/clk.h>
-+#include <linux/notifier.h>
- #include <linux/err.h>
- #include <linux/delay.h>
- 
-@@ -132,8 +133,12 @@ struct mv64xxx_i2c_data {
- 	u32			send_stop;
- 	u32			block;
- 	int			rc;
--	u32			freq_m;
--	u32			freq_n;
-+	u32			baud_div;
-+	u32			bus_freq;
-+	u32			new_baud_div;
-+	struct notifier_block	clk_notifier;
-+	bool			clk_change_ready;
-+	bool			clk_change_locked;
- 	struct clk              *clk;
- 	struct clk              *reg_clk;
- 	wait_queue_head_t	waitq;
-@@ -212,7 +217,7 @@ mv64xxx_i2c_hw_init(struct mv64xxx_i2c_data *drv_data)
- 	}
- 
- 	writel(0, drv_data->reg_base + drv_data->reg_offsets.soft_reset);
--	writel(MV64XXX_I2C_BAUD_DIV_M(drv_data->freq_m) | MV64XXX_I2C_BAUD_DIV_N(drv_data->freq_n),
-+	writel(READ_ONCE(drv_data->baud_div),
- 		drv_data->reg_base + drv_data->reg_offsets.clock);
- 	writel(0, drv_data->reg_base + drv_data->reg_offsets.addr);
- 	writel(0, drv_data->reg_base + drv_data->reg_offsets.ext_addr);
-@@ -751,6 +756,10 @@ mv64xxx_i2c_xfer_core(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
- 	if (rc)
- 		return rc;
- 
-+	/* The adapter lock excludes rate changes until the transfer finishes. */
-+	writel(READ_ONCE(drv_data->baud_div),
-+		drv_data->reg_base + drv_data->reg_offsets.clock);
-+
- 	BUG_ON(drv_data->msgs != NULL);
- 	drv_data->msgs = msgs;
- 	drv_data->num_msgs = num;
-@@ -813,9 +822,9 @@ static const struct of_device_id mv64xxx_i2c_of_match_table[] = {
- MODULE_DEVICE_TABLE(of, mv64xxx_i2c_of_match_table);
- 
- #ifdef CONFIG_OF
--static int
-+static unsigned long
- mv64xxx_calc_freq(struct mv64xxx_i2c_data *drv_data,
--		  const int tclk, const int n, const int m)
-+		  unsigned long tclk, const int n, const int m)
- {
- 	if (drv_data->clk_n_base_0)
- 		return tclk / (10 * (m + 1) * (1 << n));
-@@ -825,26 +834,96 @@ mv64xxx_calc_freq(struct mv64xxx_i2c_data *drv_data,
- 
- static bool
- mv64xxx_find_baud_factors(struct mv64xxx_i2c_data *drv_data,
--			  const u32 req_freq, const u32 tclk)
-+			  u32 req_freq, unsigned long tclk, u32 *baud_div)
- {
--	int freq, delta, best_delta = INT_MAX;
-+	unsigned long freq, best_freq = 0;
- 	int m, n;
- 
- 	for (n = 0; n <= 7; n++)
- 		for (m = 0; m <= 15; m++) {
- 			freq = mv64xxx_calc_freq(drv_data, tclk, n, m);
--			delta = req_freq - freq;
--			if (delta >= 0 && delta < best_delta) {
--				drv_data->freq_m = m;
--				drv_data->freq_n = n;
--				best_delta = delta;
-+			if (freq <= req_freq && freq > best_freq) {
-+				*baud_div = MV64XXX_I2C_BAUD_DIV_M(m) |
-+					    MV64XXX_I2C_BAUD_DIV_N(n);
-+				best_freq = freq;
- 			}
--			if (best_delta == 0)
-+			if (best_freq && best_freq == req_freq)
- 				return true;
- 		}
--	if (best_delta == INT_MAX)
--		return false;
--	return true;
-+	return best_freq != 0;
-+}
-+
-+static int mv64xxx_i2c_clk_notifier(struct notifier_block *nb,
-+				  unsigned long event, void *arg)
-+{
-+	struct mv64xxx_i2c_data *drv_data =
-+		container_of(nb, struct mv64xxx_i2c_data, clk_notifier);
-+	struct clk_notifier_data *ndata = arg;
-+	struct i2c_adapter *adap = &drv_data->adapter;
-+	int active;
-+	u32 control;
-+
-+	switch (event) {
-+	case PRE_RATE_CHANGE:
-+		/* The adapter's bus lock is not available during registration. */
-+		if (!smp_load_acquire(&drv_data->clk_change_ready))
-+			return NOTIFY_BAD;
-+		if (!mv64xxx_find_baud_factors(drv_data, drv_data->bus_freq,
-+					     ndata->new_rate, &drv_data->new_baud_div))
-+			return NOTIFY_BAD;
-+		/* A transfer can be waiting for the clock framework in runtime PM. */
-+		if (!i2c_trylock_bus(adap, I2C_LOCK_ROOT_ADAPTER))
-+			return NOTIFY_BAD;
-+
-+		/* Software completion can precede the STOP reaching the wire. */
-+		active = pm_runtime_get_if_active(adap->dev.parent);
-+		if (active > 0 || !IS_ENABLED(CONFIG_PM)) {
-+			control = readl(drv_data->reg_base + drv_data->reg_offsets.control);
-+			if (active > 0)
-+				pm_runtime_put(adap->dev.parent);
-+			if (control & (MV64XXX_I2C_REG_CONTROL_START |
-+				       MV64XXX_I2C_REG_CONTROL_STOP)) {
-+				i2c_unlock_bus(adap, I2C_LOCK_ROOT_ADAPTER);
-+				return NOTIFY_BAD;
-+			}
-+		}
-+		drv_data->clk_change_locked = true;
-+		return NOTIFY_OK;
-+	case POST_RATE_CHANGE:
-+		/* Runtime resume can read this without holding the adapter lock. */
-+		if (drv_data->clk_change_locked)
-+			WRITE_ONCE(drv_data->baud_div, drv_data->new_baud_div);
-+		fallthrough;
-+	case ABORT_RATE_CHANGE:
-+		if (drv_data->clk_change_locked) {
-+			drv_data->clk_change_locked = false;
-+			i2c_unlock_bus(adap, I2C_LOCK_ROOT_ADAPTER);
-+		}
-+		return NOTIFY_OK;
-+	default:
-+		return NOTIFY_DONE;
-+	}
-+}
-+
-+static int mv64xxx_i2c_init_clk_notifier(struct mv64xxx_i2c_data *drv_data,
-+				       struct device *dev)
-+{
-+	int ret;
-+
-+	if (!IS_ENABLED(CONFIG_COMMON_CLK) || !drv_data->bus_freq)
-+		return 0;
-+
-+	drv_data->clk_notifier.notifier_call = mv64xxx_i2c_clk_notifier;
-+	ret = devm_clk_notifier_register(dev, drv_data->clk, &drv_data->clk_notifier);
-+	if (ret)
-+		return ret;
-+
-+	/* A rate change is now vetoed until the adapter is registered. */
-+	if (!mv64xxx_find_baud_factors(drv_data, drv_data->bus_freq,
-+				     clk_get_rate(drv_data->clk), &drv_data->baud_div))
-+		return -EINVAL;
-+
-+	return 0;
- }
- 
- static int
-@@ -853,7 +932,8 @@ mv64xxx_of_config(struct mv64xxx_i2c_data *drv_data,
- {
- 	const struct mv64xxx_i2c_regs *data;
- 	struct device_node *np = dev->of_node;
--	u32 bus_freq, tclk;
-+	unsigned long tclk;
-+	u32 bus_freq;
- 	int rc = 0;
- 
- 	/* CLK is mandatory when using DT to describe the i2c bus. We
-@@ -873,7 +953,8 @@ mv64xxx_of_config(struct mv64xxx_i2c_data *drv_data,
- 	    of_device_is_compatible(np, "allwinner,sun6i-a31-i2c"))
- 		drv_data->clk_n_base_0 = true;
- 
--	if (!mv64xxx_find_baud_factors(drv_data, bus_freq, tclk)) {
-+	drv_data->bus_freq = bus_freq;
-+	if (!mv64xxx_find_baud_factors(drv_data, bus_freq, tclk, &drv_data->baud_div)) {
- 		rc = -EINVAL;
- 		goto out;
- 	}
-@@ -920,6 +1001,12 @@ mv64xxx_of_config(struct mv64xxx_i2c_data *drv_data,
- 	return rc;
- }
- #else /* CONFIG_OF */
-+static int mv64xxx_i2c_init_clk_notifier(struct mv64xxx_i2c_data *drv_data,
-+				       struct device *dev)
-+{
-+	return 0;
-+}
-+
- static int
- mv64xxx_of_config(struct mv64xxx_i2c_data *drv_data,
- 		  struct device *dev)
-@@ -1018,8 +1105,8 @@ mv64xxx_i2c_probe(struct platform_device *pd)
- 		return drv_data->irq;
- 
- 	if (pdata) {
--		drv_data->freq_m = pdata->freq_m;
--		drv_data->freq_n = pdata->freq_n;
-+		drv_data->baud_div = MV64XXX_I2C_BAUD_DIV_M(pdata->freq_m) |
-+				     MV64XXX_I2C_BAUD_DIV_N(pdata->freq_n);
- 		drv_data->adapter.timeout = msecs_to_jiffies(pdata->timeout);
- 		drv_data->offload_enabled = false;
- 		memcpy(&drv_data->reg_offsets, &mv64xxx_i2c_regs_mv64xxx, sizeof(drv_data->reg_offsets));
-@@ -1042,6 +1129,10 @@ mv64xxx_i2c_probe(struct platform_device *pd)
- 	platform_set_drvdata(pd, drv_data);
- 	i2c_set_adapdata(&drv_data->adapter, drv_data);
- 
-+	rc = mv64xxx_i2c_init_clk_notifier(drv_data, &pd->dev);
-+	if (rc)
-+		return dev_err_probe(&pd->dev, rc, "Cannot monitor input clock changes\n");
-+
- 	pm_runtime_set_autosuspend_delay(&pd->dev, MSEC_PER_SEC);
- 	pm_runtime_use_autosuspend(&pd->dev);
- 	pm_runtime_enable(&pd->dev);
-@@ -1064,6 +1155,8 @@ mv64xxx_i2c_probe(struct platform_device *pd)
- 		goto exit_free_irq;
- 	}
- 
-+	/* Publish the initialized adapter, including its bus lock, to PRE. */
-+	smp_store_release(&drv_data->clk_change_ready, true);
- 	return 0;
- 
- exit_free_irq:
-@@ -1081,11 +1174,15 @@ mv64xxx_i2c_remove(struct platform_device *pd)
- {
- 	struct mv64xxx_i2c_data		*drv_data = platform_get_drvdata(pd);
- 
-+	/* Drain notifications before i2c_del_adapter() clears adap->dev. */
-+	clk_rate_exclusive_get(drv_data->clk);
-+	WRITE_ONCE(drv_data->clk_change_ready, false);
- 	i2c_del_adapter(&drv_data->adapter);
- 	free_irq(drv_data->irq, drv_data);
- 	pm_runtime_disable(&pd->dev);
- 	if (!pm_runtime_status_suspended(&pd->dev))
- 		mv64xxx_i2c_runtime_suspend(&pd->dev);
-+	clk_rate_exclusive_put(drv_data->clk);
- }
- 
- static const struct dev_pm_ops mv64xxx_i2c_pm_ops = {
 
 ---
-base-commit: 4ec2365c08de306f52650d8736aef5862baedb8d
-change-id: 20261021-submit-i2c-mv64xxx-clock-v1-5a0d8722b216
-prerequisite-patch-id: efc747efca5603ae05baa198820d8ed7d5caa125
+James Hilliard (2):
+      dt-bindings: clock: sun50i-h616: export the APB2 clock
+      clk: sunxi-ng: h616: drop the private APB2 clock definition
+
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.h      | 3 +--
+ include/dt-bindings/clock/sun50i-h616-ccu.h | 1 +
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+---
+base-commit: 9ef62592b80c7ffb8cd987d889f659c1dc4f9f16
+change-id: 20261021-submit-sun50i-h616-apb2-clock-v1-69e0ace9898b
 
 Best regards,
 --  
