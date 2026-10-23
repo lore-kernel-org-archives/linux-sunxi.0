@@ -1,90 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792740843;
-	b=KgWihMHAYQaIQQE9gojALyzU3NFbNEilan41qugOh8zyg9RdvyJ6vg84/vjDQ/ock2sI
-	 Tw0to1EWLcsNcSjDMMyl7UDLaLXfnoV+6IPF/6e21LoW9C+M9Fu/A1u48uQVfjMj9/Ym1
-	 PkMGlYOfyONYTwh7MKg5tnSB0kHvxMj9bpeqTQ0XFYUjchcu4JB8ElkFxqBWVaiMwaTcp
-	 0Pc1K7RWTNLBLaIz4TPH7RZufuhap1O1Y/IFXw5EMSTjLrqSeb8fmXnvnKcAzJ33c9u01
-	 KTSrhE4v118bDHDt7FLo1mT02KBfQ8fTSbkvDKGNfGfw4T3meC6ZyDNDLY/gFL/2Pvw==
+	t=1792743804;
+	b=WuoHhpfVK/X9e/FvW0f9PrZ54RFPDjBCKt5Emgguq4W3W64mftf4siGXXtKS8a83m0DR
+	 +BjHz5OSurld9fqsQ3T/4LOPlx9njcwMFl/kdcycyHvys5gxWiLRHIma0qU1gPMW5tOR/
+	 97I7M+PqtY33GiGeDSyKPwNLNbthb6DPqYWKrbsAVk4b226Ry7YPCWvz6TvNRXBIdr4Lq
+	 63W5jmgNxwjIqPyv/GNC5DUsslyfpFNbqJSgDzJFhJFysqNcFSCYzQaqxkE4shbsI6bCy
+	 kuKKpeMR+AS49xW+WZFMDTJXjvXAdzPLNWXDuO4uHrrIn0a/gVL+spzsRm7dZQe+EsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792740843;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=hMLYY/97Uq9CVtG7QdmP7izisduGXF/upTM7pDvQJmw=;
-	b=szjqQiwDDO70FASAFre8eDVWA4IxcGgIBfJ55NU4FwdPzwUyDmDsLwHK4d3Sb8RvY5Cg
-	 HVedLCwDEI/BAoFrBnAKB7n2r4Damz/udHY5f96JXoLCGsYWKfqEj41nK/q7BcxCteflo
-	 6/FQed93JjkYRociLpHFkygLfdcPX1VtRiHacMurFMf8lrAoJqiVYrNcrf+SNIld6uB6m
-	 KPQVz62/wJDwDv+0PZ8cK3Wh8O8RgnFY785b3Ez0DTkCDtsZzigWErG0RQvcH6IYdjVl2
-	 DdphGH1IEj/CZ+irvTrSwhIcA7M1dRK7LPoJCM/9oQ7mT7BY/qZ1Az7ugx/3d1Zm6ag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792743804;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=0GfKVk/RJOC9pOzChhirBkeqLeJZ9TV7pnSiNJChoHo=;
+	b=cnkxASVeFgY/eeFtg1AeBzmbISr0Jgcx417nPOK3wge/ylaAinWymYLPcTBt/AJE/ej8
+	 1UcsWFnhSNjP2b+8c9xdAz+gWNvzvE0nwvKbOlhWiZ/rJfCBsXSUzwCkkpoOYbuiTHKJS
+	 Otk5S9t8mJDVAhpG/QLKNEUO0QMn+IEi3GvTJAe6EBDYkUWStyVZkNvibavCDhe2BnGWW
+	 uHD5hq6PRsmPdbvLoemioQ0Q+1wyEjcmu0fOIZypCTwrrtx5OmmXg3JZLoMiO0vNTEOID
+	 FoSaNb45NV5IAjemAbeErKPtk098QuqONyqgJYOyKo69/U2ZczyPTX8Bqt5s8uOGFaw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=kIat8fSr;
-	arc=none smtp.remote-ip=209.85.210.42
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gnlpa3rM;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6B4606A33A
-	for <linux-sunxi@lists.linux.dev>; Fri, 23 Oct 2026 07:34:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B6B4606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66AF4606A31D;
+	Fri, 23 Oct 2026 08:23:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=kIat8fSr
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-84a248254f4so363191a34.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 23 Oct 2026 00:34:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792740842; x=1793345642; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hMLYY/97Uq9CVtG7QdmP7izisduGXF/upTM7pDvQJmw=;
-        b=kIat8fSrzxsGLtAXcBQm6RXD2kA5NR8yrbAuPBvpWdWLD5p4/hftN2NYUCgJsQvLe/
-         bjfu5w912ruPpzqNq5xN7onbvZI+GUQC7S3JmX0AwpgVfqYECWvJr0ZNgbNQ/8XkJv4d
-         PH9POxqnzblHuxt4e4FWg9e/6rgcoL1/5b4YzJaPVMRukuVzAzjRooQXmAaNU1sUU9GX
-         qGmSxXo8QUppfqDx672zeYTh16ZLbdDBT7eZhQBePg5uZ9HEJ/oWXp9huVxfzJv/QpYc
-         3N9eVSs9r3Jo8Q3ff3Q+hriyh7tsYC4Bqoy7Nyl+xbx2JyJMxlPcOpTSaf/y8cdfz8yO
-         IRTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792740842; x=1793345642;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hMLYY/97Uq9CVtG7QdmP7izisduGXF/upTM7pDvQJmw=;
-        b=fcp+Ao2mBs0P/hhEIXYD+AVeSAQHOwqWo7iezMDvCLezIUDggmF7htFW02ndF80myG
-         LgIG2mpwyd0x4kPh8cUwhoaxi8PgCRbfYW1EN9OuEUtzOntIfHYkmE+uPWpX++UWGIiQ
-         ogONYvoUo84qkVCJsLZeZXZAZJ0ae6Fd7V4+dCh6S6kki+7rcZUvH5HLP/pUtZZF1Wr4
-         +TM7bfVsfOK6GQit7SKGGAIfZiPs5ZrUANaSU8M0zpfn5tI4kwyBApbVNpNaTf8bLowC
-         V1xO5L8s/9wBwoJn/Dh36XkkQ4YQp/rrs+TIEED4R6LX7DmKAt/+Ivyk03SljmcPudMO
-         FSRA==
-X-Forwarded-Encrypted: i=1; AKwUvBxzunW2ceOBC2oEWbIN6P/yMuP7sCn5hN7cPm+F5Z/wE5P2XTHV1qjliXu0Mnt4RnEQkzozIrlmrFljYg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIT5kddem6D3QRRdtUmt8K/52DOVgyp4GZX7390EL2hG+4Kuyft
-	TrtL8GuNXbIdvt6spac0GBMWVNfeSrS4YDFiZ3UzmTmuYqSCZfvdT918
-X-Gm-Gg: AYBFou3XDeVlhNdi3bFmmg7kcngtdn1Mz/4qbAgY79mO8CC68OJA6Y4mj8xnzspPEVP
-	12waemoNcWMSdLInd5289V51rlYNNEQwBnC+eKSSVnXYuhrecUMaQd5o2a2Nk1RE5AgLY1n3E0X
-	foc+rwjcV8wMynBQ9BVDyGf1nh3PU8ADIrQOeNSH2m3oN5mFdg3KIWlZEqcExeNT/Wud+zwhZRq
-	SosnGIbAdGdXz9ErpaI/JJehnB/yC3txScgyaO/G1iAj8Ink8W5xQ/Nz+24nl/PLOiKiqWt7/+/
-	LUQ5e4iNlTJrvdk/L88IR3OFRJr/t0YQ0yON8HCOxyPzDXzOpMQb2eTjPp2NNkRrvnrcBuNYp2M
-	xJS4SL484ZhqOCpDIb70LOlTSE7Mh8A9uOQNMNySCaA+rtYNjuq6HevlmR4RjAyQUyM0oyB5Hrp
-	sIWk5hpveXpdFLtSRkOWtPVzqtPLhiC/sLoczz5KjS2zmipiRnfLOt0eSk5kJW1I7dygtyuKw1S
-	xxQ4GM4As1M0Ei5iq58gExztrGip1ayIsCVcFfn9sQHWp8BtvFDQwf3DG0sZYvKeRoeLpnuizYT
-	4RcOgEueUjB9lbSn1Exw8DIKIzWdILFHW7EvhGY4fCvCoVtRyPAzFSSCmqCSp6RCp2Hnc/6tbWm
-	MK7R/mK9l0VBGbsYSLSWD6VkR6y56YD/O+EIQ+4Z6D4SJej8lGvndxeq1/PjA6DQyQ4Keg3YUC6
-	03xdc=
-X-Received: by 2002:a05:6808:5092:b0:4e8:3707:d4cf with SMTP id 5614622812f47-55be7a45f4cmr859576b6e.0.1792740842142;
-        Fri, 23 Oct 2026 00:34:02 -0700 (PDT)
-Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-55be9880a99sm909562b6e.14.2026.10.23.00.34.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 00:34:01 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Fri, 23 Oct 2026 01:33:51 -0600
-Subject: [PATCH 3/3] arm64: dts: allwinner: h616: identify the UART
- integration
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gnlpa3rM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9DEF1F01825;
+	Fri, 23 Oct 2026 08:23:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792743804;
+	bh=0GfKVk/RJOC9pOzChhirBkeqLeJZ9TV7pnSiNJChoHo=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=gnlpa3rMnlRXcaZ+hpAGQAgQAk3/GQV/xPsDRvSL3AZzTrwsTMjaYvjV3CHuLq/YF
+	 8a4lFhW87yBYAIeQK+kU9XFC4WCUlDJFqeYywOetKDT3UBz4RbZAtf6TSSZZDOJQJd
+	 8yV1lukXk/oOGim6nEkM1WKGoFRCLLx+siS2A4HIuUJk/sUonD97R6YV4eaDmHoocJ
+	 uBownCZEtd5h9JybrMxYBgscEzNRWKGQIBA1taxLeU1XlSIMsDewqYRJYcq+b3sTjx
+	 6yb6VhNu0WNQsOEdb/XEyWmjHi/UqLw8yxlwFHmqF7BIQQZ8LuCN58fv4OzeJ7/2ld
+	 RoyaPK1Qaw+Fw==
+Message-ID: <sashiko-outbox-182506@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 2/3] serial: 8250_dw: configure the Allwinner H616 UART
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "James Hilliard" <james.hilliard1@gmail.com>
+Cc: linux-serial@vger.kernel.org, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261023-submit-h616-uart-fifo-v1-v1-2-e4a3bae2eba8@gmail.com>
+References: <20261023-submit-h616-uart-fifo-v1-v1-0-e4a3bae2eba8@gmail.com>
+ <20261023-submit-h616-uart-fifo-v1-v1-2-e4a3bae2eba8@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 23 Oct 2026 08:23:23 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -93,93 +59,191 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261023-submit-h616-uart-fifo-v1-v1-3-e4a3bae2eba8@gmail.com>
-References: <20261023-submit-h616-uart-fifo-v1-v1-0-e4a3bae2eba8@gmail.com>
-In-Reply-To: <20261023-submit-h616-uart-fifo-v1-v1-0-e4a3bae2eba8@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, James Hilliard <james.hilliard1@gmail.com>
-X-Mailer: b4 0.15.2
 
-Use the H616 UART compatible for all six controllers so the driver can
-select their fixed 256-byte FIFO configuration and register layout.
-Retain the generic DesignWare compatible as a fallback for older kernels.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] serial: 8250_dw: broken H616 RX DMA due to deferred sun6i_dma_issu=
+e_pending()
+- [High] serial: 8250_dw: missing UART_CAP_AFE in UART_PORT_DW_APB_256 brea=
+ks CRTSCTS
+--
 
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+commit 7b1955806965488d36d1ed6fbef81df345079c9d
+Author: James Hilliard <james.hilliard1@gmail.com>
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index 1598e86259ab..6905c9eaa249 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -538,7 +538,7 @@ mmc2: mmc@4022000 {
- 		};
- 
- 		uart0: serial@5000000 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05000000 0x400>;
- 			interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
-@@ -551,7 +551,7 @@ uart0: serial@5000000 {
- 		};
- 
- 		uart1: serial@5000400 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05000400 0x400>;
- 			interrupts = <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
-@@ -564,7 +564,7 @@ uart1: serial@5000400 {
- 		};
- 
- 		uart2: serial@5000800 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05000800 0x400>;
- 			interrupts = <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
-@@ -577,7 +577,7 @@ uart2: serial@5000800 {
- 		};
- 
- 		uart3: serial@5000c00 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05000c00 0x400>;
- 			interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
-@@ -590,7 +590,7 @@ uart3: serial@5000c00 {
- 		};
- 
- 		uart4: serial@5001000 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05001000 0x400>;
- 			interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
-@@ -603,7 +603,7 @@ uart4: serial@5001000 {
- 		};
- 
- 		uart5: serial@5001400 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05001400 0x400>;
- 			interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
+serial: 8250_dw: configure the Allwinner H616 UART
 
--- 
-2.53.0
+This patch adds a fixed 256-byte FIFO port configuration for the Allwinner
+H616 UART, skips optional register probing, sets the SKIP_SET_RATE quirk, a=
+nd
+attaches 8250 DMA with single-byte burst sizes during probe.
 
+> diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/=
+8250_dw.c
+> index eca02e8bd6d13..f03051740be0a 100644
+> --- a/drivers/tty/serial/8250/8250_dw.c
+> +++ b/drivers/tty/serial/8250/8250_dw.c
+
+[ ... ]
+
+> @@ -765,14 +780,21 @@ static int dw8250_probe(struct platform_device *pde=
+v)
+> =20
+>  	dw8250_setup_dma_filter(p, data);
+> =20
+> -	if (!data->skip_autocfg)
+> -		dw8250_setup_port(p);
+> -
+> -	/* If we have a valid fifosize, try hooking up DMA */
+> -	if (p->fifosize) {
+> -		data->data.dma.rxconf.src_maxburst =3D p->fifosize / 4;
+> -		data->data.dma.txconf.dst_maxburst =3D p->fifosize / 4;
+> +	if (data->pdata && data->pdata->type) {
+> +		dw8250_setup_port_fixed(up, data->pdata->type);
+> +		data->data.dma.rxconf.src_maxburst =3D data->pdata->dma_maxburst;
+> +		data->data.dma.txconf.dst_maxburst =3D data->pdata->dma_maxburst;
+>  		up->dma =3D &data->data.dma;
+
+[Severity: High]
+Will attaching the standard 8250 RX DMA path here work with the Allwinner
+sun6i-dma controller, or does it cause RX DMA transfers to be immediately
+aborted and leave RX DMA wedged?
+
+When UART_IIR_RDI fires, serial8250_interrupt() loops in hardirq context:
+
+drivers/tty/serial/8250/8250_core.c:serial8250_interrupt() {
+	l =3D i->head;
+	do {
+		struct uart_8250_port *up =3D list_entry(l, struct uart_8250_port, list);
+		struct uart_port *port =3D &up->port;
+
+		if (port->handle_irq(port)) {
+			handled =3D 1;
+			end =3D NULL;
+		} else if (end =3D=3D NULL)
+			end =3D l;
+		...
+	} while (l !=3D end);
+}
+
+On the first pass, dw8250_handle_irq() -> serial8250_handle_irq_locked() ->
+handle_rx_dma() sees !up->dma->rx_running and breaks out to call
+serial8250_rx_dma(), which sets dma->rx_running =3D 1 and calls
+dma_async_issue_pending(dma->rxchan) without masking UART_IER_RDI or draini=
+ng
+the RX FIFO:
+
+drivers/tty/serial/8250/8250_port.c:handle_rx_dma() {
+	switch (iir & 0x3f) {
+	case UART_IIR_RDI:
+		if (!up->dma->rx_running)
+			break;
+		fallthrough;
+	case UART_IIR_RLSI:
+	case UART_IIR_RX_TIMEOUT:
+		serial8250_rx_dma_flush(up);
+		return true;
+	}
+	return up->dma->rx_dma(up);
+}
+
+Unlike DMA controllers that start transfers synchronously in
+device_issue_pending, sun6i_dma_issue_pending() defers physical channel
+allocation and hardware transfer start to a softirq tasklet:
+
+drivers/dma/sun6i-dma.c:sun6i_dma_issue_pending() {
+	if (vchan_issue_pending(&vchan->vc)) {
+		spin_lock(&sdev->lock);
+
+		if (!vchan->phy && list_empty(&vchan->node)) {
+			list_add_tail(&vchan->node, &sdev->pending);
+			tasklet_schedule(&sdev->task);
+			...
+		}
+
+		spin_unlock(&sdev->lock);
+	}
+}
+
+Because serial8250_interrupt() is running in hardirq context, the tasklet
+cannot run before serial8250_interrupt() immediately executes a second pass
+on the port. Since no bytes have been read from the RX FIFO and UART_IER_RDI
+is still enabled, UART_IIR still reports UART_IIR_RDI. On this second pass,
+handle_rx_dma() sees up->dma->rx_running =3D=3D 1 and calls
+serial8250_rx_dma_flush(up), which pauses and terminates the DMA transfer t=
+hat
+was just queued.
+
+Furthermore, inside serial8250_rx_dma_flush() -> __dma_rx_complete(),
+sun6i_dma_tx_status() returns DMA_IN_PROGRESS even after dmaengine_pause(),
+causing __dma_rx_complete() to return early without clearing dma->rx_running
+or copying any received bytes before dmaengine_terminate_async() discards t=
+he
+descriptor:
+
+drivers/tty/serial/8250/8250_dma.c:__dma_rx_complete() {
+	dma_status =3D dmaengine_tx_status(dma->rxchan, dma->rx_cookie, &state);
+	if (dma_status =3D=3D DMA_IN_PROGRESS)
+		return;
+}
+
+> diff --git a/drivers/tty/serial/8250/8250_port.c b/drivers/tty/serial/825=
+0/8250_port.c
+> index db066a42f61d2..e99d35880a689 100644
+> --- a/drivers/tty/serial/8250/8250_port.c
+> +++ b/drivers/tty/serial/8250/8250_port.c
+> @@ -335,6 +335,14 @@ static const struct serial8250_config uart_config[] =
+=3D {
+>  		.rxtrig_bytes	=3D {1, 4},
+>  		.flags		=3D UART_CAP_FIFO,
+>  	},
+> +	[UART_PORT_DW_APB_256] =3D {
+> +		.name		=3D "DW APB UART 256",
+> +		.fifo_size	=3D 256,
+> +		.tx_loadsz	=3D 256,
+> +		.fcr		=3D UART_FCR_ENABLE_FIFO | UART_FCR_R_TRIG_01,
+> +		.rxtrig_bytes	=3D {1, 64, 128, 254},
+> +		.flags		=3D UART_CAP_FIFO | UART_CAP_NOTEMT,
+> +	},
+
+[Severity: High]
+Should uart_config[UART_PORT_DW_APB_256].flags also include UART_CAP_AFE?
+
+In dw8250_probe(), dw8250_quirks() sets p->set_termios =3D dw8250_do_set_te=
+rmios.
+When CRTSCTS is enabled, dw8250_do_set_termios() unconditionally sets
+UPSTAT_AUTOCTS, which tells serial_core to disable software CTS flow contro=
+l:
+
+drivers/tty/serial/8250/8250_dwlib.c:dw8250_do_set_termios() {
+	p->status &=3D ~UPSTAT_AUTOCTS;
+	if (termios->c_cflag & CRTSCTS)
+		p->status |=3D UPSTAT_AUTOCTS;
+
+	serial8250_do_set_termios(p, termios, old);
+}
+
+However, serial8250_do_set_termios() -> serial8250_set_afe() only enables
+hardware auto flow control (UART_MCR_AFE) if UART_CAP_AFE is set in
+up->capabilities:
+
+drivers/tty/serial/8250/8250_port.c:serial8250_set_afe() {
+	if (!(up->capabilities & UART_CAP_AFE))
+		return;
+
+	up->mcr &=3D ~UART_MCR_AFE;
+	if (termios->c_cflag & CRTSCTS)
+		up->mcr |=3D UART_MCR_AFE;
+}
+
+Because dw8250_setup_port_fixed() bypasses dw8250_setup_port(),
+up->capabilities is populated solely from
+uart_config[UART_PORT_DW_APB_256].flags. Without UART_CAP_AFE, enabling
+CRTSCTS on H616 UARTs (such as Bluetooth HCI UARTs using uart-has-rtscts)
+disables software CTS flow control without enabling hardware auto flow cont=
+rol
+in UART_MCR.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023-submit-h61=
+6-uart-fifo-v1-v1-0-e4a3bae2eba8@gmail.com?part=3D2
