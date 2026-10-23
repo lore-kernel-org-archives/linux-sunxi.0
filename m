@@ -1,56 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792743804;
-	b=WuoHhpfVK/X9e/FvW0f9PrZ54RFPDjBCKt5Emgguq4W3W64mftf4siGXXtKS8a83m0DR
-	 +BjHz5OSurld9fqsQ3T/4LOPlx9njcwMFl/kdcycyHvys5gxWiLRHIma0qU1gPMW5tOR/
-	 97I7M+PqtY33GiGeDSyKPwNLNbthb6DPqYWKrbsAVk4b226Ry7YPCWvz6TvNRXBIdr4Lq
-	 63W5jmgNxwjIqPyv/GNC5DUsslyfpFNbqJSgDzJFhJFysqNcFSCYzQaqxkE4shbsI6bCy
-	 kuKKpeMR+AS49xW+WZFMDTJXjvXAdzPLNWXDuO4uHrrIn0a/gVL+spzsRm7dZQe+EsA==
+	t=1792744364;
+	b=FSVf/s6cV/3sQ3fgC8DXmxr3AYBIPvObFpgwo1uaxFtdv9kMI59xsOLZKHA3+62vK812
+	 Ku7IGtlcGYN1w3ZJSZk1Nv/7FRAFF/ts8fMLYImYsVf9voFMmLcTQlqy909O3ElkZDRQG
+	 tz5jqaVQZynFVkwuQ1wyGuvGZ/8zUc5yT/h4jM1xfV4ArzggEAknMfg4dWyOl/F/PGP5d
+	 BQb6qS6YFu1dfAQC2nFjgKB/KfCaSviCBuM6Zp8VElHabYux8ls351PUUdrrv4kwMzRRC
+	 laSavalVy7rjcE05Cs/GCP/hvbHsJfduhVG3eaxjymwh0pzmAO7k96j49+5akYWnFLQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792743804;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792744364;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=0GfKVk/RJOC9pOzChhirBkeqLeJZ9TV7pnSiNJChoHo=;
-	b=cnkxASVeFgY/eeFtg1AeBzmbISr0Jgcx417nPOK3wge/ylaAinWymYLPcTBt/AJE/ej8
-	 1UcsWFnhSNjP2b+8c9xdAz+gWNvzvE0nwvKbOlhWiZ/rJfCBsXSUzwCkkpoOYbuiTHKJS
-	 Otk5S9t8mJDVAhpG/QLKNEUO0QMn+IEi3GvTJAe6EBDYkUWStyVZkNvibavCDhe2BnGWW
-	 uHD5hq6PRsmPdbvLoemioQ0Q+1wyEjcmu0fOIZypCTwrrtx5OmmXg3JZLoMiO0vNTEOID
-	 FoSaNb45NV5IAjemAbeErKPtk098QuqONyqgJYOyKo69/U2ZczyPTX8Bqt5s8uOGFaw==
+	bh=5urQ3KExm5E/94pME9nAFkLY0Lo7S5FkMJrAZSkEYVo=;
+	b=yc4iTMRmRUjwR0QIsqPeXhssPYe36PLr+0bD/4/haxiv0wCSYsCiBnZ2hfFZ5tmspFy2
+	 Is4QkIg0TsV1BoNABQFujAcctq1FX7JNakH6Y0XqQ9wZexHvs5T9F4lgbn2Xfq6tFxFDA
+	 aKdhvrAiJrmuJmpFvFcoNLiYmIgcrhoy9zsMmlgVctI/WlvOO1mJ/cZsnbNapZg7s29nl
+	 gxbNHa7CmM2j9WT00+noVj/smDvWT9OZCfpHGG+cdSNJV17rlHNYqDjYE5my8KKph8qcb
+	 kP9YKsFjGrc5sQsv7AptNFXCuvunw9iRh/+t16/VY6PUZYJMivl0B+C8uoSG1Yg9gLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gnlpa3rM;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nVzPeORZ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66AF4606A31D;
-	Fri, 23 Oct 2026 08:23:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F834606A31B;
+	Fri, 23 Oct 2026 08:32:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gnlpa3rM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9DEF1F01825;
-	Fri, 23 Oct 2026 08:23:23 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nVzPeORZ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D0721F01825;
+	Fri, 23 Oct 2026 08:32:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792743804;
-	bh=0GfKVk/RJOC9pOzChhirBkeqLeJZ9TV7pnSiNJChoHo=;
+	s=k20260515; t=1792744363;
+	bh=5urQ3KExm5E/94pME9nAFkLY0Lo7S5FkMJrAZSkEYVo=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gnlpa3rMnlRXcaZ+hpAGQAgQAk3/GQV/xPsDRvSL3AZzTrwsTMjaYvjV3CHuLq/YF
-	 8a4lFhW87yBYAIeQK+kU9XFC4WCUlDJFqeYywOetKDT3UBz4RbZAtf6TSSZZDOJQJd
-	 8yV1lukXk/oOGim6nEkM1WKGoFRCLLx+siS2A4HIuUJk/sUonD97R6YV4eaDmHoocJ
-	 uBownCZEtd5h9JybrMxYBgscEzNRWKGQIBA1taxLeU1XlSIMsDewqYRJYcq+b3sTjx
-	 6yb6VhNu0WNQsOEdb/XEyWmjHi/UqLw8yxlwFHmqF7BIQQZ8LuCN58fv4OzeJ7/2ld
-	 RoyaPK1Qaw+Fw==
-Message-ID: <sashiko-outbox-182506@kernel.org>
+	b=nVzPeORZ00tviU8Uh5SfYG36gHStp+6AMxNFQRgDIRAJs2jWmdXhMejhzay0A6EjE
+	 8OC7nrdaY5DbrQRlfauU+Pl5zgJLUqEXc/3HSl0VzDOKnfD9gvYF7SCio4fA6TFTpz
+	 XTZbKTh9Z32+rAPcNagywm37arYdsEv6NTzTXck4arqf0/eYCHKOqTZvacbxJXE4N+
+	 ceQtCPrqehvW/R+i6YzFxD3U2CBZjmrmmeBiN/7hAvsPn+GYRmkEOzOvQlrLhRxB5i
+	 suSz9xLZnwXPYGHA0+vVTYZfgrGOZSHbvcuUCKQRd/0UDJ5KJzJCrWJplhNXng5SyM
+	 7tNsv8w1YrnLQ==
+Message-ID: <sashiko-outbox-182520@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/3] serial: 8250_dw: configure the Allwinner H616 UART
+Subject: Re: [PATCH 3/3] arm64: dts: allwinner: h616: identify the UART
+ integration
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "James Hilliard" <james.hilliard1@gmail.com>
 Cc: linux-serial@vger.kernel.org, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261023-submit-h616-uart-fifo-v1-v1-2-e4a3bae2eba8@gmail.com>
+In-Reply-To: <20261023-submit-h616-uart-fifo-v1-v1-3-e4a3bae2eba8@gmail.com>
 References: <20261023-submit-h616-uart-fifo-v1-v1-0-e4a3bae2eba8@gmail.com>
- <20261023-submit-h616-uart-fifo-v1-v1-2-e4a3bae2eba8@gmail.com>
+ <20261023-submit-h616-uart-fifo-v1-v1-3-e4a3bae2eba8@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Oct 2026 08:23:23 +0000
+Date: Fri, 23 Oct 2026 08:32:42 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -60,190 +61,140 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] serial: 8250_dw: broken H616 RX DMA due to deferred sun6i_dma_issu=
-e_pending()
-- [High] serial: 8250_dw: missing UART_CAP_AFE in UART_PORT_DW_APB_256 brea=
-ks CRTSCTS
+- [High] arm64: dts: allwinner: h616: enabling UART RX DMA on sun6i-dma los=
+es RX data
 --
 
-commit 7b1955806965488d36d1ed6fbef81df345079c9d
+commit 3bfb41f1bb740f4fc20f5b9cb7ef6f35cf6c4504
 Author: James Hilliard <james.hilliard1@gmail.com>
 
-serial: 8250_dw: configure the Allwinner H616 UART
+arm64: dts: allwinner: h616: identify the UART integration
 
-This patch adds a fixed 256-byte FIFO port configuration for the Allwinner
-H616 UART, skips optional register probing, sets the SKIP_SET_RATE quirk, a=
-nd
-attaches 8250 DMA with single-byte burst sizes during probe.
+This commit updates the UART0 through UART5 nodes in sun50i-h616.dtsi to
+use the "allwinner,sun50i-h616-uart" compatible string with
+"snps,dw-apb-uart" as a fallback so the driver selects the H616 256-byte
+FIFO configuration and register layout.
 
-> diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/=
-8250_dw.c
-> index eca02e8bd6d13..f03051740be0a 100644
-> --- a/drivers/tty/serial/8250/8250_dw.c
-> +++ b/drivers/tty/serial/8250/8250_dw.c
-
-[ ... ]
-
-> @@ -765,14 +780,21 @@ static int dw8250_probe(struct platform_device *pde=
-v)
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/=
+boot/dts/allwinner/sun50i-h616.dtsi
+> index 1598e86259ab5..6905c9eaa2493 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> @@ -538,7 +538,7 @@ mmc2: mmc@4022000 {
+>  		};
 > =20
->  	dw8250_setup_dma_filter(p, data);
-> =20
-> -	if (!data->skip_autocfg)
-> -		dw8250_setup_port(p);
-> -
-> -	/* If we have a valid fifosize, try hooking up DMA */
-> -	if (p->fifosize) {
-> -		data->data.dma.rxconf.src_maxburst =3D p->fifosize / 4;
-> -		data->data.dma.txconf.dst_maxburst =3D p->fifosize / 4;
-> +	if (data->pdata && data->pdata->type) {
-> +		dw8250_setup_port_fixed(up, data->pdata->type);
-> +		data->data.dma.rxconf.src_maxburst =3D data->pdata->dma_maxburst;
-> +		data->data.dma.txconf.dst_maxburst =3D data->pdata->dma_maxburst;
->  		up->dma =3D &data->data.dma;
+>  		uart0: serial@5000000 {
+> -			compatible =3D "snps,dw-apb-uart";
+> +			compatible =3D "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
 
 [Severity: High]
-Will attaching the standard 8250 RX DMA path here work with the Allwinner
-sun6i-dma controller, or does it cause RX DMA transfers to be immediately
-aborted and leave RX DMA wedged?
+Could switching uart0 through uart5 to "allwinner,sun50i-h616-uart" cause RX
+data loss and wedge RX DMA on non-console H616 UART ports when paired with
+their existing dmas properties referencing sun6i-dma?
 
-When UART_IIR_RDI fires, serial8250_interrupt() loops in hardirq context:
+Previously, matching "snps,dw-apb-uart" caused dw8250_setup_port() to read
+DW_UART_CPR as 0, leaving p->fifosize =3D=3D 0 and up->dma =3D=3D NULL. Mat=
+ching
+"allwinner,sun50i-h616-uart" selects dw8250_h616_data in dw8250_probe(),
+which attaches 8250 DMA to the port:
 
-drivers/tty/serial/8250/8250_core.c:serial8250_interrupt() {
-	l =3D i->head;
-	do {
-		struct uart_8250_port *up =3D list_entry(l, struct uart_8250_port, list);
-		struct uart_port *port =3D &up->port;
-
-		if (port->handle_irq(port)) {
-			handled =3D 1;
-			end =3D NULL;
-		} else if (end =3D=3D NULL)
-			end =3D l;
-		...
-	} while (l !=3D end);
-}
-
-On the first pass, dw8250_handle_irq() -> serial8250_handle_irq_locked() ->
-handle_rx_dma() sees !up->dma->rx_running and breaks out to call
-serial8250_rx_dma(), which sets dma->rx_running =3D 1 and calls
-dma_async_issue_pending(dma->rxchan) without masking UART_IER_RDI or draini=
-ng
-the RX FIFO:
-
-drivers/tty/serial/8250/8250_port.c:handle_rx_dma() {
-	switch (iir & 0x3f) {
-	case UART_IIR_RDI:
-		if (!up->dma->rx_running)
-			break;
-		fallthrough;
-	case UART_IIR_RLSI:
-	case UART_IIR_RX_TIMEOUT:
-		serial8250_rx_dma_flush(up);
-		return true;
+drivers/tty/serial/8250/8250_dw.c:dw8250_probe() {
+	...
+	if (data->pdata && data->pdata->type) {
+		dw8250_setup_port_fixed(up, data->pdata->type);
+		data->data.dma.rxconf.src_maxburst =3D data->pdata->dma_maxburst;
+		data->data.dma.txconf.dst_maxburst =3D data->pdata->dma_maxburst;
+		up->dma =3D &data->data.dma;
 	}
-	return up->dma->rx_dma(up);
+	...
 }
 
-Unlike DMA controllers that start transfers synchronously in
-device_issue_pending, sun6i_dma_issue_pending() defers physical channel
-allocation and hardware transfer start to a softirq tasklet:
+Because uart0 through uart5 in arch/arm64/boot/dts/allwinner/sun50i-h616.dt=
+si
+already specify dmas =3D <&dma ...> and dma-names =3D "tx", "rx" pointing to
+"allwinner,sun50i-h616-dma" (handled by drivers/dma/sun6i-dma.c), opening a=
+ny
+non-console UART calls serial8250_request_dma() and enables 8250 RX DMA.
+
+First, when serial8250_rx_dma_flush() runs (for example on
+UART_IIR_RX_TIMEOUT, UART_IIR_RDI, UART_IIR_RLSI, or dw8250_idle_enter()), =
+it
+pauses the channel, calls __dma_rx_complete(), and then terminates the
+channel:
+
+drivers/tty/serial/8250/8250_dma.c:serial8250_rx_dma_flush() {
+	...
+	dmaengine_pause(dma->rxchan);
+	__dma_rx_complete(p);
+	dmaengine_terminate_async(dma->rxchan);
+}
+
+In __dma_rx_complete(), dmaengine_tx_status() is checked and returns early =
+if
+the status is DMA_IN_PROGRESS:
+
+drivers/tty/serial/8250/8250_dma.c:__dma_rx_complete() {
+	...
+	dma_status =3D dmaengine_tx_status(dma->rxchan, dma->rx_cookie, &state);
+	if (dma_status =3D=3D DMA_IN_PROGRESS)
+		return;
+
+	count =3D dma->rx_size - state.residue;
+
+	tty_insert_flip_string(tty_port, dma->rx_buf, count);
+	p->port.icount.rx +=3D count;
+	dma->rx_running =3D 0;
+}
+
+However, in drivers/dma/sun6i-dma.c, sun6i_dma_tx_status() returns the value
+of dma_cookie_status() (DMA_IN_PROGRESS) directly and never returns
+DMA_PAUSED even after sun6i_dma_pause() has paused the channel:
+
+drivers/dma/sun6i-dma.c:sun6i_dma_tx_status() {
+	...
+	ret =3D dma_cookie_status(chan, cookie, state);
+	if (ret =3D=3D DMA_COMPLETE || !state)
+		return ret;
+	...
+	dma_set_residue(state, bytes);
+
+	return ret;
+}
+
+As a result, __dma_rx_complete() returns early without pushing the
+transferred bytes (dma->rx_size - state.residue) to the TTY flip buffer and
+without clearing dma->rx_running =3D 0. Then dmaengine_terminate_async() fr=
+ees
+the descriptor via sun6i_dma_terminate_all() so the completion callback
+dma_rx_complete() never runs, discarding the received bytes and leaving
+dma->rx_running stuck at 1.
+
+Second, when UART_IIR_RDI triggers handle_rx_dma() -> serial8250_rx_dma() in
+hardirq context, sun6i_dma_issue_pending() does not start a physical DMA
+channel immediately; it only queues the virtual channel on sdev->pending and
+schedules sdev->task:
 
 drivers/dma/sun6i-dma.c:sun6i_dma_issue_pending() {
+	...
 	if (vchan_issue_pending(&vchan->vc)) {
 		spin_lock(&sdev->lock);
 
 		if (!vchan->phy && list_empty(&vchan->node)) {
 			list_add_tail(&vchan->node, &sdev->pending);
 			tasklet_schedule(&sdev->task);
-			...
-		}
-
-		spin_unlock(&sdev->lock);
-	}
+	...
 }
 
-Because serial8250_interrupt() is running in hardirq context, the tasklet
-cannot run before serial8250_interrupt() immediately executes a second pass
-on the port. Since no bytes have been read from the RX FIFO and UART_IER_RDI
-is still enabled, UART_IIR still reports UART_IIR_RDI. On this second pass,
-handle_rx_dma() sees up->dma->rx_running =3D=3D 1 and calls
-serial8250_rx_dma_flush(up), which pauses and terminates the DMA transfer t=
-hat
-was just queued.
-
-Furthermore, inside serial8250_rx_dma_flush() -> __dma_rx_complete(),
-sun6i_dma_tx_status() returns DMA_IN_PROGRESS even after dmaengine_pause(),
-causing __dma_rx_complete() to return early without clearing dma->rx_running
-or copying any received bytes before dmaengine_terminate_async() discards t=
-he
-descriptor:
-
-drivers/tty/serial/8250/8250_dma.c:__dma_rx_complete() {
-	dma_status =3D dmaengine_tx_status(dma->rxchan, dma->rx_cookie, &state);
-	if (dma_status =3D=3D DMA_IN_PROGRESS)
-		return;
-}
-
-> diff --git a/drivers/tty/serial/8250/8250_port.c b/drivers/tty/serial/825=
-0/8250_port.c
-> index db066a42f61d2..e99d35880a689 100644
-> --- a/drivers/tty/serial/8250/8250_port.c
-> +++ b/drivers/tty/serial/8250/8250_port.c
-> @@ -335,6 +335,14 @@ static const struct serial8250_config uart_config[] =
-=3D {
->  		.rxtrig_bytes	=3D {1, 4},
->  		.flags		=3D UART_CAP_FIFO,
->  	},
-> +	[UART_PORT_DW_APB_256] =3D {
-> +		.name		=3D "DW APB UART 256",
-> +		.fifo_size	=3D 256,
-> +		.tx_loadsz	=3D 256,
-> +		.fcr		=3D UART_FCR_ENABLE_FIFO | UART_FCR_R_TRIG_01,
-> +		.rxtrig_bytes	=3D {1, 64, 128, 254},
-> +		.flags		=3D UART_CAP_FIFO | UART_CAP_NOTEMT,
-> +	},
-
-[Severity: High]
-Should uart_config[UART_PORT_DW_APB_256].flags also include UART_CAP_AFE?
-
-In dw8250_probe(), dw8250_quirks() sets p->set_termios =3D dw8250_do_set_te=
-rmios.
-When CRTSCTS is enabled, dw8250_do_set_termios() unconditionally sets
-UPSTAT_AUTOCTS, which tells serial_core to disable software CTS flow contro=
-l:
-
-drivers/tty/serial/8250/8250_dwlib.c:dw8250_do_set_termios() {
-	p->status &=3D ~UPSTAT_AUTOCTS;
-	if (termios->c_cflag & CRTSCTS)
-		p->status |=3D UPSTAT_AUTOCTS;
-
-	serial8250_do_set_termios(p, termios, old);
-}
-
-However, serial8250_do_set_termios() -> serial8250_set_afe() only enables
-hardware auto flow control (UART_MCR_AFE) if UART_CAP_AFE is set in
-up->capabilities:
-
-drivers/tty/serial/8250/8250_port.c:serial8250_set_afe() {
-	if (!(up->capabilities & UART_CAP_AFE))
-		return;
-
-	up->mcr &=3D ~UART_MCR_AFE;
-	if (termios->c_cflag & CRTSCTS)
-		up->mcr |=3D UART_MCR_AFE;
-}
-
-Because dw8250_setup_port_fixed() bypasses dw8250_setup_port(),
-up->capabilities is populated solely from
-uart_config[UART_PORT_DW_APB_256].flags. Without UART_CAP_AFE, enabling
-CRTSCTS on H616 UARTs (such as Bluetooth HCI UARTs using uart-has-rtscts)
-disables software CTS flow control without enabling hardware auto flow cont=
-rol
-in UART_MCR.
+Since serial8250_rx_dma() neither masks UART_IER_RDI nor drains UART_RX, wo=
+n't
+the level-high UART interrupt (IRQ_TYPE_LEVEL_HIGH) remain asserted and
+immediately re-enter handle_rx_dma() with UART_IIR_RDI and
+up->dma->rx_running =3D=3D 1 before sun6i_dma_tasklet() can run, flushing a=
+nd
+terminating the newly queued RX DMA transfer?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023-submit-h61=
-6-uart-fifo-v1-v1-0-e4a3bae2eba8@gmail.com?part=3D2
+6-uart-fifo-v1-v1-0-e4a3bae2eba8@gmail.com?part=3D3
