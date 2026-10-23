@@ -1,90 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.54
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792790376;
-	b=1NBT+WyvZ+pd+DWmc9Q+OuNQNCjrH7Lmw/RQ/87QzAkm2odClWw4/Pt/kpfselodXxl/
-	 c18tlMNI/cMbIDz0u+3C3EFSJZv3yA4l8+FdQdLoWbxxRy8zK/7DdgwO+4ug/qOB4MQjq
-	 DyDYI8DtzF5fICye+w5a6VkbFdC+8qM1n2ZoeYYV7y6YLFh6qoinXCxoBmOTHpvaXRCdM
-	 GVCvQg3dwX9ES4GwZsgyvt8S+S2wwn0TV6RkS5+mXXQisHbennh1x/8y88oAnequdoaWE
-	 Kqw1kfm4PC5fJYt/m03FIkczLzq++IXG0Mibs8VcZNumdQ1rN/yw+6gSfSs3mJV3umA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792790376;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.49
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792792680;
+	b=4qDVBrG0WzeqOsWjVs++cbedhUP4/5r0m3byBnIB3hXw9+pQu5v4Pmi5/QbRwTPaCHrB
+	 DgAo3MWwTFXsrlEm94IKyYMQrUl5bgpDe9GfcBYRas0QyUKgXRSfm/8XxK1aBnUkIrmSp
+	 lx39J9b7ZGMGaGzgkfGF32SMhtlv9IgIWhR6sB3BZ1hvACYKHGbLg7tUr0uu/euS7F+8R
+	 MdAmHqbrZ//CAs1hkzfe2uPRcPJKF1Wel+DOjCprcmnRtiyjrFosWAaZDqW9IyWg19GXL
+	 t4f+LIaS1kfQFH7P4MF+QPHy/hyQFS5lqjcmJ2C8juQ4AmGOFcaCVUA4GJnpnPZy3YQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792792680;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=mVsOr+ec2L55sOlcfZggstu7WJwFcYb+XFa3A0v3Vtw=;
-	b=sVt68Kaxyx12GWNWTKJGx28sqrjIqtSFJuj8jYsvPdSpMNaCc2hhM5Mp+vYBm3pWl+to
-	 7GjKg4FwX47k7vpvQaAAhnMu54Gpb6FCxDlnFMVvFjBCGhsh+fmoia0JNk6UNtfS9CZCM
-	 co4QFWHyDutpWj7ldphTCQCs4//4QBPFmwA5fadzl/VMjSUoWp5X5u8ClXUSkgf/y5NaG
-	 1TnEFHgnlayMFDpQC8o8QU892lthvCesTmIupBsQJ7sGAldBB7lMfTIS3X6oTC5Ij7SNy
-	 qUnRDYMIP4XJV84+6dxNPS5PNldcbo8MxIwqN/RdyN9Z/7iBWSQzUFuf3U2kcAANg4A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=u2tjAoav1AcKC/5Jjeoiq37UKpYVotTU7YdVuht/Pmc=;
+	b=yQY1GwydU6XSXujViO3JUopTAUFk0DpxuaSHc1SQ9MxQSSgA7l0tnPfOplHDKYzVOvWR
+	 K7yI8nvbTV76jJojlxQV5eypG3Z8A2KH3dM5l/HPihdjjVh8uqfbrQ1wTG9vaM8YC+qb/
+	 yaMNb+zKvYbe6qD3sGPhlWUpblhsvQfF1xuqN+d6Lih5RKW83Yk/pR69gpu09KMUs7R2J
+	 9cGi+aFB7ZryrLi7qewX/jEvzdbCqnOcWIVIni1jEE09Im6rUHgPocuoWSJ5kAd46fFp/
+	 QiQ5/QpBdG/oPdrKmEelxcG1qQWmpzRXLWf71an9MrTafoAvckU0OYC48c2RQNFVxsQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ezG4f8D8;
-	arc=none smtp.remote-ip=209.85.210.54
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=CGC37uJt;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.49
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A071606A33D
-	for <linux-sunxi@lists.linux.dev>; Fri, 23 Oct 2026 21:19:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A071606A33D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53F47606A31A
+	for <linux-sunxi@lists.linux.dev>; Fri, 23 Oct 2026 21:57:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53F47606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=ezG4f8D8
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-845788309b4so646653a34.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 23 Oct 2026 14:19:36 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=CGC37uJt
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-980c4f5c921so583412241.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 23 Oct 2026 14:57:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792792674; cv=none;
+        d=google.com; s=arc-20260327;
+        b=K5VtVzK1fFCVoKS8hKFUv2D+mi6T4Mc17AvLtMS9x+ZYGUd8SrLJUx4zylAqmXRRek
+         17zxrnvb84Zi2qzhX7W0oBA70gVcTDRl/cpxMDnUeD5/gIJbM7qDLuth6Zmh4bPd8H3U
+         0fBq5mbFxaOI4vykF3S+OozYs485mWvMCcNZUo5lzc1OWZ8PAPw0poHt48y2UNIY+9uT
+         bmoP1c324uTvzD6lmUPubbllq0vEycyf/153iJG2bRxvddx86UZgVzUWs3w3hvpnkqIF
+         cL0NNJJv3RO0JrbV5+k6nibDABB6d0+IJyMxzvk8qZvHGgiVKvEXx8H6MUL0mdqq5tzc
+         ucdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=u2tjAoav1AcKC/5Jjeoiq37UKpYVotTU7YdVuht/Pmc=;
+        fh=AbndziAJnhTo2OvTQe4/E3O65lm8/ZCCNuJ+SJHzKD0=;
+        b=rps3/0+Ij6O+RTV3dK7Jr24g4Tytbg/JcMHdSm4Y2/Axm8q6/RU8/Joeytcvel2KQF
+         dGVImtMY2ld/UzzSs1l9DcA7qO8JHd5jx9VAhPz2MfkVRuwvl9/jx+zSxLazxqMsJj44
+         HSjYmDcqFi/Qesp2u4z7xXZiL88OitRaLDazsyfb/jyq7lv8FOm9p1L+vzJ7tTQrB880
+         z5GaM4xEvluZqEKssEgGrS4bCJ99CdIG+vkaZS3tp8FXPuOB8TV5EAwx/vtei2lBCzbO
+         s6GafwR34VlaiEYrb4qfGLR3kfDapUB2mkwtl1vlSjBEAZm+Mr1ayDTdhPXx62tsco66
+         l9uA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792790375; x=1793395175; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=mVsOr+ec2L55sOlcfZggstu7WJwFcYb+XFa3A0v3Vtw=;
-        b=ezG4f8D8uPbDK0dWpved0RiUmnYTgpPWGjq3BOBDRqNwop0Ue6o7Pr9ajG2SxiLg8N
-         seq1IUD5Bj+1PsqnF3ez4SmqyImeCCmYkYCoXs+11xYNwr4/PueUpeWHqNyocO+BnMT+
-         2XPA8KoBdgw1RfPy/yYYIF05y+YDQAO+TnCeVilwOcdvLoF0c4n6FY96lk/pDxpyFJMv
-         /Uwa/Ew/tcMDse1aMRUSj9ujP5LiNjRkNihr6zf2SaNogP4BtgKWq4gqHVfPh+9MvNur
-         FdG7Z9sqpSeVwPrwzf5EJ/XhAcVUuOGZ05aLGbynSLg5/Er1TGjhPvubdaMLupPWBbno
-         cnaA==
+        d=gmail.com; s=20251104; t=1792792674; x=1793397474; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=u2tjAoav1AcKC/5Jjeoiq37UKpYVotTU7YdVuht/Pmc=;
+        b=CGC37uJtjfkywflnIKZ5YCIXuXBsMNA17Zk225WcUS9tL7vqaTVDxk5pWiC8/GCna3
+         q8ePzCC3cZolfoyOOe63e+Im/wJ59+AXtgM+IP/wEaZmip6mcgXK8KK0OWJ590iWeq7M
+         GvIQoMIT6LVgSLBYS4l0QvUOagl2qpwP6DCeuSnJSuWDIobm20oSi6AE0ZZgIAxczX5D
+         aKC/dr395XZvRfscEJc+VjEOHuOsYd8SlkfajAH+GJY0c2byXPg0cK6CUeJKpdrJkWCK
+         UIS8FQMq/JoHQb0WtHRNbgcRIfbRpvZzi3q3qD1HD+0DONAQCpLz/XsDGrNP+/UoYgTI
+         2Xhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792790375; x=1793395175;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1792792674; x=1793397474;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=mVsOr+ec2L55sOlcfZggstu7WJwFcYb+XFa3A0v3Vtw=;
-        b=SvfxoryFDd4lu0xn5xRD4HFv8QmkGDnwqVagXF8aV88Kb4TL8e5YKu1YWq4WobAFkA
-         fDm53J1wokvywth7WEyeZr/ObhijCPV2+rXSxkc3cPzd40BYVjIDI8A8Ut3Cwk1uRJrV
-         IGlD0ArXhhgIMFNSGlu9iigN30F0+w+g0St6MNou++hOCw758Sn9rGitFAILhvLrG5tJ
-         H2YH+u7GgK23Bf0WAyLv6bEFaa6goM2REw7NAojkp1yh0ckztkfxLeAprekVYgfShJ4l
-         lKOxcqaGefCJ+WuSS8GjXuzWuvfotIh0tgx7pZNvyQiXIFBjcnZFjP55MWGKw7ZAjw3+
-         /oew==
-X-Forwarded-Encrypted: i=1; AKwUvByK9EvAve/hoFBMoBh7skwkJVbgftTpEC6P4DqEBJNo4DsU27eBEfe7GIdGzGuFYKD3gNRkQplYdLu6ag==@lists.linux.dev
-X-Gm-Message-State: AFq9FYK6Ajvk6gR5jTRizqe5JNpxjRJCtLjrVSXgBXjDk5yZptdxnCn9
-	l3cUG1RT5KBuUyHBVhZFrTmlcgCKRrOXLYZoqD/ZoGoAyOaucARHCxXL
-X-Gm-Gg: AYBFou3WbALKchbvF8G7oZzBi+f/HWPoXMLW7A07Z4Rt6Qg7/kjCjZ8x67HG4oBEcV1
-	2atDSC8IKu+z82pqrbCKBvyBfDockb82nlfVJzTxOr3m2/Ao8CXRlw4FUJnaQ/RfbL5hixQeLSP
-	Hs9SFTm63UP9IrfsJA6EE+wvDiSsT2/P/d61j5c0uoqi9vj/dYrFUgGGtHu4zakuxP3rqwMm9rG
-	Wh8dCWJyYm+ahAMClSnlo6eOxHVIK2Bh3bMZvc3oiNwgQxFySi3mUwiZK9gA0OY9LfWrgiSrfif
-	gOkt6HCKM+96gsKpVTUKorqxK36nzj8aNI2rnZjxBxSlyb/r+gcpJpCoHkGcywHLlX6TQJRiRiW
-	7FC6jdxoKov+DMo49sBw/6ySEznTpl1M42CwCAWjbYLKnSJIY/vFV+a22tJRFvDVBuWD8LU0MzH
-	BO2eNE9SwRImXWrWbBNfC5JW9NiC10qi6UVhHIRM0JyqBSkhabaOv3PemCmHls0R19Qb925BmcT
-	m9u5u1tDN/8CZufhY2fnf3iu5M86yyFfcWTuX2CG6aUQPG82o4vh8CQ6bCX0SPufkStSa1W6pMS
-	sjGeYOP2L5jm43WDT43WFRWC0v7jmXsmOFUXYLq2oFur05CtVDUvz1HRic7BJMhMVJ8fB4o3HU8
-	VTHPext+c6qzJbHtKqA2H5fy+wjqPbYA92plMPU3RkmE7ILxwlyjNifTy4pFDvRggPqDyRb4kDa
-	ncjA==
-X-Received: by 2002:a05:6830:906:b0:7fa:5c49:523e with SMTP id 46e09a7af769-850fecc32fcmr525089a34.23.1792790375055;
-        Fri, 23 Oct 2026 14:19:35 -0700 (PDT)
-Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-850f8458d8esm565721a34.1.2026.10.23.14.19.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 14:19:34 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Fri, 23 Oct 2026 15:19:29 -0600
-Subject: [PATCH v2 3/3] arm64: dts: allwinner: h616: identify the UART
- integration
+        bh=u2tjAoav1AcKC/5Jjeoiq37UKpYVotTU7YdVuht/Pmc=;
+        b=PU0QhM3jLxhyHu3Ww2SSM0uKDmRqsI3au4t8J3COsj0m3YLq/JktVK5f+kcU+gUk8Q
+         lX0XnjqxJsu1bMK+oKTH/NUGYA1RZzjxyBkmqgQd2dxqHQ4ZtwOCgU2EktAi/aFEYBk3
+         OyXUqFbL1wYkh2KRk5kSFY8mFfNK+KZYciRl6DE/Z50EhDxrvDj9R1hMLLqpDuKZ0DYX
+         XxZ7inTmR9awBPg7UUmVH6K5v5xeRJbRIGuBk4NgTc7YHZPiDvhm0EyaBiHr4gYApH1s
+         zi+YPHT1dfUE5oEze0T15NuK1ke7Cq1cKBnbrXyG6Vj5q97RUjHwGlvTSdAkZD7yl5bQ
+         wTkA==
+X-Forwarded-Encrypted: i=1; AKwUvBz0ICBYYNNF8UUwPmZ7IaVxcQfw3oMzE7ow0lwMiLxVMHh9MwwEV4C45c3aUR4pogUfs9ef7qenfbvRkg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIl+zOSj6lVmegnfC8Ojufil6liZs9gwz7dRHUvoAmhOmAnedRc
+	hFt2nNIQadL5sTAh32yPHzHQ+cgXKcvwRf0tDRH2lbKDaVggae4HPY5D6rY1c8Q2xRcCQSfdHon
+	MNutZ3cAcPbzjxGQWjndH2k4OfLFBA0k=
+X-Gm-Gg: AYBFou0bmXiInxHIZQStxVX6EJ3cu6RLMseZWE+pip+M+EqgTL/IPCARKBWTKQ1JNG2
+	CWiPngep44Mu0fo0+SBSlY3uRx60uJTbjzaWi6/QToHjdvcFZ3BNszoqbsbZnTG910eiyuQWAaF
+	F966FVL8YuTGs1K41kJ0KYrnKcSZ8xFYbfwIpsnsKRTQ7STK2UKizgY28d2cG65semLUyIXYg/9
+	bVC+oKhry1jq0VuUqyscBga9W5JqYZB540kPzZ7qTsuU6a0AHs/Y5NG5a1SfY9K8FpHuh6tS+0h
+	ymtnt32yg5Z3xBYsTvDTveEQHWhMxsY0mr61j4iqSxY+OKqisp5fe+k2ZBkMcMZzhQelY7ZF3cu
+	E7IVy+1rz3CkzySap7Uv0qsSX1wHFVbesCuFcjOF6czBBpZTEO4oE7xctW9N8Ufr/BOJi0u6kvu
+	Rwl4TgXfyQRvOHRVdYc2BrensHH94VbIF3k1q3vVqQOv9nLhzIMDYwV342xwP8oVWEC5BWaD0ct
+	CFS7T+7Zx2e0QsWg0KWRW/IvJ8FjN2X0xGOQvnz4LC55ODPTX8=
+X-Received: by 2002:a05:6102:915:b0:7cc:9d82:61e2 with SMTP id
+ ada2fe7eead31-7ce5ccddc23mr173507137.13.1792792674222; Fri, 23 Oct 2026
+ 14:57:54 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -94,92 +106,80 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261023-submit-h616-uart-fifo-v1-v2-3-af0593504635@gmail.com>
-References: <20261023-submit-h616-uart-fifo-v1-v2-0-af0593504635@gmail.com>
-In-Reply-To: <20261023-submit-h616-uart-fifo-v1-v2-0-af0593504635@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, James Hilliard <james.hilliard1@gmail.com>
-X-Mailer: b4 0.15.2
+References: <20261023-submit-sun6i-dma-lifetime-next-v1-v2-0-c9e07cc44bf8@gmail.com>
+ <20261023-submit-sun6i-dma-lifetime-next-v1-v2-3-c9e07cc44bf8@gmail.com> <atvEczwQ8Xh9vcAI@SMW015318>
+In-Reply-To: <atvEczwQ8Xh9vcAI@SMW015318>
+From: James Hilliard <james.hilliard1@gmail.com>
+Date: Fri, 23 Oct 2026 15:57:43 -0600
+X-Gm-Features: AclHuK-L8Ck-SoXzjLhjbFwPtYn7ao_X3XL7jMPxi73vlDBLmOhNQMuoUPfGIac
+Message-ID: <CADvTj4oF7ENRHQRk5VHVN2nuqxV-+4ss5BrwDvijmcS_HZ_fRQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] dmaengine: sun6i: serialize channel reassignment
+ with interrupt handling
+To: Frank Li <Frank.li@oss.nxp.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Arnd Bergmann <arnd@arndb.de>, Maxime Ripard <mripard@kernel.org>, 
+	Jens Kuske <jenskuske@gmail.com>, Jean-Francois Moine <moinejf@free.fr>, 
+	Hongling Zeng <zenghongling@kylinos.cn>, Chengfeng Ye <cyeaa@connect.ust.hk>, 
+	Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>, dmaengine@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Use the H616 UART compatible for all six controllers so the driver can
-select their fixed 256-byte FIFO configuration and register layout.
-Retain the generic DesignWare compatible as a fallback for older kernels.
+On Fri, Oct 23, 2026 at 2:33=E2=80=AFPM Frank Li <Frank.li@oss.nxp.com> wro=
+te:
+>
+> On Fri, Oct 23, 2026 at 12:42:37PM -0600, James Hilliard wrote:
+> > The allocator changes vchan->phy and pchan->vchan under sdev->lock, but
+> > termination reads the physical channel before taking either lock. The I=
+RQ
+> > handler also takes an owner snapshot without protecting it. Termination
+> > can therefore miss a new assignment or detach an owner while an interru=
+pt
+> > is about to complete its descriptor. An IRQ status snapshot can survive
+> > reassignment and be applied to the next transfer.
+> >
+> > Use sdev->lock for physical-channel ownership, pending channels and the
+> > shared interrupt registers, nesting vc.lock inside it for descriptor
+> > lists and cookie updates. Allocate and start each pending channel in on=
+e
+> > critical section. Read and acknowledge IRQ status under the same outer
+> > lock, and protect cyclic notifications as well as ordinary completions.
+> >
+> > Clear the active descriptor pointer before publishing finite completion
+> > to virt-dma, whose tasklet may free it independently of the allocator.
+> > An assigned channel without an active descriptor is ready for the
+> > allocator to start its next transfer or release it. This replaces the
+> > completed-descriptor pointer and keeps residue queries and termination
+> > from consulting a descriptor already handed to virt-dma.
+> >
+> > Mask and clear a stopped channel's IRQs before releasing its ownership,
+> > and clear pending status before starting a new descriptor. Schedule the
+> > allocator after termination so other pending channels can use the relea=
+sed
+> > physical channel without depending on another device interrupt.
+> >
+> > This also keeps process-context acquisitions IRQ-safe. Client callbacks
+> > remain outside these locks in the virtual-channel completion tasklet.
+> >
+> > Fixes: 555859308723 ("dmaengine: sun6i: Add driver for the Allwinner A3=
+1 DMA controller")
+> > Reported-by: Sashiko <sashiko-bot@kernel.org>
+> > Closes: https://lore.kernel.org/r/20260706065650.34B131F00A3A@smtp.kern=
+el.org
+> > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> > ---
+>
+> Is it possible split to more small change? And you almost add sdev->lock,
+> any place only use vc.lock without sdev->lock?
 
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Yes. virt-dma takes vc.lock alone in vchan_tx_prep(), vchan_tx_submit()
+and vchan_complete() to protect its descriptor lists and cookies.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index c6b3a3f8359a..b4b2f85726e0 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -550,7 +550,7 @@ mmc2: mmc@4022000 {
- 		};
- 
- 		uart0: serial@5000000 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05000000 0x400>;
- 			interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
-@@ -563,7 +563,7 @@ uart0: serial@5000000 {
- 		};
- 
- 		uart1: serial@5000400 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05000400 0x400>;
- 			interrupts = <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
-@@ -576,7 +576,7 @@ uart1: serial@5000400 {
- 		};
- 
- 		uart2: serial@5000800 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05000800 0x400>;
- 			interrupts = <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
-@@ -589,7 +589,7 @@ uart2: serial@5000800 {
- 		};
- 
- 		uart3: serial@5000c00 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05000c00 0x400>;
- 			interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
-@@ -602,7 +602,7 @@ uart3: serial@5000c00 {
- 		};
- 
- 		uart4: serial@5001000 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05001000 0x400>;
- 			interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
-@@ -615,7 +615,7 @@ uart4: serial@5001000 {
- 		};
- 
- 		uart5: serial@5001400 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05001400 0x400>;
- 			interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
+sdev->lock protects physical-channel ownership and shared registers.
+The sun6i paths need both locks when updating that state together with
+the virt-dma lists and cookies.
 
--- 
-2.53.0
-
+>
+> Frank
