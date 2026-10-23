@@ -1,104 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.69.48
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792787585;
-	b=ZXDCoRcpxPCnNUhXKUEOm5BRDlj55UiKrA6cCDMh0FeD+AjT7HuYha27FW9GEGHrGdya
-	 IZoFQ1etLfgoapsJATcFlja07IYaRvRv1r6QLMjbOi3QAEk9wkka2aVOxVc4JWiDO+ygT
-	 kRTrDQEPSeuf9yoPHlzb8RKLdTc+eOUwiPHhOJvkPmRfGvO9SqDWC25c4jWmlxr8x2O3Q
-	 V6BHSDcFvQbMwBCMqGN1OwE0NNFGR1au+wr5JozJg6AWsBduzuk2kf3LBiI+7PXGATJlh
-	 be5rGdCjY623IHKQXJNLYy4vnk1K+Lwo9jilZhfnz8jTV2C1ODXfnZLa+NpXN0rIalg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792787585;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:Content-Type:Content-Disposition:
-	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=OYv/zjTPslf0rcsVc+BdF44GfTteNk0YJEHO0aQQVcc=;
-	b=gefyB2r5k6Cv9wpbsEN/cusdP7Kz2TFdiLuJZAHsW+zZUJ9o06txHnWRQxNwdiwiaCD7
-	 rK089JYz2/7Ub4YBNz1ijotmjBh5yuS0Ic9FYzShaphVFo9kGkodha3VkBTMs3JQJQ4IL
-	 9M5FBwpiwpGCNYVDZecRozW1u6dfYu0JO94C1Hs4+/G3dfUducvtZsD0eVhNgLDwlttKT
-	 bklxBnF6XL9gUS8FGM3zikSKQZMLfO20S0KOm3f0kOAK5vOghKciifk98CPGezwdcg0bV
-	 mtuDzfAbMPQiMr/XRsKZqgusDjaADS89sXPPbaG6kssKk6pR+k8IKqWMWEnPQolEIWw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.nxp.com;
-	spf=pass smtp.mailfrom=oss.nxp.com;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=lxIXM7fH;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.69.48
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010048.outbound.protection.outlook.com [52.101.69.48])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.51
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792790372;
+	b=N/haLKslAYD1q14/2CU/q7SMiLMSKQ80XRW7D6FzYxCgEeBjWwvvwll2bj4f8XoIBDWK
+	 heJcNHpMaQbTZ0XLk8ZJ34pd4fp4v4wrorlMfJTZXr9x5z3awPbuP3IDBP5akDNaf2boN
+	 jmXVVp8VXbO+h0OxkTQUJ1p5dkFVRMCRI2tm5s5kzxY19iX4FLhQ0bc7J3FuVz9XEkxCk
+	 /5eZ/6J1s9Lz+9VgjaPvGQT8UaBYDRdzYjP1tP459Nao9tLcMFkFn0a51Jw5/iEGTmN0A
+	 aGE9Ffua8BDO5wAuxox3IRJULtvg1I5o1JPJPi5MaGkEZDdDy3Ix4pNkjXNqlm5+ovg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792790372;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=t/OVPwISYIuAdc7Q10pLScYKXWaZFmDPlbXzHuMOEjM=;
+	b=e605eJpa7ICC0/8WBA1vrsClUPf9PYa8vWyKLthS+5vXg/dSwBe7TRKy7KQrHYORU2mY
+	 KpUNqjXBRsT/HFok2lpmrArsiTft56ckxFOqFGM6iZvQTBvfwQ2OkSL3kkDn8A3E7DFFk
+	 jKAjbHJg8TbNbRZk8mNaUGT5TtLvk2HZpRORmG1Etgephq+PwV0jW9uBJadI0OUiS/GQM
+	 fDFsfaYKa6D62hVralXDt3S1e4YQVLOSNaSqkmjPDgkVsokvQ8TMNbD6YoGXYGPTalQWh
+	 Z5Zu50rR2WzWq97I4PD4z7uVnlUBI45mIGHN96GoARMW+wfU9UOHqCfGUMgeFaQOjdg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=MgVDbwcC;
+	arc=none smtp.remote-ip=209.85.210.51
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A5E606A31A
-	for <linux-sunxi@lists.linux.dev>; Fri, 23 Oct 2026 20:33:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7A5E606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F4A606A329
+	for <linux-sunxi@lists.linux.dev>; Fri, 23 Oct 2026 21:19:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0F4A606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=lxIXM7fH
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qm/L5u/anaMZ25/AtoYF535zARN2KTyr1QJ19PcZP/EL9xxQaWDRAlKYKfuZJC6KH/WWCHDlHdRlf++NAYNGeKA2IadbS/0lsggYO2ym0GVeNMHkfBRyWbQ6Tn9BxxwTJhAb/gWddX/WnrISpgprEb4anzcrHLd2M+NkCT3KzgJqpVnoaDaqiyc9C7iDvcI+SPNFJiCkhGTfMnsS7bNL+wsqUa3y//rcP4WQU5eJRBoIGFqSf4H8492Ata9UdoZXhJRfaTMvBZOfsPzsMehsykBZMlzUdQXDtTaoWdd1gs9fhWZ9vi0RPfWTenrxzALJjmEEthbPqbXxo/mIq/fs5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OYv/zjTPslf0rcsVc+BdF44GfTteNk0YJEHO0aQQVcc=;
- b=sG/K9xZtr9Lgx+v2GKhx2R164AzRbIW0/pjEGdmpC5/Qom6m6e1HVYa+mpkAo5Dw8caK1H0R1KI3kgAVYxYfK7uaxmIzhbJcxp8EUdXgcjsOXWEOgR2e/gqcNWf/qGP8hUSN+0pt8aFmfGSHeomXJoOYpyKwj+UOqD5q9SvKg8iCnnkjDTRCNKilyxa63u0K+RPMWmdcf9isdx8mQABFgxMKUE1EAAct3nca+LqPJ0Kmy9ayrI0hASDpkA4CXoXBpoPnrvY+wb/W3WB6UDgayqUdz1oi6WgsQrdE6aq3n+70n7Z9pGhmLKJZg0K7u2QZJN8J35aprL5sWPTIxJiWBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OYv/zjTPslf0rcsVc+BdF44GfTteNk0YJEHO0aQQVcc=;
- b=lxIXM7fHF8o0F5KJ8BwTf1PDYaqhCXFQ6aHzWLSIiAOqTDvhvGvIXRmf3yXSmXUchJshaZu9vr/OxLzVMG0rmYWhmVYkU/axNUDcGTUpriBWBX+6H9r+7jzzsSKQN53qUjN4ZZ7DtlomrzHj8eIysZyyXo9EBRNapUl9HlvVngGukpmPkR45yi1Ozf1oE5GiNuYWMzxUQ3mTpo/RX+z4NwjNm2M7rNenkmZY5606fD4IgGxIzk42KpZzt6bp2cIM6hhPmTIj7lfqWktmPn/KuVerrWuD0sjJwy3jNZLnuZmn0bd/Uhw/greCyUBXSRObSMIv3WXoU5nZ+8ve8SbQYA==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from MI3PR04MB12438.eurprd04.prod.outlook.com (2603:10a6:290:76::14)
- by AS8PR04MB7816.eurprd04.prod.outlook.com (2603:10a6:20b:2a3::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.19; Fri, 23 Oct
- 2026 20:33:01 +0000
-Received: from MI3PR04MB12438.eurprd04.prod.outlook.com
- ([fe80::c715:c32:8bb1:b70b]) by MI3PR04MB12438.eurprd04.prod.outlook.com
- ([fe80::c715:c32:8bb1:b70b%6]) with mapi id 15.21.0546.012; Fri, 23 Oct 2026
- 20:33:01 +0000
-Date: Fri, 23 Oct 2026 15:32:51 -0500
-From: Frank Li <Frank.li@oss.nxp.com>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, Arnd Bergmann <arnd@arndb.de>,
-	Maxime Ripard <mripard@kernel.org>,
-	Jens Kuske <jenskuske@gmail.com>,
-	Jean-Francois Moine <moinejf@free.fr>,
-	Hongling Zeng <zenghongling@kylinos.cn>,
-	Chengfeng Ye <cyeaa@connect.ust.hk>,
-	Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>,
-	dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH v2 3/6] dmaengine: sun6i: serialize channel reassignment
- with interrupt handling
-Message-ID: <atvEczwQ8Xh9vcAI@SMW015318>
-References: <20261023-submit-sun6i-dma-lifetime-next-v1-v2-0-c9e07cc44bf8@gmail.com>
- <20261023-submit-sun6i-dma-lifetime-next-v1-v2-3-c9e07cc44bf8@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261023-submit-sun6i-dma-lifetime-next-v1-v2-3-c9e07cc44bf8@gmail.com>
-X-ClientProxiedBy: DS7P220CA0011.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:8:1ca::16) To MI3PR04MB12438.eurprd04.prod.outlook.com
- (2603:10a6:290:76::14)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=MgVDbwcC
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-845788309b4so646629a34.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 23 Oct 2026 14:19:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792790371; x=1793395171; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=t/OVPwISYIuAdc7Q10pLScYKXWaZFmDPlbXzHuMOEjM=;
+        b=MgVDbwcCyP7CKq2/eOB9vA9PSrthofAmg/M9EixyMDrdY15BIraxs0LqeWtmWpWYVU
+         X5nIXEqNystGjsb4sZobCnH92qxQJrseknDW5hpLZ/KwCJyMsL2zL5Teg4qMnU1pU2mF
+         XGRbuhOupucmBrZzTblj4YjrvTpbJfZAgbzNDgoFqoV0JoH/X90BIsLz2zOQuI1YvdAO
+         ZngO4SMKECxHb71u9Gyv7VwQB1Ut4JVqsiKqX8AkXLXctXVPz0bwrfVn7FUKzmbA2cKa
+         J3gsVTF1W6KcDrmNXstpk41XzIR0Q2Cq/Zwlb72D5aw5CIt/B9itqPqqtz5Zeyny6rGo
+         TsSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792790371; x=1793395171;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=t/OVPwISYIuAdc7Q10pLScYKXWaZFmDPlbXzHuMOEjM=;
+        b=krNSxqMJEXiy2iRwAhGN4nxiuclkAStxFvxOVadrExG5lvf7wMM3wssgB8RIvGdS2K
+         3B7pi/1svyrQgS8nQI4HaT+vqgFVQI8sa67oPk1v79Z/oVW67xknuT3Jj6FRExET2uEw
+         yORJPah4LxG56FX53H0kAHZtGVSfzww4Pj1o92gvjpaU8AuOQJ3R6D97ROgDE83tjZJM
+         r9HpB4TIALvxkBnkMoB3KgF/ILuctlCVYc8qzyoUOaimzct8b66CpKiiZ6T7/XKCwQ3I
+         RZhwHxNtx/lmlJ4JgA9QITMH7OJTv4BUIXIvqP2Q2vn1OO7uSTlTkk2v9DCCIDykfcwD
+         bElA==
+X-Forwarded-Encrypted: i=1; AKwUvBwKP3dVe5MXslFM0UAYq8nevmRSPDL2LXG3bKipt7JOh1P63c3MnftyghSx4y9H+tSQ49rj1mQaWNY6zg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKkWXu5wwBGG79m1GuBTdaAuLsQac2dhyWc7sZ5NFPBlydei5E1
+	ckB4vG7VAUCQnpYK4Im8MZJULAXeMcqeA6Ho3ce1LOsU8zJImzzuahC6
+X-Gm-Gg: AYBFou1WCdVsuVFsNXRmK/NW8XOtc1IAYpWpS9sWo03OtsTaiLBbs7N9ua1ixoZRnzL
+	vfyxKMaN0lrmP7BjqUUoWvh7kxsbHrF6j/p9Vv9hKnPuJnmk82IR6qldk/Bah+3kJhDpbcCLst2
+	mDzgzpNMkuMveES9oIMQxB2mSY4bZa/rY9/+UkosoheyCIqkGiWvpSWH8dy5pLQZhXm3KQLz/xJ
+	gH8aFBtEbsgiBSCTWWR2RkAgFlsMeygYB/7iEp/D6bzjTokLW86plbzdmNxps5pMG/hlSq+QCv7
+	sQSn28Vsx4GM7VHE7n290XybHQDe+6bvAHerSBQdxozQTOjfGJSiGhPw7gHbSOA+p8W+Ecbd0PR
+	QULU4lA20ssmrokIznja2JKxqC9CE0N+0CYgEoy0SU4VhC4Fwpw84coSPDiXSFf47lW5qFvrBrL
+	O0V2FuBPqwjf+0612AQ1yxZ0YGq5jiruNiIzFLbujfe37gEiHd6rP39j4qxQuUHxuWvqp9gLBVX
+	k0JE4inEIAmTOEQqmgudYaZEuxQXy4P9QpWTVwCwinQTbPoESZDoMFtgfAR2XidZOnaI24u1XW6
+	KsW6g3GxsIY0P6TA4b6mPxP49+xUhD+9FZWMiT7/rRhqwmw5bche7GU/KHo1XxjT9ReHU/O+gX8
+	ydSu94HGGgUUFNhCHSwctlpjp6BOCr+bj6hClez129j6PO7yPcuH5C3G3Ag2aYwCrGOvDcgpNgZ
+	roIA==
+X-Received: by 2002:a05:6830:44aa:b0:845:3cfe:608 with SMTP id 46e09a7af769-850f7f763b5mr662878a34.0.1792790370828;
+        Fri, 23 Oct 2026 14:19:30 -0700 (PDT)
+Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-850f8458d8esm565721a34.1.2026.10.23.14.19.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 14:19:30 -0700 (PDT)
+From: James Hilliard <james.hilliard1@gmail.com>
+Subject: [PATCH v2 0/3] serial: 8250_dw: describe the Allwinner H616 UART
+ configuration
+Date: Fri, 23 Oct 2026 15:19:26 -0600
+Message-Id: <20261023-submit-h616-uart-fifo-v1-v2-0-af0593504635@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -108,97 +94,98 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MI3PR04MB12438:EE_|AS8PR04MB7816:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8b59df03-28fa-4bf9-efce-08df3144d50f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|19092799006|23010399003|1800799024|261022105027099003|261022075727099003|56012099006|10067099003|22082099003|18002099003|4143699003|11063799006|41080700001;
-X-Microsoft-Antispam-Message-Info:
-	ZfAmYOeDLgmZuHkWj81hQrlhq/6g7HJcQSEA6ePNVbW6Y/XOiOFkBzZvNlyo0Ucn8UXpmHej/e1Xncf1niK+uXRiJrkrlbyWUnNueFRHbmvwuhXdWjjk6wDSlnUE7z728wkZ0PSk1oprKu5c3XBo1Wq8NzUmx2kKMq6ZkvqCPlrfXhCn/SI/IsmRXgu55I4VXEcL0cnAgCpeAh4XuOohyfDjub0ykfPqoLp6MCxiJg/YPPB9cbQZ+5pxf4e7s9lmUsl6ZP4L5Upb2Mcm0RIj7Lhkqu1DqMypHor8r2LlPhDrtET5LjRU5k/JapCkTkPvoqS09MrS2YSa3ZDygG+8k30h+ZimSS4dXS9KLicGf7A6rfvszzRaqTPPOFMJUVeAcaOREJjESKSRIPG+2GUEBvcaDhNKTOXHVLEqR+bWI/odwN8FP0+cRMF4aECr941IELWeQdQ9Po6Dpx5SC9kg+Z1P9D0WKuKc9rlwcbGe2Y1CVxs2bK2xQjmivqYBW/VKJTiXpWRT6iJ1DgCC00SZbXsAvprPCMcpzISoOdzVyRyT+JxDBfQ+8MpZ5Cxlaimo1C/0L0fD+0h4npTRW5KB9AGsbUzneH5RlSfoPn9EXKKQ2vEZoPuIYOPKLdysX4CBYbnALoqz+tu98fQlkGqQ7emsZBYMU8uqKc6pk7jyQB0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI3PR04MB12438.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(19092799006)(23010399003)(1800799024)(261022105027099003)(261022075727099003)(56012099006)(10067099003)(22082099003)(18002099003)(4143699003)(11063799006)(41080700001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?pnosb6uW3Vml6YM9akNSpE1oVzlACR5cMMAJOH56LGaVuvlFhauHDX79miA5?=
- =?us-ascii?Q?n3SAYRgy3XA3nFxBgknUeqFJ1newIjd6p2sVUJPjpCSWRjYqGKsnENtUWjzw?=
- =?us-ascii?Q?4Jhi3kqH03K/+UXIM1J89/CS3q4kjCtpHvcPUvly9N4Ky/4Hdxo0UrNjI15s?=
- =?us-ascii?Q?pwMvoeGKAHnQK7B9J7eznchN1+7mklHC65VJh9yxgrz//ixqL84/i7G+PSJt?=
- =?us-ascii?Q?KC/3b5i+84j0MPTgZUmKM7b+QA2Vil3VzNE1hIpDb9TS4mnTiO20B26q6DO8?=
- =?us-ascii?Q?KCDKRvy5i+fr0EMRLpougIsxMLIT0zQ87EjtiomA2jl/XS2aMfJmsnGldL/+?=
- =?us-ascii?Q?kbWyYzD+H2CpjmuZhB3yaXuj70o+qZlo+fxAuNWNO+5eJ+0v/YNDE7qXHdw0?=
- =?us-ascii?Q?JIdjWBbPSudszaseQoNYET+rTelxOfh/PkUyveq5FPTmRQFLJw31+wFKuclx?=
- =?us-ascii?Q?HrnqT5GIQ6ST1QcO2iqriKsHfo8+5qZUE7ElmodwOP/fCaaUwnHJ3lX+K2C0?=
- =?us-ascii?Q?4JD+hEPgei4YvwXC7NtQiUSipq4rPqW4fAjN3Ehsaa6g2P8pUchHK/RjAPZi?=
- =?us-ascii?Q?Fof+GaQjxLQpqZx64tavgrEHvLzooIVFhf21BK4J0muGfizlhzHGs+Gnwozl?=
- =?us-ascii?Q?9+2EeJcQ8ELWhkSHAMdeJvKy7kiC5LmIORIxnxmheMn2/iOGEsrRe7NYaJaB?=
- =?us-ascii?Q?IkyavJDBiP+b6heux0lncXuBHgQjZkTDZQ7JPTbFt5/qvS4G+9Dvqm7WC9LL?=
- =?us-ascii?Q?nADzP6SwXjMzu9ZS7t/1fAWbEZXfV6cNZ90yIoPaeciD5m2B+vt6/uuNhh4p?=
- =?us-ascii?Q?lqFE7N282QgWS7M8OeX75A+TqSOLs5blLt7fwZ0R/V20VfeyP7XN0ojJ6zVJ?=
- =?us-ascii?Q?vAASAt3Bag5gf4eIp+PfbKCX2IChzH/ynd2JDWJIL/lU4QK50zUrdK0aDmcL?=
- =?us-ascii?Q?R+c0aYhpuq5Do6D6OR618xo7gxjretd9BmbBMxRv3akTIOqNVjVAG8nibmuF?=
- =?us-ascii?Q?1bcVCToRRxVQ6J96pA6uCtL1KJjmLsj8N7TV/HsfwQiC0rbiKQHipKw1PbdZ?=
- =?us-ascii?Q?+AOWhn465MwvKiLNt3kMhgNSE+WAOquhd51jegrK3YJua4afNiJLi4fc6etL?=
- =?us-ascii?Q?leCEHX5Zlpft+atVa28PeYPUyFna+it2Uy6gz3Dj0Suj5CvoDlPb4Ysf9O3j?=
- =?us-ascii?Q?FOzdkuKbPEWCPxMLpg4Wamgg6wWGIv+kf5SQ004mHtL6Z6SXuJTWvdCu44ZU?=
- =?us-ascii?Q?AAO0yCEkUY3HO6rIt5HZ3zL9A9xs7GVn4OxgvXy/n/VVnSuaI5h2SabLeTrL?=
- =?us-ascii?Q?teleQlISAtz8dDvgwet+La9vhF3GVBN/bjrj5QZ7BhZsihca1tQ5eHc5/6VW?=
- =?us-ascii?Q?4Q01TcBR7Ok9HFFvKy7YPuc3IyLK0w8hVk7l+z/wzNYka+rkyQIMJygDNdD2?=
- =?us-ascii?Q?hk+AUj+BFY2bTcuesdOVuMUVU7SsaHEs4esPtqbtESnXZATRpPdjYDe+OZS8?=
- =?us-ascii?Q?TetykXjkvBhi/Hit5RZups+geeTPnJqQ7bc0ViIvoPnO5i/oovMOmGWy+pfo?=
- =?us-ascii?Q?ls4Dqc2Kf6uMMIel/eSA3evQLHmJiaBGtFJqvJ0hRXNCb41zDrlUcGgaKK7T?=
- =?us-ascii?Q?oOgyFjv61f7koV4OYDFL6CknfU/HZeZHnMDh2TkEkUB2TfzVIrPH2evQJ0W/?=
- =?us-ascii?Q?61e7Rdn6GwgqJ1AxlPZpF2OkLKup4QNKy+B7m7bQHIEnehFd+gkyJuZcZfdj?=
- =?us-ascii?Q?BblDnMuVkQjQ0eQMwGlmkTU+mTmzmMKsr7IPrf5phbP8ZtYVNsKg?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b59df03-28fa-4bf9-efce-08df3144d50f
-X-MS-Exchange-CrossTenant-AuthSource: MI3PR04MB12438.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2026 20:33:01.4138
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mrGfwQ+lLOjlmFs1WmAovFaWv4K+9+Sm4Vv+GNaV/I0ka/FC9emMCHIBmf4GAT6jCxH0QWjvivMH7qldEN+UMv13RCqjZd5YsT7e5OL8ftzgQRHH9kOC8mp+qEqzxXh9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7816
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WSzW4bMQyEXyXYc7egRImUcup7FDlI/Im3aOLWd
+ oIWQd69tIMetkCBvRCrb4Yz0ttyttNm5+X+7m052et23o7PMeRPd4scxvOjrZvGvGTIlCDn9fw
+ yn7bLeqBE68s4XVbf/Li+plXqcFG3KhOWwH+czLdfN+mvDx9zsN9MLle964nDdr4cT79v3q/pe
+ u6vDf7fJj5YrQycw7LN0b48Po3t+2c5Pi0P7x8+J/v5EkkuH+bLHGdb438IRjIYiEKTZBpbaVD
+ VY1BqLVFHLgXHSKXdIoyLHKKA+zsl7K0UpsJjgM4JUGc10lAanYxKNh+N9pQTS/KmTbtBKiJUw
+ bNjyDSiXBAEJ/PcU63m3LipFxMtHlYsrhjFJKzdyGZtI5nvqa7uNQH3KVUxlsnduPXBgg6lNWn
+ JKzPuKRtpdPfJXQujskYJKc3J4eWS0yRUYfxnQyuTmBxqyb2SIoQ5qCZqyhFMoBp2qmNPVcjKZ
+ rVL5EfrOZo0FshdZCIbUayOXfdUSgDxINg7QEi7DvbEUT+kuEkoKTP7mLKnUKRJmg08RZ0aN5R
+ nZRNW6MM7VitSEo54Mu9/AE2U8xkEAwAA
+X-Change-ID: 20261022-submit-h616-uart-fifo-v1-c5afcdfe5cb0
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, James Hilliard <james.hilliard1@gmail.com>
+X-Mailer: b4 0.15.2
 
-On Fri, Oct 23, 2026 at 12:42:37PM -0600, James Hilliard wrote:
-> The allocator changes vchan->phy and pchan->vchan under sdev->lock, but
-> termination reads the physical channel before taking either lock. The IRQ
-> handler also takes an owner snapshot without protecting it. Termination
-> can therefore miss a new assignment or detach an owner while an interrupt
-> is about to complete its descriptor. An IRQ status snapshot can survive
-> reassignment and be applied to the next transfer.
->
-> Use sdev->lock for physical-channel ownership, pending channels and the
-> shared interrupt registers, nesting vc.lock inside it for descriptor
-> lists and cookie updates. Allocate and start each pending channel in one
-> critical section. Read and acknowledge IRQ status under the same outer
-> lock, and protect cyclic notifications as well as ordinary completions.
->
-> Clear the active descriptor pointer before publishing finite completion
-> to virt-dma, whose tasklet may free it independently of the allocator.
-> An assigned channel without an active descriptor is ready for the
-> allocator to start its next transfer or release it. This replaces the
-> completed-descriptor pointer and keeps residue queries and termination
-> from consulting a descriptor already handed to virt-dma.
->
-> Mask and clear a stopped channel's IRQs before releasing its ownership,
-> and clear pending status before starting a new descriptor. Schedule the
-> allocator after termination so other pending channels can use the released
-> physical channel without depending on another device interrupt.
->
-> This also keeps process-context acquisitions IRQ-safe. Client callbacks
-> remain outside these locks in the virtual-channel completion tasklet.
->
-> Fixes: 555859308723 ("dmaengine: sun6i: Add driver for the Allwinner A31 DMA controller")
-> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> Closes: https://lore.kernel.org/r/20260706065650.34B131F00A3A@smtp.kernel.org
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-> ---
+H616 has 256-byte UART FIFOs, but lacks the DesignWare component parameter
+register used to discover their capacity. Its debug-divisor and RS485
+registers also overlap offsets used to probe optional DesignWare features.
 
-Is it possible split to more small change? And you almost add sdev->lock,
-any place only use vc.lock without sdev->lock?
+Add an H616 compatible and configure the existing 16550A port type with
+the documented FIFO capacity, receive thresholds and automatic flow
+control. Preserve the BUSY-safe integer divisor path and keep the UART
+gate enabled during termios changes. Attach the existing 8250 DMA path
+using single-byte peripheral bursts, with channel acquisition and PIO
+fallback handled by the normal startup path.
 
-Frank
+The patches add the binding, driver configuration and SoC DTS compatible
+in that order. Based on next-20261023, which includes the TTY changes and
+A733 DMA register-layout updates, with the posted IRQ-safe locking fix [0],
+pause-bit fix [1], virt-dma synchronization helper [2], and sun6i channel
+lifetime v2 series [3] applied first. The sun6i pause bookkeeping lets an
+8250 RX flush account the paused transfer and release its running state,
+including when it is flushed before the allocator starts it.
+
+Apply [3] with git am -3 on this base to combine its tx_status() changes
+with the intervening NULL-descriptor cleanup.
+
+[0] https://lore.kernel.org/r/20260926171049.841335-1-tien.nguyenminh@embeddedlinux.blog
+[1] https://lore.kernel.org/r/20261021-submit-sun6i-dma-pause-bit-v1-v1-1-38d286b69dab@gmail.com
+[2] https://lore.kernel.org/r/20261022-submit-mtk-uart-dma-synchronize-v1-v2-1-fdaef0e2edd6@gmail.com
+[3] https://lore.kernel.org/r/20261023-submit-sun6i-dma-lifetime-next-v1-v2-0-c9e07cc44bf8@gmail.com
+
+Assisted-by: Codex:gpt-6-astra
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+---
+Changes in v2:
+- Keep PORT_16550A and set the FIFO size, transmit load and capabilities
+  during setup, following Andy's review.
+- Select H616 setup through the matched platform-data pointer and remove
+  the type and DMA burst-size platform-data members.
+- Use get_rxtrig/set_rxtrig for the 1/64/128/254-byte receive thresholds,
+  with port locking and runtime PM around register updates. Keep the
+  standard half-full FCR default, selecting 128 bytes on H616.
+- Advertise UART_CAP_AFE so CRTSCTS enables hardware automatic flow control.
+- Rebase onto next-20261023 and declare the posted sun6i pause/lifetime
+  fixes and their prerequisites for DMA enablement.
+- Link to v1: https://lore.kernel.org/r/20261023-submit-h616-uart-fifo-v1-v1-0-e4a3bae2eba8@gmail.com
+
+---
+James Hilliard (3):
+      dt-bindings: serial: snps-dw-apb-uart: add Allwinner H616
+      serial: 8250_dw: configure the Allwinner H616 UART
+      arm64: dts: allwinner: h616: identify the UART integration
+
+ .../bindings/serial/snps-dw-apb-uart.yaml          |  1 +
+ arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi     | 12 +--
+ drivers/tty/serial/8250/8250_dw.c                  | 87 ++++++++++++++++++++--
+ 3 files changed, 86 insertions(+), 14 deletions(-)
+---
+base-commit: 20a33c6b6cbe7e4805dfb6cd68816937443aa148
+change-id: 20261022-submit-h616-uart-fifo-v1-c5afcdfe5cb0
+prerequisite-patch-id: d6398447647aa0dbb005b5e6dc6ba96e642efa86
+prerequisite-patch-id: f67c1f8d8d9e014cc650f2f37648662430c3b77b
+prerequisite-patch-id: 8522878df4ecd4fb007cfd32611359e6eb58a1ef
+prerequisite-patch-id: 9dff51079bc5d3efa29e789a7c3f0488c81f5773
+prerequisite-patch-id: ea1a9ffb79d473d7d81611bb7113fc21b63dc73b
+prerequisite-patch-id: e4b676f0542956d309df0dd168d7866c05e3965a
+prerequisite-patch-id: 502d7ee59c7643e92aa0e7c029ccb37e66bc539d
+prerequisite-patch-id: 11000237f90066cfda7f17005010a3041277fabc
+prerequisite-patch-id: 3cc8c1b80f1852d96e2b57ec7d09af935e4c413a
+
+Best regards,
+--  
+James Hilliard <james.hilliard1@gmail.com>
+
