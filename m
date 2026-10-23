@@ -1,90 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.182
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792780984;
-	b=F9PPTvOLBANmIWRgNzsmUxP3mDCZ8xVy0KAIHfNt/QTOhgz5t+eMqx22xwzXqkoigvtF
-	 NNSo5p/rDsFwl3P3gN6qHnp1oiu98kvAn/8k4ITwHgYdEBsHcIMyH14DgUXjFKc5kfy+a
-	 ZQDkYo95dYw+n7bRhOD5gfgnBcp24tAknA4hViJWvh+qgTmY4tId8qsUYBdrlxmfm52EN
-	 u0miwtZK+8SxC3W5kMq6RGWnJeqiK1cwYp7f1lxEWkDjRFLHRrswGbQaXbposX/+jkUEB
-	 rvCk2Fi/deq/EOuQ0ns7X4eXZppUlyGZnHrovHcQ8Y8A7mAyDA8PvD416T3f9XwuVTQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792780984;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=PqNMKX2JAKOcdDMHgbj/E/YCDonhqS9mo8xwaEZBKXY=;
-	b=Z3glM6gtSnvPYjqLGnSw8qod6IUh2M8sCr3dArxLsxtl+Megv5optNfaKL0ohTo2Ve2v
-	 /SL8ip3YLYCdmheArDNLUprTSUXppVclZvFvr6lHScVGVMzRh2M28fBsR1RmE3p01c+Dp
-	 GwMZ22g0CHW9bZ27eOczbg/eA4io5TgNfRs9PzC++ratHJSMal0aaRKdrAHDy7QOXy2QD
-	 9tLN+LMV4qnybamK6LEzecN1iGSUZ01aswcwE6NJCBBgjljHUH3SaABgoE0qnzx2azvUc
-	 c62IikYGeZa/AgAM3KiY3dCxJoZvOzTRDL1vlZnE5TL7zfTa1ac0RFESsiHwT4PSYqg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="IE7JoqV/";
-	arc=none smtp.remote-ip=209.85.167.182
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.37
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792785919;
+	b=OuljHsciwQW/MVDGcyvimHccbeUyfTclxiUQy9qW7YLAavTpsmr5lIXwZORv03gnEmdh
+	 P6GNaxWw9UkUbHsgsCR9rN88PkeTfLUZ13YpQpLo7rR7spZwZcgRDvGTqVPpln9uMEt0L
+	 SgM5JzT4d711DI/SbFZbuQXFDOJo1Gm2nn4qh/s9uQj1zVMF4Bed/QhKlZxeAN1ev0TqE
+	 tdshBXMFQa/M+kdDv//c5TlwvdnRx+ll51DfNEewLStEhcooZXCZcl1LX57bMWRzQwNEN
+	 vfMBW98NraiXlPDrOkUANiOkU40eXYKSmk4R0YO4ouSWfBVpyu54UgHovTLKFzTVTrg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792785919;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=/NTULHJHfUfSCv+Ar7jXUNGHcJJIDzWX5E99Hx5lt3Y=;
+	b=S8Y5AK37A6U/gQYsZRZhz3Ub+B2L/qpfdQ9iQyC069k91uCkk1cN6TRRp0HhDJaaZrCj
+	 CpzTyD1XiqmUFO8aoFBrrftlK6iPfRWegWOAbGTfNKYi0sw1DyGYMeSi4F4H1kKYaqTQ+
+	 uxYNMS0g1yEjcC/CDmo6R3z4KFZgGbHhbFykt6RbKDQoto2SLC79/pW5FYFJ7ETS5Bvum
+	 vI4j0KYxXh/GMSHkKJeiaz3WCjZzIYfO8u12HYKszVoRa5ZmzsADaWpHbMAy7rEAlSX1A
+	 kvGpq83z94WIFKqsTHRzldm7w1rpC6p7Kzlxly+0Lqv5jhVnkQPCeerEAyjrHcm3y6w==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.nxp.com;
+	spf=pass smtp.mailfrom=oss.nxp.com;
+	dkim=pass header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=vjZRMYMz;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.162.37
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013037.outbound.protection.outlook.com [40.107.162.37])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC1E60A2607
-	for <linux-sunxi@lists.linux.dev>; Fri, 23 Oct 2026 18:42:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7AC1E60A2607
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8672A606A326
+	for <linux-sunxi@lists.linux.dev>; Fri, 23 Oct 2026 20:05:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8672A606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=IE7JoqV/
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-4c382ece86fso608900b6e.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 23 Oct 2026 11:42:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792780971; x=1793385771; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=PqNMKX2JAKOcdDMHgbj/E/YCDonhqS9mo8xwaEZBKXY=;
-        b=IE7JoqV/7kZ/srCOuAFdFuykRBCW4ADu7ONIpWaJT0gUctgZ6GarvBH7fanaWIqCv7
-         FtsGtYLpMhgOYMmy7qJgKyXjgLlEwOb66IoN4n4XWr9ZPgWvG3Uai8wo+24iXPDpmkDj
-         fzZ+oVpLu11WIHIx0u+DkwhKgn7GSa1/0/vRiFIjlhzY0xa3wOt2KEFpC/WoLyK/5qvB
-         5kT4sHIbQcLE5Y9bEikmnRRmtFwWrSObQ3AjYuG3perEq2w8VEBN3YXUiCeROzMVMVQf
-         pHIZJmJ2Wd6w7mWCTME09IvhkWxxFNN2uuaxP902wY9FfsDUq5sRH1avuoYz3kCrk0c3
-         ahYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792780971; x=1793385771;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PqNMKX2JAKOcdDMHgbj/E/YCDonhqS9mo8xwaEZBKXY=;
-        b=U2Xtl/x4330b7gnrPsNJMdLROTWjDiRHjfVNrSxe4vaHwxBBznSvY2W0rwRtr/kvu1
-         ZipV9uCSZD4Rk1y7GaT+Y9eoF0Y5V73pHCMWahTdm0Zs08Se7ZHVDEmCvhIN+W6ivJlF
-         sSpmV2z+PGdvd926fPyiuycUfvxkxeinlgjB1XW416ShbSYIVvA0u4XDbf46HJCsyTUS
-         M9vjjCOehTtWwtIwsSAZZu3ezSXQztXxAOkbs85t2GyAVZI8Qtb9Oz8SV4TuBbImCEo7
-         daoDS6jeHWwxets4AW1rayciaLrZaIsAqDIMxyZii06nPSKcybzE6AihUtAvEVU2b2bd
-         9rQA==
-X-Forwarded-Encrypted: i=1; AKwUvBzMAs7MDfkpASI/7LYhEy030mM1kSIznBohjjjRm1Gebkz2lImgIar0mLBVJKWA/Y/E3wlH00iLP2c4Qg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYL4/UsSxcoTk4Ml5ygLMFeKrg5Q+o/b+NSEKBoihwshdD34L2Qc
-	LMadsObx0ICXhphJirJytp77I6/3nQBDPel8bHVdWupycI+Ljq4cMLz5
-X-Gm-Gg: AYBFou1KcYz1HdDlUB+AiBhyFL3Bm7edaZ/2bu2M1+PoVJEa6gVCJjMGOF2OW5u7ptI
-	avNS2wd9QVn6pt2Y04E7JH5qEhEje2c0AS+t/i+bWfbxWmNY0b9bW2NX98qZgf9NkkPa6B14g9O
-	Brlao6rBUaQ9al2Rx9BF9rJf8xNfmwJ+WYH66UZ7Z+VNuO6ClrQ4r4beBeVFXH3wvJ0KJvFs14E
-	Y/GqYx5YTK3f8js8Dejr3btfokJbxW07bxe4I7DOSouY3wukekEgqBKuplwcIOXeHtnETJ/tSO/
-	bd6spvQSsSTWM/5JyK76zoWn29unn7qCxkdFTTO6VeZBhLWlqvMZfdg7xzxkR0lDiKdrjpP3ctP
-	wNFJYZpVO6PLWMcg9ZzmWpfh0dVrJwjjy5BErkqkMCGXSalY/QbnTdZME44eOcyg7ocpej9IGls
-	nOMIT2RaV58ilV02hE7CzrlknvSO2MVM2QTnLqbXIPLpkVuM3HYDNgIZcQIV0OHndFZ3ZZZkw7g
-	KoH/06IoN0r8ceJqmSZpcyvuiva4ch9jozrhQQtB7/4+wEBD+6U6pmfSfpDDPEUkHws69ie9LWu
-	L0Pv/5TOVuNx7O0nbHZjOQ0PPZEsZ8QXynSicTLrsdSyJd6wgIPOfvbtTzNwQVCApA+pfCZvgVH
-	dJ8/aLlxIrYGFXXTDhxJRBmUShzUhPKOIz3qbcjjTgHzAYXiljZVREMjKymLExYSGGRr/n7NK+t
-	1dhtM1yjKrqjfvvQWeZgeeozI=
-X-Received: by 2002:a05:6808:1911:b0:50a:6fcf:d287 with SMTP id 5614622812f47-55c00232f05mr72486b6e.37.1792780971361;
-        Fri, 23 Oct 2026 11:42:51 -0700 (PDT)
-Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-55bfe199544sm336682b6e.13.2026.10.23.11.42.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 11:42:50 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Fri, 23 Oct 2026 12:42:40 -0600
-Subject: [PATCH v2 6/6] dmaengine: sun6i: keep cyclic state with the
- prepared descriptor
+	dkim=pass (2048-bit key, unprotected) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.a=rsa-sha256 header.s=selector1-NXP1-onmicrosoft-com header.b=vjZRMYMz
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=K2Ef25bp1G9x1Ypu31DAvW38/rODe7qgxOl3I/AboOqo26hMpzQDaKTIh7zhCxjO4A5Q3rvj/iIpMTCaJJGbpR8VRtGz3yIk8zHn/fl5qI65e+Yj7TOVZkQpx7BYw7sqfz5Any7eP7Jf99BUh3/i61sZDLvlnFDquAEMcvz6QhSyKhPx+/0WxQxpswAHRqXZeCnkgXgmRj+MdDPKuvdLEJuJMahsAWvcJd/I7MhOb7s9oQL1BorN8RI/aBwRmh9yrCWQ9P5Uti/yL60SJxOY19JUcxtLiFNkLEO8ml0xOpHvGSVxtJOC4/tVaPJnmMbEmm+MOIdTAtNYJN631DotDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/NTULHJHfUfSCv+Ar7jXUNGHcJJIDzWX5E99Hx5lt3Y=;
+ b=QhBNIzUAtWAHRGTZ/0aBkVPgMob3BIBllQmDllou68X7qpp+lRRrRpmJlJ5U5XJUZIcSWaSDh7Sjm3R98IbDKQZCLDQ8EohXFSPQr1KPudak4+z4ShWbTj0OWf7yaQN7/ClW8+Dbc/N7z5cgUBZbnoJje+8Vwo8aKP/Cxqiv7iRoGhD3n00Pus43F+dAoEXN1f3eIMmRD5P9/I2gdxxLiidB3c46RsOgiM+uWSGB1Pds9zSPGXb0wfchk4ssuHeJetfCAfFvs4Y62kKwUn3HQQo9+J8UMVjD9i4azrCuSygP0sizyoDqHTBbBVjVYSE0MOAHDU14iEcL+yOf4Q7OTQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/NTULHJHfUfSCv+Ar7jXUNGHcJJIDzWX5E99Hx5lt3Y=;
+ b=vjZRMYMz8Qkn66hDhXGuNd0bHijj9lzTE0ZZg3xmVkASisbfdNMs0QCdgIFAtr/H904s2APfP2eYezNXBkrAowoZ6zeg/BejNg9xawCr6Bwr3tISz6F52XTI5o5clym6qBgqse4B0BVXTDaO3LZ8azxcmtUljw24lU0cGB9DMIobyKpxhgZMBHjbYd905abU02rGwq4he35qhrHWDrnXK9XPqgwNYigBt3plB8WFJbOVwj/GG5t5iUF9aXxRG964IFiwjEZuKJ7qwMH8yrMV/UtF/OfE7x52NP0EE5YW/oUhkcQSp/UjQ6aoyfVafahRAuQHosCc6FQ2CpUMDkVPzQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from MI3PR04MB12438.eurprd04.prod.outlook.com (2603:10a6:290:76::14)
+ by VI0PR04MB11546.eurprd04.prod.outlook.com (2603:10a6:800:301::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.16; Fri, 23 Oct
+ 2026 20:05:14 +0000
+Received: from MI3PR04MB12438.eurprd04.prod.outlook.com
+ ([fe80::c715:c32:8bb1:b70b]) by MI3PR04MB12438.eurprd04.prod.outlook.com
+ ([fe80::c715:c32:8bb1:b70b%6]) with mapi id 15.21.0546.012; Fri, 23 Oct 2026
+ 20:05:14 +0000
+Date: Fri, 23 Oct 2026 15:05:03 -0500
+From: Frank Li <Frank.li@oss.nxp.com>
+To: James Hilliard <james.hilliard1@gmail.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Arnd Bergmann <arnd@arndb.de>,
+	Maxime Ripard <mripard@kernel.org>,
+	Jens Kuske <jenskuske@gmail.com>,
+	Jean-Francois Moine <moinejf@free.fr>,
+	Hongling Zeng <zenghongling@kylinos.cn>,
+	Chengfeng Ye <cyeaa@connect.ust.hk>,
+	Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>,
+	dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Sashiko <sashiko-bot@kernel.org>
+Subject: Re: [PATCH v2 2/6] dmaengine: sun6i: handle the last partial
+ interrupt bank
+Message-ID: <atu97zfpnCHWPsMh@SMW015318>
+References: <20261023-submit-sun6i-dma-lifetime-next-v1-v2-0-c9e07cc44bf8@gmail.com>
+ <20261023-submit-sun6i-dma-lifetime-next-v1-v2-2-c9e07cc44bf8@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261023-submit-sun6i-dma-lifetime-next-v1-v2-2-c9e07cc44bf8@gmail.com>
+X-ClientProxiedBy: DM6PR02CA0139.namprd02.prod.outlook.com
+ (2603:10b6:5:332::6) To MI3PR04MB12438.eurprd04.prod.outlook.com
+ (2603:10a6:290:76::14)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -94,106 +108,120 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261023-submit-sun6i-dma-lifetime-next-v1-v2-6-c9e07cc44bf8@gmail.com>
-References: <20261023-submit-sun6i-dma-lifetime-next-v1-v2-0-c9e07cc44bf8@gmail.com>
-In-Reply-To: <20261023-submit-sun6i-dma-lifetime-next-v1-v2-0-c9e07cc44bf8@gmail.com>
-To: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Arnd Bergmann <arnd@arndb.de>, 
- Maxime Ripard <mripard@kernel.org>, Jens Kuske <jenskuske@gmail.com>, 
- Jean-Francois Moine <moinejf@free.fr>
-Cc: Hongling Zeng <zenghongling@kylinos.cn>, 
- Chengfeng Ye <cyeaa@connect.ust.hk>, 
- Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>, 
- dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- James Hilliard <james.hilliard1@gmail.com>
-X-Mailer: b4 0.15.2
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MI3PR04MB12438:EE_|VI0PR04MB11546:EE_
+X-MS-Office365-Filtering-Correlation-Id: 53bc4e90-5fd8-49cf-fa2e-08df3140f36e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|19092799006|366016|23010399003|376014|1800799024|18002099003|22082099003|261022105027099003|11063799006|4143699003|261021123027099003|10067099003|261021121427099003|260925021911599003|260925021311599003|56012099006|260925022911599003|41080700001;
+X-Microsoft-Antispam-Message-Info:
+	6beKvUW1JcxYaaACZRCxVWr41DlN50eXT+UVoCSqMiI2CmVUo+NPjxWDvQKyaVbwuAMe4FvLu25D61G/k3olCUA7xCgeje3YbAuCLX6YcjcZvZJaOJLFKVoASK74V+Ja2A/5++dB0eFr6CdAnAgavXNNq7BkQvc7UX/zKDFeZy3fDII7eHTh80K8b7j4JRDQE2/MO1oAGEiz7FVTgvC9+POIXjPL73QM55xNzAeCSXu3hB9oRk88elKpoH6LJPHF3GTV6EiPJDbrvBaGKiSx7VuE1wzgDJGG1lSF8EcUoWQrXUDkKKFOd4hwY/CVINc8tEwcDDSt8BQc9nuZvGbwgDM82HHuNDvcx9E/DXk+zg+vbjzpxA7jolPogpNNQR5BvmlGNgwS+uWp60KebI7x03jGgaYu8/hdaIQxf+dhGf//D9CD8NNmODfzUFJTpTrUYRrfBJ9If9xlJAwJNpuGrNrv7Hn94G/19qpDODhgcAx1oZJYNX5TnCdhUUV/Ukp4e6N8fb5HUa13Fl9n/FK4C7oSsDmE5bw65CDYRbXfhlJIXXkbc/XzsboKnNAbD8YIJ6kezlJcKmqbW914SqnoKviMDb+KD8fdZDmdCUknEZds06JSswGAPb9WuKO1Hh9+FyzJxgAuv8Y+06EXAFhVz14U69kddimp8e8+lVRPmSs=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MI3PR04MB12438.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(19092799006)(366016)(23010399003)(376014)(1800799024)(18002099003)(22082099003)(261022105027099003)(11063799006)(4143699003)(261021123027099003)(10067099003)(261021121427099003)(260925021911599003)(260925021311599003)(56012099006)(260925022911599003)(41080700001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?xwgROJad1Ae7mCUmJPch4xpquoRztvzOgPNHVO1Bg7GCDwc7gmI+AUUAWvUb?=
+ =?us-ascii?Q?ZsqzUEg8JsIM0GR/PMtBmS1vHJFd8Iio05rSAk6/pH773OK1uX211594bVPq?=
+ =?us-ascii?Q?Y1TJBKbj71dEUxxYYAHq9cjHJW5oynL7KU9qdjPUbULPM/lXguW5686uV4c8?=
+ =?us-ascii?Q?CUSt92iOrEGw+SyjhWTUWmZ2dpS6RSHvAr9hjdSUCt2SfNu3EitZHzGJMZsZ?=
+ =?us-ascii?Q?aHNaEBznjcbpnMq0oVvsWYomNeqN+Z0Ifxj4brPsbkfEkwHxxnvNoN59AMAe?=
+ =?us-ascii?Q?jt+K1pIZzXpXVVf057IImTNxvIuMZRDV17GG/tNz2emSwb5Dgw+HgZQGNXr+?=
+ =?us-ascii?Q?/IYy74GZgIjegE0DOjTFdiAvcpSX9buK2erMUXnToUzxImL58qhDLJVHRZax?=
+ =?us-ascii?Q?q8ujgZcizskpaavw+4+qBkVwgbw9ahTpn00ffMotXZ7BHf0mCEfRfYcXh1MG?=
+ =?us-ascii?Q?cljXi0SiToK+AeeL1K8MPCJRuuqXmiz+OoXKvf24CBNdEQxK/66vv634d2cw?=
+ =?us-ascii?Q?mloFEWgnJxSyAA/Nb38xPLy5DxyidnYSZZPv63OHgQlqm7Rl4F7+vtQ11ciD?=
+ =?us-ascii?Q?51osf7ksF3ws27FdXaFxMd2g0TN6wqj/99mDTdqwzKOaDpk19pVKEXZD4TM5?=
+ =?us-ascii?Q?N9aiRLQm44AvtWur5xB2H6hLwpC7+iX779tAocyFrOZbXzCPTBUaL/dzcRJs?=
+ =?us-ascii?Q?JLfPvZ0ZKeZHogz4o47jiSuGps8FbZfkouJcdJk+zFAZAT3Zvbvd49I+cH83?=
+ =?us-ascii?Q?EhWzvZFbH4tNXADtdzs4vrqhRujshAe3762jEhVM/57tvbPV8ddiiZM+9VOu?=
+ =?us-ascii?Q?afS1z+gAOe1J0kztkfV1/B/Kl1lZZ9RESMEQIVvYashpANwQ2byK32+iF9Lw?=
+ =?us-ascii?Q?tShvG2p9HrsZ2I5mkhMDWz4EyxoxQqN933/NB1iNfd8PW2E3o1sWM63NP/gY?=
+ =?us-ascii?Q?BlXx7Dxj5f6XqkkGCu+fAdsZK+NriiCtG1YoLKXKbe4iLUV50O/tE3VazACS?=
+ =?us-ascii?Q?ryDHYeEB7N7DBdRXzGCRWLqbuhi/xq94ZUFu7760pWgUzptG0OsyV1emJkYt?=
+ =?us-ascii?Q?oa5KCY8HTR2DMDHGnM7vMK03JJ88nCk20s/Q4B9EmapkWqsNu9+m0INH5HUF?=
+ =?us-ascii?Q?hA4VvjXbQj+YBwmN5uaR2PFbG8diJy3sV7/J4bzHbeIJAkjssDaltXOb7Toa?=
+ =?us-ascii?Q?W5F668Wy4a2ne89GpkPny0RA3W2yxG+wyr+KfhYsXh+7eY+la9wPyvgD85kk?=
+ =?us-ascii?Q?IX/QyEPEgpJalh/SWW1I/vyORvl9Ej9S/UjZg1R4kKfXCR/VN91MwzFzk3pF?=
+ =?us-ascii?Q?ByaQPYQCXVLOeT4D0ilHyowBYMLYtI1qGEkQcliJadh9xQSgVSJMzo/AadPH?=
+ =?us-ascii?Q?+LO7z2/lhwyRsHDgoBafj+D3emtQRN1FEV0V2nVs7/1kibhFMRQMw6gdtmCb?=
+ =?us-ascii?Q?KqAMPbzXERIdy7gvvKYA0RB/m5rzhlSZ9Et3bQ2q70FWIxdIz+ZHWs9PGGXu?=
+ =?us-ascii?Q?IiyOs8MqZc8YKrGJpllboxZQt3M3gRY1FgcqmQYS/b01X4vqZTE+x3rMZcho?=
+ =?us-ascii?Q?FDAd3P4N3HKoDWGEh+kYwcJZLP3kuuK93ypNSi6jP+wBoEoG0V/jpJbQaTJB?=
+ =?us-ascii?Q?Zrx9iqJdgWPNnMR+iUbn+lq4s19yHdLKpLhnUI8Y7H1br1nhWZAckw7Ic59z?=
+ =?us-ascii?Q?EOV354xjqd06Y9grfWnHVszFjkhOitjDnmd70jcjXmJ2/VSeIEhU4GzzEN39?=
+ =?us-ascii?Q?38iPVQc8ARMF9EVSytbiMG6uzeQjxb+eytTuOj29pSxSldfZqR6q?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53bc4e90-5fd8-49cf-fa2e-08df3140f36e
+X-MS-Exchange-CrossTenant-AuthSource: MI3PR04MB12438.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2026 20:05:14.3904
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: GP5S2ewxv3D+EjIxW4sd6bii8kBZ4IWpimLRa3MAEudMrxpKDqOQ6AeJzlNtevz+lG2uXRHeITo2wkhpqEUb66gEMu73NzXAGzbNI7gTM0xXZycS1SaF0uS3/9TKqKTP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB11546
 
-Preparing a cyclic transfer sets vchan->cyclic before the descriptor is
-submitted. A finite transfer on that channel can then select package
-interrupts and take the cyclic callback path instead of completing its
-cookie. Merely preparing an unrelated future transfer must not change
-the active transfer or the meaning of queued descriptors.
+On Fri, Oct 23, 2026 at 12:42:36PM -0600, James Hilliard wrote:
+> The number of physical channels need not be a multiple of the number
+> covered by an interrupt-status register. H3 has twelve channels and
+> eight channels per bank. Rounding down the number of banks leaves its
+> channels 8 through 11 without completion handling.
+>
+> Round up the number of banks to visit, and stop processing the last bank
+> at num_pchans so unused status bits cannot index past the physical-channel
+> array. Use the controller's configured bank size for both limits and
+> the physical-channel index.
+>
+> Fixes: f008db8c00c1 ("dmaengine: sun6i: Add support for Allwinner H3 (sun8i) variant")
+> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> Closes: https://lore.kernel.org/r/20260706065650.34B131F00A3A@smtp.kernel.org
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> ---
+>  drivers/dma/sun6i-dma.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+> index 9d94a37fcf10..0a9645171180 100644
+> --- a/drivers/dma/sun6i-dma.c
+> +++ b/drivers/dma/sun6i-dma.c
+> @@ -587,12 +587,13 @@ static void sun6i_dma_tasklet(struct tasklet_struct *t)
+>  static irqreturn_t sun6i_dma_interrupt(int irq, void *dev_id)
+>  {
+>  	struct sun6i_dma_dev *sdev = dev_id;
+> +	u32 channels_per_reg = sdev->cfg->num_channels_per_reg;
+>  	struct sun6i_vchan *vchan;
+>  	struct sun6i_pchan *pchan;
+>  	int i, j, ret = IRQ_NONE;
+>  	u32 status;
+>
+> -	for (i = 0; i < sdev->num_pchans / sdev->cfg->num_channels_per_reg; i++) {
+> +	for (i = 0; i < DIV_ROUND_UP(sdev->num_pchans, channels_per_reg); i++) {
+>  		status = sun6i_read_irq_stat(sdev, i);
+>  		if (!status)
+>  			continue;
+> @@ -602,8 +603,9 @@ static irqreturn_t sun6i_dma_interrupt(int irq, void *dev_id)
+>
+>  		sun6i_write_irq_stat(sdev, i, status);
+>
+> -		for (j = 0; (j < sdev->cfg->num_channels_per_reg) && status; j++) {
+> -			pchan = sdev->pchans + i * sdev->cfg->num_channels_per_reg + j;
+> +		for (j = 0; j < channels_per_reg &&
+> +		     i * channels_per_reg + j < sdev->num_pchans && status; j++) {
 
-Store the flag in sun6i_desc and consult the active descriptor when
-selecting interrupts, completing a transfer and terminating it. Finite
-descriptors retain their zero-initialized flag. This also makes callback
-retirement depend on the descriptor whose lifetime is being ended.
+look like check status first is a little better
 
-The shared state was identified during the H616 cyclic UART RX review.
+		for (j = 0; status &&  j < channels_per_reg &&
+			    i * channels_per_reg + j < sdev->num_pchans; j++)
 
-Fixes: a90e173f3faf ("dmaengine: sun6i: Add cyclic capability")
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
- drivers/dma/sun6i-dma.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+Frank
 
-diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-index c244ef572492..c9a72cfe3f44 100644
---- a/drivers/dma/sun6i-dma.c
-+++ b/drivers/dma/sun6i-dma.c
-@@ -191,6 +191,7 @@ struct sun6i_desc {
- 	struct virt_dma_desc	vd;
- 	dma_addr_t		p_lli;
- 	struct sun6i_dma_lli	*v_lli;
-+	bool			cyclic;
- };
- 
- struct sun6i_pchan {
-@@ -207,7 +208,6 @@ struct sun6i_vchan {
- 	struct sun6i_pchan	*phy;
- 	u8			port;
- 	u8			irq_type;
--	bool			cyclic;
- 	bool			paused;
- };
- 
-@@ -504,7 +504,7 @@ static int sun6i_dma_start_desc(struct sun6i_vchan *vchan)
- 			     (DMA_IRQ_HALF | DMA_IRQ_PKG | DMA_IRQ_QUEUE) <<
- 			     (irq_offset * DMA_IRQ_CHAN_WIDTH));
- 
--	vchan->irq_type = vchan->cyclic ? DMA_IRQ_PKG : DMA_IRQ_QUEUE;
-+	vchan->irq_type = pchan->desc->cyclic ? DMA_IRQ_PKG : DMA_IRQ_QUEUE;
- 
- 	irq_val = sun6i_read_irq_en(sdev, irq_reg);
- 	irq_val &= ~((DMA_IRQ_HALF | DMA_IRQ_PKG | DMA_IRQ_QUEUE) <<
-@@ -607,7 +607,7 @@ static irqreturn_t sun6i_dma_interrupt(int irq, void *dev_id)
- 			desc = pchan->desc;
- 			if (vchan && desc && (status & vchan->irq_type)) {
- 				spin_lock(&vchan->vc.lock);
--				if (vchan->cyclic) {
-+				if (desc->cyclic) {
- 					vchan_cyclic_callback(&desc->vd);
- 				} else {
- 					/* Completion transfers ownership to virt-dma. */
-@@ -908,7 +908,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep_dma_cyclic(
- 
- 	prev->p_lli_next = txd->p_lli;		/* cyclic list */
- 
--	vchan->cyclic = true;
-+	txd->cyclic = true;
- 
- 	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
- 
-@@ -997,13 +997,12 @@ static int sun6i_dma_terminate_all(struct dma_chan *chan)
- 		struct virt_dma_desc *vd = &pchan->desc->vd;
- 
- 		/* A cyclic callback may still hold this descriptor outside vc.lock. */
--		if (vchan->cyclic)
-+		if (pchan->desc->cyclic)
- 			vchan_terminate_vdesc(vd);
- 		else
- 			list_add_tail(&vd->node, &head);
- 	}
- 
--	vchan->cyclic = false;
- 	vchan->paused = false;
- 	/* Leave terminated cyclic descriptors for the sleepable synchronize. */
- 	list_splice_tail_init(&vchan->vc.desc_allocated, &head);
-
--- 
-2.53.0
-
+> +			pchan = sdev->pchans + i * channels_per_reg + j;
+>  			vchan = pchan->vchan;
+>  			if (vchan && (status & vchan->irq_type)) {
+>  				if (vchan->cyclic) {
+>
+> --
+> 2.53.0
+>
