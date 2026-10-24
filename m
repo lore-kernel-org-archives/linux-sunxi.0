@@ -1,83 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792839280;
-	b=qTFQR2HmaysjGRnNZVaYWyBNUg2AflOpiWhk5tFcjt1nihkVqJJQRuxozjoMeQxywJFE
-	 aqgrPVYcvM+02JXkfGHmNqM0rnvrY7zJwIpxGdlyeyIoo2rS+zwfgwqz3eIG7Bn5VKzbR
-	 PIRyoCW2sOdxJG2KNMF8A4meFMEsQNmxIoblkQL36Ht5aJHE+U7WN+xg7slJGmPGfFdZm
-	 y/pTYKFBCww7FiT/j8iLWsqqTm2EZmGldzz9g1Fv12b87chP2XL+2xL1p7lpSnsxGwr6s
-	 pPmkdzEz10UcZwMGB/yWnhnXainitBAOJ9tPyZ5NN17p33ldnngVnboLqAD3tdW3nJg==
+	t=1792847448;
+	b=FjP4sILljQs8zPtKtNVLNcxsZasgkm9CQz6E7a6rN8Mdw1rTz4TiE73kY1KY59Pjy9O4
+	 sLHsdaTCj/CPxIDhYa655gaFjrG3kJi4u+snnFCaRMO9c0ccJNpGV+HXj5l2CT14sSeb7
+	 QJq+hL7cCYTQGiJ5OxtCs5lOUi5uYl/kDeYnHChGBGySEEGs5GbTQzwXIroOQoYUckeQy
+	 7qh5b1xetBLmB4tfSTXEbh/gwLszdJ5rt8A9yon0wPgAroLDAv/aqCxqsgbboCuFuI1MP
+	 JJY/jEPijMOrEA76i7EXgAWQ+zrNrA9UYyB4nGUEGfv+qZW+A2BJ2kRj08/J/QgGwtw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792839280;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=PImphhu3wIi9qvd60NuK0r09MdROw2ZiyCj8HwZ8s3U=;
-	b=FnpD0yXpHRvFXaxTQUmtxRfaFD1e51v++6D6w2xJeTtTt+zF0ke9DUa07LMRT0VEOKr7
-	 ma7yRksA6n5StyDtiYq0E4JNnAGxKrNRpJygaMnFauVpdJE7PpfaeIv26AEH1+g+Cb7fa
-	 TGQ/FR71h52hKbxQnRHOv1ZGHf9v5CsANwMMLbYdIXfq6gpNgcfG6b1p87gd8VfqSDDK0
-	 MQc79vGv+xbdtNO7VUXl+5LFRDcoxqfyT8Umy70Pwi+XCmR66d4mlENrhhPS9nDNYPWCs
-	 QqfbLUqyMC8OzpySosSn5y9ozx5UgXXV3XvTEfJFbru+M0Txaij6lXm0KVDxdhL/QMA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792847448;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=/o2PIVRg25wdrYsWjdmENqYtru3DXq4FjhnXnBlYgJI=;
+	b=32+S5J2OFFqXEO/jONzcOhGSUjwZqF36gblp4YEGd7Nfnoh6/8ugvqMBqN9JIpKl+SDb
+	 ZP9m1ZJnFVozT9MCsnMcy+MZ3VIyXJ0VL3s0ejeG5YaKzp4gr3QFT3l3/NWvJpjOgwJCS
+	 0WDwnCgiZZodAtiNjHmB4DmMiza6uZ3O4AAYNxX6awzAYkgfWppa6+uEVhGIP63wgK+l3
+	 d2uhYA4SPxLSVO7Wej/WdGgGc/NJKF3trQZTlGQWhvR6iRNzsrOkIYmwrYGiIYD2uTyEW
+	 /iqdUM12/Xibv/zEWkukc/WtgylP8AJENLMko9btcCeE9dVQeUa1pIaTnOt6HWrEzvg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lTvkfwR4;
-	arc=none smtp.remote-ip=192.198.163.17
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AUvMJ6Qv;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6F4606A31B
-	for <linux-sunxi@lists.linux.dev>; Sat, 24 Oct 2026 10:54:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED6F4606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE897606A31A
+	for <linux-sunxi@lists.linux.dev>; Sat, 24 Oct 2026 13:10:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lTvkfwR4
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792839275; x=1824375275;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xz5PQv0ox+JrG5g9K0fQpO/jVvuTlGpeFFcNwDdTuSA=;
-  b=lTvkfwR4btj1IsIhLcBgJBOlmlYMgXIZvgoGr7GaawDJ3Vrxh9ZLXmyA
-   V6he6YNpd7HnbvB5zFhlrashPjMjeGwdzZSiJDidkPFKP9XJbc8h5NtGJ
-   uk55/9kkxgidH5x3kqT1LX5CTWpcp1ypYSSaIeeNg+qoCom9tbvdWkmdq
-   Gj3LHy1446UTW+s2rFYaHCvY6UBJJ4rXkh9fMs+C18AtNw9Irdcxp5TUo
-   VUml7ZSXMC+kJtGhtNMiXg0HdHI8cvHbe39eFn+OVsglw1m0OGO5Sk7TR
-   f2wo9HStm+HkDhDTaJqlfUqngetloZ3wqNlPMb+DPYB10rChXpKM82/VC
-   A==;
-X-CSE-ConnectionGUID: RJWqN7P/S0SF5GtT98lszQ==
-X-CSE-MsgGUID: ilCYYOEfTA20u/cDorE4vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1588587"
-X-IronPort-AV: E=Sophos;i="6.27,176,1787036400"; 
-   d="scan'208";a="1588587"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 03:54:35 -0700
-X-CSE-ConnectionGUID: IE+gK7i/SBCiQ1gyGE/l2Q==
-X-CSE-MsgGUID: hTBVR/MXRzmLcXOjYpwx3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,176,1787036400"; 
-   d="scan'208";a="4194078"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.221])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 03:54:32 -0700
-Date: Sat, 24 Oct 2026 13:54:29 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 2/3] serial: 8250_dw: configure the Allwinner H616 UART
-Message-ID: <atyOZcmdRMnpF078@ashevche-desk.local>
-References: <20261023-submit-h616-uart-fifo-v1-v2-0-af0593504635@gmail.com>
- <20261023-submit-h616-uart-fifo-v1-v2-2-af0593504635@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AUvMJ6Qv
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A3C01F031E3
+	for <linux-sunxi@lists.linux.dev>; Sat, 24 Oct 2026 13:10:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792847447;
+	bh=/o2PIVRg25wdrYsWjdmENqYtru3DXq4FjhnXnBlYgJI=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=AUvMJ6Qvkgucz6gji/qdag1s9OT/Zldxjk8LwoKm+CATVQFe+q0mKfF9VdO20hSUl
+	 xkpjUYv4x3z/b7ab7wZ3xVYbLSom1Se/TRULcxiuKeCW2E8s564+JRbaZ1sAh4XGVw
+	 HRQpONqf/R7iDd4KzxA3TCuaNAAnI9kA+pIiy7PCiZ7OdtaTG9zbTnohM/IInRnJLp
+	 gfJtJlY64AcTU+mteV+iDYNuJThwRnqzaKFH+UpoHl/UhRiYUHMUQR7ipN8hEmq6F7
+	 803RkaCvN2aZr3YJkl0YaLSmZ30GtZBl/od9magtj0HVFJdSoONnLoA57ZMsVrYqU0
+	 XsdYz7bQHHNtQ==
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3ab39af88aeso11563061fa.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 24 Oct 2026 06:10:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBw5BL5STg6QQoMVcoBYoppKP9aPjx46205RRljQPzv29AYqSdMPf38WVCQgkc/V8cHJqBR+o9FzakS6rg==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKH3lLKhZkmhUVd9zVFMV6pw5h7CHicZGaKC7up+QhgSeJYgTJC
+	HDNyG2n4OQw6nR4TF+JnEmWQHjJ+lMc8T2WrYw5j0xAII/96lH0Zs//20tlmJ/9mqFdGS9mG3WT
+	Vm3bqrBmyf4A2uE9SYSmmxwCDUg6Ih/Q=
+X-Received: by 2002:a05:651c:b08:b0:3ab:522c:dacc with SMTP id
+ 38308e7fff4ca-3ac6fd3b96emr4386811fa.18.1792847445659; Sat, 24 Oct 2026
+ 06:10:45 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -87,122 +59,136 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261023-submit-h616-uart-fifo-v1-v2-2-af0593504635@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20261023-submit-h616-uart-fifo-v1-v1-0-e4a3bae2eba8@gmail.com>
+ <20261023-submit-h616-uart-fifo-v1-v1-2-e4a3bae2eba8@gmail.com>
+ <atseYvQUYvpMFEIM@ashevche-desk.local> <CADvTj4pRW9q6VyQ=nLi8q0mMF8LgccfO4eqAeqgzzgOkDno1dw@mail.gmail.com>
+In-Reply-To: <CADvTj4pRW9q6VyQ=nLi8q0mMF8LgccfO4eqAeqgzzgOkDno1dw@mail.gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sat, 24 Oct 2026 22:10:33 +0900
+X-Gmail-Original-Message-ID: <CAGb2v65LVm1GV2kV4bVO8YJd16tkubHOvXUtbJ3uuBw2O3TBsA@mail.gmail.com>
+X-Gm-Features: AclHuK9wKet6Jt3sV0zB4WjiNOHkgfPFEYhV8e4eMS7tcxLyr3V3Z_SWiMMvN94
+Message-ID: <CAGb2v65LVm1GV2kV4bVO8YJd16tkubHOvXUtbJ3uuBw2O3TBsA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] serial: 8250_dw: configure the Allwinner H616 UART
+To: James Hilliard <james.hilliard1@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 23, 2026 at 03:19:28PM -0600, James Hilliard wrote:
-> H616 has 256-byte transmit and receive FIFOs, but its optional DesignWare
-> component parameter register reads as zero. Generic 16550 probing leaves
-> the port using the 16-byte FIFO configuration and its trigger-level table.
-> DMA attachment also depends on a FIFO size being available during probe,
-> so these ports do not reach the existing 8250 DMA path.
-> 
-> Keep PORT_16550A and supply the FIFO size, transmit load and capabilities
-> when matching the H616 platform data. Provide receive-trigger callbacks
-> for the documented thresholds of 1, 64, 128 and 254 bytes. The normal
-> 16550A half-full trigger selects 128 bytes on this integration. Serialize
-> trigger changes with termios and hold a runtime PM reference while
-> programming FCR, preserving the FIFO contents.
-> 
-> Advertise automatic flow control so CRTSCTS enables MCR.AFCE. The
-> DesignWare termios path selects hardware CTS handling, so the capability
-> must be present for the corresponding hardware control to be enabled.
-> 
-> Skip optional-register probing for this fixed configuration. H616 has
-> debug-divisor and RS485 control registers at the offsets used to detect
-> DesignWare hardware RS485 and fractional-divisor support. Probing these
-> offsets writes unrelated registers and can select incompatible callbacks.
-> Keep the BUSY-safe integer divisor hook and software RS485 handling.
-> 
-> Use the existing SKIP_SET_RATE quirk to keep the UART clock enabled during
-> termios changes. Its clock is a gate on the shared APB2 source, rather than
-> an independent baud-rate generator.
-> 
-> Attach DMA from the fixed configuration before registering the port.
-> Configure single-byte RX and TX bursts because the peripheral request can
-> correspond to just one character. The existing startup path requests the
-> firmware-described channels and falls back to PIO when they are unavailable
-> or the port is a kernel console.
-
-...
-
-> +static int dw8250_h616_set_rxtrig(struct uart_port *p, unsigned char bytes)
-> +{
-> +	struct uart_8250_port *up = up_to_u8250p(p);
-> +	int i, ret;
-
-Why is 'i' signed?
-
-> +	/* Use the nearest lower threshold, as the generic 8250 implementation does. */
-> +	for (i = 1; i < ARRAY_SIZE(dw8250_h616_rxtrig_bytes); i++)
-> +		if (bytes < dw8250_h616_rxtrig_bytes[i])
-> +			break;
-> +
-> +	guard(mutex)(&p->state->port.mutex);
-> +
-> +	ret = pm_runtime_resume_and_get(p->dev);
-> +	if (ret < 0)
-> +		return ret;
-
-Don't we have a guard()() for this?
-
-> +	scoped_guard(uart_port_lock_irqsave, p) {
-> +		up->fcr &= ~UART_FCR_TRIGGER_MASK;
-> +		up->fcr |= (i - 1) << UART_FCR_R_TRIG_SHIFT;
-> +		/* Changing the trigger alone preserves the FIFO contents. */
-> +		serial_port_out(p, UART_FCR, up->fcr);
-> +	}
-> +	pm_runtime_put(p->dev);
-> +
-> +	return 0;
-> +}
-
-...
-
-> static int dw8250_probe(struct platform_device *pdev)
-
-> -	if (!data->skip_autocfg)
-> -		dw8250_setup_port(p);
-> -
-> -	/* If we have a valid fifosize, try hooking up DMA */
-> -	if (p->fifosize) {
-> -		data->data.dma.rxconf.src_maxburst = p->fifosize / 4;
-> -		data->data.dma.txconf.dst_maxburst = p->fifosize / 4;
-> -		up->dma = &data->data.dma;
-> +	if (data->pdata == &dw8250_h616_data) {
-> +		dw8250_h616_setup(up, data);
-> +	} else {
-> +		if (!data->skip_autocfg)
-> +			dw8250_setup_port(p);
-> +
-> +		/* If we have a valid fifosize, try hooking up DMA */
-> +		if (p->fifosize) {
-> +			data->data.dma.rxconf.src_maxburst = p->fifosize / 4;
-> +			data->data.dma.txconf.dst_maxburst = p->fifosize / 4;
-> +			up->dma = &data->data.dma;
-> +		}
->  	}
-
-This looks unscalable and too much churn. What you should do is to add
-a .setup() callback member to struct dw8250_platform_data and assign that
-to dw8250_setup_port(), and change the
-
-	if (!data->skip_autocfg)
-		dw8250_setup_port(p);
-
+On Sat, Oct 24, 2026 at 12:12=E2=80=AFAM James Hilliard
+<james.hilliard1@gmail.com> wrote:
+>
+> On Fri, Oct 23, 2026 at 2:44=E2=80=AFAM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> >
+> > On Fri, Oct 23, 2026 at 01:33:50AM -0600, James Hilliard wrote:
+> > > H616 has 256-byte transmit and receive FIFOs, but its optional Design=
+Ware
+> > > component parameter register reads as zero. Generic 16550 probing lea=
+ves
+> > > the port using the 16-byte FIFO configuration and its trigger-level t=
+able.
+> > > DMA attachment also depends on a FIFO size being available during pro=
+be,
+> > > so these ports do not reach the existing 8250 DMA path.
+> > >
+> > > Use a fixed port configuration for the H616 compatible, with a 256-by=
+te
+> > > transmit load and the documented receive thresholds of 1, 64, 128 and=
+ 254
+> > > bytes. Select the quarter-full receive trigger by default.
+> > >
+> > > Skip optional-register probing for this fixed configuration. H616 has
+> > > debug-divisor and RS485 control registers at the offsets used to dete=
+ct
+> > > DesignWare hardware RS485 and fractional-divisor support. Probing the=
+se
+> > > offsets writes unrelated registers and can select incompatible callba=
+cks.
+> > > Keep the BUSY-safe integer divisor hook and software RS485 handling.
+> > >
+> > > Use the existing SKIP_SET_RATE quirk to keep the UART clock enabled d=
+uring
+> > > termios changes. Its clock is a gate on the shared APB2 source, rathe=
+r than
+> > > an independent baud-rate generator.
+> > >
+> > > Attach DMA from the fixed configuration before registering the port. =
+The
+> > > 8250 core installs its FIFO defaults during registration, after the p=
+robe's
+> > > FIFO-size test. Configure single-byte RX and TX bursts because the
+> > > peripheral request can correspond to just one character. The existing
+> > > startup path requests the firmware-described channels and falls back =
 to
+> > > PIO when they are unavailable or the port is a kernel console.
+> >
+> > ...
+> >
+> > >       /* Internal 8250 only */
+> > >       UART_PORT_AIROHA                =3D 124,
+> > >       UART_PORT_AIROHA_HS             =3D 125,
+> > > +     UART_PORT_DW_APB_256    =3D 126,
+> >
+> > Why? Besides the poorly chosen name, what prevents us from modifying th=
+e
+> > corresponding parameters at probe time by leaving the one of the existi=
+ng
+> > types?
+>
+> The new type was primarily a way to reuse the core's FIFO configuration
+> table, including the RX trigger mapping. H616 uses thresholds of 1, 64,
+> 128 and 254 bytes, whereas PORT_16550A maps the same FCR bits to 1, 4, 8
+> and 14 bytes. Overriding only fifosize and tx_loadsz would leave
+> rx_trig_bytes reporting and selecting the wrong thresholds.
+>
+> The core already has get_rxtrig/set_rxtrig callbacks, though. I'll rework
+> this to retain PORT_16550A, supply the H616 FIFO parameters during setup,
+> and use those callbacks for the correct trigger mapping.
 
-	if (data->pdata->setup)
-		data->pdata->setup(...);
+Please consider just taking the FIFO size from the DT. On some chips
+not every UART has the same size FIFO, so we already need to deal with
+it.
 
-which effectively kills that skip_autocfg. This is done in a separate patch.
-Then in your patch you won't need this churn.
-
--- 
-With Best Regards,
-Andy Shevchenko
+Also, FIFO size is a standard UART DT property, though somehow not included
+for dw-uart.
 
 
+ChenYu
+
+> >
+> > ...
+> >
+> > >  struct dw8250_platform_data {
+> > >       u8 usr_reg;
+> > >       u32 cpr_value;
+> > > +     /* Use a fixed configuration instead of probing optional regist=
+ers. */
+> > > +     unsigned int type;
+> > > +     unsigned int dma_maxburst;
+> >
+> > This sounds like a hack.  Why do we need type here? The address of plat=
+form
+> > data is enough, no?
+>
+> The type member selected the new table entry and also identified the
+> fixed-configuration path. The matched platform-data pointer can select
+> the H616 setup directly, including bypassing the incompatible optional
+> register probes. I'll remove the type member and use that instead.
+>
+> >
+> > >       unsigned int quirks;
+> >
+> > --
+> > With Best Regards,
+> > Andy Shevchenko
+> >
+> >
+>
