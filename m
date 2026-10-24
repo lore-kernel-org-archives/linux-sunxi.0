@@ -1,90 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792798727;
-	b=y59dKX4lKlCkjMdarZ91JXYuZzfpMiLJLchiErv3fUfFRHag3Gq+Rksle1SzyOhiQsYZ
-	 tHqWa868trJ5Ndt5oNBhfVfBMPQGDAoD/ETEZwG30NsHd9N34oEqC7nkfljPIluwgpl2H
-	 +Ay0p5rsaot46g1gJ4VfghGeTrqdS1c2KKzjLp/xl1oClnZdYf5W2j2KzAxsoOsu2lGsG
-	 /J1uz0PL2/wZRAOZtCm9DFOMTrsiDxX0Fd2kY5UVBDCMt5mBgzWVqcbUK6etK+T2KDZ20
-	 eerZ2ASyqMjSCtgbeylAG4F6eK9/m36hAJrxbtO3m03BIFedEBPghgANoH4Lq0NBaPA==
+	t=1792839280;
+	b=qTFQR2HmaysjGRnNZVaYWyBNUg2AflOpiWhk5tFcjt1nihkVqJJQRuxozjoMeQxywJFE
+	 aqgrPVYcvM+02JXkfGHmNqM0rnvrY7zJwIpxGdlyeyIoo2rS+zwfgwqz3eIG7Bn5VKzbR
+	 PIRyoCW2sOdxJG2KNMF8A4meFMEsQNmxIoblkQL36Ht5aJHE+U7WN+xg7slJGmPGfFdZm
+	 y/pTYKFBCww7FiT/j8iLWsqqTm2EZmGldzz9g1Fv12b87chP2XL+2xL1p7lpSnsxGwr6s
+	 pPmkdzEz10UcZwMGB/yWnhnXainitBAOJ9tPyZ5NN17p33ldnngVnboLqAD3tdW3nJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792798727;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=R5FazDKhThxOYInKBUow6UStlAet68U4bSmH8n3hkL8=;
-	b=Qtl83rvDTXoEKfG5bi7JdEjeKWXvFPtiZIH1EH1Owy5qSWibimjwswpb7eazln8B85Gg
-	 AGoNWk69IEU0CkeZTPgTHh6CoOZyVV7e6Fq/LtKKXRNAy9CAFdoO923eP5ly3BmgfkiGu
-	 wrHqQA081Erf3GWfUMtZVYZOZSukDJ7n/q4tCVXMOGbrlN1KJaT0W4X2d3uR2EMhPwOrd
-	 GZ2QnUowqweMrgNoJcZQHbADV1CKWQEBV9fynmocJu+ZMsoA4zWyZztprC1D2SBPwgTyB
-	 QId8qMJeGMvCb+JGcgOiHRpvlhR+omCysZdS+dlFlaQGkoBGpnmYkG0u6dfNURgo2Xw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792839280;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=PImphhu3wIi9qvd60NuK0r09MdROw2ZiyCj8HwZ8s3U=;
+	b=FnpD0yXpHRvFXaxTQUmtxRfaFD1e51v++6D6w2xJeTtTt+zF0ke9DUa07LMRT0VEOKr7
+	 ma7yRksA6n5StyDtiYq0E4JNnAGxKrNRpJygaMnFauVpdJE7PpfaeIv26AEH1+g+Cb7fa
+	 TGQ/FR71h52hKbxQnRHOv1ZGHf9v5CsANwMMLbYdIXfq6gpNgcfG6b1p87gd8VfqSDDK0
+	 MQc79vGv+xbdtNO7VUXl+5LFRDcoxqfyT8Umy70Pwi+XCmR66d4mlENrhhPS9nDNYPWCs
+	 QqfbLUqyMC8OzpySosSn5y9ozx5UgXXV3XvTEfJFbru+M0Txaij6lXm0KVDxdhL/QMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=l9p4HIL5;
-	arc=none smtp.remote-ip=209.85.160.47
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lTvkfwR4;
+	arc=none smtp.remote-ip=192.198.163.17
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB0C60A2629
-	for <linux-sunxi@lists.linux.dev>; Fri, 23 Oct 2026 23:38:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EFB0C60A2629
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6F4606A31B
+	for <linux-sunxi@lists.linux.dev>; Sat, 24 Oct 2026 10:54:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED6F4606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=l9p4HIL5
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-475920b9ca2so551948fac.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 23 Oct 2026 16:38:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792798726; x=1793403526; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=R5FazDKhThxOYInKBUow6UStlAet68U4bSmH8n3hkL8=;
-        b=l9p4HIL5ctt8PrNbVV/rbbG4PPAXA9T73teybeEJn8ZM+LIlYx5ymjqLEGApXe94/y
-         b3rrDI1m8czpGRafz7OASjVIhUPzvk4W1LPjj39ximq97qBEw0xUwerTDWdqioObktfn
-         ZBp+ZO95sP91z+vWDzzU+kd9cIqwIcaxEZXFMNmHlrv6nfNkF9jN6YvdxFsnyaGxh5H6
-         a+6oKdiVud8NodLrXYVmZSkxnJYyXN9OHkDdr2kzd7Xmbv4HlliDNaIJRtWWYoMUUAkx
-         d5LcKxOr1PT7eGnThVhckilbo0wkCz+nTNYZWHy/XccvT1m8LgevI1cBAQhBUlNmp0FE
-         AOog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792798726; x=1793403526;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=R5FazDKhThxOYInKBUow6UStlAet68U4bSmH8n3hkL8=;
-        b=qznlD5OYv+AfuBeuOqPkAXA9YYUyKfMBWmIbky273OA+s9wA6zf+56rlIJaQuOCCoF
-         kR8RVh+7Ibie9wLu0S0iftCYEux0tqqI0uCsle1rDqMxXiPZFHRfJy4UL+sCplOG2PhW
-         1MgBrEVINSLaKXp2wp18fl31Atx1mQQ6v68NKjXs//KNQwjQsdeLRgvPyjLWgRBUmpc2
-         bw3bI2jonT9DSSGmkttwK4rP0RdkhSsBh2KhZJabB9+cTv5g4aCYaV/o/hcHLCdu7oW7
-         R/XBjnvnJhSq3k4HvKlDpPb+oLsMGQl01egYdQclKULcJsntqvvwAgo9kwr+tp+DVkQw
-         ve2A==
-X-Forwarded-Encrypted: i=1; AKwUvBy6NOfXHDoxle+TgBtyoSC5ulo8R/MiWlTkx9M5RGV/0terhtaN2D4vp6+UZ/eZ4uJqK+BopX1JAoxwYg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKzulOd+SkiJrfiUiqfNiSrAmDJ6Hn6lWXWmeXi7lEk28l2yHIC
-	4rnTUg7ZPBpsDkv5zUqRzU+aq4uqhjAoCV4hpD2143F+BvIyEsS9GHFCqMyNMr8B
-X-Gm-Gg: AYBFou3fm4MGdkIuKUopzqpoTsYvd396i38CiKecB1y618grj2lcLzcjKzSO1NkM8hg
-	91CidPkIFtgr8fpTms769Ro0uv0Md4xAXdIdM2/1J/T0FKXOP92ZSS4g0mf475fpTZfL59bPvHJ
-	8cnJMFAvjnKrCbvu46Co4zdCtQOfYHXh3ue6aZLHc2ta6jXjOb539Zws2fqj/QVl6f/VGuLQ55O
-	WWJkrn1BCr4nLA62G13MFNv6ZGwgym/Wxwa03lQuGYzCpRkiS/VTE5kU5tfyd1c2MU2WMnRMtYc
-	dcVRvMs7MSJQSacllHLfs0hSPwv6zYdvNIBM9q4neEQnJCsuNkg0c2EczrAdYinrTrJ+NZbIjwe
-	7R6F3qhFzySGSm/t1BJgszl3M+4jXWZCkvVmjClgTPQEdDLcHCwmCqrsViRa0TYoIBrW+V0F4hq
-	FigPfNkmC0bnQvYaINmxQUP8mJL19YhLVr/TkanzAX+WFQsdVD3RKJ6hf0ITM4rOdaWGZtK+0Gc
-	ioMFiUAS00QDMUYPN3VY5GFFyxQMZxXSNYINQDQfClpXo/D821Rzh5cTulUlEfrA0YTwri8SXxN
-	KcznrqYoxbHDgJjII90SLLXHsS7bYJj/DNACHzGnKkDlMjF0vTwmv7C2MmMrdwX94/eshEq0vwR
-	JI8/CPBLl+tJCAkxJTj/MZSfvsF2GO7LwF4S07Plf8qCXzaRCPtNHDTreKeBeGqO88+ZV/hrzuR
-	qB5Fg=
-X-Received: by 2002:a05:6870:8322:b0:4a7:5eb7:ab9c with SMTP id 586e51a60fabf-4a83f58e567mr601234fac.28.1792798725802;
-        Fri, 23 Oct 2026 16:38:45 -0700 (PDT)
-Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a843225d69sm284345fac.15.2026.10.23.16.38.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 16:38:45 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Fri, 23 Oct 2026 17:38:28 -0600
-Subject: [PATCH v3 9/9] dmaengine: sun6i: keep cyclic state with the
- prepared descriptor
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=lTvkfwR4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792839275; x=1824375275;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xz5PQv0ox+JrG5g9K0fQpO/jVvuTlGpeFFcNwDdTuSA=;
+  b=lTvkfwR4btj1IsIhLcBgJBOlmlYMgXIZvgoGr7GaawDJ3Vrxh9ZLXmyA
+   V6he6YNpd7HnbvB5zFhlrashPjMjeGwdzZSiJDidkPFKP9XJbc8h5NtGJ
+   uk55/9kkxgidH5x3kqT1LX5CTWpcp1ypYSSaIeeNg+qoCom9tbvdWkmdq
+   Gj3LHy1446UTW+s2rFYaHCvY6UBJJ4rXkh9fMs+C18AtNw9Irdcxp5TUo
+   VUml7ZSXMC+kJtGhtNMiXg0HdHI8cvHbe39eFn+OVsglw1m0OGO5Sk7TR
+   f2wo9HStm+HkDhDTaJqlfUqngetloZ3wqNlPMb+DPYB10rChXpKM82/VC
+   A==;
+X-CSE-ConnectionGUID: RJWqN7P/S0SF5GtT98lszQ==
+X-CSE-MsgGUID: ilCYYOEfTA20u/cDorE4vg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11944"; a="1588587"
+X-IronPort-AV: E=Sophos;i="6.27,176,1787036400"; 
+   d="scan'208";a="1588587"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 03:54:35 -0700
+X-CSE-ConnectionGUID: IE+gK7i/SBCiQ1gyGE/l2Q==
+X-CSE-MsgGUID: hTBVR/MXRzmLcXOjYpwx3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,176,1787036400"; 
+   d="scan'208";a="4194078"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.221])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2026 03:54:32 -0700
+Date: Sat, 24 Oct 2026 13:54:29 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: James Hilliard <james.hilliard1@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 2/3] serial: 8250_dw: configure the Allwinner H616 UART
+Message-ID: <atyOZcmdRMnpF078@ashevche-desk.local>
+References: <20261023-submit-h616-uart-fifo-v1-v2-0-af0593504635@gmail.com>
+ <20261023-submit-h616-uart-fifo-v1-v2-2-af0593504635@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -94,106 +87,122 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261023-submit-sun6i-dma-lifetime-next-v1-v3-9-ef1acb0be768@gmail.com>
-References: <20261023-submit-sun6i-dma-lifetime-next-v1-v3-0-ef1acb0be768@gmail.com>
-In-Reply-To: <20261023-submit-sun6i-dma-lifetime-next-v1-v3-0-ef1acb0be768@gmail.com>
-To: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Arnd Bergmann <arnd@arndb.de>, 
- Maxime Ripard <mripard@kernel.org>, Jens Kuske <jenskuske@gmail.com>, 
- Jean-Francois Moine <moinejf@free.fr>
-Cc: Hongling Zeng <zenghongling@kylinos.cn>, 
- Chengfeng Ye <cyeaa@connect.ust.hk>, 
- Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>, 
- dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- James Hilliard <james.hilliard1@gmail.com>
-X-Mailer: b4 0.15.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261023-submit-h616-uart-fifo-v1-v2-2-af0593504635@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Preparing a cyclic transfer sets vchan->cyclic before the descriptor is
-submitted. A finite transfer on that channel can then select package
-interrupts and take the cyclic callback path instead of completing its
-cookie. Merely preparing an unrelated future transfer must not change
-the active transfer or the meaning of queued descriptors.
+On Fri, Oct 23, 2026 at 03:19:28PM -0600, James Hilliard wrote:
+> H616 has 256-byte transmit and receive FIFOs, but its optional DesignWare
+> component parameter register reads as zero. Generic 16550 probing leaves
+> the port using the 16-byte FIFO configuration and its trigger-level table.
+> DMA attachment also depends on a FIFO size being available during probe,
+> so these ports do not reach the existing 8250 DMA path.
+> 
+> Keep PORT_16550A and supply the FIFO size, transmit load and capabilities
+> when matching the H616 platform data. Provide receive-trigger callbacks
+> for the documented thresholds of 1, 64, 128 and 254 bytes. The normal
+> 16550A half-full trigger selects 128 bytes on this integration. Serialize
+> trigger changes with termios and hold a runtime PM reference while
+> programming FCR, preserving the FIFO contents.
+> 
+> Advertise automatic flow control so CRTSCTS enables MCR.AFCE. The
+> DesignWare termios path selects hardware CTS handling, so the capability
+> must be present for the corresponding hardware control to be enabled.
+> 
+> Skip optional-register probing for this fixed configuration. H616 has
+> debug-divisor and RS485 control registers at the offsets used to detect
+> DesignWare hardware RS485 and fractional-divisor support. Probing these
+> offsets writes unrelated registers and can select incompatible callbacks.
+> Keep the BUSY-safe integer divisor hook and software RS485 handling.
+> 
+> Use the existing SKIP_SET_RATE quirk to keep the UART clock enabled during
+> termios changes. Its clock is a gate on the shared APB2 source, rather than
+> an independent baud-rate generator.
+> 
+> Attach DMA from the fixed configuration before registering the port.
+> Configure single-byte RX and TX bursts because the peripheral request can
+> correspond to just one character. The existing startup path requests the
+> firmware-described channels and falls back to PIO when they are unavailable
+> or the port is a kernel console.
 
-Store the flag in sun6i_desc and consult the active descriptor when
-selecting interrupts, completing a transfer and terminating it. Finite
-descriptors retain their zero-initialized flag. This also makes callback
-retirement depend on the descriptor whose lifetime is being ended.
+...
 
-The shared state was identified during the H616 cyclic UART RX review.
+> +static int dw8250_h616_set_rxtrig(struct uart_port *p, unsigned char bytes)
+> +{
+> +	struct uart_8250_port *up = up_to_u8250p(p);
+> +	int i, ret;
 
-Fixes: a90e173f3faf ("dmaengine: sun6i: Add cyclic capability")
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
- drivers/dma/sun6i-dma.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+Why is 'i' signed?
 
-diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-index b83138745bd1..2152979f72f2 100644
---- a/drivers/dma/sun6i-dma.c
-+++ b/drivers/dma/sun6i-dma.c
-@@ -191,6 +191,7 @@ struct sun6i_desc {
- 	struct virt_dma_desc	vd;
- 	dma_addr_t		p_lli;
- 	struct sun6i_dma_lli	*v_lli;
-+	bool			cyclic;
- };
- 
- struct sun6i_pchan {
-@@ -207,7 +208,6 @@ struct sun6i_vchan {
- 	struct sun6i_pchan	*phy;
- 	u8			port;
- 	u8			irq_type;
--	bool			cyclic;
- 	bool			paused;
- };
- 
-@@ -507,7 +507,7 @@ static int sun6i_dma_start_desc(struct sun6i_vchan *vchan)
- 			     (DMA_IRQ_HALF | DMA_IRQ_PKG | DMA_IRQ_QUEUE) <<
- 			     (irq_offset * DMA_IRQ_CHAN_WIDTH));
- 
--	vchan->irq_type = vchan->cyclic ? DMA_IRQ_PKG : DMA_IRQ_QUEUE;
-+	vchan->irq_type = pchan->desc->cyclic ? DMA_IRQ_PKG : DMA_IRQ_QUEUE;
- 
- 	irq_val = sun6i_read_irq_en(sdev, irq_reg);
- 	irq_val &= ~((DMA_IRQ_HALF | DMA_IRQ_PKG | DMA_IRQ_QUEUE) <<
-@@ -610,7 +610,7 @@ static irqreturn_t sun6i_dma_interrupt(int irq, void *dev_id)
- 			desc = pchan->desc;
- 			if (vchan && desc && (status & vchan->irq_type)) {
- 				spin_lock(&vchan->vc.lock);
--				if (vchan->cyclic) {
-+				if (desc->cyclic) {
- 					vchan_cyclic_callback(&desc->vd);
- 				} else {
- 					/* Completion transfers ownership to virt-dma. */
-@@ -911,7 +911,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep_dma_cyclic(
- 
- 	prev->p_lli_next = txd->p_lli;		/* cyclic list */
- 
--	vchan->cyclic = true;
-+	txd->cyclic = true;
- 
- 	return vchan_tx_prep(&vchan->vc, &txd->vd, flags);
- 
-@@ -1000,13 +1000,12 @@ static int sun6i_dma_terminate_all(struct dma_chan *chan)
- 		struct virt_dma_desc *vd = &pchan->desc->vd;
- 
- 		/* A cyclic callback may still hold this descriptor outside vc.lock. */
--		if (vchan->cyclic)
-+		if (pchan->desc->cyclic)
- 			vchan_terminate_vdesc(vd);
- 		else
- 			list_add_tail(&vd->node, &head);
- 	}
- 
--	vchan->cyclic = false;
- 	vchan->paused = false;
- 	/* Leave terminated cyclic descriptors for the sleepable synchronize. */
- 	list_splice_tail_init(&vchan->vc.desc_allocated, &head);
+> +	/* Use the nearest lower threshold, as the generic 8250 implementation does. */
+> +	for (i = 1; i < ARRAY_SIZE(dw8250_h616_rxtrig_bytes); i++)
+> +		if (bytes < dw8250_h616_rxtrig_bytes[i])
+> +			break;
+> +
+> +	guard(mutex)(&p->state->port.mutex);
+> +
+> +	ret = pm_runtime_resume_and_get(p->dev);
+> +	if (ret < 0)
+> +		return ret;
+
+Don't we have a guard()() for this?
+
+> +	scoped_guard(uart_port_lock_irqsave, p) {
+> +		up->fcr &= ~UART_FCR_TRIGGER_MASK;
+> +		up->fcr |= (i - 1) << UART_FCR_R_TRIG_SHIFT;
+> +		/* Changing the trigger alone preserves the FIFO contents. */
+> +		serial_port_out(p, UART_FCR, up->fcr);
+> +	}
+> +	pm_runtime_put(p->dev);
+> +
+> +	return 0;
+> +}
+
+...
+
+> static int dw8250_probe(struct platform_device *pdev)
+
+> -	if (!data->skip_autocfg)
+> -		dw8250_setup_port(p);
+> -
+> -	/* If we have a valid fifosize, try hooking up DMA */
+> -	if (p->fifosize) {
+> -		data->data.dma.rxconf.src_maxburst = p->fifosize / 4;
+> -		data->data.dma.txconf.dst_maxburst = p->fifosize / 4;
+> -		up->dma = &data->data.dma;
+> +	if (data->pdata == &dw8250_h616_data) {
+> +		dw8250_h616_setup(up, data);
+> +	} else {
+> +		if (!data->skip_autocfg)
+> +			dw8250_setup_port(p);
+> +
+> +		/* If we have a valid fifosize, try hooking up DMA */
+> +		if (p->fifosize) {
+> +			data->data.dma.rxconf.src_maxburst = p->fifosize / 4;
+> +			data->data.dma.txconf.dst_maxburst = p->fifosize / 4;
+> +			up->dma = &data->data.dma;
+> +		}
+>  	}
+
+This looks unscalable and too much churn. What you should do is to add
+a .setup() callback member to struct dw8250_platform_data and assign that
+to dw8250_setup_port(), and change the
+
+	if (!data->skip_autocfg)
+		dw8250_setup_port(p);
+
+to
+
+	if (data->pdata->setup)
+		data->pdata->setup(...);
+
+which effectively kills that skip_autocfg. This is done in a separate patch.
+Then in your patch you won't need this churn.
 
 -- 
-2.53.0
+With Best Regards,
+Andy Shevchenko
+
 
