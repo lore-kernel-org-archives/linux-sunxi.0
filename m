@@ -1,102 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792936709;
-	b=pj05bawvLD7jgPd+XobrJWeQzbYJLYVLj26zyZC067l3ivsmRxuCJLgdnYuCgRgWbfim
-	 ELp/3vyw0VllCdoUeeNLOYFaJ7uoaPqQBf8ilNzS4stpaSDoIQ4YMtyCe8xl0X46Rz2qZ
-	 f+nlwAi1aTYE37NIuRA+myweoM9m7dGCuevupmPMYctJNFFEMnul1zd2LaeolNPubo+7b
-	 VYURQr3jts49EZsEfA/tVNlG5AgmUDGqfBtpXHE5kqee4IgPxaVIzRq+tsHsa0aLUqzTf
-	 J5ZaHBCEWUvhFP3tpGVzegc+rWdCEgOjLAUIDzEZ8KPqMbR5d86Nzn5L6/KrFYKaC4A==
+	t=1792937187;
+	b=Y2p4OwY896bt+x9JPMbYWo3UEGBYro1XmSHTMCQ4amlsEsgJ7rnbEhIRwAbiLPLqNBEY
+	 UV3jtK34uf33th90v00/SR05aur25cILkXNs4BibYAomR3ZoCUpKW8P79SUeMq2IOJMnv
+	 CSPuZ71Y89zThYYPpMjLG6IAouXVrQJCKH3clplSHmQE9P6l4Pn77UfZogv+GbvaqEx0R
+	 ArXtQigWxo+YRWocu2zUW1GZr/NZXuO3VO+1Q3qP6RWw8Fx6Wutap3Bip18xu8gO+gn6P
+	 ennQsymiybNxWiTKDvSFxCnp+ZS+2ANQiMq2kn/9N8rvp3mCaRl5m0rWKNcmPL7FWsQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792936709;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=qZDW2dez0cOfo2mICduaoV5mJqQ/i8sEV5FUxUvLkpU=;
-	b=qhzEhy8cgcZ0pb1GmvTZ7hmHrw3DpFQc3YEikARk9lTnv+556xi+PHUPBJGdQsdMsu5a
-	 cQfmTiyrlgPEKIOIRPeBtiyjvtZ8qWSU4pN6VX4Bb5J5T/F5tLcNfhO7uyYy1dYdfNUKV
-	 LIroyx3AQ1spQXN0NOvj7BnMRN1357ChhGimxcMeysgFJwQrV/kcLaZTwS/m9QcaAVpGN
-	 KLe/U45uO4Qr2vJ7BTRjB6UzKeFNtsHFceMLQk84et/yepLO+XhAGzFznq84gMMnBPlBK
-	 2jwItP3ufsTRcVIG9l7OPmhnCCyDxejKGvx1aDXQcqvhWKXoYUuBwUyrMPhehN3M3HA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792937187;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=sYFPd41i3hKOPb7ElJhVpPl7TKbKVA+dirHOxIiACxg=;
+	b=kYkkryfPnJ6wzTRe/WgO2FGKhyLuLHkbQMS/aSebGoh1tD6z5QF5Qd4ncEZCMA6gIm/T
+	 RmSsihfP31TrcKMV1Rbp+NsZ4rnqd1USd2PSTxA4FMaHP0dKCBJU1P8sU0WsnDcwYwi1P
+	 Bk9fxKRSuU3QG3X3YmhbKEOwSGjEgZqCMUA6VUzP0KD3Y7oaOZJm+tUIto2UrztcEFcJW
+	 E0LgWynrvNxQ/EdTSI3cE15IpJ1n6Avw99FcgYzdFb5uyEXEJXZb4p65/+Fg/wEG3eBTu
+	 pnj+omrpALnxy5do8BBR0sGwMoIx/9whTTXWAacqgXasEeh7OvY1hNbmvP89WFUCfRA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=jZDL0Cdx;
-	arc=none smtp.remote-ip=209.85.221.46
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B594WxHk;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3587606A326
-	for <linux-sunxi@lists.linux.dev>; Sun, 25 Oct 2026 13:58:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3587606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC482606A31A;
+	Sun, 25 Oct 2026 14:06:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=jZDL0Cdx
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48af4d4e61fso1322729f8f.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 25 Oct 2026 06:58:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792936707; x=1793541507; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=qZDW2dez0cOfo2mICduaoV5mJqQ/i8sEV5FUxUvLkpU=;
-        b=jZDL0CdxdjipTJO20BvpHLfGYsQ5lqFAMhCstRy0IV50CaGfE9Uy59RCjZWKSuird9
-         SjMRstHxBB+W9CZKK3Ns4/Q3RdwJNhkaOFf/AKyTHhYnGlCAUA9/A+/uaKBLw8ch4cMp
-         DpDllyMf3FOn0JwlPJ3N8392lRhjpMNSrgdzWIgqfbcXWrtKfTqYJFOJslkZe4VrysbK
-         KLRyOCWVaImobr0gLOLj1OkLPznQf0kUr1giag5+eCPoSdI804K+UFBpldhmNrsgLQti
-         0MAlIBOnTNeaS27dlo34QKxU6TJK/4F0nV+niJBitf8WHIHnPIK7b0nZb9BGUNcVNJ0f
-         wH1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792936707; x=1793541507;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=qZDW2dez0cOfo2mICduaoV5mJqQ/i8sEV5FUxUvLkpU=;
-        b=x01IduMlq05KL24gn1cz7DxK3SzjhIOpU+6uAf8ZmJwrpDnXY7IlhG537XFiv2EUZO
-         G+v4C90SuCcQxWV5olh85pqTUxFuHnGXI4D17AF0mQ+UVwdvabrAlK0xAj93/Xo7WhWz
-         XVC8wK7Xx1Bo/U+Vbh1bc6FiuzMVz6Tha7rlZnxOMjVJHid5dk14nOwbaBswFQgSL+f1
-         WrCCluRGTsWKrxBZXIYIAuDe+KFzqQabGnwA3nzmwrAwc2sAc9Et2MyuXIEqnp7zK7E6
-         O3xNBbnzgZrQ19XeD4YpO+6V1L4ZFLCf1wucrUH/bHBL5igoqXYt2+XFoh+avOl69n+T
-         tkAA==
-X-Forwarded-Encrypted: i=1; AKwUvByw4gGEgUSWJaxEWKX6PQTiDwxggqHi/Ezjk2BeRAG2kaRaVbX2dRhE/zYUtB9z6+CFFRT94TMs5gytVw==@lists.linux.dev
-X-Gm-Message-State: AFq9FYLE8lTH5aw/7fawIVFFO0g3TDVcNh8mZUeg/OqLZFokYbOGazAx
-	dtP1XmVq132sXDEWIH1f1FZJbt4ZX7VVsE8ncKrBhvVMDBgRU0QrQBKv
-X-Gm-Gg: AYBFou2ZrOafrl+gfjqlZWkx7ulp90DHWy+ObP09qoHOk85iqlXqD6hxCNxcDoMxe26
-	1P4PSSD7YaNbtshyCwtTNMEgWYphiDfOO9Rdp3cQAF9QBOgf3L0SXN21rz6AUWk434QtCfOnvnQ
-	OR+bhICVN7skTNNLV4Uesl2lR6woQUI8s2F1TYpml99XB5kpF8XcsQdq2gu05RWNz0L4BoOqt3S
-	6e82Huu+vVAx+T5aUfz91u1qrQWV1+LSVDFottl/y/C3Mpoh6c7te6RDw2kd/OtdVC1WIzFNZt2
-	RCGHoxJP2qM75TfFZRiSPdo6YumdYCbFQeJ8xqP2UGarub9vL1fsbLDZZ5vp9Yo3reh8xpXfpz5
-	bd1eS3hwhqamh8DXvA/j5yoWU1N9JLfXDcxKD6YWjUh/R1S+6H5ia4/wXYCR4AOcb9ZQRqZkEcJ
-	uAnS3fDOcQxcb0rdJ6cZGPMQXz0mKSnIcynBAnMMzsGZ43/ZrN4/jhDXhG1tI6klA3kMhOwiYJ7
-	p/tVurvq0ncIjZ6vLLz+1F5F7iESFtYr8fB1I5K5ScdnvBfsqdCMUZYQOYSYzCPLtrqFGPv0mMj
-	+jCc1iuE/nF07w==
-X-Received: by 2002:a05:6000:2501:b0:48d:f14a:9173 with SMTP id ffacd0b85a97d-48e3eb247a8mr7109194f8f.8.1792936707263;
-        Sun, 25 Oct 2026 06:58:27 -0700 (PDT)
-Received: from debian (ip-78-137-176-146.broadband.digiweb.ie. [78.137.176.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e4806e208sm5663415f8f.40.2026.10.25.06.58.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2026 06:58:26 -0700 (PDT)
-From: Pablo Mazzini <pmazzini@gmail.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Pablo Mazzini <pmazzini@gmail.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 3/3] arm64: dts: allwinner: a523: drop the PA GPIO interrupt
-Date: Sun, 25 Oct 2026 13:57:45 +0000
-Message-ID: <20261025135745.102970-4-pmazzini@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261025135745.102970-1-pmazzini@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=B594WxHk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 148A61F01825;
+	Sun, 25 Oct 2026 14:06:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792937186;
+	bh=sYFPd41i3hKOPb7ElJhVpPl7TKbKVA+dirHOxIiACxg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=B594WxHkbQEYBjhurEkNH+8eFDOf8E9TVu0XXp2RPXglP9owiAIbZVpKSj1XuSHqk
+	 ULzGPImv8NAa2Xl/yeUzls9P2bcTpv55arDGkj4oKJFCQz6nh9VZg5r9EtJ0IyCB38
+	 TqPQshPLIvBJnLNnk+XJ+PTVWMm3g3BiS10RhJn0uJVcK7uLFo8Jdvg6DaSey9V46r
+	 zlJFLuLW31EmZntbZY6ENIVbB9QUmVmLOfiF4ddcgT+5UvEsd+VpMDQSWjYiKG4MQw
+	 YZJJYvMhm6M+qR1naC88nrtMRXuRU0EEha6o3jiwcefCLRUmxSEmw2Ud4RlfYfEtYI
+	 xW3wik+rcxUWg==
+Message-ID: <sashiko-outbox-184238@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: a523: drop the PA GPIO
+ interrupt
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Pablo Mazzini" <pmazzini@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261025135745.102970-4-pmazzini@gmail.com>
 References: <20261025135745.102970-1-pmazzini@gmail.com>
+ <20261025135745.102970-4-pmazzini@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 25 Oct 2026 14:06:25 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -105,34 +60,74 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The PA IRQ bank is not implemented, and the driver now numbers the IRQ
-banks from PB. Drop its interrupt.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] pinctrl: sunxi: sunxi_irq_base_reg() ignores irq_bank_map on A733
+--
 
-This reverts commit 6b81aa0c8a4f ("arm64: dts: allwinner: a523: Add
-missing GPIO interrupt").
+commit 1d99efa95c547fd409284e1974176bcf35345f69
+Author: Pablo Mazzini <pmazzini@gmail.com>
 
-Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
----
- arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+pinctrl: sunxi: dt: number the IRQ banks from the first one that has IRQs
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-index 85ef492ffeae..fc4d714a96ea 100644
---- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-@@ -129,8 +129,7 @@ gpu: gpu@1800000 {
- 		pio: pinctrl@2000000 {
- 			compatible = "allwinner,sun55i-a523-pinctrl";
- 			reg = <0x2000000 0x800>;
--			interrupts = <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>,
-+			interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>,
--- 
-2.52.0
+This commit updates prepare_function_table() in the sunxi DT pinctrl
+driver to number logical IRQ banks starting from 0 at the first bank that
+supports interrupts, rather than starting from PA. It also updates
+a523_irq_bank_map and adds a733_irq_bank_map to map logical IRQ banks
+0..9 back to hardware banks 1..10 (PB..PK).
 
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c b/drivers/pinctr=
+l/sunxi/pinctrl-sun60i-a733.c
+> index ca82f08a3a65b..3ebe926a1bc6b 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
+> @@ -21,8 +21,11 @@ static const u8 a733_irq_bank_muxes[SUNXI_PINCTRL_MAX_=
+BANKS] =3D
+>  /*	  PA  PB  PC  PD  PE  PF  PG  PH  PI  PJ  PK */
+>  	{  0, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14};
+> =20
+> +static const unsigned int a733_irq_bank_map[] =3D { 1, 2, 3, 4, 5, 6, 7,=
+ 8, 9, 10 };
+> +
+>  static struct sunxi_pinctrl_desc a733_pinctrl_data =3D {
+> -	.irq_banks =3D 10,
+> +	.irq_banks =3D ARRAY_SIZE(a733_irq_bank_map),
+> +	.irq_bank_map =3D a733_irq_bank_map,
+>  	.irq_read_needs_mux =3D true,
+>  	.io_bias_cfg_variant =3D BIAS_VOLTAGE_PIO_POW_MODE_SEL,
+>  };
+
+[Severity: High]
+Does sunxi_irq_base_reg() in drivers/pinctrl/sunxi/pinctrl-sunxi.h ignore
+a733_irq_bank_map when SUNXI_PINCTRL_NCAT3_REG_LAYOUT is set?
+
+In drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c, a733_pinctrl_probe() passes
+SUNXI_PINCTRL_NCAT3_REG_LAYOUT to sunxi_pinctrl_dt_table_init(). However,
+when accessing IRQ registers via sunxi_irq_cfg_reg(), sunxi_irq_ctrl_reg(),
+sunxi_irq_status_reg(), or sunxi_irq_debounce_reg(), sunxi_irq_base_reg()
+only calls sunxi_irq_hw_bank_num() on the non-NCAT3 path:
+
+drivers/pinctrl/sunxi/pinctrl-sunxi.h:sunxi_irq_base_reg() {
+	if (pctl->flags & SUNXI_PINCTRL_NCAT3_REG_LAYOUT)
+		return pctl->bank_offset + bank * pctl->bank_mem_size +
+		       A733_IRQ_REGS_OFFSET;
+
+	return IRQ_REGS_OFFSET +
+	       sunxi_irq_hw_bank_num(pctl->desc, bank) * IRQ_MEM_SIZE;
+}
+
+With prepare_function_table() in drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+now numbering PB..PK as logical IRQ banks 0..9 instead of 1..10, and
+pctl->bank_offset set to A733_BANK_OFFSET (0x80, the base of PA),
+passing the unmapped bank index in the SUNXI_PINCTRL_NCAT3_REG_LAYOUT
+branch shifts every GPIO IRQ register access on the A733 down by one bank
+(0x80 bytes), so PB..PK access offsets 0x0c0..0x540 (PA..PJ) instead of
+0x140..0x5c0.
+
+Should the SUNXI_PINCTRL_NCAT3_REG_LAYOUT branch in sunxi_irq_base_reg()
+also translate bank through sunxi_irq_hw_bank_num(pctl->desc, bank)?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261025135745.1029=
+70-1-pmazzini@gmail.com?part=3D3
