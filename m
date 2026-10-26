@@ -1,64 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793026129;
-	b=j3WGI6prGQtdhB6kAd+TUXqFE5N31ph6tnN17PoEFCvHiEw4pZ8NGvz2sqDFmZIMEb8O
-	 2aJ+zPCAAqU8VcZ9AbwmIDYHiEzKnHXEJcXrgLxqLABSsmvWqQHsyvuT25ePGaYN6cdgG
-	 LoUC2IfkGJlnrcQ9qK1Nkfrbud1US4rRi5w5WVGWKbRkYmXc2Ue1xLhzKTvHdGkdrHHgM
-	 JwchnAWvHUSdPTYZp7TKBkj41C3kDHf1lWkSF1T3idvUGH8Us1cAzT1H3guJmoc2s564s
-	 CvQgcOFKn7ZzEdaJLnuWccw7Z5rfZNlyz96aIgtIXalC4VpngYxL8G7QbMbNU0E/9LQ==
+	t=1793026693;
+	b=Uo/Gi1oUwGaUm5poc8IKSudEGqRSEzPYhiCWpIaamR0NqqY+nNbMNffOLTM6YondEs8E
+	 RItSjDPlFYvmf8tsr+wO5w7Q1Gl0aXCW+HV0OEI2GXahiJ1Shw79fsQINhP8vsODN2gta
+	 7BMCaFRHuC+aDqzdK2JaqnTnj88fYf+ZG5Kfp5R8NERlCj6T83kvF/3sazjZBpvWmyJlv
+	 JoQ/Yyh3e0KSfY7bXDOTHWtrVtVxxYiJYXpZrXr7VV05ftzT8RmAe+edq92+GhbruRsYK
+	 lUBlYykLGE1eSpLqs5MX+DE26tjcb3T6qFM3GM58f8FKwVdXbiaKeHVdY+PO+rkbjAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793026129;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
-	bh=q1uPJJujBlQwMDVIEbVRHxhSYFea8SfgoWYItKkXDG8=;
-	b=LISlcHn/qAZv3nhSNLLMn1W2crDNSaP6V8ptD8a6cb7PohD1w9MX5zk1osBvKZALScIL
-	 sJPLLRHf+8KacNEz5ou6xEi7SD69iu81x9WnPg75qH8Z0r6KEwhCu2VvcBRcxYw2BVUap
-	 GWwo/0S8N9Yto2SlUIPvn7d3b29/U0uI4CaJ3ojDNP23u3VUaCOuYcY4vl/pKo6g9DIzs
-	 aAMcIiN2opFAun8Aff9+XjguzjTgAHuzOTR+BP0HKlZqxIx6YBxx2DggPPbG1E28JY3Da
-	 sEVT6hN08FtcTtFwOdHgoRoR4Rn37rRzIan0nTCs3hQ+OCwbT/x80Rq8Wryebp1PCmQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793026693;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=opYCkF33tcGrVsW2YPyOPeVMNu5s2FEtuvNfzwpXQBM=;
+	b=HJuadzz27Z6/NkHK+Te6LkBega5/vVwDSP9OQTCTd1rD5vtlTbvlqfj7BxJtJH3U+j7T
+	 BJt33/068VIz5Zlf9qm/fYueqlIuxiqo9Co+XDefp80FLvYzI4+cBkuuf7wVZSEYVMrRG
+	 xoK7Gm0hhsxaSyosxxD+Np3VsCo5noOAWaabdmV49M32zP5MmUtxc2GrzIbK0Hhd8AaeE
+	 cXyz48Bss6pYEBeCi0DL6IlRuq/8ltMryCQZK4eL0Uk5VBN45Sf135V0Y7CBduyvpi675
+	 mJ8Zy2d4Ay76I5bfsK6OPrSKeTtR/R0LaRa5bkxABo1eH5cPiCjA14v0qi4d5htuxzQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=puC9kj1L;
-	arc=none smtp.remote-ip=220.197.31.3
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mxbzf9vr;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1109606A320
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 14:48:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1109606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 065A1606A324;
+	Mon, 26 Oct 2026 14:58:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=puC9kj1L
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=q1
-	uPJJujBlQwMDVIEbVRHxhSYFea8SfgoWYItKkXDG8=; b=puC9kj1LBRzDwPO2+K
-	KrVZv1iCMDAqvE7ItxjUiJXBIF7cnYD65P+vsusW8BIMHBtEbA2BVf1grt2L1l1f
-	ZpxEsWX//eaFZpJWWyOL0GrftKs3CmpBVhg03As4ltAYTr2kdEJVBnTKRJJpmizX
-	BpSmCLfnE8092eznbbnCZwSQg=
-Received: from SYPC (unknown [])
-	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wD3P6kmaN9qcCfOCw--.2131S2;
-	Mon, 26 Oct 2026 22:48:07 +0800 (CST)
-From: hsyysy@163.com
-To: Chen-Yu Tsai <wens@kernel.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Simona Vetter <simona@ffwll.ch>,
-	Samuel Holland <samuel@sholland.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Yang Siyuan <hsyysy@163.com>
-Subject: [PATCH] drm/sun4i: report coverage pixel blending for alpha-capable planes
-Date: Mon, 26 Oct 2026 22:47:42 +0800
-Message-ID: <20261026144742.1392695-1-hsyysy@163.com>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mxbzf9vr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0B3C1F01825;
+	Mon, 26 Oct 2026 14:58:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793026692;
+	bh=opYCkF33tcGrVsW2YPyOPeVMNu5s2FEtuvNfzwpXQBM=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Mxbzf9vr8R/5OViEqYtQ4WB7JxEcwL78geVMaEm4xPadM6toNw+aZHR9NnvMqnZ+n
+	 nLW4/F8hfkqhjjG18oUemDppUTSHCOG0H7uz6vd3oe0UMN+utCCBgQ5z7rbQEe8GpM
+	 oexQ3lX1ii0juigCEu8UGQlwa49Rclj5e973K4jMPVqJs0vIwRvZ0z0VFRl3wXBlPT
+	 lny2ezMnnrv2FFr7f12HrCM9sLKjktSjuGyWHIzFFAhI47PyNHh7iwlk1l79761kda
+	 q4ky5o3G7sljebnJzjK1S/W8xKb6QwnsSxNmF+/r12K6egRqmq6O9NLTAt3vSfm9TC
+	 De1/w5M+CHHqQ==
+Message-ID: <sashiko-outbox-185417@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] pinctrl: sunxi: skip unused per-bank supply on
+ controllers without IO bias
+Reply-To: sashiko-reviews@lists.linux.dev
+To: hsyysy@163.com
+Cc: linux-gpio@vger.kernel.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20261026144751.1392715-1-hsyysy@163.com>
+References: <20261026144751.1392715-1-hsyysy@163.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 26 Oct 2026 14:58:12 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -67,92 +59,124 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3P6kmaN9qcCfOCw--.2131S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWryktrWkCFy8CrWxtr4rGrg_yoW5Cw4rpF
-	WrGFW5C34UCr4ava43ArW8ZF43Wa1FgFWFgry7J3s3Xr1qqF9ak3s8Caya9ryUArs7Ar42
-	gw15WFsF9F4DCw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pEpVbDUUUUU=
-X-CM-SenderInfo: 5kv152r16rljoofrz/xtbC7ge16WrfaCcAFgAA3Z
 
-From: Yang Siyuan <hsyysy@163.com>
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] pinctrl: sunxi: sunxi_pmx_request() skips enabling per-bank power =
+supplies
+--
 
-Linux 7.3 added validate_blend_mode_for_alpha_formats(), which warns once
-per plane that exposes a pixel format with an alpha channel but has no
-blend mode property:
+commit 9182c2f5356e50617749f1a17d156851c7683cd0
+Author: Yang Siyuan <hsyysy@163.com>
 
-  sun4i-drm display-engine: [drm] [PLANE:35:plane-0] pixel format with
-  alpha exposed but blend mode not setup. Please fix.
+pinctrl: sunxi: skip unused per-bank supply on controllers without IO bias
 
-The mixer blends a layer using its own alpha channel: ALPHA_MODE is set
-to PIXEL when plane alpha is opaque and to COMBINED otherwise, while
-BLEND_PREMULTIPLY keeps its reset value. That is straight alpha, i.e. the
-DRM "coverage" blending equation.
+This commit skips requesting the per-bank "vcc-pX" regulator in
+sunxi_pmx_request() and freeing it in sunxi_pmx_free() when
+pctl->desc->io_bias_cfg_variant is not set, in order to silence missing
+supply warnings on controllers without IO bias configuration such as the
+H616 R_PIO.
 
-Advertise exactly DRM_MODE_BLEND_COVERAGE on every layer that can expose
-an alpha format (UI always, VI on DE3 and later). This matches the
-existing register programming, keeps userspace behaviour unchanged and
-satisfies the new validation. Premultiplied blending would require
-driving BLEND_PREMULTIPLY and is left as a follow-up.
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunx=
+i/pinctrl-sunxi.c
+> index 31cd142ce0f79..4b877ec1e1836 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> @@ -924,6 +924,15 @@ static int sunxi_pmx_request(struct pinctrl_dev *pct=
+ldev, unsigned offset)
+>  		return 0;
+>  	}
+> =20
+> +	/*
+> +	 * The per-bank supply is only used to configure the IO bias voltage.
+> +	 * Controllers without bias configuration (e.g. the H616 R_PIO) have no
+> +	 * supply to request, and asking for one only makes the regulator core
+> +	 * warn about the missing regulator for every bank in use.
+> +	 */
+> +	if (!pctl->desc->io_bias_cfg_variant)
+> +		return 0;
+> +
+>  	snprintf(supply, sizeof(supply), "vcc-p%c", 'a' + bank);
+>  	reg =3D regulator_get(pctl->dev, supply);
+>  	if (IS_ERR(reg))
 
-Fixes: 860e748bddcc ("drm: ensure blend mode supported if pixel format with alpha exposed")
-Signed-off-by: Yang Siyuan <hsyysy@163.com>
----
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 13 +++++++++++++
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 14 ++++++++++++++
- 2 files changed, 27 insertions(+)
+[Severity: High]
+Does returning early in sunxi_pmx_request() when
+!pctl->desc->io_bias_cfg_variant break per-bank power supply enabling on
+SoCs without software-configurable IO bias registers?
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index 7d894e1eb..ef059ac47 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -283,6 +283,19 @@ struct sun8i_layer *sun8i_ui_layer_init_one(struct drm_device *drm,
- 		return ERR_PTR(ret);
- 	}
- 
-+	/*
-+	 * The mixer blends the layer using its own alpha channel with the
-+	 * pixels not premultiplied (BLEND_PREMULTIPLY keeps its reset value),
-+	 * which is the DRM "coverage" equation. Report it so that the blend
-+	 * mode validation in drm_mode_config_validate() is satisfied.
-+	 */
-+	ret = drm_plane_create_blend_mode_property(&layer->plane,
-+						   BIT(DRM_MODE_BLEND_COVERAGE));
-+	if (ret) {
-+		dev_err(drm->dev, "Couldn't add blend mode property\n");
-+		return ERR_PTR(ret);
-+	}
-+
- 	ret = drm_plane_create_zpos_property(&layer->plane, index,
- 					     0, plane_cnt - 1);
- 	if (ret) {
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index 92dd5a97f..b6771576b 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -470,6 +470,20 @@ struct sun8i_layer *sun8i_vi_layer_init_one(struct drm_device *drm,
- 		}
- 	}
- 
-+	/*
-+	 * Only DE3 and later expose pixel formats with an alpha channel, and
-+	 * the mixer blends them with straight alpha (coverage), same as the UI
-+	 * layer.
-+	 */
-+	if (layer->cfg->de_type >= SUN8I_MIXER_DE3) {
-+		ret = drm_plane_create_blend_mode_property(&layer->plane,
-+							   BIT(DRM_MODE_BLEND_COVERAGE));
-+		if (ret) {
-+			dev_err(drm->dev, "Couldn't add blend mode property\n");
-+			return ERR_PTR(ret);
-+		}
-+	}
-+
- 	ret = drm_plane_create_zpos_property(&layer->plane, index,
- 					     0, plane_cnt - 1);
- 	if (ret) {
-base-commit: 091b06388b117fefdcb63336ac09956a4914b961
--- 
-2.56.0
+In sunxi_pmx_request(), the per-bank "vcc-pX" supply is not only passed to
+sunxi_pinctrl_set_io_bias_cfg(), but is also enabled via regulator_enable()
+to power the physical pin bank while its pins are requested (originally
+added in commit 9a2a566adb00 ("pinctrl: sunxi: Deal with per-bank
+regulators") before IO bias configuration support in commit 402bfb3c1352):
 
+drivers/pinctrl/sunxi/pinctrl-sunxi.c:sunxi_pmx_request() {
+	...
+	snprintf(supply, sizeof(supply), "vcc-p%c", 'a' + bank);
+	reg =3D regulator_get(pctl->dev, supply);
+	if (IS_ERR(reg))
+		return dev_err_probe(pctl->dev, PTR_ERR(reg),
+				     "Couldn't get bank P%c regulator\n",
+				     'A' + bank);
+
+	ret =3D regulator_enable(reg);
+	if (ret) {
+		dev_err(pctl->dev,
+			"Couldn't enable bank P%c regulator\n", 'A' + bank);
+		goto out;
+	}
+
+	sunxi_pinctrl_set_io_bias_cfg(pctl, offset, reg);
+	...
+}
+
+Most Allwinner pinctrl descriptors leave io_bias_cfg_variant as 0
+(BIAS_VOLTAGE_NONE), including sun4i_a10_pinctrl_data in
+drivers/pinctrl/sunxi/pinctrl-sun4i-a10.c (used for A10, A20, R40, V40),
+a64_pinctrl_data in drivers/pinctrl/sunxi/pinctrl-sun50i-a64.c, and
+sun8i_v3s_pinctrl_data in drivers/pinctrl/sunxi/pinctrl-sun8i-v3s.c:
+
+drivers/pinctrl/sunxi/pinctrl-sun50i-a64.c:
+static const struct sunxi_pinctrl_desc a64_pinctrl_data =3D {
+	.pins =3D a64_pins,
+	.npins =3D ARRAY_SIZE(a64_pins),
+	.irq_banks =3D 3,
+};
+
+However, boards using those SoCs wire physical per-bank VCC-Px rails to
+switchable, non-always-on PMIC regulators via vcc-pX-supply in Device Tree,
+such as arch/arm/boot/dts/allwinner/sun8i-r40-bananapi-m2-ultra.dts:
+
+&pio {
+	pinctrl-names =3D "default";
+	pinctrl-0 =3D <&clk_out_a_pin>;
+	vcc-pa-supply =3D <&reg_aldo2>;
+	vcc-pc-supply =3D <&reg_dcdc1>;
+	vcc-pd-supply =3D <&reg_dcdc1>;
+	vcc-pe-supply =3D <&reg_eldo1>;
+	vcc-pf-supply =3D <&reg_dcdc1>;
+	vcc-pg-supply =3D <&reg_dldo1>;
+};
+
+&reg_aldo2 {
+	regulator-min-microvolt =3D <2500000>;
+	regulator-max-microvolt =3D <2500000>;
+	regulator-name =3D "vcc-pa";
+};
+
+Similar non-always-on per-bank supplies are used on A64 boards (such as
+sun50i-a64-pinephone.dtsi, sun50i-a64-pinebook.dts,
+sun50i-a64-olinuxino.dts, and sun50i-a64-teres-i.dts for vcc-pd-supply,
+vcc-pe-supply, and vcc-pg-supply), A20 boards
+(sun7i-a20-olinuxino-lime2.dts), and S3 boards (sun8i-s3-pinecube.dts).
+
+If sunxi_pmx_request() skips regulator_get() and regulator_enable() when
+!pctl->desc->io_bias_cfg_variant, won't these per-bank regulators remain
+unenabled (or be disabled as unused at late_initcall by
+regulator_init_complete()), cutting power to active pin banks and attached
+peripherals?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261026144751.1392=
+715-1-hsyysy@163.com?part=3D1
