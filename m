@@ -1,99 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.171
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792972720;
-	b=Kj02BT9DhsnEl8Fpvb1NuL0Nri0u9mmC6SYS7XazunidNheK+M4Urj8cM3pcSP1voi62
-	 TwagwnzX2VLMrfZXxNfo+YavDI1BuDPdcBLuIBdBCawBl2KfJp9tEfsIh8lV6hlff2rcy
-	 DBxnDPgEvECKlThRDer6yZbg/s5Gw3i1qMFDzABZl1V6BqYqdnKXwXZFO/FPi0UWVbRjC
-	 RZ8fBJwEf+Y7UDHq7zejYgB1AYMYQeql1qZ+NnilER31ODIBRTwH8s8HVRjbtEsIYDsGM
-	 M8KU8Trl/9Eaev6teRnIKczP5UDj+fJgP3Ys1FxkKjLQC1GdxkGJwVhod4w17GfPTlg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792972720;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=ikb9/V5iAlmy8zH9iEswyqh7X1ACy082GM3v+SCnybM=;
-	b=QEX4RDnEY3AKK/NpaZ35oqMzU5XLigfUNOtWYg0Y580nID3dOpQJnRnvmXhsd6iGkw0L
-	 /7iI30qAGaC72ZTDCELUZ71WDpvem/f6bdehiD25L3jXZv5ExJl7W2iVFxnBbjmPx8HE6
-	 yUNyjjwhJN99l3GtAefwYccwT4O1ytmLtlpJaXMFjxHOJ664EmeK36IXvu6GuXtTxAVYM
-	 VETcnGHOBur7/IyLok4IM4U6J/ga0uXRhFn//0bzJXCCizTNYe4bb3J6AdbFXxSK7WPc8
-	 iUL4oTFALCAlPKPHNU7HmnSW2AYET9mOZjO5wAX/+psU7i6nTopcAWp7lh/xpJ8/H4Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=VAJGgr9V;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.171
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793013022;
+	b=OI38FGdNJr7dwBDqZ0B8SjnPSShJGhlSnBqyh7QXWhbftRUUMSDBMj/IG0fmbeOSPZdb
+	 6VRNinP+ZNBH+zPhtQpLy7DaldohMLWQtDfdpE8tfsCYzEPUMSMcpvSHOeYouLPy5Ey8R
+	 AGO2Eyhs5OBuI/NFmmymj62LkDwD5rHtUbv/UhdLOfJjoXXHOo+ZEuHZ+XbvZFDDNIMm9
+	 ANugm6Wb0TrEUsyysVD5DM0O5e1h1loqUz0pfPKtqSIHjuRcHOV+H0k+y5+NxQIhOVSCL
+	 aXsoONgFbalVPkqCrau2mucz5eXNg6Wpmc5TAruOXDKBIhhfzYKXUO8Fs4gH0vAjN3A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793013022;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:
+	 Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
+	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=GN8AjaZA2KV/dRc58kbCFKDPB1a4uoE8ENNZKwDJCck=;
+	b=O06gnEuHN9E80B6JUvXD0sTiNRBbOBN4HnX08S3lq+mTmbWrr6OKA2Vr5uSwaQS9rddD
+	 jlUOSZasF4N0VWbRviD1/d9QtbDZMtAWbzUTY4apobrLRRulyVSUQ4WBYfYKQeOzZw2q7
+	 9TRzlwd5mJH1gXKbLUhFnUiPqy/AXLrbeLJNm3ySag09rxkDX8Brf2FyrxNRZf1D3mL2/
+	 3sghz5D75BaMI8+iSrH1Idf7/3rvlK610suDa9r5+kSoEy26yGwrKzTXoGv5BLzOEs5P2
+	 snl3F4GEdysQk0BY+aMxUxAT0/QogiaJ3wwsADz7BJXukUKlnZNhAXeYx0WV+iehuAA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ECUUVF06;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=iCyFmUca;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62BC606A31E
-	for <linux-sunxi@lists.linux.dev>; Sun, 25 Oct 2026 23:58:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A62BC606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A90606A32F
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 11:10:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9A90606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=VAJGgr9V
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-5ec3561ad43so105147e0c.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 25 Oct 2026 16:58:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792972719; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VBOQFtUMZqSNrYysKU2rz2LkB5FDzDFLTlO9Gw69poXHwJIo2sFXnjZj+xy3J1MxO/
-         CYgiXYn91JZ7W8eLSZz4tKXeI/xalDOmDrsk39FslzeYbaYsE0rGUEQWXrEEpGKWixX4
-         FOimC/foDj6ULUKeEjr6bi0Yx3Pbi1lzYocAcMwz76K8PjWlEO+v1RRvIitQymnIP8Z8
-         bDETSsh5q6PbyN0AMqSNGWvyId59kLrdtKUd/48lTnEzNmsEjkLG3JNh7u4Bvwkq5mN9
-         uyVySM6HNHvsCQ79c3IJuEthazOg42b9EPUU0qDUk0u1O2T3uwCV1pEHvXqUDBh+Tnyf
-         d9Dg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ikb9/V5iAlmy8zH9iEswyqh7X1ACy082GM3v+SCnybM=;
-        fh=L8i6B/dCB24fLx/a42XKRiEVHp7TlTGm4ewWYvowGCw=;
-        b=euqMWd/eSYMl1cMMgRb2kFYjBw8O3kl3gnC+MykIjxMFXxS6il2fFrUp/5a1ui5htB
-         wddwVW9ugPtQyopmXcxYUusYAm1gLgALR1M/vgD2Ggp3V/3fgxgBRIsJwX3hAS7LYzrp
-         qbudUNagNwd2qFvxeqSzYfpZEF+LhsT6ceD8rHO85E/zScTCp0tEUBIqmhJXvNFXj2/9
-         0qRVfljuQRK77t0Fe/p8sPtpV8aXSml4CRKKIOBJXfGttg3i4aPhL0tnUphUAAUxseNs
-         9pg2FKh7l2VaSK32/MtoNwVd2Ctndx5pCuMdpXJkJYatJqmnOrO7ANlk20tmhHRCudwk
-         QyZw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ECUUVF06;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=iCyFmUca
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69QAtDoh2734116
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 11:10:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=GN8AjaZA2KV/dRc58kbCFK
+	DPB1a4uoE8ENNZKwDJCck=; b=ECUUVF066jvbqQJG9QaidJNgZqka7pJ7uTZDAf
+	l4jWr9mREvagPO1rBdPa/0vh1A6Oi6BYXcJ76lze5gh2H4snVK5z4taBubEEL6fw
+	efgMw/ggF8ufOEbjSPXjquIiojjAjQFe3mEc17+CwJCwc1wQTcmTW9sCwr7Yg78V
+	1mg2HfIFi01K3N/MYd9ER1Q/2f/mNYffrHO1osVJ95FwL6KMjK+X2vFoflwIfmvB
+	DZn0n2JKmfz6+sJGnknhumjjRFsT1KMiRigMZfId5NFp4uEZZTrGRxzT19hDaVLw
+	J5++pAlxiGOyLWqSxnLxPDIaLIrEWNKPukkz4Fc0rU8DN+8Q==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hj4cp8b6p-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 11:10:20 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93f559420f3so267882385a.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 04:10:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792972719; x=1793577519; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ikb9/V5iAlmy8zH9iEswyqh7X1ACy082GM3v+SCnybM=;
-        b=VAJGgr9V36J926LHT4gdVvWJySV4B4MbCLscUOca9SEPEeMuzKW4J6IiJpCa7zwC4x
-         49/pcqV40TJX73pUsPCcltig3eTNrG/CdHd4FLK1nByA3dbM012UFpW8Iy84lp6l2rjE
-         s4H7QGU5GRmeoemmSGhCwVGyuFk+d+JSxpZih85XkPoeaXcDBZN14IHalcnF51nzpDuV
-         YObQE70nW7y0KSsBY9MXP3CbdcfYVyX4jQxf12t3U86ASRu52Mfwo5ZH1W5x/lyO2duw
-         AKsGiWiN1hMwExLlh0IjketNQYtdiEreKwZqIWV1qjxvks0gVM8a0BYp536t/eMYMmgt
-         Umrg==
+        d=oss.qualcomm.com; s=google; t=1793013020; x=1793617820; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=GN8AjaZA2KV/dRc58kbCFKDPB1a4uoE8ENNZKwDJCck=;
+        b=iCyFmUca/pqR1GGt2yO+YWgCF9OV+z47yaMg/7AdRO4HG3JOE/u0aYiaHs4EHzSWgn
+         w4PfRXfvaVn4DKb6DnN72BwTNhWvhS0jj55FZ4sJXTqx4zZ/90cWS5T8/WXS6Z1KZZQe
+         iKKkumylRW6ZN0nc7T+ysqDVIxDPPzYdy5fsSMWb71qoatO4RRqiMw7C/BqciPk5T1f0
+         f8BjJIMrnSN40tpNDYOmSDAIgo1N/79rSUUJ2qiUpkjhQ+ek75z5pCPvXYMLo8ZZOD4l
+         b5opTsgGvD7gwEGnEzgLbfq51pRae1gfSC6vxTtX5TRG2zrHwiRrAUEkHZ8AK5WxGF2i
+         3kEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792972719; x=1793577519;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ikb9/V5iAlmy8zH9iEswyqh7X1ACy082GM3v+SCnybM=;
-        b=dYrqzva7Te4EhRB9M8H8Q5OhxYqh63KSVf/sc/qsMCNiViFo10U5b6LCrNBPiNTi8D
-         f4rZGt6399z7cgRun38yFXaW0ua30Nk7ww8Mx4CJ3SgHo5ZBXk5uCupqY4RKrCdX0XoM
-         5FNQf2fjP10fplr71KHAHHKlrbuP3tenlMZwJ+BxQCB7Pg6XEV+uLi6r1m1oQVkdD9A9
-         yX957kJooDUFZlbUSAhaZKfseJXFhJr5rc6zWgOuajf3e/SKM7oIdk4CLzx/dMcKsGsm
-         +CrPEhBnhvoBcMCynsZFG6obDgpIFaQIBDp6jimSfGIoYmcZAdHhuecgbs53ILh2B4+T
-         V4TQ==
-X-Gm-Message-State: AFq9FYJNsU3A1i8q2W6nKH2I6b8feu3IJbO5/RGOwkbgc8s2Q/SpNcmh
-	CTs6ja4ipmpnC6xFE9V0zl3ajvpHd9SGeD8xSSjk5SCMeP1/BwTArck4gE+pTt9VSRhj1HJSSc7
-	GlK7wSVt6KdrD2QhERnatQn5Dc513Wqc=
-X-Gm-Gg: AYBFou2KOqgRu6qyTRWGJU3gfnDhzrexgap/n4/8WigqbVfS7L0bfszQhm5MudDloqH
-	QL/r2jrpF8yUjhhKLRMp+GZTIi6/MZfEm2Ke7AJ/Qw4tBOax3IpLH6S6GIkgeinzEOrXukcN4xg
-	rfUw+gF/5XcTVH5h07jdswQF4qLpdQDpJndn1qrfVXhTUzF3arw4xHIhOwO6EInJ3a4teo3kNNG
-	ncJdX1KXsaTsCzIDqc0wncz4T7Ta6xIas3PXx0kfx0W2QVsve4PqZGVCTRWI4YqDmE+WmehXvm4
-	ZYRBmRCnoWnHB9xYcGGbtiCZrzT5jTfVhRlRiQ68peuzyyYaQCIWeRLC3uhn3tW9Jz9KQ69EZCh
-	afE3EvXQWAYI+oPVgbVAgK/csX4l9+mBF/MiHKImYuxMvirmg4qZUPZFh1zdZUlCU645a
-X-Received: by 2002:a05:6122:4b08:b0:5ea:ea07:b119 with SMTP id
- 71dfb90a1353d-5ec232ecafcmr1748107e0c.16.1792972718622; Sun, 25 Oct 2026
- 16:58:38 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1793013020; x=1793617820;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=GN8AjaZA2KV/dRc58kbCFKDPB1a4uoE8ENNZKwDJCck=;
+        b=NtSTXYUrkWovjyXhaWP4CU743f8DHoKaig6XeTX8x8wX1Bqz5nE1kH882YdUq7kzdv
+         YpnYcFGDXGAix7a9nys2ZiOjorD7PImEzdLPYo7ueVUT/Scxt1RArmaPPJu7Y+Wv6Pss
+         l4uRD137lJQ759OV42V0zG/rkeXTcmkj88zI/ZaJmzwYfqd172idRyB0oT02SVnlQf+3
+         qFXVyqB8ik6qDOjZnt+BPRvE9F/bLpYSJwZidW8HBSaj22A14sGJtkTblAsiA3Qrekwn
+         3PqKxXURjslFzqx6L/LCeSq+Qt4YpCXraofNAVkRhdGzs98f8oqV2aSbtmH0kfka18PW
+         Hjpw==
+X-Forwarded-Encrypted: i=1; AKwUvBwi3gYG/gqzf4DkK7zJYciY0tL6TjtI+5GEy87SJhjP0TNVy11UltdNO//WcSYpPWlmVqAaTG1Yk5qh3w==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJEBP1Y3OShUuwn2ZygYMGnC6ooGBHsWaj+h7aHcVlO/kzKhq6O
+	GRmx2nIfIq7qIvpbtCVzAzC1bpZDoHiVvGCpfoXMllyoIZYfTnEcunWoU3Mi68J++IqYP9Gve6I
+	tOXA3epRX/R3yRzNfFdLh6erEac+FacnzSTkJTpCsT0kWDsZcPT2plk9hROaX2Hgp3w==
+X-Gm-Gg: AYBFou2KSF0/Ue0/MgLE4YwLGGaavYZWxczwx4gaaIvOtjpje5Hpb2gDtlDrhhPPk/P
+	fsb7HKBZ1Ve2Lsmm88PJzAi7B9KIcJe5AHqqUHHWThvlz7gJDFiZjjFQrNxDLWDC+uef+wdLc40
+	IlRz+LXomngKBMOVLfqWy9dJp9UI9l2EgxZf4gpjdWzl54bjgGSOL2SIsjZLfKyk+IKkYHiY4Ka
+	ulnsskxoN8KVAeLMmIia2a4sBNHBhrPj3UeXqrXw9jrXi/xXhq+Zg0OSG5jzTOHrBAwg94by4/R
+	6+qR1Q17gJ6pxLd85FcZHD2XdWgK23JEm5esjY7Bai/rcnpQvXIYu83EiM0DqrMoOzwxGShOL2F
+	vpc3An7ON5PLFwSUfa0WExsO3VvEii8jgLGi39xp6pSO7vhsIaj5jilvnTZnnyBa33LafRs7sES
+	vjqepCLaDqyJkb
+X-Received: by 2002:a05:620a:4592:b0:93d:f7ac:4706 with SMTP id af79cd13be357-940ef7d3955mr1003491685a.9.1793013019305;
+        Mon, 26 Oct 2026 04:10:19 -0700 (PDT)
+X-Received: by 2002:a05:620a:4592:b0:93d:f7ac:4706 with SMTP id af79cd13be357-940ef7d3955mr1003477485a.9.1793013018435;
+        Mon, 26 Oct 2026 04:10:18 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5bfb7a950a3sm1455459e87.68.2026.10.26.04.10.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2026 04:10:17 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH 00/35] drm/panel: let the panels use the atomic state
+Date: Mon, 26 Oct 2026 13:09:49 +0200
+Message-Id: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -103,216 +115,405 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261022-sunxi-orangepi-3-lts-v2-0-70b899252c6a@gmail.com>
- <20261022-sunxi-orangepi-3-lts-v2-2-70b899252c6a@gmail.com> <sashiko-outbox-181088@kernel.org>
-In-Reply-To: <sashiko-outbox-181088@kernel.org>
-From: Cristian Filipescu <filipescu.cristian@gmail.com>
-Date: Sun, 25 Oct 2026 16:58:27 -0700
-X-Gm-Features: AclHuK8RB7C1lose4hGybdb-vlgT7R9BOK8Q4taPUha9OJ1M6_c3vVkZYCkcIoI
-Message-ID: <CAH87RzS2HTqRS=JjYiU=dRfvJp4nTiZCih-jy9CFyFB=ZnanYA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] arm64: dts: allwinner: h6: Add Orange Pi 3 LTS
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, robh@kernel.org, 
-	conor+dt@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAP4032oC/yXMTQqDMBBA4avIrDuQWPy9SunCJBMd0SiZWgTx7
+ o11+S3eO0AoMgm02QGRviy8hAT9yMAOXegJ2SVDrvJSK/1EF2dcu0AT+i1YQeWNLRrj6qpRkKo
+ 1kuf9f3y9b8tmRrKfawPn+QPncvtCcwAAAA==
+X-Change-ID: 20261013-drm-panel-funcs-0fbc59bd8790
+To: Douglas Anderson <dianders@chromium.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Jessica Zhang <jesszhan0024@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Jyri Sarha <jyri.sarha@iki.fi>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Robert Foss <rfoss@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Paul Cercueil <paul@crapouillou.net>, Marek Vasut <marex@denx.de>,
+        Stefan Agner <stefan@agner.ch>, Frank Li <Frank.Li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Linus Walleij <linusw@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+        =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+        Andy Yan <andy.yan@rock-chips.com>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>, Inki Dae <inki.dae@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Peter Griffin <peter.griffin@linaro.org>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Alison Wang <alison.wang@nxp.com>,
+        Paul Kocialkowski <paulk@sys-base.io>,
+        Yannick Fertre <yannick.fertre@foss.st.com>,
+        Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+        Philippe Cornu <philippe.cornu@foss.st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@foss.st.com>,
+        Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>,
+        Thierry Reding <thierry.reding@kernel.org>,
+        Mikko Perttunen <mperttunen@nvidia.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Jagan Teki <jagan@amarulasolutions.com>, Ondrej Jirman <megi@xff.cz>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Igor Reznichenko <igor@reznichenko.net>,
+        Michael Walle <mwalle@kernel.org>,
+        Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+        Jagan Teki <jagan@edgeble.ai>, Jianhua Lu <lujianhua000@gmail.com>,
+        =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>,
+        Purism Kernel Team <kernel@puri.sm>,
+        Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+        Joel Selvaraj <jo@jsfamily.in>, Icenowy Zheng <icenowy@aosc.io>,
+        Michael Trimarchi <michael@amarulasolutions.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Casey Connolly <casey.connolly@linaro.org>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Cristian Cozzolino <cristian_ci@protonmail.com>,
+        Junjie Cao <junjie.cao@linux.dev>, Ryan Brue <ryanbrue.dev@gmail.com>,
+        Nickolay Goppen <setotau@mainlining.org>,
+        Stefan Mavrodiev <stefan@olimex.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+        Robert Chiras <robert.chiras@nxp.com>,
+        Alexander Koskovich <akoskovich@pm.me>,
+        Markuss Broks <markuss.broks@gmail.com>,
+        Artur Weber <aweber.kernel@gmail.com>,
+        David Heidelberg <david@ixit.cz>,
+        Dzmitry Sankouski <dsankouski@gmail.com>,
+        Yedaya Katsman <yedaya.ka@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-mips@vger.kernel.org, imx@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+        linux-tegra@vger.kernel.org, linux-rpi-kernel@lists.infradead.org
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=15762;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=WbLlzAO9RXIQix7Q1voClvMQtNLZHdIsKY6Rg/IyJX0=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBq3zUBXY1ouoWCjChMbl7mPq8TiXrQG0qEmSuBj
+ cIC8Sn+ZbGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCat81AQAKCRCLPIo+Aiko
+ 1dQUB/9qeMU54/7a41w3LggyOuuJS2TWEjfaEkAz3vTHLeEOZdJEKcwwj/v6PiwY5h0mF7Z9qLi
+ 7i36b+iEFTnQ1p9fUulKSuzDYoHDSty8Pd6ZqJApSQuPeavAAwDjtidScu8A4alj2wvst2+zriN
+ cYEAVtja0KZSwkywSpgTy+RQDnRMy/bjOew6XlEnJ8EX0SP+w8uFxpa4ppk44/vv44+XmtSshzu
+ 6rzUjzgvFid2h1yBQLRvbtFrWG0UylcqILraFA8LqBVM6+HexmsPyQA6SCZRfOHRIHrhbnkGVec
+ vUw0rE6XdvS+rDC6BFfvPggvoUsrg6fblExDHIlL8p9NY2Hx
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI2MDA0NCBTYWx0ZWRfX7HqbovRjZGT4
+ aMfNHlmqOrZHPdu0pzM6By/zWFOtg2okiTzIaZPLQgko1lE74ienI2V7jAmu5HO9LABG+2iIj6j
+ 3lW3gwU3+PGVunYlyfAUYXBd+s+1W+vfA/S70WNEayEDX6rcBlXYSVxY7GyRcqCCY5nFvCzdZVo
+ BW40ccAHREvs1lLwqSN6pmipW9qQrNpn+Oo4awZCKKFf4jNLe79WoHgoTCTeP6PyA83YUL9Nn2P
+ 3EmDXQVIe2qDmWR0sEkLtWxTFTF4FmHFDeiAA4rNm3dbwJHf/rcDJNNgcCeNFzxsHD8D/2uUMBS
+ aZk6bxMu3UZ1dC0qmlHD2XjtmeRLPkVby08L20kW0TLyp4PALWZN/6V6gqqkt+MYAXT7njNUb5x
+ jElUdmW/vRmtdoXnS4cfie6Y5I53JjRX6QkqdTw0J4W269a5VQc3FaOUvKevYYqh18KyvE3tjVs
+ I7TPLi6+Qu7mRMcXfkA==
+X-Proofpoint-GUID: 2NHVZMhhCSF6hiB3767zrF5LIFA7fDmQ
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI2MDA0NCBTYWx0ZWRfX6mSPYYRLyq8+
+ WvdAFXn7bgLHvNg4GAsoYdWkJrnk/zBy8mjnU/G/p6q3Fz0tqQ2fARNPLcoAZCmtdUoy6FKN+SF
+ rf8+Q3eYai69p+B/uXZOSt/VmYCeVn4=
+X-Proofpoint-ORIG-GUID: 2NHVZMhhCSF6hiB3767zrF5LIFA7fDmQ
+X-Authority-Analysis: v=2.4 cv=TboDJhQh c=1 sm=1 tr=0 ts=6adf351c cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8
+ a=scXMUnCTZPnnbQHXwmsA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-26_02,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
+ spamscore=0 clxscore=1015 adultscore=0 malwarescore=0 suspectscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610260044
 
-Thanks for the report. Both issues are addressed in my local v3 draft.
+The panel is the only element of the display pipeline which never sees
+the atomic commit. Its prepare() and enable() callbacks get nothing but
+the panel, so a panel which has to be programmed differently depending
+on the mode can only guess it. The NT35950 driver, for example, saves
+the connector in get_modes() and reads connector->state->crtc->state
+while being prepared: without the locks, from the current state rather
+than from the one being committed, and with no way to reject a mode it
+doesn't know.
 
-The LEDs now default to green power on and red status off. Both also
-use drive-strength 10, verified on the board.
+Every panel has a struct drm_bridge embedded into it, and the bridge
+already has all the missing parts: atomic_check(), a state object which
+can be subclassed and the commit passed to the callbacks. Rather than
+growing struct drm_panel_funcs into a copy of that, let the panel driver
+provide struct drm_bridge_funcs for the embedded bridge. This is opt-in:
+the panels which have no use for the atomic state keep using struct
+drm_panel_funcs and are not touched by it.
 
-PHY reset is now on the MDIO bus, with the explicit YT8531C PHY ID.
-Five interface down/up cycles and three MAC unbind/rebind cycles
-passed DHCP and ping, retaining the configured 125 MHz clock output.
+To get there the bridge callbacks become the entry point to the panel,
+with drm_panel_prepare() and friends calling them rather than the other
+way around. The panel core still has to track the panel state, notify
+the panel followers and handle the backlight, so the driver doesn't fill
+in the power callbacks directly, it wraps its functions with the macros
+doing that part. NT35950 is converted as the first user.
 
-I also tested 1.8 V eMMC DDR52 at 50 MHz and HS200 at 150 MHz.
-Repeated reads and patterned writes passed in both modes, with zero
-reported MMC errors and the original data restored and verified.
+The bulk of the series is the cleanup of what the panel core and the
+bridge need from the panel driver, so that a panel providing the bridge
+callbacks doesn't need struct drm_panel_funcs for anything:
 
-I'll allow more time for review before posting v3.
+- get_timings() had no callers.
 
-Regards,
-Cristian Filipescu
-------------------------------------
+- The connector type was stored both in the panel and in its bridge, and
+  the display drivers could override it while creating the panel bridge.
 
-On Wed, Oct 21, 2026 at 11:21=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
->
-> Thank you for your contribution! Sashiko AI review found 2 potential issu=
-e(s) to consider:
-> - [High] arm64: dts: allwinner: per-PHY reset-gpios and c22 compatible br=
-eak YT8531C
-> - [Medium] arm64: dts: allwinner: orangepi-3-lts: swapped LED default-sta=
-te values
-> --
->
-> commit e75611867d87d079b20765ad9c1ddf5482d2d71a
-> Author: Jernej Skrabec <jernej.skrabec@gmail.com>
->
-> arm64: dts: allwinner: h6: Add Orange Pi 3 LTS
->
-> This commit adds a device tree for the Allwinner H6-based Orange Pi 3 LTS
-> board, describing its regulators, storage, wireless module, LEDs, USB por=
-ts,
-> HDMI, and Motorcomm YT8531C Gigabit Ethernet PHY.
->
-> Link: https://lore.kernel.org/linux-sunxi/20250413134318.66681-3-jernej.s=
-krabec@gmail.com/
->
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3-lts.dts=
- b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3-lts.dts
-> > new file mode 100644
-> > index 0000000000000..e6aa0b2e17ebe
-> > --- /dev/null
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3-lts.dts
-> [ ... ]
-> > +     leds {
-> > +             compatible =3D "gpio-leds";
-> > +
-> > +             led-0 {
-> > +                     function =3D LED_FUNCTION_STATUS;
-> > +                     color =3D <LED_COLOR_ID_RED>;
-> > +                     gpios =3D <&r_pio 0 4 GPIO_ACTIVE_HIGH>; /* PL4 *=
-/
-> > +                     default-state =3D "on";
-> > +             };
-> > +
-> > +             led-1 {
-> > +                     function =3D LED_FUNCTION_POWER;
-> > +                     color =3D <LED_COLOR_ID_GREEN>;
-> > +                     gpios =3D <&r_pio 0 7 GPIO_ACTIVE_HIGH>; /* PL7 *=
-/
-> > +                     default-state =3D "off";
-> > +             };
-> > +     };
->
-> [Severity: Medium]
-> The commit message notes that the green PL7 LED is used as the power
-> indicator. When gpio_led_probe() -> create_gpio_led() in
-> drivers/leds/leds-gpio.c parses the leds node, led-0 (red PL4,
-> LED_FUNCTION_STATUS) is turned on and led-1 (green PL7, LED_FUNCTION_POWE=
-R)
-> is turned off.
->
-> When the LED functions were swapped relative to sun50i-h6-orangepi-3.dts,
-> were the default-state values on led-0 and led-1 accidentally left unswap=
-ped?
->
-> > +
-> > +     reg_gmac_3v3: gmac-3v3 {
-> > +             compatible =3D "regulator-fixed";
-> > +             regulator-name =3D "gmac-3v3";
-> > +             vin-supply =3D <&reg_vcc5v>;
-> > +             regulator-min-microvolt =3D <3300000>;
-> > +             regulator-max-microvolt =3D <3300000>;
-> > +             startup-delay-us =3D <150000>;
-> > +             enable-active-high;
-> > +             gpio =3D <&pio 3 6 GPIO_ACTIVE_HIGH>; /* PD6 */
-> > +     };
-> [ ... ]
-> > +&mdio {
-> > +     ext_rgmii_phy: ethernet-phy@1 {
-> > +             compatible =3D "ethernet-phy-ieee802.3-c22";
-> > +             reg =3D <1>;
-> > +
-> > +             motorcomm,clk-out-frequency-hz =3D <125000000>;
-> > +             rx-internal-delay-ps =3D <1950>;
-> > +             tx-internal-delay-ps =3D <1950>;
-> > +
-> > +             reset-gpios =3D <&pio 3 14 GPIO_ACTIVE_LOW>; /* PD14 */
-> > +             reset-assert-us =3D <15000>;
-> > +             reset-deassert-us =3D <100000>;
-> > +     };
-> > +};
->
-> [Severity: High]
-> Will the YT8531C PHY fail to probe or lose its 125 MHz clock output with
-> compatible =3D "ethernet-phy-ieee802.3-c22" and reset-gpios placed on the
-> ethernet-phy@1 node?
->
-> First, during MDIO bus registration:
->
->   sun8i_dwmac_init()
->     regulator_enable(gmac->regulator) /* enables reg_gmac_3v3 (PD6) */
->   stmmac_mdio_register()
->     of_mdiobus_register()
->       __of_mdiobus_parse_phys()
->         fwnode_mdiobus_register_phy()
->
-> In drivers/net/mdio/fwnode_mdio.c:fwnode_mdiobus_register_phy():
->
->         is_c45 =3D fwnode_device_is_compatible(child, "ethernet-phy-ieee8=
-02.3-c45");
->         if (is_c45 || fwnode_get_phy_id(child, &phy_id))
->                 phy =3D get_phy_device(bus, addr, is_c45);
->         else
->                 phy =3D phy_device_create(bus, addr, phy_id, 0, NULL);
->         if (IS_ERR(phy)) {
->                 rc =3D PTR_ERR(phy);
->                 goto clean_mii_ts;
->         }
->         ...
->         } else if (is_of_node(child)) {
->                 rc =3D fwnode_mdiobus_phy_device_register(bus, phy, child=
-, addr);
->
-> Because compatible is not "ethernet-phy-id4f51.e91b" (which is also requi=
-red
-> by Documentation/devicetree/bindings/net/motorcomm,yt8xxx.yaml),
-> fwnode_get_phy_id() fails and get_phy_device() -> get_phy_c22_id() reads
-> MII_PHYSID1 and MII_PHYSID2 over MDIO before
-> fwnode_mdiobus_phy_device_register() -> phy_device_register() registers a=
-nd
-> deasserts the per-PHY reset-gpios (PD14):
->
->   phy_device_register()
->     mdiobus_register_device()
->       mdio_device_register_reset()
->     phy_device_reset(phydev, 0)
->
-> If PD14 is low when the kernel boots (for example, when U-Boot has not
-> initialized Ethernet) or on driver rebind after phy_device_remove() asser=
-ts
-> reset, the PHY is still held in reset during get_phy_c22_id(), causing MD=
-IO
-> reads to return 0xffff and PHY registration to fail with -ENODEV.
->
-> Second, because reset-gpios is attached to the PHY node rather than the M=
-DIO
-> bus, bringing the network interface down calls:
->
->   stmmac_release()
->     phylink_disconnect_phy()
->       phy_disconnect()
->         phy_detach()
->           phy_device_reset(phydev, 1)
->
-> This asserts hardware reset on PD14, resetting YTPHY_SYNCE_CFG_REG back t=
-o
-> its 25 MHz default. When the interface is brought back up via stmmac_open=
-()
-> -> stmmac_init_phy() -> phylink_fwnode_phy_connect() -> phy_attach_direct=
-()
-> -> phy_init_hw(), PD14 is deasserted and yt8531_config_init() runs, but
-> motorcomm,clk-out-frequency-hz is only applied once in yt8531_probe() in
-> drivers/net/phy/motorcomm.c:
->
->         if (device_property_read_u32(dev, "motorcomm,clk-out-frequency-hz=
-", &freq))
->                 freq =3D YTPHY_DTS_OUTPUT_CLK_DIS;
->         ...
->         return ytphy_modify_ext_with_lock(phydev, YTPHY_SYNCE_CFG_REG, ma=
-sk,
->                                           val);
->
-> Should ethernet-phy@1 use compatible =3D "ethernet-phy-id4f51.e91b" (or m=
-ove
-> the reset handling so the PHY is out of reset before ID reads and not har=
-d
-> reset across interface down/up cycles)?
->
-> [ ... ]
->
-> --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261022-sunxi-or=
-angepi-3-lts-v2-0-70b899252c6a@gmail.com?part=3D2
+- The orientation was read from the DT, stored and returned by nearly
+  identical code in more than twenty panel drivers, and some of them
+  also had to set it on the connector from get_modes(), with a TODO
+  asking for a better place. The core reads it now. It is applied to the
+  connector from the new connector_init() bridge callback, which is not
+  specific to the panels: other bridges have properties to set up on the
+  connector being created too (HDCP, DP link properties), and currently
+  have nowhere to do it.
+
+- disable() and unprepare() returned an error which nobody could act on.
+  Worse, a failed unprepare() left the panel marked as prepared, so it
+  was never initialised again.
+
+Behaviour changes worth knowing about:
+
+- Panels with the rotation property whose driver ignored it now get the
+  orientation property. In the tree this is the Motorola Mapphone panel
+  (panel-dsi-cm).
+
+- sun6i_mipi_dsi, sti_dvo and the Tegra DSI get their panel after the
+  DRM device has been registered, which is too late to create the
+  property, so they lose the orientation which the panel drivers used to
+  set from get_modes(). None of the rotated panels in the tree are used
+  with them.
+
+- A panel implementing atomic_check() can only be driven through the
+  bridge chain. The display drivers calling drm_panel_prepare() directly
+  have no commit to pass.
+
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+Dmitry Baryshkov (35):
+      drm/panel: remove the get_timings() callback
+      drm/panel: remove the unused struct panel_bridge
+      drm/tidss: get the panel type from the embedded bridge
+      drm/bridge: lvds-codec: use devm_drm_panel_bridge_add()
+      drm/ingenic: use devm_drm_panel_bridge_add()
+      drm: mxsfb: use devm_drm_panel_bridge_add()
+      drm: rcar-du: use devm_drm_panel_bridge_add()
+      drm: rz-du: use devm_drm_panel_bridge_add()
+      drm/mcde: use drm_panel_bridge_add()
+      drm/pl111: use drm_panel_bridge_add()
+      drm/rockchip: lvds: use drm_panel_bridge_add()
+      drm/rockchip: rgb: use drm_panel_bridge_add()
+      drm/panel: remove the _typed() panel bridge functions
+      drm/panel: remove drm_panel.connector_type
+      drm/bridge: anx6345: set the panel orientation on the connector
+      drm/exynos: dpi: set the panel orientation on the connector
+      drm/fsl-dcu: set the panel orientation on the connector
+      drm/logicvc: set the panel orientation on the connector
+      drm/stm: lvds: set the panel orientation on the connector
+      drm/sun4i: set the panel orientation on the connector
+      drm/tegra: sor: set the panel orientation on the connector
+      drm/panel: drop the orientation workaround from get_modes()
+      drm/panel: read the panel orientation in the core
+      drm/panel: use the orientation from the panel core
+      drm/panel: remove the get_orientation() callback
+      drm/bridge: add the connector_init callback
+      drm/bridge-connector: let the bridges set up the connector
+      drm/panel: let the bridges set up the panel connector
+      drm/panel: set the orientation from the connector_init callback
+      drm/panel: make the disable and unprepare callbacks return void
+      drm/panel: don't hold the follower lock over the panel callbacks
+      drm/panel: route the panel calls through the bridge callbacks
+      drm/panel: let the panel drivers provide struct drm_bridge_funcs
+      drm/panel: novatek-nt35950: provide struct drm_bridge_funcs
+      drm/panel: novatek-nt35950: use the atomic state to select the mode
+
+ Documentation/gpu/todo.rst                         |   1 -
+ drivers/gpu/drm/bridge/analogix/analogix-anx6345.c |   5 +
+ drivers/gpu/drm/bridge/lvds-codec.c                |   3 +-
+ drivers/gpu/drm/display/drm_bridge_connector.c     |  12 +-
+ drivers/gpu/drm/drm_bridge.c                       |  31 +
+ drivers/gpu/drm/drm_connector.c                    |   8 +-
+ drivers/gpu/drm/drm_panel.c                        | 653 +++++++++++++--------
+ drivers/gpu/drm/exynos/exynos_drm_dpi.c            |   1 +
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_rgb.c          |   5 +
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |   3 +-
+ drivers/gpu/drm/logicvc/logicvc_interface.c        |   7 +
+ drivers/gpu/drm/mcde/mcde_drv.c                    |   3 +-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c                  |   3 +-
+ drivers/gpu/drm/panel/panel-abt-y030xx067a.c       |   8 +-
+ drivers/gpu/drm/panel/panel-anbernic-td4310.c      |  18 +-
+ drivers/gpu/drm/panel/panel-arm-versatile.c        |   4 +-
+ .../gpu/drm/panel/panel-asus-z00t-tm5p5-n35596.c   |   4 +-
+ drivers/gpu/drm/panel/panel-auo-a030jtn01.c        |   8 +-
+ drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c     |   4 +-
+ drivers/gpu/drm/panel/panel-boe-himax8279d.c       |  12 +-
+ drivers/gpu/drm/panel/panel-boe-td4320.c           |   4 +-
+ .../gpu/drm/panel/panel-boe-th101mb31ig002-28a.c   |  33 +-
+ drivers/gpu/drm/panel/panel-boe-tv101wum-ll2.c     |   4 +-
+ drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c     |  30 +-
+ drivers/gpu/drm/panel/panel-chipone-icna35xx.c     |  24 +-
+ drivers/gpu/drm/panel/panel-chipwealth-ch13726a.c  |  24 +-
+ drivers/gpu/drm/panel/panel-dsi-cm.c               |  11 +-
+ drivers/gpu/drm/panel/panel-ebbg-ft8719.c          |   8 +-
+ drivers/gpu/drm/panel/panel-edp.c                  |  53 +-
+ drivers/gpu/drm/panel/panel-elida-kd35t133.c       |  22 +-
+ drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c  |   8 +-
+ .../gpu/drm/panel/panel-feiyang-fy07024di26a30d.c  |   8 +-
+ drivers/gpu/drm/panel/panel-focaltech-ota7290b.c   |  21 +-
+ drivers/gpu/drm/panel/panel-himax-hx8279.c         |   8 +-
+ drivers/gpu/drm/panel/panel-himax-hx83102.c        |  22 +-
+ drivers/gpu/drm/panel/panel-himax-hx83112a.c       |   8 +-
+ drivers/gpu/drm/panel/panel-himax-hx83112b.c       |   4 +-
+ drivers/gpu/drm/panel/panel-himax-hx83121a.c       |   4 +-
+ drivers/gpu/drm/panel/panel-himax-hx8394.c         |  24 +-
+ drivers/gpu/drm/panel/panel-hydis-hv101hd1.c       |   8 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili7807s.c      |   4 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili7836a.c      |  24 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9322.c       |  12 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9341.c       |   7 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9488.c       |  18 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9805.c       |   4 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9806e-dsi.c  |  18 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9806e-spi.c  |   4 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9881c.c      |  31 +-
+ drivers/gpu/drm/panel/panel-ilitek-ili9882t.c      |  24 +-
+ drivers/gpu/drm/panel/panel-innolux-ej030na.c      |   8 +-
+ drivers/gpu/drm/panel/panel-innolux-p079zca.c      |  10 +-
+ drivers/gpu/drm/panel/panel-jadard-jd9365da-h3.c   |  21 +-
+ drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c       |   4 +-
+ drivers/gpu/drm/panel/panel-jdi-lpm102a188a.c      |  12 +-
+ drivers/gpu/drm/panel/panel-jdi-lt070me05000.c     |   8 +-
+ drivers/gpu/drm/panel/panel-khadas-ts050.c         |  12 +-
+ drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c |  14 +-
+ drivers/gpu/drm/panel/panel-leadtek-ltk050h3146w.c |   6 +-
+ drivers/gpu/drm/panel/panel-leadtek-ltk500hd1829.c |   4 +-
+ drivers/gpu/drm/panel/panel-lg-lb035q02.c          |   4 +-
+ drivers/gpu/drm/panel/panel-lg-ld070wx3.c          |   4 +-
+ drivers/gpu/drm/panel/panel-lg-lg4573.c            |   4 +-
+ drivers/gpu/drm/panel/panel-lg-sw43408.c           |   7 +-
+ drivers/gpu/drm/panel/panel-lincolntech-lcd197.c   |   8 +-
+ drivers/gpu/drm/panel/panel-lvds.c                 |  25 +-
+ drivers/gpu/drm/panel/panel-lxd-m9189a.c           |   8 +-
+ .../gpu/drm/panel/panel-magnachip-d53e6ea8966.c    |   8 +-
+ drivers/gpu/drm/panel/panel-mantix-mlaf057we51.c   |   8 +-
+ drivers/gpu/drm/panel/panel-motorola-mot.c         |   8 +-
+ drivers/gpu/drm/panel/panel-nec-nl8048hl11.c       |   4 +-
+ drivers/gpu/drm/panel/panel-newvision-nv3051d.c    |   6 +-
+ drivers/gpu/drm/panel/panel-newvision-nv3052c.c    |  12 +-
+ drivers/gpu/drm/panel/panel-novatek-nt35510.c      |  12 +-
+ drivers/gpu/drm/panel/panel-novatek-nt35532.c      |   4 +-
+ drivers/gpu/drm/panel/panel-novatek-nt35560.c      |   6 +-
+ drivers/gpu/drm/panel/panel-novatek-nt35950.c      | 168 ++++--
+ drivers/gpu/drm/panel/panel-novatek-nt36523.c      |  24 +-
+ drivers/gpu/drm/panel/panel-novatek-nt36532.c      |   4 +-
+ drivers/gpu/drm/panel/panel-novatek-nt36536.c      |   4 +-
+ drivers/gpu/drm/panel/panel-novatek-nt36672a.c     |   4 +-
+ drivers/gpu/drm/panel/panel-novatek-nt36672e.c     |   4 +-
+ drivers/gpu/drm/panel/panel-novatek-nt37700f.c     |   8 +-
+ drivers/gpu/drm/panel/panel-novatek-nt37801.c      |   4 +-
+ drivers/gpu/drm/panel/panel-novatek-nt39016.c      |  12 +-
+ drivers/gpu/drm/panel/panel-novatek-nt51021.c      |   4 +-
+ drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c |   4 +-
+ drivers/gpu/drm/panel/panel-orisetech-ota5601a.c   |  12 +-
+ drivers/gpu/drm/panel/panel-orisetech-otm8009a.c   |   8 +-
+ drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c |   8 +-
+ .../gpu/drm/panel/panel-panasonic-vvx10f034n00.c   |   7 +-
+ .../gpu/drm/panel/panel-raspberrypi-touchscreen.c  |   7 +-
+ drivers/gpu/drm/panel/panel-raydium-rm67191.c      |  16 +-
+ drivers/gpu/drm/panel/panel-raydium-rm67200.c      |   8 +-
+ drivers/gpu/drm/panel/panel-raydium-rm68200.c      |   4 +-
+ drivers/gpu/drm/panel/panel-raydium-rm69220.c      |   4 +-
+ drivers/gpu/drm/panel/panel-raydium-rm692e5.c      |   8 +-
+ drivers/gpu/drm/panel/panel-raydium-rm69380.c      |   4 +-
+ drivers/gpu/drm/panel/panel-renesas-r61307.c       |   8 +-
+ drivers/gpu/drm/panel/panel-renesas-r63419.c       |  25 +-
+ drivers/gpu/drm/panel/panel-renesas-r69328.c       |   8 +-
+ drivers/gpu/drm/panel/panel-ronbo-rb070d30.c       |   7 +-
+ drivers/gpu/drm/panel/panel-samsung-ams581vf01.c   |   4 +-
+ drivers/gpu/drm/panel/panel-samsung-ams639rq08.c   |   4 +-
+ drivers/gpu/drm/panel/panel-samsung-atna33xc20.c   |  14 +-
+ drivers/gpu/drm/panel/panel-samsung-db7430.c       |   8 +-
+ drivers/gpu/drm/panel/panel-samsung-ld9040.c       |   7 +-
+ drivers/gpu/drm/panel/panel-samsung-ltl106hl02.c   |   4 +-
+ drivers/gpu/drm/panel/panel-samsung-s6d16d0.c      |   8 +-
+ drivers/gpu/drm/panel/panel-samsung-s6d27a1.c      |   8 +-
+ drivers/gpu/drm/panel/panel-samsung-s6d7aa0.c      |   8 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e3fa7.c      |   8 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e3fc2x01.c   |   8 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c      |  16 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e3ha8.c      |   8 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c   |  14 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.c      |  13 +-
+ .../drm/panel/panel-samsung-s6e88a0-ams427ap24.c   |   4 +-
+ .../drm/panel/panel-samsung-s6e88a0-ams452ef01.c   |   4 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c      |   7 +-
+ .../panel/panel-samsung-s6e8aa5x01-ams561ra01.c    |   8 +-
+ .../gpu/drm/panel/panel-samsung-s6e8fc0-m1906f9.c  |   4 +-
+ drivers/gpu/drm/panel/panel-samsung-sofef00.c      |   8 +-
+ drivers/gpu/drm/panel/panel-seiko-43wvf1g.c        |  22 +-
+ drivers/gpu/drm/panel/panel-sharp-lq079l1sx01.c    |   4 +-
+ drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c    |   4 +-
+ drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c    |   7 +-
+ drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c    |   6 +-
+ drivers/gpu/drm/panel/panel-sharp-ls060t1sx01.c    |   4 +-
+ drivers/gpu/drm/panel/panel-simple.c               |  53 +-
+ drivers/gpu/drm/panel/panel-sitronix-st7701.c      |  28 +-
+ drivers/gpu/drm/panel/panel-sitronix-st7703.c      |  22 +-
+ drivers/gpu/drm/panel/panel-sitronix-st7789v.c     |  35 +-
+ drivers/gpu/drm/panel/panel-sony-acx565akm.c       |   4 +-
+ drivers/gpu/drm/panel/panel-sony-td4353-jdi.c      |   4 +-
+ .../gpu/drm/panel/panel-sony-tulip-truly-nt35521.c |   8 +-
+ .../gpu/drm/panel/panel-startek-kd070fhfid015.c    |   4 +-
+ drivers/gpu/drm/panel/panel-synaptics-r63353.c     |   4 +-
+ drivers/gpu/drm/panel/panel-synaptics-tddi.c       |   8 +-
+ drivers/gpu/drm/panel/panel-tdo-tl070wsh30.c       |   4 +-
+ drivers/gpu/drm/panel/panel-tpo-td028ttec1.c       |   8 +-
+ drivers/gpu/drm/panel/panel-tpo-td043mtea1.c       |   4 +-
+ drivers/gpu/drm/panel/panel-tpo-tpg110.c           |   4 +-
+ drivers/gpu/drm/panel/panel-truly-nt35597.c        |   8 +-
+ drivers/gpu/drm/panel/panel-visionox-g2647fb105.c  |   4 +-
+ drivers/gpu/drm/panel/panel-visionox-r66451.c      |   8 +-
+ drivers/gpu/drm/panel/panel-visionox-rm69299.c     |   4 +-
+ drivers/gpu/drm/panel/panel-visionox-rm692e5.c     |   8 +-
+ drivers/gpu/drm/panel/panel-visionox-vtdr6130.c    |  20 +-
+ drivers/gpu/drm/panel/panel-widechips-ws2401.c     |   8 +-
+ drivers/gpu/drm/panel/panel-xinpeng-xpp055c272.c   |   6 +-
+ drivers/gpu/drm/pl111/pl111_drv.c                  |   3 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_encoder.c  |   5 +-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_encoder.c   |   5 +-
+ drivers/gpu/drm/rockchip/rockchip_lvds.c           |   2 +-
+ drivers/gpu/drm/rockchip/rockchip_rgb.c            |   3 +-
+ drivers/gpu/drm/stm/lvds.c                         |   4 +
+ drivers/gpu/drm/sun4i/sun4i_lvds.c                 |   2 +
+ drivers/gpu/drm/sun4i/sun4i_rgb.c                  |   2 +
+ drivers/gpu/drm/tegra/sor.c                        |   2 +
+ drivers/gpu/drm/tidss/tidss_kms.c                  |   4 +-
+ include/drm/drm_bridge.h                           |  23 +
+ include/drm/drm_panel.h                            | 219 +++++--
+ 163 files changed, 1080 insertions(+), 1532 deletions(-)
+---
+base-commit: 4305aa866f20288739b680c75fd44d9f029b0c0b
+change-id: 20261013-drm-panel-funcs-0fbc59bd8790
+
+Best regards,
+--  
+With best wishes
+Dmitry
+
