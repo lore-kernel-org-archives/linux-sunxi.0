@@ -1,63 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793033906;
-	b=j/uAao0kj5P+f3bF/fwuOmApvGvBdO/CDJtXxF7+5v5gMGjhNrml2hgg/p7koV4YRnhW
-	 AamymBPinAV+5nNYzt7sg8seJMsyTgdbqlpoKfMeMW6PMJ9UWBkgJ4SGS/mjt9Kg1C7GI
-	 mBaz1QAWC2EFQGgHIjqm5a+d9EKD6QdDHNbC0MuPcjhD4tWYe2i1IYS/ZILAhgns8bSbm
-	 wL8XmPq6X59JE5k2BE3//HgB8aiCVDj2YpkfF0AobhqgHY3jJa4nzCaSTchNjnwG+uTjC
-	 c48zhPl38+V5RIM4W8irJMMinJrOEkISkZ/x4hcw9BFcRFyJPptasN9l/qVhyckGxsw==
+	t=1793035961;
+	b=bdVAswn/lr8T2VJN0MuZ55E8XRfPQdY+X5ImAqIjLaek/glOg6Kf2TFNzja4geG9VfG7
+	 fZmUcH+agB7U9LSeo/ATO2nz5oOQ9YJxmyIfQhSa1KUs6C1C51gIha1GjxK41Dl8EjPfB
+	 rA7EV6NSra8hTukgbhvrAoMFI6l6/9euXLHdv7jveYzfbu8xCMBPyAAGs9qk2mwsSolHK
+	 97emrPyxt7nkYeQh7tXMaG+MPbA0GUwkjo3T9lo4PEOcBwKXA2Zak7XhZ9N00UJjbyc+c
+	 4H+IIC3TWmryDKeP3CnAFQ8iF2VEo4Fs3vTxUWLst25svw/EvahJG3tOA4J2q+coXzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793033906;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-Originating-IP:X-CM-SenderInfo;
-	bh=yxHn6IyMEc/gFXG0FL2K57vaxjrPtjjGVPSWUg++9V4=;
-	b=uFp6iqXa9yw0MVgzCw2/n+B9nCFZCuHx9yKHQTwBOCZ2zhE3ezrhOKzheENI1Mp9I6ct
-	 tCS/T++GAdWPadLTluMrAV7Jmg9yRDOxIpEzKDTNkfffqoYG7Pj+biH9aHmV0K53Eer5n
-	 ZnjFM2jSwpVJsaLhN5983WOnZUVyvBuI50qDRZGMZBuxNY4HedA6/c8Tps1aV9FZXqdyT
-	 0GpbFGHKVm5d4PcEffCTiq5wDJqTxDv+zYTOKf44rOpBHnVHBPouMFkeygJ94PyhMc8DF
-	 tKALP5trkFxxMzstAxc9rGr6jjk+ccx2dPzBfE/xqkFrWdz6EQ1orV8gSH96qQiV+SA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793035961;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=jCuGb2VpjXDloCdVrhBCpNcmpPo64J7RAQyh/JM6yO8=;
+	b=xO/yrUELUKHNT/bXW41lF1iyOJGmIvEVQFlofIjk3BS3nrtzHWx+Pf81Y1MejRsepyDQ
+	 Ll+OzVCK5CXcG7mo6KnpJTPg4dVJh2J57I/xUgwvwnYsQ9Z+ZuEEXKlYvTAs/70CrnkjE
+	 dbKei2fPIH16kiMvbOoSeghqDzdmB4PUy84uGQnWTrRcKcfbUnxl+YbNeqQJjyBU+8Hmk
+	 WdI1PHfkN7GRmr/Xsfk9IZzHlKhD74Ohk/OBSFH5ojRZfXIrGzYrxgzC+C+RmyvPACsne
+	 FgeRAPSbA3BAm1J+LrCtqcXu5ZRqVIZYrGBdmRqt6OJKs7bp/c8zzn/VeQ/1t7ZQTFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=AllCAX8h;
-	arc=none smtp.remote-ip=220.197.31.2
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="WO01/TNk";
+	arc=none smtp.remote-ip=209.85.128.45
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA0D606A31A
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 16:58:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DFA0D606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C87606A31A
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 17:32:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66C87606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=AllCAX8h
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=yx
-	Hn6IyMEc/gFXG0FL2K57vaxjrPtjjGVPSWUg++9V4=; b=AllCAX8heHI5B0M6rm
-	uaSDf4/DxlryL9aKMWSKG8xrdThIwsF0UzOUPYKhIEu1YCaVCbfQUg/R7Fx4GiZi
-	zJfs2C8k0BgUyq8xI3c2XrEIOZHOHSy/8afrTgu1XvFxofxm+RE5zXWdOcCVKh6H
-	Zb93DHSNEyOlUZ1u3TouaW65g=
-Received: from SYPC (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgBXWG+fht9qNCbrCA--.16615S2;
-	Tue, 27 Oct 2026 00:58:08 +0800 (CST)
-From: Yang Siyuan <hsyysy@163.com>
-To: Linus Walleij <linusw@kernel.org>
-Cc: Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-gpio@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=WO01/TNk
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a2167bd087so20671435e9.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 10:32:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1793035960; x=1793640760; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jCuGb2VpjXDloCdVrhBCpNcmpPo64J7RAQyh/JM6yO8=;
+        b=WO01/TNkAhU1qbbv2tz9AhKDGJPhShPANZrQeGTNiwQAQ3Pnbx7klqMESpYwWQbaKq
+         lK8P83n4qU/6fqCdgLmUmzt5u1GsjACGV8D19WAhv6au+CbNd6tL8ZJmfISorGhkpoyj
+         FQhH/bAJ4z/0giAykZAHEC2jhXJ0cv8WSAkT+f5lji2S7xueHvdGL/BuMn/NygZ70A3+
+         i9pmNj7Hujj3seeUsOyCILkg0B+fZsYrHSu5H0Frz7eRo8+6HSatGnjVqa9r1YtoLV87
+         SDRBpmYVVIKrq+KIVkIt1wdhg0DN9kMyK7VVmqyTt6GpJ9O1ktq/hQnNawB5QplDwdij
+         OqgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793035960; x=1793640760;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jCuGb2VpjXDloCdVrhBCpNcmpPo64J7RAQyh/JM6yO8=;
+        b=0G4fgjo5ofzrYGx5JQuaNPauVxviuW3B5ow2gSnPsXcPl3w4bmEwQ0/VHRn1hIqUhn
+         bdXYuP6qK2BivSFor1ISJoBdhUw16MyFcNCY6QY61CDbGrjFLbSpFj/T3t57Gw3LYNbL
+         PtlAlaqf5ipLivoTEYkP00lcyLXJCdS6NfxhRLXj9mFRywegs9rCSz9l6ZyB5psVNpoT
+         He+bKNAh9/FXhqj03g0pLF16+xftPbHGf4sT2pGhTfOcm+wbl0MMIPXTcXm6eaAPucVp
+         myFANUidb/ZjyIA/tbWZQiFLw9tSCzQ6pIrNGsQ6iXpMsmaKDMOj7XvtTJr0ZiGb/xOP
+         uSnA==
+X-Forwarded-Encrypted: i=1; AKwUvByBWXQNrwOllksFDf6AYsaPYuV5IiRzpOSpPtnnmt66Vd/M+eIEFP9Bt0UfWNAZCykY3IMU7vYzTVBPXw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJRuZfp5phhej9cDWjgl4+47WrkOyQ96mJ0yCHPGL9T6wnhofIr
+	C8NbfhhiuNS55nrYlsWUKNlYhpDd2O1Ak3IQap3gvrF1i250cTMiX+8A
+X-Gm-Gg: AYBFou04KdpIWk5eKDwZsItCuPk8J4MVuoCNfCEgMw3+3LxaLCdI65H95kc/nKYMh5u
+	hgMvL2GIIFhbFWEHkEALcGGMG3NRsDLhvBZ/QYXnzzQkObJzYzP8iXV87eEA0ZSbyYZwQU8IMeG
+	BoBfJtNWQRmD88kkCtr/du4WF3YSipT+w0mcVUr2RwYQ81y2VoC5IJew8q6PgYjtOUXyA/NS/8E
+	hzAcJas9HvvyKutc1lJLj7VSlf85DzqIubowtc/8ZtFTEjg+OTAT8NRZXrD1FENHb2JEtdyRSTj
+	J4+BOXVOQaJKEMTn2n8omW485GMhlQ49Aou0kAb9/7pVrZrAgG+r5aj0V62Zn7c65TcaYSVkKZa
+	KcPHEGUfiPmIyzul4nORB0I/lOUIaH4veHprCzPWMmzj2H3FcQanu93DzNRAc/MQTKpCgmOwefl
+	GyzNuwEPUfg8zBKK5hVLVYi+73ef/V67f6gZHOjCgae7vyR0zVMNBQtksWKh0WhFP5xQYXp3PFg
+	boWH7Zw3oAP71pUVAM1nDk/P2nW9wPoXgAEe0S0bXd9eLC7vJR3D/y90Isc8fbZ2vL3MNPavL73
+	3VNbbhOfrsE2OxDy7GvJVj316sQLZRAjKIiS3JofQRnP4Kp0Y7hvv52Yx9MfU+Bzi/7s8qsQHjW
+	MQRDrI1fphDEIIY/8QdXCRVU0ikGHYrcg/anXRXG3LS4d30zm0Hzo7LgmC2JGd+0SKIIa66BedP
+	mfEkNxd91xEQ4C2csmPDnFtBWj+M4b1odbynHplHCFebQDLVZiwFzqZXLhSFwuVg==
+X-Received: by 2002:a05:600c:4e0e:b0:4a2:397:73f6 with SMTP id 5b1f17b1804b1-4a35ac9d227mr139633405e9.8.1793035959473;
+        Mon, 26 Oct 2026 10:32:39 -0700 (PDT)
+Received: from jernej-laptop (77-38-7-31.dynamic.telemach.net. [77.38.7.31])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a0aa0bcsm261433605e9.4.2026.10.26.10.32.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2026 10:32:38 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: andre.przywara@arm.com
+Cc: trini@konsulko.com,
+	ilias.apalodimas@linaro.org,
+	u-boot@lists.u-boot-project.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] pinctrl: sunxi: request the per-bank supply optionally
-Date: Tue, 27 Oct 2026 00:57:42 +0800
-Message-ID: <20261026165742.1478383-1-hsyysy@163.com>
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] sunxi: dram: only probe DRAM inside the addressable range
+Date: Mon, 26 Oct 2026 18:32:35 +0100
+Message-ID: <20261026173235.95831-1-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261026152027.1417178-1-hsyysy@163.com>
-References: <20261026152027.1417178-1-hsyysy@163.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -68,133 +100,34 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PygvCgBXWG+fht9qNCbrCA--.16615S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxCFW7AF4rCr1UtrW5trW7CFg_yoWrtF1xpr
-	4fXryayr4rJFyxJw4xAw12yryS9a1xJa43CFykK345AFn8GFy3Jw1jkF4YkFs8Cr4kJr4Y
-	vFyDZ34xGFn8X3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07ULo7_UUUUU=
-X-CM-SenderInfo: 5kv152r16rljoofrz/xtbC7QBckGrfhqBnzgAA3b
 
-The per-bank "vcc-pX" supplies are optional in the device tree: the
-binding documents them, but notes that many boards do not describe them.
-sunxi_pmx_request() uses regulator_get() anyway, so the regulator core
-falls back to a dummy regulator and warns for every bank that has no
-supply:
+The non-power-of-2 size check probes the memory cell at 3/4 of the
+detected size. On SoCs whose DRAM window is smaller than the detected
+size, like H6 with 4 GiB chips and a 3 GiB window, that address lies
+outside the window and the access hangs the SPL. Such boards cannot be
+odd-sized anyway, since the usable size is capped to the window later,
+so only run the check when the probed address is addressable.
 
-  sun50i-h616-r-pinctrl 7022000.pinctrl: supply vcc-pl not found, using
-  dummy regulator
-
-The H616 R_PIO is such a controller, and its PL0/PL1 pins drive the
-R_I2C bus, so every H616 board hits the warning during boot.
-
-Use of_regulator_get_optional() instead.  A bank supply that is described
-in the device tree is still acquired and enabled, as it powers the
-physical VCC-Px rail, but one that is absent is skipped without a
-warning.
-
-The OF-only lookup matters here: regulator_get_optional() also falls back
-to a global regulator-name lookup.  If a regulator with the same name as
-an absent bank supply is registered later, a subsequent pin request in
-that bank could acquire it and start the per-bank refcount at one, after
-earlier pins in the bank had already been requested without a regulator.
-Freeing any of those pins would then disable the supply while other pins
-in the bank are still active.  Restricting the lookup to the pinctrl node
-makes an absent supply permanent; record that state so later pin requests
-do not retry the lookup.  The refcount therefore stays balanced.
-
-Signed-off-by: Yang Siyuan <hsyysy@163.com>
+Fixes: c47b63673736 ("sunxi: dram: detect non-power-of-2 sized DRAM chips")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
+ arch/arm/mach-sunxi/dram_dw_helpers.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Changes in v3:
-- Use of_regulator_get_optional() instead of regulator_get_optional().
-  The latter still performs a global regulator-name lookup, which can
-  bind an unrelated regulator that appears after some pins were already
-  requested and unbalance the per-bank refcount.
-- Remember that a bank has no supply so later pin requests skip the
-  lookup, and keep the existing no-regulator check in sunxi_pmx_free().
-- Link to v2: https://lore.kernel.org/linux-gpio/20261026152027.1417178-1-hsyysy@163.com/
-- Link to v1: https://lore.kernel.org/linux-gpio/20261026144751.1392715-1-hsyysy@163.com/
----
----
- drivers/pinctrl/sunxi/pinctrl-sunxi.c | 29 +++++++++++++++++++++++++--
- drivers/pinctrl/sunxi/pinctrl-sunxi.h |  1 +
- 2 files changed, 28 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-index 70099052d..d2345a85a 100644
---- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-@@ -913,23 +913,44 @@ static int sunxi_pmx_request(struct pinctrl_dev *pctldev, unsigned offset)
- 					    PINS_PER_BANK;
- 	struct sunxi_pinctrl_regulator *s_reg = &pctl->regulators[bank_offset];
- 	struct regulator *reg = s_reg->regulator;
-+	struct device_node *np = dev_of_node(pctl->dev);
- 	char supply[16];
- 	int ret;
- 
- 	if (WARN_ON_ONCE(bank_offset >= ARRAY_SIZE(pctl->regulators)))
- 		return -EINVAL;
- 
-+	if (s_reg->supply_absent)
-+		return 0;
-+
- 	if (reg) {
- 		refcount_inc(&s_reg->refcount);
- 		return 0;
- 	}
- 
-+	if (!np) {
-+		s_reg->supply_absent = true;
-+		return 0;
-+	}
-+
- 	snprintf(supply, sizeof(supply), "vcc-p%c", 'a' + bank);
--	reg = regulator_get(pctl->dev, supply);
--	if (IS_ERR(reg))
-+	/*
-+	 * Use the OF-only lookup: regulator_get_optional() would also match
-+	 * a same-named regulator from another device.  Such a regulator can
-+	 * appear after some pins in this bank have already been requested,
-+	 * which would unbalance the per-bank refcount.
-+	 */
-+	reg = of_regulator_get_optional(pctl->dev, np, supply);
-+	if (IS_ERR(reg)) {
-+		if (PTR_ERR(reg) == -ENODEV) {
-+			s_reg->supply_absent = true;
-+			return 0;
-+		}
-+
- 		return dev_err_probe(pctl->dev, PTR_ERR(reg),
- 				     "Couldn't get bank P%c regulator\n",
- 				     'A' + bank);
-+	}
- 
- 	ret = regulator_enable(reg);
- 	if (ret) {
-@@ -959,6 +980,10 @@ static int sunxi_pmx_free(struct pinctrl_dev *pctldev, unsigned offset)
- 					    PINS_PER_BANK;
- 	struct sunxi_pinctrl_regulator *s_reg = &pctl->regulators[bank_offset];
- 
-+	/* The per-bank supply is optional, so this bank may not have one. */
-+	if (!s_reg->regulator)
-+		return 0;
-+
- 	if (!refcount_dec_and_test(&s_reg->refcount))
- 		return 0;
- 
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-index 8bd00c6ff..651249b23 100644
---- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-+++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-@@ -162,6 +162,7 @@ struct sunxi_pinctrl_group {
- struct sunxi_pinctrl_regulator {
- 	struct regulator	*regulator;
- 	refcount_t		refcount;
-+	bool			supply_absent;
- };
- 
- struct sunxi_pinctrl {
-base-commit: 091b06388b117fefdcb63336ac09956a4914b961
+diff --git a/arch/arm/mach-sunxi/dram_dw_helpers.c b/arch/arm/mach-sunxi/dram_dw_helpers.c
+index d2af2d57fded..ae13dd154536 100644
+--- a/arch/arm/mach-sunxi/dram_dw_helpers.c
++++ b/arch/arm/mach-sunxi/dram_dw_helpers.c
+@@ -155,7 +155,8 @@ unsigned long mctl_calc_size(const struct dram_config *config)
+ 	 * or 3GB. They are detected as the larger power-of-2 (2GB and 4GB),
+ 	 * so test the last quarter for being able to store values.
+ 	 */
+-	if (!mctl_check_memory(CFG_SYS_SDRAM_BASE + size / 4 * 3)) {
++	if (size / 4 * 3 < CONFIG_SUNXI_DRAM_MAX_SIZE &&
++	    !mctl_check_memory(CFG_SYS_SDRAM_BASE + size / 4 * 3)) {
+ 		if (mctl_check_memory(CFG_SYS_SDRAM_BASE + size / 4 * 3 - 64)) {
+ 			size = (size / 4) * 3;
+ 			debug("capping memory at %ld MB\n", size >> 20);
 -- 
 2.56.0
 
