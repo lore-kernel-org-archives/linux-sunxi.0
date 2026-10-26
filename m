@@ -1,57 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793029150;
-	b=dnUtFABi9Gcn4W1TIRl8hkJSMimd+CliBl3p8vWDZrzdU/l9IebkcHen6jhLWd3vXI2H
-	 c+baLZJSKISlPwTQ401UnTbaNM38efQLAd1aokXIUDEWA6uVPRj2nEF1cQP9QQWq8GyGG
-	 s6riP9/f20e3ZTzGdNSDU7rbShA6LPaDAw/i9JA+yB+TyL+RPUlzVFFCpnqW5H/tY1CUr
-	 dX/7JN0AgsZQtt0oCmS8635Mj15O5I3+311l7JVBe058MiKN5GPsIxE5Zilmgy/cY62Pm
-	 I1ibxYq1+XwTnADMFfwJXqhp1nUzt8UHc9JEZRScUVB/MPTkavRDzBZ7gmTo9oo0xxQ==
+	t=1793032982;
+	b=yCaP1x6GC7d+xXu9XkxSAJYCucJvMFGo9OJzJmGxNtTI5IcbZ3r2qDU713CiO8ASf7OK
+	 79KSWL5X/tbFgREFFnzMYmfKQmc9lQihKfEfjnK2NVDJlZt9Lr28ehYLkEQh900F/XhTK
+	 Dl9aMJzOol0DNkB4Vv6N7WvnI2csTVOEbqJGaWbEIz2+ohLFfX6vz1hJetvnAz7Qq6ZEo
+	 +LiV9jskx8WgcR/7dGWmic/N/4f3y4gQHW273L1hTHVtR5hNh75zhT6FCwbn5txBCXVli
+	 lo1AG5vDEtREY8jrNNP1le9Mb7adNwbHZZcbPYu5f0vlCIqoFKgJ0tny0LhN+yu7nIg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793029150;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=1pPQVcZTHWueWe6UVkUmz1Urg+zAZiJ3wpca+tOiLAo=;
-	b=GoP65ZuJdhBY3awenDjdlsu8elekOnA0LxPGe42n8KaZk+eHdn1OgOdGXCPacK7zjxTJ
-	 pMDma8Q09nPTF+ZNbJyB8PB38aa97/yIcONgtCDwke+VUw4c6TjA8sQiAem+49i1WAMvY
-	 bllnl5ICbKy0R/EfWvvbLxPNiY6g6wOsilMNN5WltP6qtvxVcUE8GPb3dZvHofQw3rde0
-	 fyg4/2WaC8poaPmFd5EHXNKytP4kjYV3pMdN0K+yRvL9MisH7D4+/DRDb4cwR6Rv0Y8Yv
-	 xtAADJAzpFb68gE/dgw1vCmZfir6YxVjJtf+0A8Tjepg80i6qCsaUxkSnjFrs75zt1A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793032982;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=rl/sdudR8wX1+GEVh2fbN+8+vnr5jBWbAdmUCT1slSI=;
+	b=fPQpJd5QlV8TPS0Mx5yTMHgNwXuffjRH8XC8lFOw0lx+COYbZ8RRu92zT2PZLkiRV1g5
+	 eeTPHKnJWUBFrafxvghwXYIhceSY/ChSBY7ClLt3zVs4f3kZUURmCX8ktJy/n1DMxba/j
+	 jWH9JDclqxV5GYboy8uPO7Zm3hGIqMwDDPyTJvJEpUV6qpFlSHUIOELmhUCDiFlLRc7aj
+	 +X0pPxtOIr9NmAlEgN+D407RTshr4tYPLgiS8gaJMw9RGW6PgBSEXV6usTopz8rLO4qoY
+	 9vjqU6Xriwv8HPdandyflYS1zKLLQAdQ8f2vvejOMtIAfP7sQyyUGntU4TI43qI870g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bfYrpB1M;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73160606A31A;
-	Mon, 26 Oct 2026 15:39:10 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Zr2s8SKr;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18649606A31A
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 16:43:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 18649606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bfYrpB1M
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 335211F01825;
-	Mon, 26 Oct 2026 15:39:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793029150;
-	bh=1pPQVcZTHWueWe6UVkUmz1Urg+zAZiJ3wpca+tOiLAo=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=bfYrpB1M+DRks3Y8TuAQ/TZBeFQwMmDkQr3MCOwjtAoBHHtj9de3xddgttDvwpv99
-	 3bItCsfDgpL8IBEbEYLTBI71OfbXDmqIVKniwZwEZYtyJD9Vhlzy6xJDptSQsVbWJc
-	 E8Q1hL3N5z2lEUwGfBu9RH+1I4wEP32KgWQImw41phRpyuKKysPPqNOQO3G1L6v7cL
-	 yN9Jti9mYwT/a17d/TSzmpJWWU3AMmmljZmrCTASSAlxYdAc5ixp3+kAYx+qnV4N6i
-	 IXxqdL8g/qLbE3H8XGwEbxfLoSzVoGccLjRJZGhmNH+9ruZQiKyt0QA64iKsMighDM
-	 w+mNb+9tbGY4Q==
-Message-ID: <sashiko-outbox-185451@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] pinctrl: sunxi: request the per-bank supply
- optionally
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Yang Siyuan" <hsyysy@163.com>
-Cc: linux-gpio@vger.kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20261026152027.1417178-1-hsyysy@163.com>
-References: <20261026144751.1392715-1-hsyysy@163.com>
- <20261026152027.1417178-1-hsyysy@163.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Oct 2026 15:39:09 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Zr2s8SKr
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7295B1655;
+	Mon, 26 Oct 2026 09:42:51 -0700 (PDT)
+Received: from [10.57.60.72] (unknown [10.57.60.72])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 86E553F7B4;
+	Mon, 26 Oct 2026 09:42:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793032974; bh=7rUQZLP+SlM7AbMLViF+r61zYKGh+vmGw1BuFhIyhSg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Zr2s8SKrmcvfq6RKvLPEXc/cBwYmoEbGNi0zUkO4kq9deWneGSqXYqSqpPzXzcjU/
+	 sWWP825ixEHEutVa39SjxwhGoWk6tT6A0FmdXnnTwxdvpiCOmVbWpd7InSXf/lA6+C
+	 37u2CmBH7DJr8wMcBe/V91TS/kWm57pehuEfkP0I=
+Message-ID: <474d4ed0-b011-49dd-853e-697448382a0e@arm.com>
+Date: Mon, 26 Oct 2026 17:42:50 +0100
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -60,134 +52,85 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/3] pinctrl: sunxi: number the IRQ banks from the
+ first one that has IRQs
+To: Pablo Mazzini <pmazzini@gmail.com>, Linus Walleij <linusw@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20261025142412.112216-1-pmazzini@gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20261025142412.112216-1-pmazzini@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] pinctrl: sunxi: unbalanced bank regulator refcount in sunxi_pmx_re=
-quest()
---
+Hi Pablo,
 
-commit 387a0217944495d51d6191636af797bf5c7e5da5
-Author: Yang Siyuan <hsyysy@163.com>
+just some heads up about process:
+- Please do not repost that quickly! The kernel doc says to wait at 
+least a day, but that's only the lower limit, in case the series is 
+almost ready and there were only minor comments from real(!) reviewers.
+I would wait for a couple of days, after you got some proper reviews.
+The reason is that reviews (by humans) take time, and it's not like 
+people are bored waiting for some patches to look at. So they might be 
+interrupted by something or need to do some checks and research. It's 
+pretty bad if their effort is ambushed by a new revision, which now 
+means they need to start over.
+- Please do not repost just because Sashiko said something. Wait for a 
+proper review. It's probably a good idea to acknowledge the comment, but 
+don't just re-post then.
+- Try to avoid posting inside the merge window. Depending on the 
+subsystem and maintainer, your posts might just be ignored, because they 
+might be busy fixing up conflicts. But more importantly: you are missing 
+the correct base: you should always base your patches on an -rc1, unless 
+being told otherwise explicitly. And since -rc1 won't be out till 
+Sunday, this is not a good timing.
 
-pinctrl: sunxi: request the per-bank supply optionally
+I will comment on the patch set separately.
 
-This commit switches sunxi_pmx_request() from regulator_get() to
-regulator_get_optional() so that banks without a per-bank supply in the
-device tree do not trigger a dummy regulator warning. When
-regulator_get_optional() returns -ENODEV, sunxi_pmx_request() returns 0
-with s_reg->regulator left as NULL, and sunxi_pmx_free() skips cleanup when
-s_reg->regulator is NULL.
+Cheers,
+Andre
 
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunx=
-i/pinctrl-sunxi.c
-> index 31cd142ce0f79..f6c48a287a0e4 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> @@ -925,11 +925,19 @@ static int sunxi_pmx_request(struct pinctrl_dev *pc=
-tldev, unsigned offset)
->  	}
-> =20
->  	snprintf(supply, sizeof(supply), "vcc-p%c", 'a' + bank);
-> -	reg =3D regulator_get(pctl->dev, supply);
-> -	if (IS_ERR(reg))
-> +	reg =3D regulator_get_optional(pctl->dev, supply);
-> +	if (IS_ERR(reg)) {
-> +		/*
-> +		 * The per-bank supply is optional: boards that do not
-> +		 * describe it simply have no regulator to manage.
-> +		 */
-> +		if (PTR_ERR(reg) =3D=3D -ENODEV)
-> +			return 0;
-> +
->  		return dev_err_probe(pctl->dev, PTR_ERR(reg),
->  				     "Couldn't get bank P%c regulator\n",
->  				     'A' + bank);
-> +	}
-> =20
->  	ret =3D regulator_enable(reg);
->  	if (ret) {
-> @@ -959,6 +967,10 @@ static int sunxi_pmx_free(struct pinctrl_dev *pctlde=
-v, unsigned offset)
->  					    PINS_PER_BANK;
->  	struct sunxi_pinctrl_regulator *s_reg =3D &pctl->regulators[bank_offset=
-];
-> =20
-> +	/* The per-bank supply is optional, so this bank may not have one. */
-> +	if (!s_reg->regulator)
-> +		return 0;
 
-[Severity: High]
-Can leaving s_reg->regulator as NULL on -ENODEV cause s_reg->refcount to
-become unbalanced and disable the bank regulator while other pins in the
-same bank are still active?
+On 10/25/26 15:24, Pablo Mazzini wrote:
+> The DT pinctrl helper numbers the IRQ banks from PA, even when PA has
+> none. The A523 got a DT interrupt for its unimplemented PA bank to work
+> around that, the A733 would need the same, and on both PK is written
+> past the end of irq_array.
+> 
+> Number the IRQ banks like the static drivers do, with irq_bank_map for
+> the A523 and A733, and drop the PA interrupt from the binding and the
+> A523 DT. The B288 (IRQ banks on PB, PD, PF and PG) then needs no
+> made-up interrupt.
+> 
+> v3:
+> - apply irq_bank_map to the A733 register layout too (Sashiko)
+> 
+> v2:
+> - give the A523 and A733 an irq_bank_map, and drop the PA interrupt
+>    from the binding and the A523 DT
+> 
+> Pablo Mazzini (3):
+>    pinctrl: sunxi: dt: number the IRQ banks from the first one that has
+>      IRQs
+>    dt-bindings: pinctrl: sun55i-a523: one interrupt per implemented bank
+>    arm64: dts: allwinner: a523: drop the PA GPIO interrupt
+> 
+>   .../bindings/pinctrl/allwinner,sun55i-a523-pinctrl.yaml   | 8 ++++----
+>   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi            | 3 +--
+>   drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c               | 2 +-
+>   drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c               | 5 ++++-
+>   drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c                  | 8 +++-----
+>   drivers/pinctrl/sunxi/pinctrl-sunxi.h                     | 7 ++++---
+>   6 files changed, 17 insertions(+), 16 deletions(-)
+> 
+> 
+> base-commit: 4f0dbdbdb3ad122e8bbfb1d722fd584bac7124db
 
-In sunxi_pmx_request(), returning 0 on -ENODEV without recording that the
-bank has no supply or incrementing s_reg->refcount means every subsequent
-pin request in the same bank will call regulator_get_optional() again.
-
-Inside regulator_get_optional() -> _regulator_get() ->
-regulator_dev_lookup(), when the pinctrl device tree node does not have a
-vcc-pX-supply property, regulator_dt_lookup() returns NULL and
-regulator_dev_lookup() falls back to a global name lookup:
-
-drivers/regulator/core.c:regulator_dev_lookup() {
-	/* first do a dt based lookup */
-	r =3D regulator_dt_lookup(dev, supply);
-	if (r)
-		return r;
-...
-	r =3D regulator_lookup_by_name(supply);
-	if (r)
-		return r;
-
-	return ERR_PTR(-ENODEV);
-}
-
-On several Allwinner boards (for example,
-arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi and
-sun50i-a64-pine64.dts), vcc-pl-supply is omitted from r_pio to avoid a
-circular dependency with the PMIC bus on PL0/PL1, while the PMIC regulator
-node defines regulator-name =3D "vcc-pl":
-
-	&r_pio {
-		/*
-		 * FIXME: We can't add that supply for now since it would
-		 * create a circular dependency between pinctrl, the regulator
-		 * and the RSB Bus.
-		 *
-		 * vcc-pl-supply =3D <&reg_aldo2>;
-		 */
-	};
-	...
-	&reg_aldo2 {
-		regulator-always-on;
-		regulator-min-microvolt =3D <1800000>;
-		regulator-max-microvolt =3D <1800000>;
-		regulator-name =3D "vcc-pl";
-	};
-
-When the PMIC bus driver probes before the PMIC and requests PL0/PL1,
-regulator_get_optional(pctl->dev, "vcc-pl") returns -ENODEV, leaving
-s_reg->regulator as NULL and s_reg->refcount at 0 for those active pins.
-
-Once the PMIC registers the regulator named "vcc-pl", a later request for
-another pin in bank PL sees s_reg->regulator =3D=3D NULL, calls
-regulator_get_optional(pctl->dev, "vcc-pl") again, matches the regulator via
-regulator_lookup_by_name("vcc-pl"), and initializes s_reg->refcount to 1:
-
-drivers/pinctrl/sunxi/pinctrl-sunxi.c:sunxi_pmx_request() {
-	...
-	s_reg->regulator =3D reg;
-	refcount_set(&s_reg->refcount, 1);
-}
-
-If that later pin (or one of the earlier pins requested before the PMIC
-probed) is subsequently freed in sunxi_pmx_free(), s_reg->regulator is now
-non-NULL, so refcount_dec_and_test(&s_reg->refcount) drops the refcount to 0
-and calls regulator_disable() and regulator_put() while other pins in the
-bank remain requested.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261026152027.1417=
-178-1-hsyysy@163.com?part=3D1
