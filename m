@@ -1,112 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793013024;
-	b=V1oJfnNdPZlX/BiB7jOXWAtsTyXJQpEB+6Adv5hpQxn3jjVkJFohjqc4BjFCMt70+G/P
-	 qJiFaCZOqfyd6q3dW5UknG6sOfCQkcUZkXNei90b5fiV6MeGzVnGbJ1JCxHMTq1hrKUSo
-	 qyLrCpnsKyXzLFKIzfQJWtWU55LRiex5+mBxlm/fNvOOxtTFHQC9+H/xODdMopjYkukRs
-	 B7eSTmV0q8OrW316ixOh1ec+TLpidggbPvkjUHTIHvvOGgq3GtDXDUX57o8M98uLoBmA7
-	 YInBbU44vw9UwHgreGIIOMBrCCwfEtxFPShCdpUgXTLc/K+Cbf50VjwxnGq6UHnFqkw==
+	t=1793013025;
+	b=moS9U0g0x1BM26thFLRNnWYMtib5nJtl11ilu3kXZfeqIifjxyn8vG97og7KUp242J1K
+	 VAfaPIBeX3a5qycvrHGW90FrkIm0yfKvFhBl/jXZ03FB6DbSVQsI4A2Eh4OZpZSMDHKAq
+	 T7SLxpTWeLbIN7ogl6Cu2bFfUaKlWb9XJxoXyJuOcKgzxMTMdI15RRwFjXtFQBGMZ3izG
+	 DD4AdqaSkfji3vYAnK2flPWIy46QcS4O8acSyHLRHRRZUsW1LECvI/9cT3dgCxGwACPVf
+	 dt6BCQQlLH0ojsqKvfMmj8sWSh1xDFO+qPo6rT/Szw1Yv3Ego2ehib9Ft3jRh0DII8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793013024;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793013025;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
+	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
 	 X-Proofpoint-Spam-Details;
-	bh=M2Z0RCPtboYFZ+IjaCc+zjd7qHKNjhm/LRlubdPohDY=;
-	b=mjASreUUZNtKnCEJjHd4G03e66rX2jEQyvkxOWzgmR/K+SLky3pL91dKulIo5573rel3
-	 ABB4B3JHEID/n5UStNv88YGTK6t7tnvWiD7nWTrnI004Cy1ZIjVh2+8XFTUh7sgZ28kLZ
-	 7TwK85dN7H/Pwk54psZqLX8rO+SvQjePq+b7nrKc3AxZHTOHZsPew6ID4wWNlBl+fuzxb
-	 usm8wHJikwJmGKxdsoklUnv85Bwy3AlbbsqaVE3k19pvXhAKxvHq+qgM6r2gSgrONp+7r
-	 foxhWuSGtUCmEAacHdQdbmjsB3DhmeDZC5l0xx0UOLDHs5EB/SRmpsPTwLsqif8unPw==
+	bh=hTtxD17fDeW72YOw3DHdOk7y8aNR2m8TdFLwBF4pj4Q=;
+	b=2+EUv8cj5TyqwBn54021Bzopqzubit/7jmciGQQdzyWn569xtrS5Fl3h0DR53+XuQGdq
+	 AaYfVuAmjVaLsefHwvEqNkx4FMPsHfQVvz2bYftJR/YgRI+eWttHWY/oNl0ZYoF+7hrsD
+	 NVAJn8DzA++E1ntsT9A+Z2TTmnML1bYE2nhEGwupHgRSAarRec26lZ3Ob+RCMp+nEFHpa
+	 cdzIUn+kT57DlD1CZTGBgpvOZF18caPDmvhldLyqvDDmyF9yVUSSqqtDjOaYamJQijDw8
+	 ExBAo9MrP4GWNs75q0orwy93yUBmDR5amk5icRGh6KUBdRSMGhqKuOMKxSf74Xlpd+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=I+rhtZ0u;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=RK+an1LV;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=J0YP207V;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=YJIyQD3d;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1661C606A33C
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 11:10:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1661C606A33C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D7860A260B
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 11:10:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5D7860A260B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=I+rhtZ0u;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=RK+an1LV
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69QAsoAp4131374
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 11:10:22 GMT
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=J0YP207V;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=YJIyQD3d
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69QAt2Xf2733255
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 11:10:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	M2Z0RCPtboYFZ+IjaCc+zjd7qHKNjhm/LRlubdPohDY=; b=I+rhtZ0uENob/eM6
-	rPFxa/Lxq/hRo634DX6rAq2ZBsVROCaRhUBCwfOpvUSidtqm1pMdnTIICnBeAQJ6
-	9lCqPVosXfFpkxSUDqnfjw/1DbtEOM+eMbulvKMRIU2/KwtfqROsWmSPi9d/h8NW
-	gFjnc5H22kumYOcEUALN5IlhQScuSpHqbEqkXTeQbRHcPwZrVhAFISMnVvHi2ZBz
-	XyI07fF0J3xyiSqoyWSz9EeaN+D6vYmludcMOjXHOYJ488n6Y9RinkEAOf8/WdTf
-	v4EmQKlNrvvXX5CmHQRK5V6ByNyIpkC3n8Ki4C++uqyCOH5Rdix9JEzciaYHIaSu
-	EbLNSg==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hj53q055n-1
+	hTtxD17fDeW72YOw3DHdOk7y8aNR2m8TdFLwBF4pj4Q=; b=J0YP207Vsr8a41lL
+	AjZTyKZDrAyn6bMHQJEp6Ht/FIehVV8eEF5YoNyoeaCmc+rNObWKjQv04DCUX2Cl
+	VzBO5vsuY1C0jjwasjHYfSjKhp+pYBppemRDlZLoeyl4HiG8CbqT5feR0nzz+DT4
+	EXdRZ/rt4k08qFVuNJzDRn3JQAYr2ZH/EkhSsvcLfrueanalun4EA9pfys3hT+JN
+	cPyncc/64E8luL/m3DfyPGWFUjze2XB0vIJ5q40Hz82xHoa0llHpl5i0Ghdq3WZ7
+	RmliTjsI0u41dBQAdUx/R/Q7iaj8HSOhMQhLXhNVQYIAju56QTXiXiaS6x8FSj28
+	SDLxZA==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hj4cp8b7j-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 11:10:22 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93f26dd2165so719864185a.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 04:10:22 -0700 (PDT)
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 11:10:23 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-93f33438950so679838685a.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 26 Oct 2026 04:10:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793013021; x=1793617821; darn=lists.linux.dev;
+        d=oss.qualcomm.com; s=google; t=1793013023; x=1793617823; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=M2Z0RCPtboYFZ+IjaCc+zjd7qHKNjhm/LRlubdPohDY=;
-        b=RK+an1LV3q1nfGG/K4IqKqQBGYCleVbhFfZWjAb9mO9kEeaWKwsGlQL3Z8UB+gfeEM
-         NG6+xMhqRlQqw8xh/rrRaoBRC8oaGGjuAYVsd4WkAKmSN4y/OTVnYbmV2835TFy7TLZX
-         YMmimEFvkahMmptKfuUZdMHIBQqFUbLYGJ1AV119LbW7Ux2tXSSVdE4TGpXZrfSM14F1
-         JkJXicv1xOy8BGdaJz+W1pDQX+stv1z5/nhZjtrXWY97BDm81ykraUJjM+zGCjnalrwW
-         u/Dcbq41569KXwop7cC/kcXVagut8dXGnNTrDqO/jp/gAusfM7iWelngU8zdmPi3PWLy
-         v5mw==
+        bh=hTtxD17fDeW72YOw3DHdOk7y8aNR2m8TdFLwBF4pj4Q=;
+        b=YJIyQD3dVhBnCwfDQc4vfXsE4bg0NAQxfOLrfTAFKnssxMKpyEx/2qrRVve2aZyq86
+         p2r6gQR0a94eV5WAGDb9PlaRqg+UBZUfnD1QvIDvst8i8C6mILqBnsCcyJrZW7y7yyqb
+         a3roXfPERVfsx9qilPvXU8oGsTQjExnWGYTxZ4/h4f7d1YGq0f/TKJiP442afIFZIdY3
+         WMt4IqhxJSlyx1a2VzXcKv2PavOUKt0N/K0rFGEvvQTmG/6vVX+xw0b8IULfQjW1SQHV
+         qhJ7L5EZ9asFcdmcx/gyAYGm4nnrpmYIfEyt2/w7abv3UevBxIxYiEVoooVHUsNx4A4q
+         JKeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793013021; x=1793617821;
+        d=1e100.net; s=20260707; t=1793013023; x=1793617823;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=M2Z0RCPtboYFZ+IjaCc+zjd7qHKNjhm/LRlubdPohDY=;
-        b=smBgMYHyUQLIhW/jLSqHGJVKaVpquGy3kaV5wSLi9Q9zy70CkpVYJsLMpbtuMK+jVq
-         wtqzmnmsh9DYtzXe2J6Ks1PQh3oQzZ10KjIOgAu4CRKk3qvU+By6wvGad7hz0Z+KQ10B
-         l4pNgxRDfmEz9fY6e1MYY9pVWhU6OIR/ecupmLRSia7hchs6LQcjMzBqeM50mzHZEWrT
-         gyPclZoEmGTWIY2EPr4GLWY6rJmilqhgBvXTB89NTcyhA7sem7Cb8kU2cuxAzaqnMe7/
-         pyl8D5HhVpmasiGl+D/IW7L0uRJgmWB80K8BPkPgnu9zfE6+s2Lg9WVz7r/BdaXYyEMA
-         kD1w==
-X-Forwarded-Encrypted: i=1; AKwUvBzjH6yEoVpjFNFJyR1Vt9BMD1wkMg6MlTx72uddZb0Uo716jG5dt4s0EbCcusvqLgkMShbsf4AnvQY0CQ==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJaiihqPFxLaLMQ4UHKaext0a7l5TJ88MDBH2173q9itJi9TMcN
-	MLbRwtPveu6GMcBRx7xB0Ih7cSi/rao/HEahApE1WKQcoi091Y1Na6i/t6HeBqiHC9m5qbeoZSt
-	67FRuv5jwl7b9+jkI5ABJ78PTq6iq3C7A5JRAbH0qf7Rg+fnQANLIs+fJoIyVpo+97A==
-X-Gm-Gg: AYBFou3KeuSSGk6axIXqxVvxh7n/0LdEANMoQfR/ynOCp8NpgboLbGALzI/GgK8Re9D
-	T6b2m9+6WxI9cEWYglTEMbt3vUOeWkj4oPm0UBCFe+0X3hyS+uwzQoxDMEIiHluOpKEnHM7SNa4
-	qd2BhGgM5b0mXtr4V/spfnT386ceV67MQ2TQWcKPXA5df556j6ggwDydeZuEkyN2gdWf+3WlVRn
-	EgnqhB1Eat6YPTzK7MZ3tC8XT03LMg022UK7nSUIe5zaPPU5AupazvhB1OOrLcW/U35yvRSQg3R
-	ev/p2hoQ4U1fOWWcAsKbN+srE04MW5U/To9fb2ULV4KBcQgP1KjbSaUUne3+xwTwnHkYZXe92lK
-	QmEgJF56/IzhwCu3/zQhzk+XGWGvj/NCUbh8J8FhZmL+59aEFI10HGnlhQtu88Do3fu/be6GPQi
-	P56M5oSIsSOmzr
-X-Received: by 2002:a05:620a:4515:b0:93f:22c4:e92f with SMTP id af79cd13be357-940ef90f7dfmr883922185a.54.1793013021190;
-        Mon, 26 Oct 2026 04:10:21 -0700 (PDT)
-X-Received: by 2002:a05:620a:4515:b0:93f:22c4:e92f with SMTP id af79cd13be357-940ef90f7dfmr883910785a.54.1793013020579;
-        Mon, 26 Oct 2026 04:10:20 -0700 (PDT)
+        bh=hTtxD17fDeW72YOw3DHdOk7y8aNR2m8TdFLwBF4pj4Q=;
+        b=f4LxY1lnZAecmGq3rIOjW6PLk0zbGGxiToNanKFc2qmEwOxxtDDknPS6x8gGT2mk41
+         GsK69Mt9mFZDRMvvaQCGjsOSeAMDgM39+5IK3m5o3ensUWhx+jZqCogTgHRY1Yerc7hq
+         mn+CqNFHiqyLwJtodMJYsr91Y79nwuwct3efY4trlTS6GbPcENTcIApTNEHP5Sq7mbzB
+         00zmUcBeTHHoOvBZN+FFpYG2RRBmRYbqyolz0e0Q5SH5R++oArYvxlO7+vb717wyBKZf
+         wmkXI1b4oZjqoKst9r3iwEUDlSuXSuu6iAFl86WrEg9lNJdYnAi04PpNJTUs5JeEqlq7
+         MqHQ==
+X-Forwarded-Encrypted: i=1; AKwUvByCwXijr9CfaEkO930xn3TyldNZFwR9e31ivwwTho80QVJTjg4l70/qXa2ix+BigYVsUCCUTHMljElJ/A==@lists.linux.dev
+X-Gm-Message-State: AFq9FYKGFfAKOMFZ6MuUGRKYVUwJuxq8r5M0CT050S6yFur4bsWUbGYE
+	DCePnVwzcqxHj5XpoQHt6pyQcqDPQ+Vkhc/50HELg6s7veqjBYBTMBO/WzFNPhJk3EuQ1202U6J
+	v+krNlBjsOY+9pS2BkSDBdNOudMqqkRRdU0InxTY4gTUXoJQX4AeyHOiLOAICu/h1uA==
+X-Gm-Gg: AYBFou1vh9nt1t4lXJ+D+b3LQwNEKWCnhCuu7oRj32fHJ9viuBnALlNn2sd7fJBMEjP
+	Te34kMpViZjrHgXca622zw3tktfWCOVFE/npBkosm8Iwp/nH/GF486A76n7/+i5sQFfRfGXsXM1
+	vbVhZTnxjZ59mh8LfhZ4pPNfKMLBLDwnC/aiKGJqSqZOPnAPg4HLsbVIY4SY0Pp28hny0oGvWqo
+	yyqc9h1Bk/nrpZblHEUsFM3ZUQU1jXbYsDIodHV9qqo/Gbf+HUzKrtNXmawDg5XDCagE605j+31
+	IwR2TikHIzj6e75WjME8vXPKKjLf39B3NvnelUtYgs5vZ9Z/7JEQAT0K0jZHBVLrayPBjpiYdNS
+	4oGo4Cp4KyJXg2OPSJRo3SLe6rtpWyEW+k3GFzF6Dtm3v6eucZachwbYq2El9QlpRO0/QsTumyC
+	kbMoGUTgVGRMDs
+X-Received: by 2002:a05:620a:6009:b0:93c:c2d5:1ae5 with SMTP id af79cd13be357-940ef79f4b8mr835908685a.7.1793013023282;
+        Mon, 26 Oct 2026 04:10:23 -0700 (PDT)
+X-Received: by 2002:a05:620a:6009:b0:93c:c2d5:1ae5 with SMTP id af79cd13be357-940ef79f4b8mr835894685a.7.1793013022577;
+        Mon, 26 Oct 2026 04:10:22 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5bfb7a950a3sm1455459e87.68.2026.10.26.04.10.18
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5bfb7a950a3sm1455459e87.68.2026.10.26.04.10.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 04:10:19 -0700 (PDT)
+        Mon, 26 Oct 2026 04:10:21 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Mon, 26 Oct 2026 13:09:50 +0200
-Subject: [PATCH 01/35] drm/panel: remove the get_timings() callback
+Date: Mon, 26 Oct 2026 13:09:51 +0200
+Subject: [PATCH 02/35] drm/panel: remove the unused struct panel_bridge
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -118,7 +118,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261026-drm-panel-funcs-v1-1-5e3070a3478f@oss.qualcomm.com>
+Message-Id: <20261026-drm-panel-funcs-v1-2-5e3070a3478f@oss.qualcomm.com>
 References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com>
 In-Reply-To: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com>
 To: Douglas Anderson <dianders@chromium.org>,
@@ -203,193 +203,73 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
         linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
         linux-tegra@vger.kernel.org, linux-rpi-kernel@lists.infradead.org
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4897;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=919;
  i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
- bh=QyWrgkY6ZnjVq5h1vZAiS6oNrgNf9gieSUM/aLO7szw=;
- b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBq3zUFn2LL/a3hpHcwUKprTutBJKRl30JANmhZI
- 0sNo9qgoQGJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCat81BQAKCRCLPIo+Aiko
- 1QZ7CACHPPW5AOWGSWzAkI4CS6eiI6km5J70phewHDz5Me8KZKsKWKw1PhMGtKDYABWXJwZXprM
- w1Mwd9MLWmGKuMjvgeaX4BeaBWHIE9lqWcZAtAP4hPjvlewyNVCHzjfVPcHKj2bonTPYAZjLyY/
- Kdm+x/ZpB27J3/76XA9ckLf29X3++gUnrIeLIWML9atz39KUXpQjHWpkY7+9hWVMrSjbh9ThgFM
- cL5NwHUlDYhgA7cwESIzgVIe+Nd3mxrmtqtqcgMUM/W3YqRnhngxGcvEyfeJXucilRevgZN2w9p
- 9t/l3xlE2Eo7+p7jGCAPfnMTN331Xx7JQWECasKBfom/i3JO
+ bh=sZu+gCCAPK/+XC2UapLGIknKvJV9j0SOSwR5V3S29Kg=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBq3zUGKchAASinmtwtPvMmwc3Sq3F9KCOYzdxgN
+ pt0G7G3yiiJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCat81BgAKCRCLPIo+Aiko
+ 1Q8ZB/9UTlwRaNEBaGZxc0IwmW24VtC9wkBG+oXCJSl5rdTbX9zSnAGHOPU42S8Nlb1GuDWUcCd
+ u8AC1Glm1GPXlGJRPo0AbB3a7ktQTdDgK6JaD+b2r9Hoc47OdhOBGIVXM4vYHqFgZiSHqjhnvzx
+ Dhv7BjRRQ3C0W/HD15S/GIPnlNoNiLX5I8xbdFlTSl6S5wJ50QKkOO1Mc9a5yef6o+FVeOZDDE2
+ 1OOg1OrJ+lx2dkO0aE0ZEz3LFOlpM1pJsE0AeR+twAepe3OIl00+EzUnqQKGESS355y8wohb7lg
+ 43i2QjbtSdWp/qaxCdogJSgBLYlMQGzeD9sI+8HSJPnUZO0R
 X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
  fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI2MDA0NCBTYWx0ZWRfXymQ0GzxIeMr8
- 77VrYFxmKfgiQXQUTKOe0jN4jRqAeP5K5zgcztyQ+aeKSMMadOgALeH86Fja8hj2WgNUb3S4caB
- jFJHLOxujWKkJzBGu25EUP5CERZrauM=
-X-Proofpoint-ORIG-GUID: ekdSS_-N3h5ukUKGVLQGO_bpBzu7RkJa
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI2MDA0NCBTYWx0ZWRfXwOA12nV1t4yM
- fDdrXNmpbqVog6UzLdhfTET/tjPUtVXO8cXO9X3d/9wHGd61OBS0I8yIhFuAcNrS39DgLZDrCXI
- CBQV6d58Ou8wXyHcsRNrTdwzxKHPXHD8Af+lYE28ErjmkNkt/YL8YrmwcHsteOLKvgNCAX4nb0a
- RmPQZICrJ11sSPLXtEvX6qjd4BCb26eVlcqHzAGe9hxUn/TX2yJuIZ9dzx/DQ3Vwamp7mJEAam9
- Zr+ttszjS1MDmIRsJGK3II+AGxoUHk2WXs9gjwoNkI/+O5LWzZduiUDR6YG+MpU/yi/o7uzZdXV
- j5obZCvTCaNYI7xsp5G3/C9/aedtO/NWGYn8rcZtJUFjgXF58Y1FmXMDBR2x3I4VzdpFTE+xH3c
- V8ZeDfQKDo9GUd3SwoBYyE1cXxXZ3ls2MXSmV4qNhJIdPgApNU+dHD2k8vIuoLy5p4kiQRob5fz
- pqzjZSpsTcGtW6JjSFg==
-X-Authority-Analysis: v=2.4 cv=D93SufRj c=1 sm=1 tr=0 ts=6adf351e cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI2MDA0NCBTYWx0ZWRfX2oXaKZir3UUC
+ LxWGBTYRJiRmKkZlY4FYFLbeQgW5jQLZslfFlB492w5pEckIEUr57kLHIpjWAUuRSzyh7337M+r
+ Lmt2we2PoEGO5QuvnZiVEE/yECC3/J6olZUQGw3gTkzLrxGHArlHOYHpWc/Xt1pC66Ktnl59TT9
+ dEkCatpde8WAfMcatlgsCpB3hf5sd7aX8KIEkInH+MWCi7o+/cR2UInpVrMcuJj0EIHshKcIqw+
+ NqCtxYoAs7aLjoFwxydJc4CmtkNAnDTNNiJbod5UwhLH3MQZNM9euT8piCLKv453dFijMC1XkV9
+ B2I5gtTKdin6/65slnbOsx6avQXVgdSs27gtpJi+0Fo/ctE2opa/0wGPwmt3QnUqiNpVSYPusNE
+ kaCBjup4BJ2AxR0fjdNqGnQlz2Henzgms2W2s1tU+6gOdG3cFJkzDVe5SDGijKc7gCdCbFYkAxf
+ AmfR5zDRSNbjkPGdQHw==
+X-Proofpoint-GUID: gaXmoyPaipDDftmQIb2lQ34TyDSMZ6zy
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI2MDA0NCBTYWx0ZWRfX3uU9tNRZsVXn
+ 2WyucULTdYtGVPyfIo89BAuafCD25EhRKVHM+NBqtxGPiG8g5p32y2bPoWvNvkQF5JyEes3i7U4
+ 8tH3BeVlNhLkFlZa1bTSi1jpy3xLMR4=
+X-Proofpoint-ORIG-GUID: gaXmoyPaipDDftmQIb2lQ34TyDSMZ6zy
+X-Authority-Analysis: v=2.4 cv=TboDJhQh c=1 sm=1 tr=0 ts=6adf351f cx=c_pps
+ a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8
- a=6bBJhzG1MskExv8IbyMA:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-GUID: ekdSS_-N3h5ukUKGVLQGO_bpBzu7RkJa
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8
+ a=a_a0KNV-W32lKMFKthYA:9 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-10-26_02,2026-10-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 adultscore=0 lowpriorityscore=0 impostorscore=0
- phishscore=0 suspectscore=0 malwarescore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610260044
+ phishscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
+ spamscore=0 clxscore=1015 adultscore=0 malwarescore=0 suspectscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610260044
 
-Nothing has ever called get_timings() since it was introduced in commit
-2938931f3732 ("drm/panel: Add display timing support"). Remove it
-together with its three implementations.
+The bridge is embedded into struct drm_panel now, nothing uses the
+separate wrapper struct any more.
 
 Assisted-by: LLM
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
- drivers/gpu/drm/panel/panel-edp.c           | 18 ------------------
- drivers/gpu/drm/panel/panel-seiko-43wvf1g.c | 18 ------------------
- drivers/gpu/drm/panel/panel-simple.c        | 18 ------------------
- include/drm/drm_panel.h                     | 12 ------------
- 4 files changed, 66 deletions(-)
+ drivers/gpu/drm/drm_panel.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 94bc54c3833a..d3a4cf9b1760 100644
---- a/drivers/gpu/drm/panel/panel-edp.c
-+++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -646,23 +646,6 @@ static int panel_edp_get_modes(struct drm_panel *panel,
- 	return num;
+diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+index c00529bfb706..268e655140ac 100644
+--- a/drivers/gpu/drm/drm_panel.c
++++ b/drivers/gpu/drm/drm_panel.c
+@@ -50,13 +50,6 @@ drm_connector_to_panel(const struct drm_connector *connector)
+ 	return container_of(connector, struct drm_panel, connector);
  }
  
--static int panel_edp_get_timings(struct drm_panel *panel,
--				 unsigned int num_timings,
--				 struct display_timing *timings)
--{
--	struct panel_edp *p = to_panel_edp(panel);
--	unsigned int i;
+-struct panel_bridge {
+-	struct drm_bridge bridge;
+-	struct drm_connector connector;
+-	struct drm_panel *panel;
+-	u32 connector_type;
+-};
 -
--	if (p->desc->num_timings < num_timings)
--		num_timings = p->desc->num_timings;
--
--	if (timings)
--		for (i = 0; i < num_timings; i++)
--			timings[i] = p->desc->timings[i];
--
--	return p->desc->num_timings;
--}
--
- static enum drm_panel_orientation panel_edp_get_orientation(struct drm_panel *panel)
+ static int panel_bridge_connector_get_modes(struct drm_connector *connector)
  {
- 	struct panel_edp *p = to_panel_edp(panel);
-@@ -699,7 +682,6 @@ static const struct drm_panel_funcs panel_edp_funcs = {
- 	.enable = panel_edp_enable,
- 	.get_modes = panel_edp_get_modes,
- 	.get_orientation = panel_edp_get_orientation,
--	.get_timings = panel_edp_get_timings,
- 	.debugfs_init = panel_edp_debugfs_init,
- };
- 
-diff --git a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-index 0935d83ee2db..99b3895a1b28 100644
---- a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-+++ b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-@@ -174,28 +174,10 @@ static int seiko_panel_get_modes(struct drm_panel *panel,
- 	return seiko_panel_get_fixed_modes(p, connector);
- }
- 
--static int seiko_panel_get_timings(struct drm_panel *panel,
--				    unsigned int num_timings,
--				    struct display_timing *timings)
--{
--	struct seiko_panel *p = to_seiko_panel(panel);
--	unsigned int i;
--
--	if (p->desc->num_timings < num_timings)
--		num_timings = p->desc->num_timings;
--
--	if (timings)
--		for (i = 0; i < num_timings; i++)
--			timings[i] = p->desc->timings[i];
--
--	return p->desc->num_timings;
--}
--
- static const struct drm_panel_funcs seiko_panel_funcs = {
- 	.unprepare = seiko_panel_unprepare,
- 	.prepare = seiko_panel_prepare,
- 	.get_modes = seiko_panel_get_modes,
--	.get_timings = seiko_panel_get_timings,
- };
- 
- static int seiko_panel_probe(struct device *dev,
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index a944c34642dc..e4629428b1b2 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -405,23 +405,6 @@ static int panel_simple_get_modes(struct drm_panel *panel,
- 	return num;
- }
- 
--static int panel_simple_get_timings(struct drm_panel *panel,
--				    unsigned int num_timings,
--				    struct display_timing *timings)
--{
--	struct panel_simple *p = to_panel_simple(panel);
--	unsigned int i;
--
--	if (p->desc->num_timings < num_timings)
--		num_timings = p->desc->num_timings;
--
--	if (timings)
--		for (i = 0; i < num_timings; i++)
--			timings[i] = p->desc->timings[i];
--
--	return p->desc->num_timings;
--}
--
- static enum drm_panel_orientation panel_simple_get_orientation(struct drm_panel *panel)
- {
- 	struct panel_simple *p = to_panel_simple(panel);
-@@ -436,7 +419,6 @@ static const struct drm_panel_funcs panel_simple_funcs = {
- 	.enable = panel_simple_enable,
- 	.get_modes = panel_simple_get_modes,
- 	.get_orientation = panel_simple_get_orientation,
--	.get_timings = panel_simple_get_timings,
- };
- 
- static struct panel_desc *panel_dpi_probe(struct device *dev)
-diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-index 58113ea7d63a..deae4753a594 100644
---- a/include/drm/drm_panel.h
-+++ b/include/drm/drm_panel.h
-@@ -40,7 +40,6 @@ struct drm_connector;
- struct drm_device;
- struct drm_panel_follower;
- struct drm_panel;
--struct display_timing;
- 
- enum drm_panel_orientation;
- 
-@@ -131,17 +130,6 @@ struct drm_panel_funcs {
- 	 */
- 	enum drm_panel_orientation (*get_orientation)(struct drm_panel *panel);
- 
--	/**
--	 * @get_timings:
--	 *
--	 * Copy display timings into the provided array and return
--	 * the number of display timings available.
--	 *
--	 * This function is optional.
--	 */
--	int (*get_timings)(struct drm_panel *panel, unsigned int num_timings,
--			   struct display_timing *timings);
--
- 	/**
- 	 * @debugfs_init:
- 	 *
+ 	struct drm_panel *panel = drm_connector_to_panel(connector);
 
 -- 
 2.47.3
