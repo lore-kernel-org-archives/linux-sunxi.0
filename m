@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793110455;
-	b=lYTJWJ6ecyn2KxW3S4xzFeFCgq5KcHctrA1r6wYVfaXoBmhG+BDqBh9ssd51MOXSBsIX
-	 TFc4mvWCszRnBBKep1nwS6ZcVsuTDLYVUUO6EV+Gs/33QDzskY9IzF43uUHB0GE3S3rbJ
-	 a9qRhytZzHEAMTsauO0RuFl/l+n5MoWq1VmQrBP4uSrKsT8L6+ecIx0CxXm46xleY2WKK
-	 UNDENUQxcjqXMgxVRSwq60uYqP4aBf7SR197mTd7R8Lh4vsEUQ5ELaJ6rMl6bEFCVeNrb
-	 jXDZgyRnZckTFjZnufPJBo2XBDb5I3VXH0EOCSsnZzu+4hqysBrivHD60a1y+6Sc3Ow==
+	t=1793110961;
+	b=riDvi1yMiQq5zDySrefRcEXC9FOXOo5d1CToFmW9KBkX8eh7VFuI8iEW36cKKg3Sx0DU
+	 XujmK6Tjv4LnQP5gsI4pGJNlLoQ6rAKvbY5sZDKYRDRct8vLVMDBW9iJZLJogCEH8unzR
+	 djsd999Tz7Uof35RlOMd5zUqFiBq/aL3BbaWEPiRWM8e0MPyeFGrNlTYD7gZFCYQLhM0d
+	 SX+121+XPCfRjyLyIaHwHyKAZrERlQy1pJK+5Ez9GgMTQpsZ8tcYMoCFMzdBguZ37o8bS
+	 Q9ZB/AaSA/TRuUDxJX4RoLXx1tRnif1klECL2PjFIr2wzcAGkiLDS0d0MtDSzhROZRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793110455;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793110961;
 	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
 	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
 	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=ULtd9LbkaeiBjJrJ74ty1dyVfksSuVPpssfCtnxbGQs=;
-	b=nA8ZLlPU6th8jSi5Plu3QaydRVmhARlvSPmtVhybfnR5o6ZZk05Qwrg9T3fwQtRNocab
-	 l3ZqoAMkhYrmxPkOIXY3HaQnOyYhxbZWyV8S66GcCY4eExEwPqP9YSZXyquzvXYqcvhCm
-	 wkA5MKJWsbH0tRejbEK2LG5Z7GcH86sneFHJKJwOUW8lVOnG0bQXSp4NZLqXjSIjiHXF9
-	 6Nzga11vzl2nci1l2b7bZw89z2DG1IhG3JhlTYgEG0C95KgORkfSjYG7tHFX5cHRh1f96
-	 vLnkrmSTca/3wdDrc2DFA5WST5PUbr/AxnZPxfz84eBf8QC6q+BYpHmK8WB5kqCStYQ==
+	bh=GaS9DIAzMYp6Tb26jgRNliWQoK7YtOPDgti3i8/xKo0=;
+	b=Iy89OqbwLBdncdL/O0wkBan16NLyB7CE/66Hf/aXzK+4T4lXGY2GleCL2rQ4wudwXo9Z
+	 k+4RDFEdf+usgNkLO+bxn2iSBirLQ8g2N+KlyU3Geof1zZR2hernEFUvjdAAgKdXTGUBB
+	 m8K36KLrq/RS8aAPvTys8Im7T0N+FRvQ7hiwMMNITVt/gOCucspxKyWhvOGZKVJBtYloL
+	 JI/11ioNpGiO9xB3af9Eek9zQlf5v3Olfnh5PaE2ScR/vrTQ9WpmaLmlPpB6SYhHhHbtt
+	 NQK709PlGpe3vmsroa0wqzPNNTJKf6lhBS3BLV5lQQFm1xJ/RzbXpr5z6zumOSABcWA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nOHXFD9i;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NWsafbg3;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC758606A32C
-	for <linux-sunxi@lists.linux.dev>; Tue, 27 Oct 2026 14:14:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12FF7606A31A
+	for <linux-sunxi@lists.linux.dev>; Tue, 27 Oct 2026 14:22:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nOHXFD9i
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A104B1F031EE
-	for <linux-sunxi@lists.linux.dev>; Tue, 27 Oct 2026 14:14:14 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NWsafbg3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A72261F01825
+	for <linux-sunxi@lists.linux.dev>; Tue, 27 Oct 2026 14:22:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793110454;
-	bh=ULtd9LbkaeiBjJrJ74ty1dyVfksSuVPpssfCtnxbGQs=;
+	s=k20260515; t=1793110960;
+	bh=GaS9DIAzMYp6Tb26jgRNliWQoK7YtOPDgti3i8/xKo0=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=nOHXFD9io0Ru2PaYz+V6smtGs0WntNANVygH/FG21ay5l6eXVd/Fv0/Tv/05f5lHN
-	 ro4iu7gr3151Nom7znD+w9DtyJZyWfUd1ugqFnU4sroYLuBrr059kaYzOqg3LHyBNE
-	 Nq5slenfftrhf+jQMKg2z4tHzFnbsIy48BStIJ4xgz9ShxnCKOCF83cSRLUB1U0tDm
-	 g3peUTLWKcVDShNXN+mUP1xR1HMK/LuErofPe2xUAZAdWO0fFLSPuWwNBeF/MoBv5J
-	 AbW/DgyYr644yxz8kE3Ve5Rjs1Wa91W5XlLBIEfFPMWntO1C6QOqcmg7216oQhQAET
-	 L21vjkzNFgP8A==
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-4a6fb4040cfso1228063fac.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 27 Oct 2026 07:14:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBz1lm24hlS4Wj3dSPhBhh2mLj2XWXDdMMrsmvmpEcZQ4yP2n1JeY+G7Gje2WMM6l6UJ0M3hKAlj/fiRyg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIcLwPlEV/fN/BAfpqdgykHp7h4Td9XB//DFmohf1Pe8PGCXwX5
-	M2CI+W/UcntATHcB3hztxupFWk0+L8QaPGdnUNoaoD3YKk6mZgpjh8OuZQQh4SmB+h278tHWSw/
-	0sPJ7Z2XFpfnRzmFrCexl+7c1WYzDG0s=
-X-Received: by 2002:a05:6870:c69e:b0:49d:c8ab:967b with SMTP id
- 586e51a60fabf-4a83f542697mr5910295fac.47.1793110453054; Tue, 27 Oct 2026
- 07:14:13 -0700 (PDT)
+	b=NWsafbg3XEADKZm3x/wbC5f/PUKjCQiFPnk5bWiJ4sOr1/S8XfbrSVQAooOHUz7Yu
+	 Of4uLmLvjeqEDTMcMJqX+uUg+5DCoUg99qcQcCybB1PbOhuOLiuVjgGeBEICbDJ6Y3
+	 1iEuGuVzWMjKV/HsBqntv9tr5vv29rsuye8RfPj2J9vwhIPxtyyQKAjuOF99lhV+Yv
+	 di02gF5dISAr+BEx/HqV35HXl0dhxHCsGGi8zk3UhUyQuchQ8W7hE2sdrcEr5RvShP
+	 4D9gN3JRmdAeh6JJzoxMO0Z/Vw2jrRGb+q7UiF7/RmtWcsPA7ZnqGheqcDtDOvzDc5
+	 LjfFWvWLviNWQ==
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-6dd059478dcso2916932eaf.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 27 Oct 2026 07:22:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwEOW11XK9h3pYbUvGtpUKpJimrX5QqD7BaRXB0H+4mQUqqvIZrk/v2QhQ2MVlthiMai0HJappya1hPtw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYIegrY+Gx9kPu2A8X5R14qpLqUnLTFg5uyj0Zh5gBvuaS/IxJUF
+	AHKuXU9Aj/BioQoLwafP1BtqD4fF5KhfaoAGG6vGGnNttcQ6TKS504ZkAzeNpxYP9BoCNXms/t7
+	Cx6fi5mh3m09wknrsl6/2rjmKjSPsR9w=
+X-Received: by 2002:a05:6870:2189:b0:4a7:5508:c526 with SMTP id
+ 586e51a60fabf-4a83f42f572mr6040267fac.21.1793110491448; Tue, 27 Oct 2026
+ 07:14:51 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,14 +59,14 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com> <20261026-drm-panel-funcs-v1-9-5e3070a3478f@oss.qualcomm.com>
-In-Reply-To: <20261026-drm-panel-funcs-v1-9-5e3070a3478f@oss.qualcomm.com>
+References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com> <20261026-drm-panel-funcs-v1-10-5e3070a3478f@oss.qualcomm.com>
+In-Reply-To: <20261026-drm-panel-funcs-v1-10-5e3070a3478f@oss.qualcomm.com>
 From: Linus Walleij <linusw@kernel.org>
-Date: Tue, 27 Oct 2026 15:13:57 +0100
-X-Gmail-Original-Message-ID: <CAD++jL=2zsU8xOQWURD7HFOiCYwCNwW9ece1=PoVci2qNM8Ykw@mail.gmail.com>
-X-Gm-Features: AclHuK8ruqZCGkf4O-7fY-Pys0rgaueWTZBuD-NGSUOyqWUpd7La4hdhioD434w
-Message-ID: <CAD++jL=2zsU8xOQWURD7HFOiCYwCNwW9ece1=PoVci2qNM8Ykw@mail.gmail.com>
-Subject: Re: [PATCH 09/35] drm/mcde: use drm_panel_bridge_add()
+Date: Tue, 27 Oct 2026 15:14:29 +0100
+X-Gmail-Original-Message-ID: <CAD++jLnmuXaoKDLyCsPzUBYohOxqjVGVndz0047vmhZFgvvo6A@mail.gmail.com>
+X-Gm-Features: AclHuK9bjg1W8yVOv6xb18mY_G1euLOiDqjDsy95KUm0kaVExInNMT0MB46F2ok
+Message-ID: <CAD++jLnmuXaoKDLyCsPzUBYohOxqjVGVndz0047vmhZFgvvo6A@mail.gmail.com>
+Subject: Re: [PATCH 10/35] drm/pl111: use drm_panel_bridge_add()
 To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Cc: Douglas Anderson <dianders@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
 	Jessica Zhang <jesszhan0024@gmail.com>, 
@@ -134,8 +134,6 @@ On Mon, Oct 26, 2026 at 12:10=E2=80=AFPM Dmitry Baryshkov
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
 Reviewed-by: Linus Walleij <linusw@kernel.org>
-
-Thanks for driving this patch series Dmitry!
 
 Yours,
 Linus Walleij
