@@ -1,63 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=57.103.73.211
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793073273;
-	b=LN1gWkr7W9wb+J7utvdTEX92NlhuRFKn6w5jliVcSdmCGfwWZaBDDh2P9pfR5UP5jSHa
-	 4EIwLwyHjWIWtvWz/SjkrK1Rd4qfSY1H93yM/l5Lq2Rv5SbHtKEwpZ4mlQGpitkAQqyNu
-	 Ny6FIUs2TR/Ce7eoR350QwYOCaTecuX+7bNa/y2ZPMMRjrB53DiEUTp4NJ/nh8j9h8f4Q
-	 +i0AFw+/nNZ/io1dYylusipx3FuB+8SOnrL1ogGiVgoVE5UqF+/82aBYtD50zspabMM3k
-	 Mlj4SQJ6A92JInQq0GZDH/BpYud47Kc7lXp6RAu9MhOsj5bR4obff66HfzytDGW3dOQ==
+	t=1793073819;
+	b=SvqmVuzh9p+cZatGBWE+eRWVyQ1aIEMfDecY4IOQnHb8u6fC/oM44V5mFEsYv7G9qPcR
+	 CdqtwAoKHigW9rU31dNSOU67wLNUIY+uU5ucxiMyP0YZ4ow1unYhleu9da2AKyaa1ZTR7
+	 0f6TTsBgsQWuqwlihxynFeU4VGcLVobcz2YZovHFdnFTghulBexoJT9Z8SM6MK7o4n/FS
+	 owVaI4clpz/bEtPYVbg6MJm6AXczsEZGfQFxeYsKVx/mAtgs5dhe2WWPh8LGjD7QvDXiC
+	 M9D/73+MT8q/ZI8qBPJQJvjJDcwGB2HJRoR9TqEZKhFvZJS8mubU5EvwfKL85rfjyTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793073273;
-	h=DMARC-Filter:Received:X-ICL-RepId:X-ICL-Out-Info:Dkim-Signature:
-	 mail-alias-created-date:Received:From:Subject:To:Cc:Date:Message-ID:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Authority-Info-Out:X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-ORIG-GUID:X-JNJ;
-	bh=c557NJspcrYp97wcV3FzkxycYN4AmMz1y8uOKeLXX9c=;
-	b=mePZnF+B2sdfyufynF6OkwGi+x/cBcUntX4Z6yN4+dFpm6SxfRwCaXnX5DmNXkshZg7J
-	 Dowe+gcc+R+EdPZVMIr0Uz+4Zc7xiugEByLjeiZfApFrRIPDQt9m7hdqnLw7vx6uTwuYl
-	 DgBI22BXRulI+tOp9KHrCJ+DPB28//dosktPZ+FKyutjiVlzjD+zXjO69ddGnt2/+HCZ8
-	 meLon+JVqHCutcO949HJaUNEW1lUBspyGwNXyfuJL/3Zx9Gda6hDxLFdFZyJoDVRJH38+
-	 mhs5bcyWFUar3z/fvS7jqXntKHC+sHZX3FbiMN2n19lSJZ+Sn98KWCcztmItY3LGojg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793073819;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=DkHTCThQXE1jX4szmvp/ieeoSUq15merithhMrLPB4k=;
+	b=IPR2i2SgIlqH2GxmXFK43zX0ommQsh3tl+5yVJgbh3MJ+PLow5aBnK1FJukFzqIM2mtT
+	 zjPfUMUMhIWEsIJvznTshY0rwhTk6aoIY/2bST6v+8Wq37TAtwHfr3p6U5UqGTH/6Wn3w
+	 wkJDHsUhpdysCOnA+qS022L1erlCM18N6DRHCTa3AkREABjSgLD7Uoa0BD6L0R1VbMqut
+	 KvLl0cI9y7ujl9E5waJHqVTYOZWexrqRhXj9joV7YJdTkptmmSI9S/+rBdpI5QsNBNdim
+	 2tMHi5sS+ksUUd2Cmhm0vSdCBnwSYdRO86wV8puSSdxK5CePi1+PcM+z8UAojHe4ceg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=manyhobbies.com;
-	spf=pass smtp.mailfrom=manyhobbies.com;
-	dkim=pass header.d=manyhobbies.com header.i=@manyhobbies.com header.a=rsa-sha256 header.s=sig1 header.b=aJh0AGum;
-	arc=none smtp.remote-ip=57.103.73.211
-Received: from outbound.ms.icloud.com (ms-2001h-snip4-11.eps.apple.com [57.103.73.211])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LMks7pGC;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63057606A31B
-	for <linux-sunxi@lists.linux.dev>; Tue, 27 Oct 2026 03:54:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 63057606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=manyhobbies.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manyhobbies.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BABE8606A31A
+	for <linux-sunxi@lists.linux.dev>; Tue, 27 Oct 2026 04:03:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=manyhobbies.com header.i=@manyhobbies.com header.a=rsa-sha256 header.s=sig1 header.b=aJh0AGum
-Received: from outbound.ms.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-west-3a-100-percent-5 (Postfix) with ESMTPS id 288F518000AA;
-	Tue, 27 Oct 2026 03:54:28 +0000 (UTC)
-X-ICL-RepId: 01a17b7e-c94a-7c5d-b7c2-55b64c5de973
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhPAUMGWQZeD04dXwVcEhVdRUcMWkVWH3kVUgNOA10SWxFWHhkIXR0ZHldQWgpcCVEXUQ9eDkFeWhdeTUUID0kZEFYBWFZdBU0aXBhZDxwdSlZaDlsERxQXG1wAFxtGAgQjAl8ARQJeCVYBMBcPVk1UGV0UXwRQElAdQENUBF9QVBFXUAtaBUkKSAReBlkDQA1WAFQPXQFeCEoAWgVTA0QITgBZAFkKRAFPBl93BlMeQBBcD1UCVwMXG1wACUtGCUkdDg5CGEYfVCdXAloKWx4=
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manyhobbies.com; s=sig1; t=1793073271; x=1824609271; bh=c557NJspcrYp97wcV3FzkxycYN4AmMz1y8uOKeLXX9c=; h=From:Subject:To:Date:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=aJh0AGumjEqUA82HLgydg7bSQii8pFGQGAywdpmcFB++chslRvqswtVMzE5ZazNKcUGMRGzKtPZJS8794b+0TYfvdYOfTWqkLt29D/uZomQOMi4t+PHKAfClCJ9pVlsOBlyRfzDFpXSGGVsJUvEtDQLyc28ZuQyAXdyP43ZXY1Inz/30xp8guqug6SQAg5ds8ARhTWj5L6oXT3TxqotmXq1crgTXnhtJw0CblRC92iU+shQ9Husp2ECB8TGQ3B/L+RsftGhY18oE6we4wdWnkoSFD654T7/J13iA48f1FNOiln3O495aMSRMMByoxB3YAHAkbO9dYgQ5T2X9VMhVvg==
-mail-alias-created-date: 1780273699991
-Received: from claude-agent.manyhobbies.internal (unknown [17.156.208.39])
-	by p00-icloudmta-asmtp-us-west-3a-100-percent-5 (Postfix) with ESMTPSA id 26068180009A;
-	Tue, 27 Oct 2026 03:54:28 +0000 (UTC)
-From: Tam Do <tam.do@manyhobbies.com>
-Subject: [PATCH] mmc: sunxi: reset the controller after an update-clock
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LMks7pGC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 378861F01825;
+	Tue, 27 Oct 2026 04:03:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793073818;
+	bh=DkHTCThQXE1jX4szmvp/ieeoSUq15merithhMrLPB4k=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=LMks7pGC8Wl3pGaYaW3ye8Zf8DAY2L2WD2IdFbrAcXtOY8MFjEJA62LrnbWcg9HLE
+	 9H2OZM1e4LvIAvvO3kpvNq5ui+xFJvtFAzviaAn+9Bnc1opNqIJRCBgk10sjyrKPX/
+	 nwg+Sno6Y+EcU80iZb68lVWr0ugpxrgTNkd/3ptL6OoSWvpGkxVJ7gBgG6q9LE512f
+	 HgcFoTo1zMP2GGjl4YGbhgA7Ttyl25bQhP+C4zSKytPk3/Dx8pw+tdVp2bVGq5Qgqd
+	 jIza5lZhoLTPUNbyTtTt1+J+xDkGdIQZrxH1kqaDdyrTVThXAznaOR/sBktiRYHPAQ
+	 GSmH5v1arJ69Q==
+Message-ID: <sashiko-outbox-186068@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] mmc: sunxi: reset the controller after an update-clock
  timeout
-To: Ulf Hansson <ulfh@kernel.org>
-Cc: Chen-Yu Tsai <wens@kernel.org>,
-    Jernej Skrabec <jernej.skrabec@gmail.com>,
-    Samuel Holland <samuel@sholland.org>,
-    linux-mmc@vger.kernel.org,
-    linux-sunxi@lists.linux.dev,
-    linux-arm-kernel@lists.infradead.org,
-    linux-kernel@vger.kernel.org
-Date: Tue, 27 Oct 2026 03:52:01 +0000
-Message-ID: <179307312104.39863.12372814163472848752@manyhobbies.com>
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Tam Do" <tam.do@manyhobbies.com>
+Cc: linux-sunxi@lists.linux.dev
+In-Reply-To: <179307312104.39863.12372814163472848752@manyhobbies.com>
+References: <179307312104.39863.12372814163472848752@manyhobbies.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 27 Oct 2026 04:03:37 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -66,53 +59,84 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Authority-Info-Out: v=2.4 cv=fbugCkQF c=1 sm=1 tr=0 ts=6ae02076
- cx=c_apl:c_pps:t_out a=kRaGL2Q7qLiahLf3O6OaIA==:117
- a=kRaGL2Q7qLiahLf3O6OaIA==:17 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=w2OPf45SAAAA:8
- a=OBswR2QUZwThbbyFsH0A:9 a=QEXdDO2ut3YA:10 a=-iXIJKm6ftRzmWoHelNS:22
-X-Proofpoint-GUID: y2SgpGtdZ7vHdcPuD7Ypjoc6D-Sv23Sj
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI3MDAxNSBTYWx0ZWRfX6NLdvTed6MJk
- NDt9+8d0rQtPMNEI7W0Sgwrwc5t34pOkSvmarHPDHtAhv3/NplmE+OYdB0qFxLm6lN3CuyCeQB/
- BEr+gIT7FTo5/RmL7XAdxxnQA5wf2cIgL17KxQ/991O1rDI8PodIbltZ/jotFG2/umWdKCAgO5X
- LGK5r8G5VJsf9HisuUcikkDlVONrJ2fe0ACUD6RrADoZPRXs7yZsHZAn66kAhRau7pa9gtiYtYZ
- LtJc0kxK03QFHId6WWBlNijwmYfJOykTq/+dJScH+rDAGKucc5UqKruTuKTp4ZQDrPhIF8NGchF
- TrRkbvLAcYEBoB4Id2EHjfrmSw1/RwbQ5tX7gKcuXHvLss9AMGP+atvsvXYdp4=
-X-Proofpoint-ORIG-GUID: y2SgpGtdZ7vHdcPuD7Ypjoc6D-Sv23Sj
-X-JNJ: AAAAAAAB97Wku43oW0onLL0nsnuVzNu/wNnoSw2Lfvo1qg77wELWKGEOx6s/vTlMnrJy1v1rTIZ++H0LHfbQEvshtbpLg80viBL3MgEw9ypfH3ljJIbppdVgA/Fog/xP0A9MocRTnVlDRBQpwYD/+0IFgai8LiK4o/RNfYpBsgUwJdgK//KsqYoOvJhQ758Sn4ksBXAalCi2OYMuetJRVetvR9qaaNCGAPT8OHhXZ9DxvNMwOpuBZyuJxppSwoI6C28PPZm4R1PPSbb0wvf5/Mp6IlA2ggC4XPsRzc3qe9bFYj3+ZduQetG7/pP1FSwbyeDKp0tGjJkOnA2Lo+cU8o0hNh1MjWDB2v22l6JgbYQVd1ypsg+qlsLL9v/ZvEwxCTyCP7RcmGud8QgI8u6JkX5iAkc2UlR+nKfi+3UdI6mrdaQOTXvNpkC1lepH2Ikdgxbbh3zO1aymZQXK/n8lzJR44sgEQyGpRdPb8j2J84brmSedvC7P24qrKrPiwRZoalpw6EVqx+hbMxSwsRwmNWlCk3mQwU0BFotv+IvvRjmfmbiPzP5crWfXHAp5Dl9BzHY7YQD06WKHSvUXwm+JDXBq6RnY1gkbNiN5HJ/0aKRA0hX82FvRBhbrJsC3jeEdY2thvPN5MlAA+Cp6kUNXgYyrw3mk1RRnNFifNcxZhLFsMbDlmpVfLR7rN7X0tNPmjYbPKGo0h7IhZuDZb3GY61ESb6+O106ySIuZooKp7L1swTQ7UmHFfskNhQFJb81vNqODACe6ocjp+tjz/R3HPwe0mEhAkKu0LiMzZfe/o/7iAHBDYkWMbugTtcz+Te8t6uJvwOc3LAAXMoxNU2rI19bm2P1qtzEhz+X4jRH3fiMtRfUgNRb96sdUDr1zHTpAKZ+M9Ma5g2gbg4RYuml6e6wfRgxq3YLZwQcX5YGeliDixu+6pTVrNfK0885TG/xxwPJQdVy1eP77R4IXBMbLj0vqajXYYu7
- +vinsDdtAIdgHFCyqTOCA70Qy3VTY1lvl57b0LU0lwwT8zLVXRPwpNZeLEzN+mXf8rrQdHMgFdhD3fxUgFNw5Fu5Qr/IwvdmjyJvsJctIJTSbQGAfafBM9rs8R94yn2rgR4ORR2C1w+FRoZv32tscoaXhycEvYsst1HAtJqrVERdFmUeSfXN6Xvlm8D/X+ynHchM9lGTywhlFSCMaszZR/2ciaL1Op/3w0PaDEjyDOh6lbw97TR4fxDUdqAA70/qZsENOLcL9R+LCbk+jKRyg75NiN85pTaId9K+eq1yXd3Xeuh1dv5aO3RLNBzZNg0D0QJWbaZAeKWmC2RwU/7MFZ+ScKEbqzjz//yFSMpIBO+tcNZYt
 
-If the clock-update command times out it stays pending in the
-controller, and every later clock update times out as well, so the
-card cannot be initialised until the next probe.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] mmc: sunxi: race on REG_IMASK and sdio_imask in sunxi_mmc_init_hos=
+t()
+--
 
-This happens on an R16 board whose SDIO Wi-Fi holds DAT0 busy while
-its supply comes up during the first clock update.
+commit 5bbf951431c455133c1e7c51cf18b994aea96bec
+Author: Tam Do <tam.do@manyhobbies.com>
 
-Reset the controller on timeout so the next attempt can succeed.
+mmc: sunxi: reset the controller after an update-clock timeout
 
-Fixes: 3cbcb16095f9 ("mmc: sunxi: Add driver for SD/MMC hosts found on Allwinner sunxi SoCs")
-Cc: stable@vger.kernel.org
-Signed-off-by: Tam Do <tam.do@manyhobbies.com>
----
- drivers/mmc/host/sunxi-mmc.c | 1 +
- 1 file changed, 1 insertion(+)
+This commit resets and reinitializes the sunxi MMC controller in
+sunxi_mmc_oclk_onoff() if a clock-update command times out, so that the
+pending command is cleared and subsequent clock updates can succeed.
 
-diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-index fe4c0f6..439cfa4 100644
---- a/drivers/mmc/host/sunxi-mmc.c
-+++ b/drivers/mmc/host/sunxi-mmc.c
-@@ -688,6 +688,7 @@ static int sunxi_mmc_oclk_onoff(struct sunxi_mmc_host *host, u32 oclk_en)
- 
- 	if (rval & SDXC_START) {
- 		dev_err(mmc_dev(host->mmc), "fatal err update clk timeout\n");
-+		sunxi_mmc_init_host(host);
- 		return -EIO;
- 	}
- 
--- 
-2.39.5
+> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
+> index fe4c0f6d73f3c..439cfa4ac4032 100644
+> --- a/drivers/mmc/host/sunxi-mmc.c
+> +++ b/drivers/mmc/host/sunxi-mmc.c
+> @@ -688,6 +688,7 @@ static int sunxi_mmc_oclk_onoff(struct sunxi_mmc_host=
+ *host, u32 oclk_en)
+> =20
+>  	if (rval & SDXC_START) {
+>  		dev_err(mmc_dev(host->mmc), "fatal err update clk timeout\n");
+> +		sunxi_mmc_init_host(host);
 
+[Severity: High]
+Can calling sunxi_mmc_init_host() here without holding host->lock while
+host->irq is enabled race with sunxi_mmc_irq() and
+sunxi_mmc_enable_sdio_irq() on host->sdio_imask and REG_IMASK?
+
+Previously, sunxi_mmc_init_host() was only called from sunxi_mmc_probe()
+before mmc_add_host() and from sunxi_mmc_runtime_resume() while host->irq is
+disabled. In sunxi_mmc_init_host(), the controller is reset and REG_IMASK is
+written without holding host->lock:
+
+drivers/mmc/host/sunxi-mmc.c:sunxi_mmc_init_host() {
+	if (sunxi_mmc_reset_host(host))
+		return -EIO;
+	...
+	/* Unmask SDIO interrupt if needed */
+	mmc_writel(host, REG_IMASK, host->sdio_imask);
+	/* Clear all pending interrupts */
+	mmc_writel(host, REG_RINTR, 0xffffffff);
+}
+
+At runtime, sunxi_mmc_set_ios() -> sunxi_mmc_set_clk() ->
+sunxi_mmc_clk_set_rate() -> sunxi_mmc_oclk_onoff() can be reached while an
+SDIO card has claimed interrupts. Although sunxi_mmc_set_ios() runs under
+mmc_claim_host(), both hardirq context (sunxi_mmc_irq() ->
+mmc_signal_sdio_irq() -> sunxi_mmc_enable_sdio_irq()) and sdio_irq_thread()
+(which calls host->ops->enable_sdio_irq() after mmc_release_host()) update
+host->sdio_imask and REG_IMASK concurrently under host->lock:
+
+drivers/mmc/host/sunxi-mmc.c:sunxi_mmc_enable_sdio_irq() {
+	spin_lock_irqsave(&host->lock, flags);
+
+	imask =3D mmc_readl(host, REG_IMASK);
+	if (enable) {
+		host->sdio_imask =3D SDXC_SDIO_INTERRUPT;
+		imask |=3D SDXC_SDIO_INTERRUPT;
+	} else {
+		host->sdio_imask =3D 0;
+		imask &=3D ~SDXC_SDIO_INTERRUPT;
+	}
+	mmc_writel(host, REG_IMASK, imask);
+	spin_unlock_irqrestore(&host->lock, flags);
+}
+
+If sunxi_mmc_init_host() races with sunxi_mmc_enable_sdio_irq(), could it
+either overwrite REG_IMASK with 0 after sdio_irq_thread() re-enabled
+SDXC_SDIO_INTERRUPT (leaving sdio_irq_thread() sleeping with SDIO interrupts
+masked in hardware), or write a stale SDXC_SDIO_INTERRUPT bit back to
+REG_IMASK after hardirq context disabled it and called
+pm_runtime_put_noidle() (causing repeated disable calls and underflowing the
+runtime PM usage count)?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/179307312104.39863.=
+12372814163472848752@manyhobbies.com?part=3D1
