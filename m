@@ -1,90 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793142352;
-	b=Y5k4thNdUUN8Se2zEkLSbpjNg0l0MLM1JNu8PkJ5yUkSOi/SfSuxKncuILanw3C6RwK3
-	 bMJ46DXsSui+4ifv2TTqzmYfnpLFfBbJP1WMYyTUsqSjI+Oy/tee53lUyUr+vnJEeSGMG
-	 D11zoXgqvhSh1eoUR22jalgfzgG/qkKG0EJfkQ2yCrkWVX37x08k/HWgGJVnSNmttPDDK
-	 zJuChfmZoeqP2BEZ7mpFe76/qybE3GWqoIslpZvDscUw6ZxeEpQXio8/ieps/+UEUjrCR
-	 8sFSA7HiqXMoMp2eDumyKsHn22c9zmo3yArmEbutmOjeTQb7U6Nh3vWv9Q6yEbvQsRA==
+	t=1793164005;
+	b=RCh8IMvN5buo/ILc5vpKTcNZL6BRZCC2O4fbiynhTjFpkMMXWCSxR3QL4lDz5pXJkB8+
+	 S9byq8dg7HSEiwDyjAO1Yw49AkPpzRB09YnU2IdUIGdr80tTY3kvUXpnNcyFPmHzKqio2
+	 Ji4uBa80GfjiS1IGAYB0i9gwTvN4wgKg724YKnzbs4Hg5qc4OuQnJjQoOhz9zOl8USVXB
+	 F+rap9M9hpiCQMTrv4ISFMXowV2oKqtfN8AHloxLo+BhRYRlSZCZxQYAtOBnF7gzJZB2t
+	 ExO4pjJBXxSe64nxQZ9bJIS3LFVxAW/UO5uUEV31h+EqSvyigV3Hv1cZVdxh4WpidXg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793142352;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=DRBWX4J/Ak94TbpMM7HoAnpLEmSCyB3p+1+fdXZAg3w=;
-	b=srJNxnUQ0sej+kYFu0/t0zXjS4rcR75VICAtBk1hL7pb1JA9NBIz7xPSMpfC55+m05oB
-	 T4wP5qUQm+HUcbAiEAHIuY7hkI+lUzGglW3jcJkVcXx5z5kmyiYLcs2aFmYuOjbr3VneK
-	 dTqXrY8CCpoIQdeteRNLMJdanVZLioNZSr23UAzs3S2mHRPZUzADs0gyq0S+lHQtjZVBD
-	 +5GzX0zBRqnobtXQaiOSk1KU5TDPQ6LXECStN5K3mNMHAN5jX47W3CTpQvM6LJQFlUyAW
-	 oecD+dserjzBYxuklqKAwRO9NMC3NP+9HJWQKV8g8AtydSem2nFz7M52Uv0kLpvENvw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793164005;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=bUXd6wCGkdy3sUL1jP3fBL2bNrVaPeuZ1kav6MQ03xQ=;
+	b=4DaxBC8f0UNBrFbZ2tMRoqRLRmf1rr+tQj3DRMIIlsTF8bPKdb8C9uR0PS6rVwjpnsO3
+	 /Ti1e56w7cdHLjqHrU/heC3d6jlr5iiCmufud7QLMnzNdtFCfCUlqoQojXHgb1M+WbrLf
+	 7mwQrngC93Hsi4tjaGpHH+fsJymibAzpuvpkOUwW/ydOCF6jn8XUDoAcnyjwHQakpFGVp
+	 v1TeMvHz++ZScH8CYF6DYVsav3MDvghEq8AI0Pg+/LJ3fsbriwsYKGCb5iFi6iR7xidcl
+	 soyDN240TsW1QoRw0rK8/CSfQNR4jW+uu9WzODdt78W54t19Ckho4JvwYfnI3K8OpnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=psMWW+0F;
-	arc=none smtp.remote-ip=209.85.210.51
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=nOzYcQ4q;
+	arc=none smtp.remote-ip=117.135.210.5
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91EAC60A2604
-	for <linux-sunxi@lists.linux.dev>; Tue, 27 Oct 2026 23:05:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91EAC60A2604
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16D8606A31D
+	for <linux-sunxi@lists.linux.dev>; Wed, 28 Oct 2026 05:06:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D16D8606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=psMWW+0F
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-84d5e56f876so282949a34.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 27 Oct 2026 16:05:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793142351; x=1793747151; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DRBWX4J/Ak94TbpMM7HoAnpLEmSCyB3p+1+fdXZAg3w=;
-        b=psMWW+0FhXriC6GGCo3oKV5gQtXCdCRIOPM+RkDRzezt3XJgpnUuEFflFM6mx4ZmO/
-         D6KQQYs5LtKhSkplHrSnRjG0Irz1yDkIjwzuyXGkOijNP7btR22kA2blZy3f29DS5+vX
-         goW2KwKmEzhl6ckZn/nyYwhpn+fAXpMYymGRxoZ8eSl00tGA3xuBraKZ62P9W4qWQJM9
-         J1oa9rGYTbfsTrk++IUt+1wa+ZhCf4wdSOxGgVdk+rOHFKgvlTCmrcMJ1GpnMztX3koM
-         4C7sYoLI9ACIGBZ2wEr+ji2Vrjv4XPy7pPDx+cnULvyaWFp59EDAF/f74WyZ90CpO3Tg
-         AiDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793142351; x=1793747151;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DRBWX4J/Ak94TbpMM7HoAnpLEmSCyB3p+1+fdXZAg3w=;
-        b=2BTv29Kltnxns+tKNaa1WRGCQFGLtloTj4/pk7JV4T9us3YMEoeiqI/U/RMrBJA1hK
-         i2Wq3ZkH/5hphw43n/kMdgCvq9FqvvkYMPd56UMmpkCw3p7xk0COjCZq4/9eT0Dc87RW
-         lfWDtvSMfZBaIXVV/p8PVjZSBEn5r5qrjjJGjY24ToJ4mdQy7EMZnsCW8zFhKR6zGAd8
-         BQynZcG4QCufsR04pJI1q0nBVG85HAFt+YKol2AQOp1m1e0WdQWzQkZGfnUrgQJwTVrw
-         O78Pb6s34aBo163mrfvY7xXGJBqpMVpkOl8sSYeEM93Cm9TQEIOHTPopOoX2LPlZe1Bw
-         LLxA==
-X-Forwarded-Encrypted: i=1; AKwUvBwWqsZlbMKVsCxPiywv5rIR6t/tdo/ty4pxH4PZXeatWq81Uv0D3UJvEEM5SonSme77t9XPjFX4Santsg==@lists.linux.dev
-X-Gm-Message-State: AFq9FYKSfgZBs/zVrgoEdVue7OJxUn2zjtKG1Om7aOJBunSbQwSGkbG9
-	rJieZp+/CuLJ0XZTM0cpbA/gCCAePOX2dxL9+SpUZKLShKuIJ1IT5mKdFUei1+O5
-X-Gm-Gg: AYBFou3kvsbD5hRGoEmAl7HbhX+qQ6DUNY/7eKYoO/ISB5QMBXYr4NBDmaKH18PKbOp
-	jsmzKpH9LP8JMpHtAu5Y8UtmcaiW79eS9QVsN9m0yYR2/gSTC+P3tc+g00O6r1Re7+wPPYyzoK8
-	BTCc7OENwJNLY79I9MMt6AOdOFrr55v8dtUMEMYDCwU6puDcqbnKL+zJMBepL+moQPJDKgbB+kB
-	R0JcrRXxLwBmTxvvUJ1Uf7MirxvWH7UcHgxcmvYgLJ19uwSA6FICJU3MuMUep3yNG9vLKEvHTyN
-	2Nytnfn5lMmbqX3E+zT8Dt8PX3YO2I7tM37pP81ZGtzPLJJ1KDhW8oPzghs8QNwgowyUHguiqaH
-	RUYAMx7ElH1ME3fd5g/8seY/hVHLXPVRw0/7+1ebkp/mq2/Y7RBNIFcLWH/dW+oDna9N6uJ/XOc
-	a1O4m/EQTxs6IuLb5fwLeFrW0q3iRXMw+y8rp3kt16VKOfcxejMNsAF7hhOYQCaueJm/xjBmEar
-	EmmxTpTFvAWqnVeoHtb5nmIZs0rhQAp1Y8Dsq4XMp596Q+YqDVHoRtgPf8YUrYuD7oyhmZIkg5t
-	0hmd+csVJJjdJCdsAPEXiNyFvzBUzJPw7sBjtirETyphL3rgmsT/G5leH3ujbzmqf52UR0/b2Ef
-	Vw2CybPEBIRPgM5Z8n16P2xKnXcX0zV4we6te+fayTYZ1pOdFMAQhWCXje1WITUaWzdtnakTzWt
-	s7cw==
-X-Received: by 2002:a05:6830:2406:b0:805:8b7d:d8d7 with SMTP id 46e09a7af769-85abf964f20mr834577a34.7.1793142351612;
-        Tue, 27 Oct 2026 16:05:51 -0700 (PDT)
-Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-850fb0741c9sm12093328a34.10.2026.10.27.16.05.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 16:05:51 -0700 (PDT)
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Tue, 27 Oct 2026 17:05:33 -0600
-Subject: [PATCH v4 5/5] arm64: dts: allwinner: h616: describe the UART
- integration
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=nOzYcQ4q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=bU
+	Xd6wCGkdy3sUL1jP3fBL2bNrVaPeuZ1kav6MQ03xQ=; b=nOzYcQ4qMVtVeZi2Pt
+	cReMe+ncj9l3Cnb8pfwXcxRBscn3+ASfglv3RjT9Y4wDGCp80brrZn44/1DTuEdn
+	VPxlee0+VnZ0DFi1S3L3RLUaX8mVRav2mfcgDWGdsP8OozxxHdVtMh2PfuP4UZKN
+	Sc05LEkm2MJ9x/MoM5J9xCdq8=
+Received: from pc.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wDnt9XTguFq0hNpDQ--.19760S2;
+	Wed, 28 Oct 2026 13:06:28 +0800 (CST)
+From: Jiale Yao <yaojiale02@163.com>
+To: Ban Tao <fengzheng923@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Joao Schim <joao@schimsalabim.eu>,
+	linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org
+Subject: [PATCH] ASoC: sunxi: sun50i-dmic: resume device for control access
+Date: Wed, 28 Oct 2026 13:06:26 +0800
+Message-Id: <20261028050626.133421-1-yaojiale02@163.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -94,95 +70,102 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261027-submit-h616-uart-fifo-v1-v4-5-d37e018fd0a6@gmail.com>
-References: <20261027-submit-h616-uart-fifo-v1-v4-0-d37e018fd0a6@gmail.com>
-In-Reply-To: <20261027-submit-h616-uart-fifo-v1-v4-0-d37e018fd0a6@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, James Hilliard <james.hilliard1@gmail.com>
-X-Mailer: b4 0.15.2
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDnt9XTguFq0hNpDQ--.19760S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZF43ur13Kr1DWF4DGF18AFb_yoWrGF45pF
+	1fJF43tFs5Jw4F93ZFyr48Xr13CrZ3KF4kA3yIy3y7Cr1xGw1IgF9Fv34rCFZ0krZ0kFsr
+	Ar1jv34Sg3Zaka7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j8AwsUUUUU=
+X-CM-SenderInfo: x1dryxhdohiji6rwjhhfrp/xtbC7xToI2rhgtTr5QAA3j
 
-Identify the H616 UART integration on each of the six controllers. The
-specific compatible describes the fixed FIFO capacity, register layout
-and receive-trigger mapping.
+The capture volume controls use regmap directly while runtime PM may
+have suspended the DMIC and disabled its clocks. Since the regmap has no
+cache, reading or writing a control while suspended accesses unpowered
+hardware.
 
-Retain snps,dw-apb-uart as the generic fallback. H618 includes this DTSI
-and uses the same UART integration.
+Use control callbacks which resume the device around the regmap access
+and release the runtime PM reference afterwards.
 
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+Fixes: 9a8cadddd930 ("ASoC: sunxi: DMIC: Add controls for adjusting the mic gains")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jiale Yao <yaojiale02@163.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ sound/soc/sunxi/sun50i-dmic.c | 59 +++++++++++++++++++++++++++--------
+ 1 file changed, 46 insertions(+), 13 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index c6b3a3f8359a..b4b2f85726e0 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -550,7 +550,7 @@ mmc2: mmc@4022000 {
- 		};
+diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
+index 5c784b1f6846..a5f70db856b9 100644
+--- a/sound/soc/sunxi/sun50i-dmic.c
++++ b/sound/soc/sunxi/sun50i-dmic.c
+@@ -286,22 +286,55 @@ MODULE_DEVICE_TABLE(of, sun50i_dmic_of_match);
  
- 		uart0: serial@5000000 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05000000 0x400>;
- 			interrupts = <GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
-@@ -563,7 +563,7 @@ uart0: serial@5000000 {
- 		};
+ static const SNDRV_CTL_TLVD_DECLARE_DB_SCALE(sun50i_dmic_vol_scale, -12000, 75, 1);
  
- 		uart1: serial@5000400 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05000400 0x400>;
- 			interrupts = <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
-@@ -576,7 +576,7 @@ uart1: serial@5000400 {
- 		};
+-static const struct snd_kcontrol_new sun50i_dmic_controls[] = {
++static int sun50i_dmic_get_volsw(struct snd_kcontrol *kcontrol,
++				 struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	int ret;
  
- 		uart2: serial@5000800 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05000800 0x400>;
- 			interrupts = <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
-@@ -589,7 +589,7 @@ uart2: serial@5000800 {
- 		};
+-        SOC_DOUBLE_TLV("DMIC Channel 0 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
+-                       SUN50I_DMIC_D0D1_VOL_CTR_0L, SUN50I_DMIC_D0D1_VOL_CTR_0R,
+-                       0xFF, 0, sun50i_dmic_vol_scale),
+-        SOC_DOUBLE_TLV("DMIC Channel 1 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
+-                       SUN50I_DMIC_D0D1_VOL_CTR_1L, SUN50I_DMIC_D0D1_VOL_CTR_1R,
+-                       0xFF, 0, sun50i_dmic_vol_scale),
+-        SOC_DOUBLE_TLV("DMIC Channel 2 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
+-                       SUN50I_DMIC_D2D3_VOL_CTR_2L, SUN50I_DMIC_D2D3_VOL_CTR_2R,
+-                       0xFF, 0, sun50i_dmic_vol_scale),
+-        SOC_DOUBLE_TLV("DMIC Channel 3 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
+-                       SUN50I_DMIC_D2D3_VOL_CTR_3L, SUN50I_DMIC_D2D3_VOL_CTR_3R,
+-                       0xFF, 0, sun50i_dmic_vol_scale),
++	ret = pm_runtime_resume_and_get(component->dev);
++	if (ret < 0)
++		return ret;
  
- 		uart3: serial@5000c00 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05000c00 0x400>;
- 			interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
-@@ -602,7 +602,7 @@ uart3: serial@5000c00 {
- 		};
++	ret = snd_soc_get_volsw(kcontrol, ucontrol);
++	pm_runtime_put(component->dev);
  
- 		uart4: serial@5001000 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05001000 0x400>;
- 			interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
-@@ -615,7 +615,7 @@ uart4: serial@5001000 {
- 		};
++	return ret;
++}
++
++static int sun50i_dmic_put_volsw(struct snd_kcontrol *kcontrol,
++				 struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_component *component = snd_kcontrol_chip(kcontrol);
++	int ret;
++
++	ret = pm_runtime_resume_and_get(component->dev);
++	if (ret < 0)
++		return ret;
++
++	ret = snd_soc_put_volsw(kcontrol, ucontrol);
++	pm_runtime_put(component->dev);
++
++	return ret;
++}
++
++static const struct snd_kcontrol_new sun50i_dmic_controls[] = {
++	SOC_DOUBLE_EXT_TLV("DMIC Channel 0 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
++			   SUN50I_DMIC_D0D1_VOL_CTR_0L, SUN50I_DMIC_D0D1_VOL_CTR_0R,
++			   0xFF, 0, sun50i_dmic_get_volsw, sun50i_dmic_put_volsw,
++			   sun50i_dmic_vol_scale),
++	SOC_DOUBLE_EXT_TLV("DMIC Channel 1 Capture Volume", SUN50I_DMIC_D0D1_VOL_CTR,
++			   SUN50I_DMIC_D0D1_VOL_CTR_1L, SUN50I_DMIC_D0D1_VOL_CTR_1R,
++			   0xFF, 0, sun50i_dmic_get_volsw, sun50i_dmic_put_volsw,
++			   sun50i_dmic_vol_scale),
++	SOC_DOUBLE_EXT_TLV("DMIC Channel 2 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
++			   SUN50I_DMIC_D2D3_VOL_CTR_2L, SUN50I_DMIC_D2D3_VOL_CTR_2R,
++			   0xFF, 0, sun50i_dmic_get_volsw, sun50i_dmic_put_volsw,
++			   sun50i_dmic_vol_scale),
++	SOC_DOUBLE_EXT_TLV("DMIC Channel 3 Capture Volume", SUN50I_DMIC_D2D3_VOL_CTR,
++			   SUN50I_DMIC_D2D3_VOL_CTR_3L, SUN50I_DMIC_D2D3_VOL_CTR_3R,
++			   0xFF, 0, sun50i_dmic_get_volsw, sun50i_dmic_put_volsw,
++			   sun50i_dmic_vol_scale),
+ };
  
- 		uart5: serial@5001400 {
--			compatible = "snps,dw-apb-uart";
-+			compatible = "allwinner,sun50i-h616-uart", "snps,dw-apb-uart";
- 			reg = <0x05001400 0x400>;
- 			interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>;
- 			reg-shift = <2>;
-
+ static const struct snd_soc_component_driver sun50i_dmic_component = {
 -- 
-2.53.0
+2.34.1
 
