@@ -1,83 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=57.103.91.132
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793185536;
-	b=Yn1satTzDJAMe7NT9+KJBBP+iXQfomHN1I2jdYs//9ZC/obZ+eHZtP35PhBrmtWqVpjw
-	 FRVIuHVsiOxpgweMb5c3zDMYmP8TgK78H7UJKyR9TMylIF47tV8e5rb7OM3QBs5wrhoyN
-	 sToeVxueGKKGf1W9gH3lUMSJKQ6uPwh+EJl4u7KyOGtyhM/UcMMLinbUffNYAjG46qNQo
-	 peo7ViPYnGsZe0ZLQOrwo56RWSsqorHGT4Yxmb2cU4lw4VuFbZAKGqX2R8YdLsCBbvTUW
-	 2svjkn1SaYtjUU3+ThxMOosDrqLO/hrj3HcAgsPua+Qx65OpgZWyZyO/2+e93N+4W+A==
+	t=1793187801;
+	b=kSrlyAr930pcMTpIE1/wPKSI3eP3D+7DQzrsxOm543rq8eJTgWsctr6pQFBv0UF2Zr21
+	 RqY7UtqzhjkkGSAyQh9A9XGf9g/jkAHa6bIp1tUyitwuomtmMkGnxi4Bbl+cTj/MPKESs
+	 IZvlOIZwykfJfJs0n5+c29I07TvMWYi1O32UAN9nxnFs4d4AsuOwY42yGxCgGceiLDFoB
+	 bnWxWBzEfW1NQqS//5LHxdqVbftkVyBqB7gnd9R3Xz2Z7sSXFWP1dQ/10e9ZLm4R9R+TX
+	 sFjUpNEtdtTechCVTC9Vo/0jkKUYHMkMH439MtB4geFiSEFpkxz4C+orLMUbQqjnIwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793185536;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=SIbHIkb59pVcJng8sKHppF6ubVcQlFLsBLXS2eUuU34=;
-	b=120TqXzAqqByWzDqAJ1obyTwLNM+ZDSo4mK1z7WBxS8xLuu3P/cRoB7cTDa0V1j+Tqvy
-	 SB4NohmxJcHCgrFd+uQTZidhZRqppZf/AECGes4WSvMCLWwZcYDaMF0JZ3BPT/xPoP/zU
-	 hwRiRseypwVrGtJ2WUmIIttJ30fzdoyPTi5DyqAh9VO655bbG/yWD9X3CvRzRlMJLP6ZJ
-	 Am2wZrBVkod9frde5aBoQ9uAmGxA5Ab1Kt0CPgelJcrF3WXO8iKFW61I6fGn2hVL0m4M/
-	 wIVqO7N5KFmJqmjL/56nSDipgtiWBHvzTQUtCGK1P/2c1SmN4kts8FJfRfht10gtyAg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793187801;
+	h=DMARC-Filter:Received:X-ICL-RepId:X-ICL-Out-Info:Dkim-Signature:
+	 mail-alias-created-date:Received:From:Subject:To:Cc:Date:Message-ID:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Info-Out:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-JNJ;
+	bh=OsuVkeafblGpTsXYut7m1aN/nlY5ZzIRjoB1MM1Rhx8=;
+	b=jy5BQBBaDm3M1T2VPgC10U0Ab22M6WWIvBewzvcoQ9JsF/+bn6B//PQ0kl4G9P/JeTf5
+	 qlgIyaeVf8XJGkRdw7rWl+qOd+C5xO1XQGGTE9odta0ZVS6Gb5WET8wJSs5c3HObecMiK
+	 9en77cZEqKCxAv/+nCrkd00Pz3G9LUl8eYvMHHpl0RixoBZ+ONjh/atmPe+b5XI4TP6El
+	 rQZIxp4ebG8xhjA+CNzM++q0ggD7voujuhcCuOoxJL8WhMiyaSKyW8OAs4cxCXiWkUL2V
+	 WkbdlnG3CZwnk0aFqGyHLkxPRUCiu3I3Vt6ENI2NQPfamznR5A9YZrKjjNm5aOklkgg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kNfg2tbk;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=none header.from=manyhobbies.com;
+	spf=pass smtp.mailfrom=manyhobbies.com;
+	dkim=pass header.d=manyhobbies.com header.i=@manyhobbies.com header.a=rsa-sha256 header.s=sig1 header.b=hwNbtXvn;
+	arc=none smtp.remote-ip=57.103.91.132
+Received: from outbound.ci.icloud.com (ci-2003a-snip4-1.eps.apple.com [57.103.91.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 063BB606A31C
-	for <linux-sunxi@lists.linux.dev>; Wed, 28 Oct 2026 11:05:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 063BB606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36AC6606A31E
+	for <linux-sunxi@lists.linux.dev>; Wed, 28 Oct 2026 11:43:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36AC6606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=manyhobbies.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manyhobbies.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kNfg2tbk
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793185535; x=1824721535;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WX9L8EGH4Oa0aoSnq/yMQj4iV1Wl9LjJdHrn7K6+r08=;
-  b=kNfg2tbkeBmEZ3FkWPr8LYjfGqlgWSdB8abutFhf+gdGwx7dS4Im1DV3
-   qVsDKEWDIfb+X6A7GcmHtCpVgYM6TlEe6ehpMtuFyi4uzS7RLtyuS0k0b
-   2fuC5QlmFig5uJCACucoiqwTtefHOm+XqavGzyiURI/YRA2cZwNAo89WY
-   LqJO0r0RT6+culU0YC49iIAwsm0oOcWMo7FM8C6njR3YXjFAqnWuwTXd5
-   LSSo8SiXoMA/vg2ZycTjsAGeuNNrLv49v4yL4Fnw8qzwW18qdLYfNPT2d
-   vcSiu/K5fUo4WJW/gQbkGNUaYqVqc9GiNzgPSosMjHDTkyFpDw+wtZPpG
-   g==;
-X-CSE-ConnectionGUID: VDJyGX+IRE6Q8NYxJCxYaQ==
-X-CSE-MsgGUID: VuJldsSkTFKoTGZRtnecYQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1994122"
-X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="1994122"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 04:05:34 -0700
-X-CSE-ConnectionGUID: 5CMJ/braQgCTYNPfY2aNKw==
-X-CSE-MsgGUID: lH3Shlv+T+2rHVEDZRl8rw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="5184240"
-Received: from abityuts-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.117])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 04:05:30 -0700
-Date: Wed, 28 Oct 2026 13:05:26 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v4 4/5] serial: 8250_dw: configure the Allwinner H616 UART
-Message-ID: <auHW9nkDqZUXeHNZ@ashevche-desk.local>
-References: <20261027-submit-h616-uart-fifo-v1-v4-0-d37e018fd0a6@gmail.com>
- <20261027-submit-h616-uart-fifo-v1-v4-4-d37e018fd0a6@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=manyhobbies.com header.i=@manyhobbies.com header.a=rsa-sha256 header.s=sig1 header.b=hwNbtXvn
+Received: from outbound.ci.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-central-1k-100-percent-10 (Postfix) with ESMTPS id 6C1051800820;
+	Wed, 28 Oct 2026 11:43:18 +0000 (UTC)
+X-ICL-RepId: 01a18252-5d6d-7bd6-91d2-692952ce09ab
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhPAUMGWQZeD04dXwVcEhVdRUcMWkVWH3kVUgNOA10SWxFWHhkIXR0ZHldQWgpcCVEXUQ9eDkFeWhdeTUUID0kZEFYBWFZdBU0aXBhZDxwTUFZaDlsERxQXG1wAFxtGAgQjAl8ARQJeCVYBMBcPVk1UGV0UXwRQElAdQENUBF9QVBFXUAtaBUkKSQtaAFMERglWC1wEXAdeCEkBWwRZB0gLQANZDl0DRQxLB1l3BlMeQBBcD1UCVwMXG1wACUtGCUkdDg5CGEYfVCdXAloKWx4=
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manyhobbies.com; s=sig1; t=1793187799; x=1824723799; bh=OsuVkeafblGpTsXYut7m1aN/nlY5ZzIRjoB1MM1Rhx8=; h=From:Subject:To:Date:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=hwNbtXvnnR59r7qgS5h1p3fS16aD5jzIeyH6FfM/P0jckDlcg/ea2roFPOaOUG3J/sb081LehV5wvctDZ/JiMRzjuh8SU/TYry5D2bxTyoPyNIiVFQNdgFJDsGrAy5E0jl6a3Ka7FE4sxX8B0I2kBApvKwhZzSkSlqogs/WjPtNceikWDst1iRwoB3qmZw4xPH1EzPUwPoPnJoTCjz0XIpvAam6R2m/B8cJZr1W5fmag0lxrjvkDJDxJIDfBOLgUQDYUPYfQpK0na1nRpHwaj5tJ4QU3NTx4UyOPY6VSvkOIKY2b9BuD0skdqxmIXQB+5RYx+6gfh73l9TCDfnDoOg==
+mail-alias-created-date: 1780273699991
+Received: from claude-agent.manyhobbies.internal (unknown [17.57.156.36])
+	by p00-icloudmta-asmtp-us-central-1k-100-percent-10 (Postfix) with ESMTPSA id 9048C1800839;
+	Wed, 28 Oct 2026 11:43:17 +0000 (UTC)
+From: Tam Do <tam.do@manyhobbies.com>
+Subject: [PATCH v3] mmc: sunxi: reset the controller after an update-clock
+ timeout
+To: Ulf Hansson <ulfh@kernel.org>
+Cc: Chen-Yu Tsai <wens@kernel.org>,
+    Jernej Skrabec <jernej.skrabec@gmail.com>,
+    Samuel Holland <samuel@sholland.org>,
+    linux-mmc@vger.kernel.org,
+    linux-sunxi@lists.linux.dev,
+    linux-arm-kernel@lists.infradead.org,
+    linux-kernel@vger.kernel.org
+Date: Wed, 28 Oct 2026 11:43:06 +0000
+Message-ID: <179318778660.81375.11263258280496155344@manyhobbies.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -87,80 +67,99 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261027-submit-h616-uart-fifo-v1-v4-4-d37e018fd0a6@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI4MDA0NiBTYWx0ZWRfX9v7vwJCZUAQh
+ cJY9YliLJf5Sj7s8z0lAbLqgy4FCJ+wmLCJ1GwC5QAur6kNEf4/BFfS6/FFWLkZxtGHz9NTkVeD
+ vBCi1Iwab93fOTroBByohOYlMa98l/5Lu9VqV4CjwBEyizskLbu9OaCmeohQoNAlf+KTJRCrBpS
+ C6zZRoQ8wGLqR7sCw6RI/3aPA2hMx6dq32DuMb36aKZe0uJiB3CHuNwS7zx2wuCc0b9Nb0oJgyt
+ DxqZQ95bkDKbBrgjyFQag6cf2O6JytdZKdd+ksQoMHocnZw2HWcROlehudyeOiPCJgyhu1Rh7LB
+ luZ+La2Hc5IEZRt92uJjS8ig8/Fvh/f2BdEVv1eMwoeo96eaIeGc1YBiF8r4+0=
+X-Authority-Info-Out: v=2.4 cv=L74QguT8 c=1 sm=1 tr=0 ts=6ae1dfd7
+ cx=c_apl:c_pps:t_out a=2G65uMN5HjSv0sBfM2Yj2w==:117
+ a=2G65uMN5HjSv0sBfM2Yj2w==:17 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=w2OPf45SAAAA:8
+ a=1tvfc1y3xX-o4uWKYHEA:9 a=QEXdDO2ut3YA:10 a=-iXIJKm6ftRzmWoHelNS:22
+X-Proofpoint-ORIG-GUID: VSrRne3TfcgmffBp2ODlyHQ9fNAP35cV
+X-Proofpoint-GUID: VSrRne3TfcgmffBp2ODlyHQ9fNAP35cV
+X-JNJ: AAAAAAABnZTtDZq/p55h04EW18ZZXuIli9DAQsyjrV651gPUhYbhFPONnpN4Q2l1D7zh4h
+ jrNXs/YFjDA6Bc66K1KHPplaC618Obo/QKJfRxNwzx/llyrxopXKzk1QMlJXTmC6A3JH9k
+ KOx0wC755kgtChPDKOkD9zfVh+aDbg/8iZRUD+HUldRc8IeOy+5ggKT8k8h25lj7JoAmtH
+ 5H4qEAbxEbogSP4abWSsRcR8/WqdHkjdpZqnu0QqctC9bGgWbopMNVbWXujObrwRBrGStb
+ h+uaGM7Nmre1ZIFromtNOwQkx3WddvxeN4berUVREtE0sz2y6nez4cGg5QLIpT6mnBGD6u
+ xS8LQcpp79ORU7urxKHgmCvgE7bw+0EhEFUeGipD1TFkyWEev345KJNNPKdJBiehBK1n9C
+ /n92+exJYEQDOIkxBay5BNga3YfW+uvtnYwWRsyXYEazHgyWLBHMvgZaGydwF9HtKg0bAF
+ uT2Ik9ZvHmkzzc1ce87Jf1QhSB1UUDFXrDwem6m3YPHaAbRJD8D3SaGt1JI+PRj5ydU3uT
+ ZcwLfbKQhMAVCIwYba4d07PJammAtKU+L/8wcdXtkI8XHWEtrykhPPY6JSI8bBG43vy8dG
+ kgjGdm182S0/9AhzDp0EpZ+xz0JQ1zDIVUwzfgu45ct6ZTMZoN76K928XsckRATN/C7P4H
+ eQ6nGpkmiWsppNeCnkTVH8vAYzxH770OPo9qF8UY+rA9hNt3oWLnD0J4XRQgnLc8uryHcQ
+ eGrAv6ruAjklRXg5/oms1LvE0Wih++CTw5ICWVI+aXA/n5UdJ5OHty52H0WVISDW+4tvIR
+ 8UXEmk+0s8R9TbBZwivGJHkJM7sL/CMUw/3PyopCouOgQJGHUHtX7rF6BOkrehGdJeHF7i
+ Pw/hyjOUML+QMhsnl/CEY3+q5fBreUcdfZcC9BdHNGNYkXCtQp2SI5gbHnJaN4RmfuvbOY
+ QHeDN6QPjXJymQGLcYGpMal4OZdbWCFn5tq4ptVr56UlSvCkdtadjJMTiCUjuSCVQMtHX8
+ uGAIIQBbAfuLBBxm8Ush/yw8SWT0Sn/gCtp5gf3Vzq+d+lP6WdMQ54FNDt2ZQvOPSUrHGs
+ ueoY29CwlXH1ikSbY+qDWtqlVtMFTJXXrLPxH95vdJJM5w6JKXNF3PVImepC/+D4g65U8D
+ qJhfo8VQlnloXhUlt5dfAGAsaYgJL4EOEDWxqFFYbUZJRC0aTLVbKOx3c1Vgfe4MnTv/75
+ G9owgtAxXrjrA60wSpoul5PyOywNJy4nUrGbARfutKqiBVB+kokHxYBilZDL9ZdGseisPB
+ V4Hyvm1XM=
 
-On Tue, Oct 27, 2026 at 05:05:32PM -0600, James Hilliard wrote:
-> H616 has 256-byte transmit and receive FIFOs, but its optional DesignWare
-> component parameter register reads as zero. Generic 16550 probing leaves
-> the port using the 16-byte FIFO configuration and its trigger-level table.
-> 
-> Keep PORT_16550A and describe H616's fixed 256-byte FIFO depth in platform
-> data. Use common Allwinner setup helpers to configure the transmit load
-> and receive trigger table from that depth.
-> 
-> Derive the receive thresholds from the documented 1-byte, quarter-full,
-> half-full and FIFO-depth-minus-two mapping. On H616 these are 1, 64, 128
-> and 254 bytes; the normal 16550A half-full FCR setting selects 128 bytes.
-> 
-> Build the threshold table during setup and use the shared 8250 conversion
-> helper to select the nearest lower threshold for sysfs writes.
-> 
-> Serialize trigger changes with termios and hold a runtime PM reference
-> while programming FCR, preserving the FIFO contents. Propagate runtime
-> resume errors before changing either the FCR shadow or the hardware.
-> 
-> Advertise automatic flow control so CRTSCTS enables MCR.AFCE. The
-> DesignWare termios path selects hardware CTS handling, so the capability
-> must be present for the corresponding hardware control to be enabled.
-> 
-> Select the fixed configuration through the platform setup callback.
-> H616 has debug-divisor and RS485 control registers at the offsets used to
-> detect DesignWare hardware RS485 and fractional-divisor support. Avoid
-> those probes and retain the BUSY-safe integer divisor hook and software
-> RS485 handling.
-> 
-> Use the existing SKIP_SET_RATE quirk to keep the UART clock enabled during
-> termios changes. Its clock is a gate on the shared APB2 source, rather than
-> an independent baud-rate generator.
+If the clock-update command times out it stays pending in the
+controller, and every later clock update times out as well, so the
+card cannot be initialised until the next probe.
 
-...
+This happens on an R16 board whose SDIO Wi-Fi holds DAT0 busy while
+its supply comes up during the first clock update.
 
-> +	unsigned int fifo_size;
+Reset the controller on timeout so the next attempt can succeed. This
+runs sunxi_mmc_init_host() with the interrupt enabled for the first
+time, so write REG_IMASK from sdio_imask under host->lock, as
+sunxi_mmc_enable_sdio_irq() updates both under that lock.
 
-This is should come from DT (based on the property or compatible),
+Fixes: 3cbcb16095f9 ("mmc: sunxi: Add driver for SD/MMC hosts found on Allwinner sunxi SoCs")
+Cc: stable@vger.kernel.org
+Signed-off-by: Tam Do <tam.do@manyhobbies.com>
+---
+v3: take host->lock only around the REG_IMASK write in
+    sunxi_mmc_init_host(), not across the reset; v2 polled the reset on
+    jiffies with interrupts off. The return value stays unchecked, as in
+    sunxi_mmc_runtime_resume(): if the reset itself times out the
+    controller is wedged either way.
+v2: held host->lock across the reset (not posted)
+v1: https://lore.kernel.org/all/179307312104.39863.12372814163472848752@manyhobbies.com/
 
-...
+ drivers/mmc/host/sunxi-mmc.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
->  	u8			no_int_count;
-> +	u8			rxtrig_bytes[UART_FCR_R_TRIG_MAX_STATE];
-
-Why do you need it here? Can it be provided via driver_data?
-
-...
-
-> +/* The trigger is the masked, unshifted FCR receive trigger field. */
-> +static unsigned int dw8250_sunxi_rxtrig_bytes(struct uart_port *p, unsigned int trigger)
-> +{
-> +	switch (trigger) {
-> +	case UART_FCR_TRIGGER_1:
-> +		return 1;
-> +	case UART_FCR_TRIGGER_4:
-> +		return p->fifosize / 4;
-> +	case UART_FCR_TRIGGER_8:
-> +		return p->fifosize / 2;
-> +	default:
-> +		return p->fifosize - 2;
-> +	}
-> +}
-
-You don't need this, just provide a set of numbers directly.
-
+diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
+index fe4c0f6d73f3..55313780d06d 100644
+--- a/drivers/mmc/host/sunxi-mmc.c
++++ b/drivers/mmc/host/sunxi-mmc.c
+@@ -322,6 +322,7 @@ static int sunxi_mmc_reset_host(struct sunxi_mmc_host *host)
+ 
+ static int sunxi_mmc_init_host(struct sunxi_mmc_host *host)
+ {
++	unsigned long flags;
+ 	u32 rval;
+ 
+ 	if (sunxi_mmc_reset_host(host))
+@@ -336,7 +337,9 @@ static int sunxi_mmc_init_host(struct sunxi_mmc_host *host)
+ 	/* Maximum timeout value */
+ 	mmc_writel(host, REG_TMOUT, 0xffffffff);
+ 	/* Unmask SDIO interrupt if needed */
++	spin_lock_irqsave(&host->lock, flags);
+ 	mmc_writel(host, REG_IMASK, host->sdio_imask);
++	spin_unlock_irqrestore(&host->lock, flags);
+ 	/* Clear all pending interrupts */
+ 	mmc_writel(host, REG_RINTR, 0xffffffff);
+ 	/* Debug register? undocumented */
+@@ -688,6 +691,7 @@ static int sunxi_mmc_oclk_onoff(struct sunxi_mmc_host *host, u32 oclk_en)
+ 
+ 	if (rval & SDXC_START) {
+ 		dev_err(mmc_dev(host->mmc), "fatal err update clk timeout\n");
++		sunxi_mmc_init_host(host);
+ 		return -EIO;
+ 	}
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.39.5
 
