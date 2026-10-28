@@ -1,67 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793180415;
-	b=P8lFqp3POpFpiZQXajwj4sf3a9D78G8+YqewltQ8vKYxexw0WodhkJDu5OtG0dP36feT
-	 K6bxWIFM//Enw7LCpBTr9l0XR+W5kInx01sOXktE5uzVDYJ/pMTyBRyAP2y0/QCxTC3WU
-	 4sQKIynZfienxWFnoN5GUOD1i61rEE+/ZaqjEw4t3Jk9gR6MjdrdgF7n3wdyU4TF0VRRD
-	 FiSBpdJcF2w0tdQ/KdaD6usUUFTsz4rh5a4UkuUoeemI+My5Z6iqCq4bOv4RydgAu3Dxn
-	 E+zHZpYUnMVj7mihY4bM2tUd7a1DucD8F3a+5JgIGAMCJgsiHpRIo3N6pSSl1lqpBFA==
+	t=1793185536;
+	b=Yn1satTzDJAMe7NT9+KJBBP+iXQfomHN1I2jdYs//9ZC/obZ+eHZtP35PhBrmtWqVpjw
+	 FRVIuHVsiOxpgweMb5c3zDMYmP8TgK78H7UJKyR9TMylIF47tV8e5rb7OM3QBs5wrhoyN
+	 sToeVxueGKKGf1W9gH3lUMSJKQ6uPwh+EJl4u7KyOGtyhM/UcMMLinbUffNYAjG46qNQo
+	 peo7ViPYnGsZe0ZLQOrwo56RWSsqorHGT4Yxmb2cU4lw4VuFbZAKGqX2R8YdLsCBbvTUW
+	 2svjkn1SaYtjUU3+ThxMOosDrqLO/hrj3HcAgsPua+Qx65OpgZWyZyO/2+e93N+4W+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793180415;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793185536;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
 	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
 	 Subject:Message-ID:References:MIME-Version:Content-Type:
 	 Content-Disposition:In-Reply-To:Organization;
-	bh=Yr7vo+fVBon7I3trLOUfnB9wqi3Kp5C3SbSgaKixCUs=;
-	b=uuLwbWc3mdahv+4hsLJ5X06LHyt0SSCmLM5ZO8zAWPMZvQYDM1lzdiB9PPcZc6XW6xcz
-	 KfC9xQG10ph5sCeShysnhmCqHM4CK/iO8ViRvlnIhc/kvR+gKU+XlXnAUwx6eaqI1pIRt
-	 wIOTMMNtwVfQRg+VuV70aj+sTDswRloUGS+MHbC6zYS9SyAIuqp1+dMB/XO53M3j58fd0
-	 mEqk7MPlBCTHGlH5vmkQXtS3OEN6UtBkgG8RLX9IJgcmH7ehhHeuOCXQk/d7RF9i7BdxQ
-	 H/jXdeIWVeRDzxhWRbFpNJh2DFgRfSnX1HaKFcEqv8VVTsjAdgl8jow3YQbsEW0bSDg==
+	bh=SIbHIkb59pVcJng8sKHppF6ubVcQlFLsBLXS2eUuU34=;
+	b=120TqXzAqqByWzDqAJ1obyTwLNM+ZDSo4mK1z7WBxS8xLuu3P/cRoB7cTDa0V1j+Tqvy
+	 SB4NohmxJcHCgrFd+uQTZidhZRqppZf/AECGes4WSvMCLWwZcYDaMF0JZ3BPT/xPoP/zU
+	 hwRiRseypwVrGtJ2WUmIIttJ30fzdoyPTi5DyqAh9VO655bbG/yWD9X3CvRzRlMJLP6ZJ
+	 Am2wZrBVkod9frde5aBoQ9uAmGxA5Ab1Kt0CPgelJcrF3WXO8iKFW61I6fGn2hVL0m4M/
+	 wIVqO7N5KFmJqmjL/56nSDipgtiWBHvzTQUtCGK1P/2c1SmN4kts8FJfRfht10gtyAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Arekhof0;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kNfg2tbk;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E5A606A31A
-	for <linux-sunxi@lists.linux.dev>; Wed, 28 Oct 2026 09:40:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95E5A606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 063BB606A31C
+	for <linux-sunxi@lists.linux.dev>; Wed, 28 Oct 2026 11:05:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 063BB606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Arekhof0
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kNfg2tbk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793180414; x=1824716414;
+  t=1793185535; x=1824721535;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=EmTJDFG1OVFNRYcrPeKwvBgsRAc5MJM+e8SIzVNVGsA=;
-  b=Arekhof0NLjSbUnWLUxbSK3WUK7Dzn1xXtfgMOkXDyMM/WZZvElkCXxA
-   tuJNRyRALAYV1X3dZMRz40AbBmy1qmansYR2HBAHFKWdKSSGWWcj2fqDt
-   L3Lor/EKMpYxjHkXR8ZDS70rNHqDTXas9MPGcd+FCq/HKNJ4s9bEDuciV
-   62E5cLrFK3JG74br7Z6i3aCqUAp577v2zvSuPVkgvxr4B/dTa8PAQzxm+
-   rZvdawhS7x4ci4PXsjWZeEnQxz2oVqmcWNvDfnOeEj34OcjN2AQ/g/s6G
-   BjZr8Wrd01kCletO64oylPr+2c3q+j2IAMPEsp4sNP9X0AW7pEr9CvyS0
-   A==;
-X-CSE-ConnectionGUID: 5cP6AQMzS5OjlSdOjHYakg==
-X-CSE-MsgGUID: 1JDD/LI+SbKYGwIKfSMVNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1788421"
+  bh=WX9L8EGH4Oa0aoSnq/yMQj4iV1Wl9LjJdHrn7K6+r08=;
+  b=kNfg2tbkeBmEZ3FkWPr8LYjfGqlgWSdB8abutFhf+gdGwx7dS4Im1DV3
+   qVsDKEWDIfb+X6A7GcmHtCpVgYM6TlEe6ehpMtuFyi4uzS7RLtyuS0k0b
+   2fuC5QlmFig5uJCACucoiqwTtefHOm+XqavGzyiURI/YRA2cZwNAo89WY
+   LqJO0r0RT6+culU0YC49iIAwsm0oOcWMo7FM8C6njR3YXjFAqnWuwTXd5
+   LSSo8SiXoMA/vg2ZycTjsAGeuNNrLv49v4yL4Fnw8qzwW18qdLYfNPT2d
+   vcSiu/K5fUo4WJW/gQbkGNUaYqVqc9GiNzgPSosMjHDTkyFpDw+wtZPpG
+   g==;
+X-CSE-ConnectionGUID: VDJyGX+IRE6Q8NYxJCxYaQ==
+X-CSE-MsgGUID: VuJldsSkTFKoTGZRtnecYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1994122"
 X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="1788421"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 02:40:14 -0700
-X-CSE-ConnectionGUID: PKQU2Xj1T3m4vmaxgjChxw==
-X-CSE-MsgGUID: hrIrWirVSpeNIiBVTI7E7g==
+   d="scan'208";a="1994122"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 04:05:34 -0700
+X-CSE-ConnectionGUID: 5CMJ/braQgCTYNPfY2aNKw==
+X-CSE-MsgGUID: lH3Shlv+T+2rHVEDZRl8rw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,182,1787036400"; 
-   d="scan'208";a="4805839"
+   d="scan'208";a="5184240"
 Received: from abityuts-desk1.ger.corp.intel.com (HELO localhost) ([10.245.244.117])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 02:40:10 -0700
-Date: Wed, 28 Oct 2026 11:40:07 +0200
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2026 04:05:30 -0700
+Date: Wed, 28 Oct 2026 13:05:26 +0200
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: James Hilliard <james.hilliard1@gmail.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -74,12 +74,10 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
 	linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v4 1/5] serial: 8250_dw: select port setup through
- platform data
-Message-ID: <auHC9-louZoF5Nlk@ashevche-desk.local>
+Subject: Re: [PATCH v4 4/5] serial: 8250_dw: configure the Allwinner H616 UART
+Message-ID: <auHW9nkDqZUXeHNZ@ashevche-desk.local>
 References: <20261027-submit-h616-uart-fifo-v1-v4-0-d37e018fd0a6@gmail.com>
- <20261027-submit-h616-uart-fifo-v1-v4-1-d37e018fd0a6@gmail.com>
- <auG4rIHPQZXKOd6j@ashevche-desk.local>
+ <20261027-submit-h616-uart-fifo-v1-v4-4-d37e018fd0a6@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -91,23 +89,75 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <auG4rIHPQZXKOd6j@ashevche-desk.local>
+In-Reply-To: <20261027-submit-h616-uart-fifo-v1-v4-4-d37e018fd0a6@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Oct 28, 2026 at 10:56:20AM +0200, Andy Shevchenko wrote:
-> On Tue, Oct 27, 2026 at 05:05:29PM -0600, James Hilliard wrote:
+On Tue, Oct 27, 2026 at 05:05:32PM -0600, James Hilliard wrote:
+> H616 has 256-byte transmit and receive FIFOs, but its optional DesignWare
+> component parameter register reads as zero. Generic 16550 probing leaves
+> the port using the 16-byte FIFO configuration and its trigger-level table.
+> 
+> Keep PORT_16550A and describe H616's fixed 256-byte FIFO depth in platform
+> data. Use common Allwinner setup helpers to configure the transmit load
+> and receive trigger table from that depth.
+> 
+> Derive the receive thresholds from the documented 1-byte, quarter-full,
+> half-full and FIFO-depth-minus-two mapping. On H616 these are 1, 64, 128
+> and 254 bytes; the normal 16550A half-full FCR setting selects 128 bytes.
+> 
+> Build the threshold table during setup and use the shared 8250 conversion
+> helper to select the nearest lower threshold for sysfs writes.
+> 
+> Serialize trigger changes with termios and hold a runtime PM reference
+> while programming FCR, preserving the FIFO contents. Propagate runtime
+> resume errors before changing either the FCR shadow or the hardware.
+> 
+> Advertise automatic flow control so CRTSCTS enables MCR.AFCE. The
+> DesignWare termios path selects hardware CTS handling, so the capability
+> must be present for the corresponding hardware control to be enabled.
+> 
+> Select the fixed configuration through the platform setup callback.
+> H616 has debug-divisor and RS485 control registers at the offsets used to
+> detect DesignWare hardware RS485 and fractional-divisor support. Avoid
+> those probes and retain the BUSY-safe integer divisor hook and software
+> RS485 handling.
+> 
+> Use the existing SKIP_SET_RATE quirk to keep the UART clock enabled during
+> termios changes. Its clock is a gate on the shared APB2 source, rather than
+> an independent baud-rate generator.
 
 ...
 
-> > +	if (!IS_ENABLED(CONFIG_64BIT))
-> > +		dw8250_setup_port(p);
-> 
-> I believe the Cavium OCTEON  is 64-bit only platform, so you can just drop this
-> conditional altogether.
+> +	unsigned int fifo_size;
 
-Yes, confirmed. The only single ifdef is required when we use __raw_readq().
-The second can be dropped. I will send a patch for that.
+This is should come from DT (based on the property or compatible),
+
+...
+
+>  	u8			no_int_count;
+> +	u8			rxtrig_bytes[UART_FCR_R_TRIG_MAX_STATE];
+
+Why do you need it here? Can it be provided via driver_data?
+
+...
+
+> +/* The trigger is the masked, unshifted FCR receive trigger field. */
+> +static unsigned int dw8250_sunxi_rxtrig_bytes(struct uart_port *p, unsigned int trigger)
+> +{
+> +	switch (trigger) {
+> +	case UART_FCR_TRIGGER_1:
+> +		return 1;
+> +	case UART_FCR_TRIGGER_4:
+> +		return p->fifosize / 4;
+> +	case UART_FCR_TRIGGER_8:
+> +		return p->fifosize / 2;
+> +	default:
+> +		return p->fifosize - 2;
+> +	}
+> +}
+
+You don't need this, just provide a set of numbers directly.
 
 -- 
 With Best Regards,
