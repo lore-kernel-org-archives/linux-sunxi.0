@@ -1,87 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.127.78
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.42
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793376524;
-	b=weNZwZ50O0cHRdlZd6tkUF9QXaN12t9ThPCJRRlnR7mgJo7xs5IfIwA4ieMSDClMqV/V
-	 Ty9zohGIqZwqgiYpZX+0t6pyZ78PI97o17tNHJai71MYXHYwPdFBxVttT/SeSv/B3yZGQ
-	 RMuMmizCDgIqNIilcn+75TiJl8m0//lQnX+us+Xe49upvZTKdjhv/gEMYEPbtnrZ1N3S0
-	 UDaFgNtCy877BhafbZxKpDlKI47cUSIUqPctvblZUgOliK7gMq5xPkO+oI/JiXIW0VPMM
-	 jFJen56M6Xnr2kcopKAvb1MmXcPwdMISv+AtUp57hKm+DR6147mtFEcMCD42a0y5hCg==
+	t=1793377984;
+	b=eR6xPpZUibnBb7tBrySrTEGCAZbn+v6klQ8z8MsG0TdDkmriujE4n3okklT9s5YQLp0p
+	 NaRsH5uKDWOnJV8StN3l2bUqYKTTAsxhU6MScIeBvFHW3kPsiFa4v6EcivDD80OniyR8Q
+	 b+BzyMBLFjw+yLsKC8rtTbj04sdkZzpgtctytRt1X2AK9hl7TUfMzGkEkMeShYy52eGZQ
+	 o+ytayxMPi9y3zWLpbaHAqCWAnj3QmwBZnzSkl98ehOWaODPDsYcVzqOPBfhoCWpgwSU/
+	 o2BlIifN+Rz3JdnuiLrIYL6jS/VkRND5LQTXjEAhyyEkkfBB0L1302IRDKuKUM9AB8A==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793376524;
-	h=DMARC-Filter:Received:Received:Message-ID:Date:User-Agent:Cc:Subject:
-	 To:References:Content-Language:From:Organization:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=fOv31sjVqpmYa53862069hZvoKW6lq32LoPJHxT+VoY=;
-	b=zAgHTGlZrJj/jqo2t3EORd6sbAUr5tn3bzG1pKbJpClqOvMWFG/OZKKRAwVADt5lMM6i
-	 7pFGC0/pebeZfSie1QOkoxj4jnIbxfLqOL3mhS0j6Tg+Hmg9yR1FGXykAb1XPEHLU+bvS
-	 /DlZ/ij3IL5gZnAkJfSmMkNZmUNSloV7cgCV/NtBU9jtSUAbNy8rVN6Hp4NdhCxogulKh
-	 etmw7oGbZO0A/JPsRgif475li19h62qSJWqMbUyTHyBByk3rE0yMiufJoTWOn010I+I6E
-	 a1MWR2c0gIRFuy9SnBkrb12hCda6QlW8SK8u9D1s0tChS1sNgJglN51wUqaLrJeUqYw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793377984;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=Absm4V+vGVFm3z0L90Q3kfe36wXiy29rBEs36+SAYuw=;
+	b=0T8pJRHe/ulliMe3YIqewzivDgNN0D1qL5ynbd0rPiZy3PE8SllCk5+i89FeEFy+q5sM
+	 14Fi/UvPJg7h18PpvmTFIDyU4FhGDZ11et+V0GHxfWc0w7/yHk6j1bY2YY2+kF+N1hI8z
+	 ggnAmhOQTkv5MmtOXunO3A930fJS1no/8aoarIUL/71/mOKiF3ELJMv374Q2KJiFB11Wi
+	 yRa6T5+z5g58QerQGhS7bZLTfXI2j/qwh8YubWIi+ir479dW77GFcks8ki6FfETpJ7zmX
+	 TVNs/x4XF1X4mDLPA5WYuXQXnKwEB6mjNPEokSgP9Yi+r/n/GNSrqpOP7c60C/cK4/g==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linumiz.com;
-	spf=pass smtp.mailfrom=linumiz.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.127.78
-Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11023078.outbound.protection.outlook.com [52.101.127.78])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XYhkyay4;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.42
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCECD606A325
-	for <linux-sunxi@lists.linux.dev>; Fri, 30 Oct 2026 16:08:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DCECD606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linumiz.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linumiz.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F7zYsbe5n+XPqhHzHFhku8drvc13C+7TQUGDDK7n8Qn7NDFZhzjZr/iNV8MksEFIDezvsFemTfjxZtHndOv+wZM34PAIDx1sC/zgQaCg82ZQhXZIFXopUnq/hNhH4DCfQ+ET9qXuvttz+rlaPV9heTHhVF8Gh5e+sTVjO4xA2CczXc/RXg8rEz4ARPlwfZCst5iehDVV315djFTfMWSb6BCLd7Z3D7PkbepfBbtr8X4jvQKRIcIxFNsEoUornfF+24hVzc3ggxl1hDWmqSUhmJuZLVA1yLBFKjCVALc7A6BGUUoOJ0RSQ6T0JJEsTSchAhZvSWkkIxoUPj71fPnPcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fOv31sjVqpmYa53862069hZvoKW6lq32LoPJHxT+VoY=;
- b=wrHDDwoNICF/vSyXc05WPuhvDs1jtUPdgjqUsryUFbCaapfZ5cobXY2WaJylJmPOaqMXp/Y8dd/jN8p+J5Ku872lKPVuDpohRJxMFq88aVbwADkijJPCFML4C/YDsI//aBXJuefl0+YKd8yN/ya+FgLY0GYGrQBxFV4qDtBnBGBZt3XxV6gSiMJ9HCEMmMVZuC3DBwAIP5bzqI22cn9AG9ukY5etnpthgPS5eek9l6APSB9gwgk171H5RweuQDlfJ8384JNw3tnHifXtrdNZLV2Wn6stbrRGOOeAoDBhKhb/rR9QakCKIqdhnuD+Pn4g7Uf4qUMc9HG7X9q1BZfEcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=linumiz.com; dmarc=pass action=none header.from=linumiz.com;
- dkim=pass header.d=linumiz.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=linumiz.com;
-Received: from TYZPR06MB6935.apcprd06.prod.outlook.com (2603:1096:405:3c::9)
- by TYZPR06MB6894.apcprd06.prod.outlook.com (2603:1096:405:20::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.4; Fri, 30 Oct
- 2026 16:08:35 +0000
-Received: from TYZPR06MB6935.apcprd06.prod.outlook.com
- ([fe80::30b6:5b0d:1b00:5a01]) by TYZPR06MB6935.apcprd06.prod.outlook.com
- ([fe80::30b6:5b0d:1b00:5a01%4]) with mapi id 15.21.0592.003; Fri, 30 Oct 2026
- 16:08:35 +0000
-Message-ID: <8033d7f4-86df-411a-be71-9be936675f69@linumiz.com>
-Date: Fri, 30 Oct 2026 17:08:32 +0100
-User-Agent: Mozilla Thunderbird
-Cc: parthiban@linumiz.com, linux-sunxi@lists.linux.dev,
- Paul Kocialkowski <paulk@sys-base.io>,
- Mikhail Kalashnikov <iuncuim@gmail.com>
-Subject: Re: [PATCH] sunxi: a133: adjust TF-A load address
-To: Andre Przywara <andre.przywara@arm.com>, u-boot@lists.u-boot-project.org
-References: <20261029233720.8411-1-andre.przywara@arm.com>
-Content-Language: en-US
-From: Parthiban <parthiban@linumiz.com>
-Organization: Linumiz
-In-Reply-To: <20261029233720.8411-1-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MA5P287CA0120.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1d0::6) To TYZPR06MB6935.apcprd06.prod.outlook.com
- (2603:1096:405:3c::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252FB606A320
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Oct 2026 16:33:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 252FB606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XYhkyay4
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-988c7371716so296323241.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 30 Oct 2026 09:33:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793377983; cv=none;
+        d=google.com; s=arc-20260327;
+        b=k7gnyh/29UuDDztrD+1GsIicoJBl0iQ37zowjARc+W0SNr/E/vxdeWA5C4wVnIQjil
+         p+8/3FN5iEWicLzWUCw7TGIH3ICw1b4BJVL2RMtJFURnwy0Brzpio1gLtLQ2HCw0fe0g
+         Nr8+GdmEFiJSGgi+AsehOtFzdGUsB7VemviiNRfQ/ON3yMYfbQh3S1ABFbnLbUAl6hku
+         wRDVeGGkiys8k8S9twv/A60N0/HY9BzJnjoNSE8wVrdK9i1kIjpHG7pFuKnRL3c6LWck
+         KSxWS24updsq94NU4fFqoUyUGNxruMS7uKBC63zbIC01u73YDgKaJgJmg2eODOds9PZz
+         l+fw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Absm4V+vGVFm3z0L90Q3kfe36wXiy29rBEs36+SAYuw=;
+        fh=tZ3NXRkHlkkYt1jzMB4aCqqA8c+BCWOfEY++mn3cIWg=;
+        b=CYsGF3kP8x5zNqKAekKwPIhMvruVzx+ouXBHHfVpHniX2BLB6Hd1rvWTDmqUN7usHF
+         yziuZwXQCNoLr0cnzkjk+V0oA3TdNOBvtMRp9vvjIF3EF8xOyrdkM5eQqJJ2TdTTmUPu
+         JUDaey3ulN4dM+g9OUpW8bLB+OXPk8Ba1HU4tuMxDPSiitdkQKMl5LL3TCPDrI1D51pS
+         kFjKmPm4EdoxF3sNCZpm4GmoKdP0kZDJicX37vM1qJzOArAHzdcVMt4Wkkvvs6qpUfjf
+         4VkVe1DsnlPRy65LSNNKKte6NMLrxY97TlIif2Lyi672y6Xt1f2KO/TESid736R+RmsF
+         mt9A==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793377983; x=1793982783; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Absm4V+vGVFm3z0L90Q3kfe36wXiy29rBEs36+SAYuw=;
+        b=XYhkyay4L6dMKkdAEOAOFQ3PrpdQNEM8Jlvg5cTy4eohZCHcxbHcq/G1RNy0P4pK1L
+         y/0Vln+41YJtL5FT0jmHO9nWoIb34K/Pp/zdhyeLL4C3o+ZnHY4ScdB35i3iNBTkG95V
+         xJrW1MROd0ZBTjKTGrv9VO4HObdfQ8dZ/sV6Dv1fDgXVCTVcOWrl6/XJg4SFnFwEv33Z
+         AvrwzaS0HgnuqR4dOKfq3+6tONKDztKBTyTSaw+gfc8O0KUF2fPiDiq+wWFEIW8sikuB
+         VJhSK6EiW5stP2CneotIlpscA9XtiHOBN/z2cTtVGaYLsPcq0gdTDwQ4bW1JMFKbLj0W
+         oywA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793377983; x=1793982783;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Absm4V+vGVFm3z0L90Q3kfe36wXiy29rBEs36+SAYuw=;
+        b=HjPmbP93eyKUnsMpboLdvavXU2AP+4yxOg8F6A44tKf29A8a9iruyRZr9+igzUWCpW
+         PKHmpSsrL1MQ3bO0OpnK5/wkvQd0Y34NmOCnKQbqYDzpRBNzXbaom/JTCJaNyy58S4hu
+         3gDMxw8QlgnhxTYzgNMEpANhpTOuacmUTiFHbUNhUaaBquiU60Tp10oR35+SrRNMG3z8
+         MjlPK/Msw/2NLtJQSkP5wBv0FaDTwkIY+FlazAqUMmCE9SIuMBQNIJd/gEZeicDewJE1
+         lJzXm1+abuvufgrmVD0bgD6qWdXGJodGfmwC2z7+l0F5gdeQGel4ullow7xvZfszUAjq
+         Ezsg==
+X-Forwarded-Encrypted: i=1; AKwUvBxT2xLcAZdDgHLu8MKH8xlD8qq5iMrN0Xuu91SLzsCxPbgllV98c386Z3W0rn1407Htnry8EroW95PwNA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJKV2Tlqps5NHxVFU+e7RBtBtFvzg3PHjQ9ex7zanX/WeeDcUt2
+	FpDV7FiM8wBzKOWautEN+SVei2sF+Os8TuldchOl40liKfDve8KZ/6VvF4gAxSZiA8Fk00Dghsm
+	Qkma+6Tt/bN62Il0Vs2EV/ytlsPyeUBw=
+X-Gm-Gg: AYBFou2iGKzGUI2jYWjLOc+84HfW5E83wnz9VGx5JFbSKLjfJ5byxbwLV/T51QB0KIJ
+	TL99ClxmVMxGbpBKJOo+IMa1T8/HHUAYzNwOf8/QXRc+9RT4gCe2dSJ1OKCBSBCMY3cdK7FwW0A
+	bH1wsu4CaUpHQqwpCJLc3wxaBkNg1xSi2iv/fU8QJN8fwj11oQ1KXPJsQyvs8YFuDjPrfrBeFqe
+	zCmPtREl6uYQrc37qUiPKFhfbgOt2Gx6BSgPsCuApXXowLkWrFhGdjrQK/PShiT+C+sItRpghe+
+	kUzeqliWOob47WwkMJICnzHcweKRMwOY6/Jaue4FTu+g4rpUs+gLaEeeG4HbixMWvBbcSDpIMZJ
+	n7ov3XwdRBF+XGt0jcKgCCFE8cSVdzrA14VYNdrWvOZ6IX8eh95yu6LlvDAEnwSr8C2fILONsjE
+	RHw7RaFMeQVXpkJ+elNy8XAHmOhdH1m680AD0geApgHplSkMzxayXiBPdz/EU/yq3TzzsBEnMuO
+	JBALL6hDV32pO/OsU0ucncVwFK7jg==
+X-Received: by 2002:a05:6102:2c0f:b0:7a6:d11b:16ea with SMTP id
+ ada2fe7eead31-7d0725528eamr1573062137.6.1793377982874; Fri, 30 Oct 2026
+ 09:33:02 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -91,113 +106,192 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYZPR06MB6935:EE_|TYZPR06MB6894:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2c142c7d-f454-4d9d-3863-08df36a00ce1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|56012099006|261009223027099003|261026140227099003|261026121527099003|261022105027099003|261028144727099003|261021123027099003|261021121427099003|10067099003|22082099003|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	EYYOOQeSoeKdTmO73eMLvHD82X0/d25ssbTBaa0ali866ovbfYsDeGBY/COecmX14BADvF1iJW6qZQcNB1zgRM4x40rFI5AOgl3oDbyPwK3zwaWCdQKmnR8T1sZePfIG2WANfIy5lfYGW/WDDBzKYzOhY6DpkFcbQePRm3OZJ+hhkiYgbll+TtyLp0Y19GwuhcgjdbURdyAwimb17nlnwG3kCXFoxqT6HXl8k17uzh+MHGqk09ddLJaGa7UkPARjTDFj4ZcEkIXWQMXToiBtfmukrtrh07Rm8bT8lAGD5o1RUozM4HVXc1KZPuHytLGVCxeylKVK5jjdYQeN3UXVcNSHisoRMOlkGPoJi7UmNal3bx5AvmxwRYgHPNdJvS8wXbeFPYo2Rx8GkqIc/KJ2CpLvUusW22qc+muVnEBi0QPhx6O7kIgmBCm7c9hupC4eCu1L0+nmN8IahfpgcfqiITcgOn+q0m3jQim0ZsbbhsnSpEUouvRlhUl1W0pLWk7RM5RPlQ3qfwFYJrh6002DysEEtqsNfznbyWk82/qr4Prhu6h/2of2rkcLQsBhpwB2acGRO6Fvlwi1yuQqivcTG3YrVqcT7e4wAejyINwqlhd1kd2ShKXR0dAO+fohN2hgi7x90MTiz7PVmqUCKFS30SlJvTYa5BMBXRgY07rgD8I=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYZPR06MB6935.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(56012099006)(261009223027099003)(261026140227099003)(261026121527099003)(261022105027099003)(261028144727099003)(261021123027099003)(261021121427099003)(10067099003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MnRNVXBjOHUyTFRGUUowQkUwQWZTdkw2dUNDR2NhYVRFT29vMVZRQmgzRVJu?=
- =?utf-8?B?L0lnSGhEN3VIbm1NYksyUnFKUnBGMCs1VDluSzAyVU85N1lCdXNlRHhyMHg5?=
- =?utf-8?B?YTNvQ3VwU0hNeXdyMzFsK3RNdmY5WEs2SVpoc3I5STF2QVZiWEorMGdjZFpD?=
- =?utf-8?B?TEtYM2FoUUVHZDBVTnpHQjNiMzlIYjRvOHRBL2l3RkwwUUg4MVh4M1RkaytG?=
- =?utf-8?B?VkhIS0FGNnUwVjFtUU1qVk84eUkvTGRlR0djNjh4Yy8xczVGMEFLT0xqdllK?=
- =?utf-8?B?ajcxV2Z3Smk3SHMveVRVODVXZzVNdS9aOWlScWJoTytQaHRnT2swczhsM0p1?=
- =?utf-8?B?TExGYVUwZ044SW5OUkFSN0Fhem1kY0h0WElsTWtSUjV6TkZackprSUNqRVJs?=
- =?utf-8?B?MkZtVk15WTVDZE9GMFN0K1UxTkNWTFJIMHdYeXV6bGdpeHFIOEg1c29Weld6?=
- =?utf-8?B?bEM4TlBPWmpnaWxWVlV5ZnBhdEdFSHBrMDh5c2puaEJvNVZ2Wkp0dGJ1aFg1?=
- =?utf-8?B?VysvWXJVU3hkMjBlSWdZYWcyT2JwRDB5S2h4TDBXeUVvMy9RbmxBS0YyMW1t?=
- =?utf-8?B?RHhJMFpzUFJZUENTc0JFQWltc3JGZjU0NUZGZllCelJDelJCVEE0aVdhTmZI?=
- =?utf-8?B?T25md1V0a3d2R0JyQStGZWtjeUJKTzZBVm96MnQwY3d0Zy9IdERXNWFOc1Fk?=
- =?utf-8?B?NW9wRUEyTFRDQ0NLODVEaFFwNkNFQ0F5NDNwSWtPUjZESXgzaWtyZlNaQzVT?=
- =?utf-8?B?N0JyRDRZdmgxRmIxYU03dzBpTFlKMmk3SzA2SENVM3RtWnFScmFPNFpxY3pL?=
- =?utf-8?B?MmtJai9zRUZDUTNOMUdwSkU4NnRaZytQYnR6b01OSFArK2lSUVNPSTNBcDFF?=
- =?utf-8?B?em1MeUhyL04zQVdhNEpENEdoaFUvQTd0UHVYakZMM1llOG5ycFdOSEpaUzFL?=
- =?utf-8?B?dnVUNmJ4dGdJSWhFUlNmZ2lKMWZmZWg5VzBnejJlUk40cWlMcllEcUdBWUsy?=
- =?utf-8?B?QWM5bzEreU13QkpHc28zcWh6ODVUenI1Sk1BMXNBUVhoMmVsL2ZxbjMrK1Jp?=
- =?utf-8?B?UjNOamlTa01JMUYxajRtcnY0UG0vSEY3NmM3aTZIMHJTSVZseGNIa1BWMWtt?=
- =?utf-8?B?Y05hTTg4L0JOcHIxWlhWMmhZQzBQRXplb2VNVk13bE5Db3pSYmt5Mkp2RDdn?=
- =?utf-8?B?WGlrNUJCYVRwb3FJSm1FbjZPSERVdWxIKzhtN21Mb0FFa1pZVzVNUTVrOGpn?=
- =?utf-8?B?Sk8vK3NBVkhnamxIQ0h4aEs1aTBRWGczb2ZNcmpDVHlTa3hBNzlWYWZ3NUpK?=
- =?utf-8?B?dmdKeXZ3RFRTZmdlZWdQYWRoUTY2SjlXTktWY3hqcXhFbU9NYnFlbHI1dEZZ?=
- =?utf-8?B?UjhLeUs0NTU1bkZmZ0tLVVZUa20zbFlORERnNGhpbkIweWF2M2g2eFlWL2xQ?=
- =?utf-8?B?WnNFbVF0c0E5amF5c0FoTTdxNXFLQkM0cXB3Z0p0cG9wZDlkbFVNOC9jRHZw?=
- =?utf-8?B?M0FFVDExUEo5bkhtS2NFYlgzK2s1ak1VQ0dKa2JBUU8vYm5xNFdweVFXdERH?=
- =?utf-8?B?OExRTng2VEl6dVZVaUREYjVkWnoxVFZDN0p6QmQ3MWVNK3gzT0piQTJ1U1Z4?=
- =?utf-8?B?SG1DS1FrUjFjYS9hcVdlWEdPNTljK09tNG1JMkozdGlIdXVkU1ppbDZrWExK?=
- =?utf-8?B?WE4xbnlBSDJ1a1Q5RWJpb3pMSzVFZy8xL2xMWlhVZlc2QWZOVTVIa3NpU1Fo?=
- =?utf-8?B?L1Y3Nm5yR3hwU2NvRFpXamx4OTVtSll2WXpzTDNzYWF4UjJkYnc0aGl4Yno2?=
- =?utf-8?B?YUYzS1VMQlJCbFNrRmpsUk0rNWozYnNkeFRZY3I5Vm1KUHZ6ekk1cmRUWWh2?=
- =?utf-8?B?Yi8xTzd3c3RiNlFhWXB2QVhWeFMxZWEwNlZnMnI0L3hDbkcwMkd0elpmcmJz?=
- =?utf-8?B?UjhLMk5RUGNiSndRbDB0ZXllRGtkUnNncXJoUHRMaTJTSnNXQTVNTXltTTFv?=
- =?utf-8?B?UCtqNGZvSUNSRFFlOGU1eUJQOGp6SnhUVUx5cHdPQ0xMN1dHWEdWS3p4Vldv?=
- =?utf-8?B?cnI0b1FHOHZvT1BhckFTOXZQQVpMQ3ZQeUtiMnJHTlp2dHM3dklha01IUC9y?=
- =?utf-8?B?dWFRZjVCU0U5ei9OTktvUmxMWXRGcWJlaGgyNHNMdVJiTU4rK0hqN0FKZElz?=
- =?utf-8?B?Z2VsNklIUjlMSXQxNGY0WTVqcVJTZTVGOUhNT2VRNDI5M25PY2o2OWVNV3I3?=
- =?utf-8?B?MHcxYWFYdkFRUUtBYVQwZCtmVkFyeWpXQS9DbWlBcnZvYVQ3aC9UeDBMSzVn?=
- =?utf-8?B?cTdobzRuY1dWUXY1NllwVU5KaHRHT3hEZHdxWVFnbzVoWEhLUklEUT09?=
-X-OriginatorOrg: linumiz.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c142c7d-f454-4d9d-3863-08df36a00ce1
-X-MS-Exchange-CrossTenant-AuthSource: TYZPR06MB6935.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2026 16:08:35.0360
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 808466aa-232a-41f4-ac23-289e3a6840d4
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m0BeWD46GkcrNLWRcOlKogHilIT61GIzUldCh0vmm42hHFr44FOawiXYvbjopYRYtvHnhpGuXnCAtsCe9qNHRg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB6894
+References: <20261029-submit-h616-uart-fifo-v1-v5-0-53b433aebbf8@gmail.com>
+ <20261029-submit-h616-uart-fifo-v1-v5-7-53b433aebbf8@gmail.com> <3d7af02e-4196-bb82-9579-467e88879021@linux.intel.com>
+In-Reply-To: <3d7af02e-4196-bb82-9579-467e88879021@linux.intel.com>
+From: James Hilliard <james.hilliard1@gmail.com>
+Date: Fri, 30 Oct 2026 10:32:51 -0600
+X-Gm-Features: AclHuK9dYwyBnU9vyC-IBxpz7TsWhpjTcY4ZwN-3UTn5urI74GWhcbY5yqJONhY
+Message-ID: <CADvTj4on8Kx2bW05sSp5uHCT=LCL1L1Jmh_cOo2TEnNdx-mU9w@mail.gmail.com>
+Subject: Re: [PATCH v5 7/8] serial: 8250_dw: discover Allwinner A523 FIFO
+ depths through FCC
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, LKML <linux-kernel@vger.kernel.org>, 
+	linux-serial <linux-serial@vger.kernel.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/30/26 12:37 AM, Andre Przywara wrote:
-> When development of the Allwinner A133 TF-A port started, BL31 was put
-> in SRAM, like on the similar H6 SoC. Consequently we used the same SRAM
-> address as the H6 in the Kconfig stanza of the A133 U-Boot port.
-> 
-> Later we realised that the SRAM space will become too tight, in fact it
-> was already spilling over into SRAM C, which we cannot use any more at
-> runtime, once the display engine is used. So the mainline TF-A port
-> eventually put BL31 in DRAM, which of course requires a different load
-> address.
-> 
-> Adjust the BL31 load address to use the same DRAM location as the (almost
-> SRAM-less) H616, by just adjusting the match pattern, to not let the A133
-> fall through to the SUN50I_GEN_H6 symbol.
-> This allows U-Boot to use the now merged mainline TF-A port for the A133.
-> 
-> This is unfortunately a breaking change, but there is not much we can do
-> about it, and since U-Boot packages TF-A in our booting scheme, we have
-> that under control.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  arch/arm/mach-sunxi/Kconfig | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-> index b0c5d3cd903..b7ee14c6678 100644
-> --- a/arch/arm/mach-sunxi/Kconfig
-> +++ b/arch/arm/mach-sunxi/Kconfig
-> @@ -267,7 +267,7 @@ config SUNXI_RVBAR_ALTERNATIVE
->  config SUNXI_BL31_BASE
->  	hex
->  	default 0x00044000 if MACH_SUN50I || MACH_SUN50I_H5
-> -	default 0x40000000 if MACH_SUN50I_H616
-> +	default 0x40000000 if MACH_SUN50I_H616 || MACH_SUN50I_A133
-Thanks for the changes.
+On Fri, Oct 30, 2026 at 4:15=E2=80=AFAM Ilpo J=C3=A4rvinen
+<ilpo.jarvinen@linux.intel.com> wrote:
+>
+> On Thu, 29 Oct 2026, James Hilliard wrote:
+>
+> > The A523 UART integration, also used by A527 and T527, has 64-byte FIFO=
+s
+> > on UART0 and 128-byte FIFOs on UART1 through UART7. Each controller rep=
+orts
+> > its TX/RX FIFO depth in bits 31:8 of the FIFO Clock Control register at
+> > offset 0xf0. The field holds a byte count, not a logarithmic encoding.
+> >
+> > Read this field in the sunxi setup callback when platform data does not
+> > provide a fixed FIFO size. A fixed size takes precedence, so H616 retai=
+ns
+> > its 256-byte configuration without accessing FCC. The probe has already
+> > enabled the clocks and deasserted reset before invoking the callback.
+> > Leave the FIFO clock-control bits untouched.
+> >
+> > Validate the depth before generating the RX trigger table or setting th=
+e
+> > transmit load. The quarter-full threshold must be positive and the
+> > FIFO-depth-minus-two threshold must fit in the byte-sized table and RX
+> > trigger API. Report an invalid depth and fail probe instead of generati=
+ng
+> > zero or truncated thresholds.
+> >
+> > Select this setup for the A523 compatible. Derive the transmit load and
+> > RX threshold table from the discovered depth using the common sunxi
+> > helpers. This handles the different FIFO sizes with one compatible and
+> > one receive-trigger mapping.
+> >
+> > Like H616, this integration has Allwinner-specific debug-divisor and
+> > RS485 registers overlapping the generic DesignWare feature probes. Use
+> > the common sunxi PIO setup, BUSY-safe integer divisor programming and
+> > software RS485 handling. Keep the APB clock gate enabled during termios
+> > updates with SKIP_SET_RATE.
+> >
+> > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> > ---
+> >  drivers/tty/serial/8250/8250_dw.c | 23 +++++++++++++++++++++++
+> >  1 file changed, 23 insertions(+)
+> >
+> > diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/825=
+0/8250_dw.c
+> > index 3bc6735fc253..2ab91f479fc6 100644
+> > --- a/drivers/tty/serial/8250/8250_dw.c
+> > +++ b/drivers/tty/serial/8250/8250_dw.c
+> > @@ -17,6 +17,7 @@
+> >  #include <linux/device.h>
+> >  #include <linux/err.h>
+> >  #include <linux/io.h>
+> > +#include <linux/limits.h>
+> >  #include <linux/lockdep.h>
+> >  #include <linux/module.h>
+> >  #include <linux/mutex.h>
+> > @@ -45,6 +46,10 @@
+> >  #define RZN1_UART_xDMACR_8_WORD_BURST        (2 << 1)
+> >  #define RZN1_UART_xDMACR_BLK_SZ(x)   ((x) << 3)
+> >
+> > +/* Allwinner FIFO Clock Control register */
+> > +#define SUNXI_UART_FCC                       0xf0
+> > +#define SUNXI_UART_FCC_FIFO_DEPTH            GENMASK(31, 8)
+> > +
+> >  /* Quirks */
+> >  #define DW_UART_QUIRK_OCTEON         BIT(0)
+> >  #define DW_UART_QUIRK_ARMADA_38X     BIT(1)
+> > @@ -64,6 +69,7 @@
+> >  struct dw8250_platform_data {
+> >       u8 usr_reg;
+> >       u32 cpr_value;
+> > +     /* Fixed sunxi FIFO depth; zero selects discovery through FCC */
+> >       unsigned int fifo_size;
+> >       unsigned int quirks;
+> >       int (*setup)(struct uart_port *p);
+> > @@ -729,6 +735,16 @@ static int dw8250_sunxi_setup(struct uart_port *p)
+> >       p->type =3D PORT_16550A;
+> >       p->flags |=3D UPF_FIXED_TYPE;
+> >       p->fifosize =3D data->pdata->fifo_size;
+> > +     if (!p->fifosize) {
+> > +             u32 fcc =3D dw8250_readl_ext(p, SUNXI_UART_FCC);
+> > +
+> > +             p->fifosize =3D FIELD_GET(SUNXI_UART_FCC_FIFO_DEPTH, fcc)=
+;
+> > +     }
+> > +     /* The RX trigger table must contain positive, byte-sized thresho=
+lds */
+> > +     if (p->fifosize < 4 || p->fifosize - 2 > U8_MAX)
+>
+> One additional comment.
+>
+> What is the reason for this "byte-sized" limit? Is it Allwinner specific
+> or perhaps the use of unsigned char in 8250 driver to store them?
 
-Reviewed-by: Parthiban Nallathambi <parthiban@linumiz.com>
+It comes from the current 8250 software interface, not an Allwinner
+hardware restriction. The per-port u8 threshold table is introduced by
+this series, but the existing set_rxtrig() callback takes unsigned char
+byte counts, and rx_trig_bytes sysfs writes are parsed with kstrtou8().
+The existing per-UART-type threshold tables also use unsigned char.
 
-Thanks,
-Parthiban
+> In the DW databook the CPR given fifosizes go all the way up to 2k. I'm
+> not sure how large actual UARTs make them but applying the FCR formulas
+> one could get > U8_MAX thresholds.
 
->  	default 0x00104000 if SUN50I_GEN_H6
->  	default 0x00054000 if MACH_SUN55I_A523
->  	default 0x0
+I haven't found an Allwinner UART documented as having a FIFO larger
+than 256 bytes in the vendor manuals reviewed, and the BSP configurations
+checked also stay within that size. With the Allwinner mapping, the
+largest threshold for those depths is 254 bytes, so the current types
+cover the hardware identified so far.
 
+A larger FIFO could exceed that representation: a 512-byte FIFO would
+need a 510-byte threshold, which would truncate to 254 in our u8 table.
+The check prevents that truncation. It is a software limitation, not a
+claim that Allwinner hardware cannot implement larger FIFOs.
+
+> If it's just 8250 drivers type limitation, I think the comment should
+> make that obvious the type could be changed as needed.
+
+The comment should identify this as a limitation of the current
+byte-count representation. Supporting larger thresholds would require
+widening the new table and shared conversion helper, together with the
+existing setter argument and sysfs input parsing. Widening just our
+table would not allow those thresholds to be requested through the
+current interface.
+
+
+>
+> --
+>  i.
+>
+> > +             return dev_err_probe(p->dev, -EINVAL,
+> > +                                  "invalid FIFO size %u\n", p->fifosiz=
+e);
+> > +
+> >       up->capabilities =3D UART_CAP_FIFO | UART_CAP_NOTEMT | UART_CAP_A=
+FE;
+> >
+> >       dw8250_sunxi_setup_rxtrig(p);
+> > @@ -972,6 +988,12 @@ static const struct dw8250_platform_data dw8250_h6=
+16_data =3D {
+> >       .setup =3D dw8250_sunxi_setup,
+> >  };
+> >
+> > +static const struct dw8250_platform_data dw8250_a523_data =3D {
+> > +     .usr_reg =3D DW_UART_USR,
+> > +     .quirks =3D DW_UART_QUIRK_SKIP_SET_RATE,
+> > +     .setup =3D dw8250_sunxi_setup,
+> > +};
+> > +
+> >  static const struct dw8250_platform_data dw8250_octeon_3860_data =3D {
+> >       .usr_reg =3D OCTEON_UART_USR,
+> >       .quirks =3D DW_UART_QUIRK_OCTEON,
+> > @@ -1024,6 +1046,7 @@ static const struct dw8250_platform_data dw8250_t=
+da54 =3D {
+> >  static const struct of_device_id dw8250_of_match[] =3D {
+> >       { .compatible =3D "snps,dw-apb-uart", .data =3D &dw8250_dw_apb },
+> >       { .compatible =3D "allwinner,sun50i-h616-uart", .data =3D &dw8250=
+_h616_data },
+> > +     { .compatible =3D "allwinner,sun55i-a523-uart", .data =3D &dw8250=
+_a523_data },
+> >       { .compatible =3D "cavium,octeon-3860-uart", .data =3D &dw8250_oc=
+teon_3860_data },
+> >       { .compatible =3D "marvell,armada-38x-uart", .data =3D &dw8250_ar=
+mada_38x_data },
+> >       { .compatible =3D "renesas,rzn1-uart", .data =3D &dw8250_renesas_=
+rzn1_data },
+> >
+> >
+>
