@@ -1,48 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.233.101.22
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793373339;
-	b=w9n4BlJO3m9s7T2QEFuQUIOTvhl3srdsGEt0wy9v56IJfp1zsxQIv7DLzwQZNgvgtjTK
-	 A395JQhEkkRuxT/wnk6Wj5N9PihD5v41k8cJmUpcDKb8Uir1sgyONUuk00NgBfSuCp62+
-	 eGkPhni0kTKeyOskwxy8Ku2VSUkX5dj3VIdyhpBI2LM4T6n0dgaY79Zes1n2RCkSwZYJv
-	 EkU7yQlXQoGbUswLVBClGBIT7AdVnFnLbmombs3sWkY1kAgH6cyODn2ckqd7AnBzkohF+
-	 JRzDEwn7cvuc9qDRzC8ASZGrZHji8PLHFLA8bSYVMVoDLUtSyufLWBvmpWXztKqSKYw==
+	t=1793374429;
+	b=cA0FI2KLoCtWcHU7GjydZc69kQdH6OIBzKcl7RdC6T9m8x1WD2A17J9Eak8ErWrhCWfS
+	 qMCbZDue15Ov8ugO/F7Hw4epndx1/V9BEjmhDxPyynaRkNBfz8wOT6Or7mXLK83BJnSbi
+	 JZfpaaVeYlS5YNS2mH8htXH+oBOCQFPj0vkXQWQSJWRehjVGCrl+gCn/K9dgZ98lTNxye
+	 JUEncTmEjJQUJZn22/Z91snZejeiFdhO555EKzs9JfXkRopXbtame2G/fjs2HR0X/RjLe
+	 +p9qv5agNjmOFwsfdF3lhHpvroMGJ0xXXcMRITbxT+zJCTyatG2WAc7MWmbDzcQTBaQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793373339;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=iift74J2BcJLjOmAJCEOfXrZiV7cQ7a8CkgROfOHGRw=;
-	b=qtCAUx8pw37D3ZfxRBwmVV9mM2PSxB46AfvFR7NutwGJ24lIhEBDG6mdzg0+ofjUG1UR
-	 WuW0zxfAL73mVILvuOVtsrE9mhkegve1BjonbT6cJeBA0io0FJof0LGH6vYgmJQV/7Kxw
-	 CLooSgHIA+EcMr/oUBc2XfXJHaOrVT3SEGWVmUF4zbcyLdbettgVZRQGCP9y1z7YC53p3
-	 1fo3nHhPDV/XP/EM2yN4+6nKSVmdjVK1+0mPiT9vqruHtty6cFbq2W8Q/HMdNHme6gOSO
-	 PSAMxbMGY0RJjkTXL2/VopoZo+hJ0reWmXClmTZwZ8qlKTG2XgNERAZnKHZy6KXldEQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793374429;
+	h=DMARC-Filter:Received:Received:X-Spam-Checker-Version:X-Spam-Level:
+	 X-Spam-Status:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=K7f/cQtkNUPTYUSwgl5HAgtl63crP2LKRsnz/L6mQZM=;
+	b=uqixJA73jHXwDz9Bcfnen8abosh3kw6KIHUCXppDmaG5iB46wl1ZvLx09xX+AiI2BsQZ
+	 12WiGDpyqwytGcza+a8KQPAlN8w/MLXmC3XNNzuiBDPZRhmQRr7Im0qJe0O5RiNndiWDK
+	 jRjOOnVzsu1GaqhW45dXq5W/uqi9LlpoKQe3YEtGI8goVXL9EuzR8IC8y830cz51Tq8Y3
+	 VGx4lq53+JjlIz1jFUjnK+CB2VKwnPuxoMvOBe8Aq4dMHt+qJMdWGtkqUYSumG6uRxV+o
+	 ftqub2+0Q2WnqzDqQ5Cyp7UNI8X5dkX8hcHx2jUXsAFnZ3f0c7DrWDshCJwrvYmtFsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="NqGP/3Xr";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=sys-base.io;
+	spf=pass smtp.mailfrom=sys-base.io;
+	arc=none smtp.remote-ip=185.233.101.22
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FFA6606A31D
-	for <linux-sunxi@lists.linux.dev>; Fri, 30 Oct 2026 15:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NqGP/3Xr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61AF81F000C1;
-	Fri, 30 Oct 2026 15:15:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793373338;
-	bh=iift74J2BcJLjOmAJCEOfXrZiV7cQ7a8CkgROfOHGRw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=NqGP/3XrBSU9mKjAtTmo0ON2DKayBmXx4vLc6QAZZbMKMAz28k8LsP0JszZAa9Qxk
-	 E1q/8rnjbCPGmwdDHNl1SFCMBbwSBCw0lA6Dy5zes5v+UFoa0vjXRcgdX3sqxcY9rM
-	 5yOv7PXmZwRRVbErvYr6UhZWfKntduy9Pau/zS0Qr7CiDtOzkiUoflqnJm3yJmJGzu
-	 TAmIXxaKhck+or7vSk5UCpqh+A2lf8/IXq1EtC9X1q1QOfDAkkj9zix/9pGJjj/B7c
-	 6RQUDtv7R/ayLdgVXY1juhY+n7o2wuCQRBU7RmJ/QEFQ7fGFGcVeWhl95YXI0djo2L
-	 QbAzQTt1qswSQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Fri, 30 Oct 2026 16:13:59 +0100
-Subject: [PATCH v3 29/37] drm/sun4i: tv: Convert to atomic_create_state
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FA0606A31A
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Oct 2026 15:33:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26FA0606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id E7DC33700EFA
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Oct 2026 15:33:38 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id D0A91B72BB6; Fri, 30 Oct 2026 15:33:37 +0000 (UTC)
+X-Spam-Level: 
+Received: from shepard (82-65-240-19.subs.proxad.net [82.65.240.19])
+	by laika.paulk.fr (Postfix) with ESMTPSA id 48E1DB72BB5;
+	Fri, 30 Oct 2026 15:33:37 +0000 (UTC)
+Date: Fri, 30 Oct 2026 16:33:35 +0100
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: u-boot@lists.u-boot-project.org, linux-sunxi@lists.linux.dev,
+	Mikhail Kalashnikov <iuncuim@gmail.com>
+Subject: Re: [PATCH] sunxi: a133: adjust TF-A load address
+Message-ID: <auS4xwW6QuXaptlc@shepard>
+References: <20261029233720.8411-1-andre.przywara@arm.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -52,76 +56,101 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261030-drm-no-more-connector-reset-v3-29-30e71d92c327@kernel.org>
-References: <20261030-drm-no-more-connector-reset-v3-0-30e71d92c327@kernel.org>
-In-Reply-To: <20261030-drm-no-more-connector-reset-v3-0-30e71d92c327@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>, 
- Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
- linux-sunxi@lists.linux.dev
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1967; i=mripard@kernel.org;
- h=from:subject:message-id; bh=kGTs0Nop/pM8g/eLbAmv9j8gKg2hgWhBLCx8ej3AHWQ=;
- b=kA0DAAkTJ1/OGaI9vnYByyZiAGrktCrI7xROyP1Qk2kr5n2CkA50TbX+KBTIlrWzHoeys1z9C
- 4iVBAATCQAdFiEE5BxWy6eHo3pAP6n4J1/OGaI9vnYFAmrktCoACgkQJ1/OGaI9vnbdKgGA8hwS
- AK5zkzXRBiAaF5hpTRehUIRBE7Z18gV+6JzV508fFaVrHwwc/lb2vEEfuRjTAX9B6gQwN/Q9cPr
- DmpP2GNZF0ikQonjDsKry41Vbvi5vxPkPnTDROVSWj90xWOX71Xc=
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="2L2QjHgHXD7tLOQY"
+Content-Disposition: inline
+In-Reply-To: <20261029233720.8411-1-andre.przywara@arm.com>
 
-The sun4i TV connector reset implementation creates a pristine state
-and initializes the analog TV properties. It does not perform any
-hardware reset.
+--2L2QjHgHXD7tLOQY
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Since this is equivalent to what atomic_create_state expects, convert
-the reset function to an atomic_create_state hook that returns the
-initialized state.
+Hi Andre,
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
-Cc: Chen-Yu Tsai <wens@kernel.org>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: linux-sunxi@lists.linux.dev
----
- drivers/gpu/drm/sun4i/sun4i_tv.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+On Fri 30 Oct 26, 00:37, Andre Przywara wrote:
+> When development of the Allwinner A133 TF-A port started, BL31 was put
+> in SRAM, like on the similar H6 SoC. Consequently we used the same SRAM
+> address as the H6 in the Kconfig stanza of the A133 U-Boot port.
+>=20
+> Later we realised that the SRAM space will become too tight, in fact it
+> was already spilling over into SRAM C, which we cannot use any more at
+> runtime, once the display engine is used. So the mainline TF-A port
+> eventually put BL31 in DRAM, which of course requires a different load
+> address.
+>=20
+> Adjust the BL31 load address to use the same DRAM location as the (almost
+> SRAM-less) H616, by just adjusting the match pattern, to not let the A133
+> fall through to the SUN50I_GEN_H6 symbol.
+> This allows U-Boot to use the now merged mainline TF-A port for the A133.
+>=20
+> This is unfortunately a breaking change, but there is not much we can do
+> about it, and since U-Boot packages TF-A in our booting scheme, we have
+> that under control.
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tv.c b/drivers/gpu/drm/sun4i/sun4i_tv.c
-index ea86f8a6a35e..a68e5f7a03d2 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tv.c
-@@ -406,8 +406,16 @@ static const struct drm_connector_helper_funcs sun4i_tv_comp_connector_helper_fu
- };
- 
--static void sun4i_tv_connector_reset(struct drm_connector *connector)
-+static struct drm_connector_state *
-+sun4i_tv_connector_create_state(struct drm_connector *connector)
- {
--	drm_atomic_helper_connector_reset(connector);
--	drm_atomic_helper_connector_tv_state_init(connector->state, connector);
-+	struct drm_connector_state *connector_state;
-+
-+	connector_state = drm_atomic_helper_connector_create_state(connector);
-+	if (IS_ERR(connector_state))
-+		return connector_state;
-+
-+	drm_atomic_helper_connector_tv_state_init(connector_state, connector);
-+
-+	return connector_state;
- }
- 
-@@ -415,5 +423,5 @@ static const struct drm_connector_funcs sun4i_tv_comp_connector_funcs = {
- 	.fill_modes		= drm_helper_probe_single_connector_modes,
- 	.destroy		= drm_connector_cleanup,
--	.reset			= sun4i_tv_connector_reset,
-+	.atomic_create_state	= sun4i_tv_connector_create_state,
- 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
+Thanks for submitting this! I agree this is the right thing to do.
 
--- 
-2.55.0
+Also note that I've been using the 0x104000 SRAM address as base for the
+crust SCP firmware, which will be submitted once crust support is there.
 
+Another aspect is that I'm not sure we actually lock down the address in
+the TZC, so it's likely that Linux could still overwrite the TF-A code.
+But that's a TF-A problem, not a U-Boot problem.
+
+Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
+
+All the best,
+
+Paul
+
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  arch/arm/mach-sunxi/Kconfig | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+> index b0c5d3cd903..b7ee14c6678 100644
+> --- a/arch/arm/mach-sunxi/Kconfig
+> +++ b/arch/arm/mach-sunxi/Kconfig
+> @@ -267,7 +267,7 @@ config SUNXI_RVBAR_ALTERNATIVE
+>  config SUNXI_BL31_BASE
+>  	hex
+>  	default 0x00044000 if MACH_SUN50I || MACH_SUN50I_H5
+> -	default 0x40000000 if MACH_SUN50I_H616
+> +	default 0x40000000 if MACH_SUN50I_H616 || MACH_SUN50I_A133
+>  	default 0x00104000 if SUN50I_GEN_H6
+>  	default 0x00054000 if MACH_SUN55I_A523
+>  	default 0x0
+> --=20
+> 2.46.4
+>=20
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--2L2QjHgHXD7tLOQY
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmrkuM4ACgkQhP3B6o/u
+lQx+XhAAjSX3tkOfKMe2iiGawjl6f2PKlDL7jRbI2Ns9m/meBrLo2rm0xciPREIm
+d/wUfmMtbDoqMaEqJRlpchytC0JxyLKHc1GfN+IskUAXJces9YQbIUB8xNrfYBA5
+pR52CIpKRYtIzsZjsj3fVtWUZb/BEhloviLLEcieI9bUF2bz7/nl0sYhTh7/Wcqu
+MlZsvLBSl0mrc+xSzhLocOa+eZ7ftiQIjuV5BZPXt8p5u4Eb7Fr7GRTnBOiEPXlb
++sVKT5wKbkCwtKXkS6WKu/LTkf2t0tyfhfMlvhYHSMTB7vi/WLBc/w1Zl4+69JDF
+AVpZie4W8h5PLhZ+CBIQjbES2KFmEz+8ave1NqApNJSnpRTcjgn9640Ep5YGibWY
+fxgy+Joh/UoOUfejGZRT1/K5XQSL9qL2LEsKFosplivybK8JU0VZ9P4tcavpURUi
+HhIOruiMjzmHepglBtznekPprqYgH0cERhtBwFXnDicdu/TqEZR0u9/dRZC8rGa5
+fqt54vbwX1+0GLwg/M7upfTvhvdFhUL1xUX3pC+Qx9hVPD2JTJY7RDtZkgDBdH5m
+ZJbCJ6eN62fvWcguQn0l5xKvVXslAS6xowHhg5HNv0JV90+oC3h5hbrtNe5/40sV
+6mo4fJKpiu81gx/GprjOzkrxDETeiCw92QrD8EKApJMg2LmgRYs=
+=Ygfx
+-----END PGP SIGNATURE-----
+
+--2L2QjHgHXD7tLOQY--
