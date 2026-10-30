@@ -1,55 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=57.103.91.225
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793381663;
-	b=a8NkIfjUYYqu/MfCF3FQRqodoiO/nmoxI5IJikJw6iF6hDbrU2yZX6PynN+/4neuomvH
-	 +hr8PLavabVn64FGON+NgfkMi0dl7LwJ5cX/RRzYUg71p5x+NjPrE29YvtKC+UuMGrv7z
-	 +Hub2FdeMf3+AP3Sb8OYhoX9Q2gy4etY6tacmxVsrf8qmvSZXfEBXeCtLkUciEpMajsyK
-	 W6Ez0mVKCucN51e0CTLqtF4W43ezdMCcK9c7eyMLUipTOYjOjqQbveygT0y3EIdUlWRuR
-	 wV9YUeEPibnNiQje+lHSOqi7lP3pB2SjcRvYq4y2Wkjkm3dojYHYKN7KyUhQLskcSEg==
+	t=1793400065;
+	b=dz/Xcb3daWNPDtWy0ZG1Br4s1pnqzMitOUyl+jJhWjjy4/wJB95iKiiCqqOig+h4DHUm
+	 jV41bZbfLfrWc2BVV7pEbHty5TCUIVMQNGe/WsGV++3ntXLAQuYra/rzvY9x1AH6wpYrv
+	 a93ba81jPnXqOWWb+YGV5bnaskU0z5VB3lnIcBSibrtMPDGLarsWCpZPu/Ws1Z+L+Stx5
+	 UNiRjAP3NGMhgn1Uq/hfmGLNNdoyufRGzFuMHRlnP4+YuL7w7QFIKwnjUdPTgsfQN+0Vk
+	 SOUQ8qagS3ra4PRPFfosmz3bw2ELkcwMiQZU+mSvmJjTUdLMTbfvuETLJTcwnsNuguw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793381663;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id:X-Mailer:X-Last-TLS-Session-Version;
-	bh=VICXlRZ14rhhanz6CJeMesIouFUKGkvUkT9t7FZfz4Q=;
-	b=F+X6tAoDe/Djnurl0cU0M8yifeOHfr6LIClwpMHhMsXjnDqurQHL98rLbjDBorhQzWsd
-	 n38VfrnVjFeywcRKgxTz+COuMxfeUV4R+UgREU1f2HQlSDdXkNPEj8HaT5RziuY04AssW
-	 6MXyNiMfS+OIvA53tFyp1y3ywO2KQVFOzm4EDDpoyDVBi64+xZaFtuzAlI+CQuV8wgZrg
-	 IVgONMyncn5CVCYIYmy0qfdbJSmuawI+02cJkxqeAL96YZvm4IC0yrgxXwuPZd5zVgRYN
-	 TUv5PlB+PzJhrdiWkOGArK69Ffi52RwXZ6tMvPnbCgu3+mL45s7XjMMJUn+vqGjMEdw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793400065;
+	h=DMARC-Filter:Received:X-ICL-RepId:X-ICL-Out-Info:Dkim-Signature:
+	 mail-alias-created-date:Received:Content-Type:Mime-Version:Subject:
+	 From:In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:
+	 References:To:X-Mailer:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-GUID:X-Authority-Info-Out:X-Proofpoint-ORIG-GUID:X-JNJ;
+	bh=0gIgGhCHm8bEpsZOPji4A4j+l9vAgID+Kd1kyXON6Fw=;
+	b=vkUGIh0PqIvzaT0LuLTfsqzb4g+jPEVjToi/Hx+nrZJzg3iazdrFB0Za0PvoZpyBIHr7
+	 5QXnKe5ufFunFJ23hrRH6eoF/UYoH5K36wesjKH1fCp0KPwkIELNpStdJjITcTIz4G50W
+	 aHaZHmI14Xfqzbx27132TXItEPhR8G5UaZfUQv6Fd/6pMtLjn1yNfAWq1+TeNX0EoWsGV
+	 U6GMU09wgPUtu5qFcO1AM20Ynj10r/Lq4c19BVEkdZB9mhEKcQVGRPS3UOwDV/1ZJTaul
+	 4JT40UhGbExEiwf1zaJA5ky2Y85kjYLftldtF36YtO6LG2DpXWwRkysy7E/SK68yvmw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=epCP46ok;
-	arc=none smtp.remote-ip=185.246.85.4
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	dmarc=none header.from=manyhobbies.com;
+	spf=pass smtp.mailfrom=manyhobbies.com;
+	dkim=pass header.d=manyhobbies.com header.i=@manyhobbies.com header.a=rsa-sha256 header.s=sig1 header.b=nqExYuXf;
+	arc=none smtp.remote-ip=57.103.91.225
+Received: from outbound.ci.icloud.com (ci-2003j-snip4-4.eps.apple.com [57.103.91.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A4E606A31F
-	for <linux-sunxi@lists.linux.dev>; Fri, 30 Oct 2026 17:34:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02A4E606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD19606A31E
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Oct 2026 22:41:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CBD19606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=manyhobbies.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manyhobbies.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=epCP46ok
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id AC63C4E413A9;
-	Fri, 30 Oct 2026 17:34:20 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7394A603C2;
-	Fri, 30 Oct 2026 17:34:20 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A00FB10328D09;
-	Fri, 30 Oct 2026 18:33:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793381649; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=VICXlRZ14rhhanz6CJeMesIouFUKGkvUkT9t7FZfz4Q=;
-	b=epCP46okpn+q9I/oAstY23ZTzc6zvOUk2WFw9lJqfdty423a8pNpW/0aljG/xZlBCNmILB
-	cyxUtC4Wfa+XvawZp3CtmRabDu9CVIVe9kN0ajZf91nWEi3ETAzROUbH8oYfvgSeXOrBML
-	kSFJubPKKVq4nsZfCM3ZQT0wjG1r8Klktwxywq8lJRUWthbTR+NTCH5bJ063MRv2DHiXr/
-	0VWkfSga6rWzqV0u1TpnoAmluCt0c44RsZshdtlqmUeqrBjGHZjKOHkU8N+JNLHP94NoAr
-	JFyqeVp6OfbFsAyZ32AOvAJUvx9z6Gm5Bjv2rjQgetml1BE+johyjpnx6gtY1g==
+	dkim=pass (2048-bit key, unprotected) header.d=manyhobbies.com header.i=@manyhobbies.com header.a=rsa-sha256 header.s=sig1 header.b=nqExYuXf
+Received: from outbound.ci.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-central-1k-10-percent-0 (Postfix) with ESMTPS id 53F371800103;
+	Fri, 30 Oct 2026 22:41:02 +0000 (UTC)
+X-ICL-RepId: 01a18ef9-4138-705a-adf8-b80ccabb6893
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhPAUMGWQZeD04dXwVcEhVdRUcMWkVWH3kVUgNOA10SWxFWHhkIXR0ZHldQWgpcCVEXUQ9eDkFeWhdeTUUID0kZEFYBWFZdBU0aXBhZDxwTUFZaDlsERxQXG1wAFxtGAgQjAl8ARQJeCVYBMBcPVk1UGV0UXwRQElAdQENUBF9QVBFXUAsocTYMO3AuBUYAMwA+HllyXnNdAU0GXRopCjMPTHApAC0GQA04XgxZElofWxpaCERFUR9URhMZThtXTVoNQBlYBm0UVhVSBFk=
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manyhobbies.com; s=sig1; t=1793400063; x=1824936063; bh=0gIgGhCHm8bEpsZOPji4A4j+l9vAgID+Kd1kyXON6Fw=; h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To:x-icloud-hme; b=nqExYuXfLJrPoynK9F6P4VbvZ2fGHT7sVifY/wFM5L+HySm/SV/o38zOUBRUc2tCZLb3qjWQ1RZGZg59yinmI7YPy+RpQDUK0r2702bNxy6ZBfiP9Irtgvqm/d/ICVJS5d8EQ+pPI/9aNxjABVPOkW8M5txl/qIn3Du8ePfLsJIBPhF7OCWivUi66pwqRIt5qbGBRaWdJ2PQgIr1Iha2yrfUSy4hezjY5VbwIoc/tqyKWi+NcjWvcSlXny6zkfjajKuqPxzi6RkXnIJ+dwlKxedxNNUnrdQkGnJXmBo6B0J2C17tIp3b/iUiRYDspY3ZcdBaTuCj6kaZqMEUybou8A==
+mail-alias-created-date: 1780273699991
+Received: from smtpclient.apple (unknown [17.57.156.36])
+	by p00-icloudmta-asmtp-us-central-1k-10-percent-0 (Postfix) with ESMTPSA id 54B7518000B3;
+	Fri, 30 Oct 2026 22:41:01 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -58,104 +55,179 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 13/35] drm/panel: remove the _typed() panel bridge
- functions
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Douglas Anderson <dianders@chromium.org>, 
- Neil Armstrong <neil.armstrong@linaro.org>, 
- Jessica Zhang <jesszhan0024@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Paul Cercueil <paul@crapouillou.net>, Marek Vasut <marex@denx.de>, 
- Stefan Agner <stefan@agner.ch>, Frank Li <Frank.Li@nxp.com>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
- Linus Walleij <linusw@kernel.org>, Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Inki Dae <inki.dae@samsung.com>, 
- Seung-Woo Kim <sw0312.kim@samsung.com>, 
- Kyungmin Park <kyungmin.park@samsung.com>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Peter Griffin <peter.griffin@linaro.org>, 
- Alim Akhtar <alim.akhtar@samsung.com>, Alison Wang <alison.wang@nxp.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, 
- Yannick Fertre <yannick.fertre@foss.st.com>, 
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
- Philippe Cornu <philippe.cornu@foss.st.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Jagan Teki <jagan@amarulasolutions.com>, Ondrej Jirman <megi@xff.cz>, 
- Javier Martinez Canillas <javierm@redhat.com>, 
- Igor Reznichenko <igor@reznichenko.net>, Michael Walle <mwalle@kernel.org>, 
- Dario Binacchi <dario.binacchi@amarulasolutions.com>, 
- Jagan Teki <jagan@edgeble.ai>, Jianhua Lu <lujianhua000@gmail.com>, 
- =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
- Purism Kernel Team <kernel@puri.sm>, 
- Jerry Han <hanxu5@huaqin.corp-partner.google.com>, 
- Joel Selvaraj <jo@jsfamily.in>, Icenowy Zheng <icenowy@aosc.io>, 
- Michael Trimarchi <michael@amarulasolutions.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Casey Connolly <casey.connolly@linaro.org>, 
- Michael Tretter <m.tretter@pengutronix.de>, 
- Cristian Cozzolino <cristian_ci@protonmail.com>, 
- Junjie Cao <junjie.cao@linux.dev>, Ryan Brue <ryanbrue.dev@gmail.com>, 
- Nickolay Goppen <setotau@mainlining.org>, 
- Stefan Mavrodiev <stefan@olimex.com>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Robert Chiras <robert.chiras@nxp.com>, 
- Alexander Koskovich <akoskovich@pm.me>, 
- Markuss Broks <markuss.broks@gmail.com>, 
- Artur Weber <aweber.kernel@gmail.com>, David Heidelberg <david@ixit.cz>, 
- Dzmitry Sankouski <dsankouski@gmail.com>, 
- Yedaya Katsman <yedaya.ka@gmail.com>, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, 
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
- linux-tegra@vger.kernel.org, linux-rpi-kernel@lists.infradead.org
-In-Reply-To: <20261026-drm-panel-funcs-v1-13-5e3070a3478f@oss.qualcomm.com>
-References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com>
- <20261026-drm-panel-funcs-v1-13-5e3070a3478f@oss.qualcomm.com>
-Date: Fri, 30 Oct 2026 18:28:25 +0100
-Message-Id: <179338130524.3009485.17598085708064235352.b4-review@b4>
-X-Mailer: b4 0.16.0
-X-Last-TLS-Session-Version: TLSv1.3
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.200.71.1.16\))
+Subject: Re: [PATCH v3] mmc: sunxi: reset the controller after an update-clock
+ timeout
+From: tam.do@manyhobbies.com
+In-Reply-To: <CAPx+jO_VxJctXCZMVdzeq4CX-Ru7ACM6=wQ7GMdG2+4F1pOcBQ@mail.gmail.com>
+Date: Fri, 30 Oct 2026 17:40:50 -0500
+Cc: Ulf Hansson <ulfh@kernel.org>,
+ Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ linux-mmc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <CCF5CCC2-2C9F-4E5A-8550-B8C64CD7F404@manyhobbies.com>
+References: <179318778660.81375.11263258280496155344@manyhobbies.com>
+ <CAPx+jO_VxJctXCZMVdzeq4CX-Ru7ACM6=wQ7GMdG2+4F1pOcBQ@mail.gmail.com>
+To: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
+X-Mailer: Apple Mail (2.3901.200.71.1.16)
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDA5MCBTYWx0ZWRfX42Fyqr+Tof5x
+ rqVhPO8azEg2A5LW2ESnHeokCLl9ntkDY7jC9hzq36RV7+owLm/MNys1xfWZ1rmBeJSqAQAbsCm
+ 4ForHBTbHjT5TVtmQWXv4aNaTSnT8lYFsV2iSDVwiLh06CaaUuedek/4JuVgoy7pulWNS/f1RCe
+ hK/mU4vAJietBbZ6nxUmeXJ3DYE/vCpJ4Wpc3ZZxUwYhdRx13Pxd7gpip8NdiArrUJb/yIZCsAp
+ WtB2QekCxNBYGC7TQQdVPc30kOPia8XDie22rcsFVaXfc9hdyuzqsk/ufZG9b8lGuqJOsykJJiB
+ LX7GJ4XCbqmM0uU3JgcXIivalfeoTgwLuQHBopwDBz4PW4gg1GElRS5qXuF73Q=
+X-Proofpoint-GUID: 2x_7z9kaaNiPlJQqNqi13Xatg90oQXIf
+X-Authority-Info-Out: v=2.4 cv=d4X4CBjE c=1 sm=1 tr=0 ts=6ae51cff
+ cx=c_apl:c_pps:t_out a=2G65uMN5HjSv0sBfM2Yj2w==:117
+ a=2G65uMN5HjSv0sBfM2Yj2w==:17 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=w2OPf45SAAAA:8 a=EUspDBNiAAAA:8
+ a=hnEzuQZJkBTHcMNEFcUA:9 a=QEXdDO2ut3YA:10 a=-iXIJKm6ftRzmWoHelNS:22
+X-Proofpoint-ORIG-GUID: 2x_7z9kaaNiPlJQqNqi13Xatg90oQXIf
+X-JNJ: AAAAAAABLs59V6KwCCAZC5NBGWHf2zFYri/plGG7y3+Q5gp7br6rJx6KqvTkp4DSxXlP9Y
+ 4KyLaml0R0O0APQwD/pokhEV11lMm43pO17KIoSAHnCWdXfByYanOXMdBVUKOMPyPyTX4f
+ mD9ZRwOt5lfFSbj3N2pNQdHClNGOOFkVEWSL91FjXsUp3CGtNa+wiG367dfOxNl5QzPdqL
+ zv6YH1ZGTI+pzIXwjgysQInFcKJRva735GA+2XFQR4Mc1x33mMzoEfp7ECXFyzw/Gbzb57
+ TDaETMY+TwHB6cICBKFK6D+1wFQcfsVa3blQydPtRn+/WST9HtUURvW6h65wl9BqpqKwvM
+ YO5rJDmbudm0fXKn9C0EGORe8L3WVvPUbcsWMTKcMoqUknjv9ctpiF7szqVkuKjHRFc1cM
+ 08aHV8/ouxjSzJXW206vujYn9k6Z6NuuWjZQFSzPaduK+tNQ1+nBM3hnSw4qF0rrFUITlj
+ vqG24OcWeXxAWZi1hdW+skQCzFZslVuwQl6Jg26/KMZRe0dySP+qydZtVs2VbzG0MH+UVh
+ cAgeBNXJx8nUKYt3iwx49D1jLHqC4rtA0vf4+QzXcDS0jw+A/gKx5C8plQpDiB+fELNDIG
+ 9ZnCeq2d9MEXIO7L0wZ1C5hSd7BoR6UJmMvsHwhzx4j0u7uNpRNCS4dgMcWXmMs7Kg5Zb5
+ 5HvXLPAPHfDXBWpj2isqLlAO1fg5WxFEUuyWQzYIietdqGxbmnQ0lGa5AmakX6BbIhFiXD
+ BWqzhRglBxjdiofAYt5kGBb4trGtKqtOcx8+ry+WtrO9lyHVhTXnz6SeSFBREubZP/edF+
+ 6Ars9ZNUwTd+pl4v27foQN0na+N2aERZatj+q5cKpOx3zW27TnIGA1YtWlwy786V7/nlvy
+ 4me/MEBFYdV0LdWupRzdh9DR5aNBXhqxksI4+7mrv21dyPI6NXcT8XRyqsqvO+CD6dbk81
+ b+VGAQYqH2fOEcBpnHN/kHQYGzXNkDRoxqm1KiUvisO3N6sgNdclInHx0sDoUhMCoyfVBq
+ k7xaMDUb2/WHlwPNmbWhlftLr2hPjmC5jODv7n50eWHKTbH7JBnfkSPEJM4JEWiuslcWqm
+ ZDIHYxExUlS6jfCssnp2DBmAnl5eYBp7dp7YazaDRhSJvNtXrAt6uY682eskHJexvGSd86
+ qynpqTi+TxvMk5xw7aCclxToZi2YaOUtlTRCLVwLC30pDQkUP/1cjgXeWopUt1HUpEo7G6
+ 3SDS+nmgSFAGhFzqf/O1nleSavTVoS7DStDAEQzc5buucRzB0tYS5IeYFQFE2jk79vXVQR
+ CqimGOzOvYGFIlVCDj0255vhUIQpA8Ixbsa+BTS3jak1zuwXWE23JG/9YBUzVg3lY8+tJY
+ Ju2n1x/VKUCzmVdTsadlVSUOrY1hm+hC9cF6UeqXgWsRzj9viPm7S68l3+TA+b3t7WNyGx
+ V+jBWQD0Rf8SduvoM3yfuwXRXW4554m5Xxz01EaRzlSXOiWzFCr17Of4MlrWxMjYrrK8sg
+ X+8aLt9F0hWjqUCbEsBbyP+2G7Jf9jz9Fx1RLTftg0qF9yeG4XLMMGi/7ClNBqPKoVMRky
+ tmE5oaO6LkuMySfOkGZuUNsg==
 
-On Mon, 26 Oct 2026 13:10:02 +0200, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> wrote:
-> The connector type argument of drm_panel_bridge_add_typed() and
-> devm_drm_panel_bridge_add_typed() has been ignored since commit
-> b7797081ccfe ("drm/panel: embed a drm_bridge into every drm_panel"),
-> and they have no users left.
+> I assume it's sunxi_mmc_oclk_onoff() that is being called and it's the
+> loop in there that times out. The question is then, under what
+> circumstances are sunxi_mmc_oclk_onoff() being called when we are also
+> waiting for the SDIO card to release the busy indication on DAT0?
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Yes. It's the first update after probe, from the MMC_POWER_UP set_ios:
+  sunxi_mmc_oclk_onoff+0x17c/0x1a0
+  sunxi_mmc_clk_set_rate+0x1c/0x2c8
+  sunxi_mmc_set_ios+0xe4/0x144
+  mmc_power_up.part.0+0x40/0x150
+  mmc_start_host+0x90/0x9c
+  mmc_add_host+0x6c/0xa0
+  sunxi_mmc_probe+0x35c/0x478
 
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+STAS already reads 0x206 there, before anything has been sent to the
+card; on good boots it's 0x106. So the card is holding DAT0 when Linux
+takes over. These are warm boots from the vendor firmware and it
+happens on roughly half of them.
+
+The supply explanation in the commit message is wrong, sorry. The rails
+are up ~20 ms later and the command is still pending at the 750 ms
+timeout. =46rom then on every update times out until the controller is
+reset. Rebinding with the card idle never hit it (0/20 tries).
+I'll fix the commit message in v4.
+
+Tam
+
+
+> On Oct 30, 2026, at 8:48=E2=80=AFAM, Ulf Hansson =
+<ulf.hansson@oss.qualcomm.com> wrote:
+>=20
+> On Wed, Oct 28, 2026 at 12:43=E2=80=AFPM Tam Do =
+<tam.do@manyhobbies.com> wrote:
+>>=20
+>> If the clock-update command times out it stays pending in the
+>> controller, and every later clock update times out as well, so the
+>> card cannot be initialised until the next probe.
+>>=20
+>> This happens on an R16 board whose SDIO Wi-Fi holds DAT0 busy while
+>> its supply comes up during the first clock update.
+>=20
+> It would be nice if you could elaborate a bit more on what goes on =
+here.
+>=20
+> I assume it's sunxi_mmc_oclk_onoff() that is being called and it's the
+> loop in there that times out. The question is then, under what
+> circumstances are sunxi_mmc_oclk_onoff() being called when we are also
+> waiting for the SDIO card to release the busy indication on DAT0?
+>=20
+>>=20
+>> Reset the controller on timeout so the next attempt can succeed. This
+>> runs sunxi_mmc_init_host() with the interrupt enabled for the first
+>> time, so write REG_IMASK from sdio_imask under host->lock, as
+>> sunxi_mmc_enable_sdio_irq() updates both under that lock.
+>>=20
+>> Fixes: 3cbcb16095f9 ("mmc: sunxi: Add driver for SD/MMC hosts found =
+on Allwinner sunxi SoCs")
+>> Cc: stable@vger.kernel.org
+>> Signed-off-by: Tam Do <tam.do@manyhobbies.com>
+>=20
+> Kind regards
+> Uffe
+>=20
+>> ---
+>> v3: take host->lock only around the REG_IMASK write in
+>>    sunxi_mmc_init_host(), not across the reset; v2 polled the reset =
+on
+>>    jiffies with interrupts off. The return value stays unchecked, as =
+in
+>>    sunxi_mmc_runtime_resume(): if the reset itself times out the
+>>    controller is wedged either way.
+>> v2: held host->lock across the reset (not posted)
+>> v1: =
+https://lore.kernel.org/all/179307312104.39863.12372814163472848752@manyho=
+bbies.com/
+>>=20
+>> drivers/mmc/host/sunxi-mmc.c | 4 ++++
+>> 1 file changed, 4 insertions(+)
+>>=20
+>> diff --git a/drivers/mmc/host/sunxi-mmc.c =
+b/drivers/mmc/host/sunxi-mmc.c
+>> index fe4c0f6d73f3..55313780d06d 100644
+>> --- a/drivers/mmc/host/sunxi-mmc.c
+>> +++ b/drivers/mmc/host/sunxi-mmc.c
+>> @@ -322,6 +322,7 @@ static int sunxi_mmc_reset_host(struct =
+sunxi_mmc_host *host)
+>>=20
+>> static int sunxi_mmc_init_host(struct sunxi_mmc_host *host)
+>> {
+>> +       unsigned long flags;
+>>        u32 rval;
+>>=20
+>>        if (sunxi_mmc_reset_host(host))
+>> @@ -336,7 +337,9 @@ static int sunxi_mmc_init_host(struct =
+sunxi_mmc_host *host)
+>>        /* Maximum timeout value */
+>>        mmc_writel(host, REG_TMOUT, 0xffffffff);
+>>        /* Unmask SDIO interrupt if needed */
+>> +       spin_lock_irqsave(&host->lock, flags);
+>>        mmc_writel(host, REG_IMASK, host->sdio_imask);
+>> +       spin_unlock_irqrestore(&host->lock, flags);
+>>        /* Clear all pending interrupts */
+>>        mmc_writel(host, REG_RINTR, 0xffffffff);
+>>        /* Debug register? undocumented */
+>> @@ -688,6 +691,7 @@ static int sunxi_mmc_oclk_onoff(struct =
+sunxi_mmc_host *host, u32 oclk_en)
+>>=20
+>>        if (rval & SDXC_START) {
+>>                dev_err(mmc_dev(host->mmc), "fatal err update clk =
+timeout\n");
+>> +               sunxi_mmc_init_host(host);
+>>                return -EIO;
+>>        }
+>>=20
+>> --
+>> 2.39.5
+>>=20
 
