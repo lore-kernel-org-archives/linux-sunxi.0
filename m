@@ -1,49 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793373299;
-	b=Torkup32YkRZfgIss/OhYuPWyE0KrBK2EoofccGFJK9UwtIeNjraoUZCQo1lJ6+RMZm7
-	 RD0PTOzbUsnQq7QlqKwg5YJ/tSYrOMcCgyyvMkVBipfw3om/bkor6tJ5b/Nbl1S1OG7Sy
-	 ITifsI/+5ybtOHmmyO/oZ0/klbMv73EahR5wK1mWr7IPMceWa3sSWeGLClLR/QfSbxVpF
-	 PYwVhPSWQ/pgkVQmWTDj7WlEKlXmShEhNCIBcx6ZndqInF3OjRIYbZI5sb1WFZbjRdvNN
-	 hPoAkLKSHc+lwjjiWG+3VaZ/XRqw15qNwzIWKEj72YL/R8fwLvrJWO2cMTnji6MKjPw==
+	t=1793373336;
+	b=tg4FaDz+Fb5l/96qkR4YlYChhfY6rKzWSaQI9WEfBHoHLVno9m3md76cBrFI9z1gfMxf
+	 8vQ8bOM2VacPeIG5TtYFIGFXSFHsiqEgPx3CHA3JLT8it7rP1EFRDYTUF+3mt/ppguEbI
+	 0+9StNfRKxAy+bUKwWc0aCoYr6y9NQGF2ZPRPukuHzZfNzspylK1gEL0VN48oYM2J3Hp5
+	 qq+S5H/jYnK2tM53rjR7iZKrj3G2oDxETcYdQE9/NiRf55heIKA5s29sGddNlnePJW1aE
+	 VzQLe0aieoM2KODabffOr5kaakyNXTskukAIjcPF+l9GdcdZJfcOwp4F0CUM4w0uIRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793373299;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793373336;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=oc0PrDV8DEK9WJ2O0W/WsptT1VrI37wtjGjJETAFueg=;
-	b=WsfcyHO2JodhCnZbKGzGt9BV8FXJoPOvUgdvWcOuaZQ3g9M280qHjQxr+OLBy+q/c7I0
-	 nDnu08SA/ydaaDekrxPX5SLuwq8yKuK6bP2LKfSoaDx3BOB82+Qtiaf/r/e2HKRKwoq49
-	 4xO+Bb/E31w/12E0NnqRQqYt8mLnCHSV6GjTYLQ37HTetZMpbRPvnGtDWGCOiKtdDGNQa
-	 d9A1YiwV9MYld4oPOLdyY3rpKPNUEX0Ee3BaGXjvW16NrsBMPqrKX9U584UURHFwH/j7Y
-	 1xjknLhB/2IKL0ALCrS8DMhS7E0qX+OecyHTV/CiYLNn4Aa6OwZTWdAMlFa0C+re8pg==
+	bh=LUcl12gwkN8B7VfualkhTFi3SbBn5mj0wBC5eClpxhE=;
+	b=X+7m84GORO/SF4zQsOPK/wqWWE8WggA1AiNMYipZDEVJ/139+JTl5cQDmyKkm4PpGUqe
+	 rHAZRHnxgAPIqW6qtSgnPiWddfTALE69Ksh4+/sDaXaAZRVav0k6qJDx84YACe+vV/R1E
+	 LL4lADmnE2v9lI4kHHE+s73N4WPplYlTMsQXmXJ+p8HNDXCZ2PhusKE/AUEPFhr4PTDne
+	 m2L8eOKwAD053L1EpbC28J2Z5OzOjlKvSsvogNrtCpy7/713DKp/3apLStgHwTQOhAlYl
+	 T1+rSr2Nef+wmcsNU2q+qMlabkekkuSO0IJxfZpLANzBXmq4Qo7jmk5H6iA8EfRhurg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YPWKBRRl;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="iD/Ne4uY";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45890606A31E
-	for <linux-sunxi@lists.linux.dev>; Fri, 30 Oct 2026 15:14:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8B4606A31E
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Oct 2026 15:15:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YPWKBRRl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B6E71F000C1;
-	Fri, 30 Oct 2026 15:14:58 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iD/Ne4uY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1F301F000C1;
+	Fri, 30 Oct 2026 15:15:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793373298;
-	bh=oc0PrDV8DEK9WJ2O0W/WsptT1VrI37wtjGjJETAFueg=;
+	s=k20260515; t=1793373335;
+	bh=LUcl12gwkN8B7VfualkhTFi3SbBn5mj0wBC5eClpxhE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=YPWKBRRl3rK3doVyFHGwFZHMKD5xsnUKCdOvaVpZdnMkF6mKVa4qyur7YHJYpNYsV
-	 ggBviu2ne8azuiPU61/ff6oBZ2zDjhxlJwTID09T4GRi+A+WCXO0BbKaZ9IW/mPtIg
-	 M92lL2qQOToYM6DE7jc8aMBH1tqOesYnmtlxIjlCpwRnMq+B99/5H7xRT+Z5FAG2mV
-	 AxHHQ7v6/PsBPGNlhs9QwIGl/iiA1wJgujVs85I14V9gD9OnrwzzI5HIww6PtwNTFP
-	 rfb/bO9OLybYfEM/YpxQSOjBoCj9A9dCieo8l5zZml2vCLLgFX6OhlCHfsZanqzgPR
-	 KvDirvec5fodA==
+	b=iD/Ne4uY7v+U5YAr0XbBd5Qow1l2PqW8dAcGe5ay+ik+lnKV/MS4S5GoYojyZesgq
+	 YQHZJftdOBS+Xm/xprD9O9tUTYoJWYX80nLQd0IODJqD1luIShfl3gNnwvKSc9Ovbe
+	 /7IxTGsPWmbAeg9ELNmhphsEsGTfBniMEBYAvmKgoeDZrMRhWEkxwJUa83YCt1wJgq
+	 4SqBHSyQDxrpS+nPV8DPrWQOVBCHudtOk1iLWJOWw5Ko5UBQr/4YRGsAKOlQaEPH86
+	 uqVsm5QNo6osujXLkCuISRm5/mgR9Nkg2NXsmgVVArjKjXn5ttPeVnp5f8LuSVuQfU
+	 3Efaqwy0c80oQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Fri, 30 Oct 2026 16:13:48 +0100
-Subject: [PATCH v3 18/37] drm/sun4i: Switch to
- drm_atomic_helper_connector_create_state
+Date: Fri, 30 Oct 2026 16:13:58 +0100
+Subject: [PATCH v3 28/37] drm/sun4i: hdmi: Convert to atomic_create_state
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -55,7 +54,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261030-drm-no-more-connector-reset-v3-18-30e71d92c327@kernel.org>
+Message-Id: <20261030-drm-no-more-connector-reset-v3-28-30e71d92c327@kernel.org>
 References: <20261030-drm-no-more-connector-reset-v3-0-30e71d92c327@kernel.org>
 In-Reply-To: <20261030-drm-no-more-connector-reset-v3-0-30e71d92c327@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -65,19 +64,22 @@ Cc: dri-devel@lists.freedesktop.org, Maxime Ripard <mripard@kernel.org>,
  Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
  linux-sunxi@lists.linux.dev
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2555; i=mripard@kernel.org;
- h=from:subject:message-id; bh=WhXdr0caQxsD2xQ8xxnX9ce6ERhKkrPc/zQA/D7z/Z0=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFlPtqhuCQ1cc6az8UmtWKg6/yZ1tXJpadvIbcuPNcpx5
- U6W8nzaMZWFQZiTQVZMkeWJTNjp5e2LqxzsV/6AmcPKBDKEgYtTACZi/YexoamfayZT2ua6GdXP
- r3x9OnPT95sBt3YyrXrUbdUx9yTn5KQ9uU/uODj65gqHnlnhP2XLfMaGRudpd3wPpt32u/LKp8j
- Mk1k35SzTvIq1L379f7mhcdJs7xPqYZpSxh/6ZCYa3570OWEHAA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2001; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=w9nESPjYXbVij1sc0qXET6/o4C+Z94CFJROMxWaY4s4=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFlPtmh+X31hf9opsy+PGFm/MskJrL0UzT79le/fB7+/F
+ 6t3/Jkb1DGVhUGYk0FWTJHliUzY6eXti6sc7Ff+gJnDygQyhIGLUwAmciSAsVbWPrFHf7dFzpIk
+ xsC09L6uA9tSRZL/3im/Zn7Darr9kUsyj6xereKRYlvA0/1wxRvbAsb6wPM5v9RiTuhEP03d/G3
+ j7/3ucyp14nRuPNZe/vObmfK0O/PFplt/FpJI6/c/0xMqGrIXAA==
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-The sun4i connector implementation uses the deprecated
-drm_atomic_helper_connector_reset() as its reset hook.
+The sun4i HDMI connector reset implementation creates a pristine
+state and initializes the HDMI state. It does not perform any
+hardware reset.
 
-Switch to drm_atomic_helper_connector_create_state() instead.
+Since this is equivalent to what atomic_create_state expects, convert
+the reset function to an atomic_create_state hook that returns the
+initialized state.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
@@ -85,42 +87,39 @@ Cc: Chen-Yu Tsai <wens@kernel.org>
 Cc: Samuel Holland <samuel@sholland.org>
 Cc: linux-sunxi@lists.linux.dev
 ---
- drivers/gpu/drm/sun4i/sun4i_lvds.c     | 2 +-
- drivers/gpu/drm/sun4i/sun4i_rgb.c      | 2 +-
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_lvds.c b/drivers/gpu/drm/sun4i/sun4i_lvds.c
-index 6b98d20a8890..f3f035c9260f 100644
---- a/drivers/gpu/drm/sun4i/sun4i_lvds.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_lvds.c
-@@ -66,5 +66,5 @@ static const struct drm_connector_funcs sun4i_lvds_con_funcs = {
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+index 3084f6570c29..58626d0562ae 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+@@ -291,9 +291,17 @@ sun4i_hdmi_connector_detect(struct drm_connector *connector, bool force)
+ }
+ 
+-static void sun4i_hdmi_connector_reset(struct drm_connector *connector)
++static struct drm_connector_state *
++sun4i_hdmi_connector_create_state(struct drm_connector *connector)
+ {
+-	drm_atomic_helper_connector_reset(connector);
+-	__drm_atomic_helper_connector_hdmi_state_init(connector->state,
++	struct drm_connector_state *connector_state;
++
++	connector_state = drm_atomic_helper_connector_create_state(connector);
++	if (IS_ERR(connector_state))
++		return connector_state;
++
++	__drm_atomic_helper_connector_hdmi_state_init(connector_state,
+ 						      connector);
++
++	return connector_state;
+ }
+ 
+@@ -302,5 +310,5 @@ static const struct drm_connector_funcs sun4i_hdmi_connector_funcs = {
+ 	.detect			= sun4i_hdmi_connector_detect,
  	.fill_modes		= drm_helper_probe_single_connector_modes,
- 	.destroy		= sun4i_lvds_connector_destroy,
--	.reset			= drm_atomic_helper_connector_reset,
-+	.atomic_create_state	= drm_atomic_helper_connector_create_state,
- 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
-diff --git a/drivers/gpu/drm/sun4i/sun4i_rgb.c b/drivers/gpu/drm/sun4i/sun4i_rgb.c
-index 3da9a9283c6e..c930dd899875 100644
---- a/drivers/gpu/drm/sun4i/sun4i_rgb.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_rgb.c
-@@ -157,5 +157,5 @@ static const struct drm_connector_funcs sun4i_rgb_con_funcs = {
- 	.fill_modes		= drm_helper_probe_single_connector_modes,
- 	.destroy		= sun4i_rgb_connector_destroy,
--	.reset			= drm_atomic_helper_connector_reset,
-+	.atomic_create_state	= drm_atomic_helper_connector_create_state,
- 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
-diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-index d504ae583294..1b7ae9b327c1 100644
---- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-+++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-@@ -838,5 +838,5 @@ static const struct drm_connector_funcs sun6i_dsi_connector_funcs = {
- 	.fill_modes		= drm_helper_probe_single_connector_modes,
- 	.destroy		= drm_connector_cleanup,
--	.reset			= drm_atomic_helper_connector_reset,
-+	.atomic_create_state	= drm_atomic_helper_connector_create_state,
+-	.reset			= sun4i_hdmi_connector_reset,
++	.atomic_create_state	= sun4i_hdmi_connector_create_state,
  	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
  	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
 
