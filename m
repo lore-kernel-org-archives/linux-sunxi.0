@@ -1,107 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793413621;
-	b=SNfb4uVDFZvvyTSCfpszHDDlk/Lk54ZXrhKslUUhPqc79eu6D1Kyswwzb6MGavkwMlN4
-	 1J8iOwYD80ICl2a5i2znhTfrH5PRUrFPOE8nOyHFO9i8YOPD9SyLfaYpHRH6egv8ALHRg
-	 FV0f+eGEZy9ypDnOFvAvGZKUXu06+0av9M0XNRwg5hp4ecW9UjBx7EBh/aUUcT+E2Fyho
-	 5O+G/AKS3XOGMxLFatwQuG6LFgVb8ELzF/xCM4jrUNCAb6goWCBvRXV6oeAs1zCYIU9sG
-	 tD/swp16b13FgYXvyjgvyV2F7wvz8vu+SR04QG0jo9onq/RG8E8I8QqMFzJjclXck2w==
+	t=1793413622;
+	b=LjabNgh+4G8t3L/3lmxrwRIbin8ssFTWMwMz4yRIDMw6zPKcwuWnJgc9n7C/S0RS2v+O
+	 ztemxs9uSQv9ze9h5/mD2kgfP6Duod/hG/oLghTXAMGkIlNnuozxLipYBBGliU7VODZEH
+	 T9EGPC/TjKdonYOWPqxsjpbbvpv0VTJKwWs8sfXDOslTYoPAqM5czuSM4ZIjl/MvG+C86
+	 vNJX2j+Hnp2mHNqNIcTR+ezhGBdbOB3SqLWJpIGjJFu29rICmKemiZmF15eUeV6qVofnd
+	 nROovlfl7aHISp6B7DKgZEE3XRpDUaYLyt+CkPaS9jwCI3VB/zfdJYyr6BgbA6v6SyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793413621;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793413622;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=gupym1n+xeYfXlKxr4mVV1r8LeK87CtMgPULEvE3iVc=;
-	b=MMVJOyvXGRnXPBZt00p1VaC2nfpr1LM20Wi7143Il8nr67OA9hMHeQT5pWOSQahfheWy
-	 zyh4nqMloRMwPglEgZXtSu6OE7mtcUBA4JyqsmiAQkyzOFqoJsR+4p+FSlQ+lAC5yztLg
-	 op8l5cwNfYaElNrISo6rTazTfo/7O8oGf0HmiwaVzxwBT06JzwFDcvA/lXdZxhWN9JVSp
-	 YjyMZObPsviuaJy4mM6UxEspVO3m9cSmxcD4e4OBxYHv40tqWrsWrLyc0H5Udcx8C+lmP
-	 Oo3kXl6VcIwzz6asCCvLkocYkdHSvzaPvikzI6UJInBbb1O4XDdM8nDDkbp+t86Jpqg==
+	bh=xbi/DcbTngoNULNMywk8NVdeYwzEvudByqlDGAot+FI=;
+	b=ED2RcA2MtitdsriXsIhr7HYqQZ0jKEG8QLCiacjLvS773kkDkRAdfyQYgbhL1xXsc28n
+	 NodwmvkUt+P8ycbsu9BW6BhgabLV98JuJSRwmbPq5KFUQScR6/D/G67e0J2OeafLZPhn+
+	 eEiu1rASyLeOeYQ8rtEpn1C5sTWEZWfW3glWe3rI1p+czIwZMrrqDXaA4c4YZnbDVAdAM
+	 wzKk30JQ+XTCNbmPX+eUM1JEPolU6XpMi/JYn6UnBD86fbesVL3ir9TQmWFDZnHH3qota
+	 QZxgUfjlFOmf3I2H/DPfZdxb3i0FshO23o4CDLIpS+MSkoQi7yiUUaU2RGNZQACQyYg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BhcdwPO3;
-	arc=none smtp.remote-ip=209.85.161.48
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gPAF7VYU;
+	arc=none smtp.remote-ip=209.85.167.175
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949E6606A327
-	for <linux-sunxi@lists.linux.dev>; Sat, 31 Oct 2026 02:27:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 949E6606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F23606A334
+	for <linux-sunxi@lists.linux.dev>; Sat, 31 Oct 2026 02:27:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70F23606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BhcdwPO3
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-6f5a0893610so1061584eaf.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 30 Oct 2026 19:27:00 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gPAF7VYU
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-4f488ba6e90so510927b6e.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 30 Oct 2026 19:27:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793413619; x=1794018419; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793413621; x=1794018421; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=gupym1n+xeYfXlKxr4mVV1r8LeK87CtMgPULEvE3iVc=;
-        b=BhcdwPO3K4GaWmGFDtLKEKF6FVpVxP99vdyJPvBnNCSXi06pAR+Hl9ILhPd4IYDFQ8
-         3lY7H4d8XyaNqO9vqYrzHfBqcb+sf/YKKWexEAQRIZDyf1QfjrJnNFp2RluZBdzhJEF/
-         RmzbmpIfHOiTFUr3dLJENhO3S3QItKnoSv0bncbmkg9DeJVh3sOmvKufX+j9biXlCHDP
-         lmFo32PaX78OwOOt8dQlCwQoakoPeTR/8Gn2Z9PZWQwN4FMz8lzegkDlleHTLAHhcOfF
-         uNIAKk74D/z6+5RxWr9uiIZ2VPm8beT/lol835i1Tc19jz/70rFADlSfmiiaMnyi8jgH
-         foew==
+        bh=xbi/DcbTngoNULNMywk8NVdeYwzEvudByqlDGAot+FI=;
+        b=gPAF7VYUNtXIPtzFxtnApa7i6t2xFlWsX7JLhdslHRfnmF8dzMU+IDK4Wt4T+1I0DX
+         mehABkNNtUexMFKHe6dQR0gCNXgZOI9W8nsiAO4TqRdmowmAb8IGooi5nRBK3/p/Av3n
+         5twg/O1W9rlHKqHtsBULIad+4ecXxkNp+5LAOlHkxLmRQ0gfdrbrbItyNO51ASL0qzn9
+         aS8pA0Uqj70UEiXEILqxLKzRvd9Q7gabuI0YlloAZZRTSCzptlzBcTe7MlGy+k0IqZtz
+         xcNQLh23Eb86V69MiBqCy9W8Zjnu/yyoR0YzA4zrjrBlBtVQS/mGI9Jt4jTIK8ryIlmO
+         NH6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793413619; x=1794018419;
+        d=1e100.net; s=20260707; t=1793413621; x=1794018421;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=gupym1n+xeYfXlKxr4mVV1r8LeK87CtMgPULEvE3iVc=;
-        b=mbKUDYxhNP+7lqJDlraJuMx8+QTVqCn61UjwQNEoGY/1AiDk6CDqPyIFCT4WJhiR8W
-         r1j3zQKlAO9t3QnzWhag+A4cFgK6Oc8kwHbwSmQ3gN+WqNSVay1B6vSguDQBspGauVEg
-         z3FRaoeLYYVQe0Iy1O2j9MVjXlq8GKXkXOm6ZVDOzVdulWJ9EJnIBiNMmZBTT3DE8uZq
-         MwP3j8A2Ps25JTllbPq7Xie4lxKPQE+xnHqWYDa5xCA/xCvIy9f95RwoQBnzE9bp9TPS
-         dhJUUmf0+5/2TOBcKeYclhOISWIrW6aPXZWS0bKXdFPdQ24y4CawSXw+8YeLPQlegaR5
-         xraQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwmXWJkO3GigPGZBnyNrc5RKlLtMCNESJGAWA7s2V7HD2G0LojS6t8tAe4d0BWdMagasrb5O8BM3mrCIA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYIzjCjMCvVdceAAeraICEGatOZHZGfnFH069h9V+I57dL9XeBTv
-	96gB9dOLAirRnzQnNZGAKldir8cInGNTNqCm3p+VTJc11qDeebLkUS1E
-X-Gm-Gg: AYBFou0Qo8qBBukLnDJjnFMnPqEnhLB6xBzSDWYo8tMf2WTuIy42mAM5Yo86/ki1KQP
-	gO09gOFISkfR7aUCIAMrVWd9kbx3XqJ3DPief5JqIeckMnQeneoVAMES4PIM30kGRnRGg5nfkRm
-	9adumvv1blX6WbpNwhD5O/aBnb0JIof8YFt7P/25b+csWFmzQPWh6Z+/5DzbwEvJiycPGpzdNB8
-	IwOryJKU++gwEJ7eqAqzfqA1pHyHJzc7ijnnXtX56+lr5SgFHD9XLrBR6TyaGXLCb2MKi0yU8I/
-	O/W5ZWBE7ihYSKO1dJN3yHhJktBN+1rjVNfbF9p8gFVbexEcrJ9+7WzOfZZh4MPkZNAKptGvxhD
-	jPTENcoIOfW2JJ9Ns7hpKJRnagJaFlh4freVB8/y503poQqaH36ETrMIZTa4a1yPbNX2EZ9QVvZ
-	tpH9xLCWsP72WbM/654XL5pLzcEQqgrvISqvBabikG12Sb9cjrcGSLdv1Jh8zYIMeim9Y5NSUhb
-	Kd6uWHo/5k39qxT7DLh1sWC1QD05n/2JR61Y8pj+51TE0191ZM7p1MoxygR6IadfSz+3bwN9u6D
-	MDvkBm/hdnC2MLXfaNMLwRb32+bm5LIjU/RO1Qi1bzOJu3bzKnwmVHc8uMlrznJNCEYmebWpep7
-	xqa58zajz+ZbgrjpyNLuVfoIXRAk=
-X-Received: by 2002:a05:6820:1384:b0:70a:12a9:c43d with SMTP id 006d021491bc7-714f2988c22mr2274753eaf.22.1793413619538;
-        Fri, 30 Oct 2026 19:26:59 -0700 (PDT)
+        bh=xbi/DcbTngoNULNMywk8NVdeYwzEvudByqlDGAot+FI=;
+        b=W+j5LhFzAIziGixzVl4PoFIm7g6QXx6ktlCOHT+sy8B+5JOQyl478Cf0TiP7z+SWmy
+         1gaz7v/66bsB9k+T/rEyty8QrmcDpxqmM06CiSWNg+S5l93txi4Kpx2oGQe6fYXAqvut
+         KdAiKQZMC1FXjqRcd1tGnjpnlZgZyH8c0++IkdhhHQ/NzLJkz0BMAFt13XD1kaUE0bLv
+         F3w8nTwR43xAXaXY4iulua5y7JbPg9D1qISbNc3jAuvQ4wSLovzWFtUW6/dgbg8OC6QN
+         ajOwM+4A0c55hG9zmYm2cPca1fnTE7bbUDaSz7gaR0gVrOShdZh/6d7Plpa3xj0iS1TA
+         XWiA==
+X-Forwarded-Encrypted: i=1; AKwUvByB5lAn6TE+McCZMlQEMdKnY17rFSOglPUv8C07MEAoozZXhJvAhglO7XpGqMB6P1sXpwLTz5OWBVXPDA==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJruFm8jzriFV8PT/+CyRespqALRC9PilY9OEQqHh9QCI7dUeaD
+	47QQTnPmIPiDec9ikAF5FY0q36I7tQ9ocmnj9/5m9F3X/Lt/lJUF7UCA
+X-Gm-Gg: AYBFou2nK0LcZ5u9+DhcwRb1ffFBCbTyqEVJh3t2C5NtLXQcJ/Zd7XQws6ocFmZV3BH
+	w5G2vRfgi8hLOzC8t2FwoPBPOL27iKTA7dJZoNE4Jnz0pRGZTFfBB+gScfo1wjkVRjhADWfZK30
+	Uimhn4oKfkFxVW0wg+Kh2ckKeVTKY+u9YUFrBRZiOAZRAz1RCDLCGaVuGHa1MGJt5IHZAyVMcs0
+	TYlB2MxWRhFJ4SGjEc0at5SUvTTCOo8Y2TzQ4SX01Lr+oQdmXR9Na6BuvBAzAwzAcwO+DG7rPqW
+	aDg6r5x8Rwqi0EN/L15FTYKjyAGHjbxNieQrCwfvVSRu8DZS9EFgXLF/Fnfcjwk46Q5No6K+fU7
+	e/hy7nLZCClMKoswTD9UBKnh2c/RLs+fgsX2K1N4dbBWaek1HwuroWYDeLbygduzBD/6WVwxaE7
+	FRWGkBJw1mQkY4HwH62zwVK5BN188RkU0SGqIwvU3DcI0l3ggYgDzpyKMFQvAuugGku1xVeND6n
+	zDsLLwqf6pO5OmoUf+ctYIbGGBqwfdTRYAvo36rv5tNmhOA3wy6Nus81FcUYMIBEpcZgP5HE0vF
+	J3dU+l68KESMHwjehWgObN/Lr1eGhIz9pv38vCf59irZBIsaGd66pvkzF2A+I9QS/l3ztPNUFyO
+	TJd2+2y4gR2uierhmTtUfXEMk66g=
+X-Received: by 2002:a05:6808:1b06:b0:4c4:9f7e:92ce with SMTP id 5614622812f47-5640dd36723mr2864854b6e.38.1793413621390;
+        Fri, 30 Oct 2026 19:27:01 -0700 (PDT)
 Received: from AMD.home.internal (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85d354d12f2sm3401232a34.17.2026.10.30.19.26.58
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-5640fd93451sm2821127b6e.3.2026.10.30.19.27.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 19:26:59 -0700 (PDT)
+        Fri, 30 Oct 2026 19:27:00 -0700 (PDT)
 From: Enzo Adriano <enzo.adriano.code@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>,
-	Rob Herring <robh@kernel.org>,
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Ulf Hansson <ulfh@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Junhui Liu <junhui.liu@pigmoral.tech>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Pablo Mazzini <pmazzini@gmail.com>,
-	Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-Subject: [PATCH v2 3/3] arm64: dts: allwinner: add Radxa Cubie A7S board
-Date: Fri, 30 Oct 2026 22:26:57 -0400
-Message-ID: <20261031020640-263f7b05-a7s-dt-v2-3@gmail.com>
-In-Reply-To: <20261031020640-263f7b05-a7s-dt-v2-0@gmail.com>
-References: <20261031020640-263f7b05-a7s-dt-v2-0@gmail.com>
+	linux-mmc@vger.kernel.org
+Subject: Re: [PATCH 3/4] arm64: dts: allwinner: add Allwinner A733 SoC
+Date: Fri, 30 Oct 2026 22:26:59 -0400
+Message-ID: <20261031020640-263f7b05-a7s-reply@gmail.com>
+In-Reply-To: <20260911001805.0a2e033d@ryzen.lan>
+References: <20260613-a733-dts-v1-public-ready-v1-0-7787c94681db@gmail.com> <20260613-a733-dts-v1-public-ready-v1-3-7787c94681db@gmail.com> <20260911001805.0a2e033d@ryzen.lan>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -114,335 +112,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Supply the 26 MHz crystal and 32768 Hz RTC input, enable UART0 and the
-AXP318W on R-I2C0, and describe the schematic's PMIC input/output and
-CPU supply connections. Preserve firmware settings on rails whose
-working voltage is not established. In particular, BLDO2 has no
-programmed voltage constraint: its software 3.3 V selector does not
-establish its physical output with the schematic's nominal 2.4 V input.
+Hi Andre,
 
-Describe the card's SWOUT2 supply and PF6 active-high detect with an
-internal pull-down. Enable MMC0 at up to 50 MHz using 3.3 V signaling
-only. Its high-voltage path uses VCCIO; CLDO5 also feeds PC and the PF
-1.8 V input and must not be raised for SD signaling. Firmware must
-select the 3.3 V PF path; dynamic voltage switching is not provided.
-Keep other storage off.
+The v2 cover is Message-ID:
+<20261031020640-263f7b05-a7s-dt-v2-0@gmail.com>
 
-Connect the documented bank supplies. PL's self-supply phandle is
-omitted to avoid the PMIC/I2C/pinctrl bootstrap cycle, as on the
-upstream Cubie A5E; ALDO1 is retained always-on. The separate pinctrl
-fix is required so these connections do not trigger incompatible one-bit
-bias programming.
+I have incorporated your review into the three-patch DT v2. The initial
+SoC description now includes the RTC, all UART and main/R I2C instances,
+R-PIO/R-CCU, all four MMC controllers, and the documented pin groups.
+The board enables UART0, the AXP318W on R-I2C0 and the microSD slot.
 
-AI assistance: Codex:gpt-6-astra.
+On the individual points:
 
-Assisted-by: LLM
-Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
----
- arch/arm64/boot/dts/allwinner/Makefile        |   1 +
- .../dts/allwinner/sun60i-a733-cubie-a7s.dts   | 284 ++++++++++++++++++
- 2 files changed, 285 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
+* Base/checks: the series uses official base d89e1d186ec9271bf78e62771779e9fc03bf0fc3
+  with the exact public clock, PMIC, pinctrl and UART dependencies listed
+  in the cover letter. The full ARM64 dtbs target and final A7S
+  W=2 CHECK_DTBS=y check pass.
+* RTC: added with its current clock inputs and the board's 32768 Hz
+  source. RTC counter advancement was exercised on the board.
+* PSCI/timers: removed arm,psci-1.0 and added the ARMv8.2 EL2 virtual
+  timer interrupt, PPI 12. The redundant disabled-by-default prose is gone.
+* Pins/UARTs: added explicit pinmux values, MMC1/2/3 pin groups and all
+  seven main plus two R UARTs. UART0's pins are in the DTSI.
+* GIC: added maintenance PPI 9 and the ITS at 0x03440000/0x20000.
+  GIC/ITS dma-noncoherent follows your public A733 reference and the
+  A523 precedent; the CPUX interconnect diagram supports that integration
+  inference. ITS remains disabled; MSI and EL2 delivery are not claimed.
+* MMC: all four controllers are described. MMC0-2 retain the existing
+  A733/D1 binding. SMHC3 has different DES0/high-address fields and a
+  12-bit DES1 length, so I gave it a separate binding and compatible
+  instead of claiming D1 programming compatibility. That node remains
+  disabled; no operational eMMC driver is claimed.
+* I2C/PMIC/R-domain: added all 13 main and three R I2C nodes, R-PIO and
+  R-CCU. R-I2C0 and AXP318W are enabled, with schematic-derived PMIC
+  inputs/outputs, CPU supplies and pin supplies. The microSD slot uses
+  SWOUT2 and PF6 active-high card detect with a pull-down.
 
-diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index d1f768dd6461d5a40537473fc62da6ba6a0d82c0..792152525b433b0caa5118ed2669f548835717e0 100644
---- a/arch/arm64/boot/dts/allwinner/Makefile
-+++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -68,3 +68,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun55i-a527-cubie-a5e.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun55i-h728-x96qpro+.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun55i-t527-avaota-a1.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun55i-t527-orangepi-4a.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun60i-a733-cubie-a7s.dtb
-diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
-new file mode 100644
-index 0000000000000000000000000000000000000000..341c24360ce29e29f8fc4631924eaf48b7b1f809
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
-@@ -0,0 +1,284 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
-+/dts-v1/;
-+
-+#include "sun60i-a733.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+
-+/ {
-+	model = "Radxa Cubie A7S";
-+	compatible = "radxa,cubie-a7s", "allwinner,sun60i-a733";
-+
-+	aliases {
-+		mmc0 = &mmc0;
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	reg_ps: regulator-system-power {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ps";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
-+
-+	reg_ldo_input: regulator-ldo-input {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ldo-input";
-+		/* ETA3521: 0.6 V * (1 + RP298 / RP299), 30k / 10k. */
-+		regulator-min-microvolt = <2400000>;
-+		regulator-max-microvolt = <2400000>;
-+		regulator-always-on;
-+		vin-supply = <&reg_ps>;
-+	};
-+
-+	osc32k: osc32k-clk {
-+		compatible = "fixed-clock";
-+		#clock-cells = <0>;
-+		clock-frequency = <32768>;
-+	};
-+};
-+
-+&cpu0 {
-+	cpu-supply = <&reg_dcdc5>;
-+};
-+
-+&cpu1 {
-+	cpu-supply = <&reg_dcdc5>;
-+};
-+
-+&cpu2 {
-+	cpu-supply = <&reg_dcdc5>;
-+};
-+
-+&cpu3 {
-+	cpu-supply = <&reg_dcdc5>;
-+};
-+
-+&cpu4 {
-+	cpu-supply = <&reg_dcdc5>;
-+};
-+
-+&cpu5 {
-+	cpu-supply = <&reg_dcdc5>;
-+};
-+
-+&cpu6 {
-+	cpu-supply = <&reg_dcdc3>;
-+};
-+
-+&cpu7 {
-+	cpu-supply = <&reg_dcdc3>;
-+};
-+
-+&mmc0 {
-+	bus-width = <4>;
-+	cap-sd-highspeed;
-+	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
-+	disable-wp;
-+	max-frequency = <50000000>;
-+	no-1-8-v;
-+	vmmc-supply = <&reg_swout2>;
-+	/* The 3.3 V path uses VCC-IO; no Port F voltage switching yet. */
-+	vqmmc-supply = <&reg_swout2>;
-+	status = "okay";
-+};
-+
-+&osc {
-+	clock-frequency = <26000000>;
-+};
-+
-+&pio {
-+	vcc-pb-supply = <&reg_swout2>;
-+	vcc-pc-supply = <&reg_cldo5>;
-+	vcc-pd-supply = <&reg_swout1>;
-+	vcc-pe-supply = <&reg_bldo1>;
-+	vcc-pf-supply = <&reg_cldo5>;
-+	vcc-pg-supply = <&reg_aldo1>;
-+	vcc-ph-supply = <&reg_swout2>;
-+	vcc-pj-supply = <&reg_swout1>;
-+	vcc-pk-supply = <&reg_bldo1>;
-+};
-+
-+&r_i2c0 {
-+	status = "okay";
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&r_i2c0_pl_pins>;
-+
-+	axp318w: pmic@36 {
-+		compatible = "x-powers,axp318w";
-+		reg = <0x36>;
-+		interrupt-parent = <&nmi_intc>;
-+		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
-+		interrupt-controller;
-+		#interrupt-cells = <1>;
-+
-+		aldo156in-supply = <&reg_ps>;
-+		aldo234in-supply = <&reg_aldo1>;
-+		bldoin-supply = <&reg_ldo_input>;
-+		cldoin-supply = <&reg_ldo_input>;
-+		dldoin-supply = <&reg_ps>;
-+		eldoin-supply = <&reg_dcdc9>;
-+		ips-supply = <&reg_ps>;
-+		vin19-supply = <&reg_ps>;
-+		vin23-supply = <&reg_ps>;
-+		vin45-supply = <&reg_ps>;
-+		vin678-supply = <&reg_ps>;
-+
-+		regulators {
-+			reg_dcdc1: dcdc1 {
-+				regulator-name = "vcc-3v3";
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-always-on;
-+			};
-+
-+			reg_dcdc2: dcdc2 {
-+				regulator-name = "vdd-sys";
-+				regulator-always-on;
-+			};
-+
-+			reg_dcdc3: dcdc3 {
-+				regulator-name = "vdd-cpub";
-+				regulator-always-on;
-+			};
-+
-+			reg_dcdc4: dcdc4 {
-+				regulator-name = "vdd-gpu";
-+				regulator-always-on;
-+			};
-+
-+			reg_dcdc5: dcdc5 {
-+				regulator-name = "vdd-cpul";
-+				regulator-always-on;
-+			};
-+
-+			reg_dcdc6: dcdc6 {
-+				regulator-name = "vcc-draml";
-+				regulator-always-on;
-+			};
-+
-+			reg_dcdc7: dcdc7 {
-+				regulator-name = "vcc-dram";
-+				regulator-always-on;
-+			};
-+
-+			reg_dcdc8: dcdc8 {
-+				regulator-name = "vcc-ufs-io";
-+				regulator-always-on;
-+			};
-+
-+			reg_dcdc9: dcdc9 {
-+				regulator-name = "eldo-input";
-+				regulator-always-on;
-+			};
-+
-+			reg_swout1: swout1 {
-+				regulator-name = "vcc33-lcd";
-+				regulator-always-on;
-+			};
-+
-+			reg_swout2: swout2 {
-+				regulator-name = "vcc-io-card";
-+				regulator-always-on;
-+			};
-+
-+			reg_aldo1: aldo1 {
-+				regulator-name = "vcc-pl";
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-always-on;
-+			};
-+
-+			reg_bldo1: bldo1 {
-+				regulator-name = "vcc-pe-pk-mcsi";
-+			};
-+
-+			reg_bldo2: bldo2 {
-+				regulator-name = "vcc-lvds0";
-+				regulator-always-on;
-+			};
-+
-+			reg_bldo4: bldo4 {
-+				regulator-name = "vcc18-codec";
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+			};
-+
-+			reg_cldo1: cldo1 {
-+				regulator-name = "vcc33-18-usb";
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-always-on;
-+			};
-+
-+			reg_cldo2: cldo2 {
-+				regulator-name = "vcc18-hdmi";
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+			};
-+
-+			reg_cldo3: cldo3 {
-+				regulator-name = "vcc-pll-dram";
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-always-on;
-+			};
-+
-+			reg_cldo5: cldo5 {
-+				regulator-name = "vcc18-pf-pc";
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-always-on;
-+			};
-+
-+			reg_dldo1: dldo1 {
-+				regulator-name = "vcc-efuse";
-+				regulator-always-on;
-+			};
-+
-+			reg_dldo6: dldo6 {
-+				regulator-name = "vcc-ufs";
-+				regulator-always-on;
-+			};
-+
-+			reg_eldo1: eldo1 {
-+				regulator-name = "vcc09-vdd2l";
-+				regulator-always-on;
-+			};
-+
-+			reg_eldo6: eldo6 {
-+				regulator-name = "vdd-cpus";
-+				regulator-always-on;
-+			};
-+
-+			reg_rtc_ldo: rtc-ldo {
-+				regulator-name = "vcc-rtc";
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-always-on;
-+			};
-+		};
-+	};
-+};
-+
-+&r_pio {
-+	/* PL powers the PMIC bus itself; firmware must keep ALDO1 enabled. */
-+	vcc-pm-supply = <&reg_aldo1>;
-+};
-+
-+&rtc {
-+	clocks = <&r_ccu CLK_BUS_R_RTC>, <&osc>, <&r_ccu CLK_R_AHB>,
-+		 <&osc32k>;
-+	clock-names = "bus", "hosc", "ahb", "ext-osc32k";
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_pb_pins>;
-+	status = "okay";
-+};
--- 
-2.53.0
+Three supporting changes are separate from the DT series: firmware
+clock preservation, A733 main/R pinctrl voltage-mode preservation, and
+the distinct MMC3 binding. The pinctrl approach follows Vinicius's
+October 14 recommendation. The clock/binding prerequisites should land
+through their respective trees before the dependent DT changes.
 
+Two final-candidate Cubie A7S RAM boots passed, including eight CPUs,
+PMIC/I2C activity, RTC advancement, UART baud changes, 148 MiB of
+read-only SD traffic per boot at 50 MHz/four bits/3.3 V, and warm reboot.
+The second run crossed the late unused-regulator shutdown boundary.
+The tests used vendor boot firmware and a RAM-only BL31 reservation.
+They do not claim card writes/hotplug/UHS, operation of the other
+controllers, RTC alarms, or EL2/ITS/MSI functionality.
+
+One electrical uncertainty is explicit: the schematic's nominal 2.4 V
+BLDO input conflicts with the software-reported 3.3 V BLDO2 selector.
+Physical measurements are unavailable. The DT preserves the existing
+setting without a voltage constraint or newly enabled LVDS consumer.
+Resolving the physical voltage requires inspecting RP220/RP298/RP299
+and measuring UP11 LDO2V5-INPUT and BLDO2/VCC-LVDS0 to ground.
+
+The acknowledged board binding is retained, the old MMC binding already
+in the selected base is not resubmitted, and the oscillator names,
+26 MHz board crystal, four CCU inputs and DTB ordering are corrected.
+AI assistance is disclosed as Codex:gpt-6-astra, with Assisted-by: LLM
+retained in the patches.
+
+Thanks,
+Enzo
