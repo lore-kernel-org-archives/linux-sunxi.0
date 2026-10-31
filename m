@@ -1,52 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=57.103.91.225
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793400065;
-	b=dz/Xcb3daWNPDtWy0ZG1Br4s1pnqzMitOUyl+jJhWjjy4/wJB95iKiiCqqOig+h4DHUm
-	 jV41bZbfLfrWc2BVV7pEbHty5TCUIVMQNGe/WsGV++3ntXLAQuYra/rzvY9x1AH6wpYrv
-	 a93ba81jPnXqOWWb+YGV5bnaskU0z5VB3lnIcBSibrtMPDGLarsWCpZPu/Ws1Z+L+Stx5
-	 UNiRjAP3NGMhgn1Uq/hfmGLNNdoyufRGzFuMHRlnP4+YuL7w7QFIKwnjUdPTgsfQN+0Vk
-	 SOUQ8qagS3ra4PRPFfosmz3bw2ELkcwMiQZU+mSvmJjTUdLMTbfvuETLJTcwnsNuguw==
+	t=1793413607;
+	b=UxjpoDEgCz2e2xZ8eiIl36+KyXwEZme0siMPTBTX84QE288QVwQM/ehwVlKMAtU0JKC6
+	 nxC9S6YxAkxdaNwMoxIl0w4/o74sfR9vDBUMfpWVuSSh/FxtMFsi8iL2O+DPNr60sGNYx
+	 Lvfq+Ljz1/FAieNRttcT/aBSWYcjrQg1+/TPgG7ofxHduLL81SeRnjHpw7/JehqJTJPQr
+	 IXdaesbORfu9sidZQ5hI+r3IQLMKGuDaSv4VN6fmYy3IZ0JHETIH8/u+jQn1dusMVGrLi
+	 gq8zwAELha2jv3xZ3Le75gzF4g63fuLZm8MSoBGFSoZIUhSVbPAW9S7L4/IB9uEKu8A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793400065;
-	h=DMARC-Filter:Received:X-ICL-RepId:X-ICL-Out-Info:Dkim-Signature:
-	 mail-alias-created-date:Received:Content-Type:Mime-Version:Subject:
-	 From:In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:
-	 References:To:X-Mailer:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-GUID:X-Authority-Info-Out:X-Proofpoint-ORIG-GUID:X-JNJ;
-	bh=0gIgGhCHm8bEpsZOPji4A4j+l9vAgID+Kd1kyXON6Fw=;
-	b=vkUGIh0PqIvzaT0LuLTfsqzb4g+jPEVjToi/Hx+nrZJzg3iazdrFB0Za0PvoZpyBIHr7
-	 5QXnKe5ufFunFJ23hrRH6eoF/UYoH5K36wesjKH1fCp0KPwkIELNpStdJjITcTIz4G50W
-	 aHaZHmI14Xfqzbx27132TXItEPhR8G5UaZfUQv6Fd/6pMtLjn1yNfAWq1+TeNX0EoWsGV
-	 U6GMU09wgPUtu5qFcO1AM20Ynj10r/Lq4c19BVEkdZB9mhEKcQVGRPS3UOwDV/1ZJTaul
-	 4JT40UhGbExEiwf1zaJA5ky2Y85kjYLftldtF36YtO6LG2DpXWwRkysy7E/SK68yvmw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793413607;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=dufq0gMTwMuobWdajbCSMPOQ8VLgRxtkcM3Ok9ZSSyg=;
+	b=d5r68hxgKXKyc+3IYGvNEZxO/lE1MkwfsKd9CgK98bW88KiTemgVCK1dgtUw3mszFnjC
+	 s1nuO/PC2YZlsOiHbhMC9YiTqZRLxiH8jzUgCRUW0HBuagKW1Ea/BEZznyxO4A/1hppLk
+	 k8WM1BuF96CeFXZSfqX9yeUzE4ZXJgAfkZ1d9A6IZDLIZhZXyU7n2as4UjvQqG4FftACR
+	 0tZwi9dKByg/xJHc4kLzx9o4YXLMDcDJdB3kyL+PuMILkOND3/B7i97OQg0Fr7CknYV2p
+	 EpwLDXpcGJ+/EdljuztR3nQyGnlpoSv4Lcbiy7LdMxae9+4gIOl2O85Vrg/63w4DFsA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=manyhobbies.com;
-	spf=pass smtp.mailfrom=manyhobbies.com;
-	dkim=pass header.d=manyhobbies.com header.i=@manyhobbies.com header.a=rsa-sha256 header.s=sig1 header.b=nqExYuXf;
-	arc=none smtp.remote-ip=57.103.91.225
-Received: from outbound.ci.icloud.com (ci-2003j-snip4-4.eps.apple.com [57.103.91.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=delTqLC+;
+	arc=none smtp.remote-ip=209.85.210.44
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD19606A31E
-	for <linux-sunxi@lists.linux.dev>; Fri, 30 Oct 2026 22:41:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CBD19606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=manyhobbies.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manyhobbies.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBFC606A31D
+	for <linux-sunxi@lists.linux.dev>; Sat, 31 Oct 2026 02:26:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FBFC606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=manyhobbies.com header.i=@manyhobbies.com header.a=rsa-sha256 header.s=sig1 header.b=nqExYuXf
-Received: from outbound.ci.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-central-1k-10-percent-0 (Postfix) with ESMTPS id 53F371800103;
-	Fri, 30 Oct 2026 22:41:02 +0000 (UTC)
-X-ICL-RepId: 01a18ef9-4138-705a-adf8-b80ccabb6893
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhPAUMGWQZeD04dXwVcEhVdRUcMWkVWH3kVUgNOA10SWxFWHhkIXR0ZHldQWgpcCVEXUQ9eDkFeWhdeTUUID0kZEFYBWFZdBU0aXBhZDxwTUFZaDlsERxQXG1wAFxtGAgQjAl8ARQJeCVYBMBcPVk1UGV0UXwRQElAdQENUBF9QVBFXUAsocTYMO3AuBUYAMwA+HllyXnNdAU0GXRopCjMPTHApAC0GQA04XgxZElofWxpaCERFUR9URhMZThtXTVoNQBlYBm0UVhVSBFk=
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manyhobbies.com; s=sig1; t=1793400063; x=1824936063; bh=0gIgGhCHm8bEpsZOPji4A4j+l9vAgID+Kd1kyXON6Fw=; h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To:x-icloud-hme; b=nqExYuXfLJrPoynK9F6P4VbvZ2fGHT7sVifY/wFM5L+HySm/SV/o38zOUBRUc2tCZLb3qjWQ1RZGZg59yinmI7YPy+RpQDUK0r2702bNxy6ZBfiP9Irtgvqm/d/ICVJS5d8EQ+pPI/9aNxjABVPOkW8M5txl/qIn3Du8ePfLsJIBPhF7OCWivUi66pwqRIt5qbGBRaWdJ2PQgIr1Iha2yrfUSy4hezjY5VbwIoc/tqyKWi+NcjWvcSlXny6zkfjajKuqPxzi6RkXnIJ+dwlKxedxNNUnrdQkGnJXmBo6B0J2C17tIp3b/iUiRYDspY3ZcdBaTuCj6kaZqMEUybou8A==
-mail-alias-created-date: 1780273699991
-Received: from smtpclient.apple (unknown [17.57.156.36])
-	by p00-icloudmta-asmtp-us-central-1k-10-percent-0 (Postfix) with ESMTPSA id 54B7518000B3;
-	Fri, 30 Oct 2026 22:41:01 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=delTqLC+
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-84a248254f4so956992a34.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 30 Oct 2026 19:26:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793413605; x=1794018405; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dufq0gMTwMuobWdajbCSMPOQ8VLgRxtkcM3Ok9ZSSyg=;
+        b=delTqLC+7352uo2rIzrkFslI1PQ1wlYD/VWBhl3pQMenSipqxENjm/B9ShcecjRrn/
+         SRTtGPbDr6nFfwfzdLeuF8ExKKUqP4a+FemL4tbvN8P+P7/9+2X/ULRKqaC0GXe95wxg
+         jdoBfQ/I3h/zTys9MocNq6UAAr6eMjlL1GFbMJUM2t9fqgNj3LNSUnKEhnHvV1xnB+eZ
+         z8txgzxpsm6MkEj6bVpFYEvG1gVTz0g+rff3ouU2AuDvh+ZvMthSZghufB6NybEXWpsT
+         /GO8FyDIq5ZDNRJH/SVXe8ivKt7RcQoZUR2mNgBaxdWQJ0RQJ9RTavemV1aR8oEBGJgL
+         MCUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793413605; x=1794018405;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=dufq0gMTwMuobWdajbCSMPOQ8VLgRxtkcM3Ok9ZSSyg=;
+        b=OZkGps2+qAADo7wt2+7eexDi1jxcyt/CPnqW1yorNEN1H6zBNU5Rof5OppHg3JSxC2
+         QIQVyfO5IXzev/pi2tdRBG969cHxqo4Zo2OYp1Cmqfig1+bxQ9fmOrNOYlnjxw6vRAm3
+         6C/fu24V+zzCrxnZiH5bc2/kFhCgT6qi5ByCp76rCSZZOc/y4CHT4KuanttKpY7o4WZv
+         DhwSzaOnqSiEPrswRla9XH9dkTH9ojnrs3CD3chYYeyc5h4VasfcWQHp+jSrfAdHUqVI
+         22MEaxW5KR42Po4WiinhlnR4ZuDmwoSkHKtw4TJimI36EuxEsWUM6aF7+3R8CI1RMWzP
+         +v+g==
+X-Forwarded-Encrypted: i=1; AKwUvBzSmdvEzaYxN7Zc6JrIqhxuaZ/rhfUEpHAr/VDRxhZjQRr3o8c1SNjuZF5qRA81Plrq440R4Q4g69vHvw==@lists.linux.dev
+X-Gm-Message-State: AFq9FYK6BcLhcSaY2vkGcPMJVsxwByAx64rFl6/eEXuKQTRgH7EXQmE2
+	uIcL9t8XfWyFSfCpshG7l5a77DEe9n2mLmpSNDmG45HpaERQz+2el5PA
+X-Gm-Gg: AYBFou2EjoODt0D3WrdiGFKeizvsfLGUDIpBvIBO2rqnU/dU3yjhGvVucbwLPI21DHD
+	VtTaaZQoui72pJ9B51epK+i9BvYn8Ic44mp5xRW5TrSX8a7mL/A4hCgCSvVFK/5EnnEehtgZP1T
+	RcJ19VDAZQFGEyJ08jxT57RtTChEg5RERgWCrjgdzkoHeMY/tRJCulgk+AZkNxIxfzc+Gzk2f8G
+	9W0pXMkjBkRRK6fmMA8wsIP6ip8n8TxXyPII5ZZkV7m7N7Q/f7vZnRYxqegPXNEsLzismNCzy48
+	lBQqDUfiSIyANNihebqD6BQ2VE9WkH/7s2fMqQbgcOa9fKusePTWrbFpDczxPGsWm1CiAYd/x99
+	uWmjTeUFKn8tgWdZ46ozI5FAyFbmGRzOFuHO2IjN7uRxquhESdpEjETq/+xVqsOHn25SIDaLpbL
+	GRWtRyxhuxMRr2sj2LD2vboXJIWnpXsvn6JVvqYvPZaOnh1+asXHdXmPoYMKGxxe+jFutZvzbJH
+	nmcn8B8941MGYzsQWnhPBoRvSjUbNy130nNrIKLHbDDKSkacGCsxIhlmA+VRcN//0rOd6zELLdw
+	Uy/zWQabjbJP6et/FdLtcGrzBty8yBZxg7G033NLxiLIXHKkbh8/QhNCPrDwmMNRSDNxpc5drJs
+	m8KoqsQ==
+X-Received: by 2002:a05:6830:7181:b0:81b:ac9a:5681 with SMTP id 46e09a7af769-85d3649ebddmr3195695a34.29.1793413605457;
+        Fri, 30 Oct 2026 19:26:45 -0700 (PDT)
+Received: from AMD.home.internal (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85d355201f7sm3304636a34.23.2026.10.30.19.26.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 19:26:45 -0700 (PDT)
+From: Enzo Adriano <enzo.adriano.code@gmail.com>
+To: Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>,
+	Junhui Liu <junhui.liu@pigmoral.tech>
+Subject: [PATCH] clk: sunxi-ng: a733: preserve system-controller firmware clocks
+Date: Fri, 30 Oct 2026 22:26:43 -0400
+Message-ID: <20261031020640-263f7b05-a7s-clock@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -55,179 +103,142 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.200.71.1.16\))
-Subject: Re: [PATCH v3] mmc: sunxi: reset the controller after an update-clock
- timeout
-From: tam.do@manyhobbies.com
-In-Reply-To: <CAPx+jO_VxJctXCZMVdzeq4CX-Ru7ACM6=wQ7GMdG2+4F1pOcBQ@mail.gmail.com>
-Date: Fri, 30 Oct 2026 17:40:50 -0500
-Cc: Ulf Hansson <ulfh@kernel.org>,
- Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- linux-mmc@vger.kernel.org,
- linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <CCF5CCC2-2C9F-4E5A-8550-B8C64CD7F404@manyhobbies.com>
-References: <179318778660.81375.11263258280496155344@manyhobbies.com>
- <CAPx+jO_VxJctXCZMVdzeq4CX-Ru7ACM6=wQ7GMdG2+4F1pOcBQ@mail.gmail.com>
-To: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
-X-Mailer: Apple Mail (2.3901.200.71.1.16)
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDA5MCBTYWx0ZWRfX42Fyqr+Tof5x
- rqVhPO8azEg2A5LW2ESnHeokCLl9ntkDY7jC9hzq36RV7+owLm/MNys1xfWZ1rmBeJSqAQAbsCm
- 4ForHBTbHjT5TVtmQWXv4aNaTSnT8lYFsV2iSDVwiLh06CaaUuedek/4JuVgoy7pulWNS/f1RCe
- hK/mU4vAJietBbZ6nxUmeXJ3DYE/vCpJ4Wpc3ZZxUwYhdRx13Pxd7gpip8NdiArrUJb/yIZCsAp
- WtB2QekCxNBYGC7TQQdVPc30kOPia8XDie22rcsFVaXfc9hdyuzqsk/ufZG9b8lGuqJOsykJJiB
- LX7GJ4XCbqmM0uU3JgcXIivalfeoTgwLuQHBopwDBz4PW4gg1GElRS5qXuF73Q=
-X-Proofpoint-GUID: 2x_7z9kaaNiPlJQqNqi13Xatg90oQXIf
-X-Authority-Info-Out: v=2.4 cv=d4X4CBjE c=1 sm=1 tr=0 ts=6ae51cff
- cx=c_apl:c_pps:t_out a=2G65uMN5HjSv0sBfM2Yj2w==:117
- a=2G65uMN5HjSv0sBfM2Yj2w==:17 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=w2OPf45SAAAA:8 a=EUspDBNiAAAA:8
- a=hnEzuQZJkBTHcMNEFcUA:9 a=QEXdDO2ut3YA:10 a=-iXIJKm6ftRzmWoHelNS:22
-X-Proofpoint-ORIG-GUID: 2x_7z9kaaNiPlJQqNqi13Xatg90oQXIf
-X-JNJ: AAAAAAABLs59V6KwCCAZC5NBGWHf2zFYri/plGG7y3+Q5gp7br6rJx6KqvTkp4DSxXlP9Y
- 4KyLaml0R0O0APQwD/pokhEV11lMm43pO17KIoSAHnCWdXfByYanOXMdBVUKOMPyPyTX4f
- mD9ZRwOt5lfFSbj3N2pNQdHClNGOOFkVEWSL91FjXsUp3CGtNa+wiG367dfOxNl5QzPdqL
- zv6YH1ZGTI+pzIXwjgysQInFcKJRva735GA+2XFQR4Mc1x33mMzoEfp7ECXFyzw/Gbzb57
- TDaETMY+TwHB6cICBKFK6D+1wFQcfsVa3blQydPtRn+/WST9HtUURvW6h65wl9BqpqKwvM
- YO5rJDmbudm0fXKn9C0EGORe8L3WVvPUbcsWMTKcMoqUknjv9ctpiF7szqVkuKjHRFc1cM
- 08aHV8/ouxjSzJXW206vujYn9k6Z6NuuWjZQFSzPaduK+tNQ1+nBM3hnSw4qF0rrFUITlj
- vqG24OcWeXxAWZi1hdW+skQCzFZslVuwQl6Jg26/KMZRe0dySP+qydZtVs2VbzG0MH+UVh
- cAgeBNXJx8nUKYt3iwx49D1jLHqC4rtA0vf4+QzXcDS0jw+A/gKx5C8plQpDiB+fELNDIG
- 9ZnCeq2d9MEXIO7L0wZ1C5hSd7BoR6UJmMvsHwhzx4j0u7uNpRNCS4dgMcWXmMs7Kg5Zb5
- 5HvXLPAPHfDXBWpj2isqLlAO1fg5WxFEUuyWQzYIietdqGxbmnQ0lGa5AmakX6BbIhFiXD
- BWqzhRglBxjdiofAYt5kGBb4trGtKqtOcx8+ry+WtrO9lyHVhTXnz6SeSFBREubZP/edF+
- 6Ars9ZNUwTd+pl4v27foQN0na+N2aERZatj+q5cKpOx3zW27TnIGA1YtWlwy786V7/nlvy
- 4me/MEBFYdV0LdWupRzdh9DR5aNBXhqxksI4+7mrv21dyPI6NXcT8XRyqsqvO+CD6dbk81
- b+VGAQYqH2fOEcBpnHN/kHQYGzXNkDRoxqm1KiUvisO3N6sgNdclInHx0sDoUhMCoyfVBq
- k7xaMDUb2/WHlwPNmbWhlftLr2hPjmC5jODv7n50eWHKTbH7JBnfkSPEJM4JEWiuslcWqm
- ZDIHYxExUlS6jfCssnp2DBmAnl5eYBp7dp7YazaDRhSJvNtXrAt6uY682eskHJexvGSd86
- qynpqTi+TxvMk5xw7aCclxToZi2YaOUtlTRCLVwLC30pDQkUP/1cjgXeWopUt1HUpEo7G6
- 3SDS+nmgSFAGhFzqf/O1nleSavTVoS7DStDAEQzc5buucRzB0tYS5IeYFQFE2jk79vXVQR
- CqimGOzOvYGFIlVCDj0255vhUIQpA8Ixbsa+BTS3jak1zuwXWE23JG/9YBUzVg3lY8+tJY
- Ju2n1x/VKUCzmVdTsadlVSUOrY1hm+hC9cF6UeqXgWsRzj9viPm7S68l3+TA+b3t7WNyGx
- V+jBWQD0Rf8SduvoM3yfuwXRXW4554m5Xxz01EaRzlSXOiWzFCr17Of4MlrWxMjYrrK8sg
- X+8aLt9F0hWjqUCbEsBbyP+2G7Jf9jz9Fx1RLTftg0qF9yeG4XLMMGi/7ClNBqPKoVMRky
- tmE5oaO6LkuMySfOkGZuUNsg==
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-> I assume it's sunxi_mmc_oclk_onoff() that is being called and it's the
-> loop in there that times out. The question is then, under what
-> circumstances are sunxi_mmc_oclk_onoff() being called when we are also
-> waiting for the SDIO card to release the busy indication on DAT0?
+System-controller firmware uses the R-domain timer and mailboxes without
+Linux clock consumers. Disabling these clocks as unused can leave
+firmware services unavailable. On a Radxa Cubie A7S with vendor boot
+firmware, the public CCU v6 candidate reaches a Linux shell but stalls
+at warm reboot.
 
-Yes. It's the first update after probe, from the MMC_POWER_UP set_ios:
-  sunxi_mmc_oclk_onoff+0x17c/0x1a0
-  sunxi_mmc_clk_set_rate+0x1c/0x2c8
-  sunxi_mmc_set_ios+0xe4/0x144
-  mmc_power_up.part.0+0x40/0x150
-  mmc_start_host+0x90/0x9c
-  mmc_add_host+0x6c/0xa0
-  sunxi_mmc_probe+0x35c/0x478
+The public A733 firmware selects the RISC-V platform, reserves R-domain
+timer0 for delays and enables both main and R-domain mailbox clocks.
+Retain r-timer0, bus-r-timer, bus-r-riscv, bus-msgbox0 and bus-r-msgbox
+with CLK_IS_CRITICAL. This keeps their modeled parents enabled as well.
+Do not change rates, muxes, reset bits or unrelated gate policy.
 
-STAS already reads 0x206 there, before anything has been sent to the
-card; on good boots it's 0x106. So the card is holding DAT0 when Linux
-takes over. These are warm boots from the vendor firmware and it
-happens on roughly half of them.
+The controlled tests distinguish the RISC-V bus gate from its separate
+special clock. They support this set for the tested A7S firmware,
+without establishing that every flag is independently minimal or that
+all firmware services are covered. The matching A7S configuration
+completed repeated warm reboots without clk_ignore_unused or a
+register-writing helper. Suspend is not qualified by these tests.
 
-The supply explanation in the commit message is wrong, sorry. The rails
-are up ~20 ms later and the command is still pending at the 750 ms
-timeout. =46rom then on every update times out until the controller is
-reset. Rebinding with the card idle never hit it (0/20 tries).
-I'll fix the commit message in v4.
+Public firmware evidence:
+https://github.com/radxa/allwinner-arisc/tree/79086caef1f6d1fb1cf164afb018f6e873fd9910/ar100s
 
-Tam
+AI assistance: Codex:gpt-6-astra.
 
+Assisted-by: LLM
+Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
+---
+This is a standalone clock change for the separate A733/Cubie A7S DT
+v2. It applies to official base d89e1d186ec9271bf78e62771779e9fc03bf0fc3
+plus Junhui Liu's four clock-helper patches and A733 CCU v6 (eight):
+https://lore.kernel.org/r/20260906-sunxi-clk-no-p-v1-0-cbde21c9fe69@pigmoral.tech
+https://lore.kernel.org/r/20261009-a733-clk-v6-0-ae8178fce7e8@pigmoral.tech
 
-> On Oct 30, 2026, at 8:48=E2=80=AFAM, Ulf Hansson =
-<ulf.hansson@oss.qualcomm.com> wrote:
->=20
-> On Wed, Oct 28, 2026 at 12:43=E2=80=AFPM Tam Do =
-<tam.do@manyhobbies.com> wrote:
->>=20
->> If the clock-update command times out it stays pending in the
->> controller, and every later clock update times out as well, so the
->> card cannot be initialised until the next probe.
->>=20
->> This happens on an R16 board whose SDIO Wi-Fi holds DAT0 busy while
->> its supply comes up during the first clock update.
->=20
-> It would be nice if you could elaborate a bit more on what goes on =
-here.
->=20
-> I assume it's sunxi_mmc_oclk_onoff() that is being called and it's the
-> loop in there that times out. The question is then, under what
-> circumstances are sunxi_mmc_oclk_onoff() being called when we are also
-> waiting for the SDIO card to release the busy indication on DAT0?
->=20
->>=20
->> Reset the controller on timeout so the next attempt can succeed. This
->> runs sunxi_mmc_init_host() with the interrupt enabled for the first
->> time, so write REG_IMASK from sdio_imask under host->lock, as
->> sunxi_mmc_enable_sdio_irq() updates both under that lock.
->>=20
->> Fixes: 3cbcb16095f9 ("mmc: sunxi: Add driver for SD/MMC hosts found =
-on Allwinner sunxi SoCs")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Tam Do <tam.do@manyhobbies.com>
->=20
-> Kind regards
-> Uffe
->=20
->> ---
->> v3: take host->lock only around the REG_IMASK write in
->>    sunxi_mmc_init_host(), not across the reset; v2 polled the reset =
-on
->>    jiffies with interrupts off. The return value stays unchecked, as =
-in
->>    sunxi_mmc_runtime_resume(): if the reset itself times out the
->>    controller is wedged either way.
->> v2: held host->lock across the reset (not posted)
->> v1: =
-https://lore.kernel.org/all/179307312104.39863.12372814163472848752@manyho=
-bbies.com/
->>=20
->> drivers/mmc/host/sunxi-mmc.c | 4 ++++
->> 1 file changed, 4 insertions(+)
->>=20
->> diff --git a/drivers/mmc/host/sunxi-mmc.c =
-b/drivers/mmc/host/sunxi-mmc.c
->> index fe4c0f6d73f3..55313780d06d 100644
->> --- a/drivers/mmc/host/sunxi-mmc.c
->> +++ b/drivers/mmc/host/sunxi-mmc.c
->> @@ -322,6 +322,7 @@ static int sunxi_mmc_reset_host(struct =
-sunxi_mmc_host *host)
->>=20
->> static int sunxi_mmc_init_host(struct sunxi_mmc_host *host)
->> {
->> +       unsigned long flags;
->>        u32 rval;
->>=20
->>        if (sunxi_mmc_reset_host(host))
->> @@ -336,7 +337,9 @@ static int sunxi_mmc_init_host(struct =
-sunxi_mmc_host *host)
->>        /* Maximum timeout value */
->>        mmc_writel(host, REG_TMOUT, 0xffffffff);
->>        /* Unmask SDIO interrupt if needed */
->> +       spin_lock_irqsave(&host->lock, flags);
->>        mmc_writel(host, REG_IMASK, host->sdio_imask);
->> +       spin_unlock_irqrestore(&host->lock, flags);
->>        /* Clear all pending interrupts */
->>        mmc_writel(host, REG_RINTR, 0xffffffff);
->>        /* Debug register? undocumented */
->> @@ -688,6 +691,7 @@ static int sunxi_mmc_oclk_onoff(struct =
-sunxi_mmc_host *host, u32 oclk_en)
->>=20
->>        if (rval & SDXC_START) {
->>                dev_err(mmc_dev(host->mmc), "fatal err update clk =
-timeout\n");
->> +               sunxi_mmc_init_host(host);
->>                return -EIO;
->>        }
->>=20
->> --
->> 2.39.5
->>=20
+No Fixes tag is assigned to the unmerged CCU input. This does not
+replace or resubmit Junhui's series. The existing public MBUS_STORE
+critical flag is not part of this change.
+
+The final A7S integration passed two RAM boots, clock-summary checks
+and warm reboots with vendor U-Boot
+2018.07-17-boot-aw2501-g4c7078cfdf7-dirty. All five retained clocks
+reported enabled. The Image was built with W=1; the final DTB passed
+W=2 CHECK_DTBS=y. Earlier tests of the same five-clock change also
+passed four boots and warm reboots. These are system observations on
+one board, not proof of each flag's independent minimality or suspend.
+The DT test used a RAM-only BL31 reservation at 0x48000000/0x01000000.
+
+Final tested Image SHA-256:
+1ea68cdc5998b584f8a3e62c44a21e506a22a8144c5824d9a8485607a8f2bd09
+
+ drivers/clk/sunxi-ng/ccu-sun60i-a733-r.c | 13 +++++++++----
+ drivers/clk/sunxi-ng/ccu-sun60i-a733.c   |  3 ++-
+ 2 files changed, 11 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733-r.c b/drivers/clk/sunxi-ng/ccu-sun60i-a733-r.c
+index b8f6e8c6e50735d702d4de8c6d320652358f251e..e9fca8af03cec39ac39d739d371f2d6e4f7e1044 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun60i-a733-r.c
++++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733-r.c
+@@ -57,11 +57,12 @@ static SUNXI_CCU_M_DATA_WITH_MUX(r_apb1_clk, "r-apb1", r_apb_parents, 0x010,
+ 				 24, 3,	/* mux */
+ 				 0);
+ 
++/* System-controller firmware uses R-domain timer0 for delays. */
+ static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer0, "r-timer0", r_apb_parents, 0x100,
+ 				      1, 3,	/* P */
+ 				      4, 3,	/* mux */
+ 				      BIT(0),	/* gate */
+-				      0);
++				      CLK_IS_CRITICAL);
+ static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer1, "r-timer1", r_apb_parents, 0x104,
+ 				      1, 3,	/* P */
+ 				      4, 3,	/* mux */
+@@ -78,7 +79,8 @@ static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer3, "r-timer3", r_apb_parents, 0
+ 				      BIT(0),	/* gate */
+ 				      0);
+ 
+-static SUNXI_CCU_GATE_HW(bus_r_timer_clk, "bus-r-timer", &r_ahb_clk.common.hw, 0x11c, BIT(0), 0);
++static SUNXI_CCU_GATE_HW(bus_r_timer_clk, "bus-r-timer",
++			 &r_ahb_clk.common.hw, 0x11c, BIT(0), CLK_IS_CRITICAL);
+ 
+ static const struct clk_parent_data r_pwm_parents[] = {
+ 	{ .fw_name = "hosc" },
+@@ -108,7 +110,9 @@ static SUNXI_CCU_DUALDIV_MUX_GATE(r_spi_clk, "r-spi", r_spi_parents, 0x150,
+ 				  0);
+ static SUNXI_CCU_GATE_HW(bus_r_spi_clk, "bus-r-spi", &r_ahb_clk.common.hw, 0x15c, BIT(0), 0);
+ 
+-static SUNXI_CCU_GATE_HW(bus_r_msgbox_clk, "bus-r-msgbox", &r_ahb_clk.common.hw, 0x17c, BIT(0), 0);
++/* Firmware can use this mailbox without a Linux clock consumer. */
++static SUNXI_CCU_GATE_HW(bus_r_msgbox_clk, "bus-r-msgbox",
++			 &r_ahb_clk.common.hw, 0x17c, BIT(0), CLK_IS_CRITICAL);
+ 
+ static SUNXI_CCU_GATE_HW(bus_r_uart0_clk, "bus-r-uart0", &r_apb1_clk.common.hw, 0x18c, BIT(0), 0);
+ static SUNXI_CCU_GATE_HW(bus_r_uart1_clk, "bus-r-uart1", &r_apb1_clk.common.hw, 0x18c, BIT(1), 0);
+@@ -146,8 +150,9 @@ static SUNXI_CCU_MUX_DATA_WITH_GATE(r_riscv_clk, "r-riscv", r_riscv_parents, 0x2
+ 				  24, 2,	/* mux */
+ 				  BIT(31),	/* gate */
+ 				  0);
++/* Firmware runs on the RISC-V core independently of Linux. */
+ static SUNXI_CCU_GATE_HW(bus_r_riscv_clk, "bus-r-riscv", &r_apb0_clk.common.hw,
+-			 0x21c, BIT(0), 0);
++			 0x21c, BIT(0), CLK_IS_CRITICAL);
+ static SUNXI_CCU_GATE_HW(bus_r_riscv_cfg_clk, "bus-r-riscv-cfg", &r_apb0_clk.common.hw,
+ 			 0x21c, BIT(1), 0);
+ 
+diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+index cc2b229e2e6a6072f95086ce21cba6545012c0bb..ca0fc95fade2a66bcb90011e654a603eb676fd0b 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
++++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+@@ -635,8 +635,9 @@ static SUNXI_CCU_GATE_HWS(bus_dma1_clk, "bus-dma1", ahb_hws,
+ static SUNXI_CCU_GATE_HWS(bus_spinlock_clk, "bus-spinlock", ahb_hws,
+ 			  0x724, BIT(0), 0);
+ 
++/* Keep the mailbox available to system-controller firmware. */
+ static SUNXI_CCU_GATE_HWS(bus_msgbox0_clk, "bus-msgbox0", ahb_hws,
+-			  0x744, BIT(0), 0);
++			  0x744, BIT(0), CLK_IS_CRITICAL);
+ 
+ static SUNXI_CCU_GATE_HWS(bus_pwm0_clk, "bus-pwm0", apb0_hws,
+ 			  0x784, BIT(0), 0);
+
+base-commit: d89e1d186ec9271bf78e62771779e9fc03bf0fc3
+prerequisite-patch-id: 0df2ae41836b86fd868dfa01ddfde57f888f761a
+prerequisite-patch-id: 88f3a431e7c551a9fa732f062188f10fdd362eeb
+prerequisite-patch-id: 3e88bc873c909059d1199f82cda4013765e7a5e5
+prerequisite-patch-id: 0dbc27cd7417352319a0705a051dff35085e8922
+prerequisite-patch-id: 0ed6b92774b5b794761c7ce34db653a5435dc833
+prerequisite-patch-id: 27ed3814dbd0c7ad830532ff125625917c873b4b
+prerequisite-patch-id: 74d03898c5ce14763f4e89fb73e021de59f0fb9f
+prerequisite-patch-id: 9225cb094cf6cbb338b14ac63711d68bed12d24d
+prerequisite-patch-id: 568dae1c91a0d7318d6eb14a18054343b84b603a
+prerequisite-patch-id: ff3806332e741f0e2c8dac1c11f4c71449c16c8c
+prerequisite-patch-id: 39461e0543aefb5c40184664625cbab19ac8408a
+prerequisite-patch-id: 6fc03bfbd343042dd3b660938fcc09c5e7d48314
+-- 
+2.53.0
 
