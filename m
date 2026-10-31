@@ -1,105 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793413622;
-	b=LjabNgh+4G8t3L/3lmxrwRIbin8ssFTWMwMz4yRIDMw6zPKcwuWnJgc9n7C/S0RS2v+O
-	 ztemxs9uSQv9ze9h5/mD2kgfP6Duod/hG/oLghTXAMGkIlNnuozxLipYBBGliU7VODZEH
-	 T9EGPC/TjKdonYOWPqxsjpbbvpv0VTJKwWs8sfXDOslTYoPAqM5czuSM4ZIjl/MvG+C86
-	 vNJX2j+Hnp2mHNqNIcTR+ezhGBdbOB3SqLWJpIGjJFu29rICmKemiZmF15eUeV6qVofnd
-	 nROovlfl7aHISp6B7DKgZEE3XRpDUaYLyt+CkPaS9jwCI3VB/zfdJYyr6BgbA6v6SyA==
+	t=1793443785;
+	b=2BTjr6jElsr2CDxFZiH0FRnSF6pe0bcU0DNajuKV3NGvqOnhl8UF37KE204WAdl5axCP
+	 U+mZOzkWiEu+AFI7Dk2+RXEnvsxyo4f2tL7S/cNMZr4mcR/DhIYoov2FPSCbq1dExNhoY
+	 YxKcD4Z1NzUfvaBr9ruWbAza11LYBBLG9PUWSVOsFNAxy6wHDqP2I0kOk0nJJo9DuYBfj
+	 Mb6RWRBAFxIv3GGPPkew+zCIQ5gWV4Er0aZJnPd8V/gAr5VJhQspu/iIL2kzxYt9kGSaf
+	 CBFN6Uq0xKGlG+ZAHOTicUTllM4Gkv2Fgch6lvLdPlEJTwq0Uc/xO81yb7mOfboNYfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793413622;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=xbi/DcbTngoNULNMywk8NVdeYwzEvudByqlDGAot+FI=;
-	b=ED2RcA2MtitdsriXsIhr7HYqQZ0jKEG8QLCiacjLvS773kkDkRAdfyQYgbhL1xXsc28n
-	 NodwmvkUt+P8ycbsu9BW6BhgabLV98JuJSRwmbPq5KFUQScR6/D/G67e0J2OeafLZPhn+
-	 eEiu1rASyLeOeYQ8rtEpn1C5sTWEZWfW3glWe3rI1p+czIwZMrrqDXaA4c4YZnbDVAdAM
-	 wzKk30JQ+XTCNbmPX+eUM1JEPolU6XpMi/JYn6UnBD86fbesVL3ir9TQmWFDZnHH3qota
-	 QZxgUfjlFOmf3I2H/DPfZdxb3i0FshO23o4CDLIpS+MSkoQi7yiUUaU2RGNZQACQyYg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793443785;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id:X-Mailer:X-Last-TLS-Session-Version;
+	bh=Pem4c/xVlXIJMXRu8hbS7XQANQwY9xNX3xjHyyNsujU=;
+	b=45WHSSLwnFH09b4U54sttkuFJOMKIqYGHmUxO4AAn/MC8gHW1hRk/KGpwGoH3VKSU98j
+	 Y3ZJfNLeTUxiX65rMLRiOXxK/4S2Pu/avdfqEMr/IuOcdMrjblGfXiltOJl1nEJrZUQ6N
+	 OM8CbOSmbOPHb+CXDP1rro6QyoOIvoyLOvtKqxpksxOu+X5mrr7+FPYKo6uxKFSZh6YEA
+	 8V1EybzzuMiBQX/pig8akBXjc7AsUhY4xBfbyov8ZMdi7jfRkXeD4MlnYQvCnedf3+tBL
+	 GI4A57AA0/rXV+9mFIsuLe+9SRReoySd3Ho51vf83GCg95xPVqQavFqY8RMxy2/B04g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gPAF7VYU;
-	arc=none smtp.remote-ip=209.85.167.175
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=wkQOT8xc;
+	arc=none smtp.remote-ip=185.246.84.56
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F23606A334
-	for <linux-sunxi@lists.linux.dev>; Sat, 31 Oct 2026 02:27:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70F23606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D0E606A31C;
+	Sat, 31 Oct 2026 10:49:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9D0E606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gPAF7VYU
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-4f488ba6e90so510927b6e.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 30 Oct 2026 19:27:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793413621; x=1794018421; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xbi/DcbTngoNULNMywk8NVdeYwzEvudByqlDGAot+FI=;
-        b=gPAF7VYUNtXIPtzFxtnApa7i6t2xFlWsX7JLhdslHRfnmF8dzMU+IDK4Wt4T+1I0DX
-         mehABkNNtUexMFKHe6dQR0gCNXgZOI9W8nsiAO4TqRdmowmAb8IGooi5nRBK3/p/Av3n
-         5twg/O1W9rlHKqHtsBULIad+4ecXxkNp+5LAOlHkxLmRQ0gfdrbrbItyNO51ASL0qzn9
-         aS8pA0Uqj70UEiXEILqxLKzRvd9Q7gabuI0YlloAZZRTSCzptlzBcTe7MlGy+k0IqZtz
-         xcNQLh23Eb86V69MiBqCy9W8Zjnu/yyoR0YzA4zrjrBlBtVQS/mGI9Jt4jTIK8ryIlmO
-         NH6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793413621; x=1794018421;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xbi/DcbTngoNULNMywk8NVdeYwzEvudByqlDGAot+FI=;
-        b=W+j5LhFzAIziGixzVl4PoFIm7g6QXx6ktlCOHT+sy8B+5JOQyl478Cf0TiP7z+SWmy
-         1gaz7v/66bsB9k+T/rEyty8QrmcDpxqmM06CiSWNg+S5l93txi4Kpx2oGQe6fYXAqvut
-         KdAiKQZMC1FXjqRcd1tGnjpnlZgZyH8c0++IkdhhHQ/NzLJkz0BMAFt13XD1kaUE0bLv
-         F3w8nTwR43xAXaXY4iulua5y7JbPg9D1qISbNc3jAuvQ4wSLovzWFtUW6/dgbg8OC6QN
-         ajOwM+4A0c55hG9zmYm2cPca1fnTE7bbUDaSz7gaR0gVrOShdZh/6d7Plpa3xj0iS1TA
-         XWiA==
-X-Forwarded-Encrypted: i=1; AKwUvByB5lAn6TE+McCZMlQEMdKnY17rFSOglPUv8C07MEAoozZXhJvAhglO7XpGqMB6P1sXpwLTz5OWBVXPDA==@lists.linux.dev
-X-Gm-Message-State: AFq9FYJruFm8jzriFV8PT/+CyRespqALRC9PilY9OEQqHh9QCI7dUeaD
-	47QQTnPmIPiDec9ikAF5FY0q36I7tQ9ocmnj9/5m9F3X/Lt/lJUF7UCA
-X-Gm-Gg: AYBFou2nK0LcZ5u9+DhcwRb1ffFBCbTyqEVJh3t2C5NtLXQcJ/Zd7XQws6ocFmZV3BH
-	w5G2vRfgi8hLOzC8t2FwoPBPOL27iKTA7dJZoNE4Jnz0pRGZTFfBB+gScfo1wjkVRjhADWfZK30
-	Uimhn4oKfkFxVW0wg+Kh2ckKeVTKY+u9YUFrBRZiOAZRAz1RCDLCGaVuGHa1MGJt5IHZAyVMcs0
-	TYlB2MxWRhFJ4SGjEc0at5SUvTTCOo8Y2TzQ4SX01Lr+oQdmXR9Na6BuvBAzAwzAcwO+DG7rPqW
-	aDg6r5x8Rwqi0EN/L15FTYKjyAGHjbxNieQrCwfvVSRu8DZS9EFgXLF/Fnfcjwk46Q5No6K+fU7
-	e/hy7nLZCClMKoswTD9UBKnh2c/RLs+fgsX2K1N4dbBWaek1HwuroWYDeLbygduzBD/6WVwxaE7
-	FRWGkBJw1mQkY4HwH62zwVK5BN188RkU0SGqIwvU3DcI0l3ggYgDzpyKMFQvAuugGku1xVeND6n
-	zDsLLwqf6pO5OmoUf+ctYIbGGBqwfdTRYAvo36rv5tNmhOA3wy6Nus81FcUYMIBEpcZgP5HE0vF
-	J3dU+l68KESMHwjehWgObN/Lr1eGhIz9pv38vCf59irZBIsaGd66pvkzF2A+I9QS/l3ztPNUFyO
-	TJd2+2y4gR2uierhmTtUfXEMk66g=
-X-Received: by 2002:a05:6808:1b06:b0:4c4:9f7e:92ce with SMTP id 5614622812f47-5640dd36723mr2864854b6e.38.1793413621390;
-        Fri, 30 Oct 2026 19:27:01 -0700 (PDT)
-Received: from AMD.home.internal (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-5640fd93451sm2821127b6e.3.2026.10.30.19.27.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 19:27:00 -0700 (PDT)
-From: Enzo Adriano <enzo.adriano.code@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Ulf Hansson <ulfh@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-mmc@vger.kernel.org
-Subject: Re: [PATCH 3/4] arm64: dts: allwinner: add Allwinner A733 SoC
-Date: Fri, 30 Oct 2026 22:26:59 -0400
-Message-ID: <20261031020640-263f7b05-a7s-reply@gmail.com>
-In-Reply-To: <20260911001805.0a2e033d@ryzen.lan>
-References: <20260613-a733-dts-v1-public-ready-v1-0-7787c94681db@gmail.com> <20260613-a733-dts-v1-public-ready-v1-3-7787c94681db@gmail.com> <20260911001805.0a2e033d@ryzen.lan>
+	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=wkQOT8xc
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 074561A13F2;
+	Sat, 31 Oct 2026 10:49:40 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B225460771;
+	Sat, 31 Oct 2026 10:49:39 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AD62810329038;
+	Sat, 31 Oct 2026 11:48:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1793443772; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=Pem4c/xVlXIJMXRu8hbS7XQANQwY9xNX3xjHyyNsujU=;
+	b=wkQOT8xcyHQMWB9OEmtZKxKhcla8pzW8jvSZA/x2hal0q4bLz0JU8/AbA0mawe0Dw0DjnF
+	smQsxRHd8gGm24wPOPzLXmCZOappY+s574tn+Ot15X2CQkrhTntBbO7WXDMyU49KLQRkPK
+	h7j1KZhmVf/R/GTl4Nzp+pwdSzjR8YnlT4C4yRqR8NJdg7sSMxL2polFsLUci29G6I7az2
+	G7ZI9YBVzBbECQbXbEM5LUBOA60ZJjLIvJem/gBhbilhA1IJfKFkoP2+xvNFFD3XbHemx8
+	LfFG9kdrLGcZHm6vFXW8AM+Avi0U48paCXRSVpt60+sl7VTB7Aq1IEg3H56QDA==
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -109,71 +59,124 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 15/35] drm/bridge: anx6345: set the panel orientation
+ on the connector
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Douglas Anderson <dianders@chromium.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, 
+ Jessica Zhang <jesszhan0024@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jyri Sarha <jyri.sarha@iki.fi>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Paul Cercueil <paul@crapouillou.net>, Marek Vasut <marex@denx.de>, 
+ Stefan Agner <stefan@agner.ch>, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+ Linus Walleij <linusw@kernel.org>, Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Inki Dae <inki.dae@samsung.com>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Peter Griffin <peter.griffin@linaro.org>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Alison Wang <alison.wang@nxp.com>, 
+ Paul Kocialkowski <paulk@sys-base.io>, 
+ Yannick Fertre <yannick.fertre@foss.st.com>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+ Philippe Cornu <philippe.cornu@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Jagan Teki <jagan@amarulasolutions.com>, Ondrej Jirman <megi@xff.cz>, 
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Igor Reznichenko <igor@reznichenko.net>, Michael Walle <mwalle@kernel.org>, 
+ Dario Binacchi <dario.binacchi@amarulasolutions.com>, 
+ Jagan Teki <jagan@edgeble.ai>, Jianhua Lu <lujianhua000@gmail.com>, 
+ =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+ Purism Kernel Team <kernel@puri.sm>, 
+ Jerry Han <hanxu5@huaqin.corp-partner.google.com>, 
+ Joel Selvaraj <jo@jsfamily.in>, Icenowy Zheng <icenowy@aosc.io>, 
+ Michael Trimarchi <michael@amarulasolutions.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Casey Connolly <casey.connolly@linaro.org>, 
+ Michael Tretter <m.tretter@pengutronix.de>, 
+ Cristian Cozzolino <cristian_ci@protonmail.com>, 
+ Junjie Cao <junjie.cao@linux.dev>, Ryan Brue <ryanbrue.dev@gmail.com>, 
+ Nickolay Goppen <setotau@mainlining.org>, 
+ Stefan Mavrodiev <stefan@olimex.com>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Robert Chiras <robert.chiras@nxp.com>, 
+ Alexander Koskovich <akoskovich@pm.me>, 
+ Markuss Broks <markuss.broks@gmail.com>, 
+ Artur Weber <aweber.kernel@gmail.com>, David Heidelberg <david@ixit.cz>, 
+ Dzmitry Sankouski <dsankouski@gmail.com>, 
+ Yedaya Katsman <yedaya.ka@gmail.com>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, 
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+ linux-tegra@vger.kernel.org, linux-rpi-kernel@lists.infradead.org
+In-Reply-To: <20261026-drm-panel-funcs-v1-15-5e3070a3478f@oss.qualcomm.com>
+References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com>
+ <20261026-drm-panel-funcs-v1-15-5e3070a3478f@oss.qualcomm.com>
+Date: Sat, 31 Oct 2026 11:48:44 +0100
+Message-Id: <179344372467.9825.11469688608855257522.b4-review@b4>
+X-Mailer: b4 0.16.0
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Andre,
+> The panel is used directly, without the panel bridge, so nothing sets
+> its orientation on the connector apart from the workaround in the
+> get_modes() of some panel drivers, which runs too late.
+>
+> Assisted-by: LLM
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>
+> diff --git a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+> index 407834a03b63..91ce1a877bf8 100644
+> --- a/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+> +++ b/drivers/gpu/drm/bridge/analogix/analogix-anx6345.c
+> @@ -525,6 +525,11 @@ static int anx6345_bridge_attach(struct drm_bridge *bridge,
+>
+>  	anx6345->connector.polled = DRM_CONNECTOR_POLL_HPD;
+>
+> +	err = drm_connector_set_orientation_from_panel(&anx6345->connector,
+> +						       anx6345->panel);
+> +	if (err)
+> +		goto connector_cleanup;
 
-The v2 cover is Message-ID:
-<20261031020640-263f7b05-a7s-dt-v2-0@gmail.com>
+Muy understanding is that this driver, and those in patches 15-21, should
+be eventually converted to use the bridge API instead of the panel API, but
+that's a significant work and so for now this small change is enough to get
+to patch 22 (workaround removal).
 
-I have incorporated your review into the three-patch DT v2. The initial
-SoC description now includes the RTC, all UART and main/R I2C instances,
-R-PIO/R-CCU, all four MMC controllers, and the documented pin groups.
-The board enables UART0, the AXP318W on R-I2C0 and the microSD slot.
+Correct?
 
-On the individual points:
+Luca
 
-* Base/checks: the series uses official base d89e1d186ec9271bf78e62771779e9fc03bf0fc3
-  with the exact public clock, PMIC, pinctrl and UART dependencies listed
-  in the cover letter. The full ARM64 dtbs target and final A7S
-  W=2 CHECK_DTBS=y check pass.
-* RTC: added with its current clock inputs and the board's 32768 Hz
-  source. RTC counter advancement was exercised on the board.
-* PSCI/timers: removed arm,psci-1.0 and added the ARMv8.2 EL2 virtual
-  timer interrupt, PPI 12. The redundant disabled-by-default prose is gone.
-* Pins/UARTs: added explicit pinmux values, MMC1/2/3 pin groups and all
-  seven main plus two R UARTs. UART0's pins are in the DTSI.
-* GIC: added maintenance PPI 9 and the ITS at 0x03440000/0x20000.
-  GIC/ITS dma-noncoherent follows your public A733 reference and the
-  A523 precedent; the CPUX interconnect diagram supports that integration
-  inference. ITS remains disabled; MSI and EL2 delivery are not claimed.
-* MMC: all four controllers are described. MMC0-2 retain the existing
-  A733/D1 binding. SMHC3 has different DES0/high-address fields and a
-  12-bit DES1 length, so I gave it a separate binding and compatible
-  instead of claiming D1 programming compatibility. That node remains
-  disabled; no operational eMMC driver is claimed.
-* I2C/PMIC/R-domain: added all 13 main and three R I2C nodes, R-PIO and
-  R-CCU. R-I2C0 and AXP318W are enabled, with schematic-derived PMIC
-  inputs/outputs, CPU supplies and pin supplies. The microSD slot uses
-  SWOUT2 and PF6 active-high card detect with a pull-down.
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-Three supporting changes are separate from the DT series: firmware
-clock preservation, A733 main/R pinctrl voltage-mode preservation, and
-the distinct MMC3 binding. The pinctrl approach follows Vinicius's
-October 14 recommendation. The clock/binding prerequisites should land
-through their respective trees before the dependent DT changes.
-
-Two final-candidate Cubie A7S RAM boots passed, including eight CPUs,
-PMIC/I2C activity, RTC advancement, UART baud changes, 148 MiB of
-read-only SD traffic per boot at 50 MHz/four bits/3.3 V, and warm reboot.
-The second run crossed the late unused-regulator shutdown boundary.
-The tests used vendor boot firmware and a RAM-only BL31 reservation.
-They do not claim card writes/hotplug/UHS, operation of the other
-controllers, RTC alarms, or EL2/ITS/MSI functionality.
-
-One electrical uncertainty is explicit: the schematic's nominal 2.4 V
-BLDO input conflicts with the software-reported 3.3 V BLDO2 selector.
-Physical measurements are unavailable. The DT preserves the existing
-setting without a voltage constraint or newly enabled LVDS consumer.
-Resolving the physical voltage requires inspecting RP220/RP298/RP299
-and measuring UP11 LDO2V5-INPUT and BLDO2/VCC-LVDS0 to ground.
-
-The acknowledged board binding is retained, the old MMC binding already
-in the selected base is not resubmitted, and the oscillator names,
-26 MHz board crystal, four CCU inputs and DTB ordering are corrected.
-AI assistance is disclosed as Codex:gpt-6-astra, with Assisted-by: LLM
-retained in the patches.
-
-Thanks,
-Enzo
