@@ -1,57 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793561062;
-	b=Pbxrin5rDjfqgsk8igYWTswPhpf4Q7oGL3pbBF5auTRdi4NBygXp7MQdWdiPVOdiUVqb
-	 6UlQGzn1Q5n0lRn/1j0YAlLcXmrEWonGELO0hEzrXM26Aj8CfNXBuv64TQgG8/Vu+0S5w
-	 cgc+fk1vZHFYa+mtCJa2S+Z8Qws4I19T/3YrJfOAy5EpltD2bgEVBno4OIOnTpDxvpd3V
-	 dkV8dT96TDocsGyf2dCLDWt0wvEIdRy5SiRyIRGPvvJn39cr6RrbLRYZGQaJO+4CpcnJT
-	 qZzLazUvoHdIsUXPjruxygGs90h016XrjCtw9lTPGrSsqz94xT44a1MPJeoWoNqijjQ==
+	t=1793565220;
+	b=lutrPvYW1JL4hLCs7MFma5bjF0ZBz638g+T/29/6yrwC1ljRMunynPRnj6U/CH0NOXdC
+	 +T4omB1wCav5Tr3tIGDicgldTJ+cgn6+R9Z7ghnzXD+VoM6Y/hWX2b9ghH/WPVQpvyBcJ
+	 D6pNkTfdiIcEZ19G67Fr1gk9B00yJ+i3p2ZBxkoAbgabrykD6IxvCQSn9WlROEIyknZM7
+	 or0kBk5q/jIJki5Zg2jAQd8PBX7df0Uw8LryluQDDf4yrIHeLoYrBNh++IgJsU/VNiKcN
+	 BEx/rMo4dRvnbMQ9rRnBo8bw4+D1gjLYz9csqmI21ZkELlmbW00mG1w+i4NIc+ci2VQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793561062;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=gxFoWzqW7qFiTsMS+ArjH33ZrdRJBD8UQZUcUgurI3E=;
-	b=1vnXDYC0Ofkp4e/0/PrCNWkOpZB5BRcH0iaVAA2HnqmPm5UJRiczOk+h4lFyTdtTdG+t
-	 rHhZhgFqnlfWZwNKZZRNwAPqtFKPlswVWjG8rMWU9+1GSR6Nv0Ih8tsOPMYcQBkDQleUi
-	 BJBbFF4DjvbPdH//FVUEo7R1EtoUTcHeYmrqKxsonIqo2EDw8t3re6LD7NwmBB5hxUjqK
-	 dBbBvhL8eItHAY9H2hcOrXe5HKgw7QLDRq2UAdujYs7XeDLL4MDDOwFg2qq1hQRmEDMKQ
-	 l6W4Ve83hvAlHlCAHFjawo29739BOgFkyfIKb3unV7A8plrji7tz/szbNudnT5TI7gg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793565220;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=r/raweGofl46CtJCMVWjd1et4wuYTKczZRtzeHYjdwg=;
+	b=x8KJBzE/9PNuK0wdv7yujDq9uJoH9AlrinxhX91kope9gFsPjFJ2mVsGPNaZFCVkurlU
+	 gj9YmthraYjLUvCew44WvtkPheIKL2ejDxUfc/72qKn9LcZwaFtiUDwgMYpyuh7GJQ2l6
+	 UZSvHEKxPkgaBqNpu6B4oSCdrM+74Rye2fRzjsvJWEliCLFI490kjVnu5juhdQvJT0UQG
+	 bR7SARuxk8sMXL21OSouWq/ilRuXMI1mYThmF8MqO1zRO1yD/iX4gZ6NSevXA1fwHaCZA
+	 cYHTllEbsdja4m6VTzObYl97YE844HBt6EqhOJjSPkgdAq2ILyfBsBya1YRh5L+e6dQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q61o9qbS;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ayog8F7b;
+	arc=none smtp.remote-ip=209.85.221.43
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D9C606A324;
-	Sun,  1 Nov 2026 19:24:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB478606A333
+	for <linux-sunxi@lists.linux.dev>; Sun,  1 Nov 2026 20:33:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB478606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q61o9qbS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BDD91F000C1;
-	Sun,  1 Nov 2026 19:24:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793561061;
-	bh=gxFoWzqW7qFiTsMS+ArjH33ZrdRJBD8UQZUcUgurI3E=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Q61o9qbSE8FvoA33MyJxE+s0lNxEo9899ZyBmTnBggR8ULaIljnWzcypryb1Ry3AE
-	 OCUfKJGdSn1Y/GIKQiwavFSPgnzxPiha6yGL2N8H2FB35YyyePAlBQ8DDKkfcww7Td
-	 s1oUBoAV+zfTSHTSdKk1cc2bQZC3lVjGjY+Av4r0BetR9Avv4+NwyTN+7Xo28mIjPR
-	 sn8PLrbvSqHO3v5PPzlu1++pp7hx5oa5BcenE69DmddJp7nP3D7+a4qcXwdoPkDRkP
-	 LLmR1Uo0emGNhA4X6Q75Prsdy3g5Eu034kIJAiUv1338FjTdexVb8jlHI2Cnbvzr1x
-	 g8feIF+7itU7A==
-Message-ID: <sashiko-outbox-192595@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 4/7] remoteproc: sunxi: Add Allwinner A523 XuanTie
- E906 driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Tim Michals" <tcmichals@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261101185735.762559-5-tcmichals@gmail.com>
-References: <20261101185735.762559-1-tcmichals@gmail.com>
- <20261101185735.762559-5-tcmichals@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 01 Nov 2026 19:24:20 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ayog8F7b
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48b001cd92bso1273843f8f.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 01 Nov 2026 12:33:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793565218; x=1794170018; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=r/raweGofl46CtJCMVWjd1et4wuYTKczZRtzeHYjdwg=;
+        b=ayog8F7btGJw3CNz6kgKA8+sVNDA+NnGnPEfc810MDYFO0PB2M0aH1Va3F/sLTAJdh
+         Z+szfMjRiXOAfYMPZNNYeTTXxtx8agH0gaXFjZMMsRnf10OdHiHCXDKRAtLfjV33te3r
+         Rf00tPhy0qk3mAry5jD/hU95RmW8NcXn6oFqj58hWevURv6/RNN0K8NjyIyKZUwi+mGH
+         OEhDSCxu/p0Cgic778mz02C2U3Wkxu1FBa35Wd5X4lZeymbzrWPIHXcxqjcC8Q34pRyu
+         HszuTeylISSjJoh7k5a61cMiqM6KQ8YmSUkgKlZvqQvQ8hoaeZv6iYi6WA4Hc6cP4Z77
+         seXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793565218; x=1794170018;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=r/raweGofl46CtJCMVWjd1et4wuYTKczZRtzeHYjdwg=;
+        b=h75q1ANDinjw+z6DKTAk/G8A8ltDjxc4f8aoL7hBW4bvMPVd5TiU8FSYLL4SX4snWx
+         gzrbGCmQzbbInt5Hz648dXFOdrPHeGEtcvon99lXRaijT9dA8vdJ4ssYL51rll2Vsbr9
+         0fGS4qLi0ZhGwUxdB2BHw9DgWRF9m8EO3GSdPbPaz1uYB7G+gYpxKWF2KhG7LRXxIWAR
+         uRVMxbAVxWLQKD+J8ghpxTC4fzPTu+uE9Zt2IIsJ1OXoXlWBJ2GpZp8ARtOW66A8vwrT
+         CpAd+9lx42rci6+NhB8BcMGlJ+hwzRKUwKgVrnIYG6cOyfcBaRIw+ll/ocdqRjCXZ3Og
+         +JxA==
+X-Forwarded-Encrypted: i=1; AKwUvBy9a143ZYwI67rzhDJGgmuOb0fDGAX6lza1vg6E1vDBGxF/FgyleMkeE8sa4YZGq0Q9xmlZh8e4DuQ4Ag==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+WjyysAirCNgljmINv04NOh8hAyabMz1uDm3il5SiQE7Ch4wiy
+	jvTa+jRWMLgY7Ag4rADvIv+KK9Cz6nDN/TG8cZGKHxqjVLSxcdyPf6L1
+X-Gm-Gg: AYBFou20sS2gasJZIqdM53+1egfdfAU3tb3HAkWTg96bHM0qIUyh/VGAAUB698PJDz0
+	Agch1ImY/fRih5rbgv5cYJQ5cJ2p/T6WObkh4zUGz4HqChGHfHxxJdYN0zqhnOecQmZk3zdM1jN
+	OmAD79XB38UXraKmDsiBLBIOy6fM5quelVy/VMbdyJ1lCDaUwYSrS+zQp+AK+mh0+ZvixQ0a2uu
+	qOTOHcaUtBfsZ42QOYCcqYMb4GV273RgLvwNmj76RZR0XB7iv6DciG5Rc61pK4+LqKuTkQMhnV4
+	iR5IqALN9Py0LqhSOIuhVkkkopWNsGgIk4ZaLmWj+heXw7+uHPzu8saMvQemXy4olAfICXJQljy
+	Iw7HAZS+dzHx6WC2HVt5c34EOo2XWMfhJJ++GWcgULm0X70H/aeIpJm4CbEh0lzOv99UvLKbNhJ
+	V35ri+x9b5obtlktwY4BAuVGZb2z+JFqTOw+N7luzuVcLzbw7OOgXkyYl1l/N95Y7kHfNU0ERuf
+	tan+qsa+qWv5I1VnYpLjA16QcabU6t2uO+D0a5eXacO+26zPk1owkq1FwTUSJn0XNDa3ZjMOq3L
+	zvXbcyQ0XKs3lZdR73GxWRJHWP8O37MP6XmvIYRPtyGfrdOmQUdwz6fO7l9gOtrK2qY6lOf1ktW
+	QQHSZmL2b7TAuFbpCTb+GANri/bFdQKGGgY7grwY18B6qNM4mZFj1Motp0tcTfru8Ag==
+X-Received: by 2002:a05:6000:310c:b0:48e:5cd4:aa60 with SMTP id ffacd0b85a97d-48e6e2fbc14mr20001368f8f.42.1793565218073;
+        Sun, 01 Nov 2026 12:33:38 -0800 (PST)
+Received: from romain-ThinkPad-P14s-Gen-5-AMD.tail433d9c.ts.net ([2001:861:39c2:e340:849f:a468:4121:a85])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71a4d5dfsm18722895f8f.3.2026.11.01.12.33.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Nov 2026 12:33:37 -0800 (PST)
+From: Romain TISSERAND <romain.tisserand@gmail.com>
+To: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Frank Oltmanns <frank@oltmanns.dev>,
+	linux-clk@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	sashiko-reviews@lists.linux.dev
+Subject: [PATCH] clk: sunxi-ng: nkm: avoid 32-bit overflow in rate calculations
+Date: Sun,  1 Nov 2026 21:33:36 +0100
+Message-ID: <20261101203336.1360239-1-romain.tisserand@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -60,237 +104,136 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] remoteproc: sunxi: missing IRQ sync in sunxi_rproc_stop() races cr=
-ash handler
-- [High] remoteproc: sunxi: race and UAF in sunxi_rproc_vq_work() on notify=
-ids
---
+The N-K-M rate code computes parent * n * k / m in an unsigned long,
+which wraps on 32-bit ARM as soon as parent * n * k passes 4.29 GHz.
 
-commit f895edd61f6cf2e80a5341959b347c747139fe48
-Author: Tim Michals <tcmichals@gmail.com>
+On the A33, pll-mipi (parent pll-video at 297 MHz) with N = 14, K = 2,
+M = 14 runs at 594 MHz, but 297 MHz * 14 * 2 wraps around to
+4021032704 and the code computes 287.2 MHz. ccu_nkm_find_best() then
+picks these factors for a 288 MHz request, and clk_get_rate() reports
+287.2 MHz while the PLL runs at twice that. On a PocketGo S30 (A33,
+ILI9488 panel on one MIPI-DSI lane) the lane ended up at about
+594 Mbit/s instead of 288 and the picture broke up.
 
-remoteproc: sunxi: Add Allwinner A523 XuanTie E906 driver
+Do the multiplications in 64 bits, saturating at ULONG_MAX, in
+ccu_nkm_recalc_rate(), in both best-rate searches, and for the parent
+rate request of the parent-adjusting search, where rate * m overflows
+the same way.
 
-This commit adds a remoteproc driver for the XuanTie E906 RISC-V core on
-Allwinner A523, A527, and T527 SoCs, handling power domains, clocks, resets,
-SRAM mappings, memory-region carveouts, mailbox notifications, and crash
-reporting.
+Without the saturation, a candidate above 4.29 GHz in the search would
+be truncated again on return and could look like a valid low rate.
 
-> diff --git a/drivers/remoteproc/sunxi_rproc.c b/drivers/remoteproc/sunxi_=
-rproc.c
-> new file mode 100644
-> index 0000000000000..1cee7110f0b8c
-> --- /dev/null
-> +++ b/drivers/remoteproc/sunxi_rproc.c
-> @@ -0,0 +1,855 @@
+64-bit kernels are not affected. On 32-bit ones, every N-K-M clock can
+hit it (A31, A23, A33, R40, H3, V3s and F1C100s use them), whenever the
+parent rate times N * K goes above 2^32.
 
-[ ... ]
+Fixes: df6561e60244 ("clk: sunxi-ng: Add N-K-M Factor clock")
+Fixes: 3492e4f6db5f ("clk: sunxi-ng: nkm: consider alternative parent rates when determining rate")
+Signed-off-by: Romain TISSERAND <romain.tisserand@gmail.com>
+---
+Notes:
+- Testing: built with W=1 for arm (multi_v7_defconfig with the A31, A23,
+  A33, R40 and H3 CCUs) and arm64 (defconfig), SUNXI_CCU=y and =m, no
+  warnings; on arm the 64-bit divisions go through __do_div64 (no libgcc
+  helper). Tested on a PocketGo S30 (A33) running 6.18.54 with this
+  change, without the ULONG_MAX saturation (same results for rates that
+  fit, which is the only case the hardware hits): before, pll-mipi was
+  programmed with N = 14, K = 2, M = 14 (594 MHz measured as a 2x lane
+  rate) while clk_get_rate() returned 287216621; after, N = 15, K = 1,
+  M = 16, 278437500 Hz in both the register and clk_get_rate(), and the
+  panel picture is right. This version, with the saturation, then on
+  the same board on 7.3.1: pll-mipi again programmed with N = 15, K = 1,
+  M = 16 (278.4 MHz from the 297 MHz pll-video0) and the picture is
+  right. Not tested on the other SoCs.
+- Tool disclosure: this patch was prepared with Claude Opus 5.5
+  (Anthropic) as a coding assistant, in an interactive session where I
+  asked it to bring up the PocketGo S30 display. It found the mismatch
+  between the pll-mipi register and the rate the clock framework
+  reported, traced it to this overflow and drafted the fix and the
+  message. I reviewed and understand the change and tested it as
+  described above.
 
-> +VISIBLE_IF_KUNIT
-> +int sunxi_rproc_vq_notify(int id, void *ptr, void *data)
-> +{
-> +	KUNIT_STATIC_STUB_REDIRECT(sunxi_rproc_vq_notify, id, ptr, data);
-> +	rproc_vq_interrupt(data, id);
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_IF_KUNIT(sunxi_rproc_vq_notify);
-> +
-> +/* One channel carries all notifications: check every vring */
-> +VISIBLE_IF_KUNIT
-> +void sunxi_rproc_vq_work(struct work_struct *work)
-> +{
-> +	struct sunxi_rproc *priv =3D container_of(work, struct sunxi_rproc, vq_=
-work);
-> +
-> +	idr_for_each(&priv->rproc->notifyids, sunxi_rproc_vq_notify, priv->rpro=
-c);
-> +}
-> +EXPORT_SYMBOL_IF_KUNIT(sunxi_rproc_vq_work);
+ drivers/clk/sunxi-ng/ccu_nkm.c | 30 ++++++++++++++++++++++++++----
+ 1 file changed, 26 insertions(+), 4 deletions(-)
 
-[Severity: High]
-As reported by Sashiko on v2 [1], in drivers/remoteproc/sunxi_rproc.c, can
-sunxi_rproc_vq_work() race with rproc_resource_cleanup() during
-rproc_shutdown(), rproc_boot_recovery(), or sunxi_rproc_remove() ->
-rproc_del() and trigger a use-after-free?
+diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
+index 401fbb7524..e5a8f22d50 100644
+--- a/drivers/clk/sunxi-ng/ccu_nkm.c
++++ b/drivers/clk/sunxi-ng/ccu_nkm.c
+@@ -6,6 +6,7 @@
+ 
+ #include <linux/clk-provider.h>
+ #include <linux/io.h>
++#include <linux/math64.h>
+ 
+ #include "ccu_gate.h"
+ #include "ccu_nkm.h"
+@@ -30,6 +31,26 @@ static bool ccu_nkm_is_valid_rate(struct ccu_common *common, unsigned long paren
+ 	return true;
+ }
+ 
++static unsigned long ccu_nkm_calc_rate(unsigned long parent,
++				       unsigned long n, unsigned long k,
++				       unsigned long m)
++{
++	u64 rate = (u64)parent * n * k;
++
++	do_div(rate, m);
++	return min_t(u64, rate, ULONG_MAX);
++}
++
++static unsigned long ccu_nkm_calc_parent_rate(unsigned long rate,
++					      unsigned long n, unsigned long k,
++					      unsigned long m)
++{
++	u64 parent = (u64)rate * m;
++
++	do_div(parent, n * k);
++	return min_t(u64, parent, ULONG_MAX);
++}
++
+ static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_common *common,
+ 						       struct clk_hw *parent_hw,
+ 						       unsigned long *parent, unsigned long rate,
+@@ -44,12 +65,13 @@ static unsigned long ccu_nkm_find_best_with_parent_adj(struct ccu_common *common
+ 			for (_m = nkm->min_m; _m <= nkm->max_m; _m++) {
+ 				unsigned long tmp_rate, tmp_parent;
+ 
+-				tmp_parent = clk_hw_round_rate(parent_hw, rate * _m / (_n * _k));
++				tmp_parent = ccu_nkm_calc_parent_rate(rate, _n, _k, _m);
++				tmp_parent = clk_hw_round_rate(parent_hw, tmp_parent);
+ 
+ 				if (!ccu_nkm_is_valid_rate(common, tmp_parent, _n, _m))
+ 					continue;
+ 
+-				tmp_rate = tmp_parent * _n * _k / _m;
++				tmp_rate = ccu_nkm_calc_rate(tmp_parent, _n, _k, _m);
+ 
+ 				if (ccu_is_better_rate(common, rate, tmp_rate, best_rate) ||
+ 				    (tmp_parent == *parent && tmp_rate == best_rate)) {
+@@ -87,7 +109,7 @@ static unsigned long ccu_nkm_find_best(unsigned long parent, unsigned long rate,
+ 
+ 				unsigned long tmp_rate;
+ 
+-				tmp_rate = parent * _n * _k / _m;
++				tmp_rate = ccu_nkm_calc_rate(parent, _n, _k, _m);
+ 
+ 				if (ccu_is_better_rate(common, rate, tmp_rate, best_rate)) {
+ 					best_rate = tmp_rate;
+@@ -154,7 +176,7 @@ static unsigned long ccu_nkm_recalc_rate(struct clk_hw *hw,
+ 	if (!m)
+ 		m++;
+ 
+-	rate = parent_rate * n  * k / m;
++	rate = ccu_nkm_calc_rate(parent_rate, n, k, m);
+ 
+ 	if (nkm->common.features & CCU_FEATURE_FIXED_POSTDIV)
+ 		rate /= nkm->fixed_post_div;
 
-Because priv->mbox_chan stays active across remoteproc stops, crash
-recoveries, and throughout rproc_del() in sunxi_rproc_remove(), and neither
-sunxi_rproc_stop() nor sunxi_rproc_unprepare() cancels priv->vq_work,
-sunxi_rproc_vq_work() can run concurrently with rproc_resource_cleanup().
+base-commit: 5243bd55dfe63a5f806622878f6fbdd78172fac9
+-- 
+2.43.0
 
-In sunxi_rproc_vq_work(), idr_for_each() iterates priv->rproc->notifyids
-without holding priv->rproc->lock (unlike stm32_rproc_mb_vq_work() or
-imx_dsp_rproc_vq_work()) and without RCU read-side protection (which cannot
-be held across sunxi_rproc_vq_notify() because rproc_vq_interrupt() invokes
-virtqueue callbacks that can sleep):
-
-  lib/idr.c:idr_for_each()
-    radix_tree_for_each_slot(slot, &idr->idr_rt, &iter, 0)
-      fn(id, rcu_dereference_raw(*slot), data)
-
-While sunxi_rproc_vq_notify() is executing, a concurrent teardown runs:
-
-  rproc_resource_cleanup()
-    platform_device_unregister(rvdev->pdev)
-      rproc_virtio_remove()
-        rproc_free_vring()
-          idr_remove(&rproc->notifyids, rvring->notifyid)
-
-If removing the vring frees the underlying struct radix_tree_node via
-call_rcu(), the grace period can finish while sunxi_rproc_vq_notify() sleep=
-s,
-leaving radix_tree_next_slot() in idr_for_each() to dereference a freed slot
-pointer.
-
-In addition, although __rproc_virtio_del_vqs() clears rvring->vq and runs
-synchronize_srcu(&rproc->vq_srcu) during rproc_stop_subdevices(), the rvring
-entry stays in rproc->notifyids until platform_device_unregister(rvdev->pde=
-v)
-removes it and immediately frees the devm-allocated struct rproc_vdev
-without another synchronize_srcu(&rproc->vq_srcu). If rproc_vq_interrupt()
-looks up rvring in rproc->notifyids just before idr_remove(), it can
-dereference rvring->vq after rvdev has been freed.
-
-Should sunxi_rproc_vq_work() hold mutex_lock(&priv->rproc->lock) around
-idr_for_each(), or should the driver synchronize and stop queuing vq_work
-before rproc_resource_cleanup() tears down the vrings?
-
-> +
-> +/*
-> + * Mailbox rx callbacks run in atomic context, but the virtio/rpmsg rece=
-ive
-> + * path takes mutexes, so the vring notifications are handled from a wor=
-k item.
-> + */
-> +VISIBLE_IF_KUNIT
-> +void sunxi_rproc_mb_rx_callback(struct mbox_client *cl, void *data)
-> +{
-> +	struct sunxi_rproc *priv =3D container_of(cl, struct sunxi_rproc, cl);
-> +
-> +	queue_work(priv->workqueue, &priv->vq_work);
-> +}
-> +EXPORT_SYMBOL_IF_KUNIT(sunxi_rproc_mb_rx_callback);
-> +
-> +VISIBLE_IF_KUNIT
-> +irqreturn_t sunxi_rproc_crash_handler(int irq, void *data)
-> +{
-> +	struct sunxi_rproc *priv =3D data;
-> +
-> +	/*
-> +	 * Stays masked until the next start(); recovery runs stop() first. A
-> +	 * stop() that already disarmed it has disabled the line itself.
-> +	 */
-> +	if (test_and_clear_bit(SUNXI_RPROC_CRASH_IRQ_ARMED, &priv->flags))
-> +		disable_irq_nosync(irq);
-> +
-> +	rproc_report_crash(priv->rproc, RPROC_FATAL_ERROR);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +EXPORT_SYMBOL_IF_KUNIT(sunxi_rproc_crash_handler);
-
-[ ... ]
-
-> +VISIBLE_IF_KUNIT
-> +int sunxi_rproc_start(struct rproc *rproc)
-> +{
-> +	struct sunxi_rproc *priv =3D rproc->priv;
-> +	const struct sunxi_rproc_cfg *cfg =3D priv->cfg;
-> +	int ret;
-> +
-> +	dev_dbg(priv->dev, "Starting %s core at entry 0x%llx\n",
-> +		cfg->name, (u64)rproc->bootaddr);
-> +
-> +	if (rproc->bootaddr > U32_MAX)
-> +		return -EINVAL;
-> +
-> +	/* Program the reset vector and flush it before releasing the core */
-> +	sunxi_rproc_writel((u32)rproc->bootaddr, priv->cfg_va + cfg->boot_reg_o=
-ffset);
-> +	sunxi_rproc_readl(priv->cfg_va + cfg->boot_reg_offset);
-> +
-> +	ret =3D reset_control_deassert(priv->rst_core);
-> +	if (ret) {
-> +		dev_err(priv->dev, "failed to release core reset: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	if (priv->crash_irq > 0 &&
-> +	    !test_and_set_bit(SUNXI_RPROC_CRASH_IRQ_ARMED, &priv->flags))
-> +		enable_irq(priv->crash_irq);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_IF_KUNIT(sunxi_rproc_start);
-> +
-> +static int sunxi_rproc_stop(struct rproc *rproc)
-> +{
-> +	struct sunxi_rproc *priv =3D rproc->priv;
-> +	const struct sunxi_rproc_cfg *cfg =3D priv->cfg;
-> +
-> +	dev_dbg(priv->dev, "Halting %s core...\n", cfg->name);
-> +
-> +	/* Assert reset so the core stops executing */
-> +	reset_control_assert(priv->rst_core);
-> +
-> +	if (priv->crash_irq > 0 &&
-> +	    test_and_clear_bit(SUNXI_RPROC_CRASH_IRQ_ARMED, &priv->flags))
-> +		disable_irq(priv->crash_irq);
-> +
-> +	return 0;
-> +}
-
-[Severity: High]
-As reported by Sashiko on v2 [2], in drivers/remoteproc/sunxi_rproc.c, what
-happens if sunxi_rproc_stop() runs right after sunxi_rproc_crash_handler()
-clears SUNXI_RPROC_CRASH_IRQ_ARMED, while the threaded handler is still
-executing?
-
-Because sunxi_rproc_crash_handler() is a preemptible IRQ thread, it can cle=
-ar
-SUNXI_RPROC_CRASH_IRQ_ARMED and be preempted before calling
-disable_irq_nosync(irq) or rproc_report_crash(priv->rproc, RPROC_FATAL_ERRO=
-R):
-
-  CPU0 (IRQ thread)                    CPU1 (rproc_shutdown / recovery)
-  sunxi_rproc_crash_handler()
-    test_and_clear_bit(
-      SUNXI_RPROC_CRASH_IRQ_ARMED,
-      &priv->flags) -> true
-                                       sunxi_rproc_stop()
-                                         test_and_clear_bit(
-                                           SUNXI_RPROC_CRASH_IRQ_ARMED,
-                                           &priv->flags) -> false
-                                         /* returns without waiting */
-
-If a subsequent rproc_boot() calls sunxi_rproc_start() before CPU0 reaches
-disable_irq_nosync(irq), sunxi_rproc_start() sets SUNXI_RPROC_CRASH_IRQ_ARM=
-ED
-and calls enable_irq(priv->crash_irq) while the IRQ disable depth is still =
-0,
-triggering an unbalanced enable warning in __enable_irq(). When CPU0 then
-runs disable_irq_nosync(irq), the IRQ is left disabled while
-SUNXI_RPROC_CRASH_IRQ_ARMED is set, and the next sunxi_rproc_stop() will
-increment the disable depth to 2, leaving the crash IRQ permanently masked =
-on
-later boots.
-
-Furthermore, because sunxi_rproc_stop() does not call
-synchronize_irq(priv->crash_irq) when test_and_clear_bit() returns false, t=
-he
-in-flight sunxi_rproc_crash_handler() thread can call rproc_report_crash()
-after the stop (and a subsequent restart) has already completed.
-
-Should sunxi_rproc_stop() still call synchronize_irq(priv->crash_irq) when
-priv->crash_irq > 0 and SUNXI_RPROC_CRASH_IRQ_ARMED was already cleared by
-the crash handler?
-
-[1] https://lore.kernel.org/r/20260927003338.CB0E21F000FF@smtp.kernel.org
-[2] https://lore.kernel.org/r/20260927003338.CB0E21F000FF@smtp.kernel.org
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261101185735.7625=
-59-1-tcmichals@gmail.com?part=3D4
