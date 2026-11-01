@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793559984;
-	b=LKOjlhrOtUk0l3c0R/Vx3ezJAHKWWOAQQ27P98EPGhx/z4QYxwGXfDqx496hQESWgEYH
-	 jayFPoSXsdJstKzjJ24GWEogFQCugAcdQlakIM8UsqHqcZNm4btqV6x4yEC0BD2KBnk4A
-	 RSlggZ+y7NlCyDlYVj+Cz/z6NUAYWIitamK1kGu3dhkaltGRTxL/VYRxNQuBBf6nCUaeB
-	 GX04cdORaWfS5B/fPOfujowAr0E31MKolQ8Uq86H2vhGDv+o7YArV4olncpEPIpxWv7q7
-	 pPw6yf5d+p8Xzh/JGNnxTbL+P/JklHqvXq5SlpOt0gsBDpjM1l0Mx+qTxYKU4BRBRmg==
+	t=1793560384;
+	b=jRE02TH9yZNCb6pVOrP3b4WVRC9P0LUYrr9hsBnIUmWSSoO00a3SY/K23Hx2rgVnbdrU
+	 fybufw3DUfps2XkPsCBqrk403cPk57XkOR9ByXAIYq/dGGLt0lrY7GcOtbGm/WEZpoOyr
+	 1iaegKhppxsviG3+XRrNm9o0juRTNOWhRB/58g0YuGelsejF4/bPF3wEitTzUtL1nja4Q
+	 7BcOj+WdMuDrPbRi8I+LiBXMVoNyo5yrMUWDAkVDI92j/tZR/RzLHWKsNgHTzgyC7bxyv
+	 txGOQBoBwjoKmusmfCEANELD1Bnv8Gko4CHaPXDaWARgMq7zBsa/OfwDTu9RRSDZyAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793559984;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793560384;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=GGRJWcM21Izvg1dm7HMm0esst7+RrI+gcat3Gpza6lw=;
-	b=ET3bxlt9+DBhB2puotYBWLUcAigMAszcIzEMGr59urI+trOToPg/s1PVvXnFYqlFu435
-	 9NT2jXFLK4X8HREBb9wz1H/f1zrd+ZwNXb655OKQgtv+JFfTlA11bG2byXiS25F/HY6EF
-	 8md2X9nbsNSnPMEt5mbkdPdtpyph6i8VEoyAVRMXOJql8Syl9MLbDsI9Liv5Oe/EhXfzx
-	 g/+eLbQxa905ZbJPfU+iEfQYG00kF3zEB2x2lTMv54oNFhwscxt5jmCBt6SpgvvGUEMk9
-	 siHtWNr7NGaY0wpo15FncFSdzOsJSKgXoE2O55KZBBUdRAXIOEoP1AelUPPg7kleyig==
+	bh=wMMoodAdeUL2Rb09AT1InbIBxLSoeXuaM+x8Py+Dnag=;
+	b=hvFG2f1DsGJxfM2/Kr+w7v4A6sEdaoRUEDRyi7Sa9A2ETOcnr0tg7pmlDQOvib+Fm9SY
+	 cVSt9Z8CHUQNVGmwTvruv6MqYfgOKBMgaW95SaWOkfHJZQLGMIWqlsaETNECDGUgahmyI
+	 4Gt6/h0D0l+oeGwOPM5HI9DphIEW4T4goxfbGbCAUOGcFraG3BinJov5OyKPZPwWzVIhy
+	 K8wh8ikH/lqhhtfKNqgUj4ZUQ3ktEtU7qTTKXmEfg5qQ1m8LeyLCK8IlEXnZkTwg4IhQS
+	 n560ol3uwed6Uk/1MEEZa57PPnl/H8vxjrXK5KIGdT/kO941nhxpz24u6//9u6vW//g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LVFrVaEs;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QOe1NoQj;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BF5606A324;
-	Sun,  1 Nov 2026 19:06:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FFC0606A324;
+	Sun,  1 Nov 2026 19:13:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LVFrVaEs
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28B5F1F00A15;
-	Sun,  1 Nov 2026 19:06:23 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QOe1NoQj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B13261F000C1;
+	Sun,  1 Nov 2026 19:13:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793559983;
-	bh=GGRJWcM21Izvg1dm7HMm0esst7+RrI+gcat3Gpza6lw=;
+	s=k20260515; t=1793560384;
+	bh=wMMoodAdeUL2Rb09AT1InbIBxLSoeXuaM+x8Py+Dnag=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=LVFrVaEsopvonKVIAAAVDjbusmmpnih/uKyoSy1OFGp2YPymjQDT2UBqxbWOellQE
-	 aK2JEXBQxK8sCwYiUy4CcN1tk4TPNLfjsxz9nIIBt8+aMOppARhQWyz9NzJvP3pwxe
-	 AjM9GcsbKQVKjpBAZzi+SV42HjP3EoT6DMqVnNa1PQB1h6MCWIYFBa9OOv4uS24uiw
-	 C9BtaaNPUI0Gg+RKpJ4QH8BD5jEcGIODDs0d4ityALNpxkG8TFUrijomOGlcgCqtEg
-	 Q53SxYbxNio8LXicSH7qtZkvu7TyYplqVr4EmsuqMl75Lt6FXhbKjkaf+WuWVzhmZ+
-	 NCLxf1MeTtKnw==
-Message-ID: <sashiko-outbox-192575@kernel.org>
+	b=QOe1NoQjHAH8Q0Rri8rqr7x4b/ha007t6AbxPjBddwXTLklDNADi+Myo42JP3o8o+
+	 RFJGPlYgXpccqTufpfU5xiTKzMatmmF9gaxI5O2BRjlYEtm2Pbce0z5TSUDZXneUEo
+	 P5fWpfTnsVyW0K5TGWZB/LzMej2n4WeLLBCXzC7rkNOA+8haBDM4X1tQf54tRq3FwI
+	 78PveyevRqISENqRpvNy1pOrQ/6i5L22SSbGSwZIR4Z/KVLTlOu/0dOWOEa9vBJZ8b
+	 yum0TOrl4L/bTcmKnZlI+lpedGR3xuKLxm5ZKkEgpyudxq2EvA4HBoERYkeGY6tKZT
+	 gAx2DNGTaCk8A==
+Message-ID: <sashiko-outbox-192578@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 1/7] dt-bindings: mailbox: Add Allwinner A523 message
- box
+Subject: Re: [PATCH v3 7/7] remoteproc: sunxi: Add KUnit tests
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Tim Michals" <tcmichals@gmail.com>
 Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261101185735.762559-2-tcmichals@gmail.com>
+In-Reply-To: <20261101185735.762559-8-tcmichals@gmail.com>
 References: <20261101185735.762559-1-tcmichals@gmail.com>
- <20261101185735.762559-2-tcmichals@gmail.com>
+ <20261101185735.762559-8-tcmichals@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 01 Nov 2026 19:06:22 +0000
+Date: Sun, 01 Nov 2026 19:13:03 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -61,72 +60,87 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [Medium] dt-bindings: mailbox: sun55i-a523: allwinner,tx-done-irq encodes=
- driver policy
+- [Medium] remoteproc: sunxi: missing CONFIG_PM dependency in KUnit test
+- [Low] remoteproc: sunxi: missing __force on __iomem casts in use_mmio_moc=
+ks()
 --
 
-commit 84f2f43ac2a1769e84ee3a5f62703aa7b08889d3
+commit 9db9877d3095c9678cf19b6cc5cf48fbc1c0e95d
 Author: Tim Michals <tcmichals@gmail.com>
 
-dt-bindings: mailbox: Add Allwinner A523 message box
+remoteproc: sunxi: Add KUnit tests
 
-This commit adds the Devicetree binding schema for the Allwinner A523, A527,
-and T527 (sun55i) message box controller, describing the four processor
-register banks, clocks, resets, interrupts, and an optional
-allwinner,tx-done-irq property.
+This commit adds 26 KUnit tests for the Allwinner sunxi remoteproc driver,
+covering address translation, lifecycle callbacks, crash handling, firmware
+parsing, and mailbox notifications using KUnit static stubs and mock
+providers.
 
-> diff --git a/Documentation/devicetree/bindings/mailbox/allwinner,sun55i-a=
-523-msgbox.yaml b/Documentation/devicetree/bindings/mailbox/allwinner,sun55=
-i-a523-msgbox.yaml
-> new file mode 100644
-> index 0000000000000..47b6fe304dbc8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/mailbox/allwinner,sun55i-a523-msg=
-box.yaml
+> diff --git a/drivers/remoteproc/Kconfig b/drivers/remoteproc/Kconfig
+> index d2929a3290c3f..6516e272689e4 100644
+> --- a/drivers/remoteproc/Kconfig
+> +++ b/drivers/remoteproc/Kconfig
+> @@ -348,6 +348,21 @@ config SUNXI_REMOTEPROC
+>  	  To compile this driver as a module, choose M here: the module will
+>  	  be called sunxi_rproc.
+> =20
+> +config SUNXI_REMOTEPROC_KUNIT_TEST
+> +	tristate "KUnit tests for Allwinner sunxi remoteproc" if !KUNIT_ALL_TES=
+TS
+> +	depends on SUNXI_REMOTEPROC && KUNIT && COMMON_CLK && RESET_CONTROLLER
+> +	default KUNIT_ALL_TESTS
+
+[Severity: Medium]
+Should SUNXI_REMOTEPROC_KUNIT_TEST also depend on PM?
+
+In include/linux/pm.h, the usage_count member of struct dev_pm_info is only
+defined when CONFIG_PM is enabled:
+
+    #ifdef CONFIG_PM
+        ...
+        atomic_t        usage_count;
+
+When CONFIG_PM is disabled, expect_powered_off(),
+test_prepare_unprepare_order(), and test_prepare_power_up_failure() in
+drivers/remoteproc/sunxi_rproc_kunit.c fail to compile because they read
+dev->power.usage_count unconditionally.
+
+In addition, test_prepare_power_up_failure() relies on dev_pm_domain_set()
+and pm_runtime_enable() so that sunxi_rproc_prepare() ->
+pm_runtime_resume_and_get() invokes mock_failing_pm_domain.ops.runtime_resu=
+me
+and returns -EIO. When CONFIG_PM is disabled, those helpers are no-op stubs
+and pm_runtime_resume_and_get() returns 0 instead of -EIO.
 
 [ ... ]
 
-> +  interrupts:
-> +    items:
-> +      - description: Cortex-A55 bank read interrupt, messages for the ho=
-st
-> +      - description: HiFi4 DSP bank write interrupt for the host
-> +      - description: CPUS bank write interrupt for the host
-> +      - description: XuanTie RISC-V bank write interrupt for the host
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: arm
-> +      - const: dsp
-> +      - const: cpus
-> +      - const: rv
-> +
-> +  allwinner,tx-done-irq:
-> +    type: boolean
-> +    description:
-> +      Signal TX done with the write interrupt of the receiver's bank ins=
-tead
-> +      of polling. A message is done once the receiver's FIFO has room fo=
-r the
-> +      next one either way; the write interrupt is raised while the FIFO =
-has
-> +      room. Without this property a full FIFO is polled. Received messag=
-es
-> +      use the host bank read interrupt either way.
+> diff --git a/drivers/remoteproc/sunxi_rproc_kunit.c b/drivers/remoteproc/=
+sunxi_rproc_kunit.c
+> new file mode 100644
+> index 0000000000000..0931564dc22bb
+> --- /dev/null
+> +++ b/drivers/remoteproc/sunxi_rproc_kunit.c
 
-[Severity: Medium]
-Since the schema unconditionally requires all four hardware interrupt lines
-(arm, dsp, cpus, and rv) in interrupts and interrupt-names, and every A523
-SoC wires the three remote bank write interrupts to the GIC, this boolean
-property appears to only select between interrupt-driven and polled TX
-completion in the driver rather than describing a hardware difference.
+[ ... ]
 
-Given that Devicetree bindings should describe hardware capabilities and
-wiring rather than OS driver runtime policy, should allwinner,tx-done-irq be
-dropped from the binding so the driver decides how to handle TX completion?
+> +static void use_mmio_mocks(struct test_context *ctx)
+> +{
+> +	ctx->priv.cfg_va =3D (void __iomem *)ctx->mock_cfg_regs;
+> +	ctx->priv.remap_va =3D (void __iomem *)&ctx->mock_remap_reg;
+> +	ctx->priv.sram0_va =3D (void __iomem *)ctx->mock_sram_buf;
+> +	ctx->priv.sram0_size =3D sizeof(ctx->mock_sram_buf);
+> +	ctx->priv.sram1_va =3D (void __iomem *)ctx->mock_sram1_buf;
+> +	ctx->priv.sram1_size =3D sizeof(ctx->mock_sram1_buf);
+> +}
+
+[Severity: Low]
+Unlike FAKE_SRAM_VA and FAKE_SRAM1_VA, which use (void __force __iomem *),
+the casts in use_mmio_mocks() omit __force when casting normal kernel
+memory buffers to __iomem pointers. Should these casts use
+(void __force __iomem *) to avoid Sparse address-space warnings when
+building with C=3D1?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261101185735.7625=
-59-1-tcmichals@gmail.com?part=3D1
+59-1-tcmichals@gmail.com?part=3D7
