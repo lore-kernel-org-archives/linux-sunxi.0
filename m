@@ -1,49 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793571352;
-	b=gdvD1n1up4EcxCO7Pc7FLMECin1dEJCrQdN4GVAf6/EfLIy8jG6kWnOlUtqANmOVJg4m
-	 s2Pyqm0/db/39rbLHYyiPBS0YcE3S1flAb1FYV03gPxf3IYcIbqtVb6rtu/dwjaxleAU4
-	 M8/LOBfotZ1w6yY/TWFCPK3wYUBYpKKHkLk2uj3W8/zEtx6OpD0f58s6eEADzpGeiB5M/
-	 zhdRb3+VYtnzSrp92ZzkqXu7VikUFftOeDWibmVTBilvfwl51PuO6hZ0eHeQ71SifTfpl
-	 7BX9ghu/M2/gST9PgEshmuC5yx14dOCpHIUfK4Zjv6R5vZG8RVFXbsbGf/On4DqfkYA==
+	t=1793575693;
+	b=OgwJzPOuTT10VkW60gCkBA/NdEJrEMvemf0YrIz6qe0J/uyFzXc3b8QyUyitBvcinPkB
+	 7hXnMY1lr5g11WDnZr9ZGhVfgjpcb5R+T9rhtJTWmHotvI4EYyGvBswBFekTA96qUmX0p
+	 QeFGXHcPV6qGQKKWeGIUEOzMos1aUyhMvptZ7GgWgWRGmB15PzBjGavLQ6CBLvxCP3PEE
+	 H8GXfMyToVcl8fPM1kr8myG7BXisjZ+dvc3N9aYe0AZMOKZKOrBMM3aZ38QMW6DzMLKOv
+	 L9Cbj8lUJ0SGqgWos9MqrUANW71sSHx/AsH+l9GqtITIBGfojAjFt03RY795+8KFgTQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793571352;
-	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
-	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc;
-	bh=FccY8w4XVKmL62rTrNsIiuAmg2iirAJ9NTvcPUeI7l0=;
-	b=LcCzOHw4GP/PgSh+vq3JXemzRqiyEDIRPY7UjryLRbtJKZ8cAanK7B9+xZNO+6tt2X9w
-	 ewe/M0RGRvN/mU+tq1iQPqCRCgiktSTehhC8zeep8QxQmd2MK2t6oDh28zckLTh83tYDu
-	 XXyV/mTo/S3eCv9IngCE5dv9dcc/WGJ29ObbS8JQIudYmWK30LnB4ap7DNLMH98cRLtWj
-	 NGl4Gs/RP7TO8AAQsfOgYTNXM/axEsQqGXVld1w+kIbzqrWYuZjWaR9R7CCE7Thw4+LMR
-	 TNlz2rCxswITgMzwSSPpa8wwL2jY4Y/NQKKlA1ZDk/G/ZwQaqkadYALhbAmPQjzAtpg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793575693;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=48KTX7AOk3CwsQ9KAtrOhGtQw23p2+Fmh0gxH55n1D8=;
+	b=nuYlFs+eRBM4SlyLjee8EzbivA7+MA+s2rzl1UUHERpvQI+CJUIYHbgSvE8ZijelxTQZ
+	 AxdXsRhQGiAIq3dDMsJTZRclxZAuxQeFcxJXQtuS19BUihZFokbkvdGQfTm25DG15jSoO
+	 6EWhArdMrLgVyqcM6avKKME/wNa91EhcDfkNMxCmD0zc2IJGWQZCt9PSyJQRycnBGWiFc
+	 ThQWVLVP/MTze6jCQluwJxUG29I6wtWxXYnYqXpPXntytHzIKMSvOHLvBbrZAqtnxoGyu
+	 deibDSZ3kge3PkpRsQVxmBN9cbGxWZ412J0pvvSWcHGCXAwFR1xdz46wUwbujzlE9hQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K+V9Dv3q;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5BA60A260E;
-	Sun,  1 Nov 2026 22:15:51 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="MYGyZTa/";
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70A9760A2601
+	for <linux-sunxi@lists.linux.dev>; Sun,  1 Nov 2026 23:28:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70A9760A2601
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K+V9Dv3q
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B0951F00A23;
-	Sun,  1 Nov 2026 22:15:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793571351;
-	bh=FccY8w4XVKmL62rTrNsIiuAmg2iirAJ9NTvcPUeI7l0=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=K+V9Dv3qcTj5160hj+SlEd6bb36GPd0hfxFxqjLqYo66VpB8oCIm4PuHm9pjlid/h
-	 xICIzZcud0NUgf8UqhSDgZUnCOe+E4H24SE9jF1p7O4fFeppaF6xJ19c2x3GponAYK
-	 zBB0xnPMXK3KXJyJgXpeecppENU8uStUTuAYpN58z1zi5XdcZnpfMOTU/Sjz04mpNh
-	 EBDswN/2U3tv2zVNouRalxGVIPr45mrQWsWqgkUoAJAzcLHlFn+u4O5aPuxyp1V9hh
-	 nqI9MBjEMOeTC+Cpzk8pdEQbjpMVozvCH8kCeYtfZV/f7RAOqeoEUa4gaQ0O3fobrF
-	 9dSJrBw8PPsVQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7D3DF38003B8;
-	Sun,  1 Nov 2026 22:15:51 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=MYGyZTa/
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D75FD27DC;
+	Sun,  1 Nov 2026 15:28:01 -0800 (PST)
+Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E7C6F3F673;
+	Sun,  1 Nov 2026 15:28:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793575685; bh=D556Mg6DU91sCjI4OWrht3raBRx6hYTUVI7DCziiSsg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=MYGyZTa/ghHRuWyaJ/bQ5O1mw7QLq1QeHoqW+TtUxq3ms0NLREi01IfuXgSRAT6M5
+	 A05Qrwen4ygSaWMQ542mAvAndN+pJGCLfqWkf9DSfgeHeONIuPOVR/l+TpCiksQTkQ
+	 cYhge2kGeWJzEeGIvp7lFr+T+EUrfGWfYC4EerJU=
+Date: Mon, 2 Nov 2026 00:27:55 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: trini@konsulko.com, ilias.apalodimas@linaro.org,
+ u-boot@lists.u-boot-project.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] sunxi: dram: only probe DRAM inside the addressable
+ range
+Message-ID: <20261102002755.59df587e@ryzen.lan>
+In-Reply-To: <20261026173235.95831-1-jernej.skrabec@gmail.com>
+References: <20261026173235.95831-1-jernej.skrabec@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -53,73 +63,53 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v16 0/7] net: stmmac: qcom-ethqos: add support
- for
- SCMI power domains
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <179357135004.2624073.6498267080189807632.git-patchwork-notify@kernel.org>
-Date: Sun, 01 Nov 2026 22:15:50 +0000
-References: <20261014-qcom-sa8255p-emac-v16-0-0266c2ead980@oss.qualcomm.com>
-In-Reply-To: <20261014-qcom-sa8255p-emac-v16-0-0266c2ead980@oss.qualcomm.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: linux-riscv@lists.infradead.org, andersson@kernel.org,
- konradybcio@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, andrew+netdev@lunn.ch, davem@davemloft.net,
- kuba@kernel.org, pabeni@redhat.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, vkoul@kernel.org, peppe.cavallaro@st.com,
- wens@kernel.org, jernej.skrabec@gmail.com, neil.armstrong@linaro.org,
- khilman@baylibre.com, jbrunet@baylibre.com, shawnguo@kernel.org,
- festevam@gmail.com, jan.petrous@oss.nxp.com, s32@nxp.com,
- mohd.anwar@oss.qualcomm.com, romain.gantois@bootlin.com,
- geert+renesas@glider.be, magnus.damm@gmail.com, mripard@kernel.org,
- christophe.roullier@foss.st.com, brgl@kernel.org, edumazet@kernel.org,
- radu@rendec.net, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, dfustini@tenstorrent.com,
- linux-sunxi@lists.linux.dev, linux-amlogic@lists.infradead.org,
- linux-mips@vger.kernel.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- sophgo@lists.linux.dev, bartosz.golaszewski@linaro.org,
- sashiko-bot@kernel.org, martin.blumenstingl@googlemail.com,
- krzysztof.kozlowski@oss.qualcomm.com, prabhakar.mahadev-lad.rj@bp.renesas.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello:
+On Mon, 26 Oct 2026 18:32:35 +0100
+Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
 
-This series was applied to riscv/linux.git (fixes)
-by Jakub Kicinski <kuba@kernel.org>:
+Hi Jernej,
 
-On Wed, 14 Oct 2026 14:36:39 +0200 you wrote:
-> Add support for the firmware-managed variant of the DesignWare MAC on
-> the sa8255p platform. This series contains new DT bindings and driver
-> changes required to support the MAC in the STMMAC driver.
+> The non-power-of-2 size check probes the memory cell at 3/4 of the
+> detected size. On SoCs whose DRAM window is smaller than the detected
+> size, like H6 with 4 GiB chips and a 3 GiB window, that address lies
+> outside the window and the access hangs the SPL. Such boards cannot be
+> odd-sized anyway, since the usable size is capped to the window later,
+> so only run the check when the probed address is addressable.
+
+Many thanks for the heads up, and the fix!
+I can confirm that it's indeed a problem, and that the change fixes it:
+tested on a 3GB Eachlink H6 Mini box.
+I added one line to the comment above, to give some clue about the
+reason for that added line (beyond just the commit message).
+
+> Fixes: c47b63673736 ("sunxi: dram: detect non-power-of-2 sized DRAM chips")
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Queued for 2027.01.
+
+Cheers,
+Andre
+
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  arch/arm/mach-sunxi/dram_dw_helpers.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> It also reorganizes the ethqos code quite a bit to make the introduction
-> of power domains into the driver a bit easier on the eye.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v16,1/7] net: stmmac: dwmac4: don't program the 1us tick counter without a CSR clock
-    https://git.kernel.org/riscv/c/d09d7b8e86e5
-  - [net-next,v16,2/7] dt-bindings: net: qcom: document the ethqos device for SCMI-based systems
-    https://git.kernel.org/riscv/c/534198a05d92
-  - [net-next,v16,3/7] net: stmmac: qcom-ethqos: set serdes mode before powerup
-    https://git.kernel.org/riscv/c/7af44cb9e447
-  - [net-next,v16,4/7] net: stmmac: qcom-ethqos: update phy_mode to the resolved interface in mac_finish()
-    https://git.kernel.org/riscv/c/05b3ea7346e3
-  - [net-next,v16,5/7] net: stmmac: qcom-ethqos: reuse the address of ethqos_emac_driver_data
-    https://git.kernel.org/riscv/c/92719abd6378
-  - [net-next,v16,6/7] net: stmmac: qcom-ethqos: factor out linux-level setup into a separate function
-    https://git.kernel.org/riscv/c/acf1e3db9151
-  - [net-next,v16,7/7] net: stmmac: qcom-ethqos: add support for sa8255p
-    https://git.kernel.org/riscv/c/bb3183e1c938
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+> diff --git a/arch/arm/mach-sunxi/dram_dw_helpers.c b/arch/arm/mach-sunxi/dram_dw_helpers.c
+> index d2af2d57fded..ae13dd154536 100644
+> --- a/arch/arm/mach-sunxi/dram_dw_helpers.c
+> +++ b/arch/arm/mach-sunxi/dram_dw_helpers.c
+> @@ -155,7 +155,8 @@ unsigned long mctl_calc_size(const struct dram_config *config)
+>  	 * or 3GB. They are detected as the larger power-of-2 (2GB and 4GB),
+>  	 * so test the last quarter for being able to store values.
+>  	 */
+> -	if (!mctl_check_memory(CFG_SYS_SDRAM_BASE + size / 4 * 3)) {
+> +	if (size / 4 * 3 < CONFIG_SUNXI_DRAM_MAX_SIZE &&
+> +	    !mctl_check_memory(CFG_SYS_SDRAM_BASE + size / 4 * 3)) {
+>  		if (mctl_check_memory(CFG_SYS_SDRAM_BASE + size / 4 * 3 - 64)) {
+>  			size = (size / 4) * 3;
+>  			debug("capping memory at %ld MB\n", size >> 20);
 
