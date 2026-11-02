@@ -1,59 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793614798;
-	b=P4HsoGxDKBPJg74bWJiKYE/5ob4uSa2cXRbGQdUVBRNe3Nh6yavZL+X+hiw5znGu7G40
-	 cF/VJk9q/XXkoP4Bc4y+iNl3155eXna6gBpGMEZU4Ya4NGSEpJaekEyv+TXNJLvaZDwod
-	 e8cuuy6Vb6sZ47Z3ERRIsKu4XGbUC6rYNEBo+GG+BUiD8UEfofFt4vrXYxPbqu69aw748
-	 pQpy5nAHl/GuqSPNDoTWK2Yj1d+XjRxm3u5U6gjyIhATZRBWaOuTeOWO/kLmbaaicNgjl
-	 WH1rG//0gSxg6VlBZlP+32mwf9/jkfUppshYmT5qTfQKpwgdEdOj2vcMJZ5ksho1wjw==
+	t=1793620062;
+	b=5BDrSHyRHW0WdEt0y73piufv2YaCb9tSnmLlqWju7LJ+/1sCAsnZfPQBWcDk/TCiR83h
+	 ebO2bNAGHokUZWpTtzfaHww79XaOycDNR7/8wT7D8Qo9nFCl0QYdT+6Dv6/OGSooANnDd
+	 BqDyeriuxoKfhUTJgZmTsaZAwW4I9qkYppBYavOglexIycjpOU8U6zQdN/3VU+VFDJSl2
+	 niw672gX++yokcjHatnE4h/NfoA9bHqcBqjs9cPTfX3fXRcVIpPBkPiFTT5PZoXN5n9v9
+	 rM1sZu2tB/8sum1Hz8eXvZdBjvL9Pk/w4RAGnNVSyt8BFcib+B8jIFY2ZxKvqMr4VAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793614798;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Tl3iLmTid8/VrS6d3Y95ShDoORoeWrX++btEogTfWQQ=;
-	b=LE8UTLkPLgn/VJpsTJbEOOuu+fy/J2sKTiaWgcT8tjcl3ihPI8h1r19/PMKeyPtzdsjx
-	 KEujVY2tBjf6ZL8Fuz0bZDYo+j6cS6g/iwwyypgotqMvRgFF2XYVyKRVMC/NW6/ZqghQO
-	 /gB6UtImKEhPhgkANXBTt2Ajf6F6pEZAojRnvzr3GLHmahoCmeKxhWEriKzPt7YeJfeO8
-	 p3z7LqBFviujLuyIi9RnfkL3HGArUpc21vW+FrevXqoriVVk7aiE+DS1JeiYw95dK6P6P
-	 03R/YT6QBA+3KUJv16iZ/Po0XcT5TXguUdrlG+G02UlNVOWogCQiJpZDBgRM3I0psug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793620062;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=6jIrwCWfM/73IE1fRx3+JLPaGMWY04PIxkrFEWTBRis=;
+	b=HAdEVg2B/h9OLIyT3Z34rjzGko3HOtGsjtJkOu0FJ4w83c5lNFdl76DcMWGUbqreP6+v
+	 4sdNY7LTc0ggz5DCf0cXe2kXO/a6O/Bz4Lkcq70uQ9YZaEVTEBc0cVucMRKln38PWCwEv
+	 hnA0EufJdoF7dtbtfXKG0y5jmKpmJm3O5YanY8Mwxpz95t2/yudzSSiM1ClV1dOcIbn6n
+	 YBElQJ0Gs5RFnu0F3RF/SGDM6cWF1KIoLRerPj6pRu/qH1D+keR3ln4Qg/tVsFHn2hEjm
+	 t/zAA/Q19r7TkxEnKl0qjCHAiZRI8wHyw25ftXgjamznyeABMbPKYr/DrWfmW8Nk6sQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZUwko7vp;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21242606A339;
-	Mon,  2 Nov 2026 10:19:58 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=KAzr1lfx;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB95E606A324
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Nov 2026 11:47:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB95E606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZUwko7vp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E3741F00A02;
-	Mon,  2 Nov 2026 10:19:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793614798;
-	bh=Tl3iLmTid8/VrS6d3Y95ShDoORoeWrX++btEogTfWQQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZUwko7vpee2/H6UhO5p2zvjf20y6adM38N3S906E+Yq8W46IW5DGmOGx7iS83Q7u6
-	 fWK9u9aHAZITM6kTGz6wWjxWVe9gdnJLYHA8teLCfrbnjjM9ELw+1lcT1nCKWEsik6
-	 EdDTFFMmmFhG7/RQcsyg76AaqA3VVoOJm5DstPqCHHIeTKgBWESPyMEsM/VimLOq96
-	 dIsBNZ6EtmgZoN7Fqxf1FvWyu+Ess0C+p66ZnVFbqSWQLzyUWco40WZqhj/r3IweTm
-	 eKqTR0JqFWpxenT5G/PNIU9fzBavR2cKzkidz7NXXXj4TkPsIlNoyG3+N44ysN/r4N
-	 t/TG0ygxEe3GA==
-Date: Mon, 2 Nov 2026 11:19:54 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Tim Michals <tcmichals@gmail.com>
-Cc: Jassi Brar <jassisinghbrar@gmail.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-sunxi@lists.linux.dev, linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/7] dt-bindings: remoteproc: Add Allwinner A523
- RISC-V remote processor
-Message-ID: <20261102-warping-victorious-shrew-7cee1e@quoll>
-References: <20261101185735.762559-1-tcmichals@gmail.com>
- <20261101185735.762559-4-tcmichals@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=KAzr1lfx
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 08AA01FC4;
+	Mon,  2 Nov 2026 03:47:38 -0800 (PST)
+Received: from e142021.arm.com (unknown [10.57.16.239])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C3D9D3F632;
+	Mon,  2 Nov 2026 03:47:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793620061; bh=nR/FSboM1kdNQcftReoViBrMkqqMLHor271rH3y7YwM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=KAzr1lfxMR/CNdt0wXJrGoJswibAf5vrwYQ0UBN1egnzmbjyMPVR8AEMCpdYYt+mr
+	 BL5kqmo4Ywg92DCZbxE3vhmiwkBHFPqbORAF0Sil2dvW2IToynDuzCkBoZypHkkpzv
+	 NMw//kdFrAtdCSGyd0k44R/FQdNRMt38GnI3qfrQ=
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: u-boot@lists.u-boot-project.org,
+	linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Christian Ratzenhofer <christian.ratzenhofer@cdnm.at>
+Subject: Pull request: u-boot-sunxi/master for 2027.01
+Date: Mon,  2 Nov 2026 12:47:33 +0100
+Message-ID: <20261102114733.3468703-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -63,51 +61,65 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261101185735.762559-4-tcmichals@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 01, 2026 at 12:57:31PM -0600, Tim Michals wrote:
-> +  mboxes:
-> +    description:
-> +      Message box channel to the RISC-V core. Each channel has a FIFO in
-> +      each direction, so it carries notifications both ways.
-> +    maxItems: 1
-> +
-> +  firmware-name:
-> +    maxItems: 1
-> +
-> +  memory-region:
-> +    minItems: 1
+Hi Tom,
 
+please pull these sunxi changes into main. Please note that's the master
+branch on the remote side, the main branch is immutable, so I couldn't
+push a fix there again.
 
-Here
+Not much to report here, some cleanup for some older V3 SoCs, also a PMIC
+fix for some Olimex A20 board.
+H6 boards with 3GB of DRAM now work again, and the A133 build process gets
+adjusted to the now mainlined TF-A support.
 
-> +    items:
-> +      - description: Virtio vring and buffer pool, a shared-dma-pool
-> +      - description: Firmware code and data in DRAM
-> +      - description: Trace buffer
-> +
-> +  memory-region-names:
-> +    minItems: 1
+There are bigger changes lined up, but they depend on DT bindings which
+have not been merged to the kernel repo yet.
 
-here
+Gitlab CI timed out, but worked fine until then.
 
-> +    items:
-> +      - const: vram
-> +      - const: dram
-> +      - const: trace
-> +
-> +  interrupts:
-> +    maxItems: 1
+Thanks,
+Andre
+===========================================================
+The following changes since commit ee9fc27f2a2a43f253a6fe18d7a6f7c4eb0cda3b:
 
-and here, same comments as for v2.
+  cmd: mdio: check argc for extended mode (2026-11-01 13:35:30 -0600)
 
-> +    description:
-> +      Interrupt the RISC-V core raises on a fatal error. The A523 has no
-> +      dedicated line for this, so it is present only where the system
-> +      integration provides one.
+are available in the Git repository at:
 
-Best regards,
-Krzysztof
+  https://git.u-boot-project.org/u-boot/custodians/u-boot-sunxi.git master
 
+for you to fetch changes up to 685b13ba1a3c3bac34761d9f4afbac3b05da9f1d:
+
+  sunxi: Reduce inrush current on Olimex OLinuXino-A20-Lime (2026-11-02 01:38:11 +0100)
+
+----------------------------------------------------------------
+Andre Przywara (1):
+      sunxi: a133: adjust TF-A load address
+
+Christian Ratzenhofer (1):
+      sunxi: Reduce inrush current on Olimex OLinuXino-A20-Lime
+
+Jernej Skrabec (1):
+      sunxi: dram: only probe DRAM inside the addressable range
+
+Paul Kocialkowski (3):
+      sunxi: disable secure SRAM on sun8i platforms missing it
+      power: axp: Add default voltages for V3s/V3/S3
+      sunxi: Add support for the Lichee Pi Zero with Dock
+
+ arch/arm/cpu/armv7/Kconfig            | 14 ++++++++------
+ arch/arm/mach-sunxi/Kconfig           |  2 +-
+ arch/arm/mach-sunxi/dram_dw_helpers.c |  4 +++-
+ board/sunxi/MAINTAINERS               |  5 +++++
+ configs/A20-OLinuXino-Lime_defconfig  |  2 ++
+ configs/Bananapi_M2_Ultra_defconfig   |  1 -
+ configs/LicheePi_Zero_Dock_defconfig  |  6 ++++++
+ configs/LicheePi_Zero_defconfig       |  1 -
+ configs/bananapi_m2_berry_defconfig   |  1 -
+ configs/netcube_kumquat_defconfig     |  1 -
+ configs/pinecube_defconfig            |  3 ---
+ drivers/power/Kconfig                 |  8 ++++++--
+ 12 files changed, 31 insertions(+), 17 deletions(-)
+ create mode 100644 configs/LicheePi_Zero_Dock_defconfig
