@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793640416;
-	b=dMQNU5ugALX/nOJNS63LOAfMn3aHbkNu5y+CZU+lMvpySRGJX/x+Je8Q7wpsu/Ag/QFv
-	 udDeopfsPFIkbD1TRXjufaCioS54dq4Xtdu3Wxdz2zBaq3TCHv1ZBJtFmHlt1RaJa2ZbZ
-	 Ku3GrugADih5aBXTKfMzBRhkDKdllQe0WXJibu4vx2pClb6BYbAGND018KsfeHCfoWxdM
-	 /z/zcM3KlPXxwUUMjJOD8DbB1K/R5cWQc5JYqQkEQNb6sewu2p7R8WTH2H8rD++OaKzgu
-	 eIflWfmTdBb0bS9LTxOIDi/Ttv+rxoDp4LsIOVIIfARa1MjKE6IGgBRmfOqrNfjYI2w==
+	t=1793640928;
+	b=kABSpAfoihRuNaB16o0vKEoF3Q5JrUsHU53OKoWJzU3aPUXkzqR5EQjHGO9gDhNaA6hP
+	 gKMe+CI4NrRWaxXahLYj5itmvcXjUf6xa9uQ2F4aX6vDsvRzEv0HXKFVPOABnigMsKV27
+	 4iMFiS1O/OuiCBOYy8DBC8o4WS5O2cMyYnZ0k31RVEMFdJeAGw5ePZGAy1u1MR2sloWR3
+	 +jPnFSE1mGSp2dQuiRinCxbuyjKd+pFIkRFUoLZHZ4a51ymcddZHBHqxmIxf6cfGQ6EcQ
+	 wHsDvUN/ku7inX93W/cRbQCCKwx33FlnQnwOCn2fIQK2ijQu2NE3nNCL41wKBbVMsFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793640416;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793640928;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=vEGJEGxLB3p5i8hlqs0c7rof3xID92Xp+Mma3lJrE/g=;
-	b=uIP0lFfhuRhnD+nOzrXZfH0BWWoPrf+N2SjwX4L3N8LswdaTHySmX2vWRHqbHKCsdW6N
-	 9MKj515Z0fuSAsTfQU2VtYXZZZxp5ENMnqpyfvLk+syjYaKstv7ns0HzeNcZmNMsvq7H/
-	 gBdwSrVLezQnP16dDnHKT3QgANo217ogngQAW3LYI4vlUSBAGa0X/XlxYPGrsXpMpOwHu
-	 hki9uDDh70RX1phQEleQ+/UZy6NyGPJ4usYkGQRGfUqN9K/3mHQ/bl/1CjFzw70g5IebJ
-	 fZmf0lPON3xQtTeNfR/8psl9ch/KkdML5wDUPhK2Fr5i8c7cNPZlWQayYvDwgerD5GQ==
+	bh=P/cubmVZ8qcsXiKdKm+cADTgEwpGZd+2OQ3xGUkWUWU=;
+	b=PATOc1S93jz3rC+xhtM6UR3cGGRDCmbNjoLlBshgOC7DCb59WI6pP1rfpXbR58AqzuAN
+	 Wd/wrXlRev4RwTb9TqsnQtyekjYT0RXbmA9DEif/RNOS9hSo4jihPcGkyyunYO9v+ccri
+	 rh8VdIDivo+3zRpBlwPcATdP4vXtV6q8J4Z7s9U2+HhsjhFhcG6qg1L/Z4QZZKR7C0u0U
+	 Q2FhL7RVjzY9MpXI6SxvLU+FdHmLKKDMpx/1CCknCh4t8qbga/MTSnSwPTGjzro00RVrF
+	 ozgjyNQUECMwVULVrabNMRHUgHvAFz7IhoC9bUZ7WCSTtfi0BB7ziwFftziGcoiVosw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BpISyzG2;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mt4Kgmdh;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2366B606A329
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Nov 2026 17:26:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA957606A5A3
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Nov 2026 17:35:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BpISyzG2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CCCF1F00A16;
-	Mon,  2 Nov 2026 17:26:55 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mt4Kgmdh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 410391F00A18;
+	Mon,  2 Nov 2026 17:35:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793640415;
-	bh=vEGJEGxLB3p5i8hlqs0c7rof3xID92Xp+Mma3lJrE/g=;
+	s=k20260515; t=1793640927;
+	bh=P/cubmVZ8qcsXiKdKm+cADTgEwpGZd+2OQ3xGUkWUWU=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BpISyzG2L5drpdxoQOFnCslHBE+ctvorenouEKRjNGxdoZDwjWAJGhm0X2haF7rT9
-	 QxFhtbokXg+zNfW6SVfuXkEyIFw2Z67Z/g3BMV4OTFUPi36P64LrCCoNNMV3gzk3zZ
-	 nHAcPvJBvtQKlOBJzvoTUvUb4GrllIGVA87O39ZSoxuf+0SV7iGL22A4OVzLzVdukM
-	 vx+j79kz3EVogH7bIAp1bvaE6bDkwse0erfRJgorIKstGd/HJSuvKEUvtzen78zqSV
-	 4/iEL6T0viMBVAad6eUjSajSmbn667SkWHWRh//ZjwgnVC/g85tXg/gNUxnGdJbySp
-	 viUttyYtT1kpQ==
-Message-ID: <sashiko-outbox-193832@kernel.org>
+	b=Mt4Kgmdh82NVTRlws4YHu3eLSw3mS/168Qdv8hUY6j2Z32lHX9ZwvdglTMNSO5dpr
+	 oeDaYchUWP6l8fMuEmT32KDZvMXzPBoPX4FJ1Wwu3qd/O5vYpt+TSnvE90cyQr2LSZ
+	 oA0jdgjNOhrZlC128G3eL8Iu7a5VCXyZwS4Qb+2XlPkwTe9ayKMTAEFCTq2nLNr/W3
+	 WDMZeqK380Qs61+R/y/5+R8YHKkdvZIBxrSsQ3N4NMcVT/o5TR/sCltqztMUZ999lS
+	 tBZZJoLiK8ML+M1vDld8bGCd43xV3eOTOPIi0Z502oE59ZSp6V6XcrRz1aABHXKexE
+	 W/PMJXYJA4dQw==
+Message-ID: <sashiko-outbox-193845@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 02/10] staging: media: cedrus: reject too large
- H.264/HEVC SPS
+Subject: Re: [PATCH 03/10] staging: media: cedrus: h264: mark long-term
+ references in the frame info
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Jernej Skrabec" <jernej.skrabec@gmail.com>
 Cc: linux-sunxi@lists.linux.dev, media-ci@linuxtv.org
-In-Reply-To: <20261102170303.1973892-3-jernej.skrabec@gmail.com>
+In-Reply-To: <20261102170303.1973892-4-jernej.skrabec@gmail.com>
 References: <20261102170303.1973892-1-jernej.skrabec@gmail.com>
- <20261102170303.1973892-3-jernej.skrabec@gmail.com>
+ <20261102170303.1973892-4-jernej.skrabec@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 02 Nov 2026 17:26:55 +0000
+Date: Mon, 02 Nov 2026 17:35:26 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -63,110 +63,76 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] media: cedrus: SPS size check in cedrus_check_pic_size() bypassed
+- [Medium] media: cedrus: h264: lost long-term flag in cedrus_write_frame_l=
+ist()
 --
 
-commit 22d806de7dc3cc25db6d7871ebfc3e81dbda3078
+commit 2185109fe892e8452d1ff6c43246f08d7ba7e368
 Author: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-staging: media: cedrus: reject too large H.264/HEVC SPS
+staging: media: cedrus: h264: mark long-term references in the frame info
 
-This commit validates H.264 and HEVC SPS picture dimensions in
-cedrus_try_ctrl() against hardware limits and allocated capture buffer
-dimensions to prevent memory overruns and hardware hangs.
+This commit updates cedrus_fill_ref_pic() and cedrus_write_frame_list() to
+populate the top and bottom field reference type bits in the H.264 SRAM
+framebuffer list entry so that long-term reference pictures are marked as
+long-term instead of short-term.
 
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.c
-> index c3331b4f3f020..45deebddb630e 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -28,10 +28,38 @@
->  #include "cedrus_dec.h"
->  #include "cedrus_hw.h"
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_h264.c
+> index 892193c12b2f3..a716955655f7d 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+
+[ ... ]
+
+> @@ -128,6 +136,7 @@ static int cedrus_write_frame_list(struct cedrus_ctx =
+*ctx,
+>  		cedrus_fill_ref_pic(ctx, cedrus_buf,
+>  				    dpb->top_field_order_cnt,
+>  				    dpb->bottom_field_order_cnt,
+> +				    dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM,
+>  				    &pic_list[position]);
+>  	}
 > =20
-> +/*
-> + * The hardware decodes whatever picture size the bitstream headers desc=
-ribe.
-> + * Reject sizes beyond the hardware limits, or beyond the capture buffer=
-s once
-> + * they are allocated, instead of letting the hardware overrun memory an=
-d hang.
-> + */
-> +static int cedrus_check_pic_size(struct cedrus_ctx *ctx, u32 width, u32 =
-height)
-> +{
-> +	struct vb2_queue *vq;
-> +
-> +	if (width > CEDRUS_MAX_WIDTH || height > CEDRUS_MAX_HEIGHT)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * The hardware decodes whole 16x16 macroblocks, and all capture
-> +	 * formats pad the buffers to at least 16 pixels in both directions.
-> +	 */
-> +	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
-> +	if (vb2_is_busy(vq) &&
-> +	    (width > ALIGN(ctx->src_fmt.width, 16) ||
-> +	     height > ALIGN(ctx->src_fmt.height, 16)))
-> +		return -EINVAL;
+> @@ -174,6 +183,7 @@ static int cedrus_write_frame_list(struct cedrus_ctx =
+*ctx,
+>  	cedrus_fill_ref_pic(ctx, output_buf,
+>  			    decode->top_field_order_cnt,
+>  			    decode->bottom_field_order_cnt,
+> +			    false,
+>  			    &pic_list[position]);
 
-[Severity: High]
-Can the check against ctx->src_fmt in cedrus_check_pic_size() be bypassed
-when V4L2_CID_STATELESS_H264_SPS or V4L2_CID_STATELESS_HEVC_SPS is set
-before capture buffers are allocated?
+[Severity: Medium]
+When decoding the second field of an interlaced complementary field pair in=
+to
+the same capture buffer (run->dst), the already-decoded first field is pres=
+ent
+in decode->dpb[] with a matching timestamp. In cedrus_write_frame_list(), t=
+he
+DPB loop skips calling cedrus_fill_ref_pic() for that entry:
 
-While vb2_is_busy(vq) is false on the V4L2_BUF_TYPE_VIDEO_CAPTURE queue,
-cedrus_check_pic_size() only checks that width and height do not exceed
-CEDRUS_MAX_WIDTH and CEDRUS_MAX_HEIGHT (4096x2304). Unlike the HEVC
-bit_depth handling in cedrus_try_ctrl(), setting the SPS control while
-!vb2_is_busy(vq) does not update ctx->src_fmt or ctx->dst_fmt. In addition,
-cedrus_s_fmt_vid_out() in drivers/staging/media/sunxi/cedrus/cedrus_video.c
-allows userspace to shrink ctx->src_fmt and ctx->dst_fmt (down to 16x16)
-at any time before capture buffers are allocated:
+	for (i =3D 0; i < ARRAY_SIZE(decode->dpb); i++) {
+		...
+		if (run->dst->vb2_buf.timestamp =3D=3D dpb->reference_ts) {
+			output =3D position;
+			continue;
+		}
 
-drivers/staging/media/sunxi/cedrus/cedrus_video.c:cedrus_s_fmt_vid_out() {
-	...
-	peer_vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-				  V4L2_BUF_TYPE_VIDEO_CAPTURE);
-	if (vb2_is_busy(peer_vq))
-		return -EBUSY;
+and instead populates pic_list[position] via the cedrus_fill_ref_pic() call=
+ on
+output_buf above with long_term hardcoded to false.
 
-	return cedrus_s_fmt_vid_out_p(cedrus_file2ctx(file), &f->fmt.pix);
-}
+If the first field was marked as a long-term reference (for example, an IDR
+field with long_term_reference_flag set or via MMCO), its DPB entry has
+V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM set and the second field can reference it
+at pic_list[position].
 
-Also, if userspace never sets V4L2_CID_STATELESS_H264_SPS, the default
-zero-initialized control has V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY unset,
-giving a 16x32 picture height while cedrus_open() initializes ctx->src_fmt
-and ctx->dst_fmt to 16x16.
-
-When capture buffers are subsequently allocated, cedrus_queue_setup() sizes
-the capture buffers from ctx->dst_fmt, and cedrus_h264_start(),
-cedrus_write_frame_list(), and cedrus_h265_setup() size the auxiliary DMA
-buffers (pic_info_buf, deblk_buf, intra_pred_buf, and mv_col_buf) from
-ctx->src_fmt. Neither cedrus_start_streaming() nor the codec setup
-callbacks re-validate the active SPS against ctx->src_fmt.
-
-If the larger SPS was set on ctx->hdl before VIDIOC_REQBUFS(CAPTURE) and
-subsequent requests do not attach a new SPS control, cedrus_try_ctrl() is
-not called again after vb2_is_busy(vq) becomes true. Even if the oversized
-SPS was attached to a media request before VIDIOC_REQBUFS(CAPTURE),
-cedrus_device_run() in drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-ignores the error from v4l2_ctrl_request_setup():
-
-drivers/staging/media/sunxi/cedrus/cedrus_dec.c:cedrus_device_run() {
-	...
-	if (src_req)
-		v4l2_ctrl_request_setup(src_req, &ctx->hdl);
-	...
-	ctx->current_codec->setup(ctx, &run);
-	...
-	ctx->current_codec->trigger(ctx);
-}
-
-Wouldn't this still allow the hardware to decode using an SPS larger than
-the allocated capture and auxiliary DMA buffers, overrunning memory and
-hanging the VPU?
+By passing false here instead of preserving the DPB entry's
+V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM flag when output >=3D 0, won't
+pic_list[position] be programmed as VE_H264_FRAME_INFO_REF_TYPE_SHORT_TERM
+instead of VE_H264_FRAME_INFO_REF_TYPE_LONG_TERM when decoding the second
+field?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102170303.1973=
-892-1-jernej.skrabec@gmail.com?part=3D2
+892-1-jernej.skrabec@gmail.com?part=3D3
