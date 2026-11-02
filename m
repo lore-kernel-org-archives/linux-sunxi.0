@@ -1,139 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793662116;
-	b=rC5XgHsKTlM1ow8ixXetHvkbKJfoV3YvCueUaDbIKvhPMhJ/AXQH7c6jznt2YuffJ4JI
-	 9Ng59yQKUEH+Sg5FLPvKUWPoNyr0BeG5SsvAlmymUnwh6LhQqcfyWhJdMbrhYwXlJqrLp
-	 Q1dpHCRaGFB4oTddGswPKbuXo9wAUh1xoWLFaqYytCXi0rO2TJdQRoztW3GIO0/l36kkC
-	 kStK459Mv3GGPa0pMMpp5dtvKxMRbsGWuy6K5vbveTYXRyim0j33RV9yYCNoXiiIXEVjf
-	 4uVC6pf5wG6v5cjv0kSBFvVWrzS/B/LXfbSCe7tUi8/83CUYqUgZvjth2kn/nRM85mg==
+	t=1793662455;
+	b=Uk5s3VERhFu3TsM5uEdYnJOFa7brWYaLEAKCflat+Wd5im1f0PPltFbxWR6+AuTrbmor
+	 jiAZ3vCH34grV5Y9gjYq+zRY8j3FMrmZcLQ/hcsvCIZgV6SfuWDJelRH0SMlnd8gM13uw
+	 rxPR6cVYVK3I6oYHfQ3zR6fM84KgaPqK8P8SxweOD0hPBCBwaIVdEN/+EbBena6pd9oL9
+	 iKkZi2+HDaVQR7lD7yFjfJFlAuBDJQT3dbaa48ItATy7bio6kEEOyYXRIswV21qPJMFdj
+	 y21WvJI7jy0bc0A1WtkQ2tPhJnoab4iXsXPYuTAfs1PajiQyJ3NXg1lbs4KX0r8iCsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793662116;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:Mail-Followup-To:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=ZMaDJSQbb9QLkhHVRE64prZxAiTnxlvuwEcwQapvub8=;
-	b=GK1tF5imx3dV3e9hdT1FY2A0i0Fm9S5fNXvYMU58I17Ha+kSu9IpsYGi+sls6lZQCnpT
-	 fxgiDrYAWy+/rFhrZMAQApAu0LjI3euT4n2vv1Url0ejPUGHU7yW0bQiH/xDyKkUSxHw1
-	 yb+KEoBhHVKGj/3CyRFMVRvxzZvGefhbAj7k43veQaf4juzOXwRLqKWzR7M8NsKyLmyVT
-	 t/WcyBQ7TaUcgAf3iTWNUoYdsB9vn+OO0pGG1MXEa4MKH+rqP+zYTrj5h4+s/FoiJOEO4
-	 Cit+ka/FdcDkdd2CG9sWH2CXXq2KNGeacbZPRAvD9SoMUfP9lkHzeeWRB+Go0Kzv1yQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793662455;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=rYrONzDmndfVB6GaH3dGiAC1FfNwMYrSAW/wh3V+FUI=;
+	b=NUbKkYuLkFifU+sJB6Le4c4FZe4UhbExyPXjK7gCdN3B9wWfZau7LyVAyiJe/PGQT84U
+	 nk53GRxJUKkAqNGzC/bXqsfp9fxjjGGL1yfDGg7eBjxKo6N1vbDMcTq4IQyWvrGA7tHK0
+	 ZMuVo0SSQFpKEMmkCQrF6/Rs3GYZfP3O8s54GcqM3LGLgKvMZIAiCznotf/CQQftkdGK0
+	 burKsKK0hcfZbbzNp3BqfBH9j0l7ZIzw2TvuUmy+FYtA7qZKGr6WMftuF7/MpQM0v/ylx
+	 XkkGxveQsHfHZcPWXlugiSCkLIrkm6oKdHavY9mTEPKNd+NEjiR3CIKqBoOqDOfCzKA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=dama.to;
-	spf=none smtp.mailfrom=dama.to;
-	dkim=pass header.d=dama-to.20260707.gappssmtp.com header.i=@dama-to.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=HorEtG0y;
-	arc=none smtp.remote-ip=209.85.214.171
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45210606A335
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Nov 2026 23:28:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45210606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dama.to
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="KY5/YjPY";
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE7E9606A324
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Nov 2026 23:34:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE7E9606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=dama-to.20260707.gappssmtp.com header.i=@dama-to.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=HorEtG0y
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2e98798cbddso17201635ad.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 02 Nov 2026 15:28:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dama-to.20260707.gappssmtp.com; s=20260707; t=1793662114; x=1794266914; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:mail-followup-to:message-id:subject:cc:to:from:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZMaDJSQbb9QLkhHVRE64prZxAiTnxlvuwEcwQapvub8=;
-        b=HorEtG0y8EdbAl97e9ZfENLBdAw2s0H+ippC/hCv5Usf0teegHMrdbF7QtGJmUcove
-         7z+nqktL6P6bSxAMeEth4dzoJGX7SaZ0mlelCUecn8r03EpjWRfSo92HZ5PKJE8xeWQ5
-         ZBGm/MpTBgUNF0h4O8V5tjehtiFHwCtPPJxK12VTqkdeuCF3k4920Rp5lopfw/UBh7g5
-         2+rV5cuN+fVgZcRA3rhLUAkaRhVKLtO5debk4C4pLxZCf/+mCtDHujUTPZNZhjMO8tzR
-         Wlwf7xO5ALXhI1YD9eZRXHV/HS1q9U/lqoCanj76NPVazHzhUopDYAO226NOjUTISQds
-         Vhfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793662114; x=1794266914;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=ZMaDJSQbb9QLkhHVRE64prZxAiTnxlvuwEcwQapvub8=;
-        b=BJeme3slPl25gs3My/t39Vyyo1pPgPK8ksiKH+P9xE9gS134Gto1PqV/6gX7sjgPsg
-         lB1EoIaJNv+GtukwImBKIUD7vy0Uu1cT2vEp6e3yNehzWZXebr+QBsvnAtiCWnF1r/9s
-         h2/XNsv1bAt3dp1xBqMaIPT2PH7eB4sUPJqZnz3Z90de2WMoHynG3jmU1Q2uCCcP+nhK
-         EWJsbWkYd44qXYFhBpBS5bOM4VwC5aGOK3sWddVwJtvCqUxQMmQSFhTmJLzKKC90vxqQ
-         G5FVAIozOWWAAmXRIJEQomBL8RT2MhGBnZQ/ul/SaAMu7ktIzIzm7ppYd1GoppKO6Xx+
-         WbBg==
-X-Forwarded-Encrypted: i=1; AKwUvBw4/cSAPBXETSPSutqN9eNg+BzlPXaHpGRW6SC4TjZHcw+T79RrY9JthIiFMc0c0sr7zfItknWwIFGg8w==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+VWb3x8HwWwweSpAs0p2aajsxEGrw2cBSskw6Coge9dXugnA7h
-	bbhJJxMCuq9nOmvlgizyXKQj1ry/tBx+JG+vCLolijKvJyuHVCswoyNGyjHuBnwLf+s=
-X-Gm-Gg: AYBFou1OzrKfXAubQSRlkHTs/q5fc7uFG38TWOtIKkG2Imf4rQQkmEf/CY5PvRKROOS
-	96bZUzYdeOZHiizYaxj2Xvoag3f4kdA1pv3zPeFoeNZR+YGQCRNLglC+Zo751HQVnJg3Vm3AN4O
-	D0/Dxkyt71pDQCz6tdKlqZl1pXLBTj3y1mjGboaycyM3iziDwcvo2mr0tAUI9OFfx5EsFsa6Wki
-	oBKxgZAAY1Jf3sp8Dk5iTQStoSWITw5MIkILSLFNPH31BzB2rQlbEGYpqqlAxDQTl0dgxqCKmZp
-	zjtE4w24egG8b8U1Jrs24KtVZP7gsZc2s8fjVAO6mz+LSY2clqk6Y1qmMFnYdTeuX4SD88kXHch
-	WZ1zDf+AO2rudqO9asnzZ/mehC06ylhIEP0HJHj57DZ0uMDi2TCqxVKhst6VvQQnRz3Vhgg+wDD
-	UhR3be+4+hXQboM+xTevwSSJ7rcCNOctssY4SC4nyy2bU1zyNcJyJInCqoebAOsUS17RoviSQ85
-	u29TNRNvygduj33yM077QmmjB48PRrsNyBVtWwAqGefDyyiNaYrjqVkzd1maC1qhG+3ii1hmUHl
-	yC5/+UV0b63mEfJhcfDzt2b3SaXh7NpLU+hCtL//hgRqdWmwleXq1iJUJDpERW4=
-X-Received: by 2002:a17:90b:580d:b0:3ad:25f6:1dd0 with SMTP id 98e67ed59e1d1-3ae8970e5e9mr8946634a91.11.1793662114604;
-        Mon, 02 Nov 2026 15:28:34 -0800 (PST)
-Received: from localhost ([2a03:2880:2ff:8::])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c6271ccsm1233086a91.7.2026.11.02.15.28.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 15:28:34 -0800 (PST)
-Date: Mon, 2 Nov 2026 15:28:33 -0800
-From: Joe Damato <joe@dama.to>
-To: Frank.Li@oss.nxp.com
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=KY5/YjPY
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 386B22F;
+	Mon,  2 Nov 2026 15:34:04 -0800 (PST)
+Received: from ryzen.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 18AD73F673;
+	Mon,  2 Nov 2026 15:34:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793662447; bh=TyPXI9cOspx3YhD24PSZEUA31oaVYiyRztgSw5AfOuc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=KY5/YjPYz1s+wKGHenLIrGW6UuNYi3/dP16lbQEGEt1D/xIUfcJWgXCqly+N+kx9n
+	 NfBiNAUBXfBBKCZAQHlOC+PSKYaWTAZXz7RW5fUnbe/BgMqfm80lBVLBYhJWEZ5m+U
+	 Yh+SupEqXGLE9FqUi90PuwGcORUSgU+vffXiOk+I=
+From: Andre Przywara <andre.przywara@arm.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Stephan Gerhold <stephan@gerhold.net>,
-	Loic Poulain <loic.poulain@oss.qualcomm.com>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Frank Li <Frank.Li@nxp.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Li Youhong <liyouhong@kylinos.cn>, Arnd Bergmann <arnd@arndb.de>,
-	bui duc phuc <phucduc.bui@gmail.com>,
-	Yicong Hui <yiconghui@gmail.com>, Simon Horman <horms@kernel.org>,
-	"open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>,
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:ARM/QUALCOMM MAILING LIST" <linux-arm-msm@vger.kernel.org>,
-	imx@lists.linux.dev, vkoul@kernel.org
-Subject: Re: [PATCH] net: dma: use dmaengine_desc_set_callback()
-Message-ID: <aukcoWLVvSorX5a9@devvm20253.cco0.facebook.com>
-Mail-Followup-To: Joe Damato <joe@dama.to>, Frank.Li@oss.nxp.com,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Stephan Gerhold <stephan@gerhold.net>,
-	Loic Poulain <loic.poulain@oss.qualcomm.com>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Frank Li <Frank.Li@nxp.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Li Youhong <liyouhong@kylinos.cn>, Arnd Bergmann <arnd@arndb.de>,
-	bui duc phuc <phucduc.bui@gmail.com>,
-	Yicong Hui <yiconghui@gmail.com>, Simon Horman <horms@kernel.org>,
-	"open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>,
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:ARM/QUALCOMM MAILING LIST" <linux-arm-msm@vger.kernel.org>,
-	imx@lists.linux.dev, vkoul@kernel.org
-References: <20261102191922.4044912-1-Frank.Li@oss.nxp.com>
+	Samuel Holland <samuel@sholland.org>
+Cc: Paul Kocialkowski <paulk@sys-base.io>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] arm64: dts: allwinner: a133: add ethernet aliases
+Date: Tue,  3 Nov 2026 00:33:48 +0100
+Message-ID: <20261102233348.23117-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.46.4
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -143,60 +65,48 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261102191922.4044912-1-Frank.Li@oss.nxp.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 02, 2026 at 02:19:16PM -0500, Frank.Li@oss.nxp.com wrote:
-> From: Frank Li <Frank.Li@nxp.com>
-> 
-> Replace open-coded assignments to callback and callback_param fields
-> of struct dma_async_tx_descriptor with calls to the
-> dmaengine_desc_set_callback() helper across net drivers.
-> 
-> No functional change intended. Prepare to make struct
-> dma_async_tx_descriptor private to the DMA engine.
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
->  drivers/net/ethernet/allwinner/sun4i-emac.c       |  3 +--
->  drivers/net/ethernet/micrel/ks8842.c              |  6 ++----
->  drivers/net/ethernet/xilinx/xilinx_axienet_main.c |  6 ++----
->  drivers/net/wwan/qcom_bam_dmux.c                  | 10 ++++------
->  4 files changed, 9 insertions(+), 16 deletions(-)
+When adding the DT nodes and properties for the A133 Eternet support,
+we missed the ethernet0 alias, which is required by U-Boot to generate a
+stable, device-specific Ethernet address.
 
-[...]
+Add the alias, to allow U-Boot using the Ethernet port, and also provide
+a non-random MAC address to the kernel.
 
-> diff --git a/drivers/net/wwan/qcom_bam_dmux.c b/drivers/net/wwan/qcom_bam_dmux.c
-> index cc6ace8d64371..1479f8362e04e 100644
-> --- a/drivers/net/wwan/qcom_bam_dmux.c
-> +++ b/drivers/net/wwan/qcom_bam_dmux.c
-> @@ -195,9 +195,8 @@ static bool bam_dmux_skb_dma_submit_tx(struct bam_dmux_skb_dma *skb_dma)
->  		return false;
->  	}
->  
-> -	desc->callback = bam_dmux_tx_callback;
-> -	desc->callback_param = skb_dma;
-> -	desc->cookie = dmaengine_submit(desc);
-> +	dmaengine_desc_set_callback(desc, bam_dmux_tx_callback, NULL, skb_dma);
-> +	dmaengine_submit(desc);
->  	return true;
->  }
->  
-> @@ -477,9 +476,8 @@ static bool bam_dmux_skb_dma_submit_rx(struct bam_dmux_skb_dma *skb_dma)
->  		return false;
->  	}
->  
-> -	desc->callback = bam_dmux_rx_callback;
-> -	desc->callback_param = skb_dma;
-> -	desc->cookie = dmaengine_submit(desc);
-> +	dmaengine_desc_set_callback(desc, bam_dmux_rx_callback, NULL, skb_dma);
-> +	dmaengine_submit(desc);
+Fixes: 8f128f357dfe ("arm64: dts: allwinner: a133-liontron-h-a133l: Add Ethernet support")
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ arch/arm64/boot/dts/allwinner/sun50i-a133-helperboard.dts      | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts | 1 +
+ 2 files changed, 2 insertions(+)
 
-I noticed in the above that the return value of dmaengine_submit is discarded
-instead of stored.
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-helperboard.dts b/arch/arm64/boot/dts/allwinner/sun50i-a133-helperboard.dts
+index 694c0cacf9064..607864ee13718 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a133-helperboard.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-helperboard.dts
+@@ -19,6 +19,7 @@ /{
+ 		     "allwinner,sun50i-a100";
+ 
+ 	aliases {
++		ethernet0 = &emac0;
+ 		serial0 = &uart0;
+ 	};
+ 
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts b/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
+index 90a50910f07b7..81a2914ae3113 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
+@@ -16,6 +16,7 @@ /{
+ 	compatible = "liontron,h-a133l", "allwinner,sun50i-a100";
+ 
+ 	aliases {
++		ethernet0 = &emac0;
+ 		serial0 = &uart0;
+ 	};
+ 
 
-Is that intentional? I suppose it might be because AFAICT cookie is never
-used and the commit message says "no functional change intended".
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+-- 
+2.46.4
 
-Reviewed-by: Joe Damato <joe@dama.to>
