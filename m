@@ -1,86 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793639009;
-	b=nqqIkPEx4zvcuCfMRHsOhfQ906BbkeMVb2lZFoWRFrG1YxqHvim7cSYEpnbiPZLzDrOu
-	 P5kEx+aiCDMf+udvNpcBKxG1D5DfIr/sg41bvNdxSrX7JppewoQyUBaSnNPeKK4/AllT0
-	 Jcl8HsifOmeQAyu55dQpa/McHivhF3UkEnlp9UDTfA+LkUXfy/5EFNlM7/dyUH+j3/z1W
-	 l0xuOR+2tNPyGNPo4yBMXxnf9dfiVIqe9pcvC8hBrJjpmROnKlRJoZSbpTv5CJx8OoYUv
-	 Z86K4E/vh3KGmmciDMxwAw/sBVwrFIt6jnFrHlHqAUvk1YSpaIczgIjmh651L+RB7/g==
+	t=1793639012;
+	b=pbOBem01SCYrzlTGhe3iX0VbqaBfODpRACBLDqiUxdn2eoDH66sklNXnGPhGmQKkAWQV
+	 kgISwJfJI6ryTxHyZeY5PL9k6rv3GZaPB3giPR4/NS2NiTh67jt18IoJs8gjH+qlUSxTR
+	 5EO2Ct96u2wTgTwcEXYj7PUU9+cvifayyB6m143BetiKu/Y7H0UW37UyXY3xB4DJK/3gT
+	 4O4JCMINRZrFe8qrxXmbMkHMWiWM5yBAr6zZFvfy0OcKLHQz2T47ry6jO6fsAJkgTm+gZ
+	 5olnp3KdwDsw8SyZzSxAFWb0rrNCMz5NAUULOqVnueqDoFHMBxRlPDBLYKtnRLWaQzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793639009;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793639012;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=DB2KcGsKCTwj0N32grxyHjYPqw3VEDsJ25BOlOdNqgk=;
-	b=yR19ivImRbrAFeHi1H5RxV4XXgxax1PaJElbjD3F0SkOZMjO3TDo+E2UGTGEl5QP60ge
-	 cBZiHcI57JGWMe9nKR6SK4BKf63aBAYCmdFjnZ997Rqx3FS3ssiTAD7ApGgEA66bZSrgy
-	 6rpqQ8a4M5L5oCuMPDingazZFPjC5RxzbKYL++R4hQVvn430JnN0C2fRDIP/vywuLkaL/
-	 y4zgGftoVgjPHnk6QJ2888CQMi46e6cI+IntXZ11/v1sfLldTLLeQQsQ4rkC6uENwb9xB
-	 tmNLGNC4i5eXUF0mmWKkVNuJT0aU9g0ntp+D3EoHHrjNoarmAlhmaTZ2lXZbS7MvYuQ==
+	bh=FpcL+5FZ6JwacURdTFeKF8QF98yJT0GN7XGRkPS3N44=;
+	b=I3+qYIu895oEVK/WmIoPEiYiMDBIx435UFW6lpgk3W+I1+tdwjsb4bq6ubC1tJ/QxtKe
+	 dnp98dY3BmTdj5d+i+3ERcaUGapDcTznwe7moRzc4Qg86IbxLFLZg9skgoQNJ4BOPMNZu
+	 TokQJBlI6GJveeKp46/JccPcwP9cblFSd9soEbxNVjWvHpqyosaFsWpVX4aNtOjTjRnya
+	 G4QuY38MoLzGlbyhNN3iIQmhGN/qXNZRaBDqdqT6WSVLCiZ/foFf14wDPbK2QoQ1w+RuR
+	 Me1MKO/ZqHkn48wU4V8W05Q2TB7VCp2OrLdBWp7b7jJizarDGe8EJCTjF18GiBBoX1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KCL3Mwq8;
-	arc=none smtp.remote-ip=209.85.218.41
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AuMz+6kZ;
+	arc=none smtp.remote-ip=209.85.221.42
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18BE607038D
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Nov 2026 17:03:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A18BE607038D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2B4607BDEA
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Nov 2026 17:03:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD2B4607BDEA
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KCL3Mwq8
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c4203bbb1e9so523911466b.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 02 Nov 2026 09:03:28 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AuMz+6kZ
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48e4831c028so2890098f8f.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 02 Nov 2026 09:03:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793639007; x=1794243807; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793639010; x=1794243810; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=DB2KcGsKCTwj0N32grxyHjYPqw3VEDsJ25BOlOdNqgk=;
-        b=KCL3Mwq8UkLAxCHfpo2k0X7U5kA/LPaflNY5kGoBHgHB1/LSAGkFFL4e2sKKDNQHSR
-         OALxbI58OWc0R64yR8hTKwqjkoPUnOFwWDKGrlzSD84r3pwbpF3DZehAqsScTy3tdZ+W
-         X7bT3ChJQXOaR0Hvgt9FlpB5jbmJRJMmIwwOPpHY+CozNrYyPXxU8tUOOICozmsOe0/W
-         TXzrCWBupIN6d+Mh3G7J49Uzsa5Z0WH+RaSp99YrRb6g5UHUy7CEkYmNu1hYijIYfIIB
-         mremis2Jf9KTPB+qGf830eANds5VZIiTr/G2+/1pPSWmrzIGkQmo3ee1SG3Swyxy1E2T
-         DU4Q==
+        bh=FpcL+5FZ6JwacURdTFeKF8QF98yJT0GN7XGRkPS3N44=;
+        b=AuMz+6kZt6Nf+EqDUIPuiKslI4znqLXhigvuaKxkb8u2kwH1LoUkWbPlsZvPgzeQJy
+         QPDwUOB9m129XNyM/kMQgmJFrfoyGzlc+vW9Jk9G3x+OT4FOy4r7cgvl1h+2umoGA0Bs
+         f8P3p4tAE0t4uzt/YYny4oEQ11UxNTCsURILzmMTSvnUsj4NgrMGsOqR4x7zloHLiIC1
+         yJUdAgnZPo9vDyf+fbh/U7VoAMWkrl3Lyfe3d03XfBTnnCwNnI1nBR1vuoQfrmJn+i74
+         s90wn3ETqxq/KzsbaSpsgClXpp5N1IMDL6kxg86ATGFv3bPi265kggbsmES94C8Ly4wE
+         xMOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793639007; x=1794243807;
+        d=1e100.net; s=20260707; t=1793639010; x=1794243810;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DB2KcGsKCTwj0N32grxyHjYPqw3VEDsJ25BOlOdNqgk=;
-        b=Dzaq5ea8t7GEv/RKE+oxnsff1kpKl3ohd4JygS+Vmqo2DA9HLqPbg73jj7zVNo9ufc
-         6pAxXSTo2OB/oYK/MVMX5dqU74C6IB2N4Eu6VIIQhopnRFaUePumhwvIcj27NZH9djgi
-         NATVCGZxsEOvYVH9auAl5u8y32ODs2+hhxK6X26J3c7X7ZCYz9YZEufYVwNj5K1pgQea
-         8tMCocC3yoEJasZiH0dmom3WGvsvwJ9Pv+RTutpI+Rx/TmYV588A4+v4M2qsAXhAzTEa
-         d3ZaJYR1nuCRjZtWZLMNJmXPWcY664BypinCCEskM0TIE6oJwZ9DAN639yBrpTQhTwFr
-         0KGg==
-X-Forwarded-Encrypted: i=1; AKwUvBx765eqQ8A0KZmofNUK9d9IU0ESIDOV7i9AdcrKyQTLCOn1yCFTSCb7UweTecKdfkcGovliKE4KkimIYg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+3/8g/r/r0XsZPC7Gd1DLYFVWQmIC8X6i+syyHOlCh33OpbDpo
-	l8CqQiXTrj5+e4pXinfqEmxTwXJhjF4f6UYKAcf3vkTF+lQqoMQMYywR
-X-Gm-Gg: AYBFou2iRqEt755QQD3xQxXcbStHZOcilOQtY9SNFJ0PogvK/BeERDubhIg9YVxiAOF
-	vYkrBPx3RX2i1bJJOjWsFmcRZL7Li3NcsiKaQwCpu5Nps4uM/D135+RF3gD4tFxkizGqlnz5KoB
-	C2WLhQj+GIIRXoMMp7iOdhSzrHieu9yAV9A2TG2l8U1nkDZ9zSdRHEt+zKLIcZQbLBVh6pSLb84
-	MLu1TVnCCCvZJz6i2i8zO7wJNmz+sSjX+tEkV5mLXaOs3mFXq4neNWH9XTFqdVwPNqqPKutOZY/
-	zsKL6wRloH+Y5DyJhj52RqQTPdeQY9XIKfbaYViP+igMn5frShrL7y3rM0VZq57DfNeSOX7GZDL
-	q9BzqkajQhfVBNf0wXMC+FUyM/00QfKvrTxIhTGLFIcdRg4TX2CXRKEwxcS9gmCqjfOZiXtXgG9
-	h45f1J7H8fyQYpYOYDAVbTd3BtX02tnKcDnXVqa28kojdJo6mhy0kimLC2/o6Wlo1I3e0CKZtK4
-	Q4aQFJm/FEXsM6MdLRbUD915xmRxP22Q+DFPQ9dsw4W+mHhSzCcyUilKalKUaRtcyDUJs2vmSTZ
-	+hFFHTr9m8HnXBaOtuhZGtRygm6Zi7/dWKAk2KVu90m22u5WABpS7N/re02DXjyJoEbNQ6Vs0Xi
-	DaD/lmYT6agb1pjLxb5DmuBipXqatX4uQ0Dbbg434SHtTHsEsuQZZDkKHCefO8ZEQkpvhjdnUh9
-	SajBlxFSXdVad+8IZbN5Y4Fl55Sb9byG46+aqi5sf2rObkCCtAaitMwBvkFE1lLUuHjyAA4wOl4
-	LajAyRjt9fWcEWsghUAy3r36nr4jKI3vY7kmGWMLXcL+akxXA==
-X-Received: by 2002:a17:906:ef0a:b0:c3e:cb50:b7c8 with SMTP id a640c23a62f3a-c4ca7a1997amr921711866b.12.1793639006912;
-        Mon, 02 Nov 2026 09:03:26 -0800 (PST)
+        bh=FpcL+5FZ6JwacURdTFeKF8QF98yJT0GN7XGRkPS3N44=;
+        b=zGR32SMo2ZoSqFp5qGv0GUbnX6/jdm8HRGtiPTQp1Uqhh+FU+EuylC9PEVqqqVnQgi
+         6GOKA/DpmisFEDu10qBEW/mKdzg9QnpR+tzWtLF5Rn8hfeGB67DmKX6lTenfVH/cZ5zp
+         8YxSjOuDwOk7nGQGFDA0MBNMABvOGoXMMzDlWs32NWIqBR5bzVQyNlosAyIlfaocTd2H
+         AO1bdSk17KfBjv3TuV7v7rWrF6cgFN+X/EALJE1m3wMNuQ0I6bin+Fo2gRYMW5/BWiYP
+         BJk+nicYJFLvqrscQ3AT0jG8yTWQgbe3j37aIB+QpexCUwnsDnkbDL4blUK2xgGdPWJ6
+         WCkQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy1fD/Sh+lFINPsue00oLbYYrzhg5E+Uflj1oChYhbMRDqCb2djltHBhkptRcJC1/4s1UQ8uNSqIkD6cA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+MrU1BjhUdF6MQXB9Y/oHdzB4+n9T2+RkhrxgN5VMq3t0FFu1O
+	VMR00jX6oOU3bma526vTSaN8bRQ0IXAPJAyHgDhDBHOSce/e46NhNAC/
+X-Gm-Gg: AYBFou24HKNyIqfJG0KP/D3KRUS3P2QT+kGwZ9rCw0ktX2vaJKdXFJia/ZOdRYXqfN7
+	Di8WEATzne5Xis9hRIzgr4Cd/31ihI6Fd3d4ywuDU63gF6O6dz8k8xv2hrYUohshYmS5mmTHtKn
+	0yQG1WFCiuxXNLys1579JubyiCN1OMHV2JgjcQbCvG3vSZOMCh3+hi5YGFrf4J9dTdkA4/iv6FF
+	3k2h3pWr9J1K6Q6ljXyzlp3TRViUSY5KFSpMmudYpkeSWW+y/I8T5QINUI+EX0iC0znPBhMMvH+
+	kK2VtdAv4XZky2bMme1rYcG8DIvZJts18pMD0NoYXpkYjjcZWGthy79vnme+24/3O3WxcGPMOnj
+	FxUUSEaEZuhJPvGaJVfQ7+UotFYezT4QRoohcqrdTrodBYjMK0beFVyZtYIqFSiwdtcuBFvGe9j
+	ahfBjvjlOg00XGZrsClDLQQbjlTQhgrcAUAe8N4AwBlsL/r1MkpXSQdFtxG1WB4/0ak7HJIDv5K
+	eJ7z9cA4nBhN2jp+yF5o0LTFs3YsjrKGKMTGRQqgY0/NhsocuId2Hi7vnCqqNXYiKOpW0FMNEP2
+	wL+bVdXZkBCS7hRWm6dgS+UDmGPbdyofwXq+RvcU7LUWipj/FElGZ1UHN7aeQOIKPFiu5Z9Eaho
+	6sFgxxKPWEii3L71b1h5zFuzbuut8SPAgxMPI4DoOPP6+uwVh8+HHV6rNlV3GZ/grbhH23KgYcO
+	6Esx4TVIBzQ5NNsQFTFk1Ni07aoZur6Lu0pEfsBSUfOSmj9HLc1CzA8EQ3pgXcwvhbFcUonVJKq
+	Le7HEb5R8kdRJvlxwkE8b/9SqIOxbO+D5XeAC6i9xAWV8wE/Q==
+X-Received: by 2002:a05:6000:4b08:b0:48e:7508:bc20 with SMTP id ffacd0b85a97d-48e7508be83mr18919618f8f.2.1793639009894;
+        Mon, 02 Nov 2026 09:03:29 -0800 (PST)
 Received: from jernej-laptop (194-152-27-116.dynamic.telemach.net. [194.152.27.116])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71a4d3cesm23362309f8f.7.2026.11.02.09.03.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71a4d3cesm23362309f8f.7.2026.11.02.09.03.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 09:03:26 -0800 (PST)
+        Mon, 02 Nov 2026 09:03:29 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Hans Verkuil <hverkuil@kernel.org>
@@ -96,9 +96,9 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 06/10] staging: media: cedrus: mpeg2: fix the references of field pictures
-Date: Mon,  2 Nov 2026 18:02:59 +0100
-Message-ID: <20261102170303.1973892-7-jernej.skrabec@gmail.com>
+Subject: [PATCH 08/10] staging: media: cedrus: vp8: use the vendor probability table size
+Date: Mon,  2 Nov 2026 18:03:01 +0100
+Message-ID: <20261102170303.1973892-9-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261102170303.1973892-1-jernej.skrabec@gmail.com>
 References: <20261102170303.1973892-1-jernej.skrabec@gmail.com>
@@ -113,71 +113,34 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The second field of an I or P frame can be predicted from the first
-field of the same frame, which the hardware takes from the backward
-reference. The driver programs the backward reference passed by
-userspace instead, which doesn't point to the frame being decoded, so
-the second field is predicted from the wrong picture.
+The driver allocates the VP8 probability table with 0x2400 bytes, which
+is the size the old Allwinner A10 library uses. All newer vendor
+libraries allocate 0x5400 bytes and never write the area past 0x11b0
+from the CPU. The hardware uses that area as scratch space, most likely
+for the segment map, and its usage grows with the frame size: a
+3840x2160 stream makes the hardware access memory past 0x2400 and
+causes IOMMU page faults.
 
-Use the current frame as the backward reference of I and P pictures,
-like the vendor library does. Also fall back to the current frame
-instead of address 0 when a reference buffer is missing, so the
-hardware never reads from an invalid address.
+Allocate the table with 0x5400 bytes, like the vendor libraries do.
 
-Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
+Fixes: 3c39a16d30d8 ("media: cedrus: Add support for VP8 decoding")
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- .../staging/media/sunxi/cedrus/cedrus_mpeg2.c | 29 ++++++++++++++-----
- 1 file changed, 22 insertions(+), 7 deletions(-)
+ drivers/staging/media/sunxi/cedrus/cedrus_vp8.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-index 4c8accee5389..0a2f8e77fb29 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-@@ -56,6 +56,7 @@ static int cedrus_mpeg2_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
- 	dma_addr_t src_buf_addr, dst_luma_addr, dst_chroma_addr;
- 	struct cedrus_dev *dev = ctx->dev;
- 	struct vb2_queue *vq;
-+	struct vb2_buffer *fwd, *bwd;
- 	const u8 *matrix;
- 	unsigned int i;
- 	bool field, tff;
-@@ -147,15 +148,29 @@ static int cedrus_mpeg2_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
+index 969677a3bbf9..6b00efa77c22 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
+@@ -25,7 +25,7 @@
+ #include "cedrus_hw.h"
+ #include "cedrus_regs.h"
  
- 	cedrus_write(dev, VE_DEC_MPEG_PICBOUNDSIZE, reg);
- 
--	/* Forward and backward prediction reference buffers. */
-+	/*
-+	 * Forward and backward prediction reference buffers. As the vendor
-+	 * library does, I and P pictures use the current frame as backward
-+	 * reference: the second field of a frame predicts from the first one.
-+	 * Missing references also fall back to the current frame.
-+	 */
- 	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
- 
--	cedrus_write_ref_buf_addr(ctx, vq, pic->forward_ref_ts,
--				  VE_DEC_MPEG_FWD_REF_LUMA_ADDR,
--				  VE_DEC_MPEG_FWD_REF_CHROMA_ADDR);
--	cedrus_write_ref_buf_addr(ctx, vq, pic->backward_ref_ts,
--				  VE_DEC_MPEG_BWD_REF_LUMA_ADDR,
--				  VE_DEC_MPEG_BWD_REF_CHROMA_ADDR);
-+	fwd = vb2_find_buffer(vq, pic->forward_ref_ts) ?: &run->dst->vb2_buf;
-+	if (pic->picture_coding_type == V4L2_MPEG2_PIC_CODING_TYPE_B)
-+		bwd = vb2_find_buffer(vq, pic->backward_ref_ts) ?:
-+		      &run->dst->vb2_buf;
-+	else
-+		bwd = &run->dst->vb2_buf;
-+
-+	cedrus_write(dev, VE_DEC_MPEG_FWD_REF_LUMA_ADDR,
-+		     cedrus_dst_buf_addr(ctx, fwd, 0));
-+	cedrus_write(dev, VE_DEC_MPEG_FWD_REF_CHROMA_ADDR,
-+		     cedrus_dst_buf_addr(ctx, fwd, 1));
-+	cedrus_write(dev, VE_DEC_MPEG_BWD_REF_LUMA_ADDR,
-+		     cedrus_dst_buf_addr(ctx, bwd, 0));
-+	cedrus_write(dev, VE_DEC_MPEG_BWD_REF_CHROMA_ADDR,
-+		     cedrus_dst_buf_addr(ctx, bwd, 1));
- 
- 	/* Destination luma and chroma buffers. */
+-#define CEDRUS_ENTROPY_PROBS_SIZE 0x2400
++#define CEDRUS_ENTROPY_PROBS_SIZE 0x5400
+ #define VP8_PROB_HALF 128
+ #define QUANT_DELTA_COUNT 5
  
 -- 
 2.43.0
