@@ -1,141 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793731742;
-	b=cjHnPcyMaiMulXsIiad0KrqsU9JFWWuk9CTvQjoTxdX2O/ubDwtBEG4npGjnoCJvAzO0
-	 lgD4cs2aHHC4fI9FZCN3l0f9icjlQUzoW24QVj0opZpd8CsDDyonT9XOafY5QH3+JUeVF
-	 8BcuMvsAMgaLvz8Zh/VQSqpirMVdxHXuhM1U5+Rt3BtrOoJbcQkqyWQLrea9VYEDc/0UL
-	 GQ12AXhCA5Qfk0iKDEdXye6crUZ9Qr+E8lbQFv44mdG4JseVWSXdr+eRLUeuV0Y5I3YUj
-	 +JDgrBlOimCPcQlHw10t7wsLVyhZq/7EV+A7L2MgCZF0KMhbpZd0ld3Ad3XA0Gg2Yug==
+	t=1793731913;
+	b=cfYNkLyutpk7VX0a3Vm3KPoPpRFvh8GpE5+td3kTU97JO8SpJwbNYGu+25iTm0zKEe4L
+	 6XDY/2Q4WL0FTLkoHpRFEwQhas23ax+LqIh30Rrsruuy99Jz06a72BfaclwaoG91Jy7Lx
+	 wckx2IO1UIGDmqwaLxeUNoY0m7LsDZv8kMeKDonMIX9syY5hjUAnt4fdB/q0W3xBzDV4Z
+	 XUajmIq0BuTh9lzFle7+O7tEi6xTsrBV/zLY1CgB8xgapxXShxZp3ud3hw69QvxH7za+l
+	 BaO4Y+EHtdqqwXtnXoT/W+d/76RA3GcrPw2utJ3frMm/X2BB2rC6pyedrbbA1XN/6ug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793731742;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:Mail-Followup-To:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=gZOM3Lc0bVWMBjTHBnWLKucS3KUPQN4gjQNABudBe20=;
-	b=GjZfIc/mdtj/T5WQexqBOjFXIHrEXmGD13i5y0EYAEY5M33k77sNJJgb1bTaPW6FcRyc
-	 ZdNxJuXnQV5wGgPq7x4PeScACpks2z3lM/rqE6BM9QvRrMda9GFyXK7CAnUF3d3L2Wd5/
-	 WPnxWG+U7FHNY8XapQSxDy4xAGGSNhyynRWUFBDAjYEnocM7FN4BjHsrOkPhSEWbIgFoK
-	 rlUgR2fecg65JPAhbme43oQL0v9XDAr3cRA4sqlFm7J+tFOtdd2amv3vhP1Y6Ao5+X9l1
-	 TOgb8+aCwg5BE0WiPg6fF15FNnuvJgsn8AFPG55tcKLGK7tovEUHVTAgglf8zfxeGYQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793731913;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Autocrypt:Organization:Content-Type:
+	 User-Agent:MIME-Version;
+	bh=midAk/DARCqHylN7ToGJq8rif/JIOF4akNHrI/YCiYw=;
+	b=LHRgpZSl+oiXKLlEjxMzcpev9vZRphMkGuZ5nliJAuJpoZ/RLxUUY4J7maWEFiyw6upy
+	 sEzTP8N65m8gic9z4nqAIpE/LvLUsdTzAuazxtLMePg3U9i+AKpHJ0GDOrlg9JriN/uwL
+	 if+LmOqDOArUh8YEkauE4uOwF6S8GkJHXxkhic56H0rzwNpzsN4U9Y3lzIXx21aMKqs6i
+	 +50e6dt14+wtLjhALqidNKBVWcTU8B3QmebcupxfZlBkZ0rd+Xu0vrn+PBDjsMNIghDPB
+	 SbeK4pSlgL8eZNt5sFVvNL69/AmyklVLYs/i8xxQY8V12DviY4SH6D4ed6rR2gu3qag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=dama.to;
-	spf=none smtp.mailfrom=dama.to;
-	dkim=pass header.d=dama-to.20260707.gappssmtp.com header.i=@dama-to.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="ZSC/+Am2";
-	arc=none smtp.remote-ip=209.85.216.48
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=collabora.com;
+	spf=pass smtp.mailfrom=collabora.com;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b="QIRj7/NH";
+	arc=none smtp.remote-ip=148.251.105.195
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD05606A336
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Nov 2026 18:49:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6BD05606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dama.to
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dama.to
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E30606A31B;
+	Tue,  3 Nov 2026 18:51:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8E30606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=dama-to.20260707.gappssmtp.com header.i=@dama-to.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=ZSC/+Am2
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3acdcfa2bd3so3541145a91.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 03 Nov 2026 10:49:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dama-to.20260707.gappssmtp.com; s=20260707; t=1793731741; x=1794336541; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:mail-followup-to:message-id:subject:cc:to:from:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gZOM3Lc0bVWMBjTHBnWLKucS3KUPQN4gjQNABudBe20=;
-        b=ZSC/+Am2PT2UaTy6KZt3zJ9e61U4k/naFZdoVXWj0xuHNnRWBSedUkDoQbqUvdOhv/
-         6oleIvoex9c0/0Uh3K2XKnqnEi9EQe509ofEH8YmIXuh1lanAjUmm+sZqpCVTP2lrxNl
-         AT14ynO9V0W3+0JOwzI5n8wgp19X+EcseqXUEB1GX+8ZzeKQSuHDn1kHDQ2I+TFbEJsh
-         pZ126t3Bwv2RkiKFhe+SRqXxUM3BMfCIIEGcRU/wmPwwKUOOIl4hoDyd0d7S3+U1+0d4
-         NxsVy0kAsarqkeKXpWIJKl+CyIICNgbGHw5ohP719qRyb+dC0Tuqc6bVoFmhMsSdkFKr
-         8cpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793731741; x=1794336541;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=gZOM3Lc0bVWMBjTHBnWLKucS3KUPQN4gjQNABudBe20=;
-        b=ZUDtIl885/LHC6PoSVJuP6plqlYiLloeEMIG4yH8+akllV5Skf5sr8QVsf57/TsRMY
-         np7w/7i+3p/H9DgjZqYvWguAcwt45v8zXxFo1yKDM7/hWz9roKnFY29vV2+7ncefLiCf
-         7qXSOSkbFdIiNomwzmJLaPwBrji3BdtXD/0T+ugScqWjq9nfW+OJu75GNQphUy+DxIBL
-         JtX4b1stCTN/yNg5YgA9BGxsq+B6VJ5npU6Jkvqeu93WlaaYK1Mbzan1oVoWeBJ6Dmhi
-         VIPclvpceunGZY0TeCmrlR8vtGsPhQmFKu6mdrHkYQV8l6ovDBvqHBQSurk9MX+5RBqN
-         tqkQ==
-X-Forwarded-Encrypted: i=1; AKwUvBww8SbSvdewRk8sFUovGS+j1iJhj5c2zpOmRLlRvmhAHptYOsaERLzOGdv3gxxqH0L/rXuGRDaio02JjA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9eB63GwuUAWZqJFn3lemCcsI7M6DTbntGE0fphCnlcvTyrxirL
-	Hp89xGaQU4CEb7szQQMUlFkgRhH8iMdMJq2mUqcrxGNyQ8kLjStMvzbOWDBTT06QCz8=
-X-Gm-Gg: AYBFou3wPuDzEalqgJZY/O6/PIZ6tFwhcygv15LQYAhuP36Yo4Q6qnir2lwzJBGFb60
-	6KewP9CzPqTtYHeIv4TaGm19Ad+L78xvWbqDV17WTO8CoXe35kPy2K9HV/HGIlhBICn66L9FArG
-	1REwbRRfIskX22k+XucQv/Pp/EU+fXV6J+8uJkKq0lvggrrp0BF9zhxH5m1YtJ371Ln+uD+6BVT
-	32p/a/chFINXTQHpGAGLjyLPKiRKBB1QI4wSD8cYwCCsJuCTAR++HQaqfqNsyVTsZyP7ZKTwSjA
-	Jf1ysQVx5K2mWVx68LgbS9nXKECuStnh04vEKrhO0LlNC8xw5QUOxu2tzWbnZzYX+vjUNTWKQGH
-	A8V1BNXHpox9zpqLewCYr3BBl4eMQh7TqiPwW4yUSuGQ1TJjnh6xUU6VZtfz12C8VXXJex62qzQ
-	PPuuvOQu1ya+vNP3xRE0QqftRJ+ma0o/ny+If23DR1eUyS8GOwEflF0bvgcksRs4riy0twELzwT
-	X75wqWJmqOE6jvT67AeILcPCTTBMV+JHOBR9CHCiv7Ze7uMP1A6AN4tSe8K0STpXIFZ+Xh1FZPD
-	a0aqklgTyiKmYRijYP5UhAmOz45d+t57M3QQHO77Nw==
-X-Received: by 2002:a17:90b:1d03:b0:3a8:49f2:8ddb with SMTP id 98e67ed59e1d1-3ae8984de33mr11985967a91.60.1793731740597;
-        Tue, 03 Nov 2026 10:49:00 -0800 (PST)
-Received: from localhost ([2a03:2880:2ff:49::])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0944bd88bsm210133a91.12.2026.11.03.10.48.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 10:49:00 -0800 (PST)
-Date: Tue, 3 Nov 2026 10:48:59 -0800
-From: Joe Damato <joe@dama.to>
-To: Frank Li <Frank.li@oss.nxp.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Stephan Gerhold <stephan@gerhold.net>,
-	Loic Poulain <loic.poulain@oss.qualcomm.com>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Frank Li <Frank.Li@nxp.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Li Youhong <liyouhong@kylinos.cn>, Arnd Bergmann <arnd@arndb.de>,
-	bui duc phuc <phucduc.bui@gmail.com>,
-	Yicong Hui <yiconghui@gmail.com>, Simon Horman <horms@kernel.org>,
-	"open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>,
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:ARM/QUALCOMM MAILING LIST" <linux-arm-msm@vger.kernel.org>,
-	imx@lists.linux.dev, vkoul@kernel.org
-Subject: Re: [PATCH] net: dma: use dmaengine_desc_set_callback()
-Message-ID: <auosm8mCULyafyny@devvm20253.cco0.facebook.com>
-Mail-Followup-To: Joe Damato <joe@dama.to>, Frank Li <Frank.li@oss.nxp.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-	Michal Simek <michal.simek@amd.com>,
-	Stephan Gerhold <stephan@gerhold.net>,
-	Loic Poulain <loic.poulain@oss.qualcomm.com>,
-	Sergey Ryazanov <ryazanov.s.a@gmail.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Frank Li <Frank.Li@nxp.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Li Youhong <liyouhong@kylinos.cn>, Arnd Bergmann <arnd@arndb.de>,
-	bui duc phuc <phucduc.bui@gmail.com>,
-	Yicong Hui <yiconghui@gmail.com>, Simon Horman <horms@kernel.org>,
-	"open list:NETWORKING DRIVERS" <netdev@vger.kernel.org>,
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>,
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:ARM/QUALCOMM MAILING LIST" <linux-arm-msm@vger.kernel.org>,
-	imx@lists.linux.dev, vkoul@kernel.org
-References: <20261102191922.4044912-1-Frank.Li@oss.nxp.com>
- <aukcoWLVvSorX5a9@devvm20253.cco0.facebook.com>
- <aun4W3dvmfWRDFeQ@SMW015318>
+	dkim=pass (2048-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=QIRj7/NH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1793731910;
+	bh=g4IxkDEMxXRUA4XtODSZ0Gcq9LsGsoHyYZFXVG5uJag=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=QIRj7/NHxK/vLoeGe2exa22vbbxWSBeVnGgcH7Qe+chnEpEwaNHIshSim+WxBieGf
+	 7dPiTxREdIbv8GkitvCEb3jf7ky2jZ9pJFhuJ9wOrdj6OIbkyCkhU1guqZsC4T2MFx
+	 iEy5/80FmlGwXQ9xqrcb8lYmhhRwdXVksdh3xFDkjFG0zMpg880KyVhaOF3GS5fEBE
+	 1lZYE6cByeQTjXF4QxXVzvTDVdwq400NmxMraB16ZIrPJAlkJ+/ayHpeQx3c6yMR+0
+	 VZqJ6oDoTX8AAaRkMjFPr56P8KUM3ZIeoRcjzCHl5CAEm+tsnNkNqG2meY5yfoEtcy
+	 TK66beyRslKFA==
+Received: from [100.64.0.214] (unknown [100.64.0.214])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 51BEE17E0CE8;
+	Tue, 03 Nov 2026 19:51:49 +0100 (CET)
+Message-ID: <5520799bbd58327a2fd3926e989735e02af64602.camel@collabora.com>
+Subject: Re: [PATCH 04/10] staging: media: cedrus: mpeg2: use the field
+ height for field pictures
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski
+ <paulk@sys-base.io>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Tue, 03 Nov 2026 13:51:47 -0500
+In-Reply-To: <vCPa4waZQ6-kwYC7OOX3Kg@gmail.com>
+References: <20261102170303.1973892-1-jernej.skrabec@gmail.com>
+	 <20261102170303.1973892-5-jernej.skrabec@gmail.com>
+	 <cd5780876274ab5aa73739f890a32ceacf2e793b.camel@collabora.com>
+	 <vCPa4waZQ6-kwYC7OOX3Kg@gmail.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-AZu15zRcZ1tXd1TZOkqW"
+User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -145,72 +94,143 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aun4W3dvmfWRDFeQ@SMW015318>
 
-On Tue, Nov 03, 2026 at 09:06:03AM -0600, Frank Li wrote:
-> On Mon, Nov 02, 2026 at 03:28:33PM -0800, Joe Damato wrote:
-> > On Mon, Nov 02, 2026 at 02:19:16PM -0500, Frank.Li@oss.nxp.com wrote:
-> > > From: Frank Li <Frank.Li@nxp.com>
-> > >
-> > > Replace open-coded assignments to callback and callback_param fields
-> > > of struct dma_async_tx_descriptor with calls to the
-> > > dmaengine_desc_set_callback() helper across net drivers.
-> > >
-> > > No functional change intended. Prepare to make struct
-> > > dma_async_tx_descriptor private to the DMA engine.
-> > >
-> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+
+--=-AZu15zRcZ1tXd1TZOkqW
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Le mardi 03 novembre 2026 =C3=A0 19:12 +0100, Jernej =C5=A0krabec a =C3=A9c=
+rit=C2=A0:
+> Dne ponedeljek, 2. november 2026 ob 19:56:52 Srednjeevropski standardni =
+=C4=8Das je Nicolas Dufresne napisal(a):
+> > Le lundi 02 novembre 2026 =C3=A0 18:02 +0100, Jernej Skrabec a =C3=A9cr=
+it :
+> > > A field picture covers only half of the macroblock rows of a frame, b=
+ut
+> > > the driver programs the coded and the boundary size of the whole fram=
+e
+> > > for it, as for a frame picture.
+> > >=20
+> > > Program the height of a field for field pictures, like the vendor
+> > > library does.
+> > >=20
+> > > Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver"=
+)
+> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 > > > ---
-> > >  drivers/net/ethernet/allwinner/sun4i-emac.c       |  3 +--
-> > >  drivers/net/ethernet/micrel/ks8842.c              |  6 ++----
-> > >  drivers/net/ethernet/xilinx/xilinx_axienet_main.c |  6 ++----
-> > >  drivers/net/wwan/qcom_bam_dmux.c                  | 10 ++++------
-> > >  4 files changed, 9 insertions(+), 16 deletions(-)
-> >
-> > [...]
-> >
-> > > diff --git a/drivers/net/wwan/qcom_bam_dmux.c b/drivers/net/wwan/qcom_bam_dmux.c
-> > > index cc6ace8d64371..1479f8362e04e 100644
-> > > --- a/drivers/net/wwan/qcom_bam_dmux.c
-> > > +++ b/drivers/net/wwan/qcom_bam_dmux.c
-> > > @@ -195,9 +195,8 @@ static bool bam_dmux_skb_dma_submit_tx(struct bam_dmux_skb_dma *skb_dma)
-> > >  		return false;
-> > >  	}
-> > >
-> > > -	desc->callback = bam_dmux_tx_callback;
-> > > -	desc->callback_param = skb_dma;
-> > > -	desc->cookie = dmaengine_submit(desc);
-> > > +	dmaengine_desc_set_callback(desc, bam_dmux_tx_callback, NULL, skb_dma);
-> > > +	dmaengine_submit(desc);
-> > >  	return true;
-> > >  }
-> > >
-> > > @@ -477,9 +476,8 @@ static bool bam_dmux_skb_dma_submit_rx(struct bam_dmux_skb_dma *skb_dma)
-> > >  		return false;
-> > >  	}
-> > >
-> > > -	desc->callback = bam_dmux_rx_callback;
-> > > -	desc->callback_param = skb_dma;
-> > > -	desc->cookie = dmaengine_submit(desc);
-> > > +	dmaengine_desc_set_callback(desc, bam_dmux_rx_callback, NULL, skb_dma);
-> > > +	dmaengine_submit(desc);
-> >
-> > I noticed in the above that the return value of dmaengine_submit is discarded
-> > instead of stored.
-> >
-> > Is that intentional? I suppose it might be because AFAICT cookie is never
-> > used and the commit message says "no functional change intended".
-> 
-> dma_cookie_assign() already set desc->cookie in dmaengine_submit(). Of couse
-> it is not obvious. Do you need me update commit message to descript it.
+> > >  drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c | 13 +++++++++++--
+> > >  1 file changed, 11 insertions(+), 2 deletions(-)
+> > >=20
+> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c b/driv=
+ers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
+> > > index 10e98f08aafc..ca66a3c6b830 100644
+> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
+> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
+> > > @@ -58,6 +58,7 @@ static int cedrus_mpeg2_setup(struct cedrus_ctx *ct=
+x, struct cedrus_run *run)
+> > >  	struct vb2_queue *vq;
+> > >  	const u8 *matrix;
+> > >  	unsigned int i;
+> > > +	bool field;
+> > >  	u32 reg;
+> > > =20
+> > >  	seq =3D run->mpeg2.sequence;
+> > > @@ -108,13 +109,21 @@ static int cedrus_mpeg2_setup(struct cedrus_ctx=
+ *ctx, struct cedrus_run *run)
+> > > =20
+> > >  	/* Set frame dimensions. */
+> > > =20
+> > > +	/*
+> > > +	 * Field pictures cover half of the frame's macroblock rows; the
+> > > +	 * vendor library halves both the coded and the boundary height.
+> > > +	 */
+> > > +	field =3D pic->picture_structure !=3D V4L2_MPEG2_PIC_FRAME;
+> > > +
+> > >  	reg =3D VE_DEC_MPEG_PICCODEDSIZE_WIDTH(seq->horizontal_size);
+> > > -	reg |=3D VE_DEC_MPEG_PICCODEDSIZE_HEIGHT(seq->vertical_size);
+> > > +	reg |=3D VE_DEC_MPEG_PICCODEDSIZE_HEIGHT(field ?
+> > > +			ALIGN(seq->vertical_size, 32) / 2 : seq->vertical_size);
+> > > =20
+> > >  	cedrus_write(dev, VE_DEC_MPEG_PICCODEDSIZE, reg);
+> > > =20
+> > >  	reg =3D VE_DEC_MPEG_PICBOUNDSIZE_WIDTH(ctx->src_fmt.width);
+> > > -	reg |=3D VE_DEC_MPEG_PICBOUNDSIZE_HEIGHT(ctx->src_fmt.height);
+> > > +	reg |=3D VE_DEC_MPEG_PICBOUNDSIZE_HEIGHT(field ? ctx->src_fmt.heigh=
+t / 2 :
+> > > +						   ctx->src_fmt.height);
+> >=20
+> > I'm not entirely sure, but I see:
+> >=20
+> > 	fsize->stepwise.step_height =3D 1;
+>=20
+> Where? I don't see this in Cedrus.
 
-Ah, I see it now. In the tx_submit callback it looks like dma drivers set the
-cookie.
+In the framesize enumeration, it returns a contiguous dimension set, with a=
+ step
+of 1, which then requires no special treatment. Other drivers uses:
 
-So removing it here really is a no-op since it was getting set, as you said,
-during submit.
+  struct v4l2_frmsize_stepwise frmsize
 
-My mistake. I don't think it's worth respinning just to fix the commit
-message just because I didn't dig deep enough :)
+in a static per PIX_FMT configuration and helpers in try_fmt. Perhaps worth
+reminding the following:
+
+https://docs.kernel.org/userspace-api/media/v4l/dev-stateless-decoder.html#=
+initialization
+width, height
+    *coded* width and height parsed from the stream.
+
+Since the dimension is coded, its quite unlikely Cedrus is correct. Most de=
+coder
+don't have postprocessor or croper, this is why stateless is like this. The
+display dimension would be something set through S_SELECTION if this was ne=
+eded
+to crop (e.g. Hantro could support that, but currently don't, and the PP ne=
+eds
+16 pixels alignment both directions).
+
+>=20
+> >=20
+> > But I don't think interlaced video can have odd height in the first pla=
+ce. But
+> > it also have an implication here as you are not rounding up to a multip=
+le of 2.
+> > Not sure what is the proper fix, but I have this impression something i=
+s
+> > missing.
+>=20
+> Odd height shouldn't exist in practice, but I'll use
+> DIV_ROUND_UP(ctx->src_fmt.height, 2) in v2 if you agree.
+
+I guess it makes it "safe", but perhaps feed the todo?
+
+>=20
+> Best regards,
+> Jernej
+>=20
+> >=20
+> > Nicolas
+> >=20
+> > > =20
+> > >  	cedrus_write(dev, VE_DEC_MPEG_PICBOUNDSIZE, reg);
+> > > =20
+> >=20
+>=20
+>=20
+>=20
+>=20
+
+--=-AZu15zRcZ1tXd1TZOkqW
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCauotQwAKCRDZQZRRKWBy
+9DtXAP9zZmyQzLA4WCwgH+H/kjPGtrs4F0y7kvIl/xaSrjBk1AEAnNNR7aCDg7FQ
+0h9lvSCzxwmrCo2kVaoTgcAWp0Hm3gw=
+=ZWdk
+-----END PGP SIGNATURE-----
+
+--=-AZu15zRcZ1tXd1TZOkqW--
