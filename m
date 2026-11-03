@@ -1,91 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793742019;
-	b=IQtOFRPtBygHtoSSAx8qoTohJbPjMWLYdN4ekVr0riHe/3vXpFbYFahobg+vofeJ/78L
-	 tATT9+vdFizBXQU3n0Kme9vrrAk82GasCGLoEC8bJF1KLNJhQf+xj2FLsnta1rdokuFjx
-	 +LUFKt+zgm0XzQWwfGqk+diD1lrHkqlFDyn6oZEKLemH8fMAH6t8dZD6iexTMF1AavrlM
-	 zBpEATm44P15iSRJu8UN2o31/QQjtzxuE8KP4VQ5RfxVPT1MMpYgfFmar701b4p4T5tGM
-	 WQY1d1+nwzPs03c25A+JZrYGh/34xJRa06gnAa39xQimZPMWbbpIdnYb3QmUZpMT2KA==
+	t=1793742133;
+	b=wuyzmjlZArwgrXIZCewJCqEJSLPIa3vy4gAOp87o1MoJmMuRqBye5IefU79NyVMpB1JL
+	 Wb33fRVsBiJDxKWObUAF/HcQbhPQWtRRqmF+2hC0Q0tIK9QPQaHC8I8gjgjdhl16iS7sZ
+	 2rakO54vN/4F93E47/FJN1NOLY4wzgcm+fF06M0xgPx+NGsb8ne2imD82oCPzQqPhu6RB
+	 ccjqAdblt5zTzV/BSTA5kft6zyLa1Lq74yfa2YP7YYRhI0rVY3kH4g5Uctfy6abDdjyFs
+	 o4S12YLjZQqVV5MsITSxTI6Z1N+WcU42zg0/n83SUGR8896Aun+w5cv0lQs01ZACY9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793742019;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=M2rzwl/OUiuhx7dhKJQxUK0UVCKf7xbOI2dH9gpFv6M=;
-	b=NSduoAAp1YYlghJj5Kn4/O2+GPcW4ATcXtx0zh4XDz49bJIZE6HrtfKrDoRNFiXjszjY
-	 CmsHG2hKKKgry6xjqwhmkSu8Izk7yd8GfYoMtFKdZC1XwAKY2z23idVH8Oi26OPFSN/m8
-	 8jDnrLyQIKKeOgRM95BQr3RrI7IUNLP0OBDlo7x/bBop2nFQ5cp9i7d79c1w7nPLtOHg5
-	 W/cHtBTRPjmtofR34XBNuM0A3scd7eRbCz5sZuw1vIvVe24DK0sBqE5+Fz9CjdOyDxCGv
-	 CAZtmcce3x+oq/t6MMEF7JC+6Neq9yv1ymI/9oMJS2SZ8rxU7fIS1nBG+Nr57FelVQQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793742133;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=bCnu9fAte19N3TQ+TF69luK0oIJmG5VMG28ngg+iJc0=;
+	b=aGiJZe66uP4rLPup85jTW+RKx5+YKh3e3gSWPCmFpHNsOQWoKvuIcUTzhGui9mZYwCoi
+	 FxFqL0d88Cw0OtQ4eCn2oM7zFYYCYts98gDpY7bWeT0hAmzePy5ZrGNKxV56Dobsygukn
+	 cLnEArQH5fxeOJw7d0HbYWWfAH5tRdxzSeREd9w8gYfAuWsyJ4MrqBlr6DeTuz/DyRFIl
+	 zDYTa4eP22EU5D5Bg+tmQq5fKFqi3cklcO/Q4Vc00kFR5QOfDQySsSvK2rOsqsfCELhKA
+	 SDM1ao7se+Xh+h8eeqXAHuitckH0lpprfYAToqpoWJTcdDj8hvnx6gmLRmRTwtw76Gw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bSPFWdR2;
-	arc=none smtp.remote-ip=209.85.167.177
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XpcWDnPd;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00976082BC6
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Nov 2026 21:40:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E00976082BC6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 907E8606A31B;
+	Tue,  3 Nov 2026 21:42:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bSPFWdR2
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-5641f26ce05so32194b6e.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 03 Nov 2026 13:40:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793742018; x=1794346818; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=M2rzwl/OUiuhx7dhKJQxUK0UVCKf7xbOI2dH9gpFv6M=;
-        b=bSPFWdR2j6dZFCVUt5oADf3eQ3C0OUD12xdIVlMNY5Vo2oLapQEHxdSooWS2AZxVur
-         4nfWbdPTcRbMvTYN6Q4U7vcxVRjW7o7k7XAbubgxYqnqQr6Fz6gKHNZYcbU2MhzT9qAC
-         /3H8O7MKYVILxan71vKw45R8e+rR9Eb1WXIIGq5wbPjOj/HqHB25evl6TTwQz4XF9KB4
-         01WQd/hmv94fh99gjKmwLuzAeubxD8LzVp+kyWw5GI3c5RXzkgg+geJxKYrisaNwXX9n
-         TnUprq12uZE280+m3m0o4pMQW3EWmYupRvQ0AKsggzQH938UmPAp2ufhm6Z1AOK5GQih
-         YWvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793742018; x=1794346818;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=M2rzwl/OUiuhx7dhKJQxUK0UVCKf7xbOI2dH9gpFv6M=;
-        b=HRtiYN4unmlzMK0/WwyeXCiTq+i6R8Sa3ZQiFXlY6YvYLtDFg/WgReFtROS/QFpL4e
-         Fc0I7T9e9txOj/y2La+MqmeyrRdkq3dZmPTnF2khQyFRffYsMny10ud9sWfZGDzF0mA/
-         gQZLer2deKbKip01FKQON8ctor1iMDDEBhTNnT9oLsn1CoWr+VquPViYH3Ew54G3Zh8a
-         +QC9a1/re1a6nfHgxSHBBIoHuzzbNVbfj6QFlzCY4C5Oq7H+7u4iDr33cjBe17/93UBn
-         BgwItS7zFCA6MK/jrI/nzfRUUS1b+2jGKjSpoBnd3wqaA8OEYsRYFqLuqD3U8TEoMpVM
-         BkRw==
-X-Forwarded-Encrypted: i=1; AKwUvByDL6E7aFIJeIKAq2pMgLRuVedmjpT3j6i/SMgdxShpN3I45cBQj4cZTa/y0SMuA9/CEiyhCUOmUE/vdQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+iXI6vWipdjtYoSryF7Tg5heRIfHO4uWnhvN55umW0sd3eYR+3
-	9EaMAS2M5FlpnWvIlhF7Ivq8y/4HYgl+HqxcF1+e1vwtCMUBXy4a/rQ5qLXPAczn
-X-Gm-Gg: AYBFou0B9x6W1VAnG+Jtgdnrtt1jMpNGZzvK+Z+Y4tQOiNkuqMfBePQhXYfL5vT+l38
-	iAponVhFeETNRVIPRnYR2v4gTfh4we/iVgY+sYKtU4jHPmXKlWLjgwCmc7j9R3ga+wytag1aM2d
-	+BkXD/MmlmYzlcAbyf6wk7OatB+8eugl/tp1urJiGLr8QqlvlbpqadNXJ17f5a0r4+QDZEK8aqr
-	BmDXdSmvGj1Otr7XMnTbiV3087OwOm8QmYQVBbKGy6njAzoTEnGBS9y45WwIBJ3QNatMaHzqE88
-	lQpqHPFvETTX55A4Wwt+bblpDLPjL3Cf9bJ4ejI6FVxs6QSPnQtVGSf6V2d0S0TpIaet6exCDuu
-	yv8cn6lOK8FkCQl7q1RAmBTaScdAa4hbu39TOsfAPALiZJsOfw0asRMbhjv/aTtIgMvt2te5BaZ
-	NaDvvfjFDC0beG/jf+ToVfjuzr/zAa+XkGUNnRt/9aBm0sAfEhlqWemWwi1nPKiD331ZdzfpZ1S
-	J3NmcAHQLsBQpbeNXf4pjptBUFbcgYCCuPbKQPBzNkmzUiWA/EEsuNqulrsmXUXRqNwifI8+5xp
-	P0OktjfurY0sdjubmAj9iObxPNwMbAp/J48Y8FY73dWwZARqeZMFSd0k1iueHO33j7OufuOieMq
-	F/4RAQjAO0vwDhcVBsJtHM+jJOJ1RopbxTQ2BPjQbp5WY7odINgY4nhmigjRfONOgJLOniFHqYt
-	YSsGXpUij2SVCOkTx4KTnjmC6HEebraKTbxswx/uD4bUTuSFCwHVuRMS6RwONJ7gQNzNRgkcBQR
-	Q==
-X-Received: by 2002:a05:6808:1997:b0:4f5:d3bf:edf3 with SMTP id 5614622812f47-5640e035525mr10789884b6e.59.1793742017956;
-        Tue, 03 Nov 2026 13:40:17 -0800 (PST)
-Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-567a9f9115csm27060b6e.11.2026.11.03.13.40.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 13:40:17 -0800 (PST)
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Tue, 03 Nov 2026 14:40:05 -0700
-Subject: [PATCH v7 12/12] serial: 8250_dw: configure RX trigger thresholds
- for Octeon
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XpcWDnPd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05B181F000C1;
+	Tue,  3 Nov 2026 21:42:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793742133;
+	bh=bCnu9fAte19N3TQ+TF69luK0oIJmG5VMG28ngg+iJc0=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=XpcWDnPdMjVCr+gMPRMVfJpllO5Tc9Ili2u3gekaggSZPxX2uTTR/SDauhPvWSjJP
+	 YIzmP/qLWcNDKWSXPJ3AD3/lLZiGEmZ3Bhs9tvpeH4IQqiG0tWrUI1YPan4kjGY54I
+	 Gr005161sGSyFiwP/G0T8UP6UdUuMrAZCudTfu7JyViXYK5+tD+nmOu+DDel4SGPSa
+	 KZJYpS2QelZrjlAECsrxMBZFRZnB249M2+xmzL2CjmS8nneA7YsQqXUl0LcGAodtP6
+	 CtRNMRyQwkCGKu1paXT5CKrUlBPf1miEgkU1ENYm9Yhy6w8nxC7iUoBR1vSf/RNtBP
+	 z12TjOu7uLd0A==
+Message-ID: <sashiko-outbox-196067@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 01/10] pinctrl: sunxi: Fix out-of-bounds irq_bank index
+ when first bank has no IRQs
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Lee Jones" <lee@kernel.org>, linux-gpio@vger.kernel.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20261103213002.1673560-2-lee@kernel.org>
+References: <20261103213002.1673560-1-lee@kernel.org>
+ <20261103213002.1673560-2-lee@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 03 Nov 2026 21:42:12 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -94,84 +59,142 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261103-submit-h616-uart-fifo-v1-v7-12-c9e248d685c1@gmail.com>
-References: <20261103-submit-h616-uart-fifo-v1-v7-0-c9e248d685c1@gmail.com>
-In-Reply-To: <20261103-submit-h616-uart-fifo-v1-v7-0-c9e248d685c1@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, James Hilliard <james.hilliard1@gmail.com>
-X-Mailer: b4 0.15.2
 
-Octeon uses the DesignWare receive-trigger mapping with a 64-byte FIFO,
-giving thresholds of 1, 16, 32 and 62 bytes. Its setup bypasses
-dw8250_setup_port(), so it does not install the common trigger callbacks.
-PORT_OCTEON also has no static trigger table, so rx_trig_bytes is not
-exposed.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] pinctrl: sunxi: off-by-one IRQ bank mapping in prepare_function_ta=
+ble()
+--
 
-Supply the fixed depth from platform data when firmware has not provided
-one and initialize the common trigger table before port registration.
-This makes rx_trig_bytes available while preserving the Octeon port type
-and register accessors.
+commit c76ce1661381ff598e234c433e51d5307fae79a4
+Author: Lee Jones <lee@kernel.org>
 
-Select DMA before filling in the default depth, as before when the 8250
-core supplied that default during registration. Thus the new trigger
-setup preserves which ports attach DMA and their existing burst sizes.
+pinctrl: sunxi: Fix out-of-bounds irq_bank index when first bank has no IRQs
 
-Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
----
- drivers/tty/serial/8250/8250_dw.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+This commit initializes irq_bank and last_bank to -1 in
+prepare_function_table() and only updates last_bank on IRQ-capable banks so
+that irq_bank starts at 0 even when bank 0 (PA) has no pins or interrupts.
 
-diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/8250_dw.c
-index cdd3a62dfa7e..063441923864 100644
---- a/drivers/tty/serial/8250/8250_dw.c
-+++ b/drivers/tty/serial/8250/8250_dw.c
-@@ -663,6 +663,22 @@ static int dw8250_setup(struct uart_port *p)
- 	return dw8250_setup_dma(p);
- }
- 
-+static int dw8250_octeon_setup(struct uart_port *p)
-+{
-+	struct dw8250_data *data = to_dw8250_data(p->private_data);
-+	int ret;
-+
-+	/* Preserve DMA selection before supplying the fixed FIFO depth */
-+	ret = dw8250_setup_dma(p);
-+	if (ret)
-+		return ret;
-+
-+	if (!p->fifosize)
-+		p->fifosize = data->pdata->fifo_size;
-+
-+	return dw8250_setup_rxtrig(p);
-+}
-+
- static int dw8250_sunxi_setup(struct uart_port *p)
- {
- 	struct dw8250_data *data = to_dw8250_data(p->private_data);
-@@ -931,8 +947,9 @@ static const struct dw8250_platform_data dw8250_a523_data = {
- 
- static const struct dw8250_platform_data dw8250_octeon_3860_data = {
- 	.usr_reg = OCTEON_UART_USR,
-+	.fifo_size = 64,
- 	.quirks = DW_UART_QUIRK_OCTEON,
--	.setup = dw8250_setup_dma,
-+	.setup = dw8250_octeon_setup,
- };
- 
- static const struct dw8250_platform_data dw8250_armada_38x_data = {
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c b/drivers/pinctrl/s=
+unxi/pinctrl-sunxi-dt.c
+> index 8bcd566593ae8..79ca1a7c48374 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+> @@ -208,8 +208,8 @@ static int prepare_function_table(struct device *dev,=
+ struct device_node *pnode,
+>  	 * Assign the function's memory and fill in GPIOs, IRQ and a sentinel.
+>  	 * The extra functions will be filled in later.
+>  	 */
+> -	irq_bank =3D 0;
+> -	last_bank =3D 0;
+> +	irq_bank =3D -1;
+> +	last_bank =3D -1;
+>  	for (i =3D 0; i < npins; i++) {
+>  		struct sunxi_desc_pin *pin =3D &pins[i];
+>  		int bank =3D (pin->pin.number - pin_base) / PINS_PER_BANK;
+> @@ -222,17 +222,16 @@ static int prepare_function_table(struct device *de=
+v, struct device_node *pnode,
+>  		func[1].muxval =3D 1;
+> =20
+>  		if (irq_mux) {
+> -			if (bank > last_bank)
+> +			if (bank > last_bank) {
+>  				irq_bank++;
+> +				last_bank =3D bank;
+> +			}
+>  			func[lastfunc].muxval =3D irq_mux;
+>  			func[lastfunc].irqbank =3D irq_bank;
+>  			func[lastfunc].irqnum =3D pin->pin.number % PINS_PER_BANK;
+>  			func[lastfunc].name =3D "irq";
+>  		}
+> =20
+> -		if (bank > last_bank)
+> -			last_bank =3D bank;
 
--- 
-2.53.0
+[Severity: High]
+Won't assigning irqbank starting at 0 for Port B shift the hardware IRQ
+register offsets and GIC interrupt mappings off by one bank on Allwinner A5=
+23
+and A733?
 
+On Allwinner A523 and A733, Port A (bank 0) has 0 pins, while Ports B throu=
+gh
+K (banks 1 through 10) implement pins and interrupts. With this change,
+sunxi_pinctrl_dt_table_init() -> prepare_function_table() assigns
+func[lastfunc].irqbank =3D 0..9 to Ports B..K instead of 1..10.
+
+However, as described in commits 11f25ac56372 ("dt-bindings: pinctrl:
+sun55i-a523: increase IRQ banks number") and 6b81aa0c8a4f ("arm64: dts:
+allwinner: a523: Add missing GPIO interrupt"), the hardware IRQ register
+layout and Device Tree interrupt numbering on A523 and A733 start at index 0
+for the unimplemented Port A (RAZ/WI), with Ports B..K occupying hardware a=
+nd
+DT indices 1..10.
+
+On Allwinner A523, drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c defines an
+identity bank map starting at 0:
+
+    static const unsigned int a523_irq_bank_map[] =3D { 0, 1, 2, 3, 4, 5, 6=
+, 7, 8, 9 };
+
+When Ports B..K are given irqbank 0..9 without updating a523_pinctrl_data,
+sunxi_irq_base_reg() maps Port B (irqbank 0) via a523_irq_bank_map[0] =3D 0=
+ to
+Port A's unimplemented IRQ registers at offset 0x200 instead of Port B's at
+0x220, Port C (irqbank 1) to Port B's registers at 0x220, and so on through
+Port K (irqbank 9) accessing Port J's registers at 0x320, leaving Port K's
+registers at 0x340 unused.
+
+Furthermore, arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi and
+Documentation/devicetree/bindings/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
+specify 11 GIC interrupts starting with Port A (GIC_SPI 67) at index 0, Por=
+t B
+(GIC_SPI 69) at index 1, through Port K (GIC_SPI 140) at index 10:
+
+    interrupts =3D <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
+                 <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>,
+                 ...
+                 <GIC_SPI 85 IRQ_TYPE_LEVEL_HIGH>,
+                 <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
+
+Because sunxi_pinctrl_init_with_flags() populates
+pctl->irq[i] =3D platform_get_irq(pdev, i) for i =3D 0 .. desc->irq_banks -=
+ 1,
+assigning irqbank 0..9 to Ports B..K pairs Port B with Port A's GIC_SPI 67
+(pctl->irq[0]), Port C with Port B's GIC_SPI 69 (pctl->irq[1]), through Por=
+t K
+with Port J's GIC_SPI 85 (pctl->irq[9]), while index 10 (GIC_SPI 140 for
+Port K) is never requested.
+
+Similarly, on Allwinner A733, drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
+uses SUNXI_PINCTRL_NCAT3_REG_LAYOUT with no irq_bank_map:
+
+    static struct sunxi_pinctrl_desc a733_pinctrl_data =3D {
+            .irq_banks =3D 10,
+            .irq_read_needs_mux =3D true,
+            .io_bias_cfg_variant =3D BIAS_VOLTAGE_PIO_POW_MODE_SEL,
+    };
+
+In drivers/pinctrl/sunxi/pinctrl-sunxi.h, sunxi_irq_base_reg() computes the
+register offset directly from bank without calling sunxi_irq_hw_bank_num():
+
+    static inline u32 sunxi_irq_base_reg(const struct sunxi_pinctrl *pctl, =
+u16 bank)
+    {
+            if (pctl->flags & SUNXI_PINCTRL_NCAT3_REG_LAYOUT)
+                    return pctl->bank_offset + bank * pctl->bank_mem_size +
+                           A733_IRQ_REGS_OFFSET;
+
+            return IRQ_REGS_OFFSET +
+                   sunxi_irq_hw_bank_num(pctl->desc, bank) * IRQ_MEM_SIZE;
+    }
+
+Because pctl->bank_offset (0x80) is Port A's register base (IRQ-A at 0x0c0 =
+for
+bank 0) and Port B's IRQ registers are at bank 1 (0x140), assigning irqbank
+0..9 to Ports B..K shifts all A733 IRQ register accesses down by one bank to
+0x0c0..0x540 (Ports A..J) instead of 0x140..0x5c0 (Ports B..K).
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261103213002.1673=
+560-1-lee@kernel.org?part=3D1
