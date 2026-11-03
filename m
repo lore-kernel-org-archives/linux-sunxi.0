@@ -1,61 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793662455;
-	b=Uk5s3VERhFu3TsM5uEdYnJOFa7brWYaLEAKCflat+Wd5im1f0PPltFbxWR6+AuTrbmor
-	 jiAZ3vCH34grV5Y9gjYq+zRY8j3FMrmZcLQ/hcsvCIZgV6SfuWDJelRH0SMlnd8gM13uw
-	 rxPR6cVYVK3I6oYHfQ3zR6fM84KgaPqK8P8SxweOD0hPBCBwaIVdEN/+EbBena6pd9oL9
-	 iKkZi2+HDaVQR7lD7yFjfJFlAuBDJQT3dbaa48ItATy7bio6kEEOyYXRIswV21qPJMFdj
-	 y21WvJI7jy0bc0A1WtkQ2tPhJnoab4iXsXPYuTAfs1PajiQyJ3NXg1lbs4KX0r8iCsA==
+	t=1793666519;
+	b=UPN7iJEcIjIO1Mp7SoB0zjijCIMVAsk2I+nimQ+J9tJJkBGh0gkweVUrFRpYkCXz8xMa
+	 Az99wgKeKjz6nPoRjMe3EtlMFyGVYpQi2jp47LXjGBpWvWARx7t4e2bDoAta7x6HJY5Xs
+	 0E27TbHIdkij3zB5QNR/L2QT/XJ2Qw7l9Uu7xWjl6WsJuGtTTUCrW2/6tnt+jAeKxR4ZI
+	 RtOPkuNcYxRqJPo3D6LIDWCKT96HkWZnDkQj9kDO2zU3yUYOLrkjghN9h52jdWJBSAFCt
+	 7a7uzlCSwEqhb0BdL31CThIk8FxHKzZ7iyGkC9/8qBdngpAFpkho4uIQq+jGmC2jMwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793662455;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=rYrONzDmndfVB6GaH3dGiAC1FfNwMYrSAW/wh3V+FUI=;
-	b=NUbKkYuLkFifU+sJB6Le4c4FZe4UhbExyPXjK7gCdN3B9wWfZau7LyVAyiJe/PGQT84U
-	 nk53GRxJUKkAqNGzC/bXqsfp9fxjjGGL1yfDGg7eBjxKo6N1vbDMcTq4IQyWvrGA7tHK0
-	 ZMuVo0SSQFpKEMmkCQrF6/Rs3GYZfP3O8s54GcqM3LGLgKvMZIAiCznotf/CQQftkdGK0
-	 burKsKK0hcfZbbzNp3BqfBH9j0l7ZIzw2TvuUmy+FYtA7qZKGr6WMftuF7/MpQM0v/ylx
-	 XkkGxveQsHfHZcPWXlugiSCkLIrkm6oKdHavY9mTEPKNd+NEjiR3CIKqBoOqDOfCzKA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793666519;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=Vh/cvDInRTV2ogz1411cOMX/5XEmrB74tytYBj9+zVQ=;
+	b=VJNCB16CPZYopnCDfus8UkEZ1l7cZR3esRrRkoP1XbO7O7OBoJgXCpCrUu//KZf4udtf
+	 ihxHOngbOIar6nMPlh5SiCrRhCvPH8g6No9/R0DkuRZWrPABwE+F4L1HnxNAjDWX1BdXD
+	 nxZ3VYebcC612KF8mtxArLbMzNE+XHRc+C5q/FDl9wv9QFX+G8SR3SPbzIgmhE7OSgYc6
+	 6FmKgZCSGo03XuVFk53dSD4wxcxR0XYohuSz3Fj7Mmp0Fd3lr8M8tVVlCZAv5LYtVyK1r
+	 I6dd4siiMQj3ME79GAUNVHYTl9g3jFScGDz41h9Unidxarwsp7EJ438tFrzgRe/iHdQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="KY5/YjPY";
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE7E9606A324
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Nov 2026 23:34:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE7E9606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q6OHb+dB;
+	arc=none smtp.remote-ip=209.85.210.46
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881E4606A32D
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Nov 2026 00:41:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 881E4606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=KY5/YjPY
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 386B22F;
-	Mon,  2 Nov 2026 15:34:04 -0800 (PST)
-Received: from ryzen.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 18AD73F673;
-	Mon,  2 Nov 2026 15:34:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793662447; bh=TyPXI9cOspx3YhD24PSZEUA31oaVYiyRztgSw5AfOuc=;
-	h=From:To:Cc:Subject:Date:From;
-	b=KY5/YjPYz1s+wKGHenLIrGW6UuNYi3/dP16lbQEGEt1D/xIUfcJWgXCqly+N+kx9n
-	 NfBiNAUBXfBBKCZAQHlOC+PSKYaWTAZXz7RW5fUnbe/BgMqfm80lBVLBYhJWEZ5m+U
-	 Yh+SupEqXGLE9FqUi90PuwGcORUSgU+vffXiOk+I=
-From: Andre Przywara <andre.przywara@arm.com>
-To: Rob Herring <robh@kernel.org>,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Q6OHb+dB
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-854e904005cso108706a34.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 02 Nov 2026 16:41:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793666518; x=1794271318; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Vh/cvDInRTV2ogz1411cOMX/5XEmrB74tytYBj9+zVQ=;
+        b=Q6OHb+dBquUavVqRaPwcHgAukPfrr3eQ7xPfJWzT9K2El1BxYBpmdshdpO3yXHDnOb
+         Ex51N1SXltTMHQ41XLjCvH00/CcnUzeMNfosAUbdkHsiWGYkgK6R59kS+8uwYYZ4rw8+
+         +NuJFIH61N1fskTMmUv5oQhHGpxmaXCGN/jRlNfQYF41JAxtNlGeRRSRya89IYldQL1z
+         olKXH9yfqUjL8MCyexmHVETigvaNtdEZaeaO5ZYoLcq+WPpfQuDzQBBlrp4CPARfYLsR
+         SHLuVoqEm0C1094GXF6srSIvcfmE+LVw+sIPQ0jrsUZCa95LkYeNrxiYnMxe3cL/3unj
+         llYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793666518; x=1794271318;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Vh/cvDInRTV2ogz1411cOMX/5XEmrB74tytYBj9+zVQ=;
+        b=e1zvEWN36Tbh6nzq74uiksslpOEKXEWzFJbhuvn6IPV3kQ+2qpifIGg8BxrPkKEzzr
+         b+FoSzonW68C8s7rbBlvRtki8CN5/S56k6USVKTWyB05NYhjahfO6Ln5UkY4FkmejjKj
+         nJPsEU8LAIwLvDY7dWBy6jGcRfFTZibnX9J1F/SX4QbrRElvNghxQ6y+Nn/21W2X6Mxo
+         9fbfDCeoeoij2dQKFug92KYFmNk6iNa3X++lBUmdH9p0C0oc3ajFv3m8PsEu++fK61HD
+         aA7XJbWTW2fWIxDxqABI52+1IV4Yx7admI7LEPAHjLO5MI/gRGX1R7BfqVmpmQxaycFw
+         iJuw==
+X-Forwarded-Encrypted: i=1; AKwUvBx/XgbNWVVgh+5g4RY7GWBFTa2cnsowWvrmSJRtQp/ryR/eYhqR2bNL/raLdnRGhhbZuSaCuo7aBw+9GQ==@lists.linux.dev
+X-Gm-Message-State: AFq9FYJaSKvq0Wl9685KYldl7qoPn5WoOhp5u1FNAhPAsyTIq8U6BBCK
+	YGrRdjUl3kEp9JkUf6/rAVCAbLYNLFHs8RUAivD/6R278F3NKTSOU1K0
+X-Gm-Gg: AYBFou3/rdIaMMuVeXgl7PBw9PQYmw1WtJzihSrY9pzM1ZgekTyH34FTUOmvgrnryMB
+	G/2pzS+lOyKZEOiljH0baTqDM7PY+GgsDRnAGXwIfbqokfLgqr9detudkz/RBeQ6BAMXEf6ldCZ
+	8ZyVKbi7lJP8QY5nIuG87FNWUyKzZU4LztkpxVT0Rtes4JW9NHA7tob8SLHJ72p9+I8Mm1fCi2u
+	TERXvomz1GWubbknlyHDExmYamq5CSfqK3KmnseKRWzTpmAMOPqs04PX1UnZ63qJFpUmyS6dUaD
+	yLKdEkI+3oEnOTaUsAsGmp9VlbAL9lqIZTs+Xn/rCbLRJNqrs4t+UskV2k/yeZxQ1bw98pFMLS+
+	L/dIdKIwSxuJRGURKZh7aR3+s0sN0e5h+/mE5+ibUPwbRM+dcX1bKL0TAfukMXkau4zp7UgcElq
+	TIL5XN4deL1NrrfS7PmuDcjk1ofuxlkbx2+4rz3KSRzkCWaViPHd7oXAi1W/kfbI5IqHvjis+HG
+	wbitQkwqa3bLYn/j6AA6eJ3x1Tb4ckt2TNKjXqBd2c1ErpTaGYUh3gpuE123E408GyWNT+QCSTr
+	CHYNYlBueEViQfS5F3YIgoVyJIg/fphDXe/8H9xS6jN/bSA7mCf/C3UtYN78OZztRYsP1v9BPW9
+	F82rV
+X-Received: by 2002:a05:6808:6f82:b0:564:57c3:2b28 with SMTP id 5614622812f47-56457c32c1emr1301058b6e.8.1793666518415;
+        Mon, 02 Nov 2026 16:41:58 -0800 (PST)
+Received: from AMD.home.internal (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-56523cdd0ffsm388473b6e.8.2026.11.02.16.41.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 16:41:57 -0800 (PST)
+From: Enzo Adriano <enzo.adriano.code@gmail.com>
+To: krzk@kernel.org
+Cc: Ulf Hansson <ulfh@kernel.org>,
+	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Paul Kocialkowski <paulk@sys-base.io>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	linux-mmc@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] arm64: dts: allwinner: a133: add ethernet aliases
-Date: Tue,  3 Nov 2026 00:33:48 +0100
-Message-ID: <20261102233348.23117-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.46.4
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>,
+	Junhui Liu <junhui.liu@pigmoral.tech>
+Subject: Re: [PATCH] dt-bindings: mmc: describe the Allwinner A733 eMMC controller
+Date: Mon,  2 Nov 2026 19:41:55 -0500
+Message-ID: <20261103-a733-mmc3-withdraw-reply@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261102-steady-grateful-chimera-e2363a@quoll>
+References: <20261031020640-263f7b05-a7s-mmc-binding@gmail.com> <20261102-steady-grateful-chimera-e2363a@quoll>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -65,48 +112,56 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-When adding the DT nodes and properties for the A133 Eternet support,
-we missed the ethernet0 alias, which is required by U-Boot to generate a
-stable, device-specific Ethernet address.
+Hi Krzysztof,
 
-Add the alias, to allow U-Boot using the Ethernet port, and also provide
-a non-random MAC address to the kernel.
+On Mon, Nov 02, 2026 at 08:27:19AM +0100, Krzysztof Kozlowski wrote:
+> On Fri, Oct 30, 2026 at 10:26:47PM -0400, Enzo Adriano wrote:
+>> AI assistance: Codex:gpt-6-astra.
+>
+> Drop, we do not advertise slop companies anymore.
+>
+>>
+>> Assisted-by: LLM
+> Drop
 
-Fixes: 8f128f357dfe ("arm64: dts: allwinner: a133-liontron-h-a133l: Add Ethernet support")
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- arch/arm64/boot/dts/allwinner/sun50i-a133-helperboard.dts      | 1 +
- arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts | 1 +
- 2 files changed, 2 insertions(+)
+Will do, here and in my other patches.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-helperboard.dts b/arch/arm64/boot/dts/allwinner/sun50i-a133-helperboard.dts
-index 694c0cacf9064..607864ee13718 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a133-helperboard.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-helperboard.dts
-@@ -19,6 +19,7 @@ /{
- 		     "allwinner,sun50i-a100";
- 
- 	aliases {
-+		ethernet0 = &emac0;
- 		serial0 = &uart0;
- 	};
- 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts b/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
-index 90a50910f07b7..81a2914ae3113 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-liontron-h-a133l.dts
-@@ -16,6 +16,7 @@ /{
- 	compatible = "liontron,h-a133l", "allwinner,sun50i-a100";
- 
- 	aliases {
-+		ethernet0 = &emac0;
- 		serial0 = &uart0;
- 	};
- 
+>> This binding is a separate prerequisite for the disabled MMC3 node in
+>
+> How this can be a separate prerequisite? Binding without user is not a
+> prerequisite.
 
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
--- 
-2.46.4
+You're right, it isn't. It should not have been posted apart from its
+user.
 
+>> the A733 DT v2. It does not add a sunxi-mmc driver match or claim an
+>> operational eMMC path.
+>
+> Hm? Why?
+
+Because I can't test one. None of my three Cubie A7S boards detects an
+eMMC, and their vendor device trees leave this controller disabled.
+
+[...]
+
+>> prerequisite-patch-id: 6fc03bfbd343042dd3b660938fcc09c5e7d48314
+>
+> So this cannot really be tested.
+
+Agreed. Those IDs came from my local tree and are no use to anyone else.
+
+I'm withdrawing this patch. André, you asked for the other MMC
+controllers because the IP is the same, but the manual documents a
+different descriptor layout for SMHC3 (A733 User Manual v1.00, tables
+11-3 to 11-6), and I have no hardware to test it on. The next DT
+revision will describe MMC0-2 and leave SMHC3 out until someone can test
+driver support. If either of you would rather have it described now,
+tell me and I'll put it back, in the same series as its user.
+
+Sorry for the noise.
+
+Best regards,
+Enzo
