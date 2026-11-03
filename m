@@ -1,90 +1,146 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.117.254.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793731162;
-	b=HiBhmWpDVYRCOxR6EbuVi0eX7SKzCxy8eU95E27ePKCt84wINTSftlmfOyPxN1q74gY8
-	 YcTkUJQ2hLyeCE9Qx9FAOz6KQ1DxtDHaip3MEoetl6giHLgAVOCyOCuNFcel6JpyFtwzr
-	 yRmCv0/finpFBTPmBLpWPNF8IwlztFNG/VLTrsx89tQgA7ff09yqt9HDhxMMminp/j4+H
-	 E/iWb+zzUiazFDOrus5j8wSf1OMWgWOHs0GAnSidrLdoy5X1o+c6mi5hoQ61g9Eta78hZ
-	 OWQJK1qRWfARwpyPgjr1OUoCMzX6qBYI0IZcQUDFmsPnKERT+4Oz/rOhkvlLARihYRA==
+	t=1793731469;
+	b=bAsgr5lzTPId5K8TDd5kkAdn8dxzCoEcBd4fhg9BaPI1Q2BIm9scBKZKe1O6TUmUpAlc
+	 Y4/ectUhthwC2jO0yNEsKQ5I4sFyPV1Aoj21McRwhf6MriCnTiTM4J7yl6IdBs0gdDVaz
+	 qwtZOxqn5fV7GSJYVoN5LCzT32vDWPFyzGzq119bzaPEXrIPN2pAil/Gs+ixWKERXPjdB
+	 nqqCN3wKPSDz5f39cjgmM/XVflHEZt9H25NBfNW7U36XHyK8/AN/PWXIZ5mlW5il2LY7R
+	 +O2Ix8YNj1gJdoQzkYrcLwvUzMEBfA01rvGag93AHvOQC8dqZz+tgHNWPcocJ/aG2ig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793731162;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Autocrypt:Organization:Content-Type:
-	 User-Agent:MIME-Version;
-	bh=fMJ5+/syPNsycgszjeQz+Dfq+eBdUioDgcU3E8qF97M=;
-	b=kpSGv33SiUlMZCLN2G9PB9jDSTWigqYFAof2lque559XWfYfzoOEHqWa0+MZxqGuHlGw
-	 VE6bLViqhQJ+Lh2anlwYZvPaDOD0gvWDVRHzrV4VxiPfsEDhS/71OSqd6fa92x4OifoPK
-	 8EwFMVvDqbFM5AdMDaJ6puc8R87X5Ccr2eis9vMjP8P8BDKdk4r/PJKVJQJ9noXSxITMm
-	 N+fnLbl3G21rq+lUnkmC2qkiwYfRvaGRYBHvOtHHMHefpM90p0mNlmYMhlb6UTi2KHd+5
-	 uFv7CnsFu3qg1ZOdotDYhCu8rICFQy7FS2yi0Ih2XQRWkaWtJknSf13N/Tikg61NPNg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793731469;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:X-UD-Smtp-Session:Date:
+	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=WjL+BboDzTnCr05d4B3GVddTa6hoTsb2Q7/tMkgbEgE=;
+	b=y34iPJ2a9KDrJWZhqC0sIzaqGsN5/+iyQMRc2uP9QoD7P1gIPD1okGmTZ28O0OzcaF1q
+	 OgZqhfVRYclUaN+h30d633MdcSw6n8wctyVUOd6lSWl5ZA+Pf1Ns2GTb5PustITTHh8CS
+	 +j8ul6TI7x+zUViBVHLFeelcrxI+rirtDyWtIo1L7iKLlMKL6f3whZqeqnx8xOxOwyuET
+	 5UmiNHUV87FJtCVzRscgILxCefJuYufRCilF23cQMOFwjxu6/EWTGUW2AwDeGcbtVRVPh
+	 4vpKesjlqUqDmTFmEBiLUzMT3Ui1F7SQZw0pyGt98ElHh5+w6Anrr8B08JYSq9288aQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=collabora.com;
-	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=WAGisDgc;
-	arc=none smtp.remote-ip=148.251.105.195
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	dmarc=none header.from=sang-engineering.com;
+	spf=pass smtp.mailfrom=sang-engineering.com;
+	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b="k4/TTGvn";
+	arc=none smtp.remote-ip=194.117.254.33
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B96606A333;
-	Tue,  3 Nov 2026 18:39:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D4B96606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5ED606A32F
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Nov 2026 18:44:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D5ED606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=WAGisDgc
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1793731160;
-	bh=SddPWJ3RxZPOXnGWNXHvie9IBIx0aAYAtlCLCEHvlbY=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=WAGisDgciIi6wkoaN3ptsY0BHM1UYJ1es6fbh3ONSjiMc60cURniLExL1cBbCZ57M
-	 XriuMufgxmnS4Fnht0OV9eh5LTqksdtPyZzdLpH9RvOmRD73Y6etNTl5g1Vdp+m4YN
-	 nBHXRVGwbhQ8eGESPTdGMWotxbhy1b69sllnGatYXw9UVryD/00J7IGCO5Q66EfHx7
-	 gcc2Ot0cPjB+oFRShok6QCi3NcFv3yGmDmqeq5LsRXZYU3nnRRGrW9P5VS+sum7Sl2
-	 OuUOfBS+6asFL+gRAxW9mClJiS9sgC8kyNULM+STb+UyO+67jJVOBdZN+gAcBZlV+1
-	 walO1nR4xnn8g==
-Received: from [100.64.0.214] (unknown [100.64.0.214])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B031317E0DFF;
-	Tue, 03 Nov 2026 19:39:18 +0100 (CET)
-Message-ID: <0ea4459f8f4d9cc274c58c5ab00b4952fce59c35.camel@collabora.com>
-Subject: Re: [PATCH 03/10] staging: media: cedrus: h264: mark long-term
- references in the frame info
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski
- <paulk@sys-base.io>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Tue, 03 Nov 2026 13:39:17 -0500
-In-Reply-To: <zYI0QcxKSEeu6sHIbu0-3w@gmail.com>
-References: <20261102170303.1973892-1-jernej.skrabec@gmail.com>
-	 <20261102170303.1973892-4-jernej.skrabec@gmail.com>
-	 <29e72b15007592f98dd000f5f62a85367c590347.camel@collabora.com>
-	 <zYI0QcxKSEeu6sHIbu0-3w@gmail.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-4o970CQPk1yDQhl/dEtr"
-User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
+	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=k4/TTGvn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=WjL+
+	BboDzTnCr05d4B3GVddTa6hoTsb2Q7/tMkgbEgE=; b=k4/TTGvn6KawElXEg9Bb
+	qOZDns6dw9rlO8RAcyEW+R5LtiRWK3EUb1xjy1qv5PY7vclfnx0g2zpyRZVQHBQk
+	hS2cYY6dvAjl+vRiET3GcojY3mYknjggYIDCmsAOOODL5DWB24RiBNfTVe+sFXwA
+	ovDhC3fDMR0XK9MmSAXBVkPFBg3Z543a0Vc/+0kETuPaPFpyl6SYJO91d3WVkD9r
+	pcnEavNArnqZDMUAJXlOdMLBl2JLVqQbbmzKs9lmkKUVXbte2zMVrK+98TXCdCn4
+	V6761POK1dz1bRaU6iLEQZpFTg9RwZwQW5Ad0pqtUf4KdwYhnZT7/Jhg+CIIFitj
+	Ug==
+Received: (qmail 389364 invoked from network); 3 Nov 2026 19:44:13 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Nov 2026 19:44:13 +0100
+X-UD-Smtp-Session: l3s3148p1@m+AWpmNfMLbAwtcC
+Date: Tue, 3 Nov 2026 20:44:13 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Douglas Anderson <dianders@chromium.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jyri Sarha <jyri.sarha@iki.fi>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Paul Cercueil <paul@crapouillou.net>, Marek Vasut <marex@denx.de>,
+	Stefan Agner <stefan@agner.ch>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Linus Walleij <linusw@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Inki Dae <inki.dae@samsung.com>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Alison Wang <alison.wang@nxp.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Yannick Fertre <yannick.fertre@foss.st.com>,
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+	Philippe Cornu <philippe.cornu@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Ondrej Jirman <megi@xff.cz>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Igor Reznichenko <igor@reznichenko.net>,
+	Michael Walle <mwalle@kernel.org>,
+	Dario Binacchi <dario.binacchi@amarulasolutions.com>,
+	Jagan Teki <jagan@edgeble.ai>, Jianhua Lu <lujianhua000@gmail.com>,
+	Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Jerry Han <hanxu5@huaqin.corp-partner.google.com>,
+	Joel Selvaraj <jo@jsfamily.in>, Icenowy Zheng <icenowy@aosc.io>,
+	Michael Trimarchi <michael@amarulasolutions.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Casey Connolly <casey.connolly@linaro.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Cristian Cozzolino <cristian_ci@protonmail.com>,
+	Junjie Cao <junjie.cao@linux.dev>,
+	Ryan Brue <ryanbrue.dev@gmail.com>,
+	Nickolay Goppen <setotau@mainlining.org>,
+	Stefan Mavrodiev <stefan@olimex.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Robert Chiras <robert.chiras@nxp.com>,
+	Alexander Koskovich <akoskovich@pm.me>,
+	Markuss Broks <markuss.broks@gmail.com>,
+	Artur Weber <aweber.kernel@gmail.com>,
+	David Heidelberg <david@ixit.cz>,
+	Dzmitry Sankouski <dsankouski@gmail.com>,
+	Yedaya Katsman <yedaya.ka@gmail.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-mips@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org
+Subject: Re: [PATCH 07/35] drm: rcar-du: use devm_drm_panel_bridge_add()
+Message-ID: <auorffiFkpqbhotm@shikoro>
+References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com>
+ <20261026-drm-panel-funcs-v1-7-5e3070a3478f@oss.qualcomm.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -94,154 +150,17 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261026-drm-panel-funcs-v1-7-5e3070a3478f@oss.qualcomm.com>
 
+On Mon, Oct 26, 2026 at 01:09:56PM +0200, Dmitry Baryshkov wrote:
+> The connector type passed to devm_drm_panel_bridge_add_typed() has been
+> ignored since commit b7797081ccfe ("drm/panel: embed a drm_bridge into
+> every drm_panel"), the bridge always has the type of the panel.
+> 
+> Assisted-by: LLM
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
---=-4o970CQPk1yDQhl/dEtr
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Le mardi 03 novembre 2026 =C3=A0 19:06 +0100, Jernej =C5=A0krabec a =C3=A9c=
-rit=C2=A0:
-> Dne ponedeljek, 2. november 2026 ob 19:50:44 Srednjeevropski standardni =
-=C4=8Das je Nicolas Dufresne napisal(a):
-> > Hi,
-> >=20
-> > Le lundi 02 novembre 2026 =C3=A0 18:02 +0100, Jernej Skrabec a =C3=A9cr=
-it :
-> > > The frame info of a reference has a reference type for each field, in
-> > > bits 1:0 for the top field and 5:4 for the bottom one, which is 1 for=
- a
-> > > long-term reference. The driver never sets it, so the hardware handle=
-s
-> > > long-term references like short-term ones, also where they differ, li=
-ke
-> > > in temporal direct and implicit weighted prediction. The vendor libra=
-ry
-> > > sets it.
-> > >=20
-> > > This fixes MR8_BT_B and MR9_BT_B of the H.264 conformance suite.
-> > >=20
-> > > Fixes: 6eb9b758e307 ("media: cedrus: Add H264 decoding support")
-> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > ---
-> > >  drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 12 +++++++++++-
-> > >  drivers/staging/media/sunxi/cedrus/cedrus_regs.h |  8 ++++++++
-> > >  2 files changed, 19 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drive=
-rs/staging/media/sunxi/cedrus/cedrus_h264.c
-> > > index 892193c12b2f..a716955655f7 100644
-> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > > @@ -69,13 +69,21 @@ static void cedrus_fill_ref_pic(struct cedrus_ctx=
- *ctx,
-> > >  				struct cedrus_buffer *buf,
-> > >  				unsigned int top_field_order_cnt,
-> > >  				unsigned int bottom_field_order_cnt,
-> > > +				bool long_term,
-> > >  				struct cedrus_h264_sram_ref_pic *pic)
-> > >  {
-> > >  	struct vb2_buffer *vbuf =3D &buf->m2m_buf.vb.vb2_buf;
-> > > +	u32 frame_info, ref_type;
-> > > =20
-> > >  	pic->top_field_order_cnt =3D cpu_to_le32(top_field_order_cnt);
-> > >  	pic->bottom_field_order_cnt =3D cpu_to_le32(bottom_field_order_cnt)=
-;
-> > > -	pic->frame_info =3D cpu_to_le32(buf->codec.h264.pic_type << 8);
-> > > +
-> > > +	ref_type =3D long_term ? VE_H264_FRAME_INFO_REF_TYPE_LONG_TERM :
-> > > +			       VE_H264_FRAME_INFO_REF_TYPE_SHORT_TERM;
-> > > +	frame_info =3D VE_H264_FRAME_INFO_TOP_REF_TYPE(ref_type) |
-> > > +		     VE_H264_FRAME_INFO_BOT_REF_TYPE(ref_type) |
-> > > +		     VE_H264_FRAME_INFO_PIC_TYPE(buf->codec.h264.pic_type);
-> > > +	pic->frame_info =3D cpu_to_le32(frame_info);
-> > > =20
-> > >  	pic->luma_ptr =3D cpu_to_le32(cedrus_buf_addr(vbuf, &ctx->dst_fmt, =
-0));
-> > >  	pic->chroma_ptr =3D cpu_to_le32(cedrus_buf_addr(vbuf, &ctx->dst_fmt=
-, 1));
-> > > @@ -128,6 +136,7 @@ static int cedrus_write_frame_list(struct cedrus_=
-ctx *ctx,
-> > >  		cedrus_fill_ref_pic(ctx, cedrus_buf,
-> > >  				    dpb->top_field_order_cnt,
-> > >  				    dpb->bottom_field_order_cnt,
-> > > +				    dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM,
-> > >  				    &pic_list[position]);
-> > >  	}
-> > > =20
-> > > @@ -174,6 +183,7 @@ static int cedrus_write_frame_list(struct cedrus_=
-ctx *ctx,
-> > >  	cedrus_fill_ref_pic(ctx, output_buf,
-> > >  			    decode->top_field_order_cnt,
-> > >  			    decode->bottom_field_order_cnt,
-> > > +			    false,
-> >=20
-> > nit: Not a hard objection, but I really hate boolean parameters. It cou=
-ld be a
-> > simple as:
-> >=20
-> > +			    false, /* short term reference */
-> >=20
-> > Or using an enum. My preference being documented here, its yours to dec=
-ide.
->=20
-> I'll use VE_H264_FRAME_INFO_REF_TYPE_* as parameter. I have to fix sashik=
-o
-> issue anyway.
->=20
-> I'll keep your Reviewed-by, unless you object.
-
-wfm
-
->=20
-> Best regards,
-> Jernej
->=20
-> >=20
-> > Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> >=20
-> > >  			    &pic_list[position]);
-> > > =20
-> > >  	cedrus_h264_write_sram(dev, CEDRUS_SRAM_H264_FRAMEBUFFER_LIST,
-> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drive=
-rs/staging/media/sunxi/cedrus/cedrus_regs.h
-> > > index 05e6cbc548ab..961fe023bb43 100644
-> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > > @@ -616,6 +616,14 @@
-> > >  #define VE_AVC_SRAM_PORT_OFFSET		0x2e0
-> > >  #define VE_AVC_SRAM_PORT_DATA		0x2e4
-> > > =20
-> > > +/* Frame info word of a frame buffer list entry in the AVC SRAM */
-> > > +#define VE_H264_FRAME_INFO_PIC_TYPE(v)		SHIFT_AND_MASK_BITS(v, 9, 8)
-> > > +#define VE_H264_FRAME_INFO_BOT_REF_TYPE(v)	SHIFT_AND_MASK_BITS(v, 5,=
- 4)
-> > > +#define VE_H264_FRAME_INFO_TOP_REF_TYPE(v)	SHIFT_AND_MASK_BITS(v, 1,=
- 0)
-> > > +
-> > > +#define VE_H264_FRAME_INFO_REF_TYPE_SHORT_TERM	0
-> > > +#define VE_H264_FRAME_INFO_REF_TYPE_LONG_TERM	1
-> > > +
-> > >  #define VE_VP8_PPS			0x214
-> > >  #define VE_VP8_PPS_PIC_TYPE_P_FRAME		BIT(31)
-> > >  #define VE_VP8_PPS_LAST_SHARPNESS_LEVEL(v)	SHIFT_AND_MASK_BITS(v, 30=
-, 28)
-> >=20
->=20
->=20
->=20
-
---=-4o970CQPk1yDQhl/dEtr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCauoqVQAKCRDZQZRRKWBy
-9A8TAQD+Ry4FbmqwUPe+CY+SuLTohAJ3Ka3OO+jZx92frXbjMwD9HhnN1J2i6c6E
-vla3dVABSCurWRbXxU3IIzC1ZTRiagY=
-=9Lq8
------END PGP SIGNATURE-----
-
---=-4o970CQPk1yDQhl/dEtr--
