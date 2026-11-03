@@ -1,55 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793701589;
-	b=F6grtBg6p7/Nsgg0ih6+/hb5sepG61oP14Q04Y7KUH0j/71B+7lrUyfvHubK7Z/qe0BY
-	 YMu74YGkHpiy3IitJkMHSy29dsfm190rtn23c+ensWXplzDyO0zd3iLc/s3BWRkQegV5/
-	 wLubGPQhQZjlVKhMGRwjZZZwqtiyaTAmpcq30P1TKYJSh9dCojaf/4lUHGXaGiM6IESKr
-	 noLer+OqfRbeTR91eBr1ZgiMA5m0CFkpzjAr/djtsZ3Sxj94bpxFqze0JsLHGH3rV9WUU
-	 /Jg3XsA3Oh6mQPiTqJnwKv7gkyQNJ1zyeNfBeHS13ZvWa5cPRGFJLPd7PP8P5Y6nmyg==
+	t=1793702973;
+	b=WlDGsx/4jufY4CaMkyjHhvL64Fv2F17+WT5eSjVP1P3Dqm1tYG43ajejdBVGCfQFVph5
+	 dqNjWjqZhBkSxmlaAN5DdhSRKwEAr/r6ObmZ8qgBjCBfAMl4zV3sEM1wtSPUJwzKtzh5D
+	 XuPxQgMFa3X0kzjnJ7UYNBPVI6wC8eBSIagF8jF9rzTTux+Vis+E3m+9KuvIIMnR7sikY
+	 jlK4vHyB0pbXT/evEkFMUeknkwThtHHMC+J0YBg4zd0QWNrAdvD4QRe3xLGn/8RRBspvb
+	 gZ/xLy1g37B9KanRDDQfztIYcb407KpQ/zPFryDamDaWd+xp40iHPacwWTHwvOC/LvQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793701589;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=rIlYC4RGaBYFb8msoJbR+EejQjSODQYfHSJuVWGfL3U=;
-	b=nnSQsirMUt3OGQj4CuH9GU9kbx3q8MdvqE6Nt7iBy5m+LTWmEWjSa0EZNNnufEYNcSd0
-	 SI4H4kQklM5fObU8nRqWQvB0g8+DtMXr4yFN12uz3ERnFZFHGzT2E9LDXF/r7Av2EbsfI
-	 BkdgBYCAgRz/yrUglN+JIELjJef6uehDI6dYVqu0hI506wgki9yb4Tbh88DG12Q7ZcS+0
-	 qEhdupykjTA2hhKBluOLcHQSnBfT45cyz7aNsrrvbisXpsOcg2XLj2yrjfkWnYQ0RM90m
-	 yI2uUwtsqBSQhmZCrbK+UGiXhJy2mpYC9vZlEJ5/RNxzCdPOE3T4K49iyDSMTygzR2Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793702973;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=/sab2LCSJRJhh9yUv/qU3yP9loQ+y36uJxehXLEAL1k=;
+	b=YEjzY0JMxAiyPw23kj3M3qoxCPkja8YgbtA59wccoBuyCx2yQSgBONnQyQvYxcehxZyX
+	 tIBN457KR/HY0b3XQjnxB6VwGnl6OLOsqxj6T62WTm00Y3QL9i59n8Iz9cQ9xU1kl9M8h
+	 QFIOzZtSHMQOWVz7J8zPOg+4dHhZtX2eA9bShvU+GXbAAqcukW7+wVrHsxTDRXbirhyn0
+	 oW3ZPSPBjFEya1hHDHn+FmWftGpSribVIAdnS3sC1g3GWVS/T7cvZnxEY3pVz/7kW2CbV
+	 5VC/+5uGX4yQnxdnRvxR79RRjUYvKY7aIk3WsptTw8JfwKogFflzDbu3ZlXt3meLnNQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZlJLy8eM;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B861606BA78;
-	Tue,  3 Nov 2026 10:26:29 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=H0AqczOH;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FE49606A332
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Nov 2026 10:49:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2FE49606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZlJLy8eM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C2FC1F00919;
-	Tue,  3 Nov 2026 10:26:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793701589;
-	bh=rIlYC4RGaBYFb8msoJbR+EejQjSODQYfHSJuVWGfL3U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZlJLy8eM6LcgBzKjbZG6s94R+zcLzCqKvHAN+PzsR+gn5D69ZF1XwfBbzG9kmOHly
-	 rkx6cHR0QurRoj5qxtYCZDjTPCVdFiKLa01IqHlDkYLlr0U6emnYFh1GkgOwkl29Vf
-	 YYcYd9z0J20m/jOXF0V9o1yjzCvDA0fSiC7iGZ/He6apFFFoRwKWRlbyCgBq0abnTp
-	 f6y+/FVq6ZnicYtpiyoYDHka1LPwP7926QpyWYlq3w3LKz22OexFpMCWiSEjxxe4w5
-	 vIP5CzZfUWwj2Bc8IevU2OltJSpdiTFr9MuhLrcjcioMzEtUmPafbDpcUmwutDArHk
-	 GYSgoUkqgNTnA==
-Date: Tue, 3 Nov 2026 11:26:26 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: Samuel Holland <samuel@sholland.org>, stable@vger.kernel.org, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	linux-arm-kernel@lists.infradead.org, Vincent Mailhol <mailhol@kernel.org>, 
-	Marc Kleine-Budde <mkl@pengutronix.de>, linux-can@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] can: sun4i_can: Use devm_clk_get() for the CAN clock
-Message-ID: <20261103-competent-tactful-condor-50b96c@quoll>
-References: <20261103100520.1309743-1-vulab@iscas.ac.cn>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=H0AqczOH
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4E57E153B;
+	Tue,  3 Nov 2026 02:49:28 -0800 (PST)
+Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6D61B3F628;
+	Tue,  3 Nov 2026 02:49:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793702971; bh=3fnx5RvirX3cqQpN8evTA0YpxaE0yQIweUETOqhfv4M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=H0AqczOHrNZMfCjyLJObkt1RSv6zgyUcmD6iIIEWMwUuGRRjUFiWeh5rgOQRm5k2/
+	 yD66PDJW6soIRh10C5Hnbz6/6RSAnsOLOPInotps6zRMrhLtaL8Vf11Lr4+Xs60L8N
+	 kNAF5qTTw4dgJHhePmqk0N8JWMtonkAkna3ZIGik=
+Message-ID: <85dc4135-4684-4e17-95e4-833cf8753b64@arm.com>
+Date: Tue, 3 Nov 2026 11:49:27 +0100
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,68 +53,171 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261103100520.1309743-1-vulab@iscas.ac.cn>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] arm64: dts: allwinner: a100: Add CPU thermal trips and
+ cooling maps
+To: rajanyadav0307@gmail.com, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20261103-a100-thermal-trips-v1-1-73bce7ff0767@gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20261103-a100-thermal-trips-v1-1-73bce7ff0767@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+Hi Rajan,
 
-On Tue, 03 Nov 2026 10:05:20 +0000, Wentao Liang wrote:
-> sun4ican_probe() obtains the CAN clock with of_clk_get(), but neither
-> the probe error paths nor sun4ican_remove() ever call clk_put(), so the
-> clock reference is leaked both when probing fails and when the driver is
-> unbound.
+many thanks for sending this!
+
+On 11/3/26 10:09, Rajan Yadav via B4 Relay wrote:
+> From: Rajan Yadav <rajanyadav0307@gmail.com>
 > 
-> Use devm_clk_get() so that the reference is released with the device.
+> The CPU thermal zone in sun50i-a100.dtsi has a sensor but no trip
+> points, so nothing throttles the CPU as it heats up and nothing shuts
+> the system down before it overheats. On a KickPi K5C (A133) without a
+> heatsink, the CPU reaches 90 C within minutes of full load.
 > 
-> Fixes: 0738eff14d81 ("can: Allwinner A10/A20 CAN Controller support - Kernel module")
-> Cc: stable@vger.kernel.org
-> Assisted-by: DeepSeek-V4.1-Flash and OpenAI Codex
-> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+> Add a passive trip at 90 C that throttles all four cores through
+> cpufreq, and a critical trip at 110 C, using the same layout as
+> sun50i-h6.dtsi.
+> 
+> The temperatures come from the Allwinner BSP (sun50iw10p1.dtsi). The
+> BSP drives this zone with the power allocator governor: control starts
+> at 70 C, the target is 90 C, and 110 C is critical. The power
+> allocator needs a power model of the CPUs (dynamic-power-coefficient),
+> which the A100 does not have in mainline, so here the 90 C target
+> becomes a step_wise passive trip, and the 110 C critical trip is kept.
+> 110 C is also the highest working junction temperature in the
+> recommended operating conditions of the A133 datasheet (rev 1.5,
+> table 5-2). The absolute maximum is 125 C.
+
+Thanks for the explaining where the temperature values come from!
+
+> The GPU and DDR zones are left without trips, as in the BSP.
+> 
+> Polling stays disabled: the sensor raises an interrupt every 250 ms
+> and the driver updates the zone from it, as on the H6.
+> 
+> Tested on a KickPi K5C (A133, no heatsink):
+> - one hour of full load on all cores held the CPU at about 90 C, with
+>    short throttling to 1.32 GHz
+> - with thermal emulation, a rising temperature lowers the limit one
+>    OPP at a time down to 408 MHz, the limit is released below 88 C, and
+>    111 C triggers the hardware protection shutdown
+> 
+> Signed-off-by: Rajan Yadav <rajanyadav0307@gmail.com>
+
+Looks good to me, compared to what we have in the H6 and H616, and 
+confirming the 110C number from the datasheet.
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+P.S. Since you have a device and have been looking at this: can you 
+check the CPU speed bin selection? I think it's quite wrong for the 
+A133. The original contribution was just for the A100, using A100 
+specific ID values. I briefly checked and think they don't make too much 
+sense on the A133. Also definitely the OPPs are for the A100 only: we 
+are surely missing the nominal 1.6GHz OPP for the A133, and I think the 
+other parts (A133P) go even higher.
+There are several lists and numbers floating around on the net, and I 
+think BSP code should have a better way to identify the bins and dies.
+I would be grateful if you could dig into this and come up with OPP 
+updates. Many thanks!
 > ---
->  drivers/net/can/sun4i_can.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+> arm64: dts: allwinner: a100: Add CPU thermal trips and cooling maps
+> ---
+>   arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi | 29 ++++++++++++++++++++++++++
+>   1 file changed, 29 insertions(+)
 > 
-
-
-
-Multiple things here:
-1. Your team ignored completely previous feedback. Multiple times.
-
-2. You use multiple identities with this email address, thus I doubt that we
-   speak with an actual person.
-
-3. Your bot does not even bother running checkpatch, right?
-
-4. Nothing of this was reproduced nor tested.
-
-5. Finally, the same feedback:
-You sent multiple independent patches, to multiple independent
-subsystems. The amount of these patches clearly suggest this was
-AI generated and most likely not tested.
-
-More importantly, you sent all this work without properly organizing
-relevant patches into patchsets. This makes reviewing difficult
-and might cause multiple reviewers to address the same issue.
-Replying to the entire set is impossible and requires handling each
-patch independently, instead of applying or discarding the set.
-Maintainers also won't see the bigger picture of your work. Quite
-worrying.
-
-This is on the verge of hostile patch: bomb us with so many
-contributions, we won't be able to handle them in efficient manner,
-like responding ONCE to ask you to slow down.  Considering all this
-is untested and LLM generated, I have even more doubts whether this
-should be considered for review.
-
-Please read kernel documentation BEFORE posting more work. It will
-explain you how to identify subsystems, how to organize your work per
-subsystem (so a patchset grouping multiple patches with a short cover
-letter), how to document the issue discovery method and what was
-or was not tested.
-
-Best regards,
-Krzysztof
-
-
-
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
+> index ba6020989..fce91dc2c 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi
+> @@ -8,6 +8,7 @@
+>   #include <dt-bindings/clock/sun50i-a100-r-ccu.h>
+>   #include <dt-bindings/reset/sun50i-a100-ccu.h>
+>   #include <dt-bindings/reset/sun50i-a100-r-ccu.h>
+> +#include <dt-bindings/thermal/thermal.h>
+>   
+>   / {
+>   	interrupt-parent = <&gic>;
+> @@ -24,6 +25,7 @@ cpu0: cpu@0 {
+>   			reg = <0x0>;
+>   			enable-method = "psci";
+>   			clocks = <&ccu CLK_CPUX>;
+> +			#cooling-cells = <2>;
+>   		};
+>   
+>   		cpu1: cpu@1 {
+> @@ -32,6 +34,7 @@ cpu1: cpu@1 {
+>   			reg = <0x1>;
+>   			enable-method = "psci";
+>   			clocks = <&ccu CLK_CPUX>;
+> +			#cooling-cells = <2>;
+>   		};
+>   
+>   		cpu2: cpu@2 {
+> @@ -40,6 +43,7 @@ cpu2: cpu@2 {
+>   			reg = <0x2>;
+>   			enable-method = "psci";
+>   			clocks = <&ccu CLK_CPUX>;
+> +			#cooling-cells = <2>;
+>   		};
+>   
+>   		cpu3: cpu@3 {
+> @@ -48,6 +52,7 @@ cpu3: cpu@3 {
+>   			reg = <0x3>;
+>   			enable-method = "psci";
+>   			clocks = <&ccu CLK_CPUX>;
+> +			#cooling-cells = <2>;
+>   		};
+>   	};
+>   
+> @@ -659,6 +664,30 @@ cpu-thermal {
+>   			polling-delay-passive = <0>;
+>   			polling-delay = <0>;
+>   			thermal-sensors = <&ths 0>;
+> +
+> +			trips {
+> +				cpu_alert: cpu-alert {
+> +					temperature = <90000>;
+> +					hysteresis = <2000>;
+> +					type = "passive";
+> +				};
+> +
+> +				cpu-crit {
+> +					temperature = <110000>;
+> +					hysteresis = <0>;
+> +					type = "critical";
+> +				};
+> +			};
+> +
+> +			cooling-maps {
+> +				map0 {
+> +					trip = <&cpu_alert>;
+> +					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
+> +							 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
+> +							 <&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
+> +							 <&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
+> +				};
+> +			};
+>   		};
+>   
+>   		ddr-thermal {
+> 
+> ---
+> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+> change-id: 20261103-a100-thermal-trips-be14e8047b0a
+> 
+> Best regards,
+> --
+> Rajan Yadav <rajanyadav0307@gmail.com>
 
