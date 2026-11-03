@@ -1,119 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793707934;
-	b=uaQfM7NUbUMK8T4g11gsgT25hUU1E2fYnAgjf6iXnfCgnk6kHoaFsipHLKrnxTTA2aMN
-	 K/D64LnZGW8tkfRijumdjCn9/CGdFLKJeDaLuf4eeDuT4yZas63AGJmNBzq7efET79TQX
-	 07/ZqdBUZXoSceHMk6bKXxVZW1Yqr5N0klc6xS0EtuevGOnyzouocayOinKE2ZnI06hOY
-	 5T50rW36tcWMakmGAK6EJe63SauL/W3oT1prLe42wO/VGQ4V+NBUCpIImT9ZF8AlC13Z5
-	 1WEcY6DmwsOUNUcVvO+K05eqRyWNdZ+vAT81Bl6SgwGG716nZjG+2omyKqbFK4vBk3A==
+	t=1793710791;
+	b=xwzR6IZKJIj8WAJ4Pi1aTNjFMeHW2ZlG4bYadtg0fIyeWWB4FPN3GnV1JBU5lm2ECOkm
+	 5SM1NHs78nnAUofrLhj9aGADgqDdeDiJ0/uFJO0OrrSuafTETN+wQF+FhoUQSsmW7tnjM
+	 ybCaFU5ps2UIn8T7Z/geGgvSR+HxM+PyPL4esfJWAS2pCP7N/ouSIZHncTfTULNJikH7k
+	 3WG8kQIhsHcc3Qvxm7bc3nOnerQj/lp7gV87GqYT9Ed2kdUKLxHvXFzM80aNlyC6hCOKQ
+	 ePED0PK0VfS/0HXyrVNSsRxBoQXNgo5ZMzhhnYZtNzpecq1Tx+p/IwNOtUc04tmI3hg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793707934;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793710791;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=p7XwenWdW96OgNgWcGPygbhPSyvm8Dmo6vx2RBl2lPo=;
-	b=j/mWP9Xu6fAu6472LHue8epAGpNXEtdyv7KXgogul+zmoWQrfsRidzrwwPuPAehdrbBy
-	 wWubUBt4u3yIAIK7KZJdYde1uShgezyF6PThrA0a06bsMfreGjelGlYtauQxDDwkdLezq
-	 pPbf9EobG12mdeMiz1+tcQcZsdn1k4hhKOO5QNggo8kZR9FahccDXyGmmx7AOkA0Q52VE
-	 h8QQMcLhw6qioORD2TmjuEC6pVHJhVKGD2PJq6AHB3Spe6ylUJDhTaMLEm3j+Ytn/TdQj
-	 TIS3qEY+kIftcMwrbo+AAAnCKQzzT55o8IzIWXYA9A9LRols7ume5k6Lr6zBT8MdcAw==
+	bh=rehtB/RJWCoBYXPyJu0f7lT3D0OaoNNCjHdpBYFEC34=;
+	b=bFL3IK6ONEUmUlaF4WVMu+kiu+vQDTP0lyW2RXUyhdX2nhUpVdLdY+C9tmxcBHO2hK57
+	 ymgR85USBQYa/rBirp6bncKxvaB+yPi+otJ55mdpzHCPw1+wczxpBXTrj7CTml+81dPa/
+	 GdIMeFEvtI0/yCt05sd6pW0UJWEsTUCT2qwrbhjKXZEgxYcEA99Vz47AdOQYiq1bMBsKe
+	 3MaPtX/bvq2PeSHUWFV3ZCq68hGenIOIqBC//qLBmMIWrrmuaWwGWqpfDaq3Of+LhO/dC
+	 ro88Y6Y+apK93Wr8KFta5u8wkjgTWrtrcxROtCV+bhL4X96d5cGrRkSvkr8hTkYvE1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=iFnf6qxE;
-	arc=none smtp.remote-ip=209.85.222.53
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SGFa3fBq;
+	arc=none smtp.remote-ip=209.85.128.169
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48C8606A332
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Nov 2026 12:12:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A48C8606A332
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCDA606A327
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Nov 2026 12:59:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7CCDA606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=iFnf6qxE
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-996eeadfbeaso734061241.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 03 Nov 2026 04:12:12 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SGFa3fBq
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-8b30477a320so1385937b3.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 03 Nov 2026 04:59:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793707932; x=1794312732; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793710790; x=1794315590; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=p7XwenWdW96OgNgWcGPygbhPSyvm8Dmo6vx2RBl2lPo=;
-        b=iFnf6qxEJj0vAkSKG41Ai1kMLfB5IsWvbOpT84WFJnqekF1gySszWj+E6OwZqMV5ge
-         /6raZFJ3oom2YsDpr29Yiz7sDkXZT2lXwIX3PMudhp6TInA75qs2BO4FEZhoJpaQ0Xi6
-         I+8jMSomy2J67h7WXqYsGkmV9YPRZVs5O062oeSdQRTXHZ6ZX3HZ/z9122wnZN2xK1Fu
-         EF7fL0AfIYM0okyRJU8Nfc8UwdHuMndjrMqUNrt9ERiFeRDBEym47m7mwcWAYBHe3amV
-         NjHd3S3kuXd8JNTqth7twG4yWJzsBtp5a2IQ5RlHlxsXuFL0XA5gQUug5w2Oa0pgjXav
-         oqVg==
+        bh=rehtB/RJWCoBYXPyJu0f7lT3D0OaoNNCjHdpBYFEC34=;
+        b=SGFa3fBq1mifKl4EjDZF/+ANWV7OozXvzQ9fSQtmBA4mB1nSjkFclbSF6i0fpHyUXX
+         pf6XZ3UQTwqAL+0PfHCNeAO7CW+n742oS/ZfblrkdavCNcUDs0u3ysKFon89DNc/wGhl
+         DFVUkJUi/Qg5+7o+ksqAzm+wBWSKo6a/5lSVnYgmnIEdsS4FMYZ5oiaVe006+8QTiQvz
+         B5/8IibghM5BXkjMeb0BzgWPiaL9sky6eJaBNkFS4frBETxZwT+VmYUcj/oJZfsicU0+
+         4fOYROcr7cTS4sx9C4AdzBLQW72nRFF73E41XMMLZn+gzGFjl32XAaONcZ0Jl3HeD0K8
+         lp6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793707932; x=1794312732;
+        d=1e100.net; s=20260707; t=1793710790; x=1794315590;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=p7XwenWdW96OgNgWcGPygbhPSyvm8Dmo6vx2RBl2lPo=;
-        b=Jq9zNrGUug/IizTgqGpYagMyZZBDgwzYdSjp9VSvOBLamRpbxbU+6VB0xJGnHawczi
-         QwA4N0DsoDRhKwALblx1AOJOoO9rXRJIWJ16rRfBE9VNVC1oDbYvsQ+Yx0G/UIu5M1Wh
-         JHwtv5Dl3yJCbWBKWQlFJX0dHQzup9Wrc9TnUc5IWp2ckqTfe+ZgV2LuHSqpTU3pibEx
-         oaS5NK3xU9Lom1L9U3HgXae6Olx1cpMzWgLEyAq9typzqurkwIEmjeEKLMw3pKMuDhyn
-         VNg+Cg8j9p7G7KE1663fzVi/jUeq1lOY9IfPxCEDqutBQDiA3OOJGbedZdJ4tBl2aAqc
-         Ex4A==
-X-Forwarded-Encrypted: i=1; AKwUvBwrYLraz+1+4Oueec6r6qsqCUsIdfy6r1x5zLwHPM8DnKU97ssRJkZag/qBptVGcyjODqRkr0MWh+MZ/w==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9Aq8XhKQJgZWjwenuzpxQL+Fv92s3njOOqurzQbvC/jzcRp5mt
-	/S+H0vW0IHsYpKVhrjFTuvjWZb2lznF1a1VauTCHh97H3n5uRqz2qKN9
-X-Gm-Gg: AYBFou0jdIsXqMmOOS0QWP+qrdEHQU7nZ2aE/djzq9DSIFUyw3mAVpvo2THJ3zZbZVD
-	zP/hXVYPd1UckKNgTHp4G3a0PNULNJ5MpmRJ17ykSuyY5eKE7URYvMS4db0277TAczzuFS//yNu
-	huz7oSFPqTmXXsLzCXVmZibjSkf1iv2oPpgFKbqYKIHV46aamckz7Xf25r7WltMKvhuveuZ9MA6
-	vm6ELVEox8xpWBq0lzXkrWke+pB4ErbLZj4vMpXDyVeY4CZbKd6gWlFoGqvbHe8OFhS6Vu238vf
-	IJhsTZh9byvaKd0wdO/im49vNckRF8Wg6hYFTobNd1a3JL1rC+Mj6+knEMxHvwDrF4a7vj6+4FH
-	fNFbP04kHfQBxSm7fX3NrD4x4nKf67OE0qHTNQ3TNe+ZGjQinJS99xd1mFqTnv513PcpfgqtsEq
-	yfxo+pUNQw797DtxuEsl3NBSys4fpufT6LuxTbdOCPS8rm13TjcDM3fNr1zBWe0HKjhp0fO1Aj7
-	KopkWHuCA7RUYVQuHLF2JyPB0bzg6HE4Kz68/KEGYYl2Zhd48jhkmG1lKqeJiRpKa5vwn9OTwcR
-	aNNHDlS75p2ie7tQx8RQ/Q4GJwwDpXVQxi5ZEz/dViA3zlWfx5xlHVE4iVRLB4GVahQNyKQ1fjT
-	8azcEPaEkE9GhX6CwiJs32Zhzd0ZwfGcPTnmG
-X-Received: by 2002:a05:6102:fa0:b0:7c3:9982:67d7 with SMTP id ada2fe7eead31-7d072670942mr5461054137.16.1793707931886;
-        Tue, 03 Nov 2026 04:12:11 -0800 (PST)
+        bh=rehtB/RJWCoBYXPyJu0f7lT3D0OaoNNCjHdpBYFEC34=;
+        b=giHjYEqaRCy1mWIamWTadk1yChI/bctufoij4ePPLNGOGzBd6m6zlmrGd+8evcf2lG
+         /VaFbuf14NhZVoS2AmVolVh9UDLVJNyGNEONxyKHDFjdIV26fkUJNal48DN7laPY4uLR
+         zjZSgTHgfaYp1kUMKhyk67Zpkq7/JTT8nZMX/5la7LNy6DPoXZiWpMakJBrwHOghkMmt
+         gOxUiToHzAemeV5o1uwxlCfxnODQg7nkrwdCkOhQx7u2rzfXfd7XwJYdzVwO6J+48Moy
+         yxKuRB8IBQqKv0w/HBLFIesoGYq1W6uyTIzF7qbVle9T4KQmxUb48CZLgKag/4AD4iBI
+         alWA==
+X-Forwarded-Encrypted: i=1; AKwUvBxS4TpVHDJFplHJyK/7/IW0R8YtUHrnw59pdvdsZKC8nQR4yVinkKp95oZeLoGcLlfr+9UHZYIFOULAjQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9SJaNVfQFAwTIG78pxSnAYxn5kwGWI1AT95EcnzxtrH5NfSFPI
+	nPLYTgpTaWaFkdMalhaT6iy6OtdEw3Ilzb04hVUDLvMUqolrVaWIckrh
+X-Gm-Gg: AYBFou2xdVSoS9Ok621FXf8OuUVSOa3/XcmIPyGtnHI7BLcLKGS+xeEGGRYUMeaTW1K
+	UpR1m4K1OTkjAf6VTKt2RheYQCUuDDVG5jpHGrjI68awj/9t2RBu0s+JPkKf1DlqgkLyYljLDRW
+	j8eg6l1xi1+ws9XDj7gXZQCFebQBb8zWa6XMfezuzEzXfmRIQT8trKc+oZyLb8dOu0Q4cqL8z7O
+	VP46K/yMCzz5t9cVM4m1maGsBE6DUhNA+XZ3v+b3s6473QQzmU32lY95Ik9mmrTUi1AGYHdLd6N
+	cfi5zC/Mata2QrJVR/ZGA/fAIyidzmpxN3g0uTv9JQsMkFYyYsOBNaJ2fMyOtqj5oY+vcg7nCdf
+	MjPr8nSMx88AvJ97c0ljNK3tboJvtc+IiLIHyru+tu+mXdx1Cfwjv63QvGHr6lCMCuynVR2zBxl
+	vtFjOBDlFjNEFK8F9eJAnjU/QPtm4Q9eVKQaxJ8L1olwqT1cemgcoN0YlimV08HmmgqUgZ+lLwf
+	EybQu6LARPuy4ZGLqc7Gsd475SU7JYbHZggz2xlMBjqzEeV+Kxtpfi9zr0v2DRBdx0pPz79aNl/
+	rTKU23wi+q5NwKBTrPSBb6ynX6Yqg2UvWAOoX9tvbbZFImYJFVTiTSjd6btSFGJbYAIKXDg0RqU
+	FnmzjF9dutcaSi0wZjrmmmkosjzSbLz5EZvxf
+X-Received: by 2002:a05:690e:d8a:b0:679:9b4c:5b95 with SMTP id 956f58d0204a3-67ba5049d99mr6926082d50.97.1793710790484;
+        Tue, 03 Nov 2026 04:59:50 -0800 (PST)
 Received: from MaquinaLab.. ([179.179.238.247])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d0775a716dsm12606282137.6.2026.11.03.04.12.02
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b2b6d3ba5bsm70882847b3.0.2026.11.03.04.59.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 04:12:11 -0800 (PST)
+        Tue, 03 Nov 2026 04:59:49 -0800 (PST)
 From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Junhui Liu <junhui.liu@pigmoral.tech>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+To: Enzo Adriano <enzo.adriano.code@gmail.com>
+Cc: Linus Walleij <linusw@kernel.org>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Richard Cochran <richardcochran@gmail.com>,
-	linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	netdev@vger.kernel.org,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Enzo Adriano <enzo.adriano.code@gmail.com>,
-	Norman Herms <dockseed@proton.me>
-Subject: Re: [PATCH v6 6/8] clk: sunxi-ng: a733: Add mod clocks support
-Date: Tue,  3 Nov 2026 09:11:49 -0300
-Message-ID: <20261103121149.33238-1-vinicius.eduardo.pedrosa@gmail.com>
+	Andre Przywara <andre.przywara@arm.com>,
+	Pablo Mazzini <pmazzini@gmail.com>
+Subject: Re: [PATCH] pinctrl: sunxi: preserve A733 firmware voltage modes
+Date: Tue,  3 Nov 2026 09:59:36 -0300
+Message-ID: <20261103125936.156701-1-vinicius.eduardo.pedrosa@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <30e43e84-e6e8-4024-b415-dedf67070c4f@arm.com>
-References: <20261009-a733-clk-v6-0-ae8178fce7e8@pigmoral.tech> <20261009-a733-clk-v6-6-ae8178fce7e8@pigmoral.tech> <30e43e84-e6e8-4024-b415-dedf67070c4f@arm.com>
+In-Reply-To: <20261031020640-263f7b05-a7s-pinctrl@gmail.com>
+References: <20261031020640-263f7b05-a7s-pinctrl@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -126,37 +110,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Andre,
+Hi Enzo,
 
-On 11/2/26 16:32, Andre Przywara wrote:
-[...]
-> > +static const struct clk_parent_data usb01_ref_parents[] = {
-> > +	{ .hw = &sys_24M_clk.hw },
-> > +	{ .fw_name = "hosc" },
-> > +};
-> > +static SUNXI_CCU_MUX_DATA(usb01_ref_clk, "usb01-ref", usb01_ref_parents, 0x1340, 24, 3, 0);
-> > +
-> > +static SUNXI_CCU_MUX_DATA(usb2_u2_ref_clk, "usb2-u2-ref", usb01_ref_parents, 0x1348, 24, 3, 0);
->
-> Don't these two clocks miss the gate at bit 31? So it should be
-> SUNXI_CCU_MUX_DATA_WITH_GATE instead?
+I tested your patch on a Radxa Cubie A7Z (A733, 1 GiB LPDDR4), running
+Linux 7.3-rc6 with our local A733 patch stack and SPL/TF-A/U-Boot,
+without the vendor boot0. It's not your exact base, and a733.c applied
+with a context adjustment (same change).
 
-Yes, both have the gate at bit 31 in the manual, and the vendor CCU
-models 0x1340 with it too. usb2-u2-ref resets to off, which is the one
-I hit on my board. usb01-ref resets to on, so nothing breaks today.
+On 10/30/26 22:26, Enzo Adriano wrote:
+> This preserves firmware voltage modes when explicit bank supplies are
+> requested.
 
-With the gate added, clk_disable_unused would switch usb01-ref off
-unless something claims it, and in my local DT nothing does (the
-USB0/USB1 PHYs take osc24M like the A523 ones). On my Cubie A7Z,
-clearing bit 31 of 0x1340 at runtime stops the USB1 Wi-Fi traffic, and
-after rebinding EHCI1/OHCI1 the device no longer enumerates (error -62),
-4 out of 4, while it enumerates again with the bit set. So at least USB1
-will need CLK_USB01_REF kept enabled once the gate is added, likely
-through a consumer in the USB controller or PHY, as suggested by the
-vendor DT. I only tested USB1, by writing the register, not the gated
-CCU itself.
+Three warm boots with your patch and one with our local A733 pinctrl
+patches as control. In all four the main PIO and R-PIO voltage mode
+registers were the same from U-Boot through Linux, also after the
+unused regulator cleanup. SD card reads and USB1 Wi-Fi (with R-PIO
+GPIOs) worked, and the R-I2C0 bus is there. The control produced the
+same results, so this validates no regression on my setup rather than
+demonstrating a before/after fix.
 
-Thanks also for your guidance throughout these discussions.
+One detail: our DT had no vcc-pl-supply and vcc-pm-supply, so the dummy
+regulator reports 0 V and the R-PIO path isn't exercised at all. I
+added both (3.3 V) to the DT in memory for the test. PF already had its
+supply.
+
+I did not test cold boot, 1.8 V switching or A523.
+
+Tested-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com> # Cubie A7Z
 
 Thanks,
 Vinicius
