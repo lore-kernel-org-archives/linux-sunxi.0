@@ -1,55 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.117.254.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793719980;
-	b=i1zs8BqT2HpXR7Mum8ungSCMiTSOS5BtP7IUWHfE3BdE/FAbHNDSpFll7F6Gdp0TBd1m
-	 b6PE09xIpI2UEQSuQ483NcZVF/wpDtKo8WR81Y/yuhD+6LtQe7kaVtiNgTnj2OLpiMOf3
-	 lpW1jn9hkgW8uWnDX9QdBKJvG10+ntcDAn6EgY+xb6AT6rhHAPIhmYGbYHdLETv4HEBVu
-	 A7v5s+Lm18xPnl46xpwz+zCWjmvA2zpsaroSSkVhy8wumNdCRrNzRLlYCE/G3PFWjchOs
-	 ncLzZg2rixf4pOA8lY0usb0QaSsSCc6+3QrsBmR+wXagieda1rL9B+N+ZeikKz7ggzA==
+	t=1793724569;
+	b=ZRcVvGfhjuyUOF3JLwzvXVPs9P056TG57OffWUMx1gJgS/dYkNCKvGmUG5B+xzRKM5TN
+	 Q56zb37KkdlRUs74S1FDaX+uy37wCcyPL6iulaTriLB5ufDn+H8NZ+0DPiltn34pVGePD
+	 FlkKxS3AWP1xzu335z2/3jlNvZgvLumwzogS+QfkUmTDzaoDBQ8RS6N6GWJFzYUiomHHG
+	 6h3ykzlmTAVFTHvgnJOYsquAZtO9j+JLIEC+FAQWReQXB3i//YNYwfCzBJpfRrqsdr8Ud
+	 vFFKgIMZ+4bmURSM2EyuJ+0nBP8I0/rgtMAke0l+3bshpys0v+YvKbKj0UnIBg67NgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793719980;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=mdSDaylEDCP6bzikHn/xkO4FCQje+FbG1kF5jyDEpv4=;
-	b=kI5UMYu3Th8vj0431wVbpG1gNQbbO/a0ns32d6srCNEdWHWujm1e3ZaLb6SQWElk3cT1
-	 qzvX+niuFkCmGBaHx+fTWN76gxRPScgb3Us3L3pipEyD5eu2jNr4P8lJ7RPi4R2nqWLNB
-	 sc2VRvhn5RbuR4FZd60cLj6KrDfJYsKM2DM1tvezah5y+VruVL+M961Cbb74OKG1c1FtU
-	 uDA/HRY26UYVCSX+YaHnCqdMmh6TTd8PKNV+QEQd/f8vtP7StEjshVEpAY3LVBkHdncUl
-	 Xjd4uGka7xtRgBuJPCu9fMpWPEYGnUk5gWqBA6RtcddvBFoBG1o7KI06J/ku3qiXxbg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793724569;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:X-UD-Smtp-Session:Date:
+	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=R9Dy48Gg68z6JbCwXeGt+RTdvVH82Yt9FWqbgGzfrzY=;
+	b=bD12ojrOcznqjferMm4IT7mHBjD8Wl1c5RPKDVCqiS7BdYfAsnpUgfXy46Ew8CqeBEsi
+	 OJJVIREQ5FlJaS9UNxFAhx/btrkFydt3HlPNobKKoNUaJ7lan/3hrgFvc86toc4p3MBiL
+	 EdtVnf6YQVwooEx3stElidOQ/3dXeoc387tfYilHX6sccynhhQuYspTIzuNF/H6tGjCRj
+	 awej5tHmiMG1chkMJwdTgU2w82yh0xzFJsw2zcSrUTKJMC6qLxW+4si4QBN+8COWAuoVQ
+	 bk+bLPq/GO7cTg5XmrgTMFLMPlgDKR4BXklE9NV35WxTuL01XuXKJ7wGTbB+af9HnzQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dr4LZMbS;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=sang-engineering.com;
+	spf=pass smtp.mailfrom=sang-engineering.com;
+	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=BZKTqSfZ;
+	arc=none smtp.remote-ip=194.117.254.33
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90CD606D815
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Nov 2026 15:32:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50337606A338
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Nov 2026 16:49:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50337606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dr4LZMbS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91A431F00A1D
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Nov 2026 15:32:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793719979;
-	bh=mdSDaylEDCP6bzikHn/xkO4FCQje+FbG1kF5jyDEpv4=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=dr4LZMbSEBAFmcA/cUbDDc1IenIMbDNdgmj4oDHTMRsIsJpkiJiF/5BwAu2R3Rl/K
-	 u5LyhW1Wo9kblTPSl4Tbrr+U6RidpLtEsSSiPI5QoPZaT/L6xZA1FE8kiiAj/wAui0
-	 UCY6rkOADElUv5wzSGJXn3Hr5qlECvbbhUlpXvhO8ICmiDlfqs5HigdVU3xHGoi1U5
-	 jSCFd2xqJNEH4C5dDqi/OCsYUv4AaAH55yHBjNQhNWFxgqtsv1MwTBNcniSxUdHQQv
-	 4DEOK9ZD7r9hLtI+THxSexWJGIXSvRC8On55nHwJMszAWkqzEWedB2+6a6ojBATVXY
-	 H38miYnvtQq/Q==
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-6b19e291cc6so4362376eaf.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 03 Nov 2026 07:32:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBwl3R6cdtDyXUXtQ5dDYhhFRRRkDNNT03aUVZq9LBnWp0X3N6WwwbbgXHn2mhoIsxVDPmh6z/iwoo4b7Q==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8jevT0EtwyMLsv/y47qySS1yN3jATzPrKhEsl2hMp3iRgJHVK0
-	2/Lvf7q8Qni9mDRFMTHGDDgj9BChlJ21HIMuXqAm365zkIqraRsjqiK5I/V1+WwuvYAwJmrIALT
-	5iiVGTGtoFLIFDaEcitaUtrY3YXzGHeU=
-X-Received: by 2002:a05:6808:c413:b0:4f3:e98f:fa0b with SMTP id
- 5614622812f47-5640d9718e6mr9621332b6e.5.1793719978745; Tue, 03 Nov 2026
- 07:32:58 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=BZKTqSfZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=R9Dy
+	48Gg68z6JbCwXeGt+RTdvVH82Yt9FWqbgGzfrzY=; b=BZKTqSfZwdhpx8MSBYyZ
+	Jo0+7Fl/Dx1uDGVAkHAD/aL4YecYKnQhkqybkL63HcTfBnn3ibTKAgC8Ql5eF5Xj
+	fO0qycxsw4HlTUjN4UtljRtDvzRjWUpn/tfMpkPdVgPb/kjLqRU7Ia0cnmAvk6/s
+	dQo9MXr4hUGWbA2mTi6yp60HqdkZrgPVJ5a5V6EF6WMxaaj5kwJro8DUMZy+AnNQ
+	CnB5dOjITMTMbb/uY/Q22pbBFaGDkDhUsjbTS8i8+h08eGNj+GDf2r4Wj/9vlL1a
+	v46nTWysCmgA9NVgarUwzYN9oPXQM1OtEQrfVxvSz43VgnKaEcOTk7cEEI3V3k/7
+	7g==
+Received: (qmail 359133 invoked from network); 3 Nov 2026 17:49:15 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 3 Nov 2026 17:49:15 +0100
+X-UD-Smtp-Session: l3s3148p1@DIfkCmJfcrTAwtcC
+Date: Tue, 3 Nov 2026 18:49:14 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Frank.Li@oss.nxp.com
+Cc: Mark Brown <broonie@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Radu Pirea <radu_nicolae.pirea@upb.ro>,
+	CL Wang <cl634@andestech.com>,
+	Ryan Wanner <ryan.wanner@microchip.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Han Xu <han.xu@nxp.com>,
+	Haibo Chen <haibo.chen@nxp.com>, Linus Walleij <linusw@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>, Yixun Lan <dlan@kernel.org>,
+	Troy Mitchell <troy.mitchell@linux.spacemit.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	"open list:SPI SUBSYSTEM" <linux-spi@vger.kernel.org>,
+	"moderated list:ARM/Microchip (AT91) SoC support" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>,
+	"open list:FREESCALE DSPI DRIVER" <imx@lists.linux.dev>,
+	"open list:ARM/QUALCOMM MAILING LIST" <linux-arm-msm@vger.kernel.org>,
+	"open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
+	"open list:RENESAS RZ/V2H(P) RSPI DRIVER" <linux-renesas-soc@vger.kernel.org>,
+	"open list:SAMSUNG SPI DRIVERS" <linux-samsung-soc@vger.kernel.org>,
+	"open list:RISC-V SPACEMIT SoC Support" <linux-riscv@lists.infradead.org>,
+	"open list:RISC-V SPACEMIT SoC Support" <spacemit@lists.linux.dev>,
+	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
+	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+	vkoul@kernel.org
+Subject: Re: [PATCH 1/1] spi: use dmaengine_desc_set_callback()
+Message-ID: <auoQiuIm9FxdOrYl@shikoro>
+References: <20261102174005.3933649-1-Frank.Li@oss.nxp.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,41 +115,16 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261103-a100-thermal-trips-v1-1-73bce7ff0767@gmail.com>
- <CAGb2v64fEDzpn-ytggienzYjOGiQYsJ=SLCVx4zz9psw=bvjYg@mail.gmail.com>
- <CANxy8yTbu63ykQnqa_XA=HhV7JTDZd3ac2XWGzYNwuHBAd2DuQ@mail.gmail.com> <CANxy8ySZ_ErH4gi3PbWv6bb+uLvvUV4_-WmBkDrMw+RJqazA5w@mail.gmail.com>
-In-Reply-To: <CANxy8ySZ_ErH4gi3PbWv6bb+uLvvUV4_-WmBkDrMw+RJqazA5w@mail.gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 3 Nov 2026 23:32:43 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65D6ACO83fAm5_Jh4RC5X3H=26EQYHAz8tVOWEVerSPXA@mail.gmail.com>
-X-Gm-Features: AclHuK9qbh-5u1j8zW4quirRvqcSTHBVHOecOsdol74xKAQ-eozqfaINKue7um4
-Message-ID: <CAGb2v65D6ACO83fAm5_Jh4RC5X3H=26EQYHAz8tVOWEVerSPXA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: a100: Add CPU thermal trips and
- cooling maps
-To: Rajan Yadav <rajanyadav0307@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102174005.3933649-1-Frank.Li@oss.nxp.com>
 
-On Tue, Nov 3, 2026 at 10:47=E2=80=AFPM Rajan Yadav <rajanyadav0307@gmail.c=
-om> wrote:
->
-> On Tue, Nov 3, 2026 at 7:07 PM Chen-Yu Tsai <wens@kernel.org> wrote:
-> > Does the downstream BSP have this? It would be nice if we could port
-> > it over. Then you can properly use the power allocator and/or the
-> > schedutil governor.
->
-> Yes. The BSP (sun50iw10p1.dtsi) has dynamic-power-coefficient =3D <190>
-> on cpu0, and sustainable-power =3D <1200> on the CPU thermal zone.
->
-> The energy model uses the OPP voltages, and Andre points out that the
-> current OPPs are A100-only and don't fit the A133. So I'd like to fix
-> the OPPs first, and then add the coefficient as a follow-up, tested with
-> the power allocator on the K5C. Is that okay with you?
 
-That works.
+>  drivers/spi/spi-cadence-quadspi.c | 3 +--
+>  drivers/spi/spi-dw-dma.c          | 6 ++----
+>  drivers/spi/spi-sh-msiof.c        | 6 ++----
+
+For these:
+
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com> # Renesas related drivers
+
