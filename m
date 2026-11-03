@@ -1,103 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793730657;
-	b=X+cVQE/YeU77FNe8eTTfenZfayOIVH2+eUKK7wTnfIBXPCbZoJQRWVDmvqKi2nrrkGqN
-	 LLJCspnVR94zlRGYC4YXdsDk+T6evBDlMQbQejCeYgQrjGfLoT2WpUz8O1D1DEwCtTOUB
-	 Xn6bAz0od3SwrIymbIYBFPLudpsm0gFGJ/6cBxgE9ETxNB9WZD4tTrfCNYq224vhHj0dP
-	 kj2kdpxdvGcYd6OVZ8gvDFO2cLprGVhFX5VGvnyAl8Uq1wGlrHiMZuy/Lk6TojkKivNhJ
-	 JY3ip2T4dxrvghmSY66TS2QnF07ZO+2rCkIyLby9VdRtk868ArREl+aVV0IrzAtm+7g==
+	t=1793731122;
+	b=cdeMjVd3whsY0hWus7e6R9KMFhe7yBPqNoI8FmBhdhtBNJF+CoeH6xkEQZYlJCfbHTtg
+	 Q8Kn/NbbnAdSy/SHYdzoQgmIRmwbSOW9atDfAZActlV0i6VVdnbTuAHRbpm5vP/deL2IW
+	 muXwhUHZ2CfNb5CstclHIa02HBilVr48YK6IEts4j70QCmNawzcDvUgC1fX+hz9oVe/VH
+	 2qLYfo0yyQhty397El2bsVBVp5/mZTr+Zb80O7Qe3UPZSqnDGOvHTlgHOp3/EE3rLI8ck
+	 uUWy6SCDDyUt82yeGOcsuzKM561h0Dl4RR84t7pyaBVdHTOZyh09ghI9oWO5f8+dZbA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793730657;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=Ub0WZcvYrfsAg+1QngeRQr7bchPe1sdav2r3oWVP5WQ=;
-	b=eG1lpdCTxmLfU9URPHw1RRlvUsauEHY1EF56gv87LHeMkOoNZhs/5k6uL1orKY8uNwK5
-	 6DK8FA6e+2J8KWZj0rt8t4OQXymVG0Z7ULBA2bi3bmtfzPd+WN6s61AzBF1MA+Y2CzeQR
-	 x8ubwRNrrbGaEOpmADghGyrmWiCUC0QDl2K3biiGGYhr2mDo097fB6Lqi5pHwouxfPSiD
-	 I4AKYb4mSC8IQKFaaZ7jXNCm/hauzKgNsJIjVlKCrXrlZ/2NKjea3xu1q/EPgBZi1OG4G
-	 /4QLOK+Ncq+Hto4MR5F8iNfo6ztC7fvVqmD8stbNsUR7C/hVkmYtTrZyOc+55g5EUvQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793731122;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Autocrypt:Organization:Content-Type:
+	 User-Agent:MIME-Version;
+	bh=wsT4r2HhyLvk9SHRJUai7dkY2xdDTk8tWuwT4vKDd3Q=;
+	b=vcL6jA32gSl/v1XsC2b/VRZc/aQdxt7BquMJ0tiGdbqsq7ENHMllIzqdHbHuz3F0Bgg6
+	 TdJJ/E3MCVd5utlC5JXioTcSb4V18Bh75H1nGe0krLL8xwcFOW1xkT8Q/Xz1bcYNCYUg+
+	 DXlJ+Ak2fTHU6cN4eGu0JKTkpFPUQ6Id3MeQFYXqOPQzx5aWPwyLnEYDJJCcredAUCF3c
+	 rkQGmWEXeP9CdLKRftywRwJXRJyHF6lrqsZAbytlNrzMXUcQQOLYX3lZagi5DuXD6OLCi
+	 GOdiJK1gHryb982K3aMzFge2yb7O/VlY17p4GhG+aVnX8kztCbfcLQCPHU2AaiSgsgw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MRZ5sZ6E;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=collabora.com;
+	spf=pass smtp.mailfrom=collabora.com;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=Zk7AtSP7;
+	arc=none smtp.remote-ip=148.251.105.195
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6E2606A33D
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Nov 2026 18:30:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A6E2606A33D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B5D606A324;
+	Tue,  3 Nov 2026 18:38:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91B5D606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MRZ5sZ6E
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49d05d51553so29962255e9.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 03 Nov 2026 10:30:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793730656; x=1794335456; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Ub0WZcvYrfsAg+1QngeRQr7bchPe1sdav2r3oWVP5WQ=;
-        b=MRZ5sZ6ErQJ3bwNCcioKDwwqRtW72Jbx0Vp9cu3qeIaiECFvNYXZdOPjhpuHLl1EL/
-         qaq2QDijlr5QGzy0bAV/wjn4r2DQD0VsL7LPY0vrutVGr5fUr+N6fAacWtArsB3WM7yv
-         hpXmwB/4M8waSUD6B5COjtbtHy7TgGOmRIZYUFNawhXkjV30AdJ2AeTDBEuI9USR1rdB
-         drslGApRPZF6GmgBBQyuoQj5bRY4cMW+V2P+D63+QvPnBKyCbpqc3aH+uMwtOOOCkC2B
-         8IDKCABYeHIeRU07xQQxXIP/TwIcnBgSDaoppsbALK+le83B+F9BSewR+yXbeexmOI5m
-         lISQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793730656; x=1794335456;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Ub0WZcvYrfsAg+1QngeRQr7bchPe1sdav2r3oWVP5WQ=;
-        b=zkiJkTdKxDlFGDK613Dqg05KikjG2i5qas4SlSKa16SNFj7OTyb8XoCLGoQPLJZzpK
-         KkOlJmVP6d/FkvwuckZm2ScgUrNVmZ+s/UVXFOKejUESaTeUv3hMM/e08oHJ1rDLB2Dp
-         9PAsGEUCnPh11QQL/JbDHxGZ+w/6Z7CAAK+DgTf8COPdUTR1eUVqXZTOcqbHSHy9FPkt
-         S7NYt9TV8sMLqIq8HNDwZZ/7YDu3C9eCpVNfce5PM94eGWxTpvfyfEmvNjQkAnTtzc2O
-         uBSk0RwJAVeyxrXzgYyShxbji1Li01x7foc0/uQI1EE8Zl3u9YVY1RkpM5A4ljXQ9mub
-         NeIA==
-X-Forwarded-Encrypted: i=1; AKwUvByCYBzsGPhSWwLojMvSncDxiiC8rVMXEtNngOD5C9+D1GRIE/tebkKT9Oe5XWS7A1J/n81G/26ebud1XA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/6OmwLPq/+cp7AesrcH7p9rhp6jEcN/Oqy/bi0+dcAjpQf9jRQ
-	v1smYSBRRj1w8EXacXa66ULjApq8Wl6D/G7wZn3OwudrF6Ki2QAjIkMr
-X-Gm-Gg: AYBFou3kNFIWFA9rZzvJ/ckSm0ABEGPZzPktR4XzJyJgPDccuC8OPKmsW81JQZc3WJn
-	NR3RNtCM42aipHHRFAe1Tn1QljFGOnawUVt0asBNShMF1qzGRS0vpPqLcCDMigN4P8elTkNZ/6K
-	DlJV4l+VIqFLmHnnvXi+7qzzvIhj5fl8tz0UamhDbwVBj/bUgeD9jowMOLE5EVRUw00IwXafmJX
-	UmBQPe7sw/9qJYfshdesuWYQ26Jdy5jYeFjH+IKp7xzwNnSza9t5zxccfhJ9YcaTqn/4a8Gh1Wr
-	DaTiMFPEk8K6QK6RAV4+janIdyooxS848lJpC9nI5o34ptBX/8Vbyv/SFK/d1a+yQd/VgUi4Qx5
-	Wo3Y4jgwPE8V6qXFbHn5w7z6WD2qS1RMQjzd0EH4EgD+LVrfjQgnx14gHc6aeCYFa1aVJVnYpuO
-	RyJAt8v4yBMTSDn9TGaKLkgCLiZ1XF0QaoWmMwAnaqYfuHXQs/3rP7RDCSlvya4sUA1BEqbPr5P
-	UIg78Ss5COny3VgjzF/HRoSasK0SeBeC4zaObkCUp4dfWqRLUNU5njFRpguY8g1CtNKA7WVcdO1
-	oFBpndKAOhjyr9ZSlrG+BBpftv2n3hGY7i9gom+iSTYlGHpP3PVK0btRXZdxS9pfTlft9yviR+S
-	WkMsOg+7fif+SlNmm9sfNucr6WKIJKLxWzuhNTVgEIQUynWiPNmNX7KOfbU/JisyfcRz+Fo2Ya/
-	QvrGN25bK1Shw1RoJFdlXJDv4/O+M4awIRjXj4B2WfD7XbEnbPnHvW11BFGvg6BK1dixXsH6c1n
-	gW1/54RtsrajxD/wbt1clDgEh7keTrnXz+c3YSq+aN4Hk9ugQ==
-X-Received: by 2002:a05:600c:4e14:b0:4a5:a5ca:de1d with SMTP id 5b1f17b1804b1-4ac187a80bfmr329609245e9.30.1793730655752;
-        Tue, 03 Nov 2026 10:30:55 -0800 (PST)
-Received: from jernej-laptop (194-152-27-116.dynamic.telemach.net. [194.152.27.116])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b2ab00ff3dsm146339785e9.14.2026.11.03.10.30.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 10:30:55 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Ulf Hansson <ulfh@kernel.org>
-Cc: Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Anfernee Cao <anferneemelokc5@gmail.com>,
-	linux-mmc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 4/4] mmc: sunxi: Distinguish CRC and timeout errors
-Date: Tue,  3 Nov 2026 19:30:30 +0100
-Message-ID: <20261103183030.81078-5-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261103183030.81078-1-jernej.skrabec@gmail.com>
-References: <20261103183030.81078-1-jernej.skrabec@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=Zk7AtSP7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1793731114;
+	bh=HeofyCXbsIbhGQR411TrT8um27wJJMDztfyXIZKyIYo=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Zk7AtSP7NQ5DS7BQq1qbYzLtbq663Mxsy/ZWlE747xYCt7ZMPDeAtrn4lAc2+7SSv
+	 N3Zhn/VwIiSm2tgyHeA0kYTfCNP+3r/53RlAutFVqazeYrPWJhCQ6u/KfNTdbUvXkY
+	 gSS3yeRWcASCO0Bqx8NvruvZlcpA3EtQAwhCZb+4gMu107fSvlWvLGrMQq4fr1DjwO
+	 1z3/Gq8V3MEr6GVvBlgwCzRttCDatgARziBgBbIHvKxxg1zadZFv+oQ+riBmD4vxFj
+	 KckvspcZpnTXF863tBxuWYZzqzEjsgI0MRXwNcuhXjSYBJ1+6Xu5v/8Y/bQmGdQmpg
+	 FOsknmoeX688Q==
+Received: from [100.64.0.214] (unknown [100.64.0.214])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B66B717E0DA7;
+	Tue, 03 Nov 2026 19:38:32 +0100 (CET)
+Message-ID: <56f2cb86f57bb6dc6903eabdaacdd73d47dddc57.camel@collabora.com>
+Subject: Re: [PATCH 02/10] staging: media: cedrus: reject too large
+ H.264/HEVC SPS
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski
+ <paulk@sys-base.io>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Tue, 03 Nov 2026 13:38:30 -0500
+In-Reply-To: <P3FCc6YrSeexw_Zto5zS4g@gmail.com>
+References: <20261102170303.1973892-1-jernej.skrabec@gmail.com>
+	 <20261102170303.1973892-3-jernej.skrabec@gmail.com>
+	 <0cecac8706862ea7410be0553d942539f0d53c06.camel@collabora.com>
+	 <P3FCc6YrSeexw_Zto5zS4g@gmail.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-qrDlG8q9KarF8F22u61t"
+User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -107,63 +94,219 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The driver reports every command and data error as -ETIMEDOUT. The MMC
-core however relies on -EILSEQ to recognize CRC errors, which mean
-that the sampling point drifted, and flags the host for retuning when
-it sees one. With every error reported as a timeout, retuning is never
-triggered.
 
-Report response and data CRC, start bit and end bit errors as -EILSEQ
-and keep reporting timeouts as -ETIMEDOUT, attributed to the command or
-data phase that actually failed. Report any other error as -EIO.
+--=-qrDlG8q9KarF8F22u61t
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Currently supported SoCs don't implement tuning, so this doesn't change
-much for them, but it is needed for the upcoming A523 delay-chain
-tuning support.
+Le mardi 03 novembre 2026 =C3=A0 19:02 +0100, Jernej =C5=A0krabec a =C3=A9c=
+rit=C2=A0:
+> Dne ponedeljek, 2. november 2026 ob 19:44:38 Srednjeevropski standardni =
+=C4=8Das je Nicolas Dufresne napisal(a):
+> > Le lundi 02 novembre 2026 =C3=A0 18:02 +0100, Jernej Skrabec a =C3=A9cr=
+it :
+> > > The hardware decodes whatever picture size the SPS describes. An SPS
+> > > beyond CEDRUS_MAX_WIDTH/HEIGHT, or beyond the capture buffers once th=
+ey
+> > > are allocated, makes the hardware overrun memory and hang. On H616, t=
+he
+> > > JCT-VC PICSIZE_A..D streams (1056x8440, 8440x1056, 528x4216 and
+> > > 4216x528) leave the hardware wedged, so that every following job time=
+s
+> > > out until reboot.
+> > >=20
+> > > Validate the SPS picture size in try_ctrl. Move the size limits to
+> > > cedrus_video.h for that.
+> > >=20
+> > > Fixes: 6eb9b758e307 ("media: cedrus: Add H264 decoding support")
+> > > Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support"=
+)
+> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > ---
+> > >  drivers/staging/media/sunxi/cedrus/cedrus.c   | 40 +++++++++++++++++=
++-
+> > >  .../staging/media/sunxi/cedrus/cedrus_video.c |  5 ---
+> > >  .../staging/media/sunxi/cedrus/cedrus_video.h |  5 +++
+> > >  3 files changed, 44 insertions(+), 6 deletions(-)
+> > >=20
+> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/st=
+aging/media/sunxi/cedrus/cedrus.c
+> > > index c3331b4f3f02..45deebddb630 100644
+> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > > @@ -28,10 +28,38 @@
+> > >  #include "cedrus_dec.h"
+> > >  #include "cedrus_hw.h"
+> > > =20
+> > > +/*
+> > > + * The hardware decodes whatever picture size the bitstream headers =
+describe.
+> > > + * Reject sizes beyond the hardware limits, or beyond the capture bu=
+ffers once
+> > > + * they are allocated, instead of letting the hardware overrun memor=
+y and hang.
+> > > + */
+> > > +static int cedrus_check_pic_size(struct cedrus_ctx *ctx, u32 width, =
+u32 height)
+> > > +{
+> > > +	struct vb2_queue *vq;
+> > > +
+> > > +	if (width > CEDRUS_MAX_WIDTH || height > CEDRUS_MAX_HEIGHT)
+> > > +		return -EINVAL;
+> > > +
+> > > +	/*
+> > > +	 * The hardware decodes whole 16x16 macroblocks, and all capture
+> > > +	 * formats pad the buffers to at least 16 pixels in both directions=
+.
+> > > +	 */
+> > > +	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE=
+);
+> > > +	if (vb2_is_busy(vq) &&
+> > > +	    (width > ALIGN(ctx->src_fmt.width, 16) ||
+> > > +	     height > ALIGN(ctx->src_fmt.height, 16)))
+> > > +		return -EINVAL;
+> >=20
+> > If my memory is correct, Hans rejected this kind of construct in try_ct=
+rl,
+> > because if you are only doing try() it shouldn't fail like this. Instea=
+d we can
+> > validate in the real s_ctrl, but I believe the downside is that it make=
+s the
+> > error asynchronous when a request is used (perhaps that's actually want=
+ed ?)
+>=20
+> You're right. This is not the best place to check size, since it can be
+> bypassed as sashiko bot find out.
+>=20
+> My suggestion for v2 is to split this to two stages. Max width and height
+> check stays here, whereas buffer size check is moved to setup() callback.
+> Failing there it will mark buffer with V4L2_BUF_FLAG_ERROR.
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/mmc/host/sunxi-mmc.c | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+Agreed. I just looked quikcly at the Sashiko report, and it underline the f=
+act
+that you can't rely on getting an S_CTR in the first place.
 
-diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-index b875ef4c2b79..eb1b7883a715 100644
---- a/drivers/mmc/host/sunxi-mmc.c
-+++ b/drivers/mmc/host/sunxi-mmc.c
-@@ -537,13 +537,29 @@ static irqreturn_t sunxi_mmc_finalize_request(struct sunxi_mmc_host *host)
- 
- 	if (host->int_sum & SDXC_INTERRUPT_ERROR_BIT) {
- 		sunxi_mmc_dump_errinfo(host);
--		mrq->cmd->error = -ETIMEDOUT;
-+
-+		if (host->int_sum &
-+		    (SDXC_RESP_ERROR | SDXC_RESP_CRC_ERROR))
-+			mrq->cmd->error = -EILSEQ;
-+		else if (host->int_sum & SDXC_RESP_TIMEOUT)
-+			mrq->cmd->error = -ETIMEDOUT;
- 
- 		if (data) {
--			data->error = -ETIMEDOUT;
-+			if (host->int_sum &
-+			    (SDXC_DATA_CRC_ERROR | SDXC_START_BIT_ERROR |
-+			     SDXC_END_BIT_ERROR))
-+				data->error = -EILSEQ;
-+			else if (host->int_sum &
-+				 (SDXC_DATA_TIMEOUT | SDXC_FIFO_RUN_ERROR |
-+				  SDXC_HARD_WARE_LOCKED))
-+				data->error = -ETIMEDOUT;
-+
- 			host->manual_stop_mrq = mrq;
- 		}
- 
-+		if (!mrq->cmd->error && (!data || !data->error))
-+			mrq->cmd->error = -EIO;
-+
- 		if (mrq->stop)
- 			mrq->stop->error = -ETIMEDOUT;
- 	} else {
--- 
-2.43.0
+Though, thinking about it, to be completely strict (keeping everything on s=
+ync
+all the time like the spec states), since SPS change comes first, we should
+reset both fmt from S_CTRL when not streaming, and always match the SPS fro=
+m
+TRY_FMT later on. Later SPS update at runtime would have to fit allocated
+buffers (since we don't do SRC_CH in stateless), and probably fit the forma=
+t
+(since you can't reset the format while running).
 
+If what I'm thinking is correct, we are up to patching all the drivers, sin=
+ce
+none are strictly correct today :-(
+
+Nicolas
+
+>=20
+> What do you think?
+>=20
+> Best regards,
+> Jernej
+>=20
+> >=20
+> > Nicolas
+> >=20
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > >  static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
+> > >  {
+> > > +	struct cedrus_ctx *ctx =3D container_of(ctrl->handler, struct cedru=
+s_ctx, hdl);
+> > > +
+> > >  	if (ctrl->id =3D=3D V4L2_CID_STATELESS_H264_SPS) {
+> > >  		const struct v4l2_ctrl_h264_sps *sps =3D ctrl->p_new.p_h264_sps;
+> > > +		u32 height;
+> > > =20
+> > >  		if (sps->chroma_format_idc !=3D 1)
+> > >  			/* Only 4:2:0 is supported */
+> > > @@ -42,9 +70,15 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
+> > >  		if (sps->bit_depth_luma_minus8 !=3D 0)
+> > >  			/* Only 8-bit is supported */
+> > >  			return -EINVAL;
+> > > +		height =3D (sps->pic_height_in_map_units_minus1 + 1) * 16;
+> > > +		if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY))
+> > > +			height *=3D 2;
+> > > +		if (cedrus_check_pic_size(ctx,
+> > > +					  (sps->pic_width_in_mbs_minus1 + 1) * 16,
+> > > +					  height))
+> > > +			return -EINVAL;
+> > >  	} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_HEVC_SPS) {
+> > >  		const struct v4l2_ctrl_hevc_sps *sps =3D ctrl->p_new.p_hevc_sps;
+> > > -		struct cedrus_ctx *ctx =3D container_of(ctrl->handler, struct cedr=
+us_ctx, hdl);
+> > >  		unsigned int bit_depth, max_depth;
+> > >  		struct vb2_queue *vq;
+> > > =20
+> > > @@ -52,6 +86,10 @@ static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
+> > >  			/* Only 4:2:0 is supported */
+> > >  			return -EINVAL;
+> > > =20
+> > > +		if (cedrus_check_pic_size(ctx, sps->pic_width_in_luma_samples,
+> > > +					  sps->pic_height_in_luma_samples))
+> > > +			return -EINVAL;
+> > > +
+> > >  		bit_depth =3D max(sps->bit_depth_luma_minus8,
+> > >  				sps->bit_depth_chroma_minus8) + 8;
+> > > =20
+> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/driv=
+ers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > index adc7f255d7cf..2521315abdb7 100644
+> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > > @@ -29,11 +29,6 @@
+> > >  #define CEDRUS_DECODE_SRC	BIT(0)
+> > >  #define CEDRUS_DECODE_DST	BIT(1)
+> > > =20
+> > > -#define CEDRUS_MIN_WIDTH	16U
+> > > -#define CEDRUS_MIN_HEIGHT	16U
+> > > -#define CEDRUS_MAX_WIDTH	4096U
+> > > -#define CEDRUS_MAX_HEIGHT	2304U
+> > > -
+> > >  static struct cedrus_format cedrus_formats[] =3D {
+> > >  	{
+> > >  		.pixelformat	=3D V4L2_PIX_FMT_MPEG2_SLICE,
+> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.h b/driv=
+ers/staging/media/sunxi/cedrus/cedrus_video.h
+> > > index 8e1afc16a6a1..367e52158f01 100644
+> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.h
+> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.h
+> > > @@ -22,6 +22,11 @@ struct cedrus_format {
+> > >  	unsigned int	capabilities;
+> > >  };
+> > > =20
+> > > +#define CEDRUS_MIN_WIDTH	16U
+> > > +#define CEDRUS_MIN_HEIGHT	16U
+> > > +#define CEDRUS_MAX_WIDTH	4096U
+> > > +#define CEDRUS_MAX_HEIGHT	2304U
+> > > +
+> > >  extern const struct v4l2_ioctl_ops cedrus_ioctl_ops;
+> > > =20
+> > >  int cedrus_queue_init(void *priv, struct vb2_queue *src_vq,
+> >=20
+>=20
+>=20
+>=20
+>=20
+
+--=-qrDlG8q9KarF8F22u61t
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCauoqJgAKCRDZQZRRKWBy
+9MW7AP4hn5lfIe9xIT3at5ZT+I1pZuICZVWeK1MZ8IsIE5Z0hAD/ah6XlNteGw1r
+2H9nQXM4TVlESJiecgtLuIKdMSDp2gE=
+=bNmk
+-----END PGP SIGNATURE-----
+
+--=-qrDlG8q9KarF8F22u61t--
