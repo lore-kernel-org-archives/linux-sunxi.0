@@ -1,90 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793731913;
-	b=cfYNkLyutpk7VX0a3Vm3KPoPpRFvh8GpE5+td3kTU97JO8SpJwbNYGu+25iTm0zKEe4L
-	 6XDY/2Q4WL0FTLkoHpRFEwQhas23ax+LqIh30Rrsruuy99Jz06a72BfaclwaoG91Jy7Lx
-	 wckx2IO1UIGDmqwaLxeUNoY0m7LsDZv8kMeKDonMIX9syY5hjUAnt4fdB/q0W3xBzDV4Z
-	 XUajmIq0BuTh9lzFle7+O7tEi6xTsrBV/zLY1CgB8xgapxXShxZp3ud3hw69QvxH7za+l
-	 BaO4Y+EHtdqqwXtnXoT/W+d/76RA3GcrPw2utJ3frMm/X2BB2rC6pyedrbbA1XN/6ug==
+	t=1793739275;
+	b=4sGtIP+MGvPaQOoiUKXZXKu+dgU0R78OhEzhJ/5faC85Chzj3UmyAZxUT6QgxGQtnR1N
+	 wS4SKO8rBx32WUs8+Xf7lIjdAO/BsTT0jdaDwP8D2r8cEyjaIQ45sth8LAT95UpNXIIpY
+	 sOoqHeB76+jdTb3eUGlvbrqvzxD/oqq/DlKI79r+yACmtcoYhAp+zF/PYRAx5BL1vqehw
+	 +ak0CIk1jGMZcYzVpb2yhxE2vvkJpLZoLlXBqbc7/XLOyho0c0Z58R/MV3VTZksBv9s49
+	 spdM9TkleSpeBQPveyxkKiF2+wvdqBOUXc1duk7ouDpbGJo2pT53YPVLKvaWhelJS3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793731913;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Autocrypt:Organization:Content-Type:
-	 User-Agent:MIME-Version;
-	bh=midAk/DARCqHylN7ToGJq8rif/JIOF4akNHrI/YCiYw=;
-	b=LHRgpZSl+oiXKLlEjxMzcpev9vZRphMkGuZ5nliJAuJpoZ/RLxUUY4J7maWEFiyw6upy
-	 sEzTP8N65m8gic9z4nqAIpE/LvLUsdTzAuazxtLMePg3U9i+AKpHJ0GDOrlg9JriN/uwL
-	 if+LmOqDOArUh8YEkauE4uOwF6S8GkJHXxkhic56H0rzwNpzsN4U9Y3lzIXx21aMKqs6i
-	 +50e6dt14+wtLjhALqidNKBVWcTU8B3QmebcupxfZlBkZ0rd+Xu0vrn+PBDjsMNIghDPB
-	 SbeK4pSlgL8eZNt5sFVvNL69/AmyklVLYs/i8xxQY8V12DviY4SH6D4ed6rR2gu3qag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793739275;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition;
+	bh=/A80EODLCyXaaGfYKqpHl1AEtmb4ixEKWz6DBGz/WQs=;
+	b=vKTZSgu+NQ1SJ+OEZJLeYZRRj7GxWxnYODIWC1qwQk7oGUzEdtr3TRf4DW/PhcndPyTH
+	 WNS8ZdebtU91SrLKPn8DZmhMaMXHlxWD82EVFVmZ1J9hncn6A9MaeWURpT7eKjiZJIPh/
+	 9n5FJ1zP5Kquf0PoA6E4i3Ll26h/mw3mOagtC0BmOeHhZQ4/oBqvWaT1OssE8hGVfAYOa
+	 dnmCh5UPdfm6H2+YetRW7jSmpxkTz5YuNiXqX1KXLg0Xnl1SUk9ylOCPftFeNKvugcUP4
+	 WHUBStLzBZiePI0vPW/JtfCAEfp3lVESe0RAmWW5mJL777AOCslWEK6MD0jHdA6tfug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=collabora.com;
-	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b="QIRj7/NH";
-	arc=none smtp.remote-ip=148.251.105.195
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=q6V6bAcp;
+	arc=none smtp.remote-ip=209.85.128.173
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E30606A31B;
-	Tue,  3 Nov 2026 18:51:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8E30606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48744606A32C
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 Nov 2026 20:54:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48744606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=QIRj7/NH
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1793731910;
-	bh=g4IxkDEMxXRUA4XtODSZ0Gcq9LsGsoHyYZFXVG5uJag=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=QIRj7/NHxK/vLoeGe2exa22vbbxWSBeVnGgcH7Qe+chnEpEwaNHIshSim+WxBieGf
-	 7dPiTxREdIbv8GkitvCEb3jf7ky2jZ9pJFhuJ9wOrdj6OIbkyCkhU1guqZsC4T2MFx
-	 iEy5/80FmlGwXQ9xqrcb8lYmhhRwdXVksdh3xFDkjFG0zMpg880KyVhaOF3GS5fEBE
-	 1lZYE6cByeQTjXF4QxXVzvTDVdwq400NmxMraB16ZIrPJAlkJ+/ayHpeQx3c6yMR+0
-	 VZqJ6oDoTX8AAaRkMjFPr56P8KUM3ZIeoRcjzCHl5CAEm+tsnNkNqG2meY5yfoEtcy
-	 TK66beyRslKFA==
-Received: from [100.64.0.214] (unknown [100.64.0.214])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 51BEE17E0CE8;
-	Tue, 03 Nov 2026 19:51:49 +0100 (CET)
-Message-ID: <5520799bbd58327a2fd3926e989735e02af64602.camel@collabora.com>
-Subject: Re: [PATCH 04/10] staging: media: cedrus: mpeg2: use the field
- height for field pictures
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski
- <paulk@sys-base.io>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Tue, 03 Nov 2026 13:51:47 -0500
-In-Reply-To: <vCPa4waZQ6-kwYC7OOX3Kg@gmail.com>
-References: <20261102170303.1973892-1-jernej.skrabec@gmail.com>
-	 <20261102170303.1973892-5-jernej.skrabec@gmail.com>
-	 <cd5780876274ab5aa73739f890a32ceacf2e793b.camel@collabora.com>
-	 <vCPa4waZQ6-kwYC7OOX3Kg@gmail.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-AZu15zRcZ1tXd1TZOkqW"
-User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=q6V6bAcp
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-8b0d126f631so203227b3.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 03 Nov 2026 12:54:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793739274; x=1794344074; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/A80EODLCyXaaGfYKqpHl1AEtmb4ixEKWz6DBGz/WQs=;
+        b=q6V6bAcpMImDob77dM/3iuZ1bH8cYL6Wxab5ifAiuHfPmQyzLE3wlj5cKZqtCXUi3G
+         kTMV4Ew346fCDJPTFwM3EzyIx/cxxWSOm3CKkX0szLfayGoWySDlN4HpAqPP5DNTWrNA
+         KP8MnPDmpHEOWL4ayxO9SCc6tdQFgy42cv7n23Wqx0ps/dXYL8vJQfVfuMUJw14Y+OMN
+         X+lreF0OStZvPOSu8D9SCedc+08GyIwsE74AkJ7zpO0kTi0/UJCDxVPBS7Q/Q/M0fc6L
+         4x/3vbxmVeFKrNKmD8kCsoNo73pGVxOZnYKheuTJfAXPTPWYTRnKBUsYy8RM9MPpLqjj
+         HKWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793739274; x=1794344074;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/A80EODLCyXaaGfYKqpHl1AEtmb4ixEKWz6DBGz/WQs=;
+        b=l8kLvp8vlw484EEuL4JtdMaQqU9TkqJAbOv2jv0nf59N8t3Gfy1kX9dLGcdkDtNll5
+         7+L+6HIJXdX1prJ6u8zBxrhT1cuWtXvYvltuynFwPPw4kxvUerqT5pMvxwk9T5JO3qZ/
+         g0E1/Jho4MXeAkbRsr2786x9wk6q06Ti65V2U/tl5sLiERCMXqNWbMg6vLJe7OeGelZs
+         zbNIltU0J7NysSN0pRCmoY1eyQEiYc4qzjpE5Bwdd2vHQm3lPEGzSBLsaE8Flh/zVigv
+         otC2+oSZky/JFnxh/V+nzA0UcuglfE6mAC8KI74S54fPXDvGtmpGrjAfTTsdF9VVrgUu
+         r5tg==
+X-Forwarded-Encrypted: i=1; AKwUvBwp4eDc5oFFXad2Ro6pD810VKDIr2iCk5PDUliXrF5g446O8o0xD2MNx4JA0VpvKRtpj09xSmcbO0VwbA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9bH9rb1qFDJ4Pl1TSMKAxnLNpjfL29gkq4DZF7vF5um3pjHmPy
+	9QrIWoc295lDTSSGjvtESjoD2BwuBWQlUQuFUglB6bDHY2oZ48Y7UeCT
+X-Gm-Gg: AYBFou2SxfMH+AAoiMZtvLPygSRKDOVLSZSvq3J1PE3kJB2sAKiIzipmNdKxxrXQNVG
+	TyyW290vUHSHynIicGXbOa1zcFb/1mXR0C2s4EQVJ9rccD2Qnwk3uxRHbJODJcZ+q/AzkE2ij4b
+	GfOD2VFfPB4IHp73XOpxiCxWRHtpC5ts7+7x5I3jbWdRssim9LuTQvXnqKenRdSOvU5F4UGhq/Q
+	QEnJ1PVQRjYClm3T34RnEpG2zGSMcO9Mt/1w/8OZpc7oGphXVcOcTR6rPN/3WoY/U3BKxCu/KqR
+	Y+3OxH33x9//PJZ7gxO4zW4BNwOasDtwONPrLtxZgVXJBUsxWZW8gfdAL5CGvD4jxjJnLT20G1/
+	eDa3GGY9G0fQdbxUGQ4iii0pI0yPW2juv9FhH7eCKyTAHr9y5V+PwlqA7TXjV1AmyxNKaoeRBF/
+	X5xvgoH8i4nq/6YzAoAAqqFeLJUquNDyu6NMzXlAIEJDr6v3T4b81UotHjRPtO/X3XpwDo8CEKk
+	gVbkI4wTbxe5cyrSlR8JWO2Bb9ryDOgpO4Aen6cZRcwWqNTGLqS3UOO/hlK/q3bmtSlY+ZUjOkm
+	D02b5ylaCUY8qgV0WMPe5owfp/gVFqlQVL/5Djb6w+PA8vKEbFpfAxNq9A==
+X-Received: by 2002:a05:690c:4992:b0:8b0:e680:616a with SMTP id 00721157ae682-8b2b66f45dcmr112559257b3.24.1793739274317;
+        Tue, 03 Nov 2026 12:54:34 -0800 (PST)
+Received: from daniel-HP-Stream-Laptop-14 ([172.56.75.102])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b309bb4406sm4805187b3.40.2026.11.03.12.54.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 12:54:33 -0800 (PST)
+Date: Tue, 3 Nov 2026 15:54:29 -0500
+From: Daniel West <daniel.west.dev@gmail.com>
+To: Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] drivers: staging: media: sunxi: cedrus: spelling correction
+Message-ID: <aupKBdon3N4Kpnkt@daniel-HP-Stream-Laptop-14>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -94,143 +100,29 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Correct spelling in comment.
 
---=-AZu15zRcZ1tXd1TZOkqW
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Daniel West <daniel.west.dev@gmail.com>
+---
+ drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Le mardi 03 novembre 2026 =C3=A0 19:12 +0100, Jernej =C5=A0krabec a =C3=A9c=
-rit=C2=A0:
-> Dne ponedeljek, 2. november 2026 ob 19:56:52 Srednjeevropski standardni =
-=C4=8Das je Nicolas Dufresne napisal(a):
-> > Le lundi 02 novembre 2026 =C3=A0 18:02 +0100, Jernej Skrabec a =C3=A9cr=
-it :
-> > > A field picture covers only half of the macroblock rows of a frame, b=
-ut
-> > > the driver programs the coded and the boundary size of the whole fram=
-e
-> > > for it, as for a frame picture.
-> > >=20
-> > > Program the height of a field for field pictures, like the vendor
-> > > library does.
-> > >=20
-> > > Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver"=
-)
-> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > ---
-> > >  drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c | 13 +++++++++++--
-> > >  1 file changed, 11 insertions(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c b/driv=
-ers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> > > index 10e98f08aafc..ca66a3c6b830 100644
-> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> > > @@ -58,6 +58,7 @@ static int cedrus_mpeg2_setup(struct cedrus_ctx *ct=
-x, struct cedrus_run *run)
-> > >  	struct vb2_queue *vq;
-> > >  	const u8 *matrix;
-> > >  	unsigned int i;
-> > > +	bool field;
-> > >  	u32 reg;
-> > > =20
-> > >  	seq =3D run->mpeg2.sequence;
-> > > @@ -108,13 +109,21 @@ static int cedrus_mpeg2_setup(struct cedrus_ctx=
- *ctx, struct cedrus_run *run)
-> > > =20
-> > >  	/* Set frame dimensions. */
-> > > =20
-> > > +	/*
-> > > +	 * Field pictures cover half of the frame's macroblock rows; the
-> > > +	 * vendor library halves both the coded and the boundary height.
-> > > +	 */
-> > > +	field =3D pic->picture_structure !=3D V4L2_MPEG2_PIC_FRAME;
-> > > +
-> > >  	reg =3D VE_DEC_MPEG_PICCODEDSIZE_WIDTH(seq->horizontal_size);
-> > > -	reg |=3D VE_DEC_MPEG_PICCODEDSIZE_HEIGHT(seq->vertical_size);
-> > > +	reg |=3D VE_DEC_MPEG_PICCODEDSIZE_HEIGHT(field ?
-> > > +			ALIGN(seq->vertical_size, 32) / 2 : seq->vertical_size);
-> > > =20
-> > >  	cedrus_write(dev, VE_DEC_MPEG_PICCODEDSIZE, reg);
-> > > =20
-> > >  	reg =3D VE_DEC_MPEG_PICBOUNDSIZE_WIDTH(ctx->src_fmt.width);
-> > > -	reg |=3D VE_DEC_MPEG_PICBOUNDSIZE_HEIGHT(ctx->src_fmt.height);
-> > > +	reg |=3D VE_DEC_MPEG_PICBOUNDSIZE_HEIGHT(field ? ctx->src_fmt.heigh=
-t / 2 :
-> > > +						   ctx->src_fmt.height);
-> >=20
-> > I'm not entirely sure, but I see:
-> >=20
-> > 	fsize->stepwise.step_height =3D 1;
->=20
-> Where? I don't see this in Cedrus.
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+index 780da4a8b5af..f57642c0d8fa 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+@@ -755,7 +755,7 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+ 	}
+ 	cedrus_write(dev, VE_DEC_H265_SCALING_LIST_CTRL0, reg);
+ 
+-	/* Neightbor information address. */
++	/* Neighbor information address. */
+ 	reg = VE_DEC_H265_NEIGHBOR_INFO_ADDR_BASE(ctx->codec.h265.neighbor_info_buf_addr);
+ 	cedrus_write(dev, VE_DEC_H265_NEIGHBOR_INFO_ADDR, reg);
+ 
+-- 
+2.51.0
 
-In the framesize enumeration, it returns a contiguous dimension set, with a=
- step
-of 1, which then requires no special treatment. Other drivers uses:
-
-  struct v4l2_frmsize_stepwise frmsize
-
-in a static per PIX_FMT configuration and helpers in try_fmt. Perhaps worth
-reminding the following:
-
-https://docs.kernel.org/userspace-api/media/v4l/dev-stateless-decoder.html#=
-initialization
-width, height
-    *coded* width and height parsed from the stream.
-
-Since the dimension is coded, its quite unlikely Cedrus is correct. Most de=
-coder
-don't have postprocessor or croper, this is why stateless is like this. The
-display dimension would be something set through S_SELECTION if this was ne=
-eded
-to crop (e.g. Hantro could support that, but currently don't, and the PP ne=
-eds
-16 pixels alignment both directions).
-
->=20
-> >=20
-> > But I don't think interlaced video can have odd height in the first pla=
-ce. But
-> > it also have an implication here as you are not rounding up to a multip=
-le of 2.
-> > Not sure what is the proper fix, but I have this impression something i=
-s
-> > missing.
->=20
-> Odd height shouldn't exist in practice, but I'll use
-> DIV_ROUND_UP(ctx->src_fmt.height, 2) in v2 if you agree.
-
-I guess it makes it "safe", but perhaps feed the todo?
-
->=20
-> Best regards,
-> Jernej
->=20
-> >=20
-> > Nicolas
-> >=20
-> > > =20
-> > >  	cedrus_write(dev, VE_DEC_MPEG_PICBOUNDSIZE, reg);
-> > > =20
-> >=20
->=20
->=20
->=20
->=20
-
---=-AZu15zRcZ1tXd1TZOkqW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCauotQwAKCRDZQZRRKWBy
-9DtXAP9zZmyQzLA4WCwgH+H/kjPGtrs4F0y7kvIl/xaSrjBk1AEAnNNR7aCDg7FQ
-0h9lvSCzxwmrCo2kVaoTgcAWp0Hm3gw=
-=ZWdk
------END PGP SIGNATURE-----
-
---=-AZu15zRcZ1tXd1TZOkqW--
