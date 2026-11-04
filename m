@@ -1,83 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793798629;
-	b=glL5eThuBA+d7zYgK6lxSiQGPPBsICM1NLkRklR2eFXBaX62+XvQfR6Z3wiXw8Q+31AT
-	 NXa5HYqNUI1/kZ0iI7Z+vaWT6BtrXMlKCGB61V+aEpOEJZz9oTMEXjvw4SmUKBn5bPdaI
-	 nLhBNSbeVoGm/Lb6DVKa7NVHh/zeHsKezjYakITZTuRvGUCc+1MvaJ1pzg3ob74mFw5sz
-	 tM0KwbI/wLwuCyeAOlC4yxmylb7RyIq4KyGCSKqojFuLqCO2kVQjf445qwSZPTJXLlB0x
-	 G0kbglWCqe5H7ULruw+l3GPGrXUh0ZpehaaF0aOcQ8prxergX9arqDyC0cWKT99P6UQ==
+	t=1793800400;
+	b=H1OHPcNGkxOSXzVcN5YEVNVgWdY1XKWC3E2Xzhuf4xDeQZNs5P4bX4FoESov+TeRVgN6
+	 ZuGjiWM5a0KodrLhkpESt02uxT0jm2q/Ym5fvnWGMpmt31b/bZ9BQXcKVfgdiXTqGTjtm
+	 kyL/N7LzmbrGB6Vc9aADkuR1dQUltwYhyOIA4oSEu2mRxwiyMKfDXy7FE5ZxC9DCyThe8
+	 mKdJ77BKOARcWVZ50sXpdfEuR4XN2Eqp2sDShkqjsuqit1IaW4/dz7xvGLJSYdQIWU5D6
+	 YM6sRwIdis/MhDeIME8jJzP6lL7VA5Hj+ZM+CWKHGehIZgHuh7SNEhHmf6Ctgk1DHmA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793798629;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=oFQnvnnH43Wjq3NYgvbhyicdVMArULRPqgjr7vsX1pw=;
-	b=zgeaB1xuQ/sfDYQgX2HxodOtYYDHRYKuGOoNhevG41E1R44YNaCyvs3+hsIkyPluM7uh
-	 V7TzqJ2zQOeCmkLpMrWdw8MstiIv4cOJr2jjXa5SFcnENCDCZ1arIoLYIJSbFKy4bBLIl
-	 BBbOFDgrvt2DIPiuTxRQCcE/rbtzFQfkCFNFZqWUb87+Sx/pfOLbqORdKO6PzxX2nu5lS
-	 0o2eNMZGEGqv85Zv3kVep954etuNm3qHGz1dDqit9DqD8blWL4ZTVaSnQKY+2giq0s3rC
-	 qJ5wS/u3AEmAz+4BscX+0ppwSWBgVB1IE5A1Y2sLLkzfpZpaN1zkp7vHl+QKgwvk8TQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793800400;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=u9NTI3wQWhg6Ur7+7Hw2oDzx3iUnpb32rYoJcf5DJsM=;
+	b=Q3VziAvssl+l5b+IgBet5Wl+ON4xLtEhtY0pyKzulG3VZdo8tK3RgSDQRk94A58B1rEl
+	 6W5+nqqAYlrNyYEnyCkXsdS+z6zVTxyrjtU9/UagL+P1GT15pHygxjr8AscADyIonWhkl
+	 kovGuvZhbs6Lw4OfRn0FFvSktuH+S7LcMSYTvFFEBb5wm2dkAc5WehjcE6Lfi77HJay36
+	 EttsxVVU0GJXhNiTidGNkk2LZPGVbcemCHCorMdQavddn9viqZ7Aco+mfIG92vcqJtqGW
+	 j5tT+W7FOstemLEqtKpOiXUzYZVqAZJzR5TpWWnGJ6/UXkFbzpWkuJq821Aka5GLtjg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QcpuR7ET;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0kjlUpv8;
+	arc=none smtp.remote-ip=209.85.221.41
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC8D606A31B;
-	Wed,  4 Nov 2026 13:23:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A031606A328
+	for <linux-sunxi@lists.linux.dev>; Wed,  4 Nov 2026 13:53:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A031606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QcpuR7ET
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E39071F000C1;
-	Wed,  4 Nov 2026 13:23:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793798628;
-	bh=oFQnvnnH43Wjq3NYgvbhyicdVMArULRPqgjr7vsX1pw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QcpuR7ET2kcVQW1ILYUtFcGQUEsKGY8ZeaQ18BLfMdpM6Zy6dkppvEbCV6rUBWF+Z
-	 Avh461nN5C3d1WxLXpdJfJmRlSx94IWc0WORuZHjgQFVG8AHCMBDHIBB21RFeWNL7c
-	 CYfv29sCqv9yv9eKKZCmsvqy/46JQVY9jYhn4wBixP0qFjGg8bGSfVE5wP+9W86Y5x
-	 86TU3B/xrwNjStTaH8iRHT9M3mYY+xdVYghtd2X3Xd+x2Sbcg6RdDy1a0wNkaZh/lu
-	 rv/Ff6yJHH6uJzZihNSR3BrMSXAfQ0wbr/gGY+M+iePQDMSrsMBvSsPT1SYiR62UgJ
-	 Znax0soeaSpHQ==
-Date: Wed, 4 Nov 2026 14:23:46 +0100
-From: Thierry Reding <thierry.reding@kernel.org>
-To: Frank.Li@oss.nxp.com
-Cc: Mark Brown <broonie@kernel.org>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Radu Pirea <radu_nicolae.pirea@upb.ro>, 
-	CL Wang <cl634@andestech.com>, Ryan Wanner <ryan.wanner@microchip.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Han Xu <han.xu@nxp.com>, Haibo Chen <haibo.chen@nxp.com>, 
-	Linus Walleij <linusw@kernel.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, 
-	Robert Jarzmik <robert.jarzmik@free.fr>, Heiko Stuebner <heiko@sntech.de>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Andi Shyti <andi.shyti@kernel.org>, 
-	Tudor Ambarus <tudor.ambarus@linaro.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Yixun Lan <dlan@kernel.org>, Troy Mitchell <troy.mitchell@linux.spacemit.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Laxman Dewangan <ldewangan@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Sowjanya Komatineni <skomatineni@nvidia.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, "open list:SPI SUBSYSTEM" <linux-spi@vger.kernel.org>, 
-	"moderated list:ARM/Microchip (AT91) SoC support" <linux-arm-kernel@lists.infradead.org>, open list <linux-kernel@vger.kernel.org>, 
-	"moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>, "open list:FREESCALE DSPI DRIVER" <imx@lists.linux.dev>, 
-	"open list:ARM/QUALCOMM MAILING LIST" <linux-arm-msm@vger.kernel.org>, 
-	"open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>, 
-	"open list:RENESAS RZ/V2H(P) RSPI DRIVER" <linux-renesas-soc@vger.kernel.org>, 
-	"open list:SAMSUNG SPI DRIVERS" <linux-samsung-soc@vger.kernel.org>, 
-	"open list:RISC-V SPACEMIT SoC Support" <linux-riscv@lists.infradead.org>, 
-	"open list:RISC-V SPACEMIT SoC Support" <spacemit@lists.linux.dev>, 
-	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>, 
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, 
-	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>, vkoul@kernel.org
-Subject: Re: [PATCH 1/1] spi: use dmaengine_desc_set_callback()
-Message-ID: <aust2fUAFSsAXK9g@orome>
-References: <20261102174005.3933649-1-Frank.Li@oss.nxp.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0kjlUpv8
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48e20ed3b9dso649838f8f.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 04 Nov 2026 05:53:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793800399; x=1794405199; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=u9NTI3wQWhg6Ur7+7Hw2oDzx3iUnpb32rYoJcf5DJsM=;
+        b=0kjlUpv8nZYvaqbvvxDP/V8kLtS2mrN6EvVTjCZqGoPU4x3o7oRI/iiKhOAINjIgrS
+         YBSLhqLw0sIF7Qd1F6JQW+YK5U7ZElObD3TO+cuJgxoDHFxBLv9oKRmVoP40zCTrpSK0
+         psuKrUta5SO8vZNZRBE3s/2iIYxQjly18IvikJf23KOeM+jLCbbkQaUqIPoihyrFcVOg
+         V7KfX+7fsciARlV7KwrPKQw8v8s7znhwvk4Ba+u5FKdcVRuXXLrkkEfV/ze2mgZFyUwG
+         G4IN8ilFl+7Gin/Iuhu5XEFXr/IKwM4ET0Pwz1Wtfaq9RGcMOhjW8FQBnmFLOgKF6na8
+         uKLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793800399; x=1794405199;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=u9NTI3wQWhg6Ur7+7Hw2oDzx3iUnpb32rYoJcf5DJsM=;
+        b=a6YhjutoRWwSfZy9c3cQaJHBFnt+AEPj4gBu0hTExAwzid6le7ELBV/YApLO5uYcw+
+         GI1YuwAx36YtT4H7NXMl4fdbLign/TZdEG8zMYpS2Y77ryq+os7oXJ5iiiRfaW5yQCKR
+         R/aoHnD4u12K8T26lu5GMRM+pLBi4nXRdAGc557uz9/efpKlZR98tc7svUeW6KI5VbqJ
+         qg2iFKg0qmeRs+QIzkQeVVj4nkgnw3LFKkKmivbgNAHZtN3lQUDRL8IPUysztMJMi8IP
+         WNKFtxXxy+e1lEeV1IcOncHR/mb+xBgP8PtgLbBscEyNO/jvvQlOby7qUu1s7Hq+doXH
+         yYfw==
+X-Forwarded-Encrypted: i=1; AKwUvBx4crbIvXf9ZtWNfMmhPPvxgap+zzns3gnjwqPxQJWTwtoJDw6pNwZ1gjJFUC68bh9icUcSvCxXNQPOsQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9yiAXCeEu49oKzCYO2Wumuw1FOpH0UCJb/ZdfiuR5VnycerRSS
+	OZ1ItIVI2FTawRMI7vfc7LjMFNCZaiL1ZdrjXKNukxdQapfDimKM7tv8
+X-Gm-Gg: AYBFou3tZbNE3mXnuYcrHVsELKgAbx9EtBAvIHsw/qcl8HB6AkZPutkqTKSb/nt2uNs
+	8wV/678yxV2ryczhnd4KiPzbFsMrIbJunGKh6RoAby05Zy+dBD2MbPYqwm+lYw051arKEHvtCX+
+	AKaXPv9ZYNIOKKnxS0F6zT6467p4p5Xb+Bv+JMs3eWq/1szxVIT4tLa0SxlqJO9QsxFn9aCpvnT
+	rXagnsrV0QipZqFWdywawr9/1JOy4nlRFvLZwyLXXGsjGi8PIPgSSTQ6patr2RPPmwnW6sCu7Ci
+	U/ivFaCpAXSGcgd+ORalh8nDi+MX1KaZKL6+b4Qve6gZDeRAcO0n6jWGywFWNcAyMl2EXFqRGWz
+	39wxBANTvEmjCTrTY9TC5Nx78CgnhZJqI78VtTQH10dCN36QhP0vy0WTF4fHOikArtAbH74Pv5+
+	4Mo8zFtDgIIaR/hkCb9yc+C2LYlzghJ8Ezx77BE89XlWGe3ofyEMx9yDFhMExJSp3+JSQovMHVt
+	v3CTvyKS1tdG0C/b3n7ANZo93A/5jjR+/hJ94A9Ifahx9PFpl70Dk1dTRlcgQIsXRvr++Fb/MmQ
+	7tPO+VKTiLs7zjpt2OdbLIC+fBG0keOZDDp0KrgveLRRIAhJWBZFbwQro7lCR+h4ETt80TY2x7/
+	diKS7RReAdVqc2wUJmAaqHWoe
+X-Received: by 2002:a05:6000:4914:b0:48c:69b3:610f with SMTP id ffacd0b85a97d-48e6e5008b4mr34049088f8f.26.1793800398437;
+        Wed, 04 Nov 2026 05:53:18 -0800 (PST)
+Received: from kreach.multipass (nat44-21-238.net.ruhr-uni-bochum.de. [134.147.21.238])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fec8d88e1sm4160971f8f.15.2026.11.04.05.53.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 05:53:17 -0800 (PST)
+From: Jude Gyimah <jude.gyimah87@gmail.com>
+To: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org
+Cc: linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jude Gyimah <jude.gyimah87@gmail.com>
+Subject: [PATCH] ASoC: sunxi: sun50i-dmic: select REGMAP_MMIO
+Date: Wed,  4 Nov 2026 14:53:00 +0100
+Message-ID: <20261104135300.3723057-1-jude.gyimah87@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -87,153 +104,49 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="unoy3twvi5fxh2md"
-Content-Disposition: inline
-In-Reply-To: <20261102174005.3933649-1-Frank.Li@oss.nxp.com>
+Content-Transfer-Encoding: 8bit
 
+sun50i-dmic calls __devm_regmap_init_mmio_clk, which
+drivers/base/regmap/regmap-mmio.c provides under REGMAP_MMIO.
 
---unoy3twvi5fxh2md
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 1/1] spi: use dmaengine_desc_set_callback()
-MIME-Version: 1.0
+  sun50i-dmic.c:(.text+0x142bce): undefined reference to
+    `__devm_regmap_init_mmio_clk'
 
-On Mon, Nov 02, 2026 at 12:39:58PM -0500, Frank.Li@oss.nxp.com wrote:
-[...]
-> diff --git a/drivers/spi/spi-davinci.c b/drivers/spi/spi-davinci.c
-> index 087735ed9c80c..b115daf2c76f3 100644
-> --- a/drivers/spi/spi-davinci.c
-> +++ b/drivers/spi/spi-davinci.c
-> @@ -703,10 +703,8 @@ static int davinci_spi_bufs(struct spi_device *spi, =
-struct spi_transfer *t)
->  		if (!txdesc)
->  			goto err_desc;
-> =20
-> -		rxdesc->callback =3D davinci_spi_dma_rx_callback;
-> -		rxdesc->callback_param =3D (void *)dspi;
-> -		txdesc->callback =3D davinci_spi_dma_tx_callback;
-> -		txdesc->callback_param =3D (void *)dspi;
-> +		dmaengine_desc_set_callback(rxdesc, davinci_spi_dma_rx_callback, NULL,=
- (void *)dspi);
-> +		dmaengine_desc_set_callback(txdesc, davinci_spi_dma_tx_callback, NULL,=
- (void *)dspi);
+The driver can be built into vmlinux while REGMAP_MMIO is a module, in
+which case the symbol is not there at link time.
 
-You could probably drop the cast while at it.
+Select rather than depend on: REGMAP_MMIO has no prompt of its own and is
+only ever enabled by a select, so a depends on would leave SND_SUN50I_DMIC
+unselectable.
 
-> diff --git a/drivers/spi/spi-fsl-lpspi.c b/drivers/spi/spi-fsl-lpspi.c
-> index b25f94b2ef738..7798197d5b350 100644
-> --- a/drivers/spi/spi-fsl-lpspi.c
-> +++ b/drivers/spi/spi-fsl-lpspi.c
-> @@ -634,8 +634,7 @@ static int fsl_lpspi_dma_transfer(struct spi_controll=
-er *controller,
->  	if (!desc_rx)
->  		return -EINVAL;
-> =20
-> -	desc_rx->callback =3D fsl_lpspi_dma_rx_callback;
-> -	desc_rx->callback_param =3D (void *)fsl_lpspi;
-> +	dmaengine_desc_set_callback(desc_rx, fsl_lpspi_dma_rx_callback, NULL, (=
-void *)fsl_lpspi);
+Reproduced on v7.3, x86_64, with CONFIG_SND_SUN50I_DMIC=y and
+CONFIG_REGMAP_MMIO=m.
 
-Same here.
+Found with kreach, a static check that compares what Kconfig allows
+against the symbols the compiled objects actually reference.
 
->  	dmaengine_submit(desc_rx);
->  	reinit_completion(&fsl_lpspi->dma_rx_completion);
->  	dma_async_issue_pending(controller->dma_rx);
-> @@ -648,8 +647,7 @@ static int fsl_lpspi_dma_transfer(struct spi_controll=
-er *controller,
->  		return -EINVAL;
->  	}
-> =20
-> -	desc_tx->callback =3D fsl_lpspi_dma_tx_callback;
-> -	desc_tx->callback_param =3D (void *)fsl_lpspi;
-> +	dmaengine_desc_set_callback(desc_tx, fsl_lpspi_dma_tx_callback, NULL, (=
-void *)fsl_lpspi);
+Fixes: 9fc2c8ed923d ("ASoC: sunxi: Add Allwinner H6 Digital MIC driver")
+Signed-off-by: Jude Gyimah <jude.gyimah87@gmail.com>
+---
+The checker is at https://github.com/JGyimah/kreach, and the
+reproducer configuration for each finding is published with it
+under results/.
 
-And here.
+ sound/soc/sunxi/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-> diff --git a/drivers/spi/spi-imx.c b/drivers/spi/spi-imx.c
-> index cadf0b93f4403..f8a3ac11f49d0 100644
-> --- a/drivers/spi/spi-imx.c
-> +++ b/drivers/spi/spi-imx.c
-> @@ -1738,8 +1738,7 @@ static int spi_imx_dma_submit(struct spi_imx_data *=
-spi_imx,
->  		return -EINVAL;
->  	}
-> =20
-> -	desc_rx->callback =3D spi_imx_dma_rx_callback;
-> -	desc_rx->callback_param =3D (void *)spi_imx;
-> +	dmaengine_desc_set_callback(desc_rx, spi_imx_dma_rx_callback, NULL, (vo=
-id *)spi_imx);
+diff --git a/sound/soc/sunxi/Kconfig b/sound/soc/sunxi/Kconfig
+index 205f422d9ded..c8a626396e9a 100644
+--- a/sound/soc/sunxi/Kconfig
++++ b/sound/soc/sunxi/Kconfig
+@@ -58,6 +58,7 @@ config SND_SUN4I_SPDIF
+ 
+ config SND_SUN50I_DMIC
+ 	tristate "Allwinner H6 DMIC Support"
++	select REGMAP_MMIO
+ 	select SND_SOC_GENERIC_DMAENGINE_PCM
+ 	help
+ 	  Say Y or M to add support for the DMIC audio block in the Allwinner
+-- 
+2.43.0
 
-Here, too.
-
->  	cookie =3D dmaengine_submit(desc_rx);
->  	if (dma_submit_error(cookie)) {
->  		dev_err(spi_imx->dev, "submitting DMA RX failed\n");
-> @@ -1756,8 +1755,7 @@ static int spi_imx_dma_submit(struct spi_imx_data *=
-spi_imx,
->  	if (!desc_tx)
->  		goto dmaengine_terminate_rx;
-> =20
-> -	desc_tx->callback =3D spi_imx_dma_tx_callback;
-> -	desc_tx->callback_param =3D (void *)spi_imx;
-> +	dmaengine_desc_set_callback(desc_tx, spi_imx_dma_tx_callback, NULL, (vo=
-id *)spi_imx);
-
-And here.
-
-> index eb3485149e75a..fdda26eb311fb 100644
-> --- a/drivers/spi/spi-topcliff-pch.c
-> +++ b/drivers/spi/spi-topcliff-pch.c
-> @@ -1021,8 +1021,7 @@ static void pch_spi_handle_dma(struct pch_spi_data =
-*data, int *bpw)
->  		return;
->  	}
->  	dma_sync_sg_for_device(&data->host->dev, sg, num, DMA_FROM_DEVICE);
-> -	desc_rx->callback =3D pch_dma_rx_complete;
-> -	desc_rx->callback_param =3D data;
-> +	dmaengine_desc_set_callback(desc_rx, pch_dma_rx_complete, NULL, data);
->  	dma->nent =3D num;
->  	dma->desc_rx =3D desc_rx;
-> =20
-> @@ -1083,8 +1082,7 @@ static void pch_spi_handle_dma(struct pch_spi_data =
-*data, int *bpw)
->  		return;
->  	}
->  	dma_sync_sg_for_device(&data->host->dev, sg, num, DMA_TO_DEVICE);
-> -	desc_tx->callback =3D NULL;
-> -	desc_tx->callback_param =3D data;
-> +	dmaengine_desc_set_callback(desc_tx, NULL, NULL, data);
-
-This is a preexisting issue, so nothing to do with your patch, but I'm
-not sure I understand the purpose of setting callback_param to !=3D NULL
-when callback =3D=3D NULL. If neither callback nor callback_result are non-
-NULL, then callback_params seems to be completely unused.
-
-Anyway, none of the above are blockers, so:
-
-Reviewed-by: Thierry Reding <treding@nvidia.com>
-
---unoy3twvi5fxh2md
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmrrMd8ACgkQ3SOs138+
-s6EYaw//UO6AHvJ+t7TrjGZA+UYLQHdy+GHHN92wIwin6E29tqokUx9FRtT1mxc+
-QfpP+rIE6hr579pxyCp6mS/ocEtwyvXQ0NiQxu2KDDs4YHYh9OK6JhUHGwGtYn6r
-P3Dhqwabt4yfcKDEwG00Xps8UwXK/mLJYsm5TPXnS0FiFetZeNGK0KORgB977tWk
-4CEOjQOIvgKJIDgW0ornKkP5p3u5Nf+8qI6OuOkCkPmuK4Ed9DTwjHxzdx3M1Enf
-6X9C8OMo5MWcn5Q4WWN4YwG/S+yYPkhz8wZOotBTvMcl1xLiz8Uc9Vn5AiDcH6hG
-W8z1TXNaLhzBAE+Ov9viiL/wkD5sunZNnYLjkBsyxY1Lt1LNkOgvJGnKrf7u7Nn1
-9NMMQEdb07ppFaphiVGbHRFmKFfVimrXPKBIbjoDfyFF7DscLjhXzl4ICwv4RaMR
-k9vh0aZ4Efy2fOA4v61ePYYIY6sNjy+jyQp5YwXrToTkJ6UfnPyF9xeIBHJNM91Y
-WqO7StU+DRjiP3FKmfYMt6rLJFe/SgGJ35vOl2fgMHD2NNRGafYIWsC0jHpteo8s
-mA1Rd9Sj+E1fQqzIi+8a9grsUfq4aodwBgy3MNZhqs+6JG6BadJmTD+r/POrX7BJ
-9MPiWfYSOGkvf4dm2lHIJ2nQVZZcUtLrj/Hm6DakNESIle457lU=
-=AUYN
------END PGP SIGNATURE-----
-
---unoy3twvi5fxh2md--
