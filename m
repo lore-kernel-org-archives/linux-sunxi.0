@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793776605;
-	b=h4gpTrh+6FA5xkBwSDL7ln1VJ49dq/0vFXNT2lvZFBoLMSa5z5nmON8u/frQNwurQg+P
-	 uX9a2P89P8DqX9fKOr12oAHY/Kws15+P7dbZWgf3Cw6g8vXRxjUaIWkF6vpm+t6xBAO22
-	 GJU3lNoDRnoXkt4XTIori3xDPe6lMbEyaSqaQq94PkWNL60iBGfi+9Jz81OqWeYMs9pnv
-	 b9ADUzhtS0aJkHEVegLGv89+PYgB4syT1vrPalh3gdR/fJS8IoKfy8L72IY/25fe4Uiqs
-	 PN52JTNpg9tLAw/k0yRlL6hbb3yqhz5g8noozHezRixBriPbK+J4Jbmw8ueEc4j6+5g==
+	t=1793779798;
+	b=sVF6l0c0SrwhhRlWrJ29NCTbsjLHNa1uyjrMCkX8GhCbKntGpG4OCEvoM3GARvxG51rr
+	 CVe6c2J2cRK7Qg7/RLjCsAM7LGzomCnMtnwYj8FlYfoJpLdgOkMbzepsprURUtfEKALW+
+	 QvLso0CCapvcZXDlm0ZIAM/bdZekfT9OZm3ion6gkK3wE47BtRbSYCe5JjxKztz+sYkSC
+	 nbIQyz+hkC/fS/2B2BTJGjj+Zp39cnF8s33VMWzceCDlFh4wlCQGIQbPPrAGNZDIEAAUX
+	 8QfUIKV2Q0cOweYWD0n9OPjqQ+av5b4FLq+dknc5P8QLhw+f0Jx3miYIdKAUk9FxxcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793776605;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793779798;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=ZE8qefhjNUN42/HTX83ywp+pDkPHnSBIju1ZzbF7IWU=;
-	b=Yd4R5fElJXS0nibbjHmNnG9RZP83Y4S9bbbP2thhT4kkXjagTzE6Q03OGy5WI2KegcHj
-	 fTrmYaWsOuJULvtwlpfVefPsLn+wA7gQnzGpTm7kh5ThWqwf8o4cn8826RMuVc+XQRUVB
-	 6Ra4SeLUXbGd0dv33agn1MZn+62TeUJNkZV3Uy5AV4OH5HJipQDF4AAejDU8BUXMM9K5k
-	 r8inVSAWTelVUPrFHMY1NaRZsSrbPBkAWcJ+WX9Q0yYSrimsoxTJXqeFlIqQjoVx/1TQG
-	 xoOQHYedSBRe1DqlraHvWjHdDpebwdAhpIu87pXQGsjs0Q+XeYQ1sJcCZUMmqExAuSw==
+	bh=TGjvdT1tSAdYwaRRPqeNTxe41Nk6QGzMso6+8hC+8JM=;
+	b=O2S7xTkZGcy3ZuYji+xdT5GeYzlqDZvQzw1sGJm24ParO1DjysjQ+FU9jYzzWjf5UFgo
+	 knhlpBIA10w9It4qUidYKa9mPNgsQZ5baq7FXQAr/c1C8WDchxJTk2oLHSO+emMLWLkQL
+	 JJzv4nOm/wsp5dbn781Qpr5fBrxtKXs0Sl6i6F1SawBhf8+pj8+L/yEtuWPRkq7eGiKDE
+	 GxCQUZzYLCptlSExebr/Q6FU0i9qQPxH57DKQh77ZbYUKcDV5rySpPXjT5Y0J0DiVSh+f
+	 hnNSlwMHS2P7KOk8VO5BqbgCii51mV9iVoDWgJivVRPNO0H1ZEc5ls5R7XjYhyxL26w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=brpsQPfu;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S2hDpltL;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F23606A326;
-	Wed,  4 Nov 2026 07:16:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B49BA606A326;
+	Wed,  4 Nov 2026 08:09:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=brpsQPfu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 466511F000C1;
-	Wed,  4 Nov 2026 07:16:38 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S2hDpltL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68EC91F000C1;
+	Wed,  4 Nov 2026 08:09:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793776605;
-	bh=ZE8qefhjNUN42/HTX83ywp+pDkPHnSBIju1ZzbF7IWU=;
+	s=k20260515; t=1793779797;
+	bh=TGjvdT1tSAdYwaRRPqeNTxe41Nk6QGzMso6+8hC+8JM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=brpsQPfuLUSvTJIEqioSRn+DqsdN3x9zVfM0YDnl9DoqW+A06FIT69caz5ivWkSJv
-	 Z5yZFgUbfrDusHk6n1ri4I/39/yASKyhFVDw3+IrqmxGVtumMFym++WGjREonVmDS3
-	 d8NXlkm4pv7I58dlRtM01cnClrDOWHpSxJAjYt4VGRouAUHc5Vcb3WDCJptvD20IE4
-	 pTJs2fxZ2HhrMXzdMU6+kvD21QRC28V1X/XyXkGxetMJLhVQ+XSiBa6zBjlLOAZJnS
-	 hNrpI+HYJogAmHBKYd0ec3oKT7wf6M5kj4Cr7rLucKl4CcP0ybHd8n5Tv07zDNH5wP
-	 GStt95XkW0Cyg==
-Message-ID: <44b59f8c-d1c6-4955-89ac-3184f3292d75@kernel.org>
-Date: Wed, 4 Nov 2026 08:16:36 +0100
+	b=S2hDpltLKFLlVIbuR1j18MJZC7mpen4l/KzEdOo6ODJ7fPWyVH1T3xHmEuPj2AGBJ
+	 ciMtW+NbguZu4JSL73FrnO3H0go8Jbf/JmbB7HTgSr/CDnjh4eYBE/2gTBTrsGkZHX
+	 /b6cOH3BzSCp/P1r/TrgpYXm5hr4RIsaxTanEkES+FQMvIAGToTv2y+n6JMPjbWzqQ
+	 p+tErFSl07e8vD/UsPrUQ7dMqO8NgnjEzCHfVioDgBUuTV5bz93OudbyRmtSwpmx5k
+	 aXDkTTbhN/F0fEbm1FVVyJRArl2Oj6xQSS0PwzU9+p51lsQFnTv/N7Q7pWWpjXBEPI
+	 482rRLXDKTacg==
+Message-ID: <515d0b89-e0c9-4df5-ad6c-756247d9ecb3@kernel.org>
+Date: Wed, 4 Nov 2026 09:09:49 +0100
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -52,15 +52,22 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/1] reset: add support the GPIO provider with
- #gpio-cells=3
-To: Marc Taylor <marctaylor700@gmail.com>, bigunclemax@gmail.com
-Cc: p.zabel@pengutronix.de, brgl@kernel.org, linusw@kernel.org,
- andre.przywara@arm.com, martin.botka@somainline.org, dlan@kernel.org,
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-riscv@lists.infradead.org,
- spacemit@lists.linux.dev
-References: <CAKNLDZOndyGxLSWgBDrq0Vfbt88Pa5S2MDHVcnkHzAH3TQDpaQ@mail.gmail.com>
+Subject: Re: [PATCH v5 5/8] arm64: dts: allwinner: h616: describe the UART
+ integration
+To: James Hilliard <james.hilliard1@gmail.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20261029-submit-h616-uart-fifo-v1-v5-0-53b433aebbf8@gmail.com>
+ <20261029-submit-h616-uart-fifo-v1-v5-5-53b433aebbf8@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,25 +113,29 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <CAKNLDZOndyGxLSWgBDrq0Vfbt88Pa5S2MDHVcnkHzAH3TQDpaQ@mail.gmail.com>
+In-Reply-To: <20261029-submit-h616-uart-fifo-v1-v5-5-53b433aebbf8@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 04/11/2026 04:56, Marc Taylor wrote:
-> Sorry, my mail client mangled the inline diff in my previous reply
-> (indentation stripped, and it turned "
+On 29/10/2026 19:47, James Hilliard wrote:
+> Identify the H616 UART integration on each of the six controllers. The
+> specific compatible describes the fixed FIFO capacity, register layout
+> and receive-trigger mapping.
+> 
+> Retain snps,dw-apb-uart as the generic fallback. H618 includes this DTSI
+> and uses the same UART integration.
+> 
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> ---
+>  arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 
-Then please switch to standard email clients. See also kernel docs for
-helping to setup normal apps properly handling email.
 
+DTS cannot be combined in this patchset and must be split. Don't mix
+patches from independent subsystems when you send something explicitly
+targeting only one subsystem.
+See also: Documentation/devicetree/bindings/submitting-patches.rst
 
-> https://www.google.com/url?q=http://spec.np&source=gmail&ust=1793850929317000&sa=E"
-> into a link). The
-> attached reset-gpio-3cell-v7.2.15.patch is the correct version; it is
-> re-attached here so this message stands on its own.
-
-I have no clue what are you referring to to, but I am not opening any
-attachments. I doubt other maintainers will.
 
 Best regards,
 Krzysztof
