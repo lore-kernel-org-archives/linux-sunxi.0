@@ -1,47 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793813281;
-	b=ODqOQjPoC/zWF19i9RDNirXMaFDe1EY02Pbm0Qjj8dNsY8ccu63dVRoL8fRvnNCNBobN
-	 YXogTedwjN3po93nPD+gmWHEslmCTmBfdbFMttv4y+BNG/kjfHRuK5yF6/hLPEVJDvHwG
-	 5LOFJai1QcXaPOqt9HzwIrFv+nUXZf7MUCrKf1py0Blw3U/dyrXsUphP0BwjrZsnmax3T
-	 s8wDSnhgxleBv69t2u1VnZbUfPfxcZoYNMwyBSVLO9HakMPoE/bo2cZimlFh19Fev3yB0
-	 3Ke1jTgPZfugDouubCfgs5i7YGXkdbzFNYUYFGyEWikdacY8Q53lS/C+Zl0hdAaVfZg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793813281;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=l/mNIUYbMxLCGw0NLoaMA4f3zkyRJADVSFkdtq4toFM=;
-	b=rUCePuE0UiS/d07nAbXAC2M8Xqn37X1d1XoOeIK39afWc75G0wBdZ6j55GYwfMsX6wa/
-	 nOCsZPxc8BGBKpEkvbBShm6a2e7c46EaX0QcgHTK7za0JAKH66++XtF8IBSO0qxFawB4D
-	 5Zc0ZTlJfNBakD5ij9XJ4Xa1RMFDMXjVydEsJNXlqleZAXdMexdo4GOjHRX2dbm3Wbffr
-	 ne5xpbN8OvStem0x8mDaM3XZe6xtYQlPR3ku2TG4IxYtowX4JTx+p81yU5ifHFR0LOHf6
-	 EBK9b1fhL7cCjXid5WJl4LCsvWLJ7zuq5CCpmSHN88GYR4zIE334J4t7PcsFo3aWMUg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LkqsVoPl;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.179
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793815674;
+	b=kwU/gJ+Wq9bSnFZ4krbwuuhIrnhO1yYJMaTVhvLiIj+HHeGnboIcoDGx2FdamDr0H5kx
+	 thtcnf0BX0C9InfZ486Awil0ccuRHMyB4aqUKoIBabsVe3ZfBVzbquM4HkBwZ/XOHyxl/
+	 swChiU7FY5Y5JsxwscXcITS+Svsat6qBuiF//KbxhNTsGfvVnFltoBavxOKB9blhXiICI
+	 1fay/06MuMR4GAqWd14kosbnlJHK3yioxdirSepSajp3o6Xtex9uqIcU7xv9u912Jay6J
+	 tqeVcJR1QkM6nOwqs+/kOCAhTaSWYfevVkGgzGUGGvMtoexaNtN2LvpNo/R7LGb8Y3Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793815674;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=+gQ5Cuyj8b/949TwI5RgIKdEjddDg3DiMb9qtnYfCaQ=;
+	b=akv/nr34z5us3wgdKhJJs8WLltAZsGT/vC4icVg8RDVnnwluBYNpkcQjEHIoz862baQ/
+	 93tz9igedSP1hJAifRfL86Dzcw82cOJfj6ioKh11nJN4QsxKCA//ezS3ncYqa1D7S5ePL
+	 8kyDNKVJYpbF3b6BBGjxmbtY9LFf24L9P3hzC/s6/N7pOCQGyF3xhU3zcFCuVNnVnq9D7
+	 twIKAs3WYXpYHDizYaqCN/+uheYejOU3CejBBrD9WsFvM4DnTCLobAqQ4TkrckIOP1qGP
+	 nxVk+4UrFqu7QKbOz82UE+Lk1SQQNp6Xspasctmbo5LoAVaB2/D8QXwCCawwUzKo2XA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HKfkPvKk;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.179
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22EA8606A31B;
-	Wed,  4 Nov 2026 17:28:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B307607A3CF
+	for <linux-sunxi@lists.linux.dev>; Wed,  4 Nov 2026 18:07:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8B307607A3CF
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LkqsVoPl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8A521F000C1;
-	Wed,  4 Nov 2026 17:27:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793813280;
-	bh=l/mNIUYbMxLCGw0NLoaMA4f3zkyRJADVSFkdtq4toFM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=LkqsVoPlMxnL8hn5zvggg6Mk5g6BwJ3Yt83USTc/eHUB9qseTp86cnNuAormA9cIA
-	 GXPp0lI/PgoNLT/nN5QL7Pv9RsKf/estDLFbDCpOMawQ8gaL3Ft580F5yejIrzOo7P
-	 SIPiLSFSqdfhyg7upul+KIwH2t0K0EIBBhv+t1G//73EioWqslBR14ukkjlsHruOIm
-	 n3fnEGZZ5tEigyUflMnKa617NRYomjanPVWDmiJ23OQHfhZohjiynMee+IuwZnXEca
-	 1bNASyC2jRHnlc6OLAIoywhCH4Txi/AupoYn2hDywxkjNkonXjXYJ4qw1faKAwMZsF
-	 zslmXuwVosIMg==
-Message-ID: <9e39502a-dd17-4fa2-98a3-9019523cb5e8@kernel.org>
-Date: Wed, 4 Nov 2026 18:27:40 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HKfkPvKk
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5eac6c5f927so440152e0c.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 04 Nov 2026 10:07:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793815672; cv=none;
+        d=google.com; s=arc-20260327;
+        b=XscPb17r6CEp7/NZdAQOljWHuZcyzkGdvtLP9Ak859atoOkhZfpqEuMcrcJtwW8ABG
+         t3fHcFBcrvYTWgQwGjseUkn6ZX5xfrKqcSYQ+WNA5IXXr+H2E2tVhq7expvoSAJTPsaL
+         pWMJNR0W3qTDeOPKb1mFiFm08OrHb/XeUKP/Y+ydwa4DY1G6suE6VU+XmERd0C9KcCMM
+         AweKkVLcy9OM/AObFxB8+OQEL+S+Tee0M+oquI4uw21CW9cFyic2eFIV8aczHkQ3Xkga
+         gbuBTOTha1s6Q7AujFd3vPhP2AOjTE1fVGbUIJ6Q+k1KwVin7L/u/Woiid8FsWRlF37O
+         5+Mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+gQ5Cuyj8b/949TwI5RgIKdEjddDg3DiMb9qtnYfCaQ=;
+        fh=WhNrQAktcjXW0PHJWLa8C5J+/Cl+7/pOOAFZ6s8yqAU=;
+        b=hwKCEdtljvTIiKFoNoEdpsvaER3LSmQHBGXhI3+lh94vUa60G2cdTmP8bluZLtQUjP
+         dlPRWQGKuOaWx5eyYnxAHjzT1f25Asn07aADFLgyhFh7c1fhniR1tLIt841rrj+B4X3A
+         Y/ArUahkUl2JMRd8hOLmKXSMLo+MYJBsBYpEgXPUrNjVJbaEHXXhsFdNaQpkTE6pvFVd
+         Ujy2QsfBqHYepF/Mc2CpUDKxcO7gQ/GWHE9xCIacTpdBMIRYc7cduhP9U70QQtB2YvyE
+         RO2NJRNKDJzaWHGX71ihY2QXTZJgsN5Xyg/9EUfKnJpD2vt4+QIKYMDBaKdblv+kzBI7
+         5KOg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793815672; x=1794420472; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+gQ5Cuyj8b/949TwI5RgIKdEjddDg3DiMb9qtnYfCaQ=;
+        b=HKfkPvKkFWfUpU8GydEYMDh/2Oxrwyp3WoYKIdLePJkCzm3MOfV+Tn26FvzzWWbe4Y
+         B/GM35WqV/eq8tOAgh85zsMAcqS0MqsU+kj/w5z5VDq2SN6Jrq0fe4Z2DYOmI1KduKF0
+         /JKqmLq9mADe/c5Fin5wJ2tetXIKd+a//NZiRBVSL1ZUV0bFrCwgDkMQr+EF4A0q76zq
+         p9jR8nWgKQwWFMFA0ZUlLxZzfYB9qe0wg8DsUJlYruDWBt2tJu8UG/rvaAMFSDS2MYkt
+         IuRcZipyWtjXaIHHZZO4MvTxdWC5LC8Adu82lN03HPBGNLo8DXAjrAsdSbo1mPOIzeZb
+         sFKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793815672; x=1794420472;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+gQ5Cuyj8b/949TwI5RgIKdEjddDg3DiMb9qtnYfCaQ=;
+        b=1+S+WBXm6+/nJpuOHCWchUdjocNp9u+mDlPgxHUBWEDNGZiDrJ0d+A7tsaqEbECSlK
+         8eOnCmj+SPelFo7368EkBn8HB6l3/An51TtcBnjlvsicTY84c0nsltfrDYXMT0bbj/fW
+         aOLX+Msm/A46A0gux+P2+DRmRMh/tRWnPU8xb/Ihlc+utc8/K/oB533E018v4HsUa25k
+         5arsY360e6iyxvWLqIDwTnUHn3sAxLgYGKfkfVu62zHlF28h52Uwf3hJircZgbpa5cFf
+         RZ1c8wA9u0hoD729hKxz4QP94HZ/QS7fwB867YsKUkZpEWjU+Z+xxGXR1isspWfuEjxZ
+         kCmw==
+X-Forwarded-Encrypted: i=1; AKwUvBxZwcDU3tcyDu+wZ9asQtV/XFF8BzTVTQbJxVi986FaT9NtsZPg93zipjaNPEXHyXmfgtO3n+6W2C6ygQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/g39TuiEMRAEgdJDGiGOLldxDtIWdFt+sqwQ64bnBQcdUYocjV
+	RY0L6B4hfJivOoEF7DvUy4co3AkDKtklKUptyNFG79PI91WCoQidrGGGbMyvf+cYoNRbqaFBbab
+	MetPDPJqKjEo7f1h+l4k3Iz9kQsu/IUA=
+X-Gm-Gg: AYBFou3CXWrDx6TMLPuwEBzvFhpLO//oh+Q5I9LQu15EOM+kmqorVJf2+TWTZ+FNOri
+	fT2pIP+LmBLfvBtPclFE2pcawLWyiw5DT/dQicnSFM6425LMNJaITEaE6rUekNAnAUq9Vd3YNuY
+	ld7IrHE+uJSZTAhj+8G5Z0LkubClIMCnmOarlvUJFmj8gu5AVknjRGFiUQoF0jSRyMqeMN1BHH5
+	UoH1NxMOSlgfitSz+dpw8ENYv6m6ILA8WS4q8WjC3v84x4P5zv+sH/hBytHJuyfCZQkEF46qNVT
+	M3cCAW5b/lsy0cJZ+OS3nvrbg6d+1fzduUeObseceLyt029fMF568v4nL9sjX5NxxxckwZ+BaKF
+	1PWIgiF+fuOPilpAIZW8kWGypBOlL0WcKarik+H0lHfEXFppyp19khr4P+XBK7YfavVVtWfSX4r
+	5o9A8Eg/ikIU9yGQkTpNXuqIQuOaddGf/yTwW5a78I/TH6rv13vvKyU6Yd55VhBVciDJsSH8sK7
+	QOWLauMkHwbjpNpS07/tkc4l6s6rpbeRXYFNAgabRHOP8WYZQ4=
+X-Received: by 2002:a05:6122:1794:b0:5c9:a60d:3275 with SMTP id
+ 71dfb90a1353d-5ec6894bafdmr7258349e0c.9.1793815672343; Wed, 04 Nov 2026
+ 10:07:52 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -51,180 +106,133 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] spi: use dmaengine_desc_set_callback()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Frank.Li@oss.nxp.com, Mark Brown <broonie@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Radu Pirea <radu_nicolae.pirea@upb.ro>, CL Wang <cl634@andestech.com>,
- Ryan Wanner <ryan.wanner@microchip.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Vladimir Oltean
- <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Han Xu <han.xu@nxp.com>,
- Haibo Chen <haibo.chen@nxp.com>, Linus Walleij <linusw@kernel.org>,
- Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Heiko Stuebner <heiko@sntech.de>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Andi Shyti <andi.shyti@kernel.org>, Tudor Ambarus
- <tudor.ambarus@linaro.org>, Peter Griffin <peter.griffin@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Yixun Lan <dlan@kernel.org>,
- Troy Mitchell <troy.mitchell@linux.spacemit.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Laxman Dewangan
- <ldewangan@nvidia.com>, Thierry Reding <thierry.reding@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- "open list:SPI SUBSYSTEM" <linux-spi@vger.kernel.org>,
- "moderated list:ARM/Microchip (AT91) SoC support"
- <linux-arm-kernel@lists.infradead.org>,
- open list <linux-kernel@vger.kernel.org>,
- "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
- <linux-rpi-kernel@lists.infradead.org>,
- "open list:FREESCALE DSPI DRIVER" <imx@lists.linux.dev>,
- "open list:ARM/QUALCOMM MAILING LIST" <linux-arm-msm@vger.kernel.org>,
- "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
- "open list:RENESAS RZ/V2H(P) RSPI DRIVER"
- <linux-renesas-soc@vger.kernel.org>,
- "open list:SAMSUNG SPI DRIVERS" <linux-samsung-soc@vger.kernel.org>,
- "open list:RISC-V SPACEMIT SoC Support" <linux-riscv@lists.infradead.org>,
- "open list:RISC-V SPACEMIT SoC Support" <spacemit@lists.linux.dev>,
- "moderated list:ARM/STM32 ARCHITECTURE"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
- "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
- Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Thierry Reding <treding@nvidia.com>
-References: <20261104152253.3279052-1-Frank.Li@oss.nxp.com>
- <autj6pr_bPaul3w0@ashevche-desk.local>
- <7f96599b-681d-4963-bdda-1274371ac84f@kernel.org>
- <f1fa853d-1703-411d-b2d2-0fb0b176c2fa@kernel.org>
- <autqC143h7Qf1R9H@ashevche-desk.local>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <autqC143h7Qf1R9H@ashevche-desk.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20261103-submit-h616-uart-fifo-v1-v7-0-c9e248d685c1@gmail.com>
+ <20261103-submit-h616-uart-fifo-v1-v7-6-c9e248d685c1@gmail.com> <32461e0e-2512-451a-8eca-f2df63553379@arm.com>
+In-Reply-To: <32461e0e-2512-451a-8eca-f2df63553379@arm.com>
+From: James Hilliard <james.hilliard1@gmail.com>
+Date: Wed, 4 Nov 2026 11:07:41 -0700
+X-Gm-Features: AclHuK8w6f78lagZOCqY3kBXvDEG6Z5rWFvxVoRwnTwu0OTjK9VJe-pup1TnDtw
+Message-ID: <CADvTj4qPfWo=w0khBM+vPfT4vxCJVBQsqzAE3C9V+2J7fwq9gQ@mail.gmail.com>
+Subject: Re: [PATCH v7 06/12] dt-bindings: serial: snps-dw-apb-uart: add
+ Allwinner H616
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org, 
+	linux-serial@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 04/11/2026 18:23, Andy Shevchenko wrote:
-> On Wed, Nov 04, 2026 at 06:08:39PM +0100, Krzysztof Kozlowski wrote:
->> On 04/11/2026 18:02, Krzysztof Kozlowski wrote:
->>> On 04/11/2026 17:57, Andy Shevchenko wrote:
->>>> On Wed, Nov 04, 2026 at 10:22:45AM -0500, Frank.Li@oss.nxp.com wrote:
->>>>>
->>>>> Replace open-coded assignments to callback and callback_param fields
->>>>> of struct dma_async_tx_descriptor with calls to the
->>>>> dmaengine_desc_set_callback() helper across SPI bus drivers.
->>>>>
->>>>> No functional change intended. Prepare make to struct
->>>>> dma_async_tx_descriptor private to the DMA engine.
->>>>
->>>> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com> # dw, pxa2xx, topcliff-pch
->>>>
->>>> (Note, you forgot to add the list of the drivers to the Rb trailers of other reviewers)
->>>
->>> These should be acks. RB creates false impression entire commit was
->>> reviewed. Our docs also clearly state entire commit:
->>>
->>> "Reviewed-by:, instead, indicates that the patch has been reviewed and
->>> found acceptable according to the Reviewer's Statemen"
->>>
->>> (not patch or part of patch)
->>>
->>> "By offering my Reviewed-by: tag, I state that
->>> I have carried out a technical review of this patch to
->>> "
->>>
->>> (not patch or part of patch)
->>>
->>> When you accept only part of this code, you basically Ack. I really
->>> dislike these half-done reviews, which later appear in logs and tell you
->>> nothing. You could have clear security bug here, but 10 review tags. How
->>> useful tags...
->>
->> And let me even bring a better example. Imagine a patch, doing massive
->> refactoring of core SPI stuff, 1000 lines of code, complex locking and
->> also simultaneously updates drivers to new API changed in this core.
->>
->> Reviewing that 1000 lines of code in core SPI with complex locking takes
->> someone 30 minutes. He gives Rb tag, gets credit.
->>
->> Now you come, look at SINGLE line in a driver and give Rb tag. For 10
->> seconds job of looking at one changed call in one driver.
->>
->> You just Acked, you did not review "the patch" (quoting submitting patches).
-> 
-> Your example is doubtful because the patch is combined from independent pieces.
-> The Rb fits very well the listed drivers. The problem is that some of the
-> people combine changes into a bundle (and not proper per-driver series).
-> 
+On Wed, Nov 4, 2026 at 3:59=E2=80=AFAM Andre Przywara <andre.przywara@arm.c=
+om> wrote:
+>
+> Hi,
+>
+> On 11/3/26 22:39, James Hilliard wrote:
+> > The H616 UART has 256-byte transmit and receive FIFOs, but its DesignWa=
+re
+> > component parameter register does not report the FIFO depth. Its option=
+al
+> > register layout also differs from the generic DesignWare integration.
+> >
+> > Add a specific compatible to identify this fixed configuration, retaini=
+ng
+> > snps,dw-apb-uart as a fallback.
+>
+> I think we should not focus too much on single SoCs here, all the
+> Allwinner UARTs need some care. We should have had SoC specific
+> compatible strings (plus the fallback) from the beginning, but we
+> didn't, mostly for historic reasons and because it just worked (TM).
+>
+> So just from looking at the Allwinner A10 (the first one really
+> supported mainline, since 2012): the manual reports a FIFO size of 64
+> bytes, and it has none of the DW config registers.
+>
+> So I'd suggest:
+> - We add compatible strings for *all* Allwinner SoC's UARTs in here,
 
-The example is actually real. There are many patches changing some core
-subsystem API stuff + many drivers, and they are done correct as one patch.
+The current series covers H616 and A523, but the setup is structured to
+extend to other integrations. FIFO-depth discovery is separate from the
+shared DesignWare RX-trigger calculation, so adding another compatible
+does not require duplicating the threshold handling.
 
-Looking at two lines out of 50, 100 or 1000 (here is 740!!!) is not
-reviewing "this patch". Is acking it.
+> regardless of whether we currently need a quirk for each of them or not.
+> This is now regarded best practise for DT anyway, we just catch up on thi=
+s.
+>
+> - The FIFO depth is all over the place for the various SoCs, and most of
+> them do not implement the CPR register to announce the size. So we
+> should use the already existing generic DT fifo-size property to
 
-All of the Rbs here are half baked, meaning they did not review "this
-patch" (quoting submitting patches document).
+v3 actually used fifo-size for H616. Krzysztof requested removing it
+because the fixed 256-byte depth is implied by the compatible [0].
+That is why subsequent revisions supply the H616 depth through platform
+data instead.
 
-But sure, if we want to play such numbers game, I will be sending
-reviews for single lines.
+The earlier discussion also covered UART instances with different FIFO
+depths. The feedback was to introduce the property when an integration
+requiring it was added, rather than require it for H616 in anticipation
+of those devices [1].
 
-Best regards,
-Krzysztof
+A523 provides a different way to handle that variation: each UART
+reports its depth through FCC. The current series reads that value,
+rather than putting either a per-instance size table in the driver or
+fifo-size properties in DT. H616 does not rely on FCC and retains its
+fixed depth.
+
+Linux already reads fifo-size into uart_port.fifosize, but supplying the
+capacity alone does not handle the other integration differences. The
+H616/A523 setup also avoids generic optional-register probes at offsets
+used for Allwinner registers, and installs the FIFO-relative RX-trigger
+table instead of using the static 16550A thresholds.
+
+Older integrations with a fixed depth implied by their compatible fit
+the same model as H616; they do not need a discovery register.
+Compatible-specific data supplies that fixed depth, while FCC supplies
+it on integrations that expose it in hardware. Adding fifo-size in
+those cases would duplicate information already determined by the
+integration. This is why the current approach uses those two sources
+for the FIFO depth and shares the remaining setup between them.
+
+[0] https://lore.kernel.org/r/20261027-nifty-reliable-octopus-6cbac5@quoll/
+[1] https://lore.kernel.org/r/18f1e637-48de-4962-8a13-65f6597eb2dc@kernel.o=
+rg/
+
+
+> describe the size. This is the simplest, yet most flexible solution, and
+> avoids hardcoding implementation specific values in the driver. And it's
+> friendly to other users of the DT nodes, be it U-Boot, the BSDs or
+> whatever else is out there. IIUC, that should already work out of the
+> box with the current Linux driver?
+> Since we need to touch the DTs anyway, I think this is the best way forwa=
+rd.
+>
+> Cheers,
+> Andre
+>
+> > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> > Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> > ---
+> >   Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml | 1 +
+> >   1 file changed, 1 insertion(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.=
+yaml b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
+> > index e2ca126d58ba..fc1289073241 100644
+> > --- a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
+> > +++ b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
+> > @@ -60,6 +60,7 @@ properties:
+> >             - const: renesas,rzn1-uart
+> >         - items:
+> >             - enum:
+> > +              - allwinner,sun50i-h616-uart
+> >                 - anlogic,dr1v90-uart
+> >                 - brcm,bcm11351-dw-apb-uart
+> >                 - brcm,bcm21664-dw-apb-uart
+> >
+>
