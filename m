@@ -1,102 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793818628;
-	b=ihGSFXF4zWRUcHY2nq99321cMCmE6j0EGtpuOLP0jw12q0FBHAhlVunIE3jj5srqEArA
-	 knH2S3l2X2Sa8pl3rssGxT2I0P/TjRMn5ftQnhMsz25FHG2/6StacoqVJnTBxVz95oE7t
-	 XfE+lQ9OxRK19lpJp+RJ0UoNRcUHCw8HN4pyZ3ngK/HcOTCphzmBev5gv0WSaG8/Bieen
-	 n1gTJBhvTGAVvbVbFEgGj1tdyISPtZp35Y1Ps+CTWR7JQXnfJag9dzq+ZBc6bj54+y9Fa
-	 dVyDc6v9uqvuEyHjzkmcYHOIpoMeb0iikNJKGnl0wG2dQNJaMpbgTQGwZWXtBPG2bgw==
+	t=1793818726;
+	b=yaVXI/gbwxgassAJyifKB8hXU8LHUti3lqZNTveUXOzRbhNsx+Pt4M1Lv0b0GSkKMyNN
+	 UOJbW+jzd9ck06vmAbPRuwG4Ayz19Ywf7A/X+R9SG8hNpVeV4D2fptyoAj/Z+tOU8RabE
+	 ghTIXlD+7WlymQoB0DhvTFBOQ+r9HHSByNsq43zSCqaM/tjTwrB6739NuIbQgjuHkLCA5
+	 FsQu2xjPkI3YLGxUJFdV2TwLFjXuc+XRcImN84khrDDXYZZldD4VTiYCAOzPsInCgaGJV
+	 ntD15Btt1bl9dhQSg53erlw4IBz3YEzqAu3b73KZJtE3UuLXkskJWl6QbpykghnDU8Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793818628;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=C6QSFeWBFed5RRDCZFUyOzGQ53jm2iRwGaePUB0IWS8=;
-	b=d5zrfo1Xnm5xxkOGSJLMxWRgONiPl/U5YJwUv1tgkPxmAarEsfxz0sK5RL399UVmORSz
-	 +UaNl3x8P35mu5cX2bS/ASvFzVQCcIKzSrzKPSCGcxrIUF2CeRHcSE7MsN5KwzAbcGjKl
-	 Id5lDgxxoNqb4XyQ5jzLdwof4hDvJxCtaBKe5iYZhRHkHMYTBKrGNCF9d24o5XYVze6My
-	 rMZ/PRHPUndkbuhIK+ENlSQmEONuo1hF0682qdQcrPS5eCujK6wBhomS8PHw/CdkQzSQN
-	 MXUaWcPgncr2/NyyWh1TNWVX0mTHnALDcr/8sxy/Q4SM+KaExjEVzS9UOf63w/tLB9g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793818726;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=HG//4ieE7u/vdx8PM3hg5E75iSq8aL+fAVM6oD03geM=;
+	b=rIYPmnfhKMgvqyZl9tPACaYQ3Yl/XZthEOFTKnl+dFoFejILThEe5T/sP18q8WROCnMo
+	 o4ZPNX7Ap5WnrbfQxXQGTVahgLML9y0w4YMhPjGdOQkSN+cevjrkN93kkRYLHMW6GuuAe
+	 g897GYrWQOyJG1x1P6yi4F8/Ms6od+dTfCp6aYwvsJ7R84gqrfI5bg1xf5XvThEuvISVe
+	 FFT5JDTRs3ND8kr3kLiH0FHBtpSAXJfLopDvuJWQTqHs6B6LZyBtbw+k6+LH+/z+dyCqd
+	 8UPy9jnB2kJEACGrOrqXKUz/GCDRk5Q/ClFtX9JyxAYuWfVci3VXwVWpan/kyQzHEzg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FKO942dL;
-	arc=none smtp.remote-ip=209.85.221.52
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AoM+D1ab;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1D4606EEB1
-	for <linux-sunxi@lists.linux.dev>; Wed,  4 Nov 2026 18:57:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8B1D4606EEB1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE99C606A33F;
+	Wed,  4 Nov 2026 18:58:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FKO942dL
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48e20ed3b9dso934935f8f.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 04 Nov 2026 10:57:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793818627; x=1794423427; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=C6QSFeWBFed5RRDCZFUyOzGQ53jm2iRwGaePUB0IWS8=;
-        b=FKO942dLG6Sxwn/AGKAgEmR8QKnL5mx7z7TZ7GOQYLk2Rx6kmcurTHE25kEPV9zEY2
-         7y/B00/TBwi1V5Ntbpj7zDoju+QY52PLFko9kn5pvA6x7Y8g4PfzzqNj84NqsS9AB46Y
-         NwkNBhagHqo0uNOm8uB6mViKZAuMhxFrkq0pocPT34d9oW4rksyJb4IsaanuRXAQ533W
-         bK72rS6EaSUdMmoIjBLQ5TS0RfXgRvje/tCGlxg15cMbQ3vp3db5yCVrYeLdQ/K+hluk
-         KIeETMEeoHlYqaX6+lvjrrPxL5Q5CJZ88tAl1gjs5yQENopik1m4xxN+7pQ3+qnqc0RC
-         Qcqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793818627; x=1794423427;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=C6QSFeWBFed5RRDCZFUyOzGQ53jm2iRwGaePUB0IWS8=;
-        b=vZYGS5vSGwMqOD6XH33YKcU7jgLwpbJirE2RKVoenXQ2M/Pke4PuPwcb56UINQmaw1
-         YTKJ4zdrnpw1YpYkhyQBpMKsg5TJqVLiDzY5r0223JoZnx+K6ldCFyBo6uADeEUr4yQL
-         EqPW5SBkFj88sn9yamXNE2XqT7Vd/RflbuaqmIMalQGu6a3jap/2n7702rieHcg9E9Is
-         3TdQFRH0KMxL9r0NKDQ8FETd/ulQgDNormWfypn2J/XnyAzI99pcCCggfjPyxFA8+K/L
-         UJy9bn5Ion6830hXEUyGnErB1zEPH6F8biEQlrZEszNxfsIyjuVMgT/vkbkJPhBUWDvj
-         dHag==
-X-Forwarded-Encrypted: i=1; AKwUvBzA2WwR6JZdkYgtM7xdkuFgWAe8JQ3YY4SF9AA+5zAVEIR0s/3oLkKGhMITHVg2UIAZbvXZ2gZEweDHCg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/qUIOP2FkKUbrgEEK7gBgXLslta+D8rVOJfbOX9cKb0fDfcR78
-	t6wBm2QtLAwv6gkeuMfJInnQ8sMDn10vbH5pQbJWcjI8jeLTzZxySOFU
-X-Gm-Gg: AYBFou2yww/MPb5ZakBu1YSbc4Y83H/o01aiw/3CmHrI/jcbjxRPhfZiCNjlrJWrqtV
-	6u56hkF2RuySP2QlekpRLI4iELHzHkF7AWbSZIu9/Ls4RD5LP0F/Kbc+VrC3hMijW9tdaepxJ6s
-	cX3S2mbsX8O7E+DiE+6pV2f0FSu60mA4zVCt9+5aG0Oa7EE6zhULfFh69TQ0vflf/D9gHrILjwN
-	gSFXKp551PH3OtGLo2IP7DVBy+5QPe7UQmNLR7OviRoGHOViF/qCMkEPj5Qt5a9LAdMjOKf55rP
-	XNAOlqkG6emdd9rCq6FDnP+tLfLB7T2SCjpCrhg2Yy4tDbu6QPb0gFLlH7aE4kJR8xMUtlM6OVt
-	aOjodaP4rWDqdh8CIkikD1w/qgiwCFlt11M7hpEP9Fym7oQ31RAoEuD/5yFjkxRzu79G2+taSy8
-	ijwkxVlmvPldSrgL7k2v5ia/2zinNccN4f5y/6/f9T7a5gjnRIEJ4rziNcO/rYvkkagSoD4ITl1
-	K4KLjPTGloLd0LW7wjjOxwyDpyIJRC6HGMNqdLadmAP9qREcjcbJMn50OS9lFbexYLVli2gQqCf
-	V3wC0qDX5AQKz9kQH/cwDDEVgF2FZFli9ZlZfBSb3TUWgZdaGRb4pNPrzF/bHUtS+myEFbBmW7N
-	tXzbijyQAXBT+qK77UoszVTWqaGC3GGIKJn7bKeq66WC9Ih62EoI8OsqMH0bnsAHGYmlbqBjkF8
-	rcDWw3SQ0ee/0+a28PGfAP5KZTASN95Ho8WwQPSj7YNtkP+UMOfr9joQj57gwPYyWAGtnLPTweW
-	GNlBlZkaXe9p5dV9q6afvWuxzmV3tMifoDpP8gr+MeZUw7zQHVUrTyhJ/lZ5pzcOCM=
-X-Received: by 2002:a05:6000:160b:b0:48e:7476:9205 with SMTP id ffacd0b85a97d-48e74769219mr22849870f8f.31.1793818626772;
-        Wed, 04 Nov 2026 10:57:06 -0800 (PST)
-Received: from jernej-laptop (APN-122-103-30-gprs.simobil.net. [46.122.103.30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fed08343dsm5463560f8f.30.2026.11.04.10.57.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 10:57:06 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Samuel Holland <samuel@sholland.org>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] drm/sun4i: dw-hdmi: Deinit PHY in bind error path
-Date: Wed,  4 Nov 2026 19:56:59 +0100
-Message-ID: <20261104185659.884455-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AoM+D1ab
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0383B1F000C1;
+	Wed,  4 Nov 2026 18:58:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793818725;
+	bh=HG//4ieE7u/vdx8PM3hg5E75iSq8aL+fAVM6oD03geM=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=AoM+D1abXxDHpikXq+21xUZt2akd4j5LuCGHGF2SnE8EJdSwLx9cOHbPN1uMb5iqS
+	 VLE3UM3/UZ9qGEswG9MFIcmeaFgrIKoR21hw8zR0QhzX5UVXSb8MRZoVxR9ZQmBqLQ
+	 fnSwxWphi/kKdm24pzU2HjW4AamQbgjDNgbInm+GZIRcGWArFAsnYYtKShJGcG1WBy
+	 Y/g0k643lGjFyFujQVyhSnucKnx4l2iCne9Bvg3nBi0v1uUlO5YZV5yjsvfxekDmC+
+	 6vUwaJ7IsUPnOurD7AHgCwy66hmdwVN1VGcUo6+jcEoo1OxLXoL+t6K3PUCydZQFCa
+	 hpExyX6Ey/Q1w==
+Message-ID: <sashiko-outbox-197898@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 1/2] arm64: dts: allwinner: h6: Add GPU OPP table to all
+ boards
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Jernej Skrabec" <jernej.skrabec@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261104184940.882833-2-jernej.skrabec@gmail.com>
+References: <20261104184940.882833-1-jernej.skrabec@gmail.com>
+ <20261104184940.882833-2-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 04 Nov 2026 18:58:44 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -105,36 +60,74 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-sun8i_hdmi_phy_init() enables the PHY clocks and deasserts the PHY
-reset. When dw_hdmi_bind() fails afterwards, the error path doesn't
-undo that, so the clocks stay enabled and every further bind attempt
-enables them once more.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] arm64: dts: allwinner: h6: missing regulator-ramp-delay on reg_d=
+cdcc
+--
 
-Call sun8i_hdmi_phy_deinit() in the error path, like unbind does.
+commit ba32fa6c0b22c915eb543aebaebb44bdfbbd45e8
+Author: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Fixes: c64c8e04a12e ("drm/sun4i: dw-hdmi: Fix HDMI PHY clock setup")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c | 1 +
- 1 file changed, 1 insertion(+)
+arm64: dts: allwinner: h6: Add GPU OPP table to all boards
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-index bd3923ef5a41..983826001f12 100644
---- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-@@ -209,6 +209,7 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
- 
- cleanup_encoder:
- 	drm_encoder_cleanup(encoder);
-+	sun8i_hdmi_phy_deinit(hdmi->phy);
- err_disable_clk_tmds:
- 	clk_disable_unprepare(hdmi->clk_tmds);
- err_assert_ctrl_reset:
+This commit includes sun50i-h6-gpu-opp.dtsi across the remaining Allwinner
+H6 board device trees so that devfreq can scale the GPU clock rate and
+voltage.
 
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
--- 
-2.43.0
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi b/arch=
+/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
+> index e34dbb9920216..2948369cd659b 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
+> @@ -5,6 +5,7 @@
+>  /dts-v1/;
+> =20
+>  #include "sun50i-h6.dtsi"
+> +#include "sun50i-h6-gpu-opp.dtsi"
 
+[Severity: Medium]
+Should reg_dcdcc in sun50i-h6-orangepi.dtsi also specify
+regulator-ramp-delay =3D <2500> when enabling the GPU OPP table here?
+
+In arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi, &gpu uses
+mali-supply =3D <&reg_dcdcc>, which is currently defined without a ramp del=
+ay:
+
+	reg_dcdcc: dcdcc {
+		regulator-enable-ramp-delay =3D <32000>;
+		regulator-min-microvolt =3D <810000>;
+		regulator-max-microvolt =3D <1080000>;
+		regulator-name =3D "vdd-gpu";
+	};
+
+In drivers/regulator/axp20x-regulator.c, axp806_regulators defines DCDCC via
+AXP_DESC_RANGES(), which leaves desc.ramp_delay as 0 and uses
+axp20x_ops_range without a set_voltage_time or set_voltage_time_sel callbac=
+k.
+
+When Panfrost devfreq scales up the GPU OPP on OrangePi One Plus or OrangePi
+Lite2, the call chain:
+
+	_set_opp()
+	  -> _generic_set_opp_regulator()
+	  -> regulator_set_voltage_Unlocked()
+	  -> _regulator_do_set_voltage()
+	  -> _regulator_set_voltage_time()
+
+checks rdev->constraints->ramp_delay and rdev->desc->ramp_delay. Because bo=
+th
+are 0, _regulator_set_voltage_time() returns 0 and _set_opp() immediately
+raises CLK_GPU via opp_table->config_clks() before the AXP805 DCDCC buck
+regulator output has ramped up to the target voltage.
+
+All other AXP805-based H6 board device trees that include
+sun50i-h6-gpu-opp.dtsi (sun50i-h6-beelink-gs1.dts, sun50i-h6-orangepi-3.dts,
+sun50i-h6-pine-h64.dts, and sun50i-h6-taiqicat-a01.dts) set
+regulator-ramp-delay =3D <2500> on reg_dcdcc (added in commits 67533f873ad7,
+ebae33c3f6ce, and fe79ea577be8).
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261104184940.8828=
+33-1-jernej.skrabec@gmail.com?part=3D1
