@@ -1,99 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793787950;
-	b=ryDl138gAncYLBvUGj1QXA68IsObgtjHKn2HOmv4ASBAX6gHRVdrGhZOgUPYG2GmHimg
-	 Ie03qac7OCg9s2tn5KcFHlIyS45Ph/w5078oZafC9gV0ce7HiSUbkAJyhMTzGIdu2YTc6
-	 c9pL3xfV85nJyq3gzYdzDfjylTlRjOZsyYjnRGItZB6mMnsvDg00U5t51/5HlLsOQgFI9
-	 VCsoSK7ECZi1satc/WhDBEzaPEpnEiIBfmuirHfZH8Yaec45nICSTYxTFBsT+h0TGl9Gb
-	 rK1LVWjJTq9nvF/8O7xhp4Va3PvdCQxkCGjFk6J7LKrlKp/B2O4IIy4rJKyOJmmc++w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793787950;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version;
-	bh=o3uO33BWTvRzGT589zK5XHXlVqQazzRdbRxGw4lkcXk=;
-	b=0485EZIqXx0kc7C/gidjZCyXbwsfMJMy/e9Q+XjB0HQxolrMBI3dtfyH7vquSUTt24kf
-	 RIzbCRzZRjCbaWEQi5BEt2dam9d4NJpPy00K9fec24hTYSDOK0qYdmWNf9mIyZJ79BD8i
-	 SGnCMhzRgKGkLTmKWCDM+cnu/9WMaQR5RKmzEi7iucEa77Arh8hF78Fb9bO5AImLRDn0S
-	 84AGmZNqrPIMXkV7KBrkW/3OWXTireX/X4cTupW2sYxCFGHB/SovR4GEUTtnVbzB9HFeW
-	 58t3PgeJu0+m/O3QGDZtnRawqm9tKbdz6CnTy4boT3cqzod19GTSn6R0hGI2LlJZhVA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=pengutronix.de;
-	spf=pass smtp.mailfrom=pengutronix.de;
-	dkim=pass header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=R10bR+nG;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793788807;
+	b=L7mUq+DMbsx2pJZ6uyGavQDu/3AlqC5TdqlRmgxxuZIIWIFPM06rhxUCn2OmBzj/k29l
+	 njp9A5bw3MWQamtv0gcr2UA/Fk8BUQFMiWcX49kDm0u93OvVckzbvt+CbaXct5ZJU79q0
+	 boksExNl4iMEfcTDsrjAPk88pxj6iS/0BXgoaG8tRxu/kA/7iGCGq4G9N4uqoFbndz50r
+	 /IRJQWoUUPgkA88zuGaV8Irie+Ecp7k3ADHVlSkvWfJk1tQHnUi1gV2oc3aHOY8rIGrIr
+	 /iwC4lcpMUkXOSX1afmq2MvZIE/f3m8JDvRGP9FZbctPL69vBixLl3NWu6P/+PZHT0Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793788807;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=9nviUxxklDz1e7RQotS+S5xXIzfCLzTAm+63a1Agefo=;
+	b=XhkBwqaFQvPslddv2gRlQHKVRKgmK5pCdq13aABdfBIfph+nh1bbvVdAxsMNt9yKtyKf
+	 1ly4o2rnc8g0J0Mo9dHHTvhrTpJtm4VfngZMWTYqYmbXgyuL0wA/9YBb0a1mxkEle28SC
+	 +orFij9MYKjS7oj1/Qspyb67FG5TgI44T+96+0yHVpLEgrP9U7qaFD3lStZF1x7vSrDuu
+	 WlStVZedwsotK+LkZS+gnl33wUiLFLPwCMIWSR0PofWmvx5b222qTeCbgAXHXApF0pRt6
+	 dywEpW/J6NRG+8ZHcNbev41iDfdpZbOF8Ns7ebO07Feg5J1DHzSEPAxCLDO5SIsUzUg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=A4GS76s4;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9922B606A31B
-	for <linux-sunxi@lists.linux.dev>; Wed,  4 Nov 2026 10:25:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9922B606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A709606A326
+	for <linux-sunxi@lists.linux.dev>; Wed,  4 Nov 2026 10:40:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A709606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=R10bR+nG
-Received: from [IPv6:2a0a:edc0:0:900:1d::4e] (lupine.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::4e])
-	(Authenticated sender: pza@pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 60653200AD7;
-	Wed, 04 Nov 2026 11:25:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1793787941;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o3uO33BWTvRzGT589zK5XHXlVqQazzRdbRxGw4lkcXk=;
-	b=R10bR+nGpDOBHsBsgfY6x5gF6MVODYpe6zLWjOZvK+UTPbvF0HfqI/A/FRWV1xQ4rLOnJG
-	Hb8X0WX7j8MES5DZFlHTx+H0VDKdNkdnDXrwpBmZQD9uxqA2KqMQa+cD/tPkBFUbCD/bzy
-	HDEzMn4V9OjGUW4bx9vc1i1mW99gnJJv7Kker8hWZzv4E56jco3hpM2e6rpueAOWLuKM/c
-	hC7UWblK3ZcwnjcxAgxFp/foAklOa+fGZBqbfdfoPH3N4tWeIrqEcoIWLYNbphD/LSX+Y6
-	Cj5o9sYMg6E8rkMq1xVDrb3oQEqgDJt4gK6LDpJsPOTicIIrL87fbOnc7srrHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1793787941;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=o3uO33BWTvRzGT589zK5XHXlVqQazzRdbRxGw4lkcXk=;
-	b=aFCcuWhsp1Rz+FS39uH9Jep8WwzbEDt5X9Up5FrfhiHMupYvat/6ZsySEzPCJQbFFbrwdF
-	KxQfsflbd/FGbjgketDjDxiEn+2hXdq/QUXfdX/hn9MkcRlUk4K7KZQPX5inZV51ngDGxH
-	oIB7VXZOgAg4jv6zK11cAa1CH+MPVj8pg+Uf6/8qUbf5eMCW7rNfx49qebB3SqkOXX7wCK
-	u9AmNrsZPEEUK10aJK3NUbySExb7xvJ9jQPNOt1owma2lxC7CWI6AgDNp1UFTgKoXS0iiU
-	MOHCpL73RQg2QI3XWSMy8OMvGqtPnFpWcm8xM+tuBQynPUYBWfjXIlQnceVmUQ==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=pza@pengutronix.de smtp.mailfrom=p.zabel@pengutronix.de
-ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1793787941; a=rsa-sha256;
-	cv=none;
-	b=W2SKAYeDEhEpB+KWH744MC/8Zua/10/EdN1knlfwc1zu3oHnUZNBLRDhvIToO9Czib2rc8
-	ttW6//vcBNO82+tOTuPweTyX/nRR4Z7AbC3GD6HS726LZbYk++LEDxksFPWHt9BHbnWpcK
-	OG+b2US90SeGVwPL6nQbqQWGLAdr9wssj3RIJH12VMFyi59Hyocz+TvK3UUS3TJdi4aTo6
-	rOBFxvK4R//wbiwbT556vl5gcqkF+t/7KkgN4E14J4r8OYUCcJa7eKz9jyp3oyB9AD4FBa
-	1rSsYoeu/4NZAATdwpGICbJiZk7+wqYyVkVOJBfhgH6VBVLUGxaHyUfOYokBsQ==
-Message-ID: <9afb8ddc8451afad4f7ff7b9a133dd8542d07205.camel@pengutronix.de>
-Subject: Re: [PATCH 1/3] hwspinlock: sun6i: Get the clock and the reset
- without names
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>, Wilken Gottwalt
-	 <wilken.gottwalt@posteo.net>, Bjorn Andersson <andersson@kernel.org>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>, Rob Herring
- <robh@kernel.org>,  Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai	 <wens@kernel.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland	 <samuel@sholland.org>, Paul
- Walmsley <pjw@kernel.org>, Palmer Dabbelt	 <palmer@dabbelt.com>, Albert Ou
- <aou@eecs.berkeley.edu>, Alexandre Ghiti	 <alex@ghiti.fr>, Andre Przywara
- <andre.przywara@arm.com>, Bastian Germann	 <bage@debian.org>,
- linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Date: Wed, 04 Nov 2026 11:25:41 +0100
-In-Reply-To: <20260927025626.69614-2-tien.nguyenminh@embeddedlinux.blog>
-References: <20260927025626.69614-1-tien.nguyenminh@embeddedlinux.blog>
-	 <20260927025626.69614-2-tien.nguyenminh@embeddedlinux.blog>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=A4GS76s4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793788807; x=1825324807;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gS4Z3hxrWiNXk0PZbDdWd9RFAdHS8/Nmmvft9Q2f1Dg=;
+  b=A4GS76s4sQTRmC8reuCQpfR+h5NxcBgdDdlBGugjr4nHs/Hi2jIiwyMg
+   BrDI6Ta2xdtZRrjXNlFcCqJVn684CbwIa3ermOgVwPefAibPDCOjM/+gc
+   DJX1s9qKyEHQNsQ7jpgeMDEUgi2mhTQKcVHUJkGcnQgc1jsNIUA0/myiJ
+   8+q2q6jhJLkB5RkF29IZtCZ8Gnoqjobmf+1h8MKyHzA7XaFfKNULLL5/Z
+   ZRrn663t1gwQFSla9CN2o4kBkjV3IhwWTokY+GNkPJESyqkkIPU4il0E+
+   nAO9e9UAI97xFlee4SBGm7xDHHOLed4E80g8exMPNVLnakKbtCt0CsNRp
+   Q==;
+X-CSE-ConnectionGUID: swtztMFISrKNvtnT0zreQQ==
+X-CSE-MsgGUID: hoZWlUESQYqezbStwUkIOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2436336"
+X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
+   d="scan'208";a="2436336"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 02:40:06 -0800
+X-CSE-ConnectionGUID: xHuM0kqnRyy5PTiMdZKYlw==
+X-CSE-MsgGUID: IJOAm2dLQRCs+ce9hVyt8g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
+   d="scan'208";a="7007981"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.24])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 02:40:03 -0800
+Date: Wed, 4 Nov 2026 12:40:01 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: James Hilliard <james.hilliard1@gmail.com>
+Cc: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v7 05/12] serial: 8250_dw: derive RX trigger thresholds
+ from the FIFO depth
+Message-ID: <ausLge5yYc2W00zi@ashevche-desk.local>
+References: <20261103-submit-h616-uart-fifo-v1-v7-0-c9e248d685c1@gmail.com>
+ <20261103-submit-h616-uart-fifo-v1-v7-5-c9e248d685c1@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -103,50 +87,67 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261103-submit-h616-uart-fifo-v1-v7-5-c9e248d685c1@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On So, 2026-09-27 at 09:56 +0700, Nguyen Minh Tien wrote:
-> The driver looks up its clock and reset by the name "ahb", but the
-> binding doesn't define clock-names or reset-names, so a node that
-> follows the binding fails to probe:
->=20
->   sun6i_hwspinlock 3005000.hwlock: unable to get AHB clock (-2)
->=20
-> There is only one of each, so get them without a name. That is what
-> was asked for when the names were added to an A64 node, and nodes that
-> do set "ahb" keep working. For the reset, call the explicit
-> devm_reset_control_get_exclusive(), which devm_reset_control_get()
-> only wraps.
->=20
-> Fixes: 3c881e05c814 ("hwspinlock: add sun6i hardware spinlock support")
-> Link: https://lore.kernel.org/f720eaf9-01d0-0e57-f6bf-9aade00aafb8@linaro=
-.org
-> Signed-off-by: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
-> ---
->  drivers/hwspinlock/sun6i_hwspinlock.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/hwspinlock/sun6i_hwspinlock.c b/drivers/hwspinlock/s=
-un6i_hwspinlock.c
-> index c2d3145880..e7cc121310 100644
-> --- a/drivers/hwspinlock/sun6i_hwspinlock.c
-> +++ b/drivers/hwspinlock/sun6i_hwspinlock.c
-> @@ -104,14 +104,14 @@ static int sun6i_hwspinlock_probe(struct platform_d=
-evice *pdev)
->  	if (!priv)
->  		return -ENOMEM;
-> =20
-> -	priv->ahb_clk =3D devm_clk_get(&pdev->dev, "ahb");
-> +	priv->ahb_clk =3D devm_clk_get(&pdev->dev, NULL);
->  	if (IS_ERR(priv->ahb_clk)) {
->  		err =3D PTR_ERR(priv->ahb_clk);
->  		dev_err(&pdev->dev, "unable to get AHB clock (%d)\n", err);
->  		return err;
->  	}
-> =20
-> -	priv->reset =3D devm_reset_control_get(&pdev->dev, "ahb");
-> +	priv->reset =3D devm_reset_control_get_exclusive(&pdev->dev, NULL);
+On Tue, Nov 03, 2026 at 02:39:58PM -0700, James Hilliard wrote:
+> DW_apb_uart uses receive thresholds of one byte, one quarter full,
+> one half full and two bytes below full. The generic 16550A table describes
+> these encodings only for a 16-byte FIFO. For example, the half-full setting
+> on a 64-byte DW FIFO is reported as eight bytes instead of 32, and a sysfs
+> request for 32 bytes selects the 62-byte encoding.
+> 
+> Build a per-port threshold table from the discovered FIFO depth in dwlib
+> and install receive-trigger callbacks for CPR-described FIFOs, including
+> LPSS ports. Keep the setup helper available to integrations which obtain
+> the depth without probing the optional DW registers. Validate that each
+> threshold is positive and representable before constructing the table.
+> 
+> Serialize FCR updates with termios and the port lock, acquire a runtime PM
+> reference before accessing the device, and propagate resume errors without
+> changing the shadow or hardware. Update only the trigger field so changing
+> the threshold preserves the FIFO contents.
+> 
+> The FCR mapping is documented in the DW_apb_uart databook, section 6,
+> FIFO Control Register. The existing default FCR encoding is unchanged.
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+...
 
-regards
-Philipp
+>  static int dw8250_setup(struct uart_port *p)
+>  {
+> -	dw8250_setup_port(p);
+> +	int ret;
+> +
+> +	ret = dw8250_setup_port(p);
+> +	if (ret)
+> +		return ret;
+> +
+>  	return dw8250_setup_dma(p);
+>  }
+
+Split out a change that moves from void to int for _setup_port() and do it
+before the patch that creates _setup_dma(), so it will be less churn overall.
+
+...
+
+> struct dw8250_port_data {
+
+>  	/* Hardware configuration */
+>  	u32			cpr_value;
+>  	u8			dlf_size;
+> +	u16			rxtrig_bytes[UART_FCR_R_TRIG_MAX_STATE];
+
+Put it first after the above comment. Check with `pahole` before and after
+results.
+
+>  	/* RS485 variables */
+>  	bool			hw_rs485_support;
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
