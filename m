@@ -1,83 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793789293;
-	b=WVU6cxXCTJEA4u2z2GtsYf7CKw9rKtCKX1XBK8FFBBivWoIc8HqO3DNAZSqe/MNU5sT4
-	 yeGbt7RlWYcCR0Qic5HeWHVwSp+RRfJEHNGR+/wTFmsJiq0718AqXnh2Dupz4NkEsW8or
-	 /XPiHpoqLaIXvzT1coxcTxFTYSSK2fKdvNy8J8bZQgzua9Q9t5fhwIwDsFbLpuORG8q6m
-	 j4519wYxFLe7v6bLk/VIqBTFwHUf0zu1YrhKL0M1TRnuGb2yO9F1wNF5xHEz/DOaj6pK2
-	 Rt9ledXX5Lptxp0EETdCT3ry78jBO7leHkoKTe6bqWcin9g2ZOeHDM8F7HUATp77QrQ==
+	t=1793789980;
+	b=pd26eT9r/SoAhlJlxdQt7JfgkaO4oXF/VRKZnuxLGsLONmdjQHoVIdcRZ1ng/UCY9thI
+	 pKn78yw1qTp8sGXfXTtuMYybZMa1px9Q9DWSl+rh0yWlwiYqYd3DicwxaiOkG22kDwjhL
+	 59gvRfxKvy+l4HN7rsONzRsTi9hsMDmcwLP/Yazb1FdOphJ2/iRCkgIExhUAI5Otop4gG
+	 Wpx5farxFqaBzQev4Le8p1DX4CXcoGcJ5kuX0rxAl1akgpcDTRLTNvaEAW2yPlC0IUIyF
+	 /Z9gZZHQ0hbXr/o1epqpWCR43btBAouTrlnACQZLL20h9BF081/cAXM0GKz1q7ksKnQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793789293;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=jozP82KH6glhGWXgzZRzNLlRupxlnORo/58rZr7qZ9M=;
-	b=flmEOlexEKlWRJCxE1pZJoVZz8aiW3YW4bPRYvrP00q/IA5O5ehHWaKTYSkRu093r3UN
-	 CppWk73DrAsOjKlFfTaW+OVZLpV4mJXxkkZ2+lWJxLKL2T9rFXVya13Kt5hcIwFmUvDWT
-	 sH+kdAgW9sGdSdp2MADfcBtvK0q9V8Sgu2uXByNnhHmG+w2ReZ8RQxb9kC0qFDKTJsGo7
-	 PSqcyHxo8k6+WtaiQ8agbxXMOYpANYJ8SHUK79Oi+KKIJSJAMhvtTOzEChasSESu5A4+B
-	 nHvNazF3Gtfp9y+DCliqt8sgeX+nlP1uVzVuHLlUQbHiN5QQK7HFLxWv3g4NId9Otlw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793789980;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=Awio7RId/8LME8MSZg4JrTdUAU4hYKWNdYybYK4ASqU=;
+	b=DKi8tZIu7S5t5kpCeIxi17pcwEsm6S+QejQvKFc1ANVMAYXiWy4OZASoKcur8y/YETVk
+	 ZXjp/L9jMlZyBUjpKpcrlr1pDs9x5gK9plhwcm2c278uOIYadktd2WWic2/O2p0zZeNQn
+	 +I5L/oFArwxOCXGIrqm4JreYJM/OINY0uLIsVJTtCVjUI5vRZOPTHZLpQS6QzA61Ah3hj
+	 0KFXL8rZuZ0bPts6EQgDwI+B7n5gXI72VYAB76UvUmRkRi2N8MWhYWIj9zBMddsS9Q1yd
+	 ttleIqTnp8paCrY/sHb30lmPXEG5UwpE3ZZ3rjLabdkYnTUd7vJj8SZDjeWgS27BAeA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fZownUSi;
-	arc=none smtp.remote-ip=192.198.163.16
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D83F606A326
-	for <linux-sunxi@lists.linux.dev>; Wed,  4 Nov 2026 10:48:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0D83F606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="b6/VbMmw";
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76C2D606A331
+	for <linux-sunxi@lists.linux.dev>; Wed,  4 Nov 2026 10:59:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76C2D606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=fZownUSi
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793789293; x=1825325293;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9WOXcToYwIQoz7fhImQHKUc1KH3haX4Er1ncPbI21WA=;
-  b=fZownUSiIhWy1NDFoqIJUMDiCpWvxVAKV9TvP1zyL35DDVrVyUv3NqTF
-   k7eAclEu9pQqpNnsBvFTY9cfJNfZ7rBCTBGei803suZ0PnTxsc+6wg5E0
-   r9JQmVIsNvawtxyQ0aVv1qbcZkbqFIN7nDuhjfcyL7pDYgC6O+O4rdLLE
-   FlOIIlOFwBMgTgGN0wWnqr7Tt7hgolVCkizMtKEovLHiG3CIBgnlb3ej7
-   BB1zGqugEXl9WJjGeFjhD/b27uR6gw1NrJaJQ/+49BVWtUI9Tj6jeqXvO
-   qa9VhvgW/lp2sxoFjvvr4c65VducQT9JsGUfa9DubZUKn8KLAfxNoHvcH
-   A==;
-X-CSE-ConnectionGUID: FAr/2xRgS1+AZnntecpRLA==
-X-CSE-MsgGUID: DQVnTxgnR8mp1+GwbcWH8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2552439"
-X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="2552439"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 02:48:13 -0800
-X-CSE-ConnectionGUID: h8C2zJTFRfq6dw4VZbAfEw==
-X-CSE-MsgGUID: AZLoV3SzT9OTjAmHCmqQ3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="8558196"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.24])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 02:48:09 -0800
-Date: Wed, 4 Nov 2026 12:48:06 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v7 12/12] serial: 8250_dw: configure RX trigger
- thresholds for Octeon
-Message-ID: <ausNZqZrR3wqQjf7@ashevche-desk.local>
-References: <20261103-submit-h616-uart-fifo-v1-v7-0-c9e248d685c1@gmail.com>
- <20261103-submit-h616-uart-fifo-v1-v7-12-c9e248d685c1@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=b6/VbMmw
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 78A4222EA;
+	Wed,  4 Nov 2026 02:59:35 -0800 (PST)
+Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 07FDE3F628;
+	Wed,  4 Nov 2026 02:59:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793789978; bh=O82otjfYbzrbsMdYHm1dg0YttcpeVMXQMdvlI0lqyik=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=b6/VbMmwviI0PTu9dcW3SXxOUx6kJ9Rv3QIVBQORpkIxWz3lxrsQ69NBzPi1nnHWN
+	 LRgA/d6cItBHCkFCYPGsU6RCpFmPu1J6VNpcyANfbxbCbWHVLwH688T5a5Ms7sKhn+
+	 VMk8LTzzxBPKHpVV88xeJ2Psg+XDTk3ry6uDueLQ=
+Message-ID: <32461e0e-2512-451a-8eca-f2df63553379@arm.com>
+Date: Wed, 4 Nov 2026 11:59:34 +0100
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -87,39 +53,84 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261103-submit-h616-uart-fifo-v1-v7-12-c9e248d685c1@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 06/12] dt-bindings: serial: snps-dw-apb-uart: add
+ Allwinner H616
+To: James Hilliard <james.hilliard1@gmail.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+References: <20261103-submit-h616-uart-fifo-v1-v7-0-c9e248d685c1@gmail.com>
+ <20261103-submit-h616-uart-fifo-v1-v7-6-c9e248d685c1@gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20261103-submit-h616-uart-fifo-v1-v7-6-c9e248d685c1@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 03, 2026 at 02:40:05PM -0700, James Hilliard wrote:
-> Octeon uses the DesignWare receive-trigger mapping with a 64-byte FIFO,
-> giving thresholds of 1, 16, 32 and 62 bytes. Its setup bypasses
-> dw8250_setup_port(), so it does not install the common trigger callbacks.
-> PORT_OCTEON also has no static trigger table, so rx_trig_bytes is not
-> exposed.
+Hi,
+
+On 11/3/26 22:39, James Hilliard wrote:
+> The H616 UART has 256-byte transmit and receive FIFOs, but its DesignWare
+> component parameter register does not report the FIFO depth. Its optional
+> register layout also differs from the generic DesignWare integration.
 > 
-> Supply the fixed depth from platform data when firmware has not provided
-> one and initialize the common trigger table before port registration.
-> This makes rx_trig_bytes available while preserving the Octeon port type
-> and register accessors.
+> Add a specific compatible to identify this fixed configuration, retaining
+> snps,dw-apb-uart as a fallback.
+
+I think we should not focus too much on single SoCs here, all the 
+Allwinner UARTs need some care. We should have had SoC specific 
+compatible strings (plus the fallback) from the beginning, but we 
+didn't, mostly for historic reasons and because it just worked (TM).
+
+So just from looking at the Allwinner A10 (the first one really 
+supported mainline, since 2012): the manual reports a FIFO size of 64 
+bytes, and it has none of the DW config registers.
+
+So I'd suggest:
+- We add compatible strings for *all* Allwinner SoC's UARTs in here, 
+regardless of whether we currently need a quirk for each of them or not. 
+This is now regarded best practise for DT anyway, we just catch up on this.
+
+- The FIFO depth is all over the place for the various SoCs, and most of 
+them do not implement the CPR register to announce the size. So we 
+should use the already existing generic DT fifo-size property to 
+describe the size. This is the simplest, yet most flexible solution, and 
+avoids hardcoding implementation specific values in the driver. And it's 
+friendly to other users of the DT nodes, be it U-Boot, the BSDs or 
+whatever else is out there. IIUC, that should already work out of the 
+box with the current Linux driver?
+Since we need to touch the DTs anyway, I think this is the best way forward.
+
+Cheers,
+Andre
+
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> ---
+>   Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> Select DMA before filling in the default depth, as before when the 8250
-> core supplied that default during registration. Thus the new trigger
-> setup preserves which ports attach DMA and their existing burst sizes.
-
-...
-
-> +	if (!p->fifosize)
-> +		p->fifosize = data->pdata->fifo_size;
-
-In this case I would use ternary Elvis:
-
-	p->fifosize = p->fifosize ?: data->pdata->fifo_size;
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+> diff --git a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
+> index e2ca126d58ba..fc1289073241 100644
+> --- a/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
+> +++ b/Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml
+> @@ -60,6 +60,7 @@ properties:
+>             - const: renesas,rzn1-uart
+>         - items:
+>             - enum:
+> +              - allwinner,sun50i-h616-uart
+>                 - anlogic,dr1v90-uart
+>                 - brcm,bcm11351-dw-apb-uart
+>                 - brcm,bcm21664-dw-apb-uart
+> 
 
