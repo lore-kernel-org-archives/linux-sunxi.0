@@ -1,103 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793818191;
-	b=Mweh9e8BLJHtbUre7COsAJl2m5Saf+E2p1o9mt16IRC0+OvnJ+yLraabFo+ssZfrfhu7
-	 sY909qnBNytsxyzfOhjpdT6BlB3CmxFrBtA13Uew+bZ8cpmCTwk9c6ohKvkWdEUyVKod0
-	 vkXwfmiODHODhy4Hcb3EiWhde80wW8o7Zsv3P3oCuleyYjR6IQGQTRvWuWD6Reangd/py
-	 Sr6oMAwQCqR1YKYqqVbVB54QC8YFEVp8/7+ydqLoi789LnhYW5OXTNgxg5CtVDmk6UCK+
-	 r2zFiHRgIVSk+6wVQ6bYzxxLuha/Uz3bQQiwj/9qHHO7Qlt41XN9QwNV3kvuyPuGGdQ==
+	t=1793818235;
+	b=0k5CfFkpoEY81q0f874AV84453iay/rTw2dL+LYtE7zh66uah5o+i9dUEyvtkk5UkCca
+	 C5oOYYqaT2mCQckdFuqzAncnQ3Et8nkTh7tDLAMFCN9gOFQVpc3Y9e8aRNuboI74LQBGh
+	 wCbungYlVKjNCe+xrsVVk5q43W8xVbuB/DnOEVEl6geviP9ALEy5zopKSLZiqJaBC4LP8
+	 2RySE5BrJywzoDqbL5o/Jx8TjJDVdqtOf/U3p78FuKCQXkFWLcE/shxcGHplEIvold+2P
+	 2uJ0kHE6oY5iavH6gFkWXvZ0MbrS7ij5kWpwizkf9pRt1kYPmpjmkw2AoxHzYWaNm8A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793818191;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793818235;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=XM+1MxKuYOPT02jOfzOilpXq5XRcgJkWhammrA4i8L8=;
-	b=d2X0N127Mn/9aTWHaulytacrYHW3sFE3FC1i0tGPgUDxhBno5mlMg3pSVNDBema+MWqW
-	 8ldCu19lHO5RnIX/vq72fvoV+YjgL9RO+JmIYz6Nr0ZQtGKLjCifbpJYa/CoDh6Rs9H4S
-	 yH0aaKDRajXRI221V+XCnQLL3GFwRlp9FNxiKveQbEdifhELqhoJKnBBGdsOmd5sozS/0
-	 HhdtBxJavgO6eqSHyv0IL4l0oIqoryCRcDyJ7NKRKLQHhRrJLtTBlyDjRp85Qy5P0qVEt
-	 D5CHIK+0Xjk89UlxpRu2KikGnjOguGdg2BaUDQKt6yA/ZBA/bnNuALNO7ZTtjFjJgPA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=XtfG0KAvDIbko8l3jdeHS5xdiecERegTmLWZYC1nHEU=;
+	b=qsZSRJ169+PurKSqKzsq7jCTzAOhkZDSO76wRMV4/fqdAyVCwlh+BYIGJJlrz/z2B6HK
+	 hOQ09lUsRj98ilcHKGOuySSK/WtP9iKa1gY/mpy9e44KQn7JCi6ta3SatAxvw3LF5OI39
+	 8l1MLkfBaRi4JjKzxHvICWY1xNigrnwQacfPfN+e7Qgx6LDAAUhU1WH6WGN091SJHHiHF
+	 T/4Gr3IWdmXC0DriHHVLCL2FrtAESK6Isin6JG8GADxzoPm/mIfB+s+pGcGyeIHBvEoWs
+	 PjO6uhL3SvdRoCihLwDyI2lEKign6Ys0aGLgrRq5QqknYrlnKALVU4lOPAUj1AvYKZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yd7MPIXH;
-	arc=none smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DLRVghOZ;
+	arc=none smtp.remote-ip=209.85.221.42
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49B9B60A2627
-	for <linux-sunxi@lists.linux.dev>; Wed,  4 Nov 2026 18:49:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49B9B60A2627
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4332606A331
+	for <linux-sunxi@lists.linux.dev>; Wed,  4 Nov 2026 18:50:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4332606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yd7MPIXH
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a1b07c3c5fso9378035e9.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 04 Nov 2026 10:49:51 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DLRVghOZ
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48dfdd0678dso858639f8f.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 04 Nov 2026 10:50:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793818190; x=1794422990; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XM+1MxKuYOPT02jOfzOilpXq5XRcgJkWhammrA4i8L8=;
-        b=yd7MPIXHDQMTgpuc6/dsbaM8Y9ivTUyQDtKjZNQVMmunX6BQCzhoPKOXVD/frubLzF
-         r7wqEnd9QocHW4oF2RnH3Jv+JnEQcM3+2zJVUGpZvVRwVXDK9LGsO+Gocb0fZO1Ypa/D
-         YFsoxfKfXgW06vF/bD+xRKFJrYQHANEXnlen/30uY7Aqleqx0rJUii3wYHJXGltKQyE4
-         I6SflJGamNPym2SqGGHCRssu5lCNRWNlax8pFxDTBDoHhuiIMmV0kxXNXoEgdNlLoLjJ
-         HtTe0K00BFeXTCgIsM2DH6Ld17gbqX7wxr0cVVcyR8HFxboSnqsAWe2OaM9dz1ou+26g
-         rmBQ==
+        d=gmail.com; s=20260707; t=1793818233; x=1794423033; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=XtfG0KAvDIbko8l3jdeHS5xdiecERegTmLWZYC1nHEU=;
+        b=DLRVghOZPh62ev5MTpeteLaFTlF+n9gf7X93wjvcP6YtRSMIQnvSsKJcQukUshS2MC
+         Z3nFJ7/xNvkfGJTem9FOuS0kx71UH8xAG3qHqdmveQftTcjN5FpsM3EyXytMnI4ILdRe
+         b/o8w7oQ1tYaYGx5RSX+MrPA70fUKdsIATy1vzL85jf9vo+wdyU8zDIx57lsRRawVOtz
+         ExbbLX2QRo3wQJUComvxufNb+jgZVfKfubl2Vk7Z9zsAzSzTQaJHto6oBshedeoyPcOZ
+         aDEGOoJvrZw2iYQZ0yyp5oh6tP1SoNu11bm5T7AoUSPaKDF2fBn7fQcB300dQ+i7fB78
+         gzuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793818190; x=1794422990;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XM+1MxKuYOPT02jOfzOilpXq5XRcgJkWhammrA4i8L8=;
-        b=eZnk5ytcq6ipGT9JBGke6Y9DN5mZ/jcOKAVJOm2IiaFmFL/PcMHAkEU5C6jkXPc/Q8
-         PxpTNtYmg0M2Q+QkJnha8Iy0kY3vPvXik07FrCDEgg8VuAv9s86mJY4oiW8H94UnUT76
-         SR8A+iEDTEHOmZXe1m0cD1+wd3zOfPf7Hlko0iBU8mHwf4nS20Zl4X4i0RblDJ4yLuQ4
-         4cgb4H+ZqmXm/tJAiRydH0/KMb/6rbYqlz27zpINSb3C+Ds3gOHqlZrxdD3b2sDSfpkW
-         rWptJQTAWl98MhAcvR2R4va/7p3IFZ+uqN8QMtzPbxFOca8J6YUl4LprI36tQm9AQM1l
-         RNzQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxL0J7n/Uq/6A1uBL/nFVdpYHFt0MC8YpYGX8WCf6kJ1drEYZ6oZb6FRbtwHoKyBFt4sKcLs7ZLl//51w==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8wQjTwEB6EyxauV33BLHbyu5mLZmpEyqQMfG3JOu0X70NTaCZz
-	ZiGiWZfyghY07OXBNP+l58Dx4SEF/timPyY1BvHpAFzzHZH+2CJ5wJh4
-X-Gm-Gg: AYBFou1hZBMJ4l9o065L9Hdne9mxIOik8GQrcZFik3tceojaj27oIlplCf8Ke4HJN/f
-	2NLqGGfgTmuuMQv38/PQS+V3mIaWkSuwbi8J3h4CLW3C86pfxuqRaOLWhf1jwmkIxAGAoF9kpJ9
-	pT4JfamvAisXfXstc6/dUo03Q8fMN9dAkiTVmd1y3XkPHWnyaikE9vn8f8tcBDsjjW5F3ETvpzz
-	jSqoR0HlSv9+W2tcDhK0/Rq4UShn8GGWPGQbgGywGyhySCiy8LjT47+wVrxhqA23W9suA6MNOK9
-	/imO9vrdHJn9aVIOwMMoA1xyHOG4xenol2PFL66wPXMKpeSUaQwoyVkujpH2RYMM7iLqAoapj4b
-	bImo8F4ds9UiYG+w1AWVfwuC695gwjt+ZGFrcmTT7Tk8zkHcL1TnjhJDyQICr1ye8pJyy9Q6+Vp
-	FuevN75JREQOsGNkRAkx8fvfIF6ZmT+ebcVd4u8jk83ikWWEa6YpirJSF7g+MY+tfWx2voeer7+
-	77Bf16F+MLzZ2IPY/VK01D3lVDliPSkaHJeNfSWVMTbZ4pdKBFMT2ntKdeESMlQ7pxtnJ1c7/2l
-	Fi8kdy3R46eAuycYxRVsYCkF8dh2YnDxuOvKkdo5aIlq29nKUrT10x3vdQWsSsp1FPTCK3eWt5/
-	37zRdzRaHC3gxlQJiWp0Pp5mpR92tlXnaw6mSiFohDDdDaETtcrB8R1N6IgRI02Nom4gIPeAPY+
-	6iZTZ731nfbEC5ksyL9HfSZE8MRVTpcZmbckghuB2v/iZVmFYPqjmE1Cp2tXnh+3lbFr+BCRgJI
-	glG/LrUFo/UU8+U+dPNBknMOOWq7GwYJrlEraWz7QKp
-X-Received: by 2002:a05:600c:3b09:b0:4b1:4017:c4f4 with SMTP id 5b1f17b1804b1-4b14017c507mr197486915e9.20.1793818189742;
-        Wed, 04 Nov 2026 10:49:49 -0800 (PST)
+        d=1e100.net; s=20260707; t=1793818233; x=1794423033;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=XtfG0KAvDIbko8l3jdeHS5xdiecERegTmLWZYC1nHEU=;
+        b=htNzrDriyE0aB6zqBFUZGojIzu32gcPhqrMFNviiq0htviuN9gmr0l9zMaJ3qoBmoT
+         4eHXg7A/08wyusQx87NDEoUTDR/iN8o/B1ErNfynxPqaOncQcFpFHnB/SqB9k5IVxiu4
+         kQHEN16ZwFpNvN1IxJtSyAtK4Qf8QDWBitZ0H6oweeig40dRZQ1/mftccg+tfoJQzW8E
+         zsm4iZS56Y7iAmjmvg7CDc8zsCjxrEhUJ+vkJeURgauOupkmH0GT1oD1ld07znVLj9Su
+         g3Jhpolw07BdpdoH5KPm9NkT6AS/EgKPV69p+74Opjc1vFcvGGg/nIWQGcuYmArKkaVG
+         HQNA==
+X-Forwarded-Encrypted: i=1; AKwUvByg8yHYfYFKnp9rE6+gq9tzS3Zca1HxPFHqo7TGN7wWKbonAhOdeS3T8KVbWZXHIFwyz+/ZJnfaED9WNQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+vnrJXdciBysFCgloQ07naUb1zYfU3rwWJP2JH5U1CKDJTGwSB
+	hPPGd8YwBUWnoArtnv7B1fU52CKzU99JX7uVdN02yPQWQIGJ0gHAdES9
+X-Gm-Gg: AYBFou13ZF7zLqvAO4AdADhZy7Mp6Wq6h2Rt3pS9/Z/htcCUemduh61wIN6gm1UCdSl
+	ligIfQykOvAo5vobGIbZQ8dbS5c1+9sNn42TidqFbhX6ciJsiCjY3SfAByqHA4PGO9AE5kceANd
+	lAzpQ24kS2hR6Dz4wmt/Qt3XBfMlKztdLfn0rkJyu62M/F4Hj8mlucCVe0UZzFj5LbpbIaIQOyt
+	zg89X8HanLN1RUcmia2rI2zLxbpD34X6rVbgH/l6vcmQE2IadGY+8xthKtwFY55t4KLJ1c9R1en
+	4qNlBPaNVH8oJrZ3nt5+0iuobidRB7XVYkKz29T0gmU259yxsIWYzwrr/t042vSnwHVQm00pjZ3
+	R0dcS1GbmMw8xgFJ4sZR7oIuQZlxOr3j4C6LhjbADArcpAIQ1MAoegj2j9ysvAibBqV6QJKYZh9
+	WDip8P/N/B0phmS0AgRFdXJHjXjg+7kGD/eYaG+prTTq8OGaYfsTwqgkiCWeT1lz731WC0isWN9
+	k0HF+7+yFsubN5+v/YzCc5wXDBm0b7VSu4VBDJ/TBuaU58QXog4pf+nXg7aHqEFW/NhnWn4KKww
+	nFHlNvS870xtWBuAsdjF+pc2h/e1yWDTQx/xSrAnkFrgBADRQStBGAURK3TAUfDCRM4rRQPmwU0
+	5hPdMR6jLKXwzFfp8/0C3Zk2M6yJGzo5kPlb/5GXz1u/xppnv+cB7kU0ReKHujx1C8EAWB3rMK9
+	xjyFERYMPs4QwdcF8SRo+2tO3oB5LO3BB5L0HkaT0rS5YPiKw8kI/rXlMSX7yIM4tha2RoDaGUz
+	mBvGZfAnp1kAEMYETJ3aDmpCfsyrEDD/XT8miaz6EGtWNKSvc943YQ8GJjtjF8EKTY=
+X-Received: by 2002:a05:6000:15d3:b0:490:9fe2:6a3a with SMTP id ffacd0b85a97d-4909fe26b79mr2502099f8f.15.1793818233140;
+        Wed, 04 Nov 2026 10:50:33 -0800 (PST)
 Received: from jernej-laptop (APN-122-103-30-gprs.simobil.net. [46.122.103.30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b56fca22e1sm5081745e9.14.2026.11.04.10.49.47
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fea1811c4sm5399898f8f.3.2026.11.04.10.50.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 10:49:48 -0800 (PST)
+        Wed, 04 Nov 2026 10:50:32 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+To: Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
 	Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Icenowy Zheng <icenowy@aosc.io>
+Cc: linux-clk@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 2/2] arm64: dts: allwinner: h6: orangepi: Enable CPU frequency scaling
-Date: Wed,  4 Nov 2026 19:49:40 +0100
-Message-ID: <20261104184940.882833-3-jernej.skrabec@gmail.com>
+Subject: [PATCH] clk: sunxi-ng: h6: Let the SPDIF clock set the audio PLL rate
+Date: Wed,  4 Nov 2026 19:50:27 +0100
+Message-ID: <20261104185027.883011-1-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261104184940.882833-1-jernej.skrabec@gmail.com>
-References: <20261104184940.882833-1-jernej.skrabec@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -109,38 +108,34 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Orange Pi One Plus and Lite2 lack the CPU OPP table and CPU supply,
-so the CPU never scales its frequency. Add both, like on Orange Pi 3.
-OPPs above the regulator constraints stay unused.
+Unlike the I2S clocks, the SPDIF clock can't change the audio PLL rate,
+so it can only divide down the rate the PLL already runs at. That covers
+only one of the 44.1 kHz and 48 kHz sample rate families, and the other
+one is sent at the wrong rate.
 
+Propagate rate changes to the parent, like the I2S clocks do.
+
+Fixes: 524353ea480b ("clk: sunxi-ng: add support for the Allwinner H6 CCU")
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/clk/sunxi-ng/ccu-sun50i-h6.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
-index 2948369cd659..b7351b1db97c 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
-@@ -5,6 +5,7 @@
- /dts-v1/;
- 
- #include "sun50i-h6.dtsi"
-+#include "sun50i-h6-cpu-opp.dtsi"
- #include "sun50i-h6-gpu-opp.dtsi"
- 
- #include <dt-bindings/gpio/gpio.h>
-@@ -65,6 +66,10 @@ reg_vcc5v: vcc5v {
- 	};
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+index 7fccda96d444..3e8e79871eb4 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+@@ -571,7 +571,7 @@ static struct ccu_div spdif_clk = {
+ 		.hw.init	= CLK_HW_INIT_PARENTS("spdif",
+ 						      audio_parents,
+ 						      &ccu_div_ops,
+-						      0),
++						      CLK_SET_RATE_PARENT),
+ 	},
  };
  
-+&cpu0 {
-+	cpu-supply = <&reg_dcdca>;
-+};
-+
- &de {
- 	status = "okay";
- };
+
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
 -- 
 2.43.0
 
