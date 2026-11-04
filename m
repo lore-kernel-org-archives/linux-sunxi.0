@@ -1,99 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793818468;
-	b=CTZs2sLWFZydb86GFDC9bbSBKUs2WH1QrT+On9t3oJC+3FXwxYTLnIbhGxSLIU/YbfDy
-	 KtAO9muDDulgH/0M3pWx5PqVbtc05+0z1ooPRBo+gMYIHLcGedZaxeQvZhMZCz3TlfFYY
-	 g93Q+McCoVF8l7P02cglyr/nHGMfuVy0dzeU9AIydVo0vXcWjMMvyV00HnovcEsiBcIyp
-	 ANay1HY40G2O0bEUsDooeYuONlZTv1NMiUFXBlh/5bQXVKIrsY26cljmY6JWThgqCrCrk
-	 M/rOf2GOboxCS6Efa83sw7X8L8+2adcquJl+g7SgPiXctTyFNULPnLzFUyFfQ17oZVA==
+	t=1793818628;
+	b=ihGSFXF4zWRUcHY2nq99321cMCmE6j0EGtpuOLP0jw12q0FBHAhlVunIE3jj5srqEArA
+	 knH2S3l2X2Sa8pl3rssGxT2I0P/TjRMn5ftQnhMsz25FHG2/6StacoqVJnTBxVz95oE7t
+	 XfE+lQ9OxRK19lpJp+RJ0UoNRcUHCw8HN4pyZ3ngK/HcOTCphzmBev5gv0WSaG8/Bieen
+	 n1gTJBhvTGAVvbVbFEgGj1tdyISPtZp35Y1Ps+CTWR7JQXnfJag9dzq+ZBc6bj54+y9Fa
+	 dVyDc6v9uqvuEyHjzkmcYHOIpoMeb0iikNJKGnl0wG2dQNJaMpbgTQGwZWXtBPG2bgw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793818468;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793818628;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=a95SNiiT7dZBSQfEZM84dekyTvPeES9MfG8l19eIfTc=;
-	b=gvrvZXOma/Bfd65IMiHpLpX9c0uNb0j7GF6y/U+IaUrLy/tL+X1HDwo0QNnN8VLKpluj
-	 6e/Iu+FtWNCsY6xsMLAGpiuUERqKmynfEvxH74rUWAz6n9NZcAsA0EeVtCUPcGF6YgE58
-	 2waAs14Fb+VmEMFY3tW6fiUL82vEIGxJKUUHCsggaziLWHtNkfdx2orbhuRJ8RGMFSCrq
-	 fEdqhVGYjXEzhG/GF5t6pR7/MIPscd/6hnvKPGhc0JYi6pi09TuC73+w33WjR8c/htI6T
-	 kWhiECfEdOBBSfHBExZmTR5jlmfbWYZIfPN9jT6aZDNC19cbEGpHCMF57jR3SdNGdkw==
+	bh=C6QSFeWBFed5RRDCZFUyOzGQ53jm2iRwGaePUB0IWS8=;
+	b=d5zrfo1Xnm5xxkOGSJLMxWRgONiPl/U5YJwUv1tgkPxmAarEsfxz0sK5RL399UVmORSz
+	 +UaNl3x8P35mu5cX2bS/ASvFzVQCcIKzSrzKPSCGcxrIUF2CeRHcSE7MsN5KwzAbcGjKl
+	 Id5lDgxxoNqb4XyQ5jzLdwof4hDvJxCtaBKe5iYZhRHkHMYTBKrGNCF9d24o5XYVze6My
+	 rMZ/PRHPUndkbuhIK+ENlSQmEONuo1hF0682qdQcrPS5eCujK6wBhomS8PHw/CdkQzSQN
+	 MXUaWcPgncr2/NyyWh1TNWVX0mTHnALDcr/8sxy/Q4SM+KaExjEVzS9UOf63w/tLB9g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DLuO4kYp;
-	arc=none smtp.remote-ip=209.85.128.45
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FKO942dL;
+	arc=none smtp.remote-ip=209.85.221.52
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4980C606D828
-	for <linux-sunxi@lists.linux.dev>; Wed,  4 Nov 2026 18:54:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4980C606D828
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B1D4606EEB1
+	for <linux-sunxi@lists.linux.dev>; Wed,  4 Nov 2026 18:57:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8B1D4606EEB1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DLuO4kYp
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a5087a5348so8838345e9.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 04 Nov 2026 10:54:28 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FKO942dL
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48e20ed3b9dso934935f8f.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 04 Nov 2026 10:57:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793818467; x=1794423267; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793818627; x=1794423427; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=a95SNiiT7dZBSQfEZM84dekyTvPeES9MfG8l19eIfTc=;
-        b=DLuO4kYpWbc1WIr/QDd9w3QhGIvra45h3LuY4huXpZq281rbWHaLkoICyF8lO/ElZP
-         jhJDtrMpewT7jyQNwTeo1zJSLXF6ZNtikXyNg4MVBISrE9t+z15AYbL02e66zxVOl28x
-         mugCQ/NNSepVO64w8A9CIiCIOpWlUv6BR9wTZC/GVlvGEGWxT8s0rE/Ai4ay3mz/gDTZ
-         z5fMn33JmVaYY/T1OkQ1r/3GPHkG/5k16ES4QLcr+FOU+Tvrv1mUYY46uAyn55BEGhq9
-         B/cOSp6EgQ+yimhO+J3+Gpfj1CD03FLWCKVOFXjUgEy+738OzFjHPIIdBM5xKsxHyUdr
-         BBqg==
+        bh=C6QSFeWBFed5RRDCZFUyOzGQ53jm2iRwGaePUB0IWS8=;
+        b=FKO942dLG6Sxwn/AGKAgEmR8QKnL5mx7z7TZ7GOQYLk2Rx6kmcurTHE25kEPV9zEY2
+         7y/B00/TBwi1V5Ntbpj7zDoju+QY52PLFko9kn5pvA6x7Y8g4PfzzqNj84NqsS9AB46Y
+         NwkNBhagHqo0uNOm8uB6mViKZAuMhxFrkq0pocPT34d9oW4rksyJb4IsaanuRXAQ533W
+         bK72rS6EaSUdMmoIjBLQ5TS0RfXgRvje/tCGlxg15cMbQ3vp3db5yCVrYeLdQ/K+hluk
+         KIeETMEeoHlYqaX6+lvjrrPxL5Q5CJZ88tAl1gjs5yQENopik1m4xxN+7pQ3+qnqc0RC
+         Qcqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793818467; x=1794423267;
+        d=1e100.net; s=20260707; t=1793818627; x=1794423427;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=a95SNiiT7dZBSQfEZM84dekyTvPeES9MfG8l19eIfTc=;
-        b=vP2skYylFIBTlwZ/CE/oT4vpNP3hzaHyJ3Z1qQBJm7cyb1gKnVsEM2qKCuGtrVWCNX
-         3vAm3pgmOe2XLlN325gfkyFkcaGw3iVppeK/DF+nhvczgfCHL/J+lm0tXKxu2xrkR084
-         q8k4nzAtLXTEToc2mv/kud8Ou+WmiZ2QsL7KE4aaMPbHWCC/GawTEYoHwztXJKD/dRM3
-         cx48myOqF6xdvWQsJT7i3R/dHFXas0An+yCCk+9jqKDhPPGGw7KY8hsLKHo1ejT8jtc2
-         D5dtd//VYF2+dfwbnVyOyCoaehUqiJTErAruc/IMCAooiYlb22ta2PDtLm1uv2YI8Nqc
-         ugMw==
-X-Forwarded-Encrypted: i=1; AKwUvBxjeVLN0qAi4E/QmYzs8vjcKHF65Z0uELFQS+X+J4fL+weJ+toMMxyImrY/L3ZTfdL81M+IxVpHhqUwlA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/t3Y8Nkepk0hScYl9tDWlLfvAXHwo3EBOYztftgO/X4F5Y6vBT
-	iUwSbPnuv6XsrFBi6rtaghwOZWEbrP84bd42fWFedluqFFd8zbYcwO69WTyQaA==
-X-Gm-Gg: AYBFou1dUUlVIMKbuwO6kGBaRjxLBDwW8KUtxnNVedGXb63NEOQGN2GSBYsS7tDjFlM
-	uflGh5C4qOWD2o1Ee2JOhbnx5Z7aVyzjVJk5LIVojV4HF7tA1se53nIJpHgGI9AYXUxR8Ti5Quh
-	UhDFTEmN7NUbu6sGrI8FfCjQ/UhjQvP/xi/GoEJVZmbKGaCCJdQ3QMRSSIXtr+1x3AqiPDUN3Bx
-	0Q9q9AwGmxLWfnkpLz/xPSwidXqNPU+nNF2g68PesULFtlGgh4eQUDb0kK5rQDD9wcYHkiVcD6U
-	ezRb77dXAGW7Sh7uPf5KPZOfjSIxljPBwhYNlyLK+HIsqk3hVHrJyxLOoqyYss5cCHysttqJA5h
-	K5EoJggodsGLO3PBqWSjSYmGCvzm8eOgD2vCZyMJ47ZrIdboxufDAn3hTWhhiwYm4qpEo9+KZxF
-	NK7O7yhNY/ydcWR4GB4SKMjeZrrvdbt/jy8oceR4bTPQMc9as0QyeF8qO2ECEU3YygM/PgpipKn
-	KsQsYCcWXiP+My2xImUvL419FBB6sKhpNZwmzBr6qVzSRNdit0Rxdt5xrbDjfOq3MoeD2hNuYuB
-	SrBIdO8SZ0dZt0qIoI1t//yHYaQRKnz76RZU+etqE2PGmhCrm6sFnAfg4I+j0UOdjb5X+KebSiY
-	7s2VGQE4F2Ul1r/BTw1IH3M780dDQcDv3XOBDRMFcd/uJLM513mssSaVKr1LW8Uv+6aBZD51ol3
-	mrdcCthyMdOUmSswclP49pOyroNCcCLdC4Uj8JDTfGUg7Ei2IJVO1sLRTf3YoHFmujaSs5qVEk7
-	hR7uKIRV3nC/+6E1msNgAR7wwxWCw5JWaTBxFGVTw4jpZO2HQyqRFQhsSigAWXHKQ==
-X-Received: by 2002:a05:600c:46d1:b0:4ab:cc03:7f60 with SMTP id 5b1f17b1804b1-4ac18993780mr378666935e9.18.1793818466426;
-        Wed, 04 Nov 2026 10:54:26 -0800 (PST)
+        bh=C6QSFeWBFed5RRDCZFUyOzGQ53jm2iRwGaePUB0IWS8=;
+        b=vZYGS5vSGwMqOD6XH33YKcU7jgLwpbJirE2RKVoenXQ2M/Pke4PuPwcb56UINQmaw1
+         YTKJ4zdrnpw1YpYkhyQBpMKsg5TJqVLiDzY5r0223JoZnx+K6ldCFyBo6uADeEUr4yQL
+         EqPW5SBkFj88sn9yamXNE2XqT7Vd/RflbuaqmIMalQGu6a3jap/2n7702rieHcg9E9Is
+         3TdQFRH0KMxL9r0NKDQ8FETd/ulQgDNormWfypn2J/XnyAzI99pcCCggfjPyxFA8+K/L
+         UJy9bn5Ion6830hXEUyGnErB1zEPH6F8biEQlrZEszNxfsIyjuVMgT/vkbkJPhBUWDvj
+         dHag==
+X-Forwarded-Encrypted: i=1; AKwUvBzA2WwR6JZdkYgtM7xdkuFgWAe8JQ3YY4SF9AA+5zAVEIR0s/3oLkKGhMITHVg2UIAZbvXZ2gZEweDHCg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/qUIOP2FkKUbrgEEK7gBgXLslta+D8rVOJfbOX9cKb0fDfcR78
+	t6wBm2QtLAwv6gkeuMfJInnQ8sMDn10vbH5pQbJWcjI8jeLTzZxySOFU
+X-Gm-Gg: AYBFou2yww/MPb5ZakBu1YSbc4Y83H/o01aiw/3CmHrI/jcbjxRPhfZiCNjlrJWrqtV
+	6u56hkF2RuySP2QlekpRLI4iELHzHkF7AWbSZIu9/Ls4RD5LP0F/Kbc+VrC3hMijW9tdaepxJ6s
+	cX3S2mbsX8O7E+DiE+6pV2f0FSu60mA4zVCt9+5aG0Oa7EE6zhULfFh69TQ0vflf/D9gHrILjwN
+	gSFXKp551PH3OtGLo2IP7DVBy+5QPe7UQmNLR7OviRoGHOViF/qCMkEPj5Qt5a9LAdMjOKf55rP
+	XNAOlqkG6emdd9rCq6FDnP+tLfLB7T2SCjpCrhg2Yy4tDbu6QPb0gFLlH7aE4kJR8xMUtlM6OVt
+	aOjodaP4rWDqdh8CIkikD1w/qgiwCFlt11M7hpEP9Fym7oQ31RAoEuD/5yFjkxRzu79G2+taSy8
+	ijwkxVlmvPldSrgL7k2v5ia/2zinNccN4f5y/6/f9T7a5gjnRIEJ4rziNcO/rYvkkagSoD4ITl1
+	K4KLjPTGloLd0LW7wjjOxwyDpyIJRC6HGMNqdLadmAP9qREcjcbJMn50OS9lFbexYLVli2gQqCf
+	V3wC0qDX5AQKz9kQH/cwDDEVgF2FZFli9ZlZfBSb3TUWgZdaGRb4pNPrzF/bHUtS+myEFbBmW7N
+	tXzbijyQAXBT+qK77UoszVTWqaGC3GGIKJn7bKeq66WC9Ih62EoI8OsqMH0bnsAHGYmlbqBjkF8
+	rcDWw3SQ0ee/0+a28PGfAP5KZTASN95Ho8WwQPSj7YNtkP+UMOfr9joQj57gwPYyWAGtnLPTweW
+	GNlBlZkaXe9p5dV9q6afvWuxzmV3tMifoDpP8gr+MeZUw7zQHVUrTyhJ/lZ5pzcOCM=
+X-Received: by 2002:a05:6000:160b:b0:48e:7476:9205 with SMTP id ffacd0b85a97d-48e74769219mr22849870f8f.31.1793818626772;
+        Wed, 04 Nov 2026 10:57:06 -0800 (PST)
 Received: from jernej-laptop (APN-122-103-30-gprs.simobil.net. [46.122.103.30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b56f5e65b0sm4687805e9.11.2026.11.04.10.54.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fed08343dsm5463560f8f.30.2026.11.04.10.57.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 10:54:25 -0800 (PST)
+        Wed, 04 Nov 2026 10:57:06 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
+To: Chen-Yu Tsai <wens@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
 	Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org,
+Cc: dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] arm64: dts: allwinner: h616: Add CPU cooling map
-Date: Wed,  4 Nov 2026 19:54:21 +0100
-Message-ID: <20261104185421.883883-1-jernej.skrabec@gmail.com>
+Subject: [PATCH] drm/sun4i: dw-hdmi: Deinit PHY in bind error path
+Date: Wed,  4 Nov 2026 19:56:59 +0100
+Message-ID: <20261104185659.884455-1-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -106,37 +108,31 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The CPU thermal zone has passive trip points, but no cooling map, so
-nothing throttles the CPUs and only the critical trip point ever acts,
-by shutting the system down. Throttle the CPUs above the 70 C trip
-point.
+sun8i_hdmi_phy_init() enables the PHY clocks and deasserts the PHY
+reset. When dw_hdmi_bind() fails afterwards, the error path doesn't
+undo that, so the clocks stay enabled and every further bind attempt
+enables them once more.
 
+Call sun8i_hdmi_phy_deinit() in the error path, like unbind does.
+
+Fixes: c64c8e04a12e ("drm/sun4i: dw-hdmi: Fix HDMI PHY clock setup")
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-index c6b3a3f8359a..e4e0b999473e 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-@@ -1105,6 +1105,16 @@ cpu_critical: cpu-trip-2 {
- 					hysteresis = <0>;
- 				};
- 			};
-+
-+			cooling-maps {
-+				map0 {
-+					trip = <&cpu_target>;
-+					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-+				};
-+			};
- 		};
+diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+index bd3923ef5a41..983826001f12 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
++++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+@@ -209,6 +209,7 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
  
- 		gpu-thermal {
+ cleanup_encoder:
+ 	drm_encoder_cleanup(encoder);
++	sun8i_hdmi_phy_deinit(hdmi->phy);
+ err_disable_clk_tmds:
+ 	clk_disable_unprepare(hdmi->clk_tmds);
+ err_assert_ctrl_reset:
 
 base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
 -- 
