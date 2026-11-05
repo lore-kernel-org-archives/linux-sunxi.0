@@ -1,135 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793871395;
-	b=RSw3eMrZVb3UJ1o119MDllrsbal9O+EbXxPuYhmXUi76iLy7AjAeXY1wkgQrkqn/ivcm
-	 1jCMn6b8dGWVEGr8ps0LO7flG4OcqMRLhFzB2EMgHJa6i4+8EV7EzA5oWMUEM4rihdsXh
-	 7QFu4sm2eTP3uuEht8LVrcM47eestNt1W879ej9WSyGaKrff7AwaM2IR15agLT7SVfPEv
-	 yMe64njztfQeeB95zD1KVUennVV2kDK5vycobMLyrdW74HVyaEDefKNIYAe7GBMcYClT7
-	 fB7IBsNdkwod/jB5Q8AsJ/6zNSqrLZplYDW8SCZcUmDcskOEgWxnEdLRAvvWfpfdBGw==
+	t=1793871570;
+	b=T5bFpb4AusBfBD0dmafds8VoaVkem/ZU+z9IymXGLuOHtjUtt1SulePjMordn4IQnwNB
+	 DkwBnpYaXIDO8L5iCSXUINXlDjRLkwjyVd8f7wGEdfiFWbMRHzDO/rfkbxNh8oDn9UjeL
+	 M+tlJqRsqrQ7jXVjIQq2hC8y7OpFSxLojDmbYDRgUzmr0NtwZFkZeY8JFlIzEoD+mE5JY
+	 Y0iGq2yVN23opzVHnfXBFPrWropBcZl+rfgyoalQurbZ2y9eNwT4prAMbeCuYrBpH1FNw
+	 iXAOmu0pGeD/7NbkHHJnOy7SCZ1/wZsxi0Z1ylVOvWDsrQDVRnnmOm3DTnJjLO6QQXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793871395;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=amOrn2BM3j3WAFT6zEbS3mm8c/xDQuLIHsYgmvBaKeM=;
-	b=jhcaGrhRU8vdVOFNh938bm2L9ai7zhlP3Bx7MpFQIe7S0/SHb7aNP+8qI+vIP/854pVr
-	 HZuI6NZ/j4CnBfeQ8tVpIpvjn0jILViFYRx5ywUPUd95O+eaHEc+mhXiituap2wmEADIf
-	 aJpmmnK3dysBtDBxK3ONX8xXtB04khan4KerFedJzyNA5zIKhzwlAZptLRdOQPpPz0asz
-	 VrhFMtr5yekUT+QurNKCyRbQH7Q8EoJ1FE7/2UyCp+dyatEZaG8B83V10Rvn2H/05pNH9
-	 bU5hlupglMzRnjY5BmY4fxsRGh1UoQb+iuZU7+8UIVXX2Vmc/B/7Kle/+O3UsL+lclg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793871570;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=tvox01c/LdtBVnbijieWNltU+WV/o1xordbJtEhjTKQ=;
+	b=OxrvPj8I7ibAJQRKBxYK1J11T011PNBsxBT18Vk7fsoMIIuG0vtwThq9qMNeO0vms2li
+	 7Dmwy2Pl1UkWOkTqB4HP5YDeV5vfiKPUDmQFRjXNddFfqPyCj9/kBGenExSmeLs0lE2DA
+	 BkkxEnkQKOEsJk60VzDakWtHDwqFCl38u938nBAOgtFwx0cbC2VqHAPc/3VBnZbODvdzX
+	 Yl06FwRfwSXFkLYBXqY+tEIFjzo66F2WF08QHG89Td2KdzOnBQNUqWPvxmYvhL/qzyBeL
+	 Adpx2e4H41zf63TvqAi0JJklnMoJs0LTp9Oeb5YauVnX/ykKnhmHlzAQ/hVsE3y8uMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Kz93Il83;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B4E3606A339;
-	Thu,  5 Nov 2026 09:36:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0B4E3606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=cQBVG3Ux;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36CF1606A32C
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Nov 2026 09:39:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36CF1606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Kz93Il83
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793871395; x=1825407395;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XPy64qOWUbAHoiyLGCzNor5MK4R9RiDPJM0T594C8kU=;
-  b=Kz93Il83Tv+ryM75PKs53ZyYw8+eSX/36mjsJNOzbzmWnD/BpEWdC/wA
-   OVnculX7A7sV6ztBl1Od1D0Zou+u661GWC75eDR+dVqSLdOp7qwXGTQDf
-   ypK2etKTira+bfcDEE6wK1nSopsEKGjzZBa3vMnyI+iCDm2FFVYUYJsBL
-   wSVbczfgApVtbXIJYkuXBQo4t01dMkTX0aF7uowdKdSFVC/3PnJ3RI8aH
-   cHadGxRyW470JHSfo1rwrONdtwtQuBag+hMrJWVq4eUWZ+STtuG1gz7TQ
-   bIFNSVxVnV7T6OiYtSpbi5WY/WgXxJqJAW9xp5zIntAZqttYGbMJiQLfv
-   w==;
-X-CSE-ConnectionGUID: Kw+veVaWRBuR4Ega1fT1Bg==
-X-CSE-MsgGUID: Gtgc+Rf7SIyjQ/gjBYVybA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2745418"
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2745418"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 01:36:34 -0800
-X-CSE-ConnectionGUID: JeSjlIADSz2CkG3b626siA==
-X-CSE-MsgGUID: q1LawZWwT3eXus4rDYzo+Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7120392"
-Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.144])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 01:36:22 -0800
-Date: Thu, 5 Nov 2026 11:36:20 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Frank.Li@oss.nxp.com,
-	Mark Brown <broonie@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Radu Pirea <radu_nicolae.pirea@upb.ro>,
-	CL Wang <cl634@andestech.com>,
-	Ryan Wanner <ryan.wanner@microchip.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Han Xu <han.xu@nxp.com>,
-	Haibo Chen <haibo.chen@nxp.com>, Linus Walleij <linusw@kernel.org>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>, Yixun Lan <dlan@kernel.org>,
-	Troy Mitchell <troy.mitchell@linux.spacemit.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	"open list:SPI SUBSYSTEM" <linux-spi@vger.kernel.org>,
-	"moderated list:ARM/Microchip (AT91) SoC support" <linux-arm-kernel@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>,
-	"open list:FREESCALE DSPI DRIVER" <imx@lists.linux.dev>,
-	"open list:ARM/QUALCOMM MAILING LIST" <linux-arm-msm@vger.kernel.org>,
-	"open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
-	"open list:RENESAS RZ/V2H(P) RSPI DRIVER" <linux-renesas-soc@vger.kernel.org>,
-	"open list:SAMSUNG SPI DRIVERS" <linux-samsung-soc@vger.kernel.org>,
-	"open list:RISC-V SPACEMIT SoC Support" <linux-riscv@lists.infradead.org>,
-	"open list:RISC-V SPACEMIT SoC Support" <spacemit@lists.linux.dev>,
-	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
-	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
-	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
-	Thierry Reding <treding@nvidia.com>
-Subject: Re: [PATCH v2 1/1] spi: use dmaengine_desc_set_callback()
-Message-ID: <auxOFGTRAKb5bLXD@ashevche-desk.local>
-References: <autj6pr_bPaul3w0@ashevche-desk.local>
- <7f96599b-681d-4963-bdda-1274371ac84f@kernel.org>
- <f1fa853d-1703-411d-b2d2-0fb0b176c2fa@kernel.org>
- <autqC143h7Qf1R9H@ashevche-desk.local>
- <9e39502a-dd17-4fa2-98a3-9019523cb5e8@kernel.org>
- <auuYcS7-YqJKcUbE@ashevche-desk.local>
- <63c24437-4261-4a51-be7e-31ac0759a095@kernel.org>
- <auxGom0XR-Hax9b3@ashevche-desk.local>
- <00390a20-7630-4066-9779-06c8f915a176@kernel.org>
- <auxH_WzaOLsQ4-go@shikoro>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=cQBVG3Ux
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 341C319F6;
+	Thu,  5 Nov 2026 01:39:26 -0800 (PST)
+Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B15363F628;
+	Thu,  5 Nov 2026 01:39:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793871569; bh=jLw5x/FRptMVvMRjQnGefDSs408NvBXTJ8hj0KuIrAA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cQBVG3UxH6xAs18O2apuMOrY9rPW8MkbyKg874xfoia2zPmzC0dS+S9O76+BnGm1/
+	 K+5CnP3u9SRoE3WB1kb8dWR2aolZAoO8+kctuUuLRrRWCaFu38nviCqJ36+TVTXQuE
+	 Kapu0jldllBYIlNs7XXD6BpQEVwZB/Fb0VSERY0s=
+Message-ID: <e7cd2bf6-f9db-4a90-b11a-665f8219f7ce@arm.com>
+Date: Thu, 5 Nov 2026 10:39:26 +0100
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -139,26 +53,96 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <auxH_WzaOLsQ4-go@shikoro>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/10] pinctrl: sunxi: Fix out-of-bounds irq_bank index
+ when first bank has no IRQs
+To: Lee Jones <lee@kernel.org>, Linus Walleij <linusw@kernel.org>,
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org
+References: <20261103213002.1673560-1-lee@kernel.org>
+ <20261103213002.1673560-2-lee@kernel.org>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20261103213002.1673560-2-lee@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 05, 2026 at 11:10:21AM +0200, Wolfram Sang wrote:
+Hi Lee,
+
+On 11/3/26 22:29, Lee Jones wrote:
+> In prepare_function_table(), irq_bank and last_bank are initialised to 0
+> and last_bank is updated on every bank regardless of whether it supports
+> interrupts.  On SoCs where bank 0 (PA) has no pins or does not support
+> interrupts (such as Allwinner A523 and A733), the first IRQ-capable bank
+> has bank > 0, which causes irq_bank to be incremented to 1 instead of
+> starting at 0.  As a result, the final IRQ bank receives irq_bank equal
+> to desc->irq_banks and writes out-of-bounds past pctl->irq_array during
+> sunxi_pinctrl_build_state().
 > 
-> > > No, (partial) Rb != Ack.
-> > 
-> > It is, because there is no partial Rb tag.
+> Initialise irq_bank and last_bank to -1 and only update last_bank when
+> processing an IRQ-capable bank so that irq_bank always starts at 0 and
+> increments sequentially across IRQ-capable banks.
+
+Can we please hold back this patch for now? There are more issues around 
+the IRQ bank usage on recent Allwinner SoCs, patches for which [1] are 
+on the list. They should solve the out-of-bounds access, I think, though 
+we might want to add explicit checks, maybe.
+
+But taking just this patch here would torpedo the efforts in fixing the 
+correctness issues that we see.
+
+Cheers,
+Andre
+
+[1]
+https://lore.kernel.org/linux-gpio/20261025142412.112216-1-pmazzini@gmail.com/
+
 > 
-> Heh, just what I wrote a minute ago in the workflows-thread. The clean
-> solution is to introduce one. I'd vote for it.
-
-Then I MUST started REQUIRING to split the patches in such cases to actually
-review them?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+> Fixes: f5e2cd34b12f ("pinctrl: sunxi: allow reading mux values from DT")
+> Closes: https://sashiko.dev/#/bug/linux-9c4dd832-02d4-4096-9e91-a03c1d4d85b3
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Lee Jones <lee@kernel.org>
+> ---
+>   drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c | 11 +++++------
+>   1 file changed, 5 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c b/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+> index 8bcd566593ae..79ca1a7c4837 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c
+> @@ -208,8 +208,8 @@ static int prepare_function_table(struct device *dev, struct device_node *pnode,
+>   	 * Assign the function's memory and fill in GPIOs, IRQ and a sentinel.
+>   	 * The extra functions will be filled in later.
+>   	 */
+> -	irq_bank = 0;
+> -	last_bank = 0;
+> +	irq_bank = -1;
+> +	last_bank = -1;
+>   	for (i = 0; i < npins; i++) {
+>   		struct sunxi_desc_pin *pin = &pins[i];
+>   		int bank = (pin->pin.number - pin_base) / PINS_PER_BANK;
+> @@ -222,17 +222,16 @@ static int prepare_function_table(struct device *dev, struct device_node *pnode,
+>   		func[1].muxval = 1;
+>   
+>   		if (irq_mux) {
+> -			if (bank > last_bank)
+> +			if (bank > last_bank) {
+>   				irq_bank++;
+> +				last_bank = bank;
+> +			}
+>   			func[lastfunc].muxval = irq_mux;
+>   			func[lastfunc].irqbank = irq_bank;
+>   			func[lastfunc].irqnum = pin->pin.number % PINS_PER_BANK;
+>   			func[lastfunc].name = "irq";
+>   		}
+>   
+> -		if (bank > last_bank)
+> -			last_bank = bank;
+> -
+>   		pin->functions = func;
+>   
+>   		/* Skip over the other needed functions and the sentinel. */
 
