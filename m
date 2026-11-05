@@ -1,90 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793911937;
-	b=2/X+YMsh3RTq4JeBYuArBF+tMDlbiRyeJzKY6M55KIFVDUV3ZPeHbdJZ7MZ/Bi7szhjx
-	 y+rhB29RjT5QiSs+ToAJVnDsuh7GwcIWqtFD2tzC7EDx3RI+k1KixOHgfOPhXkauzyhOp
-	 wWdDNDGyZonBJnrgwGZb0o670P0jlIVf+4NKG5p+NUqy2EdszqpnU+K8wPQCudG5b6a0W
-	 kI2e/uk0lue0qpqb9X0pm00VBRKeBVj8VnMLol7SJjRbmAxpZmhgU+MFi3jVyFr3nm5+0
-	 shUVe32TmpO5XHNRKpF5JHw9UxGzG/yG+a4X1cSz3Dkygei3S9ZMYFpkbNDauXE17ZQ==
+	t=1793911939;
+	b=yKDPePdWSbn6iZ9/gPNcvsaBd4+Kq9payQZrWCqX5rEQzrqlz1Nkk25I9IVp0uP1bOSu
+	 Epi6Ed04+bUyUtkwAIdYJ+JcRRwV4SHbKoyQoZLT6bOD83roFhn4Z9mHxzic3sgkItH6X
+	 f6FWOGjasTn2VeU/1HpF3+ZrkTwjm3gSQrrZFdVKvoNZaYw6bkF9KzsQ0aE3+B1Klv9yB
+	 GRLzQeuz4Ucsgtve+A1oT0gThy8icRMLYUfuj+FlvGUyfiTx07P+4T0EZ+2oeG0H3z6rk
+	 UQ5jLN0N7wWVUcl7KLG+0j4HrIKzwRT0lBvF2F6zudV5ZvZx4JmhK6r/EX7DnIxmSwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793911937;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793911939;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=gFXtfo2QF4UuPe88KiYuo+dmf8LupFBJ/LFbUjyQRiE=;
-	b=aCRYVnZ+jJrbBiOe2YrRQ+hX9WTayOg4+nDZ0WLVhyGQJQHBJa6IycfmxmHr/FDYVtlu
-	 xZc7IePr7mTjKYucufYNSaz8oIf/RL03r9PSCbqfXEjIi1Nr1FDcJrf1tKCZXjMrilLI7
-	 orPanJNmCt1WuLg7sFXNKI+Pz+zzk3eL7pLVt9zSCcNR7wTRwX9sqWNG35UAG4wBx0HrU
-	 6d79eHAln24hjiQijLLQ6aovTwGGOd9Emp4WiXx5YbCIuIirazNaTjUtfzvwTwspoqZow
-	 Ak9Icf9MDMejXfA4a0HekRUNYKM38YninalBAOM9Js3bHqgY0z24xRn/j52VRMF39BQ==
+	bh=E9UoBDBjwLLwDb4WmV28avfpsh+5/w/6UybGFvQ6fZk=;
+	b=Hi16eM1FgG49WIJjuZcSHhsZtuM86+TzyZlydyV/pgWvW8YcEIO+jINFb8Iy2V1LrUr+
+	 +URh3Vi6GRhyGwj2spOwdO0iVaSz8mcAMkcBWnOXQPL85diYqUk8iMpCzT7kc7s7boMlv
+	 EPldCGNk19nv5HKYTGBFZe108PkQXZEFCGcHoeyG+KBc44OHBvbQFFaycIgb8hknwFvQR
+	 8t5Ojr4+uw0oHFFU3zaBtrs9veltwJ+eYc+COkZ10eFXkkR52E54dc+eVcF3ZMts2N1mT
+	 UwFvgblrSBKWMSGC0CCEryc0rtgkIessDlMLr5iO3Wd9LbjIZZhFpraQcHwmMsnn66Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CN9l4OuM;
-	arc=none smtp.remote-ip=209.85.210.51
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Athtmgj5;
+	arc=none smtp.remote-ip=209.85.210.52
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60574606A329
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Nov 2026 20:52:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60574606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DF9606A32C
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Nov 2026 20:52:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62DF9606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CN9l4OuM
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-8446af403b5so1397398a34.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 05 Nov 2026 12:52:17 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Athtmgj5
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-8451a619da7so6660a34.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 05 Nov 2026 12:52:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793911936; x=1794516736; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1793911938; x=1794516738; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=gFXtfo2QF4UuPe88KiYuo+dmf8LupFBJ/LFbUjyQRiE=;
-        b=CN9l4OuMIHb5CWU2AQsOFrMMlhIojvUH0PlrZ/JXedg0QsmDNQIIUszfXxes268/GM
-         yK3j6T9OnmYmt/yPrvnv8xttBR6T2kyiHO/ChtQSz9AVLtmzq9Y1oKxjG5OnzlSXVHQv
-         kY9TWc+ILFVrJN7AEd98iZ2tDHkrv/C9Ld1pPh6JNvhMXhPVThQKvvHNYRKRJBlekHt9
-         J/Ncqn5NgnHwFaiv/5IMc/83SwCJ7W9skbZSMIoBEHPycoEJv7DQMkCWaFssHhrsz1fd
-         NE4NZrj1PwzpXFZoqevwxvt7u2nMy1epP29E9Qupu56hqZYTkAwDcyHYB4q5QbEuQnI3
-         ebvA==
+        bh=E9UoBDBjwLLwDb4WmV28avfpsh+5/w/6UybGFvQ6fZk=;
+        b=Athtmgj5rRmHYJXIqK23x8OoeQFws8kiXV30Q5Ek6ihJksF6zQV+sakLV5FPNO0lmk
+         s4ffg5j+lZbI40FfqWbUE2IYeqW+EaUz14OZq7zg6bQS/WwqVEfljeclV6dYGWeAzAX6
+         7e6IP9yX5fHSi8GBuL17uhOI4jIp5QHU0YmABIW4u79eeN3+9h95QbG4WYu3IZMKkofj
+         Gp8xzcK1S1VRLHh3Svx0SaEGDSH5nuWmC7uqxNyX8U+qvU7Nnlg7hF3dOCROomj0Vup4
+         NU+s4Kgc+Ow2PyFbwrH8QuDiKTP3DFaTVdEUI1oNNKXROsQdL9hz5v/0LYnwy90GkIMb
+         ZOgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793911936; x=1794516736;
+        d=1e100.net; s=20260707; t=1793911938; x=1794516738;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=gFXtfo2QF4UuPe88KiYuo+dmf8LupFBJ/LFbUjyQRiE=;
-        b=WOb6381EIgMxtW688ErVTGR8gV7IKOIUaHIHoFxAvvhIR/0PiIraY5dh4mNsOpAeAx
-         c6LTGZMwX4bQo4wY9ctXfZwi7jEgzOZ6s1uMlREJV+WTMkcVk3+qZKw1NLySu4xoSTWx
-         cg7ldVhElE+bwT19b9oyUxxKEevaTvIyJ+GYwfArYdeGbJESTXd/Qym0TgZNwwpy+Xpz
-         75rXyOOPNYHPmnEvxEbLzk6uHvPivqg5DA0GwiO/UZ/3XB6HfQI0lSGcA9WCqQewVyyi
-         bJyxvjxtuFMnM3rZ7PyWIolbcXj6Y7IOrTp08cEQebm2laa40MPVFCS7IXbyWRHW/vPa
-         P+TA==
-X-Forwarded-Encrypted: i=1; AKwUvBz6mFPE4IKuNWxWk5Z2B6lzZF328w49a0wZi7iJWrOdj9ZMJ35cbSbRGs33gf0wMDaXSTbni4uvAkJJMg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9zqPebKKLIujhz+6anRJbT9O1/4mnufW9WLKwFNX6NcIgvKMe7
-	aWTKpZx2ourgW/5l9wrj8Xn2fkJTCPwtXblST2lyrqdgQEKsnI87bygG
-X-Gm-Gg: AYBFou2PBGrbQricv/juvYNOaicEDiPx7SK9L9MtXZrjzQPBspgTc7tBLcuqaGbjL8C
-	9FkweBvarxoc2AaI1TJuh4yk8LUzgvj5tGf4kPYRsJxyIh6gpDkxKqSgTrhr88JbtNei1ODHU/4
-	R6r16pztXXPhqJJNr+e0t8oYgrsgkFwIsokdU3Z1iwmNF+W1CwiQlw2iEsOIOKRMOGO0bxpJzPN
-	GqODoBO1zyj9ByrMS9OkMmxUd4ShGh+IAOyltUble/SvpV6s39RGTSkrI4SRzLXWFHjWtCzmpC6
-	IC6ttMLxjn2NwrPx7T8iJXdRENwv/hBWpIosmMhWjPrE0gswL9VWJutq6KoJvM7qeXlxWZZjk91
-	2k1W1MqD9BzNg3Y8a/I2V8Mtoj5RfdUkOmLDJUZUsul7FBUxIRqIu3E7ctQfrIiIoxrq2gc3Wj+
-	IlaIlMvbdGQKXWCJkMrR6tkmnsaTpZZv5CqyJTInZ6LfXkbB+i4DL7ISDKmhk0uGDhtFEJSxfnw
-	0lhucvdGtI9WaGQUgBO/47kanBDpv0uL8K291eM8Q8xDczS1zGLOKUCi77//j3xISHnDgc2mVgD
-	rZ8RkGVWfUPyvheZddwF6QNm0r77xl9mlYirXmufSTZdWAS1aO7zJKvVZz26Q9LontRGGwccRSm
-	Hndv+o6gOpHP90hbYWctBDlJQna+57kLtUxgy/UPzbZIDOlFRLvGTfs0Ds6vGKqHnOOsqDlnycH
-	eD2sHxpDGRRnjLf9IO9s29gmgM2YYI5mK4U4zqlARRT2ONyPS7OW4=
-X-Received: by 2002:a05:6830:3e03:b0:85e:f25a:7d26 with SMTP id 46e09a7af769-85f1cdfaf90mr603385a34.1.1793911936207;
-        Thu, 05 Nov 2026 12:52:16 -0800 (PST)
+        bh=E9UoBDBjwLLwDb4WmV28avfpsh+5/w/6UybGFvQ6fZk=;
+        b=2JPm7LTlrvbx5wPhY/7m+TyO1KGzY91bmhC6LPAw1+nvu7twHoqc5zbpdUl1LrHQCZ
+         koaKj2tuUr1MYO4RPP5IxLdIIu98QG5Bihdi/E53Bh7cURilVsfORET6f6R4YHy09Unn
+         gxNt12nMXOdHCXTQVW06TJu2A+DqfCBG22nvnL5AKlhtXp/8oKmhwaMKogk5Qx6x+88c
+         rNCAcmmEkVDemHwDH9RHB+RnWrCWjViGBTcy4JljkzuUqbjVov4uGrIw6VT0TFzK7/Ma
+         p6jXLhFln1bdILorCFlBUsErbry5P6DfvHJsGEVPhIttnXeBxY/BvqUcoQP89V4bGWVr
+         05rg==
+X-Forwarded-Encrypted: i=1; AKwUvByHSiUtDsG1pmxDEnqqeTFxbS99Fod/sP2dpoaQzxykBYdpJrsnBYK0nVEevx2vYWwhRy1W6ZzeRk44kg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z87EW5MLwaibrxIAr5mV82cLuL2HogKKGMyTkKv1t+eyAyFV47z
+	FTjzLv1BUqr8wKClnnrwQzm+zLvFvPlWdiq1FN8SF9EJ0cxfWo16UEXc
+X-Gm-Gg: AYBFou0PXJtrsB9lXjISxHGeZYzV4J8KuLR2hM61TCf8Y11PUqGdFfUe/n4BtSlr4n2
+	iWpLlvwgb52ci2+Dnju2D5Nj/cKZMelFuVbdoRSawzJUmQ7QygJNRHQ1AhdXVEJDu/sWnVi6GgE
+	m/27TXMAOznpr6ua9x6TmzUj6hsQKzQPmbta9bvp5PWouDbiCx3amAR0qMf4zSXCw0U4faAYbhX
+	s4y7Pagud0XjWc9Peg0iI4h78i4gbNaYvgGjBYVsBA2u4V7Kt4TeLEFidj3sXeYfWWjn6ZPnFlf
+	KC3xBuUEdGwMkUnWpApPzMd4AV4qt/JPRRXTKadTIyWlDvGChykxr/QMKkaMhr8gtel9TQ/uwpA
+	vTJPdQg59SnZKqWUcATes4my1g2O/ryTcSA+2249w4jup5l+h7jtr6XezFqV7yVznw6zq5z06vZ
+	5wVkHZcIAcAUEjwtmadPfi+sD6e1g5tRDTp530VX/xoBGGDcTA4E5JBt8NEZqHK/dsLujc+rTLA
+	EzzjTWlXEsNYpIrsEHN3CqbvIgYufhenOQSD8U9U8mDgiuHNBHVePr6GxsVD+kVevCVUP+EyJ01
+	Az/x3qZFJh0YoCR3GG7vg14yuU9Ubv7yNeg8hgh+nHgX/ApD0OCg8nzCBoWZPw/WqYRzPgDX6KM
+	AUFWbl+jge9wG1hfto+HQWrIqePhcCn+B0fOWai7/lowhcmToWlNQ33olrx/ggdNpbW6U/Qje5v
+	Zaa+iNp866frfEJFKUxwgMIbxbST7fOdYu/mKSYJhBpKyWhzey80jsLZxpF+OnaYeviEb5bPHH
+X-Received: by 2002:a05:6830:2317:b0:85d:6045:52c6 with SMTP id 46e09a7af769-85f1d086f53mr580936a34.24.1793911938304;
+        Thu, 05 Nov 2026 12:52:18 -0800 (PST)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85f1dbb298fsm292276a34.6.2026.11.05.12.52.14
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85f1dbb298fsm292276a34.6.2026.11.05.12.52.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 12:52:14 -0800 (PST)
+        Thu, 05 Nov 2026 12:52:16 -0800 (PST)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Thu, 05 Nov 2026 13:52:03 -0700
-Subject: [PATCH v8 02/11] serial: 8250_dw: select port setup through
- platform data
+Date: Thu, 05 Nov 2026 13:52:04 -0700
+Subject: [PATCH v8 03/11] serial: 8250: widen RX trigger byte counts to 16
+ bits
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -95,8 +95,8 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20261105-submit-h616-uart-fifo-v1-v8-2-14024d2b184b@gmail.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261105-submit-h616-uart-fifo-v1-v8-3-14024d2b184b@gmail.com>
 References: <20261105-submit-h616-uart-fifo-v1-v8-0-14024d2b184b@gmail.com>
 In-Reply-To: <20261105-submit-h616-uart-fifo-v1-v8-0-14024d2b184b@gmail.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
@@ -112,125 +112,118 @@ Cc: linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
  linux-sunxi@lists.linux.dev, James Hilliard <james.hilliard1@gmail.com>
 X-Mailer: b4 0.15.2
 
-Select feature discovery and DMA attachment through a platform-data setup
-callback. The generic callback probes the optional registers and attaches
-DMA when a FIFO size is available. Integrations with a fixed configuration
-can supply their own setup before the port is registered. Allow setup to
-return an error so integrations can reject invalid configuration before
-registration.
+DesignWare UARTs can have 2048-byte FIFOs, with receive thresholds as
+large as 2046 bytes. The byte-sized threshold tables, setter argument and
+sysfs parser cannot represent these values.
 
-Replace skip_autocfg with the Octeon setup selection. Octeon is a 64-bit
-platform and continues to skip optional-register probing while preserving
-its existing conditional DMA attachment. Select the DMA setup helper
-directly for this integration. Keep generic setup for devices without
-matched platform data as well.
+Use u16 for the threshold tables and byte counts throughout the 8250
+conversion and sysfs paths, including the uart_port callback interface.
+Keep the FCR encoding byte-sized and preserve the existing threshold
+selection. The Moxa setter continues to validate against its 128-byte
+FIFO before writing the byte-sized trigger register.
 
-Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/tty/serial/8250/8250_dw.c | 49 ++++++++++++++++++++++++++++-----------
- 1 file changed, 35 insertions(+), 14 deletions(-)
+ drivers/tty/serial/8250/8250.h        |  2 +-
+ drivers/tty/serial/8250/8250_mxpcie.c |  2 +-
+ drivers/tty/serial/8250/8250_port.c   | 12 ++++++------
+ include/linux/serial_core.h           |  2 +-
+ 4 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/tty/serial/8250/8250_dw.c b/drivers/tty/serial/8250/8250_dw.c
-index 80b2b673b422..613907b8a40f 100644
---- a/drivers/tty/serial/8250/8250_dw.c
-+++ b/drivers/tty/serial/8250/8250_dw.c
-@@ -64,6 +64,7 @@ struct dw8250_platform_data {
- 	u8 usr_reg;
- 	u32 cpr_value;
- 	unsigned int quirks;
-+	int (*setup)(struct uart_port *p);
+diff --git a/drivers/tty/serial/8250/8250.h b/drivers/tty/serial/8250/8250.h
+index 21ed9c41b751..939b7d4209f1 100644
+--- a/drivers/tty/serial/8250/8250.h
++++ b/drivers/tty/serial/8250/8250.h
+@@ -69,7 +69,7 @@ struct serial8250_config {
+ 	unsigned short	fifo_size;
+ 	unsigned short	tx_loadsz;
+ 	unsigned char	fcr;
+-	unsigned char	rxtrig_bytes[UART_FCR_R_TRIG_MAX_STATE];
++	u16		rxtrig_bytes[UART_FCR_R_TRIG_MAX_STATE];
+ 	unsigned int	flags;
  };
  
- struct dw8250_data {
-@@ -76,7 +77,6 @@ struct dw8250_data {
- 	struct clk		*pclk;
- 	struct reset_control	*rst;
- 
--	unsigned int		skip_autocfg:1;
- 	unsigned int		uart_16550_compatible:1;
- 	unsigned int		in_idle:1;
- 
-@@ -596,7 +596,6 @@ static void dw8250_quirks(struct uart_port *p, struct dw8250_data *data)
- 		p->serial_out = dw8250_serial_outq;
- 		p->flags = UPF_SKIP_TEST | UPF_SHARE_IRQ | UPF_FIXED_TYPE;
- 		p->type = PORT_OCTEON;
--		data->skip_autocfg = true;
- 	}
- #endif
- 
-@@ -631,6 +630,33 @@ static void dw8250_shutdown(struct uart_port *port)
- 	d->no_int_count = 0;
+diff --git a/drivers/tty/serial/8250/8250_mxpcie.c b/drivers/tty/serial/8250/8250_mxpcie.c
+index 4935a5d1c1a3..4f0b881b4f83 100644
+--- a/drivers/tty/serial/8250/8250_mxpcie.c
++++ b/drivers/tty/serial/8250/8250_mxpcie.c
+@@ -257,7 +257,7 @@ static int mxpcie8250_get_rxtrig(struct uart_port *port)
+ 	return serial_port_in(port, MOXA_PUART_RTL);
  }
  
-+static int dw8250_setup_dma(struct uart_port *p)
-+{
-+	struct dw8250_data *data = to_dw8250_data(p->private_data);
-+	struct uart_8250_port *up = up_to_u8250p(p);
-+
-+	/* DMA setup requires a FIFO */
-+	if (!p->fifosize)
-+		return 0;
-+
-+	data->data.dma.rxconf.src_maxburst = p->fifosize / 4;
-+	data->data.dma.txconf.dst_maxburst = p->fifosize / 4;
-+	up->dma = &data->data.dma;
-+
-+	return 0;
-+}
-+
-+static int dw8250_setup(struct uart_port *p)
-+{
-+	int ret;
-+
-+	ret = dw8250_setup_port(p);
-+	if (ret)
-+		return ret;
-+
-+	return dw8250_setup_dma(p);
-+}
-+
- static int dw8250_probe(struct platform_device *pdev)
+-static int mxpcie8250_set_rxtrig(struct uart_port *port, unsigned char bytes)
++static int mxpcie8250_set_rxtrig(struct uart_port *port, u16 bytes)
  {
- 	struct uart_8250_port uart = {}, *up = &uart;
-@@ -765,22 +791,16 @@ static int dw8250_probe(struct platform_device *pdev)
+ 	struct mxpcie8250 *priv = dev_get_drvdata(port->dev);
  
- 	dw8250_setup_dma_filter(p, data);
+diff --git a/drivers/tty/serial/8250/8250_port.c b/drivers/tty/serial/8250/8250_port.c
+index 36b2b0a2c05c..452851815ffc 100644
+--- a/drivers/tty/serial/8250/8250_port.c
++++ b/drivers/tty/serial/8250/8250_port.c
+@@ -3008,14 +3008,14 @@ static int serial8250_request_port(struct uart_port *port)
+ static int fcr_get_rxtrig_bytes(struct uart_8250_port *up)
+ {
+ 	const struct serial8250_config *conf_type = &uart_config[up->port.type];
+-	unsigned char bytes;
++	u16 bytes;
  
--	if (!data->skip_autocfg) {
--		err = dw8250_setup_port(p);
--		if (err)
--			return err;
--	}
-+	if (data->pdata && data->pdata->setup)
-+		err = data->pdata->setup(p);
-+	else
-+		err = dw8250_setup(p);
-+	if (err)
-+		return err;
+ 	bytes = conf_type->rxtrig_bytes[UART_FCR_R_TRIG_BITS(up->fcr)];
  
- 	/* Use the BUSY-safe sequence for both integer and fractional divisors. */
- 	p->set_divisor = dw8250_set_divisor;
+ 	return bytes ? bytes : -EOPNOTSUPP;
+ }
  
--	/* If we have a valid fifosize, try hooking up DMA */
--	if (p->fifosize) {
--		data->data.dma.rxconf.src_maxburst = p->fifosize / 4;
--		data->data.dma.txconf.dst_maxburst = p->fifosize / 4;
--		up->dma = &data->data.dma;
--	}
--
- 	data->data.uport = serial8250_register_8250_port(up);
- 	if (IS_ERR(data->data.uport))
- 		return PTR_ERR(data->data.uport);
-@@ -863,6 +883,7 @@ static const struct dw8250_platform_data dw8250_dw_apb = {
- static const struct dw8250_platform_data dw8250_octeon_3860_data = {
- 	.usr_reg = OCTEON_UART_USR,
- 	.quirks = DW_UART_QUIRK_OCTEON,
-+	.setup = dw8250_setup_dma,
- };
+-static int bytes_to_fcr_rxtrig(struct uart_8250_port *up, unsigned char bytes)
++static int bytes_to_fcr_rxtrig(struct uart_8250_port *up, u16 bytes)
+ {
+ 	const struct serial8250_config *conf_type = &uart_config[up->port.type];
+ 	int i;
+@@ -3073,7 +3073,7 @@ static ssize_t rx_trig_bytes_show(struct device *dev,
+ 	return sysfs_emit(buf, "%d\n", rxtrig_bytes);
+ }
  
- static const struct dw8250_platform_data dw8250_armada_38x_data = {
+-static int do_set_rxtrig(struct tty_port *port, unsigned char bytes)
++static int do_set_rxtrig(struct tty_port *port, u16 bytes)
+ {
+ 	struct uart_state *state = container_of(port, struct uart_state, port);
+ 	struct uart_port *uport = state->uart_port;
+@@ -3094,7 +3094,7 @@ static int do_set_rxtrig(struct tty_port *port, unsigned char bytes)
+ 	return 0;
+ }
+ 
+-static int do_serial8250_set_rxtrig(struct tty_port *port, unsigned char bytes)
++static int do_serial8250_set_rxtrig(struct tty_port *port, u16 bytes)
+ {
+ 	int ret;
+ 
+@@ -3111,13 +3111,13 @@ static ssize_t rx_trig_bytes_store(struct device *dev,
+ 	struct tty_port *port = dev_get_drvdata(dev);
+ 	struct uart_state *state = container_of(port, struct uart_state, port);
+ 	struct uart_port *uport = state->uart_port;
+-	unsigned char bytes;
++	u16 bytes;
+ 	int ret;
+ 
+ 	if (!count)
+ 		return -EINVAL;
+ 
+-	ret = kstrtou8(buf, 10, &bytes);
++	ret = kstrtou16(buf, 10, &bytes);
+ 	if (ret < 0)
+ 		return ret;
+ 
+diff --git a/include/linux/serial_core.h b/include/linux/serial_core.h
+index 4eeb8253752a..97301ef66af0 100644
+--- a/include/linux/serial_core.h
++++ b/include/linux/serial_core.h
+@@ -461,7 +461,7 @@ struct uart_port {
+ 					       unsigned int quot,
+ 					       unsigned int quot_frac);
+ 	int			(*get_rxtrig)(struct uart_port *port);
+-	int			(*set_rxtrig)(struct uart_port *port, unsigned char bytes);
++	int			(*set_rxtrig)(struct uart_port *port, u16 bytes);
+ 	int			(*startup)(struct uart_port *port);
+ 	void			(*shutdown)(struct uart_port *port);
+ 	void			(*throttle)(struct uart_port *port);
 
 -- 
 2.53.0
