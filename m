@@ -1,47 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793833362;
-	b=TSH/p1JVJ88AB8MpHboUF0ZBdQ0dSL4HN8KDh7hjVRaIS/UqvBmHx/ZUJdQELVE5zbPw
-	 4rsu7brwfBkAMEB4UPwuIlHLd90uNItx7gQS4AatvXDz4pz4tOLR5Hl8z+nMPFEuVj2i5
-	 Jw6MnmjV7KwOSGVNoIrEigz7+A+C0XSLXA6NzalnXOllNQ/gxYT7ho8lDLIFFhqTp8AKo
-	 6WCDkdhB2JyUyPfM3gP2EBWiFPsC/OLuiuyXIjrgl3kSg9s1ETewdJRUGtFxLCbVS4Rms
-	 LWLBF+InWsX4wafs18GyUZ7UCgOEsISllxe5Z0m2wANf+0YxAna/Htyqxic2zdXgDow==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793833362;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=faVYG+5p25QPZ5jO9MjUiu/Ltiks8UpOg4pXnPN3sY4=;
-	b=llFxx4Utk0W+ZNQGgogqD38jZJIdMF5Bup9tRe2aHw3PFPyJMRqEIyxJltpebMgn9OAY
-	 jTtO+L8IljRTYSeH4oqiDgl9OgMhnxNIJAlgVgwpjVxXQHd3eAFAbdO++HSZJ81BAerUn
-	 P2KxwK/Rw+L1jg+OzeNRMmf+O5H0gmt8eRCY9wo1OFXsFommLCUNBSSu0q1eUdVTD76Mm
-	 AhGnJCSq6FcroLnZ5nZJvXjRuoIoDVpwOtJ6R7xylzbm9Zi8JJmfSFGH+n0OE0VcsU9Pe
-	 U5aW/8ZOuXVnhQfTepIkF7RjpIFYPSSP+3WQ/iviym3ypJaQOV6Crxldmv4ZpqJJzMg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AffaDmK1;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793851662;
+	b=EleBb6/0N6OTBIILf8NOgMMXKiqLQ+KozvI9B8CXjhmsJwMhjdDuZozie5ruDtSr0rn4
+	 whARqL7hGRUXozrY8I0nrXJIf/L6FCHyyd6gNrpspiRl+sUQ7Boqc48DZPTxwxAouhHGS
+	 QnG/Wml6YaMI1xGswq0z3gnZyjIUuj2PKyPErYzEU3yNf6UvKGNet4j1LBxTnfKvfwJ8n
+	 m5ANkzkmT7RTrgs2KAITVUX7mnwX+RhzDYKjFnyyee2BWuEOUuij3hTHsPLJepx7+t/V/
+	 A3HOyokzmBR9zEeF7nI+R5tFGHA0NmhiiMc22AaeUfyB1yN13NULxbQh1JPXV8iet8A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793851662;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=cWiKbKgJwx/tU3tSKoTmJCpiwOyxJ2711fH4tsRrR6g=;
+	b=kV1QBKWz9LTI/mGN6VP47ZklxjDe+7JSpwaTZQF2/vAiBYiqTYQvZx1CGGW1a3aYKMKB
+	 z+rKT78nbURS5HARl7CIwKI2HNY1/9AWjnDcu3dh8KewH3e4D/lLTHtyWYxBG568j2NHg
+	 VGiMe8mvpqiXAxbqPeNAmSaMNY4X8z2cdQwBiGvRN0Vmo61dWKa5vv8Hl9ebQnMZRV1CK
+	 rRaU09g8WLRoPqZ0+9R3+uhbzj/SraaESMF45VV59cHY4Wz6ETLZDJXnlLgNMniD9Oxtx
+	 EyczhePo8ifeJK7iF/RYUat+nBHo2iLkj3LKGkexO57/FoQCr+5+SBZAJg2Q+tvmDaQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mSMcCrKX;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA909606D831;
-	Wed,  4 Nov 2026 23:02:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA30F606A326;
+	Thu,  5 Nov 2026 04:07:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AffaDmK1
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FCD91F00A18;
-	Wed,  4 Nov 2026 23:02:24 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mSMcCrKX
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793851661;
+	b=YekqO9cLddD5fJP6glKpQErHeu3HqktOtlHmjW/53pwwWuczqVxZVlTNWsu8dVGbaOri
+	 dPWUkbW0p/OTv+iq5z6VR34l1FuwzKSc+AvihPRImr7waoc0tqoSLiFzgewf5zd7N+Ov7
+	 4A0O+twy3iUyOy+LX6auSWPwia86W1qEtw2WpYPAfLfCaAPtOfrcghxYuecIqPqjo8uVO
+	 qbgeTTHxZ9UKXcErfI6lRJLZZe0mOV8bdeYOsSbUrbwuL4regeOZFxi1qwNhc53Z/UMl/
+	 Wm3AywffpyMnSfL6p1liGygBMYEA16gZAVkTzCBy/hX+9klOAG8jhUTnEk7aptxRTNA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793851661;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=cWiKbKgJwx/tU3tSKoTmJCpiwOyxJ2711fH4tsRrR6g=;
+	b=Oiqtjc4do4CHGHPFOFt0OBut8AziZuobgEjAvz4290lamkHAbNlxpWccmR0Lo7zzEorw
+	 Qd25LQMNqgx3hlIfM/KrsWkmENY761VuxxkRn2qPIA/eCWBzhXXnO1nfYHbQ2ivmJuA0c
+	 Fepn/VtFwz3ydTc3PDlxMDEq/P29oXD8qmgzgH87zuXafAMShRFrVBTXpL+JJCEcXpzjx
+	 DQeHjHttdsUo+MbbMQm38KdrVAgRtSJ8atxVrNbKN1OGSB9YRqhr6y+6NImU2Thr0CODV
+	 b4RPfzIcuEQUkowkYLjIA9ldBWiCBg4pM5S/mRXOXY4HkliHXa2JarjRyirLNi8OVOg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id C27951F000C1;
+	Thu,  5 Nov 2026 04:07:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793833361;
-	bh=faVYG+5p25QPZ5jO9MjUiu/Ltiks8UpOg4pXnPN3sY4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=AffaDmK1nAJFIZOcKFXhI7ch/PjsnP05KdrAgKQZEp0GZxvC8P8mAoNxhBYDNJjgU
-	 nCAIj5t25AYXI9KGygKBLo5baE4wkhhsoEha81JuexT/xyEi2Zr++TchPgoCymcDef
-	 r3ZZBRICCyliFRdQW/gb90PWic3BEY1oQQr7xnQqhaFHMccTlCBhFJcSbMeieg7HW9
-	 rk8I8oAhTJS7C6RFfg5PrRSiDryhmpg4zNj1rs6IbOuwVLoj/CSHbkdY+4dccrv5ti
-	 SeaN5K5vRzV5lM4KNj4VXdDQKev+Wqm+CphEC4lmHL3H+WC0SN/q5UFVSJBoIGqEPj
-	 WRW4500FxKHNg==
-Message-ID: <fbcb650d-0f60-468d-b1cc-255ea8a93db3@kernel.org>
-Date: Thu, 5 Nov 2026 00:02:21 +0100
+	s=k20260515; t=1793851661;
+	bh=cWiKbKgJwx/tU3tSKoTmJCpiwOyxJ2711fH4tsRrR6g=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=mSMcCrKXRuQTgvFCCbTVjrPfB86fsS/aP5Jw5/LExmP9hniTIaeyrBlodTl/IY2+h
+	 46oXyVWxvlrEptvFyLtjQNgzMrKOX3S8CpaFcpOkaAEhKDRBF7K6gRvsC6PU7n9Nhm
+	 O/kVUQPg1OHlEX3158xtU7yryM2QmvQm07Loi0y4WJyi6EEMLrjCrJsawyHxcrj6c8
+	 sG3rk9fBjO9vS8sA4294eu8xxeAfRsqAx5KiqdLjJywofQ7HFwZzp+OmQ5s0p4gdAQ
+	 hfDGF46AZqW6Nd85bX2UYADrWlD5hKI8mL/Q9u92aFVVDSbmNsOVHRFuba/2yMWHac
+	 JM26kmSbHsqGA==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 2242C4707F;
+	Thu,  5 Nov 2026 04:07:40 +0000 (UTC)
+From: Rajan Yadav via B4 Relay <devnull+rajanyadav0307.gmail.com@kernel.org>
+Date: Wed, 04 Nov 2026 22:07:40 -0600
+Subject: [PATCH] cpufreq: sun50i: Handle boards with the
+ allwinner,sun50i-a133 compatible
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -51,143 +83,101 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] spi: use dmaengine_desc_set_callback()
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Frank.Li@oss.nxp.com, Mark Brown <broonie@kernel.org>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Radu Pirea <radu_nicolae.pirea@upb.ro>, CL Wang <cl634@andestech.com>,
- Ryan Wanner <ryan.wanner@microchip.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Vladimir Oltean
- <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Han Xu <han.xu@nxp.com>,
- Haibo Chen <haibo.chen@nxp.com>, Linus Walleij <linusw@kernel.org>,
- Daniel Mack <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>,
- Robert Jarzmik <robert.jarzmik@free.fr>, Heiko Stuebner <heiko@sntech.de>,
- Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
- Andi Shyti <andi.shyti@kernel.org>, Tudor Ambarus
- <tudor.ambarus@linaro.org>, Peter Griffin <peter.griffin@linaro.org>,
- Alim Akhtar <alim.akhtar@samsung.com>, Yixun Lan <dlan@kernel.org>,
- Troy Mitchell <troy.mitchell@linux.spacemit.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Alain Volmat <alain.volmat@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Laxman Dewangan
- <ldewangan@nvidia.com>, Thierry Reding <thierry.reding@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
- Masami Hiramatsu <mhiramat@kernel.org>,
- "open list:SPI SUBSYSTEM" <linux-spi@vger.kernel.org>,
- "moderated list:ARM/Microchip (AT91) SoC support"
- <linux-arm-kernel@lists.infradead.org>,
- open list <linux-kernel@vger.kernel.org>,
- "moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE"
- <linux-rpi-kernel@lists.infradead.org>,
- "open list:FREESCALE DSPI DRIVER" <imx@lists.linux.dev>,
- "open list:ARM/QUALCOMM MAILING LIST" <linux-arm-msm@vger.kernel.org>,
- "open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
- "open list:RENESAS RZ/V2H(P) RSPI DRIVER"
- <linux-renesas-soc@vger.kernel.org>,
- "open list:SAMSUNG SPI DRIVERS" <linux-samsung-soc@vger.kernel.org>,
- "open list:RISC-V SPACEMIT SoC Support" <linux-riscv@lists.infradead.org>,
- "open list:RISC-V SPACEMIT SoC Support" <spacemit@lists.linux.dev>,
- "moderated list:ARM/STM32 ARCHITECTURE"
- <linux-stm32@st-md-mailman.stormreply.com>,
- "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
- "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
- Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- Thierry Reding <treding@nvidia.com>
-References: <20261104152253.3279052-1-Frank.Li@oss.nxp.com>
- <b656861c-a087-4087-952e-91fd15fadd52@kernel.org>
- <auuZHTvr5UI9Q9Q4@ashevche-desk.local>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <auuZHTvr5UI9Q9Q4@ashevche-desk.local>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261104-a133-fix-v1-1-d0b5ad3d4c5d@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAsB7GoC/yXMwQ5AMBAE0F+RPWvSVVH8ijgUi3UoaRFJ498Vx
+ zeZmQCeHJOHOgng6GTPq43ANIF+NnYiwUM0ZDIrEGUuDColRr4Eaa10KSscKIdY3xzF+Ltq2t/
+ +6Bbq93cP9/0AbGKilWwAAAA=
+X-Change-ID: 20261104-a133-fix-e77378091de4
+To: "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Yangtao Li <tiny.windzz@gmail.com>, 
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Andre Przywara <andre.przywara@arm.com>
+Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Rajan Yadav <rajanyadav0307@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793851659; l=2906;
+ i=rajanyadav0307@gmail.com; s=20261103; h=from:subject:message-id;
+ bh=4A7N9YN5wiX+ZykiP94lXzZf0+Fik83P+lyG8T8jS7g=;
+ b=p+QFXeDZgAVLOudiBWC8+l6munkc1+dSGo/H5Tu3dx+asH/x36G4WB9M63AsGRKC1z7f6zyMW
+ N8dAO+vX0x2DVlqSLbC9ZZhF5cHmo5aCniUjFwn45Ycc6tNyUp2rca1
+X-Developer-Key: i=rajanyadav0307@gmail.com; a=ed25519;
+ pk=4ZPeiP5qrv2b44q/Obxi2koUS70Q6npbttJnpUoTlgg=
+X-Endpoint-Received: by B4 Relay for rajanyadav0307@gmail.com/20261103 with
+ auth_id=1391
+X-Original-From: Rajan Yadav <rajanyadav0307@gmail.com>
+Reply-To: rajanyadav0307@gmail.com
 Content-Transfer-Encoding: 7bit
 
-On 04/11/2026 21:44, Andy Shevchenko wrote:
->> Andy,
->> These three lines look correct.
->>
->> LGTM:
->>
->> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
-> 
-> As
-> 
->   Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org> # atmel-quadspi
-> 
-> Note, it's in your power to ask the author to split out what you maintain
-> to a separate change. So, it's your choice what to do, Ack the full patch,
-> give a partial Rb, ask for a split, ignore reviewing (often means silent
-> agreement when maintainer just applies that kind of a patch)
+From: Rajan Yadav <rajanyadav0307@gmail.com>
 
-The "# note" after the tag solves the problem partially, if people were
-actually using it. Solves people looking at the Git commit and being
-mislead by partial review applying to entire commit. Does not solve
-credits, because Rb for three lines is not the same as for 100.
+The Teclast P80 uses "allwinner,sun50i-a133" as its only SoC
+compatible, as documented in the arm/sunxi.yaml binding. Neither the
+sun50i cpufreq driver nor the cpufreq-dt-platdev blocklist lists it.
+cpufreq-dt then probes on its own, finds only opp-microvolt-speedN
+properties and fails:
 
-From v1 of this patch, four people (Alain, Lab, Troy, Kunihiko) did not
-use it even though reviewing only part. Only Wolfram, so 20% of partial
-reviews, used that syntax. Without that syntax, b4 will pick up Rb tag
-like it was for entire commit.
+  cpu cpu0: opp_parse_microvolt: opp-microvolt missing although OPP managing regulators
+  cpu cpu0: _of_add_opp_table_v2: Failed to add OPP, -22
+  cpu cpu0: OPP table can't be empty
 
-So I do repeat - if one does not want to use that syntax, then just Ack,
-instead of creating false impression of reviewing everything.
+so the board runs without CPU frequency scaling.
+
+Add the compatible to both lists.
+
+Tested on a KickPi K5C (A133) with its root compatible changed to
+"allwinner,sun50i-a133" only: on v7.4-rc1 cpufreq fails as above, with
+this change the sun50i driver probes and the A100 speed1 OPPs are used.
+v6.18 fails the same way, also with "kickpi,k5c" listed first.
+
+Claude Code (Anthropic) drafted this change and its message from my test
+logs; I reviewed and tested it.
+
+Fixes: 60b064eb82e6 ("arm64: dts: allwinner: A133: add basic support for Teclast P80 tablet")
+Signed-off-by: Rajan Yadav <rajanyadav0307@gmail.com>
+---
+This fixes the Teclast P80 support added in v7.4-rc1, so I think it can
+go in as a fix for 7.4. I do not have a Teclast P80; I reproduced the
+failure on a KickPi K5C as described above. A series with A133 speed
+grade support, which Andre asked for, follows separately.
+---
+ drivers/cpufreq/cpufreq-dt-platdev.c   | 1 +
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/drivers/cpufreq/cpufreq-dt-platdev.c b/drivers/cpufreq/cpufreq-dt-platdev.c
+index bce4c87573a..6bdeba47749 100644
+--- a/drivers/cpufreq/cpufreq-dt-platdev.c
++++ b/drivers/cpufreq/cpufreq-dt-platdev.c
+@@ -110,6 +110,7 @@ static const struct of_device_id blocklist[] __initconst = {
+ 	{ .compatible = "airoha,en7581", },
+ 
+ 	{ .compatible = "allwinner,sun50i-a100" },
++	{ .compatible = "allwinner,sun50i-a133", },
+ 	{ .compatible = "allwinner,sun50i-h6", },
+ 	{ .compatible = "allwinner,sun50i-h616", },
+ 	{ .compatible = "allwinner,sun50i-h618", },
+diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+index 9261d148a16..5d4ff192e99 100644
+--- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
++++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+@@ -324,6 +324,7 @@ static struct platform_driver sun50i_cpufreq_driver = {
+ static const struct of_device_id sun50i_cpufreq_match_list[] = {
+ 	{ .compatible = "allwinner,sun50i-h6" },
+ 	{ .compatible = "allwinner,sun50i-a100" },
++	{ .compatible = "allwinner,sun50i-a133" },
+ 	{ .compatible = "allwinner,sun50i-h616" },
+ 	{ .compatible = "allwinner,sun50i-h618" },
+ 	{ .compatible = "allwinner,sun50i-h700" },
+
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261104-a133-fix-e77378091de4
 
 Best regards,
-Krzysztof
+--  
+Rajan Yadav <rajanyadav0307@gmail.com>
+
+
