@@ -1,96 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793887201;
-	b=ayM4KA8xOGxyLm2cJbWURTYVNQ5L/yzpQSZct+nTJ4I3kifiiY/dlOe0BtecQuTMBE8/
-	 j1l1rZB++wecJxe0adwL8gcyEIcs+N1+y4u858FT1FH3agFpjisJ79zIqamB7C5OZUpiL
-	 1nhE9cZluqdIZEzmOJY+yNpcabiNW74V7fk3d10faUcJuOYcdKufyi1VXN5FAApxynQx/
-	 yWS6fG2ZFXr0KU0eat+bORzzP7H3NxKVDnFwgqR2Uy8iljPCzXbXIbaZ2PdBbF+8EQrag
-	 MtHjaxX1AD5IIlewORXOceqVNQIWn5iNByjwjC98u6s3tekyJePLEoil9XWrsEed7NA==
+	t=1793887685;
+	b=EbQ6p8dWJ3Q5tjeQcseQ5yzNCVTIAFm18HKLxYfE50+PVK2gd0ZJTQWZ678z2gle/On6
+	 j3/14STQmFVKXqgW4hWwsu2c5rN+7EOvjuTX62WSBFFowMVBJud+suCHV9RdW185vwM3r
+	 o0jRmjNDwJgBmFoMTC2t/l3k6U5X6DafTso4CDuog+8qxFRX0ijlotEB/RnAczA2ADe2W
+	 svcBXad5jViL3++2LM9uQSZ2ojnlw0J5rt7j/C2P53/pUtRz0+kh0TaW+dtfb9h/x3wV3
+	 s0vnYC7nQ23l3E7MmFqowruSSB1dtJ13ZZCXxI7W+/zAKdb3LEkfRjs3c3n7w1jHb4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793887201;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=0bb3vYa61fFM02QV8RwA3NSPnIkcy66WcHx7ncn336Y=;
-	b=TjkdUYHoOSzR/Ln9oKlSRzFoSLTRRQRFUqatnOv5Pte9qJvQYLnGqWFv7Bv/a+VMp42M
-	 EZJ1jygVUGPy8jHcCW+pkZ8veGbZKTE1EsBYhJfobk4MptZU1HipgkJyN3Dcd9XiJOWIo
-	 L/Y5RZbxP4zgqdbYxKyuCICgUeUCSZ7w86k5WWwpSP1OSE2qyOsCfgW5LA6bGq5gRnKw4
-	 RXRaJpG1lkUQrCH103jWpC8virWfHahaCSga9VRkqGBMkkbfltYcg96iVZuknnpN0IDIN
-	 jaeh0FGm1uDVmGe/rwTu1S5Uca2VrFw+PUC4jwgayxBaZaHX6fzNptYrTcliHataW4A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793887685;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=ccFGirfKCM6ZGA4DChtzDONN3qjovrzglErxCpjSC+s=;
+	b=vj5sfyhoV9gCsVEoiTYvqGhwOW8JylGgoVggykXTS0/c/+YQh3tzZya+mBg9ow/xymoZ
+	 Jfjc1pUcyH4QC3PUANnuy6fSnEDidNwscbc7LQWKcZ+Xc2OzM98sHn8z617fHxwhKKp9J
+	 IMnJubJmUH0YcG26yFRjh8W/k1fTBwTvXT/3YAfNcmGPZp1yT9SJ4kQDATH9jKvyE2W6Y
+	 jPzayuoVMAgIBb90dDx7MaDhdtUxXL7CRQ8+DI8tdJ+bzHVdP2rIMj5SVBJxptaMwYhvc
+	 RvNb868uaQMk7i3nnMDmUebCrd9+kKkmlHPu5WXNXIpLRQ7B3vYhrrLQsLGTAsLqoaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ekkbygLx;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C6D606A32C
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Nov 2026 13:59:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6C6D606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so12781455e9.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 05 Nov 2026 05:59:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1793887194; x=1794491994; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0bb3vYa61fFM02QV8RwA3NSPnIkcy66WcHx7ncn336Y=;
-        b=YGmlwk6oiIeXBINNE3yORBhyGEyD/1ygRhty5OvHaT1uuH64fnU6eUt9XdTtKsR8ZR
-         p8BKl4O7TYDOvG0QWA67PgZtnFt8y7wnuIvM4QZF2dHXEiXYk1F21ovEdUNP6vfK4Ov0
-         Tgxy7JWgl7A8hKl49tMvfTo4CAupQX6oCY9RfrGF5FmxW+dJChQ3XXvfb72xNygplD5A
-         xH4Wj0jC5mqm6D3BK7b7VIZwNyi/8vfNcg1Vl/+HU5/EP4yVxljD8h0qlYTsu0bc8GSm
-         S4XBQ6wyssNG5vC0vqe/AJc4TcLz7fSw0M5hz4xTuduCxJTyRKIkNIL2HBMPcpMnNl+K
-         1Obg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793887194; x=1794491994;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0bb3vYa61fFM02QV8RwA3NSPnIkcy66WcHx7ncn336Y=;
-        b=0feXdUQY3paCmsNLI0HdAyLIsTLmBrHGW216XmAcptAJCHgBuchTD7FpXYT87fz1RU
-         WyYzonxjt6rVs5QTJPQqrAJCWL1xbMnLUoWgdWz8G0RWTjGq7ylcn27SWln/Z4uZJ10l
-         If9XujBsBAbKYZRur4s1RF9m/h3mdzDnHBsURPxdEU3wv2N5uPz7bNVWrpaeMYC9Qj3m
-         l0yr8EuPLrPhvAa2LISek9We3p95qncOxGFhafoPkMucKQq+BUOiZD3tAEG9JbqA+SDQ
-         B/RYDUfhjxhlXCd10p2l+tUL33kZGU9M1XPXRzTyp8hSNcVAEorGe27BSdYidR0mrhAU
-         QY4Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxqNu0Qg11iA6rgzVUYpBwpp3d1XiLwHcZFCQPyylLIU9kdGsSCI+WCu3NxwoXUz4WxJvZp+cUIft8wZg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+yBOjfiZa0AUjJFTHcWhIME1NZQYgGXAtTbIPs5BZRm3xJ6wW9
-	brqBzHHyf69R5vxV1GRNkm3hi/udkbb8GLYhlgYC+zaTdnGYvlAokeJvLFC7aBM+UvY=
-X-Gm-Gg: AYBFou3uVzGoH/Jpz3kcHNRHW/D/tBgyiT0Myle3fg5TgWD+miaY5wSO9IO+nbPASsG
-	I+t8xJKqxNI66iuVx9AEv8MM+yj5p4EYfMbPYJCjpFutovdXK538eKWiz5B5/g8d/3o4Wdl8t5u
-	zTz4oH5YOzHOxdD9lPKE1k1js/lud88ZJtm3CxuegVP2GqlZ5FmSHHjh1eQpxI3Q2W0QHx/ovT/
-	el3onS6iPrcRjuXc4qE5aR0L5Eg7qNjrktvuwq8X7WW71WpumolhwoUO74LrUNisn4t9TXkNKtZ
-	vJ5/lUPlgRoC18KPI1tfAamSmDA3HRCo0T6QuiAIcAPpG2cJJPUSum0PFnaGeqnU365vf20cpJo
-	1aaarsEtfsgOG+8ZYQY82GRmW4ThmENUFR5vhF0/y0AyTEn1rQ5PRx4oueFi3vMvXoouIjTa5pK
-	x+KfbdQas9W5qnkAtXaerNw1zzSMoBswsO6HBvVQ+VItLunMb0SVDd4vOSoaA5j9qmNbVLv5PaD
-	cRjin5rzBVHita/3zbBeoprQqYpdO1VjwAZqkYIVywKv1WLnS2m/1ULf3Zilbx0Jh6gYj6cSgMF
-	x8JmXYOob2NAyoZfAZQv46m88pY=
-X-Received: by 2002:a05:600d:c:b0:4af:83ad:8f70 with SMTP id 5b1f17b1804b1-4af83ad8fa7mr259029715e9.35.1793887194037;
-        Thu, 05 Nov 2026 05:59:54 -0800 (PST)
-Received: from localhost ([194.213.108.9])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4b56e2ae73csm69855805e9.1.2026.11.05.05.59.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 05:59:53 -0800 (PST)
-Date: Thu, 5 Nov 2026 14:59:49 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Tim Michals <tcmichals@gmail.com>
-Cc: Jassi Brar <jassisinghbrar@gmail.com>, 
-	Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-sunxi@lists.linux.dev, linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/7] remoteproc: sunxi: Add Allwinner A523 XuanTie
- E906 driver
-Message-ID: <auyLnRhPv0jz1roG@monoceros>
-References: <20261101185735.762559-1-tcmichals@gmail.com>
- <20261101185735.762559-5-tcmichals@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9F0606A32E;
+	Thu,  5 Nov 2026 14:08:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ekkbygLx
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 694DB1F000C1;
+	Thu,  5 Nov 2026 14:08:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793887684;
+	bh=ccFGirfKCM6ZGA4DChtzDONN3qjovrzglErxCpjSC+s=;
+	h=From:Subject:Date:To:Cc;
+	b=ekkbygLxEi5EpqdZUn9IOpfMArU92qRW/gi1d8FsRga93zzYuy85mDoaug2sk0TW+
+	 V0LobmNmn/mozWdzLon1L7hJoXAutzq+eSawIyRam6bMT97VH+YPoCvrLoIxSOSTR2
+	 HpwmJVxnLu2jmmIaxDAr+XAOrL8tKdUsZQJ5f0jqwLp6r4mY0vyiXHwtPkG+SQvAG7
+	 XVraaVEngl+ORRWG88jQSSic5iKRzn+52lfgr+dr2tCQNryGG6kNvosvHrHbj3ILv2
+	 1Vd1qpL2GiG9yKsMAAhmpXMBtL0PU0IhSo5oYDwP+IRYqnuzf0ZL3sm6xz5SA/EtuW
+	 s5OMKwCNjOxjg==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH 00/83] drm: Switch drivers to
+ drm_mode_config_create_initial_state
+Date: Thu, 05 Nov 2026 15:07:17 +0100
+Message-Id: <20261105-drm-no-more-config-reset-v1-0-763560c2cc3f@kernel.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -100,45 +54,328 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bvyb3kuhcvop66ue"
-Content-Disposition: inline
-In-Reply-To: <20261101185735.762559-5-tcmichals@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAA/x3MQQqDMBAF0KsMf+2ASTHVXKV0IWZiZ2EikyIF8
+ e4F3wHeiSam0hDphMmhTWtBJNcRls9cVmFNiATf+9A/nedkG5fKWzXhpZasK5s0+bKTeZzyEML
+ 0SOgIu0nW312/3tf1B42YDHBqAAAA
+X-Change-ID: 20260712-drm-no-more-config-reset-1ea89f56693d
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Janne Grunau <j@jannau.net>, Sasha Finkelstein <k@chaosmail.tech>, 
+ asahi@lists.linux.dev, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, amd-gfx@lists.freedesktop.org, 
+ Aun-Ali Zaidi <admin@kodeit.net>, Liviu Dudau <liviu.dudau@arm.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Joel Stanley <joel@jms.id.au>, 
+ Dave Airlie <airlied@redhat.com>, Jocelyn Falempe <jfalempe@redhat.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Dharma Balasubiramani <dharma.b@microchip.com>, 
+ Manikandan Muralidharan <manikandan.m@microchip.com>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Alim Akhtar <alim.akhtar@samsung.com>, Inki Dae <inki.dae@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Peter Griffin <peter.griffin@linaro.org>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>, linux-samsung-soc@vger.kernel.org, 
+ Alison Wang <alison.wang@nxp.com>, Stefan Agner <stefan@agner.ch>, 
+ Ruben Wauters <rubenru09@aol.com>, Tian Tao <tiantao6@hisilicon.com>, 
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
+ Yongbang Shi <shiyongbang@huawei.com>, John Stultz <jstultz@google.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Xinliang Liu <xinliang.liu@linaro.org>, 
+ Yongqin Liu <yongqin.liu@linaro.org>, Dexuan Cui <decui@microsoft.com>, 
+ Long Li <longli@microsoft.com>, 
+ Saurabh Sengar <ssengar@linux.microsoft.com>, linux-hyperv@vger.kernel.org, 
+ Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
+ Liu Ying <victor.liu@nxp.com>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, imx@lists.linux.dev, 
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
+ Lucas Stach <l.stach@pengutronix.de>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Paul Cercueil <paul@crapouillou.net>, linux-mips@vger.kernel.org, 
+ Anitha Chrisanthus <anitha.chrisanthus@intel.com>, 
+ Paul Kocialkowski <paulk@sys-base.io>, Huacai Chen <chenhuacai@kernel.org>, 
+ Icenowy Zheng <zhengxingda@iscas.ac.cn>, Jianmin Lv <lvjianmin@loongson.cn>, 
+ Mingcong Bai <jeffbai@aosc.io>, Qianhai Wu <wuqianhai@loongson.cn>, 
+ Xi Ruoyao <xry111@xry111.site>, Linus Walleij <linusw@kernel.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ Jerome Brunet <jbrunet@baylibre.com>, Kevin Hilman <khilman@baylibre.com>, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ linux-amlogic@lists.infradead.org, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Dmitry Baryshkov <lumag@kernel.org>, Jessica Zhang <jesszhan0024@gmail.com>, 
+ Marijn Suijten <marijn.suijten@somainline.org>, 
+ Rob Clark <robin.clark@oss.qualcomm.com>, Sean Paul <sean@poorly.run>, 
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+ Marek Vasut <marex@denx.de>, Danilo Krummrich <dakr@kernel.org>, 
+ Lyude Paul <lyude@redhat.com>, nouveau@lists.freedesktop.org, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>, spice-devel@lists.freedesktop.org, 
+ virtualization@lists.linux.dev, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Magnus Damm <magnus.damm@gmail.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ linux-renesas-soc@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org, 
+ Marcus Folkesson <marcus.folkesson@gmail.com>, 
+ David Lechner <david@lechnology.com>, Iker Pedrosa <ikerpedrosam@gmail.com>, 
+ Javier Martinez Canillas <javierm@redhat.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, 
+ Chunyan Zhang <zhang.lyra@gmail.com>, Orson Zhai <orsonzhai@gmail.com>, 
+ Alain Volmat <alain.volmat@foss.st.com>, 
+ Raphael Gallais-Pou <rgallaispou@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Philippe Cornu <philippe.cornu@foss.st.com>, 
+ Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+ Yannick Fertre <yannick.fertre@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, linux-tegra@vger.kernel.org, 
+ Jyri Sarha <jyri.sarha@iki.fi>, Alexey Brodkin <abrodkin@synopsys.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>, 
+ Alex Lanzano <lanzano.alex@gmail.com>, LiangCheng Wang <zaq14760@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
+ Chia-I Wu <olvaffe@gmail.com>, 
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
+ Gurchetan Singh <gurchetansingh@chromium.org>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Melissa Wen <melissa.srw@gmail.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Zack Rusin <zack.rusin@broadcom.com>, 
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>, 
+ Michal Simek <michal.simek@amd.com>, Aditya Garg <aditya.garg@linux.dev>, 
+ Andy Yan <andyshrk@163.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13876; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=eCsH0qO0Isx1iDtwj8W2b8oBc8u5KIkN5rqbjDx6DYo=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDFlvemeniX0Tc/zonvci91HnqYDJDtoRM1y6jkc1Xsjfv
+ FtjY8fvjiksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCRyYsZazjLq34cX8qa/F19
+ UayPy5aYv98ylJ2uS91m6N99SnlOSqtLuLIt2/fMT++2JwUrfbCMZ6zoWJJ0/nx4+Ynnz0s11tb
+ duXVos+beSNHjxj+Xda9PTuS3ivHL/SmyUoLvgYQUc2+kFgA=
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
+drm_mode_config_reset() has a dual role: it creates the initial KMS
+state at probe time, and resets hardware and software state during
+suspend/resume cycles. However, the two roles need different
+behaviors, notably for objects like drm_private_obj that must persist
+across suspend/resume and are excluded from drm_mode_config_reset()
+by design.
 
---bvyb3kuhcvop66ue
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH v3 4/7] remoteproc: sunxi: Add Allwinner A523 XuanTie
- E906 driver
-MIME-Version: 1.0
+Previous series introduced drm_mode_config_create_initial_state() to
+handle only the initial state creation at probe time, including
+drm_private_obj. Unlike drm_mode_config_reset(), it returns an error
+code, allowing drivers to properly handle allocation failures.
 
-Hello,
+This series switches all drivers calling drm_mode_config_reset() at
+probe time to drm_mode_config_create_initial_state(). The conversion
+was done using a Coccinelle semantic patch.
 
-On Sun, Nov 01, 2026 at 12:57:32PM -0600, Tim Michals wrote:
-> +#include <linux/mod_devicetable.h>
-> [...]
-> +#include <linux/platform_device.h>
+This is part, and the final piece, of a larger transition to remove the
+overloaded reset semantics from the KMS subsystem, following similar
+series for planes, CRTCs, connectors, and bridges.
 
-As for patch 2: Please don't use <linux/mod_devicetable.h> and rely on
-<linux/platform_device.h> to provide of_device_id.
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Maxime Ripard (83):
+      drm/adp: Switch to drm_mode_config_create_initial_state
+      drm/amdgpu: Switch to drm_mode_config_create_initial_state
+      drm/appletbdrm: Switch to drm_mode_config_create_initial_state
+      drm/komeda: Switch to drm_mode_config_create_initial_state
+      drm/hdlcd: Switch to drm_mode_config_create_initial_state
+      drm/malidp: Switch to drm_mode_config_create_initial_state
+      drm/armada: Switch to drm_mode_config_create_initial_state
+      drm/aspeed: Switch to drm_mode_config_create_initial_state
+      drm/ast: Switch to drm_mode_config_create_initial_state
+      drm/atmel-hlcdc: Switch to drm_mode_config_create_initial_state
+      drm/exynos: Switch to drm_mode_config_create_initial_state
+      drm/fsl-dcu: Switch to drm_mode_config_create_initial_state
+      drm/gud: Switch to drm_mode_config_create_initial_state
+      drm/hisilicon/hibmc: Switch to drm_mode_config_create_initial_state
+      drm/hisilicon/kirin: Switch to drm_mode_config_create_initial_state
+      drm/hyperv: Switch to drm_mode_config_create_initial_state
+      drm/imx/dc: Switch to drm_mode_config_create_initial_state
+      drm/imx/dcss: Switch to drm_mode_config_create_initial_state
+      drm/imx/ipuv3: Switch to drm_mode_config_create_initial_state
+      drm/ingenic: Switch to drm_mode_config_create_initial_state
+      drm/kmb: Switch to drm_mode_config_create_initial_state
+      drm/logicvc: Switch to drm_mode_config_create_initial_state
+      drm/loongson: Switch to drm_mode_config_create_initial_state
+      drm/mcde: Switch to drm_mode_config_create_initial_state
+      drm/mediatek: Switch to drm_mode_config_create_initial_state
+      drm/meson: Switch to drm_mode_config_create_initial_state
+      drm/mgag200: Switch to drm_mode_config_create_initial_state
+      drm/msm: Switch to drm_mode_config_create_initial_state
+      drm/lcdif: Switch to drm_mode_config_create_initial_state
+      drm/mxsfb: Switch to drm_mode_config_create_initial_state
+      drm/nouveau: Switch to drm_mode_config_create_initial_state
+      drm/omap: Switch to drm_mode_config_create_initial_state
+      drm/pl111: Switch to drm_mode_config_create_initial_state
+      drm/qxl: Switch to drm_mode_config_create_initial_state
+      drm/rcar-du: Switch to drm_mode_config_create_initial_state
+      drm/rz-du: Switch to drm_mode_config_create_initial_state
+      drm/shmobile: Switch to drm_mode_config_create_initial_state
+      drm/rockchip: Switch to drm_mode_config_create_initial_state
+      drm/st7571: Switch to drm_mode_config_create_initial_state
+      drm/st7586: Switch to drm_mode_config_create_initial_state
+      drm/st7735r: Switch to drm_mode_config_create_initial_state
+      drm/st7920: Switch to drm_mode_config_create_initial_state
+      drm/ssd130x: Switch to drm_mode_config_create_initial_state
+      drm/sprd: Switch to drm_mode_config_create_initial_state
+      drm/sti: Switch to drm_mode_config_create_initial_state
+      drm/stm: Switch to drm_mode_config_create_initial_state
+      drm/sun4i: Switch to drm_mode_config_create_initial_state
+      drm/corebootdrm: Switch to drm_mode_config_create_initial_state
+      drm/efidrm: Switch to drm_mode_config_create_initial_state
+      drm/ofdrm: Switch to drm_mode_config_create_initial_state
+      drm/simpledrm: Switch to drm_mode_config_create_initial_state
+      drm/vesadrm: Switch to drm_mode_config_create_initial_state
+      drm/tegra: Switch to drm_mode_config_create_initial_state
+      drm/tests: drm_atomic_state_test: Switch to drm_mode_config_create_initial_state
+      drm/tests: drm_atomic_test: Switch to drm_mode_config_create_initial_state
+      drm/tests: drm_bridge_test: Switch to drm_mode_config_create_initial_state
+      drm/tests: drm_hdmi_state_helper_test: Switch to drm_mode_config_create_initial_state
+      drm/tidss: Switch to drm_mode_config_create_initial_state
+      drm/tilcdc: Switch to drm_mode_config_create_initial_state
+      drm/arcpgu: Switch to drm_mode_config_create_initial_state
+      drm/bochs: Switch to drm_mode_config_create_initial_state
+      drm/cirrus-qemu: Switch to drm_mode_config_create_initial_state
+      drm/gm12u320: Switch to drm_mode_config_create_initial_state
+      drm/hx8357d: Switch to drm_mode_config_create_initial_state
+      drm/ili9163: Switch to drm_mode_config_create_initial_state
+      drm/ili9225: Switch to drm_mode_config_create_initial_state
+      drm/ili9341: Switch to drm_mode_config_create_initial_state
+      drm/ili9486: Switch to drm_mode_config_create_initial_state
+      drm/mi0283qt: Switch to drm_mode_config_create_initial_state
+      drm/panel-mipi-dbi: Switch to drm_mode_config_create_initial_state
+      drm/pixpaper: Switch to drm_mode_config_create_initial_state
+      drm/repaper: Switch to drm_mode_config_create_initial_state
+      drm/sharp-memory: Switch to drm_mode_config_create_initial_state
+      drm/tve200: Switch to drm_mode_config_create_initial_state
+      drm/udl: Switch to drm_mode_config_create_initial_state
+      drm/vboxvideo: Switch to drm_mode_config_create_initial_state
+      drm/vc4: Switch to drm_mode_config_create_initial_state
+      drm/verisilicon: Switch to drm_mode_config_create_initial_state
+      drm/virtio: Switch to drm_mode_config_create_initial_state
+      drm/vkms: Switch to drm_mode_config_create_initial_state
+      drm/vmwgfx: Switch to drm_mode_config_create_initial_state
+      drm/xen: Switch to drm_mode_config_create_initial_state
+      drm/xlnx: Switch to drm_mode_config_create_initial_state
 
-Best regards
-Uwe
+ drivers/gpu/drm/adp/adp_drv.c                                |  4 +---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c                     |  4 +++-
+ .../amd/display/amdgpu_dm/tests/amdgpu_dm_connector_test.c   |  3 ++-
+ .../amd/display/amdgpu_dm/tests/amdgpu_dm_mst_types_test.c   |  4 +++-
+ drivers/gpu/drm/arm/display/komeda/komeda_kms.c              |  4 +++-
+ drivers/gpu/drm/arm/hdlcd_drv.c                              |  4 +++-
+ drivers/gpu/drm/arm/malidp_drv.c                             |  4 +++-
+ drivers/gpu/drm/armada/armada_drv.c                          |  4 +++-
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c                      |  4 +---
+ drivers/gpu/drm/ast/ast_mode.c                               |  4 +++-
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c                 |  4 +++-
+ drivers/gpu/drm/exynos/exynos_drm_drv.c                      |  4 +++-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_kms.c                    |  4 +++-
+ drivers/gpu/drm/gud/gud_drv.c                                |  4 +++-
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c              |  6 ++++--
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c              |  6 ++++--
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c                  |  4 +---
+ drivers/gpu/drm/imx/dc/dc-kms.c                              |  4 +++-
+ drivers/gpu/drm/imx/dcss/dcss-kms.c                          |  4 +++-
+ drivers/gpu/drm/imx/ipuv3/imx-drm-core.c                     |  4 +++-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c                    |  4 +++-
+ drivers/gpu/drm/kmb/kmb_drv.c                                |  3 +--
+ drivers/gpu/drm/logicvc/logicvc_mode.c                       |  4 +++-
+ drivers/gpu/drm/loongson/lsdc_drv.c                          |  4 +++-
+ drivers/gpu/drm/mcde/mcde_drv.c                              |  4 +++-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c                       |  8 +++++++-
+ drivers/gpu/drm/meson/meson_drv.c                            |  4 +++-
+ drivers/gpu/drm/mgag200/mgag200_g200.c                       |  4 +++-
+ drivers/gpu/drm/mgag200/mgag200_g200eh.c                     |  4 +++-
+ drivers/gpu/drm/mgag200/mgag200_g200eh3.c                    |  4 +++-
+ drivers/gpu/drm/mgag200/mgag200_g200eh5.c                    |  4 +++-
+ drivers/gpu/drm/mgag200/mgag200_g200er.c                     |  4 +++-
+ drivers/gpu/drm/mgag200/mgag200_g200ev.c                     |  4 +++-
+ drivers/gpu/drm/mgag200/mgag200_g200ew3.c                    |  4 +++-
+ drivers/gpu/drm/mgag200/mgag200_g200se.c                     |  4 +++-
+ drivers/gpu/drm/mgag200/mgag200_g200wb.c                     |  4 +++-
+ drivers/gpu/drm/msm/msm_kms.c                                |  4 +++-
+ drivers/gpu/drm/mxsfb/lcdif_drv.c                            |  4 +++-
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c                            |  4 +++-
+ drivers/gpu/drm/nouveau/nouveau_display.c                    |  4 +++-
+ drivers/gpu/drm/omapdrm/omap_drv.c                           |  4 +++-
+ drivers/gpu/drm/pl111/pl111_drv.c                            |  4 +++-
+ drivers/gpu/drm/qxl/qxl_display.c                            |  3 +--
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c                |  4 +++-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_kms.c                 |  4 +++-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c             |  4 +++-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c                  |  4 +++-
+ drivers/gpu/drm/sitronix/st7571.c                            |  4 +++-
+ drivers/gpu/drm/sitronix/st7586.c                            |  4 +++-
+ drivers/gpu/drm/sitronix/st7735r.c                           |  4 +++-
+ drivers/gpu/drm/sitronix/st7920.c                            |  4 +---
+ drivers/gpu/drm/solomon/ssd130x.c                            |  4 +---
+ drivers/gpu/drm/sprd/sprd_drm.c                              |  6 ++++--
+ drivers/gpu/drm/sti/sti_drv.c                                |  6 +++++-
+ drivers/gpu/drm/stm/drv.c                                    |  4 +++-
+ drivers/gpu/drm/sun4i/sun4i_framebuffer.c                    |  4 +++-
+ drivers/gpu/drm/sysfb/corebootdrm.c                          |  4 +++-
+ drivers/gpu/drm/sysfb/efidrm.c                               |  4 +++-
+ drivers/gpu/drm/sysfb/ofdrm.c                                |  4 +++-
+ drivers/gpu/drm/sysfb/simpledrm.c                            |  4 +++-
+ drivers/gpu/drm/sysfb/vesadrm.c                              |  4 +++-
+ drivers/gpu/drm/tegra/drm.c                                  |  4 +++-
+ drivers/gpu/drm/tests/drm_atomic_commit_test.c               |  4 +++-
+ drivers/gpu/drm/tests/drm_atomic_test.c                      |  4 +++-
+ drivers/gpu/drm/tests/drm_bridge_test.c                      | 12 +++++++++---
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c           |  4 +++-
+ drivers/gpu/drm/tidss/tidss_drv.c                            |  6 +++++-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c                          |  4 +++-
+ drivers/gpu/drm/tiny/appletbdrm.c                            |  4 +---
+ drivers/gpu/drm/tiny/arcpgu.c                                |  4 +++-
+ drivers/gpu/drm/tiny/bochs.c                                 |  4 +---
+ drivers/gpu/drm/tiny/cirrus-qemu.c                           |  4 +++-
+ drivers/gpu/drm/tiny/gm12u320.c                              |  4 +++-
+ drivers/gpu/drm/tiny/hx8357d.c                               |  4 +++-
+ drivers/gpu/drm/tiny/ili9163.c                               |  4 +++-
+ drivers/gpu/drm/tiny/ili9225.c                               |  4 +++-
+ drivers/gpu/drm/tiny/ili9341.c                               |  4 +++-
+ drivers/gpu/drm/tiny/ili9486.c                               |  4 +++-
+ drivers/gpu/drm/tiny/mi0283qt.c                              |  4 +++-
+ drivers/gpu/drm/tiny/panel-mipi-dbi.c                        |  4 +++-
+ drivers/gpu/drm/tiny/pixpaper.c                              |  4 +++-
+ drivers/gpu/drm/tiny/repaper.c                               |  4 +++-
+ drivers/gpu/drm/tiny/sharp-memory.c                          |  4 +++-
+ drivers/gpu/drm/tve200/tve200_drv.c                          |  4 +++-
+ drivers/gpu/drm/udl/udl_modeset.c                            |  4 +++-
+ drivers/gpu/drm/vboxvideo/vbox_mode.c                        |  5 ++++-
+ drivers/gpu/drm/vc4/vc4_kms.c                                |  4 +++-
+ drivers/gpu/drm/verisilicon/vs_drm.c                         |  4 +++-
+ drivers/gpu/drm/virtio/virtgpu_display.c                     |  3 +--
+ drivers/gpu/drm/vkms/vkms_output.c                           |  4 +---
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c                          |  4 +++-
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c                         |  4 +---
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c                         |  4 +---
+ drivers/gpu/drm/xen/xen_drm_front_kms.c                      |  4 +++-
+ drivers/gpu/drm/xlnx/zynqmp_kms.c                            |  6 ++++--
+ 95 files changed, 277 insertions(+), 124 deletions(-)
+---
+base-commit: d2a8cee91bfa8616f713c7c8f539a81e8e3554ea
+change-id: 20260712-drm-no-more-config-reset-1ea89f56693d
 
---bvyb3kuhcvop66ue
-Content-Type: application/pgp-signature; name="signature.asc"
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmrsi9IACgkQj4D7WH0S
-/k5Wggf/YfIQ7WHmvvey+xjJQnqBBC6pD6WMGs1N8zOjBs47xKTlmoiTy704ncA/
-SHYjg0IkCpwOICXXvfiXJZFK8h5M7+y5jrB6VR4gKwnHKcUzaD8baV2tzCTRxFzk
-q7fKaeI3n7fNH1aRrXWMimidD77eQ9VgIocGQaE05rZOFLWYznwN1IejorHjVYp/
-vlaPrjtYabWXJydNPSHUrC4QQNwhhpon6qjxkgmEXkcW4zWORnfjI58d7MJv7jNd
-i46zZKPpVOXafx2kCKmbSiggE5i1cPr6O3e+3Muw64B0kJenSgxjkPD0kzt1TMDL
-MrWyYaGIU8+0pgKPYFIeJQiOoD98Ww==
-=7Net
------END PGP SIGNATURE-----
-
---bvyb3kuhcvop66ue--
