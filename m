@@ -1,126 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793875088;
-	b=yL50hrDfjoVMLkhhzElwtKNlXraRzfQm9tsQyvrHnX9zRpbijOHDgh9B+gKCljnsr7SL
-	 69Pb0MOHYJNb8eemGWvoMoHah/VLpqt1L40W0Lq+dzaqIS8RMyIyvYxpbH/xImIw1skVs
-	 olKjygl4aYuAsKrzA+J0u6bEje4TBevTjZOuipooUx6lR5MvBPmVYPS+tMAS/rdnzI/CL
-	 qqFXR57IlMvnDuf6vu7Lxi4/TQe+dmqqDG7uUSnkC0+sz4dDQZamuJ34SGi9dToo7/Cf6
-	 ARoIyLHNKLiCHyvBc4QLt/wFakQGnf10a1gvKCjAeFv9y7VaEVMBngto/uMJFwh9IAA==
+	t=1793876625;
+	b=l6Gzwfl1/qFilyeCe49jrQa071kZp6zvniZ6bG6g2UCE3R1z1QHZhxcfn4zFGskTOCxM
+	 rh4yKCWMyHtdVU1MABBABl77fuzeEJiiZwhp3qsP7SF8ufWnKjkBYi7A++I91NXa3eo2v
+	 xA6+e4Qjin7lj7xjqRpz8YRBP7CAZ89sVAwWEChSMTvklxegt51rrnAyDbYAft0BncJG0
+	 ZbHDlI3qwKu9KmNvhVdhgp/OBKWGuSNMc6rF5zwL2XKK8n1v2k7+EZEJUjZqKllYFhz+I
+	 kD6WYlJmq3gOEWfvF/ktH6YO8JLZYnublqR7ToZxxVmxz5QptPWZzbColRAMiQj37QA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793875088;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
-	 Organization;
-	bh=Kb0CzJzsHsZ+UWHQAp2uA/S+bpBIx9myNk0nvO3EvbQ=;
-	b=SQs1Q+fCjqOv5rNRe8OUrutXXhVNL2VNWO0ihYnARYAnaYVwBPGuWdH9o8f76/J/tdTw
-	 /H0cs2FgQQhrCfBrbk76N3eIOf9HTeeMirwZgezH2RSHBmJt70XgZurjA6rGreuGo3yi8
-	 cDDAaJ/pKqHRnH3k5cSkmjqdgR3YenIN34V3PJ08cyJJXgTo1Wp37Z9vn/DQ7k0ahnGfG
-	 VBtAoC11PtFb0GU3bm9jhYAdsPxmAstT2g5z2QMj0tgW/q8JHSd1aPOJY1caqxj9Gup34
-	 BFfrQvOLAyV6b1k9GCqtrFTD6Wb58X1ejsPKzGbRYPo1i4t/sHzIH6KOuOHg39GQZ/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793876625;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=LvA7KEH6yP+f436RwxVH7W63a6lypb6pYWkMfhLxpI0=;
+	b=3m8aiLiFNMDcnUvf33u8Zd3R7l0FZWC/fNOfgQCjiHYlLstVBFL4aKntKtOvOLMQU3aO
+	 VN8vkwr+pkE0V/tRJt7t0vrvf9iyroONrx2KrTwxcCE65wLMeB6+FhQawKPC3z9ph5rdW
+	 Yb/NFOAqpNePprEpraWtdptI3R6vpbOo3NFvbx3ooIUB5R05IApr1tERbrciYqDaLl/95
+	 ll+Lu6METyOvJYKVtYSwsf5OUGdDSbdv1K1B+KwlQqyDt296YjtKJL7c0GCwoZG+PMXOz
+	 h2WTz+FwJwX44CTV6DLLaWOY1c/fswJhJ70IyPiN7nP115+SznmjuI7AXt+IQCgufkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=A4rKjlRB;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J6Y05fdc;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D771D606A31B;
-	Thu,  5 Nov 2026 10:38:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D771D606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F0ED606A326;
+	Thu,  5 Nov 2026 11:03:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=A4rKjlRB
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793875087; x=1825411087;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=eqO4A+ClsqjEqfXPQ0TFlIOZ+1UsCC9oIYRbbnK4e7s=;
-  b=A4rKjlRBVFVKIEQC4EavgCR17/xSyjTrOEB2Tb84HNkL6B9y4XJRT1QM
-   iUwkaAxPJL3QUyzkBOA2luwvYVxfQEtYxAZEW+GgljOK2viemRDECySII
-   WP7y3aEe+2a85svsfCglP2dbIrcCrEpO3+UJsHfe9yqiygMRa6YlwWPEW
-   SH/E8Be2sTsitocPTdbj6RjtMQXjuD7nznitbEIfRXlPNJPABOF93RqS8
-   OPhcFvq5cMM3UjilmzE5ltY/OlPLJqNBytdS6Dli+9Pk356d8cgqYZwW5
-   whsC1IhkOREAn7phf37f1DlJwQbvCLs1O+8Yiwt+HbJIKiDSNPAN1i8lB
-   g==;
-X-CSE-ConnectionGUID: yYSVdaxVQyG5N5LMgLWXPQ==
-X-CSE-MsgGUID: DUe1Xnc2SLCdB8du9wQTtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2560337"
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="2560337"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 02:38:06 -0800
-X-CSE-ConnectionGUID: xIegnpX+Sr+k5gjNuD4pbQ==
-X-CSE-MsgGUID: Wcy7neyfQa2lUKLW6Cyinw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,197,1787036400"; 
-   d="scan'208";a="7281977"
-Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.144])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 02:37:54 -0800
-Date: Thu, 5 Nov 2026 12:37:51 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-Cc: Mark Brown <broonie@kernel.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Radu Pirea <radu_nicolae.pirea@upb.ro>,
-	CL Wang <cl634@andestech.com>,
-	Ryan Wanner <ryan.wanner@microchip.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Han Xu <han.xu@nxp.com>,
-	Haibo Chen <haibo.chen@nxp.com>, Linus Walleij <linusw@kernel.org>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>, Yixun Lan <dlan@kernel.org>,
-	Troy Mitchell <troy.mitchell@linux.spacemit.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J6Y05fdc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AAB31F0093A;
+	Thu,  5 Nov 2026 11:03:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793876625;
+	bh=LvA7KEH6yP+f436RwxVH7W63a6lypb6pYWkMfhLxpI0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=J6Y05fdcHjlvz9xbOvt9aO2hDEJypsE+JMGEgDQflQxInnU6ttxEEo2YIsuDhCwAo
+	 phYH6Ub8+S/Wr5NbUOCDr7XV9+LAVxdv2C0iG7i7AJWPNkClSjMFy2+Pe0clgH0oGw
+	 dXMiD8bAGPG9TBSCbmCPTwy0bP5ZjsK3Vv/jEXfT2KvU+a1cE0UQ+EGxFnwga+mQaO
+	 pUUMSSCh4ohXnxlWB35a6gtTke6IbKsyjCIKD/9huKH/mcpSPkxiJdX2kTuMuz/44i
+	 FYEibOT29v+b6hiROp4++oqn2xNaKPOHKuWA4W1kQRegR47f0KUQP8TN9K5MwBYhv6
+	 QuOmOwgwRut1Q==
+Date: Thu, 5 Nov 2026 11:03:40 +0000
+From: Lee Jones <lee@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	"open list:SPI SUBSYSTEM" <linux-spi@vger.kernel.org>,
-	"moderated list:ARM/Microchip (AT91) SoC support" <linux-arm-kernel@lists.infradead.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>,
-	"open list:FREESCALE DSPI DRIVER" <imx@lists.linux.dev>,
-	"open list:ARM/QUALCOMM MAILING LIST" <linux-arm-msm@vger.kernel.org>,
-	"open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
-	"open list:RENESAS RZ/V2H(P) RSPI DRIVER" <linux-renesas-soc@vger.kernel.org>,
-	"open list:SAMSUNG SPI DRIVERS" <linux-samsung-soc@vger.kernel.org>,
-	"open list:RISC-V SPACEMIT SoC Support" <linux-riscv@lists.infradead.org>,
-	"open list:RISC-V SPACEMIT SoC Support" <spacemit@lists.linux.dev>,
-	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
-	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
-	Frank.Li@oss.nxp.com, vkoul@kernel.org
-Subject: Re: [PATCH 1/1] spi: use dmaengine_desc_set_callback()
-Message-ID: <auxcf206A1yMnHkX@ashevche-desk.local>
-References: <20261102174005.3933649-1-Frank.Li@oss.nxp.com>
- <2154003.0S5aU1g85B@diego>
+	Samuel Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 01/10] pinctrl: sunxi: Fix out-of-bounds irq_bank index
+ when first bank has no IRQs
+Message-ID: <20261105110340.GH1650678@google.com>
+References: <20261103213002.1673560-1-lee@kernel.org>
+ <20261103213002.1673560-2-lee@kernel.org>
+ <e7cd2bf6-f9db-4a90-b11a-665f8219f7ce@arm.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -130,58 +62,37 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2154003.0S5aU1g85B@diego>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <e7cd2bf6-f9db-4a90-b11a-665f8219f7ce@arm.com>
 
-On Thu, Nov 05, 2026 at 10:52:38AM +0100, Heiko Stübner wrote:
-> Am Montag, 2. November 2026, 18:39:58 Mitteleuropäische Normalzeit schrieb Frank.Li@oss.nxp.com:
-> > 
-> > Replace open-coded assignments to callback and callback_param fields
-> > of struct dma_async_tx_descriptor with calls to the
-> > dmaengine_desc_set_callback() helper across SPI bus drivers.
-> > 
-> > No functional change intended. Prepare make to struct
-> > dma_async_tx_descriptor private to the DMA engine.
+On Thu, 05 Nov 2026, Andre Przywara wrote:
 
-[...]
-
-> > diff --git a/drivers/spi/spi-rockchip.c b/drivers/spi/spi-rockchip.c
-> > index 1a81fd94b4396..f8d6cea2f3dad 100644
-> > --- a/drivers/spi/spi-rockchip.c
-> > +++ b/drivers/spi/spi-rockchip.c
-> > @@ -475,8 +475,7 @@ static int rockchip_spi_prepare_dma(struct rockchip_spi *rs,
-> >  		if (!rxdesc)
-> >  			return -EINVAL;
-> >  
-> > -		rxdesc->callback = rockchip_spi_dma_rxcb;
-> > -		rxdesc->callback_param = ctlr;
-> > +		dmaengine_desc_set_callback(rxdesc, rockchip_spi_dma_rxcb, NULL, ctlr);
-> >  	}
-> >  
-> >  	txdesc = NULL;
-> > @@ -500,8 +499,7 @@ static int rockchip_spi_prepare_dma(struct rockchip_spi *rs,
-> >  			return -EINVAL;
-> >  		}
-> >  
-> > -		txdesc->callback = rockchip_spi_dma_txcb;
-> > -		txdesc->callback_param = ctlr;
-> > +		dmaengine_desc_set_callback(txdesc, rockchip_spi_dma_txcb, NULL, ctlr);
-> >  	}
-> >  
-> >  	/* rx must be started before tx due to spi instinct */
+> Hi Lee,
 > 
-> Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+> On 11/3/26 22:29, Lee Jones wrote:
+> > In prepare_function_table(), irq_bank and last_bank are initialised to 0
+> > and last_bank is updated on every bank regardless of whether it supports
+> > interrupts.  On SoCs where bank 0 (PA) has no pins or does not support
+> > interrupts (such as Allwinner A523 and A733), the first IRQ-capable bank
+> > has bank > 0, which causes irq_bank to be incremented to 1 instead of
+> > starting at 0.  As a result, the final IRQ bank receives irq_bank equal
+> > to desc->irq_banks and writes out-of-bounds past pctl->irq_array during
+> > sunxi_pinctrl_build_state().
+> > 
+> > Initialise irq_bank and last_bank to -1 and only update last_bank when
+> > processing an IRQ-capable bank so that irq_bank always starts at 0 and
+> > increments sequentially across IRQ-capable banks.
+> 
+> Can we please hold back this patch for now? There are more issues around the
+> IRQ bank usage on recent Allwinner SoCs, patches for which [1] are on the
+> list. They should solve the out-of-bounds access, I think, though we might
+> want to add explicit checks, maybe.
+> 
+> But taking just this patch here would torpedo the efforts in fixing the
+> correctness issues that we see.
 
-Please, use "# subpart(s)" syntax with this tag
-
-   Reviewed-by: Heiko Stuebner <heiko@sntech.de> # rockchip
+Sure, no problem.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Lee Jones
