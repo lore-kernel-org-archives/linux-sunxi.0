@@ -1,79 +1,80 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793851662;
-	b=EleBb6/0N6OTBIILf8NOgMMXKiqLQ+KozvI9B8CXjhmsJwMhjdDuZozie5ruDtSr0rn4
-	 whARqL7hGRUXozrY8I0nrXJIf/L6FCHyyd6gNrpspiRl+sUQ7Boqc48DZPTxwxAouhHGS
-	 QnG/Wml6YaMI1xGswq0z3gnZyjIUuj2PKyPErYzEU3yNf6UvKGNet4j1LBxTnfKvfwJ8n
-	 m5ANkzkmT7RTrgs2KAITVUX7mnwX+RhzDYKjFnyyee2BWuEOUuij3hTHsPLJepx7+t/V/
-	 A3HOyokzmBR9zEeF7nI+R5tFGHA0NmhiiMc22AaeUfyB1yN13NULxbQh1JPXV8iet8A==
+	t=1793853660;
+	b=Mb42V4XfLuxOt+ZVKcsl2A+4LyZvNqSf45S8lnKw5Y/gBzgG6w+L+0zCokPNgdEganHi
+	 ud/KB14cgP1C61rKj4q4juxa8dqcyL7hWaEJKizkApkjPvYsDxhpHGhC8rid6IOYHs0pX
+	 dO7/APoSZRsOLQ+UNM3ey/sPN/w6PGFumT5jHf+2i5gZtjfgeIrUWkb30U/IO4BnVxeXG
+	 FfkFqtkFTKz3g/cE39/UdaNSm0vgGD53O1eHRru6SquskAz1JF3RRZIOE0xT7Iz8rQrD+
+	 K8pvpj+5hzP++oXu4EA9Rr46ziRRR5hNQ9/nCLKPKRO0z/rJrTFMCuUytzHn0ns17KQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793851662;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=cWiKbKgJwx/tU3tSKoTmJCpiwOyxJ2711fH4tsRrR6g=;
-	b=kV1QBKWz9LTI/mGN6VP47ZklxjDe+7JSpwaTZQF2/vAiBYiqTYQvZx1CGGW1a3aYKMKB
-	 z+rKT78nbURS5HARl7CIwKI2HNY1/9AWjnDcu3dh8KewH3e4D/lLTHtyWYxBG568j2NHg
-	 VGiMe8mvpqiXAxbqPeNAmSaMNY4X8z2cdQwBiGvRN0Vmo61dWKa5vv8Hl9ebQnMZRV1CK
-	 rRaU09g8WLRoPqZ0+9R3+uhbzj/SraaESMF45VV59cHY4Wz6ETLZDJXnlLgNMniD9Oxtx
-	 EyczhePo8ifeJK7iF/RYUat+nBHo2iLkj3LKGkexO57/FoQCr+5+SBZAJg2Q+tvmDaQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793853660;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=i5luQ0+OjMOx/669VWt6qpGHUV7L6cwwXafy/JZFHnc=;
+	b=PRI/HPFATJsG/5GZs2eWGbwofMj7kiisEZ1VWHCfGx9u8BrmBs9EtlRrBFCav8RrX8ou
+	 rtx/f1014/yeuKkCHusDTow6UCJB+Z6r4vjg7HsCDENdgo5cMGxy60K22UNLWumcjvNux
+	 WOvJdooxdzKsqW7Ht4Aa0LTP3rGIS1EeLdZcvjGvxjPUBd7KDmcIyk3fV6RFIgOOLW7p6
+	 t/WWg0f9JkghVSfarSsPxSFBdEQRIj5lgKOWaKfhoBYCSH4ngMe0Ar5M+gvnmdZnxMqnE
+	 z/gZjmstu4YNXjZnHC+FAXAFEpTFwLciV43GSrE0ohpe9JA68+qacDPcvoblXowzgYA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mSMcCrKX;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IPrBjIxj;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA30F606A326;
-	Thu,  5 Nov 2026 04:07:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8FDC606D80C;
+	Thu,  5 Nov 2026 04:40:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mSMcCrKX
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IPrBjIxj
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1793851661;
-	b=YekqO9cLddD5fJP6glKpQErHeu3HqktOtlHmjW/53pwwWuczqVxZVlTNWsu8dVGbaOri
-	 dPWUkbW0p/OTv+iq5z6VR34l1FuwzKSc+AvihPRImr7waoc0tqoSLiFzgewf5zd7N+Ov7
-	 4A0O+twy3iUyOy+LX6auSWPwia86W1qEtw2WpYPAfLfCaAPtOfrcghxYuecIqPqjo8uVO
-	 qbgeTTHxZ9UKXcErfI6lRJLZZe0mOV8bdeYOsSbUrbwuL4regeOZFxi1qwNhc53Z/UMl/
-	 Wm3AywffpyMnSfL6p1liGygBMYEA16gZAVkTzCBy/hX+9klOAG8jhUTnEk7aptxRTNA==
+	t=1793853659;
+	b=vAOz+BMOTThOQAzLyzAka2QvIUhKuQC1vRGUol10AALwvxmcrus4EZeLWG09ZkkQUBiO
+	 HgCSvWFa2Kx6xvajJsMfGt4xkUZIRyXfkG8xcgXPZvkt4DK+pIxa6AUmvAtuq3LfjwVhI
+	 cge+vG7tLG50cpJZAW+MbW9qnakCEdEAYh9Y1QXLKzvFdoLT3FUMrUujDMHmqPi/qATYr
+	 H36U8dafSCMjwuY0aOGXCI9KLRjpASd0+6zt7AoSfAvAdj0mULZlBD24WOQR9rV8s4gtV
+	 J2MhAcW/9coDWrus+LGgwSZEgl6me2AUj+y+OMG3IdnC1miyatBgj9czvF6v8+sVgrQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1793851661;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=cWiKbKgJwx/tU3tSKoTmJCpiwOyxJ2711fH4tsRrR6g=;
-	b=Oiqtjc4do4CHGHPFOFt0OBut8AziZuobgEjAvz4290lamkHAbNlxpWccmR0Lo7zzEorw
-	 Qd25LQMNqgx3hlIfM/KrsWkmENY761VuxxkRn2qPIA/eCWBzhXXnO1nfYHbQ2ivmJuA0c
-	 Fepn/VtFwz3ydTc3PDlxMDEq/P29oXD8qmgzgH87zuXafAMShRFrVBTXpL+JJCEcXpzjx
-	 DQeHjHttdsUo+MbbMQm38KdrVAgRtSJ8atxVrNbKN1OGSB9YRqhr6y+6NImU2Thr0CODV
-	 b4RPfzIcuEQUkowkYLjIA9ldBWiCBg4pM5S/mRXOXY4HkliHXa2JarjRyirLNi8OVOg==
+	c=relaxed/relaxed; t=1793853659;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=i5luQ0+OjMOx/669VWt6qpGHUV7L6cwwXafy/JZFHnc=;
+	b=Cvl12ISpiSMGQ9vmUaqKR0gSfn+oe8C2FAgGGZLrmZnMJeH4prNgswbAKjW07KLKlF0n
+	 4lke1kS81bUkqK55BBKtM8qm1M1Thq3KS1RLWexZUvle6fqPMe3cJFc7VWjv20iGhr0co
+	 DG+AgYFeKzr930Y1n8RfMaHSR3Lgb1X+8DkTeYkBOmyOTqeDAJcNjwijgq6LohSajeriV
+	 UCKhCgewv5TAkFNPNg3HTgPO73FF28VnB6eNIU8IOrSDlotpF0Qfvs2iBDxW/8sb0naLs
+	 yiofeWbfaEdDqB2Xq0MygVwzRyZsO2/SU+2nHJJH8EHagO2gsBLqvm/CNY2iFD2TpOQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id C27951F000C1;
-	Thu,  5 Nov 2026 04:07:40 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 1EB961F00919;
+	Thu,  5 Nov 2026 04:40:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793851661;
-	bh=cWiKbKgJwx/tU3tSKoTmJCpiwOyxJ2711fH4tsRrR6g=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=mSMcCrKXRuQTgvFCCbTVjrPfB86fsS/aP5Jw5/LExmP9hniTIaeyrBlodTl/IY2+h
-	 46oXyVWxvlrEptvFyLtjQNgzMrKOX3S8CpaFcpOkaAEhKDRBF7K6gRvsC6PU7n9Nhm
-	 O/kVUQPg1OHlEX3158xtU7yryM2QmvQm07Loi0y4WJyi6EEMLrjCrJsawyHxcrj6c8
-	 sG3rk9fBjO9vS8sA4294eu8xxeAfRsqAx5KiqdLjJywofQ7HFwZzp+OmQ5s0p4gdAQ
-	 hfDGF46AZqW6Nd85bX2UYADrWlD5hKI8mL/Q9u92aFVVDSbmNsOVHRFuba/2yMWHac
-	 JM26kmSbHsqGA==
+	s=k20260515; t=1793853659;
+	bh=i5luQ0+OjMOx/669VWt6qpGHUV7L6cwwXafy/JZFHnc=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=IPrBjIxjz06NkOqL936THrJjzBDcync4UIILEgVEBWkXcnxytTL3Y/w/mRqBd1K5o
+	 AIFB6EGkqrB22e1yabChDMCu73Z64GfPll3/mq2j8/xBYVbimhfPGVmYgL7BYUY7zY
+	 EfMR4a8ydineSoD0BTaTsbXiKpeb0O0JT8MReScIQuuxYSyxRbT/KszhsMeViDkq0x
+	 xfH2D5KhpdoZjGLeamSjSgJPeFFkJh5u6yfC6jjqcuJIuW369XufGCeKWMZ9vyqoOl
+	 3WKBufEuOotTQyTHxAwQwHbxjCYVNTYjJKKDvm4eNO5OeFho5aUL6FyawHrz9je1Hg
+	 oETgAhPg3D7eA==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 2242C4707F;
-	Thu,  5 Nov 2026 04:07:40 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 71D1147097;
+	Thu,  5 Nov 2026 04:40:57 +0000 (UTC)
 From: Rajan Yadav via B4 Relay <devnull+rajanyadav0307.gmail.com@kernel.org>
-Date: Wed, 04 Nov 2026 22:07:40 -0600
-Subject: [PATCH] cpufreq: sun50i: Handle boards with the
- allwinner,sun50i-a133 compatible
+Subject: [PATCH 0/6] sunxi: A133: Add CPU speed grade detection and OPP
+ table
+Date: Wed, 04 Nov 2026 22:40:55 -0600
+Message-Id: <20261104-a133-series-v1-0-58217cb33a87@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -84,97 +85,210 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261104-a133-fix-v1-1-d0b5ad3d4c5d@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAsB7GoC/yXMwQ5AMBAE0F+RPWvSVVH8ijgUi3UoaRFJ498Vx
- zeZmQCeHJOHOgng6GTPq43ANIF+NnYiwUM0ZDIrEGUuDColRr4Eaa10KSscKIdY3xzF+Ltq2t/
- +6Bbq93cP9/0AbGKilWwAAAA=
-X-Change-ID: 20261104-a133-fix-e77378091de4
-To: "Rafael J. Wysocki" <rafael@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, Yangtao Li <tiny.windzz@gmail.com>, 
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANgI7GoC/1WNwQ6CMBAFf4X0bE23LQWJMf6H4bBtF6wRVIrEx
+ PjvFvDicZJ5894s0hAosip7s4GmEMOtTwCbjLkz9i3x4BMzKaQBEJojKMXXEW+sccKT0sY5lhb
+ 3gZrwWmqneuX4tBdy45z4GQM9nulmXDXWUYy43FTZ/v8ltfgEHLgXNkevvHa5P7YdhuvW3brDH
+ LQYiSfowlhlxsiSiqQZK3NXeigbUDonhVJ4CaXcIVJBmtWfzxdDlZTe+gAAAA==
+X-Change-ID: 20261104-a133-series-fb6c0de346cc
+To: Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>, 
+ Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, 
  Andre Przywara <andre.przywara@arm.com>
-Cc: linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Rajan Yadav <rajanyadav0307@gmail.com>
+ linux-kernel@vger.kernel.org, Cody Eksal <masterr3c0rd@epochal.quest>, 
+ Alexander Sverdlin <alex@sverdlin.org>, 
+ Rajan Yadav <rajanyadav0307@gmail.com>, kernel test robot <lkp@intel.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793851659; l=2906;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793853656; l=9856;
  i=rajanyadav0307@gmail.com; s=20261103; h=from:subject:message-id;
- bh=4A7N9YN5wiX+ZykiP94lXzZf0+Fik83P+lyG8T8jS7g=;
- b=p+QFXeDZgAVLOudiBWC8+l6munkc1+dSGo/H5Tu3dx+asH/x36G4WB9M63AsGRKC1z7f6zyMW
- N8dAO+vX0x2DVlqSLbC9ZZhF5cHmo5aCniUjFwn45Ycc6tNyUp2rca1
+ bh=JzlzVQevyB3luTQC9Vvd4h8wQVoshWS6n/bxaB0NczI=;
+ b=r0rref4Kp7NrxXI5v7O2qA+WvyqjQKRXmVIzT9riIlmQPaPRH0pcilYNHve9bXVwTeEvpyS2P
+ yuRfN84US40Dhu/dilWdfVsTPGyLjvAZ51q4ievsCYk0A88dvkABEPw
 X-Developer-Key: i=rajanyadav0307@gmail.com; a=ed25519;
  pk=4ZPeiP5qrv2b44q/Obxi2koUS70Q6npbttJnpUoTlgg=
 X-Endpoint-Received: by B4 Relay for rajanyadav0307@gmail.com/20261103 with
  auth_id=1391
 X-Original-From: Rajan Yadav <rajanyadav0307@gmail.com>
 Reply-To: rajanyadav0307@gmail.com
-Content-Transfer-Encoding: 7bit
 
-From: Rajan Yadav <rajanyadav0307@gmail.com>
+Andre asked [1], in his review of my A100 thermal trips patch [2], to
+look at the A133 speed bin selection and OPPs. Mainline treats the A133
+as an A100: it reads only the CPU bin field and picks one of three A100
+voltage tables. The vendor BSP for this family (sun50iw10, KickPi A133
+Linux SDK, linux-4.9) picks one of 11 grades from the chip marking ID,
+the CPU bin, the ICPU current, a field it calls PCPU, a bin extension
+bit and the die revision.
 
-The Teclast P80 uses "allwinner,sun50i-a133" as its only SoC
-compatible, as documented in the arm/sunxi.yaml binding. Neither the
-sun50i cpufreq driver nor the cpufreq-dt-platdev blocklist lists it.
-cpufreq-dt then probes on its own, finds only opp-microvolt-speedN
-properties and fails:
+The A100 rule in mainline turns out to be the BSP rule for one group of
+parts: revision A-E parts with a normal marking ID get a0-a2 from the
+same bin rule and with the same voltages as the A100 table, apart from
+a small ICPU/PCPU range that the BSP forces to a0. It is wrong for
+revision F and later parts (a3-a6) and for the "high speed" marking IDs
+(b0-b3).
 
-  cpu cpu0: opp_parse_microvolt: opp-microvolt missing although OPP managing regulators
-  cpu cpu0: _of_add_opp_table_v2: Failed to add OPP, -22
-  cpu cpu0: OPP table can't be empty
+My KickPi K5C (A133, PCB V1.3) is such a high speed part of revision F:
+the BSP rules select b2, up to 1512 MHz at 1.10 V. Mainline selects
+A100 speed1, so the chip runs 40 mV below the vendor voltage at
+408-816 MHz and 40 mV above it at 1200 and 1320 MHz, and tops out at
+1464 MHz at 1.18 V.
 
-so the board runs without CPU frequency scaling.
+Patch 1 adds the binding, patch 2 prepares the driver without
+functional change, patch 3 adds the grade selection, patch 4 adds the
+efuse cells (no effect on its own), patch 5 adds the A133 OPP table and
+patch 6 switches the three A133 boards in mainline to it.
 
-Add the compatible to both lists.
+Dependencies and merge path:
+- On the Teclast P80, cpufreq also needs "cpufreq: sun50i: Handle
+  boards with the allwinner,sun50i-a133 compatible" [3], which I sent
+  separately as a fix for 7.4. The other boards do not need it.
+- Patches 1-3 are meant for the cpufreq tree, as the A100 binding and
+  driver changes went last time; patches 4-6 are for the sunxi tree.
+- The A133 table keeps the A100 compatible as a fallback, with the
+  speed bin as its first cell. So patches 5-6 do not break anything if
+  they land before patch 3: a kernel without patch 3 gets today's A100
+  selection and voltages (with 1008 instead of 1080 MHz).
+- The thermal trips patch [2] should land first. All my thermal runs
+  had it, and without it patch 6 raises the top OPP of the high speed
+  grades with no passive trip.
 
-Tested on a KickPi K5C (A133) with its root compatible changed to
-"allwinner,sun50i-a133" only: on v7.4-rc1 cpufreq fails as above, with
-this change the sun50i driver probes and the A100 speed1 OPPs are used.
-v6.18 fails the same way, also with "kickpi,k5c" listed first.
+The die revision comes from SMCCC SOC_ID, as for the H616. On the A133
+only TF-A master provides it so far (sun50i_a133 platform, commit
+a584e8632a7a, not in a release yet). I did not guess a grade without
+it: for the same bin, the revision A-E grades are mostly lower or equal
+up to 816 MHz and higher or equal from 1008 MHz. So the driver then
+keeps the A100 selection, adds the BSP's a0 rule for normal parts
+(which never lowers a voltage) and warns. Revision F parts then still
+run 20-40 mV below the vendor voltage at 408 and 600 MHz, some of them
+also at 816 MHz, which is why it is a warning; tell me if you prefer a
+notice, since owners of some boards may not be able to update their
+firmware.
 
-Claude Code (Anthropic) drafted this change and its message from my test
-logs; I reviewed and tested it.
+Measurements on the K5C (no heatsink, room temperature not controlled,
+4 cores at full load, the 90 C passive trip from [2] in every run):
 
-Fixes: 60b064eb82e6 ("arm64: dts: allwinner: A133: add basic support for Teclast P80 tablet")
-Signed-off-by: Rajan Yadav <rajanyadav0307@gmail.com>
+  OPPs         kernel   top OPP          steady  1 h at full load
+  A100 speed1  6.18     1464 MHz 1.18 V  85.6 C  near 90 C from ~20 min,
+                                                 throttled at ~33 min
+  A133 b2      6.18     1512 MHz 1.10 V  78.2 C  1512 MHz, max 83.7 C
+  this series  7.4-rc1  1512 MHz 1.10 V  -       1512 MHz, max 79.4 C
+
+"steady" is the temperature after 10 minutes in a separate run. The b2
+row on 6.18 used a test DTB with the b2 voltages. Over the hour, b2 did
+3.7% more work (md5 loops) than A100 speed1. At the same 1200 MHz, the
+b2 voltage (0.98 V instead of 1.02 V) ran about 2 C cooler. These are
+single runs on one board, so take them as indications only.
+
+Questions:
+
+1. 1.6 GHz. Andre mentioned the nominal 1.6 GHz OPP. The SDK's code
+   and table select b2 for this chip and stop at 1512 MHz. The factory
+   kernel on this board (built January 2026) has a newer table: there
+   1608 MHz exists only for b0 and b1, the revision A-E high speed
+   grades, at the same voltage as their 1512 MHz OPP (1.18 V and
+   1.13 V), and 1416 MHz is added for a0-a2. That kernel selects b0 for
+   this revision F chip; its boot log suggests that its cpufreq code
+   does not read the revision (the revision is first read about 110 s
+   after boot). With the series' rules this board stays b2, so adding
+   1608 MHz for b0/b1 would not change it, and I have no revision A-E
+   part to test. With the b0 voltages forced by a test DTB (6.18), the
+   K5C was stable for an hour but sat at the 90 C trip, cycling between
+   1416 and 1608 MHz, with less than 1% more work than b2. The A133
+   datasheet says 1.6 GHz in V1.1 and 1.5 GHz in V1.5. Should 1608 MHz
+   be added for speed6/7 (b0/b1), as in the factory table?
+2. A100. The BSP uses the same rules for the A100, and the mainline A100
+   table has the a0-a2 voltages, but at 1080 MHz where the BSP has
+   1008 MHz. U-Boot starts the CPU at 1008 MHz, so mainline now logs
+   "unlisted initial frequency". Should the A100 table move to
+   1008 MHz too, or the A100 board to the new compatible? I can only
+   test an A133.
+3. SOC_ID. Would you rather have the driver read the revision from
+   SYSCON+0x24 itself (the system controller is already in the DT)?
+   Then it would not depend on the firmware, and parts would never run
+   below the vendor voltage for lack of it. And do the Teclast P80 and
+   the Helperboard run a TF-A with SOC_ID?
+4. A133P. My SDK has no A133P data, and Andre expects it to go
+   higher. An A133P whose marking ID is in the BSP's high speed list
+   gets b grades with A133 voltages; otherwise it gets a grades (at
+   most 1464 MHz). If someone has a newer BSP (5.4) with A133P tables
+   and marking IDs, I can add them.
+5. Testing. Patch 6 changes the Helperboard A133, Liontron H-A133L and
+   Teclast P80, which I cannot test. A boot log with
+   dyndbg="file sun50i-cpufreq-nvmem.c +p" on the kernel command line,
+   and the contents of
+   /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies,
+   from those boards would be very welcome; no fuse dump is needed. On
+   the P80 (secure boot), could someone also check SID bytes 0-1 (the
+   marking ID)? If they read as 0 from Linux, a high speed part is
+   treated as a normal one: it gets 1464 MHz instead of 1416 and
+   1512 MHz and, if its bin extension bit is set, up to 20 mV less than
+   its b grade would give.
+
+As agreed with Chen-Yu on the thermal trips thread [2], the
+dynamic-power-coefficient for the power allocator will follow as a
+separate patch on top of these OPPs.
+
+AI assistance: I used Claude Code (Anthropic, Claude Opus 5.5)
+throughout. It read the vendor BSP sources, the datasheets and my board
+logs, drafted the code, the DT table and the commit messages, and wrote
+the test scripts. I asked it to extract the vendor's selection rules,
+to propose a design that fits the existing binding, to review the
+series, and to write tests that compare the code with the BSP rules.
+No vendor code was copied; only the rules and numbers were taken. I
+reviewed every patch, ran all tests myself, and take responsibility
+for the series.
+
+Testing:
+- host: the grade function, built from the driver source, matches the
+  BSP rules for 120,960 combinations of boundary and typical field
+  values, reaches all 11 grades and gives the A100 selection with the
+  BSP's a0 rule when the revision is unknown; a second harness,
+  written separately (also with Claude Code) from the BSP sources,
+  checked 161,280,000 combinations with no difference
+- host: a script compared every voltage and the frequency set of every
+  grade with the BSP table: no difference
+- each patch on its own: checkpatch --strict (one expected warning:
+  the new OPP dtsi is covered by the existing MAINTAINERS entry), W=1
+  build, sparse (patch 2 removes the one existing warning in the
+  driver), dt_binding_check, and dtbs_check W=1 on the A100 perf1 and
+  the three A133 boards; the binding rejects malformed test tables
+- K5C: grade, OPPs and measured regulator voltages, a 1 h soak, the
+  revision forced to unknown, the A100 table on the patched kernel, the
+  new DTB on a kernel without patch 3 (fallback), the a133-only root
+  compatible, and a missing efuse cell
+
+[1] https://lore.kernel.org/all/85dc4135-4684-4e17-95e4-833cf8753b64@arm.com/
+[2] https://lore.kernel.org/all/20261103-a100-thermal-trips-v1-1-73bce7ff0767@gmail.com/
+[3] https://lore.kernel.org/all/20261104-a133-fix-v1-1-d0b5ad3d4c5d@gmail.com/
+
 ---
-This fixes the Teclast P80 support added in v7.4-rc1, so I think it can
-go in as a fix for 7.4. I do not have a Teclast P80; I reproduced the
-failure on a KickPi K5C as described above. A series with A133 speed
-grade support, which Andre asked for, follows separately.
----
- drivers/cpufreq/cpufreq-dt-platdev.c   | 1 +
- drivers/cpufreq/sun50i-cpufreq-nvmem.c | 1 +
- 2 files changed, 2 insertions(+)
+Rajan Yadav (6):
+      dt-bindings: opp: h6: Add A133 operating points
+      cpufreq: sun50i: Move nvmem cell reading into a helper
+      cpufreq: sun50i: Add A133 speed grade detection
+      arm64: dts: allwinner: a100: Add A133 speed grade efuse cells
+      arm64: dts: allwinner: a133: Add CPU OPP table
+      arm64: dts: allwinner: a133: Use the A133 CPU OPP table
 
-diff --git a/drivers/cpufreq/cpufreq-dt-platdev.c b/drivers/cpufreq/cpufreq-dt-platdev.c
-index bce4c87573a..6bdeba47749 100644
---- a/drivers/cpufreq/cpufreq-dt-platdev.c
-+++ b/drivers/cpufreq/cpufreq-dt-platdev.c
-@@ -110,6 +110,7 @@ static const struct of_device_id blocklist[] __initconst = {
- 	{ .compatible = "airoha,en7581", },
- 
- 	{ .compatible = "allwinner,sun50i-a100" },
-+	{ .compatible = "allwinner,sun50i-a133", },
- 	{ .compatible = "allwinner,sun50i-h6", },
- 	{ .compatible = "allwinner,sun50i-h616", },
- 	{ .compatible = "allwinner,sun50i-h618", },
-diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-index 9261d148a16..5d4ff192e99 100644
---- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-+++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-@@ -324,6 +324,7 @@ static struct platform_driver sun50i_cpufreq_driver = {
- static const struct of_device_id sun50i_cpufreq_match_list[] = {
- 	{ .compatible = "allwinner,sun50i-h6" },
- 	{ .compatible = "allwinner,sun50i-a100" },
-+	{ .compatible = "allwinner,sun50i-a133" },
- 	{ .compatible = "allwinner,sun50i-h616" },
- 	{ .compatible = "allwinner,sun50i-h618" },
- 	{ .compatible = "allwinner,sun50i-h700" },
-
+ .../opp/allwinner,sun50i-h6-operating-points.yaml  |  94 ++++++++-
+ arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi     |  12 ++
+ .../boot/dts/allwinner/sun50i-a133-cpu-opp.dtsi    | 172 +++++++++++++++++
+ .../allwinner/sun50i-a133-helperboard-core.dtsi    |   2 +-
+ .../dts/allwinner/sun50i-a133-liontron-h-a133l.dts |   2 +-
+ .../boot/dts/allwinner/sun50i-a133-teclast-p80.dts |   2 +-
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c             | 213 +++++++++++++++++++--
+ 7 files changed, 465 insertions(+), 32 deletions(-)
 ---
 base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20261104-a133-fix-e77378091de4
+change-id: 20261104-a133-series-fb6c0de346cc
+prerequisite-message-id: <20261104-a133-fix-v1-1-d0b5ad3d4c5d@gmail.com>
+prerequisite-patch-id: 24b8eeb24a7f228410c3453027ff79fc785eb38d
 
 Best regards,
 --  
