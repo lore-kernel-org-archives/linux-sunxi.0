@@ -1,54 +1,130 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793867812;
-	b=Kyg44CDb3IQunEoS7ypM2/YcEX7IjuXOhYYzoTvajViJuUD7TwkdwkItU7Q7GNlViEcZ
-	 KW0WiIkn+x4f6nR3hc3tTymEKqRHR/q7FgqL/MlKOWpK0k4xNE1rtQwfkuGDqpPl7qfEu
-	 7l15NrTpdMUi4wCoeRZzzo9as96x7pXG0Ic/hcZocosCeJ+r+PhGWMUAiHvXeLn1xS2eL
-	 ZQizJvE7+0oe/Z2y3KSpOD9+rQBSK9yVbgTILJLhB71Sw0AfyKzJ5chTOPOCjOtAyIapj
-	 XTzHv8jMT5lBPM+OA2PD/qpziCJb6oZT3+aGKTWyx9nICREIqHR061z6gZAZL5BLhvQ==
+	t=1793869318;
+	b=ZGayZgFpqT8gwn2wbK9UssjCJ8QY2O9hWObyByZbzO9V8S05WEOby9Qndr5akt+IxPSL
+	 PrQidfmGsEMQ8/T2YoHc3Vq/fnq7x/q1jMUkcd7FMpvCazLyvuHPOHNUvKoWY5dTY/L//
+	 ppZcE5RPRoH/a4OvQO6C6xOdYbYOG0RM5EbmYgaavuaZbeN9JStrFWrdKDCzC8jpWs1zX
+	 y6DOnZbih+hSZpNNsQU7RLwOmD5TGVw4EaXEcA1H0NdP8o0jyzsevagjAjRjLyUIpnv72
+	 +Rzkkoqzf0Me+RQGjpQI1EOXoA0IJmYj0KDX5SX0P1R0ODIlKK8rTgkj5r8NIzlLi+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793867812;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=7DN9bHAclZBpT6vA3s4oOOECdcaCHYQWkqSsJ9/4dr0=;
-	b=mWoCrErqams9vr43o2oylBDRwiD/OTJBjzhABqeOTMBSc5hbIWJTzXnc2MMshMKXNy7b
-	 UqCh56rA8HNJiXG3TM57ChykRL0o9uZLRZ+jcEysHlQHNusDPUU9Tcpa9XH0uZ3zvsUW8
-	 C24JLOB41azxLr64ug23tK9QTLiIhBx/2vAwhjjjK0owIQV+IwLefEEmxOu6usA39mncq
-	 ERFAYF8rxmu1gNW692FShae2+nBcnRfF5MHAg7XSSnFH6eA7kVybotKOqYcybHaRRkU6l
-	 Dwm42qsqqPKWcf0Rzh+Q1CHxqLZYkgy9yikYaN6TV7lZ7QSa3kTuPjubemIq6O1e2kw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793869318;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=MOT/eVT47O4WVQDSlL8Tk9BW5VeaSSIH+swxSEeZrwY=;
+	b=Aeu0D6xpQX+aP3La2G3vscHLkml7dTEsMBXgotrN8DjDrWz9hrs5LopakCe6P2uG0ODd
+	 iP1lycAq9hpltJK0m7ox1sxrp7TFOb/hW2SYxK+fGuEh8WfOGweQf6Hdu61turWXGgMUn
+	 8RfkaB7gLIHv3xZH6CnZCQQ9BHn/BsJzw7CtCEc4BS6koGKYmxhNet23oajhXp8/eELgF
+	 gA8/5OMs2kX1J42FW9h0BgMrTgP50p5nZot7wTxjzaxbcaJoWg2qt9ompDRoFRXaZoPom
+	 bXWugqt0ZyXX11p3o/tvMhxe42guldQl+XQm0guThzIYfbi7+oaE8Z8/0qeXfH0cOiw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HrQwagZT;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dYbcBbgV;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 68A3B606A326;
-	Thu,  5 Nov 2026 08:36:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42442606A326;
+	Thu,  5 Nov 2026 09:01:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42442606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HrQwagZT
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 5D5DA1F000C1;
-	Thu,  5 Nov 2026 08:36:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793867812;
-	bh=7DN9bHAclZBpT6vA3s4oOOECdcaCHYQWkqSsJ9/4dr0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HrQwagZTfYENUwlOVqBX7j3Ry31NE7PqcuvSGhedvmmRowAdHkvNkWCMDjIy/iLUf
-	 VmRBT4m1c6spcToj+JyhygV7yrDVWi3OND4cdKoXE7cqXxwkAsFvpKELL1ct19tEZy
-	 OIpH10/0LbZ1M9981gJ7Lq9Bpu5jEb0V55DOfwehCe4OWHnW3YhqYVrJ1XWCJvdO1x
-	 lmJcOmydSvYIrP6ifHWVZpGMYdO5aOYY3XZb0Z99fKoXqHfyZM7sbJ/CklOHGK+BX1
-	 PsoRQz6VxPSH1AGUV3W3c8MqMlzoQW0qjEIClGaY0LTVVfcx/yGdPoNQ131AvM/J0Z
-	 oR7GSaL24Q76A==
-Date: Thu, 5 Nov 2026 09:36:48 +0100
-From: Bartosz Golaszewski <brgl@kernel.org>
-To: sashiko-reviews@lists.linux.dev
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	linux-sunxi@lists.linux.dev, dri-devel@lists.freedesktop.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm/panel-mipi-dbi: drop GPIOD_FLAGS_BIT_NONEXCLUSIVE
-Message-ID: <ic7droim3dya3jtsherqq34ko7xdbwyjmw7oulq37rgvar7jt3@77nh4qbksbxa>
-References: <20261103-panel-mipi-non-exclusive-gpios-v1-0-aa862c1d71e3@oss.qualcomm.com>
- <20261103-panel-mipi-non-exclusive-gpios-v1-3-aa862c1d71e3@oss.qualcomm.com>
- <sashiko-outbox-195387@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dYbcBbgV
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793869317; x=1825405317;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HsF2OB4+TAKcLaK6X2CbxWBe2H+bJw89o7MCcGnPEhE=;
+  b=dYbcBbgVOlUSBxnyE/4Gn0ptbmxEULSOiQnRKhRdhR1dNwvkZEAGcBuW
+   jMGs9M8e2KtibZ9mqnsLuDgF2TnXPMSyoYpOjhE5TQuw/Ph6XPqm7v/Un
+   vW6ZLA1Qbxu4GLPOQProELEU9WMw/GIN9X7kmrpLHqk2swWjomMmvWaDn
+   rBA39dBwuBWaFYeYb3YYXhvyjAtbelrh0EUophzQqLJGqvju6z1pp0XBU
+   Ab+GSP2w84Khkqk1Kvv1wvK9D6JlP7+ZtdY3PdZcbHqya2uczXHsrgC09
+   wsL95xS41h36OPsA44P9Kf6dj1AoU+znKlJjpx+6j+H/bBkcxqHTS+N45
+   A==;
+X-CSE-ConnectionGUID: c+iEjrJSTZm2N8tpk3oEBg==
+X-CSE-MsgGUID: vYEI6rUbQlSh/c8rN9i1Dw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2547922"
+X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
+   d="scan'208";a="2547922"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 01:01:56 -0800
+X-CSE-ConnectionGUID: 73i/m+mbScKfalk02iBJcQ==
+X-CSE-MsgGUID: 7N01rw1qQ3OIr7PEIb3JjA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
+   d="scan'208";a="7121379"
+Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.144])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2026 01:01:43 -0800
+Date: Thu, 5 Nov 2026 11:01:41 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+	Konstantin Ryabitsev <mricon@kernel.org>
+Cc: Frank.Li@oss.nxp.com, Mark Brown <broonie@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Radu Pirea <radu_nicolae.pirea@upb.ro>,
+	CL Wang <cl634@andestech.com>,
+	Ryan Wanner <ryan.wanner@microchip.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Han Xu <han.xu@nxp.com>,
+	Haibo Chen <haibo.chen@nxp.com>, Linus Walleij <linusw@kernel.org>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>, Yixun Lan <dlan@kernel.org>,
+	Troy Mitchell <troy.mitchell@linux.spacemit.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	"open list:SPI SUBSYSTEM" <linux-spi@vger.kernel.org>,
+	"moderated list:ARM/Microchip (AT91) SoC support" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>,
+	"open list:FREESCALE DSPI DRIVER" <imx@lists.linux.dev>,
+	"open list:ARM/QUALCOMM MAILING LIST" <linux-arm-msm@vger.kernel.org>,
+	"open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
+	"open list:RENESAS RZ/V2H(P) RSPI DRIVER" <linux-renesas-soc@vger.kernel.org>,
+	"open list:SAMSUNG SPI DRIVERS" <linux-samsung-soc@vger.kernel.org>,
+	"open list:RISC-V SPACEMIT SoC Support" <linux-riscv@lists.infradead.org>,
+	"open list:RISC-V SPACEMIT SoC Support" <spacemit@lists.linux.dev>,
+	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
+	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Thierry Reding <treding@nvidia.com>
+Subject: Re: [PATCH v2 1/1] spi: use dmaengine_desc_set_callback()
+Message-ID: <auxF9RT5aljXkfh7@ashevche-desk.local>
+References: <20261104152253.3279052-1-Frank.Li@oss.nxp.com>
+ <b656861c-a087-4087-952e-91fd15fadd52@kernel.org>
+ <auuZHTvr5UI9Q9Q4@ashevche-desk.local>
+ <fbcb650d-0f60-468d-b1cc-255ea8a93db3@kernel.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -60,103 +136,49 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <sashiko-outbox-195387@kernel.org>
+In-Reply-To: <fbcb650d-0f60-468d-b1cc-255ea8a93db3@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Nov 03, 2026 at 01:42:47PM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] drm/panel-mipi-dbi: broken shared dc GPIO in panel_mipi_dbi_spi_probe()
-> --
+On Thu, Nov 05, 2026 at 12:02:21AM +0100, Krzysztof Kozlowski wrote:
+> On 04/11/2026 21:44, Andy Shevchenko wrote:
+> >> Andy,
+> >> These three lines look correct.
+> >>
+> >> LGTM:
+> >>
+> >> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > 
+> > As
+> > 
+> >   Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org> # atmel-quadspi
+> > 
+> > Note, it's in your power to ask the author to split out what you maintain
+> > to a separate change. So, it's your choice what to do, Ack the full patch,
+> > give a partial Rb, ask for a split, ignore reviewing (often means silent
+> > agreement when maintainer just applies that kind of a patch)
 > 
-> commit 90b279985dbeced362ebac928f364d9afff9972e
-> Author: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> The "# note" after the tag solves the problem partially, if people were
+> actually using it. Solves people looking at the Git commit and being
+> mislead by partial review applying to entire commit. Does not solve
+> credits, because Rb for three lines is not the same as for 100.
 > 
-> drm/panel-mipi-dbi: drop GPIOD_FLAGS_BIT_NONEXCLUSIVE
+> From v1 of this patch, four people (Alain, Lab, Troy, Kunihiko) did not
+> use it even though reviewing only part. Only Wolfram, so 20% of partial
+> reviews, used that syntax. Without that syntax, b4 will pick up Rb tag
+> like it was for entire commit.
 > 
-> This commit removes the deprecated GPIOD_FLAGS_BIT_NONEXCLUSIVE flag when
-> requesting the dc GPIO in panel_mipi_dbi_spi_probe(), relying on the GPIOLIB
-> shared GPIO proxy instead.
-> 
-> > diff --git a/drivers/gpu/drm/tiny/panel-mipi-dbi.c b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-> > index 60cd65cae41d8..6f09b723cd7c3 100644
-> > --- a/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-> > +++ b/drivers/gpu/drm/tiny/panel-mipi-dbi.c
-> > @@ -418,8 +418,7 @@ static int panel_mipi_dbi_spi_probe(struct spi_device *spi)
-> >  	if (IS_ERR(dbi->reset))
-> >  		return dev_err_probe(dev, PTR_ERR(dbi->reset), "Failed to get GPIO 'reset'\n");
-> >  
-> > -	/* Multiple panels can share the "dc" GPIO, but only if they are on the same SPI bus! */
-> > -	dc = devm_gpiod_get_optional(dev, "dc", GPIOD_OUT_LOW | GPIOD_FLAGS_BIT_NONEXCLUSIVE);
-> > +	dc = devm_gpiod_get_optional(dev, "dc", GPIOD_OUT_LOW);
-> 
-> [Severity: High]
-> Can gpio-shared-proxy work for a shared MIPI DBI D/C line across multiple
-> panels on the same SPI bus?
-> 
-> Unlike a shared reset or enable pin, the D/C GPIO in MIPI DBI Type C Option 3
-> is a bus control signal (0 for commands, 1 for parameters and pixel data)
-> multiplexed under spi_bus_lock(). In drivers/gpu/drm/drm_mipi_dbi.c,
-> mipi_dbi_typec3_command() leaves dbi->dc asserted at 1 after transferring
-> command parameters or pixel data:
-> 
-> drivers/gpu/drm/drm_mipi_dbi.c:mipi_dbi_typec3_command() {
-> 	...
-> 	spi_bus_lock(spi->controller);
-> 	gpiod_set_value_cansleep(dbi->dc, 0);
-> 	speed_hz = mipi_dbi_spi_cmd_max_speed(spi, 1);
-> 	ret = mipi_dbi_spi_transfer(spi, speed_hz, 8, &cmd, 1);
-> 	spi_bus_unlock(spi->controller);
-> 	if (ret || !num)
-> 		return ret;
-> 
-> 	...
-> 	spi_bus_lock(spi->controller);
-> 	gpiod_set_value_cansleep(dbi->dc, 1);
-> 	speed_hz = mipi_dbi_spi_cmd_max_speed(spi, num);
-> 	ret = mipi_dbi_spi_transfer(spi, speed_hz, bpw, par, num);
-> 	spi_bus_unlock(spi->controller);
-> 
-> 	return ret;
-> }
-> 
-> When panel_mipi_dbi_spi_probe() requests dc with GPIOD_OUT_LOW,
-> shared_desc->def_val is 0. Once panel A sends a command with parameters and
-> sets dbi->dc to 1, gpio_shared_proxy_set_unlocked() sets panel A's
-> proxy->voted_change = true and increments shared_desc->votecnt to 1. Because
-> mipi_dbi_typec3_command() returns with dbi->dc still at 1, panel A retains its
-> vote after releasing spi_bus_lock().
-> 
-> When panel B on the same SPI bus then calls gpiod_set_value_cansleep(dbi->dc, 0)
-> in mipi_dbi_typec3_command() or mipi_dbi_typec3_command_read() to send a
-> command byte, gpio_shared_proxy_set_unlocked() checks whether any other proxy
-> still holds a vote for 1:
-> 
-> drivers/gpio/gpio-shared-proxy.c:gpio_shared_proxy_set_unlocked() {
-> 	...
-> 	/* Desired value is the default. */
-> 	if (!proxy->voted_change) {
-> 		if (!shared_desc->votecnt)
-> 			ret = gpiod_set_value_cansleep(desc, shared_desc->def_val);
-> 		goto out;
-> 	}
-> 
-> 	/* We previously voted for change. */
-> 	if (shared_desc->votecnt == 1) {
-> 		/* This is the last remaining vote for change, set value to default. */
-> 		ret = gpiod_set_value_cansleep(desc, shared_desc->def_val);
-> 		if (ret)
-> 			goto out;
-> 	}
-> 	...
-> }
-> 
-> Because panel A's vote keeps shared_desc->votecnt >= 1, gpio-shared-proxy will
-> not drive the physical D/C GPIO back to 0 when panel B requests 0, leaving the
-> physical D/C line stuck high in data mode during panel B's command transfers
-> (and vice versa once panel B also sets dc to 1).
->
+> So I do repeat - if one does not want to use that syntax, then just Ack,
+> instead of creating false impression of reviewing everything.
 
-Ugh, this really only works by chance right now and is racy but sashiko
-is right that gpio-shared-proxy would break it entirely. It would
-probably need a dedicated power sequencer.
++Konstantin, then we need to teach `b4` not to break that or convert it to
+something like
 
-Bart
+  [FirstName: reviewed only ...]
+  Reviewed-by: FirstName LastName <...>
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
