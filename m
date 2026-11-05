@@ -1,101 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.41
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793883293;
-	b=PiM6mhB9AasujKVeSyMs2tXCqCzulQtj6uPRfZUBL1Eetl0HxrVwM90inPvwRWzMzi/F
-	 7h7LCJZl9nekW2KjSSvkujzfT2E7PrRqz3eIa1leUkpiCf4fTuEpYi7OXrVjA1/UqMPNZ
-	 TDSKYrc5y3MkF3P+VHuSUd2H6IQHQECd1SzCboFS4RFPaFfuYiQHKCeUbH8hhlviqbCwt
-	 6QEwDBC9Zmq6LXooc6OTBK5c8O3SHG7uJRJbjNQdXP9e0at7RU+cfGAcoSyVvH8GFeLOJ
-	 TU470h2C3bXjSVnoUuJcs/17r+mSlpAWBJefjsAvn5Opiw7kd1mKBffpcDY62zxLtdA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793883293;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793887132;
+	b=d14SB6YztqWgk16v28dA51ZPdDVcZncC77pfAoTHv7QUpfdlLJ5MCBN6xZSqI1/mPGoG
+	 xi4qR9ZQBUmas0o3j40+VAXSIj3zXqotTrHi92NpY3Gw3UTW28Lr/kiPa+Q6InWcDLZv/
+	 kwkX+cM3fgsBTmZoB8hblwhCekoRtmIJig5uHT4cNLW/dLsHTSvIMMhdy8BXtOxKL0i5B
+	 HiQomLUxq7wBgVhqQGUtvhIOjUuqclNp9Q4EeNsE4MJiSngNuEz3JPZ0Eo1Fbg+0nLgrL
+	 UcxCVKmRWAXQ7ytNPg1M/nDkBIL4/c3rTW9m+QEgqawF06OaExc0n5ywLmNehremYSQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793887132;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=tOF6PS1JMi8W8WKP7mDpxXD9imSMAhXJwC00jGPmGBs=;
-	b=doxEANBHozwuApbfaVF/eyGjgXsBJboOgr/wo6ytgQwXdx7YkNvARM+bHjXAiFIVOSOG
-	 +30YQSKWSMdsPjEPI6DIBNXNDpiYJ9QsDqmB7EKktAmfGOD5HAgiUBDFPVKgxsBXcqaaw
-	 ykBxug3RNd4+e8e+sEhjCTU/mSZX1jeJW307gAQ/ha/GPcxyIz03+Ko89Itp77k8uDWFz
-	 tT5DUc93lqlYs1zrcEp3wPqAvqV9gHf9k/ibcFabqvv1EAc3FSwuODqywckW8DXl9oSyE
-	 bFQDREJp4Uiyn1aZAe1lRSHPzaJnxuFvyMCkEGhqieneg2WGiw1J6JM/QudatiXJ3kw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ini1Qu67;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.41
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=XP2sPyfb4drUGyU1lXjbZR0XesYSs81x4qP77e4f+vA=;
+	b=mSQ0eOEaPcJPcri5EHv0edSsSAWW/Nlfi8gimqtWF3MULhZBCEppvdDOo4mO3Pb6YZEN
+	 gBMNkdJju05VY0t8p8LCEm1docHw3B6P+3ksZCbgRozNehiGPL4eK0wNDqjx7I9s/Pynx
+	 rjsE0LbgsQp1bhR6ZOHJ2Sn3eCPPuFmW+boSVo4+w4ntHW19ukBj14BEIeLlesIj4d+J/
+	 R/ZBYBcXNFur2wonxWxL4/a9kP4ojMYhz6+Hs9HnN2L03WTEO0FIqgGNraOVafmcNiEmm
+	 6I+8n9ST3N9j8RJF7k1F87i/i2Kvgcavh5JichTuUceP2liAeLD4jih1OrznHPM7dEQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=M81CpWeR;
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C553E606A329
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Nov 2026 12:54:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C553E606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F9A9606A326
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Nov 2026 13:58:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F9A9606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ini1Qu67
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-825b40f8a26so806392a34.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 05 Nov 2026 04:54:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793883291; cv=none;
-        d=google.com; s=arc-20260327;
-        b=mqR3eddFeAlIryXhcAtXgm3RsGu3CUnnKYYKJhMGCppm44oadPOql+NUSNqR9EOWlL
-         7UvTb3bC3aGeU5pUtlmkC6P7tgoaxf48wF/quXjmo94PTPtA+fJY679qfmTzJY4Imj+I
-         tSN7cKxw7k/oqeiSIKsX7GYlklA0gl/a5ZVpopPyADMNQtvKIEYtVwXdztGTzcJfpDcN
-         zzX2P55lvK33BPstFM2Keb3qggMLGBC4HtmpIg1s/EjFnec+9svSc2b13DWl68OEy2rc
-         KqWAiqGnPwLHdpZOPiQsRngNs4SN9gckqeMhjQBGH31MvVmCnPHay0970pb5iSNPYj/A
-         HnGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tOF6PS1JMi8W8WKP7mDpxXD9imSMAhXJwC00jGPmGBs=;
-        fh=Iynzv78PkEdAECF/JKp8d7q6WHLN/27I9BGbU0hDRzc=;
-        b=CgmDA2rZLcs0mFy1SmUeZvzZ4X0At91CB3DsJZ037V2bJ1HmuQn62frKDWaOcrPzVe
-         2svBUNgjP3g9c0uh4z2nsgAS8NyEhd57rsOnSw9fuHmuXXcPMUok9vQX4kbzF8qs0LQQ
-         Q9UjPiCgxOxXbbwY0cauHpRTGe6GKmeuxacZD/iid3kHZ91KBUFzGdknvi3Pds1iehoI
-         tTk3H7rAZDSpOW1WJUrLmMZKLYljwEe0d9hGyNUS6CFgBgN53naM609VAfU5WcH+Wr6C
-         zFVy1H6AkLNX7zRE8h4ZwzxqWRvasyv5suSi8VqSfMxfLBa2W/rgxICA/RJ3LkxQrG/a
-         B1nA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=M81CpWeR
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a20a37703bso14381185e9.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 05 Nov 2026 05:58:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793883291; x=1794488091; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=baylibre.com; s=google; t=1793887129; x=1794491929; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=tOF6PS1JMi8W8WKP7mDpxXD9imSMAhXJwC00jGPmGBs=;
-        b=Ini1Qu676ARz0M8FHBVaP4Gw/Vu71RomFDUYzkcUage8UwTGd7X9l2Dsh5S2U8bvJy
-         EcpnUZs7oEntSL+dr172NvQdXF4LKvC+Y9wyOYIjzAkLnAF1tnw8MpStMhRI0JqwLsg4
-         iSp7MV38XWZqDyQ4ijBSel2n81Q2crTZ2p+49Xx8UamrA6BCzShrDzYzkE9Vsm2k47Rc
-         1ltQpuLeI+k0XW5lX+xsGWE0BLzFH4dgRL8q+i0NGc4PXa0iIgpgp6n2okKMuYcQB7E3
-         JC7t63PbTkOnfsIYbJeSQl/rDux/suP11Ff6Ytt3xL9Ip7NPebNq3TKKj6vFdSjPhQvA
-         raFg==
+        bh=XP2sPyfb4drUGyU1lXjbZR0XesYSs81x4qP77e4f+vA=;
+        b=M81CpWeRdflYp60A5K4Gj+Q+YC0HKs9tbcsayILnEUF402lUQMTc8w/OTTS/xQopIg
+         yunI69dTGh37mrsPVffOFx/nENQRNxBOY+ubyInqMK5PVJa4oc3QHwC5e/CXQF/llNV5
+         DBHEkhNHNGIXHDb9lmoT1n34jpEQ9BIRE/EpBFIjK1bDvfCbFKjVOqFqGhCMomZzOh94
+         PrrChSHCGM+ven8JiHn+9lM/ZryDdTqRkRkyU/j28SvrmAdbeLjCuc0FXv9QjyDXUycb
+         oEaxc9Q2tsMPTSYA0zRudYVxVvkwD+kVfQIU8p50Sv3WNhrnds72uyvsoKg3lyZ44wvn
+         JsaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793883291; x=1794488091;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1793887129; x=1794491929;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=tOF6PS1JMi8W8WKP7mDpxXD9imSMAhXJwC00jGPmGBs=;
-        b=QaDVWHDJiOurR6Mbw24E4d0gt9T2a5uSuRXLWguyn4oJ1x7p6xDUuBKoL6sVEfR1xo
-         InXhL1OpZfig9FA5iZGDsmLGRKzcNlrznNFcijw3TRBiPr8jTf5VkiOxpY+jrsmMETrh
-         F1ghO1RrT/c6TMGHeWW839UzSObPZPZ8hTUni5tEQPZGd/M/HM+frzF4yyLRKco0L8bp
-         Ab9kwV6TcjZpknr/SSGcwtoR0RyNazzlYE+xOaIeb6LV8wfV5hXsrLWkw95ol9rZI9N4
-         v5LKVWrEiPY6L0yy+NLg8DO/QGWt7w02pt6fZa4gdjRbUHgMQRz4N8++aCWLLGj8J1/b
-         nB9Q==
-X-Forwarded-Encrypted: i=1; AKwUvBysmPVDwnDwTVDAbRWcGGaBdOkRNzoQtSb/uPrIGNBNso5At81fgnzgAxPvFqTU11+wPOxqq7mx//+dMg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9f+7/tWAEc3OvNSZM3Re0u5o0/R6emWU4iLyeeD4Mzd/cd1c6x
-	PJ2EWbvxd8ChwCEf3krGPHJE2fPC7eWr1vMuSUXxELYub2qN2PAAM9aFfFMaTccH4twmgfHkNIv
-	wSA+1grwohmyb05iAxt6yaafqA1TEYJzMfzYXgQXiJsH8
-X-Gm-Gg: AYBFou2wYR1dRU3lVl2NzoO+nRrcANIcD8ox2r6ePi2FnI7uZMXl5vSlMBS25xby2t7
-	cq0JfZIQXtV50Oarq5jcqK020Iu/ANoBj9EZvg41gxV9MqPNZvijFMEwr07FjGQHdvHdmX/YPyz
-	PzR/zDUT8IK6okjvSNBfjRN0GtP8DlsSj1n8OcAVwCxFZxuR7CVVsYWdsolhYyHOuGeW9Ez4EtV
-	X31YXf0RsKtdJPyatzePNOe0nrqKHVwy3qkl6WTlel5JcMFFwj3ID/rxe2LHIyy9kRCk7BIwHbQ
-	AGogEk8FK5cTt3F1j0b7BgSIzPzNU3D3FBC0wo57arfKQv1CyprNwAGVdMKHuOF7jta52kbk5RI
-	q+zpqkxFzY33YRyI9YrhC54uz/3hiAvxr8HQSQemqP8ufjELMKrJ2EuuwZi0LtVEoRTPqHDU0pI
-	y+SL9YX8hTQBYIsm0yFFsk+iNorwDdMzQwQNhekssSLBY=
-X-Received: by 2002:a05:6808:6508:b0:53e:3b0b:fc1f with SMTP id
- 5614622812f47-5640dc2a803mr13971941b6e.22.1793883291559; Thu, 05 Nov 2026
- 04:54:51 -0800 (PST)
+        bh=XP2sPyfb4drUGyU1lXjbZR0XesYSs81x4qP77e4f+vA=;
+        b=q31jjO/9LQ/OFemHp27UluF9KyCtmZf/45b0HFswnvkuMRh3XCrlIB2n23pzlAMQIx
+         N5ZhHQ/JfYSfAVeBUsjMLxRMvh/a1pU4kR+RhR/ZIkKoV4gvdTz6v8BAcEBvhA+9dqMO
+         nYTXJ5SBrliFBkhAquzuw/x4nlUV/O6mPZIueMFqQCk7XYlM6pYSleuT/ZFhQtNevX4p
+         gcnRqtWM2g5LgjscsayAXi0bmfKDlvga/D79Kt1Z5RYeoTxrrJvAddce8hcsEIv0gH1I
+         A7BxPyrAFvH7XZpFWVRqx5Xb69HgEzv9ladXN+55K1SK8CBTWRRZkms2jyucR3jL3T3+
+         eaeQ==
+X-Forwarded-Encrypted: i=1; AKwUvBy7DZcFJfvPoSzVmAy4pedlyqVDObutDQh/axqJ61yNBLp+niLf6igjuSyGuiBHEkWO1nLMAMNLyy8EwQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8SlbTYyzR5NI4nZQ0t3APYZqooHffTkHWa2sXwRiy18slTlYOC
+	vGo1KnFWjpunpHVJ5BwLJvp2IrF0GXbUDb257MQht9LnYLxCXYUfzS5gvXNa2a7tcuE=
+X-Gm-Gg: AYBFou3MU1l478zI9LaehIZYIIiks53MFl/Wj6+ZTDxLkl5iLXk7HRFr62JKjf0CfdF
+	TKHzx7dT1UeEWQqn3lO8UwvDaXkDg4y18F/CqtZE63mVgANC3P+GEsvxYe42V6f7ojop1i1a5ti
+	GXADIGyX15jDDT8upGAoqNlm4N2Wet3gg7QDTwGsOiFlc+KF5fMsNs8pRZ9ZFj61qcQiJ+rsjk0
+	QlFhU6P3GemR+TVHqwqI1IzPe4jpwJ1KMlyfsbnJoC7hAdgNa14jn4J/azvfoXZfWu1QuUQxOQ9
+	9sP7IzH60N90iD3BIhL7DNswK51gdzmXK/bjfh7P7j14EEqSaDqm3ltjvlnvND9j63mIxiY7L3g
+	S0hWPaIin8ZDA4k5I5e53GBzK2NskPMIj0m6UTylqcl41W70iA/OhDC93pW0FsvOjEIgze4KZuu
+	w4xgzm47gu/+Ouq2pYqqb0ZSeyIGX1AJfomzQEpqd85XmC8qs+QkZESUW6QXycgMTpdJBfPjqEn
+	xaIoWAmizK68/sMCIhf71GBjlfeH0TTvBztQ3U3hgb32NV7FtN1SMDyIVDnPU66Yj74GxFHM6ED
+	+FFdEI4x3CufHDnM5QtxkXy/Lqo0
+X-Received: by 2002:a05:600c:6095:b0:49e:7c8c:361d with SMTP id 5b1f17b1804b1-4ac182dc30fmr375702725e9.22.1793887129505;
+        Thu, 05 Nov 2026 05:58:49 -0800 (PST)
+Received: from localhost ([194.213.108.8])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4b56ba6bc36sm75097435e9.0.2026.11.05.05.58.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 05:58:48 -0800 (PST)
+Date: Thu, 5 Nov 2026 14:58:45 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Tim Michals <tcmichals@gmail.com>
+Cc: Jassi Brar <jassisinghbrar@gmail.com>, 
+	Bjorn Andersson <andersson@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	linux-sunxi@lists.linux.dev, linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/7] mailbox: sun55i: Add Allwinner A523 message box
+ driver
+Message-ID: <auyLOc4djmm29Bnz@monoceros>
+References: <20261101185735.762559-1-tcmichals@gmail.com>
+ <20261101185735.762559-3-tcmichals@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -105,66 +103,47 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261016113846.8602-1-arash.golgol@gmail.com>
-In-Reply-To: <20261016113846.8602-1-arash.golgol@gmail.com>
-From: arash golgol <arash.golgol@gmail.com>
-Date: Fri, 6 Nov 2026 16:24:27 +0330
-X-Gm-Features: AclHuK_mK9V2l6M4jlS75n76fTlhzkP8UIpwt-w6idtrgAnrQy8Zvz7juL15y8o
-Message-ID: <CAMxPZkhRKB8uGL3L4K43aU4pqH+FdZdB829yaw6WDF-h4RW7oA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/3] media: sun6i-csi: Improve capture and bridge
-To: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Cc: yong.deng@magewell.com, paulk@sys-base.io, mchehab@kernel.org, 
-	wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
-	laurent.pinchart@ideasonboard.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6jfoalgweekh6k4p"
+Content-Disposition: inline
+In-Reply-To: <20261101185735.762559-3-tcmichals@gmail.com>
 
-Hi,
 
-On Fri, Oct 16, 2026 at 3:08=E2=80=AFPM Arash Golgol <arash.golgol@gmail.co=
-m> wrote:
->
-> Hi,
->
-> This series improves sun6i-csi capture and bridge.
->
-> Patch 1 fixes sun6i_csi_capture_format_prepare() to align both width
-> and height to 16 for NV12_16L16, as its 16x16 tiles require.
->
-> Patch 2 adds vidioc_enum_framesizes() to sun6i-csi-capture, using the
-> same alignment.
->
-> Patch 3 removes duplicated mbus codes from sun6i-csi-bridge. It was
-> posted earlier and carries Paul's Reviewed-by.
-> Link: https://patchwork.linuxtv.org/project/linux-media/patch/20260527124=
-552.33815-1-arash.golgol@gmail.com/
->
-> Tested on LicheePi Zero Dock (Allwinner V3s) with:
->   ov5647 -> sun6i-mipi-csi2 -> sun6i-csi-bridge -> sun6i-csi-capture
->
-> As ov5647 only outputs Bayer, streaming HM12/NV12 is not possible on
-> this setup, so I did not test real streaming. I checked that
-> v4l2-ctl --try-fmt-video, --set-fmt-video, --get-fmt-video and
-> --list-framesizes report the expected sizes for HM12 (16 aligned) and
-> NV12 (2 aligned).
->
-> Arash Golgol (3):
->   media: sun6i-csi: capture: Align size to 16 for NV12_16L16
->   media: sun6i-csi: capture: Add enum_framesizes support
->   media: sun6i-csi: bridge: Remove duplicate mbus format entries
->
->  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 12 -----
->  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 45 ++++++++++++++++---
->  2 files changed, 39 insertions(+), 18 deletions(-)
->
-> --
-> 2.34.1
+--6jfoalgweekh6k4p
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH v3 2/7] mailbox: sun55i: Add Allwinner A523 message box
+ driver
+MIME-Version: 1.0
 
-Just following up on this series.
-Link: https://patchwork.linuxtv.org/project/linux-media/list/?series=3D3216=
-1
+On Sun, Nov 01, 2026 at 12:57:30PM -0600, Tim Michals wrote:
+> +#include <linux/mod_devicetable.h>
+> [...]
+> +#include <linux/platform_device.h>
 
---=20
-Regards,
-Arash Golgol
+Please don't include <linux/mod_devicetable.h> as this pulls in a lot of
+unneeded build dependencies.
+
+<linux/platform_device.h> already provides of_device_id which is all you
+seem to use here. If you want full iwyu include <linux/device-id/of.h>
+instead.
+
+Best regards
+Uwe
+
+--6jfoalgweekh6k4p
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmrsi5EACgkQj4D7WH0S
+/k5vhQf+JI5oqB8wirr4Mfq53+EuIcbqVBMYKSJ4VvYsL5NgmUbk5OmelFsyFXLh
+1cTpKfp/pSXjaY74bSTdw8Wzj26UAD6h5WcL7M+Y0R76ERavh1U/j83g7GfDBxJr
+eHota1nXeLkRvpDqW7tWDBWn66eu0IeVsO8nlokpZTVhmLk/uFlIIITHp+IbJSUS
+oBmB5o0SK31zlNe1wrqwI8jCXjAUPyVcVouZEhNQ5mtIja4FE782+wlnw7agZe69
+vl3MG/TIihE7J63RC8U2iKs7BsfN9oB5xF5H8YMQYZ8/3uAj4eNkgFSjpbU8xXtp
+IDWe63lnv5ShurGsD35Z20wJbKGEKA==
+=hD40
+-----END PGP SIGNATURE-----
+
+--6jfoalgweekh6k4p--
