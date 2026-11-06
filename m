@@ -1,99 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.52
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793999327;
-	b=nPm9jI54Fi1WXcnFAjHb0VvhG15qbxah+ctC8qnb9Li7dmQEvqm69sYKTIyKz/K6+XZN
-	 0xJnXF5TaHeDUqyQFzSSsUYnSfcklbbmsuZMRokl22FcEB6baNCKCuIgNQFPuDbxt80tf
-	 bBYvea3M6dVjhSINmqbwo4RGim/he0KiI75gi3I0wPC3HizYoVaQo+fSMP7x1macULzdq
-	 uWVydyOoyKKuMo7sYhVk0VA8SACpNvzK8aV/qpsUNxiGY5YfoQItusl0K/tgySHQpvgeJ
-	 UEs4id8JXDNPb7npJVRywgMLuedwtWM61GmlPzlRKXcwo8WTGdN0vRvC53EeQ382HJQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793999327;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=qGG8oGrrJLldZvlh0Urj7gU0vRB0ez6rdNJ54mOMWZI=;
-	b=BTDHcbWHXL+nFgIkYKXT+Yx5F9fdXslXmIVu5Axy89frpBuhT/Y+c2xHO1+Wkg236q6n
-	 U/KZQku38lMcooeIvD8EFA7To+mPS0wO+wj8lAOWekWd2AyRQe0RJUekoLL0bPIWZSfWW
-	 UuYy9WXOcoTD4qa8o1/BThV9S+y7uTcPeMrXDBp4mFZi/xvjhwTRRu3udyIsvXJxh95Z0
-	 jc/utxtKFiuTUwWiKNeM4Ad1T1Fu7V8pxqwY2PSgu+iwPDsVIwHF7/AQLU1yWiPqcSW5I
-	 E3Ye246wQtAl8gIaB/d1dwww7Zs8/ZmpZDl7FjcjHRZEUAL64T3HpmeJ3YHwueKRxhA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="piBC/y43";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.52
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E114606A329
-	for <linux-sunxi@lists.linux.dev>; Fri,  6 Nov 2026 21:08:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3E114606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794006108;
+	b=WR/mqHUCB/oLaDUKjv/32rsOCzY+Bo/+QNRzEIqDxbBHEGZxC2HklreRGflbMJDcMrTH
+	 cBbPJvb3t//Hy9gWGc97LWKmGVproBaR/5yhLFuRuIeVPIuefG80ZxoOFqi06Z0Kx7J2r
+	 MKM+VXpv+VcX0xMA2dMk/kncw5+1egmnYKlAn7QhhIdYZ4pDIhLRR1AtfgGj87qsYd3Ns
+	 JG8BnwNoXZrGDRgqzZdX1kN9EqldzHl05aoJfFaIG5yc7W+Yb6S8dALpdTz6At1pXNsek
+	 UgkTvHuQr2dzGmLauG/aqwp3Jb/bXAnhCGyFFVYFeQt764a+lJh65A1w2HgpsNMcSRA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794006108;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=+WLW8LR9a7m1YlHZ+zZ84FTJgrDPlJ3AdbbFpi33+Wg=;
+	b=kumW2bG1IcKmIZwA0M8rArFJ+wFp4mSDCQHBE+omZLIua6DeGaxu5CJAGqrz83SLVIlr
+	 /4xrHHUoUvfyhYLQYhISIBJTq0GEtqBRG5m/oL3GoIvGR1FXFBX2npN+AaDu0rDPWkMC2
+	 M/1QYElelbRH4Be+4BvbcSJ2GUEw1AABkFgwidoPC+lLux4aLKYhenPXCu2lMAGkHW7sk
+	 SNI0qhtUo1ULeIhqOmX2tMVoGreaJ5JYb8O8eufj7MjG2Mwhkqb6n0qFjtC/zUSjPPn8a
+	 G3KYC3Ylxi4OW05EZmy4MMeuf+UddFNVuskPG3j/RL6hA2SMe3C7t7BlxLrsGNtMmbQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=IO1lsZCm;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED04C606A32C
+	for <linux-sunxi@lists.linux.dev>; Fri,  6 Nov 2026 23:01:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED04C606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=piBC/y43
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c434376dbebso14060866b.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 06 Nov 2026 13:08:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793999326; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ORaK+hNr1XfU7gqCv5bH8zdkf9HyUZeW178EvX2oBvcf7t8C4ZEdUK9/RYdthOQH/P
-         M34HVY88/+sz/MVIHSrMgoIWd0VXSWgQeYSm1RQPzxoSFr+wdEXQVbQBv6E7szKlzxI6
-         3h1C6cMzHZjH6VU2P8wMJwhe2gOFRaM6Kly8Zc4loCv7KuBQZbLO6oAXK2HbOiycofS+
-         l5kj5XOywD4CVDcEB7+ZsCiRqTNmsDMbYFyHPiuQyYuodzVTxrrmNgtR+CARaBxTzW02
-         QtzhzBhjJm1hHt4MotEPagPZP+XFL6bW+GVXn6XNfn0b1AMW41CQFYNytSTzxsaH43Hd
-         RLqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:dkim-signature;
-        bh=qGG8oGrrJLldZvlh0Urj7gU0vRB0ez6rdNJ54mOMWZI=;
-        fh=qpp/+jq+Xxlo9Vw0BpjKBUDz26lpreCv3Iyc9wiyAPU=;
-        b=iT9GBVHD69pTdoX8SIwbJ4yEpP3i3SUjBdosIPv5GHLk0NC3m1zbm1QZNFY7uDH1pf
-         Vo7zOb2yR++wjhTYDCWIZn2b1daCmllnIEUzmYWgc99vumNOJL0eQmPa8814ILbvyp4p
-         C/jV/BfCH9zuJOo5NV5nz8Ikco9H2mlsSmKbiA0ykmcINquvUbWol6EvGJFQpK9adJux
-         95L59/hTwhecVFFjFFbJqclFEYOsp5NOVmPdF7c5RSnW0+fwYFMbgCpXKxtHi2uVyV4l
-         W9nGsgujTbZ2s4S3iTEL/tO7bAOc2QbJ2+c4CxEiR23FcIJ/21pPTX14JYSV4Ti7EARt
-         Gz8w==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793999326; x=1794604126; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qGG8oGrrJLldZvlh0Urj7gU0vRB0ez6rdNJ54mOMWZI=;
-        b=piBC/y43qA3qO0qDJtOZIhAS2wTcekimzASMMmSEsNH49IedMAcd8pitNFGifeaOz4
-         o6UTANC2pXL9jce0SIAk/+n61CrMoiEEYr6JImJLbP2fUIvWaonvpguNxE6tFBZ8Pe8p
-         ty48plf/jJQkFNE3J1xNqYNtPltR1XciKBRaBExg3AEBhQBF31BOC92heikLqI7eKHj/
-         f9u4H+QhiMKp76OsGwO1DK/wSAybeBSNBblFTFVj8N6PJ9CVh5DS4m8Jrm7E1Z194kO1
-         /NR02KK8Bmu+sjCde1+bgm9TwZrotBuBlVwkoa0HPsMhlOemMgD+iU7P965boCYtyg27
-         TsZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793999326; x=1794604126;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=qGG8oGrrJLldZvlh0Urj7gU0vRB0ez6rdNJ54mOMWZI=;
-        b=rwD4YjSsi9F6TKZC6qnUjj4mYwCcwUM2D6raSyjg4CVHOSWbnYMjZIiE+kICapU/7i
-         0tpbf8Vu8v3Vu9wRQBgpxydfaaBgOuew6WA4/7mAiJP0ImhTXLeT38tKE1HvfesoSUaG
-         vAFGyYppXC5yBgKaDIUDM3iTO71Ins2acSJ4/NG/PXd5zPEppboJdRnNig3/2G7Ewfho
-         xLeYltCkhLyZEjParxOYRHsjQxdMSnywS5jOTOKxgoL51GPmlu4wnEyQeXRb+Iu0zShl
-         VEj4t/456zrrSn3HMyylXvKw3UDA9qVku+L5HEoEZsHB9SVhJM6/PBNgoL9euh6GWeLC
-         6L+w==
-X-Forwarded-Encrypted: i=1; AKwUvBwDAw/eJnuNsK4alGMcqVM7ODLjgClcpZTNY8/6+Qgl+fktepsZ2jKKI/UVm9KEmexSeF5lL5drQBJMXg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9UFFMnzOtwZOeDhNzMS+71Cuj4uF/xVsRpuuUJuEMhdj8uYwfr
-	0xgpeUeI+B2N46Uksokeh9PVN7auBovbgofPVqM3VRTYKgsIHGcVPfqxMezGGOXZ/QhpxaErjpp
-	q4pi315AUoRch4aM4gexaR9gyLkSphQA=
-X-Gm-Gg: AYBFou2ztiVtmQPgzDlYbAtr3G/yMpIPrg9tzwI3glrq9k3H/JebIIjYB3aH6urYkST
-	LP8eD+FM2rzj8rGWXIPGmMkN9c9qH+yp3BmZq3XL9as1AKMUmE3BTntS1Xj7Dzx9C00vrGR6VNl
-	LE+22OF4qKShDJmP8P/HFlY9uik90qLpYGVL4OXL9x/HZ5I5J2S2w9bY1MpSFOEbsCaFVwHxVp+
-	63WXo5lCtJ75cZa6lpV3bRKdgglRipShmS4RynAnHJyklRyEmyBP69Bw+ri3IfG/xYSJXCXHS6G
-	TOmRlIsvbdfbGssNszfTaSTbBwT79E1VL9a8MkoJk7FmASs9cI+UpEH8rFjIA0wpd9WI+jViAkj
-	gnGY+H4e31bh8k/HcyxoXokt9CpLyWISJKsmQj1mb1BoSitcWkg==
-X-Received: by 2002:a17:907:5ce:b0:c42:bc58:f21 with SMTP id
- a640c23a62f3a-c4d524de677mr9637766b.15.1793999325372; Fri, 06 Nov 2026
- 13:08:45 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=IO1lsZCm
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AEB2F1650;
+	Fri,  6 Nov 2026 15:01:41 -0800 (PST)
+Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0A3293F673;
+	Fri,  6 Nov 2026 15:01:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794006104; bh=3S8qesdRfNmQe0ma5COPvlu/f0WMqm4btvUmh8g5L3c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=IO1lsZCmgH0zr1zduBecEsrscwlQTwAWtBDwmXVhSMCAMyWcQuADAw84WvG/9cepr
+	 4eVatyJsrsWDBCGLNg9bISE/bzVgZqD1aG9o0o1n4JoBLVtuQGQ47jkeSdt/DVuuW9
+	 JCY6/RoWRoixluU8nKsVMnCJTB4HFzCGqHWbMRyE=
+Date: Sat, 7 Nov 2026 00:01:35 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Enzo Adriano <enzo.adriano.code@gmail.com>
+Cc: linusw@kernel.org, wens@kernel.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
+ linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] pinctrl: sunxi: preserve A733 firmware voltage modes
+Message-ID: <20261107000135.6b684277@ryzen.lan>
+In-Reply-To: <20261104-a733-pinctrl-v2@gmail.com>
+References: <20261104-a733-pinctrl-v2@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -103,108 +64,180 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-From: Sergey Kacheev <s.kacheev@gmail.com>
-Date: Sat, 7 Nov 2026 00:08:34 +0300
-X-Gm-Features: AclHuK8gNSlyHOq3BH0lfB5PLWaS-qptjYfSCBSSXzK_ROJ0rOwb8P1w1O7g2js
-Message-ID: <CAJVhQqX3Yq=TO5b+KW2R3nipk0-zx-wKL6jSP2SNSRZ++Ro2EA@mail.gmail.com>
-Subject: [REPORT] Cubie A7A: RGMII CRC errors resolved by changing drive level
- from 1 to 2
-To: jbrunet@baylibre.com, netdev@vger.kernel.org
-Cc: andre.przywara@arm.com, andrew@lunn.ch, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+
+On Wed,  4 Nov 2026 15:56:39 -0500
+Enzo Adriano <enzo.adriano.code@gmail.com> wrote:
 
 Hi,
 
-I investigated Gigabit Ethernet CRC errors on a Radxa Cubie A7A
-(Allwinner A733, Maxio MAE0621A PHY).
+> The A733 GPIO_POW_MOD_SEL voltage-mode fields are two bits wide on
+> both controllers (A733 User Manual v1.00, sections 18.14.6.1 and
+> 18.14.7.20). On the main controller, the one-bit
+> BIAS_VOLTAGE_PIO_POW_MODE_SEL handler writes bit N for bank N, which
+> is reserved or half of another bank's field.
+> 
+> Starting from the vendor firmware value 0x01155550, a request for PF
+> with a 1.8 V supply sets bit 5, changing PC from auto (01) to 1.8 V
+> (11). A request for PK with a 3.3 V supply clears bit 10, changing PF
+> from auto to 3.3 V. PB is supplied from VCC-IO (A733 Datasheet v1.01,
+> table 4-5), whose field is at bits 25:24, but a PB request writes
+> reserved bit 1 instead.
 
-On this board, changing the RGMII pin drive setting from hardware
-Level 1 to Level 2 eliminated CRC errors in repeated tests.
+I guess this has been written by an agent who like to talk? There is
+really little point in explaining in multiple lines that
+two-bits-per-bank is not compatible with one-bit-per-bank.
 
-Environment:
-- Kernel: 6.6.98-5-aw2511-srv, based on the vendor BSP
-- MAC driver: vendor dwmac-sunxi / stmmac
-- PHY ID: 0x7b744412
-- Local backport of the proposed Maxio PHY driver, with the vendor
-  EEE-disable workaround
-- Link: 1000 Mbps, full duplex, autonegotiation enabled, EEE disabled
+> A733 R-PIO has SEL at 0x340 and VAL at 0x348 and nothing at 0x344
+> (section 18.14.5.2), where the BIAS_VOLTAGE_PIO_POW_MODE_CTL_INV
+> handler it shares with A523-R writes the A523 control register. That
+> handler also writes bit N of SEL inverted: for PL with a 3.3 V supply
+> it sets bit 0, changing PL from 3.3 V (10) to 1.8 V (11).
+> 
+> v7.4-rc1 added A733 support with these handlers, so the writes happen
+> on the first request of a pin in a bank with a vcc-pX-supply in the
+> devicetree.
+> 
+> Select BIAS_VOLTAGE_NONE for both A733 controllers and give A733-R its
+> own descriptor, keeping the A523-R descriptor and behaviour. This
+> leaves the firmware voltage modes in place, including any that do not
+> match their supplies. It does not implement voltage switching.
 
-This is a vendor-kernel result; I have not reproduced it on mainline.
+So I am not really happy with that. Given that we have existing
+problems with the banks not all lining up (PortB and VCC-IO and
+friends), just skipping the setup might be a pragmatic solution.
+But then the kernel should engage the auto setting, as we generally
+don't want to rely on firmware if we can help it.
 
-The relevant pin group covers PH0-PH15. The DT change was:
+So as I suggested before: please introduce a symbol like
+BIAS_VOLTAGE_PIO_POW_AUTO or so, which also skips the explicit bank setup, like 
+BIAS_VOLTAGE_NONE does, but then triggers setting all banks to auto, somewhere in the
+generic pinctrl code. Just writing "01" to all banks should do it,
+don't get hung up on banks that the manual doesn't describe: mostly
+those bits either don't exist at all, or they belong to ports only
+exposed on other packages. PortI looks like such a candidate, reading
+the respective region tells me that there are 17 PortI pins implemented.
+Same thing we saw on the A523/T527 and also on H616/H700.
 
-    allwinner,drive =3D <1>;
-    ->
-    allwinner,drive =3D <2>;
+> 
+> Fixes: 0535bfbfa97b ("pinctrl: sunxi: add support for the Allwinner A733")
+> Fixes: 31d68e10381c ("pinctrl: sunxi: a523-r: add a733-r compatible string")
+> Link: https://lore.kernel.org/all/20261014183516.172060-1-vinicius.eduardo.pedrosa@gmail.com/
+> Suggested-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+> Tested-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com> # Cubie A7Z
+> Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
+> ---
+> Changes in v2:
+> - Rebased on v7.4-rc1, which added the A733 pinctrl driver. Only the
+>   context of the A733 hunk changed.
+> - Dropped the old base and its prerequisite-patch-id lines.
+> - Dropped the AI assistance and Assisted-by lines.
+> - Added Vinicius' Tested-by, from a Cubie A7Z on Linux 7.3-rc6 with his
+>   local A733 patches, applied with a context adjustment: warm boots
+>   only, no cold boot, 1.8 V switching or A523.
+> - Added Fixes tags, manual references and examples of the bits the old
+>   handlers write.
+> 
+> Andre's RFT [1] fixes the same bug with a two-bit handler and changes
+> the same A733 line, so only one of the two can be applied. This patch
+> uses BIAS_VOLTAGE_NONE, as Vinicius recommended in that thread, rather
+> than an AUTO variant: manual section 18.14.4.6 gives auto as 01, but
+> as 10 for PC/PE/PK, which the 18.14.6.1 table lists as 3.3 V, and
+> there is no evidence that 01 is right on every silicon revision. The
+> cost is that firmware modes that do not match a bank's supply stay as
+> they are. Andre, if you prefer the AUTO variant, I can rework it.
 
-The BSP pinctrl driver labels these settings as 20 mA and 30 mA.
-However, I am deliberately reporting hardware drive levels rather
-than treating those labels as verified electrical current ratings.
+As mentioned above: Yes, please do. And don't read too much into
+silicon revisions or the manual not mentioning everything.
 
-The A733 User Manual V1.00 documents four levels for PH_DRV0/PH_DRV1
-(sections 18.14.6.99 and 18.14.6.100). Section 18.14.3.4 describes
-Level 1 and Level 2 as enabling two and three parallel output
-branches, respectively, reducing the nominal output resistance
-from r0/2 to r0/3.
+Cheers,
+Andre
 
-With TX delay =3D 8 and RX delay =3D 10 held constant, repeated tests
-showed:
+> 
+> [1] https://lore.kernel.org/r/20261013142351.771229-1-andre.przywara@arm.com
+> 
+> Tested on v7.4-rc1 on a Cubie A7S with vendor boot firmware (one RAM
+> boot from cold, then a warm reboot), with A733 CCU v6, AXP318W PMIC v8,
+> the sunxi IRQ-bank v3 series, the 8250_dw changes, my A733
+> firmware-clock patch and A7S DT v2 on top. The main and R-PIO
+> GPIO_POW_MOD_SEL registers (0x02000040, 0x07025340) read 0x01155550
+> and 0x000aaaaa in both U-Boot and Linux, and the PF selector
+> (0x02000070) read 1. The PMIC regulators registered over R-I2C0 and
+> MMC0 reads worked. The readback was taken before the unused-regulator
+> cleanup.
+> 
+> The main-controller value distinguishes the handlers: MMC0 requests
+> PF, and this DT gives PF a 1.8 V supply, so the old handler would have
+> set bit 5 (0x01155570). An unpatched kernel was not booted. The R-PIO
+> value does not: PL has no vcc-pl-supply in this DT, because PL carries
+> the PMIC bus, so the R-I2C0 request returns before writing, and the
+> old handler's write for PM (3.3 V) would set bit 1, which is already
+> set. Vinicius' test covers R-PIO: he added 3.3 V vcc-pl and vcc-pm
+> supplies, and also read the registers after the unused-regulator
+> cleanup.
+> 
+> Also built arm64 defconfig with W=1 (GCC) and the changed objects with
+> Clang. Not tested: 1.8 V switching, A523.
+> 
+> v1: https://lore.kernel.org/r/20261031020640-263f7b05-a7s-pinctrl@gmail.com
+> 
+>  drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c | 20 +++++++++++++++----
+>  drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c   |  3 ++-
+>  2 files changed, 18 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
+> index cffc1e53eef1..1cfd81184350 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sun55i-a523-r.c
+> @@ -30,17 +30,29 @@ static struct sunxi_pinctrl_desc a523_r_pinctrl_data = {
+>  	.pin_base = PL_BASE,
+>  };
+>  
+> +static struct sunxi_pinctrl_desc a733_r_pinctrl_data = {
+> +	.irq_banks = ARRAY_SIZE(a523_r_irq_bank_map),
+> +	.irq_bank_map = a523_r_irq_bank_map,
+> +	/* A733 has two-bit voltage modes, without the A523 control register. */
+> +	.io_bias_cfg_variant = BIAS_VOLTAGE_NONE,
+> +	.pin_base = PL_BASE,
+> +};
+> +
+>  static int a523_r_pinctrl_probe(struct platform_device *pdev)
+>  {
+> +	struct sunxi_pinctrl_desc *desc;
+> +
+> +	desc = (struct sunxi_pinctrl_desc *)of_device_get_match_data(&pdev->dev);
+>  	return sunxi_pinctrl_dt_table_init(pdev, a523_r_nr_bank_pins,
+> -					   a523_r_irq_bank_muxes,
+> -					   &a523_r_pinctrl_data,
+> +					   a523_r_irq_bank_muxes, desc,
+>  					   SUNXI_PINCTRL_NCAT2_REG_LAYOUT);
+>  }
+>  
+>  static const struct of_device_id a523_r_pinctrl_match[] = {
+> -	{ .compatible = "allwinner,sun55i-a523-r-pinctrl", },
+> -	{ .compatible = "allwinner,sun60i-a733-r-pinctrl", },
+> +	{ .compatible = "allwinner,sun55i-a523-r-pinctrl",
+> +	  .data = &a523_r_pinctrl_data },
+> +	{ .compatible = "allwinner,sun60i-a733-r-pinctrl",
+> +	  .data = &a733_r_pinctrl_data },
+>  	{}
+>  };
+>  
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c b/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
+> index ca82f08a3a65..d4b0a40525f9 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
+> @@ -24,7 +24,8 @@ static const u8 a733_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =
+>  static struct sunxi_pinctrl_desc a733_pinctrl_data = {
+>  	.irq_banks = 10,
+>  	.irq_read_needs_mux = true,
+> -	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
+> +	/* Preserve the firmware-configured two-bit voltage modes. */
+> +	.io_bias_cfg_variant = BIAS_VOLTAGE_NONE,
+>  };
+>  
+>  static int a733_pinctrl_probe(struct platform_device *pdev)
+> 
+> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
 
-- Level 1: CRC errors with pseudorandom Ethernet payloads and
-  ordinary TCP transfers.
-- Level 2: no CRC errors in the same tests.
-- Returning to Level 1: CRC errors returned.
-
-For example, a 300,000-frame pseudorandom test produced 141 CRC
-errors at Level 1, zero at Level 2, and 61 after returning to
-Level 1.
-
-Payload choice mattered: fixed 00/ff/aa/55 patterns did not expose
-the problem in earlier tests, while pseudorandom payloads did.
-
-Validation at Level 2 included:
-- 4 GiB of bidirectional TCP transfers before reboot and another
-  4 GiB after reboot.
-- 600,000 raw frames per validation run, covering frame lengths
-  of 64, 128, 256, 512, 1024 and 1514 bytes.
-- No CRC counter increments on either the Cubie MAC or the
-  connected switch during these runs.
-- TCP throughput around 111-112 MB/s.
-
-A separate TX-delay 8 -> 9 -> 8 comparison at Level 2 was also
-CRC-free. The small throughput difference was not sufficient to
-establish a meaningful advantage for either value.
-
-The persistent configuration currently uses drive Level 2,
-TX delay =3D 8 and RX delay =3D 10.
-
-These results are from one board. I have no oscilloscope
-measurements, so they establish the observed effect of the drive
-setting, not the precise electrical cause or a board-wide fix.
-
-Would Level 2 be an appropriate board-specific RGMII pinctrl
-default for the Cubie A7A? Also, is there an authoritative mapping
-between the A733 drive levels and their electrical characteristics?
-The BSP's 10/20/30/40 mA labels do not appear to match the GPIO
-current figures in the datasheet.
-
-References:
-
-A733 User Manual V1.00:
-https://gitlab.com/tina5.0_aiot/product/docs/-/blob/product-aiot-stable/A73=
-3/Hardware=E7=A1=AC=E4=BB=B6=E7=B1=BB=E6=96=87=E6=A1=A3/=E8=8A=AF=E7=89=87=
-=E6=89=8B=E5=86=8C/A733_User%20Manual_V1.00.pdf
-
-A733 Datasheet V1.01:
-https://gitlab.com/tina5.0_aiot/product/docs/-/blob/product-aiot-stable/A73=
-3/Hardware=E7=A1=AC=E4=BB=B6=E7=B1=BB=E6=96=87=E6=A1=A3/=E8=8A=AF=E7=89=87=
-=E6=89=8B=E5=86=8C/A733_Datasheet_V1.01.pdf
-
-BSP pinctrl driver:
-https://github.com/radxa/allwinner-bsp/blob/f9a496c24bf6b7cc31c4b5c716ece58=
-b2c287f01/drivers/pinctrl/pinctrl-sunxi.c
-
-Best regards,
-Sergey Kacheev
