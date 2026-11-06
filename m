@@ -1,49 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793878231;
-	b=FtGyRI1WVbMk6MkiVVXVggnDOJwE/ZWe9PhiC+EeSK3cg1X6WU8Qf8LcHPv6DYUvZvvV
-	 XXLOr4S0r9GCr1tDBJxWBUE6dNDESBIHvubRFZCf2HBGawyre1bCBcVZGezH4j2WSOd1C
-	 QVDz/AyjqCGfXlEcLc+rcydRLPQcq8bVuK7BTwMZ427ZP+zxNGaOrLTsHQiOgyPih7rqm
-	 9/Cxnzyl96Fm9vJjasPNFl8kGF5GGON8kOyTaALurFht0fta475HL3reQxSP4WUmRz8nM
-	 6DygunB+CV+EQgVhBlQcHiAI29hYcW10HzgTDUOhckFxf9yXzLEp77jut0lsZUQ2TTw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793878231;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=JQmg4zxeUYL2PPa+vgHQ5g1Y2E23WzFCydvT5jQRgwE=;
-	b=bFiNPQKZEdmPnxx4MUyGYWy4fzo7oHgZuoOvS/g3DJUS6tZdQSHjNsERdTEwOrKuuCnW
-	 JZ9MO/n6UCOMHnKGOGyd9MGL7bXi2suWdGQNNUld+zW570qOcHERmd8/2qWsOSBbFtfvL
-	 CweORc1CgoYDTg4V5a49kKkfky6qOJnWRLBiY7DwHO52QqJKRiLFud51rfbxztewtTC3E
-	 f2woqxx8ZbjBw5GEZ9R5deOHEF9OhNd9oPr5faf5OMmUQniGqTzLLDXHF0yXppWOgOuGa
-	 z7ZWKS1m+gOAz/q7oRs+xh0RhDjyJKg1plh04MKNqLeGSg41XXV7e4CjhfzfVDxVxvg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=RC6nnou3;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12D1C606A326
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Nov 2026 11:30:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12D1C606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.41
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793883293;
+	b=PiM6mhB9AasujKVeSyMs2tXCqCzulQtj6uPRfZUBL1Eetl0HxrVwM90inPvwRWzMzi/F
+	 7h7LCJZl9nekW2KjSSvkujzfT2E7PrRqz3eIa1leUkpiCf4fTuEpYi7OXrVjA1/UqMPNZ
+	 TDSKYrc5y3MkF3P+VHuSUd2H6IQHQECd1SzCboFS4RFPaFfuYiQHKCeUbH8hhlviqbCwt
+	 6QEwDBC9Zmq6LXooc6OTBK5c8O3SHG7uJRJbjNQdXP9e0at7RU+cfGAcoSyVvH8GFeLOJ
+	 TU470h2C3bXjSVnoUuJcs/17r+mSlpAWBJefjsAvn5Opiw7kd1mKBffpcDY62zxLtdA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793883293;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=tOF6PS1JMi8W8WKP7mDpxXD9imSMAhXJwC00jGPmGBs=;
+	b=doxEANBHozwuApbfaVF/eyGjgXsBJboOgr/wo6ytgQwXdx7YkNvARM+bHjXAiFIVOSOG
+	 +30YQSKWSMdsPjEPI6DIBNXNDpiYJ9QsDqmB7EKktAmfGOD5HAgiUBDFPVKgxsBXcqaaw
+	 ykBxug3RNd4+e8e+sEhjCTU/mSZX1jeJW307gAQ/ha/GPcxyIz03+Ko89Itp77k8uDWFz
+	 tT5DUc93lqlYs1zrcEp3wPqAvqV9gHf9k/ibcFabqvv1EAc3FSwuODqywckW8DXl9oSyE
+	 bFQDREJp4Uiyn1aZAe1lRSHPzaJnxuFvyMCkEGhqieneg2WGiw1J6JM/QudatiXJ3kw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ini1Qu67;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.41
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C553E606A329
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Nov 2026 12:54:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C553E606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=RC6nnou3
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3854715A1;
-	Thu,  5 Nov 2026 03:30:27 -0800 (PST)
-Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A6E943F628;
-	Thu,  5 Nov 2026 03:30:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793878230; bh=C0b3O6W1wzcNoRzD4HqefcZG2lnlYH/+Xnqj36zkkwo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RC6nnou3GWdlDGhCm9PHgWnLnyV3Titnp/aOc2ba+ADA92hOXYckqG8IGQoQ6DJiQ
-	 Sf/GPRNpCKJfsM1gSmSuOXwh7DnCcpvXZEWb7pkvK+nllUkZ4FeWcqxwqnRiE2TO8P
-	 VvBbzKqwuj3MHj1ZGd8Fip2yPX3KcqvQnSGOQV8U=
-Message-ID: <d4d89cf9-884d-424b-927d-5b6692f50327@arm.com>
-Date: Thu, 5 Nov 2026 12:30:14 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ini1Qu67
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-825b40f8a26so806392a34.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 05 Nov 2026 04:54:52 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793883291; cv=none;
+        d=google.com; s=arc-20260327;
+        b=mqR3eddFeAlIryXhcAtXgm3RsGu3CUnnKYYKJhMGCppm44oadPOql+NUSNqR9EOWlL
+         7UvTb3bC3aGeU5pUtlmkC6P7tgoaxf48wF/quXjmo94PTPtA+fJY679qfmTzJY4Imj+I
+         tSN7cKxw7k/oqeiSIKsX7GYlklA0gl/a5ZVpopPyADMNQtvKIEYtVwXdztGTzcJfpDcN
+         zzX2P55lvK33BPstFM2Keb3qggMLGBC4HtmpIg1s/EjFnec+9svSc2b13DWl68OEy2rc
+         KqWAiqGnPwLHdpZOPiQsRngNs4SN9gckqeMhjQBGH31MvVmCnPHay0970pb5iSNPYj/A
+         HnGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=tOF6PS1JMi8W8WKP7mDpxXD9imSMAhXJwC00jGPmGBs=;
+        fh=Iynzv78PkEdAECF/JKp8d7q6WHLN/27I9BGbU0hDRzc=;
+        b=CgmDA2rZLcs0mFy1SmUeZvzZ4X0At91CB3DsJZ037V2bJ1HmuQn62frKDWaOcrPzVe
+         2svBUNgjP3g9c0uh4z2nsgAS8NyEhd57rsOnSw9fuHmuXXcPMUok9vQX4kbzF8qs0LQQ
+         Q9UjPiCgxOxXbbwY0cauHpRTGe6GKmeuxacZD/iid3kHZ91KBUFzGdknvi3Pds1iehoI
+         tTk3H7rAZDSpOW1WJUrLmMZKLYljwEe0d9hGyNUS6CFgBgN53naM609VAfU5WcH+Wr6C
+         zFVy1H6AkLNX7zRE8h4ZwzxqWRvasyv5suSi8VqSfMxfLBa2W/rgxICA/RJ3LkxQrG/a
+         B1nA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793883291; x=1794488091; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=tOF6PS1JMi8W8WKP7mDpxXD9imSMAhXJwC00jGPmGBs=;
+        b=Ini1Qu676ARz0M8FHBVaP4Gw/Vu71RomFDUYzkcUage8UwTGd7X9l2Dsh5S2U8bvJy
+         EcpnUZs7oEntSL+dr172NvQdXF4LKvC+Y9wyOYIjzAkLnAF1tnw8MpStMhRI0JqwLsg4
+         iSp7MV38XWZqDyQ4ijBSel2n81Q2crTZ2p+49Xx8UamrA6BCzShrDzYzkE9Vsm2k47Rc
+         1ltQpuLeI+k0XW5lX+xsGWE0BLzFH4dgRL8q+i0NGc4PXa0iIgpgp6n2okKMuYcQB7E3
+         JC7t63PbTkOnfsIYbJeSQl/rDux/suP11Ff6Ytt3xL9Ip7NPebNq3TKKj6vFdSjPhQvA
+         raFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793883291; x=1794488091;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tOF6PS1JMi8W8WKP7mDpxXD9imSMAhXJwC00jGPmGBs=;
+        b=QaDVWHDJiOurR6Mbw24E4d0gt9T2a5uSuRXLWguyn4oJ1x7p6xDUuBKoL6sVEfR1xo
+         InXhL1OpZfig9FA5iZGDsmLGRKzcNlrznNFcijw3TRBiPr8jTf5VkiOxpY+jrsmMETrh
+         F1ghO1RrT/c6TMGHeWW839UzSObPZPZ8hTUni5tEQPZGd/M/HM+frzF4yyLRKco0L8bp
+         Ab9kwV6TcjZpknr/SSGcwtoR0RyNazzlYE+xOaIeb6LV8wfV5hXsrLWkw95ol9rZI9N4
+         v5LKVWrEiPY6L0yy+NLg8DO/QGWt7w02pt6fZa4gdjRbUHgMQRz4N8++aCWLLGj8J1/b
+         nB9Q==
+X-Forwarded-Encrypted: i=1; AKwUvBysmPVDwnDwTVDAbRWcGGaBdOkRNzoQtSb/uPrIGNBNso5At81fgnzgAxPvFqTU11+wPOxqq7mx//+dMg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9f+7/tWAEc3OvNSZM3Re0u5o0/R6emWU4iLyeeD4Mzd/cd1c6x
+	PJ2EWbvxd8ChwCEf3krGPHJE2fPC7eWr1vMuSUXxELYub2qN2PAAM9aFfFMaTccH4twmgfHkNIv
+	wSA+1grwohmyb05iAxt6yaafqA1TEYJzMfzYXgQXiJsH8
+X-Gm-Gg: AYBFou2wYR1dRU3lVl2NzoO+nRrcANIcD8ox2r6ePi2FnI7uZMXl5vSlMBS25xby2t7
+	cq0JfZIQXtV50Oarq5jcqK020Iu/ANoBj9EZvg41gxV9MqPNZvijFMEwr07FjGQHdvHdmX/YPyz
+	PzR/zDUT8IK6okjvSNBfjRN0GtP8DlsSj1n8OcAVwCxFZxuR7CVVsYWdsolhYyHOuGeW9Ez4EtV
+	X31YXf0RsKtdJPyatzePNOe0nrqKHVwy3qkl6WTlel5JcMFFwj3ID/rxe2LHIyy9kRCk7BIwHbQ
+	AGogEk8FK5cTt3F1j0b7BgSIzPzNU3D3FBC0wo57arfKQv1CyprNwAGVdMKHuOF7jta52kbk5RI
+	q+zpqkxFzY33YRyI9YrhC54uz/3hiAvxr8HQSQemqP8ufjELMKrJ2EuuwZi0LtVEoRTPqHDU0pI
+	y+SL9YX8hTQBYIsm0yFFsk+iNorwDdMzQwQNhekssSLBY=
+X-Received: by 2002:a05:6808:6508:b0:53e:3b0b:fc1f with SMTP id
+ 5614622812f47-5640dc2a803mr13971941b6e.22.1793883291559; Thu, 05 Nov 2026
+ 04:54:51 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -53,136 +105,66 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] sunxi: A133: Add CPU speed grade detection and OPP
- table
-To: rajanyadav0307@gmail.com, Yangtao Li <tiny.windzz@gmail.com>,
- Viresh Kumar <vireshk@kernel.org>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>
-Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Cody Eksal <masterr3c0rd@epochal.quest>,
- Alexander Sverdlin <alex@sverdlin.org>, Paul Kocialkowski <paulk@sys-base.io>
-References: <20261104-a133-series-v1-0-58217cb33a87@gmail.com>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20261104-a133-series-v1-0-58217cb33a87@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20261016113846.8602-1-arash.golgol@gmail.com>
+In-Reply-To: <20261016113846.8602-1-arash.golgol@gmail.com>
+From: arash golgol <arash.golgol@gmail.com>
+Date: Fri, 6 Nov 2026 16:24:27 +0330
+X-Gm-Features: AclHuK_mK9V2l6M4jlS75n76fTlhzkP8UIpwt-w6idtrgAnrQy8Zvz7juL15y8o
+Message-ID: <CAMxPZkhRKB8uGL3L4K43aU4pqH+FdZdB829yaw6WDF-h4RW7oA@mail.gmail.com>
+Subject: Re: [PATCH v1 0/3] media: sun6i-csi: Improve capture and bridge
+To: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Cc: yong.deng@magewell.com, paulk@sys-base.io, mchehab@kernel.org, 
+	wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org, 
+	laurent.pinchart@ideasonboard.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Rajan,
+Hi,
 
-many thanks for putting this together, especially for really going deep 
-into the problem, and trying to sort out the messy ID scheme that 
-Allwinner employs here.
+On Fri, Oct 16, 2026 at 3:08=E2=80=AFPM Arash Golgol <arash.golgol@gmail.co=
+m> wrote:
+>
+> Hi,
+>
+> This series improves sun6i-csi capture and bridge.
+>
+> Patch 1 fixes sun6i_csi_capture_format_prepare() to align both width
+> and height to 16 for NV12_16L16, as its 16x16 tiles require.
+>
+> Patch 2 adds vidioc_enum_framesizes() to sun6i-csi-capture, using the
+> same alignment.
+>
+> Patch 3 removes duplicated mbus codes from sun6i-csi-bridge. It was
+> posted earlier and carries Paul's Reviewed-by.
+> Link: https://patchwork.linuxtv.org/project/linux-media/patch/20260527124=
+552.33815-1-arash.golgol@gmail.com/
+>
+> Tested on LicheePi Zero Dock (Allwinner V3s) with:
+>   ov5647 -> sun6i-mipi-csi2 -> sun6i-csi-bridge -> sun6i-csi-capture
+>
+> As ov5647 only outputs Bayer, streaming HM12/NV12 is not possible on
+> this setup, so I did not test real streaming. I checked that
+> v4l2-ctl --try-fmt-video, --set-fmt-video, --get-fmt-video and
+> --list-framesizes report the expected sizes for HM12 (16 aligned) and
+> NV12 (2 aligned).
+>
+> Arash Golgol (3):
+>   media: sun6i-csi: capture: Align size to 16 for NV12_16L16
+>   media: sun6i-csi: capture: Add enum_framesizes support
+>   media: sun6i-csi: bridge: Remove duplicate mbus format entries
+>
+>  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 12 -----
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 45 ++++++++++++++++---
+>  2 files changed, 39 insertions(+), 18 deletions(-)
+>
+> --
+> 2.34.1
 
-Jumping straight to the questions you asked below:
+Just following up on this series.
+Link: https://patchwork.linuxtv.org/project/linux-media/list/?series=3D3216=
+1
 
-On 11/5/26 05:40, Rajan Yadav via B4 Relay wrote:
-> Andre asked [1], in his review of my A100 thermal trips patch [2], to
-> look at the A133 speed bin selection and OPPs. Mainline treats the A133
-> as an A100: it reads only the CPU bin field and picks one of three A100
-> voltage tables. The vendor BSP for this family (sun50iw10, KickPi A133
-> Linux SDK, linux-4.9) picks one of 11 grades from the chip marking ID,
-
-[ ... ]>
-> Questions:
-> 
-> 1. 1.6 GHz. Andre mentioned the nominal 1.6 GHz OPP. The SDK's code
->     and table select b2 for this chip and stop at 1512 MHz. The factory
->     kernel on this board (built January 2026) has a newer table: there
->     1608 MHz exists only for b0 and b1, the revision A-E high speed
->     grades, at the same voltage as their 1512 MHz OPP (1.18 V and
->     1.13 V), and 1416 MHz is added for a0-a2. That kernel selects b0 for
->     this revision F chip; its boot log suggests that its cpufreq code
->     does not read the revision (the revision is first read about 110 s
->     after boot). With the series' rules this board stays b2, so adding
->     1608 MHz for b0/b1 would not change it, and I have no revision A-E
->     part to test. With the b0 voltages forced by a test DTB (6.18), the
->     K5C was stable for an hour but sat at the 90 C trip, cycling between
->     1416 and 1608 MHz, with less than 1% more work than b2. The A133
->     datasheet says 1.6 GHz in V1.1 and 1.5 GHz in V1.5. Should 1608 MHz
->     be added for speed6/7 (b0/b1), as in the factory table?
-
-So I read about the 1.6GHz somewhere, might just be a marketing claim 
-about some max frequency. If the common speedbins do not support 1.6GHz, 
-that's fine, but apparently some do, so I'd keep them in, for people who 
-happen to have those SoC revisions.
-
-> 2. A100. The BSP uses the same rules for the A100, and the mainline A100
->     table has the a0-a2 voltages, but at 1080 MHz where the BSP has
->     1008 MHz. U-Boot starts the CPU at 1008 MHz, so mainline now logs
->     "unlisted initial frequency". Should the A100 table move to
->     1008 MHz too, or the A100 board to the new compatible? I can only
->     test an A133.
-
-I don't think we have ever seen A100s in the wild really, reportedly 
-they got phased out very early in favour of the better performing A133. 
-A100 is just used as a name because it was the only name back then when 
-support was upstreamed, and in the kernel we tend to not care too much 
-about vendors' marketing and naming strategies too much ... ;-)
-I think if we can be sure that the current mainline OPPs still apply 
-with this series, that's good enough.
-
-Regarding 1008 MHz: This was just some frequency close to 1GHz picked by 
-U-Boot, that should be low enough to not cause any trouble, even with 
-the default voltage. How critical is this "unlisted initial frequency" 
-message? If it causes trouble, we can add a made-up 1008MHz OPP with 
-some safe voltage, otherwise I'd say we just leave it.
-
- > 3. SOC_ID. Would you rather have the driver read the revision from> 
-   SYSCON+0x24 itself (the system controller is already in the DT)?
->     Then it would not depend on the firmware, and parts would never run
->     below the vendor voltage for lack of it. And do the Teclast P80 and
->     the Helperboard run a TF-A with SOC_ID?
-
-We simply do not support non-mainline firmware, both TF-A and U-Boot, 
-with a mainline kernel. For older SoCs they were just not compatible, 
-but I don't know about the exact situation with newer parts.
-So like for the H616, please just use the SoC ID call, that's a clean 
-solution. Maybe just make sure that it can fail somewhat gracefully 
-(read: not crash).
-
-> 4. A133P. My SDK has no A133P data, and Andre expects it to go
->     higher. An A133P whose marking ID is in the BSP's high speed list
->     gets b grades with A133 voltages; otherwise it gets a grades (at
->     most 1464 MHz). If someone has a newer BSP (5.4) with A133P tables
->     and marking IDs, I can add them.
-
-I have just read that the "P" allegedly stands for "performance", and 
-this it can clock up to 1.8 GHz. So again, just use what the BSP OPP 
-table tells us. We are in no position to qualify enough parts to make 
-such a decision. And we can always extend the table later should new 
-data appear.
-I think some of those handheld gaming consoles use the A133P variant? 
-Maybe there are some tables in "their" source code?
-
-> 5. Testing. Patch 6 changes the Helperboard A133, Liontron H-A133L and
->     Teclast P80, which I cannot test. A boot log with
->     dyndbg="file sun50i-cpufreq-nvmem.c +p" on the kernel command line,
->     and the contents of
->     /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies,
->     from those boards would be very welcome; no fuse dump is needed. On
->     the P80 (secure boot), could someone also check SID bytes 0-1 (the
->     marking ID)? If they read as 0 from Linux, a high speed part is
->     treated as a normal one: it gets 1464 MHz instead of 1416 and
->     1512 MHz and, if its bin extension bit is set, up to 20 mV less than
->     its b grade would give.
-
-Thanks, I will try to get those logs, I have the Liontron board and the 
-Teclast tablet.
-
-Thanks,
-Andre
-
-P.S. Since you mention the KickPi: can you please work with Paul (in 
-CC:) to upstream the DT for this board? Seems to be one of the more sane 
-and available devices with this SoC. I think Paul has plans to submit 
-DTs upstream, but I guess he will be happy to have taken some load off 
-his chest on this.
+--=20
+Regards,
+Arash Golgol
