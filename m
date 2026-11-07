@@ -1,67 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=160.30.148.35
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794006479;
-	b=bEvzoOMdlg2hDCJaaEfHOKjFmAveN9OdA/wRDlYK45/W28GJ1OKP3wr1M/XcjweHMdIK
-	 X3Pvog+M7ZJMeaVmqnNstk1CQH5n8kOL0Ny8XxS8OzoQ9YkXtg3/dHYXZlUpLNhDVZXmd
-	 vF7uLMxnkkYNqfqePmUneC9piMXp+Hix1vOmUYjVyaXaHYc++yIVuWw7ljEAWKGtdwtTq
-	 jr9BqXjq6PzTykXvZgIqqH+KpEwCbfZU53F65VroEO96cOjJI4VtNroHwp9cNDNa0Yt73
-	 70R8FBZ/9yycL4nswRssqx8tMoesBO2kbxMne+ZAnUjiHvsZiEZKpoFy8bA8IiQDDxQ==
+	t=1794038900;
+	b=gPZvKUCVsQ3/m5QDOoghwtvt053AJNACRSOzqajmuFZFDEHh2MCDOhWIQQ1oKh+VcoDA
+	 oMLDa7tagsIEXBC61Bkq9xBI+9W2dbnphvfO8/ImVgxULBVPtawfVGV/Kdj9YBidpCm/C
+	 SnoOeu8R8/PCn53VbJRCf1kc1MxYUGwoLBqUtRiVDOa2EIRQLxxm4P7opViMAG+r6mXa5
+	 VQAKtUEV7/eplHJdut0NX8AVSStO8L6l1P3L0siezhQBSr6UhBMR60jnRPZb2X7/aRk7+
+	 NiqH/X1bwBdHnrAtXXouov5ny/pCQiqnxhG+YFv9tJyb3N6MoliJnxLOGx3lw55IQQw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794006479;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=+gyzgNhPsylvP06vZq5Elrbi2P3u4np1Q6XcqS10pRQ=;
-	b=qt9Wp/BPk9HmjdDUYh1i7u1P1qTDuChbB6QzhhnNMtMm5PXvUBcyPO4eBBxjsPEJo5cG
-	 nHQRmNxL4APp7OhHVVRk2206/mdogKXYBfqI2e0ME+nwrSGkqDWeJsD1WMu2qISzvt853
-	 fOmYFJnxFYx2IfooCTgS4/pIbJgfJD4GmFNmP1Qn5kkE/m0G58ecjHVNamhxqqSgB2Ria
-	 eyRb4uhxcoUvG91JZCa7hPAiFkvzW9yvQXPbTua0k6m8cG/P6ZgcAvtOZv51KmmOsZx4o
-	 uJ2dbqgfikw3eXIioIbSKZsdKFf/knOMYYH38FNojZQJXa58fNqT7rn8Yr92+UhtDTQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794038900;
+	h=DMARC-Filter:Received:Received:Received:X-Zmail-TransId:X-Mailer:
+	 Message-ID:Date:Mime-Version:From:To:Cc:Subject:Content-Type:X-MAIL:
+	 X-TLS:X-ENVELOPE-SENDER:X-SOURCE-IP:X-CLEAN:
+	 X-Fangmail-Anti-Spam-Filtered:X-Fangmail-MID-QID;
+	bh=e/rFmgN3Z5KxfWW+Rzz0lvQ+GFMHmAzHgZaIrh0Ft3U=;
+	b=sZVFW1Z3UhhaNDlre4zvbm/9K1qwp39iY+2RcnV9Pq/FJSmgqqEFp8C9FEv6sxt/esRu
+	 lGV/Qrs8KMF54gmZajJ/PjsBBmXjEWH6wBEqKAOkI7BYdxBYaerpAU0LAojN7oJmH1kF2
+	 IlgX0GH9SvgHWvlT59ZjKcd24gefyELXd3exoQtjd0CrZ/W57sEqiODvsr7qscxgyyqSJ
+	 z9UpmhKDaJDHBo0oQg0JKuztukyF3tQngjOwtThvfMAreM8EeF5hUD/q36KdR99mTXw26
+	 w+MlmD82VZAJZAyH0nhQGUoBBZQ0oHyZG7Ya2zJ8PEnZdCOnptiE/Kt6vixVnzOPEzQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=A+qPZ9qe;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98281606A32D
-	for <linux-sunxi@lists.linux.dev>; Fri,  6 Nov 2026 23:07:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98281606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=A+qPZ9qe
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CE1B11650;
-	Fri,  6 Nov 2026 15:07:53 -0800 (PST)
-Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D216E3F632;
-	Fri,  6 Nov 2026 15:07:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794006476; bh=RJP+8WlqG/AN8bbXr0dcvH9Qfm+ONJlgtpsBrXaYgLk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=A+qPZ9qeYrog5H0PV6WbMfxCMDh5jvpniOk24HubukGL/m5QIsiHJKgayOMaz+FGW
-	 Kalpy6nnQROAErDm9Zk63zkruft/Zrg7oBdens2LnteHYp03qOBaDC4va0axjK3OJc
-	 OGBxNk0eVUlHwUlF/0U98vTxcm2KOfheIRTFd85U=
-Date: Sat, 7 Nov 2026 00:07:45 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Enzo Adriano <enzo.adriano.code@gmail.com>
-Cc: krzk@kernel.org, Ulf Hansson <ulfh@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Maxime
- Ripard <mripard@kernel.org>, linux-mmc@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Junhui Liu
- <junhui.liu@pigmoral.tech>
-Subject: Re: [PATCH] dt-bindings: mmc: describe the Allwinner A733 eMMC
- controller
-Message-ID: <20261107000745.45b349d1@ryzen.lan>
-In-Reply-To: <20261103-a733-mmc3-withdraw-reply@gmail.com>
-References: <20261031020640-263f7b05-a7s-mmc-binding@gmail.com>
-	<20261102-steady-grateful-chimera-e2363a@quoll>
-	<20261103-a733-mmc3-withdraw-reply@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+	dmarc=pass header.from=zte.com.cn;
+	spf=pass smtp.mailfrom=zte.com.cn;
+	arc=none smtp.remote-ip=160.30.148.35
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83DC9606A33E
+	for <linux-sunxi@lists.linux.dev>; Sat,  7 Nov 2026 08:08:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 83DC9606A33E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jM7w265jZz8RVJk;
+	Sat, 07 Nov 2026 16:08:18 +0800 (CST)
+Received: from xaxapp01.zte.com.cn ([10.88.99.176])
+	by mse-fl1.zte.com.cn with SMTP id 6A788DXS022834;
+	Sat, 7 Nov 2026 16:08:13 +0800 (+08)
+	(envelope-from shao.mingyin@zte.com.cn)
+Received: from mapi (xaxapp04[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Sat, 7 Nov 2026 16:08:15 +0800 (CST)
+X-Zmail-TransId: 2afb6aeedc6f415-84fc1
+X-Mailer: Zmail v1.0
+Message-ID: <20261107160815352Q4eO0zXOX0KF5AwEbOJ6f@zte.com.cn>
+Date: Sat, 7 Nov 2026 16:08:15 +0800 (CST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -70,77 +56,67 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+From: <shao.mingyin@zte.com.cn>
+To: <broonie@kernel.org>, <linux-sound@vger.kernel.org>
+Cc: <lgirdwood@gmail.com>, <heiko@sntech.de>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <wens@kernel.org>,
+        <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
+        <linux-sunxi@lists.linux.dev>, <kuninori.morimoto.gx@renesas.com>,
+        <linux-renesas-soc@vger.kernel.org>, <srini@kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: =?UTF-8?B?W1BBVENIIDAvNV0gQVNvQzogZml4IGVycm9yLXBhdGggbGVha3MgYW5kIGEgTlVMTCBkZXJlZmVyZW5jZQ==?=
+Content-Type: text/plain;
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 6A788DXS022834
+X-TLS: YES
+X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
+X-SOURCE-IP: 10.5.228.132 unknown Sat, 07 Nov 2026 16:08:18 +0800
+X-CLEAN: YES
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 6AEEDC72.001/4jM7w265jZz8RVJk
 
-On Mon,  2 Nov 2026 19:41:55 -0500
-Enzo Adriano <enzo.adriano.code@gmail.com> wrote:
+Five error-path defects in ASoC drivers, found while reviewing against
+linux-next next-20261030.  Four of them leak a reference or a clock, or
+drop one twice, on a path that is easy to miss; the fifth dereferences
+a NULL remote port while parsing an audio graph.  The patches are
+independent and can be reviewed, applied and backported separately.
 
-Hi,
+  1/5 ASoC: rsnd: fix NULL dereference when remote port has no endpoint
+  2/5 ASoC: wcd9335: fix SLIM interface device double-put on error paths
+  3/5 ASoC: rockchip: rk3399_gru_sound: fix codec node reference leak
+  4/5 ASoC: sun8i-codec: fix bus clock leak in runtime resume error path
+  5/5 ASoC: rsnd: fix SSIU node reference leak in rsnd_dma_of_path
 
-> Hi Krzysztof,
->=20
-> On Mon, Nov 02, 2026 at 08:27:19AM +0100, Krzysztof Kozlowski wrote:
-> > On Fri, Oct 30, 2026 at 10:26:47PM -0400, Enzo Adriano wrote:
-> >> AI assistance: Codex:gpt-6-astra.
-> >
-> > Drop, we do not advertise slop companies anymore.
-> >
-> >>
-> >> Assisted-by: LLM
-> > Drop
->=20
-> Will do, here and in my other patches.
->=20
-> >> This binding is a separate prerequisite for the disabled MMC3 node in
-> >
-> > How this can be a separate prerequisite? Binding without user is not a
-> > prerequisite.
->=20
-> You're right, it isn't. It should not have been posted apart from its
-> user.
->=20
-> >> the A733 DT v2. It does not add a sunxi-mmc driver match or claim an
-> >> operational eMMC path.
-> >
-> > Hm? Why?
->=20
-> Because I can't test one. None of my three Cubie A7S boards detects an
-> eMMC, and their vendor device trees leave this controller disabled.
->=20
-> [...]
->=20
-> >> prerequisite-patch-id: 6fc03bfbd343042dd3b660938fcc09c5e7d48314
-> >
-> > So this cannot really be tested.
->=20
-> Agreed. Those IDs came from my local tree and are no use to anyone else.
->=20
-> I'm withdrawing this patch. Andr=C3=A9, you asked for the other MMC
-> controllers because the IP is the same, but the manual documents a
-> different descriptor layout for SMHC3 (A733 User Manual v1.00, tables
-> 11-3 to 11-6), and I have no hardware to test it on. The next DT
-> revision will describe MMC0-2 and leave SMHC3 out until someone can test
-> driver support. If either of you would rather have it described now,
-> tell me and I'll put it back, in the same series as its user.
+1/5 returns early when a graph endpoint has no remote port; 2/5 removes
+the four manual put_device() calls that duplicate the devm action; 3/5
+puts the codec node on the two skip paths of the Rockchip DAI-link
+parse; 4/5 disables the bus clock when the regmap sync fails; 5/5 puts
+the SSIU node after the DMA path lookup.
 
-Well, I was merely asking to list all instances that are the same. That
-one MMC controller is using a different IP is new, so I wasn't aware of
-that.
-And we don't submit bindings for something that has no driver and
-hasn't been tested. We have been bitten by subtle mistakes in the past,
-which lead to broken bindings, so just wait until we have some user for
-that. Adding to a binding and DT is always fine to do later.
+Patches 1/5 and 5/5 are R-Car (Kuninori Morimoto), 2/5 is the WCD9335
+codec (Srinivas Kandagatla), 3/5 is Rockchip (Heiko Stuebner) and 4/5
+is sunxi (Chen-Yu Tsai, Jernej Skrabec, Samuel Holland).  All go
+through the ASoC tree.
 
-Cheers,
-Andre
+3/5 was tested on 7.3.0-next-20261030 in a QEMU/TCG arm64 guest with a
+synthetic DT; the test section in that patch describes the setup and
+the observed reference counts.
 
+Shao Mingyin (5):
+  ASoC: rsnd: fix NULL dereference when remote port has no endpoint
+  ASoC: wcd9335: fix SLIM interface device double-put on error paths
+  ASoC: rockchip: rk3399_gru_sound: fix codec node reference leak
+  ASoC: sun8i-codec: fix bus clock leak in runtime resume error path
+  ASoC: rsnd: fix SSIU node reference leak in rsnd_dma_of_path
 
->=20
-> Sorry for the noise.
->=20
-> Best regards,
-> Enzo
->=20
+ sound/soc/codecs/wcd9335.c            | 4 ----
+ sound/soc/renesas/rcar/core.c         | 2 ++
+ sound/soc/renesas/rcar/dma.c          | 5 ++++-
+ sound/soc/rockchip/rk3399_gru_sound.c | 8 ++++++--
+ sound/soc/sunxi/sun8i-codec.c         | 1 +
+ 5 files changed, 13 insertions(+), 7 deletions(-)
 
+---
+base-commit: 7649ba73f9e7e1e04d0b46213e39c79ae09dd55c
