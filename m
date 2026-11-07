@@ -1,55 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=160.30.148.35
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=183.62.165.209
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794038910;
-	b=Okps+a+c2o3UVYc1aDzb43n3wKp5U3qQr+yjPJa0tfK9+83VyTffGQxw4YQ3wxlNVP8n
-	 XBzUqhG665cF99qhY1cdqKFCFSzSxxwH84tuIfhMiy7aT/W5lJzZOgOrWpci5wcXAZ+gH
-	 aUP9Kxh5BSDsciRrkBMfiAWvWOGrKLYmD4rHOXRSYW1D3tiJ1jMEVOrzQvdznOTdP7tgH
-	 2+oihEN/yfHEJau9wULrPn6clGQCjMO1EuFPLbNYEUcFwJ0nK69rZzupdue3oxkC4rexW
-	 nF3UB6vSylS3od87iFZv1LFCsoJvfNYXYd9WGkI3nFtiykfneMv6jcX8jDzu0nHVXig==
+	t=1794038913;
+	b=mx8/Q91X0Kth5Bg+RHBT64Wk2vmjPBBreIwSMYwETw+ge4J+Mwdznpuytep6EH4aYxAM
+	 2DdbKWcvNx/mTUjpDrCyaTIqIACm2636ssLoYgjNh4jC/VuvnB8v7GCy1LjQVErV6OJ1O
+	 aiKXExI9W/Mbwk9Rx4fsey1Dogyh+YfAmuVseWSMcmSnyN0q2Rglw58cLKoPcHk2fSQg9
+	 wm0ONrsRiiOiaO6PBaWHl7bSNfJdTzj3GhU59n04s5I7VVG1PVyJ5V7+vBt/zHlgyRKAE
+	 +v0ahpJPFFpQtsICeJKZO89RDuzeZU2S0wil8IH8ECX0cfEFIfnsDCEE9CrPXTQ0jhA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794038910;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794038913;
 	h=DMARC-Filter:Received:Received:Received:X-Zmail-TransId:X-Mailer:
 	 Message-ID:In-Reply-To:References:Date:Mime-Version:From:To:Cc:
 	 Subject:Content-Type:X-MAIL:X-TLS:X-ENVELOPE-SENDER:X-SOURCE-IP:
 	 X-CLEAN:X-Fangmail-Anti-Spam-Filtered:X-Fangmail-MID-QID;
-	bh=W+DSbRgt6RPmWeWxjcN3w52/cEPdyy0qis5H5mohIiA=;
-	b=evBCmb8xJf8BQcEQFDjsOUGmgrmWAVb30cfgakRd7HT5WCYUYjjJZ7M8PExBmq657HJz
-	 WTJn+8AP7gttPE4NPDy35HRXP7t/mQKCngDh7WeYe1/X40xXBvpoyIFCIDc1u0r2dTkvG
-	 nnNrwSJwAI7Y0VHAze0hXgTP9AFk7aNNPa9AMl/UovW5L4jFoo0PMRIpV3wocCN8IF7/f
-	 0sQCiDs79Bp8Pw3Ff6lbdiK+/90JxsXJzYsymaUTFXyocrTeywjQ8TWkB9A0fu8+17inS
-	 4lSjMw1k2SS1+M2m8CgvLS18q7tzOxYe03wyVkSbVcZN6TglAHwBaXMiU6WGxts0iMw==
+	bh=5dGP7OsYZrgZld9I1X847oOXXK6extHaSO2lUmdQfn4=;
+	b=LD4546G5YuU9n3v6D20g7wmZSQx4aDqmFx3+bKQfVTSwChtWF5+QjKg3ZPS3tJwqa2du
+	 nzZcyeR4rIc2jUTNfPBGDEIDAowax9cZix8BgYsh7oIgibsdU8p2nhH77HCDOYdk/IZIM
+	 0SL7+mkDUxi7lW7dtQLOMUVJqVfsFM+WIopnxWROsuu57FArLgk/HHYiZbrEGefzAC8nD
+	 gVw3FSzk4tTnnKn8zaSJDwjudQEn9bsTWJgGiZqnDzzJy2//5o2hjchZlhcOvXfG6/5gu
+	 MWrWIaOf0OFe0kiMWRYxYn/IOBq+bfKAhx0HZ5b+yeABhPHMNaHeo1mLWIXckw19CuQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=zte.com.cn;
 	spf=pass smtp.mailfrom=zte.com.cn;
-	arc=none smtp.remote-ip=160.30.148.35
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [160.30.148.35])
+	arc=none smtp.remote-ip=183.62.165.209
+Received: from mxct.zte.com.cn (mxct.zte.com.cn [183.62.165.209])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25FCC606A32E
-	for <linux-sunxi@lists.linux.dev>; Sat,  7 Nov 2026 08:08:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 25FCC606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7A5606D83F
+	for <linux-sunxi@lists.linux.dev>; Sat,  7 Nov 2026 08:08:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D7A5606D83F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
 Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4jM7wD5qKdz8Xrnt;
-	Sat, 07 Nov 2026 16:08:28 +0800 (CST)
+	by mxct.zte.com.cn (FangMail) with ESMTPS id 4jM7wB3t1tz57HS1;
+	Sat, 07 Nov 2026 16:08:26 +0800 (CST)
 Received: from xaxapp02.zte.com.cn ([10.88.97.241])
-	by mse-fl1.zte.com.cn with SMTP id 6A788Lsp022865;
-	Sat, 7 Nov 2026 16:08:22 +0800 (+08)
+	by mse-fl1.zte.com.cn with SMTP id 6A788OUH022866;
+	Sat, 7 Nov 2026 16:08:25 +0800 (+08)
 	(envelope-from shao.mingyin@zte.com.cn)
-Received: from mapi (xaxapp05[null])
+Received: from mapi (xaxapp02[null])
 	by mapi (Zmail) with MAPI id mid32;
-	Sat, 7 Nov 2026 16:08:24 +0800 (CST)
-X-Zmail-TransId: 2afc6aeedc78151-80d01
+	Sat, 7 Nov 2026 16:08:27 +0800 (CST)
+X-Zmail-TransId: 2afa6aeedc7b7b3-93351
 X-Mailer: Zmail v1.0
-Message-ID: <20261107160824242Q5IY9bIPRFmXX_lzrU7ee@zte.com.cn>
+Message-ID: <20261107160827257FwoXZMjcThgcfD-ZPfKsk@zte.com.cn>
 In-Reply-To: <20261107160815352Q4eO0zXOX0KF5AwEbOJ6f@zte.com.cn>
 References: 20261107160815352Q4eO0zXOX0KF5AwEbOJ6f@zte.com.cn
-Date: Sat, 7 Nov 2026 16:08:24 +0800 (CST)
+Date: Sat, 7 Nov 2026 16:08:27 +0800 (CST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -68,60 +68,55 @@ Cc: <lgirdwood@gmail.com>, <heiko@sntech.de>,
         <linux-sunxi@lists.linux.dev>, <kuninori.morimoto.gx@renesas.com>,
         <linux-renesas-soc@vger.kernel.org>, <srini@kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIIDMvNV0gQVNvQzogcm9ja2NoaXA6IHJrMzM5OV9ncnVfc291bmQ6IGZpeCBjb2RlYyBub2RlIHJlZmVyZW5jZSBsZWFr?=
+Subject: =?UTF-8?B?W1BBVENIIDUvNV0gQVNvQzogcnNuZDogZml4IFNTSVUgbm9kZSByZWZlcmVuY2UgbGVhayBpbiByc25kX2RtYV9vZl9wYXRo?=
 Content-Type: text/plain;
 	charset="UTF-8"
-X-MAIL:mse-fl1.zte.com.cn 6A788Lsp022865
+X-MAIL:mse-fl1.zte.com.cn 6A788OUH022866
 X-TLS: YES
 X-ENVELOPE-SENDER: shao.mingyin@zte.com.cn
-X-SOURCE-IP: 10.5.228.132 unknown Sat, 07 Nov 2026 16:08:28 +0800
+X-SOURCE-IP: 10.5.228.132 unknown Sat, 07 Nov 2026 16:08:26 +0800
 X-CLEAN: YES
 X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 6AEEDC7C.000/4jM7wD5qKdz8Xrnt
+X-Fangmail-MID-QID: 6AEEDC7A.000/4jM7wB3t1tz57HS1
 
 From: Shao Mingyin <shao.mingyin@zte.com.cn>
 
-rockchip_sound_of_parse_dais() takes a reference on np_codec with
-of_parse_phandle() on every iteration.  When the codec is disabled or
-does not match a known codec, the loop continues without dropping that
-reference, so the node is never released.
+rsnd_ssiu_of_node() returns the child node obtained by
+of_get_child_by_name(), which holds a reference.  rsnd_dma_of_path()
+only tests that node and never drops the reference, so every DMA path
+setup leaks the SSIU node.
 
-Put the node on both skip paths.  When the codec matches, the reference
-is still transferred to the DAI link, so that path is unchanged.
+Put the node after the SSIU branch has used it.
 
-Fixes: 0d52954ffe80 ("ASoC: rockchip: Parse dai links from dts")
+Fixes: 4e7788fb8018 ("ASoC: rsnd: add SSIU BUSIF support")
 Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
 ---
-Tested on 7.3.0-next-20261030 (QEMU/TCG arm64 guest) with a synthetic
-device tree on the QEMU "virt" machine; no RK3399 board or audio
-controller is needed to reach the parse loop.  A test-only hook, applied
-to both kernels, compares the reference count of a disabled codec node
-referenced by rockchip,codec with an identical unreferenced control
-node:
-
-  unpatched                            patched
-  codec refs 4, control 3 (delta 1)     codec refs 3, control 3 (delta 0)
-
-diff --git a/sound/soc/rockchip/rk3399_gru_sound.c b/sound/soc/rockchip/rk3399_gru_sound.c
-index d4a0daabfb42..d18688b74ae9 100644
---- a/sound/soc/rockchip/rk3399_gru_sound.c
-+++ b/sound/soc/rockchip/rk3399_gru_sound.c
-@@ -540,12 +540,16 @@ static int rockchip_sound_of_parse_dais(struct device *dev,
- 		if (!np_codec)
- 			break;
+diff --git a/sound/soc/renesas/rcar/dma.c b/sound/soc/renesas/rcar/dma.c
+index 793dd4adbe5c..ece23ef5e56c 100644
+--- a/sound/soc/renesas/rcar/dma.c
++++ b/sound/soc/renesas/rcar/dma.c
+@@ -791,6 +791,7 @@ static void rsnd_dma_of_path(struct rsnd_mod *this,
+ 	struct rsnd_mod *mod_start, *mod_end;
+ 	struct rsnd_priv *priv = rsnd_mod_to_priv(this);
+ 	struct device *dev = rsnd_priv_to_dev(priv);
++	struct device_node *ssiu_np;
+ 	int nr, i, idx;
  
--		if (!of_device_is_available(np_codec))
-+		if (!of_device_is_available(np_codec)) {
-+			of_node_put(np_codec);
- 			continue;
-+		}
+ 	/*
+@@ -803,13 +804,15 @@ static void rsnd_dma_of_path(struct rsnd_mod *this,
+ 	 *	rsnd_ssiu_dma_req()
+ 	 *	rsnd_ssi_dma_req()
+ 	 */
+-	if (rsnd_ssiu_of_node(priv)) {
++	ssiu_np = rsnd_ssiu_of_node(priv);
++	if (ssiu_np) {
+ 		struct rsnd_mod *ssiu = rsnd_io_to_mod_ssiu(io);
  
- 		index = rockchip_sound_codec_node_match(np_codec);
--		if (index < 0)
-+		if (index < 0) {
-+			of_node_put(np_codec);
- 			continue;
-+		}
- 
- 		switch (index) {
- 		case DAILINK_CDNDP:
+ 		/* use SSIU */
+ 		ssi = ssiu;
+ 		if (this == rsnd_io_to_mod_ssi(io))
+ 			this = ssiu;
++		of_node_put(ssiu_np);
+ 	} else {
+ 		/* keep compatible, use SSI */
+ 		ssi = rsnd_io_to_mod_ssi(io);
