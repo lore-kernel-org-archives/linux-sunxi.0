@@ -1,72 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794082391;
-	b=HFAroSiaCYhEhWPkue0dhL4zvYQPZHRdIARdnHMpOeKBdUAj1SIklQKWzJXUd9eML+fu
-	 SzB/BcTz/WHisNj7ElFbqEBzU84HyMi61f8CFJSaNQSLrYZHdAO5a20Oez3zRb0dEi/8K
-	 GBJ10acVj4O6L0fwaVaTKDk21/8oBqnNFNz2pcFWDug0itD9HIe48R8kDeiO+6d3MXbiW
-	 uydgcvZglp7Tk4O5daAOyxKa6xWcqyq/AAGPfO0cdTqDwbi2P2//tN/Wzn7GE4W0vFz0H
-	 BzuCriK5qTKEtegf4a6NBPyLm05wgI7s01DrW5X/7qjX8SEQMOtfj/tSI3NzPxINQmQ==
+	t=1794082394;
+	b=NE8M+zJa7lzUGvGGgWJjWdRH9qECSfIre1yQflnPtRz2zABo+MjJYPF2klrXBk2wCTQy
+	 Gp5AsUoAl/2OWylY4aZ/ho/7A+C+DRV01F0dUyT370QYK3npLkBes0aiqBcRaRam0l5Gr
+	 iFrI9fmGfxMl2Pggu0m6MVLwo1rWHIPA+6237bYVOcgOKW6vyV3+1zlDvQx2QLIJs4PV+
+	 DipzAGis61MatkP+6hIc3i+67XOdLVfM29boNM0ztgT3KUEzp2Z21E2kzRmJuGYBAaGMr
+	 nMl934pDzFlPcLRW7iHd+ZCuzF6da7thlrRp0AgUOAYC2DQLu5vLoZeDTLHRJmRP81Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794082391;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794082394;
 	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer;
-	bh=VloKSurmIYFY1UFfVkwmy64gkSHDogGYCar5RGOv9NU=;
-	b=4ZIL3UlipRj6IVYXIXGr8SotbLBRFJwHuX/zvmok8jP5SNZkkPciu7thsloEyBnMhs6I
-	 XuBB1nOdb5ztAtfcLWjDM0+IWpjodJcaLEhz5IrOZAzfPx/tMZz5XFD0oOdlt/E498TDQ
-	 y+pwC7Xapi0vEgxqaUtXFPINRpAPzZMgV1w1sGjdDj0+1V5KrNiPyikM7BY+01mti4G77
-	 kEqpwRZcCOjhRKY9+9d4YKq3/ThQbanc6LqkBiiLHjXQFKwW+u0hOuiXrPOVZEJUlOuSK
-	 EQOYyIVhZCyyqswlFrWoPi7khrLUQpvd5rF2gdNt5a6AXmmcdFRUmp3uUtrLKPdp8Iw==
+	bh=D4/Oq4wk36wTCL/qJN9660jECjYdA2Mdyi8GAjYIaGs=;
+	b=IYfFzreRQUyHFnWqDnWGqQyCAUbrkBXdnZriQHBieKaLOmxy1T5KhnbeJIbl+HW7j/Jy
+	 PsOFzLL525Cys4bZfKbTWKdBCltT8+Ck8SebTq+0oXBz92bYy+vtyIlclKd9H3KRQ49wR
+	 rGr5nOvSmgPm7IcDXxByK/IfIICq9JXOHUb7W5VmuM0qi39r5xwcbITwslQCqEMZCtDV/
+	 h3yDWhpzdwpb4OUUBlmR2Ao1/rV+39teoPv7Usu2vffmQSBCwI3NZBC104DPPQeEaW1Fy
+	 O/GvM/TOMv1CDeqNRvGs7piFPMaGlje6hHkZurugp7xT/87z41Ip7KW63t88phMhxmA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=fail header.from=gmail.com;
 	spf=pass smtp.mailfrom=upstreamdata.ca;
-	arc=none smtp.remote-ip=209.85.161.50
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+	arc=none smtp.remote-ip=209.85.161.42
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C34B606D82B
-	for <linux-sunxi@lists.linux.dev>; Sat,  7 Nov 2026 20:13:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C34B606D82B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E085606D80E
+	for <linux-sunxi@lists.linux.dev>; Sat,  7 Nov 2026 20:13:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E085606D80E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=upstreamdata.ca
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-70b875f6f1fso1601469eaf.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 07 Nov 2026 12:13:11 -0800 (PST)
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-6df0b02fe91so449571eaf.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 07 Nov 2026 12:13:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794082390; x=1794687190;
+        d=1e100.net; s=20260707; t=1794082393; x=1794687193;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=VloKSurmIYFY1UFfVkwmy64gkSHDogGYCar5RGOv9NU=;
-        b=VfyJ7sLiThOTTYAsBiS5gi8wnkLbUfzyt4BQE/5LrsZP/PyxoEjf/C4CkVp4DzZTCM
-         p/Njgt3Dsfwa1m8T/O+haYwlZgVkU8ikoVjwahF4vC9YELZ7esgy7HPfPawwvZ1hm5Z6
-         IqmKMy4NSXs8Avz75SSEjmconC5VkXW8Es0zfoU74+KRQETnHoOWHqrC5l62u+emozhs
-         96qsLtPLBYVGhW+6ej4PgOnwpYXi79nrXvRoGYtEkEwHTWGhuv0ZI0BhO+Dl6Pk2J2FF
-         IqnrNkRXO43druHhXoMYggy7GWZmxP/pOk6/2/TcDPyeTMtfzrs+c52sHc7t+ba8fBiK
-         T8fQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzA2xABMiNfcj/G06Scj50quKBchAvKVc1qgSyV6WCebm8/ZIqsEOEyKEZKGlZP0zR1/eWDOCZch41jGA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9+S499QbwdO22vq3ONIjIo95VGQ6dcVYuA54JYQMBYDQf+28SR
-	JTYZxa2LotzOdzGP9Wzd6dNA7y2rnEmBtI0dH00dicTN4tGdEgtnwj2aO04bCUL+PS0=
-X-Gm-Gg: AYBFou07AVCSfjQtUskUKEKUpS7SRbO35IR8nLOPHsujVxM3+BRsThBJphkEtfKFGN3
-	Cij4OxlxQVh+aLnQQUrmfZcQlmnOkw7T+xCkvm6WGd/ux6ghAukq2h18QBwJdFN+P/80+3+TbsZ
-	nW5k5Ll+2st+MyTQAC5cioqArpgMdVR6mT79C7hCrAgyQyGTWbvzAKzwpZL3kVA00TJBna1wDBo
-	Dhm/ZhNMK4/VqNW6TgjDV3OHvjapq1Sr7os13+/ZXDZBFAH6XQ6vTRHcSbhg9auV/Cb3mwjQJB5
-	x7sEmZ9RRCwUYK9XipYQ6l4AlkGwS9N/FAWbmZIrkCJRMzU6aXn+lWq2zi2jjlqd2pTTdqusMia
-	FBQ9EPwkLb52f0opbDsCkTeaolomAeyqjXMgIYa01qWfXn8v2wsnJrG/2ev3E4/bHuMY/HGfTXk
-	W+2Fg+2eYAQOW5i0hhWSBwTMB71hzG7IMHH3y/xHAvIzGgcsPIqHZqmtNlXdwB0WyDT34I+rnYW
-	Zxu+VexE+7+ny+qCUOvzW0Jb2YSxHi36qb+5qQvzT0qfyawISVr0GQVY1UQv/QVMWAQlJ3P3D22
-	UH1CMLKDJ/nF9ggrCVAMVsWiFVV5Z9HBdlDW7DFYI8vPBQxNU6CL5G57uzRz
-X-Received: by 2002:a05:6820:838a:b0:716:c53c:3f4b with SMTP id 006d021491bc7-7170f35914amr8104eaf.88.1794082390463;
-        Sat, 07 Nov 2026 12:13:10 -0800 (PST)
+        bh=D4/Oq4wk36wTCL/qJN9660jECjYdA2Mdyi8GAjYIaGs=;
+        b=Dzpy9O23JNLSEdY2oVudOXnH4eCA2rPLOx10NPaxrqHAjOEJQdoCfBj2iv8tG1mxkE
+         /pDvr8zpCq9DBUC1Or15wdpUFTgIHzxoZjfIk4uHqIi2nD52MVip4PHWT7ZU2Wdrda5H
+         yR/c3F9M4wVwo5/nuk1GbiDWlKJ0R1LxPFlYJ9bvZlp49vIr6nCBy5XRIRoIIWdX4WW8
+         2ql9oK7xyDN94Lsw8slMzKCirBqj3HdpUJKOewmFQ4vc5JTWh8KY8CTnpuAgdusgUFvn
+         Yt3rWqmfWz5Ax8ob0oatihnxa/sPX439dWUZ/Ls89h4g1rYCnbpvL1Z41wsqif/Mh8e7
+         ZyeA==
+X-Forwarded-Encrypted: i=1; AKwUvBxqqGp+s59quXucZnjzrKMbNg/GAkL2yAz1xFcJ+1BB/SUjq39S9YtbnFZhUQd5++Xkk+a/AupPRXKfdA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/T2M/0r1Q0CKKNr8p4qL6+sr87qSZo2FnKyfre5nsmxPXJUsEF
+	353moQ8ebLqGy0nZv9ViklGhbez1eKPGoHGnlVK9W4qaKDrdC7Mz1cqZIpXdRAdWv9I=
+X-Gm-Gg: AYBFou3YuL3oPauGhInI7fAyitqQrDVSttV4+KvqA8VHUGi5SVpoQhbfuOGEXf7LIg7
+	xCuNKuGeaGiyBTd40LqUccObk8yLf6E5YxBmJrreisj1Gwo5+chxwvOhhsbAPxrzUlG0TWm8lBo
+	p82vYNKnTLbsOcFllFoYeZl9r6/sK1SbaAthjLTD6wwjEStmko9zzqyNm2efnPGE1n/+4lsEggy
+	ws07c84pkjsR11JxPnW0QNwAqeXdRM/pnTOvht/ze2/y1xK4yeSKwxIAjjHcd9I4zktBWQ1K7pH
+	ZHGbc9L9VrDBQlzqRvhtORAspl5b07ww/TJwZ5A6pVJBAAH7/iyK0xd6Z2ChiL5qEmNUjj1BydQ
+	JF1GUbb6rD0uT1/DWacJQs8qmEULEuOqRJ5vGAvae/xBMSmcRHOwNqRX+3RI/ufm83mTciHFBYu
+	rKosl76wG7z7XLMk+WLeCHXIzzbWqO6vKrjk70peNFa4J0Pk4DuOj0DzUyBFzhSuQLs7B0/MzW2
+	i9GnaCC3qPvYW+dFLthg9EyWrqH/FTeW6kdkHDg0O63VHhYqeNHSFh/oyZLJKuJccfEZGCKeI/Y
+	UqBhY/TfCTlTNFLy/nrgiprWIa5fgLniv1NO9OiTymCPLP5QofUiLUjeQHHbXA==
+X-Received: by 2002:a05:6820:188b:b0:704:2628:b1ba with SMTP id 006d021491bc7-71700c850a0mr1064837eaf.23.1794082393182;
+        Sat, 07 Nov 2026 12:13:13 -0800 (PST)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4ade68aa561sm226096fac.5.2026.11.07.12.13.07
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4ade68aa561sm226096fac.5.2026.11.07.12.13.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 12:13:09 -0800 (PST)
+        Sat, 07 Nov 2026 12:13:12 -0800 (PST)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sat, 07 Nov 2026 03:16:30 -0700
-Subject: [PATCH 33/58] mtd: rawnand: gpmi: retain open-handle state on
+Date: Sat, 07 Nov 2026 03:16:31 -0700
+Subject: [PATCH 34/58] mtd: rawnand: omap2: retain open-handle state on
  removal
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -79,7 +79,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261107-submit-rawnand-retained-handle-lifetime-v1-v1-33-0181ef0cc4c8@gmail.com>
+Message-Id: <20261107-submit-rawnand-retained-handle-lifetime-v1-v1-34-0181ef0cc4c8@gmail.com>
 References: <20261107-submit-rawnand-retained-handle-lifetime-v1-v1-0-0181ef0cc4c8@gmail.com>
 In-Reply-To: <20261107-submit-rawnand-retained-handle-lifetime-v1-v1-0-0181ef0cc4c8@gmail.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>,
@@ -141,83 +141,114 @@ Keep chip metadata and controller storage alive until the final MTD
 reference is released. Unregister and disconnect each published chip
 before releasing the resources used by its hardware operations.
 
-Keep geometry available after removal while releasing DMA and clocks.
+Preserve the shared GPMC lock and separately retain each device's state.
 
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ drivers/mtd/nand/raw/omap2.c | 45 ++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 37 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c b/drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c
-index 527165ccc839..cda3bbdca928 100644
---- a/drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c
-+++ b/drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c
-@@ -2744,7 +2744,6 @@ static int gpmi_nand_init(struct gpmi_nand_data *this)
- 	if (ret)
- 		return ret;
+diff --git a/drivers/mtd/nand/raw/omap2.c b/drivers/mtd/nand/raw/omap2.c
+index 4909e62dc11e..9949d4d53299 100644
+--- a/drivers/mtd/nand/raw/omap2.c
++++ b/drivers/mtd/nand/raw/omap2.c
+@@ -142,6 +142,7 @@ static u_char bch8_vector[] = {0xf3, 0xdb, 0x14, 0x16, 0x8b, 0xd2, 0xbe, 0xcc,
+ static u_char bch4_vector[] = {0x00, 0x6b, 0x31, 0xdd, 0x41, 0xbc, 0x10};
  
--	nand_controller_init(&this->base);
- 	this->base.ops = &gpmi_nand_controller_ops;
- 	chip->controller = &this->base;
+ struct omap_nand_info {
++	struct kref			refcnt;
+ 	struct nand_chip		nand;
+ 	struct platform_device		*pdev;
  
-@@ -2759,9 +2758,15 @@ static int gpmi_nand_init(struct gpmi_nand_data *this)
- 	if (ret)
- 		goto err_nand_cleanup;
+@@ -2208,6 +2209,24 @@ static const struct nand_controller_ops omap_nand_controller_ops = {
+ static struct nand_controller omap_gpmc_controller;
+ static bool omap_gpmc_controller_initialized;
  
--	ret = mtd_device_register(mtd, NULL, 0);
-+	ret = nand_set_release(chip, NULL);
- 	if (ret)
- 		goto err_nand_cleanup;
-+	ret = mtd_device_register(mtd, NULL, 0);
-+	if (ret) {
-+		nand_disconnect(chip);
-+		mtd_put_master(mtd);
-+		goto err_out;
-+	}
- 	return 0;
- 
- err_nand_cleanup:
-@@ -2782,14 +2787,22 @@ static const struct of_device_id gpmi_nand_id_table[] = {
- };
- MODULE_DEVICE_TABLE(of, gpmi_nand_id_table);
- 
-+static void gpmi_nand_release(struct nand_controller *controller)
++static void omap_nand_info_release(struct kref *ref)
 +{
-+	kfree(container_of(controller, struct gpmi_nand_data, base));
++	kfree(container_of(ref, struct omap_nand_info, refcnt));
 +}
 +
- static int gpmi_nand_probe(struct platform_device *pdev)
++static void omap_nand_info_put(void *data)
++{
++	struct omap_nand_info *info = data;
++
++	kref_put(&info->refcnt, omap_nand_info_release);
++}
++
++static void omap_nand_release(struct nand_chip *chip)
++{
++	rawnand_sw_bch_cleanup(chip);
++	omap_nand_info_put(mtd_to_omap(nand_to_mtd(chip)));
++}
++
+ static int omap_nand_probe(struct platform_device *pdev)
  {
- 	struct gpmi_nand_data *this;
- 	int ret;
+ 	struct omap_nand_info		*info;
+@@ -2218,10 +2237,13 @@ static int omap_nand_probe(struct platform_device *pdev)
+ 	struct device			*dev = &pdev->dev;
+ 	void __iomem *vaddr;
  
--	this = devm_kzalloc(&pdev->dev, sizeof(*this), GFP_KERNEL);
-+	this = kzalloc_obj(*this);
- 	if (!this)
+-	info = devm_kzalloc(&pdev->dev, sizeof(struct omap_nand_info),
+-				GFP_KERNEL);
++	info = kzalloc_obj(*info);
+ 	if (!info)
  		return -ENOMEM;
-+	ret = devm_nand_controller_init(&pdev->dev, &this->base, gpmi_nand_release);
-+	if (ret)
-+		return ret;
++	kref_init(&info->refcnt);
++	err = devm_add_action_or_reset(dev, omap_nand_info_put, info);
++	if (err)
++		return err;
  
- 	this->devdata = of_device_get_match_data(&pdev->dev);
- 	platform_set_drvdata(pdev, this);
-@@ -2838,7 +2851,7 @@ static void gpmi_nand_remove(struct platform_device *pdev)
+ 	info->pdev = pdev;
  
- 	ret = mtd_device_unregister(nand_to_mtd(chip));
- 	WARN_ON(ret);
--	nand_cleanup(chip);
-+	nand_disconnect(chip);
- 	gpmi_free_dma_buffer(this);
- 	release_resources(this);
- 	pm_runtime_dont_use_autosuspend(&pdev->dev);
-@@ -2846,6 +2859,7 @@ static void gpmi_nand_remove(struct platform_device *pdev)
- #ifndef CONFIG_PM
- 	gpmi_disable_clk(this);
- #endif
-+	mtd_put_master(nand_to_mtd(chip));
+@@ -2282,9 +2304,16 @@ static int omap_nand_probe(struct platform_device *pdev)
+ 	if (err)
+ 		goto return_error;
+ 
+-	err = mtd_device_register(mtd, NULL, 0);
++	err = nand_set_release(nand_chip, omap_nand_release);
+ 	if (err)
+ 		goto cleanup_nand;
++	kref_get(&info->refcnt);
++	err = mtd_device_register(mtd, NULL, 0);
++	if (err) {
++		nand_disconnect(nand_chip);
++		mtd_put_master(mtd);
++		goto release_dma;
++	}
+ 
+ 	platform_set_drvdata(pdev, mtd);
+ 
+@@ -2294,11 +2323,11 @@ static int omap_nand_probe(struct platform_device *pdev)
+ 	nand_cleanup(nand_chip);
+ 
+ return_error:
++	rawnand_sw_bch_cleanup(nand_chip);
++release_dma:
+ 	if (!IS_ERR_OR_NULL(info->dma))
+ 		dma_release_channel(info->dma);
+ 
+-	rawnand_sw_bch_cleanup(nand_chip);
+-
+ 	return err;
  }
  
- static int gpmi_pm_suspend(struct device *dev)
+@@ -2308,12 +2337,12 @@ static void omap_nand_remove(struct platform_device *pdev)
+ 	struct nand_chip *nand_chip = mtd_to_nand(mtd);
+ 	struct omap_nand_info *info = mtd_to_omap(mtd);
+ 
+-	rawnand_sw_bch_cleanup(nand_chip);
++	WARN_ON(mtd_device_unregister(mtd));
++	nand_disconnect(nand_chip);
+ 
+ 	if (info->dma)
+ 		dma_release_channel(info->dma);
+-	WARN_ON(mtd_device_unregister(mtd));
+-	nand_cleanup(nand_chip);
++	mtd_put_master(mtd);
+ }
+ 
+ static const struct of_device_id omap_nand_ids[] = {
 
 -- 
 2.53.0
