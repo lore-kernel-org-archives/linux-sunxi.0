@@ -1,90 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794046589;
-	b=CRsgDyXV7dyp0P5GglZ/Rxd/JsmS1A2pTHSY3RZ+ioux8BYsQXo3sbpfg/82G81mRkLQ
-	 R+lb+1GHSpy8RRS7shsX6NiWGlpWMOMo1BTTB/OwPo27pEgXHc8k5a+MRGtTHJsydtKiW
-	 5hKTXGTq4pBhX3A1LBkld/LAJF4FWEflAfxyek+Pk53ay7Q5dzEdLpNVURSp2wNWASWBF
-	 BqWsh2atcS95iBcK2dXWyw0aN0hjwZbMeJD7Hg7Gbj0lp7nkoPamWbcppWGgWcT8WdAb5
-	 2t9NkMDqMQajXsb2nqsZuWTYCV+kYCH20vAnNPLXnYNfL1QSt6r8knE3NSllRTgciPA==
+	t=1794046592;
+	b=Cl7raPpQyei9uLCvrduEGbBOo341fZot3gFemXc1m0Mh9H0Q+5bld+PDYrzBfFKlgnZM
+	 8FCBBFw4/cesp2qvm5nlPNkCmxt/1KW1lA0NHN/PFQzGTUr03qokvfnXnmulkPdc7v2+O
+	 GtaNY7paBlUWp2z2BakcDYL+2xCOMqLmQIkgHJ+n1UzZ3SZtQMxcZEy00U4FnmQy+YYyY
+	 2wA3Di8vJGTOlcClUkecmFrKLXy4aWJVSK9y5etR3QTbuojnLOHBFlF4Xrqzt2ediSTLA
+	 Csz/GjxuicWFgMZ9qB0FoPj1dIItU8U6CJDgcukhyulClBxWkcwrBE5s7tsTOxJQpig==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794046589;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794046592;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=/qFqvbFurN4PEJpXMJPKtOAq4hdCyVwSYAR6O028L8Y=;
-	b=5gZjlgzASgHwXvqlzRE50gfSsfjbhPGyodTQQB3SSkg5MmpiStXzHSuaiBPPdmcCsi4+
-	 Cj8Rq/NF7CjyGqqPNzht5mzFG/NKRggvNkGgzkwkUk/TOL0Zs01RI50E0txUD70LOUYiz
-	 ffCrtkbVt0rjS+7scuRR1KpyWd7SiYkNdew770OhJgmm/sIJGm5G45yucfDTxIgvgYaJX
-	 ckgSAl2tSRwZzQDBeKqwrE5662rh+ebThNBXm2VTopTV/9mcsEZw3n74rBCU/tCGLEjPF
-	 XrJmDT7ENAubyAgoT4pl+f4WjT062c8TjPtxAzK8rtKaw7h33htnBnMaBPJJocwr7Qw==
+	bh=Ir8ocEsY2ITCHB73OM8DOt1TO1FexBL3HI8zDqPQjm4=;
+	b=vVMtdTS+hzGGbO+rNsgbpXLFFJzRfxs5dqgCyW/hcrc6MMkqRv61pxDpRsF+wW8YHGEI
+	 ujrPvkWqneOBmYmiRxYhbcvu2SxflHNLeag7jbWf0hRo55VjYON4H8W37eV/MJYD2VfOF
+	 ywdDCsQgPem3a8i1BSHLTicT1CNW5wQu4daYij7WwxORieHws9wA6bu0SrzIzMDeBvPjJ
+	 KwkbaNdXjMs9rkcMRduU4MTrfnG1z2gayKUSocg9FSkBI0CnzGDBhed5YCX6bbCxEALlV
+	 lASeAv4O4OHGiLFaohwcCF0Gkdbnjn7qDFW68gHgWhKxwhsFoSVKA5gw7tVwlk4I/5g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=E38m5IMW;
-	arc=none smtp.remote-ip=209.85.210.53
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NOfG8kNm;
+	arc=none smtp.remote-ip=209.85.210.52
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C70F606D821
-	for <linux-sunxi@lists.linux.dev>; Sat,  7 Nov 2026 10:16:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C70F606D821
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD771606D83C
+	for <linux-sunxi@lists.linux.dev>; Sat,  7 Nov 2026 10:16:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AD771606D83C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=E38m5IMW
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-82109f51565so590240a34.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 07 Nov 2026 02:16:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NOfG8kNm
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-854b6e2e41fso752568a34.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 07 Nov 2026 02:16:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794046587; x=1794651387; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794046590; x=1794651390; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=/qFqvbFurN4PEJpXMJPKtOAq4hdCyVwSYAR6O028L8Y=;
-        b=E38m5IMWdtIN3m7Kb/LaoQMKW1Fz1h2Mp/7LU9PS08BMsY1gOgYr6n8nOl2PDG7ia7
-         y1bB7Fojc+YzMVV3uxlOaUwQQdW9R2DlnZLqfVI50tKMzKRVMASO/w01cnFzWl482RsC
-         b2KhDrgzKt+jofY3sReq75BCQNfFVh8nhhAeiVB+7eYUKpGqsVzNgcysU3umEw7Xs+Lg
-         94TFVoW573BdjSMHMXLte0F75UpbCbT5HTd/I0zmY2t7aXU4WVNZeYX8radk722HupsC
-         lhbWbAhh2efdFa+dp324a6R8C/2gEMVmEyvdhuf/GCx6Ja3Osnv4fLAAnukrzdVgwZmi
-         ACnA==
+        bh=Ir8ocEsY2ITCHB73OM8DOt1TO1FexBL3HI8zDqPQjm4=;
+        b=NOfG8kNmH3Iqhb5vC5/2HMTUoAxgbZBzJMQowXMhl9ELIRQPF8+/9ch4SpXzj8LmUJ
+         iAdmRfcdjxR8rCBRfNOuz7S7rHuDFBRpfDKUALUrEas8aqxMJJ142j0ExlgjNLRuqHSx
+         S76hNWVBylMxIQhCM5DxBC8tymvPBvb6Uri/2ZwDw77/2jDbttzfxS0KxIyUbCDWOD9v
+         j945HD9apdVUtTFGP4KCKzs/wAghLnLzNa9rx3Zb2/b6A+OyvHIUPNQ43SMKd5bkuZTH
+         W2lEpYkKeCPH6yX9aMrIUf5LkqyVv/GSf1zMR41LQaMbmGhTSaxLPGyvn2XeWbnS64wC
+         I/JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794046587; x=1794651387;
+        d=1e100.net; s=20260707; t=1794046590; x=1794651390;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=/qFqvbFurN4PEJpXMJPKtOAq4hdCyVwSYAR6O028L8Y=;
-        b=rHuWuaVjife2nKiz5jBzmHt/GUeXyjh0GNZdIgGnsQiWnKA24fny6ru4ga6OMXZSpi
-         3lyLIxyB4HxicJLwpztA1AVYAUuchZoLA+6C8TqpFjDrRo3UOHeExY+oEA8YtnV7HDKH
-         ewS+4RiRFhIzeRXqdx7WSxOVLWDN2vkMJVZ3xgpcWqOLaF5CaLWy2j5NOWKehAorQzxP
-         bG6go6ues0yMUbqoCfL5W51tmoabdQTmdiXSGZhN142y89vd9uSk28as1B2AU+T2THRL
-         j0IGspD6rV7aUQMQUGohcYJV9vHS313s7xB2bCiuGqVsPM80wD31Hpv9nh3fBCBtJO6Y
-         574w==
-X-Forwarded-Encrypted: i=1; AKwUvByz6nW+mXrsVMQcBKMLvA3AmlwaE8JXaYEAt+Rz1RjQNeUAS1s8VtPvpUEUD93rge6Bps/sZPIma6+Yog==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9YwefbKZTXpzLj/EMXp3IuMymwzHABsk/UqnhvEJe9/b6PVekV
-	1mzEwQX1KotEWHdlMOCq0OLpU7wlbdWggFVRbH2B38HNyN3qOhCkQQxs
-X-Gm-Gg: AYBFou3zg2Yv4wThTnmSWHAJlxRo0FluzNs0ZuLlhRDHvuoRAY8adk4oeeCNEcVCSMD
-	EJZGmei6FWOlYMDS/fnsjDrQsiPRm8PxJggVzEgXC+nx7W8opoIlUe77mqaB2eaUHiX3T8YLtjK
-	0BGwvQLaQyezFWQYofxyjoR00aeuzjaBHf/ya1PEwMPYbhVvpzKxazqz9Dpq1tBr+O1jkSXlZNK
-	3ht898+7XbqTouqScnBHKEFR9llYmGw8Pm9TNbc7vJwHsphBkD/FdXeANPHx5RtsqQI3V/5OLZG
-	zuhdEYJkPctsg1gOAD6DbFRddMyMqVjhD+7zsT6X7qjB+sQhY2O6jtR9Za54Ga2Wa3Th148n/NH
-	LoxW05ZuZlICuObfYSq+89pJcqm1SGQwpGrzMC4Xu2vgMU8DFOhrMhPt2R6D7icUWy/H1oIKeER
-	PYPF53UDvNGQxDf33rbr3aeU3sqKrW6cQ2SlAv6E3RQ8NMv/hseeGyw/Xg1CZP4SS4Ev/mPghjY
-	QtDARiopyXReQOqoMrnbi6FypSqCsGK4T1Et6rSgstOpAxL7KEndV9d3WFq1If982LpwE9e5Y8+
-	mtFCfk+/xbvu+l9DiZnndmGQ1WunXuCdwcIBzJ5Adwn3tSgKvDUtwV+sHP47XB3J7cAJuHj6JQM
-	0GKbP/JCl3cm04moABGvPEfZhJrAhGvSUorkdm6dzfk6yJ8+3kMoOxaj5GQtSW0xUoPzSMs950c
-	AtGQeD4KWzoSBlSIHh6068q7p6R0UUs1S7kwUDmyJZ2UKfrTkSrzOX
-X-Received: by 2002:a05:6830:4101:b0:844:4959:e856 with SMTP id 46e09a7af769-85f1cf2dfcbmr4924112a34.11.1794046587358;
-        Sat, 07 Nov 2026 02:16:27 -0800 (PST)
+        bh=Ir8ocEsY2ITCHB73OM8DOt1TO1FexBL3HI8zDqPQjm4=;
+        b=Ri9uESJqJrTMPv+jXtm8MB2Yq8sfpY6W96U9uUlEwggHPKPJ9vV3hoov14FcT7E5sK
+         07IYFLbVC/lk9BWdyEPLa8mqJP8DkUyfltcLjulwQ2sZaswOk3kHSlfHFMebKMcZlIWw
+         FAbJFB1zfFiyheLFFFHkRpXnzD7CQicteVK0FGfddTpdJ+ewbdQB+ehhcPD/oTw7yqy+
+         vy1Ie/t6jcMYM9pHm+lJWZKcCt2QLklJUNmGWs6s6RatCrdV6USPcQaEdUjE2qAhh2F1
+         uVS5DKXg775FImhmYqS5pNsg9azGNbL+ZeUnthWQXxHZI+C3EWOHgAEc6r63wJmpF+7B
+         gu1g==
+X-Forwarded-Encrypted: i=1; AKwUvBxWBAHZGO+La9gnUid46ZSF6S/GBE7s82LE20gWN6PTYE+FmdQ+WRnIbeD8K5s8+Xm3qUwcwqE1nmSivg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+KAJQKPtoANPEbTc6BNqpwlLaGr4jHTr/vkHwvhiWJHErKkx0Z
+	aNxHdUqk6Db4Y2Jam1TzNtHiSRzTsD0wFL295Wp7HMEAaXqmC81SgxcL
+X-Gm-Gg: AYBFou3UXFJyVlGeyRtWGZRhKYUQHqGBmMe8njMvl2DavQjYNad9ts/mCwpTm1jocAW
+	p/uvguMT5efipHON3F4q/eGmYMSDLcc8fg/YQ8YvY327a78Q8WsiNH62CZoXQLTjaLYzknqLH2i
+	pMYEWRwJ3rnJLq5R5iYCE9A2BokwHbfwjUDX6BR8zSRNkAvku//UFj57NfyeUn9xxxm9DTI0759
+	ajYXs6RqinBebQ4VpyVnC2YBaXWeySUVcbXRTR14E6YzrsfSGig0OatZt9POwrN4llIT5/FVcge
+	UEc/a86mHOCSI72SoqcrOY/5ZGeLohRIdKRIVgVHcpUH/8FJHvNAhlTyRdHpTJtps/H17KsNjSI
+	7xXiZBC4VkRrn/SBbNOeYaRjX3/bJq40vCPrytR/6m5nPvl4yTYRxdLms0blUgWgWPMHzYvkTMk
+	Nun+g1lZe+e0ivTiD7XtJpeKm4QEuw5kFF4R9Bf1aQwKEKSODS2LuXRyKKB1bk/6EiM52j/Wg6c
+	vyMGM78xsaHyzhqW1C6+XfcCdyd0a5buquTGzVWRTHld9kSbx0ORn/P6EjCxLTu3czsL7nGjVX5
+	faiIDZubW23XnJTJfWKN5vaOCbXO5KzmJQwYW/iwEMN7bXA7t8Mzi9shNpll0vZ03IhTEhGgPUX
+	ZR22qJnz6P9kQ3VcmDcNc3R/P3P0NHWYCVtJKLVRmPU62qNMwoffNYpxZQOJ5IqjuXXMNmX3BlT
+	8Uidd/QJII5VVEERShlHmAQQlU+x4RToPK9+wAJ61qocXdutPjik5b
+X-Received: by 2002:a05:6830:4c05:b0:822:e9bf:6445 with SMTP id 46e09a7af769-85f1cf838e3mr5603674a34.9.1794046590411;
+        Sat, 07 Nov 2026 02:16:30 -0800 (PST)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85f1dbef224sm3990269a34.12.2026.11.07.02.16.24
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85f1dbef224sm3990269a34.12.2026.11.07.02.16.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 02:16:26 -0800 (PST)
+        Sat, 07 Nov 2026 02:16:29 -0800 (PST)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sat, 07 Nov 2026 03:15:58 -0700
-Subject: [PATCH 01/58] mtd: clear OTP provider pointers after unregistering
- them
+Date: Sat, 07 Nov 2026 03:15:59 -0700
+Subject: [PATCH 02/58] nvmem: retain provider context through final device
+ release
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -96,7 +96,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261107-submit-rawnand-retained-handle-lifetime-v1-v1-1-0181ef0cc4c8@gmail.com>
+Message-Id: <20261107-submit-rawnand-retained-handle-lifetime-v1-v1-2-0181ef0cc4c8@gmail.com>
 References: <20261107-submit-rawnand-retained-handle-lifetime-v1-v1-0-0181ef0cc4c8@gmail.com>
 In-Reply-To: <20261107-submit-rawnand-retained-handle-lifetime-v1-v1-0-0181ef0cc4c8@gmail.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>, 
@@ -152,81 +152,123 @@ Cc: Tze Yee Ng <tze.yee.ng@altera.com>, linux-mtd@lists.infradead.org,
  linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org, 
  linux-mips@vger.kernel.org, imx@lists.linux.dev, 
  linux-renesas-soc@vger.kernel.org, linux-amlogic@lists.infradead.org, 
- linux-arm-msm@vger.kernel.org, James Hilliard <james.hilliard1@gmail.com>, 
- stable@vger.kernel.org
+ linux-arm-msm@vger.kernel.org, James Hilliard <james.hilliard1@gmail.com>
 X-Mailer: b4 0.15.2
 
-If factory OTP discovery or registration fails after user OTP was
-registered, mtd_otp_nvmem_add() unregisters the user provider but leaves
-its pointer set. mtd_device_parse_register() then unregisters it again
-while unwinding the error, accessing a freed provider or dropping a
-reference still owned by a consumer.
+An NVMEM provider can keep its read/write context in an object separate
+from its parent device. Retaining the parent does not keep that object
+alive, and nvmem_unregister() can return while consumers still hold the
+provider. A device reference can also delay release after the last
+consumer is gone.
 
-The same stale pointer survives when the factory OTP error is
--EOPNOTSUPP, which mtd_otp_nvmem_add() treats as success. In that case
-mtd_device_unregister() can release the provider a second time later.
+Add optional paired callbacks to take a reference to the private context
+before publishing the provider and drop it from the final device release
+callback. Balance the reference on registration errors as well. Require
+both callbacks together and document the associated module lifetime
+requirement.
 
-Centralize removal of the OTP providers and clear each pointer after
-unregistering it so subsequent cleanup cannot repeat the put.
+MTD OTP providers need this ownership because they are children of the
+physical flash device, while their callback context is the separately
+allocated MTD master.
 
-Fixes: e0489f6e221f ("mtd: core: fix error path for nvmem provider")
-Cc: stable@vger.kernel.org
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- drivers/mtd/mtdcore.c | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ drivers/nvmem/core.c           | 12 +++++++++++-
+ drivers/nvmem/internals.h      |  1 +
+ include/linux/nvmem-provider.h | 10 ++++++++++
+ 3 files changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/mtd/mtdcore.c b/drivers/mtd/mtdcore.c
-index 8efa2d88556e..558a605ba749 100644
---- a/drivers/mtd/mtdcore.c
-+++ b/drivers/mtd/mtdcore.c
-@@ -1016,6 +1016,14 @@ static int mtd_nvmem_fact_otp_reg_read(void *priv, unsigned int offset,
- 	return retlen == bytes ? 0 : -EIO;
+diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+index 0556d140170a..851fa5cabecb 100644
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -541,6 +541,8 @@ static void nvmem_release(struct device *dev)
+ 
+ 	ida_free(&nvmem_ida, nvmem->id);
+ 	gpiod_put(nvmem->wp_gpio);
++	if (nvmem->ops->priv_put)
++		nvmem->ops->priv_put(nvmem->priv);
+ 	kfree(nvmem->ops);
+ 	kfree(nvmem);
  }
+@@ -896,6 +898,9 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
+ 	if (!config->reg_read && !config->reg_write)
+ 		return ERR_PTR(-EINVAL);
  
-+static void mtd_otp_nvmem_remove(struct mtd_info *mtd)
-+{
-+	nvmem_unregister(mtd->otp_user_nvmem);
-+	mtd->otp_user_nvmem = NULL;
-+	nvmem_unregister(mtd->otp_factory_nvmem);
-+	mtd->otp_factory_nvmem = NULL;
-+}
++	if (!!config->priv_get != !!config->priv_put)
++		return ERR_PTR(-EINVAL);
 +
- static int mtd_otp_nvmem_add(struct mtd_info *mtd)
- {
- 	struct device *dev = mtd->dev.parent;
-@@ -1082,7 +1090,7 @@ static int mtd_otp_nvmem_add(struct mtd_info *mtd)
- 	return 0;
+ 	nvmem = kzalloc_obj(*nvmem);
+ 	if (!nvmem)
+ 		return ERR_PTR(-ENOMEM);
+@@ -922,6 +927,12 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
  
- err:
--	nvmem_unregister(mtd->otp_user_nvmem);
-+	mtd_otp_nvmem_remove(mtd);
- 	/* Don't report error if OTP is not supported. */
- 	if (err == -EOPNOTSUPP)
- 		return 0;
-@@ -1180,10 +1188,8 @@ int mtd_device_parse_register(struct mtd_info *mtd, const char * const *types,
- 	}
+ 	device_initialize(&nvmem->dev);
  
- out:
--	if (ret) {
--		nvmem_unregister(mtd->otp_user_nvmem);
--		nvmem_unregister(mtd->otp_factory_nvmem);
--	}
-+	if (ret)
-+		mtd_otp_nvmem_remove(mtd);
++	nvmem->priv = config->priv;
++	if (config->priv_get) {
++		config->priv_get(config->priv);
++		ops->priv_put = config->priv_put;
++	}
++
+ 	if (!config->ignore_wp)
+ 		nvmem->wp_gpio = gpiod_get_optional(config->dev, "wp",
+ 						    GPIOD_OUT_HIGH);
+@@ -945,7 +956,6 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
+ 	nvmem->word_size = config->word_size ?: 1;
+ 	nvmem->size = config->size;
+ 	nvmem->root_only = config->root_only;
+-	nvmem->priv = config->priv;
+ 	nvmem->type = config->type;
+ 	nvmem->keepout = config->keepout;
+ 	nvmem->nkeepout = config->nkeepout;
+diff --git a/drivers/nvmem/internals.h b/drivers/nvmem/internals.h
+index 4e610deeaa7b..dcf5d81ca1b9 100644
+--- a/drivers/nvmem/internals.h
++++ b/drivers/nvmem/internals.h
+@@ -11,6 +11,7 @@
+ struct nvmem_operations {
+ 	nvmem_reg_read_t	reg_read;
+ 	nvmem_reg_write_t	reg_write;
++	void		(*priv_put)(void *priv);
+ };
  
- 	if (ret && device_is_registered(&mtd->dev)) {
- 		err = del_mtd_device(mtd);
-@@ -1210,8 +1216,7 @@ int mtd_device_unregister(struct mtd_info *master)
- 		memset(&master->reboot_notifier, 0, sizeof(master->reboot_notifier));
- 	}
- 
--	nvmem_unregister(master->otp_user_nvmem);
--	nvmem_unregister(master->otp_factory_nvmem);
-+	mtd_otp_nvmem_remove(master);
- 
- 	if (IS_REACHABLE(CONFIG_MTD_VIRT_CONCAT)) {
- 		err = mtd_virt_concat_destroy(master);
+ struct nvmem_device {
+diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
+index 6063fe5b7784..03e8522bab17 100644
+--- a/include/linux/nvmem-provider.h
++++ b/include/linux/nvmem-provider.h
+@@ -98,6 +98,8 @@ struct nvmem_cell_info {
+  * @word_size:	Minimum read/write access granularity.
+  * @stride:	Minimum read/write access stride.
+  * @priv:	User context passed to read/write callbacks.
++ * @priv_get:	Optional callback taking a reference to @priv before publication.
++ * @priv_put:	Matching callback releasing @priv at final device release.
+  * @ignore_wp:  Write Protect pin is managed by the provider.
+  * @layout:	Fixed layout associated with this nvmem device.
+  *
+@@ -107,6 +109,12 @@ struct nvmem_cell_info {
+  *
+  * Note: Specifying name and setting id to -1 implies a unique device
+  * whose name is provided as-is (kept unaltered).
++ *
++ * Note: @priv_get and @priv_put must be supplied together. Each @priv_get
++ * call is balanced by one @priv_put, including on registration failure.
++ * The put can run after nvmem_unregister() returns, when consumers and
++ * device references have gone away. These callbacks must also retain any
++ * module needed to execute @priv_put until it returns.
+  */
+ struct nvmem_config {
+ 	struct device		*dev;
+@@ -132,6 +140,8 @@ struct nvmem_config {
+ 	int	word_size;
+ 	int	stride;
+ 	void	*priv;
++	void	(*priv_get)(void *priv);
++	void	(*priv_put)(void *priv);
+ 	/* To be only used by old driver/misc/eeprom drivers */
+ 	bool			compat;
+ 	struct device		*base_dev;
 
 -- 
 2.53.0
