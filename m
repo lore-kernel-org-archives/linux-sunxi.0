@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.180
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794156431;
-	b=iM+HMoSrulQTwT3fQ0rHJVa9P64yby6Da0af5eVmjLtJYQ86cn6C4RhX04a4gnGGGcVm
-	 diI/aAVeLdCYb/FESTVKGLLzPxzc6MKv5dnxbJfhfPBV5116EgKAWRJnia9JkHq00fiMM
-	 V962AFhV2B20EjhyKuAEuHyujHSqnY70vAwMQgqtg+Dmnr6qyTnTDn5MgA15SA6jHCIJC
-	 qnRJ2BxE052LRVp+tqLBG/IRk8gx6DMpskVKYgfdBUZktVXVZYyori1EP6bfOXMaZPryH
-	 k53mNnsYoVPG4M3GctmvC6yiAO8GNb9pJwXWPOcXBwVKQbO2mwpT5QzF9mtuzYs7nCQ==
+	t=1794156475;
+	b=rtN2RNtvmou0MAztMbJwCD2V3I+kYM1iaZ4f2nC7XxD6WKP72c8nIGzd0nYq0UWTe3kC
+	 rGjXDKbvepCBmKLpSH3zbnuDUPdSSKbWr8X38NGoJX5J01SfCLqmaVcr4ldr9LMyCb9tI
+	 Q1K7IxdQPAEY3XRBYUCu+6A7rsPEp/8am9CsPK8ciuCoAfsS8CWS0sznFfSMWCbmfxTVm
+	 sd9f59KPYA2Nr8CwnR+GtxKFKBESj5E6Dwi54KNx9Je91Fv+LF/v8BOK6O2mtfM7TB2W7
+	 0yRJZn9N9MfncQ5OpSkVZ4zkSHu7CSNg+sQFYXgy04E+sSZQYxnctzV/BaYuTf4ybqA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794156431;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794156475;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=r7i5HS1agzi9a9cyD3qvLBRlAYW8TYHB/KLXRsgrFvw=;
-	b=C/WsMPBOdB3gfiLUUczsPp64fUM/CbrskYsCTyOGZ4+1WwOFWhPPHHhn+YlqiPqCGiBK
-	 ycaWCIQFzfjTwRuJcrnj+tL5xHD/rxEF1AOQ0fqoXwc9+wOnsOf77usEAqkQSfhqQVZ4I
-	 uTNLyVQr4vmNyfUQEXV5hP53loLRxCEnvPUf+SHaTpqExEPAvmD5zL8smry+zp3rubnIW
-	 R/Di0uSyNj95niTdAdBSMvIklq5D2FPR23ZhBruaO9rvFhQ9F3UIuHxD+gxJXN2txvc9l
-	 RMcCHnIPSrkiXV50TiSMobDAyhm2Jpir8Xz3+0MrxBntdHCdYMhyfWCIPkQG/Nj41RQ==
+	bh=evSxEGT7EP5yWt4VQjY1odATlVADyf2LwindW+8Vgkk=;
+	b=w31EVbm2iW/as+KTgSk+3rHVrQU3dgyDRfda+iFydKJ6RxNARJFhbWBLYRvrCj/OwHoR
+	 +X25q7+AHFUHliL9SxP22l4g7csPh2hyQs/nT7bSygGZ54diKQi4f3bcRV1KV2EqoKqtw
+	 aQllJHSTl+xe6Qqk8YD97JTAOcz5y6EkZmXEQtrZpqQf/cfdPzpTik5fsATk8Nbt/RH4n
+	 5/wZfF4x6Gy512uMbsaLqyhgQx6PE1PQm4C6hp/74KHa9T7Up0hDXRRncijRKWwWn4xdr
+	 knlL6VgQxqXoKkBT1D7h5ArpOHzVVPCYCOyRyBM2zZqRumJlOxlVBMp0pleO4NdLPVA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Kb67dMpz;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.215.171
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0GzASbr+;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.180
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BECD606A320
-	for <linux-sunxi@lists.linux.dev>; Sun,  8 Nov 2026 16:47:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8BECD606A320
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DAA606A321
+	for <linux-sunxi@lists.linux.dev>; Sun,  8 Nov 2026 16:47:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50DAA606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Kb67dMpz
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cdd4dafdce9so38873a12.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 08 Nov 2026 08:47:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794156431; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0GzASbr+
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8a07078200fso26222b3a.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 08 Nov 2026 08:47:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794156474; cv=none;
         d=google.com; s=arc-20260327;
-        b=JZ08sPmg9V7wRSRFUuC6ax9XhmrgySbNGetIS8R72eo9lc7bF566xWqJSUQO+fVJr4
-         zCeeMOKRRS8qBPWOYtsE9Jt3cGuPj3w8ONQZ7G4ZC+sIP6+/KNzP+eq9Ir6xH8SMnSpQ
-         YyBgdW1GiAzfnYXUt8YtfuOVDokih3VMwlp0GANJRQexxUKHlWb1EhMEHN+MYmDMykIy
-         I5Ub3nFC9/WhftUaisgfsIY1AU5Lk008x9GRqNPH9bQDs56UNoHGFy2cfZmw8GrfrtKX
-         8Fbs8uFPm6TgoPNWkvqqTUuBRlBgkVJWLLG+Lutk41FV2nZybhOuIxXOUYqGHP55oj/V
-         Ns2A==
+        b=dHzAX1ct8biVDZrA1xvbwY2vsCEmS/vME5shBH9XlWSKpd38xrVO0AQjCqnhPW7RNm
+         9cRIDF8P72OaQIsKliWL7HkEIFV3HAMaO3vkh3VZgy3BeG2yEur6iDykHkmlkMiC1DLV
+         CGKq8qFohAddO4ogMfjtbETdrRjjnbDJ1C+zhEJj10w2xfqcpnswfMSVnZ1zCbGw4nfl
+         1/0U58XVHuv3vd5x1ASTjRY0KXnZDzW3Y7uIUeS4Fb43Wz8pFlIDpJzfNDVG8cw1GHUe
+         glvlo2alWiEa8zqxhnOkYFSAWbiOGNMpmqRqVu5LG5AAaUPurLLq05NZN4+57Wx+xiTf
+         isKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=r7i5HS1agzi9a9cyD3qvLBRlAYW8TYHB/KLXRsgrFvw=;
-        fh=s39TNurU2Av3KucEVoxFFLZRbSURpX4LvullkcI7Ci0=;
-        b=FSLrh5tHjQmZwE+XvmaMwmmQBf87/EaJH7bAHXS4nqCX5jwB6iiJIfoSbobDWisD7y
-         xqAIwmJEme9hgYsCsD73nijZ9b1z5Ht5eFASO/sNC3qWn67iXmFVOunisHpl4rciv/mq
-         Z+5RmRsi36E0jJjGadkyuZFcpg3ommM1nutr/33NEPGJZjrhG6fRx5x2YPJqhfVTWZl5
-         7MsqWtPn0xy5Qr2DHxiOs1UiA2PlPdt4Cl7seXCCmf4jbvZ/o0OrmMvw8bHAmCEsKoVp
-         0F72y5GCJ+XCV5j+VmHt30BMY+fbQM7jewmEwG8b95fgoXX17WJleR9ndzbStvoOgci9
-         iArg==;
+        bh=evSxEGT7EP5yWt4VQjY1odATlVADyf2LwindW+8Vgkk=;
+        fh=JR8A2PtGAtN+vYZSxRYswpdPfgaSuraq1jobTAojd/8=;
+        b=pZE7+pAqwe87zilBPX8EVqM/+W+nEv1NM7d9A1SgS3o0srGdjd4tIfrVPl//VYaefg
+         mqheFL6bmKYxtceCEhpAgB3O17rxDRITeJzuxyVxnuF0i9h17QkGWG0UsMUbAo15JZx9
+         +LNypAmu+jpf+ta/tvHlbH7f4PvNXPsyrAsR61Gh8JF8BJDoGpY7Jp6VDYYRuZcFN9vJ
+         7riTRb9dSLJdP/sJMUOtNT4L274J3WRGYv/Qzzmg0p/+xxonnWbN2ioHBSQZ82kFYYGO
+         B5T8z6pRcHDjAAJg3XVPmzbayTS1BkveyBPC6DMsgt6sMGjaHA/N3QKj17zFrP2ZiZ8j
+         /d3A==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794156431; x=1794761231; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794156474; x=1794761274; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=r7i5HS1agzi9a9cyD3qvLBRlAYW8TYHB/KLXRsgrFvw=;
-        b=Kb67dMpzw7wX1mU0TFMVYc4rgKm8N/ALklKXn3pCk6Psfi7vbAmDgNniTuzK3TWxAX
-         pIVUHOAgwjpn0o3UqAC4YviEuWd07L0pbSSoEYhF5UrJ5ClWEEzXvqenvwFE6MBeDzw/
-         OiGUdoTqmvI8AFrcZlADgZGxN7FHkkiqB1sCl8RVqHckRO+aYi//BOYfjJrGehd8fXPz
-         YsyVarTe+evDGFxl1Y/DwxlsKTawADt8VqWmBZ1LONCU7eMO5NsfzXlSKrYFbg6EPSQj
-         pX20ZlUmHXJMhsS9wW8RCotIrM+EaXpy+gLl7UU4uJwEBw2kusHky4UQTx3Hvhpx11Uq
-         rrKQ==
+        bh=evSxEGT7EP5yWt4VQjY1odATlVADyf2LwindW+8Vgkk=;
+        b=0GzASbr+VcbhkpNt32h2JX4jdNkfH+VIOzK2PfLaw56Ty5CDp4gSdOrlFT9EEpJxyF
+         bx3poHFyhnmMhHp/zRcjUbdupw3c+MRSv0EQRdc+JMfQ4EqQkQXITH+LTN9Ds9B/OnX6
+         BZyDcRjgu79bjqEkyQCv5+ou4ceJ3f22+h2Lmj3VQlHscUh/eA9V9tKgAwqE/EOvwOak
+         iT1a0RhFeIs78pm2tKLmpWpsr3eW/cZHHjvicotZ2WlBz41sb/64BCL887x41Ip+PmOU
+         HcDerUoDvekHSXPHLdhPWC6iLOIRqsA2zbc3/8RzYzYhLXZ+1I9TrpsCdm6WQrSLyMKD
+         kTfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794156431; x=1794761231;
+        d=1e100.net; s=20260707; t=1794156474; x=1794761274;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=r7i5HS1agzi9a9cyD3qvLBRlAYW8TYHB/KLXRsgrFvw=;
-        b=n5dw9WmnucIng6odfJatwdsyckIk6wlK4i33glG9d78kFjDfLuQrE/Cm4XGWXmJb+u
-         +IM27ZqMUNBrkTbnkqYTaCW6FKXZlYeWZO/D5l2rJePTkwz4tuTrmHS5RDiKen7yNHiZ
-         jC68CfET+zFdus+z7PN94r8cT2aik91R815/9p2uQTGcDLxlBVELqUkN47ua3i0V9DQ/
-         VbTNkWVlpr2IG0ywf6DtwN4pr9oda0TR4FqCYEe2ZtkQfXh9ILtE/kkJUDTj3KGcPyj3
-         3F5yuBIPa+VP+ho1OWBr0EGy7jOzbdFw8S0dUodBLiLLpW7KuvowDBBvtttPEurKYQbz
-         tN7g==
-X-Forwarded-Encrypted: i=1; AL+hErEEnPOy5nIExS+Nd6IlodWBebTezgtVm3roF4rPIDeqRIpRk62xZWcO1CyLgKjMq5/1Uhk/OMMmo2PPfQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/hCako0ig/GKP/Hp0ZuiHgd5HvH4Nx1lRoV5TWhh6GuEnEDjLT
-	By95enW5Zuybo4JGe4YL49Iz5sTbTWY9jrjCF6e/IiWilAhF5Z8OlzOix6N3IeQEkHCLG1j5pkp
-	/KF7E76/a20aXU5rsH1qmChx6COxbWJU=
-X-Gm-Gg: AYBFou37tM+fbGkajzL4HBnd+qHaKwTPGMn38g403KC2vPJABE7po4Yzm6q6qR3RVs2
-	xnzAqATkHFTmdCF0Dhn5ut31lzSNwR9ch5k8ROuXigieuV0oG3hiTdyv7IZw427V/nsHB65x3XB
-	CUPfsiJq75Tl6VtUV3HY+L4OASgAFAFA7M9BNL2HlfmN8RYn/4n2kP/pStO28WBimnt6RikdJ3E
-	RiEtIWg4gSS4Gri2x6EO4pNAxnyKjpK0eXpgzj/Lr9xK8hxIr+FgYGzqDyKWY50ZbsxHd/cf7Gr
-	klyfmw1LGzmOkNa2oEuuW7wMOMsQHfcZmb3u+gvl0D86zt0gI6k9TX65Vw8d93srau/drzpOFI4
-	U8xvnd0/J5SgVpAzhPZaeB6LLJgwWSOUq1q1FG/Bead5+k3qwH8PP
-X-Received: by 2002:a05:6a21:7907:b0:3e1:29b:bb35 with SMTP id
- adf61e73a8af0-3eed59db277mr1575456637.88.1794156430631; Sun, 08 Nov 2026
- 08:47:10 -0800 (PST)
+        bh=evSxEGT7EP5yWt4VQjY1odATlVADyf2LwindW+8Vgkk=;
+        b=JyNpUDmEv+JjvO4DvUFsGGUFdo01V2LHx33FJyrZ8AIC5XhrOPst1+PoPMvREu8WWE
+         +8azxiY/+6BF0NXIkvK7DnuGPl0i3AR3xiUwKhePRDCO+S8EcvA+B3IzZYvrwjzDa3v6
+         VFjN08bbeM86Ix5dVN46MScEnrqnfvVa8PUX1R21wAIuCrQiKZ2oUjt1r1dLm3voFtLM
+         nEqxE0A8Tn5Sd+HOsAbJSyDPOBPkytw344QvK1h33b4CvA08FobkOM7VWlkjuAKTfzFv
+         Ck0BOwzxL/2MY897vjsYkx6WcCO3PRAwj/B5yVVdRXarA5cttgHj2jPgD01ruHT3kvrt
+         n6+g==
+X-Forwarded-Encrypted: i=1; AL+hErEJFj5I+s+5RWFUCLn9wziqmvJiPwsNhSL+qKw+yr6wvw1t+nJLVkix87zKpvMTTA8F+bodxVE9B5I3Qg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9pJzoGfCyuorRAU54Mru5XEGiKHLShYzmNyxW9MHs0pun12Zln
+	zGcurJExVsiwMRvf0U6Qae6xrv9jFzs4+JVSMqI1GqAa0t9708m11I5C4MeoyX7yEVdtK4POi2h
+	84N5/5fUMLzDmDC7+TAYLpzpWWZIhBJA=
+X-Gm-Gg: AYBFou2ogXBk3FFXhPttzJgyW8NauRN5e3RozdQRnxbBtYJ1+grkII7Jbw6+qOcWHJO
+	fuZyIWooQ4QaRxABufl9bFi1zy6DXQDhzUy2q85XKmj9ouDffhRwXUf2jufbZsyxGDnPObRI4T/
+	M0ZxahImFyhzKWlQnxnOnxUmBWeA5GuxVvXLnpIMHgIikJXWE5wKEuJEmsZiFI/GmJKOki5H445
+	MrP9CZ0XKhrVMF7V+dh3Fu2oGxgpBaicdU1sGtLs6p8S7PONVqN24GjOLdOSmaWOTdApJaHs0KT
+	lzWYDmOsXa7bT9/QFBHkgUPiLlKuSFKnWxws2Lhak7NETzQfIbmMcXn79aOOyJiLKWE5Va17g9G
+	BJbyZbL4cGyb8p4/MwU1InOEh3lYlIjRcdBJaMV9+so4iFtdpqQTP
+X-Received: by 2002:a05:6a00:4107:b0:8ac:3a71:38a6 with SMTP id
+ d2e1a72fcca58-8b66fc970afmr1523563b3a.52.1794156473421; Sun, 08 Nov 2026
+ 08:47:53 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -104,144 +104,105 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261108155702.361022-1-pmazzini@gmail.com> <20261108155702.361022-2-pmazzini@gmail.com>
- <sashiko-outbox-203873@kernel.org>
-In-Reply-To: <sashiko-outbox-203873@kernel.org>
+References: <20261108155702.361022-1-pmazzini@gmail.com> <20261108155702.361022-4-pmazzini@gmail.com>
+ <sashiko-outbox-203874@kernel.org>
+In-Reply-To: <sashiko-outbox-203874@kernel.org>
 From: Pablo Mazzini <pmazzini@gmail.com>
-Date: Sun, 8 Nov 2026 16:46:46 +0000
-X-Gm-Features: AclHuK8Aes8U3tn1e6jW8hKMbpOMmvpbiNePg-NqNlB0EoDX7OzrjxLvUYhO9U4
-Message-ID: <CAAxh=jt9_hsJkEuaWsdAcLMS6mSS0O7PYQj_p6-oWOsQ5B9Shg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: clock: sun4i-a10-ccu: add Allwinner B288
+Date: Sun, 8 Nov 2026 16:47:28 +0000
+X-Gm-Features: AclHuK_4qeDidbx21BSiyl5hMY3CGY3Px979lH25Bd33ehuOp-xo-GZuM04gYbg
+Message-ID: <CAAxh=jtSHByK2H1fM=1bBiFJPkunKctR1oKU_anf2zYidXtUBw@mail.gmail.com>
+Subject: Re: [PATCH 3/3] clk: sunxi-ng: add Allwinner B288 CCU driver
 To: sashiko-reviews@lists.linux.dev
-Cc: devicetree@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org
+Cc: linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 8, 2026 at 4:11 PM <sashiko-bot@kernel.org> wrote:
-> Could these macro names be aligned between the clock and reset headers an=
-d
-> with existing sunxi-ng CCU bindings before they become ABI?
+On Sun, Nov 8, 2026 at 4:14 PM <sashiko-bot@kernel.org> wrote:
+> Should this build sun8i-b288-ccu.o (with sun8i-b288-ccu-y +=3D ccu-sun8i-=
+b288.o
+> below) like the other drivers in this Makefile?
 
-Yes, I'll use the names the other sunxi-ng bindings use in v2.
+Yes, I'll fix it in v2.
 
-On Sun, Nov 8, 2026 at 4:11=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+On Sun, Nov 8, 2026 at 4:14=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
 >
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue to consider:
-> - [Low] dt-bindings: clock: sun8i-b288-ccu: inconsistent clock and reset
->   macro names
+> Thank you for your contribution! Sashiko AI review found 2 potential
+> issues to consider:
+> - [High] clk: sunxi-ng: missing CPUX mux and PLL notifiers in
+>   sun8i-b288-ccu
+> - [Low] clk: sunxi-ng: inconsistent module object name for
+>   sun8i-b288-ccu
 > --
 >
-> commit fb1a7b2f6dc03665d0714b13f4a0587e1bb34467
+> commit 2d968133b3c297b695cc7e5349c65174d952448b
 > Author: Pablo Mazzini <pmazzini@gmail.com>
 >
-> dt-bindings: clock: sun4i-a10-ccu: add Allwinner B288
+> clk: sunxi-ng: add Allwinner B288 CCU driver
 >
-> This commit adds the Allwinner B288 CCU compatible string to the
-> sun4i-a10-ccu binding schema and introduces the clock and reset DT bindin=
-g
-> headers for the SoC.
+> This commit adds a table-based sunxi-ng Clock Control Unit driver for the
+> Allwinner B288 (sun8iw10p1) SoC.
 >
-> > diff --git a/include/dt-bindings/clock/sun8i-b288-ccu.h b/include/dt-bi=
-ndings/clock/sun8i-b288-ccu.h
-> > new file mode 100644
-> > index 0000000000000..c9b9eaf979ad0
-> > --- /dev/null
-> > +++ b/include/dt-bindings/clock/sun8i-b288-ccu.h
-> > @@ -0,0 +1,82 @@
->
-> [ ... ]
->
-> > +#define CLK_NAND     18
-> > +#define CLK_MMC0     19
-> > +#define CLK_MMC1     20
-> > +#define CLK_MMC2     21
-> > +#define CLK_MMC3     22
-> > +#define CLK_SPI0     23
-> > +#define CLK_SPI1     24
-> > +#define CLK_SPI2     25
-> > +#define CLK_DRAM     26
->
-> [ ... ]
->
-> > +#define CLK_BUS_THS  32
-> > +#define CLK_BUS_NAND 33
-> > +#define CLK_BUS_SDMMC0_BUS   34
-> > +#define CLK_BUS_SDMMC1_BUS   35
-> > +#define CLK_BUS_SDMMC2_BUS   36
-> > +#define CLK_BUS_SDMMC3_BUS   37
->
-> [ ... ]
->
-> > +#define CLK_BUS_USBOHCI0     46
-> > +#define CLK_BUS_USBEHCI0     47
-> > +#define CLK_BUS_USBOTG       48
-> > +#define CLK_BUS_DE   49
-> > +#define CLK_BUS_EE   50
-> > +#define CLK_BUS_TCON0        51
-> > +#define CLK_BUS_CSI  52
-> > +#define CLK_BUS_ADDA 53
-> > +#define CLK_BUS_SDRAM        54
->
-> [ ... ]
->
-> > +#define CLK_BUS_TWI0 63
-> > +#define CLK_BUS_TWI1 64
-> > +#define CLK_BUS_TWI2 65
->
-> [ ... ]
->
-> > diff --git a/include/dt-bindings/reset/sun8i-b288-ccu.h b/include/dt-bi=
-ndings/reset/sun8i-b288-ccu.h
-> > new file mode 100644
-> > index 0000000000000..6751456545487
-> > --- /dev/null
-> > +++ b/include/dt-bindings/reset/sun8i-b288-ccu.h
-> > @@ -0,0 +1,45 @@
->
-> [ ... ]
->
-> > +#define RST_BUS_MMC0 2
-> > +#define RST_BUS_MMC1 3
-> > +#define RST_BUS_MMC2 4
-> > +#define RST_BUS_MMC3 5
->
-> [ ... ]
->
-> > +#define RST_USBPHY0  14
-> > +#define RST_BUS_OHCI0        15
-> > +#define RST_BUS_EHCI0        16
-> > +#define RST_BUS_OTG  17
->
-> [ ... ]
->
-> > +#define RST_BUS_DRAM 25
->
-> [ ... ]
->
-> > +#define RST_BUS_I2C0 34
-> > +#define RST_BUS_I2C1 35
-> > +#define RST_BUS_I2C2 36
+> > diff --git a/drivers/clk/sunxi-ng/Makefile b/drivers/clk/sunxi-ng/Makef=
+ile
+> > index 796f443f4d765..debae396555f6 100644
+> > --- a/drivers/clk/sunxi-ng/Makefile
+> > +++ b/drivers/clk/sunxi-ng/Makefile
+> > @@ -41,6 +41,7 @@ obj-$(CONFIG_SUN4I_A10_CCU) +=3D sun4i-a10-ccu.o
+> >  obj-$(CONFIG_SUN5I_CCU)              +=3D sun5i-ccu.o
+> >  obj-$(CONFIG_SUN6I_A31_CCU)  +=3D sun6i-a31-ccu.o
+> >  obj-$(CONFIG_SUN6I_RTC_CCU)  +=3D sun6i-rtc-ccu.o
+> > +obj-$(CONFIG_SUN8I_B288_CCU) +=3D ccu-sun8i-b288.o
+> >  obj-$(CONFIG_SUN8I_A23_CCU)  +=3D sun8i-a23-ccu.o
+> >  obj-$(CONFIG_SUN8I_A33_CCU)  +=3D sun8i-a33-ccu.o
+> >  obj-$(CONFIG_SUN8I_A83T_CCU) +=3D sun8i-a83t-ccu.o
 >
 > [Severity: Low]
-> Could these macro names be aligned between the clock and reset headers an=
-d
-> with existing sunxi-ng CCU bindings before they become ABI?
+> Should this build sun8i-b288-ccu.o (with sun8i-b288-ccu-y +=3D
+> ccu-sun8i-b288.o below) like the other drivers in this Makefile?  Adding
+> ccu-sun8i-b288.o directly names the module ccu-sun8i-b288.ko instead of
+> sun8i-b288-ccu.ko.
 >
-> Specifically:
-> - CLK_BUS_SDMMC0_BUS..CLK_BUS_SDMMC3_BUS vs. CLK_BUS_MMC0..CLK_BUS_MMC3
->   (matching CLK_MMC0..3 and RST_BUS_MMC0..3, without the redundant _BUS
->   suffix)
-> - CLK_BUS_USBOHCI0, CLK_BUS_USBEHCI0, and CLK_BUS_USBOTG vs.
->   CLK_BUS_OHCI0, CLK_BUS_EHCI0, and CLK_BUS_OTG (matching RST_BUS_OHCI0,
->   RST_BUS_EHCI0, and RST_BUS_OTG)
-> - CLK_BUS_SDRAM vs. CLK_BUS_DRAM (matching CLK_DRAM and RST_BUS_DRAM)
-> - CLK_BUS_TWI0..CLK_BUS_TWI2 vs. CLK_BUS_I2C0..CLK_BUS_I2C2 (matching
->   RST_BUS_I2C0..2)
-> - RST_USBPHY0 vs. RST_USB_PHY0 (matching other Allwinner CCU reset header=
-s)
+> > diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-b288.c b/drivers/clk/sunxi-=
+ng/ccu-sun8i-b288.c
+> > new file mode 100644
+> > index 0000000000000..6e12ed8248f20
+> > --- /dev/null
+> > +++ b/drivers/clk/sunxi-ng/ccu-sun8i-b288.c
+>
+> [ ... ]
+>
+> > +static const struct ccu_tbl_clk sun8i_b288_clks[CLK_NUMBER] =3D {
+> > +     /*
+> > +      * PLL_24M @ 0x034 -- B288 only. It feeds the PLLs 24 MHz whateve=
+r
+> > +      * the crystal: it converts a 26 MHz one and is bypassed with a
+> > +      * 24 MHz one.
+> > +      */
+> > +     CCU_TBL_FIXED_RATE(CLK_PLL_24M, "pll-24m", CCU_TBL_HOSC, 24000000=
+),
+> > +
+> > +     CCU_TBL_STD1(CLK_PLL_CPUX, "pll-cpux", PLL_CPU, CLK_PLL_24M, UNGA=
+TE),
+>
+> [ ... ]
+>
+> > +     CCU_TBL_STD(CLK_CPUX, "cpux", CPUX, cpux_parents, CRIT | RATE_PAR=
+ENT),
+>
+> [Severity: High]
+> Can changing the rate of CLK_CPUX hang the system because no CPU mux or
+> PLL rate-change notifiers are registered?
+>
+> CLK_CPUX sets CLK_SET_RATE_PARENT, so clk_set_rate() propagates to
+> pll-cpux and updates its A31-style NKMP factors in place while the CPU is
+> running from it.  Other A31-family CCU drivers that allow rate propagatio=
+n
+> from cpux to pll-cpux (such as ccu-sun50i-a64.c, ccu-sun8i-a33.c and
+> ccu-sun8i-h3.c) register ccu_mux_notifier_register() to temporarily
+> reparent cpux to the 24 MHz oscillator during the rate change and
+> ccu_pll_notifier_register() to gate and ungate the PLL after updating its
+> factors, whereas sunxi_ccu_table_platform_probe() registers neither.
 >
 > --
 > Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261108155702.36=
-1022-1-pmazzini@gmail.com?part=3D1
+1022-1-pmazzini@gmail.com?part=3D3
