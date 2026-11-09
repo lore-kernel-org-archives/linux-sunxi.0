@@ -1,100 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794215360;
-	b=sGcUANv2ecqKrlzx/WxngIVmOdL2YkCFnzFE146ndLwiFZYkv8XLH3yPBr3ogfDeQvDX
-	 PJYxmZ7PIT5cqSBjV4g0bUeAHgNWk9g2Sr/6GfxQYl9b0QWZ8LPYiYmhXxCEk61zl8aeu
-	 +6u7pZrvyavu/2umw4Y7QPbV4fCdQ1Qnz/M/Q07TwTtgo2DO/suJqAjEdgKH4iJ/hpMhZ
-	 Aeex2hrKhMNUtLWbFkgbUNQbCfyT4d6kziVakDfK2nxpFuMmOGNFENE6YeJqJELPWCn0H
-	 16raW2eQwvczS7bPZiRkWmczfmS618oWy5T0jLRQ6zbinbSpdJn8DDRwybUtVkABkMg==
+	t=1794224779;
+	b=SzNzndLuRYFxOp3zNvSzgTv0Cp3cijQoWRY9eiVcpYyEl2kO69ZezSXSLjOCoORJ3D/P
+	 Oo0h1CKSToUdblwyBBswcwva5W0x3tFvHDbr+0Q/Qk2eJG+c0JNjAL8oh6wal7jQhslPM
+	 kNEp4lkASXMrSOVcnGdXdhRS0rxpSXYtVYMSM3gDY5+PXPR/B5K9JUP4N66pHBooUQUwH
+	 prhPkVFLxLlTls8ZHpwuYdAAUpDmaVk6yhARJUYwBqKptI59V3Mzi+rvu9dt5BMGaO/lp
+	 r99z3vy6VyqXMdURz9hO5Cqw3v1lLBEkKHPZjukfNnYIfhjjWQ5OcvMPbMH8h2cE35g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794215360;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794224779;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=+KBLzQyqsR334QCpiwaANoenKn13j8vn07qxRoKBlVI=;
-	b=tAJ8zUp4xdWVuFdf40Wqt07fQzXR+jT23I8j9rbAvdcAa+YIdmYGq44eFnmicSYJ7I8G
-	 GbWYn+T1+x+Or5N89pq21Yb664LAVhSJiBFRhEeonKnLSkIbDk4ZgX3penxj+Im3snf9K
-	 BpUOa7AoZOMCbm8PpZvhvXU1y6BwlP3DbaCug/kBpb4iFB6CBSYNLBREKh6CadtpOPiTQ
-	 syft54cHeBpqjv4xPty/vxK9JCEeuN8VkHsWbNeXpQ+zKsmdnX9kvp1Ah1NdgGGx0jUjI
-	 PzUxTttZFxAMaGucJvvtKZUzXRpO2Rf9zVvtWGAt31A+Uvuk2WSMqHgZMmN9a16ZLkA==
+	bh=UN7JSZ1+lhUpIQDrzhvOzINty1yZVzqD70nrLYHDV5E=;
+	b=ZTgf4othZclVUt7QTz9y7A87h9Y1BIBFdbgAL+iQRj6UOzXHWTVMxMPVflzjXr0tdv0z
+	 smigSP7BtzEU12cWLIOkmwCVoozeqZ1h7Noy78kKSbYukqHrl7a80WQfuYzOrZF3Vz3tc
+	 8iQ0pLG0yiP2TRCIonCXcWWEAOjWt1x0ZfbIlMq/vFa/EgfZAqt3ZBp+czaZqN4GWz+WF
+	 nZMzWutuQplUg5puxIWHVG8+li1uY6dMgP8FuE6bAK3Pf3/0FxlWhy7rqAu0ZDBuoduNl
+	 eoKmJJMg+OxWWqf9d++YPUOiMGPE/F8m+UIqgICcbsEOGKzcR5MT8+a3dHpHPMMdwnQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wirenboard.com;
-	spf=pass smtp.mailfrom=wirenboard.com;
-	dkim=pass header.d=wirenboard.com header.i=@wirenboard.com header.a=rsa-sha256 header.s=google header.b=iaXLFkkb;
-	arc=none smtp.remote-ip=209.85.128.42
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JiS99EIO;
+	arc=none smtp.remote-ip=209.85.128.176
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDF3606A335
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Nov 2026 09:09:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ABDF3606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wirenboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wirenboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A997606A326
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Nov 2026 11:46:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A997606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wirenboard.com header.i=@wirenboard.com header.a=rsa-sha256 header.s=google header.b=iaXLFkkb
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a214c5c4c0so6089535e9.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 Nov 2026 01:09:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=JiS99EIO
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-8b0cf2c0785so6159497b3.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 09 Nov 2026 03:46:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wirenboard.com; s=google; t=1794215358; x=1794820158; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+KBLzQyqsR334QCpiwaANoenKn13j8vn07qxRoKBlVI=;
-        b=iaXLFkkbiHOX+6qEVwM5kL7Jy6S5QhBsw6h+cdXB6V7DiwnigzW4kz+ZGT3rsBHVb5
-         cZyOWndr10b/h3AgWBOUtEYb6a65tgNW6s5fqs1gsSuI51yY4F59jsOPhw1rHeU4ie81
-         h0Dn3H42pHIa51tCG/ncpvU9ipMqb/CApDhkMrwvew2eL+OEoHv0Ec02lGEPQJ/eNzy9
-         UAyJrKh1yOBJAOTBJeWWSadSElvC11j4w7GhR3czQ5Bpe1kUTGiRfS7v1g1QH+gIbr2V
-         SfBYTlraTen4Oc/+TlAK263qe1h21X7f3YHT3MCUR9pSA53LL7IWrUeDJ16ud2YKYrkr
-         ZEPg==
+        d=gmail.com; s=20260707; t=1794224778; x=1794829578; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UN7JSZ1+lhUpIQDrzhvOzINty1yZVzqD70nrLYHDV5E=;
+        b=JiS99EIO4Go1HoIYZeJxU2J1B50BJtBIUE5TUO72UfzOpU9IMV//6coW5u4kdWxdRi
+         7GV7HFRpxP5IpfUd/tLyavgZCiBakxVUe3MzQYFSU+xs0B8Rw+xIPtcK9Be8iGUjmA2T
+         HRxmKmarHywCpGzsxlJXKYbI7ZQ+46KqgS8bGw41ItgxzzKu9ZA2bjXBj3kIT+mKDLjV
+         TrjazpdsvJjZ3o9lppjrRagVrhxJ+NvUIkFd5j/L0AkLitKL7JO3nMXrIHeCeYb1ixnj
+         D5330cDShIwS8wWxue0mdDJUr40/P2qLYV9MTjkTuDl6RJjMb++HQdBHZCGN1lVGmyt3
+         RyMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794215358; x=1794820158;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=+KBLzQyqsR334QCpiwaANoenKn13j8vn07qxRoKBlVI=;
-        b=CLv6/HVMmJMZe3T4oSQLWDwbl10+/2ahpCzHqfCKLAP+iPw4aUon6o8ObZ5+LU6jnL
-         sYCn+XdgpGuQwMnOyxsRiqYVQdegeC3WYIRTDkJLVz+cP4jxjs6ouoSEyoc9Wey40z0m
-         PCaZx959xp0Uw9V8tIvDapUMqYikg47oOYHTUG//JCagTfYozuPHL4j2GtbM7YihFvjR
-         hTZ10Z05hF2rJBtZk/+ItiTpkSCetwo+g+KDZ6xkTt4eC8B4jEJIODcNyYaYgFbRW/IS
-         uPrVGneygPJeWf5wBJIvhJzcYi6wql28ZKfKIPlqBXRLGLrxMIcWFkl/y8BiyIPzjuXf
-         KCMw==
-X-Forwarded-Encrypted: i=1; AL+hErG1iOzkB5P/Z+xVEZkdKLd62MoI2rWfPMzl0K9gHwLUSiCMMSa5gHaEDluLZi9+6G1Szg8rmThv9rlqJw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9FkEJsJMkHHCOwrA5mvUrr+asjs/ir3mDbz7q4zimNgv/I1ihh
-	u6xVA8cPvp0vQVPAjbfJF1uHWshV1KM7lBI/jWtQkVgt+o5uDBKYGICA+tqnSdssH/k=
-X-Gm-Gg: AYBFou24+JcueUC6sN6BDS7QdA1QRvZK70IJqWcUge4pMfPDs5v5RvKCJj4sIZOavHY
-	TguL0hTZW2MaGMc0uVUGgUO3vryuruo9XpwC2XxkTGNz9wlJZqwbNaSSL9MeuOunssfpIB/1e6X
-	qOYQDc9F+utO2vXvKJ7B8ig5w5Lj4U+kUYzijyyOoCcG3B/SDLRB6nxvZ/qt6k8JccuiO+FfW/j
-	BkVSJuN6L3nr+K5sBa3DfxZXc/k5IBWZNHvY0BsAh1alnPec2QPRzZIRW9lEoohDFPL/3oB7+Jr
-	Q8gW+AmuylEikKIA7OOvKeOfbKs8/qaU8dtC/rhcn2tdNwsUOHdsYNmDo0okkwt5HYxaGYAX9LZ
-	1XZ4ve5WD+VRbGZ9rR0+pR5gEVkPHYfoOxo1e77qE0RThKKrTITm/q1DyNVlzyKcn2buEQAQvJ2
-	xSLfkY1VmD1h58sAc6MbxGgOzMLja7m8Wz/201mb6XhhRQkqthoGEBY4PKavxc6Bl4jxXYG9DZt
-	XpPa+a34rUvB9ceeKlzQ7AaxdQ1RArHaWmRGaLxaGTRGstj8UVhNXu6kfccaoOCKf64hYCZjWiy
-	JxW9O7ihkaWWaI+C7sDplrFd2+zdxpEEBDBwdbGbEJTANfnsQV1P/l60zCkdsfU=
-X-Received: by 2002:a05:600c:474a:b0:4b5:2c72:651c with SMTP id 5b1f17b1804b1-4b963c6cac0mr68998635e9.5.1794215358048;
-        Mon, 09 Nov 2026 01:09:18 -0800 (PST)
-Received: from localhost.localdomain ([85.137.25.106])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49592f398a4sm8250905f8f.6.2026.11.09.01.09.16
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 09 Nov 2026 01:09:17 -0800 (PST)
-From: Ilya Titov <ilya.titov@wirenboard.com>
-To: sboyd@kernel.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	andre.przywara@arm.com
-Cc: bmasney+clk@redhat.com,
-	jbrunet+clk@baylibre.com,
-	linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Ilya Titov <ilya.titov@wirenboard.com>
-Subject: [PATCH] clk: sunxi-ng: h616: register CPU PLL notifier before mux notifier
-Date: Mon,  9 Nov 2026 12:09:14 +0300
-Message-ID: <20261109090914.46872-1-ilya.titov@wirenboard.com>
-X-Mailer: git-send-email 2.54.0
+        d=1e100.net; s=20260707; t=1794224778; x=1794829578;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=UN7JSZ1+lhUpIQDrzhvOzINty1yZVzqD70nrLYHDV5E=;
+        b=JTeBvrfxLCTFvUbPlXEu1t4XFczDFO9eU3dZOV+KWSsWaMOoqHppnVELN9hK268Hj8
+         fUxH8Op+wcihiODCPjA88AYQb6rlvGCr3cMqn++CzuK+Var+Bekz9lPDHPgcoZFDyTgD
+         jc+sdPTFhJoWOnFo/JOoHznLfb+2qhI3wMwlzi/x0/fBrLP74fAG2NOTD9sAD3oAM94r
+         hTI2N4t8lKjdc0bhLfr9L3wvp+kN5Mi0pOse/QwK+8PzS6d17oNdsoSiW2d0mahvB39u
+         DGE/r7S6xxX9PiJJPIYZ+NgRRhRKJdDH6dUdTy39fXNH2pFZZpYVN+wqLrG+nvymfiAp
+         8SOw==
+X-Gm-Message-State: APuU4Z83kpz1EFp/29p2qgqpUCy0UVmiSjQPN/5s8U9lnhxDE7QOzsDs
+	woRTWjW8BaUDYWA8zqNB5vyVOPVuLkCd/3MqTRWw69s2NcZzUJy++MID
+X-Gm-Gg: AYBFou2JvSc3YYR3xK4ylCla9hjxniyKe3UL/3o3kVQykyHWvtj8H9Vwo02PNX4y0d5
+	BmlisR3yRhZ0jQt7F2V52Y8iejtmckN56kXk7juXot8ZV46vcIimtBG4swuTsy9Xo4QBmVF8GJz
+	hWHAJ+CIDeiVqVbtXC9pf5/WxKSztQnOwM3j2Df9qswEixt2tFZp3TMvbjs/sDjiRosRG5Ew/8N
+	MGTuBhXEyW7vE7IwM/xvJ8FlosBHiqqXuUI/EhJqv55O45J/upP1BocBuUyrfWINKYZ3Kbjn+wI
+	qsJ6kovfB+t7fu09dckaDFkKXqgy3XobwcSasmJ+EQ2CCha8C8N7mGRkQTdtYTkXHiyqPoO+7Nq
+	kctpEsO9lnl5/tdLg3hq2G2tkSLeVZaZE7/ctZ3DLchNaoKG7gaJSAoeiay6DYOkqSZsa1hRwcI
+	LuAxzJU9/xaya9n4m20miJquh+ug9521XCJNuMwOxdg206g07oaVr81Yi+ZsLtMalCHnz1L80lI
+	CLKzcF55Yifai0Pxd8YLTpjSnDscequHS0vHXY6ek9scdj7T2j7MV2fqRCVaJYsv1wKFHimKOts
+	5uWN292cUh9drDa3L5QB9+3iUQ8MyS8WYmslRJqFr2TQOff/7GXQYbJQuKIbtUIOYrcabpX5uyW
+	VyE7km5jAjsjT1vgmjp7dD0Xk5EUW3anp1jcmTK14jTIZrFZjmP9WyNovAg==
+X-Received: by 2002:a05:690c:e3c9:b0:8b1:3606:65f6 with SMTP id 00721157ae682-8b36cb746a1mr21155677b3.64.1794224778309;
+        Mon, 09 Nov 2026 03:46:18 -0800 (PST)
+Received: from MaquinaLab.. ([179.179.238.247])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b36b63209asm32984397b3.6.2026.11.09.03.46.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 03:46:17 -0800 (PST)
+From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+To: Yixun Lan <dlan@gentoo.org>
+Cc: linux-sunxi@lists.linux.dev
+Subject: Allwinner T153 Linux CCU/reset support, is anyone working on it?
+Date: Mon,  9 Nov 2026 08:46:02 -0300
+Message-ID: <20261109114602.49907-1-vinicius.eduardo.pedrosa@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -104,55 +94,19 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Currently the CPU mux notifier is registered first, so on
-POST_RATE_CHANGE the CPU is switched back to PLL_CPUX before the PLL
-notifier re-locks it. The CPU then runs from the PLL while it is still
-settling. The comment for ccu_pll_notifier_cb() says it must be
-registered first, and the other sunxi-ng drivers (A33, H3, R40, A64,
-A100) do it in that order.
+Hi Yixun,
 
-We see random hangs and oopses on T507 based boards when cpufreq
-switches frequency often. In the oopses and JTAG dumps we captured, CPU0
-was always in ccu_mux_notifier_cb() or ccu_pll_notifier_cb(). Other
-CPUs were usually stuck on dsb after tlbi, waiting for CPU0.
+I saw your T153 RFC for sunxi-tools (#252), and I've been looking into
+possible upstream Linux contributions for this SoC. I've ordered a
+Luckfox Lume (T153) and would like to contribute to its mainline Linux
+enablement, starting with the clock/reset infrastructure.
 
-Running a random walk over all OPPs with some load on other cores, two
-boards hung 20+ times in about 3 days. With the PLL notifier registered
-first there were no hangs in the same time.
+Do you know if anyone is already working on the Linux CCU/reset support
+for T153? I'm particularly interested in the R-CCU and RTC/low-speed
+clocks, and I'd like to avoid duplicating work.
 
-Fixes: 087b4083d3f9 ("clk: sunxi-ng: h616: Reparent CPU clock during frequency changes")
-Cc: stable@vger.kernel.org
-Signed-off-by: Ilya Titov <ilya.titov@wirenboard.com>
----
- drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-index 955c614830fa..00b7811f3a84 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-@@ -1235,13 +1235,16 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
-+	/*
-+	 * Re-lock the CPU PLL after any rate changes. Must be registered
-+	 * before the mux notifier, so CPU goes back to a locked PLL.
-+	 */
-+	ccu_pll_notifier_register(&sun50i_h616_pll_cpu_nb);
-+
- 	/* Reparent CPU during CPU PLL rate changes */
- 	ccu_mux_notifier_register(pll_cpux_clk.common.hw.clk,
- 				  &sun50i_h616_cpu_nb);
- 
--	/* Re-lock the CPU PLL after any rate changes */
--	ccu_pll_notifier_register(&sun50i_h616_pll_cpu_nb);
--
- 	/* Reparent GPU during GPU PLL rate changes */
- 	ccu_mux_notifier_register(pll_gpu_clk.common.hw.clk,
- 				  &sun50i_h616_gpu_nb);
--- 
-2.54.0 (Apple Git-157)
-
+Thanks,
+Vinicius
