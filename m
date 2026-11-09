@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794239999;
-	b=Oc18DoIt0QKi165vl5jsw3iVkDXC9yFkOJexqPQ+PxdUIItrdLLraTsAejHSjkdzR8Cc
-	 LSviZwhKMGCZY8hWl1kYYWlIhd9TwPyNw75W1vv+Bu+5qGV5AFpD5Cx9uyecWmrutzTjT
-	 suw0bk2z0B0wvbHKGLIpVqSgmI9B+t92jLF7O7tVGcPpLz5tbqtzmZgCpsg19Bl7cj9Ck
-	 s+Ord/GiX4aeecZe89NvDU5WN/M7n5i6VH6KlWBkbkEoJaf4S/aVqAhzMm3ONwBLoSF5n
-	 r4iluteRK4PeBV/nIGSFcJXJuR9h3njjmuj4PQW9kihHduQ9lT4bW2q0iYjYFxvIm9A==
+	t=1794240438;
+	b=KIp1xTwflANSWIOB9ylIKXoww5KGyrAKv8SsOCDwcu87z67evHPMA0QlERerxOmkWidH
+	 +c8MmgbFPP/5pcE+8m71bXFSvtL79vlewfLQNfNuwOX6xmqXx+C0l4T06rS1IiPsPeo6Q
+	 LvwmShxLmbjqMXDolLgGWeJBTYdDgxQMUNZwrpPZObihBW1fjlyCgaOSRFYWlv8acxDv7
+	 6iTNz0ZIDkGjY8OOP5f120o5pJjibfZLnOque8cFLn/7XQGTdWn2aUH3rvi7vcIyfPCsi
+	 wjmDj0z0MczbMYmreThAku5Gv9Ob7RUv1XL0+K7BQQKfznIyLUy1xpAc7AQGBK5vlRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794239999;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794240438;
 	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
 	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=x8+hwW/5zTCinXQlt6chk8M/+naLfTi9oCAtj9giEx8=;
-	b=B8C7SQaI2OeV4nbiiUe1R7pBFkmk57b5jYOac1S5h+Wfs3TAF5hmxWFnN1Y2yC08X0eO
-	 9NgPgaLgqGoQtDlOqp0pWwKxRugcXno1uKMG2XhwyvPyGT8KZ0UkmxcgjjmKngp1LihvA
-	 3Os1yxK9WPzuUgvwRWUQXAsoC1o39l2Y8dNnNlviyAZpxCqTZDvpi/49PpqWPjUuGs1Fa
-	 kzebHaZ+GGaDrfEg0XP8E14ZB/a9ptuf2KEJjHzpfx6n5J7CQPEwlpv+xW5RDtOAQcptq
-	 aWcbSyHkORt9BHbbCowB8MlN1/09VnB04gpKTifsNYBDjGm5shdeAj40TJc9CvfA1ZA==
+	bh=GFQPb65NT7RMSCppnWXFsuqs6MvLmEnYZdDh5XC4mjA=;
+	b=BrD5VdVesR+5Vs/LP/g9ft8kKG8OExK9fyVNxlg7cQPDh2i/eEkpLpJpJFH4gakRGe5c
+	 P0kz18MxC033889Wjma+hO6wrTanVODfZfkKgmt4VhZQ4m+Sn74e3bYr/MFPeWkLc4SNy
+	 GjINHVeoCAQwmJQLmClJR4hqlp1+BEn0GQ+G9dJsTWFgI+ZohO+Aqa/qCQGSmm9fOfR0B
+	 H+yPibMj27b9fvERP64goa3tw1O5KrGrk9MK9NRMIDvDFiH/0mdHrm+QGpJrSrTFHbxcx
+	 2IsAxlNKtw+ABERGI9pNex0h18TaldphU3Pv0KdjRhkusgAurNoN3GM5scPWf3fOAdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KD5dyefz;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UPpFuF29;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17251606A321
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Nov 2026 15:59:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49BCD606EEB5
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Nov 2026 16:07:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KD5dyefz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6A531F00900
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Nov 2026 15:59:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UPpFuF29
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC9961F00929
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Nov 2026 16:07:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794239998;
-	bh=x8+hwW/5zTCinXQlt6chk8M/+naLfTi9oCAtj9giEx8=;
+	s=k20260515; t=1794240437;
+	bh=GFQPb65NT7RMSCppnWXFsuqs6MvLmEnYZdDh5XC4mjA=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=KD5dyefz39IkPX3UpaTum/KOpvhWYH/QEA84LmJrf9FC2cuEL9j27K7ebX+wB04bn
-	 oz+hE/n+itAL2Mlh2FfHeaaui09M0oTGZnVfo4S/iV30QmPH1l28Cqht4sdZLHteOX
-	 +9teyevkdSyq5Owz2qgKH+u8e+A7cyy+ZCdE87MC0ReVVAaIcK3bCLzvF4EH43+fwK
-	 Pw4+dTJjHeRvRnhGfhhojYkKJAanwC6ZR73d8gyrgUX4ZlZGoulWzKVi31L/2QMksM
-	 IPDqOR6IbAF39fOdp2z09X4iZG5tveGk3+H6S1WLFQfR+Ni1To7yGvYDhSsy1bgSk2
-	 ZTHjWY7vAc0lA==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-3adfe77d336so7641321fa.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 Nov 2026 07:59:58 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErHDNty7SeoK7bcGbwFlP9zO4GZVsCTvcuOhBXOwSF+mNvXUJh33qaqSTnLryXO/NbmM2owkhl8bp9Pm1Q==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8fJlOVvUU28DNwDlsVbT84pnEXHJNsvGCXCaZLE3K9PFGstNs/
-	/Zoi0faX7okSQQR0Hc3yCWZ/QQGaMbXOapi3TcMd3me3PEjkjv5W5XGrpKFnuhudxPbbOZs4R3S
-	epfxZomK4ktuyNQOyt2YGfaDof9BWHi8=
-X-Received: by 2002:a05:651c:e17:b0:3a8:7b84:be96 with SMTP id
- 38308e7fff4ca-3adfa482a5cmr11743561fa.27.1794239997190; Mon, 09 Nov 2026
- 07:59:57 -0800 (PST)
+	b=UPpFuF292enNAk33j0lC+1PqdbjJadzioJZ9ju8EwW47zs88GH4LOgNx6EXsBeAVS
+	 naQyLa5OJnp5SwqUX8i35edRwP+9AafAV+Zz8HdaTatC78INOzQLTZGY6xqBbAdv/w
+	 IiBpDWoJ7kQqe+JNkrpVw+hcxH4K73HSm0ZwcQcAPxQTgH7kNV3MNpL2gTH1DzNyal
+	 c2ohYafFn+0LycaXUe345gUZ3bkAugp/UYZE1nBzEES9VDKgulLZ94SrK0/f9E6ILx
+	 D/nEratmZRTSCwdOkvM1jJUmOWwhPHp9t6xXNpRh+E/zY0IW2d3tLcFSer/hskkYgY
+	 vTE3vP+uIGl7Q==
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5c07c7306e1so877171e87.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 09 Nov 2026 08:07:17 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErE4tLUilR/1Q4GMsY9YRoVwS2omcXi1OcYS79Fh3PpH+C+mRPdobLwgO8CpTKIPQ4Gg6LX/lM5m0o37kw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9FJzI+pAqpNO4uesRVjTIfX/0aINrPEYMiBO04iQOi+mIhyga3
+	OGpZXaCdukUFvPz0xxLzv7tATOFEZefM5ii68+4/VGZ3e+hnG7XQoxiFP/aPg/NvCpRCN9EPU80
+	JxtisBUHo/L78W0mUKbvddop/+LSuq3o=
+X-Received: by 2002:a05:6512:1396:b0:5c1:4974:c15e with SMTP id
+ 2adb3069b0e04-5c14c0347cbmr1335285e87.52.1794240436213; Mon, 09 Nov 2026
+ 08:07:16 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,15 +59,15 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261009-a733-clk-v6-0-ae8178fce7e8@pigmoral.tech> <20261009-a733-clk-v6-5-ae8178fce7e8@pigmoral.tech>
-In-Reply-To: <20261009-a733-clk-v6-5-ae8178fce7e8@pigmoral.tech>
+References: <20261009-a733-clk-v6-0-ae8178fce7e8@pigmoral.tech> <20261009-a733-clk-v6-6-ae8178fce7e8@pigmoral.tech>
+In-Reply-To: <20261009-a733-clk-v6-6-ae8178fce7e8@pigmoral.tech>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 10 Nov 2026 00:59:44 +0900
-X-Gmail-Original-Message-ID: <CAGb2v66PV8nKSoU+4qA6Z6AS62V0xkuPBjKSy=jUf7Oh0=bv6w@mail.gmail.com>
-X-Gm-Features: AclHuK9QXxwYcsEJa5-pvHGGLGfB5fBZTAKpVeZDXOjgDPABVDtQI4CTaoQK7OI
-Message-ID: <CAGb2v66PV8nKSoU+4qA6Z6AS62V0xkuPBjKSy=jUf7Oh0=bv6w@mail.gmail.com>
-Subject: Re: [PATCH v6 5/8] clk: sunxi-ng: a733: Add bus clocks support
+Date: Tue, 10 Nov 2026 01:07:03 +0900
+X-Gmail-Original-Message-ID: <CAGb2v67M2bN6a4AsNL_Lv70QmHTvdSWUCbPQat6Po_7KbbqA-w@mail.gmail.com>
+X-Gm-Features: AclHuK9agX6QEN1ILAcd18vE_t6MGmoL64ggMRVBKmQGQ0cwuc_S8X4_YIrWVls
+Message-ID: <CAGb2v67M2bN6a4AsNL_Lv70QmHTvdSWUCbPQat6Po_7KbbqA-w@mail.gmail.com>
+Subject: Re: [PATCH v6 6/8] clk: sunxi-ng: a733: Add mod clocks support
 To: Junhui Liu <junhui.liu@pigmoral.tech>
 Cc: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
 	Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
@@ -88,56 +88,40 @@ Content-Transfer-Encoding: quoted-printable
 On Sat, Oct 10, 2026 at 12:54=E2=80=AFAM Junhui Liu <junhui.liu@pigmoral.te=
 ch> wrote:
 >
-> Add the essential bus clocks in the Allwinner A733 CCU, including AHB,
-> APB0, APB1, APB_UART, and MBUS. These buses are necessary for many other
-> functional modules. Additional clocks such as trace and gic are also
-> added as they fall within the register address range of the bus clocks,
-> even though they are not strictly bus clocks.
->
-> The MBUS clock is marked as critical to ensure the memory bus remains
-> operational at all times. And the hardware requires an update bit
-> (bit 27) to be set so that the configuration takes effect and the
-> updated parameters can be correctly read back for the MBUS clock.
->
-> The GIC clock is also marked as critical. The bootloader may leave the
-> GIC running on a PLL parent, and disabling that PLL during
-> clk_disable_unused would hang the interrupt controller and the system.
+> Add the module clocks found in the Allwinner A733 SoC, including video,
+> storage, interfaces and others. While most of these clocks are similar
+> to those in the A523 SoC, this implementation accounts for changes in
+> register offsets and introduces support for new modules.
 >
 > Tested-by: Jerome Brunet <jbrunet@baylibre.com>
-> Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
 > Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
 > ---
->  drivers/clk/sunxi-ng/ccu-sun60i-a733.c | 108 +++++++++++++++++++++++++++=
+>  drivers/clk/sunxi-ng/ccu-sun60i-a733.c | 1103 ++++++++++++++++++++++++++=
 ++++++
->  1 file changed, 108 insertions(+)
+>  1 file changed, 1103 insertions(+)
 >
 > diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c b/drivers/clk/sunxi-n=
 g/ccu-sun60i-a733.c
-> index 3368801053ec..371c4297c3ab 100644
+> index 371c4297c3ab..7847eec84313 100644
 > --- a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
 > +++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
 
 [...]
 
-> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(gic_clk, "gic", gic_parents, 0x560=
-,
-> +                                     0, 5,     /* M */
-> +                                     24, 3,    /* mux */
-> +                                     BIT(31),  /* gate */
-> +                                     CLK_IS_CRITICAL);
-> +
-> +static const struct clk_parent_data mbus_parents[] =3D {
-> +       { .hw =3D &sys_24M_clk.hw },
-> +       { .hw =3D &pll_periph1_600M_clk.hw },
-> +       { .hw =3D &pll_ddr_clk.common.hw },
-> +       { .hw =3D &pll_periph1_480M_clk.common.hw },
-> +       { .hw =3D &pll_periph1_400M_clk.hw },
-> +       { .hw =3D &pll_npu_clk.common.hw },
+> +static const struct clk_parent_data dram_parents[] =3D {
+> +       { .hw =3D &pll_ddr_clk.common.hw, },
+> +       { .hw =3D &pll_periph0_800M_clk.common.hw, },
+> +       { .hw =3D &pll_periph0_600M_clk.hw, },
+> +       { .hw =3D &pll_de_clk.common.hw, },
+> +       { .hw =3D &pll_npu_clk.common.hw, },
 > +};
+> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE_FEAT(dram0_clk, "dram0", dram_pare=
+nts, 0xc00,
+> +                                          0, 4,        /* M */
 
-Don't know why I didn't see this earlier, but my LLM agent flagged this.
+My LLM agent flagged this: the divider is 5 bits wide, not 4.
+Both the user manual (page 149 from start or 128 as numbered on the page)
+and the BSP agree.
 
-Based on the manual (1.0) and BSP sources, the periph PLL sources are
-from periph0, not periph1.
 
-Once fixed, my review stands.
+ChenYu
