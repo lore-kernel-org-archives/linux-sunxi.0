@@ -1,107 +1,135 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794246678;
-	b=QFb22aYGtVEZ+w6gBp57UiIbAY8FKHmgIAtUi12W+Scaejymbz99YK1PGJks7oEMD5ti
-	 w0MK5mCQuFA76I5sBwAqQp2b454ixQ4CWKN2p4GbP22vZOcpCcIfNOc75tjX9xgK8VKw3
-	 D31G1AzYDEG64urLhRM/CuMNP/uTnFBHunOEs1pE/W121SN9sk2dNe+uZfK7FDrR+DypR
-	 Nmw2LgLXiluEgH1yak701E6DS695TfVepfaXutk2G6okR7Gp8QVLcjOOLr48jRj/zomLo
-	 8BlPpOib2NKH1RstdMYGJQvdSmLctOUmfkgJHQ2EfW7IqZ1qArD1OX6lHsR7VdmAi1A==
+	t=1794247062;
+	b=hqXjzfdiomgQili6THUUbUkLXhgmLCOjwlmkMr91KkKe3zEX5ejW413j/SYHSoVla5R0
+	 BWD2t9IFsRdpjnPqH2LRUmXsCRWwoIKuHkkD+0+43E1NPZT3w3+PtIL89z6/DK2EAKg83
+	 oNhSXJZrSQaxAJuSgniwweX3VIJOxZOU+nx4qyYWPzrSSXwBXYNy/TqeqRfMnYOB3lCMv
+	 3JQsFaTIpmHGnUPfAMNklgzQHspmMhRyX8c8lRLqXNIvsxleadwmppDQYmCcwDS4YD+Nv
+	 pcztAeZ2NVjwIHajYGH+yFA74C/ytGU1VUFgA1DraSB1lJVU332BvOIgXMCQt6Qeqrw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794246678;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=GFzABPh/i3DTYACKwlsIa8uWdbyDlbj1NiTPGOeH3RM=;
-	b=tY8VXC4JQT1Ooa6cBPiz2/mSUZobIX8SOm+2GaILtlgUekeMK/2uS9gKk44nMIwFtBNu
-	 UgunFcx+9+Qofu6c5z9Q7QUYGS5NCd3Wk1sR7fYkQEVtMdTBiGGj3VPARUHzyhkQo68ID
-	 whZHyb9p+SPo5rFb9u5ZoRKzE0iibsxcjk9yRZ73pWzhZzrTlWlqmkaI3eK1cqn08Gjwv
-	 zoUAfv2AdjlrYuJQe+V4Nzwb/MzozsZ4oH8D87ANvqLbymEphNUJQvSyLEggZeWpAqY0N
-	 YZ6UXxoxTrpaln9D1MGIlffP9M5evZR+ANBgVpzvg6By3ct7FCkseV74ULOXrkjc3PQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794247062;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=9Cc+2gtfN2/LHuRHGFLJjMnOZd72QDWhyPb9mjrBQIM=;
+	b=u7NP+7a2c1Yv020+YRdCd6aS03ng5WltSY4cHjjuSJy5k6sLOF0ekTL/7EorlcYBuHjo
+	 8zhJQluAN+uukUDCrIRb9pejzyMSBTQZuKz+wrOWNzZAaAIl4wk6tSKDVk9w7A3QOVsjh
+	 xdZVsluWDahXT3XNGuLOX9jNfRyiLJItb0AVSxImhQXclcHnTTy48BcoMT6JByM7JIQpE
+	 EgJcc7Mn1/qHMeZAZgK/H7pRJ7peqi0oOKLJMdxy5DbIK+Z1r6B7KX4MMDDWiG/1onbY7
+	 KWuTxfE2riKKbYOry6pfMXdhq1+7009fCNUqkdfb1vbH7AhFVlpohp86BqrZ3UFsCZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="XJi/MBXn";
-	arc=none smtp.remote-ip=209.85.221.48
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RYE80E4L;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77E860A5BE9
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Nov 2026 17:51:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A77E860A5BE9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B67F606A325;
+	Mon,  9 Nov 2026 17:57:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0B67F606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XJi/MBXn
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-490d59c3f0aso609540f8f.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 Nov 2026 09:51:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794246676; x=1794851476; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GFzABPh/i3DTYACKwlsIa8uWdbyDlbj1NiTPGOeH3RM=;
-        b=XJi/MBXnGCe40GQl48RSrpO7F+Ao8+HVX7X8VYpD/kxJBcmUZXQjg8fts+tCZL4b38
-         qj0kkC5SdPKkxI7QKbNJMGFPaWfglIZDp/oWZpe9hvN5iIz6dS4R24CBRw4xPm8F3Vev
-         Wge1et6miKlDeSj/x2q6/qtcZY9HXwmxyeQ0mTvPd5rKALTPb/JIVXJzAmUnz8YG7D8U
-         hY7DcFMwqYr//BbyRz/wVjHfALn2ufWXbGCbjp5V31pF0lo+v+Q7b/5s+fFYDtKMH7vK
-         WacitKxJLb6Kp34q+nYQUUnQ07TiCXopWrgo4z0w9G/s8VccolN337mp7+oJlHpjncKV
-         gunA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794246676; x=1794851476;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GFzABPh/i3DTYACKwlsIa8uWdbyDlbj1NiTPGOeH3RM=;
-        b=hPUZ9rUIul8AdP9M/s2qW3aMJjPy8HR6MBMnNMx9/G0unLifTG3DbEP6iNXI8SaefI
-         +tzdx0X4V7Zp5IWHgsutDksptY+NFpyjVZ7Il1zKP1QFkYlePNyfQrxRbzdDnBsJEyd8
-         sl1eHYc6S4+y6L29bxYol5jvzrln0ak1Jn509c6MTPryJGRrE40HLcv64LjscBoaxutX
-         ExBHK1vleDiaEZtEmBWdGhTbTJ7ysZJuIMgMbQJ6YJ17lk8I1yjDmcfumiLcCKNISSWo
-         6wtOFhMjxoKyMpXqn9qt6GGH3/GL5+xCqljY1l1tyLCoVzd+6Dp0h03Fb7muFKLU4qlY
-         Bi7Q==
-X-Forwarded-Encrypted: i=1; AL+hErGGNUbiOq8H/3ppAxpmDlxkn70+xZuO6AVPkwds/D8vqkd6kJJeSccXRr0KSAOzakRNdVBPCC5NIX+erQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8YxaakcYxgrNzrvpTQuUUWQf31U57A30HpgikHVEwAup0K1Miv
-	ykD7s/YVjk3Twg+o/8SZVz/XjVpDw8CXd8ihK/aUW4Lh4kUaUSBy7xpGaDSkBA==
-X-Gm-Gg: AYBFou19dpEI4TZaoW4eAI50YvmKY61JO6gpL0MZ/mOSjA5TMMvuq+ONn3ipU2c613l
-	vJRbJ7iqD1dVUagJNwGLkNJU9J8WfO5JMb2hrTCZR4B086YRVhtP43XI+SruaqNxMPP5iXe+Wiu
-	3z7fnNa76R0UGYp+ZcNYzvJVkRdRJD+ZSFXJEu3IcxIroepnp2W6FXJz5cvwpZNGdNCAGQFFid0
-	ySHNoAOy1879dBlXM6d8g9BW0ZKG1lvTK9iQCYYUmHGChCD5DUb+gnmLlkE3Qyos7T3CUciaxVV
-	tex3UGxpJAdwGdqaQgiluBDloiIwRxF1/qeJoyypeX424ThaS38/R6orvCOmbpmO7POxUpW2jLD
-	4OhFPX1KaK+o2o4LJ8S9MLvlq5ebW3ru/Tk/oCJIoUbUntJt36fEyGOk/6d3KSRMhrqr1+kdx6e
-	CX1O5vrD+Az6X+z4omBKGF6i2QgR2oxtePjcykEhgaMT/pzQ576XCUhbGwuqt7l30cklqf1RSNZ
-	Syu3pcqLP+6Z2z2UVB8b6iJHrrqANNSnRQroOGwkjviDOOkeD/d3lm15QA6hu/mcdlufH1RxZgW
-	wVy6yxRRus5pTjA9wekU1EhbCxBbewMZHyKJY4F9tWVq3EZFqy0EtTs85wKTCRBSiaJ4n7RsX5J
-	JLoyl1r+CiCcRs3dCyYhaKpYKaDQfSqnpyZBZfxBmtwlUfUeVTpfrr5OU/KXK2EJ23RbEJKAU61
-	yxJpcfxPhjgrk9FMSDSBbE6q7CQFEosVmF1VZqdZSYyTI14gZdWge0d5IkfXeYdcAa3qBzR0SEr
-	eJ5OosvLEqbiR695zI3FbNytiop7U3deJ+e/qn5VF7Lqgh97IU=
-X-Received: by 2002:a05:6000:29d9:b0:492:b1c5:6db4 with SMTP id ffacd0b85a97d-4982fd3e550mr237732f8f.26.1794246675934;
-        Mon, 09 Nov 2026 09:51:15 -0800 (PST)
-Received: from jernej-laptop (86-58-12-36.dynamic.telemach.net. [86.58.12.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-498369a4238sm200717f8f.54.2026.11.09.09.51.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 09:51:15 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=RYE80E4L
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794247062; x=1825783062;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/GGAxNjyNSTAgb+4GsAIS07jSZ/uzkJHlCxb0K1tUUw=;
+  b=RYE80E4L4jf+eo3yiNmYGvjkREiK14P7tpe2VTbck8ZSyfp/TeAWS5he
+   Ydc1pMWVHQTvD6dqXwK2DCBMJREpZ2FA0BK5yRMiv3HT2aHyRUMQpt/ad
+   0YsiSK6ITcQ6TMxMbD0ojpZZtMh8nej1ULGVuNc4NOQje0LVgQI7V9k1n
+   RwbgmQ1f17yoZnD3BGGoXT+41rwyrOKWFwlc09/3aKQ3FWis09A6urYN1
+   he6mfWqzIbpzf4W+kESQ1CHyspmUeLnmkAMmd5Dc/Eo9K51umHnm+CxzA
+   Rrq7rC/Vq8QK2pdUWOp6cryd3vA2ccLYPwU43a/bRbqxyqnSiLqQvuerk
+   Q==;
+X-CSE-ConnectionGUID: ahWk49nvRkuczItyEQINHg==
+X-CSE-MsgGUID: ZlQDGFFaSG+kXM0E9n/tfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="2866560"
+X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
+   d="scan'208";a="2866560"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 09:57:41 -0800
+X-CSE-ConnectionGUID: wb2AMpMXSwWy17Y7mVRXlA==
+X-CSE-MsgGUID: AJ9NiomKQuqzRxE8oUxCRw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
+   d="scan'208";a="7927416"
+Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.144])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 09:57:29 -0800
+Date: Mon, 9 Nov 2026 19:57:26 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Frank.Li@oss.nxp.com, Mark Brown <broonie@kernel.org>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Radu Pirea <radu_nicolae.pirea@upb.ro>,
+	CL Wang <cl634@andestech.com>,
+	Ryan Wanner <ryan.wanner@microchip.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Vladimir Oltean <olteanv@gmail.com>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Han Xu <han.xu@nxp.com>,
+	Haibo Chen <haibo.chen@nxp.com>, Linus Walleij <linusw@kernel.org>,
+	Daniel Mack <daniel@zonque.org>,
+	Haojian Zhuang <haojian.zhuang@gmail.com>,
+	Robert Jarzmik <robert.jarzmik@free.fr>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>, Yixun Lan <dlan@kernel.org>,
+	Troy Mitchell <troy.mitchell@linux.spacemit.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
 	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 08/11] staging: media: cedrus: vp8: use the vendor probability table size
-Date: Mon,  9 Nov 2026 18:50:13 +0100
-Message-ID: <20261109175016.42061-9-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261109175016.42061-1-jernej.skrabec@gmail.com>
-References: <20261109175016.42061-1-jernej.skrabec@gmail.com>
+	Laxman Dewangan <ldewangan@nvidia.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	"open list:SPI SUBSYSTEM" <linux-spi@vger.kernel.org>,
+	"moderated list:ARM/Microchip (AT91) SoC support" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"moderated list:BROADCOM BCM2711/BCM2835 ARM ARCHITECTURE" <linux-rpi-kernel@lists.infradead.org>,
+	"open list:FREESCALE DSPI DRIVER" <imx@lists.linux.dev>,
+	"open list:ARM/QUALCOMM MAILING LIST" <linux-arm-msm@vger.kernel.org>,
+	"open list:ARM/Rockchip SoC support" <linux-rockchip@lists.infradead.org>,
+	"open list:RENESAS RZ/V2H(P) RSPI DRIVER" <linux-renesas-soc@vger.kernel.org>,
+	"open list:SAMSUNG SPI DRIVERS" <linux-samsung-soc@vger.kernel.org>,
+	"open list:RISC-V SPACEMIT SoC Support" <linux-riscv@lists.infradead.org>,
+	"open list:RISC-V SPACEMIT SoC Support" <spacemit@lists.linux.dev>,
+	"moderated list:ARM/STM32 ARCHITECTURE" <linux-stm32@st-md-mailman.stormreply.com>,
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
+	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+	Mukesh Kumar Savaliya <mukesh.savaliya@oss.qualcomm.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Thierry Reding <treding@nvidia.com>
+Subject: Re: [PATCH v2 1/1] spi: use dmaengine_desc_set_callback()
+Message-ID: <avIJhv7p2v30U8H9@ashevche-desk.local>
+References: <7f96599b-681d-4963-bdda-1274371ac84f@kernel.org>
+ <f1fa853d-1703-411d-b2d2-0fb0b176c2fa@kernel.org>
+ <autqC143h7Qf1R9H@ashevche-desk.local>
+ <9e39502a-dd17-4fa2-98a3-9019523cb5e8@kernel.org>
+ <auuYcS7-YqJKcUbE@ashevche-desk.local>
+ <63c24437-4261-4a51-be7e-31ac0759a095@kernel.org>
+ <auxGom0XR-Hax9b3@ashevche-desk.local>
+ <00390a20-7630-4066-9779-06c8f915a176@kernel.org>
+ <auxNmE8yZVP-wL2e@ashevche-desk.local>
+ <3dc7277e-2f6b-44a6-9085-2e33d989c1c9@kernel.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -111,38 +139,81 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3dc7277e-2f6b-44a6-9085-2e33d989c1c9@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-The driver allocates the VP8 probability table with 0x2400 bytes, which
-is the size the old Allwinner A10 library uses. All newer vendor
-libraries allocate 0x5400 bytes and never write the area past 0x11b0
-from the CPU. The hardware uses that area as scratch space, most likely
-for the segment map, and its usage grows with the frame size: a
-3840x2160 stream makes the hardware access memory past 0x2400 and
-causes IOMMU page faults.
+On Fri, Nov 06, 2026 at 08:20:33AM +0100, Krzysztof Kozlowski wrote:
+> On 05/11/2026 10:34, Andy Shevchenko wrote:
+> > On Thu, Nov 05, 2026 at 10:07:30AM +0100, Krzysztof Kozlowski wrote:
+> >> On 05/11/2026 10:04, Andy Shevchenko wrote:
+> >>> On Wed, Nov 04, 2026 at 11:54:56PM +0100, Krzysztof Kozlowski wrote:
+> >>>> On 04/11/2026 21:41, Andy Shevchenko wrote:
+> >>>>>>
+> >>>>>> But sure, if we want to play such numbers game, I will be sending
+> >>>>>> reviews for single lines.
+> >>>>>
+> >>>>> I'm not playing anything. The problem is that the patch unites the files that
+> >>>>> have distinct maintainers and unrelated to each other code. That's why in the
+> >>>>> subsystems I maintain, I almost always require to split on per-driver basis.
+> >>>>> Yes, exceptions are possible, but has to be quite rare.
+> >>>>
+> >>>> That's independent problem. Patch could be split, but it was not. Since
+> >>>> it was not, receiving end should act accordingly, e.g. when performing
+> >>>> incomplete review of only part of the patch, do not call that entire
+> >>>> patch was reviewed by giving the Rb tag, but give Ack tag.
+> >>>
+> >>> No, (partial) Rb != Ack.
+> >>
+> >> It is, because there is no partial Rb tag.
+> >>
+> >> There is partial review, but not partial Rb tag, please see exactly
+> >> submitting patches. It repeats the same in three separate places:
+> >>
+> >> "Acked-by.... user may not have carried out a technical review of the
+> >> patch,yet they may be satisfied ..."
+> >>
+> >> "Reviewed-by:, instead, indicates that the patch has been reviewed and
+> >> found acceptable according to the Reviewer's Statement:"
+> >>
+> >> Above important: "THE PATCH"
+> >>
+> >> It is not "the patch or its parts"
+> >>
+> >> Further:
+> >>
+> >> "I state that:
+> >> (a) I have carried out a technical review of *this* patch to evaluate
+> >> its appropriateness and readiness for inclusion into  the mainline kernel."
+> >>
+> >> And further:
+> >>
+> >> "A Reviewed-by tag is a statement of opinion that *the patch* is an"
+> >>
+> >> In three places it is THIS or THE patch. Complete (exhaustive) list of
+> >> options what can be reviewed to get the credit and give statement of
+> >> oversight.
+> >>
+> >> Statement of oversight DOES NOT include "part of the patch".
+> > 
+> > So, it means I MUST from now on REQUIRE a split before reviewing.
+> > Right?
+> 
+> Why "from now on"? The reviewer's statement of oversight is worded like
+> that since beginning? Also nothing stops you from reviewing parts. We
+> discuss the statement of oversight and its result: giving Rb tag. The Rb
+> tag is not output of some review, but agreement with statement of
+> oversight and performing what is stated there.
+> 
+> You can review parts, but you do not provide Rb tag.
 
-Allocate the table with 0x5400 bytes, like the vendor libraries do.
+No, I'm not going to review something that I may not put Rb tag on.
+I can NAK or ignore (or Ack without viewing, but it equals to ignore to me).
 
-Fixes: 3c39a16d30d8 ("media: cedrus: Add support for VP8 decoding")
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/staging/media/sunxi/cedrus/cedrus_vp8.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-index fecca343bd92..84bf18fd231d 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-@@ -25,7 +25,7 @@
- #include "cedrus_hw.h"
- #include "cedrus_regs.h"
- 
--#define CEDRUS_ENTROPY_PROBS_SIZE 0x2400
-+#define CEDRUS_ENTROPY_PROBS_SIZE 0x5400
- #define VP8_PROB_HALF 128
- #define QUANT_DELTA_COUNT 5
- 
 -- 
-2.43.0
+With Best Regards,
+Andy Shevchenko
+
 
