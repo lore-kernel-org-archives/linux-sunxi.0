@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794240967;
-	b=a5yml4DJgu/LVBf+CNrnQNppydV4+HTH/UyRCB6rc0TuNcD8GpbfHwSc3rvrFrc1sa4+
-	 Q0O4xHR91iApUE6QYcSsKa+nhFU5MO1J6rVz/p2U+YdqKZHRViMrwZcILx+1FiB08QCun
-	 Rq6joxGXLuLDrRyzB5KSN+SNLN4tsbBu9LS6NyMWnqZalioS584c17dmyL6wE/6OegRXj
-	 RKEkUqGfnYSUxfncTReg7u7XQOhqNZ/NY29RCo3gYYpFoixCaBcHSlxWpcWkqesVzbM1N
-	 ozUiN1youPEbPvMQU/WJW2qPPA6BCkatQ1100KFlKhcGyrr0V7a3xOdsM3XJw8IMlIQ==
+	t=1794243250;
+	b=0EvNfs4ND91LqzLGOQ+EU7DBCtUbKhdI1hrnMWi1OScVJAQgq6bYmjDHVzrUVwNKGPMs
+	 7VnVUn7vemFOvt4vyUoLGNE4g0odJqc0PoKs+qsOOjCjdgm7MEhh2t6MSFRTj5bXZN8m4
+	 XkzbaOnJ71ef2ssQZwbj5R/p1Gg2jHSgKrEMZygTpiQHd3UINI8ixb2djBppYRiI2cUlt
+	 GlOF/ceCW6Sa4ZP6o8/YjWj+C7I2ti8czwLzaPacY6U9TXVpnCoxEqyhGwxj3qJZmZIB9
+	 iRtE4YJAkmI9uwbmgyYYVeo6IGPwVn673BZHwRoso2mRghGDHYHALExlopaKbAT4x3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794240967;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794243250;
 	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
 	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=a+uAUjhXKEApJwrL+oxv5vaGLoNsPevTJGtjjvevzRI=;
-	b=Jvyl7onBUdWbm4mou6BoOJDzoaPcbL5x/4ZORbDhObRVl0Eoz3AhaTS2FQx9BtMASWMz
-	 3yoBT9WcDbMPoY87k0GMiM/9MjniF/7RNBB/sr+aVVBeIY/9ZcCmELXL/2BjYHlT39Yco
-	 qH6GBiscp5VmXlVvJJFKXmaNGAuLxtlqhq12+e59RjDnH01pQFE3yCNuvDcOR0Lj3Df0K
-	 zn38hwrRNja5UFpLHaG7G1zTvcts94+Q2rJGD71YsYekeg22Gnyeao1yil/bOn+usanN4
-	 xDzc72DUqvCXNGbVi7BOaiTbaQySnKPoFK8rMii74TCHG/G8Oz+53UM39EzTPlQ3MPw==
+	bh=1HDtwLDGfSRrUZ/V7Ccnlt8XRob7ixLwnD6AArPjBEg=;
+	b=jJ4LjNHn52H92GJCjnfvwtfty5gArgBdRaIisNaVW/w5xBnCq1Aa5OpFM02r9gZWUsmU
+	 exIM2iPi+BoKKJs2ytiqWeRxQSi3bhZP48FvdNEEwCqtfhROb0dxyQpw3sHYBKkPJOEG0
+	 Qd6PPgwCbwivhbk7lFyCfPvnWNafOWNRUoULXVinSyeqRb9ToUcATnosXjCsFt6iC2haz
+	 HRGP+bS5IG9RNEyvQ5GvP3DioKdxn1mN3Plqzx9zznPEEQx3mA04c6DXbiQUAKyP1HJNq
+	 2c6S5rQRzRAds32QersJo0WodG5da1hf4nVJHjthaouWsPY2hFyM5t/V4RK+NHVyshA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="i6au/myG";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lNTYIhWy;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927D3606A326
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Nov 2026 16:16:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23FD1606A33D
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Nov 2026 16:54:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i6au/myG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5961B1F008A2
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Nov 2026 16:16:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lNTYIhWy
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0C0C1F008BD
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Nov 2026 16:54:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794240966;
-	bh=a+uAUjhXKEApJwrL+oxv5vaGLoNsPevTJGtjjvevzRI=;
+	s=k20260515; t=1794243249;
+	bh=1HDtwLDGfSRrUZ/V7Ccnlt8XRob7ixLwnD6AArPjBEg=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=i6au/myG9p4GsOKM3Vi2VV8GPL0M54b1Q0aP+nLEVBGLWzFiIIQL51O1MPCO+TJ4P
-	 dOOlbWjxw1rDvIUfDn3HiHecyjD8xeH7auCSya7gDynZpsG6ifrwDgv2bj7GEdYFIS
-	 6koTwc3GNJ3y4HxS5QqxvXa+YXh6iYr6A8T2PwO6HCn5shYGBESjwyGMR34m80I3S6
-	 RwOdZ0texE0E8hg2AoMGmeS8P3ZBs66cKKylaV0qlfR4zBPdrX44gquG1jpaLHZqWu
-	 iVi83j2JSgA+Ktlq/6aFAKZQLOSxJXn2dcRSQ5YbGFPhVhc6rBxkKvUFpemhYanYHR
-	 PRqMUgFKiJXFQ==
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-4ab8cb2a6e4so613241b6e.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 Nov 2026 08:16:06 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErF9HYPLe6s1a6pnuYXKos0fkcFXZuEJIvKofjiFc2+bgUeDuwzYQv3yqcyoNXXpHjKGPEB9zVeQYUMfdQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9ScdGEZwmhQ763bsNV1/JgClB1qzGYKGtWTEC/3YNNHsqMLwR6
-	TM+sio4Jva06a8qcDjqdEZFx+ZJesqbRonFOBOhyhesm+w1OpSGJrGaevyODVKXK+phrp70grSV
-	LickKnKVUpjgiG/LP6OAzsR57OH502Fo=
-X-Received: by 2002:a05:6808:1209:b0:532:4867:8916 with SMTP id
- 5614622812f47-5683c9e2ac2mr94540b6e.4.1794240965556; Mon, 09 Nov 2026
- 08:16:05 -0800 (PST)
+	b=lNTYIhWyh0pZzKnL2tR9hpeq6ddbd8RQRirnojvBgYsvmM1l1rIJVGWiQamXZNFiX
+	 2yUV1ul3sJhA0O6Laskk3E2LTKXWvkAPJTRVtRzsBD8WAMOilp2Ocb3C/d6zaof0zw
+	 oMrHZndlwXz5TDjJqcIJFjuBPqnaqdevqnbvlXXpIZ8lRe7dmUB8FigPn/B/dwPoeT
+	 FA4X9yTQuDUujEt3e/aV4PeYZj99NJ9+tI/RQr1ducpwBYr76Yv106CRVQnA9PVH6h
+	 U89Z9FMuU6zAPVmXNCIQ35ki2rCJ/YFR+G5Z5KS3B04GcGfJA7Ir4v6WcqMkCMaIV5
+	 PEVC2/O7PoZrQ==
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-4d198f1a591so560140b6e.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 09 Nov 2026 08:54:09 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGHmO7AT7ChVbLHkOpzylqDBegcRnGstzBGqspZ0iDL7lNsx6ey362sw8DMn3dlM5zWsDszvEYXm2U64g==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9s7Ugt1+7V5R2XEh67U9e6LQTxS3CHYHSYrXo3dhDvFafgJ/Fb
+	uVgNg2QkBd77E/LzWMw5TEflHMvFTw9Z+QKsBJl3EtKscRRI8v53VnmqS1Uc0v4BxKcov4B+qil
+	iJrRI0C1XDXMYb4Xm9tQ/Ohr+2ydeH+k=
+X-Received: by 2002:a05:6808:124d:b0:4cb:f21b:6f8b with SMTP id
+ 5614622812f47-5683cd808femr133852b6e.30.1794243248824; Mon, 09 Nov 2026
+ 08:54:08 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,45 +59,35 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20260930-a733-clk-v5-0-11175b41cd2d@pigmoral.tech> <20260930-a733-clk-v5-3-11175b41cd2d@pigmoral.tech>
-In-Reply-To: <20260930-a733-clk-v5-3-11175b41cd2d@pigmoral.tech>
+References: <20261104185659.884455-1-jernej.skrabec@gmail.com>
+In-Reply-To: <20261104185659.884455-1-jernej.skrabec@gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 10 Nov 2026 01:15:47 +0900
-X-Gmail-Original-Message-ID: <CAGb2v66J=FaqimwrqrbVuBVb5GMuhizp2Hnt6vN7CRMNhiuCFA@mail.gmail.com>
-X-Gm-Features: AclHuK8oi8fLMntRJV56LqbfIWbbWAJenIS4kljcKk7VrVTWKVxckSNOSzGxgTs
-Message-ID: <CAGb2v66J=FaqimwrqrbVuBVb5GMuhizp2Hnt6vN7CRMNhiuCFA@mail.gmail.com>
-Subject: Re: [PATCH v5 3/8] clk: sunxi-ng: a733: Add PRCM CCU
-To: Junhui Liu <junhui.liu@pigmoral.tech>
-Cc: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
-	Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, netdev@vger.kernel.org, 
-	Jerome Brunet <jbrunet@baylibre.com>, Enzo Adriano <enzo.adriano.code@gmail.com>, 
-	Andre Przywara <andre.przywara@arm.com>
+Date: Tue, 10 Nov 2026 01:53:54 +0900
+X-Gmail-Original-Message-ID: <CAGb2v64xKf-w_Zuqqpg3Y=p9PZw+hdtW6hCdsXjR4Gxp_=gWpA@mail.gmail.com>
+X-Gm-Features: AclHuK_bYfJMnl5Ic49VL29CSJbv2z-P7IUwDE--H7P2QG7_ODWK-Rv_7ZMYaAc
+Message-ID: <CAGb2v64xKf-w_Zuqqpg3Y=p9PZw+hdtW6hCdsXjR4Gxp_=gWpA@mail.gmail.com>
+Subject: Re: [PATCH] drm/sun4i: dw-hdmi: Deinit PHY in bind error path
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 30, 2026 at 2:27=E2=80=AFAM Junhui Liu <junhui.liu@pigmoral.tec=
-h> wrote:
+On Thu, Nov 5, 2026 at 3:57=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmail=
+.com> wrote:
 >
-> Add support for the Power Reset Clock Management (PRCM) module found in
-> the Allwinner A733 SoC. This clock controller manages the clock control
-> and reset functions for device modules within the CPUS domain.
+> sun8i_hdmi_phy_init() enables the PHY clocks and deasserts the PHY
+> reset. When dw_hdmi_bind() fails afterwards, the error path doesn't
+> undo that, so the clocks stay enabled and every further bind attempt
+> enables them once more.
 >
-> The PRCM module includes the management of three primary buses: r-ahb,
-> r-apb0, and r-apb1. It also provides clocking for several key
-> peripherals, such as R-UART, R-I2C, R-SPI, and the R-RISCV subsystem.
-> Additionally, the reset lines for these modules are integrated.
+> Call sun8i_hdmi_phy_deinit() in the error path, like unbind does.
 >
-> Tested-by: Jerome Brunet <jbrunet@baylibre.com>
-> Reviewed-by: Enzo Adriano <enzo.adriano.code@gmail.com>
-> Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
+> Fixes: c64c8e04a12e ("drm/sun4i: dw-hdmi: Fix HDMI PHY clock setup")
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
