@@ -1,52 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.12
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794200146;
-	b=rtBoSPujpImzVxAILI7ag//1WBwhRNG9tB9nUzxWetByCrpTQVCp3ar7RGZM1tFF/kag
-	 vp/gYUbrZQSwcLi1Sn5fcKF/fblni6TTKnh+qUppZl1XEgwLqL7dB++fKI7/BU3sYV3rI
-	 0mDsfkkXJhCmF17hrs589x04v/xllgcO4qQCWT8gqaoYvgEuI6a8lZFguJNXMHAPexidp
-	 QwaKl/9tixLDX1iD+r2Cj1XfUUdxh2whDiDTOi0Qf7KHKzbF0Xa3BIv004TYRRbkwxFyt
-	 pTcvHFyZKIuVNG+HHZCiyPdUBYPJb2yrtREDTtFYdBti4cKhSX3LS8oIS18Rx/DaU2g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794200146;
-	h=DMARC-Filter:DKIM-Signature:Received:Mime-Version:
-	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:Subject:
-	 From:To:X-Mailer:References:In-Reply-To:X-ZohoMailClient;
-	bh=TVjYb4BBcraXHmLMuxAJ4VYWO2AEgU5Dcu295blPONo=;
-	b=Fg3QWyfBJnxMWUCRXtebvtbWw4zUiw3nkwSv5ZXymDMPFLoPn7XXN//8QQJDIv7+jYRH
-	 TtUjezoubPii2VALib/gwdectKgodSzLfjHCBW0WoBKvoEYq4aqtstf+aV3i1K4OuLMsJ
-	 5EoW/osbAkHXrzoOWofxfyMXYhd0vqvkRjTXCNpKf9+Ol9n2Ya26J7lSwh/juRJIwlApZ
-	 L2d3AuqTbYoUjT6SYpAGhHtnGUxyja3d4rDVh3YonfSMjVCUI4S6TQ0rYvR3aN9Rd74rr
-	 /CyeiEwRDQPogDXM2I02AUt9sxAGoRO36AI50kK0861QpK1RfcE5bN+FFRrYMO4Ie4g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=pigmoral.tech;
-	spf=pass smtp.mailfrom=pigmoral.tech;
-	dkim=pass header.d=pigmoral.tech header.i=@pigmoral.tech header.a=rsa-sha256 header.s=zmail header.b=JhM5iZI3;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.12
-Received: from sender5-op-o12.zoho.com (sender5-op-o12.zoho.com [165.173.182.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794215360;
+	b=sGcUANv2ecqKrlzx/WxngIVmOdL2YkCFnzFE146ndLwiFZYkv8XLH3yPBr3ogfDeQvDX
+	 PJYxmZ7PIT5cqSBjV4g0bUeAHgNWk9g2Sr/6GfxQYl9b0QWZ8LPYiYmhXxCEk61zl8aeu
+	 +6u7pZrvyavu/2umw4Y7QPbV4fCdQ1Qnz/M/Q07TwTtgo2DO/suJqAjEdgKH4iJ/hpMhZ
+	 Aeex2hrKhMNUtLWbFkgbUNQbCfyT4d6kziVakDfK2nxpFuMmOGNFENE6YeJqJELPWCn0H
+	 16raW2eQwvczS7bPZiRkWmczfmS618oWy5T0jLRQ6zbinbSpdJn8DDRwybUtVkABkMg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794215360;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=+KBLzQyqsR334QCpiwaANoenKn13j8vn07qxRoKBlVI=;
+	b=tAJ8zUp4xdWVuFdf40Wqt07fQzXR+jT23I8j9rbAvdcAa+YIdmYGq44eFnmicSYJ7I8G
+	 GbWYn+T1+x+Or5N89pq21Yb664LAVhSJiBFRhEeonKnLSkIbDk4ZgX3penxj+Im3snf9K
+	 BpUOa7AoZOMCbm8PpZvhvXU1y6BwlP3DbaCug/kBpb4iFB6CBSYNLBREKh6CadtpOPiTQ
+	 syft54cHeBpqjv4xPty/vxK9JCEeuN8VkHsWbNeXpQ+zKsmdnX9kvp1Ah1NdgGGx0jUjI
+	 PzUxTttZFxAMaGucJvvtKZUzXRpO2Rf9zVvtWGAt31A+Uvuk2WSMqHgZMmN9a16ZLkA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=wirenboard.com;
+	spf=pass smtp.mailfrom=wirenboard.com;
+	dkim=pass header.d=wirenboard.com header.i=@wirenboard.com header.a=rsa-sha256 header.s=google header.b=iaXLFkkb;
+	arc=none smtp.remote-ip=209.85.128.42
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082FC606A31C
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Nov 2026 04:55:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 082FC606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABDF3606A335
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Nov 2026 09:09:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ABDF3606A335
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=wirenboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wirenboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=pigmoral.tech header.i=@pigmoral.tech header.a=rsa-sha256 header.s=zmail header.b=JhM5iZI3
-ARC-Seal: i=1; a=rsa-sha256; t=1794200117; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=kgJ06YONRy5PtT6LHHPXY7TeZ2USZKKkLv8VZandB6V0/jYTAD5MvY/abxIpfJJFHvhFWImCLYhTZydSTic0Z01jk7gYNT43rJGqer251Q++Ix2yk2HeUdVCujgY7ckjqQ1u9FFJderC3M8BUeYFhHh3B+5fVMXYF8u/gYTxadM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1794200117; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=TVjYb4BBcraXHmLMuxAJ4VYWO2AEgU5Dcu295blPONo=; 
-	b=JpBUlC2mqu54blu6aDoBbT/qtR6O1cOs4yA9O0dwWCfAC5hfHKXxxVVVWJfoB4yqdA2NQxjl8Ug8RYyhZSgVnQeCJ2gRoi37EChlObs7aDKGX1YWKFBK/Fce/Am4weGpuQV0GXb4GjoDItAkXP4RWME0kT2mpmbgsvCFVtJjpfU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=pigmoral.tech;
-	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
-	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
-DKIM-Signature: a=rsa-sha256; b=JhM5iZI38onPijDbb/bTo6SBqko9SM8euQYqdXR7Rge9qDB6vu8o53ARCnp9UqaIVhzgBI0Xhj1icaq7Bd+WrCPBNMtUwAjy0+Oc6xUN9gl8IIcATPbCKWj0FOz2sI69wwQoMKuXHh1KUF6gB0U8eHn9aU+LJ5zu0+HSNvQZHu4=; c=relaxed/relaxed; s=zmail; d=pigmoral.tech; v=1; bh=TVjYb4BBcraXHmLMuxAJ4VYWO2AEgU5Dcu295blPONo=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by smtp.zohomail.com with SMTPS id 17942001166001004.3701295111581;
-	Sun, 8 Nov 2026 20:55:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=wirenboard.com header.i=@wirenboard.com header.a=rsa-sha256 header.s=google header.b=iaXLFkkb
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a214c5c4c0so6089535e9.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 09 Nov 2026 01:09:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wirenboard.com; s=google; t=1794215358; x=1794820158; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+KBLzQyqsR334QCpiwaANoenKn13j8vn07qxRoKBlVI=;
+        b=iaXLFkkbiHOX+6qEVwM5kL7Jy6S5QhBsw6h+cdXB6V7DiwnigzW4kz+ZGT3rsBHVb5
+         cZyOWndr10b/h3AgWBOUtEYb6a65tgNW6s5fqs1gsSuI51yY4F59jsOPhw1rHeU4ie81
+         h0Dn3H42pHIa51tCG/ncpvU9ipMqb/CApDhkMrwvew2eL+OEoHv0Ec02lGEPQJ/eNzy9
+         UAyJrKh1yOBJAOTBJeWWSadSElvC11j4w7GhR3czQ5Bpe1kUTGiRfS7v1g1QH+gIbr2V
+         SfBYTlraTen4Oc/+TlAK263qe1h21X7f3YHT3MCUR9pSA53LL7IWrUeDJ16ud2YKYrkr
+         ZEPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794215358; x=1794820158;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+KBLzQyqsR334QCpiwaANoenKn13j8vn07qxRoKBlVI=;
+        b=CLv6/HVMmJMZe3T4oSQLWDwbl10+/2ahpCzHqfCKLAP+iPw4aUon6o8ObZ5+LU6jnL
+         sYCn+XdgpGuQwMnOyxsRiqYVQdegeC3WYIRTDkJLVz+cP4jxjs6ouoSEyoc9Wey40z0m
+         PCaZx959xp0Uw9V8tIvDapUMqYikg47oOYHTUG//JCagTfYozuPHL4j2GtbM7YihFvjR
+         hTZ10Z05hF2rJBtZk/+ItiTpkSCetwo+g+KDZ6xkTt4eC8B4jEJIODcNyYaYgFbRW/IS
+         uPrVGneygPJeWf5wBJIvhJzcYi6wql28ZKfKIPlqBXRLGLrxMIcWFkl/y8BiyIPzjuXf
+         KCMw==
+X-Forwarded-Encrypted: i=1; AL+hErG1iOzkB5P/Z+xVEZkdKLd62MoI2rWfPMzl0K9gHwLUSiCMMSa5gHaEDluLZi9+6G1Szg8rmThv9rlqJw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9FkEJsJMkHHCOwrA5mvUrr+asjs/ir3mDbz7q4zimNgv/I1ihh
+	u6xVA8cPvp0vQVPAjbfJF1uHWshV1KM7lBI/jWtQkVgt+o5uDBKYGICA+tqnSdssH/k=
+X-Gm-Gg: AYBFou24+JcueUC6sN6BDS7QdA1QRvZK70IJqWcUge4pMfPDs5v5RvKCJj4sIZOavHY
+	TguL0hTZW2MaGMc0uVUGgUO3vryuruo9XpwC2XxkTGNz9wlJZqwbNaSSL9MeuOunssfpIB/1e6X
+	qOYQDc9F+utO2vXvKJ7B8ig5w5Lj4U+kUYzijyyOoCcG3B/SDLRB6nxvZ/qt6k8JccuiO+FfW/j
+	BkVSJuN6L3nr+K5sBa3DfxZXc/k5IBWZNHvY0BsAh1alnPec2QPRzZIRW9lEoohDFPL/3oB7+Jr
+	Q8gW+AmuylEikKIA7OOvKeOfbKs8/qaU8dtC/rhcn2tdNwsUOHdsYNmDo0okkwt5HYxaGYAX9LZ
+	1XZ4ve5WD+VRbGZ9rR0+pR5gEVkPHYfoOxo1e77qE0RThKKrTITm/q1DyNVlzyKcn2buEQAQvJ2
+	xSLfkY1VmD1h58sAc6MbxGgOzMLja7m8Wz/201mb6XhhRQkqthoGEBY4PKavxc6Bl4jxXYG9DZt
+	XpPa+a34rUvB9ceeKlzQ7AaxdQ1RArHaWmRGaLxaGTRGstj8UVhNXu6kfccaoOCKf64hYCZjWiy
+	JxW9O7ihkaWWaI+C7sDplrFd2+zdxpEEBDBwdbGbEJTANfnsQV1P/l60zCkdsfU=
+X-Received: by 2002:a05:600c:474a:b0:4b5:2c72:651c with SMTP id 5b1f17b1804b1-4b963c6cac0mr68998635e9.5.1794215358048;
+        Mon, 09 Nov 2026 01:09:18 -0800 (PST)
+Received: from localhost.localdomain ([85.137.25.106])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49592f398a4sm8250905f8f.6.2026.11.09.01.09.16
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 09 Nov 2026 01:09:17 -0800 (PST)
+From: Ilya Titov <ilya.titov@wirenboard.com>
+To: sboyd@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	andre.przywara@arm.com
+Cc: bmasney+clk@redhat.com,
+	jbrunet+clk@baylibre.com,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Ilya Titov <ilya.titov@wirenboard.com>
+Subject: [PATCH] clk: sunxi-ng: h616: register CPU PLL notifier before mux notifier
+Date: Mon,  9 Nov 2026 12:09:14 +0300
+Message-ID: <20261109090914.46872-1-ilya.titov@wirenboard.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -55,82 +103,56 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Nov 2026 12:55:07 +0800
-Message-Id: <DMQEUUHANG74.30N8VT6UGHO0M@pigmoral.tech>
-Cc: "Stephen Boyd" <sboyd@kernel.org>, "Brian Masney"
- <bmasney+clk@redhat.com>, "Jerome Brunet" <jbrunet+clk@baylibre.com>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Chen-Yu Tsai" <wens@kernel.org>,
- "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Samuel Holland"
- <samuel@sholland.org>, "Philipp Zabel" <p.zabel@pengutronix.de>, "Paul
- Walmsley" <pjw@kernel.org>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
- Ou" <aou@eecs.berkeley.edu>, "Alexandre Ghiti" <alex@ghiti.fr>, "Richard
- Cochran" <richardcochran@gmail.com>, <linux-clk@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <linux-riscv@lists.infradead.org>, <netdev@vger.kernel.org>, "Jerome
- Brunet" <jbrunet@baylibre.com>, "Andre Przywara" <andre.przywara@arm.com>,
- "Norman Herms" <dockseed@proton.me>, "Vinicius Pedrosa"
- <vinicius.eduardo.pedrosa@gmail.com>
-Subject: Re: [PATCH v6 3/8] clk: sunxi-ng: a733: Add PRCM CCU
-From: "Junhui Liu" <junhui.liu@pigmoral.tech>
-To: "Enzo Adriano" <enzo.adriano.code@gmail.com>, <junhui.liu@pigmoral.tech>
-X-Mailer: aerc 0.22.0
-References: <20261009-a733-clk-v6-0-ae8178fce7e8@pigmoral.tech>
- <20261009-a733-clk-v6-3-ae8178fce7e8@pigmoral.tech>
- <20261103-a733-ccu-v6-fw-clocks@gmail.com>
-In-Reply-To: <20261103-a733-ccu-v6-fw-clocks@gmail.com>
-X-ZohoMailClient: External
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Enzo,
+Currently the CPU mux notifier is registered first, so on
+POST_RATE_CHANGE the CPU is switched back to PLL_CPUX before the PLL
+notifier re-locks it. The CPU then runs from the PLL while it is still
+settling. The comment for ccu_pll_notifier_cb() says it must be
+registered first, and the other sunxi-ng drivers (A33, H3, R40, A64,
+A100) do it in that order.
 
-On Tue Nov 3, 2026 at 9:33 AM CST, Enzo Adriano wrote:
-> Hi Junhui,
->
-> On Fri, Oct 09, 2026 at 11:52:08PM +0800, Junhui Liu wrote:
->> +static SUNXI_CCU_P_DATA_WITH_MUX_GATE(r_cpu_timer0, "r-timer0", r_apb_p=
-arents, 0x100,
->> +				      1, 3,	/* P */
->> +				      4, 3,	/* mux */
->> +				      BIT(0),	/* gate */
->> +				      0);
->
-> On a Cubie A7S with vendor boot firmware, v6 reaches a Linux shell but
-> stalls at warm reboot. The system-controller firmware uses the R-domain
-> timer and mailboxes without Linux clock consumers, so disabling these
-> clocks as unused can leave its services unavailable.
->
-> Could you consider marking r-timer0, bus-r-timer, bus-r-riscv and
-> bus-r-msgbox here, and bus-msgbox0 in 7/8, CLK_IS_CRITICAL in the next
-> revision? My standalone patch has the diff, firmware references and
-> board results:
-> https://lore.kernel.org/r/20261031020640-263f7b05-a7s-clock@gmail.com
+We see random hangs and oopses on T507 based boards when cpufreq
+switches frequency often. In the oopses and JTAG dumps we captured, CPU0
+was always in ccu_mux_notifier_cb() or ccu_pll_notifier_cb(). Other
+CPUs were usually stuck on dsb after tlbi, waiting for CPU0.
 
-I'd prefer not to mark these clocks as critical just for the vendor
-firmware. You can see my reply in v5:
+Running a random walk over all OPPs with some load on other cores, two
+boards hung 20+ times in about 3 days. With the PLL notifier registered
+first there were no hangs in the same time.
 
-https://lore.kernel.org/linux-sunxi/DLYAHDTH3129.3AYF0OSHL8RJ8@pigmoral.tec=
-h/
+Fixes: 087b4083d3f9 ("clk: sunxi-ng: h616: Reparent CPU clock during frequency changes")
+Cc: stable@vger.kernel.org
+Signed-off-by: Ilya Titov <ilya.titov@wirenboard.com>
+---
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-Since you've already submitted a separate patch adding these critical
-flags, I'll leave that to you. If the maintainers agree that these
-clocks should be marked critical, your patch can be picked up.
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+index 955c614830fa..00b7811f3a84 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+@@ -1235,13 +1235,16 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
++	/*
++	 * Re-lock the CPU PLL after any rate changes. Must be registered
++	 * before the mux notifier, so CPU goes back to a locked PLL.
++	 */
++	ccu_pll_notifier_register(&sun50i_h616_pll_cpu_nb);
++
+ 	/* Reparent CPU during CPU PLL rate changes */
+ 	ccu_mux_notifier_register(pll_cpux_clk.common.hw.clk,
+ 				  &sun50i_h616_cpu_nb);
+ 
+-	/* Re-lock the CPU PLL after any rate changes */
+-	ccu_pll_notifier_register(&sun50i_h616_pll_cpu_nb);
+-
+ 	/* Reparent GPU during GPU PLL rate changes */
+ 	ccu_mux_notifier_register(pll_gpu_clk.common.hw.clk,
+ 				  &sun50i_h616_gpu_nb);
+-- 
+2.54.0 (Apple Git-157)
 
->
-> With those five flags, two RAM boots of my A7S integration completed
-> warm reboots without clk_ignore_unused, and all five clocks reported
-> enabled. That is one board on vendor firmware. Vinicius reported native
-> PSCI reboot working on an A7Z without local critical flags on
-> bus-r-riscv and bus-r-msgbox, with TF-A and U-Boot built from source, so
-> the boot chain may matter. I haven't tested suspend, or shown that each
-> of the five flags is needed on its own.
->
-> Thanks,
-> Enzo
-
---=20
-Best regards,
-Junhui Liu
