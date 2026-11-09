@@ -1,101 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.74.27
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.12
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794189813;
-	b=26Azvho1y846zZhqIYVDa7LYwgRxKlAplRDX2iHfJOehu8HN2ejBBb41SJDCuG7FM5UY
-	 /w/GZJA2rRVAbhB1TVVZ6RnHIul8dC2Oqls9/7n+3XrJDPdCLjb8HZGr2B0sIeqvHbW7l
-	 6lnp3cB1Is72sFZJkqeeuAYsA5bzBuV2mGe9LQyrRBCR7Q4OkpXQeRoeW7UK5pdzQ7YMZ
-	 olmbus9qYoCDDIua98/hZf9L3Y++DAsbOx5Tg/y5lJWdm2gKmy/mAEj0fQkgzSWIy6l9M
-	 Nq2ZBWaMZRxkuUTNH32O3eUTghen5k3sqmXVhqAuUwdSiRfHebdkmABgG3tBY/Y3qnQ==
+	t=1794194224;
+	b=M9beyTxig92vsjcOJ840YDF7LSmwwoS0DkRk9XeQdeA+T+dTRtU1vW1B0jA8x6QFepOb
+	 /9FMU1lHqxUtfZVi+3IgAhiKdRqumXK3hnR9dJQy0rrTWBDS6QgPwPlEBQVa4qBLXfCie
+	 ttkb3ECkhKHgnir2leHE1LEVwJCQQYAsMuQO0xZN3fLWEvOfFpweIxdVzAdKWNVw5i3iG
+	 qgQ0dcS4UYRodvNTTkHsS9It+l5SeC0IPfqhJNo0l30BCxk6UUxoHjheHrqo2FXjujyqQ
+	 9KxFhyqhkac5iixXZOCPR3JzLWPkpXM6kB4tjIdhD6klJ41/8kIwWUxaZQGItu1lK+Q==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794189813;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:From:To:Cc:
-	 Subject:In-Reply-To:User-Agent:Content-Type:Date:X-ClientProxiedBy:
-	 MIME-Version:X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=yomQRAW8KO5MzFG+nb0CnIeAiJp4ssWom4/L+WcvyiU=;
-	b=ahQu6fqslcH9Z1nDy0KRY1ECeR/JwKLmvwz8T80zDtxiT7CCOsxgKD/GhZfuVmjsRjxa
-	 58/af54OJAkX2YSpOG6UJwS564MpiN0FiXAGsFEdyoTJ0sS9FzsBLXeV5eS85llNJNsM4
-	 8Zw1/QgWkhbRyjYixMpBhvQiqMvSxFEcYPvMbmuZ3ewiRLY49LhI8S1vjbeRgeuskIOqu
-	 zUJbsQDjoPo9wv/fmmAxzbCdcHRdQYo+uX07s7HaUihPTXzEFdNiT0KPoeA9SkzZPnz+F
-	 MccH1qTZ9/3OpEb4/PAcP0fyWyvBzh+g7dJdG1zIUvN5guO3ySOkQNNVIMqHCBp9HDA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794194224;
+	h=DMARC-Filter:DKIM-Signature:Received:Mime-Version:
+	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:Subject:
+	 From:To:X-Mailer:References:In-Reply-To:X-ZohoMailClient;
+	bh=wkPpP6AwZpMNKZU0R11NpMOQrwHOhcED5088KBtaDHA=;
+	b=HvhSG1ADKlnGrc/rsQxS2d0/m9on9zFoZrpZ5P1U5jmE4WINGmZjL2qAsKNYnu7SHT7g
+	 cuDKPkkN2zWJO5fAGVjKGP7bfNcBGkoq4eNmQ5GwYjXz/d++kxTxhn4rL+VUURWI/UaTD
+	 qRTdgveybNOrTYkLaKIuQfPOk/0bh0hBwRDOPJFnLzamYhHTFzJhrK4WhySv+NmrkER9v
+	 qPJsL50RKxsXr3Sb1rscq1a3dhrIl/IhlTi6wHK/xHKa7OGrtrioTjjvu21BNnqph/j0M
+	 URz24m+ze2udUrkGbz3V5FZDeF/RvZgZ9HOAFDaykt4SEHvqa8geBsREVvG8s1XYdIw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=renesas.com;
-	spf=pass smtp.mailfrom=renesas.com;
-	dkim=pass header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=fm7i+5Od;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.74.27
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011027.outbound.protection.outlook.com [40.107.74.27])
+	dmarc=none header.from=pigmoral.tech;
+	spf=pass smtp.mailfrom=pigmoral.tech;
+	dkim=pass header.d=pigmoral.tech header.i=@pigmoral.tech header.a=rsa-sha256 header.s=zmail header.b=E4aXrlQ4;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.12
+Received: from sender5-op-o12.zoho.com (sender5-op-o12.zoho.com [165.173.182.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B2AA606A325
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Nov 2026 02:03:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1B2AA606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6386E606A326
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Nov 2026 03:17:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6386E606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=renesas.com header.i=@renesas.com header.a=rsa-sha256 header.s=selector1 header.b=fm7i+5Od
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AZCYUdm8crWykWdceLVZ820Rt0kS7vBVwyuLcASzQkZx/vvhq3OiJjYDhueEakatdIvMiIy1k0Klypi9Noskuh8NDjpNHXBoVRfmvyc042pp1zqezyvP2iWEtOOv5VKqkdS/X9IRqXr1kJNNQBlmWU+opbT85MrSNQhQ4hRTrNGK9Q2gEKCrsTDA9PfijW/GXA/Ly7m6ZmnGbmu1H5dE7F/U5JehCHZ5S3iH6wtvBOoNeLtbaPDVVBu83dUoJv6iGI4w/06M87kO2LqBEyAMIMANd0BLD0UOuNxXpHBAFOGqPhnHdeuvaJxoVsgyD0xeIeE911luYpeEhUooLgH25w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yomQRAW8KO5MzFG+nb0CnIeAiJp4ssWom4/L+WcvyiU=;
- b=ImvAiy0ZVBfoTYYzhc0c2fl3bDQPvxmV97SXgBBb/+TpUPZGii7VJ3f8INMEhYKwyqqfawwqTkD3jfbcJrBYaOHCw+dc2gMlBQsDQlq5ofGuEFQrYg8ENiCFPQObBqy/NifTD/FL5k4UPuEhFORYzFa/2Y+aPbRrG86aw2sgJd8vuvj1RMQEO692btXLPtIfua0EUwTkE1miJFBPOj+DdICam+c3UShfrnsU3UfvC3kx+Ba03uKGnroHJUl1Xea++qTg3EWM5p/eM9bNdQphdwOVHnaCP6EI81/VMzRISnKfn6r2dqD2a/QWv8Puhr54Z1CjH5sdWag7u6NvDXvFMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yomQRAW8KO5MzFG+nb0CnIeAiJp4ssWom4/L+WcvyiU=;
- b=fm7i+5Od22aZXdDCysaBRy6lCNCrhK1Zu3MWdzDhUCt6ZJ5b0eDuKMUZeON+kdj3vydFz42Sh+fo2ZkAz8+PXGhtApiptWSPOp4T534HAApt9TDZHUYFOcxf2ZO5r/iS9raWxrjUb1Vz3nLQPj0tbCtqC5RobWKNpsJmFwESGyk=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from TYYPR01MB15175.jpnprd01.prod.outlook.com (2603:1096:405:27d::8)
- by TY4PR01MB13993.jpnprd01.prod.outlook.com (2603:1096:405:204::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.12; Mon, 9 Nov
- 2026 02:03:29 +0000
-Received: from TYYPR01MB15175.jpnprd01.prod.outlook.com
- ([fe80::9bfd:a110:68f1:134d]) by TYYPR01MB15175.jpnprd01.prod.outlook.com
- ([fe80::9bfd:a110:68f1:134d%6]) with mapi id 15.21.0592.010; Mon, 9 Nov 2026
- 02:03:29 +0000
-Message-ID: <87v766pxqn.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: <shao.mingyin@zte.com.cn>
-Cc: <broonie@kernel.org>,
-	<linux-sound@vger.kernel.org>,
-	<lgirdwood@gmail.com>,
-	<heiko@sntech.de>,
-	<linux-rockchip@lists.infradead.org>,
-	<linux-arm-kernel@lists.infradead.org>,
-	<wens@kernel.org>,
-	<jernej.skrabec@gmail.com>,
-	<samuel@sholland.org>,
-	<linux-sunxi@lists.linux.dev>,
-	<linux-renesas-soc@vger.kernel.org>,
-	<srini@kernel.org>,
-	<linux-arm-msm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 5/5] ASoC: rsnd: fix SSIU node reference leak in rsnd_dma_of_path
-In-Reply-To: <20261107160827257FwoXZMjcThgcfD-ZPfKsk@zte.com.cn>
-User-Agent: Wanderlust/2.15.9 Emacs/30.2 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Mon, 9 Nov 2026 02:03:28 +0000
-X-ClientProxiedBy: OS3PR01CA0039.jpnprd01.prod.outlook.com
- (2603:1096:604:dd::8) To TYYPR01MB15175.jpnprd01.prod.outlook.com
- (2603:1096:405:27d::8)
+	dkim=pass (1024-bit key, unprotected) header.d=pigmoral.tech header.i=@pigmoral.tech header.a=rsa-sha256 header.s=zmail header.b=E4aXrlQ4
+ARC-Seal: i=1; a=rsa-sha256; t=1794194189; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=L0MjgcqXPJitlOVyDqAKTd5p+9n9JBhQ+dGSFjhfNlVdklM9BiPhXCsr0Nc4SJrK76EzvVfdE9QeJrPXYS6Z/EV9n+YyRJVAskDgnwcVs0knngMBwCriIn4bt5ojg5RiwyVa8qcwj2PfzPI3ocxId48jDBcRXW900Z951pdo2qc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1794194189; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=wkPpP6AwZpMNKZU0R11NpMOQrwHOhcED5088KBtaDHA=; 
+	b=n5RjKUI4/T8o/eLGpOfchAZ9Xusey+v+/5oWqXYbsV1HXGH34vH//WqWreXqa+lrIxXEfZfAxxSNHohcvJo3pkW42s0Jjvcd/19wdDIPlpI/+Sdn8JFV/Ahr8KzSaNKDk8Oh++yLyVwcFKJOkVfr+uOLDlhLYpe8jVHLN56mrwg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=pigmoral.tech;
+	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
+	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
+DKIM-Signature: a=rsa-sha256; b=E4aXrlQ4V6gCj/NHcpw5zGo8qbS90mcj/GoM4hGCu8r8HhWeiKaagUo7Rth+K1/nQVg0UWV1ak3XKCiW8w8JPCnqxJptgCQ0vFWhEoP9bDXguXxDyCOTuc3Afk0puDsGvj8yBS0QMYi2evneze7XziX+9qqNc+AM+48Ow3x317U=; c=relaxed/relaxed; s=zmail; d=pigmoral.tech; v=1; bh=wkPpP6AwZpMNKZU0R11NpMOQrwHOhcED5088KBtaDHA=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
+Received: by smtp.zohomail.com with SMTPS id 1794194187174866.5006536015394;
+	Sun, 8 Nov 2026 19:16:27 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -104,82 +55,562 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYYPR01MB15175:EE_|TY4PR01MB13993:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2c03fa11-81b3-46f2-e695-08df3e05a5d5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|23010399003|7416014|52116014|366016|18002099003|22082099003|10067099003|11063799006|261028144727099003|261022105027099003|56012099006|261026140227099003|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	vCnMCfH0Tp0WNhZSA2/s549oGDi4Hg0GK5eFUTERT5kc3p73jyKvzspMH+CUJTv289ABwgvjGewJTfeSwZWyS2FLwVJIYGhhVTyFpnPC5h/TJ4eQlbV4tbBKKJ9xP5jCWl8iyiLig5xEEigxZhSyNoOZ4pHGfvM2/A27TpcojdGJc7fvidGpACNf/X6QfNVpCakofS9S+mMQ6/SD/VUKMO3nAZDC/KVWuCLEP9btphXOvEqHIyCkl/uXqx14q6W1tQTQCPoiQhB8s2+zIm9D92p5l7f6teCRmBe+kabPjKSxsJQApmxGum7/oOyHiJuslPU6bA3WqDDI6WkPFwUnZuEMhAMMMvl447IRA+Dej2AcKsjjH4Op+1wf9JFG65YV8yvg2IeAL1lQzmzoTQAiEoomoJQu5XkK0hRbaLK4V/egww9syMkJ7rFAFTJy8oWwHt6p7503rZkeDgnOdbu5SaMDXxeyrO4eRC5u2W6uJBCYgP31Mbzi8j5qBYkxJ54tbmyz6NLbvbriPpGGrbcz0nEngiALRFeh+NS6bqhb0pSjnYRJ3MapIWHa+C4j1CaPT0g7wxm2S8WyTXJllxGfPVcSd+7XbxQAXcrdTm1VhT7k3EdkDP0TLlpXUXtndCBB9vf1qEtQELLOnSwO6W+cVkvPVObLWJQhXXn/t5bVAnTM0hDFMeA0HZrZcNdWrm1QwB4K1uDRPaKb6uUeM1l009NXLwETj4cu89I9Ij8PIPs=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYYPR01MB15175.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(7416014)(52116014)(366016)(18002099003)(22082099003)(10067099003)(11063799006)(261028144727099003)(261022105027099003)(56012099006)(261026140227099003)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?0piyin11ViYUUgutyaW3BGMQYCTzrA6LVL3DdH17yaGRiKZGcry4F8pkLy9e?=
- =?us-ascii?Q?yXQF4HS835/0t/bL/++ybTi/nmsfmkUhX4rMf7qlEqUALx7SGlcpOuedt9Ex?=
- =?us-ascii?Q?4d0AIbJjH8e3C3Hu2wu4h0oyArv3J717DbfpQL+1l4jjlRs0ipy4M3SIv8ve?=
- =?us-ascii?Q?QOTICq3cw41VhzlopH1+1ApMz8TRVx6pSa3qaf+eR04LV8o6Bw6ErEz/G6QQ?=
- =?us-ascii?Q?zkLWHPxe0fCYeXyti0kUlKqBOffRRWBnBGc52gjEmOlvOP5TEbrn9h6pBewi?=
- =?us-ascii?Q?kT2wv1NDvCZZqgCnqLILmRBk8az1Fcw6KdJILidsPdMqMh83M8zKawGzNPoa?=
- =?us-ascii?Q?/ern3GOaV2ZcdhHnBzmH6iaeh9oV/2430Xy5XwQ/tR1WVOud4z63/FbylV/x?=
- =?us-ascii?Q?uYNSfwvF0b21MkdkTtV3+EbMhKD4gJEccs+AzBpf4YnDnDwhjW8t3SMnb0IU?=
- =?us-ascii?Q?XmDQJ03ddIIASa6lvR+VqspLsQA1k6X1Kfm+PUKoDX6RVFYaAQpR47qDQ+E0?=
- =?us-ascii?Q?cPzlb96/4KGrZ0GzPRjPk9w+GRK08H8HtEzImEQBuR2ZeuX2hygjJomcikSX?=
- =?us-ascii?Q?JHCBqRYWFY3ItXZjHZkqiD2ih7JfOuMf+cNih53NWli61Hnw47Mc/Ly45G6h?=
- =?us-ascii?Q?LXs+jR5Nh6eRRyqPaE3IYQZpEajdSKgEWpSf8C0JLOjx3GE+w6YKqPbTd6um?=
- =?us-ascii?Q?MM6WXlDFqXX05xqwmHkZSBo9JeP27D9q7EQpX30qf/pYd1d6r8UuCr/6cUsd?=
- =?us-ascii?Q?fblFgB3bFILIAhmV0kvmKI84lgNFLd4s/VMifss+XBjqVsz7eMmmbkaFP1el?=
- =?us-ascii?Q?pMGTXRelcBmE8O+LnI9eTVJB6d64XIiLQaTlolWbigwEFTlyCGWwtzp05iob?=
- =?us-ascii?Q?/xQFYhaQmj4LLMco6fn6KR7Bgh6lw6+9cI5nc/bk4IkQERo1ctllsqqLsoVw?=
- =?us-ascii?Q?zLfPxb7ATl7L3iS+tX8BrTXAN7t87BgaqjQGgzesaGCAyxh4slStIq39qkNN?=
- =?us-ascii?Q?jx8+uwDE/sm0gT6xVzjzRdHeFIRQOzkkBakobpp4UC9PgeIHmsmFbym3sRvr?=
- =?us-ascii?Q?Y7vgF0faHRburcopm1N1JPDqt4mmR6Hne6Afio6mKWlLfPENyYSifOR67tUP?=
- =?us-ascii?Q?yQdGAD0MoZDy9zXdOUGxVfG8TtZlQe50L3ipRDVK4m7sZbHXu/4yjvH9Q/GZ?=
- =?us-ascii?Q?4iR86y/jeBWpgTNcSvbdYEQGMTZ5u8MFpH50/kzyDskKksUUA8Je0iRrxK+V?=
- =?us-ascii?Q?m8R4jpL8V49L925GIPqJQQJPe0DXGoQjZCtVofcWKS6d4y+cYuGz2ib3jtEf?=
- =?us-ascii?Q?nOJaH2o6U78qEoCn5hN+0tFKVGnCrqHsTehnDzaxTJ9+mEkcborukC3RjicA?=
- =?us-ascii?Q?qpbD6AHH14STnFeeHiOxRTlPgNlE7gJ5R4PmadgUFChI535uD4yyz/zjPi/N?=
- =?us-ascii?Q?oGSOObROnF1Oj+MYbd3Pfo57o8pPAuwHQYTer8ZyLYtqDXgjzwZiHuChwXh+?=
- =?us-ascii?Q?RJL9w4mc38adq4MCBHQZsAgNusihtmxUqUUVjfB95p3PPyI/nRUewqGsRq4c?=
- =?us-ascii?Q?zZuq4P3BqckFll0uuaP9EpUy2XmxhLyS9BtDTyxdrqDSwhrq4F3LkZb/857N?=
- =?us-ascii?Q?ztpjtSMrGlo3n9vEv73HMgb4GtFYYAiLeKljbAMCOq2jtwWlkTVNo7Bl49w7?=
- =?us-ascii?Q?s9em7scRxjXxaugF3vBicud/bPS3KSS5ZjjtXWwBzjdyKQZSXbVQ3z2qwNAm?=
- =?us-ascii?Q?Mk3mZ9eXFAg3zvEBJSHBXvgPjoukKiU=3D?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c03fa11-81b3-46f2-e695-08df3e05a5d5
-X-MS-Exchange-CrossTenant-AuthSource: TYYPR01MB15175.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 02:03:28.9772
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VsXH8iRV3lQVzCaEvTPOztBTaQaU0Ep7sQaYMlo5PkNRcS6tl7uejVoqHUmpAbG33acYZLOwf2xOD3M0/aqwUeQ6jvLEkkZEfHTuGfP4QYguvrMGgvTxlA0FTEl+YB1A
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB13993
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 09 Nov 2026 11:16:17 +0800
+Message-Id: <DMQCR64N88M9.GCX83LKYT3IE@pigmoral.tech>
+Cc: <linux-clk@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+ <netdev@vger.kernel.org>, "Jerome Brunet" <jbrunet@baylibre.com>, "Enzo
+ Adriano" <enzo.adriano.code@gmail.com>, "Norman Herms"
+ <dockseed@proton.me>, "Vinicius Pedrosa"
+ <vinicius.eduardo.pedrosa@gmail.com>
+Subject: Re: [PATCH v6 6/8] clk: sunxi-ng: a733: Add mod clocks support
+From: "Junhui Liu" <junhui.liu@pigmoral.tech>
+To: "Andre Przywara" <andre.przywara@arm.com>, "Junhui Liu"
+ <junhui.liu@pigmoral.tech>, "Stephen Boyd" <sboyd@kernel.org>, "Brian
+ Masney" <bmasney+clk@redhat.com>, "Jerome Brunet"
+ <jbrunet+clk@baylibre.com>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Chen-Yu Tsai" <wens@kernel.org>, "Jernej Skrabec"
+ <jernej.skrabec@gmail.com>, "Samuel Holland" <samuel@sholland.org>,
+ "Philipp Zabel" <p.zabel@pengutronix.de>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Alexandre Ghiti" <alex@ghiti.fr>, "Richard Cochran"
+ <richardcochran@gmail.com>
+X-Mailer: aerc 0.22.0
+References: <20261009-a733-clk-v6-0-ae8178fce7e8@pigmoral.tech>
+ <20261009-a733-clk-v6-6-ae8178fce7e8@pigmoral.tech>
+ <30e43e84-e6e8-4024-b415-dedf67070c4f@arm.com>
+In-Reply-To: <30e43e84-e6e8-4024-b415-dedf67070c4f@arm.com>
+X-ZohoMailClient: External
 
+Hi Andre,
 
-Hi
+Thanks for your patient review.
 
-> From: Shao Mingyin <shao.mingyin@zte.com.cn>
-> 
-> rsnd_ssiu_of_node() returns the child node obtained by
-> of_get_child_by_name(), which holds a reference.  rsnd_dma_of_path()
-> only tests that node and never drops the reference, so every DMA path
-> setup leaks the SSIU node.
-> 
-> Put the node after the SSIU branch has used it.
-> 
-> Fixes: 4e7788fb8018 ("ASoC: rsnd: add SSIU BUSIF support")
-> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
-> ---
+Besides the issues you pointed out, I also found a few other places that
+don't match the manual. I'll fix those in the next version as well.
 
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+On Mon Nov 2, 2026 at 11:32 PM CST, Andre Przywara wrote:
+> Hi,
+>
+> judging from the "fun" this is to review, I very much appreciate your=20
+> efforts in putting this together ;-)
+>
+> On 10/9/26 17:52, Junhui Liu wrote:
+>> Add the module clocks found in the Allwinner A733 SoC, including video,
+>> storage, interfaces and others. While most of these clocks are similar
+>> to those in the A523 SoC, this implementation accounts for changes in
+>> register offsets and introduces support for new modules.
+>>=20
+>> Tested-by: Jerome Brunet <jbrunet@baylibre.com>
+>> Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
+>> ---
+>>   drivers/clk/sunxi-ng/ccu-sun60i-a733.c | 1103 ++++++++++++++++++++++++=
+++++++++
+>>   1 file changed, 1103 insertions(+)
+>>=20
 
-Thank you for your help !!
+[...]
 
-Best regards
----
-Kuninori Morimoto
+>> +
+>> +/* Undocumented, taken from the vendor kernel. */
+>> +static const struct clk_parent_data avs_parents[] =3D {
+>> +	{ .hw =3D &sys_24M_clk.hw },
+>> +	{ .fw_name =3D "hosc" },
+>> +};
+>
+> Those two parents appear two more times below (usb01_ref_parents and=20
+> hdmi_sfr_parents). Please rename this array to something more generic=20
+> and reuse it below.
+
+Okay, I'll rename it to sys_24M_hosc_parents and reuse it for those
+clocks.
+
+>
+>> +static SUNXI_CCU_MUX_DATA_WITH_GATE(avs_clk, "avs-clk", avs_parents, 0x=
+880,
+>> +				    24, 3,		/* mux */
+>> +				    BIT(31),		/* gate */
+>> +				    0);
+>> +
+>> +static const struct clk_hw *de_parents[] =3D {
+>> +	&pll_de_3x_clk.common.hw,
+>> +	&pll_de_4x_clk.common.hw,
+>> +	&pll_periph0_480M_clk.common.hw,
+>> +	&pll_periph0_400M_clk.hw,
+>> +	&pll_periph0_300M_clk.hw,
+>> +	&pll_video0_4x_clk.common.hw,
+>> +	&pll_video2_4x_clk.common.hw,
+>> +};
+>> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(de0_clk, "de0", de_parents, 0xa00,
+>> +				    0, 5,	/* M */
+>> +				    24, 3,	/* mux */
+>> +				    BIT(31),	/* gate */
+>> +				    CLK_SET_RATE_PARENT);
+>> +
+>> +static const struct clk_hw *di_parents[] =3D {
+>> +	&pll_periph0_600M_clk.hw,
+>> +	&pll_periph0_480M_clk.common.hw,
+>> +	&pll_periph0_400M_clk.hw,
+>> +	&pll_video0_4x_clk.common.hw,
+>> +	&pll_video2_4x_clk.common.hw,
+>> +};
+>> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(di_clk, "di", di_parents, 0xa20,
+>> +				    0, 5,	/* M */
+>> +				    24, 3,	/* mux */
+>> +				    BIT(31),	/* gate */
+>> +				    CLK_SET_RATE_PARENT);
+>> +
+>> +static const struct clk_hw *g2d_parents[] =3D {
+>> +	&pll_periph0_400M_clk.hw,
+>> +	&pll_periph0_300M_clk.hw,
+>
+> My copy of the manual puts the 300MHz clock first, then the 400 MHz one.=
+=20
+> Can you please check this?
+
+Yes, I checked the manual, and the first parent is indeed 300MHz.
+
+The last parent should also be pll_video2_4x rather than pll_video1_4x.
+I'll fix both.
+
+[...]
+
+>> +
+>> +/*
+>> + * GPU_CLK =3D ClockSource * ((16 - M) / 16)
+>> + * Here we use a div_table to select M values that result in integer di=
+visors.
+>> + */
+>> +static struct clk_div_table gpu_div_table[] =3D {
+>> +	{ .val =3D 0, .div =3D 1 },
+>> +	{ .val =3D 8, .div =3D 2 },
+>> +	{ .val =3D 12, .div =3D 4 },
+>> +	{ .val =3D 14, .div =3D 8 },
+>> +	{ .val =3D 15, .div =3D 16 },
+>> +	{ /* sentinel */ },
+>> +};
+>> +static const struct clk_parent_data gpu_parents[] =3D {
+>> +	{ .hw =3D &pll_gpu0_clk.common.hw, },
+>> +	{ .hw =3D &pll_periph0_800M_clk.common.hw, },
+>> +	{ .hw =3D &pll_periph0_600M_clk.hw, },
+>> +	{ .hw =3D &pll_periph0_400M_clk.hw, },
+>> +	{ .hw =3D &pll_periph0_300M_clk.hw, },
+>> +	{ .hw =3D &pll_periph0_200M_clk.hw, },
+>> +};
+>> +static struct ccu_div gpu0_clk =3D {
+>> +	.enable		=3D BIT(31),
+>> +	.div		=3D _SUNXI_CCU_DIV_TABLE(0, 4, gpu_div_table),
+>> +	.mux		=3D _SUNXI_CCU_MUX(24, 3),
+>> +	.common		=3D {
+>> +		.reg		=3D 0xb20,
+>> +		.features	=3D CCU_FEATURE_UPDATE_BIT,
+>
+> Just a heads up: in my A523 CPU clocks series, I reworked the update bit=
+=20
+> handling, so depending on the order of merging this might need some rewor=
+k.
+
+I've seen that. I'd prefer to keep this series independent of your A523
+CPU clocks series for now. Once your series has settled, I'll send a
+separate patch to adapt the A733 update bit handling, or update this
+series if yours lands first.
+
+>
+>> +		.hw.init	=3D CLK_HW_INIT_PARENTS_DATA("gpu0", gpu_parents,
+>> +							   &ccu_div_ops, 0),
+>> +	}
+>> +};
+>> +
+>> +static const struct clk_parent_data dram_parents[] =3D {
+>> +	{ .hw =3D &pll_ddr_clk.common.hw, },
+>> +	{ .hw =3D &pll_periph0_800M_clk.common.hw, },
+>> +	{ .hw =3D &pll_periph0_600M_clk.hw, },
+>> +	{ .hw =3D &pll_de_clk.common.hw, },
+>
+> Should this be pll_de_3x instead?
+
+You're right. The second and third parents should also be periph1 rather
+than periph0. I'll fix them together.
+
+[...]
+
+>> +
+>> +static const struct clk_parent_data irtx_parents[] =3D {
+>> +	{ .fw_name =3D "losc"},
+>
+> I think this clock should be sys_24M_clk.
+
+You're right. I'll fix it.
+
+>
+>> +	{ .hw =3D &pll_periph1_600M_clk.hw },
+>> +	{ .fw_name =3D "hosc"},
+>> +};
+>> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(irtx_clk, "irtx", irtx_parents, 0=
+x1008,
+>> +				      0, 5,	/* M */
+>> +				      24, 3,	/* mux */
+>> +				      BIT(31),	/* gate */
+>> +				      0);
+>> +
+>> +/* Undocumented, taken from the vendor kernel. */
+>> +static const struct clk_parent_data sgpio_parents[] =3D {
+>> +	{ .fw_name =3D "losc"},
+>> +	{ .hw =3D &sys_24M_clk.hw },
+>> +};
+>> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(sgpio_clk, "sgpio", sgpio_parents=
+, 0x1060,
+>> +				      0, 5,	/* M */
+>> +				      24, 3,	/* mux */
+>> +				      BIT(31),	/* gate */
+>> +				      0);
+>> +
+>> +/* Undocumented, taken from the vendor kernel. */
+>> +static const struct clk_hw *lpc_parents[] =3D {
+>> +	&pll_video0_3x_clk.common.hw,
+>> +	&pll_video1_3x_clk.common.hw,
+>> +	&pll_video2_3x_clk.common.hw,
+>> +	&pll_periph0_300M_clk.hw,
+>> +};
+>> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(lpc_clk, "lpc", lpc_parents, 0x1080=
+,
+>> +				    0, 5,	/* M */
+>> +				    24, 3,	/* mux */
+>> +				    BIT(31),	/* gate */
+>> +				    0);
+>> +
+>> +static const struct clk_hw *i2spcm_parents[] =3D {
+>> +	&pll_audio0_4x_clk.common.hw,
+>> +	&pll_audio1_div2_clk.hw,
+>> +	&pll_audio1_div5_clk.hw,
+>> +	&pll_periph0_200M_clk.hw,
+>> +};
+>> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(i2spcm0_clk, "i2spcm0", i2spcm_pare=
+nts, 0x1200,
+>> +				    0, 5,	/* M */
+>> +				    24, 3,	/* mux */
+>> +				    BIT(31),	/* gate */
+>> +				    0);
+>> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(i2spcm1_clk, "i2spcm1", i2spcm_pare=
+nts, 0x1210,
+>> +				    0, 5,	/* M */
+>> +				    24, 3,	/* mux */
+>> +				    BIT(31),	/* gate */
+>> +				    0);
+>> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(i2spcm2_clk, "i2spcm2", i2spcm_pare=
+nts, 0x1220,
+>> +				    0, 5,	/* M */
+>> +				    24, 3,	/* mux */
+>> +				    BIT(31),	/* gate */
+>> +				    0);
+>> +
+>> +static const struct clk_hw *i2spcm2_asrc_parents[] =3D {
+>> +	&pll_audio0_4x_clk.common.hw,
+>> +	&pll_audio1_div2_clk.hw,
+>> +	&pll_audio1_div5_clk.hw,
+>> +	&pll_periph0_300M_clk.hw,
+>> +	&pll_periph1_300M_clk.hw,
+>> +};
+>> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(i2spcm2_asrc_clk, "i2spcm2_asrc", i=
+2spcm2_asrc_parents, 0x1224,
+>> +				    0, 5,	/* M */
+>> +				    24, 3,	/* mux */
+>> +				    BIT(31),	/* gate */
+>> +				    0);
+>> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(i2spcm3_clk, "i2spcm3", i2spcm_pare=
+nts, 0x1230,
+>> +				    0, 5,	/* M */
+>> +				    24, 3,	/* mux */
+>> +				    BIT(31),	/* gate */
+>> +				    0);
+>> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(i2spcm4_clk, "i2spcm4", i2spcm_pare=
+nts, 0x1240,
+>> +				    0, 5,	/* M */
+>> +				    24, 3,	/* mux */
+>> +				    BIT(31),	/* gate */
+>> +				    0);
+>> +
+>> +static const struct clk_hw *spdif_tx_parents[] =3D {
+>> +	&pll_audio0_4x_clk.common.hw,
+>> +	&pll_audio1_div2_clk.hw,
+>> +	&pll_audio1_div5_clk.hw,
+>> +};
+>> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(spdif_tx_clk, "spdif-tx", spdif_tx_=
+parents, 0x1280,
+>> +				    0, 5,	/* M */
+>> +				    24, 3,	/* mux */
+>> +				    BIT(31),	/* gate */
+>> +				    0);
+>> +
+>> +static const struct clk_hw *spdif_rx_parents[] =3D {
+>> +	&pll_periph0_200M_clk.hw,
+>> +	&pll_periph0_300M_clk.hw,
+>
+> The manual I am looking at says those two muxes are "Reserved". So are=20
+> those parents from the BSP? Can you please add a comment about it then?
+
+Yes, I took them from the vendor BSP. I'll add a comment explaining that.
+
+[...]
+
+>> +
+>> +static const struct clk_parent_data usb01_ref_parents[] =3D {
+>> +	{ .hw =3D &sys_24M_clk.hw },
+>> +	{ .fw_name =3D "hosc" },
+>> +};
+>> +static SUNXI_CCU_MUX_DATA(usb01_ref_clk, "usb01-ref", usb01_ref_parents=
+, 0x1340, 24, 3, 0);
+>> +
+>> +static SUNXI_CCU_MUX_DATA(usb2_u2_ref_clk, "usb2-u2-ref", usb01_ref_par=
+ents, 0x1348, 24, 3, 0);
+>
+> Don't these two clocks miss the gate at bit 31? So it should be=20
+> SUNXI_CCU_MUX_DATA_WITH_GATE instead?
+
+Oops, I missed them. I'll add them.
+
+>
+>  > +
+>> +static const struct clk_parent_data usb2_suspend_parents[] =3D {
+>> +	{ .fw_name =3D "losc" },
+>> +	{ .hw =3D &sys_24M_clk.hw },
+>> +};
+>> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(usb2_suspend_clk, "usb2-suspend",=
+ usb2_suspend_parents,
+>> +				      0x1350,
+>> +				      0, 5,	/* M */
+>> +				      24, 1,	/* mux */
+>> +				      BIT(31),	/* gate */
+>> +				      0);
+>> +
+>> +static const struct clk_parent_data usb2_mf_parents[] =3D {
+>> +	{ .hw =3D &sys_24M_clk.hw },
+>> +	{ .hw =3D &pll_periph0_300M_clk.hw },
+>> +	{ .fw_name =3D "hosc" },
+>> +};
+>> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(usb2_mf_clk, "usb2-mf", usb2_mf_p=
+arents,
+>> +				      0x1354,
+>> +				      0, 5,	/* M */
+>> +				      24, 3,	/* mux */
+>> +				      BIT(31),	/* gate */
+>> +				      0);
+>> +
+>> +static const struct clk_parent_data usb2_u3_utmi_parents[] =3D {
+>> +	{ .hw =3D &sys_24M_clk.hw },
+>> +	{ .hw =3D &pll_periph0_300M_clk.hw },
+>> +	{ .fw_name =3D "hosc" },
+>
+> Aren't those parents exactly the same as the usb2_mf_parents[] above?
+
+Yes, I'll reuse the array.
+
+[...]
+
+>> +
+>> +static const struct clk_hw *edp_tv_parents[] =3D {
+>> +	&pll_video0_4x_clk.common.hw,
+>> +	&pll_video1_4x_clk.common.hw,
+>> +	&pll_video2_4x_clk.common.hw,
+>> +	&pll_periph0_2x_clk.common.hw,
+>> +};
+>> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(edp_tv_clk, "edp-tv", edp_tv_parent=
+s, 0x1640,
+>> +				    0, 5,	/* M */
+>> +				    24, 3,	/* mux */
+>> +				    BIT(31),	/* gate */
+>> +				    0);
+>
+> There is a second divider range from bits [12:8].
+
+Okay, I'll switch this to SUNXI_CCU_DUALDIV_MUX_GATE.
+
+>
+>> +
+>> +static SUNXI_CCU_GATE_HWS_WITH_PREDIV(hdmi_cec_32k_clk, "hdmi-cec-32k",=
+ pll_periph0_2x_hws, 0x1680,
+>> +				      BIT(30),	/* gate */
+>> +				      36621,	/* pre div */
+>> +				      0);
+>> +
+>> +static const struct clk_parent_data hdmi_cec_parents[] =3D {
+>> +	{ .fw_name =3D "losc" },
+>> +	{ .hw =3D &hdmi_cec_32k_clk.common.hw },
+>> +};
+>> +static SUNXI_CCU_MUX_DATA_WITH_GATE(hdmi_cec_clk, "hdmi-cec", hdmi_cec_=
+parents, 0x1680,
+>> +				    24, 1,	/* mux */
+>
+> Even though there are indeed only two choices, the manual still=20
+> specifies the mux bits as ranging from [26:24] (as for many other clocks)=
+.
+
+Okay, I'll update the mux width.
+
+>
+>> +				    BIT(31),	/* gate */
+>> +				    0);
+>> +
+>> +static const struct clk_parent_data hdmi_tv_parents[] =3D {
+>> +	{ .hw =3D &pll_video0_4x_clk.common.hw },
+>> +	{ .hw =3D &pll_video1_4x_clk.common.hw },
+>> +	{ .hw =3D &pll_video2_4x_clk.common.hw },
+>> +	{ .hw =3D &pll_periph0_2x_clk.common.hw },
+>> +};
+>> +static SUNXI_CCU_DUALDIV_MUX_GATE(hdmi_tv_clk, "hdmi-tv", hdmi_tv_paren=
+ts, 0x1684,
+>> +				  0, 5,		/* M */
+>> +				  8, 5,		/* N */
+>> +				  24, 3,	/* mux */
+>> +				  BIT(31),	/* gate */
+>> +				  0);
+>> +
+>> +static const struct clk_parent_data hdmi_sfr_parents[] =3D {
+>> +	{ .hw =3D &sys_24M_clk.hw },
+>> +	{ .fw_name =3D "hosc" },
+>> +};
+>> +static SUNXI_CCU_MUX_DATA_WITH_GATE(hdmi_sfr_clk, "hdmi-sfr", hdmi_sfr_=
+parents, 0x1690,
+>> +				    24, 1,	/* mux */
+>> +				    BIT(31),	/* gate */
+>> +				    0);
+>> +
+>> +static SUNXI_CCU_GATE_HWS(hdcp_esm_clk, "hdcp-esm", pll_periph0_300M_hw=
+s, 0x1694, BIT(31), 0);
+>> +
+>> +static const struct clk_parent_data ledc_parents[] =3D {
+>> +	{ .hw =3D &sys_24M_clk.hw },
+>> +	{ .hw =3D &pll_periph0_600M_clk.hw },
+>> +	{ .fw_name =3D "hosc" },
+>> +};
+>> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(ledc_clk, "ledc", ledc_parents, 0=
+x1700,
+>> +				      0, 5,	/* M */
+>> +				      24, 3,	/* mux */
+>> +				      BIT(31),	/* gate */
+>> +				      0);
+>> +
+>> +static const struct clk_parent_data csi_master_parents[] =3D {
+>> +	{ .hw =3D &sys_24M_clk.hw },
+>> +	{ .hw =3D &pll_video0_4x_clk.common.hw },
+>> +	{ .hw =3D &pll_video0_3x_clk.common.hw },
+>> +	{ .hw =3D &pll_video1_4x_clk.common.hw },
+>> +	{ .hw =3D &pll_video1_3x_clk.common.hw },
+>> +	{ .hw =3D &pll_video2_4x_clk.common.hw },
+>> +	{ .hw =3D &pll_video2_3x_clk.common.hw },
+>> +};
+>> +static SUNXI_CCU_DUALDIV_MUX_GATE(csi_master0_clk, "csi_master0", csi_m=
+aster_parents, 0x1800,
+>> +				  0, 5,		/* M */
+>> +				  8, 5,		/* N */
+>> +				  24, 3,	/* mux */
+>> +				  BIT(31),	/* gate */
+>> +				  0);
+>> +static SUNXI_CCU_DUALDIV_MUX_GATE(csi_master1_clk, "csi_master1", csi_m=
+aster_parents, 0x1804,
+>> +				  0, 5,		/* M */
+>> +				  8, 5,		/* N */
+>> +				  24, 3,	/* mux */
+>> +				  BIT(31),	/* gate */
+>> +				  0);
+>> +static SUNXI_CCU_DUALDIV_MUX_GATE(csi_master2_clk, "csi_master2", csi_m=
+aster_parents, 0x1808,
+>> +				  0, 5,		/* M */
+>> +				  8, 5,		/* N */
+>> +				  24, 3,	/* mux */
+>> +				  BIT(31),	/* gate */
+>> +				  0);
+>> +
+>> +static const struct clk_hw *csi_parents[] =3D {
+>> +	&pll_video2_4x_clk.common.hw,
+>> +	&pll_de_4x_clk.common.hw,
+>> +	&pll_periph0_480M_clk.common.hw,
+>> +	&pll_periph0_400M_clk.hw,
+>> +	&pll_periph0_600M_clk.hw,
+>
+> My manual lists two more parents: video0_4x and video1_4x.
+
+I missed them. I'll add them.
+
+>
+>> +};
+>> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(csi_clk, "csi", csi_parents, 0x1840=
+,
+>> +				    0, 5,	/* M */
+>> +				    24, 3,	/* mux */
+>> +				    BIT(31),	/* gate */
+>> +				    0);
+>> +
+>> +static const struct clk_hw *isp_parents[] =3D {
+>> +	&pll_video2_4x_clk.common.hw,
+>> +	&pll_periph0_480M_clk.common.hw,
+>> +	&pll_periph0_400M_clk.hw,
+>> +	&pll_periph0_600M_clk.hw,
+>> +	&pll_video0_4x_clk.common.hw,
+>> +	&pll_video1_4x_clk.common.hw,
+>> +};
+>> +static SUNXI_CCU_M_HW_WITH_MUX_GATE(isp_clk, "isp", isp_parents, 0x1860=
+,
+>> +				    0, 5,	/* M */
+>> +				    24, 3,	/* mux */
+>> +				    BIT(31),	/* gate */
+>> +				    0);
+>> +
+>> +static SUNXI_CCU_GATE_DATA(res_dcap_24m_clk, "res-dcap-24m", hosc, 0x1a=
+00, BIT(3), 0);
+>> +
+>> +static const struct clk_parent_data apb2jtag_parents[] =3D {
+>> +	{ .hw =3D &sys_24M_clk.hw },
+>> +	{ .fw_name =3D "losc" },
+>> +	{ .fw_name =3D "iosc" },
+>> +	{ .hw =3D &pll_periph0_480M_clk.common.hw },
+>> +	{ .hw =3D &pll_periph1_480M_clk.common.hw },
+>> +	{ .hw =3D &pll_periph0_200M_clk.hw },
+>> +	{ .hw =3D &pll_periph1_200M_clk.hw },
+>> +};
+>> +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(apb2jtag_clk, "apb2jtag", apb2jta=
+g_parents, 0x1c00,
+>> +				      0, 5,	/* M */
+>> +				      24, 3,	/* mux */
+>> +				      BIT(31),	/* gate */
+>> +				      0);
+>> +
+>> +static SUNXI_CCU_GATE_HWS(fanout_24M_clk, "fanout-24M", sys_24M_hws, 0x=
+1f30, BIT(0), 0);
+>> +static SUNXI_CCU_GATE_HWS_WITH_PREDIV(fanout_12M_clk, "fanout-12M", sys=
+_24M_hws, 0x1f30,
+>> +				      BIT(1), 2, 0);
+>> +static SUNXI_CCU_GATE_HWS_WITH_PREDIV(fanout_16M_clk, "fanout-16M", pll=
+_periph0_480M_hws, 0x1f30,
+>> +				      BIT(2), 30, 0);
+>> +static SUNXI_CCU_GATE_HWS_WITH_PREDIV(fanout_25M_clk, "fanout-25M", pll=
+_periph0_2x_hws, 0x1f30,
+>> +				      BIT(3), 48, 0);
+>
+> Where do those parents come from? My manual just lists the frequencies.
+> Is that matching the 0x1f3c register sources?
+
+Yes, these match the sources listed in CCMU_FAN_REG (0x1f3c).
+
+The current definitions fold the intermediate fixed dividers:
+PERI0_160M / 10 becomes PERI0_480M / 30, and PERI0_150M / 6 becomes
+PERI0PLL2X / 48.
+
+I'll use PERI0_160M / 10 and PERI0_150M / 6 in the next revision to match
+the documented clock tree more directly.
+
+>
+> The rest seems to be correct, as far as my mostly manual comparison goes.
+>
+> Cheers,
+> Andre
+>
+
+--=20
+Best regards,
+Junhui Liu
