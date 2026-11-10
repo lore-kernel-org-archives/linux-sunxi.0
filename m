@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794290719;
-	b=NofQjxbTPxBt0eDQJaOGYvpLxZUIDLWGOntYaZtIjG38hZdmvR8uzlnjuAeYP1EO38t0
-	 ziKUgy87KE35UJ0qwohzU5tl2TRUT9jG+Y38vSbe3MaWYNbGwO6ccVNnxWUPInMH6ofSk
-	 WUJVNqJOtKOcs/iNh9wLyhzwYMbjxC79uHgPeB8B+qGGkjZDn42YkbteLOGe92/UHnVkL
-	 uBNNOQy/IR83LO7SM9Bc7LjzzHFYPF4f+KEjqKG/P+np2fl5C+y/xBoRo73Gvoup6wRNg
-	 FklqJDF52nCuGOPNYItdmKW0cRyR2KjmKn/wsXlQnbGBNtkzDwslAYkNQlatbzFLCyQ==
+	t=1794290823;
+	b=UQwUl60HBDxyLi16D1fdzF5mH+QD5/t2K2sDph9ByTREoNMMTf6qMoKN6otJOv/rWM23
+	 Vlz5+6F8Fv6U6JiTGbZ7hs3BLtlg0gBtis14y5ZEDx1Cji03GX2GhoKBWjRC/KvKcnPIq
+	 V9czmER0hM9I/shHC3s4JvN53mG7RYknPltAeae5J3pxRL+GSlmORLV+51pX+wyZrnBQI
+	 j4xDafhJGWTZp26ycRJmRUIt+HdxWlQwQO/qch5mn+EyUim7401fRbf/RHH5/ZbfBBB5i
+	 wAby9MRnQdFuvvH3GaoRDd75FRWUTLijxakVYeaCf9aS2e/Pxe3CDS6nHfTtcVfay4Q==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794290719;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794290823;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=8zeMjgHtH+jl0mAhl3Yfo7dOP5XDL51x/S4JII5wCbw=;
-	b=VDPD0L5aa1dOJSPrKU1JvhvRFWZ03G1vM9p6aXKgFkw7TyTol+6hZ+uD/5aSDnfn0pbH
-	 +5e5MaZGnqdG0Dbuvge6n3j/oAAdUOleyP4F6z5WMICOmtzHzSvuxg4jut5EF3fqpsXOl
-	 uvm+I93sM3sg+oTWvZPEA9l7FxftW1bQBzNTgxd/7MPgvK3T1ENg2dsTUXPge/6FB/ROZ
-	 uU3N1iZvbFqOzPJbtGF/I2EDZkKfjQABufCR4YVvJLEy6eNbh5W+p50gjnBbZmX2tHXlb
-	 l49oaLYSrsMBRQ2e1zt0DOKnFOfCwVPmwHiWraEBZ7Z/XSu/QrrQ9ytuvDdeG/e/ZPA==
+	bh=BTymXE5L5Js89oaWDphghi1DfhAjrm1CDfc/pBp0mQw=;
+	b=M1VGvKyeg7/T5auToTe96zhfls/YnzIu8PHXl55rO2QsvWU0siR7Er8Y3DM1Rw0JKW7m
+	 vsHsryxE0rmTUTCWtk5e3JO5knyMTd/U5DU5/jbZT3wcHjCSokpwmXj43Z1QEGZrd/JBB
+	 GMQKg5sXGWPxFU8hxrC7JrJXlk425by8hXqDUkSbZ9k45uGem3bUiwv8Jp2dTuqroU2z7
+	 aD6UYYb7qvDsmdq2fKeMuc/N29zc/6OhXTt2plZjCMPdasPGtvk4+p/zFJpGPy28q+wAQ
+	 65cpiUxbBUcPfhbOrRZenFAt5vK2BmerKofI5om9Js8Z7+hgPNpmEs/brvYhz6g8wUA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KUA5AbH5;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QsG2EvCk;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49794606A332;
-	Tue, 10 Nov 2026 06:05:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94996606A321;
+	Tue, 10 Nov 2026 06:07:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KUA5AbH5
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QsG2EvCk
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794290718;
-	b=2Gw6Eko2Owb/4XGGOWRzlmcPeDjqDOEzdimRaTejCNqppIE5QC7mesmmX6WvC9kCc0WH
-	 8bD1sQAr+pVyMfcU9Qwk3F++LBK/sLoTXirWofKoE68iw8DOJbJgr7OnTUPujp1UF9XzX
-	 VpkCpUvTH4ABjvjXXvXghcqt5R+gJEz+SF/PvIRsZfKijYpeqPVnq9fQ5dSCgHNpkMjHC
-	 Qx3/pbS6ddYmGkX1G65PfILIRW7hDfTsTgEZWpNaAt5bQsrhi9a/KNmySwb0AIUyxtUHs
-	 urpYGSKA8sW7egcn8EO0OLAfA7hYGHXfHpBeSp7KWOmiEkH54EeiQpfGcVg3nbphW9A==
+	t=1794290823;
+	b=AeAici4+Tl55zcfo3W8HfO6BjQvMx3Vetzc80NjmOErzKpqEzDWe8DcHJCOzCOhBjmtc
+	 eFddUUl3ZYulu15OGS8+LeL5NlB2oUs70M9PgpkWUl6CVIOJgiYeYm0ZRDMl4aeq1wVGu
+	 8OzKRe+GvcgQxvMX29RCfXhIsfZLs42eJoRgvI+fD22EBEy/fr6Zz6zkDx+FBy7N+H9bU
+	 jTL6FqLmGBXzaDAg2yN9sjIwM1YtarT9isQL1B989pPcS7AaTFPczt0FrgwJQkw0qxHn6
+	 lGdBiQXwZT0OURoTV4g7tjkGEzu2jFmGRPytFJ6iIMqcamVFKydiuHqkCwUGE5jMJ2w==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794290718;
+	c=relaxed/relaxed; t=1794290823;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=8zeMjgHtH+jl0mAhl3Yfo7dOP5XDL51x/S4JII5wCbw=;
-	b=KhgZKvsGUjfp1kNzETJSU9DTss7KAWScz4XsntEibqNRDd55jF6vQr8d/cDJiYl7f5bK
-	 yvcJKM15beQr9vLs3ChVvfJnoDTCp9FaDt5PMGLCAO3FGfat+Z7lmmQt7ayKefw3atBMZ
-	 tS/skgayezs5KVcR7bOngO6aMGJfyvn1/di41pfydwvWpxh6zc8te7RnTrvyqzlAAOvFu
-	 w7kkvsRnqolCqe1zQhPXhcAbSjJ34+70qUzpPIgw0HZT7f241nEfmkWs7LBAlTJk63gau
-	 tjx8S6CtJ5mmlHGJFMIeIMAcR7xg2UGY/fWgjDFoGNTrkPzmQB2QwtYCZdCJrKwBtOQ==
+	bh=BTymXE5L5Js89oaWDphghi1DfhAjrm1CDfc/pBp0mQw=;
+	b=kAoiIjsSoPm6cibM+JgoxsCi060ZSHm4hnPOB83ajF+WWQGAIYCe9QN2i06jVSo2DhKb
+	 h2lJ2Gb3QcaolQez9YBl6cgBQJgSOdt3YHVZf9y2ExTohUAhS+q84/mcRrUQiuelfUIpd
+	 xqCgNjv8IZBmX56QK5yKFzqK5ojBiZsQINfvpFcW1A2sq8O+ZcjURavTAM6+J9krSEAdE
+	 IJrnIUM0O7XVp5NxXhhP76v67GFijZtsU/Y9lNYTdeKQrkNbvImDbBfC6EYdvblMLwQaC
+	 PKx3K5RDM3p5WCv+pfbM2fRUDCLSJABr9h59+DnpRyYIi3RFuZeXcbcvhochBSKs3ig==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 0162D1F008A2;
-	Tue, 10 Nov 2026 06:05:18 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 535EF1F0089F;
+	Tue, 10 Nov 2026 06:07:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794290718;
-	bh=8zeMjgHtH+jl0mAhl3Yfo7dOP5XDL51x/S4JII5wCbw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=KUA5AbH5ypd71PbB8MjbUaG5mVlq0gRLZ0xU2z+Is/GGgiXBgQmRE/ZZw3nDnLmcU
-	 RX3wUemJYKAsoX0rnXyyiDhNfxClDAmvQCGOB2r6r18m7s9KtSfM7fGSwehpzVohy5
-	 OLsLyn1DOxXCm1ctQseiW2BJadYMK9JG51R692vZQMYFpaM8Va51EjBmoX9tPuWGrO
-	 mOCq0ryh4QoRHVZ/bumM32Qbj0zIy9gWUrT5MVyilgX4jdCdDdDHMr2zNU5VlSCf1I
-	 pdoMWJWV5WQ7w0ahIASd79IZ1HFiJCXQqSB2A7WhWBhi6xqVzVq1b9KW0OGvrB982o
-	 dLsVUNrTFVOPQ==
+	s=k20260515; t=1794290823;
+	bh=BTymXE5L5Js89oaWDphghi1DfhAjrm1CDfc/pBp0mQw=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=QsG2EvCkR0MjvhcBgNUlwQsTAK+5q8xAbwrVqc0U/BWaSz7WYiJ73t8n6iVlU/F3z
+	 2lAho56yGt5xuk1uTfQrg+sfq/1GRAbFlzGI7RKd1xpCiMAlWxyib8ZAmylyk5JWxd
+	 66RXhZU+biLFH3Q2hvlkJqCIahMRv6fMpm02vLBcXP/mCSkV0DrQVLXJlXgjRStsiU
+	 u/ly/R5LIpDhTV80MbIZGN+iZdlXE1W2wstNCCvytedppxmx+nreQN/QQLAc1oKE5E
+	 XndCWC4VkO4mEYbMHp6p0ACiiwHJpQTo2U1WRhmJVqQOrevZlGNV5fAS/rrLtLpxZF
+	 siHW6+IaFdDjA==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 81F2E488E2;
-	Tue, 10 Nov 2026 06:05:17 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id C21B0488AF;
+	Tue, 10 Nov 2026 06:07:01 +0000 (UTC)
 From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
-Date: Tue, 10 Nov 2026 06:05:18 +0000
-Subject: [PATCH 2/2] iommu/sun50i: Print the page table level and status of
- a fault
+Date: Tue, 10 Nov 2026 06:07:02 +0000
+Subject: [PATCH] clocksource/drivers/sun5i: Allow enabling the driver on
+ 64-bit sunxi
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -84,21 +84,24 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261110-sun50i-iommu-prefetch-v1-2-43428e792ef6@gmail.com>
-References: <20261110-sun50i-iommu-prefetch-v1-0-43428e792ef6@gmail.com>
-In-Reply-To: <20261110-sun50i-iommu-prefetch-v1-0-43428e792ef6@gmail.com>
-To: "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
- Robin Murphy <robin.murphy@arm.com>, Chen-Yu Tsai <wens@kernel.org>, 
+Message-Id: <20261110-sun5i-hstimer-arch-sunxi-v1-1-9016f63e186f@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXM0QqDMAyF4VeRXC9gCir4KmMXbc1shHUjURHEd
+ 7fOy+/A+XcwVmGDvtpBeRWTby6gRwUx+TwyylAMrnYtEdVoS24Ek83yYUWvMV3TJkhtx95xiGH
+ ooNx/ym/Z/unn67YtYeI4Xz04jhMsPfcIfAAAAA==
+X-Change-ID: 20261110-sun5i-hstimer-arch-sunxi-167ea2ebcbd7
+To: Daniel Lezcano <daniel.lezcano@kernel.org>, 
+ Thomas Gleixner <tglx@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@kernel.org>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
-Cc: iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+ Samuel Holland <samuel@sholland.org>, 
+ Michal Piekos <michal.piekos@mmpsystems.pl>, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794290717; l=3756;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794290821; l=2552;
  i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
- bh=FOk5fAnA+iXFlIIjGN70elq+MDZGG6Z5UuNNT5KUp+4=;
- b=Ke401L8ggwrBzgJ1veTdvXAv5Z7iGVXZAsKveDTuHCUhkwNwL6vwmYSTaDdhto2pYI48JS9Zx
- oqKynhLPP7LBfZC3PeHv56uwETGl3It0XY7iTMOBrtxGTfivIU5eFbo
+ bh=JuIHgoMW4UEdB04flY1z4eCSsxuIeVm+zZ4kA091Ln8=;
+ b=qT9bZuPBCA4Hv8LzVHeLlQ9t6bZS2UTSiDBMfA2GoO3ow4Zi8c5uqjz0rwUkGwKsLY4zchDjQ
+ uZVIryz/vz7Buw5w8euq7lOs32V14cdbWJEkLjIeTxYh5nSCXywOtA8
 X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
  pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
 X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
@@ -109,105 +112,68 @@ Content-Transfer-Encoding: 7bit
 
 From: Arun Iyengar <aiyengar1990@gmail.com>
 
-A page table fault that the hardware does not attribute to a master is
-currently printed with master ilog2(0) = -1 and nothing else, which says
-neither which walk failed nor what the interrupt register held. Name the
-level (L1 or L2 page table, or permission) and print the raw blame
-register next to the master, and print -1 explicitly when no master bit
-is set, so such a fault is still diagnosable.
+The high-speed timer driver binds "allwinner,sun20i-d1-hstimer", which
+the H616 device tree uses as the fallback compatible of its
+"allwinner,sun50i-h616-hstimer" node and the D1/T113 device tree uses
+directly. SUN5I_HSTIMER, however, only has a prompt under COMPILE_TEST
+and is selected by the 32-bit sunxi machine Kconfig alone, so arm64 and
+RISC-V sunxi kernels cannot enable it and these nodes never probe.
+
+Make the prompt visible on ARCH_SUNXI. The driver registers its
+clocksource and clockevent at rating 340: below the architected timer's
+clocksource (400) and below the sun4i timer (350), which ARCH_SUNXI
+already selects on arm64 and RISC-V. Enabling it therefore adds a
+second hardware time base without changing which one the kernel uses.
 
 Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 ---
- drivers/iommu/sun50i-iommu.c | 31 ++++++++++++++++++-------------
- 1 file changed, 18 insertions(+), 13 deletions(-)
+The H616 and D1/T113 hstimer nodes and the D1 driver support were merged
+for 7.2, but the driver still cannot be enabled outside COMPILE_TEST on
+arm64 and RISC-V.
 
-diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
-index 1b7a7f0d9b62..47e398e25a51 100644
---- a/drivers/iommu/sun50i-iommu.c
-+++ b/drivers/iommu/sun50i-iommu.c
-@@ -874,11 +874,13 @@ static const struct iommu_ops sun50i_iommu_ops = {
- };
- 
- static void sun50i_iommu_report_fault(struct sun50i_iommu *iommu,
--				      unsigned master, phys_addr_t iova,
--				      unsigned prot)
-+				      int master, phys_addr_t iova,
-+				      unsigned int prot, const char *type,
-+				      u32 status)
- {
--	dev_err(iommu->dev, "Page fault for %pad (master %d, dir %s)\n",
--		&iova, master, (prot == IOMMU_FAULT_WRITE) ? "wr" : "rd");
-+	dev_err(iommu->dev, "Page fault for %pad (master %d, dir %s, %s, status %#x)\n",
-+		&iova, master, (prot == IOMMU_FAULT_WRITE) ? "wr" : "rd",
-+		type, status);
- 
- 	if (iommu->domain)
- 		report_iommu_fault(iommu->domain, iommu->dev, iova, prot);
-@@ -890,10 +892,11 @@ static void sun50i_iommu_report_fault(struct sun50i_iommu *iommu,
- 
- static phys_addr_t sun50i_iommu_handle_pt_irq(struct sun50i_iommu *iommu,
- 					      unsigned addr_reg,
--					      unsigned blame_reg)
-+					      unsigned int blame_reg,
-+					      const char *level)
- {
- 	phys_addr_t iova;
--	unsigned master;
-+	int master = -1;
- 	u32 blame;
- 
- 	assert_spin_locked(&iommu->iommu_lock);
-@@ -909,19 +912,21 @@ static phys_addr_t sun50i_iommu_handle_pt_irq(struct sun50i_iommu *iommu,
- 	 * stalled or cached, so there is nothing to report, reset or zap.
- 	 */
- 	if ((blame & IOMMU_PG_INT_PREFETCH) && !(blame & IOMMU_INT_MASTER_MASK)) {
--		dev_dbg_ratelimited(iommu->dev, "page table prefetch of unmapped %pad\n",
--				    &iova);
-+		dev_dbg_ratelimited(iommu->dev, "%s prefetch of unmapped %pad\n",
-+				    level, &iova);
- 		return iova;
- 	}
- 
--	master = ilog2(blame & IOMMU_INT_MASTER_MASK);
-+	if (blame & IOMMU_INT_MASTER_MASK)
-+		master = ilog2(blame & IOMMU_INT_MASTER_MASK);
- 
- 	/*
- 	 * If the address is not in the page table, we can't get what
- 	 * operation triggered the fault. Assume it's a read
- 	 * operation.
- 	 */
--	sun50i_iommu_report_fault(iommu, master, iova, IOMMU_FAULT_READ);
-+	sun50i_iommu_report_fault(iommu, master, iova, IOMMU_FAULT_READ, level,
-+				  blame);
- 
- 	return iova;
- }
-@@ -976,7 +981,7 @@ static phys_addr_t sun50i_iommu_handle_perm_irq(struct sun50i_iommu *iommu)
- 	 * operation triggered the fault. Assume it's a read
- 	 * operation.
- 	 */
--	sun50i_iommu_report_fault(iommu, master, iova, dir);
-+	sun50i_iommu_report_fault(iommu, master, iova, dir, "permission", blame);
- 
- 	return iova;
- }
-@@ -1000,11 +1005,11 @@ static irqreturn_t sun50i_iommu_irq(int irq, void *dev_id)
- 	if (status & IOMMU_INT_INVALID_L2PG)
- 		sun50i_iommu_handle_pt_irq(iommu,
- 					    IOMMU_INT_ERR_ADDR_L2_REG,
--					    IOMMU_L2PG_INT_REG);
-+					    IOMMU_L2PG_INT_REG, "L2 page table");
- 	else if (status & IOMMU_INT_INVALID_L1PG)
- 		sun50i_iommu_handle_pt_irq(iommu,
- 					   IOMMU_INT_ERR_ADDR_L1_REG,
--					   IOMMU_L1PG_INT_REG);
-+					   IOMMU_L1PG_INT_REG, "L1 page table");
- 	else
- 		sun50i_iommu_handle_perm_irq(iommu);
- 
+Tested on an Orange Pi Zero2 (H616) with a 7.3 kernel carrying this
+patch and CONFIG_SUN5I_HSTIMER=y: the hstimer node at 0x3005000
+probes and available_clocksource lists "arch_sys_counter timer
+hstimer".
 
--- 
-2.55.0
+This patch was developed with Claude (Anthropic) as a coding
+assistant. It investigated the problem and wrote the code and the commit
+message; I reviewed it, and it was tested on an Orange Pi Zero2 (H616)
+as described above.
+---
+ drivers/clocksource/Kconfig | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
+index da83483296d5..971491d2e584 100644
+--- a/drivers/clocksource/Kconfig
++++ b/drivers/clocksource/Kconfig
+@@ -172,12 +172,17 @@ config SUN4I_TIMER
+ 	  Enables support for the Sun4i timer.
+ 
+ config SUN5I_HSTIMER
+-	bool "Sun5i timer driver" if COMPILE_TEST
++	bool "Sun5i timer driver" if COMPILE_TEST || ARCH_SUNXI
+ 	select CLKSRC_MMIO
+ 	depends on COMMON_CLK
+ 	help
+ 	  Enables support the Sun5i timer.
+ 
++	  The 32-bit sunxi platforms that have this timer select it. On
++	  64-bit (ARM64, RISC-V) sunxi SoCs such as the H616 and D1 it
++	  registers an additional clocksource and clockevent device, rated
++	  below the ones the kernel already uses there.
++
+ config TEGRA_TIMER
+ 	bool "Tegra timer driver" if COMPILE_TEST
+ 	select CLKSRC_MMIO
+
+---
+base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
+change-id: 20261110-sun5i-hstimer-arch-sunxi-167ea2ebcbd7
+
+Best regards,
+--  
+Arun Iyengar <aiyengar1990@gmail.com>
 
 
