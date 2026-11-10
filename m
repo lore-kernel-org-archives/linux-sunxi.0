@@ -1,147 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794316543;
-	b=WpBOVA0D0R2MRGDCfz7kJSjiGZO7PKTADCbCdSj0SwoisXtTV8nDMUymW24cMPNjA+3O
-	 WTbu1sWjkA94/89IFYkDxHTcia3n2BZ6trOyKBUyHih8DDcSHieHmWSJD6erUc/ttv05C
-	 whFvTMeyyOzrZkXAPU++WS4uwE0Qr/J60iLzn4HOyLQVkrKJYeEk5cH3s6GjlaAldKPqI
-	 +TdHSzuucwmqF1o/9/sBjxytZZJD0h6NGfAUAp7OTfr28L0H5xsBOsFrnDkxeAHFyxxzn
-	 pA33Cnoa33QYqU8dqRcDB6JM1tvMzwiiFBWPqc+5FOisI7qrMH0XaabDArVOcC6QMnA==
+	t=1794316881;
+	b=yQkLfPYZ/Mk+3o3DqlAGSoscs2i1pY3ngufX66ATS0Kxaqeyoc9FLJVeEEVzFAa408LJ
+	 BORyfnBMYPwBR3+lp3KTQCbRz7I5xRnhvUXnQq23Ljpybs+0/4LA/b6GlwtKZYLd0fzSv
+	 jRaIdqNg5C7gWHV86Mh1j16OrbgxjfNOv3yfeivlvI2IJQpniCavXoywXPTZ58XRIGPXW
+	 ZjFtBzsEaHoMsnxDga7wkFYS4FaSXHCiK0kHjy0zzAtbX/3Aq9byzrQmcHCx8Qnk6Egn0
+	 xezcr9KtNvjoc/vB/BHGkoeZL85U/ulpAcqhgdx3G5UHF/1bvcFpfextc1GV5eZFg0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794316543;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=gWTTq5dv/I66UNaYS5lsfUTpJsiUMvTdfdpova6Cxz0=;
-	b=3RJuS1cQkfQlvAtj5wjCNZg6InGA3X0rLjGRwd/4V+Jwm4FeoJW9a7myt6z8FURaGlS0
-	 +szfO4JIaSUVFH1Or1wLg8noNHa+yi8yOkMUXzUVgepR/733wHdluwCtJIC3AVzKh1z5B
-	 SNgg6EsAKgo0iKZC7IoWBovKsGvbCdmohL9FPYLKWDFPmNpytaACTy1nugVo6L4mqUt6L
-	 SRro+3C8W9OFEXUIS93zIFybNmvMGobiq+kqmvGNdYVy7pp//HlZobfuJfwJbmIlVoRwI
-	 IufmGrQY57/FmRUHhDwjQMwhsI99qp/Qh+NPBHXWudmmmgDVrXqURIrh25OJIiO30hg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794316881;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=MdLlX+Rnx7zcplFi3lvqRjMJrUi+pmU8yE0nWBOJajQ=;
+	b=o/MV8CUzn0RHxZP0PDWXb9HgMMhesVEJXubD4Lm2JO9tvztrgJnQ2QTBxGpvccoRn+7/
+	 Iz/TSVRk0tDp7lNt+P3U0YXJrIH5YNMl/K19qi1jxl3yCwKPNcBwRcCR421IPvWryKQb3
+	 MfpK8Pw64RvTI6KJZQ1+cbGfXQeIRMZOtoG+WyLClKngY/gqty6GlcwA2Ub/h9m6jkOWj
+	 FckA/0a9i8wd3Y7OL77x83l083vDDFHEtzcm6NAl9i85KSOwAiMtr/IFt3L/eu+O2JCxx
+	 WXXzaOfKKoiN4EYzuAjWGKoerxHSjtKD15H5+9V81bFfSCOB7w7qJTKUnzwKH0TvGJQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ihp1BTFj;
-	arc=none smtp.remote-ip=209.85.216.53
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EwJeQsfk;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6CD606B6EF
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Nov 2026 13:15:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F6CD606B6EF
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C4C606B191;
+	Tue, 10 Nov 2026 13:21:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ihp1BTFj
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3b1535be329so1003143a91.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 10 Nov 2026 05:15:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794316542; x=1794921342; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gWTTq5dv/I66UNaYS5lsfUTpJsiUMvTdfdpova6Cxz0=;
-        b=ihp1BTFjdgaWSET/vgV7RzbLJ6QSLRXquWpUH8k6Ma8bmduXxCwAFw5pcltoJgleqi
-         MoHrV1PEhTiYAWuxyFpYo0cPeQ80OiwSmn4uAOJ+J8P8mRfbs0XR3RXlrBLPDY7TN1A4
-         rQHhvU9Out9xT5mQpcigMeizfHp7WVN0BzRreKq27ULEytRFDM0Xqc3hUL7jZPB0vAub
-         7QbypPS+onl9Nry1GtLuJOp8GEqlylgUJb1GYpQx64ySCQaFB4V3HrS07Gh4f4UnyZQF
-         /qmAUD8A8H0DUIu/mUQ7/zqMP11fU1FB587oPpqmzzmkBO3/iZfEXmKyPUXPoMdXn3BN
-         1m2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794316542; x=1794921342;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gWTTq5dv/I66UNaYS5lsfUTpJsiUMvTdfdpova6Cxz0=;
-        b=Chvo5O/0cjr0kfEyWRoz1Oha1z6p6ixf0OzxqThn/uD4I+Haz1SvFBHayLRhBMbJU6
-         aKbRGlafMl2/6fvJ08QrZHs2ahz9twLSDQvBSEPkYcOTLHMrUHlJdsPVthV43+q6j3C9
-         L3OM9qZxuf24uqTdwNVrJVxwOEzonEOZmS1GZ1YxGe7x5OdTBj2Q40EmnFoivL5R5d78
-         Qq95zlJmv24SHyDY6lvtFOeadB0UWBxVKnxpybxNOnqtyXgXH8H29SpGjSpNVy/LZCqd
-         qOa6gKruoDC/I60DH1HBrxPiP1SMvWRWn7ZUcuBCrDYmF+GEvrG4QqhstBJLKfpZt4SD
-         /sRA==
-X-Forwarded-Encrypted: i=1; AL+hErGcqCoH7aVqwOdvaD7gQcb3dbI1dVkwYIIlzG8yS/ZfUDfPRsUckCLJQoZ1cgor+96QIB08CHS0F0aO6g==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9CG1/vwtd9GZNlE9vL+NNPSn4MIi/mrzmkAJYkqnPIREyVyYCd
-	xBmN11UG97gLN8RyAHv0dxFXXxjOl/pVxIZHauaaVTPmxgUI88jVaPny
-X-Gm-Gg: AYBFou1ivPcEoVeWlvf7GIp0qu//QICR38X2CqKb9pCr7BQVneV3tFAwi2EMkpCEj+6
-	NMhl5keOp4Y9HdrfOXxwYEgwg3664R/xpRMbkIZEqmZRbx/Z5N2Fn80nRMsOeGnqW1H7grpalnj
-	k8S1OIhb3Et4vA4Omwr+qMnlSLxs+zzqjWbO0iu007L9poVBTLMursgKKn+sz7pcVK5qmulEPrF
-	ZOZwU+VWOQebABGX4JMmORGh+xsWT+ZtpCNiY5rK7mhbsXsu+awroPsBvEZ762mLIUdv6510Roc
-	v25hUuJxJbdS7CiY3bndeLkRCsXBNjNjYPMxA2/VX3UtjUZDashJxk5J3wJKMDGILhbMZpGKSbb
-	yknpsAftp8wA3/PrF62KxbgxwamXLeic1wFUyTQ/nrxTKaoFoNXM/o9KnSqbDVMtB//9DzDYaN+
-	7JSD+n/vnxc62OBRKuXS69NxFLuO8Dto4Ufgbi6IufFhr9DgDBPdJaJVGYVOF71Ra16Th69SIjv
-	v4cYJnhc22msnaaLiSnmtJNfRwd9sSUrLTmryi1UbF+ct/Z0Xf3byY+FQS32+D1bI6EqXciHt4F
-	+mxxrLxhlPZEDL74RVbv1zV5u4hxIsQ=
-X-Received: by 2002:a17:90b:1d47:b0:3ac:9d14:feb2 with SMTP id 98e67ed59e1d1-3b166cf8ccfmr2707857a91.35.1794316541655;
-        Tue, 10 Nov 2026 05:15:41 -0800 (PST)
-Received: from cryptic.lan ([2001:569:7077:be00:8191:2bfc:aa6d:704b])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b16769b589sm3806975a91.5.2026.11.10.05.15.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 05:15:40 -0800 (PST)
-From: Allen Pais <allen.lkml@gmail.com>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Allen Pais <allen.lkml@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Frank Li <Frank.Li@kernel.org>,
-	Ludovic Desroches <ludovic.desroches@microchip.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Zhou Wang <wangzhou1@hisilicon.com>,
-	Longfang Liu <liulongfang@huawei.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Keguang Zhang <keguang.zhang@gmail.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Paul Walmsley <pjw@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Laxman Dewangan <ldewangan@nvidia.com>,
-	Jon Hunter <jonathanh@nvidia.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Guangshuo Li <lgs201920130244@gmail.com>,
-	Kuldeep Singh <kuldeep.singh@oss.qualcomm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-mediatek@lists.infradead.org,
-	linux-actions@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org
-Subject: [PATCH v4 01/33] dmaengine: add tasklet-backed channel BH helpers
-Date: Tue, 10 Nov 2026 05:13:01 -0800
-Message-ID: <c515f9757c8d89501ecbb0f2f4530fd3b800c976.1794315350.git.allen.lkml@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1794315350.git.allen.lkml@gmail.com>
-References: <cover.1794315350.git.allen.lkml@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EwJeQsfk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3450A1F0089F;
+	Tue, 10 Nov 2026 13:21:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794316880;
+	bh=MdLlX+Rnx7zcplFi3lvqRjMJrUi+pmU8yE0nWBOJajQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=EwJeQsfkplTrN+KaYC69OJJMBTRuRZab4p+l11mIS5AwDONYHdtZBuAWr6fV4GNvi
+	 cloFWFOepu6pd2+DyHeeFoMAjkCHdH53i4o/Y/KHC/aizSnlA5r1XvnZbX7W3sjxSF
+	 DrlKFQRn75XiDPq1MuYRQWTFfBY0k12nghBuGQpQ4CtI3ezK39Te+mjC9Xw6ulFAjC
+	 vYYn2IvIPXjj6724LKHYdpQkg2IZIoUc013bjqDqSc5XqzpPhhn4KJuMWmUKKfoxN+
+	 busM2CJBLoD/+G3dRpSAA+woZt66x8UTDwnp7xfTPfTQ3+X9v1l9zLswYLT/YwRoc2
+	 BxTUGppRExp9A==
+Message-ID: <sashiko-outbox-207115@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] pinctrl: sunxi: a733: do not switch the mux to read IRQ
+ lines
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Vinicius Pedrosa" <vinicius.eduardo.pedrosa@gmail.com>, linux-gpio@vger.kernel.org
+Cc: linux-sunxi@lists.linux.dev
+In-Reply-To: <20261110130157.112155-1-vinicius.eduardo.pedrosa@gmail.com>
+References: <20261110130157.112155-1-vinicius.eduardo.pedrosa@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 10 Nov 2026 13:21:19 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -150,778 +59,66 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-DMAengine drivers commonly use a per-channel tasklet to invoke client
-callbacks. Add helpers that initialize, schedule, and kill a channel
-bottom half, with an initial tasklet-backed implementation that preserves
-the existing execution context.
+Thank you for your contribution! Sashiko AI review found no new issues
+in this patch, but noticed 1 related pre-existing issue it does not
+introduce:
+- [High] pinctrl: sunxi: wrong A733 IRQ bank offset calculation in
+  sunxi_irq_base_reg() [1]
+--
 
-Convert virt-dma to the new API and remove its private tasklet. Update all
-drivers that directly kill or override that tasklet in the same change so
-no stale users remain. While touching the completion handler, avoid forming
-a result pointer from a NULL cyclic descriptor.
+commit e0da3dde27e4a3b5c2c95273c0b30e65e89fd5f3
+Author: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
 
-This establishes a backend-independent API before changing how channel
-bottom halves are dispatched.
+pinctrl: sunxi: a733: do not switch the mux to read IRQ lines
 
-Signed-off-by: Allen Pais <allen.lkml@gmail.com>
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
----
- drivers/dma/amlogic-dma.c                     |  4 +-
- drivers/dma/at_hdmac.c                        |  2 +-
- drivers/dma/bcm2835-dma.c                     |  2 +-
- drivers/dma/dma-axi-dmac.c                    | 10 +++--
- drivers/dma/dma-jz4780.c                      |  2 +-
- drivers/dma/dmaengine.c                       | 42 +++++++++++++++++++
- .../dma/dw-axi-dmac/dw-axi-dmac-platform.c    |  2 +-
- drivers/dma/dw-edma/dw-edma-core.c            |  2 +-
- drivers/dma/fsl-edma-common.c                 |  2 +-
- drivers/dma/fsl-qdma.c                        |  2 +-
- drivers/dma/hisi_dma.c                        |  2 +-
- drivers/dma/hsu/hsu.c                         |  2 +-
- drivers/dma/idma64.c                          |  4 +-
- drivers/dma/img-mdc-dma.c                     |  2 +-
- drivers/dma/imx-sdma.c                        |  4 +-
- drivers/dma/k3dma.c                           |  2 +-
- drivers/dma/loongson/loongson1-apb-dma.c      |  2 +-
- drivers/dma/mediatek/mtk-cqdma.c              |  2 +-
- drivers/dma/mediatek/mtk-hsdma.c              |  2 +-
- drivers/dma/mediatek/mtk-uart-apdma.c         |  4 +-
- drivers/dma/owl-dma.c                         |  2 +-
- drivers/dma/pxa_dma.c                         |  2 +-
- drivers/dma/qcom/bam_dma.c                    |  4 +-
- drivers/dma/qcom/qcom_adm.c                   |  4 +-
- drivers/dma/sa11x0-dma.c                      |  2 +-
- drivers/dma/sf-pdma/sf-pdma.c                 |  2 +-
- drivers/dma/sprd-dma.c                        |  2 +-
- drivers/dma/st_fdma.c                         |  2 +-
- drivers/dma/sun6i-dma.c                       |  2 +-
- drivers/dma/tegra186-gpc-dma.c                |  2 +-
- drivers/dma/tegra210-adma.c                   |  2 +-
- drivers/dma/ti/edma.c                         |  2 +-
- drivers/dma/ti/k3-udma.c                      | 12 +++---
- drivers/dma/ti/omap-dma.c                     |  2 +-
- drivers/dma/virt-dma.c                        | 12 +++---
- drivers/dma/virt-dma.h                        |  7 ++--
- include/linux/dmaengine.h                     | 28 +++++++++++++
- 37 files changed, 128 insertions(+), 57 deletions(-)
+This commit removes irq_read_needs_mux from a733_pinctrl_data so that readi=
+ng
+an interrupt line does not switch the pin mux to function 6 instead of keep=
+ing
+A733's interrupt function 14.
 
-diff --git a/drivers/dma/amlogic-dma.c b/drivers/dma/amlogic-dma.c
-index 684121d13fca..4a14b2f777c6 100644
---- a/drivers/dma/amlogic-dma.c
-+++ b/drivers/dma/amlogic-dma.c
-@@ -707,10 +707,10 @@ static void aml_dma_remove(struct platform_device *pdev)
- 	for (i = 0; i < MAX_CHAN_ID; i++) {
- 		aml_chan = aml_dma->aml_rch[i];
- 		if (aml_chan)
--			tasklet_kill(&aml_chan->vchan.task);
-+			dmaengine_kill_bh(&aml_chan->vchan.chan);
- 		aml_chan = aml_dma->aml_wch[i];
- 		if (aml_chan)
--			tasklet_kill(&aml_chan->vchan.task);
-+			dmaengine_kill_bh(&aml_chan->vchan.chan);
- 	}
- 	destroy_workqueue(aml_dma->free_wq);
- }
-diff --git a/drivers/dma/at_hdmac.c b/drivers/dma/at_hdmac.c
-index b024aa2d34b2..991c572d5c19 100644
---- a/drivers/dma/at_hdmac.c
-+++ b/drivers/dma/at_hdmac.c
-@@ -1944,7 +1944,7 @@ static void at_dma_cleanup_channels(struct at_dma *atdma)
- 			device_node) {
- 		/* Disable interrupts */
- 		atc_disable_chan_irq(atdma, i++);
--		tasklet_kill(&to_at_dma_chan(chan)->vc.task);
-+		dmaengine_kill_bh(chan);
- 		list_del(&chan->device_node);
- 	}
- }
-diff --git a/drivers/dma/bcm2835-dma.c b/drivers/dma/bcm2835-dma.c
-index d41b0f6ec427..62844b44696b 100644
---- a/drivers/dma/bcm2835-dma.c
-+++ b/drivers/dma/bcm2835-dma.c
-@@ -829,7 +829,7 @@ static void bcm2835_dma_free(struct bcm2835_dmadev *od)
- 	list_for_each_entry_safe(c, next, &od->ddev.channels,
- 				 vc.chan.device_node) {
- 		list_del(&c->vc.chan.device_node);
--		tasklet_kill(&c->vc.task);
-+		dmaengine_kill_bh(&c->vc.chan);
- 	}
- 
- 	dma_unmap_page_attrs(od->ddev.dev, od->zero_page, PAGE_SIZE,
-diff --git a/drivers/dma/dma-axi-dmac.c b/drivers/dma/dma-axi-dmac.c
-index dbc31b185c4d..91ec19dd4df8 100644
---- a/drivers/dma/dma-axi-dmac.c
-+++ b/drivers/dma/dma-axi-dmac.c
-@@ -1195,9 +1195,11 @@ static int axi_dmac_detect_caps(struct axi_dmac *dmac, unsigned int version)
- 	return 0;
- }
- 
--static void axi_dmac_tasklet_kill(void *task)
-+static void axi_dmac_kill_bh(void *data)
- {
--	tasklet_kill(task);
-+	struct dma_chan *chan = data;
-+
-+	dmaengine_kill_bh(chan);
- }
- 
- static void axi_dmac_free_dma_controller(void *of_node)
-@@ -1302,8 +1304,8 @@ static int axi_dmac_probe(struct platform_device *pdev)
- 	 * Put the action in here so it get's done before unregistering the DMA
- 	 * device.
- 	 */
--	ret = devm_add_action_or_reset(&pdev->dev, axi_dmac_tasklet_kill,
--				       &dmac->chan.vchan.task);
-+	ret = devm_add_action_or_reset(&pdev->dev, axi_dmac_kill_bh,
-+				       &dmac->chan.vchan.chan);
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/dma/dma-jz4780.c b/drivers/dma/dma-jz4780.c
-index e610aba09418..27eaf2fa077c 100644
---- a/drivers/dma/dma-jz4780.c
-+++ b/drivers/dma/dma-jz4780.c
-@@ -1018,7 +1018,7 @@ static void jz4780_dma_remove(struct platform_device *pdev)
- 	free_irq(jzdma->irq, jzdma);
- 
- 	for (i = 0; i < jzdma->soc_data->nb_channels; i++)
--		tasklet_kill(&jzdma->chan[i].vchan.task);
-+		dmaengine_kill_bh(&jzdma->chan[i].vchan.chan);
- }
- 
- static const struct jz4780_dma_soc_data jz4740_dma_soc_data = {
-diff --git a/drivers/dma/dmaengine.c b/drivers/dma/dmaengine.c
-index 34be53487a21..f3c19fbb2a01 100644
---- a/drivers/dma/dmaengine.c
-+++ b/drivers/dma/dmaengine.c
-@@ -1449,6 +1449,48 @@ static void dmaengine_destroy_unmap_pool(void)
- 	}
- }
- 
-+static void dma_chan_bh_entry(struct tasklet_struct *tasklet)
-+{
-+	struct dma_chan *chan = from_tasklet(chan, tasklet, bh_tasklet);
-+	dmaengine_bh_work_fn fn = READ_ONCE(chan->bh_work_fn);
-+
-+	if (fn)
-+		fn(chan);
-+}
-+
-+void dmaengine_init_bh(struct dma_chan *chan, dmaengine_bh_work_fn fn)
-+{
-+	if (WARN_ON(!fn))
-+		return;
-+
-+	if (WARN_ON(chan->bh_work_initialized))
-+		return;
-+
-+	chan->bh_work_fn = fn;
-+	tasklet_setup(&chan->bh_tasklet, dma_chan_bh_entry);
-+	chan->bh_work_initialized = true;
-+}
-+EXPORT_SYMBOL_GPL(dmaengine_init_bh);
-+
-+bool dmaengine_schedule_bh(struct dma_chan *chan)
-+{
-+	if (WARN_ON(!chan->bh_work_initialized))
-+		return false;
-+
-+	tasklet_schedule(&chan->bh_tasklet);
-+	return true;
-+}
-+EXPORT_SYMBOL_GPL(dmaengine_schedule_bh);
-+
-+void dmaengine_kill_bh(struct dma_chan *chan)
-+{
-+	if (!chan->bh_work_initialized)
-+		return;
-+
-+	tasklet_kill(&chan->bh_tasklet);
-+}
-+EXPORT_SYMBOL_GPL(dmaengine_kill_bh);
-+
- static int __init dmaengine_init_unmap_pool(void)
- {
- 	int i;
-diff --git a/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c b/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
-index 940b196b69d1..425c25028a49 100644
---- a/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
-+++ b/drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
-@@ -1657,7 +1657,7 @@ static void dw_remove(struct platform_device *pdev)
- 	list_for_each_entry_safe(chan, _chan, &dw->dma.channels,
- 				 vc.chan.device_node) {
- 		list_del(&chan->vc.chan.device_node);
--		tasklet_kill(&chan->vc.task);
-+		dmaengine_kill_bh(&chan->vc.chan);
- 	}
- }
- 
-diff --git a/drivers/dma/dw-edma/dw-edma-core.c b/drivers/dma/dw-edma/dw-edma-core.c
-index d682074eaa0e..2cceb87dffb8 100644
---- a/drivers/dma/dw-edma/dw-edma-core.c
-+++ b/drivers/dma/dw-edma/dw-edma-core.c
-@@ -1505,7 +1505,7 @@ int dw_edma_remove(struct dw_edma_chip *chip)
- 	dma_async_device_unregister(&dw->dma);
- 	list_for_each_entry_safe(chan, _chan, &dw->dma.channels,
- 				 vc.chan.device_node) {
--		tasklet_kill(&chan->vc.task);
-+		dmaengine_kill_bh(&chan->vc.chan);
- 		list_del(&chan->vc.chan.device_node);
- 	}
- 
-diff --git a/drivers/dma/fsl-edma-common.c b/drivers/dma/fsl-edma-common.c
-index 513b0f4e5be2..85cc8791659d 100644
---- a/drivers/dma/fsl-edma-common.c
-+++ b/drivers/dma/fsl-edma-common.c
-@@ -1158,7 +1158,7 @@ void fsl_edma_cleanup_vchan(struct dma_device *dmadev)
- 	list_for_each_entry_safe(chan, _chan,
- 				&dmadev->channels, vchan.chan.device_node) {
- 		list_del(&chan->vchan.chan.device_node);
--		tasklet_kill(&chan->vchan.task);
-+		dmaengine_kill_bh(&chan->vchan.chan);
- 	}
- }
- 
-diff --git a/drivers/dma/fsl-qdma.c b/drivers/dma/fsl-qdma.c
-index 27c632e6fa78..b901fe1046ef 100644
---- a/drivers/dma/fsl-qdma.c
-+++ b/drivers/dma/fsl-qdma.c
-@@ -1254,7 +1254,7 @@ static void fsl_qdma_cleanup_vchan(struct dma_device *dmadev)
- 	list_for_each_entry_safe(chan, _chan,
- 				 &dmadev->channels, vchan.chan.device_node) {
- 		list_del(&chan->vchan.chan.device_node);
--		tasklet_kill(&chan->vchan.task);
-+		dmaengine_kill_bh(&chan->vchan.chan);
- 	}
- }
- 
-diff --git a/drivers/dma/hisi_dma.c b/drivers/dma/hisi_dma.c
-index d3ec1819aa5d..16279c332e9d 100644
---- a/drivers/dma/hisi_dma.c
-+++ b/drivers/dma/hisi_dma.c
-@@ -720,7 +720,7 @@ static void hisi_dma_disable_qps(struct hisi_dma_dev *hdma_dev)
- 
- 	for (i = 0; i < hdma_dev->chan_num; i++) {
- 		hisi_dma_disable_qp(hdma_dev, i);
--		tasklet_kill(&hdma_dev->chan[i].vc.task);
-+		dmaengine_kill_bh(&hdma_dev->chan[i].vc.chan);
- 	}
- }
- 
-diff --git a/drivers/dma/hsu/hsu.c b/drivers/dma/hsu/hsu.c
-index ce24e840af59..ec530e0e1296 100644
---- a/drivers/dma/hsu/hsu.c
-+++ b/drivers/dma/hsu/hsu.c
-@@ -499,7 +499,7 @@ int hsu_dma_remove(struct hsu_dma_chip *chip)
- 	for (i = 0; i < hsu->nr_channels; i++) {
- 		struct hsu_dma_chan *hsuc = &hsu->chan[i];
- 
--		tasklet_kill(&hsuc->vchan.task);
-+		dmaengine_kill_bh(&hsuc->vchan.chan);
- 	}
- 
- 	return 0;
-diff --git a/drivers/dma/idma64.c b/drivers/dma/idma64.c
-index e3db213e564b..d7089c4b3787 100644
---- a/drivers/dma/idma64.c
-+++ b/drivers/dma/idma64.c
-@@ -610,14 +610,14 @@ static void idma64_remove(struct idma64_chip *chip)
- 
- 	/*
- 	 * Explicitly call devm_request_irq() to avoid the side effects with
--	 * the scheduled tasklets.
-+	 * scheduled BH work.
- 	 */
- 	devm_free_irq(chip->dev, chip->irq, idma64);
- 
- 	for (i = 0; i < idma64->dma.chancnt; i++) {
- 		struct idma64_chan *idma64c = &idma64->chan[i];
- 
--		tasklet_kill(&idma64c->vchan.task);
-+		dmaengine_kill_bh(&idma64c->vchan.chan);
- 	}
- }
- 
-diff --git a/drivers/dma/img-mdc-dma.c b/drivers/dma/img-mdc-dma.c
-index b91807d5ae82..22288f3bae55 100644
---- a/drivers/dma/img-mdc-dma.c
-+++ b/drivers/dma/img-mdc-dma.c
-@@ -1031,7 +1031,7 @@ static void mdc_dma_remove(struct platform_device *pdev)
- 
- 		devm_free_irq(&pdev->dev, mchan->irq, mchan);
- 
--		tasklet_kill(&mchan->vc.task);
-+		dmaengine_kill_bh(&mchan->vc.chan);
- 	}
- 
- 	pm_runtime_disable(&pdev->dev);
-diff --git a/drivers/dma/imx-sdma.c b/drivers/dma/imx-sdma.c
-index 749f1fe77907..9bf70a682e22 100644
---- a/drivers/dma/imx-sdma.c
-+++ b/drivers/dma/imx-sdma.c
-@@ -2399,11 +2399,11 @@ static void sdma_remove(struct platform_device *pdev)
- 	int i;
- 
- 	devm_free_irq(&pdev->dev, sdma->irq, sdma);
--	/* Kill the tasklet */
-+	/* Kill the channel BH */
- 	for (i = 0; i < MAX_DMA_CHANNELS; i++) {
- 		struct sdma_channel *sdmac = &sdma->channel[i];
- 
--		tasklet_kill(&sdmac->vc.task);
-+		dmaengine_kill_bh(&sdmac->vc.chan);
- 		sdma_free_chan_resources(&sdmac->vc.chan);
- 	}
- 
-diff --git a/drivers/dma/k3dma.c b/drivers/dma/k3dma.c
-index 079dda13cf0c..571237b15182 100644
---- a/drivers/dma/k3dma.c
-+++ b/drivers/dma/k3dma.c
-@@ -975,7 +975,7 @@ static void k3_dma_remove(struct platform_device *op)
- 
- 	list_for_each_entry_safe(c, cn, &d->slave.channels, vc.chan.device_node) {
- 		list_del(&c->vc.chan.device_node);
--		tasklet_kill(&c->vc.task);
-+		dmaengine_kill_bh(&c->vc.chan);
- 	}
- 	tasklet_kill(&d->task);
- 	clk_disable_unprepare(d->clk);
-diff --git a/drivers/dma/loongson/loongson1-apb-dma.c b/drivers/dma/loongson/loongson1-apb-dma.c
-index 10a1920ff6c2..c91e933b186a 100644
---- a/drivers/dma/loongson/loongson1-apb-dma.c
-+++ b/drivers/dma/loongson/loongson1-apb-dma.c
-@@ -547,7 +547,7 @@ static void ls1x_dma_chan_remove(struct ls1x_dma *dma)
- 
- 		if (chan->vc.chan.device == &dma->ddev) {
- 			list_del(&chan->vc.chan.device_node);
--			tasklet_kill(&chan->vc.task);
-+			dmaengine_kill_bh(&chan->vc.chan);
- 		}
- 	}
- }
-diff --git a/drivers/dma/mediatek/mtk-cqdma.c b/drivers/dma/mediatek/mtk-cqdma.c
-index a7000608ddea..8c536c4e04ec 100644
---- a/drivers/dma/mediatek/mtk-cqdma.c
-+++ b/drivers/dma/mediatek/mtk-cqdma.c
-@@ -894,7 +894,7 @@ static void mtk_cqdma_remove(struct platform_device *pdev)
- 		vc = &cqdma->vc[i];
- 
- 		list_del(&vc->vc.chan.device_node);
--		tasklet_kill(&vc->vc.task);
-+		dmaengine_kill_bh(&vc->vc.chan);
- 	}
- 
- 	/* disable interrupt */
-diff --git a/drivers/dma/mediatek/mtk-hsdma.c b/drivers/dma/mediatek/mtk-hsdma.c
-index ad5883cf6165..2a2b4c38a3f5 100644
---- a/drivers/dma/mediatek/mtk-hsdma.c
-+++ b/drivers/dma/mediatek/mtk-hsdma.c
-@@ -1032,7 +1032,7 @@ static void mtk_hsdma_remove(struct platform_device *pdev)
- 		vc = &hsdma->vc[i];
- 
- 		list_del(&vc->vc.chan.device_node);
--		tasklet_kill(&vc->vc.task);
-+		dmaengine_kill_bh(&vc->vc.chan);
- 	}
- 
- 	/* Disable DMA interrupt */
-diff --git a/drivers/dma/mediatek/mtk-uart-apdma.c b/drivers/dma/mediatek/mtk-uart-apdma.c
-index bf242c4c262f..127e1d6a30a1 100644
---- a/drivers/dma/mediatek/mtk-uart-apdma.c
-+++ b/drivers/dma/mediatek/mtk-uart-apdma.c
-@@ -312,7 +312,7 @@ static void mtk_uart_apdma_free_chan_resources(struct dma_chan *chan)
- 
- 	free_irq(c->irq, chan);
- 
--	tasklet_kill(&c->vc.task);
-+	dmaengine_kill_bh(&c->vc.chan);
- 
- 	vchan_free_chan_resources(&c->vc);
- 
-@@ -463,7 +463,7 @@ static void mtk_uart_apdma_free(struct mtk_uart_apdmadev *mtkd)
- 			struct mtk_chan, vc.chan.device_node);
- 
- 		list_del(&c->vc.chan.device_node);
--		tasklet_kill(&c->vc.task);
-+		dmaengine_kill_bh(&c->vc.chan);
- 	}
- }
- 
-diff --git a/drivers/dma/owl-dma.c b/drivers/dma/owl-dma.c
-index 31a6c6e01a75..43663f4539f0 100644
---- a/drivers/dma/owl-dma.c
-+++ b/drivers/dma/owl-dma.c
-@@ -1050,7 +1050,7 @@ static inline void owl_dma_free(struct owl_dma *od)
- 	list_for_each_entry_safe(vchan,
- 				 next, &od->dma.channels, vc.chan.device_node) {
- 		list_del(&vchan->vc.chan.device_node);
--		tasklet_kill(&vchan->vc.task);
-+		dmaengine_kill_bh(&vchan->vc.chan);
- 	}
- }
- 
-diff --git a/drivers/dma/pxa_dma.c b/drivers/dma/pxa_dma.c
-index bf03009bb966..29bcda3f785b 100644
---- a/drivers/dma/pxa_dma.c
-+++ b/drivers/dma/pxa_dma.c
-@@ -1216,7 +1216,7 @@ static void pxad_free_channels(struct dma_device *dmadev)
- 	list_for_each_entry_safe(c, cn, &dmadev->channels,
- 				 vc.chan.device_node) {
- 		list_del(&c->vc.chan.device_node);
--		tasklet_kill(&c->vc.task);
-+		dmaengine_kill_bh(&c->vc.chan);
- 	}
- }
- 
-diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
-index e62e411dc8f8..823b92099bcc 100644
---- a/drivers/dma/qcom/bam_dma.c
-+++ b/drivers/dma/qcom/bam_dma.c
-@@ -1389,7 +1389,7 @@ static int bam_dma_probe(struct platform_device *pdev)
- 	free_irq(bdev->irq, bdev);
- err_bam_channel_exit:
- 	for (i = 0; i < bdev->num_channels; i++)
--		tasklet_kill(&bdev->channels[i].vc.task);
-+		dmaengine_kill_bh(&bdev->channels[i].vc.chan);
- err_tasklet_kill:
- 	tasklet_kill(&bdev->task);
- err_disable_clk:
-@@ -1416,7 +1416,7 @@ static void bam_dma_remove(struct platform_device *pdev)
- 
- 	for (i = 0; i < bdev->num_channels; i++) {
- 		bam_dma_terminate_all(&bdev->channels[i].vc.chan);
--		tasklet_kill(&bdev->channels[i].vc.task);
-+		dmaengine_kill_bh(&bdev->channels[i].vc.chan);
- 
- 		if (!bdev->channels[i].fifo_virt)
- 			continue;
-diff --git a/drivers/dma/qcom/qcom_adm.c b/drivers/dma/qcom/qcom_adm.c
-index b38ee75a9637..f306b3c841de 100644
---- a/drivers/dma/qcom/qcom_adm.c
-+++ b/drivers/dma/qcom/qcom_adm.c
-@@ -918,8 +918,8 @@ static void adm_dma_remove(struct platform_device *pdev)
- 		/* mask IRQs for this channel/EE pair */
- 		writel(0, adev->regs + ADM_CH_RSLT_CONF(achan->id, adev->ee));
- 
--		tasklet_kill(&adev->channels[i].vc.task);
--		adm_terminate_all(&adev->channels[i].vc.chan);
-+		dmaengine_kill_bh(&achan->vc.chan);
-+		adm_terminate_all(&achan->vc.chan);
- 	}
- 
- 	devm_free_irq(adev->dev, adev->irq, adev);
-diff --git a/drivers/dma/sa11x0-dma.c b/drivers/dma/sa11x0-dma.c
-index a6fa431530e3..e14566fa2d74 100644
---- a/drivers/dma/sa11x0-dma.c
-+++ b/drivers/dma/sa11x0-dma.c
-@@ -891,7 +891,7 @@ static void sa11x0_dma_free_channels(struct dma_device *dmadev)
- 
- 	list_for_each_entry_safe(c, cn, &dmadev->channels, vc.chan.device_node) {
- 		list_del(&c->vc.chan.device_node);
--		tasklet_kill(&c->vc.task);
-+		dmaengine_kill_bh(&c->vc.chan);
- 		kfree(c);
- 	}
- }
-diff --git a/drivers/dma/sf-pdma/sf-pdma.c b/drivers/dma/sf-pdma/sf-pdma.c
-index 4770ec3470cb..ca60fb46ade0 100644
---- a/drivers/dma/sf-pdma/sf-pdma.c
-+++ b/drivers/dma/sf-pdma/sf-pdma.c
-@@ -601,7 +601,7 @@ static void sf_pdma_remove(struct platform_device *pdev)
- 		devm_free_irq(&pdev->dev, ch->txirq, ch);
- 		devm_free_irq(&pdev->dev, ch->errirq, ch);
- 		list_del(&ch->vchan.chan.device_node);
--		tasklet_kill(&ch->vchan.task);
-+		dmaengine_kill_bh(&ch->vchan.chan);
- 		tasklet_kill(&ch->done_tasklet);
- 		tasklet_kill(&ch->err_tasklet);
- 	}
-diff --git a/drivers/dma/sprd-dma.c b/drivers/dma/sprd-dma.c
-index 55ccbb902926..704b05885cd9 100644
---- a/drivers/dma/sprd-dma.c
-+++ b/drivers/dma/sprd-dma.c
-@@ -1231,7 +1231,7 @@ static void sprd_dma_remove(struct platform_device *pdev)
- 	list_for_each_entry_safe(c, cn, &sdev->dma_dev.channels,
- 				 vc.chan.device_node) {
- 		list_del(&c->vc.chan.device_node);
--		tasklet_kill(&c->vc.task);
-+		dmaengine_kill_bh(&c->vc.chan);
- 	}
- 
- 	of_dma_controller_free(pdev->dev.of_node);
-diff --git a/drivers/dma/st_fdma.c b/drivers/dma/st_fdma.c
-index a82058e27aa4..875d506d4686 100644
---- a/drivers/dma/st_fdma.c
-+++ b/drivers/dma/st_fdma.c
-@@ -733,7 +733,7 @@ static void st_fdma_free(struct st_fdma_dev *fdev)
- 	for (i = 0; i < fdev->nr_channels; i++) {
- 		fchan = &fdev->chans[i];
- 		list_del(&fchan->vchan.chan.device_node);
--		tasklet_kill(&fchan->vchan.task);
-+		dmaengine_kill_bh(&fchan->vchan.chan);
- 	}
- }
- 
-diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-index 3b849833e08f..f4543e8af789 100644
---- a/drivers/dma/sun6i-dma.c
-+++ b/drivers/dma/sun6i-dma.c
-@@ -1136,7 +1136,7 @@ static inline void sun6i_dma_free(struct sun6i_dma_dev *sdev)
- 		struct sun6i_vchan *vchan = &sdev->vchans[i];
- 
- 		list_del(&vchan->vc.chan.device_node);
--		tasklet_kill(&vchan->vc.task);
-+		dmaengine_kill_bh(&vchan->vc.chan);
- 	}
- }
- 
-diff --git a/drivers/dma/tegra186-gpc-dma.c b/drivers/dma/tegra186-gpc-dma.c
-index ec12b7288b43..30fe6cfcc82a 100644
---- a/drivers/dma/tegra186-gpc-dma.c
-+++ b/drivers/dma/tegra186-gpc-dma.c
-@@ -1284,7 +1284,7 @@ static void tegra_dma_free_chan_resources(struct dma_chan *dc)
- 	tegra_dma_terminate_all(dc);
- 	synchronize_irq(tdc->irq);
- 
--	tasklet_kill(&tdc->vc.task);
-+	dmaengine_kill_bh(&tdc->vc.chan);
- 	tdc->config_init = false;
- 	tdc->slave_id = -1;
- 	tdc->sid_dir = DMA_TRANS_NONE;
-diff --git a/drivers/dma/tegra210-adma.c b/drivers/dma/tegra210-adma.c
-index 607f8e0848ac..0c73dc61622a 100644
---- a/drivers/dma/tegra210-adma.c
-+++ b/drivers/dma/tegra210-adma.c
-@@ -811,7 +811,7 @@ static void tegra_adma_free_chan_resources(struct dma_chan *dc)
- 
- 	tegra_adma_terminate_all(dc);
- 	vchan_free_chan_resources(&tdc->vc);
--	tasklet_kill(&tdc->vc.task);
-+	dmaengine_kill_bh(&tdc->vc.chan);
- 	free_irq(tdc->irq, tdc);
- 	pm_runtime_put(tdc2dev(tdc));
- 
-diff --git a/drivers/dma/ti/edma.c b/drivers/dma/ti/edma.c
-index f3a98654d126..01f9739f120c 100644
---- a/drivers/dma/ti/edma.c
-+++ b/drivers/dma/ti/edma.c
-@@ -2557,7 +2557,7 @@ static void edma_cleanupp_vchan(struct dma_device *dmadev)
- 	list_for_each_entry_safe(echan, _echan,
- 			&dmadev->channels, vchan.chan.device_node) {
- 		list_del(&echan->vchan.chan.device_node);
--		tasklet_kill(&echan->vchan.task);
-+		dmaengine_kill_bh(&echan->vchan.chan);
- 	}
- }
- 
-diff --git a/drivers/dma/ti/k3-udma.c b/drivers/dma/ti/k3-udma.c
-index 75bd1977fb42..b58c9bb22ddf 100644
---- a/drivers/dma/ti/k3-udma.c
-+++ b/drivers/dma/ti/k3-udma.c
-@@ -4042,12 +4042,12 @@ static void udma_desc_pre_callback(struct virt_dma_chan *vc,
- }
- 
- /*
-- * This tasklet handles the completion of a DMA descriptor by
-+ * This BH handles the completion of a DMA descriptor by
-  * calling its callback and freeing it.
-  */
--static void udma_vchan_complete(struct tasklet_struct *t)
-+static void udma_vchan_complete(struct dma_chan *chan)
- {
--	struct virt_dma_chan *vc = from_tasklet(vc, t, task);
-+	struct virt_dma_chan *vc = to_virt_chan(chan);
- 	struct virt_dma_desc *vd, *_vd;
- 	struct dmaengine_desc_callback cb;
- 	LIST_HEAD(head);
-@@ -4112,7 +4112,7 @@ static void udma_free_chan_resources(struct dma_chan *chan)
- 	}
- 
- 	vchan_free_chan_resources(&uc->vc);
--	tasklet_kill(&uc->vc.task);
-+	dmaengine_kill_bh(&uc->vc.chan);
- 
- 	bcdma_free_bchan_resources(uc);
- 	udma_free_tx_resources(uc);
-@@ -5610,8 +5610,8 @@ static int udma_probe(struct platform_device *pdev)
- 		if (!uc->name)
- 			return -ENOMEM;
- 		vchan_init(&uc->vc, &ud->ddev);
--		/* Use custom vchan completion handling */
--		tasklet_setup(&uc->vc.task, udma_vchan_complete);
-+		/* Override the default vchan completion handler */
-+		uc->vc.chan.bh_work_fn = udma_vchan_complete;
- 		init_completion(&uc->teardown_completed);
- 		INIT_DELAYED_WORK(&uc->tx_drain.work, udma_check_tx_completion);
- 	}
-diff --git a/drivers/dma/ti/omap-dma.c b/drivers/dma/ti/omap-dma.c
-index 93b6a4682085..aad968331162 100644
---- a/drivers/dma/ti/omap-dma.c
-+++ b/drivers/dma/ti/omap-dma.c
-@@ -1521,7 +1521,7 @@ static void omap_dma_free(struct omap_dmadev *od)
- 			struct omap_chan, vc.chan.device_node);
- 
- 		list_del(&c->vc.chan.device_node);
--		tasklet_kill(&c->vc.task);
-+		dmaengine_kill_bh(&c->vc.chan);
- 		kfree(c);
- 	}
- }
-diff --git a/drivers/dma/virt-dma.c b/drivers/dma/virt-dma.c
-index 7961172a780d..d407af6cc1da 100644
---- a/drivers/dma/virt-dma.c
-+++ b/drivers/dma/virt-dma.c
-@@ -77,12 +77,12 @@ struct virt_dma_desc *vchan_find_desc(struct virt_dma_chan *vc,
- EXPORT_SYMBOL_GPL(vchan_find_desc);
- 
- /*
-- * This tasklet handles the completion of a DMA descriptor by
-- * calling its callback and freeing it.
-+ * This bottom-half handler completes a DMA descriptor by invoking its
-+ * callback and freeing it.
-  */
--static void vchan_complete(struct tasklet_struct *t)
-+static void vchan_complete(struct dma_chan *chan)
- {
--	struct virt_dma_chan *vc = from_tasklet(vc, t, task);
-+	struct virt_dma_chan *vc = to_virt_chan(chan);
- 	struct virt_dma_desc *vd, *_vd;
- 	struct dmaengine_desc_callback cb;
- 	LIST_HEAD(head);
-@@ -98,7 +98,7 @@ static void vchan_complete(struct tasklet_struct *t)
- 	}
- 	spin_unlock_irq(&vc->lock);
- 
--	dmaengine_desc_callback_invoke(&cb, &vd->tx_result);
-+	dmaengine_desc_callback_invoke(&cb, vd ? &vd->tx_result : NULL);
- 
- 	list_for_each_entry_safe(vd, _vd, &head, node) {
- 		dmaengine_desc_get_callback(&vd->tx, &cb);
-@@ -131,7 +131,7 @@ void vchan_init(struct virt_dma_chan *vc, struct dma_device *dmadev)
- 	INIT_LIST_HEAD(&vc->desc_completed);
- 	INIT_LIST_HEAD(&vc->desc_terminated);
- 
--	tasklet_setup(&vc->task, vchan_complete);
-+	dmaengine_init_bh(&vc->chan, vchan_complete);
- 
- 	vc->chan.device = dmadev;
- 	list_add_tail(&vc->chan.device_node, &dmadev->channels);
-diff --git a/drivers/dma/virt-dma.h b/drivers/dma/virt-dma.h
-index abf2ae737c30..8e7c0ca8623a 100644
---- a/drivers/dma/virt-dma.h
-+++ b/drivers/dma/virt-dma.h
-@@ -21,7 +21,6 @@ struct virt_dma_desc {
- 
- struct virt_dma_chan {
- 	struct dma_chan	chan;
--	struct tasklet_struct task;
- 	void (*desc_free)(struct virt_dma_desc *);
- 
- 	spinlock_t lock;
-@@ -111,7 +110,7 @@ static inline void vchan_cookie_complete(struct virt_dma_desc *vd)
- 		 vd, cookie);
- 	list_add_tail(&vd->node, &vc->desc_completed);
- 
--	tasklet_schedule(&vc->task);
-+	dmaengine_schedule_bh(&vc->chan);
- }
- 
- /**
-@@ -142,7 +141,7 @@ static inline void vchan_cyclic_callback(struct virt_dma_desc *vd)
- 	struct virt_dma_chan *vc = to_virt_chan(vd->tx.chan);
- 
- 	vc->cyclic = vd;
--	tasklet_schedule(&vc->task);
-+	dmaengine_schedule_bh(&vc->chan);
- }
- 
- /**
-@@ -239,7 +238,7 @@ static inline void vchan_synchronize(struct virt_dma_chan *vc)
- 	LIST_HEAD(head);
- 	unsigned long flags;
- 
--	tasklet_kill(&vc->task);
-+	dmaengine_kill_bh(&vc->chan);
- 
- 	spin_lock_irqsave(&vc->lock, flags);
- 
-diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-index 805668fbe437..b0d69e3083d6 100644
---- a/include/linux/dmaengine.h
-+++ b/include/linux/dmaengine.h
-@@ -12,6 +12,7 @@
- #include <linux/scatterlist.h>
- #include <linux/bitmap.h>
- #include <linux/types.h>
-+#include <linux/interrupt.h>
- #include <asm/page.h>
- 
- /**
-@@ -295,6 +296,10 @@ enum dma_desc_metadata_mode {
- 	DESC_METADATA_ENGINE = BIT(1),
- };
- 
-+struct dma_chan;
-+
-+typedef void (*dmaengine_bh_work_fn)(struct dma_chan *chan);
-+
- /**
-  * struct dma_chan_percpu - the per-CPU part of struct dma_chan
-  * @memcpy_count: transaction counter
-@@ -337,6 +342,9 @@ struct dma_router {
-  * @router: pointer to the DMA router structure
-  * @route_data: channel specific data for the router
-  * @private: private data for certain client-channel associations
-+ * @bh_tasklet: bottom-half tasklet stored per-channel
-+ * @bh_work_fn: callback executed when @bh_tasklet runs
-+ * @bh_work_initialized: indicates whether @bh_tasklet has been initialized
-  */
- struct dma_chan {
- 	struct dma_device *device;
-@@ -375,6 +383,9 @@ struct dma_chan {
- 	void *route_data;
- 
- 	void *private;
-+	struct tasklet_struct bh_tasklet;
-+	dmaengine_bh_work_fn bh_work_fn;
-+	bool bh_work_initialized;
- };
- 
- #define DMA_CHAN_ID_STATIC	BIT(30)
-@@ -1970,6 +1981,9 @@ struct dma_chan *devm_dma_request_chan(struct device *dev, const char *name);
- 
- void dma_release_channel(struct dma_chan *chan);
- int dma_get_slave_caps(struct dma_chan *chan, struct dma_slave_caps *caps);
-+void dmaengine_init_bh(struct dma_chan *chan, dmaengine_bh_work_fn fn);
-+bool dmaengine_schedule_bh(struct dma_chan *chan);
-+void dmaengine_kill_bh(struct dma_chan *chan);
- #else
- static inline struct dma_chan *dma_find_channel(enum dma_transaction_type tx_type)
- {
-@@ -2017,6 +2031,20 @@ static inline int dma_get_slave_caps(struct dma_chan *chan,
- {
- 	return -ENXIO;
- }
-+
-+static inline void dmaengine_init_bh(struct dma_chan *chan,
-+				     dmaengine_bh_work_fn fn)
-+{
-+}
-+
-+static inline bool dmaengine_schedule_bh(struct dma_chan *chan)
-+{
-+	return false;
-+}
-+
-+static inline void dmaengine_kill_bh(struct dma_chan *chan)
-+{
-+}
- #endif
- 
- static inline int dmaengine_desc_set_reuse(struct dma_async_tx_descriptor *tx)
--- 
-2.43.0
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c b/drivers/pinctr=
+l/sunxi/pinctrl-sun60i-a733.c
+> index ca82f08a3a65b..456d9170c2a27 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
+> @@ -23,7 +23,6 @@ static const u8 a733_irq_bank_muxes[SUNXI_PINCTRL_MAX_B=
+ANKS] =3D
+> =20
+>  static struct sunxi_pinctrl_desc a733_pinctrl_data =3D {
+>  	.irq_banks =3D 10,
+> -	.irq_read_needs_mux =3D true,
+>  	.io_bias_cfg_variant =3D BIAS_VOLTAGE_PIO_POW_MODE_SEL,
+>  };
 
+[Severity: High]
+This problem wasn't introduced by this patch, but does sunxi_irq_base_reg()
+calculate the wrong IRQ bank MMIO offset for a733_pinctrl_data [1]?
+
+drivers/pinctrl/sunxi/pinctrl-sunxi.h:sunxi_irq_base_reg() {
+	if (pctl->flags & SUNXI_PINCTRL_NCAT3_REG_LAYOUT)
+		return pctl->bank_offset + bank * pctl->bank_mem_size +
+		       A733_IRQ_REGS_OFFSET;
+
+	return IRQ_REGS_OFFSET +
+	       sunxi_irq_hw_bank_num(pctl->desc, bank) * IRQ_MEM_SIZE;
+}
+
+Because A733 implements no PA pins (a733_nr_bank_pins[0] =3D=3D 0),
+sunxi_pinctrl_dt_table_init() assigns logical IRQ banks 0..9 to ports PB..P=
+K,
+whose hardware banks are 1..10.  However, a733_pinctrl_data omits
+irq_bank_map, and the SUNXI_PINCTRL_NCAT3_REG_LAYOUT branch in
+sunxi_irq_base_reg() multiplies the logical bank index directly by
+pctl->bank_mem_size without calling sunxi_irq_hw_bank_num().
+
+As a result, IRQ register accesses target hardware banks 0..9 (PA..PJ)
+instead of 1..10 (PB..PK), shifting every port's interrupt registers by one
+bank and leaving port PK interrupts unmasked and uncleared at probe.
+
+[1] https://sashiko.dev/#/bug/linux-213c0bba-8e71-4432-952e-9f5e320fd4b7
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110130157.1121=
+55-1-vinicius.eduardo.pedrosa@gmail.com?part=3D1
