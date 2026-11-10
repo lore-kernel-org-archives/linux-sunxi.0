@@ -1,104 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794327076;
-	b=rvhTc9ui1o7KddANT3j4BbzgvpbP2sYhWdpz4ZMZykoRLkpoZp41t6heTg2kjg19Fm+9
-	 fnj/KUinLN8NHbdGUXVw4eGcRGMXotkgmm3Ah5SeWGCYiYnc/MSFQZeXxe2PHW76TxCne
-	 F8/3oY+yIJDqMrDAwjOI/Dprc+Xai1jvdgTg+atesTjEWqDr/2qqLKi4PPlqZBPCI7khg
-	 LmJ7GhUEtDHQCuLJSBW9tWKZ6f+u7gUCxIhRfoTfNIYTWbxx5F0jtxjx6eZMh1P7UhT2C
-	 2fqAM8nYleUt9Y/gE4f7yCeEsmMBAgGSSDYiRIj5rI4OrVizDBwD5Vz/EUOqSyftG6Q==
+	t=1794328751;
+	b=USqxn2tBrmDKcsHIBynJSNnmhC1hj6A4BEa/0GfU9ywd9PF9lL8SKrWry2Uk3zjPK5Sd
+	 Pa97/VOYLIjVzVjJzyVuEj4/9eVhwaAPl/kWGBJ1miSAxoVZm6Wz2tFXK1VT4faSkAbCS
+	 mEj6qdb/VjVgy7lkMV+kz+bxQbs9wpAlTK7m43lrS9QRANbIhZkROlop+2cXCa8xppLxA
+	 VMkWCdiA6JQg0VU9chB16YoqyvscdC/MGgHdWNAbxT47EWEl6xbMutbzvX/qkqHNT3G0Z
+	 I/5AX+++x5yzscrdW27H9UgeYEUGiw3u0cAAWVdZBxJbNcA+4Nm0hdwXtReF/0zIq/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794327076;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794328751;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type;
-	bh=f6FXAOsuB/cuM2Q90beDrqDYRqrVlTbOMRM4fnMO4jY=;
-	b=IAmLazaUL4z9vIcOtmE2fdu/kuswNkI1aWefEL92wZxxbhYOSmJ07uXABfiITv4HR3le
-	 0y/lI7r2dbTKEZt/+Nh9DV4UiFRhc3uijC5MTvi1zenWuMb9R+Fh8uH7YaqQI7rPYQ4f4
-	 vjKywTZtza+VVz8BwFOHKukFZ7/vjyhMehlvn4px3bns4o6NtbNLgmOHA3R0I5nD8O8Y0
-	 ihCwg+6e9gCN6huJpfng5m1f0HKOJUwd7MjvrUI581/fm1AhBEV+SjqJQhPm7KFAN4tL4
-	 zXUpbMq63+90TI2Xs5maplsyfsxP/IP/31XL+9g6ehCJwg1hdIR0S0fL6UAWPMnXWzA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=GnMoHkTM6iQtkpAgle+3oy1uhVcPxUIIpLVPaorm1V0=;
+	b=sKaS4vCh/1dZHiU+14EWap/YdUzC3rYNvrFEXnNcPCip9FFFKBREteLi5Yw1AQykHXin
+	 DoMlQqvzL9kYfP41nNt3l3J5JLd+J5eZg2KeXwO0b5MK2bs7xy9jvgL/RemKdhMqLfv9K
+	 5+PTb5EGiPBEwNtATPi7m1Gyifzy6FlZJoQ9NDMr/INcsF5fWn2lSyJLSa6+53I5xKnV3
+	 uiRxcx9TxoexcD9B4GhNLzMRXuieS8S6NFXLNniqRnSew8sVB7dNRM0NSh84YFKoYX1jU
+	 vxLnJDJldTGT3JjJe1MoaG+OUPGcLKDw4K4lgJnYNimq11SAyrwWv5Ei7KPT1+Ix8XA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=X5tHWA8G;
-	arc=none smtp.remote-ip=209.85.218.43
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="G/4+AJGj";
+	arc=none smtp.remote-ip=209.85.221.49
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7958F606D7AF
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Nov 2026 16:11:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7958F606D7AF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE637606A209
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Nov 2026 16:39:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE637606A209
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=X5tHWA8G
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c504bfd7393so140099766b.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 10 Nov 2026 08:11:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=G/4+AJGj
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so1931905f8f.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 10 Nov 2026 08:39:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794327075; x=1794931875; darn=lists.linux.dev;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=f6FXAOsuB/cuM2Q90beDrqDYRqrVlTbOMRM4fnMO4jY=;
-        b=X5tHWA8GJ2E9ldyERtYGe99G7V1QocsXMyfIdRb62q3UIeAvbfUdO+Q41wJOOotCXP
-         DyhZ3Ox32tUsiqekfSJEm4S9F8/2DD4dgcR3vca0MwzVsvMi6epw5XzSq0r5ebHIQyk+
-         Euwkgg5VZI7EwvYS4R4aW5rYtc8zOfHtxLhFxEngy95xSDIXiz7RBbTqMO6dLO6K6TJY
-         XUbdGCcn7eWUW52CFMXzkGeo8tJ7J31uaZMljlO5X+lBUKV3gGIs7r2rBShw6FavHPtt
-         9YJQD9id+G5dFSBRjDlMjotAWp+PAaxDG+GbAo1dZWKcPRpjBvPECE0/mRY1cxlh74Nk
-         SuFg==
+        d=gmail.com; s=20260707; t=1794328749; x=1794933549; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GnMoHkTM6iQtkpAgle+3oy1uhVcPxUIIpLVPaorm1V0=;
+        b=G/4+AJGjdKAhf3l0BPDvjDKU5HPW4pgImJooN0B+K84YtD9If5rdIG5mEep6XyxYEz
+         vNF1DW4xowobWcCT60Tp+6RYiiX3u2JjJytp4m+n2W4IAkSHSx2jmGWjmenNpWCGU52D
+         wuppAJYLP9hmqvqURkBK1eOsGAj/B3p3wEuokzFGrqbKN4xspla7NZBV6uqCS2zYQd7E
+         S1L95cpBPqvOost8ypNSVnHFyh8rhijDF+eOQ4bVnRBIeJpRvVPYmxtuKDJmx63AmpWG
+         U1nMOtdmVwOiAWbAQ5W6H3j0uYC9ehTn51faekrHFNPm1Pq4vicnVog1fX+5iyjKzDNC
+         /RUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794327075; x=1794931875;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=f6FXAOsuB/cuM2Q90beDrqDYRqrVlTbOMRM4fnMO4jY=;
-        b=UholEZnVjTuImpUxnGYq5/L4DnaML0v+2kJZQGk8b73IUd4hAdXCoC8Q8nAjazrpmd
-         E0nQx4L9ZZ0rr5IadHN/o31PwB2OW/Cb+i5k0Szy1Y4gSQDybT76CmGPXPnwc+U+p0JI
-         QUax+FAZps88/szBq9DMkKtt6q+ZOZ3xbjd79zybuYiCDnLzlxjSvvABmM2HGRHiJzlC
-         CjTV1bhBCjuoi+A2Tk0rZ29hWurwwesxo27m9FIsvbh+Ss/DWfk7ZOQVu6HipP3zrJiM
-         8PzT9NYpNoC9geIw6sSsA+LJM0BOudwITJ83wvZGbjXF+jpH78bb5OHWrtuXWo/p6Jw8
-         etww==
-X-Forwarded-Encrypted: i=1; AL+hErGOaukp9Hjxe9zIRkboEcrwvMmiY7ukIXiNjE8hDNNDDSGg4RjyYG7vXNwDt5r318DFiUfWUITgBfQarw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9q9SVVAPm5t4VbuYXXyQnIGIjQQx9uTD1ECO7cs7Pta6z6G7JI
-	+HrAeZilCysWfPu1gPlA3pVs2VfC/GtvuENOBBIvb4bX6ex60ReHzA2h
-X-Gm-Gg: AYBFou3o4IAmpUS1g5ZL6o0a92+xsq+ThH9Zhu0y5nUexK2X3/ay06CobKzvLQkk7yU
-	swD6nNcwdqwfGkUSECEC90gny4N6wW8hb786J9FciTcXTKlaGCFR/5/9AeeN2qKcVP6MJ2I56L3
-	WNAuNYgrXN9IvTQx303lABbm90fTG0Wbsc7ZVgJYq1oe2JMjBBSEwM/HTaTijOAJBl35UhJLgsn
-	wstz9yUQWJTHBCu9S9xFusHKeJ29MiknYXaUdcVbw5TSdLXhOB7WvUdRXdtZcK29JJ+5awn/wND
-	bKuUCHdA3hjEuK58zmYfW8LXGGYH7Iy7Hga0Yjd0HPyAsebt6yiwvi2X5y2Vur6d5XHteIZFd3I
-	9QlFNf2nhfGJYE/8nIx8PuctzQxtXlZVqUnGonI5kerNDl56yPISM9Vqz8kpXRIQvuy3XvneQDc
-	+FvtQZaq96THmJRAvwvOFyi18EH5LEoqbmOfzQxYpBy2RpWaKQNKx684ZYFXErh6598ZxUJwreD
-	yUXilFagKQdZ4aNzYvaPfN9aQ1SJwNBypWlDHSfGfr2FiltPuKQ/BwfD5Kk9sc9AyeCCEXhXISj
-	48+Npitn6iRaHhlRAvpN+9DA5kMUFZ/etB3jNqbO201ilJt1TxYlQOZcdigLeJdi44zqUhrro05
-	uX2i+NR0qXiGjzOwaOYzO8WvxW2cgg0SbByQs8+wpZpl0V9TxSp1XhvV6oD4X5F1XV6iCug+WTZ
-	rjOA4c5xu4wI2rByMoLUKjNML5J9Zu0FP6pX2G21KCTfLD40nDca6umZxmwdLLPAK2aPuPoK6Ho
-	fVMyGLAUScHccIrsl40tAaJUnKC3+AQHN29OOouH/DugPCt5xOJzQpfhxYCI9hq01rLYUSw1duZ
-	N7FPJ/Jg
-X-Received: by 2002:a17:907:3da8:b0:c2e:3ed7:7db4 with SMTP id a640c23a62f3a-c5049540483mr285400966b.23.1794327074616;
-        Tue, 10 Nov 2026 08:11:14 -0800 (PST)
-Received: from jernej-laptop.localnet (86-58-12-36.dynamic.telemach.net. [86.58.12.36])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c504a591485sm127282366b.32.2026.11.10.08.11.13
+        d=1e100.net; s=20260707; t=1794328749; x=1794933549;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GnMoHkTM6iQtkpAgle+3oy1uhVcPxUIIpLVPaorm1V0=;
+        b=fVaZ7+H45vHXHTbFvYOU4fvj5usjNlc/bVJYF50c3LcZdohLmA2tBchRh5pJMJd5R/
+         7TRou5afG1EQ6Tgk3Vb/fTWPrVB03sew+Bsffy1/h8XzXn42SmYjzzoDYOMdy9ImfPfI
+         5tD1SC2rRE1lv0sd7DN+hVIvQOybja4Z9xXg5drKlpowaQAX4oSes25wUkhohKn0Mnb/
+         JogSdZcNRLc/WSiz/FYKud6JdXxUhZH14KMApetu2wWFca+3wlyRYlKhKIzJABv57R3F
+         vq698tpQjDPO5VgWY/UdjOzfMYYvZIWku4Um5ONG+6HynBC+ylqG4TXHKVY/yKmXxQ0u
+         HoYw==
+X-Forwarded-Encrypted: i=1; AL+hErGkrn+VREUw+FpsZprAh5WuJJIUG9wR2B2gfVMiG/hyt4RJIl/SV+zTCAhPKZOxKMF8lNquZSB5L1X5uQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8CIEfIxYHkmldbiVamIsV3l1fqWJ17syiWVCkju0U+I8DZi0W1
+	Nd949GqTSm73CKNiSRJFgZpgG7kJvYt3Ag0iJ0OWJEkQqXmX6pts1syQUwRcvQ==
+X-Gm-Gg: AYBFou0X3Tg42N39jXKPP1JqZxkfHcZ0Tur8dSQLdSpmFFRMknZuB1kE+iAFRD+1mhc
+	LuDi+/nJAIwFnU/K8HEqf8AE98pKIOjMEsbftsb1oW7HJa7NaNfXnkHz1V8ONuOC8M4mgkYV2q8
+	fVjZPGNBFgsf3FPFvymrHa20Rajh9aMCOhUA8OP7p7b++Z+swZq7fxB2nIg4qGVLoh2ATZM7dCZ
+	pPmP1xXWsvPkGsoxEfS7fCXr5fU4z+dPBkyjfhZa00N16RE3DP7/833qKNDLHlJy1ko8AblUl8A
+	duUiEzMHtvr7oYmhOxhixdWkIVd7bWtsJPOfuFAtFkmbX3HVpUPIsZi5wDoqy9CmRTqLeuEssel
+	LDisi8tHrbwuyoL3udBhjQW4yX6jJzKKqJIJZ1XwlQdkSyxnOcnfHKj313tRJi2rsosZvXfhVCq
+	sAVL9TxfWgBD3OL4sqP5T6JghkeucpdfIgmkmYhhB14MN3AgMJhfQIYJpJ7csQVILdFA2so02kR
+	MnXjGMBBKWnNWFhZSgiuSCwOjX6darDgmaZ3ZVekPQWJXJgF1278WC0FPiTusmvYfyQo9HrN3bz
+	ReSTjwtN8eGJf0/CTogzZ6uliPQEGPNl86drMS9evvZxFshUpRNUeWi/+HlV8DUfn14I74BJIw3
+	9hS8/VE1ylND5R+bpZgJXpanMTAIw+pMQ42DpKRCF3kOULCFmoG3REcKjYv4TxRhZBly4+4xMSZ
+	fGWj7LuhlnjexWeIhTb6bjNp2OKoNG9c3Ks2p75kFwiJzrY1RSt6AUBb0pSYTWfARhbIdBK9pUr
+	x7wAKcAM/6l86NQeHMQT8OOaiu9VP6grFhqcXuSSA==
+X-Received: by 2002:a05:6000:25f7:b0:492:4156:b8f2 with SMTP id ffacd0b85a97d-498318fccdcmr5748430f8f.54.1794328749233;
+        Tue, 10 Nov 2026 08:39:09 -0800 (PST)
+Received: from jernej-laptop (86-58-12-36.dynamic.telemach.net. [86.58.12.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4983585c4fdsm5888355f8f.10.2026.11.10.08.39.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 08:11:13 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Ryan Walklin <ryan@testtoast.com>,
- Andre Przywara <andre.przywara@arm.com>, aiyengar1990@gmail.com
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Arun Iyengar <aiyengar1990@gmail.com>
-Subject:
- Re: [PATCH 8/8] arm64: dts: allwinner: orangepi-zero2: Add i2c aliases
-Date: Tue, 10 Nov 2026 17:11:12 +0100
-Message-ID: <ekjxzCRpRcWPwcDw_lDV4g@gmail.com>
-In-Reply-To: <20261110-h616-zero2-dt-v1-8-05506d760f21@gmail.com>
-References:
- <20261110-h616-zero2-dt-v1-0-05506d760f21@gmail.com>
- <20261110-h616-zero2-dt-v1-8-05506d760f21@gmail.com>
+        Tue, 10 Nov 2026 08:39:08 -0800 (PST)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Icenowy Zheng <icenowy@aosc.io>
+Cc: linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] clk: sunxi-ng: h6: Keep both parents running while switching VP9 clock
+Date: Tue, 10 Nov 2026 17:39:04 +0100
+Message-ID: <20261110163904.1098187-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -108,64 +106,47 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Dne torek, 10. november 2026 ob 06:37:02 Srednjeevropski standardni =C4=8Da=
-s je Arun Iyengar via B4 Relay napisal(a):
-> From: Arun Iyengar <aiyengar1990@gmail.com>
->=20
-> The I2C core numbers adapters after the "i2cN" aliases and hands out
-> dynamic numbers, in probe order, to adapters without one. The Orange Pi
-> Zero2 DT has no i2c aliases, so a TWI controller enabled by an overlay
-> for the header pins gets whatever number is free when it probes: TWI3
-> on header pins 3 and 5 does not show up as /dev/i2c-3, and the number
-> changes with the set of enabled buses. The vendor manual and the
-> vendor BSP name the buses after the controller.
->=20
-> Pin the numbering as the vendor BSP does: i2c0 to i2c4 are TWI0 to
-> TWI4, i2c5 is R_TWI. Disabled controllers get no adapter, so nothing
-> changes for buses that stay off.
->=20
-> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+The VP9 clock mux only switches while both parents are running. Its
+reset default parent is pll-ve, which is off at boot. When the Hantro
+driver sets the clock rate to 300 MHz, the clock gets reparented to
+pll-periph0-2x, but the mux doesn't actually switch until pll-ve is
+enabled for the video engine. Until then, the VP9 decoder has no clock
+and every frame times out.
 
-NAK.=20
+Set CLK_OPS_PARENT_ENABLE, so both parents are enabled during the
+switch.
 
-Extension connector is not covered by board DT. Use overlays
-if you want to use them.
+Fixes: 524353ea480b ("clk: sunxi-ng: add support for the Allwinner H6 CCU")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/clk/sunxi-ng/ccu-sun50i-h6.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Best regards,
-Jernej
-
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 9 +++++++=
-++
->  1 file changed, 9 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts=
- b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-> index d5d39bac5915..98fc83291dc8 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-> @@ -12,6 +12,15 @@
->  / {
->  	model =3D "OrangePi Zero2";
->  	compatible =3D "xunlong,orangepi-zero2", "allwinner,sun50i-h616";
-> +
-> +	aliases {
-> +		i2c0 =3D &i2c0;
-> +		i2c1 =3D &i2c1;
-> +		i2c2 =3D &i2c2;
-> +		i2c3 =3D &i2c3;
-> +		i2c4 =3D &i2c4;
-> +		i2c5 =3D &r_i2c;
-> +	};
->  };
-> =20
->  &cpu0 {
->=20
->=20
-
-
-
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+index 7fccda96d444..a10f0502c5c1 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+@@ -336,12 +336,17 @@ static SUNXI_CCU_MP_WITH_MUX_GATE(emce_clk, "emce", ce_parents, 0x6b0,
+ static SUNXI_CCU_GATE(bus_emce_clk, "bus-emce", "psi-ahb1-ahb2",
+ 		      0x6bc, BIT(0), 0);
+ 
++/*
++ * The mux only switches while both parents run. pll-ve is off at boot, so
++ * moving the clock away from it would otherwise leave the VP9 decoder
++ * without a clock until pll-ve gets enabled for the video engine.
++ */
+ static const char * const vp9_parents[] = { "pll-ve", "pll-periph0-2x" };
+ static SUNXI_CCU_M_WITH_MUX_GATE(vp9_clk, "vp9", vp9_parents, 0x6c0,
+ 				       0, 3,	/* M */
+ 				       24, 1,	/* mux */
+ 				       BIT(31),	/* gate */
+-				       0);
++				       CLK_OPS_PARENT_ENABLE);
+ 
+ static SUNXI_CCU_GATE(bus_vp9_clk, "bus-vp9", "psi-ahb1-ahb2",
+ 		      0x6cc, BIT(0), 0);
+-- 
+2.43.0
 
