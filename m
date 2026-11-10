@@ -1,58 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794290027;
-	b=5FWAWZSw4ZoQ3DY3UvyLLvleqjesIdSnbhuT3+o8rhkyKmKtIDU7UTqLGUK27ctpOjuU
-	 /v+NLCubFyoACWF37TTjF8Z3lrvL9LwBFWrWHAGpGz/Z15jqVBEv2JdQiazPsS7nJgKVi
-	 aw3OAk0e4T5B7TV+JuIYG8CeVpQ+7nQK3QZTdLuWbBmHyXl9pbrxA0qImjRMY1iiJjEN2
-	 fZdYIx3cHdyH/OcLIaObVk9QduAH92IhKL2qvxgXcXPU/Q/+7vyqOsW5uoyKQe3WlHyW9
-	 3sTfE0nPTpYyySw0sz5q73+Vz9qrHr9D92w11BjKG8FbPQcR2dYn9iaSMbfe66C3Vpg==
+	t=1794290234;
+	b=40ZTRlVgHy1XEHbRdUa3j8deCLRxKHSZaS0YlN3vPCGtxmeClsqWoCUgn+f9q2JpigYF
+	 GPcLSkResfZR7H+ng0D8iPYweH61Jo4k7lCUog7HFya6vkbfshISJGc6rkONYzx/LinJP
+	 lUNjzLiSqqX6rQjEGPqa89CmFZ2KSca5/irA+da+kGXa9pKP8qzdbcU4ZMXZWsYx8W7VB
+	 LB65Tafixs4JhayIlMd61EMpLygbXgvq4AQ2siu/bczXkT49XvsggF53vKgelxwKJLmie
+	 xFSB6GkkoPddC5nD/SsAduDleKmWjl1shfiBapKwh0ksuDtO8iJBOArTPx15s5I9I0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794290027;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794290234;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=gsngdIcF5BezJhiHCFR4oBshgT4Mp+hVmPTiOYWGUTE=;
-	b=cws/p1qKLjtfxQz5CbtH9qhPCcuG4qByCWxXCkjd1ksxRhDVGwSkVsxdWxwsABJ5nMqL
-	 JkLGPH2f3Lx2K6P9kOXYMbN7+m6Ocu3/7P+jIUAVwS6JqMrySiLwER2IDbdIBOYPEB9gH
-	 rH3O8nhT19fdOJfjWIpCqfr/T7+m3lU6++SX1fWvk3M3SffSkETFq90qsIHiSNR7CfMUW
-	 RbZfoymZeqN7B1Uy0R9HRspa6APS+tgn2Vt+r4vkNExPcc0UH+/4YsfkHPzNoZMdB7q+E
-	 /XNuvZ953oo6AfREIdMgGLud8LKxgihqiwWbnXhpuZCZ4veBYXDxM3rDd7S+4o9qWPw==
+	bh=laBwzBmPEr/UQH5HBsppamR1QuUoc2VFWIqykmeqG8k=;
+	b=q78Bz6VPMSQG5T+M+ZPNDD1fg+Zw0DRfsYNFcr9pHzsWcBosCOoGIaGL9iImZmQTCXdP
+	 iK+6BjMlQ1utijbgp1ArSZB52yI4R9K549D2UOCWSqkBGnTVLymjT70IbV7hF6BmqrNUv
+	 CUV92ol1BFRm6WBiJwbt8crkcypqprew+0jN5CDkXOSi/p9ad0cA3O6g4mjshNFRfRudj
+	 Dv3Uiy391xsLs621C6IVEHID9R/pJ00JxSoDzdCDBffeDHYuCQqsE5SEXkuUOlXRbimIr
+	 VCY9FEcYW7GG1DU39Tev8YXx2QrU63YasNqIwo7GokJJYci95Y/eZT7E5WfTpwZxhZg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bB30TmJ7;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZkEJ7jCl;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2696A606A333;
-	Tue, 10 Nov 2026 05:53:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B29606A31C;
+	Tue, 10 Nov 2026 05:57:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bB30TmJ7
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 499CF1F008A1;
-	Tue, 10 Nov 2026 05:53:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZkEJ7jCl
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ABBA1F0089F;
+	Tue, 10 Nov 2026 05:57:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794290026;
-	bh=gsngdIcF5BezJhiHCFR4oBshgT4Mp+hVmPTiOYWGUTE=;
+	s=k20260515; t=1794290233;
+	bh=laBwzBmPEr/UQH5HBsppamR1QuUoc2VFWIqykmeqG8k=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=bB30TmJ7JJrLnS3fWRywvazws8Y2xpumBiByBDRtJdSoUFP9FtsceSExkeZslq6+n
-	 gdTABPDONzRsF4M4dGFwe3sr5FBxSgHEfebNmziH0yZTRqj0GOVAqVdlvEmLRi6avq
-	 oEodf6CES2umjFB8cNNKD3X7q4lRYgOrdMxJauDuogzOPQXl1s1MMh68xzoxwECI5T
-	 HWW14l8KVa2ZPEcBuPq/SbDMQ9yTwjr0doOUxFe+FknYiILxXuWuDsmI2qLHZ+aNbQ
-	 3koDaJAxItkbKw0Ja87ICk2+I1L3itp9gujFR6tVqDsK9oMGvydYACZE7MEgdLmxNU
-	 XVvMxIz9uipCw==
-Message-ID: <sashiko-outbox-206350@kernel.org>
+	b=ZkEJ7jCl/H+zwZKOlFMtXpmzXp/O/qncWiCxcXudVtUFO6J0dHXbikhndygAIWKM8
+	 m4X+4FmArNd6a9kYaisb7ZHex78VyPUeikck8ixb4CdTOVnv85F3eP6oR5B0XBSTHf
+	 nLmVBy1mTtJzWMWOTCQkUp1co4LeRAvDvX1WPHPdVTaTm+9Kfy0TkIYDRkPE83YKPc
+	 eDyR+54iPmT5Qg+CFwwcFdVYKbTtasbjtEwz23RiQdUgQwgGEZA+xfAnTCprgWiy4Y
+	 KOW+mpsCPh53TXwPvixfTp2N5Q6noO8bxTANsmAvASeaBp2qFJA/icMO+kQbAHtbsU
+	 OOMPNGZgSWVrw==
+Message-ID: <sashiko-outbox-206359@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] crypto: sun8i-ce - Add AES-XTS for the H616
+Subject: Re: [PATCH 3/8] arm64: dts: allwinner: h616: Add GPU OPP table
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Arun Iyengar" <aiyengar1990@gmail.com>, "Corentin Labbe" <clabbe.montjoie@gmail.com>, "Herbert
- Xu" <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, "Chen-Yu
- Tsai" <wens@kernel.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Samuel
- Holland" <samuel@sholland.org>
-Cc: linux-crypto@vger.kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20261110-sun8i-ce-h616-xts-v1-1-2fff3eb0807a@gmail.com>
-References: <20261110-sun8i-ce-h616-xts-v1-1-2fff3eb0807a@gmail.com>
+To: "Arun Iyengar" <aiyengar1990@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261110-h616-zero2-dt-v1-3-05506d760f21@gmail.com>
+References: <20261110-h616-zero2-dt-v1-0-05506d760f21@gmail.com>
+ <20261110-h616-zero2-dt-v1-3-05506d760f21@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 05:53:44 +0000
+Date: Tue, 10 Nov 2026 05:57:12 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -64,59 +62,98 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential
 issue to consider:
-- [Medium] crypto: sun8i-ce: missing CRYPTO_XTS select fails
-  sun8i_ce_cipher_init()
+- [Medium] arm64: dts: allwinner: h616: GPU OPP triplets set min voltage
+  below target
 --
 
-commit 660524c38c775c4edff2e13f8df35a02b4667a78
+commit 77493b95bc2bf6851fa12081534ceeb124aa8295
 Author: Arun Iyengar <aiyengar1990@gmail.com>
 
-crypto: sun8i-ce - Add AES-XTS for the H616
+arm64: dts: allwinner: h616: Add GPU OPP table
 
-This commit adds AES-XTS support for the Allwinner H616 crypto engine
-using its RAES unit and registers xts-aes-sun8i-ce with a fallback
-transform.
+This commit adds a shared GPU operating points table for the Allwinner
+H616/H618 Mali-G31 GPU covering 306 MHz to 600 MHz.
 
-> diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c b/drivers/=
-crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-> index 21762bd408e54..a7d771927b7a1 100644
-> --- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-> +++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-
-[ ... ]
-
-> @@ -350,6 +350,36 @@ static struct sun8i_ce_alg_template ce_algs[] =3D {
->  		.do_one_request =3D sun8i_ce_cipher_do_one,
->  	},
->  },
-> +{
-> +	.type =3D CRYPTO_ALG_TYPE_SKCIPHER,
-> +	.ce_algo_id =3D CE_ID_CIPHER_AES,
-> +	.ce_blockmode =3D CE_ID_OP_XTS,
-> +	.alg.skcipher.base =3D {
-> +		.base =3D {
-> +			.cra_name =3D "xts(aes)",
-> +			.cra_driver_name =3D "xts-aes-sun8i-ce",
-> +			.cra_priority =3D CE_PRIO_BELOW_CPU,
-> +			.cra_blocksize =3D AES_BLOCK_SIZE,
-> +			.cra_flags =3D CRYPTO_ALG_TYPE_SKCIPHER |
-> +				CRYPTO_ALG_ASYNC |
-> +				CRYPTO_ALG_NEED_FALLBACK,
-> +			.cra_ctxsize =3D sizeof(struct sun8i_cipher_tfm_ctx),
-> +			.cra_module =3D THIS_MODULE,
-> +			.cra_alignmask =3D 0xf,
-> +			.cra_init =3D sun8i_ce_cipher_init,
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-gpu-opp.dtsi b/arc=
+h/arm64/boot/dts/allwinner/sun50i-h616-gpu-opp.dtsi
+> new file mode 100644
+> index 0000000000000..511174eee271b
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-gpu-opp.dtsi
+> @@ -0,0 +1,62 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +// Copyright (C) 2026 Arun Iyengar <aiyengar1990@gmail.com>
+> +
+> +/ {
+> +	gpu_opp_table: opp-table-gpu {
+> +		compatible =3D "operating-points-v2";
+> +
+> +		opp-306000000 {
+> +			opp-hz =3D /bits/ 64 <306000000>;
+> +			opp-microvolt =3D <810000 810000 990000>;
+> +		};
+> +
+> +		opp-336000000 {
+> +			opp-hz =3D /bits/ 64 <336000000>;
+> +			opp-microvolt =3D <810000 810000 990000>;
+> +		};
+> +
+> +		opp-360000000 {
+> +			opp-hz =3D /bits/ 64 <360000000>;
+> +			opp-microvolt =3D <820000 810000 990000>;
+> +		};
+> +
+> +		opp-384000000 {
+> +			opp-hz =3D /bits/ 64 <384000000>;
+> +			opp-microvolt =3D <830000 810000 990000>;
+> +		};
+> +
+> +		opp-420000000 {
+> +			opp-hz =3D /bits/ 64 <420000000>;
+> +			opp-microvolt =3D <850000 810000 990000>;
+> +		};
+> +
+> +		opp-456000000 {
+> +			opp-hz =3D /bits/ 64 <456000000>;
+> +			opp-microvolt =3D <870000 810000 990000>;
+> +		};
+> +
+> +		opp-504000000 {
+> +			opp-hz =3D /bits/ 64 <504000000>;
+> +			opp-microvolt =3D <890000 810000 990000>;
+> +		};
+> +
+> +		opp-540000000 {
+> +			opp-hz =3D /bits/ 64 <540000000>;
+> +			opp-microvolt =3D <910000 810000 990000>;
+> +		};
+> +
+> +		opp-576000000 {
+> +			opp-hz =3D /bits/ 64 <576000000>;
+> +			opp-microvolt =3D <930000 810000 990000>;
+> +		};
+> +
+> +		opp-600000000 {
+> +			opp-hz =3D /bits/ 64 <600000000>;
+> +			opp-microvolt =3D <950000 810000 990000>;
+> +		};
 
 [Severity: Medium]
-Should CRYPTO_DEV_SUN8I_CE in drivers/crypto/allwinner/Kconfig select
-CRYPTO_XTS alongside CRYPTO_ECB and CRYPTO_CBC?
+Should the minimum voltage in opp-microvolt match the target voltage on
+opp-360000000 through opp-600000000, as in sun50i-h6-gpu-opp.dtsi?
 
-sun8i_ce_cipher_init() unconditionally calls
-crypto_alloc_skcipher("xts(aes)", 0, CRYPTO_ALG_NEED_FALLBACK) to allocate
-op->fallback_tfm, which fails with -ENOENT during registration self-tests
-or transform allocation when CONFIG_CRYPTO_XTS is disabled and no other
-xts(aes) implementation is built in.
+opp_parse_supplies() parses a 3-cell opp-microvolt as <target min max>.
+_opp_supported_by_regulators() checks regulator_is_supported_voltage()
+against [u_volt_min, u_volt_max], and regulator_set_voltage_triplet()
+falls back to [min_uV, max_uV] when [target_uV, max_uV] fails.
+
+Keeping min at 810000 uV lets boards whose GPU supply maximum is below
+950 mV retain higher-frequency OPPs and run them up to 600 MHz while
+undervolted below their target voltage.  Setting <target target 990000>
+still lets boards with a higher regulator-min-microvolt use lower OPPs,
+since [target, 990000] overlaps the regulator range and
+regulator_check_voltage() clamps min_uV up to the supply's minimum.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110-sun8i-ce-h=
-616-xts-v1-1-2fff3eb0807a@gmail.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110-h616-zero2=
+-dt-v1-0-05506d760f21@gmail.com?part=3D3
