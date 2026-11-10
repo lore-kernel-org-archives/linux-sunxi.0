@@ -1,102 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=37.230.196.243
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794328751;
-	b=USqxn2tBrmDKcsHIBynJSNnmhC1hj6A4BEa/0GfU9ywd9PF9lL8SKrWry2Uk3zjPK5Sd
-	 Pa97/VOYLIjVzVjJzyVuEj4/9eVhwaAPl/kWGBJ1miSAxoVZm6Wz2tFXK1VT4faSkAbCS
-	 mEj6qdb/VjVgy7lkMV+kz+bxQbs9wpAlTK7m43lrS9QRANbIhZkROlop+2cXCa8xppLxA
-	 VMkWCdiA6JQg0VU9chB16YoqyvscdC/MGgHdWNAbxT47EWEl6xbMutbzvX/qkqHNT3G0Z
-	 I/5AX+++x5yzscrdW27H9UgeYEUGiw3u0cAAWVdZBxJbNcA+4Nm0hdwXtReF/0zIq/g==
+	t=1794336547;
+	b=qlwlysO9VFeCwHkVQ7jZcd93A08+n/bFBbQariIPP2wI2yktsUmKThO937JNgfdt0h2H
+	 E+i8ESsN0zwm9RZZoMRHhayiYJX6taQWjmfiLONBUmomthaxguehYa1Wuu0hZuZl+1G4K
+	 eEhF7ls2lJb4L8BicfoZcqsFNJpgJzdWQeRwiE75whAp8XHjpA6FXNCq52rHPPHtPTR/A
+	 i9CGE9FMb1bM+PY1l4imeihK/qwZZW8wu3TQIngwXebacWAZtJHl8qb5I+8nHrtdz4Bwe
+	 0XBXxZ747lBWugMbHtgjuXejebxpM721tuHOL1S2ovjGJEDX2WsC5cFYQWsbILbFa0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794328751;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=GnMoHkTM6iQtkpAgle+3oy1uhVcPxUIIpLVPaorm1V0=;
-	b=sKaS4vCh/1dZHiU+14EWap/YdUzC3rYNvrFEXnNcPCip9FFFKBREteLi5Yw1AQykHXin
-	 DoMlQqvzL9kYfP41nNt3l3J5JLd+J5eZg2KeXwO0b5MK2bs7xy9jvgL/RemKdhMqLfv9K
-	 5+PTb5EGiPBEwNtATPi7m1Gyifzy6FlZJoQ9NDMr/INcsF5fWn2lSyJLSa6+53I5xKnV3
-	 uiRxcx9TxoexcD9B4GhNLzMRXuieS8S6NFXLNniqRnSew8sVB7dNRM0NSh84YFKoYX1jU
-	 vxLnJDJldTGT3JjJe1MoaG+OUPGcLKDw4K4lgJnYNimq11SAyrwWv5Ei7KPT1+Ix8XA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794336547;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-KSMG-AntiPhishing:X-KSMG-AntiSpam-Auth:
+	 X-KSMG-AntiSpam-Envelope-From:X-KSMG-AntiSpam-Info:
+	 X-KSMG-AntiSpam-Interceptor-Info:X-KSMG-AntiSpam-Lua-Profiles:
+	 X-KSMG-AntiSpam-Method:X-KSMG-AntiSpam-Rate:X-KSMG-AntiSpam-Status:
+	 X-KSMG-AntiSpam-Version:X-KSMG-AntiVirus:X-KSMG-AntiVirus-Status:
+	 X-KSMG-LinksScanning:X-KSMG-Message-Action:X-KSMG-Rule-ID;
+	bh=4NwN9E6vgSlo8rB96M5nv24KM+FlzXoI9Z76B8vhdMY=;
+	b=3smZZLC9Xx5mLUE/+VDE8oiC8wyYeFW1EdKZW1mGEmy8sncx5QIlp5CqpM/cKRwBGFro
+	 FqheqfImeFq953UNoMBx+zadAGxEdUBTGBAwxy/Qe1mhf9TycKdPnmZtJhf6TEH/4V3iY
+	 zlXHt5oM7PJfqgcTC1pUVe3v7GoJslEX8zR6uB+JYBRNUHyrsIbkVKn/T6AkULGfIttUL
+	 ub3J3YQhukYfbxAafvismD69BOBx8W2BZlYjGOWac0E2A66ynOt9jfBKUBqHNoe6a2quq
+	 zmsEMm+hy8YOLDQs+HVrgZHneeJBGwZ4X9KrUNe4Gx4C94g2jXDbMQbMsMmguz4brAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="G/4+AJGj";
-	arc=none smtp.remote-ip=209.85.221.49
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=astralinux.ru;
+	spf=pass smtp.mailfrom=astralinux.ru;
+	dkim=pass header.d=astralinux.ru header.i=@astralinux.ru header.a=rsa-sha256 header.s=mail header.b=ZUitLn4h;
+	arc=none smtp.remote-ip=37.230.196.243
+Received: from mail-gw01.astralinux.ru (mail-gw01.astralinux.ru [37.230.196.243])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE637606A209
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Nov 2026 16:39:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE637606A209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E517B606A330
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Nov 2026 18:49:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E517B606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=astralinux.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=G/4+AJGj
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so1931905f8f.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 10 Nov 2026 08:39:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794328749; x=1794933549; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GnMoHkTM6iQtkpAgle+3oy1uhVcPxUIIpLVPaorm1V0=;
-        b=G/4+AJGjdKAhf3l0BPDvjDKU5HPW4pgImJooN0B+K84YtD9If5rdIG5mEep6XyxYEz
-         vNF1DW4xowobWcCT60Tp+6RYiiX3u2JjJytp4m+n2W4IAkSHSx2jmGWjmenNpWCGU52D
-         wuppAJYLP9hmqvqURkBK1eOsGAj/B3p3wEuokzFGrqbKN4xspla7NZBV6uqCS2zYQd7E
-         S1L95cpBPqvOost8ypNSVnHFyh8rhijDF+eOQ4bVnRBIeJpRvVPYmxtuKDJmx63AmpWG
-         U1nMOtdmVwOiAWbAQ5W6H3j0uYC9ehTn51faekrHFNPm1Pq4vicnVog1fX+5iyjKzDNC
-         /RUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794328749; x=1794933549;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GnMoHkTM6iQtkpAgle+3oy1uhVcPxUIIpLVPaorm1V0=;
-        b=fVaZ7+H45vHXHTbFvYOU4fvj5usjNlc/bVJYF50c3LcZdohLmA2tBchRh5pJMJd5R/
-         7TRou5afG1EQ6Tgk3Vb/fTWPrVB03sew+Bsffy1/h8XzXn42SmYjzzoDYOMdy9ImfPfI
-         5tD1SC2rRE1lv0sd7DN+hVIvQOybja4Z9xXg5drKlpowaQAX4oSes25wUkhohKn0Mnb/
-         JogSdZcNRLc/WSiz/FYKud6JdXxUhZH14KMApetu2wWFca+3wlyRYlKhKIzJABv57R3F
-         vq698tpQjDPO5VgWY/UdjOzfMYYvZIWku4Um5ONG+6HynBC+ylqG4TXHKVY/yKmXxQ0u
-         HoYw==
-X-Forwarded-Encrypted: i=1; AL+hErGkrn+VREUw+FpsZprAh5WuJJIUG9wR2B2gfVMiG/hyt4RJIl/SV+zTCAhPKZOxKMF8lNquZSB5L1X5uQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8CIEfIxYHkmldbiVamIsV3l1fqWJ17syiWVCkju0U+I8DZi0W1
-	Nd949GqTSm73CKNiSRJFgZpgG7kJvYt3Ag0iJ0OWJEkQqXmX6pts1syQUwRcvQ==
-X-Gm-Gg: AYBFou0X3Tg42N39jXKPP1JqZxkfHcZ0Tur8dSQLdSpmFFRMknZuB1kE+iAFRD+1mhc
-	LuDi+/nJAIwFnU/K8HEqf8AE98pKIOjMEsbftsb1oW7HJa7NaNfXnkHz1V8ONuOC8M4mgkYV2q8
-	fVjZPGNBFgsf3FPFvymrHa20Rajh9aMCOhUA8OP7p7b++Z+swZq7fxB2nIg4qGVLoh2ATZM7dCZ
-	pPmP1xXWsvPkGsoxEfS7fCXr5fU4z+dPBkyjfhZa00N16RE3DP7/833qKNDLHlJy1ko8AblUl8A
-	duUiEzMHtvr7oYmhOxhixdWkIVd7bWtsJPOfuFAtFkmbX3HVpUPIsZi5wDoqy9CmRTqLeuEssel
-	LDisi8tHrbwuyoL3udBhjQW4yX6jJzKKqJIJZ1XwlQdkSyxnOcnfHKj313tRJi2rsosZvXfhVCq
-	sAVL9TxfWgBD3OL4sqP5T6JghkeucpdfIgmkmYhhB14MN3AgMJhfQIYJpJ7csQVILdFA2so02kR
-	MnXjGMBBKWnNWFhZSgiuSCwOjX6darDgmaZ3ZVekPQWJXJgF1278WC0FPiTusmvYfyQo9HrN3bz
-	ReSTjwtN8eGJf0/CTogzZ6uliPQEGPNl86drMS9evvZxFshUpRNUeWi/+HlV8DUfn14I74BJIw3
-	9hS8/VE1ylND5R+bpZgJXpanMTAIw+pMQ42DpKRCF3kOULCFmoG3REcKjYv4TxRhZBly4+4xMSZ
-	fGWj7LuhlnjexWeIhTb6bjNp2OKoNG9c3Ks2p75kFwiJzrY1RSt6AUBb0pSYTWfARhbIdBK9pUr
-	x7wAKcAM/6l86NQeHMQT8OOaiu9VP6grFhqcXuSSA==
-X-Received: by 2002:a05:6000:25f7:b0:492:4156:b8f2 with SMTP id ffacd0b85a97d-498318fccdcmr5748430f8f.54.1794328749233;
-        Tue, 10 Nov 2026 08:39:09 -0800 (PST)
-Received: from jernej-laptop (86-58-12-36.dynamic.telemach.net. [86.58.12.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4983585c4fdsm5888355f8f.10.2026.11.10.08.39.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 08:39:08 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
+	dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.a=rsa-sha256 header.s=mail header.b=ZUitLn4h
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=astralinux.ru;
+	s=mail; t=1794336536;
+	bh=jegcFOu8qaT2jcRlBX2akbwxJzGRCez4pO/j9if0ZOA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ZUitLn4hDLwR4dPGt6gBgP94Jd1TCaTjqARbtL4+Kvz6yCt1UhXUV+JvnakT2MI0X
+	 lQXjeApoMi8beKDSY8i+3FuBHIWGxPvpu1X0lNk3KXte5MfmqwahXb/wtibi4GWoqh
+	 OJcLpj11rvmZKydMjYAAQFxlcLAgXNisyYKdCFLyvKZIlkYzqiJpvMVdAw/BqPdtZ7
+	 uFcVuRs90O9vUg1wBJVik6NdBXnXCP6uag76yeW5qGcnJkAKgLBMFvhWQUkw1iMB4j
+	 Rw+XnCWcsi2iWZQPh9DcoXLfePg7IZyNDwWPYm4clqNwgqjGqQn+VlMedzT9dMwp2N
+	 RwSyM5Y6uaz2A==
+Received: from gca-sc-a-srv-ksmg01.astralinux.ru (localhost [127.0.0.1])
+	by mail-gw01.astralinux.ru (Postfix) with ESMTP id 7957025A66;
+	Tue, 10 Nov 2026 21:48:56 +0300 (MSK)
+Received: from mail.astralinux.ru (unknown [10.205.207.8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail-gw01.astralinux.ru (Postfix) with ESMTPS;
+	Tue, 10 Nov 2026 21:48:53 +0300 (MSK)
+Received: from rbta-spb-lt-115149.astralinux.ru (rbta-spb-lt-115149.astralinux.ru [10.198.28.148])
+	by mail.astralinux.ru (Postfix) with ESMTPA id 4jPFzm59Nqz6pr;
+	Tue, 10 Nov 2026 21:48:52 +0300 (MSK)
+From: Elizaveta Tereshkina <etereshkina@astralinux.ru>
+To: stable@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Elizaveta Tereshkina <etereshkina@astralinux.ru>,
 	Maxime Ripard <mripard@kernel.org>,
-	Icenowy Zheng <icenowy@aosc.io>
-Cc: linux-clk@vger.kernel.org,
+	Chen-Yu Tsai <wens@csie.org>,
+	David Airlie <airlied@linux.ie>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] clk: sunxi-ng: h6: Keep both parents running while switching VP9 clock
-Date: Tue, 10 Nov 2026 17:39:04 +0100
-Message-ID: <20261110163904.1098187-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	Jernej Skrabec <jernej.skrabec@siol.net>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Samuel Holland <samuel@sholland.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	lvc-project@linuxtesting.org,
+	Ethan Tidmore <ethantidmore06@gmail.com>
+Subject: [PATCH 5.10/5.15 v2] drm/sun4i: backend: fix error pointer dereference
+Date: Tue, 10 Nov 2026 21:48:45 +0300
+Message-ID: <20261110184847.439523-1-etereshkina@astralinux.ru>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -107,46 +98,77 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-KSMG-AntiPhishing: NotDetected, bases: 2026/11/10 18:31:00
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Envelope-From: etereshkina@astralinux.ru
+X-KSMG-AntiSpam-Info: LuaCore: 134 0.3.134 ce9cca31102af372fedb0df49d70b90f771aea0b, {Tracking_one_susp_tld}, {Tracking_uf_ne_domains}, {Tracking_internal2}, {Tracking_from_domain_doesnt_match_to}, astralinux.ru:7.1.1;127.0.0.199:7.1.2;mail.astralinux.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;patch.msgid.link:7.1.1, FromAlignment: s
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 207384 [Nov 10 2026]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.27
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854, bases: 2026/11/10 17:50:00 #28834512
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected, bases: 2026/11/10 18:31:00
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 1
 
-The VP9 clock mux only switches while both parents are running. Its
-reset default parent is pll-ve, which is off at boot. When the Hantro
-driver sets the clock rate to 300 MHz, the clock gets reparented to
-pll-periph0-2x, but the mux doesn't actually switch until pll-ve is
-enabled for the video engine. Until then, the VP9 decoder has no clock
-and every frame times out.
+From: Ethan Tidmore <ethantidmore06@gmail.com>
 
-Set CLK_OPS_PARENT_ENABLE, so both parents are enabled during the
-switch.
+commit 06277983eca4a31d3c2114fa33d99a6e82484b11 upstream.
 
-Fixes: 524353ea480b ("clk: sunxi-ng: add support for the Allwinner H6 CCU")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+The function drm_atomic_get_plane_state() can return an error pointer
+and is not checked for it. Add error pointer check.
+
+Detected by Smatch:
+drivers/gpu/drm/sun4i/sun4i_backend.c:496 sun4i_backend_atomic_check() error:
+'plane_state' dereferencing possible ERR_PTR()
+
+Fixes: 96180dde23b79 ("drm/sun4i: backend: Add a custom atomic_check for the frontend")
+Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
+Link: https://patch.msgid.link/20260217014801.60760-1-ethantidmore06@gmail.com
+Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+Signed-off-by: Elizaveta Tereshkina <etereshkina@astralinux.ru>
 ---
- drivers/clk/sunxi-ng/ccu-sun50i-h6.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Backport fix for CVE-2026-53066
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-index 7fccda96d444..a10f0502c5c1 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-@@ -336,12 +336,17 @@ static SUNXI_CCU_MP_WITH_MUX_GATE(emce_clk, "emce", ce_parents, 0x6b0,
- static SUNXI_CCU_GATE(bus_emce_clk, "bus-emce", "psi-ahb1-ahb2",
- 		      0x6bc, BIT(0), 0);
+v2: Separate variables declarations to avoid instance of warning due to
+lack of b5ec6fd286df ("kbuild: Drop -Wdeclaration-after-statement")
+
+ drivers/gpu/drm/sun4i/sun4i_backend.c | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
+index 9c4581a3b65f..20740ff02a81 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_backend.c
++++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
+@@ -505,13 +505,19 @@ static int sun4i_backend_atomic_check(struct sunxi_engine *engine,
+ 		return 0;
  
-+/*
-+ * The mux only switches while both parents run. pll-ve is off at boot, so
-+ * moving the clock away from it would otherwise leave the VP9 decoder
-+ * without a clock until pll-ve gets enabled for the video engine.
-+ */
- static const char * const vp9_parents[] = { "pll-ve", "pll-periph0-2x" };
- static SUNXI_CCU_M_WITH_MUX_GATE(vp9_clk, "vp9", vp9_parents, 0x6c0,
- 				       0, 3,	/* M */
- 				       24, 1,	/* mux */
- 				       BIT(31),	/* gate */
--				       0);
-+				       CLK_OPS_PARENT_ENABLE);
+ 	drm_for_each_plane_mask(plane, drm, crtc_state->plane_mask) {
+-		struct drm_plane_state *plane_state =
+-			drm_atomic_get_plane_state(state, plane);
+-		struct sun4i_layer_state *layer_state =
+-			state_to_sun4i_layer_state(plane_state);
+-		struct drm_framebuffer *fb = plane_state->fb;
++		struct drm_plane_state *plane_state;
++		struct sun4i_layer_state *layer_state;
++		struct drm_framebuffer *fb;
+ 		struct drm_format_name_buf format_name;
  
- static SUNXI_CCU_GATE(bus_vp9_clk, "bus-vp9", "psi-ahb1-ahb2",
- 		      0x6cc, BIT(0), 0);
++		plane_state = drm_atomic_get_plane_state(state, plane);
++
++		if (IS_ERR(plane_state))
++			return PTR_ERR(plane_state);
++
++		layer_state = state_to_sun4i_layer_state(plane_state);
++		fb = plane_state->fb;
++
+ 		if (!sun4i_backend_plane_is_supported(plane_state,
+ 						      &layer_state->uses_frontend))
+ 			return -EINVAL;
 -- 
 2.43.0
 
