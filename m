@@ -1,100 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794326690;
-	b=YDK7b0PxZNi3CM2tJKUvgelmm+vnBTUuBBu98/DBfoX5LyzdROs3P94+PRLdmBzcN7jg
-	 IHdOKW7S2PWUrByXweOpEzm4vU9PYASDBI21x6Uq8kscouhVEL2bLB79dc+5vqsmp4uK5
-	 XBLn9p0YHKL1vd6xpJNCZ3IH0JHQ8Xeu3SxBuzdLJQRk1PzPCk3TShIuE4VU2+2ZGHz75
-	 YSvLDBdqlVaBKDABNWfbVaO2RkETQeqWrYkfHddR/THV0AALoNyIOrgPw2nRWaQyXANCi
-	 BUfa4fDjSPmyI4S5yXPgGQjf/7Br9Iag92J2/ba7seDeNOGgIhkQSbawmi5uQboAQzQ==
+	t=1794327076;
+	b=rvhTc9ui1o7KddANT3j4BbzgvpbP2sYhWdpz4ZMZykoRLkpoZp41t6heTg2kjg19Fm+9
+	 fnj/KUinLN8NHbdGUXVw4eGcRGMXotkgmm3Ah5SeWGCYiYnc/MSFQZeXxe2PHW76TxCne
+	 F8/3oY+yIJDqMrDAwjOI/Dprc+Xai1jvdgTg+atesTjEWqDr/2qqLKi4PPlqZBPCI7khg
+	 LmJ7GhUEtDHQCuLJSBW9tWKZ6f+u7gUCxIhRfoTfNIYTWbxx5F0jtxjx6eZMh1P7UhT2C
+	 2fqAM8nYleUt9Y/gE4f7yCeEsmMBAgGSSDYiRIj5rI4OrVizDBwD5Vz/EUOqSyftG6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794326690;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794327076;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding:Content-Type;
-	bh=2ZJ90WMhfR0YfvdBTSjmWuZ2Dnb3Sle3TRFQ/lQ57LQ=;
-	b=Vp4kgIqyde9oOOJ5bTIShyxOn+299gTbXS/hdLyxjVog7+R/TQadCpHz+uybcfeqa3Wd
-	 fZYmWIZxM/wOCn87xesEirRL/fUhMeu6O1MuG6nCVs0V7LkoZYufakfZ5CnUIbf8/6nTg
-	 zdEvoe1FFuQbnxjEXuAuawE3vhCN8ARcqRSEhu+byKPcAJd5dRzNL2zPYyV+HnuwO388a
-	 +6kd8ElQ2Q94fMIvKOW7Vxr/oBTIltdqOuuqu9HmzfmF91wEz9Et7NL551umJczPeUba/
-	 NUzQjCMxE4S/X4KqyjONfKLDEp1s1yGV3LU9tsugy6i7NAcESzaomwEpuqKSaTklghQ==
+	bh=f6FXAOsuB/cuM2Q90beDrqDYRqrVlTbOMRM4fnMO4jY=;
+	b=IAmLazaUL4z9vIcOtmE2fdu/kuswNkI1aWefEL92wZxxbhYOSmJ07uXABfiITv4HR3le
+	 0y/lI7r2dbTKEZt/+Nh9DV4UiFRhc3uijC5MTvi1zenWuMb9R+Fh8uH7YaqQI7rPYQ4f4
+	 vjKywTZtza+VVz8BwFOHKukFZ7/vjyhMehlvn4px3bns4o6NtbNLgmOHA3R0I5nD8O8Y0
+	 ihCwg+6e9gCN6huJpfng5m1f0HKOJUwd7MjvrUI581/fm1AhBEV+SjqJQhPm7KFAN4tL4
+	 zXUpbMq63+90TI2Xs5maplsyfsxP/IP/31XL+9g6ehCJwg1hdIR0S0fL6UAWPMnXWzA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cED0imNk;
-	arc=none smtp.remote-ip=209.85.218.44
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=X5tHWA8G;
+	arc=none smtp.remote-ip=209.85.218.43
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824DB606A325
-	for <linux-sunxi@lists.linux.dev>; Tue, 10 Nov 2026 16:04:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 824DB606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7958F606D7AF
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Nov 2026 16:11:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7958F606D7AF
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cED0imNk
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c4d5cb1b181so301061266b.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 10 Nov 2026 08:04:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=X5tHWA8G
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c504bfd7393so140099766b.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 10 Nov 2026 08:11:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794326688; x=1794931488; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794327075; x=1794931875; darn=lists.linux.dev;
         h=content-type:content-transfer-encoding:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=2ZJ90WMhfR0YfvdBTSjmWuZ2Dnb3Sle3TRFQ/lQ57LQ=;
-        b=cED0imNk7iE8EQmAP3mUsBkRyjcfTZSlKOyanOo1CDPNzZE0QO+rLErrVLHO2l0XxA
-         wR4pxyro5rWm4R0PSiFGcCbyUl3vvBGasIWaISolQP10s9kW3ToZuc7CjXqhIg8jII+W
-         TNpIDTZrdXal7DBKMTYbZVGQQ2IR01AyD+oc/3ogpjJ5qFiaAiNeE9t6YzY5qSzHeN0g
-         oSIFyo5UzpzQ52j/omFPL2ik7EPmhl+eSDwM9DP8gFqz6kKT7QlpQd3KwnAFCzrAHDJT
-         23WQXA3BqkI7DfR6DmGOo5QrypOSh+qoCul2Ha1i/6oqqiY5tiO4aDrI44LJ5XZdqDeL
-         ZXPQ==
+        bh=f6FXAOsuB/cuM2Q90beDrqDYRqrVlTbOMRM4fnMO4jY=;
+        b=X5tHWA8GJ2E9ldyERtYGe99G7V1QocsXMyfIdRb62q3UIeAvbfUdO+Q41wJOOotCXP
+         DyhZ3Ox32tUsiqekfSJEm4S9F8/2DD4dgcR3vca0MwzVsvMi6epw5XzSq0r5ebHIQyk+
+         Euwkgg5VZI7EwvYS4R4aW5rYtc8zOfHtxLhFxEngy95xSDIXiz7RBbTqMO6dLO6K6TJY
+         XUbdGCcn7eWUW52CFMXzkGeo8tJ7J31uaZMljlO5X+lBUKV3gGIs7r2rBShw6FavHPtt
+         9YJQD9id+G5dFSBRjDlMjotAWp+PAaxDG+GbAo1dZWKcPRpjBvPECE0/mRY1cxlh74Nk
+         SuFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794326688; x=1794931488;
+        d=1e100.net; s=20260707; t=1794327075; x=1794931875;
         h=content-type:content-transfer-encoding:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=2ZJ90WMhfR0YfvdBTSjmWuZ2Dnb3Sle3TRFQ/lQ57LQ=;
-        b=t1cXHYGPoopn+9wshZZRJ2yd90hpuTLcJ82+LxtgGzrUSzDZfe6YsFJpwjyjxQ1bxa
-         Mh/ES4nPai2TCd4QmDZov1/zuZ1aJjsNYYzInBKbVP8PddgKpnB3ltOj98ckoQ1OWjW8
-         D/XPl8ZV5XSgy+q5B0abiGFLWwTcYjxsZVYPsMl1JWzk2bqYLGMHAWG6hgnzre4F3rsR
-         PDQAdbBzuGzR+fjZtkwAnna3vdQp9k8Hclk9j0J9yRd+/dnuX8N1IiNwCZSqfCDClImB
-         2h4MiK4vAiSLvpfypDcZbXwvgIDT7UZwB4Lors6L4dqSVUGdjkEpQfKQQbF3LY04oPDR
-         tGLA==
-X-Forwarded-Encrypted: i=1; AL+hErHwDkYYhuM7+wrcAJifCcp8iTuv3Y2UXAozVf2rSLmiv6srhYBTZ0K7vzSDwXT7pGaoh0jjW8XlrPaZeQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/O66ZagJr8uRNfrObaROXGz4Gs2m1JUWZaBuHtrjLAXjj78fvk
-	XLrpqreM6tpAKIR19FlnXDhlawopULoE7R2Jx/zMwHla8EyNyEOoYYgTX5QwDA==
-X-Gm-Gg: AYBFou1wAmARAZve2DzP2ffYsRuauH+/1NKI2JPmnEbZoBTTiTAZFKK1RSsobcYZl6a
-	XPDNBbZZH5PLQPm+LFSnPntySWeFuvb9zLDRlO06kH2NadWUtcWQWg9QrriGf7m+kpCdLBuR7ZV
-	fIZguoNMniY3t8QTJqJ+cYb+2uqZqXT2wHO2DlpOoPM4P1PfdT/3le5iOIl05jMZlVvyJOAC2Fd
-	uIPPOBA2/N3fwgP08U2839CGlC0FJ3L1eE6diyKBUkI+UL3sOkikFncNyV6Tz4fajlgkz750fMu
-	z4ivFZFka6ltXH2JLffiqW1KOueAIewQYdb6jo++HepyJxgjCLdLexlpEb6nPVyz25seyIuEdO/
-	0K5pGQk9eHULbUDpKCNu3ewg2tNWf0G9Kfa0tq7BQMHVZj9YKgfS6YWIoxU4jsmkGX9mjovLN6A
-	TRgjEWGhCYyrpAlwaXhiCf2Tp9sVMEyWgetd9uK+VTym/zK2k0l8jqTDRVeFKmY0Mh8c+tiLIpp
-	+hYd8pJVOVsLwuNH3hvvMC96JqjM49WDpGqYW1iUNqOQeOh1sdhLioX0uBX5/9/KeMuoSBEF/jV
-	RueqTN7xsviMR8AWvZkE7Ilc7BpgHfh12M4be9zALO3/M8tNEKLn5K1ueojJt5KH9FU9t4qx7p/
-	O80eKFjOxYu2lio8ifDM6xs16TuzQAmXKXhDMQ+JcsF5D0ROpYojhUOyOKmwncSe1khmrqRw8gm
-	lTYbkupMX99F5/x/2M6BoIhwIs0UlPd7WDx+iKJW85SIEBzXYnYipH9HM0k7Bf1oihoM9WK3qja
-	CnDGOOW4TPcVrORts2r6DI2SDnEfEdLMUemen8BZgiK69QA8swuXKOb10v5ey0=
-X-Received: by 2002:a17:907:6d01:b0:c49:8f1e:af0a with SMTP id a640c23a62f3a-c50491bd4d4mr262123366b.7.1794326687814;
-        Tue, 10 Nov 2026 08:04:47 -0800 (PST)
+        bh=f6FXAOsuB/cuM2Q90beDrqDYRqrVlTbOMRM4fnMO4jY=;
+        b=UholEZnVjTuImpUxnGYq5/L4DnaML0v+2kJZQGk8b73IUd4hAdXCoC8Q8nAjazrpmd
+         E0nQx4L9ZZ0rr5IadHN/o31PwB2OW/Cb+i5k0Szy1Y4gSQDybT76CmGPXPnwc+U+p0JI
+         QUax+FAZps88/szBq9DMkKtt6q+ZOZ3xbjd79zybuYiCDnLzlxjSvvABmM2HGRHiJzlC
+         CjTV1bhBCjuoi+A2Tk0rZ29hWurwwesxo27m9FIsvbh+Ss/DWfk7ZOQVu6HipP3zrJiM
+         8PzT9NYpNoC9geIw6sSsA+LJM0BOudwITJ83wvZGbjXF+jpH78bb5OHWrtuXWo/p6Jw8
+         etww==
+X-Forwarded-Encrypted: i=1; AL+hErGOaukp9Hjxe9zIRkboEcrwvMmiY7ukIXiNjE8hDNNDDSGg4RjyYG7vXNwDt5r318DFiUfWUITgBfQarw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9q9SVVAPm5t4VbuYXXyQnIGIjQQx9uTD1ECO7cs7Pta6z6G7JI
+	+HrAeZilCysWfPu1gPlA3pVs2VfC/GtvuENOBBIvb4bX6ex60ReHzA2h
+X-Gm-Gg: AYBFou3o4IAmpUS1g5ZL6o0a92+xsq+ThH9Zhu0y5nUexK2X3/ay06CobKzvLQkk7yU
+	swD6nNcwdqwfGkUSECEC90gny4N6wW8hb786J9FciTcXTKlaGCFR/5/9AeeN2qKcVP6MJ2I56L3
+	WNAuNYgrXN9IvTQx303lABbm90fTG0Wbsc7ZVgJYq1oe2JMjBBSEwM/HTaTijOAJBl35UhJLgsn
+	wstz9yUQWJTHBCu9S9xFusHKeJ29MiknYXaUdcVbw5TSdLXhOB7WvUdRXdtZcK29JJ+5awn/wND
+	bKuUCHdA3hjEuK58zmYfW8LXGGYH7Iy7Hga0Yjd0HPyAsebt6yiwvi2X5y2Vur6d5XHteIZFd3I
+	9QlFNf2nhfGJYE/8nIx8PuctzQxtXlZVqUnGonI5kerNDl56yPISM9Vqz8kpXRIQvuy3XvneQDc
+	+FvtQZaq96THmJRAvwvOFyi18EH5LEoqbmOfzQxYpBy2RpWaKQNKx684ZYFXErh6598ZxUJwreD
+	yUXilFagKQdZ4aNzYvaPfN9aQ1SJwNBypWlDHSfGfr2FiltPuKQ/BwfD5Kk9sc9AyeCCEXhXISj
+	48+Npitn6iRaHhlRAvpN+9DA5kMUFZ/etB3jNqbO201ilJt1TxYlQOZcdigLeJdi44zqUhrro05
+	uX2i+NR0qXiGjzOwaOYzO8WvxW2cgg0SbByQs8+wpZpl0V9TxSp1XhvV6oD4X5F1XV6iCug+WTZ
+	rjOA4c5xu4wI2rByMoLUKjNML5J9Zu0FP6pX2G21KCTfLD40nDca6umZxmwdLLPAK2aPuPoK6Ho
+	fVMyGLAUScHccIrsl40tAaJUnKC3+AQHN29OOouH/DugPCt5xOJzQpfhxYCI9hq01rLYUSw1duZ
+	N7FPJ/Jg
+X-Received: by 2002:a17:907:3da8:b0:c2e:3ed7:7db4 with SMTP id a640c23a62f3a-c5049540483mr285400966b.23.1794327074616;
+        Tue, 10 Nov 2026 08:11:14 -0800 (PST)
 Received: from jernej-laptop.localnet (86-58-12-36.dynamic.telemach.net. [86.58.12.36])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c504a643f12sm127127266b.62.2026.11.10.08.04.46
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c504a591485sm127282366b.32.2026.11.10.08.11.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 08:04:47 -0800 (PST)
+        Tue, 10 Nov 2026 08:11:13 -0800 (PST)
 From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>,
- aiyengar1990@gmail.com
-Cc: iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, Ryan Walklin <ryan@testtoast.com>,
+ Andre Przywara <andre.przywara@arm.com>, aiyengar1990@gmail.com
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Arun Iyengar <aiyengar1990@gmail.com>
 Subject:
- Re: [PATCH 0/2] iommu/sun50i: Don't report TLB prefetch walks as page faults
-Date: Tue, 10 Nov 2026 17:04:46 +0100
-Message-ID: <XuGVSzNrS7KQLWfGI0rB-w@gmail.com>
-In-Reply-To: <20261110-sun50i-iommu-prefetch-v1-0-43428e792ef6@gmail.com>
-References: <20261110-sun50i-iommu-prefetch-v1-0-43428e792ef6@gmail.com>
+ Re: [PATCH 8/8] arm64: dts: allwinner: orangepi-zero2: Add i2c aliases
+Date: Tue, 10 Nov 2026 17:11:12 +0100
+Message-ID: <ekjxzCRpRcWPwcDw_lDV4g@gmail.com>
+In-Reply-To: <20261110-h616-zero2-dt-v1-8-05506d760f21@gmail.com>
+References:
+ <20261110-h616-zero2-dt-v1-0-05506d760f21@gmail.com>
+ <20261110-h616-zero2-dt-v1-8-05506d760f21@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -107,59 +111,58 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
 
-Dne torek, 10. november 2026 ob 07:05:16 Srednjeevropski standardni =C4=8Da=
+Dne torek, 10. november 2026 ob 06:37:02 Srednjeevropski standardni =C4=8Da=
 s je Arun Iyengar via B4 Relay napisal(a):
-> On an H616 with a display scanning out, the IOMMU reports page faults
-> with master -1 at the IOVA right after the end of the framebuffer: once
-> at the first fbcon frame, and then once per frame for a while after
-> each TLB flush, e.g. while a video decoder frees its buffers. They are
-> failed walks of the TLB prefetcher, which the hardware flags with bit 31
-> of the page table interrupt registers and no master bit. Patch 1 stops
-> reporting them. Patch 2 makes the remaining fault messages say which
-> walk failed and what the interrupt register held.
+> From: Arun Iyengar <aiyengar1990@gmail.com>
 >=20
-> Tested on an Orange Pi Zero2 (H616) with HDMI forced on at 1024x768 and
-> three 4K H.264 decodes through cedrus, on 7.3 kernels with and without
-> the patches:
-> - without: 214 "Page fault ... (master -1, dir rd)" lines;
-> - with: none, no "Page fault" line at all, and no decode errors or
->   timeouts.
-> Since the patched kernel prints every fault that is not a masterless
-> prefetch walk, this also shows that the hardware sets bit 31 for these
-> walks.
+> The I2C core numbers adapters after the "i2cN" aliases and hands out
+> dynamic numbers, in probe order, to adapters without one. The Orange Pi
+> Zero2 DT has no i2c aliases, so a TWI controller enabled by an overlay
+> for the header pins gets whatever number is free when it probes: TWI3
+> on header pins 3 and 5 does not show up as /dev/i2c-3, and the number
+> changes with the set of enabled buses. The vendor manual and the
+> vendor BSP name the buses after the controller.
+>=20
+> Pin the numbering as the vendor BSP does: i2c0 to i2c4 are TWI0 to
+> TWI4, i2c5 is R_TWI. Disabled controllers get no adapter, so nothing
+> changes for buses that stay off.
+>=20
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 
-=46irst off, display engine isn't in merged yet. Second, I don't observe any
-such issues with my wip H616 code.
+NAK.=20
 
-I think it's best to wait until driver is merged and can be retested and
-merged then, if needed.
+Extension connector is not covered by board DT. Use overlays
+if you want to use them.
 
 Best regards,
 Jernej
 
->=20
-> These patches were developed with Claude (Anthropic) as a coding
-> assistant. It investigated the problem and wrote the code and the commit
-> messages; I reviewed them, and they were tested on an Orange Pi Zero2
-> (H616) as described above.
->=20
 > ---
-> Arun Iyengar (2):
->       iommu/sun50i: Don't report TLB prefetches of unmapped pages as faul=
-ts
->       iommu/sun50i: Print the page table level and status of a fault
+>  arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 9 +++++++=
+++
+>  1 file changed, 9 insertions(+)
 >=20
->  drivers/iommu/sun50i-iommu.c | 50 ++++++++++++++++++++++++++++++++++----=
-=2D-----
->  1 file changed, 39 insertions(+), 11 deletions(-)
-> ---
-> base-commit: 2cf4be57b301ed2d7af82e70cff5dfd96894d8de
-> change-id: 20261110-sun50i-iommu-prefetch-85cc9ecff559
->=20
-> Best regards,
-> -- =20
-> Arun Iyengar <aiyengar1990@gmail.com>
->=20
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts=
+ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+> index d5d39bac5915..98fc83291dc8 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+> @@ -12,6 +12,15 @@
+>  / {
+>  	model =3D "OrangePi Zero2";
+>  	compatible =3D "xunlong,orangepi-zero2", "allwinner,sun50i-h616";
+> +
+> +	aliases {
+> +		i2c0 =3D &i2c0;
+> +		i2c1 =3D &i2c1;
+> +		i2c2 =3D &i2c2;
+> +		i2c3 =3D &i2c3;
+> +		i2c4 =3D &i2c4;
+> +		i2c5 =3D &r_i2c;
+> +	};
+>  };
+> =20
+>  &cpu0 {
 >=20
 >=20
 
