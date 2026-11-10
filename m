@@ -1,56 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794290234;
-	b=40ZTRlVgHy1XEHbRdUa3j8deCLRxKHSZaS0YlN3vPCGtxmeClsqWoCUgn+f9q2JpigYF
-	 GPcLSkResfZR7H+ng0D8iPYweH61Jo4k7lCUog7HFya6vkbfshISJGc6rkONYzx/LinJP
-	 lUNjzLiSqqX6rQjEGPqa89CmFZ2KSca5/irA+da+kGXa9pKP8qzdbcU4ZMXZWsYx8W7VB
-	 LB65Tafixs4JhayIlMd61EMpLygbXgvq4AQ2siu/bczXkT49XvsggF53vKgelxwKJLmie
-	 xFSB6GkkoPddC5nD/SsAduDleKmWjl1shfiBapKwh0ksuDtO8iJBOArTPx15s5I9I0w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794290234;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=laBwzBmPEr/UQH5HBsppamR1QuUoc2VFWIqykmeqG8k=;
-	b=q78Bz6VPMSQG5T+M+ZPNDD1fg+Zw0DRfsYNFcr9pHzsWcBosCOoGIaGL9iImZmQTCXdP
-	 iK+6BjMlQ1utijbgp1ArSZB52yI4R9K549D2UOCWSqkBGnTVLymjT70IbV7hF6BmqrNUv
-	 CUV92ol1BFRm6WBiJwbt8crkcypqprew+0jN5CDkXOSi/p9ad0cA3O6g4mjshNFRfRudj
-	 Dv3Uiy391xsLs621C6IVEHID9R/pJ00JxSoDzdCDBffeDHYuCQqsE5SEXkuUOlXRbimIr
-	 VCY9FEcYW7GG1DU39Tev8YXx2QrU63YasNqIwo7GokJJYci95Y/eZT7E5WfTpwZxhZg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZkEJ7jCl;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794290582;
+	b=PbpzhzIdt/uOPQ8ZdOTuGgOjQ9tuSEU6wPdSLaxcN4ZRzZJWr6Ct9RkVkwUOAL+GVuc8
+	 1uVXKiiXYKMEyM552c/rsVDzNnCejmwF+Ux/ntHlhsmSMSp0vTnZQo4B3uu9WhLga77zu
+	 DQue0ueHTMyCjBO8e98+8Z2l8rdbolCLm/W4vBYAdCWg4Ncl+DyYmHCmPmuMYISPrF5TZ
+	 J0hhwQHMOWWbK36cBEyuMEW2ek+SBZpDHhQtHuoAQMbRzzMGJ7ec3gjzzbXFR4RCTzSK1
+	 X9m8/8Hcns+LuImO4mCjik2VY/i10Ek+R8/E/sCXz3l4ROoJVylC9yphJe60BWlemUQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794290582;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=aBuTrJA+FgdKKec0+ASncz9uD0roe2QTrv+5Thtip9c=;
+	b=1QT4yr4u9Noq9pMyKbBSe8R6dnnd9g/OVM3WLMc99MO15Pz/pVYf2nIcDXmZCKEr9K5R
+	 Ytz9XOkfSwRodiruUQHTZW3thQBtrGNnGfPxtfpktHdl+5I6KAUWh/E35C+0+IQ94qM9N
+	 /oazb+jhdY1BHevCz5sGR/eDo8i/4Fy+OvLubRYfOLbkipNoU7ntt95x7QHUfOuamvj5W
+	 ykSnkAhzMVzKOb76ooIFX4i42nfgSITFxIMSx9TQwG9OUSeenlnGBLnRn3Q4H3nohaVDe
+	 F1HBBwpbPFSjLhaZqyeMvHmskW1k8sVGj2BXE4DtruMScuANuSGZ6p3w+ukgzs2Wp3g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GeH37zLg;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B29606A31C;
-	Tue, 10 Nov 2026 05:57:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912B7606A325;
+	Tue, 10 Nov 2026 06:03:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZkEJ7jCl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ABBA1F0089F;
-	Tue, 10 Nov 2026 05:57:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GeH37zLg
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794290582;
+	b=ocuq7KUvLN6Lna9nEel/ougNICl/K0RGqx9CHhSCYE+HTau1iWK67mRtpkjxPN9kJ1Oj
+	 tS+Fnrvrhi1lDdqYZ80v7UZ32KPPI1ka4Iw8q1wrbQnAsHPHykYFsg7vKjhUilh1o2PrE
+	 WCxvHW9dPWZ9YobWgu8Hle/WQhTQf8BMMWb1ZZ7J0AIoJjrU8opUh/bynDuV9tnqp/NfB
+	 KzUTPQQDXQWvmBX4yAww2uRJWx16KWatavI2SEUCEmxFCXjiCFP+Nrl911XuBtuOTp+DO
+	 TOptoY1qfH2LiUifAele6//bAikjt6Zr/5kTI0T/Oe/2wcowg2ES9HmyKNxZ+gR5GSQ==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794290582;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=aBuTrJA+FgdKKec0+ASncz9uD0roe2QTrv+5Thtip9c=;
+	b=CXetJ7jRYyzQg+Je7hJdInS+b444IbuGfaHAFJ8AGyVwgfb4afqRX7IxUfps4fVxyK17
+	 boZOi/wzhtO356otuW9YoRjnHeF+VBsTrxtWlZw+D/mUGxl45AE7sbZKwgTZhsaVkQUM3
+	 Af9vdRb9hi1/6pHxN/JtGxjut/mNNz5lOPuCJLjgsENVYfFX6sNMnrSW6wVoC6CR+4oxv
+	 pAkP4AceKc16mWzr2FAHYa4B6/rYLVTHbuKiKXylBvdQQeFi8aK9zHU4jsezIxzAT545W
+	 R2hi0dZ83rANO7dIc+gUi57weMiaJMeCYzk6+wJ8DI1G3ikh04LIZ0sfk9yhZaRmvcw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 3C4C91F008A1;
+	Tue, 10 Nov 2026 06:03:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794290233;
-	bh=laBwzBmPEr/UQH5HBsppamR1QuUoc2VFWIqykmeqG8k=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ZkEJ7jCl/H+zwZKOlFMtXpmzXp/O/qncWiCxcXudVtUFO6J0dHXbikhndygAIWKM8
-	 m4X+4FmArNd6a9kYaisb7ZHex78VyPUeikck8ixb4CdTOVnv85F3eP6oR5B0XBSTHf
-	 nLmVBy1mTtJzWMWOTCQkUp1co4LeRAvDvX1WPHPdVTaTm+9Kfy0TkIYDRkPE83YKPc
-	 eDyR+54iPmT5Qg+CFwwcFdVYKbTtasbjtEwz23RiQdUgQwgGEZA+xfAnTCprgWiy4Y
-	 KOW+mpsCPh53TXwPvixfTp2N5Q6noO8bxTANsmAvASeaBp2qFJA/icMO+kQbAHtbsU
-	 OOMPNGZgSWVrw==
-Message-ID: <sashiko-outbox-206359@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 3/8] arm64: dts: allwinner: h616: Add GPU OPP table
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Arun Iyengar" <aiyengar1990@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261110-h616-zero2-dt-v1-3-05506d760f21@gmail.com>
-References: <20261110-h616-zero2-dt-v1-0-05506d760f21@gmail.com>
- <20261110-h616-zero2-dt-v1-3-05506d760f21@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 10 Nov 2026 05:57:12 +0000
+	s=k20260515; t=1794290582;
+	bh=aBuTrJA+FgdKKec0+ASncz9uD0roe2QTrv+5Thtip9c=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=GeH37zLgXVBvjj1YxJ74cdkIewwXe/anc3KkRL95uX0nkbufhjdl5XDOgTugHzBke
+	 AgU73Kh0BB2Kk7GCgaLkflfd6trcbkPt0ybJ/UHERb4/fAHLnU7D5OHFgQXD1JbiQ8
+	 VfyObIlkAphBG4lSTy4SueYcEdXUb5VJsW/pins7iqiM733aBJ047+21TLpZ1ek564
+	 LqGhWrmFeq23vASZEPYOmOQ/x9V60yn1qNyWNRnDR7d1Sz3sXnFA4sYKv+LmQdyc9C
+	 y6dJz5/hS3LRcnjDJ7T7jPE4YqI0hvajf4oJcTX4mMHyROw1cujGqkjjoC5Knr2sN2
+	 XVf5+GrezQ07A==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id A2CA1488C9;
+	Tue, 10 Nov 2026 06:03:00 +0000 (UTC)
+From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
+Date: Tue, 10 Nov 2026 06:03:00 +0000
+Subject: [PATCH 1/2] clk: sunxi-ng: h616: Fix the EMAC 25 MHz clock parent
+ and divider
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,101 +82,78 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261110-h616-clk-emac-spdif-v1-1-e5e36e8963e4@gmail.com>
+References: <20261110-h616-clk-emac-spdif-v1-0-e5e36e8963e4@gmail.com>
+In-Reply-To: <20261110-h616-clk-emac-spdif-v1-0-e5e36e8963e4@gmail.com>
+To: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
+ Andre Przywara <andre.przywara@arm.com>
+Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794290580; l=2089;
+ i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
+ bh=3R8NOHaq8WoHe/ITqSr7/Mvs3yLBB/Q5F/fqBEKvzFI=;
+ b=jzSAMX5MGax6j/Mgiufd6pZI7rdjq+ZZuAkF5zVH/+HvL4wamDRRPeN1VUPK/621DM58gISNj
+ SyCW5lxUvqJBU2BHhv0egJCBCxYqLjGQzir3oElj7XrOaxwf9M6FO3a
+X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
+ pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
+X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
+ auth_id=1480
+X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
+Reply-To: aiyengar1990@gmail.com
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] arm64: dts: allwinner: h616: GPU OPP triplets set min voltage
-  below target
---
+From: Arun Iyengar <aiyengar1990@gmail.com>
 
-commit 77493b95bc2bf6851fa12081534ceeb124aa8295
-Author: Arun Iyengar <aiyengar1990@gmail.com>
+The H616 user manual (v1.0, 3.3.5.86 EPHY_25M_CLK_REG, 0x0970) gives the
+EPHY 25 MHz clock as PLL_PERI0(1X) / 24, with bit 31 gating the output
+and bit 30 gating the PLL_PERI0 input. The driver models it as a plain
+gate below ahb3, so the clock framework reports the AHB3 rate (200 MHz)
+for a clock that runs at 25 MHz, and the clock tree does not show that
+the PHY clock depends on pll-periph0 rather than on the AHB3 bus.
 
-arm64: dts: allwinner: h616: Add GPU OPP table
+Model it like the D1 driver does: a gate with a fixed /24 pre-divider
+below pll-periph0. The register writes do not change, only the parent
+and the reported rate do. On an Orange Pi Zero2, emac-25m now reads
+25000000 with pll-periph0 (600 MHz) as its parent.
 
-This commit adds a shared GPU operating points table for the Allwinner
-H616/H618 Mali-G31 GPU covering 306 MHz to 600 MHz.
+Fixes: 88dde5e23da1 ("clk: sunxi-ng: Add support for the Allwinner H616 CCU")
+Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+---
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-gpu-opp.dtsi b/arc=
-h/arm64/boot/dts/allwinner/sun50i-h616-gpu-opp.dtsi
-> new file mode 100644
-> index 0000000000000..511174eee271b
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-gpu-opp.dtsi
-> @@ -0,0 +1,62 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +// Copyright (C) 2026 Arun Iyengar <aiyengar1990@gmail.com>
-> +
-> +/ {
-> +	gpu_opp_table: opp-table-gpu {
-> +		compatible =3D "operating-points-v2";
-> +
-> +		opp-306000000 {
-> +			opp-hz =3D /bits/ 64 <306000000>;
-> +			opp-microvolt =3D <810000 810000 990000>;
-> +		};
-> +
-> +		opp-336000000 {
-> +			opp-hz =3D /bits/ 64 <336000000>;
-> +			opp-microvolt =3D <810000 810000 990000>;
-> +		};
-> +
-> +		opp-360000000 {
-> +			opp-hz =3D /bits/ 64 <360000000>;
-> +			opp-microvolt =3D <820000 810000 990000>;
-> +		};
-> +
-> +		opp-384000000 {
-> +			opp-hz =3D /bits/ 64 <384000000>;
-> +			opp-microvolt =3D <830000 810000 990000>;
-> +		};
-> +
-> +		opp-420000000 {
-> +			opp-hz =3D /bits/ 64 <420000000>;
-> +			opp-microvolt =3D <850000 810000 990000>;
-> +		};
-> +
-> +		opp-456000000 {
-> +			opp-hz =3D /bits/ 64 <456000000>;
-> +			opp-microvolt =3D <870000 810000 990000>;
-> +		};
-> +
-> +		opp-504000000 {
-> +			opp-hz =3D /bits/ 64 <504000000>;
-> +			opp-microvolt =3D <890000 810000 990000>;
-> +		};
-> +
-> +		opp-540000000 {
-> +			opp-hz =3D /bits/ 64 <540000000>;
-> +			opp-microvolt =3D <910000 810000 990000>;
-> +		};
-> +
-> +		opp-576000000 {
-> +			opp-hz =3D /bits/ 64 <576000000>;
-> +			opp-microvolt =3D <930000 810000 990000>;
-> +		};
-> +
-> +		opp-600000000 {
-> +			opp-hz =3D /bits/ 64 <600000000>;
-> +			opp-microvolt =3D <950000 810000 990000>;
-> +		};
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+index 955c614830fa..d2625fec651a 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+@@ -489,8 +489,17 @@ static SUNXI_CCU_MP_WITH_MUX_GATE(spi1_clk, "spi1", nand_spi_parents, 0x944,
+ static SUNXI_CCU_GATE(bus_spi0_clk, "bus-spi0", "ahb3", 0x96c, BIT(0), 0);
+ static SUNXI_CCU_GATE(bus_spi1_clk, "bus-spi1", "ahb3", 0x96c, BIT(1), 0);
+ 
+-static SUNXI_CCU_GATE(emac_25m_clk, "emac-25m", "ahb3", 0x970,
+-		      BIT(31) | BIT(30), 0);
++/*
++ * The EPHY 25 MHz clock is PLL_PERI0(1X) / 24, gated by both the special
++ * clock gate (bit 31) and the PLL_PERI0 input gate (bit 30).
++ */
++static const struct clk_hw *emac_25m_parents[] = {
++	&pll_periph0_clk.common.hw
++};
++
++static SUNXI_CCU_GATE_HWS_WITH_PREDIV(emac_25m_clk, "emac-25m",
++				      emac_25m_parents, 0x970,
++				      BIT(31) | BIT(30), 24, 0);
+ 
+ static SUNXI_CCU_GATE(bus_emac0_clk, "bus-emac0", "ahb3", 0x97c, BIT(0), 0);
+ static SUNXI_CCU_GATE(bus_emac1_clk, "bus-emac1", "ahb3", 0x97c, BIT(1), 0);
 
-[Severity: Medium]
-Should the minimum voltage in opp-microvolt match the target voltage on
-opp-360000000 through opp-600000000, as in sun50i-h6-gpu-opp.dtsi?
+-- 
+2.55.0
 
-opp_parse_supplies() parses a 3-cell opp-microvolt as <target min max>.
-_opp_supported_by_regulators() checks regulator_is_supported_voltage()
-against [u_volt_min, u_volt_max], and regulator_set_voltage_triplet()
-falls back to [min_uV, max_uV] when [target_uV, max_uV] fails.
 
-Keeping min at 810000 uV lets boards whose GPU supply maximum is below
-950 mV retain higher-frequency OPPs and run them up to 600 MHz while
-undervolted below their target voltage.  Setting <target target 990000>
-still lets boards with a higher regulator-min-microvolt use lower OPPs,
-since [target, 990000] overlaps the regulator range and
-regulator_check_voltage() clamps min_uV up to the supply's minimum.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110-h616-zero2=
--dt-v1-0-05506d760f21@gmail.com?part=3D3
