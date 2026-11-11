@@ -1,79 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794376813;
-	b=dGvh4m5f4ZErL2DH6gdE6jmS+xO3zZRPwO/ZH3Elh288EOma/Y7Svqvt90tYHbrZbQer
-	 neay3ixNOI1mLgFefS2eCE4Jyj/XjSSt7nnEmK3rs6mP6/+jO7X7BWiUFrZt5RuC0xPur
-	 Jyp6IRYcrY0gEt+g4mhmSqyq5x9fZT+qhGGLqCN9m4EA0f9IuhRsjqS6dm6zGNB+cVZ6s
-	 4+qNzOFFtLNOdchxt0ujdnCmZA9y9+AB3RUTu8mHoLhbn4M9VxotghIDYuYgKivYvXCne
-	 tN5OxlP7Veg62cr7o6RpcTWTKd7zRAeOG1P+u9uPqssJHfeHfdIvbVoBedaDyFlXsOA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794376813;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=FKWK2tfwOubwz0NYfMnsGtzNrT9KfhXRngDWEiE1I+k=;
-	b=jlCjVTtYcDJV2GxVFzkI5+sBCCmm3HpqABdRAtlcdIMHZhzUPkX7TagyDBFzNkPDvNDn
-	 Ozr7jnv1Pi6v/fRRUwvB8+zSVHmZVpMjq7HS7DnY86lCkzylaa5jE7F2x/vjGCBHJTf99
-	 QWzVmj/MboXqGh4S6Q8gdopukPhwQaQ3f2PC4tWD8rcknpU4s1Hl8gnW1yXreM5CsyICd
-	 VQaKD4euW9hzz3a+pQ4JMmeG/SF2qV6jInnAuSe5IuIDUbjYn29qxsWf9IiAh4xFafWNZ
-	 4ZbhBL8Ttb/X2P1nKcgB31yuWXOANwOwYiWIGuDGFE1ogCpTzoLRdHXEcbq7w3x7Jwg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CpMtYLk0;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794377028;
+	b=LC7Y0jYsNSwHpgtq0ZLBHrEzrM6cvHG7+rYO4P7gpnu2ozT/RlNWEtYRy60q+OC/P+ro
+	 NYZvC2qkF2owZbRY10S7WidnD9ufJ6XGcRbdT1KBGwW04xvmadqYoFOGsaYBy4R0ieas0
+	 MuAHIU47lbdef8saDpo2twx7aywLt7MCVd9i589Kz61R/uHA5Qci4Fj0slm5QMRDrwyQG
+	 e1FUlUR73AoIYQtIsd4mrXYQEs7Oktjsh33Z8td2ZNAYCw24e4C8/EwsD3s9VxN9Kvldj
+	 c1cTc2YyZftCS4LHd3hUkijwPFPw15C2XyN7/hSXFRqaZJHw/Dy8ws8hjVHEVOmuFIA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794377028;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=1njBDvRrZjLhgMl2ZtksU701CRCVLfuBARYtooKWoAQ=;
+	b=KDpfAkAO2tjGzS8z5lo+0migB0GlFC8onTo0u/fqXZifS3P8h7+aCfcPLcKaqM4lhWYk
+	 yAzhLONw02CxISfdDoXmOvTmiZBBAbUYNhOexR6a57q3MxMYoz3Mw/rZ92xYxnPC2BL2N
+	 q4+9FCNyUtLd8cuvXFwCyt8Yb5FzgXBfnITbt/4XqELSBfX2YDGig4+WsyubjYztF/Pds
+	 F4N/Gy4hO/VxIJcydgpRtYLuleoWF7Vid9VHgP8gLio5vIptUJCpCt4iTt+gojN6Fp6y9
+	 uKi3nICpBwHoLuDPSIjbFYJiBcFGtypM0Sfuv7N3a72WG0z8wvOx5A1IashV/NeVReA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gK+fq2iC;
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3962660A262D;
-	Wed, 11 Nov 2026 06:00:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956A2606A320
+	for <linux-sunxi@lists.linux.dev>; Wed, 11 Nov 2026 06:03:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CpMtYLk0
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794376813;
-	b=tGluTC7Q4yGRDyL1UX8mXkQrJsOH687bQi1Ug9Auz57rXBJB34pNVnujEGVNbAvNlTN7
-	 +NkMAkGGtFeBclLCbFZaSrY8TBWyMTw2Q38MTvDYVzNLkpEd3Jxvv6+axnVnsBhNefwSd
-	 Lf43UMoZQaRO7TS/rqhWCwd+KJ4RMjjMNopbX0H91oykvkQsI1UNTFIj4XGNm3KNemKWH
-	 AyD0nqzOI19OB0T6+WkgMeNosFRZRCFXHOJqToxyBGLF2M+etZOQbsUBoYjlE/R99h5Ce
-	 r8nuXe3ifGjnsVp2VjlGzFnBlOo4a/GRYX8ZxXwaXnX89l8cgp8lvznKZo6NqZYTebg==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794376813;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=FKWK2tfwOubwz0NYfMnsGtzNrT9KfhXRngDWEiE1I+k=;
-	b=hcLR2NzQ8e9hr5FEhmZr7iujlp3A7dBwRMesUWQrlGNFV5dI3fQbyoV/oWTJODUjzaka
-	 DaWPPqOiSs3Ev4pEkWIIP0lbwToKAkevzVmTRzKAdD2VzRzuWYK+CT80Yu6XUo4hO+nO5
-	 s+vR959QxlnxdGjN3X4crVGncXhQ3sXYHlzkFrbqwSFcfGWkbedMBmmP5MdJGotkjkSbd
-	 iwGnueOK3O0WaCxlyaLVa1NFlrr4u3G9JDSeZNqDLn/spzpPjjSZZExmT5YPsjSRP9IqU
-	 6h33iCtwEOxUy9Ia5gq8FnI920CqPegSlIbewFlDJkmi0Mi3vB0l4rFcVot9J/ycXaQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 287031F00A0D;
-	Wed, 11 Nov 2026 06:00:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gK+fq2iC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 075BB1F00A05;
+	Wed, 11 Nov 2026 06:03:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794376813;
-	bh=FKWK2tfwOubwz0NYfMnsGtzNrT9KfhXRngDWEiE1I+k=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=CpMtYLk0SZ9JMGD0MaKWfupCmjfTL4UZxIu+tJNYjfHMMtk8iDthD+U+K10DX9FKB
-	 S39sybRTWFsQJzmA8JKiwZJWGlRiWgqCpr1IOJJz8lI69D1nydoAvn0u5vBjYy+0/P
-	 KFFDD0f9A3X91vD0rxDc6PaZrSoGzchxmAcwQYeVni+Tz6lCXcQve0ZJvCZd0ni7xb
-	 +3dZqvjXVz4xsak8Vz639JCroDbt3IBdCQk4m1L9Cye4NHVYG+fDz1gy2J4qHR8U10
-	 ayitwyv1G6hamtiGlLB1ZWYO3pB7UfrumYqLFZMrLF0P65oe6mvtZs6PLlgr7n9WeY
-	 8+w9MIp4TujIw==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 323DD48DF2;
-	Wed, 11 Nov 2026 06:00:08 +0000 (UTC)
-From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
-Date: Wed, 11 Nov 2026 06:00:13 +0000
-Subject: [PATCH v2 7/8] arm64: dts: allwinner: orangepi-zero2: Describe the
- SPI NOR supply
+	s=k20260515; t=1794377028;
+	bh=1njBDvRrZjLhgMl2ZtksU701CRCVLfuBARYtooKWoAQ=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=gK+fq2iC71hHS14g0re+i5SfjbnUSejWSl/9v65Ldxj9Aesy4VQSgxVsKHGQq73hE
+	 dYlxerQGB7yXaCJMNeOFf8b98yg8QhhEPlP2b4y6qOKeNqi3/WdXe7oVXOqo+8kvWI
+	 I+IYK2oyvJYCrgh1jJAUsntT7q5z2HhE5KGNdP19SL758rN7089r+CrXCn5P1EXtk6
+	 h3NGhxKrhOkJRQOuW6c1tyM/jO3m8RKJhVIo+lRLOahGSHaefwBsVjrpNmkh0MJO8q
+	 5/r06um7jUwX406zDh/xQIhBIkIkus0bk7E8UvEw9S1TckwWFf93jVb7MjKH0xkTuZ
+	 Ax6cjyvbuBF6Q==
+Message-ID: <sashiko-outbox-208379@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next 1/2] net: stmmac: dwmac-sun8i: Fix the RX_TH
+ threshold encoding
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Arun Iyengar" <aiyengar1990@gmail.com>
+Cc: linux-sunxi@lists.linux.dev
+In-Reply-To: <20261110-sun8i-emac-jumbo-v1-1-84bf00e9ffa3@gmail.com>
+References: <20261110-sun8i-emac-jumbo-v1-0-84bf00e9ffa3@gmail.com>
+ <20261110-sun8i-emac-jumbo-v1-1-84bf00e9ffa3@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 11 Nov 2026 06:03:47 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -82,66 +60,41 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261111-h616-zero2-dt-v2-7-88d8030fc975@gmail.com>
-References: <20261111-h616-zero2-dt-v2-0-88d8030fc975@gmail.com>
-In-Reply-To: <20261111-h616-zero2-dt-v2-0-88d8030fc975@gmail.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Ryan Walklin <ryan@testtoast.com>, 
- Andre Przywara <andre.przywara@arm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Arun Iyengar <aiyengar1990@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794376807; l=1094;
- i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
- bh=koI5LGgxBRvtt44PpABti87vN3ELbNOlU9mgjrDscGI=;
- b=2CQ6LDVGiv2EC0iUm+5zPuEgt3Jsm8LTq/f7YbI63awhqKxYsof4T27Fn2j6wOGkMLVOM7DPJ
- eMOEMt+5bvXDriM7m6KvXhv2+ATUMLPbg+hEE+04XgcFP6fPzmtx84C
-X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
- pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
-X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
- auth_id=1480
-X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
-Reply-To: aiyengar1990@gmail.com
-Content-Transfer-Encoding: 7bit
 
-From: Arun Iyengar <aiyengar1990@gmail.com>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Low] net: stmmac: dwmac-sun8i: missing Fixes tag and inaccurate
+  commit msg
+--
 
-The SPI NOR core requests a "vcc" supply for the flash. It is not
-described for the Orange Pi Zero2, so the core falls back to a dummy
-regulator and logs at boot:
+commit bc43819b000accd77627647d6f7f32c68d0bcbe3
+Author: Arun Iyengar <aiyengar1990@gmail.com>
 
-  spi-nor spi0.0: supply vcc not found, using dummy regulator
+> net: stmmac: dwmac-sun8i: Fix the RX_TH threshold encoding
+>
+> The EMAC RX_CTL1 RX_TH field (bits 5:4) encodes 00 =3D 64 bytes and
+> 01 =3D 32 bytes (H616 user manual v1.0, 6.5.10; 10 =3D 96 and 11 =3D 128 =
+bytes
+> as in the driver). The driver has the first two swapped.
+>
+> The values are only used in RX threshold mode, which dwmac-sun8i never
+> selects while RX checksum offload is on, so no current configuration is
+> affected.
+>
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 
-Per the Orange Pi Zero2 v1.3 schematic, the 2 MiB SPI NOR flash on SPI0
-(port PC) is powered from the 3.3 V VCC-IO rail generated by ALDO1,
-which already supplies port PC here. Describe it.
+[Severity: Low]
+Since this fixes the swapped EMAC_RX_TH_32 and EMAC_RX_TH_64 definitions fr=
+om
+the initial driver commit, should it include:
 
-Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
----
- arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 6 ++++++
- 1 file changed, 6 insertions(+)
+  Fixes: 9f93ac8d4085 ("net-next: stmmac: Add dwmac-sun8i")
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-index ca78d094c431..d5d39bac5915 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-@@ -148,3 +148,9 @@ &pio {
- 	vcc-ph-supply = <&reg_aldo1>;
- 	vcc-pi-supply = <&reg_aldo1>;
- };
-+
-+&spi0 {
-+	flash@0 {
-+		vcc-supply = <&reg_aldo1>;
-+	};
-+};
+Also, is the explanation about RX checksum offload accurate?
+stmmac_dma_operation_mode() and stmmac_bump_dma_threshold() only select RX
+threshold mode when priv->plat->force_thresh_dma_mode is set and use
+SF_DMA_MODE otherwise, independent of priv->plat->rx_coe.
 
--- 
-2.55.0
-
-
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261110-sun8i-emac=
+-jumbo-v1-0-84bf00e9ffa3@gmail.com?part=3D1
