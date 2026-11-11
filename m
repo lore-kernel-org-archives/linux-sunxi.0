@@ -1,55 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794382382;
-	b=P0ofN0hFQ1h4fn8hVjDKb0STpi2pkxMhspUer4XicGt9hqeekhOjD4KT5naJd3Nb3JR1
-	 As7pu4w8rRdqYN5JyZ2123yk/Ba++i+MJwvvJ9g6ul9/toGrdflbBRAAVdwrqjXHWa/KD
-	 nx3JT1pkMNkYrx58UGMG0K2ugLiG8GT7fEd9GiWxYrWc+ay7bsmiZER9Aaiz4aRGNIdxx
-	 jg8nvPB6OQqkIRNOcMbkLmQfL2WvBGjUwn2Tu5iD8Mns1FvVT5gzdeM8lx3adBXy8TnCW
-	 2hKV87QRbTL0Pt+qGoKCreR87deatCPPr78OK+DNTsFEbWxw3pB4Wwn86vFHmSMgNnA==
+	t=1794398601;
+	b=oNgltUtxTrU55SXqZBJUYzW8o2WnpM6VlWsosh5qMJRki1bNeHpRT3HZzxZ+wrcRzEm0
+	 lYBN4X31BYUUBNC+m1bwlmm6slSxk2V5ZS/61I7lAYSTYHm3waaf3UvBjm6GYVThECsIP
+	 0pCMVGZgAHgnoX4UPqQqkrJl8PzR1rF2+S4Ntsxyc6nSxOebc6DHF/RsSw6ipyG1zDuYV
+	 KhV0InQJ81r1072sLCaeltRUKuo1VElO+vOfT909vg+zPR+sFDM398J14VCexHmNR9tmY
+	 V49pCOTUeY6Rs8XF5nLpEn9iDys/yMvKxaZL3dioKPIIctjydYng6na89/fhutNWiDw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794382382;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=/Q64Ix2X/kmoKMESKFF7GfIJozkR1NEfXs5+MGDyEJw=;
-	b=qIUcPXAKWQYNdYBKTWk3C5c/lJrrUNvmHCuQ7/bMFriXuQ5tSpZVIwlF6ymj5e9Kx2Fe
-	 NGlZve/5zyCtWgo2DYQ/l4rCv3vFvhUj5ixnOtKfaH7rp3vbE+/toSF5Y/uBCH/pUOngQ
-	 plyyZXEbaKfLl8z4Yh2vbmMewRvdgMP4OEGbGlgq/8Xbof+ZODyK/5/S/QQeKV1I9mo4P
-	 g0WpVr1oCeabOPpWdK0o6ioXodWVnqEY6RdC6lgszSyZx8OHtd1eUokxOtJzN/mHvfqET
-	 x0ZVyC2vylWyXkScTzQtEILkQwj+3MolO88dty/ATM1O/HFQ2UOoeTR0z6GDSz7/Rvg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794398601;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=GV/jfsFbMmkXTAQ4EO3mdq+1dYga/vXLHfb1SaIoXw4=;
+	b=uARTmz+ntc2pEtjogSx8P3ZbGQKU9k3mlvIbAsw1a0NaFbuHA6AZJ3eUiR58JHmTVkcg
+	 LSCJcI9zP0jv04b3MpDeC2CQgESfT1iTMCGlfMGXht8RZQlX+UFyrcgc3RVKXUfQtNVSq
+	 VbudA03Z8dz9mm/EFThsh0VNil7az6o9OYa1p4pVg1dwYRPOdDyvXpZ3SQdxqM+Zhxh7f
+	 D1SnohjiKX5H6A0T4TeCcO7R7fyqeHeErXh4NjyrcdN0QJOVdEXPzjulGufXA0mBWv9nV
+	 Ts+2ubyF9td0TMrfkZgRQ8ysu7TlfhxVJFiTbqa9K3MSL9dVoTsLAXOgDv9vc55IshQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LFKtYIRm;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xmL5KdaI;
+	arc=none smtp.remote-ip=74.125.224.47
+Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E87606A327
-	for <linux-sunxi@lists.linux.dev>; Wed, 11 Nov 2026 07:33:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E2C606A326
+	for <linux-sunxi@lists.linux.dev>; Wed, 11 Nov 2026 12:03:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 17E2C606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LFKtYIRm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BCFF1F00A05
-	for <linux-sunxi@lists.linux.dev>; Wed, 11 Nov 2026 07:33:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794382381;
-	bh=/Q64Ix2X/kmoKMESKFF7GfIJozkR1NEfXs5+MGDyEJw=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=LFKtYIRmdJLTkkClRaSCyq6qSvGBQLlGy2IT3YvJc6GpmYyNGMEHXvrqGlOiGQgMt
-	 F22FwBQSP3RwONjGFhRF+iu8NQPa7ZXdnEgW4IrzBcYEfpVDAdfX4BuQI5OIwK542z
-	 yMvQ93hyDm7oPYY1NSMHj91ORrujekYl1h9TkgyyLzppLFqiFmGnmSGcWfxLwvDnmH
-	 oNT0DUvaPTQGkYwP/bXcJNlkfbCgNB+n3OVWa+PwWbQtfcwtgV2E/BRdGNQD4fTA2/
-	 kS3FX4oPW6rUWw2oNquPnXG9pTKgVlikVwabONyMRFAkzVHaV7GUBouGLknay0pK4m
-	 qV7aGDlxnavRw==
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-3ada7d53082so31657351fa.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 10 Nov 2026 23:33:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErHfuQRufjm9ayZ50RacoNCeuEG9UPv3K2nxT4O4Xi1nGoaH5BcVdBL+cbFkYXYw9hbnSLx3mrN1Ql/MuA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8n1Mk2e+juGKIuoJ9twKPOYr4EYgHlPrb9I3tFl3QaxRd1m984
-	D0lidb3LfA31kCF8xN5SzlQMVAgMuPFK+oMjYdZacF1yxm4X0IozumDZDGG7Nwki+4NNIj9KZ9V
-	QzpdWEa+IsdGGhbWh7NR3at9Ab4nj1pg=
-X-Received: by 2002:a05:651c:19a6:b0:3ac:4b79:573b with SMTP id
- 38308e7fff4ca-3ae126dfeb2mr2383681fa.13.1794382379903; Tue, 10 Nov 2026
- 23:32:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xmL5KdaI
+Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-67c6f1019a3so371918d50.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 11 Nov 2026 04:03:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794398600; x=1795003400; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=GV/jfsFbMmkXTAQ4EO3mdq+1dYga/vXLHfb1SaIoXw4=;
+        b=xmL5KdaIE8MDRIhkzgKQCMY7gOJwghPR6rqXUppVxvB+rduXwXi7lPNap/WwLhRBD2
+         tFLl9b2m1Fh1AunzWy7zno9j3Ga7DCPZ3L1XyZ4fEn67UP+GZuuZyBPl4FYCvj01r7Ru
+         yULlC/j02J1P4t5cTDAjdtehNenQjXsSSwgHwqjFafcjH1ZcYNJPhOq+bBKBiZkSuw5G
+         6z8/URYDHeHRBMTJE1weeROUUub8/NFGlKfl205wahCqGN3v5LXse+snSv6yqCBl1jar
+         F7UrpuidZSPbvTdJiyE18Kjx/kBQI4FQaWIHZsjs2sfLLTF2pLRQz+/uBf08WwSMF7HP
+         3LuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794398600; x=1795003400;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GV/jfsFbMmkXTAQ4EO3mdq+1dYga/vXLHfb1SaIoXw4=;
+        b=pnFo85HVU0ffPn/4NTPI02UDCiH6R1CY+XvZxBOrKR9ImdNn0H6Zq8NYungQFkVOIq
+         gg0UYsW90HlhXQd11iEJ0/pC9ktHxerqr24nfOOKB5nanypsed5sXXygk2qJucUuTSRe
+         cX0DOGH6HP8P261FW0Fv3dclMp6M6jPNLDDAT8z9unlp+D8Jzf90ReAFxcaL09oZzjx7
+         f8vHQZjVctaohaMWOedaI27h3GG6MIvU8F7x7Vs9icVruHFoRKn6hvE6Fsj2MPt4e4Cl
+         GKhSij7faYa+74CEPuFdP5ooZoOWeia4YRUQgV+Ci6E9jNcunnF+TPlrObZPdWLqjPBz
+         lEJA==
+X-Forwarded-Encrypted: i=1; AL+hErFTHNVSPv7ZewZ9aF7ZEbPzvhTGZ99W2mfGO24nKDFPkNlWFIuc3MSbz7qOX/t5g86qsfjrha26U2yXnw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+AKIod371CzZ/Q0lJmLobYGvVpWnETZT3pA5f/7YnthTCCm6qC
+	CIMfO+DF7TZZBVzrqvwtsA75FHxld2xzG3mYXxSgEE78Dw+prHJEOWyd
+X-Gm-Gg: AYBFou2OBnlQc4Iklf8Qb2N4QmWSj8t3hchXkBk6VkPQEbQcBswDwVAjs+0d4sy97o9
+	JEVlnlUkr7BEqeG1g4Eht9A1UhITi0jb8J8uj0sA5H5OlgWYIPqBawKvVgUvWB9oRERiWNzsif2
+	A1GL/kbNGJJKLHieE4nkqR9c4j+BVZvlkLRTBPIYN4o6XY4nQ4ffx4HD9eoXRS4wqpjIVsUQrqL
+	CbauBhnwuZfviVgsi28IDLEmq3QeKtiAT4F1fh7RrpjKfLe06T3wziEUW+5403XyO8+lySjTrfm
+	ikQPCtnocgRuYHXcOkHxGwOIlEg9rAZacY5biaiAW6BNlaxCHRF/EFM2GcSrRGFg3WznezQdhCZ
+	Yqfnb5C6Q3d78OGlLt+qUheabovzWvk3a0aT/6K42i6SZSiCfdhT4WSSDCn33YOSldPIV4HKAnv
+	PnE4ledOIeg+fA3Yhn3xZDfGfGON4CkuFUisnJYVDsqR4wApuC+cCsqqgmlIYKt7Ms7M2JQcrMg
+	DXuPHJpIYHzdpH/3C2Y0xWPyOpmUbMsadqnuY9oQ/oxCrJPh6KMteUULwM2IDANXthhiBgswwer
+	jgN4xbdBF6ES/tpV2epAoar0cxp9kiFMJrarOXETcXlYdGPenv99LMNGuD0UM/1qLG8vyjjGNYV
+	EeBu95inC+RIRCcQi68rHVl7u2XzsWP/LfgRQdix2HF56m3mrV95zcsGi3euRbFE7gy5hMW4DAQ
+	4=
+X-Received: by 2002:a05:690e:134c:b0:67c:33ba:4367 with SMTP id 956f58d0204a3-67c67fee82emr1588399d50.123.1794398599941;
+        Wed, 11 Nov 2026 04:03:19 -0800 (PST)
+Received: from MaquinaLab.. (189.27.147.77.dynamic.adsl.gvt.net.br. [189.27.147.77])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67c58a09074sm4389527d50.18.2026.11.11.04.03.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 04:03:19 -0800 (PST)
+From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+To: Enzo Adriano <enzo.adriano.code@gmail.com>
+Cc: andre.przywara@arm.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	Maxime Ripard <mripard@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Junhui Liu <junhui.liu@pigmoral.tech>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Pablo Mazzini <pmazzini@gmail.com>,
+	Alexander Sverdlin <alex@sverdlin.org>,
+	Jun Yan <jerrysteve1101@gmail.com>,
+	Lukas Schmid <lukas.schmid@netcube.li>
+Subject: Re: [PATCH v3 2/3] arm64: dts: allwinner: add A733 SoC description
+Date: Wed, 11 Nov 2026 09:02:35 -0300
+Message-ID: <20261111120240.32497-1-vinicius.eduardo.pedrosa@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <7c0ee4e609db5979d2a6598f46f40896b4f47a57.1794227241.git.enzo.adriano.code@gmail.com>
+References: <cover.1794227241.git.enzo.adriano.code@gmail.com> <7c0ee4e609db5979d2a6598f46f40896b4f47a57.1794227241.git.enzo.adriano.code@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,113 +116,25 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110-sun5i-hstimer-arch-sunxi-v1-1-9016f63e186f@gmail.com>
-In-Reply-To: <20261110-sun5i-hstimer-arch-sunxi-v1-1-9016f63e186f@gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Wed, 11 Nov 2026 16:32:47 +0900
-X-Gmail-Original-Message-ID: <CAGb2v66=UbyC0jaW6tjeux5VruUAXN_64bAs3+LyS=CRG1qm9Q@mail.gmail.com>
-X-Gm-Features: AclHuK-OY7M3itmCA0XTlJzxAvWYSOF7vEwzX0YxEQKq8s6HmV426ktA_3YHpdA
-Message-ID: <CAGb2v66=UbyC0jaW6tjeux5VruUAXN_64bAs3+LyS=CRG1qm9Q@mail.gmail.com>
-Subject: Re: [PATCH] clocksource/drivers/sun5i: Allow enabling the driver on
- 64-bit sunxi
-To: aiyengar1990@gmail.com
-Cc: Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Michal Piekos <michal.piekos@mmpsystems.pl>, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 10, 2026 at 3:07=E2=80=AFPM Arun Iyengar via B4 Relay
-<devnull+aiyengar1990.gmail.com@kernel.org> wrote:
->
-> From: Arun Iyengar <aiyengar1990@gmail.com>
->
-> The high-speed timer driver binds "allwinner,sun20i-d1-hstimer", which
-> the H616 device tree uses as the fallback compatible of its
-> "allwinner,sun50i-h616-hstimer" node and the D1/T113 device tree uses
-> directly. SUN5I_HSTIMER, however, only has a prompt under COMPILE_TEST
-> and is selected by the 32-bit sunxi machine Kconfig alone, so arm64 and
-> RISC-V sunxi kernels cannot enable it and these nodes never probe.
+On 11/9/26 23:45, Enzo Adriano wrote:
+> Provide the SoC description needed for the Cubie A7S console, PMIC and
+> microSD support.
 
-This could be simplified: the high speed timer is available on many
-newer platforms, but it is only selected by the few original platforms,
-and not visible to the user.
+Tested-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com> # Radxa Cubie A7Z
 
-> Make the prompt visible on ARCH_SUNXI. The driver registers its
-> clocksource and clockevent at rating 340: below the architected timer's
-> clocksource (400) and below the sun4i timer (350), which ARCH_SUNXI
-> already selects on arm64 and RISC-V. Enabling it therefore adds a
-> second hardware time base without changing which one the kernel uses.
->
-> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
-> ---
-> The H616 and D1/T113 hstimer nodes and the D1 driver support were merged
-> for 7.2, but the driver still cannot be enabled outside COMPILE_TEST on
-> arm64 and RISC-V.
->
-> Tested on an Orange Pi Zero2 (H616) with a 7.3 kernel carrying this
-> patch and CONFIG_SUN5I_HSTIMER=3Dy: the hstimer node at 0x3005000
-> probes and available_clocksource lists "arch_sys_counter timer
-> hstimer".
->
-> This patch was developed with Claude (Anthropic) as a coding
-> assistant. It investigated the problem and wrote the code and the commit
-> message; I reviewed it, and it was tested on an Orange Pi Zero2 (H616)
-> as described above.
-> ---
->  drivers/clocksource/Kconfig | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
-> index da83483296d5..971491d2e584 100644
-> --- a/drivers/clocksource/Kconfig
-> +++ b/drivers/clocksource/Kconfig
-> @@ -172,12 +172,17 @@ config SUN4I_TIMER
->           Enables support for the Sun4i timer.
->
->  config SUN5I_HSTIMER
-> -       bool "Sun5i timer driver" if COMPILE_TEST
-> +       bool "Sun5i timer driver" if COMPILE_TEST || ARCH_SUNXI
+I tested the A733 SoC dtsi with the posted prerequisite series and a
+local board DT.
 
-Nit: I would probably write "if ARCH_SUNXI || COMPILE_TEST" just to match
-the other instances.
+UART0, R-I2C0/AXP318W, RTC, MMC0 at 3.3 V (hash-checked reads and
+writes), eight CPUs, PSCI reboot/power-off and 20 CPU hotplug cycles
+worked. GPIO interrupts worked on both edges for PB, PC, PD, PE, PG, PH,
+PJ and PK.
 
->         select CLKSRC_MMIO
->         depends on COMMON_CLK
->         help
->           Enables support the Sun5i timer.
->
-> +         The 32-bit sunxi platforms that have this timer select it. On
+MMC0 card-detect hotplug needed my separate A733 EINT-mux fix. PI is not
+exposed on this board, and I haven't tested the R-PIO interrupts or the
+A7S-specific DT patches.
 
-"selected"? BTW I think we can drop the "selects" from those platforms
-if the option is now visible to the user.
-
-> +         64-bit (ARM64, RISC-V) sunxi SoCs such as the H616 and D1 it
-> +         registers an additional clocksource and clockevent device, rate=
-d
-> +         below the ones the kernel already uses there.
-> +
-
-This doesn't really say _why_ a user might want to enable it though.
-The only reason to do so is to get a higher resolution timer, but
-the rating for sun5i-timer is lower than sun4i-timer for both clocksource
-and clockevents. Realistically speaking this is never going to get used.
-
-
-ChenYu
-
->  config TEGRA_TIMER
->         bool "Tegra timer driver" if COMPILE_TEST
->         select CLKSRC_MMIO
->
-> ---
-> base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
-> change-id: 20261110-sun5i-hstimer-arch-sunxi-167ea2ebcbd7
->
-> Best regards,
-> --
-> Arun Iyengar <aiyengar1990@gmail.com>
->
->
+I'll send the A7Z board DT as a separate series based on this one.
