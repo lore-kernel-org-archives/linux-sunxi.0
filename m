@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794376814;
-	b=c3KveJlqCxkvI1PPJxunkbTpv47MfXP6r3Maqoa8OacgzkQaWwNNh97hfJOHK1CLTisk
-	 FrEzPCmls/uMEtzfFsd7m+OFSEZSGgMy2n25SX1p2+4AVfAgz9kPPwJrHdR6NQxt7IN1I
-	 a+wuMndMdlEdKuoLqcO2MVrsslqLZuvtVATQLMPsvGC2XH51rydZWECBHKvhNkUQjn89h
-	 nwoWufY5hAGL3fHqbJA7wjDB/FfYJrAM7lemGUdwujochViiBbSHLwvPttKVX8rC5/uQ9
-	 UY4MKnhVREv9yzw04ktU6fBn6ho/CivJeKR19xiLNt78KQ3R6FzQe+vB9P0qS8ndsmA==
+	t=1794376813;
+	b=dGvh4m5f4ZErL2DH6gdE6jmS+xO3zZRPwO/ZH3Elh288EOma/Y7Svqvt90tYHbrZbQer
+	 neay3ixNOI1mLgFefS2eCE4Jyj/XjSSt7nnEmK3rs6mP6/+jO7X7BWiUFrZt5RuC0xPur
+	 Jyp6IRYcrY0gEt+g4mhmSqyq5x9fZT+qhGGLqCN9m4EA0f9IuhRsjqS6dm6zGNB+cVZ6s
+	 4+qNzOFFtLNOdchxt0ujdnCmZA9y9+AB3RUTu8mHoLhbn4M9VxotghIDYuYgKivYvXCne
+	 tN5OxlP7Veg62cr7o6RpcTWTKd7zRAeOG1P+u9uPqssJHfeHfdIvbVoBedaDyFlXsOA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794376814;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794376813;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=htP2+aPrpKFt+HsykgI0WJWWWQvaF3s5InUokxPNh5Y=;
-	b=RlnU8Fcv1n9QoWiiawkI8H5ZNurVEJYa3jOUENV5H+h3EnGk8pa9xSxHGbwQ0CNg2qFx
-	 Xu+ZJddjFBsd5hBElgXOyuwf3ptZfGn0qna8yN+4UUuphaMQE0QuVguynCEE1DOSxRcFG
-	 Xb/v2t7BxXf7xPPyUmCj2H2A6TWLMQCD2Qg9TmyiNpGbHWwnvf+Q8LTTfOlxQrPTNsq7/
-	 zF4TEwhsuNbqe7s+vUayBYOo5B7OuTlg6tYOZ9V6jzQBmOvcTi+IxQE2WXLzPWR/8aY+i
-	 l0sD//+r+Vfmx7nxznVWf9t9umHcDMH6nVyEL92dqxgtMiYKEInBC2Gk611wTtCJMRA==
+	bh=FKWK2tfwOubwz0NYfMnsGtzNrT9KfhXRngDWEiE1I+k=;
+	b=jlCjVTtYcDJV2GxVFzkI5+sBCCmm3HpqABdRAtlcdIMHZhzUPkX7TagyDBFzNkPDvNDn
+	 Ozr7jnv1Pi6v/fRRUwvB8+zSVHmZVpMjq7HS7DnY86lCkzylaa5jE7F2x/vjGCBHJTf99
+	 QWzVmj/MboXqGh4S6Q8gdopukPhwQaQ3f2PC4tWD8rcknpU4s1Hl8gnW1yXreM5CsyICd
+	 VQaKD4euW9hzz3a+pQ4JMmeG/SF2qV6jInnAuSe5IuIDUbjYn29qxsWf9IiAh4xFafWNZ
+	 4ZbhBL8Ttb/X2P1nKcgB31yuWXOANwOwYiWIGuDGFE1ogCpTzoLRdHXEcbq7w3x7Jwg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JmYqCVbi;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CpMtYLk0;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1A960A381A;
-	Wed, 11 Nov 2026 06:00:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3962660A262D;
+	Wed, 11 Nov 2026 06:00:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JmYqCVbi
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CpMtYLk0
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794376814;
-	b=lM9BZUnNJm0I78quSOO4kNoWh30hNGC3m4bm0OLw/NLf+1VAjjl00v0frfN/uNNJw1sa
-	 iTiCVOfQ9uqmTQ9QimZa8SIoC5i8fsZtMwQu3E/cAwwT1R8sxApV1ZSlLngq4RhgBHtyV
-	 56zVE9qx1Z6ycX0ORib8VGpO1RnJPNJQMHDly0rZs4p4jRuqM+miAkwDF90n4Tnky2YWf
-	 Z3ej2j5zyEyGqm8nonvUvRf4YGgD9+mF1Lqf1ovGp4S65NAkh4mEk4x8GU6eBUDbTyyFa
-	 013/2rTzDlrSsZVU/wsPq7UQyjo2GkCDt7ErXH4Sl6DLnNBo9K0ujiHpw6xECTv5aQA==
+	t=1794376813;
+	b=tGluTC7Q4yGRDyL1UX8mXkQrJsOH687bQi1Ug9Auz57rXBJB34pNVnujEGVNbAvNlTN7
+	 +NkMAkGGtFeBclLCbFZaSrY8TBWyMTw2Q38MTvDYVzNLkpEd3Jxvv6+axnVnsBhNefwSd
+	 Lf43UMoZQaRO7TS/rqhWCwd+KJ4RMjjMNopbX0H91oykvkQsI1UNTFIj4XGNm3KNemKWH
+	 AyD0nqzOI19OB0T6+WkgMeNosFRZRCFXHOJqToxyBGLF2M+etZOQbsUBoYjlE/R99h5Ce
+	 r8nuXe3ifGjnsVp2VjlGzFnBlOo4a/GRYX8ZxXwaXnX89l8cgp8lvznKZo6NqZYTebg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794376814;
+	c=relaxed/relaxed; t=1794376813;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=htP2+aPrpKFt+HsykgI0WJWWWQvaF3s5InUokxPNh5Y=;
-	b=T9wNHiO3IyfQCKizGl7Eee65vo894pbiuwaTEAzcecOX5oEVBUkZJEDURGudbC4vajAB
-	 VXd22Psw1wyajdEBe9PhFw6vBF8vnOnMBpTesgKigb4K4on7WMTqKNTg36gMNcHLfiMxj
-	 6W9p6sBYNTefeGNWSo19sPfAsXhVdYSF2uFtIDMjivghAR6RW7jeurYNWCLCmtENKZm4m
-	 i9GdLRMmEY6ddW3xQPk7EDDL1YkCDOQh0RqxMYn9+lmJOMOumnNP1tzsBif0HhfPbCvlU
-	 DLr1tT9HzBl32qc8GFpSQuZJ6bPgTZQ+r36xbql+4hGrfjPtu5PbXxNc5rr44ICx5cQ==
+	bh=FKWK2tfwOubwz0NYfMnsGtzNrT9KfhXRngDWEiE1I+k=;
+	b=hcLR2NzQ8e9hr5FEhmZr7iujlp3A7dBwRMesUWQrlGNFV5dI3fQbyoV/oWTJODUjzaka
+	 DaWPPqOiSs3Ev4pEkWIIP0lbwToKAkevzVmTRzKAdD2VzRzuWYK+CT80Yu6XUo4hO+nO5
+	 s+vR959QxlnxdGjN3X4crVGncXhQ3sXYHlzkFrbqwSFcfGWkbedMBmmP5MdJGotkjkSbd
+	 iwGnueOK3O0WaCxlyaLVa1NFlrr4u3G9JDSeZNqDLn/spzpPjjSZZExmT5YPsjSRP9IqU
+	 6h33iCtwEOxUy9Ia5gq8FnI920CqPegSlIbewFlDJkmi0Mi3vB0l4rFcVot9J/ycXaQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id BF6011F00ACD;
+	by smtp.kernel.org (Postfix) with ESMTPS id 287031F00A0D;
 	Wed, 11 Nov 2026 06:00:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794376814;
-	bh=htP2+aPrpKFt+HsykgI0WJWWWQvaF3s5InUokxPNh5Y=;
+	s=k20260515; t=1794376813;
+	bh=FKWK2tfwOubwz0NYfMnsGtzNrT9KfhXRngDWEiE1I+k=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=JmYqCVbiQdZol/lpjwrNKoEnPToOdufQ2sf/nZ1v5GAtQOxdGT9A51Mc3U1b4cReg
-	 6iDrD/V6S3s22aHqyhzlBUMNe2rYnirj+fdssB0xy7jfJjMkhsRHE/jWLrpjKjbt5I
-	 1huV1o+MkNrZXCejVfBacJkCIw8O88X7/2wUJ9Wm/La0MNsd1xsLWR4+Z5AFnLwr3w
-	 +zArV5+rdbTiDnp1XS1zZ/aSDEHNVPv8H71A7Y8oUfqZxKZPYdCklPwHK27RTl/q3W
-	 d5NUOLCYmzAS0jMUnZ+etVdD7o4WGy536OxNHsRsAH+v3y3h85lUFycSp1Q09UcDye
-	 UvagQEGz6pcEg==
+	b=CpMtYLk0SZ9JMGD0MaKWfupCmjfTL4UZxIu+tJNYjfHMMtk8iDthD+U+K10DX9FKB
+	 S39sybRTWFsQJzmA8JKiwZJWGlRiWgqCpr1IOJJz8lI69D1nydoAvn0u5vBjYy+0/P
+	 KFFDD0f9A3X91vD0rxDc6PaZrSoGzchxmAcwQYeVni+Tz6lCXcQve0ZJvCZd0ni7xb
+	 +3dZqvjXVz4xsak8Vz639JCroDbt3IBdCQk4m1L9Cye4NHVYG+fDz1gy2J4qHR8U10
+	 ayitwyv1G6hamtiGlLB1ZWYO3pB7UfrumYqLFZMrLF0P65oe6mvtZs6PLlgr7n9WeY
+	 8+w9MIp4TujIw==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 43BED48DF6;
+	by lkml.kernel.org (Postfix) with ESMTP id 323DD48DF2;
 	Wed, 11 Nov 2026 06:00:08 +0000 (UTC)
 From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
-Date: Wed, 11 Nov 2026 06:00:14 +0000
-Subject: [PATCH v2 8/8] arm64: dts: allwinner: orangepi-zero2: Add i2c
- aliases
+Date: Wed, 11 Nov 2026 06:00:13 +0000
+Subject: [PATCH v2 7/8] arm64: dts: allwinner: orangepi-zero2: Describe the
+ SPI NOR supply
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261111-h616-zero2-dt-v2-8-88d8030fc975@gmail.com>
+Message-Id: <20261111-h616-zero2-dt-v2-7-88d8030fc975@gmail.com>
 References: <20261111-h616-zero2-dt-v2-0-88d8030fc975@gmail.com>
 In-Reply-To: <20261111-h616-zero2-dt-v2-0-88d8030fc975@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -96,11 +96,11 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Arun Iyengar <aiyengar1990@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794376807; l=1421;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794376807; l=1094;
  i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
- bh=Iab2h5Ns40ufO6oTUc6or65fgVwB87DFnCvwebhE2a0=;
- b=MuO6b/d4vcn3cxElE63zppLAfL39s+IfQeufqI3/tff3t+6PLHMGd9ZdP71jf8sy1++Avko8U
- v01poRE8azNB6n9d7zpmfRT3ttBSeyWubuohvePTfbSzwzEPsoHQxnh
+ bh=koI5LGgxBRvtt44PpABti87vN3ELbNOlU9mgjrDscGI=;
+ b=2CQ6LDVGiv2EC0iUm+5zPuEgt3Jsm8LTq/f7YbI63awhqKxYsof4T27Fn2j6wOGkMLVOM7DPJ
+ eMOEMt+5bvXDriM7m6KvXhv2+ATUMLPbg+hEE+04XgcFP6fPzmtx84C
 X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
  pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
 X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
@@ -111,43 +111,35 @@ Content-Transfer-Encoding: 7bit
 
 From: Arun Iyengar <aiyengar1990@gmail.com>
 
-The I2C core numbers adapters after the "i2cN" aliases and hands out
-dynamic numbers, in probe order, to adapters without one. The Orange Pi
-Zero2 DT has no i2c aliases, so a TWI controller enabled by an overlay
-for the header pins gets whatever number is free when it probes: TWI3
-on header pins 3 and 5 does not show up as /dev/i2c-3, and the number
-changes with the set of enabled buses. The vendor manual and the
-vendor BSP name the buses after the controller.
+The SPI NOR core requests a "vcc" supply for the flash. It is not
+described for the Orange Pi Zero2, so the core falls back to a dummy
+regulator and logs at boot:
 
-Pin the numbering as the vendor BSP does: i2c0 to i2c4 are TWI0 to
-TWI4, i2c5 is R_TWI. Disabled controllers get no adapter, so nothing
-changes for buses that stay off.
+  spi-nor spi0.0: supply vcc not found, using dummy regulator
+
+Per the Orange Pi Zero2 v1.3 schematic, the 2 MiB SPI NOR flash on SPI0
+(port PC) is powered from the 3.3 V VCC-IO rail generated by ALDO1,
+which already supplies port PC here. Describe it.
 
 Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-index d5d39bac5915..98fc83291dc8 100644
+index ca78d094c431..d5d39bac5915 100644
 --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-@@ -12,6 +12,15 @@
- / {
- 	model = "OrangePi Zero2";
- 	compatible = "xunlong,orangepi-zero2", "allwinner,sun50i-h616";
-+
-+	aliases {
-+		i2c0 = &i2c0;
-+		i2c1 = &i2c1;
-+		i2c2 = &i2c2;
-+		i2c3 = &i2c3;
-+		i2c4 = &i2c4;
-+		i2c5 = &r_i2c;
-+	};
+@@ -148,3 +148,9 @@ &pio {
+ 	vcc-ph-supply = <&reg_aldo1>;
+ 	vcc-pi-supply = <&reg_aldo1>;
  };
- 
- &cpu0 {
++
++&spi0 {
++	flash@0 {
++		vcc-supply = <&reg_aldo1>;
++	};
++};
 
 -- 
 2.55.0
