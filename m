@@ -1,49 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.13.80.246
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794476780;
-	b=hx0dwNgMGMMQ7QxmpXK+Ohjr8bB0KRgR6fIVSyeDxYLldSFa8MBCQ+iPEnY3zh+AL/EL
-	 BsqIN3IzsLRqpQ13OeXRVVT3ed3GHp4kypofBTF2YykVXN1brBczTB5snaVeRNNsqW3lu
-	 r7aVIx3+k6I/zt/mKF9QWk9X2N7PGCqQcE9kBhZbG1d69/6DTd8pVEf99It0SAssqQujd
-	 DKqvj5FVAHQ8gDF1wXEkon79O1HH7qAc2uYgRGQyDw2knYjyYPaDly19ynN1VWdkSfT2C
-	 DS9ULFg6GB/CtJvV1YSWuYch1zGpag3mv2nSuE16GUB9wws3boW2QD1SvHElNJJ3CpQ==
+	t=1794489263;
+	b=rtNl4tq2bx5nkmXWuIuY0yXhZ9g4gNVUe0+YmxK5CH3IVvYqxOAgaHtOH1NpBiTzyKVR
+	 CqGkapFhAr9QU8PwjAVT1qVHTJcXzJNHgnWV0n6DRM4SsP5bvK5Q+7fc1BdX7CAjqAdyt
+	 pUnf8cnX3qz7Vo0FrDn6xSqRkJnezlbTDM09t+JTS9zk6s2lfo+mXHTOa0WgQWHDzLRFM
+	 pl8l8q7blSH2OAsSUXXfw2JfBLwG/E2cM1DBzmVydEaMmsNTGgfii5vUpu2CwZI4NBmee
+	 lLxDsYCH/drFmWuw3hM+qqfG3+fgpbvvRFFOkYu659RxAvK6InuRsdAS56zP9sXIqaA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794476780;
-	h=DMARC-Filter:Received:DKIM-Signature:MIME-Version:Date:From:To:Cc:
-	 Subject:In-Reply-To:References:Message-ID:X-Sender:Content-Type:
-	 Content-Transfer-Encoding:X-Last-TLS-Session-Version;
-	bh=zF4RKurSPbtIZr5y6aisxGcnIy7a/9xHHcRfZOEEHKY=;
-	b=wcRwCs1QbqmdiYP/yrONnMqJmeI6H5dZTAbD314zWqoIm9JKSouLatZg6uIDQj/+RLxL
-	 w22b/PlGv4Y+3/6N7j9yRNdbM8B2IsHepnwhHgg0MnO0+gpMejJWbSaRP8q6UapquvCJM
-	 Bz1PI8qMD2xxHL+HFcUX5tjecMlPHarAau4RJ2/c0lEoJN7MGDGOQlbRO3qXevczy8Ujy
-	 o50VaP9HrMxMcj6C4nWn4Z1isF71Dwfb3e2XttJrwCetM7uY6mQMV7fRSNzEuqLmLOm4f
-	 E4kdaZN99vb1DHIERcXiYpYq828jkU9QE6UHawA1ciy8i9EWXJMqPBCtHKYRyc1shWA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794489263;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=JsseaZWlHALkJDroqnvRsrsIA8/F+g3l2qrb9axVxOs=;
+	b=ffIarSW7wIPXgimfMTeY2yisTURqBVIU+1QmY0zoACgTnvR/vYzLiVArttl1hxw9tVa6
+	 IyUM/M0jdLfUGpDaNen5WibvPM48AVFt0FZ6oiexqp6qHsslppScQrS3Dee1Rq78IC3cV
+	 rF/yFUh0AunrmQUcjR7KnP6nwdLddvRMWsztPYH0AsgHVnlvJbdAKEbSF7XnE2Fv6XDXf
+	 Ny5JPxafA40w/pPq7akVYESy7OQErKxiujSQ/jlVld1tBKhqtDBfkwaG37ZIpiCzIwIO/
+	 XSBg3XqlU8CW/VtcDx4JT1sh0hr7Z+W7XffboTwtaB7jmnATtrZXEZFGuB7h1ndYE7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=tipi-net.de;
-	spf=pass smtp.mailfrom=tipi-net.de;
-	dkim=pass header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=2pXqmXMP;
-	arc=none smtp.remote-ip=194.13.80.246
-Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b="WIJl/qw7";
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C86B606A327
-	for <linux-sunxi@lists.linux.dev>; Thu, 12 Nov 2026 09:46:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C86B606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C430606A330;
+	Thu, 12 Nov 2026 13:14:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C430606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=2pXqmXMP
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 85196A0064;
-	Thu, 12 Nov 2026 10:46:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
-	t=1794476777; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=zF4RKurSPbtIZr5y6aisxGcnIy7a/9xHHcRfZOEEHKY=;
-	b=2pXqmXMP8GV7SvW37kAVDSxQn4a35G1NODITlm961BJyJKuTT4HfH7yNcaBeBN4U7Eb3SF
-	oGoK1o/QgNZ93MnAS6xYwRJFTIckJQVngdNqeBszfwHk3jZwF+9MUSzkvqSL3rUdWWOmIn
-	/pZph+Gzp5APYCp3MmrS3XrDTJCFBDAo3ae2EZafPKBes8q1zu2HSsGOWEeCZsq//Hfd54
-	pGZ6TMzePxnA/mbDS9PvreQE1Wmuurcx6zATx0sTy2N6DxcJwEygFLY7y6YKTnpcurFyiV
-	mvOoMIx7Pmbs9BvgaXK6x1zNAiFJO+3VECTyNllVrq9nQZM3UDeQXq2vkYWX/Q==
+	dkim=pass (1024-bit key, unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=WIJl/qw7
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=JsseaZWlHALkJDroqnvRsrsIA8/F+g3l2qrb9axVxOs=; b=WIJl/qw7H0BAcm1v01iuIz8K0n
+	/zMRv/4PU6hmW6MyyaRlRwjgpLKzdkb+rhiJrtiGtdp5c0BlWUd8nxgs3pMCg9asI6XeZ8oVc5gRr
+	/A8XijRY6spjDYf2F9uh2CuhqOe8LqdJeU7ovZBP65Q0Jo/pXQSCGpH3Y2H0fEHpU0Ww=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xRUcp-00G1SL-1Y; Thu, 12 Nov 2026 14:13:59 +0100
+Date: Thu, 12 Nov 2026 14:13:59 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: aiyengar1990@gmail.com
+Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>, netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH net] net: stmmac: dwmac-sun8i: Fix use-after-free in the
+ MDIO mux error path
+Message-ID: <e526541c-f91a-484b-a677-4c55e4a96a7b@lunn.ch>
+References: <20261112-sun8i-emac-mux-uaf-v1-1-308ae7e6fcf2@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -53,45 +74,40 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Date: Thu, 12 Nov 2026 10:46:16 +0100
-From: Nicolai Buchwitz <nb@tipi-net.de>
-To: aiyengar1990@gmail.com
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Maxime
- Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, netdev@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org,
- Corentin Labbe <clabbe.montjoie@gmail.com>
-Subject: Re: [PATCH net-next v2 2/2] net: stmmac: dwmac-sun8i: Enable jumbo
- frames up to MTU 2018
-In-Reply-To: <20261112-sun8i-emac-jumbo-v2-2-aca0cf23cf17@gmail.com>
-References: <20261112-sun8i-emac-jumbo-v2-0-aca0cf23cf17@gmail.com>
- <20261112-sun8i-emac-jumbo-v2-2-aca0cf23cf17@gmail.com>
-Message-ID: <328e66e47898b772f2956649bf4cf795@tipi-net.de>
-X-Sender: nb@tipi-net.de
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112-sun8i-emac-mux-uaf-v1-1-308ae7e6fcf2@gmail.com>
 
-Hi Arun
-
-On 12.11.2026 09:41, Arun Iyengar via B4 Relay wrote:
+On Thu, Nov 12, 2026 at 05:28:05AM +0000, Arun Iyengar via B4 Relay wrote:
 > From: Arun Iyengar <aiyengar1990@gmail.com>
+> 
+> mdio_mux_init() registers the child MDIO buses one after the other.
+> Scanning the internal bus makes mdio_mux_syscon_switch_fn() select the
+> internal PHY and power it, which sets gmac->internal_phy_powered. If
+> mdio_mux_init() then fails without switching away from the internal
+> bus, for example because registering the external bus returns
+> -EPROBE_DEFER before any access to it, or because an allocation for it
+> fails, sun8i_dwmac_probe() jumps to dwmac_mux with the PHY still
+> powered.
+> 
+> That error path releases gmac->rst_ephy and gmac->ephy_clk and only
+> then calls stmmac_pltfr_remove(), which ends in sun8i_dwmac_exit().
+> Since the PHY is still marked as powered, sun8i_dwmac_exit() calls
+> sun8i_dwmac_unpower_internal_phy(), which passes the clock and the
+> reset control that were just freed to clk_disable_unprepare() and
+> reset_control_assert().
+> 
+> Unpower the internal PHY before releasing its clock and reset control,
+> as sun8i_dwmac_remove() does. The later call from sun8i_dwmac_exit()
+> then does nothing because internal_phy_powered is already cleared.
+> 
+> Fixes: 529254216773 ("net: stmmac: dwmac-sun8i: Balance internal PHY resource references")
+> Cc: stable@vger.kernel.org
 
-> [...]
+Does this bother anybody? Seems more like this should be for net-next.
 
-> Limit max_mtu so that a frame with two VLAN tags and the FCS fits in
-> 2044 bytes (MTU 2018). A device tree max-frame-size can still lower it.
 
-max-frame-size is only parsed for the snps,dwmac compatibles, not for 
-sun8i.
+    Andrew
 
-> [...]
-
-Thanks,
-Nicolai
+---
+pw-bot: cr
