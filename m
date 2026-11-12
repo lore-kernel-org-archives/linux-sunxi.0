@@ -1,79 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.41
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794475354;
-	b=wCm2JiKsZl4qy5N2tpdWdzdmU4np2+C4lNBSX/4C+I+7Saf0Jt9g4gU4g5KVXGI2yDDu
-	 hBGJlG6+SPBWjNN7mfIeDw/M90uVxFGNtSuWWK2AQhhNPkmgssigPnTGkuCqErtB8BKUs
-	 SYqtjbiG4bzdAhUUh2J4b8BUSdISsj67nYynSupER0+PWihcJ3AU2nN+n54KUsh4ClndQ
-	 Mlr6gncLs14w29WeRPx1xk9ZXYxEowD06J2bMRB/f99Vs7GxcHnUV5+wLfpRgPPD/bb99
-	 ioU+EZe4lqu9+ffG2FfXXRfnqWFlmXS/VVCsP3ADiUB79eSFWojEIy1XXEDx4kkcoJg==
+	t=1794475507;
+	b=AI9QNQjBQu+GRw/VVvV84uP2l+ZjTv31zglWA9hdLLxyeqyR4Nopwt2zu1h14XwcFAgz
+	 FOryMU5/CuXBwFFO4b4N+SfQe5oUrRUPu+fZyB+hPbpce6o0vHndOmoQlmBevqCYHZtYB
+	 rKOUOCBSNE31q9dUgPBwXKohkFqcq2rGtNcbeCtfe7dD44LGBMNF+9j3ZdatO6BHoVXMq
+	 y/inBDOJ0ClsUpbLfSfBYwuT+7ArnU2bD6TCnDu0K93mCTKpE5a6BoyXUUBlAl57cHIao
+	 WyyAOQNKkiOPxZZr0JH2qmmf42RRqpJ2S299t7gfnzCQvCA7omMOstQiqFQwLZVRWMw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794475354;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=P8OVAdFrpiHpa2Y5YjbvLphez/MlgFPtGIr9JlXAz3I=;
-	b=iuw39zbOpMuqm1NW7Vd17k1KMf0Lz9KZTGwsP/T9qM9LuxemnqlkSBiEoNZMQ3LWkpHm
-	 pWzP4wvQ2l5rUX4EwvcxpRFqS1ImzI1iUBZFKiTXuUBLDmqCcyH/GYcNogo91YefuWX6f
-	 zG6Vday2Rs6lQ+DEfkJzslZS7NtJleC9ASpgu72uDT7Qw5c6GXn0qGMFpSKIb9z8Njol8
-	 cIPHmJiwQ+M6yT7dksY7ztRyuw8jei/t2DYY5yVr4UZTTod2Wxyi7WYyb/ZIG9FTDmtkt
-	 E3N+Ftvt3T8twz0TCRJC69vmaUZnLMV1WWohsidn3jMzTvNCKyBMhbUpf6Ctdd6oRBA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794475507;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=aAW3v6GEJbuYIvU/kMT5hk01048H4iK9Lb9vDkzw68s=;
+	b=ykkZdfim8nUyofbLDglc0D0UdR0xHE/joWXR1jUni7dLtU8vjsWX/LmgttdHzwDXxZ2r
+	 Vk1DuVrc0i51fAfikKR4LMCzKi5l6itweeeJ8HeyaALuYnuWyf8tR62VbOa9OAz/38var
+	 52nQ410w1zMQoI4fqIahofP2nLUhZTWomWyMZLE+HmHXlupR5yYsWXSgJzZPBA51o6nle
+	 Cko0xtMEeONUbfp5iIBRMEAas8OVyhElXEGv9famIpExQG7HQ6RBE7BHrIlIrXSCJuDRd
+	 f6PTZHU61E6cr5BKFv+mbpXi7q874zxTNbdU7r4mLP+0nWgqyku3bZtFllPvN937ONA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oD5tsBPN;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C746F606A8BC;
-	Thu, 12 Nov 2026 09:22:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oD5tsBPN
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794475354;
-	b=q4s/3zFFkJfwJPFbqw0lvsovXR0L6aU7+yNt5N1+7iT5X1BMM0d9i+bDUsD+1588rt0d
-	 YQ7iQ72CCeo/dO6BPIm4nFDAQ8ykdcFTNxwZx8ZGv1H/kX56ZqQQQRS/7Ajr2+dhBXgUp
-	 BoetVm16KFqXaFdVTlFj85kHzeVO3QC6mbVQCJYJCFF5ma7TYsbd7PMZmDnzucEiqSjJj
-	 0NKGF6zYIurNFQV4eZCuHCI5u5U8XZzzECCaIqCBp8ZIAdNynWDZ3gVJZ8Mb3TRrw7KoT
-	 jWdfq6Bqk+tiYdC+JFBdxCZtKS3dDBG4LZzE7mHQei9kukgrDzt9+QgOMuStvgq344Q==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794475354;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=P8OVAdFrpiHpa2Y5YjbvLphez/MlgFPtGIr9JlXAz3I=;
-	b=2ibF2xlC4MYscjWzFEOl49ZzCfPsZR7xKS7IYH+Sl6DjZ1kke0di+eiO7l3/7bDzZ/9W
-	 Q/SMMqstFaMqN1n2FhQCbYSadPgqoZNsMCiRAEKxfSUT2anQixVwX/vg/H13KXWmv+x/j
-	 E1zTBVtlGi411YtvlEMmBfBamFtq7Zyk5F591acRfE6gcgiqosp1F6Cpjn0v+9nUVrgNu
-	 vP0vI7kVSdOpR0uuiuYD0lCRjZ56qaBPfJ2uFYuoYuews+XmIvJKQYN0m67mTgoWrMb1h
-	 r9CC6dpj0n3Cm7J3sVDOXQlpFffxjX6HPQwlSoQzUvtYLZeOEoY0Jb0PvlMJZrtC0vw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZB2PAKWz;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.41
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 308351F00A0A;
-	Thu, 12 Nov 2026 09:22:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794475354;
-	bh=P8OVAdFrpiHpa2Y5YjbvLphez/MlgFPtGIr9JlXAz3I=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=oD5tsBPN8VaamaktB7HWAVcYsohYAr8vN95/UEXSKUWscM/xg2kQAanbVpnCC4iq+
-	 xx0takeoZB45EOJy8hZzO6qdb+egGSic5V6WHFtVSBXyCCR6a0FvPusjSB99pSMZmX
-	 +vR0R3Hl1pP9Is2sHixesxJII2jDuJRichxq/Mqf9R2n59JPqDn9lTI7jXY17TGWWo
-	 PHuh4MsWFkIC7cz6bAI8phyUCiGCtmVLUyy980nVh+zOwEHeWyWbG8g5AklZQAgRTj
-	 vnuiLEvadOnE63subgjOMN9OmXIIh8p/zy254sbNTKLQatPANTsmgpl3AeHRsZqPEV
-	 252/Ybvly4y5Q==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id C746C4943C;
-	Thu, 12 Nov 2026 09:22:31 +0000 (UTC)
-From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
-Date: Thu, 12 Nov 2026 09:22:35 +0000
-Subject: [PATCH v3 5/7] arm64: dts: allwinner: orangepi-zero2: Keep VDD-SYS
- at or above 900 mV
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB7F606A323
+	for <linux-sunxi@lists.linux.dev>; Thu, 12 Nov 2026 09:25:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FB7F606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZB2PAKWz
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5c0ea47f5b8so158553e87.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 12 Nov 2026 01:25:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794475505; cv=none;
+        d=google.com; s=arc-20260327;
+        b=q+8yArHuk+iAqV9POFbylzK11R8+gywpc/OFJqESS5SUBK6qYRpvkyQXtcW1StwNWQ
+         6h6O0KVulXzT4+YGrDp6tsVH/3oZX5bbN/AXQksP4wbNN2QZfWw9DLQbWKYmgtqKLdqh
+         Xy85iYoiyPn7kzvCafvpqS0blN2oN5/vcLMN3MPuNzafOK1qhD9TaqbdbhZNPbzAXpgT
+         NLMf8wrG2dggxibqpnVk1B5ic0AYm+GTPIoBA9huiShoqgY0BquRziJi25mrg4hbHGe6
+         uG0TyrgEFEcw4mfhRye+NrLIT2iI7LIjwW9ES78/1tIMaD9Sy6MFGmBATvb+5nAMgQ4U
+         RXgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=aAW3v6GEJbuYIvU/kMT5hk01048H4iK9Lb9vDkzw68s=;
+        fh=pLuEQt0c0c0OYwp/n13oHi4KrHdKLGWh2LRMDxI2Scg=;
+        b=eMHl+YPuCxNO3IzwMckQVHy9khbvYa3mDyPCpg6jyaMwU6PyLOtqmqEXL5vKHukzqn
+         mvsH0CbqWM2jCP2DEpOnmBukcDbT4vapzTxpReWGpgvExjy2g4wd5/9x9Mut4E12Cj/N
+         1xacz/JKgVL80rtauhClmt3UQqEjmS1pHOuxqcfeAqtTzmr+V6yP6Tzj98s4J/SgVbTa
+         dadrE4cDtN29BpzJpiLC+T8rvlOMEa1hd6SBeGPaKLQymzHtUNFajOXvb24RZwdWp2/K
+         iGmpnQLg2l16L2oekV1K41mAlql/WENE/QZFl8KEX6QGhT28bOpnhVh87LKAsPdQuHH2
+         c6vw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794475505; x=1795080305; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=aAW3v6GEJbuYIvU/kMT5hk01048H4iK9Lb9vDkzw68s=;
+        b=ZB2PAKWzlMzjY9Ond/8UwDD0FsmnIR6nRn9li77U9RlP5T4zr0pbSfy6yE4yvtG8MB
+         gs17RSN+L9IRh5WGBJP/BI66eRBfPNz0vc1zztFn3R+E3HBXO9tDpgkyVPmquagvV9ib
+         sjYQVI6megAVBZSDvD+lJ0iyKBolrq/eHywdWGZmfjNGhK7x/liC2c5CmfmM74I1GRtP
+         jqn0k0Zl4TYBISEiHWtBJu3EYxJUW570JQVUyg9A29aEfewBEgKf5LgA3yoV10UgkQZc
+         mRQVtl+YuoSh/N2f6uYfAWDIHStTAvCqZ9PoL36wjtUneQkQcd0H0zcdTgCtBT4bfumh
+         oLAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794475505; x=1795080305;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aAW3v6GEJbuYIvU/kMT5hk01048H4iK9Lb9vDkzw68s=;
+        b=bx8cQEZ1/MF7eT6lncO4f8tab7lXUTMkPPpuVWAghu3KDS2n+g+9bFiLWhI07PRhBq
+         v04xHobMqfprqTeXVagwX5j59AOJ/V28HFNh+c6uZWFUcPzlgFkIG5oxZ6USdMCZooY6
+         gNuCe39+YhiKMa48daLSxUMfxu4K+msfJ5tfgEJnZgieexFT/nKBiDgB/KwjGX+j7eh3
+         WjCPH9mdUOSw7nWBuCppANedo80kmKJgYnkeMPbMAeIdkxtDmmCKULjh/lPorTkfDSWD
+         RXyiIY8MdQwTVNyi2R+4TrM9gpsr3y6Y/aywQlwkfGMecbWTKfBFxGV56XTLRW33yHeK
+         ZZnQ==
+X-Forwarded-Encrypted: i=1; AL+hErHssziZ4W7UtWRBXu/z0Aee/r3eV7cdtuf1E1+2mbTQVdtyvSpvj1K/EiTRoHzZM2MPKy3vvKVxuHrKEw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+xA85fTGEonX4mw81LNWnKADBuLtGYpUbcu8r61cl0tQQSJX5U
+	iXWB29Zhmw4rrUXqYMuatv9ApXJyb5txtIRxN74mlOQzstO64KqTnFBR7E4F7cTBU8bh8oaqDRG
+	XumjN4dHS1ysm+lAe6zBZBuksHHfFX50=
+X-Gm-Gg: AYBFou2lq1FkojrirnQvSSng3CJzohrnBLmXl2R9vhcyBN+3uL75L7QZuJRcac0om5i
+	Cj3rfi8SE+ai7PopeuI1q9i34Rvve3NiQ3+l9JtNTM4ScOMAToGwHJlthOAziDoLAOLk5GBsnD/
+	7PeWE0XmblEfqPrcRb5W0nE3fju9RrD9I/tgynWiuM0mHXE6I2uRb2MbtBUUy5Ic/bR2Vzd1IAL
+	PqfGMCxFTk/EBT9UzyEEI0w5rm3f0hA9HaRPQicofv0dage+ADjmTZ4cwl9dVJott6XiE2ZraEW
+	qX1borm9s7xIWOILZAZemyoxqfN0YH0SpiUPDwKDmwaFI2giWXPLYJTFpe8AQlOosQVrxfdpxcB
+	wAOZH+go7wYmizg7UbLAoBsgpP/o2igyVgdUZkYeBMq/XDRCbvxW92RoWRFe1DjAmmHyEZlI=
+X-Received: by 2002:a05:6512:1105:b0:5c1:57b9:90d3 with SMTP id
+ 2adb3069b0e04-5c15d5a8091mr1824839e87.1.1794475504618; Thu, 12 Nov 2026
+ 01:25:04 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -83,70 +104,131 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261112-h616-zero2-dt-v3-5-1cd2664230c8@gmail.com>
-References: <20261112-h616-zero2-dt-v3-0-1cd2664230c8@gmail.com>
-In-Reply-To: <20261112-h616-zero2-dt-v3-0-1cd2664230c8@gmail.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Ryan Walklin <ryan@testtoast.com>, 
- Andre Przywara <andre.przywara@arm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Arun Iyengar <aiyengar1990@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794475350; l=1740;
- i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
- bh=7dRmuEnXweiSK3ig6SjcXECMwYZqvp9fut5LB8gZugM=;
- b=98ac72ARLU5U2lw54mPr586i+KWJChBKw09jN/P2hwx20Vf63T2SW6wmzhcqmazmxsEG76KrS
- s3VJu9ivSHyBqMFIiKg830a1w0NfmhKE2uUwZzVh3b89p49Ha4Dvpx7
-X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
- pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
-X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
- auth_id=1480
-X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
-Reply-To: aiyengar1990@gmail.com
-Content-Transfer-Encoding: 7bit
-
+References: <20261110-sun5i-hstimer-arch-sunxi-v1-1-9016f63e186f@gmail.com> <CAGb2v66=UbyC0jaW6tjeux5VruUAXN_64bAs3+LyS=CRG1qm9Q@mail.gmail.com>
+In-Reply-To: <CAGb2v66=UbyC0jaW6tjeux5VruUAXN_64bAs3+LyS=CRG1qm9Q@mail.gmail.com>
 From: Arun Iyengar <aiyengar1990@gmail.com>
+Date: Thu, 12 Nov 2026 01:24:53 -0800
+X-Gm-Features: AclHuK-hAO4EvOdrjX-CMAuSOsrtdv-9s5jREBggl1QgG0DXsRBqy77zUtF8Ctk
+Message-ID: <CAEy9hNXfqPHEhDnfP+S5zbvFbVSiuMUALVRNQLPEdOLTsehRZg@mail.gmail.com>
+Subject: Re: [PATCH] clocksource/drivers/sun5i: Allow enabling the driver on
+ 64-bit sunxi
+To: wens@kernel.org
+Cc: Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Michal Piekos <michal.piekos@mmpsystems.pl>, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On the Orange Pi Zero2 the AXP305 DCDCC "vdd-gpu-sys" rail feeds both
-the Mali-G31 and the SoC's VDD-SYS domain, which includes the video
-engine. Its regulator range starts at 810 mV, the lowest GPU operating
-point, so once GPU DVFS is enabled the rail drops to 810 mV whenever
-the GPU is idle. The video engine does not tolerate that: with the VE
-at 600 MHz, 4K H.265 decodes intermittently produce a few corrupted
-CTBs, without any kernel message. Only 6 of 13 runs were bit-exact at
-810 mV, against 3 of 3 at 890 mV, 3 of 3 at 950 mV, and 3 of 3 at
-810 mV with the VE clocked down to 432 MHz. The vendor BSP runs every
-GPU operating point at 950 mV, so it never lowers this rail.
+Hi Chen-Yu,
 
-Raise the regulator minimum to 900 mV before GPU DVFS is enabled. The
-H616 GPU operating points use <target min max> triplets with a 990 mV
-maximum, so the regulator core clamps the low-frequency requests into
-[900, 990] mV and devfreq still scales the GPU clock.
+On Wed, Nov 11, 2026, Chen-Yu Tsai wrote:
+> This doesn't really say _why_ a user might want to enable it though.
+> The only reason to do so is to get a higher resolution timer, but
+> the rating for sun5i-timer is lower than sun4i-timer for both clocksource
+> and clockevents. Realistically speaking this is never going to get used.
 
-Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
----
- arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for the review. You're right: with its rating below both the
+architected timer and the sun4i timer, the kernel never picks it, and I
+have no use case that would. I'll drop this patch.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-index 1fdf2d3c1a87..719d6dadf7bf 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-@@ -114,7 +114,7 @@ reg_dcdca: dcdca {
- 
- 			reg_dcdcc: dcdcc {
- 				regulator-always-on;
--				regulator-min-microvolt = <810000>;
-+				regulator-min-microvolt = <900000>;
- 				regulator-max-microvolt = <990000>;
- 				regulator-name = "vdd-gpu-sys";
- 			};
+Best regards,
+Arun
 
--- 
-2.55.0
-
-
+On Tue, Nov 10, 2026 at 11:33=E2=80=AFPM Chen-Yu Tsai <wens@kernel.org> wro=
+te:
+>
+> On Tue, Nov 10, 2026 at 3:07=E2=80=AFPM Arun Iyengar via B4 Relay
+> <devnull+aiyengar1990.gmail.com@kernel.org> wrote:
+> >
+> > From: Arun Iyengar <aiyengar1990@gmail.com>
+> >
+> > The high-speed timer driver binds "allwinner,sun20i-d1-hstimer", which
+> > the H616 device tree uses as the fallback compatible of its
+> > "allwinner,sun50i-h616-hstimer" node and the D1/T113 device tree uses
+> > directly. SUN5I_HSTIMER, however, only has a prompt under COMPILE_TEST
+> > and is selected by the 32-bit sunxi machine Kconfig alone, so arm64 and
+> > RISC-V sunxi kernels cannot enable it and these nodes never probe.
+>
+> This could be simplified: the high speed timer is available on many
+> newer platforms, but it is only selected by the few original platforms,
+> and not visible to the user.
+>
+> > Make the prompt visible on ARCH_SUNXI. The driver registers its
+> > clocksource and clockevent at rating 340: below the architected timer's
+> > clocksource (400) and below the sun4i timer (350), which ARCH_SUNXI
+> > already selects on arm64 and RISC-V. Enabling it therefore adds a
+> > second hardware time base without changing which one the kernel uses.
+> >
+> > Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+> > ---
+> > The H616 and D1/T113 hstimer nodes and the D1 driver support were merge=
+d
+> > for 7.2, but the driver still cannot be enabled outside COMPILE_TEST on
+> > arm64 and RISC-V.
+> >
+> > Tested on an Orange Pi Zero2 (H616) with a 7.3 kernel carrying this
+> > patch and CONFIG_SUN5I_HSTIMER=3Dy: the hstimer node at 0x3005000
+> > probes and available_clocksource lists "arch_sys_counter timer
+> > hstimer".
+> >
+> > This patch was developed with Claude (Anthropic) as a coding
+> > assistant. It investigated the problem and wrote the code and the commi=
+t
+> > message; I reviewed it, and it was tested on an Orange Pi Zero2 (H616)
+> > as described above.
+> > ---
+> >  drivers/clocksource/Kconfig | 7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/clocksource/Kconfig b/drivers/clocksource/Kconfig
+> > index da83483296d5..971491d2e584 100644
+> > --- a/drivers/clocksource/Kconfig
+> > +++ b/drivers/clocksource/Kconfig
+> > @@ -172,12 +172,17 @@ config SUN4I_TIMER
+> >           Enables support for the Sun4i timer.
+> >
+> >  config SUN5I_HSTIMER
+> > -       bool "Sun5i timer driver" if COMPILE_TEST
+> > +       bool "Sun5i timer driver" if COMPILE_TEST || ARCH_SUNXI
+>
+> Nit: I would probably write "if ARCH_SUNXI || COMPILE_TEST" just to match
+> the other instances.
+>
+> >         select CLKSRC_MMIO
+> >         depends on COMMON_CLK
+> >         help
+> >           Enables support the Sun5i timer.
+> >
+> > +         The 32-bit sunxi platforms that have this timer select it. On
+>
+> "selected"? BTW I think we can drop the "selects" from those platforms
+> if the option is now visible to the user.
+>
+> > +         64-bit (ARM64, RISC-V) sunxi SoCs such as the H616 and D1 it
+> > +         registers an additional clocksource and clockevent device, ra=
+ted
+> > +         below the ones the kernel already uses there.
+> > +
+>
+> This doesn't really say _why_ a user might want to enable it though.
+> The only reason to do so is to get a higher resolution timer, but
+> the rating for sun5i-timer is lower than sun4i-timer for both clocksource
+> and clockevents. Realistically speaking this is never going to get used.
+>
+>
+> ChenYu
+>
+> >  config TEGRA_TIMER
+> >         bool "Tegra timer driver" if COMPILE_TEST
+> >         select CLKSRC_MMIO
+> >
+> > ---
+> > base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
+> > change-id: 20261110-sun5i-hstimer-arch-sunxi-167ea2ebcbd7
+> >
+> > Best regards,
+> > --
+> > Arun Iyengar <aiyengar1990@gmail.com>
+> >
+> >
