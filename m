@@ -1,100 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794470678;
-	b=fUxbRuH4PGTQNEwIrgG42kfZgOMjdv9GSI8dDFoWUoPFpxZZKvs5vdyKvy5XKGc6ra1y
-	 YoreU2zVuouwZWXFxT6glazeHR/bip5Co3WTyEage4laeofQf6FuQyItTacpDweEERqhu
-	 Ud83/mdHn+wvzh1icjwNx0o3O5K4aAxDnGAu9AXzHb8mQATkc6LlEGhXbxZIIhpORDMNf
-	 EOvlYx4cbGwUATD35HG9KvYbgRMBgvUvevbIBt7Wi3GJGUObmsj6atwqrSxwFk6RhVoAH
-	 tp2zMxFn7WxG4Hpp6u+6H8eyoOXlGaKDd5aEsB7GXn/U6S0iLQC6CXKsnt2P6B9cVPQ==
+	t=1794472908;
+	b=0Ya4cXqWoPHVeTEOXWOadeRJ1uB3EDR6/AFqazgW622vys8/pzTBdHKzQAhtStmKgxrG
+	 NjwbvX6P1RSBGXj797VAUphkv+99eEjnICmOnqE7qNtaeJQE742IFtIur3I4gNMIBP4VM
+	 ozLRl8Rbm5R0ogGZL1dV/8BhHGSzputATDa6TljtbY/hKLTXC+3AXM4ynrSiuZYZ23dzN
+	 8G0dxeKikiiPD6UgyYzZIG3es+a4NlGrrucsKLOmQCLjuBunKUblIgxfKS3fQAdOH2ajk
+	 JAHyjzWgRzts0UOfo3tURiGN+4WIlgunCIsN0ok+KMQRbyh/ElwSYTymnLOM+2evi5A==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794470678;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=bZnjmRjaw3mt+xCJw0WA+CLEo0XUahYdWgL+JaOD3TI=;
-	b=reAvBRfhWLmXPupOQxB26n6ez15Kw8QiPujC5UjT5qI/VNN8TnLOw6ZIKI9LiBwsknkB
-	 k5XGy93armXrCPAymE+F1miz8ZbZMl6VlvAlZcUKv1PW80Jmf09xrXQtCabR9xHA4jVok
-	 l8J+rVnsH/ZVPWM6YKXa2VWuQtemhBqeDkmrOhqjKaS4Trbv5xJGfSbDaurWd82CgO0kr
-	 GJx6owOVg5t23h12zjWTy/8n1WLeuCPu1RkMtAhHJuHd9TPR1rjS27uGLqMDZ9tKz6ap4
-	 vwQa1ZikA606DXlBy2JzP0i5pT6SYMPW+mTwi8YsTJveDuwCaa1wOihJXMfJL9M0EDA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794472908;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=cOZOcx0Mu9HyNEyLOdYNEnsYBK2dtuXmhg8/FXfAGjg=;
+	b=lSJpvIDdWB6xoHQ5dfaQXsqnNgU4gZ5lJIr93dGotWfpS5uLcbp6v3O8QghWOs2M9TFc
+	 z0uQ7Ig3sVK2/V9XyM4385IHOA1sFAmsL52EQkkcANeZunETk7vy/jfw/NE/OEpOF4IXP
+	 aAq+1NnhcCoT6kB7E4nDyUI4EoyPJc28aHkVK0RNwOiHOLbklDKAcjq0+TSyH6LVjN3t5
+	 BhXx1+T8OApa2BE26OXIJuN0GPPT8gxruQR0lBK5e6Tmqw87kxD0VquANwOSxxj2NM/ZM
+	 TGyMIfQjnrfrKWuBaahas6MRy0zpy4yuC/7mo/c57KgP2EXKDcz8SNQTr03MUlDIS4Q==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WnIUGND3;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.54
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C5xqkIVF;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B93606C82D;
+	Thu, 12 Nov 2026 08:41:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C5xqkIVF
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794472908;
+	b=IyRk5o3fdl2Mkm3fODFjLtfEztDpa5yabMmiaMDbou56QgUEA2Ozm8jcPu7P0yJ7C+K3
+	 hTouAO5bN3DiVmyIAEKXcmU/Ya/KecBrofNzZPptNnKhA8+4vYnPd4F+Qzqq5rjWyNwtz
+	 wI6XPwJ0ANJcs3lA10O5yitAP3/KsQDYlqIarLbGSJ5lJnaydrIVLcfxE+enk83RV1N5E
+	 iO/+5xf2V5yaB2uDmuBsc0Ygd6ZJsVRQhT6th9Ss6sIE8Dnhsj5qUwU++1SaLci0hoX8J
+	 aUGMEpkOtuuCKmvPLFG0Aj79O4OZIYFZYqt+CW1aBZEZzEd3Hi47AQ7GPxnyRMGcKwg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794472908;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=cOZOcx0Mu9HyNEyLOdYNEnsYBK2dtuXmhg8/FXfAGjg=;
+	b=QiF3GPUEKQOa9FhrIolusbGbHn6mRtLBdQdgZNHDgOxyu+IkNEe68foYe5pkqZTHisuN
+	 xAtbXgLJqKlxY/uwdce+F/oxWyumBtIpdbJr84rA9lAehS67ZR0P78+UG2IhLVDh6scRj
+	 ZSrKqjSngDP06sqmUeOcgs0GTQIKtE89ImnSjVfcL4igxUeoT1fDSTWy3KX+8YEKSKA7V
+	 rJ8TPRjBXBt6d60lsymkv5bdj7hCLDTj4JOiZ5k40LKJxE7U8CcUlgn3S3uB6Rhtbjw11
+	 +cjp/uR/eHcnvvwLsDPJju4CWJvO3o66vYV14wf/+p/bjJYkFQimoHv+hzRRM9fx1sg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43171606A323
-	for <linux-sunxi@lists.linux.dev>; Thu, 12 Nov 2026 08:04:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43171606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WnIUGND3
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5c00b0866b0so40257e87.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 12 Nov 2026 00:04:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794470676; cv=none;
-        d=google.com; s=arc-20260327;
-        b=EvwayTUzMahq7K5yqKPkL5Rno0jBLRp0Q/LkkJBFRcYNuoNUDxfb1NP1fECJUxZ0NB
-         M2pVwigCnPfhMJmiqt/uMaPEgu8S1b5kKChBWB0uZSo1SDZihEJiP7Y7EhEeZE0wWv6D
-         M5zcgoiQwH5ReI3q8OYXjoRaOrSi6R8EOQQmhC2Lwt36YFb0DnPO0nAVKmvzPGWEOxjR
-         zRZSnjnPAX/sI8E2sX5QHdh997j09AkzHHwnYUnZQ4U/uLCBh++uFiX1wvVIU7qWs5mK
-         AF+F1Wzt9mPsCs0l5m53Cqci7GO7vMQjnehkNU5QSyX7FyId+0qHKiFzaOtjCkyobud9
-         AjWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=bZnjmRjaw3mt+xCJw0WA+CLEo0XUahYdWgL+JaOD3TI=;
-        fh=hnWE0AyqQWxqAVw79fLwxO5CJB3VBekAYgvUxL+FT08=;
-        b=NKBrQzxUdxVbAJhF9urSTlT6MNvxD3K9iAK3d2HXz7hgrCbYJO4kL3T8GUz3Q7a2fv
-         1ug3X7zZPpoUuKPuOaEhdHmx4GA+r/UBTy+fgv1L2hV/pdT/mmwDEMmbW15tCQ0K/MoR
-         TOK9dm2z/OJVVL9P55MU7yxTNzGRQoOInArMoffLc7CUwLm2kqePkMiRsm3wgPW6ZD55
-         kzT/nMDuMX20oKeFMJROhpT9XW7MZy+kxp/DvU7aMaYrHg09txYfVVEgbwiApGV4fl7T
-         dQbjzlNWeOkAlxMVrZuZWWmyRKKwwV46E0b6NrHzr4KUI8Mqwmjy1LOpaTc1QOD6BFD9
-         NFFQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794470676; x=1795075476; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bZnjmRjaw3mt+xCJw0WA+CLEo0XUahYdWgL+JaOD3TI=;
-        b=WnIUGND325gHugaoNEz0YRBOJERoX0LfSvPBe4tYY28AfYl0QEHcjluhuZHG0Ppe0Y
-         etexbNEvTxDxji7Wxq6le+oEUzjz7Xx0hf6DEzjIO3+z3rRvQBfi4350fb2awhEGhjv2
-         xXnzL0z1C5QXeWADxI7kyXJtC1jU5WzegW0cTJ7+wox8osRRg8GtqU0Sb9qedUyd2pBo
-         +Gl+gVFrD8R9yPGDHTE8ZnQP3aDFnAE1hDqISmoMlvg1j0Z1+NmfPbN/jWeF4e/tlciM
-         lDI4UAbjbnleBAeIwt7HOBwUUub2RVXoVx2I1BBYzv0WEVdEJ1EOyJqqWqNcYZYVuJRY
-         OLKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794470676; x=1795075476;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bZnjmRjaw3mt+xCJw0WA+CLEo0XUahYdWgL+JaOD3TI=;
-        b=RDfW69K+O0Zb+eMdWQMgfRkC38Xjf6YLfGfujrG3cdx2NOzadqyw1PKupcfe7vP/UM
-         yEots4irQXWyk8zWqRU5nXrW7AQyXv802fOUZNNCkdeT8szFdtOYF8F7M9yzEhSSvN+w
-         RJavocwV/rrT2qdE1fqA67JrpymQ8GRUMX1u4jJvyWbNst1awysjjqB/kair6mj6LWTb
-         M2zBZy0LfBvlYEwx8ePM4yRMynqJXBfIMhSuFUCinyH+rJGQ2mHDAO2EssrINmrLkOnv
-         7DfnHipUB6kmwYv3gH9mu45uVXC9mFq7NygYtUz+jQXaZSa4MfwV7oal1gQD+1y2NoG2
-         aCDA==
-X-Forwarded-Encrypted: i=1; AL+hErGgPFzdMfsUv5WVw9tZBWhbal8pe5XZEt7QHg22/di1TKyv+D4P+EYUqu9X6s04qeq4nhnEP6xyltmnwA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9gViXq3hA6qBg/br3OgnAriZpkCCLEojfgmcf4l5jQelF6GNvI
-	f7qmO+7MA34Wzk5T+/Px2A9SNAnigTQZZf5G34vjfpTkTBfx91YIXYhj0IrOqCAS1m7nN3uXBLI
-	4qqams9+/TPX7wPQIXxrFUu3sDhqQwfw=
-X-Gm-Gg: AYBFou25FHOP8h+6fvi+Ru0SqwKxB8+uPpQTCiyLoDmGrUUb/DHFi25QnHEskmhbWyj
-	lO+sKfVZImXjd8Gg6XRtGxCep07PkTspiXH0hr3mOCqKHfcHcRODhc6qnYOz4C59nnEDPJhzxF6
-	sgx5BBEfTVfLv5pgo6ZbjKy6FujBtss07DMAtrL6xxlAdMUKq0nlIE+YFjAlCl5PiAEsHm1jfpo
-	8TzuYgIDn4sFMXNT5BqgZKd80OEO8qi/+4Cj+t0cxFVybmeWeEcFQncyVZdmEm45WsTAzFHNQoH
-	z/wYBKFrqvQEaMpVvMmMRjDKNv0s78cy/OiYWTPmwxf5ZG/I/UZryEyKJoCOQPggbEYtwMsXuf2
-	61XEx+0Z7tCH9dZ1qTgX5ORlM5IPKHmEI5jU8sU5I5FY7j/9CABfuaB9+DKdH8rzXFujoRQo=
-X-Received: by 2002:a05:6512:228e:b0:5c0:62:7fc3 with SMTP id
- 2adb3069b0e04-5c15d65ace3mr1565808e87.5.1794470676380; Thu, 12 Nov 2026
- 00:04:36 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id B1A8B1F00A07;
+	Thu, 12 Nov 2026 08:41:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794472908;
+	bh=cOZOcx0Mu9HyNEyLOdYNEnsYBK2dtuXmhg8/FXfAGjg=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=C5xqkIVFcXa2Er8OpXLp0CrJD/qDyPZbRPo2JhNEr75D1dslMHGuaAVoCixhq8sqj
+	 UwCKmawRJ1qUWuUgqIF8P8XXzM5oQmrZBRpcxxyQdiYwZz7mQfXu1mg1nmvg5LGrJL
+	 tzJ5dFaR6LOXjZP4UXgDN8wfSeG49TFLWoqUwJF6oSax670YdetQwyY4M55zGgk5E+
+	 hOmTD8QgANWd5iu/rI+Lw82WrFtrrO5hJyVKUujf0ZXZz2AWkmBmq7xsL2+lNcbPhb
+	 pe9WY2IsGnxoo35RKYQQN6r4DUQsNiVPS4vKiFjqqEmxOPfR6a6FWxQo+ZTa4Cjb2h
+	 hh2LwTK5M69kw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 10827493CA;
+	Thu, 12 Nov 2026 08:41:47 +0000 (UTC)
+From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
+Subject: [PATCH net-next v2 0/2] net: stmmac: dwmac-sun8i: Jumbo frames and
+ an RX_TH fix
+Date: Thu, 12 Nov 2026 08:41:46 +0000
+Message-Id: <20261112-sun8i-emac-jumbo-v2-0-aca0cf23cf17@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -104,108 +84,86 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110-sun50i-iommu-prefetch-v1-0-43428e792ef6@gmail.com> <XuGVSzNrS7KQLWfGI0rB-w@gmail.com>
-In-Reply-To: <XuGVSzNrS7KQLWfGI0rB-w@gmail.com>
-From: Arun Iyengar <aiyengar1990@gmail.com>
-Date: Thu, 12 Nov 2026 00:04:24 -0800
-X-Gm-Features: AclHuK-rZwZBd82aiWDx-zqymsN3quC1b31liF4avq8uA1RRs7r6BZowIVjwmt4
-Message-ID: <CAEy9hNUi0EmC4BC=TjpahO=jyKXBnAxHz-0C1KYPb7ZYfxDN_A@mail.gmail.com>
-Subject: Re: [PATCH 0/2] iommu/sun50i: Don't report TLB prefetch walks as page faults
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, iommu@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WNQQ6DIBREr2L+ur8BNQa66j0aF0g/iinQABob4
+ 92rdt3ly8y8WSFRtJTgVqwQabbJBr9DeSlAD8r3hPa5M5SsbDjnDNPkhUVySuM4uS5gLSpppKh
+ VoyTss3ckY5dT+QBPGT0tGdpfkqZuJJ0P49EdbMohfs73mZ+L/0czR4ai7gxjJI1R1b13yr6uO
+ jhot237Alda2frMAAAA
+X-Change-ID: 20261110-sun8i-emac-jumbo-4839f984a6a9
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-kernel@vger.kernel.org, Corentin Labbe <clabbe.montjoie@gmail.com>, 
+ Arun Iyengar <aiyengar1990@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794472906; l=2223;
+ i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
+ bh=4lSOCGIxuhr5scVSNymqWxWTq8eeBYQM5ER9DID9Zyk=;
+ b=8f+Qdim9xm+qJ7Nqsq62ye44HOsAZgiddAr0jN0CQpUvgGKZYonOGdxtlRWyHja9k02ORMRlz
+ 1VDwiIjldWeC16DzPzfuMVXbGC6rEq1jOCRMrrKL1v98YFevFuiQsCz
+X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
+ pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
+X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
+ auth_id=1480
+X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
+Reply-To: aiyengar1990@gmail.com
 
-Hi Jernej,
+The sun8i EMAC advertises a maximum MTU of 3712, but drops every frame
+longer than 1518 bytes. Patch 2 sets the receiver's jumbo frame enable
+bit and limits the MTU to what fits in one normal descriptor buffer
+(2018). Patch 1 corrects two swapped RX threshold values; no in-tree
+Allwinner board uses RX threshold mode, so none is affected.
 
-On Tue, Nov 10, 2026, Jernej Skrabec wrote:
-> First off, display engine isn't in merged yet. Second, I don't observe an=
-y
-> such issues with my wip H616 code.
->
-> I think it's best to wait until driver is merged and can be retested and
-> merged then, if needed.
+Tested on an Orange Pi Zero2 (H616, RTL8211F over RGMII) at 1 Gbit/s,
+with a 7.3 kernel carrying both patches:
+- MTU 2000 and 2018: pings with DF set up to the full MTU pass in both
+  directions, iperf3 gives 955 Mbit/s to the board and 905 Mbit/s from
+  it, and the rx_length and rx_crc_errors counters stay at 0.
+- Setting MTU 2019 is refused.
+- At MTU 1500, a 90 minute run (bulk transfers up to 256 MiB both ways,
+  iperf3 853/873 Mbit/s, 1000 pings each of 56, 1472 and 8000 bytes)
+  had no loss and no new error counters.
 
-Agreed, thanks. In mainline the only H616 IOMMU master today is the video
-engine, and the faults I saw came from the display scanning out a
-framebuffer through the IOMMU, with the out-of-tree DE33 code I use. I'll
-drop this series for now and retest once the display driver is merged.
+In that 7.3 kernel, frames longer than 2044 bytes were dropped by a
+local norm_desc change; v7.4-rc2 does the same through commit
+834ec9530832 ("net: stmmac: drop split frames on AF_XDP zero-copy RX"),
+which patch 2 now relies on.
 
-Out of curiosity: does your WIP code map the framebuffer through the IOMMU?
-In the boots where fbcon takes over the display, the fbcon buffer
-(1024x768, 3 MiB) is the first IOVA allocation, so it ends right below
-the top 1 MiB, which stays unmapped, and the prefetch walk for the page
-after it fails.
+These patches were developed with Claude (Anthropic) as a coding
+assistant. It investigated the problem and wrote the code and the commit
+messages; I reviewed them, and they were tested on an Orange Pi Zero2
+(H616) as described above.
+
+---
+Changes in v2:
+- Patch 1: add the Fixes: tag, and correct the commit message: RX
+  threshold mode depends on snps,force_thresh_dma_mode, not on RX
+  checksum offload (Sashiko AI review)
+- Cc Corentin Labbe (author of the Fixes: target)
+- Rebased onto current net-next; patch 2 unchanged
+- Link to v1: https://patch.msgid.link/20261110-sun8i-emac-jumbo-v1-0-84bf00e9ffa3@gmail.com
+
+---
+Arun Iyengar (2):
+      net: stmmac: dwmac-sun8i: Fix the RX_TH threshold encoding
+      net: stmmac: dwmac-sun8i: Enable jumbo frames up to MTU 2018
+
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 29 +++++++++++++++++++++--
+ 1 file changed, 27 insertions(+), 2 deletions(-)
+---
+base-commit: c88fd6989aea9237a60a4859139a265bfb7ddc0b
+change-id: 20261110-sun8i-emac-jumbo-4839f984a6a9
 
 Best regards,
-Arun
+--  
+Arun Iyengar <aiyengar1990@gmail.com>
 
-On Tue, Nov 10, 2026 at 8:04=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrabec=
-@gmail.com> wrote:
->
-> Dne torek, 10. november 2026 ob 07:05:16 Srednjeevropski standardni =C4=
-=8Das je Arun Iyengar via B4 Relay napisal(a):
-> > On an H616 with a display scanning out, the IOMMU reports page faults
-> > with master -1 at the IOVA right after the end of the framebuffer: once
-> > at the first fbcon frame, and then once per frame for a while after
-> > each TLB flush, e.g. while a video decoder frees its buffers. They are
-> > failed walks of the TLB prefetcher, which the hardware flags with bit 3=
-1
-> > of the page table interrupt registers and no master bit. Patch 1 stops
-> > reporting them. Patch 2 makes the remaining fault messages say which
-> > walk failed and what the interrupt register held.
-> >
-> > Tested on an Orange Pi Zero2 (H616) with HDMI forced on at 1024x768 and
-> > three 4K H.264 decodes through cedrus, on 7.3 kernels with and without
-> > the patches:
-> > - without: 214 "Page fault ... (master -1, dir rd)" lines;
-> > - with: none, no "Page fault" line at all, and no decode errors or
-> >   timeouts.
-> > Since the patched kernel prints every fault that is not a masterless
-> > prefetch walk, this also shows that the hardware sets bit 31 for these
-> > walks.
->
-> First off, display engine isn't in merged yet. Second, I don't observe an=
-y
-> such issues with my wip H616 code.
->
-> I think it's best to wait until driver is merged and can be retested and
-> merged then, if needed.
->
-> Best regards,
-> Jernej
->
-> >
-> > These patches were developed with Claude (Anthropic) as a coding
-> > assistant. It investigated the problem and wrote the code and the commi=
-t
-> > messages; I reviewed them, and they were tested on an Orange Pi Zero2
-> > (H616) as described above.
-> >
-> > ---
-> > Arun Iyengar (2):
-> >       iommu/sun50i: Don't report TLB prefetches of unmapped pages as fa=
-ults
-> >       iommu/sun50i: Print the page table level and status of a fault
-> >
-> >  drivers/iommu/sun50i-iommu.c | 50 ++++++++++++++++++++++++++++++++++--=
---------
-> >  1 file changed, 39 insertions(+), 11 deletions(-)
-> > ---
-> > base-commit: 2cf4be57b301ed2d7af82e70cff5dfd96894d8de
-> > change-id: 20261110-sun50i-iommu-prefetch-85cc9ecff559
-> >
-> > Best regards,
-> > --
-> > Arun Iyengar <aiyengar1990@gmail.com>
-> >
-> >
-> >
->
->
->
->
+
