@@ -1,62 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.135
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794449995;
-	b=raeIZX3BI6fQN2ucXH1lFpnGnaT1yvXK9fcc6S6lSTC7FzYvWdbaIcpOTXLoF5pGC+Dh
-	 73zYLjtpKjVfBd6tRHXw/Xmag8EDRjcvkhxjJ7f1rvLFXxY2OFYE5heNUuVNqABVS8kBj
-	 R44+oUg98e4nFWu+jDv3/a0TzbecgnqoCbNsFwiGCdDezJZrismbvbSTLWx0yetPTR1k2
-	 t+DzQKYTm5DWcfFQ6UnSioqSweuyiBT7GDiLjhUQ9Wit3Kwyp+BZ83MiFaFOrnX4yX/Uh
-	 vuVOt6v4vEV2JcusQOCyOT6o2cmgNxTctUZfaY8Si+UOJegcC4G+Mvid7Bjw7kfO0Ww==
+	t=1794450690;
+	b=bEKsfKRFhVTK3GHibV5++Tp41FfxvMUS3wCuSNBPHZkJfKMoCl5a+9M3MEE0QZOoYdtV
+	 X2xGg0030mNLMUwHltWVA3NxI0fQaKwk6gixsj13wKbpxp79m+NDzlwaAU0RX0ANpYDVS
+	 7wynQamSwvfr9E8ZSqNqjMCWCeNSvEUf9qPrB880oJ4a5yplJ/Bs+0ePWON5NzSjs1h5Q
+	 mAU5kUb7HmILumHt6sCTqYiVUQ34s1PdVwQ6JgMTxkRZTXyodHSSxxEbKln6016jRZZQp
+	 lYknXfFBL3c1B6R3lxKf2lGhzEzBFRQwsgoV/NiiaQbV5DrV37fpN2CzQq5u16Kqf8Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794449995;
-	h=DMARC-Filter:DKIM-Signature:X-Pm-Submission-Id:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=BhERCUB5Z9hn5dC7czbGCa9749yvWElRD1ogv09yAVU=;
-	b=RzROqFL/N8KkaXD+HlV/m2wTPyuSzDBLiegp3Q1EQQ4JZQsaXdW23qfkzMWhEaAiUOUJ
-	 G8v6v4RQ5Tr1B5zF9PtoNm3NrUsmI09DRmhaBetjzvGNfjtydV5f5aaoQsOalsS04z023
-	 mFxefQgluOoKGRjg8ITVz6eDDYrXgxGDjcQ27pZjxwn30ieMDeAkBOcbRrhFmyGONH0gr
-	 L8azSrQQ0dKy9LiL/Xe2C7L2LvJnoeT868CTGTNa744BERUjHLQM3nxfgxNISvII7ubxM
-	 YgL0mnqM2FIMSb9xfRMdsHvD7pEGyZzmpztXPo1d7sc9k/lWcVN0ccB498u3oDjqOlw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794450690;
+	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
+	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
+	 To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=PSYYKqvNBHQRpRXqr6rKxOfnsA0fN/waXWV83fOGwXE=;
+	b=petL3aLPQ2Lim4bbLFofwQzIVcoJWWDlw/5HC+//YaqX7sGPg8reZdqtpRCByEAehWlz
+	 9f7xI4jzxcdPvF6P2wHP7PKJf+h39IR7QzmnrDP1c7jPcHOsVBv9kxfcWGB/Ciyi2CHS7
+	 aWTuO0Mk4nTxE55MGXteXzDohv11GOlE8jygqYwXM4MWQuY7Knq4vlllGSbAbLwPEQNvE
+	 12to+YbBjnDK8T6B6tDGZ/RUCo4KiZo4h2iqkah66sWfYLZ1vtouMyQxMkXdPOCAbkX9d
+	 zPsy1ufR8W2S0tty50GrH4w6I5K/aAsLHk9+iCyqHFEm+8EbCA0N4Ft2ZSsNHv8JJvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=edm.sh;
-	spf=pass smtp.mailfrom=edm.sh;
-	dkim=pass header.d=edm.sh header.i=@edm.sh header.a=rsa-sha256 header.s=protonmail header.b=KJ7aoWjd;
-	arc=none smtp.remote-ip=185.70.43.170
-Received: from mail-43170.protonmail.ch (mail-43170.protonmail.ch [185.70.43.170])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D274D606A32D
-	for <linux-sunxi@lists.linux.dev>; Thu, 12 Nov 2026 02:19:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D274D606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=edm.sh
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=edm.sh
+	dmarc=pass header.from=cmss.chinamobile.com;
+	spf=pass smtp.mailfrom=cmss.chinamobile.com;
+	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=ELpIaBJp;
+	arc=none smtp.remote-ip=111.22.67.135
+Received: from cmccmta2.chinamobile.com (cmccmta2.chinamobile.com [111.22.67.135])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AE91606A32D
+	for <linux-sunxi@lists.linux.dev>; Thu, 12 Nov 2026 02:31:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0AE91606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=edm.sh header.i=@edm.sh header.a=rsa-sha256 header.s=protonmail header.b=KJ7aoWjd
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=edm.sh;
-	s=protonmail; t=1794449992; x=1794709192;
-	bh=BhERCUB5Z9hn5dC7czbGCa9749yvWElRD1ogv09yAVU=;
-	h=From:To:Cc:Subject:Date:Message-ID:From:To:Cc:Date:Subject:
-	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=KJ7aoWjdn7ruCdcEFpQn/zNsKSG2tqFK5EcfTZH0za04kcEO0TbZQ0Dq5Tg3F3Of1
-	 Unr1mSn7wlyAQjX8SfuUGLGkiUPOQGyl4c5mxgcqzaFC0raE9cF6fFqC3ev2qan9Gk
-	 zVICFYp4H9lOUOPVIn7acQMtEM768koBl0Y0ukRMc+AhQHBMNZhO+Wenh1jWAG8MfZ
-	 Iq/g5JU0PJuv9gxh3wkuah7cIxbezp4bCqXl7VFSRhMWpgkUfFZJg6sJFJCGwHY3iL
-	 l17bevsBZDOaYitQeJpo/tXv6/L3h/+hQ9u6mJuXnuyOlZGjb1MHg3+J+dPtnKWTB5
-	 ANJqn/9ku+uQA==
-X-Pm-Submission-Id: 4jQ3xc6wrBz2Scml
-From: Eduardo Moreno Adanez <me@edm.sh>
-To: Andre Przywara <andre.przywara@arm.com>,
-	u-boot@lists.u-boot-project.org
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Cody Eksal <masterr3c0rd@epochal.quest>,
-	Paul Kocialkowski <contact@paulk.fr>,
-	Tom Rini <trini@konsulko.com>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] sunxi: a133: dram: fix DDR4 MR0 to match the controller timings
-Date: Wed, 11 Nov 2026 18:19:45 -0800
-Message-ID: <20261112021945.71942-1-me@edm.sh>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (1024-bit key) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=ELpIaBJp
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=cmss.chinamobile.com; s=default; l=0;
+	h=from:subject:message-id:to:cc:mime-version;
+	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+	b=ELpIaBJpKA9J7AdD2NrAn+mvJYewlQpidOK53oTm3s7AO1Qt4pudeJZfGiVrr4C6sItXD40FChFuP
+	 c2u6Xh6hsgwucdOx9YtDJnx91RB7aly0D8+xEapgjWG4k1m8OCk2w6hjlMBOMwNoqT9OlzXKvnneGA
+	 hO/ZuC/eTcMScZO4=
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
+	by rmmx-syy-dmz-app07-12007 (RichMail) with SMTP id 2ee76af524ffb9d-dd5fb;
+	Thu, 12 Nov 2026 10:31:27 +0800 (CST)
+X-RM-TRANSID:2ee76af524ffb9d-dd5fb
+X-RM-TagInfo: emlType=0                                       
+X-RM-SPAM-FLAG:00000000
+Received:from devin-VMware-Virtual-Platform (unknown[10.55.1.72])
+	by rmsmtp-syy-appsvr08-12008 (RichMail) with SMTP id 2ee86af524feafc-eee32;
+	Thu, 12 Nov 2026 10:31:27 +0800 (CST)
+X-RM-TRANSID:2ee86af524feafc-eee32
+From: Zhu Jun <zhujun2@cmss.chinamobile.com>
+To: wens@kernel.org
+Cc: jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Zhu Jun <zhujun2@cmss.chinamobile.com>
+Subject: [PATCH] soc: sunxi: sram: Release node references when claims fail
+Date: Thu, 12 Nov 2026 10:31:26 +0800
+Message-ID: <20261112023126.118228-1-zhujun2@cmss.chinamobile.com>
+X-Mailer: git-send-email 2.51.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -68,63 +73,43 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-MR0 is set to 0x840 (CL 18, WR 18), but the DRAMTMG values in
-a133_ddr4.c are for CL 13, CWL 10, WR 14:
+When claiming an SRAM region fails, sunxi_sram_claim() leaves the phandle
+iteration before it can release the current node. The rollback loop also
+parses each previously claimed region without releasing the returned
+node reference.
 
-  DRAMTMG0.wr2pre        = 14 = (10 + 4 + 14) / 2
-  DRAMTMG2.read_latency  =  7 = 13 / 2, rounded up
-  DRAMTMG2.write_latency =  5 = 10 / 2
+Put the iterator's current node before rollback and release each node
+after undoing its claim.
 
-Use 0x520 (CL 13, WR 14, DLL reset), as boot0 does with the same
-timings.
+OpenAI Codex assisted with analysis and patch preparation.
 
-Write-then-read tests pass with the wrong value, but copies corrupt
-about 300 64-bit words per MiB, so U-Boot hangs in memcpy() and TF-A
-takes undefined instruction exceptions.
-
-Tested on an Aqara Panel Hub S1 Plus (A133, 2 GiB DDR4 at 792 MHz):
-without this patch U-Boot hangs before fastboot; with it, 16 MiB
-copied 12 times with cp.q all match.
-
-Fixes: 7a337270c076 ("sunxi: A133: add DRAM init code")
-Signed-off-by: Eduardo Moreno Adanez <me@edm.sh>
+Fixes: be99eb936b4f ("soc: sunxi: sram: Support claiming multiple regions per device")
+Signed-off-by: Zhu Jun <zhujun2@cmss.chinamobile.com>
 ---
-boot0 also differs in MSTR geardown, INIT7 (MR6), DRAMTMG6, ADDRMAP1/8
-and SCHED. Changing those without this patch still hangs, and with it
-they make no difference here, so they are left out.
+ drivers/soc/sunxi/sunxi_sram.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
- arch/arm/mach-sunxi/dram_sun50i_a133.c       | 2 +-
- arch/arm/mach-sunxi/dram_timings/a133_ddr4.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/arch/arm/mach-sunxi/dram_sun50i_a133.c b/arch/arm/mach-sunxi/dram_sun50i_a133.c
-index ca3e2513c69..b5ff6707571 100644
---- a/arch/arm/mach-sunxi/dram_sun50i_a133.c
-+++ b/arch/arm/mach-sunxi/dram_sun50i_a133.c
-@@ -754,7 +754,7 @@ static void mctl_dfi_init(const struct dram_para *para)
- 		mctl_mr_write(MRCTRL0_MR_ADDR(3), 0);		/* MR3 */
- 		break;
- 	case SUNXI_DRAM_TYPE_DDR4:
--		mctl_mr_write(MRCTRL0_MR_ADDR(0), 0x840);
-+		mctl_mr_write(MRCTRL0_MR_ADDR(0), 0x520);	/* CL 13, WR 14 */
- 		mctl_mr_write(MRCTRL0_MR_ADDR(1), 0x601);
- 		mctl_mr_write(MRCTRL0_MR_ADDR(2), 0x8);
- 		mctl_mr_write(MRCTRL0_MR_ADDR(3), 0);
-diff --git a/arch/arm/mach-sunxi/dram_timings/a133_ddr4.c b/arch/arm/mach-sunxi/dram_timings/a133_ddr4.c
-index dec208e22df..359b11aa42d 100644
---- a/arch/arm/mach-sunxi/dram_timings/a133_ddr4.c
-+++ b/arch/arm/mach-sunxi/dram_timings/a133_ddr4.c
-@@ -67,7 +67,7 @@ void mctl_set_timing_params(const struct dram_para *para)
- 	clrsetbits_le32(&mctl_ctl->init[2], 0xff0f, 0xd05);
- 	writel(0, &mctl_ctl->dfimisc);
+diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
+index 2ccaeacf8c70..4667661b2003 100644
+--- a/drivers/soc/sunxi/sunxi_sram.c
++++ b/drivers/soc/sunxi/sunxi_sram.c
+@@ -294,12 +294,14 @@ int sunxi_sram_claim(struct device *dev)
+ 	return 0;
  
--	writel(0x840 << 16 | 0x601, &mctl_ctl->init[3]);	/* MR0 / MR1 */
-+	writel(0x520 << 16 | 0x601, &mctl_ctl->init[3]);	/* MR0 / MR1 */
- 	writel(0x8 << 16 | 0x0, &mctl_ctl->init[4]);		/* MR2 / MR3 */
- 	writel(0x0 << 16 | 0x400, &mctl_ctl->init[6]);		/* MR4 / MR5 */
- 	writel(0x826, &mctl_ctl->init[7]);			/* MR6 */
-
-base-commit: 8c1ea2aa66386fa3c8ea829531f581847814a569
+ err:
++	of_node_put(it.node);
+ 	while (count--) {
+ 		struct of_phandle_args args;
+ 
+ 		of_parse_phandle_with_fixed_args(dev->of_node, SUNXI_SRAM_PROP,
+ 						 SUNXI_SRAM_CELLS, count, &args);
+ 		sunxi_sram_release_one(args.np, args.args[0]);
++		of_node_put(args.np);
+ 	}
+ 
+ 	return err;
 -- 
-2.55.0
+2.51.0
+
+
 
