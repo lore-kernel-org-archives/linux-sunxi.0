@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1794475354;
-	b=kSl4hfku9xXeTj6vSf8hiLwG9w58QEhNtZWX9+GRWxUn15O3CWYzT+HqM7yVtqVe2xt7
-	 hbBx0QZ0iJxU5QXJ4w+1MpQ0ZaJZLLtefcTWkv65+BHipwIGFvhySt9Eo4hO6qxzJ1UQU
-	 bdkBtAE9H8p7gVxKUb1WTt54OOeiNYvxBMjumOegKszF4awiil5u7ghrkv1dVLSq83VHI
-	 E60F25o63Qd64sqyXMU1kWLlEDdvr7frs44u2wbDmQsyg9FKzHRRUe0+Fj4WFFAfN6aBV
-	 fcUZ8Qw4vXr4xj9MfRAdJfuljGp27D/03sIHyJQdTw8W+P5i7j81+fJbkGCugEfA+NA==
+	b=JNg72zK7rsD/++2NAE0nhQYWecjeqUlpQ/Q3x2x4Enl5QtEFslptFAgxStcmrVHYrOj8
+	 LHrd723wThKvNh18BQpKf4mV4E5wLlaArRSDd2ih/SZDAtWxLYFu9J6m2g78Jnkk3bY9W
+	 2afSJ9e7/S8wKz7JHf1dfsCl1d26YcVwe4QZX7FRaXTZAnaCNRHJFUK9LW//UpJqW2S/M
+	 NVdl1MoZ4AiFryqOi06gpHX6/DBmiZp0KqmtpklMGSepv9VCFUS4/kFFzHIcBcIfzfH0G
+	 OG+YpsclRXmsYfSni+EsYK9fXqTdjaTTPb8VgxooenWh1cgRqrK/81CFdWUXyxmLerA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794475354;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=6mbZCUTv70VlpZsgPw+uhGGcoEUvKC9H4qZpsqc1/Xw=;
-	b=gVLsczVdP8aBmlXJSDyyE+mrMLy6EAlENS/Jt0sqR7jkakt6dTq4JXxrM9eWoBNp3Qzr
-	 M75cEPohJ7raO/G2Qr/2OGainmqwGaxkiUbo50feyWZ8yhBHm6MVtjrZ8Xtd96KKGjFMk
-	 irbfOSF3k2lxGWUpDjXr40nXcmteXTCDcg5n9hxZDQj7KIotCMibQGECcGnVULngebMqT
-	 x3/xpgfaBTIidjj3LJPBkvRuztvmo5friROmhICY9DXtcg9qYuGXLD41kMpvRqcKbSikd
-	 6xoK6f/OtTre6+PpXtJbyVXUDpKqdpaTgIH6qy/32Pbt+jffa5ZGri8/gaqr4wi2Jfw==
+	bh=cccUMx05jPVtgncaoOCw86iG1kz4fwGOT9LlfXUuuVA=;
+	b=s4ngLFBUBxod+xguB0cAQodMkU2ENhZ4cV/aLFwAdJfwkKqgwoDT2B9GyCcYnaqBCKAu
+	 MEP66nHdDGEjl+pqhEUu2acV7EtQ/ecQ2PJk5NkRCUEgBlA/okocsxjFu+J3PTfX9Grgd
+	 JuMzjVrkxp/erhbYqEVRdzS96Zbc8nD8TUspNGITm/3TdjYXdyYenkta734ZqNPvWV9U6
+	 o6sU5OA1rRCh2Nbe1QNeAH/AfSsSNeZWAEi95BdsfYsczdfMPDRhx2nCu6ZAaWdONnc4j
+	 yGNO4XLi6uRyrQcxgf3Bc4laQChYRTVvC5O+hp4kxGgFV/lmL/RK4sbD7XuCxaz4Nlw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IeYYg1Pa;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KyXNeQvs;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B1E606A88C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 226BF606A890;
 	Thu, 12 Nov 2026 09:22:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IeYYg1Pa
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KyXNeQvs
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794475353;
-	b=uARa9LF0TUavjIGuoprsmOEf1sCp6ABq/JJAPELdP9fz36REiTMuKDcH5OJwaLbaNDkR
-	 9bPXAMOHxK1jTH8/CQ5Uz57gQots6vX0lCbsBrAfwhf0HVsT8K2YKH6lg9bu8WsUd8z5d
-	 SJgopYnPANCBNOnwkThAJDmDp/o3pgdjGlAlrMUEXxV4pa4lmCYuOVt71zFUfn5R9dhW1
-	 dh+hX7Jyq1JYtDquSl7B3Z3xFVzAotujVABFWsPssnDJ1WJoGmkyMjnjq73L3CcS/YDoZ
-	 AhBglD+o2WTSNh0jQVV2Igg8Vnj7+WjWp/YqsBUBzE4r4Ul9S37wEvltwN4ZXcMBIGw==
+	t=1794475354;
+	b=LyNZ9op1c5KYk9xM25LpnA99F3RwtO4E+gZvmUGRRSu9bB7aguCQqggWMQSWg1Q7leHP
+	 RhaJxzPWFbgOZtYVXWBZmX7oGveoan2ry9A/o91tjrKe/kfUR2wIUTZ1jQI8yIWQIKsfO
+	 LroCAVQ2OJqHhQizYOK0pFw8YkpPe4UjXZRFUSJaxN9P43PtVWTuEumTXFl5j6j2q7+IJ
+	 YiE1NiKMHZeY1kWR5duIKDxhqidJEKkMruFEPHmwPhubf3T4GbpVjBhBN//BYtWXqifkd
+	 np39dcFKPc9mi6/ufOLWavVMxjQRyYhtSnwLtkdI9ZKXpXnt/ykULSh3f/OTjg++AqA==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794475353;
+	c=relaxed/relaxed; t=1794475354;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=6mbZCUTv70VlpZsgPw+uhGGcoEUvKC9H4qZpsqc1/Xw=;
-	b=y3asNfRofb3wFBxyjV0ejyhI0AAkjgUiUZXLQ8ubICwleDCxOYUUChad0EgMlJFK6ZtN
-	 LB4oHyBb20tv+IKsZIH+FQrK8Bxhlt7XXRlUB4kWPcwXGrAhUcsCursJUjXZf7PUekjZk
-	 BlFR38PtjcAbQZbl2rxcvNzKt9c+9v3RFWMV7EtzDfbsHEUpQ8ro+PSLuKA7cMIjJJSBd
-	 VLz3cARwtcoDzGZ+exO8BxJxcu4hdivLqsffJbjEglG3ufSJx/yVBMUqRqazCZe2CiOCF
-	 Ddj3jqEqFpEp1+sVmmNsFYZnenbghAuyFiPWcDqeByJIjxg+f/Lo4RcJPXy3iMfLQrw==
+	bh=cccUMx05jPVtgncaoOCw86iG1kz4fwGOT9LlfXUuuVA=;
+	b=2JzHPD6fw3nvrLeYMYKXSyIIu3hwoIDuXiaTSWiGY6uABx1fVXxmsQ4b4I1zpvTuPSCA
+	 NoTm1ekgkHpiLeGq5PvL2/zUpaMdgDBsXkWReQ/SEgMkr8MH+offWp0GugAfrPOMSlwYc
+	 Q5a55pj9IZfBZI4Hm+Qvt3aCWXFE8focl6x0a/2QTlGcuBIvLyav39MShD+Upbw/+gSy1
+	 0E9ZtLJAQctV8kDDJsDQdZafxGyghbpohFvUo9WxTtPJ+jluxYm55p3AxYHu3V3e9ZNHs
+	 l6EB6giP/jFefgbaT8JJRdEuuv+Q9Z/COcXrHnMHcu/yfBwCbIHQSoj2mBDA070OeMA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 3371A1F00A07;
-	Thu, 12 Nov 2026 09:22:33 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 32A3C1F00A09;
+	Thu, 12 Nov 2026 09:22:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794475353;
-	bh=6mbZCUTv70VlpZsgPw+uhGGcoEUvKC9H4qZpsqc1/Xw=;
+	bh=cccUMx05jPVtgncaoOCw86iG1kz4fwGOT9LlfXUuuVA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=IeYYg1PaZx6xfFvUs886dG5pAJJp7j0YAoiRHZabETfnJa9RCkQ4hRu8qxkcKVYjD
-	 RM9uwdsUS/dK/sGPbW54RV9Gl2ybZAdL/qppZTgISz4yD8mzOzpvML+PZlL4iAahO+
-	 hxkY16uFcZxNlglYdchdawG+L0xHSxliDPuilzHzBcqp9ZOhIQ0y45jGLqI134eJxT
-	 9r9MHQvjalFo4th1Zz2GUd1NW7AKJGqgXba0HUHsKNxazwuC2tNi0J2MfRVJEiN451
-	 xmjk3UAJY36e5jjJaHdiWN+m9kC8yb4XLMrOKyD/XjxZgAVhOhA07J9WlUeKeayeds
-	 oO9c5xMx1MTcw==
+	b=KyXNeQvsZakgxoPD3Dq2z4CD0q19/soPgVwSEnt9AMvm9Cem9FN3pPNxi46ywpz6z
+	 444ou63psGpc3C7UD4wSmTa0jBzbfymLHqZ8E7MlWZkfX9gs29YMDC3uiqAYO7u45N
+	 ixY2RzHNVZ24pNP8LTKgI8NA/QeocdsLnWPFAOGFnMlTW2QprrKwL5/vznjfntLcbO
+	 Wy5vZGxDo/hP8uz5ccWvahx4F4vOEFvdrEtdmsCMN6kGqdBG7zdLmOW979I/v9L/wu
+	 bp8Hd2gW0QtS+Kae8Ru1LiJW5tNWPdB3usZA1b95Yxp0M7Gyu+CiRmdLTpHbXd6NfZ
+	 r3vFxETgEydRQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id DB8D049440;
+	by lkml.kernel.org (Postfix) with ESMTP id B1EC249438;
 	Thu, 12 Nov 2026 09:22:31 +0000 (UTC)
 From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
-Date: Thu, 12 Nov 2026 09:22:36 +0000
-Subject: [PATCH v3 6/7] arm64: dts: allwinner: orangepi-zero2: Enable GPU
- DVFS
+Date: Thu, 12 Nov 2026 09:22:34 +0000
+Subject: [PATCH v3 4/7] arm64: dts: allwinner: h616: Throttle the GPU from
+ the GPU thermal zone
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261112-h616-zero2-dt-v3-6-1cd2664230c8@gmail.com>
+Message-Id: <20261112-h616-zero2-dt-v3-4-1cd2664230c8@gmail.com>
 References: <20261112-h616-zero2-dt-v3-0-1cd2664230c8@gmail.com>
 In-Reply-To: <20261112-h616-zero2-dt-v3-0-1cd2664230c8@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -96,11 +96,11 @@ Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Arun Iyengar <aiyengar1990@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794475350; l=990;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794475350; l=1929;
  i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
- bh=5MPJQC1S+CHiR8Bt9vkp2Zk5ZwEghmC4r8Nx+9ugUME=;
- b=7bRl8nh/MjcKtdJeC1r1xldSZf6C3L0oVqhMOpymWCqFDrqH/sYB7YXDInY2TdLyyFl+izRdE
- v53GLcNLebLA5OoCIGqyWY7IoUJhAQaOm3duUr8u4Phe+e/979KJD7p
+ bh=teKOTEf4Ehrd6NI/Dk5AeKkHXxd5JXaOLzoyVTpHUvU=;
+ b=JBr93kA1oG4JitFGW184ouUFCxghNk+USgl3FzROcYvTllJd5XDtvNlH/6P/bErKNBm1n82qc
+ v0uIyQJqNzbAcERbs+e6cuMCq8aWUprp0daEkJT4xR6thVHNpE5OrBl
 X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
  pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
 X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
@@ -111,29 +111,63 @@ Content-Transfer-Encoding: 7bit
 
 From: Arun Iyengar <aiyengar1990@gmail.com>
 
-The Mali-G31 on the Orange Pi Zero2 runs at a fixed clock. Include the
-H616 GPU OPP table so that panfrost registers a devfreq device and
-scales the GPU between 306 and 600 MHz with load. The voltage window
-of every operating point overlaps the 900 to 990 mV range of the GPU
-supply (AXP305 DCDCC, mali-supply).
+The gpu-thermal zone only has the 110 C critical trip point, and the
+GPU node is not a cooling device. Once a board describes GPU operating
+points (panfrost devfreq), the only reaction to a hot Mali-G31 is
+therefore a shutdown.
+
+Make the GPU a cooling device and add a passive trip point at 85 C
+(2 C hysteresis) that lets the thermal core lower the GPU OPP. 85 C is
+the CPU alert level mainline uses on the H6 (same thermal sensor
+generation), and is below the 90 C at which the vendor BSP for the
+H616 throttles the GPU (it maps the GPU to its CPU "target" trip).
+
+Boards without a GPU OPP table are not affected: panfrost then
+registers no devfreq cooling device and the map stays unbound.
 
 Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-index 719d6dadf7bf..ca78d094c431 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-@@ -7,6 +7,7 @@
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+index 68bd6137c316..93c3b8279241 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+@@ -162,6 +162,7 @@ gpu: gpu@1800000 {
+ 			clock-names = "core", "bus";
+ 			power-domains = <&prcm_ppu 2>;
+ 			resets = <&ccu RST_BUS_GPU>;
++			#cooling-cells = <2>;
+ 			status = "disabled";
+ 		};
  
- #include "sun50i-h616-orangepi-zero.dtsi"
- #include "sun50i-h616-cpu-opp.dtsi"
-+#include "sun50i-h616-gpu-opp.dtsi"
+@@ -1124,12 +1125,24 @@ gpu-thermal {
+ 			sustainable-power = <1100>;
  
- / {
- 	model = "OrangePi Zero2";
+ 			trips {
+-				gpu_temp_critical: gpu-trip-0 {
++				gpu_alert: gpu-trip-0 {
++					temperature = <85000>;
++					type = "passive";
++					hysteresis = <2000>;
++				};
++				gpu_temp_critical: gpu-trip-1 {
+ 					temperature = <110000>;
+ 					type = "critical";
+ 					hysteresis = <0>;
+ 				};
+ 			};
++
++			cooling-maps {
++				map0 {
++					trip = <&gpu_alert>;
++					cooling-device = <&gpu THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
++				};
++			};
+ 		};
+ 
+ 		ve-thermal {
 
 -- 
 2.55.0
