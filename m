@@ -1,56 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.54
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794467723;
-	b=y6xIT9cOpXYkTJXgqX3eyjoOtpFb42Xysf7adumqdH4+qzGKiC2juC+a16a32L9RcV1P
-	 jlaYa+rt3BhdQHp7FVmtODxpttaR7z67NzdqDF1Rfs1lgxuYBcBsUf2QXHLblG8xJ19VF
-	 Od1oBkT+s8jZjPM6lZPY/NyZBmoiy8CyoaQMx9YSwYVkhqqh6zrLe7wG/gikrvrsdruKw
-	 FMhFlDwe4Ou+gxTaHKLHTXVJ/f45GfEbetkw+lYmPjpYARMC3eTw7Yyr/raUyLLmLvi/G
-	 h7qUH7dxUPIlEM33UTK8zspFntTSl6Hr3q+ssKOSC+C9dAG6mQ6xcjHbACVzFpjq4kA==
+	t=1794470678;
+	b=fUxbRuH4PGTQNEwIrgG42kfZgOMjdv9GSI8dDFoWUoPFpxZZKvs5vdyKvy5XKGc6ra1y
+	 YoreU2zVuouwZWXFxT6glazeHR/bip5Co3WTyEage4laeofQf6FuQyItTacpDweEERqhu
+	 Ud83/mdHn+wvzh1icjwNx0o3O5K4aAxDnGAu9AXzHb8mQATkc6LlEGhXbxZIIhpORDMNf
+	 EOvlYx4cbGwUATD35HG9KvYbgRMBgvUvevbIBt7Wi3GJGUObmsj6atwqrSxwFk6RhVoAH
+	 tp2zMxFn7WxG4Hpp6u+6H8eyoOXlGaKDd5aEsB7GXn/U6S0iLQC6CXKsnt2P6B9cVPQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794467723;
-	h=DMARC-Filter:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-ZohoMailClient;
-	bh=/PD4UpFBO687A1NJczwBo6I69uScaHLmvAb6f6geHA4=;
-	b=RlmVVxvpVtqLYR39bL4MOFQUkBNWFwVp2PI7lgtW92CF+HFqstG7/h69pDK668PJfP53
-	 uJZahsIhe6y7TqBut6JrIqhfxFxPdGN+orypW48GdI2UrSQIGvCnCgK4iAbYg/S2i/CWW
-	 hwURri0agT0eQxXv7sorhZaLtaHFLlqWdEEvAbcv5sY9bLMFkkb1S8MZadZ6DBkAgld+4
-	 sYZ1e7sQ0qHqzIabEdIdawG5qx2MNo1X9ZbLX8O3SCqNeBSSJFUAXf54igVCmEO0mbXDd
-	 I/XxOVQ5AQ1tAXn78H/3dVwgfXbvxXhdLqLOmgFYQY2whLfhxPOYPja2CWpsnQ511Fg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794470678;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=bZnjmRjaw3mt+xCJw0WA+CLEo0XUahYdWgL+JaOD3TI=;
+	b=reAvBRfhWLmXPupOQxB26n6ez15Kw8QiPujC5UjT5qI/VNN8TnLOw6ZIKI9LiBwsknkB
+	 k5XGy93armXrCPAymE+F1miz8ZbZMl6VlvAlZcUKv1PW80Jmf09xrXQtCabR9xHA4jVok
+	 l8J+rVnsH/ZVPWM6YKXa2VWuQtemhBqeDkmrOhqjKaS4Trbv5xJGfSbDaurWd82CgO0kr
+	 GJx6owOVg5t23h12zjWTy/8n1WLeuCPu1RkMtAhHJuHd9TPR1rjS27uGLqMDZ9tKz6ap4
+	 vwQa1ZikA606DXlBy2JzP0i5pT6SYMPW+mTwi8YsTJveDuwCaa1wOihJXMfJL9M0EDA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=pigmoral.tech;
-	spf=pass smtp.mailfrom=pigmoral.tech;
-	dkim=pass header.d=pigmoral.tech header.i=@pigmoral.tech header.a=rsa-sha256 header.s=zmail header.b=k7Dk75Wh;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
-Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WnIUGND3;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.54
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9D5606A327
-	for <linux-sunxi@lists.linux.dev>; Thu, 12 Nov 2026 07:15:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB9D5606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43171606A323
+	for <linux-sunxi@lists.linux.dev>; Thu, 12 Nov 2026 08:04:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43171606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=pigmoral.tech header.i=@pigmoral.tech header.a=rsa-sha256 header.s=zmail header.b=k7Dk75Wh
-ARC-Seal: i=1; a=rsa-sha256; t=1794467707; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=eFvschK8nZYrFe9JQHPertlYcRoIjgArR1RC/CWEZKB7i9wd42awydqDGp0mwt8hcp6bNAKlw5NxjpE+Cqv2VD1D+hwVFAZqOUpLwkHcAF6oETwsq5brMQo52U9RbJoVidfkcYuD4xLt/KwblXrVXtHx357nwI7KhOOiFhpnojU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1794467707; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=/PD4UpFBO687A1NJczwBo6I69uScaHLmvAb6f6geHA4=; 
-	b=N2fEyqOsOeD/juA3luX2fAvtnGQt0LgfRzOuHdD7N8uEjysH3a4hgAnCHWZv3sumaJNt8RYedbLRrt5Gs4tpPpCY2972RTBUf9l+/A+USd8gIFPocnML7mrYXTycUDXuYe+YFDkboAWKebPbqoKzUVzRxlO+L+h6acWlNFQhBqM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=pigmoral.tech;
-	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
-	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
-DKIM-Signature: a=rsa-sha256; b=k7Dk75WhuBJASTWIiahHcnm5WCE78SLceo/06UG1KwNCYpsw4O4bLIAxoj16bRfH3h+gcQVUHxdXSbRrIqFdC5L+yz72ytlsN7aNJ9OoJFTt7r5PUIpa+ArIKatqfo05jHMXTJVgcXntQGXyj8qPfjeuTb+DYTjo0gz2Thh1ff8=; c=relaxed/relaxed; s=zmail; d=pigmoral.tech; v=1; bh=/PD4UpFBO687A1NJczwBo6I69uScaHLmvAb6f6geHA4=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by smtp.zohomail.com with SMTPS id 1794467705581366.7408594193287;
-	Wed, 11 Nov 2026 23:15:05 -0800 (PST)
-From: Junhui Liu <junhui.liu@pigmoral.tech>
-Date: Thu, 12 Nov 2026 15:11:57 +0800
-Subject: [PATCH v7 8/8] clk: sunxi-ng: a733: Add reset lines
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WnIUGND3
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5c00b0866b0so40257e87.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 12 Nov 2026 00:04:38 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794470676; cv=none;
+        d=google.com; s=arc-20260327;
+        b=EvwayTUzMahq7K5yqKPkL5Rno0jBLRp0Q/LkkJBFRcYNuoNUDxfb1NP1fECJUxZ0NB
+         M2pVwigCnPfhMJmiqt/uMaPEgu8S1b5kKChBWB0uZSo1SDZihEJiP7Y7EhEeZE0wWv6D
+         M5zcgoiQwH5ReI3q8OYXjoRaOrSi6R8EOQQmhC2Lwt36YFb0DnPO0nAVKmvzPGWEOxjR
+         zRZSnjnPAX/sI8E2sX5QHdh997j09AkzHHwnYUnZQ4U/uLCBh++uFiX1wvVIU7qWs5mK
+         AF+F1Wzt9mPsCs0l5m53Cqci7GO7vMQjnehkNU5QSyX7FyId+0qHKiFzaOtjCkyobud9
+         AjWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=bZnjmRjaw3mt+xCJw0WA+CLEo0XUahYdWgL+JaOD3TI=;
+        fh=hnWE0AyqQWxqAVw79fLwxO5CJB3VBekAYgvUxL+FT08=;
+        b=NKBrQzxUdxVbAJhF9urSTlT6MNvxD3K9iAK3d2HXz7hgrCbYJO4kL3T8GUz3Q7a2fv
+         1ug3X7zZPpoUuKPuOaEhdHmx4GA+r/UBTy+fgv1L2hV/pdT/mmwDEMmbW15tCQ0K/MoR
+         TOK9dm2z/OJVVL9P55MU7yxTNzGRQoOInArMoffLc7CUwLm2kqePkMiRsm3wgPW6ZD55
+         kzT/nMDuMX20oKeFMJROhpT9XW7MZy+kxp/DvU7aMaYrHg09txYfVVEgbwiApGV4fl7T
+         dQbjzlNWeOkAlxMVrZuZWWmyRKKwwV46E0b6NrHzr4KUI8Mqwmjy1LOpaTc1QOD6BFD9
+         NFFQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794470676; x=1795075476; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bZnjmRjaw3mt+xCJw0WA+CLEo0XUahYdWgL+JaOD3TI=;
+        b=WnIUGND325gHugaoNEz0YRBOJERoX0LfSvPBe4tYY28AfYl0QEHcjluhuZHG0Ppe0Y
+         etexbNEvTxDxji7Wxq6le+oEUzjz7Xx0hf6DEzjIO3+z3rRvQBfi4350fb2awhEGhjv2
+         xXnzL0z1C5QXeWADxI7kyXJtC1jU5WzegW0cTJ7+wox8osRRg8GtqU0Sb9qedUyd2pBo
+         +Gl+gVFrD8R9yPGDHTE8ZnQP3aDFnAE1hDqISmoMlvg1j0Z1+NmfPbN/jWeF4e/tlciM
+         lDI4UAbjbnleBAeIwt7HOBwUUub2RVXoVx2I1BBYzv0WEVdEJ1EOyJqqWqNcYZYVuJRY
+         OLKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794470676; x=1795075476;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bZnjmRjaw3mt+xCJw0WA+CLEo0XUahYdWgL+JaOD3TI=;
+        b=RDfW69K+O0Zb+eMdWQMgfRkC38Xjf6YLfGfujrG3cdx2NOzadqyw1PKupcfe7vP/UM
+         yEots4irQXWyk8zWqRU5nXrW7AQyXv802fOUZNNCkdeT8szFdtOYF8F7M9yzEhSSvN+w
+         RJavocwV/rrT2qdE1fqA67JrpymQ8GRUMX1u4jJvyWbNst1awysjjqB/kair6mj6LWTb
+         M2zBZy0LfBvlYEwx8ePM4yRMynqJXBfIMhSuFUCinyH+rJGQ2mHDAO2EssrINmrLkOnv
+         7DfnHipUB6kmwYv3gH9mu45uVXC9mFq7NygYtUz+jQXaZSa4MfwV7oal1gQD+1y2NoG2
+         aCDA==
+X-Forwarded-Encrypted: i=1; AL+hErGgPFzdMfsUv5WVw9tZBWhbal8pe5XZEt7QHg22/di1TKyv+D4P+EYUqu9X6s04qeq4nhnEP6xyltmnwA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9gViXq3hA6qBg/br3OgnAriZpkCCLEojfgmcf4l5jQelF6GNvI
+	f7qmO+7MA34Wzk5T+/Px2A9SNAnigTQZZf5G34vjfpTkTBfx91YIXYhj0IrOqCAS1m7nN3uXBLI
+	4qqams9+/TPX7wPQIXxrFUu3sDhqQwfw=
+X-Gm-Gg: AYBFou25FHOP8h+6fvi+Ru0SqwKxB8+uPpQTCiyLoDmGrUUb/DHFi25QnHEskmhbWyj
+	lO+sKfVZImXjd8Gg6XRtGxCep07PkTspiXH0hr3mOCqKHfcHcRODhc6qnYOz4C59nnEDPJhzxF6
+	sgx5BBEfTVfLv5pgo6ZbjKy6FujBtss07DMAtrL6xxlAdMUKq0nlIE+YFjAlCl5PiAEsHm1jfpo
+	8TzuYgIDn4sFMXNT5BqgZKd80OEO8qi/+4Cj+t0cxFVybmeWeEcFQncyVZdmEm45WsTAzFHNQoH
+	z/wYBKFrqvQEaMpVvMmMRjDKNv0s78cy/OiYWTPmwxf5ZG/I/UZryEyKJoCOQPggbEYtwMsXuf2
+	61XEx+0Z7tCH9dZ1qTgX5ORlM5IPKHmEI5jU8sU5I5FY7j/9CABfuaB9+DKdH8rzXFujoRQo=
+X-Received: by 2002:a05:6512:228e:b0:5c0:62:7fc3 with SMTP id
+ 2adb3069b0e04-5c15d65ace3mr1565808e87.5.1794470676380; Thu, 12 Nov 2026
+ 00:04:36 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -60,206 +104,108 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261112-a733-clk-v7-8-db7c5451ffa2@pigmoral.tech>
-References: <20261112-a733-clk-v7-0-db7c5451ffa2@pigmoral.tech>
-In-Reply-To: <20261112-a733-clk-v7-0-db7c5451ffa2@pigmoral.tech>
-To: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
- Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Junhui Liu <junhui.liu@pigmoral.tech>, Paul Walmsley <pjw@kernel.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
- Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
- netdev@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>, 
- Enzo Adriano <enzo.adriano.code@gmail.com>, 
- Andre Przywara <andre.przywara@arm.com>, Norman Herms <dockseed@proton.me>, 
- Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7125;
- i=junhui.liu@pigmoral.tech; h=from:subject:message-id;
- bh=PdP5eXOJZa8KfZvKjdJwSEED0Kqy+w7Th+f5pcd/5qQ=;
- b=owGbwMvMwCWWvDb1VEXc8j+Mp9WSGLK+pjP8qhAvKYyNszjk9GbribsX+J5b3369UajvxtRHN
- UcN5gid7yhlYRDjYpAVU2Th8hf/Z63D8+2IQOt9mDmsTCBDGLg4BWAilksZGa60PhZeWG8gu59T
- vprrw0pBpkz23XG/LvatuXPO4saMiSaMDLMUAk9VWopzT3uc+ZpzppzR9VeP2K2fKbh6s/1jSzW
- RZgEA
-X-Developer-Key: i=junhui.liu@pigmoral.tech; a=openpgp;
- fpr=15B30CC69C4BF0CC3C08F85A2A90CDC122DF37BF
-X-ZohoMailClient: External
+References: <20261110-sun50i-iommu-prefetch-v1-0-43428e792ef6@gmail.com> <XuGVSzNrS7KQLWfGI0rB-w@gmail.com>
+In-Reply-To: <XuGVSzNrS7KQLWfGI0rB-w@gmail.com>
+From: Arun Iyengar <aiyengar1990@gmail.com>
+Date: Thu, 12 Nov 2026 00:04:24 -0800
+X-Gm-Features: AclHuK-rZwZBd82aiWDx-zqymsN3quC1b31liF4avq8uA1RRs7r6BZowIVjwmt4
+Message-ID: <CAEy9hNUi0EmC4BC=TjpahO=jyKXBnAxHz-0C1KYPb7ZYfxDN_A@mail.gmail.com>
+Subject: Re: [PATCH 0/2] iommu/sun50i: Don't report TLB prefetch walks as page faults
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, iommu@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add the reset lines for the Allwinner A733 SoC. These reset control bits
-are integrated into the Bus Gate Reset (BGR) registers, typically
-sharing the same register address with their corresponding bus clock
-gates. Integrate them into the main CCU driver using the existing
-sunxi-ng ccu_reset framework, allowing the CCU to also function as a
-reset controller for the SoC.
+Hi Jernej,
 
-Tested-by: Jerome Brunet <jbrunet@baylibre.com>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
-Tested-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-Signed-off-by: Junhui Liu <junhui.liu@pigmoral.tech>
----
- drivers/clk/sunxi-ng/ccu-sun60i-a733.c | 126 +++++++++++++++++++++++++++++++++
- 1 file changed, 126 insertions(+)
+On Tue, Nov 10, 2026, Jernej Skrabec wrote:
+> First off, display engine isn't in merged yet. Second, I don't observe an=
+y
+> such issues with my wip H616 code.
+>
+> I think it's best to wait until driver is merged and can be retested and
+> merged then, if needed.
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
-index 47bb73cbc81f..50fd7c11821f 100644
---- a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
-@@ -26,6 +26,7 @@
- #include <dt-bindings/reset/allwinner,sun60i-a733-ccu.h>
- 
- #include "ccu_common.h"
-+#include "ccu_reset.h"
- 
- #include "ccu_div.h"
- #include "ccu_gate.h"
-@@ -2192,11 +2193,136 @@ static struct clk_hw_onecell_data sun60i_a733_hw_clks = {
- 	.num	= CLK_FANOUT3 + 1,
- };
- 
-+static const struct ccu_reset_map sun60i_a733_ccu_resets[] = {
-+	[RST_BUS_ITS_PCIE0]		= { 0x574, BIT(16) },
-+	[RST_BUS_IOMMU0_SYS]		= { 0x58c, BIT(16) },
-+	[RST_BUS_MSI_LITE0_AHB]		= { 0x594, BIT(16) },
-+	[RST_BUS_MSI_LITE0_MBUS]	= { 0x594, BIT(17) },
-+	[RST_BUS_MSI_LITE1_AHB]		= { 0x59c, BIT(16) },
-+	[RST_BUS_MSI_LITE1_MBUS]	= { 0x59c, BIT(17) },
-+	[RST_BUS_MSI_LITE2_AHB]		= { 0x5a4, BIT(16) },
-+	[RST_BUS_MSI_LITE2_MBUS]	= { 0x5a4, BIT(17) },
-+	[RST_BUS_IOMMU1_SYS]		= { 0x5b4, BIT(16) },
-+	[RST_BUS_DMA0]			= { 0x704, BIT(16) },
-+	[RST_BUS_DMA1]			= { 0x70c, BIT(16) },
-+	[RST_BUS_SPINLOCK]		= { 0x724, BIT(16) },
-+	[RST_BUS_MSGBOX]		= { 0x744, BIT(16) },
-+	[RST_BUS_PWM0]			= { 0x784, BIT(16) },
-+	[RST_BUS_PWM1]			= { 0x78c, BIT(16) },
-+	[RST_BUS_DBG]			= { 0x7a4, BIT(16) },
-+	[RST_BUS_SYSDAP]		= { 0x7ac, BIT(16) },
-+	[RST_BUS_TIMER0]		= { 0x850, BIT(16) },
-+	[RST_BUS_DE0]			= { 0xa04, BIT(16) },
-+	[RST_BUS_DI]			= { 0xa24, BIT(16) },
-+	[RST_BUS_G2D]			= { 0xa44, BIT(16) },
-+	[RST_BUS_EINK]			= { 0xa6c, BIT(16) },
-+	[RST_BUS_DE_SYS]		= { 0xa74, BIT(16) },
-+	[RST_BUS_VE_ENC0]		= { 0xa8c, BIT(16) },
-+	[RST_BUS_VE_DEC0]		= { 0xa8c, BIT(18) },
-+	[RST_BUS_CE]			= { 0xac4, BIT(16) },
-+	[RST_BUS_CE_SYS]		= { 0xac4, BIT(17) },
-+	[RST_BUS_NPU_CORE]		= { 0xb04, BIT(16) },
-+	[RST_BUS_NPU_AXI]		= { 0xb04, BIT(17) },
-+	[RST_BUS_NPU_AHB]		= { 0xb04, BIT(18) },
-+	[RST_BUS_NPU_SRAM]		= { 0xb04, BIT(19) },
-+	[RST_BUS_GPU0]			= { 0xb24, BIT(16) },
-+	[RST_BUS_DRAM0]			= { 0xc0c, BIT(16) },
-+	[RST_BUS_NAND0]			= { 0xc8c, BIT(16) },
-+	[RST_BUS_MMC0]			= { 0xd0c, BIT(16) },
-+	[RST_BUS_MMC1]			= { 0xd1c, BIT(16) },
-+	[RST_BUS_MMC2]			= { 0xd2c, BIT(16) },
-+	[RST_BUS_MMC3]			= { 0xd3c, BIT(16) },
-+	[RST_BUS_UFS_AHB]		= { 0xd8c, BIT(16) },
-+	[RST_BUS_UFS_AXI]		= { 0xd8c, BIT(17) },
-+	[RST_BUS_UFS_PHY]		= { 0xd8c, BIT(18) },
-+	[RST_BUS_UFS_CORE]		= { 0xd8c, BIT(19) },
-+	[RST_BUS_UART0]			= { 0xe00, BIT(16) },
-+	[RST_BUS_UART1]			= { 0xe04, BIT(16) },
-+	[RST_BUS_UART2]			= { 0xe08, BIT(16) },
-+	[RST_BUS_UART3]			= { 0xe0c, BIT(16) },
-+	[RST_BUS_UART4]			= { 0xe10, BIT(16) },
-+	[RST_BUS_UART5]			= { 0xe14, BIT(16) },
-+	[RST_BUS_UART6]			= { 0xe18, BIT(16) },
-+	[RST_BUS_I2C0]			= { 0xe80, BIT(16) },
-+	[RST_BUS_I2C1]			= { 0xe84, BIT(16) },
-+	[RST_BUS_I2C2]			= { 0xe88, BIT(16) },
-+	[RST_BUS_I2C3]			= { 0xe8c, BIT(16) },
-+	[RST_BUS_I2C4]			= { 0xe90, BIT(16) },
-+	[RST_BUS_I2C5]			= { 0xe94, BIT(16) },
-+	[RST_BUS_I2C6]			= { 0xe98, BIT(16) },
-+	[RST_BUS_I2C7]			= { 0xe9c, BIT(16) },
-+	[RST_BUS_I2C8]			= { 0xea0, BIT(16) },
-+	[RST_BUS_I2C9]			= { 0xea4, BIT(16) },
-+	[RST_BUS_I2C10]			= { 0xea8, BIT(16) },
-+	[RST_BUS_I2C11]			= { 0xeac, BIT(16) },
-+	[RST_BUS_I2C12]			= { 0xeb0, BIT(16) },
-+	[RST_BUS_SPI0]			= { 0xf04, BIT(16) },
-+	[RST_BUS_SPI1]			= { 0xf0c, BIT(16) },
-+	[RST_BUS_SPI2]			= { 0xf14, BIT(16) },
-+	[RST_BUS_SPIF]			= { 0xf1c, BIT(16) },
-+	[RST_BUS_SPI3]			= { 0xf24, BIT(16) },
-+	[RST_BUS_SPI4]			= { 0xf2c, BIT(16) }, /* From the vendor kernel. */
-+	[RST_BUS_GPADC0]		= { 0xfc4, BIT(16) },
-+	[RST_BUS_THS0]			= { 0xfe4, BIT(16) },
-+	[RST_BUS_IRRX]			= { 0x1004, BIT(16) },
-+	[RST_BUS_IRTX]			= { 0x100c, BIT(16) },
-+	[RST_BUS_LRADC]			= { 0x1024, BIT(16) },
-+	[RST_BUS_SGPIO]			= { 0x1064, BIT(16) }, /* From the vendor kernel. */
-+	[RST_BUS_LPC]			= { 0x1084, BIT(16) }, /* From the vendor kernel. */
-+	[RST_BUS_I2SPCM0]		= { 0x120c, BIT(16) },
-+	[RST_BUS_I2SPCM1]		= { 0x121c, BIT(16) },
-+	[RST_BUS_I2SPCM2]		= { 0x122c, BIT(16) },
-+	[RST_BUS_I2SPCM3]		= { 0x123c, BIT(16) },
-+	[RST_BUS_I2SPCM4]		= { 0x124c, BIT(16) },
-+	[RST_BUS_SPDIF]			= { 0x128c, BIT(16) },
-+	[RST_BUS_DMIC]			= { 0x12cc, BIT(16) },
-+	[RST_USB_PHY0]			= { 0x1300, BIT(30) },
-+	[RST_BUS_OHCI0]			= { 0x1304, BIT(16) },
-+	[RST_BUS_EHCI0]			= { 0x1304, BIT(20) },
-+	[RST_BUS_OTG]			= { 0x1304, BIT(24) },
-+	[RST_USB_PHY1]			= { 0x1308, BIT(30) },
-+	[RST_BUS_OHCI1]			= { 0x130c, BIT(16) },
-+	[RST_BUS_EHCI1]			= { 0x130c, BIT(20) },
-+	[RST_BUS_USB2]			= { 0x135c, BIT(16) },
-+	[RST_BUS_PCIE_PWRUP]		= { 0x138c, BIT(16) },
-+	[RST_BUS_PCIE]			= { 0x138c, BIT(17) },
-+	[RST_BUS_SERDES]		= { 0x13c4, BIT(16) },
-+	[RST_BUS_GMAC0]			= { 0x141c, BIT(16) },
-+	[RST_BUS_GMAC0_AXI]		= { 0x141c, BIT(17) },
-+	[RST_BUS_GMAC1]			= { 0x142c, BIT(16) }, /* From the vendor kernel. */
-+	[RST_BUS_GMAC1_AXI]		= { 0x142c, BIT(17) }, /* From the vendor kernel. */
-+	[RST_BUS_TCON_LCD0]		= { 0x1504, BIT(16) },
-+	[RST_BUS_TCON_LCD1]		= { 0x150c, BIT(16) },
-+	[RST_BUS_TCON_LCD2]		= { 0x1514, BIT(16) }, /* From the vendor kernel. */
-+	[RST_BUS_LVDS0]			= { 0x1544, BIT(16) },
-+	[RST_BUS_LVDS1]			= { 0x154c, BIT(16) },
-+	[RST_BUS_DSI0]			= { 0x1584, BIT(16) },
-+	[RST_BUS_DSI1]			= { 0x158c, BIT(16) },
-+	[RST_BUS_TCON_TV0]		= { 0x1604, BIT(16) },
-+	[RST_BUS_TCON_TV1]		= { 0x160c, BIT(16) },
-+	[RST_BUS_EDP]			= { 0x164c, BIT(16) },
-+	[RST_BUS_HDMI_MAIN]		= { 0x168c, BIT(16) },
-+	[RST_BUS_HDMI_SUB]		= { 0x168c, BIT(17) },
-+	[RST_BUS_HDMI_HDCP]		= { 0x168c, BIT(18) },
-+	[RST_BUS_DPSS_TOP0]		= { 0x16c4, BIT(16) },
-+	[RST_BUS_DPSS_TOP1]		= { 0x16cc, BIT(16) },
-+	[RST_BUS_VIDEO_OUT0]		= { 0x16e4, BIT(16) },
-+	[RST_BUS_VIDEO_OUT1]		= { 0x16ec, BIT(16) },
-+	[RST_BUS_LEDC]			= { 0x1704, BIT(16) },
-+	[RST_BUS_DSC]			= { 0x1744, BIT(16) },
-+	[RST_BUS_CSI]			= { 0x1844, BIT(16) },
-+	[RST_BUS_VIDEO_IN]		= { 0x1884, BIT(16) },
-+	[RST_BUS_APB2JTAG]		= { 0x1c04, BIT(16) },
-+};
-+
- static const struct sunxi_ccu_desc sun60i_a733_ccu_desc = {
- 	.ccu_clks	= sun60i_a733_ccu_clks,
- 	.num_ccu_clks	= ARRAY_SIZE(sun60i_a733_ccu_clks),
- 
- 	.hw_clks	= &sun60i_a733_hw_clks,
-+
-+	.resets		= sun60i_a733_ccu_resets,
-+	.num_resets	= ARRAY_SIZE(sun60i_a733_ccu_resets),
- };
- 
- static const u32 pll_regs[] = {
+Agreed, thanks. In mainline the only H616 IOMMU master today is the video
+engine, and the faults I saw came from the display scanning out a
+framebuffer through the IOMMU, with the out-of-tree DE33 code I use. I'll
+drop this series for now and retest once the display driver is merged.
 
--- 
-2.56.0
+Out of curiosity: does your WIP code map the framebuffer through the IOMMU?
+In the boots where fbcon takes over the display, the fbcon buffer
+(1024x768, 3 MiB) is the first IOVA allocation, so it ends right below
+the top 1 MiB, which stays unmapped, and the prefetch walk for the page
+after it fails.
 
+Best regards,
+Arun
+
+On Tue, Nov 10, 2026 at 8:04=E2=80=AFAM Jernej =C5=A0krabec <jernej.skrabec=
+@gmail.com> wrote:
+>
+> Dne torek, 10. november 2026 ob 07:05:16 Srednjeevropski standardni =C4=
+=8Das je Arun Iyengar via B4 Relay napisal(a):
+> > On an H616 with a display scanning out, the IOMMU reports page faults
+> > with master -1 at the IOVA right after the end of the framebuffer: once
+> > at the first fbcon frame, and then once per frame for a while after
+> > each TLB flush, e.g. while a video decoder frees its buffers. They are
+> > failed walks of the TLB prefetcher, which the hardware flags with bit 3=
+1
+> > of the page table interrupt registers and no master bit. Patch 1 stops
+> > reporting them. Patch 2 makes the remaining fault messages say which
+> > walk failed and what the interrupt register held.
+> >
+> > Tested on an Orange Pi Zero2 (H616) with HDMI forced on at 1024x768 and
+> > three 4K H.264 decodes through cedrus, on 7.3 kernels with and without
+> > the patches:
+> > - without: 214 "Page fault ... (master -1, dir rd)" lines;
+> > - with: none, no "Page fault" line at all, and no decode errors or
+> >   timeouts.
+> > Since the patched kernel prints every fault that is not a masterless
+> > prefetch walk, this also shows that the hardware sets bit 31 for these
+> > walks.
+>
+> First off, display engine isn't in merged yet. Second, I don't observe an=
+y
+> such issues with my wip H616 code.
+>
+> I think it's best to wait until driver is merged and can be retested and
+> merged then, if needed.
+>
+> Best regards,
+> Jernej
+>
+> >
+> > These patches were developed with Claude (Anthropic) as a coding
+> > assistant. It investigated the problem and wrote the code and the commi=
+t
+> > messages; I reviewed them, and they were tested on an Orange Pi Zero2
+> > (H616) as described above.
+> >
+> > ---
+> > Arun Iyengar (2):
+> >       iommu/sun50i: Don't report TLB prefetches of unmapped pages as fa=
+ults
+> >       iommu/sun50i: Print the page table level and status of a fault
+> >
+> >  drivers/iommu/sun50i-iommu.c | 50 ++++++++++++++++++++++++++++++++++--=
+--------
+> >  1 file changed, 39 insertions(+), 11 deletions(-)
+> > ---
+> > base-commit: 2cf4be57b301ed2d7af82e70cff5dfd96894d8de
+> > change-id: 20261110-sun50i-iommu-prefetch-85cc9ecff559
+> >
+> > Best regards,
+> > --
+> > Arun Iyengar <aiyengar1990@gmail.com>
+> >
+> >
+> >
+>
+>
+>
+>
