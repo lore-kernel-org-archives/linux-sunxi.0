@@ -1,55 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794493842;
-	b=nJzoNhyYNKU7He8u6vHxVViwDEE/lR0pFvBJP/SglSEQ6hJGR7MmYEQoiPGi2cvu0DQ3
-	 2l2h1l2J2crTnYAd2b5U87j5KuHwtJaKd0MQfpB71qHqoF2Bo/wlkE7bc5L0ktAxitPTY
-	 XJGUfmlj3R8fKlP8IdU1SRMsT6JrqStgBdXk1VR/NEfRRmx9S2utTk4rOuP+ooJeK8WEO
-	 gWwow8XklGIZ5BYo9QRHBX6jce2+ysSak6bdj+NN8sI8WhhA64hl595VUlrlHgonZPYoH
-	 1GLO20NkvZ7yLZd+5WD9z+TMyk98OONx+Gpas2duMi3Z/0jwIKkCOZ5iQfqayLav6Og==
+	t=1794494013;
+	b=ToL1KclqpyGGVyNQ9c13MUeowV3i5S8vvdo7MQIh6p0KRf7dmzUbqBFstahsl7S4MHaq
+	 14P/RPxjFscSuEhVyvNRR1IMph383Ap9zca7VxDV59UExFtN0OHvUVMX0xAWhxs6N2O6p
+	 u1gYobPUCZVO1u2H0GbjNGjc3UxqfTVEdGpcEJNHgP1FvPi+3FWaVV9pDt962X0YkGpQl
+	 VMwPCXDO0dv3rxSgVGfcWbVLVnPSTeDU/Kl/sf/J9yA+Ws6fV8XZ2dg3Jj5UAPn69WHTZ
+	 6T0LmQN3PSImnGi410J4eN0hRoGCcmvbk8Cw/fbd3RBOthS7h5k2qdAI70qYTwbjESg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794493842;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=p6yFbRoI34EBEWBA8uir1WZa2ELxczuwwTv1IUA9M2I=;
-	b=YPzkePAxBht89qR9f3CWKCCXD7hQ7HuvH+k1TBRyCt6z+hS/HvW3YFCHlLV4a21K5fpW
-	 lkQ0IctHu8po0FzkRYkIMR4RkxmhzsvXDpjBpFKMLAvsxEZUPsiH43TxTRJfk2+fTfvCk
-	 V+N+2p51Pq19BX2eOxuV20oL//YzY4HUyMqu9OvPhumHwDUosfho3gZGfEON5hWdVdokm
-	 vXIZB+tZgdl4elxpmUj5x6kH6hXC3MkIrSEsByghi8eXHTTMpjKhR/jcsb2Kr7OTgAHVc
-	 a6MXlvK80BgcxINWGcYIQab2aYmG91QxyOfMoKNnUzXIrzt7srrhdw5D4QDe5GQW0VA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794494013;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=ZvWhfh0tjT8b9eS/+ePbZ/29reieprsJmIKfK0jNE/I=;
+	b=Y8lLACNBzggWsFyLcj820A7MOYECOdLIL9H7+fE/2ZKH4Kz3KJAkijJf0m2ciWwdgkBQ
+	 TWY6yFzdVjNC2TGIs4lFmn2vfhfjjq9C4IXqr+h6jNelopK1NnOeoc+elIUj/1R6IQ+gO
+	 zp5IugE7z4Xc5eFxRuFDlEAPrgxLmMh7RRIUTYEMPXjhJ9mhZZqwoWPFvpl/5hykplysp
+	 z7fjotoI4ND3+kauHGvMFuuPjkEvUDQh/WEiUH7VNVZ+nD0xZ2cz1vTa12e5VKNJM+2Jj
+	 nBvDIoo74z4F01NxQifu0L02TjAgtR3lGc1HljTnluodzngpDIGEBN46aHGZ1w/f+9w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iACWokM5;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Bw+ONdiH;
+	arc=none smtp.remote-ip=209.85.221.46
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2488606B0AF
-	for <linux-sunxi@lists.linux.dev>; Thu, 12 Nov 2026 14:30:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F4B606A88F
+	for <linux-sunxi@lists.linux.dev>; Thu, 12 Nov 2026 14:33:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47F4B606A88F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iACWokM5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 744601F00ACE
-	for <linux-sunxi@lists.linux.dev>; Thu, 12 Nov 2026 14:30:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794493842;
-	bh=p6yFbRoI34EBEWBA8uir1WZa2ELxczuwwTv1IUA9M2I=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=iACWokM5dCMBq+sQAlvPoQXNgbafPVCzko61mUoyValRzk3cuG01rv1kUqa0vNPCG
-	 8ZsnU4+sRpAzCiefDb/gph/yB/RRigIwZSbkZNE9l6JDSK/5yJKPBrTyMAHTvbDypR
-	 4JMAk0SWnMC9qzrbGrrzWGkHLyqOiqBKdEc1GtzPJUbLTgVqJ8CXix8c0BF5tYguay
-	 Z/ASh8N+OAcqAuEZNG2mBCSk1uWyc1niUeTxI8er8cTAtM9PE3IoGjayPq4WcM+w6b
-	 cXWFQxEACl1dHKeuATJiyu8eX5KG4RPDUqlwu01hkWA6Fl6eme9Ujj5yjhMjCDOaE0
-	 3K1Xyamsr86UA==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3aced9804e8so38433861fa.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 12 Nov 2026 06:30:42 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErEa6s/oEmyqBevZ+43VzcP3yI8RfCJa9Ftqp8ci5DBHWMiYx+MfAqTstNBhws/5/NwocHIy/dkNnY1Lxw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8MHWOmon0KHE0sCm3S8ZaDZ3TCPJdcyq1KN0yHQEpZLajsa3dg
-	yTAtOHVyPJkZDY5zfaLko7SiPU6G8jooy+nfpk7HDw11cNdnYPqj7gUgHBzo+oIt1Qa5LSv2VQB
-	NOroYegmYErciqJ/DRCOwCe72miEu4wk=
-X-Received: by 2002:a2e:bd83:0:b0:3ac:e14b:4233 with SMTP id
- 38308e7fff4ca-3ae126d6bccmr14164511fa.26.1794493840822; Thu, 12 Nov 2026
- 06:30:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Bw+ONdiH
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48b001cd92bso2351421f8f.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 12 Nov 2026 06:33:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794494012; x=1795098812; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZvWhfh0tjT8b9eS/+ePbZ/29reieprsJmIKfK0jNE/I=;
+        b=Bw+ONdiHhM4p2T5sY8WiUY1I2eD6OWi/eyh+pVdUv4SieLp0Ke/iP6opCxYIYhlN01
+         aEvpiLCRaIDWTFM4Ipe7pQ5GPr2T3dZmjnBfGGX0HBGetwBnjUNLhbdQ2ivRKDBTA1RQ
+         6Uck9ABADxM6/BszM89YS21Bim+qjc+PCIRqsmFdwb+45BUxYvxPhS3sDvgvTIVkdTkp
+         DVOfsvqC50aFVSd4lgRQ7UbkRH4snciohFRSy3JuOiaakCYadGLEpKkxIBu36/CN5FTb
+         Df9yh88Oup9J7qQyAd0s47DCrIStanZkShD8d41yWctbb3syUbLtYIvzZPS1p1crwrHE
+         aTsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794494012; x=1795098812;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZvWhfh0tjT8b9eS/+ePbZ/29reieprsJmIKfK0jNE/I=;
+        b=KVf8e6akwDkYHqksLE6KJf/Ra+EZiW/SXoGYFOdXHuUIGChlue/DootLn7umtG6NHn
+         ItUYWtfGC+P69INFJqDLs1rL9S1HnAiSYKUMZmJZfP0I/3+xwKUx4600mxi/FDA95zsd
+         n6kAkuza52VY6e/lsbsJJDFi5mmtOPBhDd11RoxK1/i6V06SnhjYd9rUgLk9oFvP+x5G
+         IDTcK9KDC2aWEkBEF/r6cT+FsZSc1boDCu3D43JFDM0VhUFqXO0WdkAau//eFPjvGdiK
+         UtaTwS2mPiBjIGDBsyj7i13IW2GyqXsnyhswtoz9z6aysztA/SHF3tP6EuFL1y7aUxvU
+         SHog==
+X-Forwarded-Encrypted: i=1; AL+hErGUDATDFoLpieKcZDp9sPEy5Z4cuOf5ylWmsaBkZmLraPKievT6F/tQVqcgBlpIcIt6b6gW0yCM/pYC+g==@lists.linux.dev
+X-Gm-Message-State: APuU4Z88m8BJhUAPHMjTrxDsnYG/739MpgowGodGM1d6wK7WwRhtsqeZ
+	/qSTGepsQ3jNflN4tNDVvQVpRwwwoGFBrWec69OYBLtsnkdJ1IpKbZlM
+X-Gm-Gg: AYBFou2XOWO2fY7YRwF5floibev/73rNNvQh0gOZ33ziLVTa17iHQkZZPSWZOtvF/R5
+	0dBqb60kHoFq4lz3s+a0rDxy01OcBil95PorEVh82J0gzk4wZXn/oLvLcwzQ63YoDB7O6VsgM7R
+	8htZD3ucnHiAKbhCjeu9UKoKG8AKi+9lp0tcBEsXI6roMxqGbBG21zV9j3N1BaaQhr1dIlcZO4K
+	JCnzGeuNwmhLLfocwY+ExZf2It1M4rYl0dtBKZEd+qcyCXDnIpuTItfruvSBF22WAcgZNl85IJz
+	jHw707K7IB5F9T0bAJab+t1eMAR/tnXvQoiXWQ/N8aAGWe1SdlCK2fenF/DvnmGM6OK7O58Xq/+
+	zvHbmtpfDcrc1o4uk/E+CL51LKX0cOmmxTYdkQvzCiKACpkd8VEJeMnJsUzNPkQ48PE8FH7qD7p
+	MxcvDTK15E/5nuWuBxw066WpvrRd7K6MX4Fc3S+hBxXFQjrvdkyObiWRKRA8hoSZ9ACp2Bg0KMX
+	yrIk4WxbfBlDIjSCEOPxREKFGZEwyFOP+nrHJRC6d8mL0NsTonMXMptn+dwWsLqPkwuulU46nHf
+	XtXJUkDM8J8CIV29fBII4d63vej55y60MJuGGE2MiMSW3uc9QiCiQSLb1gSsrNsyEkB1n75MaCC
+	+/Ym2NjYavfdNNwvyjRerserR
+X-Received: by 2002:a05:6000:2008:b0:493:8847:841e with SMTP id ffacd0b85a97d-499c8982608mr10751462f8f.16.1794494011369;
+        Thu, 12 Nov 2026 06:33:31 -0800 (PST)
+Received: from romain-ThinkPad-P14s-Gen-5-AMD.lan ([2001:861:39c2:e340:7c57:d4:a443:9a65])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4988f5b1ce3sm15590804f8f.14.2026.11.12.06.33.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 06:33:31 -0800 (PST)
+From: Romain TISSERAND <romain.tisserand@gmail.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 22/35] drm/panel: drop the orientation workaround from get_modes()
+Date: Thu, 12 Nov 2026 15:33:30 +0100
+Message-ID: <20261112143330.2576419-1-romain.tisserand@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261026-drm-panel-funcs-v1-22-5e3070a3478f@oss.qualcomm.com>
+References: <20261026-drm-panel-funcs-v1-22-5e3070a3478f@oss.qualcomm.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,189 +108,31 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261112-sun8i-emac-jumbo-v2-0-aca0cf23cf17@gmail.com> <20261112-sun8i-emac-jumbo-v2-2-aca0cf23cf17@gmail.com>
-In-Reply-To: <20261112-sun8i-emac-jumbo-v2-2-aca0cf23cf17@gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 12 Nov 2026 23:30:27 +0900
-X-Gmail-Original-Message-ID: <CAGb2v664HN=K_rmHo6c8vUruiO=oSx_xyP6+R=W4=mayxGfNCw@mail.gmail.com>
-X-Gm-Features: AclHuK9rczOZ2CpznM4g4dhi1PV55KlcijiBk3NrxFJJUCi_uq6z_UIAjJL6B74
-Message-ID: <CAGb2v664HN=K_rmHo6c8vUruiO=oSx_xyP6+R=W4=mayxGfNCw@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 2/2] net: stmmac: dwmac-sun8i: Enable jumbo
- frames up to MTU 2018
-To: aiyengar1990@gmail.com
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-kernel@vger.kernel.org, Corentin Labbe <clabbe.montjoie@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 12, 2026 at 5:41=E2=80=AFPM Arun Iyengar via B4 Relay
-<devnull+aiyengar1990.gmail.com@kernel.org> wrote:
->
-> From: Arun Iyengar <aiyengar1990@gmail.com>
->
-> The sun8i EMAC advertises a maximum MTU of 3712, but no frame larger
-> than the standard 1518 bytes is actually received: on an H616 board
-> (Orange Pi Zero2, RTL8211F over RGMII) every ping above 1472 bytes with
-> DF set is lost, and the rx_length counter goes up for each one.
->
-> There are two independent limits:
->
-> 1. EMAC_RX_CTL0 bit 29 (JUMBO_FRM_EN) is never set, so the receiver
->    rejects frames longer than 1518 (1522 with a VLAN tag) bytes. The
->    Allwinner BSP driver (sunxi-gmac) sets this bit unconditionally at
->    init. Set it in core_init as well; core_init runs after every DMA
->    soft reset, including the one done by an MTU change.
->
-> 2. The EMAC has no Synopsys HW feature register, so stmmac uses normal
->    descriptors in chain mode and, without enh_desc, sets max_mtu to
+On Mon, Oct 26, 2026, Dmitry Baryshkov wrote:
+> The exceptions are sun6i_mipi_dsi, sti_dvo and the Tegra DSI, which get
+> the panel only after the DRM device has been registered.
+> None of the in-tree boards using them has a rotated panel.
 
-The hardware only supports normal descriptors, period.
+Two are on their way for sun6i_mipi_dsi, both A33 handhelds with the
+panel mounted for landscape use, rotation = <270>: the Miyoo PocketGo S30
+(ILI9488, panel series at [1]) and the Miyoo A30 (ST7701, not posted yet).
 
->    SKB_MAX_HEAD(NET_SKB_PAD + NET_IP_ALIGN), which is 3712 with 4K
->    pages. That value is not a hardware limit. The descriptor buffer
->    size field is 11 bits wide (the same in the BSP and the QEMU model),
->    so ndesc_init_rx_desc() caps each RX buffer at 2047 bytes, and
->    ndesc_get_rx_status() discards any frame that needs a second
->    descriptor. On TX, stmmac_xmit() only splits jumbo frames for
->    enh_desc, and norm_set_tx_desc_len_on_chain() masks the length to
->    11 bits, so a linear frame longer than 2047 bytes would be silently
->    truncated.
+I sent a fix for this gap on 1 November [2]: sun6i_dsi_bind() reads the
+rotation from the panel node, a child of the DSI node, and sets the
+orientation on the connector before the DRM device is registered. It
+does not rely on the panel driver, so it keeps working once the
+get_modes() workaround is gone, and it skips port/ports nodes, so it
+does not mind whether the board also links the panel through the graph.
+Tested on the S30; it still applies to drm-misc-next as of 12 November.
 
-If that's true, that sounds like a serious bug.
+Could your repost of 15+ take it, or point at it for sun6i_mipi_dsi? It
+reads the DT itself rather than panel->orientation from your 23/35,
+because the panel is not there yet at bind time. I am happy to rebase it
+on top of your series if you prefer.
 
-But that's just the limit of each descriptor. The stmmac driver already
-has code for both chained and ring mode descriptors to split one fragment
-across multiple descriptors for TX.
+[1] https://lore.kernel.org/all/20261109160706.2272332-1-romain.tisserand@gmail.com/
+[2] https://lore.kernel.org/all/20261101203406.1360656-1-romain.tisserand@gmail.com/
 
-I think what should be done is just remove the "if (enh_desc)" check
-before
-
-    is_jumbo =3D priv->hw->mode->is_jumbo_frm(skb->len, enh_desc);
-
-Now if the jumbo frame code is buggy (because no one ever ran into for
-who knows how long), then that should be fixed.
-
-> Moreover, the RX DMA only fills a multiple of 4 bytes of a buffer: on
-> the H616, with 2047 programmed, a 2044 byte frame (FCS included) is
-> received in one descriptor and a 2045 byte frame already spills into a
-> second one. The usable size is therefore 2044 bytes, the same value as
-> DESC_BUF_MAX in the original sun8i-emac submission and in the U-Boot
-> driver.
-
-And it also has code to deal with a frame spanning multiple descriptors
-or buffers in the RX path. So if you say 2045 bytes is spilling over
-to the next buffer, then the size limit for each descriptor's buffer
-should be 2044.
-
-I think this should be done somewhere in stmmac_setup_dma_desc() by
-aligning bfsize or ultimately dma_conf->dma_buf_sz to a multiple of 4.
-
-The limiting to 2047 bytes in ndesc_init_rx_desc() also seems suspect,
-as the rest of the driver is not aware of this limiting, and would
-likely cause misalignment or dropped bytes when reassembling a frame
-from multiple descriptors.
-
-> Limit max_mtu so that a frame with two VLAN tags and the FCS fits in
-> 2044 bytes (MTU 2018). A device tree max-frame-size can still lower it.
-
-So what you are doing is just papering over what is broken underneath.
-Fix the actual problem so we can have MTU up to 9 KB.
-
-> Longer frames from the wire span two descriptors and are dropped as a
-> whole by stmmac_rx(), which drains the descriptors of a split frame
-> since commit 834ec9530832 ("net: stmmac: drop split frames on AF_XDP
-> zero-copy RX").
-
-I doubt that's the case. This commit said it only covers AF_XDP, which
-is not your normal network transfers.
-
-
-ChenYu
-
-> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
-> ---
->  drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 24 +++++++++++++++++=
-++++++
->  1 file changed, 24 insertions(+)
->
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/=
-net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> index 0c82662fbe6e..a18d3daf6a3f 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> @@ -6,6 +6,7 @@
->   */
->
->  #include <linux/clk.h>
-> +#include <linux/if_vlan.h>
->  #include <linux/io.h>
->  #include <linux/iopoll.h>
->  #include <linux/mdio-mux.h>
-> @@ -219,12 +220,25 @@ static const struct emac_variant emac_variant_h616_=
-emac1 =3D {
->
->  /* Used in RX_CTL0 */
->  #define EMAC_RX_RECEIVER_EN             BIT(31)
-> +#define EMAC_RX_JUMBO_FRM_EN           BIT(29)
->  #define EMAC_RX_DO_CRC BIT(27)
->  #define EMAC_RX_FLOW_CTL_EN             BIT(16)
->
->  /* Used in TX_CTL0 */
->  #define EMAC_TX_TRANSMITTER_EN  BIT(31)
->
-> +/* The buffer size field of the EMAC DMA descriptors is 11 bits wide, an=
-d
-> + * the RX DMA only fills a multiple of 4 bytes of a buffer: with 2047
-> + * programmed, frames longer than 2044 bytes spill into a second
-> + * descriptor. The stmmac normal descriptor code used for this EMAC only
-> + * handles frames that fit in a single RX descriptor and a single TX
-> + * descriptor buffer. Bound the MTU so that a frame, including two VLAN
-> + * tags and the FCS, always fits in 2044 bytes.
-> + */
-> +#define EMAC_MAX_FRAME_LEN     2044
-> +#define EMAC_MAX_MTU           (EMAC_MAX_FRAME_LEN - ETH_HLEN - \
-> +                                2 * VLAN_HLEN - ETH_FCS_LEN)
-> +
->  /* Used in EMAC_TX_FLOW_CTL */
->  #define EMAC_TX_FLOW_CTL_EN             BIT(0)
->
-> @@ -645,6 +659,15 @@ static void sun8i_dwmac_core_init(struct mac_device_=
-info *hw,
->
->         v =3D (8 << EMAC_BURSTLEN_SHIFT); /* burst len */
->         writel(v, ioaddr + EMAC_BASIC_CTL1);
-> +
-> +       /* Without JUMBO_FRM_EN the receiver flags every frame longer tha=
-n
-> +        * 1518 bytes (1522 with a VLAN tag) as a length error, so any MT=
-U
-> +        * above 1500 is unusable. Frames are still bounded by the RX
-> +        * descriptor buffer size, see EMAC_MAX_MTU.
-> +        */
-> +       v =3D readl(ioaddr + EMAC_RX_CTL0);
-> +       v |=3D EMAC_RX_JUMBO_FRM_EN;
-> +       writel(v, ioaddr + EMAC_RX_CTL0);
->  }
->
->  static void sun8i_dwmac_set_mac(void __iomem *ioaddr, bool enable)
-> @@ -1209,6 +1232,7 @@ static int sun8i_dwmac_probe(struct platform_device=
- *pdev)
->         plat_dat->mac_setup =3D sun8i_dwmac_setup;
->         plat_dat->tx_fifo_size =3D 4096;
->         plat_dat->rx_fifo_size =3D 16384;
-> +       plat_dat->maxmtu =3D min(plat_dat->maxmtu, EMAC_MAX_MTU);
->
->         ret =3D sun8i_dwmac_set_syscon(&pdev->dev, plat_dat);
->         if (ret)
->
-> --
-> 2.55.0
->
->
+Romain
