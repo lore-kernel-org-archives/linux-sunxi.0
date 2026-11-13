@@ -1,58 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794609995;
-	b=O1IiCNLsPS5OC3L8XBaWfDfRkb9Q+oEIfAiIt9A5TX18B+4qpqCgpI/FM+p3s+Q6E3K+
-	 x8x0pla8MqNNZ4px70/diddWVXz1s5IdYfS3C73972TaNQG9T8mbNXOD8Tgdxr/DtHDW8
-	 p4kRydOeJr63k0+AiAnFdlYWA7W5Mok18P1O1nooyJO8DhI66ldQJZYEKGa2NmUeH6681
-	 h7vmOxJkHBvcjikqm1J5DExAIGUUU7uel/gwPUFVUml5nKnH/ujvp6lYzpITCb4RMBi38
-	 SwylMWdEokj39R7pyTLfmEoYEkWjegHYpIUNWUALnP7DDO2DVAAPHBX+5NvpDC1D1eQ==
+	t=1794611682;
+	b=c0udejsAEoB+1SKXsOy20E/off73r8GSKoD58p/INEftjVRG+peYAamXpjEtW09anYN+
+	 DNG33+yA/X769Qp4IVEz7a6NFinP3eXJziiTSzsV7YvPUpC7pWTY/ELtffeV8g/WSE6mw
+	 bG3CVei4Ori/LDLQxIj87ZRBnTBzVCdfWS7XJnDhB8r55i3lLB5yo0eFw82//x7AMqf5o
+	 M+LdPk7y/B5n4so/1BQnQY9Na4Nen6A+yR0F+dEfqU/kiBsMiK93+Up2vE5b4aBaqyyPR
+	 WwceuxuE+X0pUUrk/jJwEmNJfoXqnF7SQ9OAh6tdUO+pb3dSjG+wNNgkg57YwPhwmFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794609995;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=SJJFXFJOjUb6U2UtiZQNfL1AoPB2mBR7cd+kQxd45dI=;
-	b=D5vZC0LspIxfLBzwP+l7PQg0E6s4Ji3Fwx4X/bXBCpTdGTEP1M/U0w7SAXGbfg39KgXN
-	 uS40cxx9aeKusk50OnZXgDLBe5vclKxhNoJtwfbhU1Esxiwq3Le/2WuReZU9IlyImtb/p
-	 yE+39zo8S3Ch6bzu0Eym875nKAakMxfYNNiU4LDwWZ0I6jOCddbYu9T6Qhw56cHupRDX+
-	 aeyBotZN0+VKf8HUaO+xL1qmAtEbtMUGnT5ZKyP52BAm/IFHaFTmehPpfSmT19PCzdpD4
-	 BhOl9rXAfX7ErPHtWAHqJDanEFXB/YorgYQwnRZxb2gkMSAn2Z3qGzq1/kV/9KHiRiQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794611682;
+	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=pXGSM9Y3EpP8jnrBzAJoxv43kXDNPaxem0R/Fx5BGmM=;
+	b=0EHelChS28p2SY9Z8h65GOyw/QwZWsyIwFAQdhm2ZvEi9FBNYqmC9o+Fq1urV7iEEIDi
+	 ImEEHsk3/kS8gKNiYhE5I4DQ9+KN3Xlj0SFdh+rhlcEbM9tVXop1en15K5C2KX+spLQeo
+	 w/b0WT0qQwmtgwvA9wCar9a8G8tKTiEX2NQCA7E9lah1j5t57vB4AhpyFYa4NJtSYiZLj
+	 OMs0A0lVeNLkWzuf8EQ6Get8Nmwtim5YQS4jMx4GSFpgil0vxnv2IYwx10MkVYXOxOHFw
+	 9PwZf0+JXzmSAXwqg2jqe97DvLq1VQOIG49vnramj59reJweGVAbUIPgPru/dBEPuWQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OXykTpMI;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EVHrIAPA;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8658606A32D;
-	Fri, 13 Nov 2026 22:46:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7C2606A335;
+	Fri, 13 Nov 2026 23:14:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OXykTpMI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E48301F000C4;
-	Fri, 13 Nov 2026 22:46:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EVHrIAPA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2461B1F000C4;
+	Fri, 13 Nov 2026 23:14:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794609995;
-	bh=SJJFXFJOjUb6U2UtiZQNfL1AoPB2mBR7cd+kQxd45dI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=OXykTpMI6vEGjfkrx9j5PULfAFNQfq1W/F9Y+XHVbp7+FwSM6ZbExMxaMZ+gI6k89
-	 tXWJwfOV+eb4lw7s4q/FShR14KKetT9HCLR9EQD989h26yMA+5LRC6AMNJkEFVNulV
-	 H4lvEqOtc5eGN+DKlC+6WBidSD6rsgWbJRaX/fPvoR2S+XGfrvayXp56WlDUg7tQx+
-	 L4yDRYSx0xMYffnyXBbJeA9AN9SkprcoL+UuqoexHfyj2f0dUijWpwEOdKIm6a7nqH
-	 PSmfQq28+hk/H11vWxH+xKf5snBLbkPLuV6e/5mRzdbw0DOg6jwgjARJnnud3dCOSD
-	 zfdFXe6JIdjjg==
-Message-ID: <sashiko-outbox-213839@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 06/19] clk: sunxi-ng: add support for the Allwinner V861
- CCU
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Han Gao" <gaohan@iscas.ac.cn>
-Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org, linux-rtc@vger.kernel.org, linux-gpio@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, "Alexandre
- Belloni" <alexandre.belloni@bootlin.com>
-In-Reply-To: <20261114-v861-v1-6-eb71ec3ee523@iscas.ac.cn>
-References: <20261114-v861-v1-0-eb71ec3ee523@iscas.ac.cn>
- <20261114-v861-v1-6-eb71ec3ee523@iscas.ac.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 13 Nov 2026 22:46:34 +0000
+	s=k20260515; t=1794611682;
+	bh=pXGSM9Y3EpP8jnrBzAJoxv43kXDNPaxem0R/Fx5BGmM=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=EVHrIAPA8Wn6pkqAi/ZJrxxnCngTzoj3f9VE7VrK5fQqQtpk3Vk+H50eYTjek62Vb
+	 rkuPr4HAka6aT/QEzVS14ihKp4AVkV5n46BZnN4K+E5tFhOugKbJoZ7J8XaQGV82Mp
+	 pD5j8zOc3lGY4n9V1YJZO80cQPx39ae8GP4gdbkgXwxDr8QxmQVOZCTncHhkY7XvR4
+	 woDxioWwlHY9ycLUdUtvTYQlBP/yWXc7q03HrLrPqlgGC9kDlu1nvi7qryK/xddYcC
+	 mPfeOY6Dk+COgktruhoKFA4uEN96yh5iTNJF/LBpet2i+9LqU68+tibm2tvVtd1Gd4
+	 IYcJiNgBXOtmg==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 5498C328C243;
+	Fri, 13 Nov 2026 23:14:37 +0000 (GMT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -61,69 +51,44 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] spi: sun6i: Add dual read support for the H616
+From: Mark Brown <broonie@kernel.org>
+To: Arun Iyengar <aiyengar1990@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, linux-spi@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261110-spi-sun6i-h616-dual-read-v1-1-59bea5a897d4@gmail.com>
+References: <20261110-spi-sun6i-h616-dual-read-v1-1-59bea5a897d4@gmail.com>
+Date: Fri, 13 Nov 2026 23:14:36 +0000
+Message-Id: <179461167656.590303.12402709871115244251.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=789; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=rr0+rqD3HhJ16MSAH8jAU6LM9LnKj9iXMGerOv/Xe6k=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLK+z7y79hmDSpxcRO3Lgh3ts9fdW/34mcq1FV9bp3Qeb
+ N638egum45SFgYxLgZZMUWWuCzul/Ulr9fwHVzYBjOHlQlkCAMXpwBM5N0lRobPh8pUWG86us72
+ KvAOWBaedufA7Yd/VQs18jcELY19+LWG4Z9lVk9+2DXFVJ9r5gJZkheL92zg/8j2QWqprv7X/bl
+ HJbkB
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] clk: sunxi-ng: ccu_mp_set_rate() ignores
-  CCU_FEATURE_UPDATE_BIT for dram_clk
---
+> The H616 SPI controllers are bound through the "allwinner,sun8i-h3-spi"
+> fallback, whose configuration advertises no dual or quad modes. The
 
-commit 4dcfa888826dc579312b5e254290daa03aed3f59
-Author: Han Gao <gaohan@iscas.ac.cn>
+> @@ -785,6 +791,7 @@ static const struct sun6i_spi_cfg sun50i_r329_spi_cfg = {
+>  static const struct of_device_id sun6i_spi_match[] = {
+>  	{ .compatible = "allwinner,sun6i-a31-spi", .data = &sun6i_a31_spi_cfg },
+>  	{ .compatible = "allwinner,sun8i-h3-spi",  .data = &sun8i_h3_spi_cfg },
+> +	{ .compatible = "allwinner,sun50i-h616-spi", .data = &sun50i_h616_spi_cfg },
+>  	{ .compatible = "allwinner,sun50i-r329-spi", .data = &sun50i_r329_spi_cfg },
+>  	/*
+>  	 * A523's SPI controller has a combined RX buffer + FIFO counter
 
-clk: sunxi-ng: add support for the Allwinner V861 CCU
+This new compatible needs a corresponding DT binding update.
 
-This commit adds the main CCU clock and reset driver for the Allwinner
-V861 SoC.
-
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun252i-v861.c b/drivers/clk/sunxi-=
-ng/ccu-sun252i-v861.c
-> new file mode 100644
-> index 0000000000000..af84c49fbaf16
-> --- /dev/null
-> +++ b/drivers/clk/sunxi-ng/ccu-sun252i-v861.c
-[ ... ]
-> +static const struct clk_parent_data dram_parents[] =3D {
-> +	{ .fw_name =3D "hosc" },
-> +	{ .hw =3D &pll_ddr_clk.common.hw },
-> +	{ .hw =3D &pll_periph0_2x_clk.common.hw },
-> +	{ .hw =3D &pll_periph0_800M_clk.common.hw },
-> +};
-> +
-> +static SUNXI_CCU_MP_DATA_WITH_MUX_GATE_FEAT(dram_clk, "dram", dram_paren=
-ts,
-> +					    0x800,
-> +					    0, 5,	/* M */
-> +					    8, 2,	/* P */
-> +					    24, 3,	/* mux */
-> +					    BIT(31),	/* gate */
-> +					    CLK_IS_CRITICAL,
-> +					    CCU_FEATURE_UPDATE_BIT);
-
-[Severity: Medium]
-Does changing the rate of dram_clk actually latch the new dividers in
-hardware?
-
-dram_clk uses ccu_mp_ops with CCU_FEATURE_UPDATE_BIT, but unlike
-ccu_div_set_rate(), ccu_mp_set_rate() never checks CCU_FEATURE_UPDATE_BIT
-or sets CCU_SUNXI_UPDATE_BIT before writing the register:
-
-drivers/clk/sunxi-ng/ccu_mp.c:ccu_mp_set_rate() {
-    ...
-	if (shift)
-		reg |=3D ilog2(p) << cmp->p.shift;
-	else
-		reg |=3D (p - cmp->p.offset) << cmp->p.shift;
-
-	writel(reg, cmp->common.base + cmp->common.reg);
-    ...
-}
-
-When clk_set_rate() updates the M or P dividers without a parent mux or
-gate change, the hardware ignores the unlatched divider update while
-ccu_mp_recalc_rate() reads back the new register fields and reports the
-wrong rate to the clock framework and child clocks such as mbus_clk.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261114-v861-v1-0-=
-eb71ec3ee523@iscas.ac.cn?part=3D6
+-- 
+Mark Brown <broonie@kernel.org>
