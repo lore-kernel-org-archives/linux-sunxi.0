@@ -1,102 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794585049;
-	b=SMv3n2sCg0N2H/xxGcu4jE+fCX5hamc0uXPph1ItfFxntiF+kQT75sK4PgNzZj3uQcgb
-	 DPLDKG+sePsYn9tS9/1ucg9ci+x4hGU1gG+li8xaClSx6jAuKm6vXifhk7Z+6HSU+5K1Z
-	 QsPfwo6LktCloNkaqM0jfyzCxFNEz/VXF73VmqmLSpNM3kwcWhWLbuhrrDi0Iw5QHMu0V
-	 D0WFmqTnBTtivvv65RPkNWzvyRj3t8hZY6QrQCVmdD2Gu0rdSJibrAEau8QnGQN+vMIgP
-	 fTlwLeCtHSCzDMg0abObnrkYpJib6sm6Tg2Lz8d1qid2wWSzt2KyDbpY/65Kpk2vReg==
+	t=1794593716;
+	b=tvzdhQBcvhW9hLFP+meJPM5UkYyW81W4GKd7MPEPHBYuhuU8Y83QKAeloT7be+lC38Ee
+	 PtzpYjdcSZghAFxs8KJbZJQhtWnffi5tW38oslsyaiaz6xYTs9/3v5bTSg4vnsszW49cV
+	 +O+Z91f6xrho2CZKzKFbvv6ZMg/BCi8dMtcjIdemEy9hDg3WofMdWy4DHQDcsWTFGFGQM
+	 ZP25/8QutNnXCWS3EU/DXTK/CQoacfHaIJCJdju34imqh0wLIazsfLamuKasL6Rj9dTnP
+	 5r6ioBy21JYnYt7MtlxhJMR5oONMo9nbb/IEzux/fgZ71iaJGTXl4J0LszfjFyL3K7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794585049;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794593716;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=8jj7mBI3TNthqAPtsbPCNUkujqIrKVUtRn+XDuatAMY=;
-	b=KvLU54brxW7w+CUowjYevOMQrUUiaOvo4jk8KI02jH+sz8WEmhD4RP8XoFfP5E6UNOyU
-	 WSVQ3YW01+QTjaStsrmbi5o5L9ip+LB+WlzrIXxxFyyZ3oPqHfIZUKXHVmGK50IzoPM9w
-	 Pe9/mPGNK5CEwtwmy1+TiBTByY+SzRjsxuG/1YqPsSWyNlzEw4wPeYSAs5uPBmclwZZB+
-	 m1JUZtn1jD5DVhquTREajDCBLF0s/FbK15Xl05imugIY7RYFZW8Iwvx9925/p3i3x77zP
-	 gh02c2d9UFMook3gmTWrnlPbiK0yoUL4ZLSMPvx6isQ2s3NjrkW74Hu6Z5dtMT4daRA==
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=npRJKj6BlqdwFJKciGGphf3F65mEV9WXqQjzPBUisy8=;
+	b=u1ek858LE+CcBPRW+YsBTMmJkIz2PH4iT1GWofTRlhY7Dwbjx0pcGSIZPzhp5JLI6LSb
+	 r4vik69br50sjaKrHI+EpcxeBUxlImJNtO0AHqKElx+mV/CtG03++Aw9fLeM0mSr99gMk
+	 XQDD6u6saftYqUL9aNNLnmouYHv+e51+voJUa76ctSyWJVgLComPEs5ymF+UOucxXmDxs
+	 5YKkSjxA/X6uxUfzuCeJiPs0MFligSsta7PtR3qft3oqAgfkdP001JY1RDi7a52ghz7D6
+	 6o06F1Fe6YDR+4PCmMYgIodUHbl0o6fa5m8L/fbJOna1xi7ZPIgzvwzJw0Vj9q4CXlA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MpqWzBbp;
-	arc=none smtp.remote-ip=209.85.221.52
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YE2FY4LY;
+	arc=none smtp.remote-ip=209.85.210.48
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C222606A88A
-	for <linux-sunxi@lists.linux.dev>; Fri, 13 Nov 2026 15:50:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C222606A88A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678A8606A333
+	for <linux-sunxi@lists.linux.dev>; Fri, 13 Nov 2026 18:15:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 678A8606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MpqWzBbp
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-49134c8509fso1336031f8f.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 13 Nov 2026 07:50:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YE2FY4LY
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-8241a56cd70so1486173a34.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 13 Nov 2026 10:15:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794585047; x=1795189847; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8jj7mBI3TNthqAPtsbPCNUkujqIrKVUtRn+XDuatAMY=;
-        b=MpqWzBbpx0ilXAGhq/V0MoOuF6d8XIl7qMnI8EesmxveunGCNlhz08KlbIllFClDTP
-         Q29nxw6Aq8Sn5jiiPDHp6MLsL2lVZjo6vO5Ibj9gaZDN+LgEMS2jA4E0jxmkXlnErCwk
-         ESJi9T19quLmw2RTU0LRTNBIkjmka+sLwAWURJlEkVyDiA6KAv8khVhDXjFvn5111vpK
-         aVjbic8RQdXvdFwAuAIfpjZOhAHjVAdeV0EIWu91yeKMKYQERSRNi2MTVgzrXeOIgAYe
-         GcOPJk+NHt9a71XSSg4fxRqnA8TqmPfH5DtUMWLS36xMvsV408K7UVF4Vh2KtHZnn2bV
-         zxIA==
+        d=gmail.com; s=20260707; t=1794593714; x=1795198514; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=npRJKj6BlqdwFJKciGGphf3F65mEV9WXqQjzPBUisy8=;
+        b=YE2FY4LYLVynmdXShw9GEGjKlR4jgT0XpsSWV8ZAJ3pcMmjHFI0s5u0FLicvzLe0eQ
+         S/Avsyft3bxOIk1hFYvDxYTWN9wTVWG6Ln1JWwEZjZdH4xuoMTCecCY3OIfqYMXLFeIE
+         rqyPMIvbkPMMjAHyEPs0F0TiwM453kwMMWgzu5Tny0ScOWxy53CrveXNwoEFCsdmYRr9
+         +LNCjQ1q+eU8crFbsQ/xBmFHCSHrVWpK0RRKVItZdka+aQndhw7Rthnkv1mjvwW74Nsa
+         I7RTF+IB1uVQ8TAAiuzyEnz6Lsq6slo3tD9OvWlltBJfCKTKeNj46idg969zvGiZ2hJk
+         S+yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794585047; x=1795189847;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8jj7mBI3TNthqAPtsbPCNUkujqIrKVUtRn+XDuatAMY=;
-        b=uvIrKX04qeR2ZgahIXAjyL+CGWFkpxFfjVwdw4W7gkSpY7SjNthyID+L3EUN21eHdf
-         lmVH2SSdFdY+cj+KIwiSbFb1Pfqg7ED7ApLdbexcnMb9mQRx5mUUFx1cfXIEWSmaiI5j
-         bbUFXdHG4rmAg894MRfZuXTc0SJPKjF5AfEhjgEOo2CEyL+zVp6N8u79HTIASpRzjg7n
-         jkuo2G5XSt2jhJHjKe0RIz30ApbeUjgEVQfW2lCuxi5mYpR7Y2eQC5GwYvdth3u06fEp
-         0v3L/+kG7K+nXkG7fwYO+FeLZcSx0lInr7C7zq8NMVpUgz21nVr5IMJLG6ptJuhsrnJM
-         ZJBA==
-X-Forwarded-Encrypted: i=1; AL+hErHiPZR9v+GJqfmydtYeMAuazD80A9WhCWT8kKh+MeabrgILTJ7gZCZDmPnJKEg2xNBoH1P2OR6Xwfwq2w==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9hEWmhzd6sMfdeWVogMpdI8K+kQCg60cy3t16VN5y7qyUDttlS
-	8oIdGhMWJoVtcnnWHS9uKhabU5NnyyVP/maK1o8a8YSh7tVP/fVAZpz7
-X-Gm-Gg: AYBFou2JE4dS4ImOYftQqivax4KDE1bSApNYRbYuYz+/4yv6NoR9/QJND3XkKo0oKut
-	00vTaikEH0KlxgXBHLI/9cDmfMOoQEc4/41ZnMf6gDCkTRg9wlade+HXB1S/lJnuP61/+05gVkX
-	nfn+pPsS6HXt3TgnLZfWS3PUXF+CsdfHqKlaxjKQoTc4WPi/yx/z58miyNa3N/4J9RgMjJ+yjEM
-	z+znupc4JYeqljshx8jsAdXzBeR7A+wpcSNK8i3t7JsO0yks5a8l/VEmr9bTmNuyj6ttP91EtiL
-	fi0HGNZGGOtUan94uQ1Ove3FTDYCaW8vlj5lnoWNUUfeQ0M07riP+tU2D5grALMM98zVvKPl6Tr
-	AWsbwrLTBhTxIloxFPE/3alFwM6Ohe1jz0wa3ExdoKds/4YFuvLe+E8VZBzR/vOJBdDP5TaQnJ5
-	LFi/xU8wuu9r1Ehh5gva3XmS/IeXP0iNrz4qUZULhpygCjZW75qjCf3Qt6z0dNBXRuGtnIGj58r
-	nKCmnoM70EtvKllAQTehDm2UAGKHA7jA5kTuzqPn9Pvi8gCKD/DIHf7TKp8pF21tFC15wX6i4Y8
-	mw9FqtT23uEAGTF4azt8IPZc4MheGnQljXrCrolndomxe6iyyGF8kZ3dn9tw22c=
-X-Received: by 2002:a05:6000:2402:b0:48e:5550:c64c with SMTP id ffacd0b85a97d-49c70ed7fe9mr6649988f8f.14.1794585046470;
-        Fri, 13 Nov 2026 07:50:46 -0800 (PST)
-Received: from debian (ip-78-137-176-146.broadband.digiweb.ie. [78.137.176.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c6020bb0fsm5518477f8f.34.2026.11.13.07.50.44
+        d=1e100.net; s=20260707; t=1794593714; x=1795198514;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=npRJKj6BlqdwFJKciGGphf3F65mEV9WXqQjzPBUisy8=;
+        b=PHRRgYtChARbNk2HIrzc9rHCsU4Ovb7U9AXLdEfJrjGnEzFCTkCnw2jstfl8z8BSgz
+         j020fZrpelWnJEYAf6l62MPDPqGw+jaQHuxKVFbY3z6dz2JRy6FXanrJ/ppMr6lLCpE0
+         voFx3AavCCykYdTbU8aIkxHZcyZ/lBC1FhkHLY6MkLM1BPDFHVEruPiZubgrLg7FO+ng
+         T5pHZoZfu1RIqq3R5JZMadI96lfPpDS+9QO/O3TwEpanpimhQRvtgmNBpjpji21MZcyi
+         nbjsUrXqfEz5FA60K5+DXZLVZAAzIMYhdPBfhqirRtywGhV1mOTVsR1Dz4lhy2/jto2G
+         ifeg==
+X-Forwarded-Encrypted: i=1; AL+hErEEpJo94U+zS+a81wegVZY5xGLfmbVvPl8nAaVy0bbVH8ghwGcWUZMP9Pb/2Qz4o25s5CfE2I2fkXcEUQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9vXvI340PNzem1jjP5A9yVsvKSqyzffYhuyCMhBLSSoJ0NH8aS
+	8tsc7kuZ2RuppKdRZdHEOFabFht5gE8x0w5BM426r2PzaUwIh0IibntA
+X-Gm-Gg: AYBFou3zV1Qcaowjy/sZ+zHW1ldnrgZpHgARt9uWFvRnnGhiZJkr2gkKyvm/iBeRoP4
+	oRh5Hll3pgqqJDb0ja5gJ1z0MVv2iBWz6xAaGhpbzdcJOVsj2cqeYqU8Lib4PZzq6ZRiiig9XK0
+	p6xQ/pn2bkF243FMPR4iwTqtMV3IORaBbutnnG9qsObUUMS5lmz0buUgLceDObdmBEVkDjp8G59
+	q58qkqYnsxhTCZKrEmHPXBN5mzvmYhFJmlHK2jGDxfbXJEwmln82D0wrGJbnZ7axrKLJFVBnoaX
+	1E9gErblfTEMhYQ0bFp85w5OD+m87+DbZLtY55NewMloDDTGrBgZEavkyKCYZ0dejZKTwPZIC4j
+	S/IMRacPyPF7NmII6NrwvN7zMOElEV1fMSfM82gUHUEQDseKiP8biJ8k0e+8o0SJWLXCOv58QWD
+	PbJ0OX6ejQSfgFmXMMOgbEV1Q2dYxiazKnhtbVbuRRgZdxgaCeJLdY0FA5D4zZZsM8cdlrO9KN4
+	vrdlYWlLDJphMD4je2HT/yWqQXcAGNIJWO5UMjTXgFwzBTdq6eIBX5+PwSL9Qc0nnDPMNg0i3j9
+	G+XpXx9gTbnCjnnG7N4hq460fSqCm6k1bGqtqOXw4pSPVqqoUOaZw5cLe5rgSdZTCUp2nOw5EGa
+	PYWdNVglr13rRO7j+WOaOnukBw59OJJoxKuJm9xYgCMGuBLxwxnzfCrkNzGEFj+M35v5d+Q4/w2
+	SowwCv1pgx2KT11TlYfMwLf6+TQqXqIMQm+rxoDG0Et/zB5XBAfTo=
+X-Received: by 2002:a05:6830:230f:b0:85f:aa6:b7f1 with SMTP id 46e09a7af769-862898e6a6cmr2948369a34.23.1794593714124;
+        Fri, 13 Nov 2026 10:15:14 -0800 (PST)
+Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-8628817d979sm3253414a34.22.2026.11.13.10.15.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 07:50:45 -0800 (PST)
-From: Pablo Mazzini <pmazzini@gmail.com>
-To: Brian Masney <bmasney+clk@redhat.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: Pablo Mazzini <pmazzini@gmail.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v5 2/2] clk: sunxi-ng: add Allwinner B288 CCU driver
-Date: Fri, 13 Nov 2026 15:50:00 +0000
-Message-ID: <20261113155000.84703-3-pmazzini@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261113155000.84703-1-pmazzini@gmail.com>
-References: <20261113155000.84703-1-pmazzini@gmail.com>
+        Fri, 13 Nov 2026 10:15:12 -0800 (PST)
+From: James Hilliard <james.hilliard1@gmail.com>
+Subject: [PATCH v4 00/58] mtd: rawnand: retain chip and controller state
+ across removal
+Date: Fri, 13 Nov 2026 11:14:16 -0700
+Message-Id: <20261113-submit-rawnand-retained-handle-lifetime-v1-v4-0-556b1d7c6221@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -106,854 +94,422 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5VUzW6jNwx8lcDnuqAoSpRy6nsUPYh/m69InK3tT
+ Vss8u6lvYsi9i3QSYBmhuIM+X138uPmp93jw/fd0d+20/Z6yAv98rDTp3X44vvN8r5DwF4K0P7
+ 0TV628/64/j6sg+2Pfl7bwW2fj+3Z989b+Hl78f1b2YMQYvOmDrJLwq9Hj+2fq9jvf/y4J9ufr
+ ueLws8XR//rW1Zx/vFs93Wd9SlreHxYrchUIWAu0GjOUqtSqdaG8jIsNrlKHVee/1FSO0+1RZb
+ QrCTBKBGOZtC4CzayILJbFLA0ZXCiZbMVQ3Bfk3joHGGrNlfuTeEWtcRXA+Q2EcNrm8aoqZwdE
+ MVSBEjEGt+iGvOljkIRArWWWmYAEhWM/FNKka4Jrd9VOMVR1sqvlIBWGQh7VSUBqzMw1qKgqbc
+ orctG6wCmY/LSWkCcGtiwtTArD5nF/U6L1hXTWjVTZZO2Zip6WNa1uKh1rNHb/b/mnNk3WjRx5
+ mttq80qAJ4qalxjleZ3fmGqlzVWxbBCbA0dYhpUbqNXmgVtSHjcogoNthjqw7vSIC5hzMrEoD7
+ TgIGWjtx1I10UHz0mDpuadkqgSod0tnVGhtFKCaU7l7UPn9Kb1bVa70UsOwmBmS3TyNy00PC7b
+ DhD5FEyqmBU+rpYQUMqRywrPVks4C4b2V5TM9EGwdTcsRPIyDBFleC+sHAgzTtU/kF4SS+zA/e
+ oyDpLBqY5yxBBaGlywQtK1sn3+vqSM/34kJVloqpzhkPSdZvC6E1ARzfrjhlmzgDtLtP7tJ3Or
+ 8d/r5vjrVyH9eeS4M8sicue2EMZxbM7Sjp++/Kytudfs6arzBt+oC7wKWpM6lwTbDByRizuqet
+ H6vIp6prU6jkFGXKmYh+p39/f/wM6ZulZWAUAAA==
+X-Change-ID: 20261104-submit-rawnand-retained-handle-lifetime-v1-0b4225e5ce0b
+To: Miquel Raynal <miquel.raynal@bootlin.com>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>
+Cc: linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ James Hilliard <james.hilliard1@gmail.com>, 
+ Srinivas Kandagatla <srini@kernel.org>, Tze Yee Ng <tze.yee.ng@altera.com>, 
+ Richard Cochran <richardcochran@gmail.com>, 
+ Jonathan Lemon <jonathan.lemon@gmail.com>, 
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
+ Yuqiang Sun <izaiahsun@gmail.com>, 
+ Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Bernhard Frauendienst <kernel@nospam.obeliks.de>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, Kees Cook <kees@kernel.org>, 
+ linux-hardening@vger.kernel.org, Arseniy Krasnov <AVKrasnov@sberdevices.ru>, 
+ Boris Brezillon <bbrezillon@kernel.org>, 
+ Brian Norris <computersforpeace@gmail.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ David Woodhouse <dwmw2@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+ Vitaly Wool <vitalywool@gmail.com>, 
+ David Woodhouse <David.Woodhouse@intel.com>, 
+ Russell King <rmk+kernel@arm.linux.org.uk>, Mike Rapoport <rppt@kernel.org>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Christophe Kerello <christophe.kerello@st.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Jason Roberts <jason.e.roberts@intel.com>, 
+ Boris Brezillon <boris.brezillon@collabora.com>, 
+ Michal Simek <michal.simek@amd.com>, Mason Yang <masonccyang@mxic.com.tw>, 
+ Ramuthevar Vadivel Murugan <vadivel.muruganx.ramuthevar@linux.intel.com>, 
+ Lucas Stach <dev@lynxeye.de>, Dmitry Osipenko <digetx@gmail.com>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org, 
+ Stefan Agner <stefan@agner.ch>, Thierry Reding <thierry.reding@kernel.org>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>, 
+ linux-mediatek@lists.infradead.org, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
+ linux-rockchip@lists.infradead.org, 
+ Yifeng Zhao <yifeng.zhao@rock-chips.com>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, 
+ Keguang Zhang <keguang.zhang@gmail.com>, linux-mips@vger.kernel.org, 
+ Shan-Chun Hung <schung@nuvoton.com>, Jacky Huang <ychuang3@nuvoton.com>, 
+ Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
+ imx@lists.linux.dev, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Han Xu <han.xu@nxp.com>, 
+ linux-renesas-soc@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>, 
+ Kevin Hilman <khilman@baylibre.com>, Liang Yang <liang.yang@amlogic.com>, 
+ linux-amlogic@lists.infradead.org, 
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org, 
+ Manivannan Sadhasivam <mani@kernel.org>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Kamal Dasu <kamal.dasu@broadcom.com>, 
+ Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+ Vladimir Zapolskiy <vz@mleia.com>, Harvey Hunt <harveyhuntnexus@gmail.com>, 
+ Paul Cercueil <paul@crapouillou.net>, 
+ Maxim Levitsky <maximlevitsky@gmail.com>
+X-Mailer: b4 0.15.2
 
-Covers the PLLs, the CPU/AHB/APB tree, the module clocks and the bus
-gates and resets.
+An MTD handle can outlive controller unbind. Its metadata and NAND locks
+must remain valid, including when a writable file closes and calls sync,
+while further hardware access must be rejected after disconnection.
 
-Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
+This builds on earlier MTD removal-lifetime work. Commit 19bfa9ebebb5
+("mtd: use refcount to prevent corruption") added MTD reference counting
+[0], but retaining an MTD reference does not by itself retain the
+driver-owned allocation containing the master. The read/unbind discussion
+also covered raw NAND [1] and draining active operations [2]. Tze Yee Ng's
+SPI-NOR series addresses the corresponding SPI-NOR paths [3].
+
+Following Greg's review [7], separate class-device data from the MTD
+backing allocation. Delete the device's interfaces and drain NVMEM and
+class PM callbacks before releasing backing data. Bare device references
+retain an independently allocated device, whose type, PM dispatch and
+final release are built in even when MTD is modular. NVMEM similarly
+disconnects and drains provider and layout callbacks before unregister
+returns; retained consumers keep core-owned metadata and receive -ENODEV
+on subsequent access.
+
+Introduce opt-in backing-object ownership for MTD masters. Registered
+nodes and acquired MTD handles retain the chip, while nested partitions
+also retain their parent metadata. Unregister first so removal notifiers
+can finish I/O, then disconnect raw NAND and drain admitted operations.
+Hardware resources can be released without waiting for open files to close.
+
+Virtual concatenations serialize publication and removal across physical
+controllers. Disconnect and drain a published concatenation before any
+component can disappear, then release its component references. An old
+handle keeps the disconnected virtual device, independently of a later
+replacement.
+
+Run NAND and controller-specific cleanup during disconnection, while
+the controller driver is still bound. Snapshot the OOB layout in core-owned
+data before publication so metadata queries remain valid without driver
+callbacks. The NAND core frees retained chip and controller allocations;
+the final MTD put never calls back into the controller module. Ordinary
+MTD and NVMEM handles retain the NAND core that implements their
+operations, rather than the hardware driver.
+
+Share allocation ownership across the raw-NAND drivers, including
+partially published probes. Shared controllers remain allocated until
+their last retained chip is released. R852 allocates a new chip for each
+card, and NDFC allocates controller state per binding.
+
+Based on NAND next at 30daaf3e7897, with Tze Yee Ng's module-reference
+ordering fix [4], Karl Mehltretter's OTP cleanup fix [6], and the separately
+posted registration, operation-locking and controller probe/teardown fixes
+identified by the prerequisite metadata. TLA+ models and their assumptions
+and coverage limits are available in [5].
+
+[0] https://lore.kernel.org/r/20230620131905.648089-2-alexander.usyskin@intel.com
+[1] https://lore.kernel.org/r/CAND4H7dz94Gsi_tXSQmLNme9uROnouOUwuCX9BW_+RCc2ZFDqA@mail.gmail.com
+[2] https://lore.kernel.org/r/mafs0bjs73tbq.fsf@kernel.org
+[3] https://lore.kernel.org/r/20261022035352.52129-1-tze.yee.ng@altera.com
+[4] https://lore.kernel.org/r/20261022035352.52129-2-tze.yee.ng@altera.com
+[5] https://github.com/jameshilliard/linux-h616-nand-tla
+[6] https://lore.kernel.org/r/20260816163027.10044-1-kmehltretter@gmail.com
+[7] https://lore.kernel.org/r/2026111037-stir-hermit-cb21@gregkh
+
+Assisted-by: Codex:gpt-6-astra
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- drivers/clk/sunxi-ng/Kconfig          |   5 +
- drivers/clk/sunxi-ng/Makefile         |   2 +
- drivers/clk/sunxi-ng/ccu-sun8i-b288.c | 775 ++++++++++++++++++++++++++
- drivers/clk/sunxi-ng/ccu-sun8i-b288.h |  10 +
- 4 files changed, 792 insertions(+)
- create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-b288.c
- create mode 100644 drivers/clk/sunxi-ng/ccu-sun8i-b288.h
+Changes in v4:
+- Keep MTD subdirectories behind CONFIG_MTD so boolean child options
+  do not become built-in users of a modular MTD core.
+- Serialize partition publication with deletion and retain a handle
+  while parsing subpartitions. Reject children of removed partitions.
+- Distinguish explicit NULL NVMEM owners from the parent-module
+  fallback, including OTP providers backed by built-in NAND code.
+- Register layout-owned cells explicitly, preserving provider cells
+  added before or after a layout binds.
+- Rebuild cell attributes across layout bind/unbind, free partial
+  allocations on failure and remove attributes before device deletion.
+- Pair NVMEM_REMOVE notifications only with successful NVMEM_ADD
+  notifications and remove the redundant disconnected-device check.
+- Resolve concatenation OOB layouts through the first component's
+  master, including partition-backed components.
+- Link to v3: https://patch.msgid.link/20261111-submit-rawnand-retained-handle-lifetime-v1-v3-0-ce537999741d@gmail.com
 
-diff --git a/drivers/clk/sunxi-ng/Kconfig b/drivers/clk/sunxi-ng/Kconfig
-index 6af2d020e03e..5bdfb8574794 100644
---- a/drivers/clk/sunxi-ng/Kconfig
-+++ b/drivers/clk/sunxi-ng/Kconfig
-@@ -88,6 +88,11 @@ config SUN6I_RTC_CCU
- 	default ARCH_SUNXI
- 	depends on MACH_SUN8I || ARM64 || RISCV || COMPILE_TEST
- 
-+config SUN8I_B288_CCU
-+	tristate "Support for the Allwinner B288 CCU"
-+	default ARCH_SUNXI
-+	depends on MACH_SUN8I || COMPILE_TEST
-+
- config SUN8I_A23_CCU
- 	tristate "Support for the Allwinner A23 CCU"
- 	default ARCH_SUNXI
-diff --git a/drivers/clk/sunxi-ng/Makefile b/drivers/clk/sunxi-ng/Makefile
-index a1c4087d7241..92755d4749b8 100644
---- a/drivers/clk/sunxi-ng/Makefile
-+++ b/drivers/clk/sunxi-ng/Makefile
-@@ -43,6 +43,7 @@ obj-$(CONFIG_SUN6I_RTC_CCU)	+= sun6i-rtc-ccu.o
- obj-$(CONFIG_SUN8I_A23_CCU)	+= sun8i-a23-ccu.o
- obj-$(CONFIG_SUN8I_A33_CCU)	+= sun8i-a33-ccu.o
- obj-$(CONFIG_SUN8I_A83T_CCU)	+= sun8i-a83t-ccu.o
-+obj-$(CONFIG_SUN8I_B288_CCU)	+= sun8i-b288-ccu.o
- obj-$(CONFIG_SUN8I_H3_CCU)	+= sun8i-h3-ccu.o
- obj-$(CONFIG_SUN8I_R40_CCU)	+= sun8i-r40-ccu.o
- obj-$(CONFIG_SUN8I_V3S_CCU)	+= sun8i-v3s-ccu.o
-@@ -71,6 +72,7 @@ sun6i-rtc-ccu-y			+= ccu-sun6i-rtc.o
- sun8i-a23-ccu-y			+= ccu-sun8i-a23.o
- sun8i-a33-ccu-y			+= ccu-sun8i-a33.o
- sun8i-a83t-ccu-y		+= ccu-sun8i-a83t.o
-+sun8i-b288-ccu-y		+= ccu-sun8i-b288.o
- sun8i-h3-ccu-y			+= ccu-sun8i-h3.o
- sun8i-r40-ccu-y			+= ccu-sun8i-r40.o
- sun8i-v3s-ccu-y			+= ccu-sun8i-v3s.o
-diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-b288.c b/drivers/clk/sunxi-ng/ccu-sun8i-b288.c
-new file mode 100644
-index 000000000000..176126b15aff
---- /dev/null
-+++ b/drivers/clk/sunxi-ng/ccu-sun8i-b288.c
-@@ -0,0 +1,775 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Clock Control Unit driver for the Allwinner B288 (sun8iw10p1).
-+ *
-+ * Closely related to the A64; most of its PLLs are bit-identical.
-+ * Transcribed from the BSP clk-sun8iw10.{c,h} and cross-checked against
-+ * ccu-sun50i-a64.c; divergences are called out inline.
-+ *
-+ * The audio clock tree (i2s/spdif/dsd/dmic/adda) is not implemented.
-+ */
-+
-+#include <linux/clk-provider.h>
-+#include <linux/io.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+
-+#include "ccu_common.h"
-+#include "ccu_reset.h"
-+
-+#include "ccu_div.h"
-+#include "ccu_gate.h"
-+#include "ccu_mp.h"
-+#include "ccu_mult.h"
-+#include "ccu_nk.h"
-+#include "ccu_nkmp.h"
-+#include "ccu_nm.h"
-+#include "ccu_phase.h"
-+#include "ccu_sdm.h"
-+
-+#include "ccu-sun8i-b288.h"
-+
-+/*
-+ * PLL_24M @ 0x034 -- B288 only. It feeds the PLLs 24 MHz whatever the
-+ * crystal: it converts a 26 MHz one and is bypassed with a 24 MHz one.
-+ */
-+static struct clk_fixed_rate pll_24m_clk = {
-+	.fixed_rate	= 24000000,
-+	.hw.init	= CLK_HW_INIT_FW_NAME("pll-24m", "hosc",
-+					      &clk_fixed_rate_ops, 0),
-+};
-+
-+static const struct clk_hw *pll_24m_hws[] = { &pll_24m_clk.hw };
-+
-+/*
-+ * PLL_CPU @ 0x000 -- N[12:8] K[5:4] M[1:0] P[17:16], gate 31, lock 28.
-+ * Identical to sun50i-a64.
-+ */
-+static struct ccu_nkmp pll_cpux_clk = {
-+	.enable		= BIT(31),
-+	.lock		= BIT(28),
-+	.n		= _SUNXI_CCU_MULT(8, 5),
-+	.k		= _SUNXI_CCU_MULT(4, 2),
-+	.m		= _SUNXI_CCU_DIV(0, 2),
-+	.p		= _SUNXI_CCU_DIV_MAX(16, 2, 4),
-+	.common		= {
-+		.reg		= 0x000,
-+		.hw.init	= CLK_HW_INIT_HWS("pll-cpux", pll_24m_hws,
-+						  &ccu_nkmp_ops,
-+						  CLK_SET_RATE_UNGATE),
-+	},
-+};
-+
-+/*
-+ * PLL_AUDIO @ 0x008 -- N[14:8] M[4:0] P[19:16], gate 31, lock 28, with
-+ * sigma-delta modulation for the audio rates, as on the A64 and H3. P is
-+ * forced to 1 at probe, so the rates are exact.
-+ */
-+#define SUN8I_B288_PLL_AUDIO_REG	0x008
-+
-+static struct ccu_sdm_setting pll_audio_sdm_table[] = {
-+	{ .rate = 22579200, .pattern = 0xc0010d84, .m = 8, .n = 7 },
-+	{ .rate = 24576000, .pattern = 0xc000ac02, .m = 14, .n = 14 },
-+};
-+
-+static struct ccu_nm pll_audio_base_clk = {
-+	.enable		= BIT(31),
-+	.lock		= BIT(28),
-+	.n		= _SUNXI_CCU_MULT(8, 7),
-+	.m		= _SUNXI_CCU_DIV(0, 5),
-+	.sdm		= _SUNXI_CCU_SDM(pll_audio_sdm_table, BIT(24),
-+					 0x284, BIT(31)),
-+	.common		= {
-+		.reg		= SUN8I_B288_PLL_AUDIO_REG,
-+		.features	= CCU_FEATURE_SIGMA_DELTA_MOD,
-+		.hw.init	= CLK_HW_INIT_HWS("pll-audio-base", pll_24m_hws,
-+						  &ccu_nm_ops,
-+						  CLK_SET_RATE_UNGATE),
-+	},
-+};
-+
-+/* PLL_VIDEO0 @ 0x010 -- identical to sun50i-a64. */
-+static struct ccu_nm pll_video0_clk = {
-+	.enable		= BIT(31),
-+	.lock		= BIT(28),
-+	.n		= _SUNXI_CCU_MULT(8, 7),
-+	.m		= _SUNXI_CCU_DIV(0, 4),
-+	.frac		= _SUNXI_CCU_FRAC(BIT(24), BIT(25), 270000000, 297000000),
-+	.common		= {
-+		.reg		= 0x010,
-+		.features	= CCU_FEATURE_FRACTIONAL,
-+		.hw.init	= CLK_HW_INIT_HWS("pll-video0", pll_24m_hws,
-+						  &ccu_nm_ops,
-+						  CLK_SET_RATE_UNGATE),
-+	},
-+};
-+
-+/*
-+ * PLL_DDR0 @ 0x020 -- N[14:8] M[1:0]. Unlike the A64 there is no K,
-+ * and N is 7 bits wide.
-+ */
-+static struct ccu_nm pll_ddr0_clk = {
-+	.enable		= BIT(31),
-+	.lock		= BIT(28),
-+	.n		= _SUNXI_CCU_MULT(8, 7),
-+	.m		= _SUNXI_CCU_DIV(0, 2),
-+	.common		= {
-+		.reg		= 0x020,
-+		.hw.init	= CLK_HW_INIT_HWS("pll-ddr0", pll_24m_hws,
-+						  &ccu_nm_ops,
-+						  CLK_SET_RATE_UNGATE),
-+	},
-+};
-+
-+/* PLL_PERIPH0 @ 0x028 -- identical to sun50i-a64, incl. fixed post-div 2. */
-+static struct ccu_nk pll_periph0_clk = {
-+	.enable		= BIT(31),
-+	.lock		= BIT(28),
-+	.n		= _SUNXI_CCU_MULT(8, 5),
-+	.k		= _SUNXI_CCU_MULT_MIN(4, 2, 2),
-+	.fixed_post_div	= 2,
-+	.common		= {
-+		.reg		= 0x028,
-+		.features	= CCU_FEATURE_FIXED_POSTDIV,
-+		.hw.init	= CLK_HW_INIT_HWS("pll-periph0", pll_24m_hws,
-+						  &ccu_nk_ops, 0),
-+	},
-+};
-+
-+/* PLL_VIDEO1 @ 0x030 -- same layout as PLL_VIDEO0. */
-+static struct ccu_nm pll_video1_clk = {
-+	.enable		= BIT(31),
-+	.lock		= BIT(28),
-+	.n		= _SUNXI_CCU_MULT(8, 7),
-+	.m		= _SUNXI_CCU_DIV(0, 4),
-+	.frac		= _SUNXI_CCU_FRAC(BIT(24), BIT(25), 270000000, 297000000),
-+	.common		= {
-+		.reg		= 0x030,
-+		.features	= CCU_FEATURE_FRACTIONAL,
-+		.hw.init	= CLK_HW_INIT_HWS("pll-video1", pll_24m_hws,
-+						  &ccu_nm_ops,
-+						  CLK_SET_RATE_UNGATE),
-+	},
-+};
-+
-+/* PLL_PERIPH1 @ 0x044 -- identical to sun50i-a64. */
-+static struct ccu_nk pll_periph1_clk = {
-+	.enable		= BIT(31),
-+	.lock		= BIT(28),
-+	.n		= _SUNXI_CCU_MULT(8, 5),
-+	.k		= _SUNXI_CCU_MULT_MIN(4, 2, 2),
-+	.fixed_post_div	= 2,
-+	.common		= {
-+		.reg		= 0x044,
-+		.features	= CCU_FEATURE_FIXED_POSTDIV,
-+		.hw.init	= CLK_HW_INIT_HWS("pll-periph1", pll_24m_hws,
-+						  &ccu_nk_ops, 0),
-+	},
-+};
-+
-+/* PLL_DE @ 0x048 -- identical to sun50i-a64. */
-+static struct ccu_nm pll_de_clk = {
-+	.enable		= BIT(31),
-+	.lock		= BIT(28),
-+	.n		= _SUNXI_CCU_MULT(8, 7),
-+	.m		= _SUNXI_CCU_DIV(0, 4),
-+	.frac		= _SUNXI_CCU_FRAC(BIT(24), BIT(25), 270000000, 297000000),
-+	.common		= {
-+		.reg		= 0x048,
-+		.features	= CCU_FEATURE_FRACTIONAL,
-+		.hw.init	= CLK_HW_INIT_HWS("pll-de", pll_24m_hws,
-+						  &ccu_nm_ops,
-+						  CLK_SET_RATE_UNGATE),
-+	},
-+};
-+
-+/* PLL_DDR1 @ 0x04c -- B288 only. Same layout; this is the one feeding DRAM. */
-+static struct ccu_nm pll_ddr1_clk = {
-+	.enable		= BIT(31),
-+	.lock		= BIT(28),
-+	.n		= _SUNXI_CCU_MULT(8, 7),
-+	.m		= _SUNXI_CCU_DIV(0, 2),
-+	.common		= {
-+		.reg		= 0x04c,
-+		.hw.init	= CLK_HW_INIT_HWS("pll-ddr1", pll_24m_hws,
-+						  &ccu_nm_ops,
-+						  CLK_SET_RATE_UNGATE),
-+	},
-+};
-+
-+/*
-+ * pll_periph{0,1} carry a fixed /2 post-divider, so the 2x clocks are the
-+ * raw outputs.
-+ */
-+static CLK_FIXED_FACTOR_HW(pll_periph0_2x_clk, "pll-periph0-2x",
-+			   &pll_periph0_clk.common.hw,
-+			   1, 2, 0);
-+static CLK_FIXED_FACTOR_HW(pll_periph1_2x_clk, "pll-periph1-2x",
-+			   &pll_periph1_clk.common.hw,
-+			   1, 2, 0);
-+
-+/*
-+ * CPU_CFG @ 0x050 -- mux[17:16], CPUAPB divider [9:8], AXI divider [1:0].
-+ * Same layout as the H3 and the A64.
-+ */
-+static const struct clk_parent_data cpux_parents[] = {
-+	{ .fw_name = "losc" },
-+	{ .fw_name = "hosc" },
-+	{ .hw = &pll_cpux_clk.common.hw },
-+	{ .hw = &pll_cpux_clk.common.hw },
-+};
-+
-+static SUNXI_CCU_MUX_DATA(cpux_clk, "cpux", cpux_parents,
-+			  0x050, 16, 2, CLK_IS_CRITICAL | CLK_SET_RATE_PARENT);
-+
-+static const struct clk_hw *cpux_hws[] = { &cpux_clk.common.hw };
-+static SUNXI_CCU_M_HWS(axi_clk, "axi", cpux_hws, 0x050, 0, 2, 0);
-+static SUNXI_CCU_M_HWS(cpuapb_clk, "cpuapb", cpux_hws, 0x050, 8, 2, 0);
-+
-+/*
-+ * AHB1_CFG @ 0x054 -- mux[13:12], AHB1 P2 divider [5:4], PLL_PERIPH0-only
-+ * pre-divider [7:6], APB1 divider [9:8].
-+ */
-+static const struct clk_parent_data ahb1_parents[] = {
-+	{ .fw_name = "losc" },
-+	{ .fw_name = "hosc" },
-+	{ .hw = &axi_clk.common.hw },
-+	{ .hw = &pll_periph0_clk.common.hw },
-+};
-+
-+static const struct ccu_mux_var_prediv ahb1_predivs[] = {
-+	{ .index = 3, .shift = 6, .width = 2 },
-+};
-+
-+static struct ccu_div ahb1_clk = {
-+	.div		= _SUNXI_CCU_DIV_FLAGS(4, 2, CLK_DIVIDER_POWER_OF_TWO),
-+
-+	.mux		= {
-+		.shift	= 12,
-+		.width	= 2,
-+
-+		.var_predivs	= ahb1_predivs,
-+		.n_var_predivs	= ARRAY_SIZE(ahb1_predivs),
-+	},
-+
-+	.common		= {
-+		.reg		= 0x054,
-+		.features	= CCU_FEATURE_VARIABLE_PREDIV,
-+		.hw.init	= CLK_HW_INIT_PARENTS_DATA("ahb1",
-+							   ahb1_parents,
-+							   &ccu_div_ops,
-+							   0),
-+	},
-+};
-+
-+static struct clk_div_table apb1_div_table[] = {
-+	{ .val = 0, .div = 2 },
-+	{ .val = 1, .div = 2 },
-+	{ .val = 2, .div = 4 },
-+	{ .val = 3, .div = 8 },
-+	{ /* Sentinel */ },
-+};
-+
-+static SUNXI_CCU_DIV_TABLE_HW(apb1_clk, "apb1", &ahb1_clk.common.hw,
-+			      0x054, 8, 2, apb1_div_table, 0);
-+
-+/*
-+ * APB2_CFG @ 0x058 -- M[4:0] P[17:16] mux[25:24]. The divider matches the
-+ * H3, but mux index 2 selects PLL_24M here rather than PLL_PERIPH0_2X.
-+ */
-+static const struct clk_parent_data apb2_parents[] = {
-+	{ .fw_name = "losc" },
-+	{ .fw_name = "hosc" },
-+	{ .hw = &pll_24m_clk.hw },
-+	{ .hw = &pll_periph0_2x_clk.hw },
-+};
-+
-+static SUNXI_CCU_MP_DATA_WITH_MUX(apb2_clk, "apb2", apb2_parents, 0x058,
-+				  0, 5,		/* M */
-+				  16, 2,	/* P */
-+				  24, 2,	/* mux */
-+				  0);
-+
-+static const struct clk_parent_data mod0_parents[] = {
-+	{ .fw_name = "hosc" },
-+	{ .hw = &pll_periph0_2x_clk.hw },
-+	{ .hw = &pll_periph1_2x_clk.hw },
-+};
-+
-+static const struct clk_parent_data de_parents[] = {
-+	{ .hw = &pll_periph0_2x_clk.hw },
-+	{ .hw = &pll_de_clk.common.hw },
-+};
-+
-+static const struct clk_parent_data tcon0_parents[] = {
-+	{ .hw = &pll_video0_clk.common.hw },
-+	{ .hw = &pll_video1_clk.common.hw },
-+};
-+
-+static const struct clk_parent_data mbus_parents[] = {
-+	{ .fw_name = "hosc" },
-+	{ .hw = &pll_periph0_2x_clk.hw },
-+	{ .hw = &pll_ddr0_clk.common.hw },
-+	{ .hw = &pll_ddr1_clk.common.hw },
-+};
-+
-+static const struct clk_parent_data dram_parents[] = {
-+	{ .hw = &pll_ddr0_clk.common.hw },
-+	{ .hw = &pll_ddr1_clk.common.hw },
-+	{ .hw = &pll_periph0_2x_clk.hw },
-+};
-+
-+/* NAND_CFG @ 0x080 -- M[3:0] P[17:16] mux[25:24] gate 31 */
-+static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(nand_clk, "nand", mod0_parents, 0x080,
-+				       0, 4,		/* M */
-+				       16, 2,	/* P */
-+				       24, 2,	/* mux */
-+				       BIT(31),	/* gate */
-+				       0);
-+
-+/*
-+ * SD{0..3}_CFG @ 0x088/0x08c/0x090/0x094 -- same layout as NAND.
-+ * mmc0/mmc1 use the old timing mode: no post-divider, and they need the
-+ * sample and output phase clocks. mmc2/mmc3 halve the clock internally.
-+ */
-+static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(mmc0_clk, "mmc0", mod0_parents, 0x088,
-+				       0, 4,		/* M */
-+				       16, 2,	/* P */
-+				       24, 2,	/* mux */
-+				       BIT(31),	/* gate */
-+				       0);
-+static struct ccu_phase mmc0_sample_clk = {
-+	.shift	= 20,
-+	.width	= 3,
-+	.common	= {
-+		.reg		= 0x088,
-+		.hw.init	= CLK_HW_INIT_HW("mmc0_sample", &mmc0_clk.common.hw,
-+						 &ccu_phase_ops, 0),
-+	},
-+};
-+
-+static struct ccu_phase mmc0_output_clk = {
-+	.shift	= 8,
-+	.width	= 3,
-+	.common	= {
-+		.reg		= 0x088,
-+		.hw.init	= CLK_HW_INIT_HW("mmc0_output", &mmc0_clk.common.hw,
-+						 &ccu_phase_ops, 0),
-+	},
-+};
-+
-+static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(mmc1_clk, "mmc1", mod0_parents, 0x08c,
-+				       0, 4,		/* M */
-+				       16, 2,	/* P */
-+				       24, 2,	/* mux */
-+				       BIT(31),	/* gate */
-+				       0);
-+static struct ccu_phase mmc1_sample_clk = {
-+	.shift	= 20,
-+	.width	= 3,
-+	.common	= {
-+		.reg		= 0x08c,
-+		.hw.init	= CLK_HW_INIT_HW("mmc1_sample", &mmc1_clk.common.hw,
-+						 &ccu_phase_ops, 0),
-+	},
-+};
-+
-+static struct ccu_phase mmc1_output_clk = {
-+	.shift	= 8,
-+	.width	= 3,
-+	.common	= {
-+		.reg		= 0x08c,
-+		.hw.init	= CLK_HW_INIT_HW("mmc1_output", &mmc1_clk.common.hw,
-+						 &ccu_phase_ops, 0),
-+	},
-+};
-+
-+static SUNXI_CCU_MP_DATA_WITH_MUX_GATE_POSTDIV(mmc2_clk, "mmc2", mod0_parents,
-+					       0x090, 0, 4, 16, 2, 24, 2,
-+					       BIT(31), 2, 0);
-+static SUNXI_CCU_MP_DATA_WITH_MUX_GATE_POSTDIV(mmc3_clk, "mmc3", mod0_parents,
-+					       0x094, 0, 4, 16, 2, 24, 2,
-+					       BIT(31), 2, 0);
-+
-+/* SPI{0..2}_CFG @ 0x0a0/0x0a4/0x0a8 -- same layout as NAND. */
-+static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(spi0_clk, "spi0", mod0_parents, 0x0a0,
-+				       0, 4, 16, 2, 24, 2, BIT(31), 0);
-+static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(spi1_clk, "spi1", mod0_parents, 0x0a4,
-+				       0, 4, 16, 2, 24, 2, BIT(31), 0);
-+static SUNXI_CCU_MP_DATA_WITH_MUX_GATE(spi2_clk, "spi2", mod0_parents, 0x0a8,
-+				       0, 4, 16, 2, 24, 2, BIT(31), 0);
-+
-+/* DRAM_CFG @ 0x0f4 -- M[1:0] mux[21:20] gate 31 */
-+static SUNXI_CCU_M_DATA_WITH_MUX_GATE(dram_clk, "dram", dram_parents, 0x0f4,
-+				      0, 2,		/* M */
-+				      20, 2,		/* mux */
-+				      BIT(31),	/* gate */
-+				      CLK_IS_CRITICAL);
-+
-+/* DE_CFG @ 0x104, EE_CFG @ 0x108, EDMA_CFG @ 0x10c -- M[3:0] mux[26:24] gate 31 */
-+static SUNXI_CCU_M_DATA_WITH_MUX_GATE(de_clk, "de", de_parents, 0x104,
-+				      0, 4, 24, 3, BIT(31), CLK_SET_RATE_PARENT);
-+static SUNXI_CCU_M_DATA_WITH_MUX_GATE(ee_clk, "ee", de_parents, 0x108,
-+				      0, 4, 24, 3, BIT(31), CLK_SET_RATE_PARENT);
-+static SUNXI_CCU_M_DATA_WITH_MUX_GATE(edma_clk, "edma", de_parents, 0x10c,
-+				      0, 4, 24, 3, BIT(31), CLK_SET_RATE_PARENT);
-+
-+/* TCON_CFG @ 0x118 -- mux[26:24] gate 31, no divider */
-+static SUNXI_CCU_MUX_DATA_WITH_GATE(tcon0_clk, "tcon0", tcon0_parents, 0x118,
-+				    24, 3,		/* mux */
-+				    BIT(31),		/* gate */
-+				    CLK_SET_RATE_PARENT);
-+
-+/* MBUS_CFG @ 0x15c -- M[2:0] mux[25:24] gate 31 */
-+static SUNXI_CCU_M_DATA_WITH_MUX_GATE(mbus_clk, "mbus", mbus_parents, 0x15c,
-+				      0, 3, 24, 2, BIT(31), CLK_IS_CRITICAL);
-+
-+static const struct clk_hw *ahb1_hws[] = { &ahb1_clk.common.hw };
-+static const struct clk_hw *apb1_hws[] = { &apb1_clk.common.hw };
-+static const struct clk_hw *apb2_hws[] = { &apb2_clk.common.hw };
-+
-+static SUNXI_CCU_GATE_HWS(bus_ths_clk, "bus-ths", apb1_hws,
-+			  0x068, BIT(8), 0);
-+static SUNXI_CCU_GATE_HWS(bus_nand_clk, "bus-nand", ahb1_hws,
-+			  0x060, BIT(13), 0);
-+static SUNXI_CCU_GATE_HWS(bus_mmc0_clk, "bus-mmc0", ahb1_hws,
-+			  0x060, BIT(8), 0);
-+static SUNXI_CCU_GATE_HWS(bus_mmc1_clk, "bus-mmc1", ahb1_hws,
-+			  0x060, BIT(9), 0);
-+static SUNXI_CCU_GATE_HWS(bus_mmc2_clk, "bus-mmc2", ahb1_hws,
-+			  0x060, BIT(10), 0);
-+static SUNXI_CCU_GATE_HWS(bus_mmc3_clk, "bus-mmc3", ahb1_hws,
-+			  0x060, BIT(11), 0);
-+static SUNXI_CCU_GATE_HWS(bus_spi0_clk, "bus-spi0", ahb1_hws,
-+			  0x060, BIT(20), 0);
-+static SUNXI_CCU_GATE_HWS(bus_spi1_clk, "bus-spi1", ahb1_hws,
-+			  0x060, BIT(21), 0);
-+static SUNXI_CCU_GATE_HWS(bus_spi2_clk, "bus-spi2", ahb1_hws,
-+			  0x060, BIT(22), 0);
-+static SUNXI_CCU_GATE_HWS(bus_i2s0_clk, "bus-i2s0", apb1_hws,
-+			  0x068, BIT(12), 0);
-+static SUNXI_CCU_GATE_HWS(bus_i2s1_clk, "bus-i2s1", apb1_hws,
-+			  0x068, BIT(13), 0);
-+static SUNXI_CCU_GATE_HWS(bus_spdif_clk, "bus-spdif", apb1_hws,
-+			  0x068, BIT(1), 0);
-+static SUNXI_CCU_GATE_HWS(bus_dsd_clk, "bus-dsd", apb1_hws,
-+			  0x068, BIT(2), 0);
-+static SUNXI_CCU_GATE_HWS(bus_dmic_clk, "bus-dmic", apb1_hws,
-+			  0x068, BIT(3), 0);
-+static SUNXI_CCU_GATE_HWS(bus_ohci0_clk, "bus-ohci0", ahb1_hws,
-+			  0x060, BIT(29), 0);
-+static SUNXI_CCU_GATE_HWS(bus_ehci0_clk, "bus-ehci0", ahb1_hws,
-+			  0x060, BIT(26), 0);
-+static SUNXI_CCU_GATE_HWS(bus_otg_clk, "bus-otg", ahb1_hws,
-+			  0x060, BIT(24), 0);
-+static SUNXI_CCU_GATE_HWS(bus_de_clk, "bus-de", ahb1_hws,
-+			  0x064, BIT(12), 0);
-+static SUNXI_CCU_GATE_HWS(bus_ee_clk, "bus-ee", ahb1_hws,
-+			  0x064, BIT(13), 0);
-+static SUNXI_CCU_GATE_HWS(bus_tcon0_clk, "bus-tcon0", ahb1_hws,
-+			  0x064, BIT(4), 0);
-+/* csi_s, csi_m and csi_misc share one bus gate, as on the A64. */
-+static SUNXI_CCU_GATE_HWS(bus_csi_clk, "bus-csi", ahb1_hws,
-+			  0x064, BIT(8), 0);
-+static SUNXI_CCU_GATE_HWS(bus_codec_clk, "bus-codec", apb1_hws,
-+			  0x068, BIT(0), 0);
-+static SUNXI_CCU_GATE_HWS(bus_dram_clk, "bus-dram", ahb1_hws,
-+			  0x060, BIT(14), 0);
-+static SUNXI_CCU_GATE_HWS(bus_psram_clk, "bus-psram", ahb1_hws,
-+			  0x060, BIT(15), 0);
-+static SUNXI_CCU_GATE_HWS(bus_dma_clk, "bus-dma", ahb1_hws,
-+			  0x060, BIT(6), 0);
-+static SUNXI_CCU_GATE_HWS(bus_uart0_clk, "bus-uart0", apb2_hws,
-+			  0x06c, BIT(16), 0);
-+static SUNXI_CCU_GATE_HWS(bus_uart1_clk, "bus-uart1", apb2_hws,
-+			  0x06c, BIT(17), 0);
-+static SUNXI_CCU_GATE_HWS(bus_uart2_clk, "bus-uart2", apb2_hws,
-+			  0x06c, BIT(18), 0);
-+static SUNXI_CCU_GATE_HWS(bus_uart3_clk, "bus-uart3", apb2_hws,
-+			  0x06c, BIT(19), 0);
-+static SUNXI_CCU_GATE_HWS(bus_uart4_clk, "bus-uart4", apb2_hws,
-+			  0x06c, BIT(20), 0);
-+static SUNXI_CCU_GATE_HWS(bus_uart5_clk, "bus-uart5", apb2_hws,
-+			  0x06c, BIT(21), 0);
-+static SUNXI_CCU_GATE_HWS(bus_i2c0_clk, "bus-i2c0", apb2_hws,
-+			  0x06c, BIT(0), 0);
-+static SUNXI_CCU_GATE_HWS(bus_i2c1_clk, "bus-i2c1", apb2_hws,
-+			  0x06c, BIT(1), 0);
-+static SUNXI_CCU_GATE_HWS(bus_i2c2_clk, "bus-i2c2", apb2_hws,
-+			  0x06c, BIT(2), 0);
-+static SUNXI_CCU_GATE_HWS(bus_pio_clk, "bus-pio", apb1_hws,
-+			  0x068, BIT(5), 0);
-+static SUNXI_CCU_GATE_HWS(bus_gpadc_clk, "bus-gpadc", apb1_hws,
-+			  0x068, BIT(10), 0);
-+static SUNXI_CCU_GATE_HWS(bus_keyadc_clk, "bus-keyadc", apb1_hws,
-+			  0x068, BIT(9), 0);
-+/* losc_out is the RTC's osc32k-out */
-+
-+static const struct ccu_reset_map sun8i_b288_ccu_resets[] = {
-+	[RST_BUS_THS]	= { 0x2d0, BIT(8) },
-+	[RST_BUS_NAND]	= { 0x2c0, BIT(13) },
-+	[RST_BUS_MMC0]	= { 0x2c0, BIT(8) },
-+	[RST_BUS_MMC1]	= { 0x2c0, BIT(9) },
-+	[RST_BUS_MMC2]	= { 0x2c0, BIT(10) },
-+	[RST_BUS_MMC3]	= { 0x2c0, BIT(11) },
-+	[RST_BUS_SPI0]	= { 0x2c0, BIT(20) },
-+	[RST_BUS_SPI1]	= { 0x2c0, BIT(21) },
-+	[RST_BUS_SPI2]	= { 0x2c0, BIT(22) },
-+	[RST_BUS_I2S0]	= { 0x2d0, BIT(12) },
-+	[RST_BUS_I2S1]	= { 0x2d0, BIT(13) },
-+	[RST_BUS_SPDIF]	= { 0x2d0, BIT(1) },
-+	[RST_BUS_DSD]	= { 0x2d0, BIT(2) },
-+	[RST_BUS_DMIC]	= { 0x2d0, BIT(3) },
-+	[RST_USB_PHY0]	= { 0x0cc, BIT(0) },
-+	[RST_BUS_OHCI0]	= { 0x2c0, BIT(29) },
-+	[RST_BUS_EHCI0]	= { 0x2c0, BIT(26) },
-+	[RST_BUS_OTG]	= { 0x2c0, BIT(24) },
-+	[RST_BUS_DE]	= { 0x2c4, BIT(12) },
-+	[RST_BUS_EE]	= { 0x2c4, BIT(13) },
-+	[RST_BUS_TCON0]	= { 0x2c4, BIT(4) },
-+	[RST_BUS_CSI]	= { 0x2c4, BIT(8) },
-+	[RST_BUS_CODEC]	= { 0x2d0, BIT(0) },
-+	[RST_BUS_WLAN]	= { 0x2c4, BIT(1) },
-+	[RST_MBUS]	= { 0x0fc, BIT(31) },
-+	[RST_BUS_DRAM]	= { 0x2c0, BIT(14) },
-+	[RST_BUS_PSRAM]	= { 0x2c0, BIT(15) },
-+	[RST_BUS_DMA]	= { 0x2c0, BIT(6) },
-+	[RST_BUS_UART0]	= { 0x2d8, BIT(16) },
-+	[RST_BUS_UART1]	= { 0x2d8, BIT(17) },
-+	[RST_BUS_UART2]	= { 0x2d8, BIT(18) },
-+	[RST_BUS_UART3]	= { 0x2d8, BIT(19) },
-+	[RST_BUS_UART4]	= { 0x2d8, BIT(20) },
-+	[RST_BUS_UART5]	= { 0x2d8, BIT(21) },
-+	[RST_BUS_I2C0]	= { 0x2d8, BIT(0) },
-+	[RST_BUS_I2C1]	= { 0x2d8, BIT(1) },
-+	[RST_BUS_I2C2]	= { 0x2d8, BIT(2) },
-+	[RST_BUS_GPADC]	= { 0x2d0, BIT(10) },
-+	[RST_BUS_KEYADC]	= { 0x2d0, BIT(9) },
-+};
-+
-+static struct ccu_common *sun8i_b288_ccu_clks[] = {
-+	&pll_cpux_clk.common,
-+	&pll_audio_base_clk.common,
-+	&pll_video0_clk.common,
-+	&pll_ddr0_clk.common,
-+	&pll_periph0_clk.common,
-+	&pll_video1_clk.common,
-+	&pll_periph1_clk.common,
-+	&pll_de_clk.common,
-+	&pll_ddr1_clk.common,
-+	&cpux_clk.common,
-+	&axi_clk.common,
-+	&cpuapb_clk.common,
-+	&ahb1_clk.common,
-+	&apb1_clk.common,
-+	&apb2_clk.common,
-+	&nand_clk.common,
-+	&mmc0_clk.common,
-+	&mmc0_sample_clk.common,
-+	&mmc0_output_clk.common,
-+	&mmc1_clk.common,
-+	&mmc1_sample_clk.common,
-+	&mmc1_output_clk.common,
-+	&mmc2_clk.common,
-+	&mmc3_clk.common,
-+	&spi0_clk.common,
-+	&spi1_clk.common,
-+	&spi2_clk.common,
-+	&dram_clk.common,
-+	&de_clk.common,
-+	&ee_clk.common,
-+	&edma_clk.common,
-+	&tcon0_clk.common,
-+	&mbus_clk.common,
-+	&bus_ths_clk.common,
-+	&bus_nand_clk.common,
-+	&bus_mmc0_clk.common,
-+	&bus_mmc1_clk.common,
-+	&bus_mmc2_clk.common,
-+	&bus_mmc3_clk.common,
-+	&bus_spi0_clk.common,
-+	&bus_spi1_clk.common,
-+	&bus_spi2_clk.common,
-+	&bus_i2s0_clk.common,
-+	&bus_i2s1_clk.common,
-+	&bus_spdif_clk.common,
-+	&bus_dsd_clk.common,
-+	&bus_dmic_clk.common,
-+	&bus_ohci0_clk.common,
-+	&bus_ehci0_clk.common,
-+	&bus_otg_clk.common,
-+	&bus_de_clk.common,
-+	&bus_ee_clk.common,
-+	&bus_tcon0_clk.common,
-+	&bus_csi_clk.common,
-+	&bus_codec_clk.common,
-+	&bus_dram_clk.common,
-+	&bus_psram_clk.common,
-+	&bus_dma_clk.common,
-+	&bus_uart0_clk.common,
-+	&bus_uart1_clk.common,
-+	&bus_uart2_clk.common,
-+	&bus_uart3_clk.common,
-+	&bus_uart4_clk.common,
-+	&bus_uart5_clk.common,
-+	&bus_i2c0_clk.common,
-+	&bus_i2c1_clk.common,
-+	&bus_i2c2_clk.common,
-+	&bus_pio_clk.common,
-+	&bus_gpadc_clk.common,
-+	&bus_keyadc_clk.common,
-+};
-+
-+static struct clk_hw_onecell_data sun8i_b288_hw_clks = {
-+	.hws	= {
-+		[CLK_PLL_CPUX]		= &pll_cpux_clk.common.hw,
-+		[CLK_PLL_AUDIO_BASE]	= &pll_audio_base_clk.common.hw,
-+		[CLK_PLL_VIDEO0]	= &pll_video0_clk.common.hw,
-+		[CLK_PLL_DDR0]		= &pll_ddr0_clk.common.hw,
-+		[CLK_PLL_PERIPH0]	= &pll_periph0_clk.common.hw,
-+		[CLK_PLL_VIDEO1]	= &pll_video1_clk.common.hw,
-+		[CLK_PLL_24M]		= &pll_24m_clk.hw,
-+		[CLK_PLL_PERIPH1]	= &pll_periph1_clk.common.hw,
-+		[CLK_PLL_DE]		= &pll_de_clk.common.hw,
-+		[CLK_PLL_DDR1]		= &pll_ddr1_clk.common.hw,
-+		[CLK_PLL_PERIPH0_2X]	= &pll_periph0_2x_clk.hw,
-+		[CLK_PLL_PERIPH1_2X]	= &pll_periph1_2x_clk.hw,
-+		[CLK_CPUX]	= &cpux_clk.common.hw,
-+		[CLK_AXI]	= &axi_clk.common.hw,
-+		[CLK_CPUAPB]	= &cpuapb_clk.common.hw,
-+		[CLK_AHB1]	= &ahb1_clk.common.hw,
-+		[CLK_APB1]	= &apb1_clk.common.hw,
-+		[CLK_APB2]	= &apb2_clk.common.hw,
-+		[CLK_NAND]	= &nand_clk.common.hw,
-+		[CLK_MMC0]	= &mmc0_clk.common.hw,
-+		[CLK_MMC0_SAMPLE]	= &mmc0_sample_clk.common.hw,
-+		[CLK_MMC0_OUTPUT]	= &mmc0_output_clk.common.hw,
-+		[CLK_MMC1]	= &mmc1_clk.common.hw,
-+		[CLK_MMC1_SAMPLE]	= &mmc1_sample_clk.common.hw,
-+		[CLK_MMC1_OUTPUT]	= &mmc1_output_clk.common.hw,
-+		[CLK_MMC2]	= &mmc2_clk.common.hw,
-+		[CLK_MMC3]	= &mmc3_clk.common.hw,
-+		[CLK_SPI0]	= &spi0_clk.common.hw,
-+		[CLK_SPI1]	= &spi1_clk.common.hw,
-+		[CLK_SPI2]	= &spi2_clk.common.hw,
-+		[CLK_DRAM]	= &dram_clk.common.hw,
-+		[CLK_DE]	= &de_clk.common.hw,
-+		[CLK_EE]	= &ee_clk.common.hw,
-+		[CLK_EDMA]	= &edma_clk.common.hw,
-+		[CLK_TCON0]	= &tcon0_clk.common.hw,
-+		[CLK_MBUS]	= &mbus_clk.common.hw,
-+		[CLK_BUS_THS]	= &bus_ths_clk.common.hw,
-+		[CLK_BUS_NAND]	= &bus_nand_clk.common.hw,
-+		[CLK_BUS_MMC0]	= &bus_mmc0_clk.common.hw,
-+		[CLK_BUS_MMC1]	= &bus_mmc1_clk.common.hw,
-+		[CLK_BUS_MMC2]	= &bus_mmc2_clk.common.hw,
-+		[CLK_BUS_MMC3]	= &bus_mmc3_clk.common.hw,
-+		[CLK_BUS_SPI0]	= &bus_spi0_clk.common.hw,
-+		[CLK_BUS_SPI1]	= &bus_spi1_clk.common.hw,
-+		[CLK_BUS_SPI2]	= &bus_spi2_clk.common.hw,
-+		[CLK_BUS_I2S0]	= &bus_i2s0_clk.common.hw,
-+		[CLK_BUS_I2S1]	= &bus_i2s1_clk.common.hw,
-+		[CLK_BUS_SPDIF]	= &bus_spdif_clk.common.hw,
-+		[CLK_BUS_DSD]	= &bus_dsd_clk.common.hw,
-+		[CLK_BUS_DMIC]	= &bus_dmic_clk.common.hw,
-+		[CLK_BUS_OHCI0]	= &bus_ohci0_clk.common.hw,
-+		[CLK_BUS_EHCI0]	= &bus_ehci0_clk.common.hw,
-+		[CLK_BUS_OTG]	= &bus_otg_clk.common.hw,
-+		[CLK_BUS_DE]	= &bus_de_clk.common.hw,
-+		[CLK_BUS_EE]	= &bus_ee_clk.common.hw,
-+		[CLK_BUS_TCON0]	= &bus_tcon0_clk.common.hw,
-+		[CLK_BUS_CSI]		= &bus_csi_clk.common.hw,
-+		[CLK_BUS_CODEC]	= &bus_codec_clk.common.hw,
-+		[CLK_BUS_DRAM]	= &bus_dram_clk.common.hw,
-+		[CLK_BUS_PSRAM]	= &bus_psram_clk.common.hw,
-+		[CLK_BUS_DMA]	= &bus_dma_clk.common.hw,
-+		[CLK_BUS_UART0]	= &bus_uart0_clk.common.hw,
-+		[CLK_BUS_UART1]	= &bus_uart1_clk.common.hw,
-+		[CLK_BUS_UART2]	= &bus_uart2_clk.common.hw,
-+		[CLK_BUS_UART3]	= &bus_uart3_clk.common.hw,
-+		[CLK_BUS_UART4]	= &bus_uart4_clk.common.hw,
-+		[CLK_BUS_UART5]	= &bus_uart5_clk.common.hw,
-+		[CLK_BUS_I2C0]	= &bus_i2c0_clk.common.hw,
-+		[CLK_BUS_I2C1]	= &bus_i2c1_clk.common.hw,
-+		[CLK_BUS_I2C2]	= &bus_i2c2_clk.common.hw,
-+		[CLK_BUS_PIO]	= &bus_pio_clk.common.hw,
-+		[CLK_BUS_GPADC]	= &bus_gpadc_clk.common.hw,
-+		[CLK_BUS_KEYADC]	= &bus_keyadc_clk.common.hw,
-+	},
-+	.num	= CLK_NUMBER,
-+};
-+
-+static const struct sunxi_ccu_desc sun8i_b288_ccu_desc = {
-+	.ccu_clks	= sun8i_b288_ccu_clks,
-+	.num_ccu_clks	= ARRAY_SIZE(sun8i_b288_ccu_clks),
-+
-+	.hw_clks	= &sun8i_b288_hw_clks,
-+
-+	.resets		= sun8i_b288_ccu_resets,
-+	.num_resets	= ARRAY_SIZE(sun8i_b288_ccu_resets),
-+
-+};
-+
-+static struct ccu_pll_nb sun8i_b288_pll_cpu_nb = {
-+	.common	= &pll_cpux_clk.common,
-+	/* copy from pll_cpux_clk */
-+	.enable	= BIT(31),
-+	.lock	= BIT(28),
-+};
-+
-+static struct ccu_mux_nb sun8i_b288_cpu_nb = {
-+	.common		= &cpux_clk.common,
-+	.cm		= &cpux_clk.mux,
-+	.delay_us	= 1, /* > 8 clock cycles at 24 MHz */
-+	.bypass_index	= 1, /* index of 24 MHz oscillator */
-+};
-+
-+static int sun8i_b288_ccu_probe(struct platform_device *pdev)
-+{
-+	void __iomem *reg;
-+	int ret;
-+	u32 val;
-+
-+	reg = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(reg))
-+		return PTR_ERR(reg);
-+
-+	/* Force the PLL-Audio-1x divider to 1 */
-+	val = readl(reg + SUN8I_B288_PLL_AUDIO_REG);
-+	val &= ~GENMASK(19, 16);
-+	writel(val, reg + SUN8I_B288_PLL_AUDIO_REG);
-+
-+	ret = devm_sunxi_ccu_probe(&pdev->dev, reg, &sun8i_b288_ccu_desc);
-+	if (ret)
-+		return ret;
-+
-+	/* Gate then ungate PLL CPU after any rate changes */
-+	ccu_pll_notifier_register(&sun8i_b288_pll_cpu_nb);
-+
-+	/* Reparent CPU during PLL CPU rate changes */
-+	ccu_mux_notifier_register(pll_cpux_clk.common.hw.clk,
-+				  &sun8i_b288_cpu_nb);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id sun8i_b288_ccu_ids[] = {
-+	{ .compatible = "allwinner,sun8i-b288-ccu" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, sun8i_b288_ccu_ids);
-+
-+static struct platform_driver sun8i_b288_ccu_driver = {
-+	.probe	= sun8i_b288_ccu_probe,
-+	.driver	= {
-+		.name			= "sun8i-b288-ccu",
-+		.suppress_bind_attrs	= true,
-+		.of_match_table		= sun8i_b288_ccu_ids,
-+	},
-+};
-+module_platform_driver(sun8i_b288_ccu_driver);
-+
-+MODULE_IMPORT_NS("SUNXI_CCU");
-+MODULE_DESCRIPTION("Allwinner B288 (sun8iw10p1) CCU driver");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-b288.h b/drivers/clk/sunxi-ng/ccu-sun8i-b288.h
-new file mode 100644
-index 000000000000..805df2d6d99c
---- /dev/null
-+++ b/drivers/clk/sunxi-ng/ccu-sun8i-b288.h
-@@ -0,0 +1,10 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _CCU_SUN8I_B288_H_
-+#define _CCU_SUN8I_B288_H_
-+
-+#include <dt-bindings/clock/sun8i-b288-ccu.h>
-+#include <dt-bindings/reset/sun8i-b288-ccu.h>
-+
-+#define CLK_NUMBER		(CLK_MMC1_OUTPUT + 1)
-+
-+#endif /* _CCU_SUN8I_B288_H_ */
--- 
-2.52.0
+Changes in v3:
+- Finish NAND and driver cleanup during disconnection, leaving final
+  allocation release in the NAND core, following Greg's networking example.
+- Snapshot OOB layouts before publication and drain complete BBM/BBT
+  updates before releasing their working state.
+- Separate MTD class-device allocation and final release from backing-object
+  ownership, following Greg's review.
+- Drain class PM callbacks under the device lock before detaching backing
+  data; keep device-type and PM dispatch storage with the built-in device.
+- Drain NVMEM provider and layout callbacks during unregister, retaining
+  core-owned metadata for old consumers and retiring cells across rebind.
+- Keep NVMEM consumer-owner references, with converted raw NAND
+  providers naming the NAND core instead of the controller module.
+  Release write-protect GPIOs once provider callbacks are drained.
+- Acquire an MTD handle for PTP OCP firmware updates through a class device.
+- Drain concatenation operations before releasing components, including
+  concurrent removal of masters without opt-in lifetime ownership.
+- Use scoped cleanup consistently in Tegra probe and add the introducing
+  commits for Socrates and FSL UPM, following Sashiko's review.
+- Link to v2: https://patch.msgid.link/20261110-submit-rawnand-retained-handle-lifetime-v1-v2-0-9137d08f05df@gmail.com
+
+Changes in v2:
+- Keep the MTD device callback owner pinned through callback return,
+  with the final module put performed by the device core.
+- Retain virtual-concat components across removal and rebind, serialize
+  staging/publication and unwind incomplete partition registrations.
+- Balance Tegra's probe-time child-node reference separately from the
+  reference retained for the chip lifetime.
+- Refresh the prerequisite stack to the separately posted fixes, using
+  the latest QCOM child-probe revision.
+- Keep the lifetime changes on top of those fixes: preserve QCOM scan
+  before publication, R852 per-card initialization and Intel probe
+  hardware shutdown.
+- Fold Macronix disconnection handling into the NAND disconnect patch;
+  its operation locking is supplied by the posted prerequisite.
+- Use Karl Mehltretter's posted OTP cleanup fix as a prerequisite in
+  place of the duplicate preparatory patch.
+- Keep the NVMEM context callback module pinned until its final callback
+  returns, independently of the provider's consumer owner.
+- Use the posted fixes for dynamic partition publication and partition-node
+  ownership. Keep master get/put accounting independent of
+  later master registration in the MTD ownership patch.
+- Propagate disconnection through BBT error recovery without marking
+  the eraseblock bad.
+- Make suspend of a disconnected, retained NAND device a no-op.
+- Handle R852 card events during removal while preventing new work from
+  being queued.
+- Initialize Denali and Atmel cleanup variables at allocation and add
+  the introducing-commit trailers for Orion and MPC5121.
+- Link to v1: https://patch.msgid.link/20261107-submit-rawnand-retained-handle-lifetime-v1-v1-0-0181ef0cc4c8@gmail.com
+
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+To: Richard Weinberger <richard@nod.at>
+To: Vignesh Raghavendra <vigneshr@ti.com>
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-mtd@lists.infradead.org
+
+---
+James Hilliard (58):
+      nvmem: disconnect provider callbacks before unregister returns
+      mtd: acquire an MTD handle from a referenced class device
+      mtd: separate class devices from retained backing objects
+      mtd: retain virtual concatenations across component removal
+      mtd: rawnand: separate hardware disconnection from cleanup
+      mtd: rawnand: share retained chip and controller ownership
+      mtd: rawnand: sunxi: retain chip state until the final MTD put
+      mtd: rawnand: plat_nand: retain open-handle state on removal
+      mtd: rawnand: gpio: retain open-handle state on removal
+      mtd: rawnand: stm32_fmc2: retain open-handle state on removal
+      mtd: rawnand: denali: retain chips across controller removal
+      mtd: rawnand: arasan: retain chips across controller removal
+      mtd: rawnand: mxic: retain open-handle state on removal
+      mtd: rawnand: intel: retain open-handle state on removal
+      mtd: rawnand: tegra: retain open-handle state on removal
+      mtd: rawnand: mtk: retain chips across controller removal
+      mtd: rawnand: rockchip: retain chips across controller removal
+      mtd: rawnand: atmel: retain chips across controller removal
+      mtd: rawnand: orion: retain open-handle state on removal
+      mtd: rawnand: socrates: retain open-handle state on removal
+      mtd: rawnand: fsl_upm: retain open-handle state on removal
+      mtd: rawnand: pasemi: retain open-handle state on removal
+      mtd: rawnand: ams-delta: retain open-handle state on removal
+      mtd: rawnand: xway: retain open-handle state on removal
+      mtd: rawnand: hisi504: retain open-handle state on removal
+      mtd: rawnand: vf610: retain open-handle state on removal
+      mtd: rawnand: technologic: retain open-handle state on removal
+      mtd: rawnand: loongson: retain open-handle state on removal
+      mtd: rawnand: ma35d1: retain open-handle state on removal
+      mtd: rawnand: pl35x: retain open-handle state on removal
+      mtd: rawnand: mxc: retain open-handle state on removal
+      mtd: rawnand: fsmc: retain open-handle state on removal
+      mtd: rawnand: gpmi: retain open-handle state on removal
+      mtd: rawnand: omap2: retain open-handle state on removal
+      mtd: rawnand: marvell: retain open-handle state on removal
+      mtd: rawnand: renesas: retain open-handle state on removal
+      mtd: rawnand: meson: retain open-handle state on removal
+      mtd: rawnand: cadence: retain open-handle state on removal
+      mtd: rawnand: qcom: retain open-handle state on removal
+      mtd: rawnand: cafe: retain open-handle state on removal
+      mtd: rawnand: brcmnand: retain open-handle state on removal
+      mtd: rawnand: au1550nd: retain chip state across removal
+      mtd: rawnand: sharpsl: retain chip state across removal
+      mtd: rawnand: davinci: retain chip state across removal
+      mtd: rawnand: sh_flctl: retain chip state across removal
+      mtd: rawnand: lpc32xx_slc: retain chip state across removal
+      mtd: rawnand: lpc32xx_mlc: retain chip state across removal
+      mtd: rawnand: ndfc: retain chip state across removal
+      mtd: rawnand: txx9ndfmc: retain chip state across removal
+      mtd: rawnand: ingenic: retain chip state across removal
+      mtd: rawnand: mpc5121: retain chip state across removal
+      mtd: rawnand: bcm47xxnflash: retain chip state across removal
+      mtd: rawnand: fsl_elbc: retain chip state across removal
+      mtd: rawnand: fsl_ifc: retain chip state across removal
+      mtd: rawnand: r852: retain chip state across removal
+      mtd: rawnand: nandsim: retain chip state across removal
+      mtd: rawnand: cs553x: retain chip state across removal
+      mtd: rawnand: diskonchip: retain chip state across removal
+
+ drivers/Makefile                                   |   2 +-
+ drivers/media/pci/cobalt/cobalt-flash.c            |   2 +-
+ drivers/mtd/Kconfig                                |   5 +
+ drivers/mtd/Makefile                               |   5 +-
+ drivers/mtd/devices/bcm47xxsflash.c                |   2 +-
+ drivers/mtd/devices/docg3.c                        |   4 +-
+ drivers/mtd/devices/mchp23k256.c                   |   2 +-
+ drivers/mtd/devices/mchp48l640.c                   |   2 +-
+ drivers/mtd/devices/mtd_dataflash.c                |   2 +-
+ drivers/mtd/devices/mtd_intel_dg.c                 |  30 +-
+ drivers/mtd/devices/powernv_flash.c                |   4 +-
+ drivers/mtd/devices/spear_smi.c                    |   2 +-
+ drivers/mtd/devices/sst25l.c                       |   2 +-
+ drivers/mtd/devices/st_spi_fsm.c                   |   8 +-
+ drivers/mtd/hyperbus/hyperbus-core.c               |   2 +-
+ drivers/mtd/lpddr/lpddr2_nvm.c                     |   2 +-
+ drivers/mtd/maps/lantiq-flash.c                    |   2 +-
+ drivers/mtd/maps/physmap-core.c                    |   2 +-
+ drivers/mtd/maps/plat-ram.c                        |   2 +-
+ drivers/mtd/maps/pxa2xx-flash.c                    |   2 +-
+ drivers/mtd/maps/sa1100-flash.c                    |   2 +-
+ drivers/mtd/maps/vmu-flash.c                       |   2 +-
+ drivers/mtd/mtd_blkdevs.c                          |   2 +-
+ drivers/mtd/mtd_virt_concat.c                      | 526 +++++++++++----------
+ drivers/mtd/mtdconcat.c                            | 103 +++-
+ drivers/mtd/mtdcore.c                              | 306 +++++++-----
+ drivers/mtd/mtdcore.h                              |   5 +
+ drivers/mtd/mtddevice.c                            |  59 +++
+ drivers/mtd/mtddevice.h                            |  12 +
+ drivers/mtd/mtdpart.c                              |  61 ++-
+ drivers/mtd/mtdpstore.c                            |  50 +-
+ drivers/mtd/nand/ecc.c                             |   3 +-
+ drivers/mtd/nand/onenand/generic.c                 |   2 +-
+ drivers/mtd/nand/onenand/onenand_omap2.c           |   2 +-
+ drivers/mtd/nand/onenand/onenand_samsung.c         |   2 +-
+ drivers/mtd/nand/raw/Makefile                      |   1 +
+ drivers/mtd/nand/raw/ams-delta.c                   |  28 +-
+ drivers/mtd/nand/raw/arasan-nand-controller.c      |  49 +-
+ drivers/mtd/nand/raw/atmel/nand-controller.c       |  44 +-
+ drivers/mtd/nand/raw/au1550nd.c                    |  23 +-
+ drivers/mtd/nand/raw/bcm47xxnflash/main.c          |  18 +-
+ drivers/mtd/nand/raw/brcmnand/brcmnand.c           |  65 ++-
+ drivers/mtd/nand/raw/cadence-nand-controller.c     |  51 +-
+ drivers/mtd/nand/raw/cafe_nand.c                   |  27 +-
+ drivers/mtd/nand/raw/cs553x_nand.c                 |  44 +-
+ drivers/mtd/nand/raw/davinci_nand.c                |  26 +-
+ drivers/mtd/nand/raw/denali.c                      |  28 +-
+ drivers/mtd/nand/raw/denali_dt.c                   |  13 +-
+ drivers/mtd/nand/raw/denali_pci.c                  |   9 +-
+ drivers/mtd/nand/raw/diskonchip.c                  |  17 +-
+ drivers/mtd/nand/raw/fsl_elbc_nand.c               |  56 ++-
+ drivers/mtd/nand/raw/fsl_ifc_nand.c                |  48 +-
+ drivers/mtd/nand/raw/fsl_upm.c                     |  20 +-
+ drivers/mtd/nand/raw/fsmc_nand.c                   |  19 +-
+ drivers/mtd/nand/raw/gpio.c                        |  18 +-
+ drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c         |  19 +-
+ drivers/mtd/nand/raw/hisi504_nand.c                |  20 +-
+ drivers/mtd/nand/raw/ingenic/ingenic_nand_drv.c    |  41 +-
+ drivers/mtd/nand/raw/intel-nand-controller.c       |  20 +-
+ drivers/mtd/nand/raw/internals.h                   |   2 +-
+ drivers/mtd/nand/raw/loongson-nand-controller.c    |  21 +-
+ drivers/mtd/nand/raw/lpc32xx_mlc.c                 |  38 +-
+ drivers/mtd/nand/raw/lpc32xx_slc.c                 |  40 +-
+ drivers/mtd/nand/raw/marvell_nand.c                |  46 +-
+ drivers/mtd/nand/raw/meson_nand.c                  |  49 +-
+ drivers/mtd/nand/raw/mpc5121_nfc.c                 |  26 +-
+ drivers/mtd/nand/raw/mtk_nand.c                    |  40 +-
+ drivers/mtd/nand/raw/mxc_nand.c                    |  23 +-
+ drivers/mtd/nand/raw/mxic_nand.c                   |  23 +-
+ drivers/mtd/nand/raw/nand_base.c                   | 103 +++-
+ drivers/mtd/nand/raw/nand_bbt.c                    |  24 +-
+ drivers/mtd/nand/raw/nand_lifetime.c               | 246 ++++++++++
+ drivers/mtd/nand/raw/nand_macronix.c               |   8 +-
+ drivers/mtd/nand/raw/nand_onfi.c                   |   4 +-
+ drivers/mtd/nand/raw/nandsim.c                     |  21 +-
+ drivers/mtd/nand/raw/ndfc.c                        |  34 +-
+ .../mtd/nand/raw/nuvoton-ma35d1-nand-controller.c  |  42 +-
+ drivers/mtd/nand/raw/omap2.c                       |  27 +-
+ drivers/mtd/nand/raw/orion_nand.c                  |  24 +-
+ drivers/mtd/nand/raw/pasemi_nand.c                 |  22 +-
+ drivers/mtd/nand/raw/pl35x-nand-controller.c       |  38 +-
+ drivers/mtd/nand/raw/plat_nand.c                   |  20 +-
+ drivers/mtd/nand/raw/qcom_nandc.c                  |  39 +-
+ drivers/mtd/nand/raw/r852.c                        | 111 +++--
+ drivers/mtd/nand/raw/r852.h                        |   1 +
+ drivers/mtd/nand/raw/renesas-nand-controller.c     |  37 +-
+ drivers/mtd/nand/raw/rockchip-nand-controller.c    |  45 +-
+ drivers/mtd/nand/raw/sh_flctl.c                    |  22 +-
+ drivers/mtd/nand/raw/sharpsl.c                     |  22 +-
+ drivers/mtd/nand/raw/sm_common.c                   |  15 +-
+ drivers/mtd/nand/raw/sm_common.h                   |   2 +-
+ drivers/mtd/nand/raw/socrates_nand.c               |  19 +-
+ drivers/mtd/nand/raw/stm32_fmc2_nand.c             |  19 +-
+ drivers/mtd/nand/raw/sunxi_nand.c                  |  46 +-
+ drivers/mtd/nand/raw/technologic-nand-controller.c |  22 +-
+ drivers/mtd/nand/raw/tegra_nand.c                  |  27 +-
+ drivers/mtd/nand/raw/txx9ndfmc.c                   |  41 +-
+ drivers/mtd/nand/raw/vf610_nfc.c                   |  20 +-
+ drivers/mtd/nand/raw/xway_nand.c                   |  24 +-
+ drivers/mtd/nand/spi/core.c                        |   2 +-
+ drivers/mtd/nand/spi/esmt.c                        |   2 +-
+ drivers/mtd/nand/spi/micron.c                      |   4 +-
+ drivers/mtd/nand/spi/otp.c                         |   2 +-
+ drivers/mtd/spi-nor/core.c                         |   2 +-
+ drivers/mtd/ubi/build.c                            |   2 +-
+ drivers/nvmem/Kconfig                              |   1 +
+ drivers/nvmem/core.c                               | 463 ++++++++++++------
+ drivers/nvmem/internals.h                          |  16 +-
+ drivers/nvmem/layouts.c                            |   2 +
+ drivers/nvmem/layouts/fixed-layout.c               |   2 +-
+ drivers/nvmem/layouts/onie-tlv.c                   |  20 +-
+ drivers/nvmem/layouts/sl28vpd.c                    |   3 +-
+ drivers/nvmem/layouts/u-boot-env.c                 |  25 +-
+ drivers/ptp/ptp_ocp.c                              |   7 +-
+ include/linux/mtd/concat.h                         |  22 +-
+ include/linux/mtd/mtd.h                            |  21 +-
+ include/linux/mtd/rawnand.h                        |  37 +-
+ include/linux/nvmem-provider.h                     |  16 +-
+ 118 files changed, 2744 insertions(+), 1263 deletions(-)
+---
+base-commit: 30daaf3e7897b4a8d9b72e5b0c86dd6e2a4d7d85
+change-id: 20261104-submit-rawnand-retained-handle-lifetime-v1-0b4225e5ce0b
+prerequisite-patch-id: a51b9cb4077105499133c413d58c7ad21d973b38
+prerequisite-patch-id: b3679cda4dcb45ce7712bffe2dd0576b254df44d
+prerequisite-patch-id: 07b5c70e44ad951d20eea9478c98fda35ec765c0
+prerequisite-patch-id: abea50275922fe359d72ca4de5cbc211b04bbd57
+prerequisite-patch-id: 57776b214ffb0331319f024412f21d35e4ca9056
+prerequisite-patch-id: 09be2baaffe1f053704263cc4b0d39f2faa4f49c
+prerequisite-patch-id: c3ad85600dc897ac310be450d8daa2275fb91ee6
+prerequisite-patch-id: 4a85600553ddcc7db5a9537efd905a71cd623f65
+prerequisite-patch-id: 579990ee4a49297efc5a593b00efb9cd73fa15e8
+prerequisite-patch-id: 2ee61a8a32fd147d52e0f9d03758634912d8bfef
+prerequisite-patch-id: 1487df8ce8e6c48471fd77c7470ce9de582dfe3c
+prerequisite-patch-id: 5ecbe86f928d9c5c0bf2cb6065c5672708511fc4
+prerequisite-patch-id: ac68e9b65d3aa5661bd7ac0f2e77dcf5c75fcfe0
+prerequisite-patch-id: e70f0f0c4d430d416a3ad848b37ffad16bd7df07
+prerequisite-patch-id: 05adcddbc50f745ee2640b8c21f3bf76a217f249
+prerequisite-patch-id: 0b60b7ab6196076f327c919be5e7b8bb2051ee12
+
+Best regards,
+--  
+James Hilliard <james.hilliard1@gmail.com>
 
