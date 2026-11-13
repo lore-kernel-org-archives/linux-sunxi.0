@@ -1,58 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794568379;
-	b=DoonruLPXYYUJ9gykaeMNeormOfVnnSTIuTKxpdVHxzXqXVnqARyX6yOg2CmrUWp8xa0
-	 G7swsarN+39xk25Gyst3kFsWUPG6NINtSak8CT0A2UgZrdVFBbOq1lrsmune+PXwDDo5D
-	 k3+bnAvhSJ2Zq92pFRlJWmcG26OB+FehbvLu7BhwxhrwEOJ3SVgXGzRF2ycZfSnIKz4UC
-	 HKgS9pAsHCkwRigBrOTRpr3aN4qRrImkjGERZO1KZxFAmV4WbV3CHlMr6o7+d6q6qp+PY
-	 Tx5Mb8/TROUz6u31h1NRavWkFZMw/B+zqnussp359TiO+F0eNM5OZ8oUyORLpy2RSpw==
+	t=1794580499;
+	b=r7QtgjSntAyZW2akCZyEexmdX5CGO22EgLFaohuyQK701wlzEz8df/TXFtvIkRPSLA/g
+	 toHl7jXBN33Hjo6z+ku0z+J8s65O0Lfe0fOxUkH9tAea+q9byr8knPZOS0MKNp4NoTnYN
+	 MAhyiSgpqTdadIzHF5okwfAtymE7XvwtMJcMikgaQirfT1xj+HMRGkWgSNdySMCx9xVPn
+	 Gf02rAkH2FEiorkwzML57NrDpOylT2QtMAd9DYSgxbdjrgzDPWQh88Fzr7vwyuU1OQn93
+	 7WcduLXQg9ullIMXRyTs0FuUrp1FXL1KxgFvrq+yJyQJhO26DHiV9DDO4GYgCKyyHFw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794568379;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=YE/QFiUmU3OYrjYzXRMMATHqXl1z5aveyaIXT6zCXNs=;
-	b=ZiN8W3MCXddPexToIAt9hVa++To0xDlB5PEN1H791PdBnRj2iXTVdzK4InGYrYa1rrzh
-	 BBasdqCzAOY/SsaEpnSg3kXVxlu1TUFfkR6t1UHe/+VDs83g/Dt43Xr6wU/Ev342vR6wk
-	 cVIJrV8k+yFB2hPuQIS0mAswCH7ONMh0L0V7bJGyFtTcRtMnkIJMwLiqSiQriwJBmZ9NM
-	 yyH0rA0FXSKGk6EAHv8u5Ilz51EzNXp5UAz3GtJDw39uAEy3j3Dt2wf4R6nQ40Oc8IHVh
-	 7vys3DYbGdCRArUOmODxSABfdMaFpPyy0aTGZA0Py3JbEw9JqX2HePapsnA3Y8kwPvA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794580499;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=PF7x+WHFDlFjFzclJMmi7Uvb2yYXpjZa21XSXBNN68Y=;
+	b=mCk1oixidnm7awpSA5rHo26EES58AkwnA9LufNXA7X++q8fCbegOdK6sfUHCv+dkxjYI
+	 MPIEsXNKvyObfxpavaYiQzOGo1T+wx1OiS1LDI9ZgJxx7DG23vmVgTrGwuZ/Q39PUwd2c
+	 RVNeD2kghHJUc5HDEzTZhEgtNW9vl6B61O+hW0sqlaKpg0OkrzhNDOfcv4hr8mQBOXoAR
+	 Y5bGqdRKaWI3TNWxR0Es0nwhTkYPSpOe3UV7irpq6y98WREUXW5QYnD+6hj7/QfSi1vAx
+	 zQl1I7q3w7/oYtVIfhb2L0govTwNj7pguOPRPGlBP5X/YjAivwz9+o9hZ25IG/txIBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RLqQPuwB;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YEbwZqSL;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05AC606A323;
-	Fri, 13 Nov 2026 11:12:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3916606A8AF
+	for <linux-sunxi@lists.linux.dev>; Fri, 13 Nov 2026 14:34:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RLqQPuwB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2F9B1F000C4;
-	Fri, 13 Nov 2026 11:12:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YEbwZqSL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B04041F000C6
+	for <linux-sunxi@lists.linux.dev>; Fri, 13 Nov 2026 14:34:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794568379;
-	bh=YE/QFiUmU3OYrjYzXRMMATHqXl1z5aveyaIXT6zCXNs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RLqQPuwBt4mADxbvW1lqlsDuGrKL59sU9HusL5TZqEstdiigTp//KxFNmgVsXiB/u
-	 Hu3PxDr+IafRqR34zNggZX0y1A3hBIX4ZABy0DBVICfL8soGxe268Z3/p2CACkRt+Z
-	 BTDd8JtoA/QCbfJ92e+rXuoNodBxzTsBZhNF68hVQzUHvWUkMhEnguZWQoMF6250oF
-	 WiOQUDmpWl6c743VM14Tj1r9n+7OuqUfxn5rNeEgpaoHH76yzkXAPspFP294JickIw
-	 YDd8q6q/qjew/qhiJ53gOolgnmj8hB5+HRsZ5wbRB7pCI73BRDcOKUe6hfff4IOv7a
-	 0Q2nl2rRtUhsw==
-Date: Fri, 13 Nov 2026 12:12:55 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>, 
-	Enzo Adriano <enzo.adriano.code@gmail.com>, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] arm64: dts: allwinner: sun60i-a733-cubie-a7z: add
- the user LED
-Message-ID: <20261113-shapeless-dodo-of-skill-32b3cb@quoll>
-References: <20261111134919.90264-1-vinicius.eduardo.pedrosa@gmail.com>
- <20261111134919.90264-4-vinicius.eduardo.pedrosa@gmail.com>
+	s=k20260515; t=1794580498;
+	bh=PF7x+WHFDlFjFzclJMmi7Uvb2yYXpjZa21XSXBNN68Y=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=YEbwZqSLLzVinIsev4uKzk7/4/PPLE2z76q/tnaQKkNHy2+uG64yeJ+XPQVFtQ5F3
+	 XKDJUgECbz60DbFqOXDNzQiCBXKsSMeeSnOKYVnQAc9ZS7TGcfyg74OpT7h27BZwH3
+	 s3Et4sWD3624q9DsfNuId2DVbvHUXWQQ+EpH5EMfptNuOXN/ULPBt6+YGOH88da7+Q
+	 TAQ/39NJTT4S61c80HWAKREkgWrfreUsFeZT9K1DBfkCHMMvjsjWQGmz26uBz+fZZx
+	 76TD5Pjilo2YIcAv5sxnBKOOUygXM6xH95tiqfoG2sfOQbOdXVyLaRI8JUlLqVt8my
+	 wtW+k3C0LzpLg==
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-6de2f213b7aso375764eaf.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 13 Nov 2026 06:34:58 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErF2eA9vo9OF7OctqTSkODmqAythfshkOFbV0bWImJ8CDSCinXl/RiCPyOap9lPjDSeZh/TAWioSIRtSpg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+ZLuvx1Ux8T77KN70TsyDb6mKHSblLzWT/1qfFGwybYVqVfNNi
+	OL12UmvIHPw5HT7OrKFWdcmG6f7LmapPl+EvpvKTRYtuElERspd6btHfPO0u4cK3Ro9SHNycciD
+	MNriOLkRZHKd6/WUAnaq8q1zrtcD8Fak=
+X-Received: by 2002:a05:6820:238b:b0:6f4:d9d4:3948 with SMTP id
+ 006d021491bc7-71ab50535a7mr1136848eaf.45.1794580497611; Fri, 13 Nov 2026
+ 06:34:57 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -62,22 +59,89 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261111134919.90264-4-vinicius.eduardo.pedrosa@gmail.com>
+References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com> <20261026-drm-panel-funcs-v1-22-5e3070a3478f@oss.qualcomm.com>
+In-Reply-To: <20261026-drm-panel-funcs-v1-22-5e3070a3478f@oss.qualcomm.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 13 Nov 2026 15:34:42 +0100
+X-Gmail-Original-Message-ID: <CAD++jLmME3b35ipG0N9agoe+5P1J6dsDiy3hoT9MJ9vyRwBA7A@mail.gmail.com>
+X-Gm-Features: AclHuK879_MUVY4wh3-oLFktJApN7IrvQSuSi80dujOkyN3zJSTWDVcOyRF70LI
+Message-ID: <CAD++jLmME3b35ipG0N9agoe+5P1J6dsDiy3hoT9MJ9vyRwBA7A@mail.gmail.com>
+Subject: Re: [PATCH 22/35] drm/panel: drop the orientation workaround from get_modes()
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Douglas Anderson <dianders@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Jessica Zhang <jesszhan0024@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jyri Sarha <jyri.sarha@iki.fi>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>, 
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Sandy Huang <hjc@rock-chips.com>, 
+	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Andy Yan <andy.yan@rock-chips.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Alison Wang <alison.wang@nxp.com>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Yannick Fertre <yannick.fertre@foss.st.com>, 
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Thierry Reding <thierry.reding@kernel.org>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Ondrej Jirman <megi@xff.cz>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Igor Reznichenko <igor@reznichenko.net>, 
+	Michael Walle <mwalle@kernel.org>, Dario Binacchi <dario.binacchi@amarulasolutions.com>, 
+	Jagan Teki <jagan@edgeble.ai>, Jianhua Lu <lujianhua000@gmail.com>, 
+	=?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+	Purism Kernel Team <kernel@puri.sm>, Jerry Han <hanxu5@huaqin.corp-partner.google.com>, 
+	Joel Selvaraj <jo@jsfamily.in>, Icenowy Zheng <icenowy@aosc.io>, 
+	Michael Trimarchi <michael@amarulasolutions.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Casey Connolly <casey.connolly@linaro.org>, Michael Tretter <m.tretter@pengutronix.de>, 
+	Cristian Cozzolino <cristian_ci@protonmail.com>, Junjie Cao <junjie.cao@linux.dev>, 
+	Ryan Brue <ryanbrue.dev@gmail.com>, Nickolay Goppen <setotau@mainlining.org>, 
+	Stefan Mavrodiev <stefan@olimex.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Robert Chiras <robert.chiras@nxp.com>, Alexander Koskovich <akoskovich@pm.me>, 
+	Markuss Broks <markuss.broks@gmail.com>, Artur Weber <aweber.kernel@gmail.com>, 
+	David Heidelberg <david@ixit.cz>, Dzmitry Sankouski <dsankouski@gmail.com>, 
+	Yedaya Katsman <yedaya.ka@gmail.com>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	linux-rpi-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 11, 2026 at 10:49:17AM -0300, Vinicius Pedrosa wrote:
-> Describe the green user LED on the Radxa Cubie A7Z. It is driven high
-> by PM2 and uses the heartbeat trigger by default.
-> 
-> Signed-off-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-> ---
->  .../boot/dts/allwinner/sun60i-a733-cubie-a7z.dts     | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+On Mon, Oct 26, 2026 at 12:11=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
+
+> Setting the orientation from get_modes() was a stopgap for the display
+> drivers not calling drm_connector_set_orientation_from_panel(). It is
+> also too late: by then the connector is registered and the property can
+> no longer be attached properly.
 >
+> drm_bridge_connector and the panel bridge set the orientation on their
+> own, and the drivers using a panel directly do it when creating the
+> connector now. The exceptions are sun6i_mipi_dsi, sti_dvo and the Tegra
+> DSI, which get the panel only after the DRM device has been registered.
+> None of the in-tree boards using them has a rotated panel.
+>
+> Assisted-by: LLM
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-This should be squashed, you just added the file in previous patch.
+Makes sense.
+Acked-by: Linus Walleij <linusw@kernel.org>
 
-Best regards,
-Krzysztof
-
+Yours,
+Linus Walleij
