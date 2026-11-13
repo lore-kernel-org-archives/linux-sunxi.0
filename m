@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794609222;
-	b=uAcpfwdZdpkQxpStHqkUODpT9lFAR48g+LYjXvk7ziQXYT/VL18GhsjPpSH78roOD9+6
-	 4aQ7KMhVxx8K9I79X6zb8sAEYX2RWT1YNgUv3sn5r7eaZc8D6ynAnnsfpfwUtMxt2XnU6
-	 g5ouwftrnGCBPsq84JQQrNQmuitrN7y+J/1P9UfKb79eRImXRzmBX7bzE7mqnGqftWUoe
-	 JZOkIzgOHIUvQHCuajvamGwfGI3EWd10UMFkWbGDOnv+fhEayVnpE+QVosdcyz5h8qryw
-	 b6dMFWdCRHsjyGvwvPHocWGQf8YbS2jR2/rAGEupK1qc0GQyZNdHN9TBWsUou6sTx2A==
+	t=1794609217;
+	b=0kx6Ab854GLVxOEshPm/V1z5bLCLx0G2BkFdvzOeK3NIDxC7yB6+ZHMlDp/sLp/qG1Bu
+	 UNRyAroe5gUv4JA0BnaMDARCs1nh309geEpNEIbIU1wiZ9sTk1cJpXGzj78MEV2mAZVbo
+	 8V25IxytG/Ek8qWBtxpKwoKmsf5n3GrkU0cpQi+d8i8NmDxG4+w2WWhymnotRyNA6bEIs
+	 TvCVhAeynN0DtX4qUxd+yc6Dy0YlYFJq4rZuG2NzS0d+hi0A5WVOtn/fC4mSgxcaoYdYx
+	 Os+5kxEIz4Hi0GVrZoC5errjgqbzOaqAPz0GjelxPByKHM+WKZrQH0Xn+UbidT74JzA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794609222;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794609217;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=tAMzkHW3x619qcSE6ghe9OxhnYf9AsPfwmmVyuti68Q=;
-	b=1E75ZA87KXehpEkEc2jnUs3mJDgcGFNt9Qsq401yKTURI5rkpxmZWrHzMUG+BXASt/Vq
-	 WH8ERiIR1Pnn2/wHYxJsELLUc9swreoPEgbu0/uGgHut1tqUIfWrEQl69KLb/BDL6f7fW
-	 4TDpItxU9F19AZuOr2iSRQ5atv+DSJzudNeFUF0jxu0IP7O+UyjQzWi0+bKXadSBN2lAC
-	 khnU9OnigxfD+A8lPxyZ+MiyFNuxZ8efrViw5SGTdf89CexRselZEJJQzAjbp2wWyioXI
-	 qphsTo28ozqaD5dzCSEBC6m9KzOE6HxcE3ETE8l/e1LgNmh2c2WlYHoC/2ZWEFWDFVw==
+	bh=ayF6vBRvkksclTHjPSyWasOw4KoXplwINp671BmeISE=;
+	b=5J32xeo0VumzPTbNnTtpzxbsaWKab1oAtBLKgKFuBdSYOqNsjzkBD0jxSGQM+wePZKIf
+	 ouqnQT+MFA7LPQ7XMYNLAN9NaEg+dF9bBEuGR3p3JbhyArNwWgw0+NzpMUPNLA+XK6+WP
+	 uU1G0qqM6vWESwtnUoCg55eRrwGk5e2Ljth3v3SH7FSV8P321KmCBTDqaf+imNorcjaVZ
+	 w8iz+lT3Knpii1i67Afjka47WFqHeNGZsfNvjEjFyvFnizcT0e7Va5bUBI+4sBf4f0SC0
+	 xMzNHfrmcJ34ArOQTvkJMncJ7ujAznS8x7M+V8NfQOLlwqU3OR1usktXQH8KR4XjWnw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Fyd4+BWo;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="PCk/d6YQ";
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07EC060A6F5E;
-	Fri, 13 Nov 2026 22:33:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B762060A260B;
+	Fri, 13 Nov 2026 22:33:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Fyd4+BWo
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PCk/d6YQ
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794609221;
-	b=ixXZyX6PNaFH4FrMFF2i7WsHjvAc23Yx3BPq41Mg5Jqj9kYtllKpGrBwJ4pW0m8u9bjv
-	 sJTKkiJ1qb5VNJeaftulTfGTVw7eOrN8GUzOUVP8GnGI9/zCp5LGnr20DjkV1gnWKTe5N
-	 5Ps+JPcetfh5sq719Ooj7D0HAjkyHmWMK8ORLNJe+6KqcH4HOLeOx0vzEY4FjcMEz/miC
-	 9uuLsYi0/UuynrMHFkT4ZHz+5SMpchOo6X6v8lTZUnkdqjexq8ybSHnnC8cV2nppm3Id7
-	 MPbWrUyYNFJpuRgdNKB6ykp3jQ3UgEjUXxcTwqy2asJxz/BkFA3TZwBbQA5/OWhgshA==
+	t=1794609217;
+	b=Lw80/v2VkspQrval8nmgEQp22tTaecaFR5kKpDMuV0O59LxmBfOXTCmBbknzoocMcovy
+	 OkMv617+ZDJYtTgD9UbPG8X4f5DvbbfjHpmjkFLGmCW11yI3H+0UggCflDWQ7vNYsMaC2
+	 JAkDI4iSOg94iM1WaKvLZ8veIYClW5JpoVw4aCxDk2ogXDohRMZSWcaY9dALRgPPYlVXz
+	 KiLRu1Thvz0Y0aVL0NJ+BTmI/BqL088iRolvTrXEWPC0QGEfQRIdkvOFnt+ssLbncQfZ0
+	 agQ1goGuYzrhDSFXW/rf0Kmd4/rR7ZmrY/8/q9WClEYwfLqFM8pnZL8i4OV7nEWLwjA==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794609221;
+	c=relaxed/relaxed; t=1794609217;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=tAMzkHW3x619qcSE6ghe9OxhnYf9AsPfwmmVyuti68Q=;
-	b=SMRh+U51g4jzVdRWM55LG3pe3X4WEfzIcyhhu0usWl8oYSR1HIh+eeMOOxnZZLiutTs5
-	 LGcTbn7auv65H0DTaeDuiHZwT+Qc5LsulEwQVY8F3Jm3qESK4N7CSLpUaZq1XjQ2bVxiR
-	 H47ZIj/aBgM0IcOVl9DIMFpONDwPUyQvTnr+ScGzDTZfT5DKhzFpWrNnDXeuvy2KHfSdf
-	 EBKDdhMEeYwuASl36zHZPnvS9xms3S3iWqK9NBI9KXK5UVgvrK3H6atr3S5hEVBXJR6er
-	 P5tQMY20OD40AumDBt/IIUyvGhHczNYkkWhNwnpIQK2mf15xM2UCcZ+9x/8L7feY8zA==
+	bh=ayF6vBRvkksclTHjPSyWasOw4KoXplwINp671BmeISE=;
+	b=V4GUySn69WcZUh7ubDZKaYOhzfL2yQi6ocyS7OO2kNzg7fWEb4kVjH/Gtgg6RgnMG1j2
+	 JwCQz80fQb9lplCTnGFkzVA6D+do7ddI8hkazKFuB43EaV7JaEoSaW1o/S5zp9W3o7Lht
+	 hL2kf0UTUyURKlTj5eYZTQ1hChHJCkgG+TZZ8hCC98Fd2hPmtGtiAb7ThakbV5dqPz5VK
+	 0UktpfaTOWwiKVhWZklFNiWcCdfjsPC21tl5PsFH38i1zwre5c6I2o3/pgK/wOgRYDq5Z
+	 gSvCsmY7Bc1eWMxUI5A+x02/aLmtovF7EZv88DQPyKO6DfWeJzh0cCpfP79Q+dRoJRw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 543BE1F0182E;
-	Fri, 13 Nov 2026 22:33:38 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 0614E1F000CD;
+	Fri, 13 Nov 2026 22:33:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794609221;
-	bh=tAMzkHW3x619qcSE6ghe9OxhnYf9AsPfwmmVyuti68Q=;
+	s=k20260515; t=1794609217;
+	bh=ayF6vBRvkksclTHjPSyWasOw4KoXplwINp671BmeISE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=Fyd4+BWo9SAEAgTUcWSfp2jxVvQglhZmUdq5m0HhB9GSHbPHNJ4hy0bQfcI1UrD6s
-	 VT6t9XNz+rWbIr6EEM8YzAMtMKHq0py10+BDgugqm22w/9LBy32gek518/jq/5WmTx
-	 KcXgfVQPQBlKYO+9DwIyztRbPZSpPG3oGaiYG8YAdMW1AG8i63CrpB+BKngj6VMNir
-	 zc3HfNLLzho1gNekNo/GrNLbTXeKc4UdRSBZpK2xKMqIYx8oijBdKMRUFQbC5rhS2l
-	 TlueSpQIxt7bC0vM/DugKKZsIfl2Byyw8j26Dir8fDdnMdUwOJ7zDJDDGJj6sepsR1
-	 b/ZEuSqXBBMSg==
+	b=PCk/d6YQSWF7We7dBRL29c+DHY1FupE7tjodyOmNBtMaXeqmb0k8QnARUpuTPDw2d
+	 ybjOiX2SX7n743zJaikT//Ojxp3GlQ1eH6jRIdYAYvMbHaODrsvQlnLn5tfECjjB+k
+	 ypnvCitXhCID3LYzsyDfHvCHnd0b1qfdKvOjW+BpbtgC4yJ6NaU03s1Gao1nd6PZAg
+	 3Ez7P9HyXAGTFO7hLTLSaUajMowr+xXZLzHDoSinpevqLttNWsmmbdmew1MIU3g/0A
+	 h76EowCWGQZTkURZU+vkEXrp8GfanBwt3aFDA6eVyAbStCiTMwX6TivGXe+I0ztd/c
+	 SKIN9bCMyoNsQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 1DCB049B9A;
-	Fri, 13 Nov 2026 22:33:34 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 689E449B7C;
+	Fri, 13 Nov 2026 22:33:33 +0000 (UTC)
 From: Han Gao via B4 Relay <devnull+gaohan.iscas.ac.cn@kernel.org>
-Date: Sat, 14 Nov 2026 06:33:44 +0800
-Subject: [PATCH 18/19] riscv: dts: allwinner: add the YuzukiHD Avaota F2
- board
+Date: Sat, 14 Nov 2026 06:33:36 +0800
+Subject: [PATCH 10/19] clk: sunxi-ng: sun6i-rtc: allow another 24 MHz to
+ 32k divider ratio
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261114-v861-v1-18-eb71ec3ee523@iscas.ac.cn>
+Message-Id: <20261114-v861-v1-10-eb71ec3ee523@iscas.ac.cn>
 References: <20261114-v861-v1-0-eb71ec3ee523@iscas.ac.cn>
 In-Reply-To: <20261114-v861-v1-0-eb71ec3ee523@iscas.ac.cn>
 To: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
@@ -111,11 +111,11 @@ Cc: Han Gao <rabenda.cn@gmail.com>, linux-riscv@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-rtc@vger.kernel.org, 
  linux-gpio@vger.kernel.org
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794609209; l=2024;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794609209; l=1317;
  i=gaohan@iscas.ac.cn; s=20261021; h=from:subject:message-id;
- bh=KqCPsLCb1dJ4aF8ZRP+gwHxIPe0+kCAp6k+KqhGB/tU=;
- b=JAcotxw+M6j30G6Y+hS6IIthgJBH9a0dFcYqiLwL8VfrQYXbseALNWB7FyvsQlLFdrq1ifsfd
- XTqr4BlvW/tAFUhX0NaT1c1hZjH3ZcIUsvJ3w2wYbmlHtGbMZ+QCYs9
+ bh=4J4UFeD/eghp455M83eHVDqg8JSEWGJn1Ho+53uK9kw=;
+ b=bxWPhg/JyaODgEHvYWbpaZH47om1EuJoYhcMyIKsswhKOxOfeMIeHT2Vc0XRwXRU3X7LU3/uc
+ m6Q1MIe7JxADYv5O0YTn0lRP85QuG5yZexTgEa7RBlOQGEcBUeb3z0M
 X-Developer-Key: i=gaohan@iscas.ac.cn; a=ed25519;
  pk=J8WHEK3filS86QaCaIHDGafqhxKyQ4K7+vFgRirTIiY=
 X-Endpoint-Received: by B4 Relay for gaohan@iscas.ac.cn/20261021 with
@@ -126,73 +126,39 @@ Content-Transfer-Encoding: 7bit
 
 From: Han Gao <gaohan@iscas.ac.cn>
 
-Add the YuzukiHD Avaota F2, a V861 board, with its memory and serial
-console.
+The fixed 24 MHz to 32 kHz divider does not divide by 750 on all
+variants. Allow the match data to override its multiplier and divider.
 
 Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
 ---
- arch/riscv/boot/dts/allwinner/Makefile             |  1 +
- .../boot/dts/allwinner/sun252i-v861-avaota-f2.dts  | 43 ++++++++++++++++++++++
- 2 files changed, 44 insertions(+)
+ drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/arch/riscv/boot/dts/allwinner/Makefile b/arch/riscv/boot/dts/allwinner/Makefile
-index 1c91be38ea16..725919d9a4af 100644
---- a/arch/riscv/boot/dts/allwinner/Makefile
-+++ b/arch/riscv/boot/dts/allwinner/Makefile
-@@ -9,3 +9,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-lichee-rv.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-mangopi-mq-pro.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1-nezha.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun20i-d1s-mangopi-mq.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun252i-v861-avaota-f2.dtb
-diff --git a/arch/riscv/boot/dts/allwinner/sun252i-v861-avaota-f2.dts b/arch/riscv/boot/dts/allwinner/sun252i-v861-avaota-f2.dts
-new file mode 100644
-index 000000000000..e3f5e6c8d350
---- /dev/null
-+++ b/arch/riscv/boot/dts/allwinner/sun252i-v861-avaota-f2.dts
-@@ -0,0 +1,43 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
-+/* Copyright (c) 2026 Han Gao <gaohan@iscas.ac.cn> */
+diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+index 0e40fd5fa624..b3619222fef0 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
++++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+@@ -54,6 +54,8 @@ struct sun6i_rtc_match_data {
+ 	bool				have_dcxo_status	: 1;
+ 	bool				have_phy_ref_gates	: 1;
+ 	bool				rtc_32k_single_parent	: 1;
++	unsigned int			osc24M_32k_mult;
++	unsigned int			osc24M_32k_div;
+ 	const struct clk_parent_data	*osc32k_fanout_parents;
+ 	u8				osc32k_fanout_nparents;
+ };
+@@ -436,6 +438,11 @@ int sun6i_rtc_ccu_probe(struct device *dev, void __iomem *reg)
+ 	if (data->rtc_32k_single_parent)
+ 		rtc_32k_init_data.num_parents = 1;
+ 
++	if (data->osc24M_32k_div) {
++		osc24M_32k_div_clk.mult = data->osc24M_32k_mult;
++		osc24M_32k_div_clk.div = data->osc24M_32k_div;
++	}
 +
-+/dts-v1/;
-+
-+#include "sun252i-v861.dtsi"
-+
-+/ {
-+	model = "Avaota F2";
-+	compatible = "yuzukihd,avaota-f2", "allwinner,sun252i-v861";
-+
-+	aliases {
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	/* U-Boot updates this node with the detected DRAM capacity. */
-+	memory@40000000 {
-+		device_type = "memory";
-+		reg = <0 0x40000000 0 0x08000000>;
-+	};
-+
-+	reg_vcc3v3: regulator-vcc3v3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+		regulator-always-on;
-+	};
-+};
-+
-+&pio {
-+	vcc-ph-supply = <&reg_vcc3v3>;
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_ph_pins>;
-+	status = "okay";
-+};
+ 	if (data->osc32k_fanout_nparents) {
+ 		osc32k_fanout_init_data.parent_data = data->osc32k_fanout_parents;
+ 		osc32k_fanout_init_data.num_parents = data->osc32k_fanout_nparents;
 
 -- 
 2.55.0
