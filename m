@@ -1,55 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794755852;
-	b=qM29HetFYaliTszsnVlwb1z+sHoro6IqLVJ1p7mdNIYZqvExO5sRy6YLrPqfj5jfi24E
-	 lEtGBHJgBhQVYC+JCTFvfe6YG7Dnd7y05W3GOACwT3pbGryUZNWdrXB9OLSWyI3faT8Hb
-	 dWXkLBBOzPaG+zYM72NrOKnBjgBjb5JQNQbjCPKRLk2Z4JqZ2vMUveIcbY99s07S856Rr
-	 Jp1mlI2A5QxAIFYtL4RgptgfWxKo05PgIjRPQRAmeypCTvdN9aCyI0aONv4igzhodAdUu
-	 DdmHX2rEEW0SgQIm7EZmIllBGn95DA+g4AWiE9uY0xUYGRfP+POnG5ZUB4p0yP18JUg==
+	t=1794757266;
+	b=mkXvlumRlt8cgpLb7zdaxkw3POLz+L51yrDeeRTofDbuEOXK7gETgYVmL2jniv/NDQZl
+	 elEqxeSJbWGZqe0j9KLZ8+4uDwpEg/PlBgPHCxtQpsKtucsCJu/tZ1dV740PdlOdDjMOQ
+	 8jIx9FlmZ+GaALwX4sOg/pATRWNMOR5FBAMPlOFDOdfyLRvgR+cj/ZTbygoMAKEu8DAlq
+	 4VTrMId0OVWLRbAuOcsbw5JqcoBprf+uUMHSf+frlRCRs1kVJ9tjcUsbBBKqEuIIPagdm
+	 a5z9GDD8Xaq9N2jaCZXyerwfQ2hLAowZFLr4oJ8T26IRaVHYaIHU2Cj4CumJ5pFJRjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794755852;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=qIkegvM0vM7wyeDCr9yTjV+nCu5PD6X7FTu58o7P70U=;
-	b=Q5UTjDqRpSiiQtPJso6T88eQN7laER2q3dMJqTxlXMSNmJO1gnxsjpHi8cPzNzWLNoL+
-	 o/YJrsZbBHKWO+YWB+uyf6m4oG+CaK9f2nMong97nvOGxPoyFyacT6f1OehUEfDGjtUiF
-	 iJO+nAJ6AjOTQOKqIZsBZyzVY4UMzZ6hyoPeFVjlEL57oTV9eS+eyKpyrhTE5Ul9EshwZ
-	 vCFPpUSDgYqSpeKCMKJ4Lev47rormLYyoYctjM9obf8ZUgAUBOgUUJkw40IBUlxvaN5/j
-	 ZmA9lRaKauDDOa900Znh9CYE9S1cu27DPURWCbriFGCZq7JvcbvoMP6uwb+hpn0Qriw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794757266;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=PVuohZ8xLFR5YiCoEYGFhyPTULZBGZj7Wpwh1r3TICY=;
+	b=RrJ5U+MmwD4q4n6MkVN3FgpbDPTNHDOpHDzlxpwmqDj2Qk9nUAAqeqK+tuHhCbMKulOp
+	 ZRilzLEn+hUBdQpJ5Z3KG327ZTXIvmXOGUtR5O/Jl+XWF6ScGN5PDojf9cDq91H7v51eF
+	 ShtPxgZfD2IGUfPniUjEqorPfrzvxSfHmidMwAK6ymmCHbQppRmxo5p7LczHA8ojLaEzi
+	 mh9fj1ctO9e8UK5SNvEMNHt3kV8Xd/pG0ciN+6Z/sSFSAvUHxRjLv6HUF3Up1nuMIJIzP
+	 ZmjfbpUDVMY0FQmFGo+YEPg2g+XEmj9vJnJsHNdXjlRmO1oZTo6Cbd9KOUFjAlFX/7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j21gX6zX;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=gm37i29U;
+	arc=none smtp.remote-ip=209.85.221.44
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606F4606A31E
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 15:17:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06EB6606A32C
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 15:41:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06EB6606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j21gX6zX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 124CE1F000D1
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 15:17:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794755852;
-	bh=qIkegvM0vM7wyeDCr9yTjV+nCu5PD6X7FTu58o7P70U=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=j21gX6zXDBAG6MY8+WrsN8mJnhvZS4pEbMFH0rtgAa1XpBrQm6P08/9TekLTD+bOZ
-	 PIRV7sVtKt5MnbaTDLds8nZQQezw0XhqDoxV53rnoMKBc5AYEQn0JaiCJrUPFqPK0U
-	 ue+K0988nl5towhzBXn5IbmCl62WlRdtXNyBKNm6GOEarDFZ222c29FIp5MKtwF8Ps
-	 mt78rrH1qpiSccpfhI73dCPhARZmJAtGdyDt6z7aestGq9dqS7cjJIIkxP33QBY7SJ
-	 ZNHC7iZgah3JsgA7ZSEk1ooZHARvLnjWxkEVoPIywnZk6sikOyQZf9LDZLHYWhgzGj
-	 CyCwsPAjqCgUA==
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-3ad5529ae64so26539431fa.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 07:17:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErE/2NBNiGaMpz+qF2z5JfzHHgaKqrcwwhR2u+FaxgkSeacqCIHdmbp0A1rWujAzgvN/dtINuj0JvebP9w==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+zmzonjNmcXRxo34Dwqeft6m9yGcjFbQBCJM86We8ulkqKZ35S
-	VJydswBVRHPX5KBrWD07wi1k/bsGpJczWsdZSWJ2Rv1CgCu4veAA8YYfYNt8oCjWM8vm1hc7H84
-	XR3q2AOQrJ8OrcU+NR77c9HIa/7+Jt8o=
-X-Received: by 2002:a05:651c:31d0:b0:3ab:344e:3740 with SMTP id
- 38308e7fff4ca-3ae2b41f7efmr26811011fa.2.1794755850446; Sun, 15 Nov 2026
- 07:17:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=gm37i29U
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-492fcbfaa88so1287121f8f.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 07:41:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1794757264; x=1795362064; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=PVuohZ8xLFR5YiCoEYGFhyPTULZBGZj7Wpwh1r3TICY=;
+        b=gm37i29Uj2Lg0Qn7PVClw/BGY/4/8IcdXOD6vySuB8oivAyuY2Qet35HP8z5WVeIPL
+         dePbovOeE1bcaKXE+Xc3uNpXJDAfwS9ndY5jS4CvsoJc9pUd6aTvT8MqLhrV5yKyyROn
+         vhepaUGikQCxrbtqBUXW6aWhunxVoNGF/IQovXHcSMVE3RLkybrZHvoTWKRKltvmjouU
+         BGQaAMb7YTSv7qnvuJL46wRJW01cbHENe0gbO/1CJ84Xu7g5ecgQ67wFDiBnd1sgGBno
+         l+DlbQJG3+aZRUGhFZ+PWDt5DkJCUpc4aJRWtrnBQsg4LyULa+ZTZ4/ErGujJc9eZj4+
+         uKuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794757264; x=1795362064;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PVuohZ8xLFR5YiCoEYGFhyPTULZBGZj7Wpwh1r3TICY=;
+        b=Lg5T2gss7FBIYS/TJLuZp8UJ4zSzusN9ca1imI2JQ6VWxXlYdZZqTGualZDnIOFQal
+         LuVJr3Z2iOEMKbk1sR9rUPi8AsEFQiImAZiItssw1GfRnKgLGjPe7BYk5+1eeoYFDjzx
+         wI9NDtZrUbIYffgN+NCNsVb1J6KlKr2KLqIH4xazCu9IF/3jRGZeZF4fuVDXgFQG4y5s
+         5XvK3YcftwvU43JYwhug8UNNQEVBmCNwZN+CVBXdJh1u1rmLxDharNjwkZGDtlBvsObp
+         JCx9MJ41db9FeyDX7/+y6HzPFCR/bICWUwT44e/1vKq4YLKLxVGrnpuZvnBGUO3PvFyH
+         bEzw==
+X-Forwarded-Encrypted: i=1; AL+hErEB4lFtJv1TsLJB0tJyAbcw0bRwtacE2n3IUliPoczSMLp/JPgmnR3YVEZn9u1Agp0bt6/YwIe4J7NFYA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+w03y5jJJJaUXMoYN25gQVPh+OvrdeVELT3ugvOnZai+vDiiaN
+	1hxAikNXWZtPcf+wDHyEuOWb0MDPfesAiT1hR18eL/KwaJgBs6PilzbknDuMzVggoE0=
+X-Gm-Gg: AYBFou1a36LFnwJu428FinIzCXVlmvrpOmoeSw5bGLk48BxqXxO0JiNM4Qh2svhYFiP
+	HVUqjLNTTaCmLv2PqThBx4sChkC2QsrxPZ7udlSTKRGNYfo5BYC4xe/XDlSfqrpGX1PeaOjyuoZ
+	D8LQ2y2BUG7bGACBH5tijcJc/gT6fsgOMShaJ0I51cKVVt+JUdMEZBrvh60+W4NPdPbsp8NopX2
+	Hfz0SF5xwXGvCugdj9/edsbllP8Z13D2bkdMTH67Hdc06LFCQ9y3FjdpYQbyh/c9TUYOA17Ki4h
+	RRIAFCygntNs3YeuOkwfZNaVaZ6QLUIqF8VSPhDDSQV0h05htxLyFA0Elc8gDzIVU4oa3N3cU6F
+	PhrSsiXTL4Hb5/78POvi6Sh6H1q97nWyLtBXafVMx8+QaviuPW2aSQa4cQPRCaqAt2WPReV8zap
+	ZRbJhNjT3EUbh/yQod40mqRJDoVsfIyoVHOfDTfOEgCKubCeoLxlGmJI7MbUyPW/i3ovmvkHnY0
+	684kYl/PE2W4NVRZvaOxuYUIT6OWXvIrQZ0nhss7xRop96yrtMjwy4hbIb8GYQQ9fyVimSDRyhB
+	vk5E4llC1nmrdCtoGbRtozoNsb43RMe/Cms=
+X-Received: by 2002:a05:6000:2c04:b0:48e:d36:77 with SMTP id ffacd0b85a97d-49c6fc9db5bmr19465481f8f.4.1794757264141;
+        Sun, 15 Nov 2026 07:41:04 -0800 (PST)
+Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-49c888b90d4sm16462060f8f.9.2026.11.15.07.41.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 07:41:03 -0800 (PST)
+Date: Sun, 15 Nov 2026 16:41:01 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: gaohan@iscas.ac.cn
+Cc: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Guo Ren <guoren@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>, 
+	Samuel Holland <samuel.holland@sifive.com>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
+	Anup Patel <anup@brainfault.org>, Stephen Boyd <sboyd@kernel.org>, 
+	Brian Masney <bmasney+clk@redhat.com>, Jerome Brunet <jbrunet+clk@baylibre.com>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Maxime Ripard <mripard@kernel.org>, 
+	Linus Walleij <linusw@kernel.org>, Andre Przywara <andre.przywara@arm.com>, 
+	Han Gao <rabenda.cn@gmail.com>, linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@sifive.com>, 
+	Conor Dooley <conor@kernel.org>, devicetree@vger.kernel.org, linux-csky@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rtc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 14/19] pinctrl: sunxi: add support for the Allwinner V861
+ PIO
+Message-ID: <avnR67LnZo4Mo0Tf@monoceros>
+References: <20261114-v861-v1-0-eb71ec3ee523@iscas.ac.cn>
+ <20261114-v861-v1-14-eb71ec3ee523@iscas.ac.cn>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,94 +112,68 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261115-sun8i-emac-mux-uaf-v3-1-c69d4189539d@gmail.com>
-In-Reply-To: <20261115-sun8i-emac-mux-uaf-v3-1-c69d4189539d@gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 15 Nov 2026 23:17:17 +0800
-X-Gmail-Original-Message-ID: <CAGb2v64aOydKdTWJEhF+0GVc45aap4AsHfF5RrL1pzOHF54D0A@mail.gmail.com>
-X-Gm-Features: AclHuK9BiEy8NKHYdASo3pcVR5VPMQUIfo9KOqeQ5VGeVR52SQ6tBFPl-jC43Jc
-Message-ID: <CAGb2v64aOydKdTWJEhF+0GVc45aap4AsHfF5RrL1pzOHF54D0A@mail.gmail.com>
-Subject: Re: [PATCH net-next v3] net: stmmac: dwmac-sun8i: Fix use-after-free
- in the MDIO mux error path
-To: aiyengar1990@gmail.com
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, netdev@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fgskattfdxvvv7hb"
+Content-Disposition: inline
+In-Reply-To: <20261114-v861-v1-14-eb71ec3ee523@iscas.ac.cn>
 
-On Sun, Nov 15, 2026 at 5:05=E2=80=AFPM Arun Iyengar via B4 Relay
-<devnull+aiyengar1990.gmail.com@kernel.org> wrote:
->
-> From: Arun Iyengar <aiyengar1990@gmail.com>
->
-> If mdio_mux_init() fails after the internal PHY was powered, the error
-> path releases rst_ephy and ephy_clk before sun8i_dwmac_exit() uses them
-> to unpower it. Unpower the PHY first, as sun8i_dwmac_remove() does.
 
-And sun8i_dwmac_remove() also indirectly calls sun8i_dwmac_exit() through
-stmmac_pltfr_remove() after reset_control_put() and clk_put(), so it is
-no better.
+--fgskattfdxvvv7hb
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH 14/19] pinctrl: sunxi: add support for the Allwinner V861
+ PIO
+MIME-Version: 1.0
 
-I think the correct fix is to move stmmac_pltfr_remove() before the
-*_put() calls (but still after mdio_mux_uninit() in sun8i_dwmac_remove).
+Hello,
 
->
-> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
-> ---
-> Found by Sashiko's review of another dwmac-sun8i series of mine.
-> Build-tested only (arm64 and arm, W=3D1): I have no board with the
-> internal PHY (H3, H5 or V3s), so the error path was not exercised.
->
-> Developed with Claude (Anthropic); I reviewed it.
+On Sat, Nov 14, 2026 at 06:33:40AM +0800, Han Gao via B4 Relay wrote:
+> new file mode 100644
+> index 000000000000..742465076d86
+> --- /dev/null
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sun252i-v861.c
+> @@ -0,0 +1,49 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Allwinner V861 SoC pinctrl driver.
+> + *
+> + * Copyright (c) 2026 Han Gao <gaohan@iscas.ac.cn>
+> + */
+> +
+> +#include <linux/mod_devicetable.h>
 
-It feels like your agent needs to do a bit more deep diving through the
-surrounding code.
+Don't include <linux/mod_devicetable.h>. <linux/platform_device.h>
+already provides of_device_id with less dependencies, so please just
+drop including <linux/mod_devicetable.h>.
 
-> ---
-> Changes in v3:
-> - Drop the Fixes tag (Andrew Lunn)
-> - Shorter commit message
-> - Link to v2: https://patch.msgid.link/20261113-sun8i-emac-mux-uaf-v2-1-6=
-203666b2687@gmail.com
->
-> Changes in v2:
-> - Target net-next instead of net, drop Cc: stable (Andrew Lunn)
-> - Shorter commit message
-> - Rebased onto net-next
-> - Link to v1: https://patch.msgid.link/20261112-sun8i-emac-mux-uaf-v1-1-3=
-08ae7e6fcf2@gmail.com
-> ---
->  drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/=
-net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> index 2ece7ba9dd73..898560e8e95c 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> @@ -1245,6 +1245,7 @@ static int sun8i_dwmac_probe(struct platform_device=
- *pdev)
->         return 0;
->
->  dwmac_mux:
-> +       sun8i_dwmac_unpower_internal_phy(gmac);
->         reset_control_put(gmac->rst_ephy);
->         clk_put(gmac->ephy_clk);
->  dwmac_remove:
->
-> ---
-> base-commit: 6964ff21c5d8b75649211a52dbfd92753e605649
-> change-id: 20261112-sun8i-emac-mux-uaf-1ba885219fee
->
-> Best regards,
-> --
-> Arun Iyengar <aiyengar1990@gmail.com>
->
->
+> +#include <linux/platform_device.h>
+> +#include <linux/pinctrl/pinctrl.h>
+> +
+> [...]
+> +static const struct of_device_id v861_pinctrl_match[] = {
+> +	{ .compatible = "allwinner,sun252i-v861-pinctrl", },
+> +	{}
+> +};
+
+Please drop the comma before the closing } and add a space in the list
+terminator.
+
+Best regards
+Uwe
+
+--fgskattfdxvvv7hb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmr50okACgkQj4D7WH0S
+/k78BwgAggANSfiR3lIax5U5QxcHapAeEwjkuu5kUUd7ThVymu6geBziPkTKM9LN
+kV1vp14gkKuMuThllE6yPhDE+jBai3H2dmZPRAVxRmkHkRXaCGvN2Qy6QvjG7hn+
+pKrIhNm9FD3gtJcf3syW5npYiRAxG/6TkK+Gz1PXPgmg9Yj7puOzJ5ZZsZ+kBOcS
+xiSHHn5ujqEIP4jnBc7Dv7UpeDH4NxdbQ6ssuWEYpdmNKvGpbP4Xi4tlxo4RAMXF
+XWXJcAtussx3dylMOghSQ5VBKABwOqksAb/tX5/oaY13ScR8Lg/M3WzfjwXPwvtR
+yRXJHXEAk7lxYPB9WoXGrz3bVWm0dg==
+=Eo1Y
+-----END PGP SIGNATURE-----
+
+--fgskattfdxvvv7hb--
