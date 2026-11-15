@@ -1,60 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794742520;
-	b=fihQvDUsrV+1xOH3Mydzf7fVGkfb0XoHYH0Jnu6MdnTwZWmK+e38jwqIk751sEywljVJ
-	 YjAsSrsG3+AjFrDUMmZ70Vs/Sv8mJmlA3ztjIn4vSFrxpCxTzeTAx2hpmBFeB42PPHWIA
-	 l9FD/IGOV2GmZrF6t0qBsbYNeX65EsKgewLCOrTnfgaUQGIPu8OfEojew4BWXFBaRUJs+
-	 wOuLSX9z+KDbBkb2nI6a2ZZVhYcbbUWyKbV3xv7fd41dXqW4LOR3I7QBLrKt9vFxNp+a0
-	 pPywV4clCvP9Yj59WoAR8kWIg7NkeF5lR5B8vPX/rmWqHMHiH7kjS1jxQxlK6tlFvqw==
+	t=1794743746;
+	b=Ouo4QGlUc0Ooe3DFur2U6j7i53kmRLjMdelL5g8AcKvR5pxuHA8hJ/LRk1mTDAUhOrD1
+	 BGHIH5QJRt+24E3TxSPWCO2YqOIKRVz7zD+mJWfZQP55SijFtv5CAEddIjR97OPg6TkUy
+	 k8PY826bhSNKtE6mywWTWLK8XR2yqc0bO23YbsVRb9rQJLyY4C24GSCdPNJ1cozaJb0YG
+	 h4r5J0XWGLquLplsnEMbrVu4mD6/H0UHsgob6txrDz315gI+bgNmdkIgPnFvipUZSxOlH
+	 /3/QcjYAy34d7tR/KRiC2t6bRt4ozIpBmmK+BEBEGsutj/uBWiK7Ka1gx7R5sXM7udw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794742520;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=iWdxDiJUr7CTWsA2A0qYDKSIE+nDlkJJ+cPmF9OEvPc=;
-	b=kAEZaa021R92XLPkgIBYr+Uvb0GKnUtgwn0zDyu6uDj3y3QPaIn7D+NzMaFUbJKtcq3A
-	 0pVvlO3L6cyilDNx66+gNLRJ/Cwl+kxfT+2xL3ew007gzYbbShANqkeH3BKw7d/CSVSd7
-	 /NuCXnmXeM/80DisbMkAY9Zo7DUCQRrwGm3AZP0m109KkJaOU8r4PtDOe6drLp76BxZKl
-	 R7LiCVFg14b6TRITEG3Y6YfdYfByiouzN3zjczaqVDupZKag8q4KLnHW8bYcu4G1Z5Dft
-	 mR6/IdMzj3XjTVGWF9gdu+rLhHDq54XvLjwn1mH+OqLiKJldbxkJOvxwZ38vQpROWpQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794743746;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=si1tSdkMmrU6Pinznwemqt1kiFpuGNbFlT8OV4JIa60=;
+	b=N4P0C5hquVYWgONfkIuSkbb1rWbHr5u/6H904HYfZ7YqFI924QZAXm+gn3PR8ubnzbwZ
+	 S+LGymZbfzFu4rIlS5HXugElFVhyT2LcfO4BNrQONW/P3PDMf3hGzXT0X9R7F1gF4RIqB
+	 YjcFQeij97wH9bgYktgX7NOXQGioPPgRqnW9QoVtWKMbcDLVXbCsEcvthAZph8MlCfYJK
+	 7oZkYFwbaoT3tvxLNrj5fngaTxTjeoHS3GsvOu6RbxJVXjuiOELgYqjuDdpKlhJLLBOrv
+	 7sitlvoAM4/myC/vatQV/giHu1y7YBwXcufZM5DIkEvVKPfe0b3c/fgvJGzFkvrV1UQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jmf2HchH;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jk3LtHSK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB40606A882;
-	Sun, 15 Nov 2026 11:35:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4330F606A327
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 11:55:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jmf2HchH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 952521F000C4;
-	Sun, 15 Nov 2026 11:35:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jk3LtHSK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6EE81F000CB
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 11:55:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794742520;
-	bh=iWdxDiJUr7CTWsA2A0qYDKSIE+nDlkJJ+cPmF9OEvPc=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=Jmf2HchHYm01YYvRuEsUjJo+sAqhtH3cmNR21NKDC9hw3x3yt5cuGcdyybklO2mr+
-	 cimNkkXyyFe+NzrmxoQ7k7IjyVHARiV4kwQY4rkpqhNVog9hB3jk63kUIykuJCHz3J
-	 bDLFZAnEV1A8jYlg2644ZfYtmfrHqrXTvYhT2vGQHiVp/m0uivRHnS/z4B6XrEE7MY
-	 q3PWKmo8UTbvfZDvSj95e/ia1IRKEGwdR3Rrn6vP31g7XJn1ofV7QUyR3muNvNvviY
-	 0ieREEmB7lQxcgCD0irNSi5nCTNV4sWGFGFmHACscitLdw0OMQiBv8NJQEpYo+5SPD
-	 IPtvfOZh4T0YQ==
-From: Chen-Yu Tsai <wens@kernel.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Ryan Walklin <ryan@testtoast.com>, 
- Andre Przywara <andre.przywara@arm.com>, 
- Arun Iyengar <aiyengar1990@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20261112-h616-zero2-dt-v3-0-1cd2664230c8@gmail.com>
-References: <20261112-h616-zero2-dt-v3-0-1cd2664230c8@gmail.com>
-Subject: Re: (subset) [PATCH v3 0/7] arm64: dts: allwinner: h616: Orange Pi
- Zero2 fixes, GPU DVFS and GPU cooling
-Message-Id: <179474251838.3095306.1558008986056795967.b4-ty@kernel.org>
-Date: Sun, 15 Nov 2026 19:35:18 +0800
+	s=k20260515; t=1794743745;
+	bh=si1tSdkMmrU6Pinznwemqt1kiFpuGNbFlT8OV4JIa60=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=jk3LtHSKi3Mkp6oMCVw35WfpC5ZEaiFTAVoH781KG0YGTYFGCrAjxI93EMvCKKz4A
+	 1MqFwsGjYsaKlp+ANtMH8LS1tcZ/wj+MoRC1oWWBx86rlQVIqMS9Z5256LOW8U6I4w
+	 6Ilw/ju9rU+BbgG+13tWbl64hBO2FGClyCNqd80kOI8pN35zLG7Gtvvix4HgTcZwwx
+	 VAHlZgMoA2C9p5TuuWzAkQg4MFqRm3TG547No2QaNHXRRRGToW8sRbYUxL2eWsiaA0
+	 j748WrDPEjPZfeCEVKqun8xU2oXra0MgeIfEyEo9Y1/lKLabTSYyjkiHyMqHB5npAt
+	 G/7WxtO6r+d1w==
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-3acd239776cso26875971fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 03:55:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGrpq/GuyBPGdzOGa7YEiNz9MwiayWEkiF+kyIQSekOTbUoiIPFF7/U2sXbeJR5TrcAiXXVzc+PgWFjFA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/LB+TYNyPgV36IjMcVaH5UzyBz7UnC4K+G3AGrXLyr9HWM490S
+	1m5WIqz5F0lFzucnk0lvp+2pqwfl1encC5AngNIe9qHMALAcxj/lPuDbcTVBc0PbSZ9ibqCX89k
+	k+rp4tqgTGY9SEFhLrslr/ADC5GhSDUc=
+X-Received: by 2002:a05:651c:421b:b0:3ab:751:6ba8 with SMTP id
+ 38308e7fff4ca-3ae2b5564f5mr20174841fa.28.1794743744142; Sun, 15 Nov 2026
+ 03:55:44 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -64,43 +59,187 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.14.2
+References: <20261112-a733-clk-v7-0-db7c5451ffa2@pigmoral.tech>
+ <20261112-a733-clk-v7-6-db7c5451ffa2@pigmoral.tech> <sashiko-outbox-212336@kernel.org>
+In-Reply-To: <sashiko-outbox-212336@kernel.org>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sun, 15 Nov 2026 19:55:30 +0800
+X-Gmail-Original-Message-ID: <CAGb2v658ba1c441OM88wLA5fP_89HX3=Q4dPhq0pmY9y=Whx2A@mail.gmail.com>
+X-Gm-Features: AclHuK_d3htjuLr3x8BIcggSBQikkOMEOBotOaL5HIOpBAn8HEtebLRwKXpMKpI
+Message-ID: <CAGb2v658ba1c441OM88wLA5fP_89HX3=Q4dPhq0pmY9y=Whx2A@mail.gmail.com>
+Subject: Re: [PATCH v7 6/8] clk: sunxi-ng: a733: Add mod clocks support
+To: sashiko-reviews@lists.linux.dev, Junhui Liu <junhui.liu@pigmoral.tech>
+Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org, 
+	Jernej Skrabec <jernej@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 12 Nov 2026 09:22:30 +0000, Arun Iyengar wrote:
-> This series collects the device tree changes we carry for the Orange
-> Pi Zero2 (H616):
-> 
-> - Patch 1 makes the H616 codec node cover the DAC RAMP register that
->   the driver uses (it currently works only because ioremap() rounds up).
-> - Patch 2 fixes intermittent dead-RX boots of the Zero2's Ethernet by
->   letting the RTL8211F add the RX delay ("rgmii-rxid"), as the Zero3
->   already does.
-> - Patches 3 and 4 add an H616 GPU OPP table and make the Mali-G31 a
->   cooling device of the GPU thermal zone, with a passive trip point.
-> - Patches 5 and 6 enable GPU DVFS on the Zero2. Patch 5 first raises the
->   floor of the GPU supply to 900 mV, because on this board the rail is
->   shared with VDD-SYS and the video engine corrupts decoded frames at
->   810 mV.
-> - Patch 7 describes the SPI NOR supply.
-> 
-> [...]
+On Fri, Nov 13, 2026 at 3:18=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+>
+> Thank you for your contribution! Sashiko AI review found 2 potential
+> issues to consider:
+> - [Medium] clk: sunxi-ng: a733: unintended CLK_SET_RATE_PARENT on
+>   eink_clk
+> - [Medium] clk: sunxi-ng: a733: missing CLK_SET_RATE_PARENT on media mod
+>   clocks
+> --
+>
+> commit 6e107a79cabf47c1760cd7e323625401bc6ffc47
+> Author: Junhui Liu <junhui.liu@pigmoral.tech>
+>
+> clk: sunxi-ng: a733: Add mod clocks support
+>
+> This commit adds module clock definitions for the Allwinner A733 SoC to t=
+he
+> sun60i-a733 CCU driver.
+>
+> > diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c b/drivers/clk/sunxi=
+-ng/ccu-sun60i-a733.c
+> > index 8bc603393f5a5..5ea65bf5b5e05 100644
+> > --- a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+> > +++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+>
+> [ ... ]
+>
+> > @@ -511,6 +521,893 @@ static SUNXI_CCU_M_DATA_WITH_MUX_GATE_FEAT(mbus_c=
+lk, "mbus", mbus_parents, 0x588
+>
+> [ ... ]
+>
+> > +static const struct clk_hw *eink_parents[] =3D {
+> > +     &pll_periph0_480M_clk.common.hw,
+> > +     &pll_periph0_400M_clk.hw,
+> > +};
+> > +static SUNXI_CCU_M_HW_WITH_MUX_GATE(eink_clk, "eink", eink_parents, 0x=
+a60,
+> > +                                 0, 5,       /* M */
+> > +                                 24, 3,      /* mux */
+> > +                                 BIT(31),    /* gate */
+> > +                                 CLK_SET_RATE_PARENT);
+>
+> [Severity: Medium]
+> Should eink_clk omit CLK_SET_RATE_PARENT?  Unlike eink_panel_clk, eink_pa=
+rents
+> only contains pll_periph0_480M_clk and pll_periph0_400M_clk.  Because
+> pll_periph0_480M_clk uses writable ccu_div_ops without read-only or gate
+> protection, calling clk_set_rate() on eink_clk can reprogram the shared
+> 480 MHz peripheral PLL divider used by UART, GIC, MBUS, SPI, UFS, and USB
+> clocks.
 
-Applied to sunxi/dt-for-7.5 in sunxi, thanks!
+I dropped this flag when applying.
 
-[1/7] arm64: dts: allwinner: h616: Cover the codec RAMP register
-      https://git.kernel.org/sunxi/linux/c/7d86907c33fb
-[2/7] arm64: dts: allwinner: orangepi-zero2: Let the PHY add the RX delay
-      https://git.kernel.org/sunxi/linux/c/05006ae70803
-[3/7] arm64: dts: allwinner: h616: Add GPU OPP table
-      https://git.kernel.org/sunxi/linux/c/e39ccc7f7493
-[4/7] arm64: dts: allwinner: h616: Throttle the GPU from the GPU thermal zone
-      https://git.kernel.org/sunxi/linux/c/ce0fd2bf5732
-[7/7] arm64: dts: allwinner: orangepi-zero2: Describe the SPI NOR supply
-      https://git.kernel.org/sunxi/linux/c/e51eaff703b1
+> [ ... ]
+>
+> > +static const struct clk_hw *npu_parents[] =3D {
+> > +     &pll_npu_clk.common.hw,
+> > +     &pll_periph0_800M_clk.common.hw,
+> > +     &pll_periph0_600M_clk.hw,
+> > +     &pll_periph0_480M_clk.common.hw,
+> > +     &pll_ve0_clk.common.hw,
+> > +     &pll_ve1_clk.common.hw,
+> > +     &pll_de_3x_clk.common.hw,
+> > +};
+> > +static SUNXI_CCU_M_HW_WITH_MUX_GATE(npu_clk, "npu", npu_parents, 0xb00=
+,
+> > +                                 0, 5,       /* M */
+> > +                                 24, 3,      /* mux */
+> > +                                 BIT(31),    /* gate */
+> > +                                 0);
+> > +
+> > +/*
+> > + * GPU_CLK =3D ClockSource * ((16 - M) / 16)
+> > + * Here we use a div_table to select M values that result in integer d=
+ivisors.
+> > + */
+> > +static struct clk_div_table gpu_div_table[] =3D {
+> > +     { .val =3D 0, .div =3D 1 },
+> > +     { .val =3D 8, .div =3D 2 },
+> > +     { .val =3D 12, .div =3D 4 },
+> > +     { .val =3D 14, .div =3D 8 },
+> > +     { .val =3D 15, .div =3D 16 },
+> > +     { /* sentinel */ },
+> > +};
+> > +static const struct clk_parent_data gpu_parents[] =3D {
+> > +     { .hw =3D &pll_gpu0_clk.common.hw, },
+> > +     { .hw =3D &pll_periph0_800M_clk.common.hw, },
+> > +     { .hw =3D &pll_periph0_600M_clk.hw, },
+> > +     { .hw =3D &pll_periph0_400M_clk.hw, },
+> > +     { .hw =3D &pll_periph0_300M_clk.hw, },
+> > +     { .hw =3D &pll_periph0_200M_clk.hw, },
+> > +};
+> > +static struct ccu_div gpu0_clk =3D {
+> > +     .enable         =3D BIT(31),
+> > +     .div            =3D _SUNXI_CCU_DIV_TABLE(0, 4, gpu_div_table),
+> > +     .mux            =3D _SUNXI_CCU_MUX(24, 3),
+> > +     .common         =3D {
+> > +             .reg            =3D 0xb20,
+> > +             .features       =3D CCU_FEATURE_UPDATE_BIT,
+> > +             .hw.init        =3D CLK_HW_INIT_PARENTS_DATA("gpu0", gpu_=
+parents,
+> > +                                                        &ccu_div_ops, =
+0),
+> > +     }
+> > +};
+>
+> [ ... ]
+>
+> > +static const struct clk_hw *i2spcm_parents[] =3D {
+> > +     &pll_audio0_4x_clk.common.hw,
+> > +     &pll_audio1_div2_clk.hw,
+> > +     &pll_audio1_div5_clk.hw,
+> > +     &pll_periph0_200M_clk.hw,
+> > +};
+> > +static SUNXI_CCU_M_HW_WITH_MUX_GATE(i2spcm0_clk, "i2spcm0", i2spcm_par=
+ents, 0x1200,
+> > +                                 0, 5,       /* M */
+> > +                                 24, 3,      /* mux */
+> > +                                 BIT(31),    /* gate */
+> > +                                 0);
+>
+> [ ... ]
+>
+> > +static const struct clk_parent_data display_parents[] =3D {
+> > +     { .hw =3D &pll_video0_4x_clk.common.hw },
+> > +     { .hw =3D &pll_video1_4x_clk.common.hw },
+> > +     { .hw =3D &pll_video2_4x_clk.common.hw },
+> > +     { .hw =3D &pll_periph0_2x_clk.common.hw },
+> > +};
+> > +static SUNXI_CCU_M_DATA_WITH_MUX_GATE(tcon_lcd0_clk, "tcon-lcd0", disp=
+lay_parents, 0x1500,
+> > +                                   0, 5,     /* M */
+> > +                                   24, 3,    /* mux */
+> > +                                   BIT(31),  /* gate */
+> > +                                   0);
+>
+> [Severity: Medium]
+> Are the display (tcon_lcd0..2_clk, combphy0..1_clk, edp_tv_clk, hdmi_tv_c=
+lk),
+> audio (i2spcm0..4_clk, i2spcm2_asrc_clk, spdif_tx_clk, dmic_clk), GPU
+> (gpu0_clk), and NPU (npu_clk) module clocks missing CLK_SET_RATE_PARENT?
+>
+> The parent video and audio PLL post-dividers (pll_video0..2_4x/3x_clk and
+> pll_audio1_div2/div5_clk) set CLK_SET_RATE_PARENT specifically so downstr=
+eam
+> module clocks can adjust the dedicated video and audio PLLs, and pll_audi=
+o0,
+> pll_gpu0, and pll_npu are likewise dedicated to those blocks.  Without
+> CLK_SET_RATE_PARENT on these module clocks, clk_set_rate() is limited to
+> dividing the boot-time PLL rate and cannot configure exact pixel clocks, =
+audio
+> sample rates, or GPU/NPU frequencies.
 
-Best regards,
--- 
-Chen-Yu Tsai <wens@kernel.org>
+I added CLK_SET_RATE_PARENT to all the audio clocks and CSI master clocks.
 
+We need to revisit the other ones later. They have at least one of the
+configurable dividers from the periph PLLs, so if we set CLK_SET_RATE_PAREN=
+T
+here it's possible that the common PLL rate would get changed (like what
+Sashiko mentioned above?!).
+
+I would prefer that the PLL outputs that have rates mentioned be changed
+into fixed factor or read-only dividers (now that we do support this type).
+
+
+ChenYu
