@@ -1,90 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794733612;
-	b=DStSxSkUKL4dxeHc8HSAr+B/TFket1Ai3Oae0xOgQgqLFzwWXMFV5B3h7ntyY0/ab3C5
-	 6kx9HUDFaXHyt3swqTaAq6uxF12+6ajfA+iZAdS2WecWo7l3F7imvsMb/nVFuOXB6gvVj
-	 kxuefOSm3whNOOT3yBMbNwtj+mhxhH5rmI2gsO9RKwLGrUd5Ej2BgDyDmv6dfYvsDHLSz
-	 Edi8c3ZtwkffV872qEz3RXLkO6bTFVlCRRvn7f85Fy8Gc0LKjkkq8PQh0gnI4Qog0uRrT
-	 UpH33gWwAHR0+nEkv0IFATloyQtWSHFgObre9/FWdgfqDSaEU8/kniJADd9QPh8pXWw==
+	t=1794733613;
+	b=Y8/h4vW4U5kjzSBmPtB+qmiHY/6REZx0l+CIdYeLEVy8IaZnxbPMOL8AnToGrtpLPMDN
+	 gBK9HxDfcq8DdHKoFv+2ugSa24u0BqIFK2SJzXzIRqJX+IHsP9DsTCNKNnmrFseEOlN6d
+	 ec43Bqn6j1pIgj311rMRJO2lx87utfNFBVApo5kDbhJO+7KY7BX0oDU9R1IlgTP+3Q7OW
+	 QLifJc1pJWrRFp+SlGDkZ857PQLRJHbgAmcoY+c8kqlrXQx8OgAn0nvsGeG6QzrHuMdLV
+	 Np7L+GWGF4nj6IVE8levneoTT/4c7foEkm0O4x5nX8I6SUpTYw4BpszKDM6h1uQLIdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794733612;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794733613;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
-	bh=EICA2+Ii2qgfcuNngaTE7AGwJ5yMZFSeIndPaowbVuc=;
-	b=ovbVnazivu/bfYls2N9kLAwN/DkWBTicOGaBWE/fBB2Ulw0iUiiOExmYhpdK70bFZMmZ
-	 2D89ViOafSFQgSO2SxRCVPaKY4SDNWQtnhnKnQAQHTMkj7tD+a8ByJONbELdILv+GGiaf
-	 P8AbjaC8q2EhadwmL4bserKZtE6fXRMUHS97ZVq2VcCRSqLTmREFMdBZL+jMWhgks08+L
-	 k5nuxifx+qwN1YCv6tWfibgvnorjeD8kKUosTmgUTpF+/OFUqSDQQFkFJgfuz1rVhlf2l
-	 W8F6NicPRUlBzb/GkZ7fAbvntlCjSxpo/G2vjfqxN+Dg+qRGxDPTg8V2Dco6sXSzPjw==
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
+	bh=WVskqBN7adAe0blUmUVhbRXdugopDwsXLNQtgww94JA=;
+	b=ATPjVoG7cvKMy4pFVMY2y1JMeOCvoJMJgtgKGY2WK3P0g5FKKyg2l9eojrWlHr90BY88
+	 s7l9cCLmTUOe0iJaJ/zQi3wOmdti/FEYuP7Vg9fbKbp33RQpV8KBRXnBJjaZgf9dUCONN
+	 EaWMHbxdpY51nYELspmjkKvWFzraGKszeQqjNnvgdfByKKa1FZFpxErSiDVNxNwqL+CZc
+	 5gDgN53xWpenk4Jd86nnZCHE6DU7Z/u96BbyCBXnjWUrwx3lEaB/iYHwNtmMqXXM+8pBK
+	 jy+M1e+ILHB2oVwa6hUUqAgaxx12pPIPFqFohUZVSXFDXl08mkhykfUqCC6lsHaTRbA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GbQM6s3K;
-	arc=none smtp.remote-ip=209.85.210.42
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="uqjiT/sV";
+	arc=none smtp.remote-ip=209.85.161.47
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7E2606A31A
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 09:06:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E7E2606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FE6606A32D
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 09:06:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96FE6606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GbQM6s3K
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-843cf077f10so4494915a34.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 01:06:51 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uqjiT/sV
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-70b875f6f1fso2970617eaf.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 01:06:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794733610; x=1795338410; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=EICA2+Ii2qgfcuNngaTE7AGwJ5yMZFSeIndPaowbVuc=;
-        b=GbQM6s3KsKrRroBgbKQrSdItVeWP5a3MQpa0gB5bAXh/LWhQI60AZP0/a+5SnBXoKx
-         dQtnqUn0YG5rcui8rXC58NLvMyzIuasdGZdYLqhqS2qYQ2vGPgw226txKKig8sMulVWK
-         sDBpVtElkg+qW9lbc3vSDeW7K92vD8ZPhl+hjnExcgLbBWJbsauEFjlymPJromVjZghy
-         gDiDhf5c3hcXox0dNsZH5XzK2JJuWBhgeWOfxnzXKKvUORuYHGzD9Ma5kKEeJDtNLr8W
-         gk8q6hU9Y4A4R1V49tC6sYkg+efzMvcrHukL29hUO3y3UsZVvSrmrXrTYtqjYGla3Neu
-         J3xg==
+        d=gmail.com; s=20260707; t=1794733611; x=1795338411; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=WVskqBN7adAe0blUmUVhbRXdugopDwsXLNQtgww94JA=;
+        b=uqjiT/sV/AfVnrLy2gRBMHu2DK1jfgf9sls8k9UgASIhr88Ug7DVLVnEJxcZKWFLyk
+         Ssqqw7B5503hg1N1v1w6JmXfbO0N6Z4MB2K5Y5dWNBlYTRSDu4fq5wqTsQL2bS+I4pQv
+         Vz+TmcLKUg7zlEFQogNZreFy/MJSOK3pX/cyMiTVBCF9Z94BNc6KEQoGyTe3Nd//YQxd
+         D7R3CI/4dSev8AcIemFtJKKuwhcGPod66qegPqJWmpyF7jfrNz3pmo299Xu7QYQYKwiB
+         c0ALMz+5it0P191y7NgNuilMN7WK4YFxyFjeoMHbh/3UUxwnsUqoVpMgZ3N2v4hHSIKL
+         ZQbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794733610; x=1795338410;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=EICA2+Ii2qgfcuNngaTE7AGwJ5yMZFSeIndPaowbVuc=;
-        b=z4HLbw5WHwSjFaXNQkntR2W4AFRHATxaRKSYc8JqaursGA3gMZD7JT78MF/rxGT/Mw
-         WtJECyM+k/Npzp+XoDxQ9/Q7NvGDBjmU9lyex40aGhXwZTPO7xTo1fphv2k+FktTDDBs
-         EPgDviXNxhE/mmqMNgisksNc3eUX/I+ruqyYXSDnRCm6VyFzklQ1NEygXO496y+f+a7h
-         aNnfdOChNq157BIJNzjpy6DGsEW9tj7hKSuwnVX9HMkr7Bwpt5JQWtSEyIvpod2dE+kP
-         PXajiLSlvp6ZjOgJ8GuoydEUoqBEkajd2z4Di4qLyyS7TiacGleSoJnSJDod2xlwn/nE
-         5svw==
-X-Forwarded-Encrypted: i=1; AL+hErHOTfukKOqKbT+zzzI5uMU8T1hG0VF5vjXS4HhjaNfG04Q98lrb9QAmPQt0s4DnUIo9E6ik2vAhBKYqVw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+191ZUzndaAZgD93pZWGzvx4lDS4jL652t0rlwMpKAlGY/3V6C
-	YskxuhNjj/owlqE6kCMYf3eRiTzWiO4e3AdGbstAZAhMmZgyEl0gsSuQ
-X-Gm-Gg: AYBFou2HrlVYZNISrwM5q9HBNCB/O6u4P0DsKlJO5YZJbWR2HtlK9Gx4Y5XIx4c2bj+
-	zfzwhhLCLOUSC8Jh1/1U8S5zGh+O10xQkEu/pR6kEFHPnP2EEf5bEm7rt5P2LxyunqZRiy8CIN+
-	+7j6tU8p9KIB+NekTM9O3JhtVlFNs4+51c/5A3OMFacTQ1t1Kc4eqdFCxn4zUz2sjkuF+0uaCQR
-	wRNM4spOnxUUUA33WdmXAc3zxWc6PYeqZhPpOFHpo3Fq51MBDShjVuojaFLHqh7dkmC7w6DRcn8
-	dBSOoq4BlXUaUETWPHhmiw4CeA02JTLMCotW9JTjtPs70SIMFi+DS7qvXqx9FPXThsIKiDrC+St
-	nSGZMCsfnENKnMehr6oqZ70HkAEVR8cQPZUztV8NQVwNG9ZYg/rqYgK6FKYABtr0Zzn0Ubg1mMi
-	NrAb0AarqNDoyY92B+TMOLK/4XLNQAj7fIKG6RqEa7qATRFn0Z3aJTBuUwc/AFi3zy1xfGh02PB
-	ljmg2as+a5bV9nvQ+FoYVerqjTrHdV9c3079WKbaBOBqkPjxemxOeiwHk93ZJKnFBRvOtMPYtPF
-	1wtNKbQz9Vw2NIhFPw9RnOAsJiww2LA5oEB+l2e9nXUD+0ZL7vp8KswHD0SDYt6d8wvm/mII8Yr
-	bjT4tkVTW/m2HxiZdawTX2bZRGpGXj3xnq7vdU1q3VOK1rzpD7dCtAm4o3MmskpqEBrhjlBlKvw
-	MHXGxS90G6prJul00tA4U1tT0VvurQWL3ZZAVE6H4YmBQ+bLnBTjZ5
-X-Received: by 2002:a05:6820:2d8a:b0:71a:e62f:62ee with SMTP id 006d021491bc7-71ae62f6ac9mr968000eaf.23.1794733610517;
-        Sun, 15 Nov 2026 01:06:50 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794733611; x=1795338411;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WVskqBN7adAe0blUmUVhbRXdugopDwsXLNQtgww94JA=;
+        b=OcSJ1ghe+uuSU3cHy+wPEPte59I7PulPDP0HesArkC8wuPqFaZSGLVjcKL9tH+Tdnq
+         /qTQBBsug3+PibVH/nsaYx4DSXXXcvlW2lviqBNsqYNtozWVohMZpO99OozLoowUHdGt
+         whjnEVS06nMamOBclO+tWED4fIfHoKWZfNQxSsIocRWRK6+yXbGpeAFT/cATW+f7E8lf
+         6dmNgBh4iLhJs/cLkEb/dbECpz2Z/IJGNgSXD6gTSbD2I1/uU4Mob7F+Cn7vsyIbujls
+         bXNdQn1drGeJzzYu8Iim3/NVAurGJCNpgYUZD4vgkScYYrlMon76uJ2ylaoFqSkjE37m
+         CTaw==
+X-Forwarded-Encrypted: i=1; AL+hErFqbSGnNrtAhEu7qdKFiDovTGKKoPmp2vdzw9qk9Nyk8I2MP1MWWTw7fai+PPPdFfO0fC5rqLj7cfkkjQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9E/imZXBdaHuuKkHBQZ3yG1OKXpprwDiKajAfeL78sUXJhpLGR
+	thZdtg8S+HpcslWHgZ46Kpar248AjUveKxjJnVORlx9MjjTnUclbRQpw
+X-Gm-Gg: AYBFou1EHleWohNcA3ho8jmT4w7+GMyU/sFqhiu7IKZvrv58X2rONC4oZHgEa8WGs46
+	T6OjKP6cgneWgXnWZ1X8euMZ9BZULY5Qhpx4G8azaY+RmqxRDbiZdtMHkr3fgaTHM7eGcfOtdCg
+	qCOKwsJeDg+j+WJ+Vl4+eDcirV9C7zPKXmGtt43YrCXbDCFGC7hMZA603llg7Wpnr+AgYnb+L8r
+	oc7bACjItHRwAeEUVktuqnHWFV4P3+3OqQC1WTK4eh8dTcL81X29NJxD3TmMck6rhSzDvCXM3ew
+	KzzDCdNUfFdWJ5h6zDulGgoCIBHKnlrO48uRNPDtzV+OzVc0VuTqQa67u3JWtmG7kw6dC897+sb
+	+GIUNmgxR8Drs6fXNXJKNMLrYnFpq++4uWjlzM89t2dJIZ34GsOTAUxE9qMXA6bFm63V/vPa3Lm
+	iWaq2D9kKfatHKx17qLjkntd3VDTV6HEvldZ2l848aUHyzj+xB+IdLZacGrd7UvdUdHfystXSEI
+	7+z9d1g9W/pWSySyDePWh2SFsTqi8rM94IkG+Zsrqgl7K1h2JMyBLX2YtDm+MSBCrl79uonq6Re
+	zkh7xnMDErUDNKA9lysNR4CEGD9/gkKkwpmmAvw/ZkJcSXGuXk/jh5IDL4aaOgetGTvP24Zje88
+	pekSfhvnS2l/7O0dzt9DijZLYbgHakOly3cKcSJLNMoJsr7pzOfh+jz6Vdgl/A1V2iT1nWYPBSh
+	wPygcUrCzscmofDVIf34wfcsMCQNTL6mQVuJ13IGx9GtTVXYMBv3tx
+X-Received: by 2002:a05:6820:418b:b0:716:c34d:c2aa with SMTP id 006d021491bc7-71ab509ed1amr5396398eaf.37.1794733611590;
+        Sun, 15 Nov 2026 01:06:51 -0800 (PST)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-71ab4338765sm6198902eaf.14.2026.11.15.01.06.49
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-71ab4338765sm6198902eaf.14.2026.11.15.01.06.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 01:06:49 -0800 (PST)
+        Sun, 15 Nov 2026 01:06:51 -0800 (PST)
 From: James Hilliard <james.hilliard1@gmail.com>
-Subject: [PATCH v2 0/3] dmaengine: sun4i: retain cyclic descriptors until
- callbacks drain
-Date: Sun, 15 Nov 2026 02:06:33 -0700
-Message-Id: <20261115-submit-sun4i-dma-callback-lifetime-v1-v2-0-fb7d258702f8@gmail.com>
+Date: Sun, 15 Nov 2026 02:06:34 -0700
+Subject: [PATCH v2 1/3] dmaengine: virt-dma: share deferred descriptor
+ retirement
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -96,11 +96,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5WOQQ6CMBBFr0K6dkxboEZX3sOwaMsURimYthIN4
- e4WPIHJJD8v+Xl/FhYxEEZ2KRYWcKZI05hBHgpmez12CNRmZpJLJQQvIb6Mp5RjrAhar8HqYTD
- aPmAgh4k8wizAKHGWXHFzUo5l1zOgo/e+c2t+nEV3tGmTb42eYprCZ39kFlvv3818Aipba67qU
- vDKXTuvaTjaybNmXdcv6o9WGuwAAAA=
-X-Change-ID: 20261103-submit-sun4i-dma-callback-lifetime-v1-b6192060b76f
+Message-Id: <20261115-submit-sun4i-dma-callback-lifetime-v1-v2-1-fb7d258702f8@gmail.com>
+References: <20261115-submit-sun4i-dma-callback-lifetime-v1-v2-0-fb7d258702f8@gmail.com>
+In-Reply-To: <20261115-submit-sun4i-dma-callback-lifetime-v1-v2-0-fb7d258702f8@gmail.com>
 To: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
  Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
  Samuel Holland <samuel@sholland.org>, Hans de Goede <hansg@kernel.org>, 
@@ -111,42 +109,65 @@ Cc: dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  James Hilliard <james.hilliard1@gmail.com>
 X-Mailer: b4 0.15.2
 
-Retain descriptors through callback synchronization using a shared virt-dma
-termination helper, then use it to fix sun4i cyclic callback lifetime
-and IRQ serialization. The helper keeps termination usable in atomic
-context while callbacks finish in process-context synchronization.
+A cyclic callback can retain its descriptor after the tasklet drops the
+virtual-channel lock. Collecting and freeing descriptors during atomic
+termination does not wait for that callback, and clearing vc->cyclic alone
+only cancels a callback which has not started.
 
-Also serialize pending IRQ handling with physical-channel reuse so an
-old transfer's interrupt state cannot complete its replacement or disable
-the replacement's interrupts.
+Provide vchan_terminate_all() to clear the pending cyclic callback and
+move all channel-owned descriptors to desc_terminated. This also retains
+a cyclic descriptor moved to the completed list by an error path, without
+requiring provider-specific descriptor-type checks. Already detached
+completed descriptors remain owned by the tasklet.
 
-Assisted-by: Codex:gpt-6-astra
+vchan_synchronize() drains callbacks before freeing or recycling the
+retired descriptors. Repeated termination leaves them on the terminated
+list until that synchronization occurs.
+
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-
 ---
-Changes in v2:
-- Add a shared virt-dma descriptor-retirement helper before the sun4i
-  fix, following Frank's review.
-- Retain all collected descriptors until synchronization, avoiding
-  provider-specific cyclic checks and preserving repeated termination.
-- Retire pending IRQ state before physical-channel reuse and acknowledge
-  events under the owning virtual channel's lock in a separate fix.
-- Link to v1: https://patch.msgid.link/20261103-submit-sun4i-dma-callback-lifetime-v1-v1-1-4c5a0653104f@gmail.com
+ drivers/dma/virt-dma.h | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
----
-James Hilliard (3):
-      dmaengine: virt-dma: share deferred descriptor retirement
-      dmaengine: sun4i: retain cyclic descriptors until callbacks drain
-      dmaengine: sun4i: retire interrupt state before channel reuse
+diff --git a/drivers/dma/virt-dma.h b/drivers/dma/virt-dma.h
+index abf2ae737c30..d3057fc85a9b 100644
+--- a/drivers/dma/virt-dma.h
++++ b/drivers/dma/virt-dma.h
+@@ -199,6 +199,24 @@ static inline void vchan_get_all_descriptors(struct virt_dma_chan *vc,
+ 	list_splice_tail_init(&vc->desc_terminated, head);
+ }
+ 
++/**
++ * vchan_terminate_all - retire descriptors until callbacks have drained
++ * @vc: virtual channel to terminate
++ *
++ * The caller must hold vc.lock and prevent further callback publication.
++ * Descriptors detached by the completion tasklet remain owned by that tasklet.
++ * All other descriptors are retained until vchan_synchronize(), including any
++ * descriptor still referenced by an executing cyclic callback.
++ */
++static inline void vchan_terminate_all(struct virt_dma_chan *vc)
++{
++	LIST_HEAD(head);
++
++	vchan_get_all_descriptors(vc, &head);
++	vc->cyclic = NULL;
++	list_splice_tail_init(&head, &vc->desc_terminated);
++}
++
+ static inline void vchan_free_chan_resources(struct virt_dma_chan *vc)
+ {
+ 	struct virt_dma_desc *vd;
+@@ -232,7 +250,7 @@ static inline const char *vchan_chan_name(struct virt_dma_chan *vc)
+  * Makes sure that all scheduled or active callbacks have finished running. For
+  * proper operation the caller has to ensure that no new callbacks are scheduled
+  * after the invocation of this function started.
+- * Free up the terminated cyclic descriptor to prevent memory leakage.
++ * Free or recycle terminated descriptors after their callbacks have drained.
+  */
+ static inline void vchan_synchronize(struct virt_dma_chan *vc)
+ {
 
- drivers/dma/sun4i-dma.c | 68 +++++++++++++++++++++++++++++--------------------
- drivers/dma/virt-dma.h  | 20 ++++++++++++++-
- 2 files changed, 59 insertions(+), 29 deletions(-)
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20261103-submit-sun4i-dma-callback-lifetime-v1-b6192060b76f
-
-Best regards,
---  
-James Hilliard <james.hilliard1@gmail.com>
+-- 
+2.53.0
 
