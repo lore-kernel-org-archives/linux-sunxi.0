@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794738894;
-	b=VzV5gebPSGGFOEwb9cY6Lgpe3aMquxy/pMAMVU7jmyAwEc7toMVyQFJXEp/sCP9MA7I0
-	 5pL3zcaIzLfEmTMK4yzL+Qv77hyn8v17wL/dd0ia3052YswW2ZJGtFIV3jEQWKH6JD6oh
-	 Ju4iogJQ/e2UAHVWOs/iPM/QnkaV59VK6kJBujqGLl8xNvgEOHRRoWicTTYmdKDEZ3dMI
-	 4+FC7jKNDyIjv1onjqcSoMm9DbkHH4Cd7LT7sB++1Xl6cr/B7GvysjhO2pMthKplFCJat
-	 FnAQ2Xm7XA7hjGjs/l3DebpZZvyS7gCPJTudrdNlOzc2KV4Eo2iZdYg9vI54xfa+VJQ==
+	t=1794739411;
+	b=hXNJbbIRgMCUAqcShKBfP0UdlYpOPT5ZaKg4VDb++Pm+cax0a4f1Q3+D8vSSOhrVhA6g
+	 lzTXYf8KrddPK32IzxcIk0rM5WczfwASfC3XPYXX1Wn51ga4T8DMwEoAcr+L7BVM/bl0o
+	 vVtqLKoDcropY20PmYM/VjF+aqNUAjwNQNOpHcyzKVufP0XhBM/gMLR0MqZiAxZWZkoxz
+	 WGWjChm5eNHoodgfkBQrliOYr5gAnGsf5/M+2LUFztnlOEnRvzOuXVwMT1h6tIqQy7dmP
+	 nd6sYEJLUK4hnpOS0mkLVm6fk5RgckO9uYPNn962ipB6HQDNcJFT+bPkqi9BO5uMqwg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794738894;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794739411;
 	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
 	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=BPDZ7665LmGw0imJR3DrIKXNMITj+LF4ERC2NJv/3Gk=;
-	b=Ys8SVICtiaLlW6ge7oX17NW7HWbKtPkGJiCncylBBpu/FrouiaM8ViJpmbwOB7YI4qI0
-	 4/7gLaRt8wlTGaFiTM7ii2Ceg9ePZlyXweJFoaIfqGmgLDWxYRRQ4jQC7ZF0/F9zo7Kn2
-	 heWZpEwGxdtpbu1D378lDc1EeU77on+OE0w8H2PhPcrbUz7VFVeTItv6Q9bMDhOlAjdDi
-	 ycj8TpC9bO/QMO6xOzsJwq/z92u0svWKl5iZbHLRnDQygzHYqJFAE4QFIf5g95R41lqAx
-	 AG/bGFgYK+3iIbo9IQIKY4J56POmSD5FRpsGVn6IQwz6yFAKFwpQbBh1l6kzmi26/OQ==
+	bh=0nqnviQtI0zVgBpLZforuUbgldUYw5y4JIwCb3k/byo=;
+	b=44enk0tC4rC+VyUj8GSsHXCr+q8V26n81bfUG49NHmq1qaf3jtTTI1r6/gqb0TvgEo8H
+	 BGiH0x8eDWZG71qmCdDrLD1tjWmDd3A0Hny7mk5fHaHN8NN/ujlIazthCnclX57XnGWKm
+	 k0d0EUJBtlFyghEBkBirdof9u5uAmB1YUj5D1vQAa1wcis68CSCDPAcXBc90Z3AtOKWIw
+	 U2hLwB87jEqtjuNVkSNB25176Z0BbHN7hvKvOOHh/Euv1VtkgzaaLhrqRlmYuxL6y1yRt
+	 mW+lZiPU7zUA9Yiqo9t0O1cz7WcZJxhyoX2u+kuYkeh8o5gyUXb07DffBXakYBQ88WQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="TkXI/bUD";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iMgHHDZg;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9F0606A323
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 10:34:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36422606A329
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 10:43:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TkXI/bUD
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56B1D1F000CD
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 10:34:54 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iMgHHDZg
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E28FE1F000C7
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 10:43:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794738894;
-	bh=BPDZ7665LmGw0imJR3DrIKXNMITj+LF4ERC2NJv/3Gk=;
+	s=k20260515; t=1794739410;
+	bh=0nqnviQtI0zVgBpLZforuUbgldUYw5y4JIwCb3k/byo=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=TkXI/bUDo6WbfTG+7z7cIxZxSyHdVp7OLJJk6kD17Ul01vm/GM2ZaR0WX2JFxveIv
-	 ygsGaSCk+u7IfUhHrTMVuv7GhrJQ2gMsxGexvZ+RnPfZzcmxkIyVXtCqBLWb2dwNMF
-	 BLalxi2EkDHDlxNtX00iufA8EsIseGiDjbDapZQkhWDuFYGLCyEG0cqozA4KPDJ5Cg
-	 3Lu1HwyXKVNXXMOlHfRdmt2yhaIWmBRhaaa0q+0gT+PTFoAlVsdqO6MTtxZoqcGIPv
-	 nr+aEe8pnVTUPhpytZ9V7qmufHqYIYUwEioCqMLujmO0V/5pf75qLxD5dekIsvB+qf
-	 ORWmRfBHcu/4A==
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-3ae22dcfdc3so24281401fa.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 02:34:54 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErG64PxCgDu9O1grdOD07V7w89lSNGu8Ytp5L7Fx07VZUOsuh8DlJ4LMzjM56z7IRwD2WHlEcWnF+uSNag==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/x6KnYAb5742DRjx7tQ6gsmlPkzlrR1R0gow5iNoTtSP9PurFm
-	mbH010a7POjkpmxKGmbfPdNh6dKv7uqvHnp7Gw+mo6znqxJvAM+a8AqwZh5udnRCJMdWy1c618r
-	k4JrLG4iLESioQ5Qe1Cf46yGf5oKC5yE=
-X-Received: by 2002:a2e:bcc6:0:b0:3ac:d178:4fab with SMTP id
- 38308e7fff4ca-3ae2b4cd914mr23856181fa.15.1794738892713; Sun, 15 Nov 2026
- 02:34:52 -0800 (PST)
+	b=iMgHHDZgx9CCeW7jQ7Z0VvGlzs0uRoMnkwXwVYnMkgw3UfmNXwg7BPjCn3iJOmVAg
+	 Gg+SZ2dj1i/3RTRPgmZ2y+tJ9mrVdGFL3hC7La7eAhV57oFHczQI4RTSjKH5QnkKxe
+	 PRNwbnlancl3/A/4q7NR4LBteog+4r3S4N0arQL7cNeX0B4jXmChzh9wCKpcX1SQrZ
+	 o9hAKkK0rA/fb1i9+7UWNHwe0dRLM43LV//ByEEn/kYBRtxmBH4DjyPGew/PLrsyFt
+	 f1her53+EUpfBpeTRR6wldUdnPdu+GyEtCsdpiLOQRYeuOxZF5h4pue+tmjkFSCccq
+	 +x1FjiSrRjw7A==
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-3adf87fc0c6so21840091fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 02:43:30 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErFVQYBcaZZHX+JnWk2BESCrObLakLBj+Ov7EkymISxUIYhDkL2ZGguw+nLfV4KomDdN/7s0y2P7N1OqMg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+9p5OrQzDjVUSx6ed2Rz4lbYp2iyOoUtm4zgVs8XUv4ND1e4PM
+	gei5/H2dada780IN/I6otG00sxh/NNGflKiA7/98amLYckfU1/gg8sjl4bkDBuYKISjbLNdUJke
+	nGuUfUuzzJnuA2EY+4VlMjD9UiRY/ExI=
+X-Received: by 2002:a2e:a543:0:b0:3ab:1862:25fe with SMTP id
+ 38308e7fff4ca-3ae2b49f199mr27144831fa.4.1794739409347; Sun, 15 Nov 2026
+ 02:43:29 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,16 +59,15 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261112-h616-zero2-dt-v3-0-1cd2664230c8@gmail.com> <20261112-h616-zero2-dt-v3-5-1cd2664230c8@gmail.com>
-In-Reply-To: <20261112-h616-zero2-dt-v3-5-1cd2664230c8@gmail.com>
+References: <20261112-h616-zero2-dt-v3-0-1cd2664230c8@gmail.com> <20261112-h616-zero2-dt-v3-3-1cd2664230c8@gmail.com>
+In-Reply-To: <20261112-h616-zero2-dt-v3-3-1cd2664230c8@gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 15 Nov 2026 18:34:38 +0800
-X-Gmail-Original-Message-ID: <CAGb2v661N+=LSqXQD9zQWiFv-9CbE-2EzisgeSW2_LQvjr20KA@mail.gmail.com>
-X-Gm-Features: AclHuK9-VLtQ9djmgy5KmaFMIxLSYgEBbXZ_e3jCYdzdRhHvuUSs4waIGOFphaY
-Message-ID: <CAGb2v661N+=LSqXQD9zQWiFv-9CbE-2EzisgeSW2_LQvjr20KA@mail.gmail.com>
-Subject: Re: [PATCH v3 5/7] arm64: dts: allwinner: orangepi-zero2: Keep
- VDD-SYS at or above 900 mV
+Date: Sun, 15 Nov 2026 18:43:16 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66CYb5LmHrThjqh4i7kQeG3D=0=om33=mJJUS_u4r=UvQ@mail.gmail.com>
+X-Gm-Features: AclHuK8HzeMAHozlJAL7NvuOGHQVO3JAeAx6hsTa0bLpIvwSKJtCAkiSGEitsvM
+Message-ID: <CAGb2v66CYb5LmHrThjqh4i7kQeG3D=0=om33=mJJUS_u4r=UvQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/7] arm64: dts: allwinner: h616: Add GPU OPP table
 To: aiyengar1990@gmail.com
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
@@ -84,56 +83,59 @@ On Thu, Nov 12, 2026 at 5:22=E2=80=AFPM Arun Iyengar via B4 Relay
 >
 > From: Arun Iyengar <aiyengar1990@gmail.com>
 >
-> On the Orange Pi Zero2 the AXP305 DCDCC "vdd-gpu-sys" rail feeds both
-> the Mali-G31 and the SoC's VDD-SYS domain, which includes the video
-> engine. Its regulator range starts at 810 mV, the lowest GPU operating
-> point, so once GPU DVFS is enabled the rail drops to 810 mV whenever
-> the GPU is idle. The video engine does not tolerate that: with the VE
-> at 600 MHz, 4K H.265 decodes intermittently produce a few corrupted
-> CTBs, without any kernel message. Only 6 of 13 runs were bit-exact at
-> 810 mV, against 3 of 3 at 890 mV, 3 of 3 at 950 mV, and 3 of 3 at
-> 810 mV with the VE clocked down to 432 MHz. The vendor BSP runs every
-> GPU operating point at 950 mV, so it never lowers this rail.
+> Add the operating points of the H616/H618 Mali-G31, so that boards can
+> enable GPU DVFS through panfrost devfreq: 306 to 600 MHz at 810 to
+> 950 mV. The table is the one of the vendor images (as recovered from a
+> KickPi K2B image, also carried by Armbian). Like the H6 GPU OPP table,
+> it uses <target target max> voltage triplets with a common 990 mV
+> maximum: a board whose GPU supply cannot reach an OPP's target voltage
+> loses that OPP, while a board whose supply minimum is above the target
+> of the lower OPPs keeps them, as their [target, max] range still
+> overlaps the supply's range.
+>
+> Like sun50i-h616-cpu-opp.dtsi, the table is in a separate file that
+> boards include once their GPU supply is described.
+>
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+> ---
+>  .../boot/dts/allwinner/sun50i-h616-gpu-opp.dtsi    | 62 ++++++++++++++++=
+++++++
+>  1 file changed, 62 insertions(+)
+>
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-gpu-opp.dtsi b/arc=
+h/arm64/boot/dts/allwinner/sun50i-h616-gpu-opp.dtsi
+> new file mode 100644
+> index 000000000000..18989d11c832
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-gpu-opp.dtsi
+> @@ -0,0 +1,62 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +// Copyright (C) 2026 Arun Iyengar <aiyengar1990@gmail.com>
+> +
+> +/ {
+> +       gpu_opp_table: opp-table-gpu {
+> +               compatible =3D "operating-points-v2";
+> +
+> +               opp-306000000 {
+> +                       opp-hz =3D /bits/ 64 <306000000>;
+> +                       opp-microvolt =3D <810000 810000 990000>;
+> +               };
+> +
+> +               opp-336000000 {
+> +                       opp-hz =3D /bits/ 64 <336000000>;
+> +                       opp-microvolt =3D <810000 810000 990000>;
+> +               };
 
-Makes me wonder if we need to implement DVFS for the video engine...
+Just a note, found by my review agent:
 
-> Raise the regulator minimum to 900 mV before GPU DVFS is enabled. The
+The temporary clock for the GPU module is currently pinned at 400 MHz.
+So say you are just jumping between the lower OPPs, you go from
+306 MHz -> 400 MHz -> 336 MHz, all the while the voltage could still be
+0.81V. This is likely going to cause issues.
 
-Why 900 mV? Why not 890 mV?
-
-> H616 GPU operating points use <target min max> triplets with a 990 mV
-> maximum, so the regulator core clamps the low-frequency requests into
-> [900, 990] mV and devfreq still scales the GPU clock.
-
-For device tree commit messages we typically don't mention implementation
-(OS) details. So instead you could simply say that this is still within
-the allowed range of the lower GPU OPPs.
+I suggest sending a separate patch to increase the pinned divider for
+GPU_CLK1 from 3 to 4, which would give a *really* safe clock rate of
+300 MHz.
 
 
 ChenYu
-
-> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts=
- b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-> index 1fdf2d3c1a87..719d6dadf7bf 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-> @@ -114,7 +114,7 @@ reg_dcdca: dcdca {
->
->                         reg_dcdcc: dcdcc {
->                                 regulator-always-on;
-> -                               regulator-min-microvolt =3D <810000>;
-> +                               regulator-min-microvolt =3D <900000>;
->                                 regulator-max-microvolt =3D <990000>;
->                                 regulator-name =3D "vdd-gpu-sys";
->                         };
->
-> --
-> 2.55.0
->
->
->
