@@ -1,86 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794723083;
-	b=q+4jLndANWPBU8pcBRyuiKYZe9PuPTr56+rSxYiU4BHrbY3QYGbRHOeKuFaUeo3es+yf
-	 l9AwsWwR1zqxOiT13d61hDry0gga5F8/7oxgDZtgUyfekmZ1QzFVaGZKD5e9ETQoEyZ7J
-	 1D9/fKfShWlfpEeqgM7sZuvi6+o51Gz6sbXaeD1etG3pqn1Bm1KMK+Q/bZVKfd6Q/aNVo
-	 cM7/lMXKZ/8OsGvsQqjZE6bQXXFX0qEPcSjgeSc7+ecAP/svhH8zMPfiD1V3ECXkohN3F
-	 VaFIx7fWBOH8iInfMtJpwbf3vNzwKw/Z5dlQSDhqKiLC0me5I+fptctcyLEcE0XKe4w==
+	t=1794723085;
+	b=2EmS1HmLCqoI9r3qfE7ixTrr2wi7d/RpftTQH/TQ4VPujyWmPILnDaUdYUgZlXRWP5wz
+	 otCKg1mf6aSIMrPqVrssfVFAD4tUCDrOSjSNsnqDjFQBDSzQbgHLh7j1jIUm7kbfYfJpo
+	 srFgW/5t3rfRSJnT+BcZ1nbr9/jWsKDDxySyZG8VZdMegrDFJ6jtq+c7n+PRQlFpkLiuv
+	 6MRiImWGagwL8t7Nu8fcTBEIw/9wKKnXWEbwoP0CnJdk/xX+gOdOkbIB4XAhmVdcd1Q9g
+	 iGHeppYwtMnoBYffd+Dm8fV0HlKDt6K+nGMh8Ef52YFn8/cUtfRAFmcbLlXX0qtQCkw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794723083;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794723085;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=ahJXFdL35LJt7+dj7dVWYLqD2Vs+Z841K5O8NV4NEdc=;
-	b=3aPu3uhrArO7T4NLwbREj2oNVHj6JL47QZUi2owCu2OjGpZD1/vy1K66aRRbwn47Wzl/
-	 edDavjlRZj6Hb31PNZqxEviGUoAC5il3sje5iwXn7beNtgerdqp0ZgMP7VeAJLsIdWBKd
-	 fRwSHZNdy8oqytSufZKHG1dH4FuRw1SLIkio0YwZB95AgvPSxmwUqIwVjXybZIsjx3GpS
-	 XpuxMZ20VVzT7EpaXlR7dG3u+nve1tbDit+bqx7e9BHIeibNmsPCMssp4ubOeEAWUsI2y
-	 o3U76JanL1DvxugAxMKSSEWirFb+EK4H55tjPiq+/CiyhIxqfbMNACKr5GrL/3SpW8A==
+	bh=tAc8EDwX+oraDK+6dFO3Rvp07/tBaltgJEnu0lCCOi8=;
+	b=YPV+aWJjRqkuBfMuJGavhMvw7pH+4RgIWdL8RMzUpHQMfEetnKLFyBYkiGIxX4cX72dO
+	 Ukva3+HxTP0uEsKamRnBrdUqql7g7uGWr5y3S93n3Vyp3uNPD94f1OKssFEN5bvN011HU
+	 RJiuGpIqXPj9tqV57YlwrcG2u8y3smFQzsJlGwY3iiyPp0rbIlcZVIsjCeiGYW4crD7mk
+	 8pCn0sc9441KN4KwAAkS6XZjow+6qCI4Dk8B4FGWlqMQeLPZ+wCOgwmjhOGa3KuoF42Vc
+	 99XzcztijBQ3if/Q1rLBmfs8bds3q+6yWRwW1KWvwY2elvc8InNwqGlrCjndtXCzHZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KPHXA3HV;
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RQljcucj;
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C94B606A323
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 06:11:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C94B606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 535C3606A88C
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 06:11:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 535C3606A88C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=KPHXA3HV
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4bb64ef5a00so3717525e9.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 14 Nov 2026 22:11:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RQljcucj
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a214c5c4c0so25620245e9.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 14 Nov 2026 22:11:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794723082; x=1795327882; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1794723084; x=1795327884; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ahJXFdL35LJt7+dj7dVWYLqD2Vs+Z841K5O8NV4NEdc=;
-        b=KPHXA3HVwL6MQNMCSJl5Ga0ZB6VBglH5kV8LxohbJa+kFWRnfJSQASBb9T7x9E/oyu
-         lF5LBfn4zIG/E0P3UJ3WdZ/boF4V8lrioXpjm8BUy5/WZejEfEQOhCZl3GeD83NEPNhX
-         LngS9rt560pHDXHKFyNIkg0+lA3Dy+U1YTwsRyJYyTpLn46iudkzoQet081rBoCS9bRq
-         MD8/1+31Bd7Yr83TI45Xgu4B3ByXrkVOlxuogYMB8oC4Af5guTROWsqtuQBqIVB9p3MQ
-         w9S/kF/BDVOPkUgUY10PEgOniX9CxHpHrhUklWEP7cwAgZDxY3qe72YVOlQPxp4+ft7O
-         oJcg==
+        bh=tAc8EDwX+oraDK+6dFO3Rvp07/tBaltgJEnu0lCCOi8=;
+        b=RQljcucjsEgen0iP+KR5rm8AbSu9kv8tszxk/w6l33FkcYP0nq2mq5ta9//kg6lM2N
+         tyaQa+eak/ri/4qdE8wQW3K8QusTEYsP2YH0BJVSUZ1dP5zP/OUe1OkOeGlR/hfSCuAE
+         Nft/dvQ9gLVyE7T1eOc9FdZ5QwC3bclYUXCvo44r4LftjG4Hn+rmZ9fi8E07OH81Iu9B
+         rRTdHej7KR+2ZeIHmdr9hYMIonjwHPaEz3YXnjc/Gcb8wQA6BV4VN10QxyBEekdd+f9k
+         ZjhzNgRdb3tpeed8QxXGmJpWa73AKQTZeo85Xy5QnT93CovLaaFTVheushQFleQJCT4y
+         bnAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794723082; x=1795327882;
+        d=1e100.net; s=20260707; t=1794723084; x=1795327884;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ahJXFdL35LJt7+dj7dVWYLqD2Vs+Z841K5O8NV4NEdc=;
-        b=srIC3dS0BTLK6oKPCsFk2hfKUUuICbB0jrKbx/wP87aGU+ln9qMU3xKirgNtfnyPor
-         3GYbGQeAO9gZeIIIid9wQxp16tVPIybveFC20QjGvOeCcCXXTobPzI6rFMAwjpf+BRb1
-         inFwT8vz9IXcjWtYbffbiS+hRZTLPc6UrcVO1fKjS+x1EZjUP14yfe+dkKAXEEusKAlR
-         LTHAE0182GzUqxxNqunmTjaIArmq5LIxntk5WG4HxVMrGbwrlAwvgQ0/BKySfoQKXSpI
-         Rlj18gWrMls+OjIhjci79SjtppGg0B0tPH+NFCKqNfyHyJ4fC8Sf/jEXQMjTn751A7mu
-         J9mA==
-X-Forwarded-Encrypted: i=1; AL+hErEMZpVwo/bnbD2cGPp2jCnr7Ar/U9tOn1bpjRq2AFAOO9SOuFZ0CUEiLNvRzMBbmUyG7oY74cUi3fr5fQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8ICqoi33y+X1ezSV+yC9UF/3E7T1RH6LxCnT+5go/DfIWruuN1
-	le2mQF7xHwEXEICTh1TAjTnb5toHwzR2Em/qfUpYqpUPLA+ULZ0a1hYf
-X-Gm-Gg: AYBFou2HKzzBn6MfoGoKl8cD4zqY/iUdZF94CSbXwlE0Zp9cflYT3vfl0VHeks4Dprq
-	D1DYK12N6e9PIp9HBjhNz418ItOUMhdQRiWlRPY/hP+60l0GIltWH/9K5q1YStVjrQDGdBY9w+p
-	U6rIjksu6c6f5rRwAq0xECrLWvDeTD/eIhdmZxFMNhFoJ5ZVBIzOLYVEOyW4sulxCcAQEjEcUAw
-	goQML3J9sRt0Z/VI44zp6eD/qtTUUC73YSxHxXe/cIckd7QYfZe/pToOcctwaEVTDXotV8pze2g
-	Q3fWXlURVqtTs/IbaZPz/D1vAKcm/3esHcAXggN6zwIdr5BimxzA95hYcMD0rk9EqhzIXRupwji
-	SqPJMz/u1zG4NTpJ4FEdWSIBkBtdZl3NXgdFcpwioKgT4fK9kziP2fGQtP5KgQE1EHksu+Puq26
-	ZFPRWmSgxEuIizDRiFkeJ3ei49odycJYmJyJ1xb287oGRM/YGl0fhKaXVCuL2xa3bYK7FX8Y5lL
-	wCzpOIsykEgtrtgOgSlZ0GOgPE54ojOsAfF7QMvY61qG6evTrMkNg1h9C1AwTrFygf3QoYpsZGQ
-	AuiVUlho9Jjfu3Z4jOSDtjXvy4qoiPsu//HgkgxRkjadLALyRu0ci7O4feQ73Ob2bIIasTF+lOP
-	CJvpjdFHyYr4nZTeo/FPyJiiQbTYf74LzK/uvgWqKqi0WZrsGlKF6eOY/J7N89+EQA1PyUNddho
-	8UhvHaMjxRI4zZZ0nScvBTmRnPsYPVKMcY57J4z6s2A4abDA43yO+lGjwi1pbBOLuPfGrNTKPnY
-	0ghyARt3zQ9saf7GmPq2L1lTqwQBLX2xa8=
-X-Received: by 2002:a05:600c:4752:b0:4a3:59c9:a754 with SMTP id 5b1f17b1804b1-4bb55ab2b89mr152010325e9.22.1794723081993;
-        Sat, 14 Nov 2026 22:11:21 -0800 (PST)
+        bh=tAc8EDwX+oraDK+6dFO3Rvp07/tBaltgJEnu0lCCOi8=;
+        b=den2eoe6LxoQJC4VvbVpPcJJXsqRxT+tYWKFKefeQApmBBanJibg89PIyC8kK/6lNn
+         APpzgg4kcwCaFzWK0MyGzF8dmKSkpiy8nGvIyN8pexbttQisBOTGIR8viF+tXZDfS1wD
+         MZMFS5leJKd0YQyOkkZMzJRBWcTJF6grtCvuWRhoVyU8Tr4fE1X0EPMofNnsP5ihAG/u
+         zgUL8VBZItAoY6kl0jSNovwkF9hWLZJfvJ8WvccE7RleGDJvrNQUToXM/w0cypANSC9R
+         v8NngHPZrebMqmlPgXxSsIAPlcxaVfn4p6N3wzgcPd2NRkoSngWBCM6THgJtcjZIEPjM
+         VyyA==
+X-Forwarded-Encrypted: i=1; AL+hErFbx6NBrKwqNiU9dGY1mJFBjHAYqBIapj3Oyy8NbCYejj/FQ0d+BzqrRSDC0NnIF53rJrHkUJNOfcW8Qg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/xn/xxuFH1lA+rnZQ8EuosDHevUrWNm7DbUfSDy2y1T65IkXBO
+	Oqa38mQAVFRx38cHGMUYL74ZkBRW3XNnikaxD90fe4gBiL5/XiAK6BbC
+X-Gm-Gg: AYBFou25Y1aKoWbLDCEpAoDEpSv7AJxQzXb4abEUa4c5VDb6NUEhObAfFukMnplE9eB
+	H4j2RdecTatK8jkVEqwjvLPe6aX97+oIoqTye3Zx8QfQ/L36KfXxFoWza9+hiGX2JqHo1t4xfu1
+	3165RGqT69GE2R2CDpWZrhKh1OOsdALNvAfBrdj/uT8Z76UsstMnecZ4bMhMu27hevMx/2639Lm
+	1lxOnlxseC7zALZvVuT87LdbJUHpcZaBqxVwNad1l5SDUL44A6NdNqopsWvURvt7yVQUOBZYnwD
+	JvkEZu8S11t0vLDMwjByxrf1bG9opsRUjOpHOB55byDge8Iw0oAsjZmq1fU7hzJ4BIXqvc9urNA
+	7GTHg+p0Lh6DwOwnTJr56lhLFTB0dM9ENlt0SEAaZTBGhy/gdia80QBSQMnm+7Qw+SvVsB3N46S
+	KBwGsrz+4ZFn3ieI+KFAl2G1WwNyFDll1eswrleiTpm+6hvDYyypSoiBFCszKlDBfQvhI7nD1Pa
+	taynwGgYjRmjuMWMJJy8YslsGi0oK6UKTXNhtVZshf4Q5In5+39l15ohA3FaFiu71yedU5F5kIO
+	lOUq4Q+sK5fjbHOf8NuufHkq8N6/yYxYkoO9jFICtUPcu95akJ4uQCDF8yqYcFP4GhLSvNwb8Wn
+	10wncdhNEtXwV0ZeU9DWCB3zV+3iSMRKPJatyzkBDgSdybT72mvCI7FQGRYNWSAdU/NbZcG6kUr
+	TpBAVPjIWn2M6WnP4kA7gQHzaA2INiC6PzhAYtJhiRx/nRHyXAjW5NHakuDGLXHcZll7KTIkQez
+	amFahSl5V4eMA==
+X-Received: by 2002:a05:600c:4f90:b0:4a2:8c5:5e5 with SMTP id 5b1f17b1804b1-4bb55a47680mr145173255e9.7.1794723083470;
+        Sat, 14 Nov 2026 22:11:23 -0800 (PST)
 Received: from jernej-laptop ([2a00:ee2:6a02:9300:bb69:6bcf:1b11:e85b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb5ba25b50sm139331075e9.14.2026.11.14.22.11.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb5ba25b50sm139331075e9.14.2026.11.14.22.11.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2026 22:11:21 -0800 (PST)
+        Sat, 14 Nov 2026 22:11:23 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: Chen-Yu Tsai <wens@kernel.org>,
 	Samuel Holland <samuel@sholland.org>
@@ -102,9 +102,9 @@ Cc: mripard@kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	linux-clk@vger.kernel.org
-Subject: [PATCH v3 1/8] clk: sunxi-ng: de2: Fix Display Engine 3.3 definitions
-Date: Sun, 15 Nov 2026 07:10:55 +0100
-Message-ID: <20261115061102.229680-2-jernej.skrabec@gmail.com>
+Subject: [PATCH v3 2/8] clk: sunxi-ng: de2: Export register regmap for DE33
+Date: Sun, 15 Nov 2026 07:10:56 +0100
+Message-ID: <20261115061102.229680-3-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261115061102.229680-1-jernej.skrabec@gmail.com>
 References: <20261115061102.229680-1-jernej.skrabec@gmail.com>
@@ -119,106 +119,88 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Positions of clocks and resets changed when version 3.3 was introduced.
-However, old positions still work, just by luck.
+The DE33 clock driver presets the plane mapping, which is not something
+that a clock driver should do. Remove that and export the mapping
+registers through a regmap instead, so the DRM driver can set them
+properly.
 
-Note that DE 3.3 actually has only one bus clock, which is shared among
-all cores, even though it is named BUS_MIXER0.
-
-Fix Display Engine 3.3 resets and clocks according vendor driver.
-
-Fixes: be0e9a372787 ("clk: sunxi-ng: ccu: add Display Engine 3.3 (DE33) support")
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/clk/sunxi-ng/ccu-sun8i-de2.c | 39 +++++++++++++++++++++++++---
- 1 file changed, 36 insertions(+), 3 deletions(-)
+ drivers/clk/sunxi-ng/ccu-sun8i-de2.c | 43 ++++++++++++++++++++++++++--
+ 1 file changed, 40 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-index a6cd0f988859..6ec6c0dc4c26 100644
+index 6ec6c0dc4c26..f17570efafaa 100644
 --- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
 +++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-@@ -36,6 +36,13 @@ static SUNXI_CCU_GATE(wb_clk,		"wb",		"wb-div",
- static SUNXI_CCU_GATE(rot_clk,		"rot",		"rot-div",
- 		      0x00, BIT(3), CLK_SET_RATE_PARENT);
+@@ -9,6 +9,7 @@
+ #include <linux/module.h>
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
++#include <linux/regmap.h>
+ #include <linux/reset.h>
  
-+static SUNXI_CCU_GATE(mixer0_h616_clk,	"mixer0",	"de",
-+		      0x04, BIT(0), CLK_SET_RATE_PARENT);
-+static SUNXI_CCU_GATE(mixer1_h616_clk,	"mixer1",	"de",
-+		      0x04, BIT(1), CLK_SET_RATE_PARENT);
-+static SUNXI_CCU_GATE(wb_h616_clk,	"wb",		"de",
-+		      0x04, BIT(4), CLK_SET_RATE_PARENT);
-+
- static SUNXI_CCU_M(mixer0_div_clk, "mixer0-div", "de", 0x0c, 0, 4,
- 		   CLK_SET_RATE_PARENT);
- static SUNXI_CCU_M(mixer1_div_clk, "mixer1-div", "de", 0x0c, 4, 4,
-@@ -54,6 +61,9 @@ static SUNXI_CCU_M(wb_div_a83_clk, "wb-div", "pll-de", 0x0c, 8, 4,
- static SUNXI_CCU_M(rot_div_a83_clk, "rot-div", "pll-de", 0x0c, 0x0c, 4,
- 		   CLK_SET_RATE_PARENT);
- 
-+static SUNXI_CCU_GATE(bus_mixer0_h616_clk, "bus-mixer0", "bus-de",
-+		      0x08, BIT(0), 0);
-+
- static struct ccu_common *sun8i_de2_ccu_clks[] = {
- 	&mixer0_clk.common,
- 	&mixer1_clk.common,
-@@ -74,6 +84,12 @@ static struct ccu_common *sun8i_de2_ccu_clks[] = {
- 	&mixer1_div_a83_clk.common,
- 	&wb_div_a83_clk.common,
- 	&rot_div_a83_clk.common,
-+
-+	&mixer0_h616_clk.common,
-+	&mixer1_h616_clk.common,
-+	&wb_h616_clk.common,
-+
-+	&bus_mixer0_h616_clk.common
+ #include "ccu_common.h"
+@@ -283,6 +284,36 @@ static const struct sunxi_ccu_desc sun50i_h616_de33_clk_desc = {
+ 	.num_resets	= ARRAY_SIZE(sun50i_h616_de33_resets),
  };
  
- static struct clk_hw_onecell_data sun8i_a83t_de2_hw_clks = {
-@@ -147,6 +163,17 @@ static struct clk_hw_onecell_data sun50i_a64_de2_hw_clks = {
- 	.num	= CLK_NUMBER_WITH_ROT,
- };
- 
-+static struct clk_hw_onecell_data sun50i_h616_de33_hw_clks = {
-+	.hws	= {
-+		[CLK_MIXER0]		= &mixer0_h616_clk.common.hw,
-+		[CLK_MIXER1]		= &mixer1_h616_clk.common.hw,
-+		[CLK_WB]		= &wb_h616_clk.common.hw,
++/*
++ * Add a regmap for the DE33 plane driver to access plane
++ * mapping registers.
++ * Only these registers are allowed to be written, to prevent
++ * overriding clock and reset configuration.
++ */
 +
-+		[CLK_BUS_MIXER0]	= &bus_mixer0_h616_clk.common.hw,
-+	},
-+	.num	= CLK_NUMBER_WITHOUT_ROT,
++#define SUN50I_DE33_CHN2CORE_REG 0x24
++#define SUN50I_DE33_PORT12CHN_REG 0x2c
++
++static const struct regmap_range sun8i_de2_ccu_regmap_accessible_ranges[] = {
++	regmap_reg_range(SUN50I_DE33_CHN2CORE_REG, SUN50I_DE33_PORT12CHN_REG),
 +};
 +
- static const struct ccu_reset_map sun8i_a83t_de2_resets[] = {
- 	[RST_MIXER0]	= { 0x08, BIT(0) },
- 	/*
-@@ -180,6 +207,12 @@ static const struct ccu_reset_map sun50i_h5_de2_resets[] = {
- 	[RST_WB]	= { 0x08, BIT(2) },
- };
- 
-+static const struct ccu_reset_map sun50i_h616_de33_resets[] = {
-+	[RST_MIXER0]	= { 0x00, BIT(0) },
-+	[RST_MIXER1]	= { 0x00, BIT(1) },
-+	[RST_WB]	= { 0x00, BIT(4) },
++static const struct regmap_access_table sun8i_de2_ccu_regmap_accessible_table = {
++	.yes_ranges = sun8i_de2_ccu_regmap_accessible_ranges,
++	.n_yes_ranges = ARRAY_SIZE(sun8i_de2_ccu_regmap_accessible_ranges),
 +};
 +
- static const struct sunxi_ccu_desc sun8i_a83t_de2_clk_desc = {
- 	.ccu_clks	= sun8i_de2_ccu_clks,
- 	.num_ccu_clks	= ARRAY_SIZE(sun8i_de2_ccu_clks),
-@@ -244,10 +277,10 @@ static const struct sunxi_ccu_desc sun50i_h616_de33_clk_desc = {
- 	.ccu_clks	= sun8i_de2_ccu_clks,
- 	.num_ccu_clks	= ARRAY_SIZE(sun8i_de2_ccu_clks),
- 
--	.hw_clks	= &sun8i_h3_de2_hw_clks,
-+	.hw_clks	= &sun50i_h616_de33_hw_clks,
- 
--	.resets		= sun50i_h5_de2_resets,
--	.num_resets	= ARRAY_SIZE(sun50i_h5_de2_resets),
-+	.resets		= sun50i_h616_de33_resets,
-+	.num_resets	= ARRAY_SIZE(sun50i_h616_de33_resets),
- };
- 
++static const struct regmap_config sun8i_de2_ccu_regmap_config = {
++	.reg_bits	= 32,
++	.val_bits	= 32,
++	.reg_stride	= 4,
++	.max_register	= SUN50I_DE33_PORT12CHN_REG,
++
++	/* other devices have no business accessing other registers */
++	.wr_table	= &sun8i_de2_ccu_regmap_accessible_table,
++	.rd_table	= &sun8i_de2_ccu_regmap_accessible_table,
++};
++
  static int sunxi_de2_clk_probe(struct platform_device *pdev)
+ {
+ 	struct clk *bus_clk, *mod_clk;
+@@ -336,13 +367,19 @@ static int sunxi_de2_clk_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	/*
+-	 * The DE33 requires these additional (unknown) registers set
++	 * The DE33 requires these additional plane mapping registers set
+ 	 * during initialisation.
+ 	 */
+ 	if (of_device_is_compatible(pdev->dev.of_node,
+ 				    "allwinner,sun50i-h616-de33-clk")) {
+-		writel(0, reg + 0x24);
+-		writel(0x0000a980, reg + 0x28);
++		struct regmap *regmap;
++
++		regmap = devm_regmap_init_mmio(&pdev->dev, reg,
++					       &sun8i_de2_ccu_regmap_config);
++		if (IS_ERR(regmap)) {
++			ret = PTR_ERR(regmap);
++			goto err_assert_reset;
++		}
+ 	}
+ 
+ 	ret = devm_sunxi_ccu_probe(&pdev->dev, reg, ccu_desc);
 -- 
 2.43.0
 
