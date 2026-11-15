@@ -1,52 +1,69 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794744459;
-	b=gtgAos32IlnZ679+vMriq5PrYaNEb9eurgDp787q+lgV4E+NIn78x+P3mPzGdTtAajTG
-	 J1rQgEdV1DXCbz8RykZNdtXHNAESvWE/jjqTNpVE8vNVYz5aTSf4/9vgYpR9RtKmf8j+h
-	 V3Fi1yYuV77zu2HRxeQY2t517+OnOWrPq9htyEiIK95ht7THdKILq1IjzsABLIgVXpS/F
-	 QnQsJmfve4Iz8wU4qt2Mu9n2ojRDyzdwUdajou1+xELBkFItoUijVmIUF7/R2MYMm5Xqm
-	 rT7s+w/xrGh1xx9V+mRAvZlcTTn9SMjeRqCfH1kEISD0DzujQHnZH2Kx6JWgCRWNaJA==
+	t=1794744584;
+	b=VY1JzArXO94TKAIqhzVwwNt4CWj7jU+kDTVcX+yrIAyfxpIPUYoCrOi0li4JUYlq7KPD
+	 1j0K/GdPeD+VVvmc5DXuqEs/MaF1vhb4z2wq+QyU2PN7J3Q1HKw21ETGtAF8Gjmhop1Dm
+	 7O54DGgoFdXrnavmB3UfvGHBvor7ddWJR0GhhkrSQ7qG2E/X+eA/77Anr+rj/6SsuZ6w+
+	 9TVkKnzAKndnXBQHg29tk3NvG9wXA9v2kCiN3eaoxa27NpNFhN8/qgLzPX8PGQUHnYByc
+	 nI0A2InEyEgxLJZltX7OkVCtsoxrBVhr0QWsxMkXeo0ftqvNSwx/7DjsYMZaraPt27w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794744459;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=pAyFOMytrC+WHeplIQk/P9QT+U18pl2Kv43Ux7MJxzk=;
-	b=Uo7CF0ngkgJOrz+q1+ciq8t13NnpG9k/CunM7SL9G+9u3zVYm6/Grt30Cz84ZcJRjTi8
-	 SUWkTL64azNktsLlQCqGPZvNwtnW7q/vVXmug9JxsvNoEjiioxO5sZvdkkTVRiEIwJFxa
-	 njrbO9AvsrcncojoQ3egxu3gWVvxIM26rYAlo8XXrna4E2fX5A5ZtuXDKCbQDO+r9pdW0
-	 h72jb6bzfVsBhdaXusAX6GNeYPSu58JtYosTCc67g6fFAnQ/LcLixldHUqC+dooFRfc72
-	 p103Lm9l+qK2c4QnS1NscQCZbRRFj6MsXOKrD9VrHoJVxZ3bnKBWZY9NWc4Ugi4kmAA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794744584;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=2xp0eogThoE+rovAfkLgs59Clib+FqRuadwEreWDQ+Y=;
+	b=YChH0RsrgoyY9e4/zO+vU5u+GlveBrtryONU/NwEQwEYhS0NteM/D3L0Da693LIkrMH4
+	 u0C4NoodygM15x235zaWeEy1rphSkJhrGQJyeiOYQyCLieH2l2dVBDZaGz/Y7mu0BW+9b
+	 /CepS+GhuhPbQGhmLMD2if95KseZ3VSDcQBAp0r2yM6HwWsuTLnOX3ofi/XLJJtcF4mO6
+	 yYcv64ufneUap1L41C0vxBHSbwvnw/tJIRImVmyWEpcngnSbug4ELqxlyLuDE6+AnZmkI
+	 MiE0CnTnK7aHyALXkLX4d5q4Z4CWvnuURXxNSNkvPz5VQ1hOOpcQ1SNE8xbvgxjJIHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DIAb3eAK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16194606A31E
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 12:07:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A198D1F000C6
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 12:07:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40F9606A31A;
+	Sun, 15 Nov 2026 12:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DIAb3eAK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F6001F000C4;
+	Sun, 15 Nov 2026 12:09:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794744451;
-	bh=pAyFOMytrC+WHeplIQk/P9QT+U18pl2Kv43Ux7MJxzk=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=QmryQVy3E4N4wEuCGP5CyTEkNTyKEYCUZRKbip0gcAAbNA8XjVCONvX1P27ojkmK2
-	 7wlRSq6lkiWMj3EkWkwQgJdwRLGN7RGgtGvjP8nhcKGYuwoA7jYvt25xAHHvQj7G0+
-	 zhaffkcEJHF9LY/5rfg8kj/dyKMuUp1emC6EF0WDhzRWkh8e8ehO6K2cwPgIPToN2w
-	 y1nhTkR+Z2VIr1K7WGDrFwhGbNfmFstNZRPdMB3BL8jzHwGas9wcBEF0bxFKT6y3uc
-	 /A3bifvu+XZpGDBD9fN14pMIu81f8POg8z4RcF0j/qFeYnsE3dJmsJc176FcysyTvV
-	 rPFzIWhB+6NuQ==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3ae3a5d440aso10633591fa.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 04:07:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErG8PfSTaewCumQY+n8EK+y5b54Kp57r3ljTgjCjBjImHHdK1966Hw7CT3WNajvQMlOYBZTa/PGNUZxSTA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8IUmTtg0GgvbGwvzVpf306UZ4E8PPlSl6IAp+zjkC4M1qoV9mt
-	EM7C8ZGPTEuFmLMmdRhpIH9in66stR5qf/cWjQAjPO8hjUPItJ5AEDhaCe55ichEtoFOLvFziPx
-	I5zoaRmJvSAw5ScUOvgLyCwQnPx3gtNo=
-X-Received: by 2002:a05:651c:b26:b0:3ab:3bf3:1606 with SMTP id
- 38308e7fff4ca-3ae2b52ecbemr25194061fa.24.1794744450062; Sun, 15 Nov 2026
- 04:07:30 -0800 (PST)
+	s=k20260515; t=1794744584;
+	bh=2xp0eogThoE+rovAfkLgs59Clib+FqRuadwEreWDQ+Y=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=DIAb3eAKgNniFbOJwEDkQkBz9z+WB2l6R5hN5iFMBnAOW9aV9DDBeCS8xb+bsLzLG
+	 01csHw3w6kebtIozMHxRp4NBkp8f/r2SWC/YNRJz0Ehnv9z49A+UI6vae7UGHr1wFt
+	 YchQYn2wB/ghIVce8v6DroPEUZzydvs0Hgc+iVpE7Ppkr7RtG4dKKcil/Wf9hntH48
+	 RPI0BTeehAEno6IKUDAOc18O/aeDfYArcbemwj2SuuQZ4Pq6MP3+ciMpg9dB5ch6D5
+	 X5HR0U3J0ybHdS3sLZxNFBatl0PnR0m85if88FfZphFen6Qdaa0IIZdTvx9Li3dPJc
+	 eWZ9I+OMqzUNg==
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>, 
+ Junhui Liu <junhui.liu@pigmoral.tech>
+Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ netdev@vger.kernel.org, Jerome Brunet <jbrunet@baylibre.com>, 
+ Enzo Adriano <enzo.adriano.code@gmail.com>, 
+ Andre Przywara <andre.przywara@arm.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+In-Reply-To: <20260930-a733-clk-v5-0-11175b41cd2d@pigmoral.tech>
+References: <20260930-a733-clk-v5-0-11175b41cd2d@pigmoral.tech>
+Subject: Re: [PATCH v5 0/8] clk: sunxi-ng: Add support for Allwinner A733
+ CCU and PRCM
+Message-Id: <179474458009.3130971.4987693724545718972.b4-ty@kernel.org>
+Date: Sun, 15 Nov 2026 20:09:40 +0800
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -56,86 +73,42 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261115061102.229680-1-jernej.skrabec@gmail.com>
- <20261115061102.229680-3-jernej.skrabec@gmail.com> <sashiko-outbox-215249@kernel.org>
-In-Reply-To: <sashiko-outbox-215249@kernel.org>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 15 Nov 2026 20:07:17 +0800
-X-Gmail-Original-Message-ID: <CAGb2v6544+a2Cv65u8ZCsJmP4d6DD8W2Kb3WOtvo8=Q2+snt2w@mail.gmail.com>
-X-Gm-Features: AclHuK_eMLnNxsMBol5YFdkTkMTb1ru6MI-INl_vc-Xaa50KKeV9dybfAnsle1E
-Message-ID: <CAGb2v6544+a2Cv65u8ZCsJmP4d6DD8W2Kb3WOtvo8=Q2+snt2w@mail.gmail.com>
-Subject: Re: [PATCH v3 2/8] clk: sunxi-ng: de2: Export register regmap for DE33
-To: sashiko-reviews@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-clk@vger.kernel.org, robh@kernel.org, 
-	conor+dt@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Sun, Nov 15, 2026 at 2:27=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
->
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue to consider:
-> - [Medium] clk: sunxi-ng: de2: missing select REGMAP_MMIO for
->   SUN8I_DE2_CCU
+On Wed, 30 Sep 2026 01:26:07 +0800, Junhui Liu wrote:
+> Add support for the main CCU and the PRCM module (R-CCU) found in the
+> Allwinner A733 SoC. The clock architecture is derived from the previous
+> A523 design, with the MCU_CCU removed and the clock tree extended for
+> the additional functional blocks found on the A733.
+> 
+> The A733 introduces a "pll-ref" clock that normalizes the physical
+> oscillator frequency, which can be 19.2MHz, 24MHz, or 26MHz, into a
+> consistent 24MHz reference for the PLL clock tree.
+> 
+> [...]
 
-Added while applying.
+Applied to sunxi/clk-for-7.5 in sunxi, thanks!
 
-> --
->
-> commit d1c006fcc75e6e1facbfb7f265581bef0d4d672a
-> Author: Jernej Skrabec <jernej.skrabec@gmail.com>
->
-> clk: sunxi-ng: de2: Export register regmap for DE33
->
-> This commit removes the hardcoded DE33 plane mapping writes from the cloc=
-k
-> driver and exports those registers via an MMIO regmap instead.
->
-> > diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-n=
-g/ccu-sun8i-de2.c
-> > index 6ec6c0dc4c261..f17570efafaae 100644
-> > --- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
-> > +++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
->
-> [ ... ]
->
-> > @@ -336,13 +367,19 @@ static int sunxi_de2_clk_probe(struct platform_de=
-vice *pdev)
-> >       }
-> >
-> >       /*
-> > -      * The DE33 requires these additional (unknown) registers set
-> > +      * The DE33 requires these additional plane mapping registers set
-> >        * during initialisation.
-> >        */
-> >       if (of_device_is_compatible(pdev->dev.of_node,
-> >                                   "allwinner,sun50i-h616-de33-clk")) {
-> > -             writel(0, reg + 0x24);
-> > -             writel(0x0000a980, reg + 0x28);
-> > +             struct regmap *regmap;
-> > +
-> > +             regmap =3D devm_regmap_init_mmio(&pdev->dev, reg,
-> > +                                            &sun8i_de2_ccu_regmap_conf=
-ig);
-> > +             if (IS_ERR(regmap)) {
-> > +                     ret =3D PTR_ERR(regmap);
-> > +                     goto err_assert_reset;
-> > +             }
-> >       }
->
-> [Severity: Medium]
-> Should SUN8I_DE2_CCU select REGMAP_MMIO in drivers/clk/sunxi-ng/Kconfig?
->
-> Without it, enabling SUN8I_DE2_CCU when REGMAP_MMIO is disabled (for
-> example under COMPILE_TEST=3Dy with ARCH_SUNXI=3Dn) or built as a module =
-with
-> SUN8I_DE2_CCU=3Dy breaks compilation on sun8i_de2_ccu_regmap_config or fa=
-ils
-> to link __devm_regmap_init_mmio_clk().
->
-> --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261115061102.22=
-9680-1-jernej.skrabec@gmail.com?part=3D2
->
+[1/8] dt-bindings: clk: sun60i-a733-ccu: Add Allwinner A733 support
+      https://git.kernel.org/sunxi/linux/c/39e4303e8bbc
+[2/8] clk: sunxi-ng: sdm: Add dual patterns support
+      https://git.kernel.org/sunxi/linux/c/b213bddd53ab
+[3/8] clk: sunxi-ng: a733: Add PRCM CCU
+      https://git.kernel.org/sunxi/linux/c/2a5ae6df088b
+[4/8] clk: sunxi-ng: a733: Add PLL clocks support
+      https://git.kernel.org/sunxi/linux/c/93c637ce9f0a
+[5/8] clk: sunxi-ng: a733: Add bus clocks support
+      https://git.kernel.org/sunxi/linux/c/103168ac6eec
+[6/8] clk: sunxi-ng: a733: Add mod clocks support
+      https://git.kernel.org/sunxi/linux/c/4646c19620e6
+[7/8] clk: sunxi-ng: a733: Add bus clock gates
+      https://git.kernel.org/sunxi/linux/c/ed757071ac3d
+[8/8] clk: sunxi-ng: a733: Add reset lines
+      https://git.kernel.org/sunxi/linux/c/308e4087bbda
+
+Best regards,
+-- 
+Chen-Yu Tsai <wens@kernel.org>
+
