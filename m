@@ -1,55 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794735847;
-	b=tOfLLUuai6WkTSsBlH/kCG/hlrpMecnE57XhSbKyd5PJ9OeJDjjAA+ehu5w2Xx6pub/E
-	 HtItd3cKqMlT5bZQMYP0LBMBLNyWK1pe/lAlYwN3EPDMgtQK2dAemA996pStLSscxnnYp
-	 yl6lGKjsE+n8ud9x2bUTglC79APO8LEQnwdOLpM8tJM1SbeLPioyzl4v9C5SNX+zECVxL
-	 nZGewGfToImGAS4id2rAmnq90FPHsMr4k6OqnSJYntLh/FgrvEKjCfE/ovbXtejycZ09l
-	 H5kpka416/x5rSJU7EHd2U4D1p0QXc4VT8GYOINk3tw4eJ9uCBxQnK9Z1rlorxLasDA==
+	t=1794736816;
+	b=UDWYR/aWwi4cjhCb59vcc1wUvfnk2ChqZ2cpsHDD/BF+ZG90ueL5L5f8g8V7+NYRHi2g
+	 W8wALGOZ2fgKNewZSO9GQIRZCaxQe3538AY4fF26IhIOwCswWXmeiITsYH+s8eEsB7xkv
+	 uJyUuZ2xl9sq3fioCGUJ39ooD17U8UGfXkvxOb3uHI91Q8OdMwQo3F9SYURvb1LYC31JG
+	 inlCQguEz3zQOdGdyrej/crojRW6mcoqwThgVX797wloxNXMXUzdDr4Y1HbaDLYsRjOPA
+	 04CAl1EhF5SI6/9vzs8j4I9+0m+Qd7c0hMDeXUeZLBl36wlVQQeotRzj3KwtU8tnukw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794735847;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=RpQAkSou5b8icqF3P8gOQ5t+G3JTqaILCtPO0nm3W2s=;
-	b=zmTh9WJfB8yMM2fhWndVsxjiWuS8u3a0p9j/mBjiVTACYgK9mCPrfmX8+Xjq9djNMdVw
-	 +luz7rNnHB5yiVTkGXTakJBKWUhQzikV8f4InPzrBl77COgSfZULW1F0d8rklkmQeBh+T
-	 zAdqEkb/HQnAdWJ032Iy1fdhoGysRGE5U2jTZaMfJVHS+UR+1WGCnsaDFUh9D/cxjpN7L
-	 QtZujjHoIxo3izMQ0U2qXKXjyn0SF6nq4zDbEfKHsBwA9/D3L0MgbFYa+tdAB6Zor2OAA
-	 ckDfWv2zo+gKc5sSYsD57mw73oweO/mC3wgkOA183rYfzADYypfAKT8260Te8lxGHEQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794736816;
+	h=Received:DKIM-Signature:Received:X-Gm-Message-State:X-Received:
+	 MIME-Version:References:In-Reply-To:Reply-To:From:Date:
+	 X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=NyTNgU3MDKNHP7luxta/A/OzHHMqJA4oTLAdOlcpPMo=;
+	b=NpN5j4xcjr1qZq0uJ5TRTDcOZxBmN6UIRPw0vy9vKunf//YGI8LrjCCHqTWXi4l7VlWu
+	 v0cHOVe2jmV07ipSecvcYf0X9mC28t793E+94kwSF1otRvOlq4bRBlsM6sCTVTAZ7zewt
+	 IF6UajRELoL12KTmQgngYsD7kLxZwSJW6Ao0lK40cAFEJhDvRn2RUQmH9nY3qz/KDdk+F
+	 BVBjAkXumz0fBAuW6zKBBoOfUBjS14Gfj7U7pl/fCY+jk4h/kfu2p2/Tk+JufckfUt3i/
+	 zoRxGIeJcvp/3Q5G1iQeiIRdXqQMwEO6hd9dbi7O0yZ4UM8LBacvTm3KuKbCHMR92CA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qtp6yZON;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RAudH2q5;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2229C606A31D
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 09:44:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB340606A31A
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 10:00:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qtp6yZON
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD65A1F000C4
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 09:44:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RAudH2q5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F6EB1F000C8
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 10:00:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794735846;
-	bh=RpQAkSou5b8icqF3P8gOQ5t+G3JTqaILCtPO0nm3W2s=;
+	s=k20260515; t=1794736816;
+	bh=NyTNgU3MDKNHP7luxta/A/OzHHMqJA4oTLAdOlcpPMo=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=Qtp6yZONauyl4HHIQLq//dQmvOMGBgyE4Oq56ypw2oUZetM3r8Lxh5wnAZCARyQKc
-	 1a9kfcqtwQikRMIZwuo5OEpCdoDEkTglZy4XpqJMX5td/LpwkGjtAfOCb3AcGUd1ob
-	 YXWV80839+3Ecsq7EjGRm40ZBT9EU3oe/wXXctmVWf81fas7WqZU76yq/xyvEZ1RRI
-	 VZLe/1i81TFABQg8ugB/M8YN2EhjMxL2Nvsaf3w0CzwHzW+5UWTR4URDkICa8ge6zz
-	 QengMLNTahFQZ/Kt4/fNJhOJyxdRz3m8miTZbiLQuVFZxzcYnbNLotRwLiDW4xvTY7
-	 Q7FePrdoqqjpQ==
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3ac97e45a79so22351821fa.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 01:44:06 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFlN1FqH+xlbdRFRCqzZR8zVlNmBahyeehTqbVDVZYSIqUo+PfeWRxsSoPfcaP3VH/DNH4gkcYajgD2Rg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+RbpxsB2IwufcqaGqkag86W6sTJWPuk8OYPKny5Q+3Xpqrze9S
-	1tDYcGr5CJIxhvLV+XcaGJpDMZGV1CElLoN0W6hXoa2comXNwNtW9BNIHqlw0QofisvlByL9DTk
-	fQY1Kgq8Hs+kzfUd5MsG2zieSCbSDfvA=
-X-Received: by 2002:a05:651c:211b:b0:3ab:1639:9a75 with SMTP id
- 38308e7fff4ca-3ae2b4efaebmr20925271fa.11.1794735845129; Sun, 15 Nov 2026
- 01:44:05 -0800 (PST)
+	b=RAudH2q5p0QPykjXWFm3xcgFlBzLVWzxvRNP0PexyURDc0cnea/OrOFSy8fgzlsd/
+	 Ishl154LxoEx44qVtKGMAlrfryNLyk59jr+oLLWiAsxM7oH/lxpFpQt8dsqITeBC2n
+	 tv8XerFTUK9Ywx+LZALZDrK077Cp1Ra8tEb/S58X2IbawHyW0Udj43rzx/+WvCdJ9T
+	 W6cqmqIPq2pcIzIxC926FNcXdA006mE8/TsnlRdCzwryc76aIvjxJZKt0i3BpcOvc3
+	 vaKR8Z91cd9bwOm48ogCCWtl0sDbB79zQsi29NOdbIsxUAUS8m/2OOiUY/ptXHmX6p
+	 DYl/2Va8vaq2A==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3ae25d9e2fdso29009581fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 02:00:16 -0800 (PST)
+X-Gm-Message-State: APuU4Z/P2DcOufwmsRWKLekn7ClILgtVxAygcXWBVOCaGIt1S3qBfRNJ
+	TpLhhU8SR8+3E9DHWi/Ok8D+ldbSqZlkbXpooVhL3ReN2iCwoXYCxUTfeowJfL49Wn7qBTSaRQ1
+	OMkop05zRPmGuR9FFztBQzNAz+UNcAQY=
+X-Received: by 2002:a05:651c:a207:20b0:3ae:396d:18b with SMTP id
+ 38308e7fff4ca-3ae396d0372mr10442331fa.7.1794736814738; Sun, 15 Nov 2026
+ 02:00:14 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,122 +58,80 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261115-h616-pll-output-gate-v1-1-4cb3fc4d6c48@gmail.com> <sashiko-outbox-215303@kernel.org>
-In-Reply-To: <sashiko-outbox-215303@kernel.org>
+References: <20261026-sunxi-orangepi-3-lts-v3-0-98fef4f75184@gmail.com>
+In-Reply-To: <20261026-sunxi-orangepi-3-lts-v3-0-98fef4f75184@gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 15 Nov 2026 17:43:52 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65bC7-ZSRVG+KgK7BcTaXR3SbEiTcqGK+LuVJjpL4ihXg@mail.gmail.com>
-X-Gm-Features: AclHuK8jwUtBWiLYgeJdJCLUdvN8oG7NhxiuPhYWv3uHkiiADDymIYAejmjwfqg
-Message-ID: <CAGb2v65bC7-ZSRVG+KgK7BcTaXR3SbEiTcqGK+LuVJjpL4ihXg@mail.gmail.com>
-Subject: Re: [PATCH] clk: sunxi-ng: h616: Gate the PLLs with their output
- enable bit
-To: Arun Iyengar <aiyengar1990@gmail.com>
-Cc: linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	sashiko-reviews@lists.linux.dev
+Date: Sun, 15 Nov 2026 18:00:01 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66f5QFECs1L3K1C+1LMXS2KVCVgG_LgAnEuun9YNgHidg@mail.gmail.com>
+X-Gm-Features: AclHuK9eevfH2EBPHhmpLnWPjLF3ubeY3uOjfZRW9DwFb4Y-flxnXpQ0T_-B6OU
+Message-ID: <CAGb2v66f5QFECs1L3K1C+1LMXS2KVCVgG_LgAnEuun9YNgHidg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] arm64: dts: allwinner: Support Orange Pi 3 LTS
+To: filipescu.cristian@gmail.com
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Andre Przywara <andre.przywara@arm.com>, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 15, 2026 at 4:45=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
+On Tue, Oct 27, 2026 at 7:34=E2=80=AFAM Cristian Filipescu via B4 Relay
+<devnull+filipescu.cristian.gmail.com@kernel.org> wrote:
 >
-> Thank you for your contribution! Sashiko AI review found 1 potential
-> issue to consider:
-> - [Medium] clk: sunxi-ng: h616: sun50i_h616_ccu_probe() leaves BIT(27)
->   forced on in loop
-> It also noticed 1 related pre-existing issue this patch does not
-> introduce:
-> - [High] clk: sunxi-ng: h616: wrong GPU notifier registration order in
->   sun50i_h616_ccu_probe() [1]
-> --
+> Continue Jernej Skrabec's April 2025 series, adding the board compatible
+> and device tree for the Allwinner H6-based Orange Pi 3 LTS.
 >
-> commit 733f137b19620733cea59e88a8f5b18ba7301d4a
-> Author: Arun Iyengar <aiyengar1990@gmail.com>
+> Board testing passed SD/eMMC reads, both LEDs at drive strength 10,
+> and five Ethernet interface cycles plus three MAC driver rebinds.
+> Each network cycle reached 1 Gbps/full duplex, obtained DHCP and passed
+> ping; PHY ID and 125 MHz clock-output configuration were read back.
+> eMMC DDR52 at 50 MHz and HS200 at 150 MHz each passed 768 MiB of direct
+> reads and 256 MiB of patterned writes with verified readbacks and data
+> restoration. All reported MMC error counters were zero. Both board DTBs
+> compile and pass schema checks.
 >
-> clk: sunxi-ng: h616: Gate the PLLs with their output enable bit
+> Codex assisted with DTS updates, review analysis and build checks;
+> Cristian performed the board tests.
 >
-> This commit changes the H616 PLL clocks to gate using their output enable
-> bit (BIT(27)) instead of the PLL enable bit (BIT(31)), and powers up the
-> PLLs in sun50i_h616_ccu_probe().
->
-> > diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi=
--ng/ccu-sun50i-h616.c
-> > index 955c614830fae..da4156b39c2cc 100644
-> > --- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-> > +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
->
-> [ ... ]
->
-> > @@ -1214,6 +1214,13 @@ static int sun50i_h616_ccu_probe(struct platform=
-_device *pdev)
-> >       val |=3D BIT(0);
-> >       writel(val, reg + SUN50I_H616_PLL_AUDIO_REG);
-> >
-> > +     /* Keep the PLLs powered and gate them with bit 27 (manual 3.3.3.=
-6). */
-> > +     for (i =3D 0; i < ARRAY_SIZE(pll_regs); i++) {
-> > +             val =3D readl(reg + pll_regs[i]);
-> > +             val |=3D BIT(31);
-> > +             writel(val, reg + pll_regs[i]);
-> > +     }
-> > +
-> >       /*
-> >        * Set the input-divider for the gpu1 clock to 3, to reach a safe=
- 400 MHz.
-> >        */
->
-> [Severity: Medium]
-> Should the existing pll_regs loop earlier in sun50i_h616_ccu_probe() be
-> updated to set BIT(31) | BIT(29) instead of adding this second loop?
+> ---
+> Changes in v3:
+> - Keep green as power and red as status, matching Armbian LTS roles;
+>   default green on and red off without a boot-stage sequence.
 
-I agree with Sashiko's assessment. Please tweak the existing loop instead
-of adding a new one.
+The roles should match the schematics, as the hardware vendor specified.
 
+> - Select drive strength 10 on PL4 and PL7 with per-LED pinctrl states.
+> - Move PHY reset to the MDIO bus, before discovery and outside detach.
+> - Specify the YT8531C PHY ID; MAC rebind fails with early autodetection.
+
+Why do you need the PHY ID if you moved the PHY reset up to the bus level?
 
 ChenYu
 
-
-> drivers/clk/sunxi-ng/ccu-sun50i-h616.c:sun50i_h616_ccu_probe() {
->     ...
->         /* Enable the lock bits and the output enable bits on all PLLs */
->         for (i =3D 0; i < ARRAY_SIZE(pll_regs); i++) {
->                 val =3D readl(reg + pll_regs[i]);
->                 val |=3D BIT(29) | BIT(27);
->                 writel(val, reg + pll_regs[i]);
->         }
->     ...
-> }
+> - Enable 1.8 V eMMC DDR52 and HS200 after board testing; retain the
+>   existing H6 maximum frequency of 150 MHz.
+> - Shorten the descriptions and update validation status.
+> - Link to v2: https://lore.kernel.org/all/20261022-sunxi-orangepi-3-lts-v=
+2-0-70b899252c6a@gmail.com/
 >
-> Leaving that first loop setting BIT(27) unconditionally ungates the outpu=
-t
-> of all 12 PLLs before the video and audio PLL dividers are configured and
-> before disabled PLLs are powered up via BIT(31), and causes the clock
-> framework to see every PLL as already enabled at registration time.
+> ---
+> Jernej Skrabec (2):
+>       dt-bindings: arm: sunxi: Add Orange Pi 3 LTS board
+>       arm64: dts: allwinner: h6: Add Orange Pi 3 LTS
 >
-> [Severity: High]
-> This problem wasn't introduced by this patch, but later in
-> sun50i_h616_ccu_probe() the GPU clock mux notifier is registered before
-> the GPU PLL notifier [1]:
+>  Documentation/devicetree/bindings/arm/sunxi.yaml   |   5 +
+>  arch/arm64/boot/dts/allwinner/Makefile             |   1 +
+>  .../dts/allwinner/sun50i-h6-orangepi-3-lts.dts     | 379 +++++++++++++++=
+++++++
+>  3 files changed, 385 insertions(+)
+> ---
+> base-commit: 4403278e4ea2f654f8130a5c03eb8b4516a0f201
+> change-id: 20261022-sunxi-orangepi-3-lts-43b92246a8ed
 >
-> drivers/clk/sunxi-ng/ccu-sun50i-h616.c:sun50i_h616_ccu_probe() {
->     ...
->         /* Reparent GPU during GPU PLL rate changes */
->         ccu_mux_notifier_register(pll_gpu_clk.common.hw.clk,
->                                   &sun50i_h616_gpu_nb);
->
->         /* Re-lock the GPU PLL after any rate changes */
->         ccu_pll_notifier_register(&sun50i_h616_pll_gpu_nb);
->     ...
-> }
->
-> Because both notifiers use priority 0, they run in registration order.
-> On POST_RATE_CHANGE during GPU frequency scaling, ccu_mux_notifier_cb()
-> reparents gpu0_clk back to pll_gpu_clk before ccu_pll_notifier_cb()
-> re-enables and waits for the PLL to lock, driving the GPU from an
-> unlocked PLL.
->
-> [1] https://sashiko.dev/#/bug/linux-b48c9987-4bbf-4231-b1fc-24d8ccdf62d9
->
+> Best regards,
 > --
-> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261115-h616-pll=
--output-gate-v1-1-4cb3fc4d6c48@gmail.com?part=3D1
+> Cristian Filipescu <filipescu.cristian@gmail.com>
+>
 >
