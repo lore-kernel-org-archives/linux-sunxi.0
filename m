@@ -1,70 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794692764;
-	b=KtuaVfsIHMBZBAyxJm/kZs1z1Qgqx4fTp95ctGkMAQwV2EqZcPdA3mbV8XWGOM3jTjrF
-	 Pzx4z8AOTzRXIriupdW3UctO45LOyUJLSebI21p9T6RS+5l5kRq/AW5XSpxcn8Ay/Q4dz
-	 jIocA7TjcujmdYakDRZwA6wjoxONyhhzNkfHeiy+gjAT9Put9AZhjMdcOVn/JMJEJjHIO
-	 F8UU4a5xsXNZ6jJNrlynyDqGbYRUmBy0m4nyMkybSh/wV7HxlMmK/l/cxKPH34aNT2gA4
-	 Ji3+C5is7gRityqV5BtEUyMUXZ5fA5RoGoxVAjEXi+CGFdHcLUZwjVsHyaju6NV4i4w==
+	t=1794704979;
+	b=14TSXLyHfuF88MMEAYKXqts1Y0Ij7WOuFAKtpUDHjBy46C0Lt46ZW/uTQ58QM/3KZgfz
+	 Ee7U5ghQp7IimVm1u96s5otPM+yoW/HH+F5tgFNlhUpi8WsWpdk4y8ADP4epKhVz1uJQP
+	 2BUxNrQmRYw9d7d+sMnALsmdp/c4Sd0QMpW6FE1S85ia1G6+FNpimhZYKQtZd0UeIQ1aY
+	 eWqaRIqDRDLgFaa4OW1G1KJwJIJ0g4LUSiVwsdcByaD3XXhTorV/EnFMr4GlwKnysxGts
+	 H7s7nY/+t74/XSODLZYoHDfHcOdo8YkpS0V3Ej9nrRiQ3DlJv/+4Wzsz5tgz32HnBxw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794692764;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=gqg88/emFc38P4J1Mas5qTG5S+BH3tBGNUdqoIHsm7I=;
-	b=bvwscu6/rsonQnRD+8u8OJ/PPM2OYWKFomRmio5q4Q4/LsIxKukVtCJ831kfomP7hhuv
-	 MWFvZ6pwdaN9CYBbMEWgZi8mTDM66Py0cgNK36iOjzzGtZ0Dn1vKR1AHES40uKjZnvjyM
-	 +395GWA6gK6abEwLHgYmjiOb7xMAo1757+PQd7jThhRGmYz8NwdWj2HGnjA7S5PHnJgIu
-	 LuPPhlVIlCQlgucFLohPbuZL8d/f6g5kgBtT6OfSMdgQYIG1GpqAlGLOCb19LWvt1J6Pt
-	 aemskW/wE3NWUEckEnWayBDyAsLhWLjOqTxnoExUrt2TZRSQ6C3OGWZD9B91LqaZNRQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794704979;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=svpEi0HS4YJE5nsDpTP/KMKZMCJ2JXKCnWaboHf80CY=;
+	b=WeSUukEIy/aDG9F4RupTgouVY03KshWdB1yPSA3ClFdIImBqBCeyEILxAPsf/5pBLquL
+	 3Mn18EXrfaVY4JE0NPSarQ+Ios4ZtzXu58979TuDV5gR/JS2EPpOaQjkqOiO8nb/wHLVx
+	 X1fvrilxcNRx6umWn3MgL9CSDQcQZ4WQzVkrVieyTdrm7INw0TRSMS172y0GKDVbz82ms
+	 rosUZjq2trrk3SW+E6AnuMZbe6VuMNNeHzG/F3XfhYA3c++n8T0KE2Vv7An3fjrpRSdoU
+	 IqgevuiyYvrpizo1XBbX7HWafR0TEy0O4T5TJ+t0Mzs3iAhV+6Z5g0RhYxknn+E7nDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lunn.ch;
-	spf=pass smtp.mailfrom=lunn.ch;
-	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=R4aioWO4;
-	arc=none smtp.remote-ip=156.67.10.101
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jY1GzaeP;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1140606A323;
-	Sat, 14 Nov 2026 21:46:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1140606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B23606A329;
+	Sun, 15 Nov 2026 01:09:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=R4aioWO4
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=gqg88/emFc38P4J1Mas5qTG5S+BH3tBGNUdqoIHsm7I=; b=R4aioWO4OX11sBMgPDbwz90NWc
-	G4oO/MrOZDziirRTPzZZ+D4atniVjcEpLbQIrlXlHHDSQjRmO/2hJRVdqs+pVo+mEBI6hI5S8D69C
-	TgJVL0UclzH3qecoZ8IY9wmP6ZlLsl9c3yGycBo7Rztnl/4dUI4F0R4QsqslbT5UhSRs=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xSLZF-00GXW7-O7; Sat, 14 Nov 2026 22:45:49 +0100
-Date: Sat, 14 Nov 2026 22:45:49 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: aiyengar1990@gmail.com
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, netdev@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2] net: stmmac: dwmac-sun8i: Fix use-after-free
- in the MDIO mux error path
-Message-ID: <f4a0dbf2-4266-4397-a1f5-62b1bc7f3fb2@lunn.ch>
-References: <20261113-sun8i-emac-mux-uaf-v2-1-6203666b2687@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jY1GzaeP
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71F1A1F000C4;
+	Sun, 15 Nov 2026 01:09:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794704979;
+	bh=svpEi0HS4YJE5nsDpTP/KMKZMCJ2JXKCnWaboHf80CY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=jY1GzaePZizjRqOefyBJ4GMGCqY+2fpjShHHPX0sIyevABUK30EnshdqUzrfapr8q
+	 wVTaJkwOmPy64OpeuZ3Rh/RZxfJ4D2ONn4I9ZV/bZH21r8ke9wkYNiMOSjga8LDS8X
+	 sq3T/3kNQ4RblY/Z2d3Pav7Krc9kKg3SqihdeqeF545UJkFsOjwDT78MpAj6Y0iJn1
+	 MKdaXbN8dEOp/b0CsnD1N8IajZRafzBLIQDLq27CVGa38HTHAM8MNYrbx8VF8AakTd
+	 zboUasZ78TtdUgQ9CldzfwtFPRGG+F60gm0YMCR81gp35WFlAFfK2ENr3NVgHe/nce
+	 ulQqa95ahGgNg==
+Date: Sun, 15 Nov 2026 01:09:31 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, linux-iio@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, Andy Shevchenko <andy@kernel.org>,
+ Bjorn Helgaas <bhelgaas@google.com>, Chen-Yu Tsai <wens@kernel.org>, David
+ Lechner <dlechner@baylibre.com>, Giorgi Tchankvetadze
+ <giorgitchankvetadze1997@gmail.com>, Michal Piekos
+ <michal.piekos@mmpsystems.pl>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Samuel Holland
+ <samuel@sholland.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <u.kleine-koenig@baylibre.com>, Markus Elfring <Markus.Elfring@web.de>,
+ LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org, Felix
+ Gu <ustc.gu@gmail.com>
+Subject: Re: [PATCH] iio: adc: sun20i-gpadc: Use
+ devm_reset_control_get_exclusive_deasserted() in sun20i_gpadc_probe()
+Message-ID: <20261115010931.6c3fc69f@jic23-hlaptop>
+In-Reply-To: <lGotwwBTRaeZcOCAphaQBQ@gmail.com>
+References: <368d548f-2b86-4da5-857a-6ee9473a8d0e@web.de>
+	<lGotwwBTRaeZcOCAphaQBQ@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -74,37 +70,89 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261113-sun8i-emac-mux-uaf-v2-1-6203666b2687@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 13, 2026 at 07:55:00AM +0000, Arun Iyengar via B4 Relay wrote:
-> From: Arun Iyengar <aiyengar1990@gmail.com>
-> 
-> If mdio_mux_init() fails after the scan of the internal bus has powered
-> the internal PHY (the external bus returns -EPROBE_DEFER, or an
-> allocation fails), the dwmac_mux error path puts rst_ephy and ephy_clk
-> and then calls stmmac_pltfr_remove(). sun8i_dwmac_exit() then unpowers
-> the PHY through the clock and reset control that were just released.
-> 
-> Unpower the internal PHY before releasing them, as sun8i_dwmac_remove()
-> does.
-> 
-> Fixes: 529254216773 ("net: stmmac: dwmac-sun8i: Balance internal PHY resource references")
-> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
-> ---
-> Sashiko's review of another dwmac-sun8i series of mine pointed this
-> out. Build-tested only (arm64 and arm, W=1): I have no board with the
-> internal PHY (H3, H5 or V3s), so the error path was not exercised.
-> 
-> This patch was developed with Claude (Anthropic), which checked the
-> report against the code and wrote the fix and the commit message. I
-> reviewed it.
-> ---
-> Changes in v2:
-> - Target net-next instead of net, drop Cc: stable (Andrew Lunn)
+On Sat, 14 Nov 2026 18:19:12 +0100
+Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
 
-Maybe i was not explicitly, sorry. If it is for net-next, it should
-not have a Fixes: tag.
+> Dne sobota, 14. november 2026 ob 18:08:10 Srednjeevropski standardni =C4=
+=8Das je Markus Elfring napisal(a):
+> > From: Markus Elfring <elfring@users.sourceforge.net>
+> > Date: Sat, 14 Nov 2026 17:55:16 +0100
+> >=20
+> > Use devm_reset_control_get_exclusive_deasserted() to replace the
+> > explicit reset acquisition, deassertion, and cleanup action registered
+> > with devm_add_action_or_reset().
+> > Simplify reset handling and remove the custom reset assertion callback
+> > while preserving reset assertion during cleanup.
+> >=20
+> > The source code was transformed by using the Coccinelle software.
+> >=20
+> > Signed-off-by: Markus Elfring <elfring@users.sourceforge.net> =20
+>=20
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>=20
+Like for like swap as far as I can tell, so applied to the testing
+branch of iio.git
 
-	Andrew
+Thanks,
+
+Jonathan
+
+> Best regards,
+> Jernej
+>=20
+> > ---
+> >  drivers/iio/adc/sun20i-gpadc-iio.c | 20 +++-----------------
+> >  1 file changed, 3 insertions(+), 17 deletions(-)
+> >=20
+> > diff --git a/drivers/iio/adc/sun20i-gpadc-iio.c b/drivers/iio/adc/sun20=
+i-gpadc-iio.c
+> > index baa7661db13b..070d061572c6 100644
+> > --- a/drivers/iio/adc/sun20i-gpadc-iio.c
+> > +++ b/drivers/iio/adc/sun20i-gpadc-iio.c
+> > @@ -157,13 +157,6 @@ static const struct iio_info sun20i_gpadc_iio_info=
+ =3D {
+> >  	.fwnode_xlate =3D sun20i_gpadc_fwnode_xlate,
+> >  };
+> > =20
+> > -static void sun20i_gpadc_reset_assert(void *data)
+> > -{
+> > -	struct reset_control *rst =3D data;
+> > -
+> > -	reset_control_assert(rst);
+> > -}
+> > -
+> >  static const struct iio_chan_spec sun20i_gpadc_chan_template =3D {
+> >  	.type =3D IIO_VOLTAGE,
+> >  	.indexed =3D 1,
+> > @@ -225,17 +218,10 @@ static int sun20i_gpadc_probe(struct platform_dev=
+ice *pdev)
+> >  	if (ret =3D=3D 0)
+> >  		return dev_err_probe(dev, -ENODEV, "needs at least one clocks\n");
+> > =20
+> > -	rst =3D devm_reset_control_get_exclusive(dev, NULL);
+> > +	rst =3D devm_reset_control_get_exclusive_deasserted(dev, NULL);
+> >  	if (IS_ERR(rst))
+> > -		return dev_err_probe(dev, PTR_ERR(rst), "failed to get reset control=
+\n");
+> > -
+> > -	ret =3D reset_control_deassert(rst);
+> > -	if (ret)
+> > -		return dev_err_probe(dev, ret, "failed to deassert reset\n");
+> > -
+> > -	ret =3D devm_add_action_or_reset(dev, sun20i_gpadc_reset_assert, rst);
+> > -	if (ret)
+> > -		return ret;
+> > +		return dev_err_probe(dev, PTR_ERR(rst),
+> > +				     "failed to get and deassert reset\n");
+> > =20
+> >  	irq =3D platform_get_irq(pdev, 0);
+> >  	if (irq < 0)
+> >  =20
+>=20
+>=20
+>=20
+>=20
+
