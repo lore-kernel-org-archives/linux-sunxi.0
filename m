@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794755380;
-	b=FuKXgm9xN1IlxHgiiIKn6GnY2mt2w+MB+7xJ/vOce7rpTxPK0WgAk02sAVEUr7LUnaqB
-	 EcOfaesoDQCJlljV1c3uV1VKuf3RVzNumZ3YD+WXUwkce/P7Q1EwAuVk/iMoUS9HyXrbz
-	 uTUjh9S7kxNdRgQQs2H0FKr2OQoyw/EyET+0nhz/eRM9++d3TMC5L4k/8JAiPo0shQlVi
-	 Skt8y0OVmlEeFzNqYFiLfxJHbJECjQPLk62RnI1pdu3BTzqCBud0LzQfCzjufnsLCfR87
-	 823SyRi6GxgLQvMZOTcH2/qUGn8WG+FPCzorxnaXM+/wfsrGAXpW883zjiRr7zhePHw==
+	t=1794755852;
+	b=qM29HetFYaliTszsnVlwb1z+sHoro6IqLVJ1p7mdNIYZqvExO5sRy6YLrPqfj5jfi24E
+	 lEtGBHJgBhQVYC+JCTFvfe6YG7Dnd7y05W3GOACwT3pbGryUZNWdrXB9OLSWyI3faT8Hb
+	 dWXkLBBOzPaG+zYM72NrOKnBjgBjb5JQNQbjCPKRLk2Z4JqZ2vMUveIcbY99s07S856Rr
+	 Jp1mlI2A5QxAIFYtL4RgptgfWxKo05PgIjRPQRAmeypCTvdN9aCyI0aONv4igzhodAdUu
+	 DdmHX2rEEW0SgQIm7EZmIllBGn95DA+g4AWiE9uY0xUYGRfP+POnG5ZUB4p0yP18JUg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794755380;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794755852;
 	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
 	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=Cq6yUQzukHtwhYuWtD3CdG/vzfG7TEB1pVADzBcWgFs=;
-	b=C8A2uVVnwymF3SvCB2h089q+9MZtJI1v0fWCzZDkTbJ5e/IZDvXHsEwiXGXmRCjh/CBu
-	 cLlV4FqBNheMj9RIznvttxFccHNG9BDDCVV2Rl04j9joGP1HTlPD3Ee3cIQHT3KlB5EU6
-	 fHqI7GQqAHDLNu2FtNMsNkfUNCNWuCFspRVi3y0GfvAXucODNTfefDIgVnCEYIrB/cqWF
-	 uH8u+WOq4j29snSoWXMDa++gDbT6kVdfhpJ5KYS32avmuPtjqbPH+Lvx9xmtdEGzm3gCy
-	 kpCSRolSZSgg6dxCN0D+4lOlccZJTy/uTd0pNjL5sjfc1wGVGuBlzsxdAPJftpX/ZWg==
+	bh=qIkegvM0vM7wyeDCr9yTjV+nCu5PD6X7FTu58o7P70U=;
+	b=Q5UTjDqRpSiiQtPJso6T88eQN7laER2q3dMJqTxlXMSNmJO1gnxsjpHi8cPzNzWLNoL+
+	 o/YJrsZbBHKWO+YWB+uyf6m4oG+CaK9f2nMong97nvOGxPoyFyacT6f1OehUEfDGjtUiF
+	 iJO+nAJ6AjOTQOKqIZsBZyzVY4UMzZ6hyoPeFVjlEL57oTV9eS+eyKpyrhTE5Ul9EshwZ
+	 vCFPpUSDgYqSpeKCMKJ4Lev47rormLYyoYctjM9obf8ZUgAUBOgUUJkw40IBUlxvaN5/j
+	 ZmA9lRaKauDDOa900Znh9CYE9S1cu27DPURWCbriFGCZq7JvcbvoMP6uwb+hpn0Qriw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cANDfa3J;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j21gX6zX;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423CE606A323
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 15:09:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606F4606A31E
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 15:17:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cANDfa3J
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C98F11F000C9
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 15:09:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=j21gX6zX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 124CE1F000D1
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 15:17:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794755379;
-	bh=Cq6yUQzukHtwhYuWtD3CdG/vzfG7TEB1pVADzBcWgFs=;
+	s=k20260515; t=1794755852;
+	bh=qIkegvM0vM7wyeDCr9yTjV+nCu5PD6X7FTu58o7P70U=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=cANDfa3JG/1VLOyWOyMbLnYziGnzSsHDw0+p48eFEhwqjIqqzBMypnlKn2KIJbBGy
-	 Hq4EETBr2jUy034admevuoevndcXik9C6uGtap6cIMzgHvPoML9laee3OpAmf4sBiB
-	 V6Hi3F0/36Jj6przMu8+XPjSpjPzA85GybC1zU02FANO/I/3EaUryQjljgHh/wI44D
-	 5RYySKRVJXo2SRloVa8du07x2AxdwjTDUjUTJXlLIsql7MWUyVb1o93lvq6ZjrRX/R
-	 dB0ZlpwIe039A6elGxys/Fb3U05iYiO1bsBl4w+OQaWaOFfVK9uQspK5cbriu9IOZv
-	 IE74MzMSJVX0w==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3ae25c846edso22210931fa.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 07:09:39 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFpywjRGS5SaETN+4b1XA86f+mcsDAJJOhT5GfKqHN6l6wyOtth9Ga0x+nfIAaH68UhQWunRpkp8nQuuw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9o/gTqYEOOCoDMXc7LEFZtW1aCk9l2M+F5iQQt/p+LldmtEz6i
-	8k1n56t9j2DeJd2Km6rO9hcDjrbVfET8oh9xK0lWjbCd6saU4fxJ4V5iCxeJeRH8tBquG+Te3C+
-	rI7pj+XIArJuj+GZLpxKAOuSLGE+Lj58=
-X-Received: by 2002:a05:651c:1986:b0:3ae:25c8:dc78 with SMTP id
- 38308e7fff4ca-3ae2b69178cmr25726671fa.22.1794755378199; Sun, 15 Nov 2026
- 07:09:38 -0800 (PST)
+	b=j21gX6zXDBAG6MY8+WrsN8mJnhvZS4pEbMFH0rtgAa1XpBrQm6P08/9TekLTD+bOZ
+	 PIRV7sVtKt5MnbaTDLds8nZQQezw0XhqDoxV53rnoMKBc5AYEQn0JaiCJrUPFqPK0U
+	 ue+K0988nl5towhzBXn5IbmCl62WlRdtXNyBKNm6GOEarDFZ222c29FIp5MKtwF8Ps
+	 mt78rrH1qpiSccpfhI73dCPhARZmJAtGdyDt6z7aestGq9dqS7cjJIIkxP33QBY7SJ
+	 ZNHC7iZgah3JsgA7ZSEk1ooZHARvLnjWxkEVoPIywnZk6sikOyQZf9LDZLHYWhgzGj
+	 CyCwsPAjqCgUA==
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-3ad5529ae64so26539431fa.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 07:17:31 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErE/2NBNiGaMpz+qF2z5JfzHHgaKqrcwwhR2u+FaxgkSeacqCIHdmbp0A1rWujAzgvN/dtINuj0JvebP9w==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+zmzonjNmcXRxo34Dwqeft6m9yGcjFbQBCJM86We8ulkqKZ35S
+	VJydswBVRHPX5KBrWD07wi1k/bsGpJczWsdZSWJ2Rv1CgCu4veAA8YYfYNt8oCjWM8vm1hc7H84
+	XR3q2AOQrJ8OrcU+NR77c9HIa/7+Jt8o=
+X-Received: by 2002:a05:651c:31d0:b0:3ab:344e:3740 with SMTP id
+ 38308e7fff4ca-3ae2b41f7efmr26811011fa.2.1794755850446; Sun, 15 Nov 2026
+ 07:17:30 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,66 +59,94 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261115132215.289236-1-jernej.skrabec@gmail.com> <20261115132215.289236-4-jernej.skrabec@gmail.com>
-In-Reply-To: <20261115132215.289236-4-jernej.skrabec@gmail.com>
+References: <20261115-sun8i-emac-mux-uaf-v3-1-c69d4189539d@gmail.com>
+In-Reply-To: <20261115-sun8i-emac-mux-uaf-v3-1-c69d4189539d@gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 15 Nov 2026 23:09:23 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66acxKq7HR=p+ky7dhT03fTXct1_82dPXu5ebS-fYgpvA@mail.gmail.com>
-X-Gm-Features: AclHuK8SfNxnDatVmiI32N0fkX-YaXg08NGH8ia-Bx19MDfSYUZXv-OL_jNzao8
-Message-ID: <CAGb2v66acxKq7HR=p+ky7dhT03fTXct1_82dPXu5ebS-fYgpvA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: h6: orangepi: Enable CPU
- frequency scaling
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
+Date: Sun, 15 Nov 2026 23:17:17 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64aOydKdTWJEhF+0GVc45aap4AsHfF5RrL1pzOHF54D0A@mail.gmail.com>
+X-Gm-Features: AclHuK9BiEy8NKHYdASo3pcVR5VPMQUIfo9KOqeQ5VGeVR52SQ6tBFPl-jC43Jc
+Message-ID: <CAGb2v64aOydKdTWJEhF+0GVc45aap4AsHfF5RrL1pzOHF54D0A@mail.gmail.com>
+Subject: Re: [PATCH net-next v3] net: stmmac: dwmac-sun8i: Fix use-after-free
+ in the MDIO mux error path
+To: aiyengar1990@gmail.com
+Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, netdev@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+	linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 15, 2026 at 9:22=E2=80=AFPM Jernej Skrabec <jernej.skrabec@gmai=
-l.com> wrote:
+On Sun, Nov 15, 2026 at 5:05=E2=80=AFPM Arun Iyengar via B4 Relay
+<devnull+aiyengar1990.gmail.com@kernel.org> wrote:
 >
-> The Orange Pi One Plus and Lite2 lack the CPU OPP table and CPU supply,
-> so the CPU never scales its frequency. Add both, like on Orange Pi 3.
-> OPPs above the regulator constraints stay unused.
+> From: Arun Iyengar <aiyengar1990@gmail.com>
+>
+> If mdio_mux_init() fails after the internal PHY was powered, the error
+> path releases rst_ephy and ephy_clk before sun8i_dwmac_exit() uses them
+> to unpower it. Unpower the PHY first, as sun8i_dwmac_remove() does.
 
-My review agent noted that some of the other boards raised the constraints
-when CPU DVFS was enabled. Do you think it's reasonable to do the same
-for the OrangePi? Or do you want to be more conservative?
+And sun8i_dwmac_remove() also indirectly calls sun8i_dwmac_exit() through
+stmmac_pltfr_remove() after reset_control_put() and clk_put(), so it is
+no better.
 
-Note that I already applied this series.
+I think the correct fix is to move stmmac_pltfr_remove() before the
+*_put() calls (but still after mdio_mux_uninit() in sun8i_dwmac_remove).
 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 > ---
->  arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi | 5 +++++
->  1 file changed, 5 insertions(+)
+> Found by Sashiko's review of another dwmac-sun8i series of mine.
+> Build-tested only (arm64 and arm, W=3D1): I have no board with the
+> internal PHY (H3, H5 or V3s), so the error path was not exercised.
 >
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi b/arch=
-/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
-> index 40c5c42b347e..a2a2e4cb0256 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
-> @@ -5,6 +5,7 @@
->  /dts-v1/;
+> Developed with Claude (Anthropic); I reviewed it.
+
+It feels like your agent needs to do a bit more deep diving through the
+surrounding code.
+
+> ---
+> Changes in v3:
+> - Drop the Fixes tag (Andrew Lunn)
+> - Shorter commit message
+> - Link to v2: https://patch.msgid.link/20261113-sun8i-emac-mux-uaf-v2-1-6=
+203666b2687@gmail.com
 >
->  #include "sun50i-h6.dtsi"
-> +#include "sun50i-h6-cpu-opp.dtsi"
->  #include "sun50i-h6-gpu-opp.dtsi"
+> Changes in v2:
+> - Target net-next instead of net, drop Cc: stable (Andrew Lunn)
+> - Shorter commit message
+> - Rebased onto net-next
+> - Link to v1: https://patch.msgid.link/20261112-sun8i-emac-mux-uaf-v1-1-3=
+08ae7e6fcf2@gmail.com
+> ---
+>  drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 1 +
+>  1 file changed, 1 insertion(+)
 >
->  #include <dt-bindings/gpio/gpio.h>
-> @@ -65,6 +66,10 @@ reg_vcc5v: vcc5v {
->         };
->  };
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/=
+net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> index 2ece7ba9dd73..898560e8e95c 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> @@ -1245,6 +1245,7 @@ static int sun8i_dwmac_probe(struct platform_device=
+ *pdev)
+>         return 0;
 >
-> +&cpu0 {
-> +       cpu-supply =3D <&reg_dcdca>;
-> +};
-> +
->  &de {
->         status =3D "okay";
->  };
+>  dwmac_mux:
+> +       sun8i_dwmac_unpower_internal_phy(gmac);
+>         reset_control_put(gmac->rst_ephy);
+>         clk_put(gmac->ephy_clk);
+>  dwmac_remove:
+>
+> ---
+> base-commit: 6964ff21c5d8b75649211a52dbfd92753e605649
+> change-id: 20261112-sun8i-emac-mux-uaf-1ba885219fee
+>
+> Best regards,
 > --
-> 2.43.0
+> Arun Iyengar <aiyengar1990@gmail.com>
+>
 >
