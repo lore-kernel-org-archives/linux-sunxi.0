@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794739411;
-	b=hXNJbbIRgMCUAqcShKBfP0UdlYpOPT5ZaKg4VDb++Pm+cax0a4f1Q3+D8vSSOhrVhA6g
-	 lzTXYf8KrddPK32IzxcIk0rM5WczfwASfC3XPYXX1Wn51ga4T8DMwEoAcr+L7BVM/bl0o
-	 vVtqLKoDcropY20PmYM/VjF+aqNUAjwNQNOpHcyzKVufP0XhBM/gMLR0MqZiAxZWZkoxz
-	 WGWjChm5eNHoodgfkBQrliOYr5gAnGsf5/M+2LUFztnlOEnRvzOuXVwMT1h6tIqQy7dmP
-	 nd6sYEJLUK4hnpOS0mkLVm6fk5RgckO9uYPNn962ipB6HQDNcJFT+bPkqi9BO5uMqwg==
+	t=1794739886;
+	b=suxYkeVUwt2+5oZs/ba0A+kCgCAzVeG47F/bK8q3t44tzmE1aPurV9gWVjM3cKwk/TgH
+	 PLMWhPXLgzy+utToIOQMhw6RoABcJtF779fDfRXGQ9esxbsK/lNZnihaAWrk7RMsBj8Ux
+	 pntdsxO9+k/J7WrbCC5EOsd/4EgUsQjOJG8CBC5L5kZkdRB57Rbn9O4AAcad5dMnld4p3
+	 zOqkIUyaxuyCfEn5DKBv9dNpjgdAX+NIoZaLn2zI1AiXLsKwAdcxsM+A+Qdj7Uz17CSid
+	 S0MxKLzHq7q2NcLT7nKgFOsuz+mc57hcmTFKjv3RarBXL2hgmUhQa0WJg6W73OG9VWg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794739411;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794739886;
 	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
 	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=0nqnviQtI0zVgBpLZforuUbgldUYw5y4JIwCb3k/byo=;
-	b=44enk0tC4rC+VyUj8GSsHXCr+q8V26n81bfUG49NHmq1qaf3jtTTI1r6/gqb0TvgEo8H
-	 BGiH0x8eDWZG71qmCdDrLD1tjWmDd3A0Hny7mk5fHaHN8NN/ujlIazthCnclX57XnGWKm
-	 k0d0EUJBtlFyghEBkBirdof9u5uAmB1YUj5D1vQAa1wcis68CSCDPAcXBc90Z3AtOKWIw
-	 U2hLwB87jEqtjuNVkSNB25176Z0BbHN7hvKvOOHh/Euv1VtkgzaaLhrqRlmYuxL6y1yRt
-	 mW+lZiPU7zUA9Yiqo9t0O1cz7WcZJxhyoX2u+kuYkeh8o5gyUXb07DffBXakYBQ88WQ==
+	bh=7DTQ+ilab30T+Zv/iDCe98ocWkWdeLKP4PE9a5e/7Dw=;
+	b=OmLvBirNp4URCjhfFARI2UlW2g2OQ+Drj12B0R2z+98eNxu7Ok6tTrP250ctUlOxV+2B
+	 DGWI/zH/NoiPu/l87tmV4jynI6Hkj1XhWhak2xbbfit76gnBWD1xzSGZRu799rHnFnZih
+	 GX6/e+GyuAx0WZc2R+ZYGxgxzsTYcTq2Yw57kWM60TfNUKlic+00YOdtRR/GxiTi15zyX
+	 LHxpQs3i49FPVgZsXwOVUgIbsrkZv+HO+riZ6gauDnCJvHumF4THK/P9HXhlEsy9l0Wfi
+	 czpS+TrvjmeXLUEeab6Yu584Hc7oFdx+wgYhmZDIH27+18RGVJn7qsAyctAZatFdL3g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iMgHHDZg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JFbrhBwC;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36422606A329
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 10:43:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36B97606A32C
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 10:51:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iMgHHDZg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E28FE1F000C7
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 10:43:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JFbrhBwC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE22B1F000CE
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 10:51:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794739410;
-	bh=0nqnviQtI0zVgBpLZforuUbgldUYw5y4JIwCb3k/byo=;
+	s=k20260515; t=1794739885;
+	bh=7DTQ+ilab30T+Zv/iDCe98ocWkWdeLKP4PE9a5e/7Dw=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=iMgHHDZgx9CCeW7jQ7Z0VvGlzs0uRoMnkwXwVYnMkgw3UfmNXwg7BPjCn3iJOmVAg
-	 Gg+SZ2dj1i/3RTRPgmZ2y+tJ9mrVdGFL3hC7La7eAhV57oFHczQI4RTSjKH5QnkKxe
-	 PRNwbnlancl3/A/4q7NR4LBteog+4r3S4N0arQL7cNeX0B4jXmChzh9wCKpcX1SQrZ
-	 o9hAKkK0rA/fb1i9+7UWNHwe0dRLM43LV//ByEEn/kYBRtxmBH4DjyPGew/PLrsyFt
-	 f1her53+EUpfBpeTRR6wldUdnPdu+GyEtCsdpiLOQRYeuOxZF5h4pue+tmjkFSCccq
-	 +x1FjiSrRjw7A==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-3adf87fc0c6so21840091fa.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 02:43:30 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFVQYBcaZZHX+JnWk2BESCrObLakLBj+Ov7EkymISxUIYhDkL2ZGguw+nLfV4KomDdN/7s0y2P7N1OqMg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+9p5OrQzDjVUSx6ed2Rz4lbYp2iyOoUtm4zgVs8XUv4ND1e4PM
-	gei5/H2dada780IN/I6otG00sxh/NNGflKiA7/98amLYckfU1/gg8sjl4bkDBuYKISjbLNdUJke
-	nGuUfUuzzJnuA2EY+4VlMjD9UiRY/ExI=
-X-Received: by 2002:a2e:a543:0:b0:3ab:1862:25fe with SMTP id
- 38308e7fff4ca-3ae2b49f199mr27144831fa.4.1794739409347; Sun, 15 Nov 2026
- 02:43:29 -0800 (PST)
+	b=JFbrhBwCSgbkxt7pujKUY9zMMDpruMpZPoGoVimkLdFTRt+YMaPEQxmHjxjG0+gSw
+	 yFrzjsl8fgqFOYnsTQ7pFT8QAEeXDFeoblGeAMmxN+8jx0naXanE7y2kjubAcJqMo6
+	 1Zq5KpHe1OtMJTK8SObA5BHtEA2AMwPlp/v1Gz/PChsEN3MeOWH2GaAIWBrcJvlPOe
+	 +P7H7cNxSbrX0e4xodkKjkrTrKvHdMRX5a8em6RsoTuoBjUs/4VuYxu7wI1BSRR6Ld
+	 wjHmPIRu9vNB4K2xxOrmE9VPnZVvb24wINjOGKAtoVCt+1O1vHmt98BZ8AFT5tWI3m
+	 yEHbsxKYuD5FA==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3ab3b29a298so26565971fa.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 02:51:25 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErERdCSMT157L+vGNN3jAqekc8zQ1g+vxFXVAnYfPh9X6t2Eju55YwdMQBDj49LWHX26EP/8wu3yyOqYxQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z936h8qHYqX23/Tqyh0xN7ImQ/xsWGTrypGeBv0AEbT/jigsWle
+	eG4tCOxZj3xqr8uovckT9apuh53PVHsgQ1bfxnAJWr0qqMCioucc3PeFeAwVb4zExfhKuEQqf9U
+	MIMY98mC7zCrgV+QdUR9eRhzdIVfvzSI=
+X-Received: by 2002:a05:651c:1544:b0:3a6:70bf:622e with SMTP id
+ 38308e7fff4ca-3ae2b5373femr23084821fa.4.1794739884136; Sun, 15 Nov 2026
+ 02:51:24 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,15 +59,16 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261112-h616-zero2-dt-v3-0-1cd2664230c8@gmail.com> <20261112-h616-zero2-dt-v3-3-1cd2664230c8@gmail.com>
-In-Reply-To: <20261112-h616-zero2-dt-v3-3-1cd2664230c8@gmail.com>
+References: <20261112-h616-zero2-dt-v3-0-1cd2664230c8@gmail.com> <20261112-h616-zero2-dt-v3-2-1cd2664230c8@gmail.com>
+In-Reply-To: <20261112-h616-zero2-dt-v3-2-1cd2664230c8@gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 15 Nov 2026 18:43:16 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66CYb5LmHrThjqh4i7kQeG3D=0=om33=mJJUS_u4r=UvQ@mail.gmail.com>
-X-Gm-Features: AclHuK8HzeMAHozlJAL7NvuOGHQVO3JAeAx6hsTa0bLpIvwSKJtCAkiSGEitsvM
-Message-ID: <CAGb2v66CYb5LmHrThjqh4i7kQeG3D=0=om33=mJJUS_u4r=UvQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/7] arm64: dts: allwinner: h616: Add GPU OPP table
+Date: Sun, 15 Nov 2026 18:51:10 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65Jw5zPWG0HD75_nJQLRD7QJhHRw4Zs3fvFxyOFFUuGew@mail.gmail.com>
+X-Gm-Features: AclHuK8Xtqejh0T-mPLGkGVR4M7UNRwaVG1Eqq6UzreOqahz90WQKJmVFXxqRSg
+Message-ID: <CAGb2v65Jw5zPWG0HD75_nJQLRD7QJhHRw4Zs3fvFxyOFFUuGew@mail.gmail.com>
+Subject: Re: [PATCH v3 2/7] arm64: dts: allwinner: orangepi-zero2: Let the PHY
+ add the RX delay
 To: aiyengar1990@gmail.com
 Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
@@ -83,59 +84,60 @@ On Thu, Nov 12, 2026 at 5:22=E2=80=AFPM Arun Iyengar via B4 Relay
 >
 > From: Arun Iyengar <aiyengar1990@gmail.com>
 >
-> Add the operating points of the H616/H618 Mali-G31, so that boards can
-> enable GPU DVFS through panfrost devfreq: 306 to 600 MHz at 810 to
-> 950 mV. The table is the one of the vendor images (as recovered from a
-> KickPi K2B image, also carried by Armbian). Like the H6 GPU OPP table,
-> it uses <target target max> voltage triplets with a common 990 mV
-> maximum: a board whose GPU supply cannot reach an OPP's target voltage
-> loses that OPP, while a board whose supply minimum is above the target
-> of the lower OPPs keeps them, as their [target, max] range still
-> overlaps the supply's range.
+> The Orange Pi Zero2 describes its RTL8211F link as "rgmii", with the
+> whole RX clock delay (3100 ps, the maximum the H616 EMAC syscon can
+> add) inserted by the MAC. With "rgmii" the Realtek PHY driver also
+> clears the PHY's own RX delay bit, so RX sampling relies on the MAC
+> delay alone and sits at the edge of the window.
 >
-> Like sun50i-h616-cpu-opp.dtsi, the table is in a separate file that
-> boards include once their GPU supply is described.
+> On the board this shows up as intermittent boots with a dead receive
+> path, after cold and warm resets alike: the link comes up at
+> 1000/full and frames are transmitted and seen by the peer, but nothing
+> is ever received and the EMAC raises no RX interrupt. All EMAC clock,
+> pinmux, drive strength and syscon registers are the same on good and
+> bad boots. On a bad boot, setting the PHY RX delay bit and clearing
+> the syscon RX delay restores reception at once, without a link reset.
 >
+> Use "rgmii-rxid" (RX delay in the PHY, none in the MAC), as the Orange
+> Pi Zero3 with the same PHY already does, and as the vendor BSP does.
+
+Flagged by my review agent, and documents reviewed by me:
+
+The Orange Pi Zero3 uses a different PHY, but the pin strapping is the
+same, and has the same meaning: the PHY provides the RX delays, while
+the MAC provides the TX delays.
+
+I can fix up the commit message when applying.
+
+> The 700 ps MAC TX delay is kept. With this change 10 of 10 cold boots
+> had a working receive path.
+>
+> Fixes: 5a378f9f2b15 ("arm64: dts: allwinner: h616: Add OrangePi Zero 2 bo=
+ard support")
 > Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 > ---
->  .../boot/dts/allwinner/sun50i-h616-gpu-opp.dtsi    | 62 ++++++++++++++++=
-++++++
->  1 file changed, 62 insertions(+)
+>  arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-gpu-opp.dtsi b/arc=
-h/arm64/boot/dts/allwinner/sun50i-h616-gpu-opp.dtsi
-> new file mode 100644
-> index 000000000000..18989d11c832
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-gpu-opp.dtsi
-> @@ -0,0 +1,62 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +// Copyright (C) 2026 Arun Iyengar <aiyengar1990@gmail.com>
-> +
-> +/ {
-> +       gpu_opp_table: opp-table-gpu {
-> +               compatible =3D "operating-points-v2";
-> +
-> +               opp-306000000 {
-> +                       opp-hz =3D /bits/ 64 <306000000>;
-> +                       opp-microvolt =3D <810000 810000 990000>;
-> +               };
-> +
-> +               opp-336000000 {
-> +                       opp-hz =3D /bits/ 64 <336000000>;
-> +                       opp-microvolt =3D <810000 810000 990000>;
-> +               };
-
-Just a note, found by my review agent:
-
-The temporary clock for the GPU module is currently pinned at 400 MHz.
-So say you are just jumping between the lower OPPs, you go from
-306 MHz -> 400 MHz -> 336 MHz, all the while the voltage could still be
-0.81V. This is likely going to cause issues.
-
-I suggest sending a separate patch to increase the pinned divider for
-GPU_CLK1 from 3 to 4, which would give a *really* safe clock rate of
-300 MHz.
-
-
-ChenYu
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts=
+ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+> index f2e3300e078a..1fdf2d3c1a87 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+> @@ -18,9 +18,9 @@ &cpu0 {
+>  };
+>
+>  &emac0 {
+> -       allwinner,rx-delay-ps =3D <3100>;
+>         allwinner,tx-delay-ps =3D <700>;
+> -       phy-mode =3D "rgmii";
+> +       /* RX delay is added by the PHY, TX delay by the EMAC */
+> +       phy-mode =3D "rgmii-rxid";
+>         phy-supply =3D <&reg_dcdce>;
+>  };
+>
+>
+> --
+> 2.55.0
+>
+>
