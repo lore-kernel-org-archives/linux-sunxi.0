@@ -1,56 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794732318;
-	b=0A1qlc5o1LKP+fn3CkQeRtK7b2TI1AEBd3erTWSstPFhmdE2Mfu/Cy/6CX9TGYJ3izVB
-	 gGven+efx8q5XU25SRW0hSHxBEcnf6v5+sOqaGTMs3ALDTt2kM1mmYkCFazr1k813qTey
-	 GWz9xcPVQeKcAF9AFXy3THSPnvAJqMsNmXJKpef0+yjLJi6cE13rFZfHyop1/bYMi/IIm
-	 ni+Cru1T0fyCWQwbjxTAViAzneUfcR9JGc552Mkzu0wWwP4PHKfxDUl8mOcjOzS6EVC0w
-	 +HuaUCnjVHsbWhc2YjXLsO8/dEF8TN+xPa6cbG+qAMDjkIj/GtIQ45QhwR0UxZhd2Lg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794732318;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=sl3ENFVut8t5qMTHdF6RBfGlKCPZn/jBme3iUREMuIs=;
-	b=F/okrnXNGfsLxYuDD/KhJubxG2Fmxg3Qz0gG0DoKqR+AT7eg2GP7NHbyLyzfvA3ahVE7
-	 XxdSsxiz5p8McB5zix2U79MxMl6SgRsPwtBg2H8XMK57jpDq6mEH9V4/vxqXjTXS8efKt
-	 EZAJ/8XG8hPwxLht+9qXRTxGqMaNeGvVlQINdI+5aFMNQldUZX2u1XgtAmaY8Q4SHEKYL
-	 jqsBXGgjUFCD46/bpUAehZB42rlQdTKvL5ecN5hiEysp03RZMutSYs8ZYz23flm25yqH3
-	 AIG6tBQUV15ekhEj4Gu9KQkV1kL7+a4I7xmmD2rH3o/wbm9bVTqm6pXZwOXe0pqY1kg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Io+ZnHsJ;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794733508;
+	b=5gOGhgaFrI23dkJqT8LgLuOp/sYImMETzKvAOyJOfynWHYhnX0XC+rHl0Bqo5SmzQfGV
+	 28h4Ux1kd/2IKc7XzMeXBOrv2l3+aWEYni83loUajl6P44iVKu9pw4DACfRJW10suP9wf
+	 hLBAE4dmBNyMpyXGdLXZZrk+m1hps3MDsyLQEG9WUzz2eC7RsRWc+2k/Aj5fRf34uSISi
+	 /a8dmgUpxPT2B/3IAtbw8yUMuFp+1TPhWFJ6CrrRZ0lyv42ZeqvW09r+3CaCvwoCKGoix
+	 bmxbPjQ5iERYe9iMZ+d/sl5p+s7swir4BGHDn2uI+8sKaDD6Gv0ujraSELZo5vkXAAQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794733508;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=SWwLvN5yU83ZBCHPhXtyXSkK0RHhvvZ/0hRhOydSxnQ=;
+	b=1VYVdEm4htwzE3PrwMryu7/XXqICAwp3HfZp5axoR/Iz/Yzkw4zsqBjrs0fcGTXmijNn
+	 nou6Pl/jVovgj8q2BqZTqaw3fp3NATmO548699+8iK9Z7WtEboe4kKF7oaoBD8QHnEfuo
+	 R6uJjw1e0hvXb1f2OXNcmyyIqKBy/LZsAoLsrh+DK5UH7Egi36LdU8NBmN3YAdT0VnMcG
+	 yPIUdor9Q1gW5Y7BpuRW9heKtxM8ru0CR8JKHmBFStj8QLmqV+drAskjnz5lmfvzkGnQX
+	 /TQQK8K9EbPWwiGnzecyLvB74XvJbM/dQORfrrVdJECtcIdI3Isbe7WbsNQWz/Fr1MQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H7qQBefS;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438EE606A31E;
-	Sun, 15 Nov 2026 08:45:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A17606A31A;
+	Sun, 15 Nov 2026 09:05:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Io+ZnHsJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6A651F000C4;
-	Sun, 15 Nov 2026 08:45:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H7qQBefS
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794733508;
+	b=fmn9mMLINAdI3b31dx7fl4/htTvC8ovdMwnsGo2D2qv7wYh61GN0BTP9yyunEFLUV6JX
+	 YfqQUM2YKCwntnmRmPad819+BtHyFFvymQYDZ58Pv5HhdHj722CPc+Ak0sAiybpGjQd8p
+	 SKAH1Dp8QooPMCzs3MmPTTbXKps9T4Qd1vTmtfnOExnRcSMJOVa8nCBQ6LQEkeZvCaJlJ
+	 A0hKb0WzkN/yIWA4i/ilN5ClvMVlol5P2T293rnFjw3CQPS+WJ8hZIFTBXFKXe+lhjOFe
+	 DvYWDnjsrZbAufGBSYRU83Q7f0MPYzEXeaTG0nbiMY334qCQCaQEYVX123exbNiVIeA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794733508;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=SWwLvN5yU83ZBCHPhXtyXSkK0RHhvvZ/0hRhOydSxnQ=;
+	b=SRV+lHk/qJNEgLwUf6p0peY74acWbnMmLBsv0Jq1MDPfSC/AVgUdW7sWUoY53QCOFbxD
+	 X5IKHOkA1meRX/1TupSynlWPJUr0PYAuabwUEvKdZUuopvTCYQsRFGAL8MQCjAEYMFtXB
+	 y2Ae+b/1bsY7/KwY0LtEWbhtdbTaB60M1IaY41AdOzhZG9mx6bYDNY6gN4tLy9bw+M7va
+	 EzogctxgiX9PCGXTJRbmGStXIT4p9S7BuMx+2DAYHyU5tlkwoN2SHFLsq4tO0wgSddGRX
+	 qbN2ZvwO5ic4iVQMSB9rcfRr5aVsN5r8NHus12HbJJQuGh/iCdOONwqR0C7gnH9wHCg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id D830E1F000C4;
+	Sun, 15 Nov 2026 09:05:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794732318;
-	bh=sl3ENFVut8t5qMTHdF6RBfGlKCPZn/jBme3iUREMuIs=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Io+ZnHsJarvHD3y9dFfqNiLkdJmhu8nIqDLeA1X3hgvDeLon1bgh7XvdKJ4N/ZQDC
-	 1HvZEIPvSMbHOC86kMNZJFuv41Y8kqQhi6cifHEXB6g5m3NL5tXTTQaveKg/1wXCFn
-	 gazsWAvsUMkSvwzNhHuMM/vLk4k4PMysgQ17dSaSByEm/J00259t4FZxPMY6C0TIs6
-	 mDCcHozVJfax5GySGBuT58F4ZVo7j1Jv3kHyiyPTybJfBvrhnyEZcFXEl92U+1UZyp
-	 RU0sIU7+Nu9YW3/NL2o3egpSZVgJHZd7tWR2aEW+M3t0hDR92vB/OPFLVQWRD/YXfI
-	 o5fFw+8d+GLzA==
-Message-ID: <sashiko-outbox-215303@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] clk: sunxi-ng: h616: Gate the PLLs with their output
- enable bit
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Arun Iyengar" <aiyengar1990@gmail.com>
-Cc: linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20261115-h616-pll-output-gate-v1-1-4cb3fc4d6c48@gmail.com>
-References: <20261115-h616-pll-output-gate-v1-1-4cb3fc4d6c48@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 15 Nov 2026 08:45:16 +0000
+	s=k20260515; t=1794733508;
+	bh=SWwLvN5yU83ZBCHPhXtyXSkK0RHhvvZ/0hRhOydSxnQ=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=H7qQBefSjjR2IwpJigL66Q2xaCI88wcALhDKH2LL147sCbE2I3/p89S9IU4R+Agro
+	 jwKbSp9q0ZVxkdSbtK4bJLtIL4Qa1BfK/n6g34vMnD3k+I26eI6NqBf+WaDhGWjXsG
+	 1v16zPzhy9EMx2e8V7KG+W2GAozwc7Ubr7+Ucg5Mh0ZkW0DzMIUaWPwuhu95WRYLZQ
+	 ar/2dsn+waVeh/rLXQXGpjmr6iBqn/TRErPKVdIyMVeD3dqiBrgKkypTMVOE6AWuOY
+	 JSttsKOP81SA8edIgnX/Td/1zzzexeXiSeQqw+fafqh2S/xTVVFLXZtKyA5de6bue0
+	 aS5d9aTCc9fwQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 544294A021;
+	Sun, 15 Nov 2026 09:05:07 +0000 (UTC)
+From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
+Date: Sun, 15 Nov 2026 09:05:07 +0000
+Subject: [PATCH net-next v3] net: stmmac: dwmac-sun8i: Fix use-after-free
+ in the MDIO mux error path
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,95 +82,87 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261115-sun8i-emac-mux-uaf-v3-1-c69d4189539d@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33NQQ6CMBAF0KuYrh1Dp7FUV97DuCh1CjVSDKUNh
+ nB3C25YGJc/M//9iQXqHQV23k2sp+SC63wOYr9jptG+JnD3nBkWKDnnCCF65YBabaCNI0RtgVd
+ aqSPykyViufjqybpxRa/M0wCexoHdvpcQqweZYTGX38aFoevf637ia+PfVOLAQRRKU0nSGouXu
+ tXueTBduw4k3BLiJ4GZkFgIKWWFUpVbYp7nD9R3qGETAQAA
+X-Change-ID: 20261112-sun8i-emac-mux-uaf-1ba885219fee
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
+ linux-kernel@vger.kernel.org, Arun Iyengar <aiyengar1990@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794733507; l=1719;
+ i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
+ bh=+y0GcY4/PVmv5CEIOUChNpzRjsd6qAFwqN8yUicaQ8g=;
+ b=WGxB9GPqMj1G3uOyPfh5GdwBrWsH+43WV1Oy91ghXj3UHSYqtPOjYOO9ZUbcawnPfHKKSQZIV
+ wqJkLbTlGtqAaq9v9D/6boTgG+ufsgKqVVr5mtNEHt4mj2Rq7hd9I9S
+X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
+ pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
+X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
+ auth_id=1480
+X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
+Reply-To: aiyengar1990@gmail.com
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] clk: sunxi-ng: h616: sun50i_h616_ccu_probe() leaves BIT(27)
-  forced on in loop
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [High] clk: sunxi-ng: h616: wrong GPU notifier registration order in
-  sun50i_h616_ccu_probe() [1]
---
+From: Arun Iyengar <aiyengar1990@gmail.com>
 
-commit 733f137b19620733cea59e88a8f5b18ba7301d4a
-Author: Arun Iyengar <aiyengar1990@gmail.com>
+If mdio_mux_init() fails after the internal PHY was powered, the error
+path releases rst_ephy and ephy_clk before sun8i_dwmac_exit() uses them
+to unpower it. Unpower the PHY first, as sun8i_dwmac_remove() does.
 
-clk: sunxi-ng: h616: Gate the PLLs with their output enable bit
+Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+---
+Found by Sashiko's review of another dwmac-sun8i series of mine.
+Build-tested only (arm64 and arm, W=1): I have no board with the
+internal PHY (H3, H5 or V3s), so the error path was not exercised.
 
-This commit changes the H616 PLL clocks to gate using their output enable
-bit (BIT(27)) instead of the PLL enable bit (BIT(31)), and powers up the
-PLLs in sun50i_h616_ccu_probe().
+Developed with Claude (Anthropic); I reviewed it.
+---
+Changes in v3:
+- Drop the Fixes tag (Andrew Lunn)
+- Shorter commit message
+- Link to v2: https://patch.msgid.link/20261113-sun8i-emac-mux-uaf-v2-1-6203666b2687@gmail.com
 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-n=
-g/ccu-sun50i-h616.c
-> index 955c614830fae..da4156b39c2cc 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+Changes in v2:
+- Target net-next instead of net, drop Cc: stable (Andrew Lunn)
+- Shorter commit message
+- Rebased onto net-next
+- Link to v1: https://patch.msgid.link/20261112-sun8i-emac-mux-uaf-v1-1-308ae7e6fcf2@gmail.com
+---
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-[ ... ]
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index 2ece7ba9dd73..898560e8e95c 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -1245,6 +1245,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
+ 	return 0;
+ 
+ dwmac_mux:
++	sun8i_dwmac_unpower_internal_phy(gmac);
+ 	reset_control_put(gmac->rst_ephy);
+ 	clk_put(gmac->ephy_clk);
+ dwmac_remove:
 
-> @@ -1214,6 +1214,13 @@ static int sun50i_h616_ccu_probe(struct platform_d=
-evice *pdev)
->  	val |=3D BIT(0);
->  	writel(val, reg + SUN50I_H616_PLL_AUDIO_REG);
-> =20
-> +	/* Keep the PLLs powered and gate them with bit 27 (manual 3.3.3.6). */
-> +	for (i =3D 0; i < ARRAY_SIZE(pll_regs); i++) {
-> +		val =3D readl(reg + pll_regs[i]);
-> +		val |=3D BIT(31);
-> +		writel(val, reg + pll_regs[i]);
-> +	}
-> +
->  	/*
->  	 * Set the input-divider for the gpu1 clock to 3, to reach a safe 400 M=
-Hz.
->  	 */
+---
+base-commit: 6964ff21c5d8b75649211a52dbfd92753e605649
+change-id: 20261112-sun8i-emac-mux-uaf-1ba885219fee
 
-[Severity: Medium]
-Should the existing pll_regs loop earlier in sun50i_h616_ccu_probe() be
-updated to set BIT(31) | BIT(29) instead of adding this second loop?
+Best regards,
+--  
+Arun Iyengar <aiyengar1990@gmail.com>
 
-drivers/clk/sunxi-ng/ccu-sun50i-h616.c:sun50i_h616_ccu_probe() {
-    ...
-	/* Enable the lock bits and the output enable bits on all PLLs */
-	for (i =3D 0; i < ARRAY_SIZE(pll_regs); i++) {
-		val =3D readl(reg + pll_regs[i]);
-		val |=3D BIT(29) | BIT(27);
-		writel(val, reg + pll_regs[i]);
-	}
-    ...
-}
 
-Leaving that first loop setting BIT(27) unconditionally ungates the output
-of all 12 PLLs before the video and audio PLL dividers are configured and
-before disabled PLLs are powered up via BIT(31), and causes the clock
-framework to see every PLL as already enabled at registration time.
-
-[Severity: High]
-This problem wasn't introduced by this patch, but later in
-sun50i_h616_ccu_probe() the GPU clock mux notifier is registered before
-the GPU PLL notifier [1]:
-
-drivers/clk/sunxi-ng/ccu-sun50i-h616.c:sun50i_h616_ccu_probe() {
-    ...
-	/* Reparent GPU during GPU PLL rate changes */
-	ccu_mux_notifier_register(pll_gpu_clk.common.hw.clk,
-				  &sun50i_h616_gpu_nb);
-
-	/* Re-lock the GPU PLL after any rate changes */
-	ccu_pll_notifier_register(&sun50i_h616_pll_gpu_nb);
-    ...
-}
-
-Because both notifiers use priority 0, they run in registration order.
-On POST_RATE_CHANGE during GPU frequency scaling, ccu_mux_notifier_cb()
-reparents gpu0_clk back to pll_gpu_clk before ccu_pll_notifier_cb()
-re-enables and waits for the PLL to lock, driving the GPU from an
-unlocked PLL.
-
-[1] https://sashiko.dev/#/bug/linux-b48c9987-4bbf-4231-b1fc-24d8ccdf62d9
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261115-h616-pll-o=
-utput-gate-v1-1-4cb3fc4d6c48@gmail.com?part=3D1
