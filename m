@@ -1,79 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794733508;
-	b=5gOGhgaFrI23dkJqT8LgLuOp/sYImMETzKvAOyJOfynWHYhnX0XC+rHl0Bqo5SmzQfGV
-	 28h4Ux1kd/2IKc7XzMeXBOrv2l3+aWEYni83loUajl6P44iVKu9pw4DACfRJW10suP9wf
-	 hLBAE4dmBNyMpyXGdLXZZrk+m1hps3MDsyLQEG9WUzz2eC7RsRWc+2k/Aj5fRf34uSISi
-	 /a8dmgUpxPT2B/3IAtbw8yUMuFp+1TPhWFJ6CrrRZ0lyv42ZeqvW09r+3CaCvwoCKGoix
-	 bmxbPjQ5iERYe9iMZ+d/sl5p+s7swir4BGHDn2uI+8sKaDD6Gv0ujraSELZo5vkXAAQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794733508;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=SWwLvN5yU83ZBCHPhXtyXSkK0RHhvvZ/0hRhOydSxnQ=;
-	b=1VYVdEm4htwzE3PrwMryu7/XXqICAwp3HfZp5axoR/Iz/Yzkw4zsqBjrs0fcGTXmijNn
-	 nou6Pl/jVovgj8q2BqZTqaw3fp3NATmO548699+8iK9Z7WtEboe4kKF7oaoBD8QHnEfuo
-	 R6uJjw1e0hvXb1f2OXNcmyyIqKBy/LZsAoLsrh+DK5UH7Egi36LdU8NBmN3YAdT0VnMcG
-	 yPIUdor9Q1gW5Y7BpuRW9heKtxM8ru0CR8JKHmBFStj8QLmqV+drAskjnz5lmfvzkGnQX
-	 /TQQK8K9EbPWwiGnzecyLvB74XvJbM/dQORfrrVdJECtcIdI3Isbe7WbsNQWz/Fr1MQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H7qQBefS;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A17606A31A;
-	Sun, 15 Nov 2026 09:05:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H7qQBefS
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794733508;
-	b=fmn9mMLINAdI3b31dx7fl4/htTvC8ovdMwnsGo2D2qv7wYh61GN0BTP9yyunEFLUV6JX
-	 YfqQUM2YKCwntnmRmPad819+BtHyFFvymQYDZ58Pv5HhdHj722CPc+Ak0sAiybpGjQd8p
-	 SKAH1Dp8QooPMCzs3MmPTTbXKps9T4Qd1vTmtfnOExnRcSMJOVa8nCBQ6LQEkeZvCaJlJ
-	 A0hKb0WzkN/yIWA4i/ilN5ClvMVlol5P2T293rnFjw3CQPS+WJ8hZIFTBXFKXe+lhjOFe
-	 DvYWDnjsrZbAufGBSYRU83Q7f0MPYzEXeaTG0nbiMY334qCQCaQEYVX123exbNiVIeA==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794733508;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=SWwLvN5yU83ZBCHPhXtyXSkK0RHhvvZ/0hRhOydSxnQ=;
-	b=SRV+lHk/qJNEgLwUf6p0peY74acWbnMmLBsv0Jq1MDPfSC/AVgUdW7sWUoY53QCOFbxD
-	 X5IKHOkA1meRX/1TupSynlWPJUr0PYAuabwUEvKdZUuopvTCYQsRFGAL8MQCjAEYMFtXB
-	 y2Ae+b/1bsY7/KwY0LtEWbhtdbTaB60M1IaY41AdOzhZG9mx6bYDNY6gN4tLy9bw+M7va
-	 EzogctxgiX9PCGXTJRbmGStXIT4p9S7BuMx+2DAYHyU5tlkwoN2SHFLsq4tO0wgSddGRX
-	 qbN2ZvwO5ic4iVQMSB9rcfRr5aVsN5r8NHus12HbJJQuGh/iCdOONwqR0C7gnH9wHCg==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.42
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794733612;
+	b=DStSxSkUKL4dxeHc8HSAr+B/TFket1Ai3Oae0xOgQgqLFzwWXMFV5B3h7ntyY0/ab3C5
+	 6kx9HUDFaXHyt3swqTaAq6uxF12+6ajfA+iZAdS2WecWo7l3F7imvsMb/nVFuOXB6gvVj
+	 kxuefOSm3whNOOT3yBMbNwtj+mhxhH5rmI2gsO9RKwLGrUd5Ej2BgDyDmv6dfYvsDHLSz
+	 Edi8c3ZtwkffV872qEz3RXLkO6bTFVlCRRvn7f85Fy8Gc0LKjkkq8PQh0gnI4Qog0uRrT
+	 UpH33gWwAHR0+nEkv0IFATloyQtWSHFgObre9/FWdgfqDSaEU8/kniJADd9QPh8pXWw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794733612;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=EICA2+Ii2qgfcuNngaTE7AGwJ5yMZFSeIndPaowbVuc=;
+	b=ovbVnazivu/bfYls2N9kLAwN/DkWBTicOGaBWE/fBB2Ulw0iUiiOExmYhpdK70bFZMmZ
+	 2D89ViOafSFQgSO2SxRCVPaKY4SDNWQtnhnKnQAQHTMkj7tD+a8ByJONbELdILv+GGiaf
+	 P8AbjaC8q2EhadwmL4bserKZtE6fXRMUHS97ZVq2VcCRSqLTmREFMdBZL+jMWhgks08+L
+	 k5nuxifx+qwN1YCv6tWfibgvnorjeD8kKUosTmgUTpF+/OFUqSDQQFkFJgfuz1rVhlf2l
+	 W8F6NicPRUlBzb/GkZ7fAbvntlCjSxpo/G2vjfqxN+Dg+qRGxDPTg8V2Dco6sXSzPjw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GbQM6s3K;
+	arc=none smtp.remote-ip=209.85.210.42
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D830E1F000C4;
-	Sun, 15 Nov 2026 09:05:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794733508;
-	bh=SWwLvN5yU83ZBCHPhXtyXSkK0RHhvvZ/0hRhOydSxnQ=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=H7qQBefSjjR2IwpJigL66Q2xaCI88wcALhDKH2LL147sCbE2I3/p89S9IU4R+Agro
-	 jwKbSp9q0ZVxkdSbtK4bJLtIL4Qa1BfK/n6g34vMnD3k+I26eI6NqBf+WaDhGWjXsG
-	 1v16zPzhy9EMx2e8V7KG+W2GAozwc7Ubr7+Ucg5Mh0ZkW0DzMIUaWPwuhu95WRYLZQ
-	 ar/2dsn+waVeh/rLXQXGpjmr6iBqn/TRErPKVdIyMVeD3dqiBrgKkypTMVOE6AWuOY
-	 JSttsKOP81SA8edIgnX/Td/1zzzexeXiSeQqw+fafqh2S/xTVVFLXZtKyA5de6bue0
-	 aS5d9aTCc9fwQ==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 544294A021;
-	Sun, 15 Nov 2026 09:05:07 +0000 (UTC)
-From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
-Date: Sun, 15 Nov 2026 09:05:07 +0000
-Subject: [PATCH net-next v3] net: stmmac: dwmac-sun8i: Fix use-after-free
- in the MDIO mux error path
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7E2606A31A
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 09:06:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E7E2606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GbQM6s3K
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-843cf077f10so4494915a34.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 01:06:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794733610; x=1795338410; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=EICA2+Ii2qgfcuNngaTE7AGwJ5yMZFSeIndPaowbVuc=;
+        b=GbQM6s3KsKrRroBgbKQrSdItVeWP5a3MQpa0gB5bAXh/LWhQI60AZP0/a+5SnBXoKx
+         dQtnqUn0YG5rcui8rXC58NLvMyzIuasdGZdYLqhqS2qYQ2vGPgw226txKKig8sMulVWK
+         sDBpVtElkg+qW9lbc3vSDeW7K92vD8ZPhl+hjnExcgLbBWJbsauEFjlymPJromVjZghy
+         gDiDhf5c3hcXox0dNsZH5XzK2JJuWBhgeWOfxnzXKKvUORuYHGzD9Ma5kKEeJDtNLr8W
+         gk8q6hU9Y4A4R1V49tC6sYkg+efzMvcrHukL29hUO3y3UsZVvSrmrXrTYtqjYGla3Neu
+         J3xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794733610; x=1795338410;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=EICA2+Ii2qgfcuNngaTE7AGwJ5yMZFSeIndPaowbVuc=;
+        b=z4HLbw5WHwSjFaXNQkntR2W4AFRHATxaRKSYc8JqaursGA3gMZD7JT78MF/rxGT/Mw
+         WtJECyM+k/Npzp+XoDxQ9/Q7NvGDBjmU9lyex40aGhXwZTPO7xTo1fphv2k+FktTDDBs
+         EPgDviXNxhE/mmqMNgisksNc3eUX/I+ruqyYXSDnRCm6VyFzklQ1NEygXO496y+f+a7h
+         aNnfdOChNq157BIJNzjpy6DGsEW9tj7hKSuwnVX9HMkr7Bwpt5JQWtSEyIvpod2dE+kP
+         PXajiLSlvp6ZjOgJ8GuoydEUoqBEkajd2z4Di4qLyyS7TiacGleSoJnSJDod2xlwn/nE
+         5svw==
+X-Forwarded-Encrypted: i=1; AL+hErHOTfukKOqKbT+zzzI5uMU8T1hG0VF5vjXS4HhjaNfG04Q98lrb9QAmPQt0s4DnUIo9E6ik2vAhBKYqVw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+191ZUzndaAZgD93pZWGzvx4lDS4jL652t0rlwMpKAlGY/3V6C
+	YskxuhNjj/owlqE6kCMYf3eRiTzWiO4e3AdGbstAZAhMmZgyEl0gsSuQ
+X-Gm-Gg: AYBFou2HrlVYZNISrwM5q9HBNCB/O6u4P0DsKlJO5YZJbWR2HtlK9Gx4Y5XIx4c2bj+
+	zfzwhhLCLOUSC8Jh1/1U8S5zGh+O10xQkEu/pR6kEFHPnP2EEf5bEm7rt5P2LxyunqZRiy8CIN+
+	+7j6tU8p9KIB+NekTM9O3JhtVlFNs4+51c/5A3OMFacTQ1t1Kc4eqdFCxn4zUz2sjkuF+0uaCQR
+	wRNM4spOnxUUUA33WdmXAc3zxWc6PYeqZhPpOFHpo3Fq51MBDShjVuojaFLHqh7dkmC7w6DRcn8
+	dBSOoq4BlXUaUETWPHhmiw4CeA02JTLMCotW9JTjtPs70SIMFi+DS7qvXqx9FPXThsIKiDrC+St
+	nSGZMCsfnENKnMehr6oqZ70HkAEVR8cQPZUztV8NQVwNG9ZYg/rqYgK6FKYABtr0Zzn0Ubg1mMi
+	NrAb0AarqNDoyY92B+TMOLK/4XLNQAj7fIKG6RqEa7qATRFn0Z3aJTBuUwc/AFi3zy1xfGh02PB
+	ljmg2as+a5bV9nvQ+FoYVerqjTrHdV9c3079WKbaBOBqkPjxemxOeiwHk93ZJKnFBRvOtMPYtPF
+	1wtNKbQz9Vw2NIhFPw9RnOAsJiww2LA5oEB+l2e9nXUD+0ZL7vp8KswHD0SDYt6d8wvm/mII8Yr
+	bjT4tkVTW/m2HxiZdawTX2bZRGpGXj3xnq7vdU1q3VOK1rzpD7dCtAm4o3MmskpqEBrhjlBlKvw
+	MHXGxS90G6prJul00tA4U1tT0VvurQWL3ZZAVE6H4YmBQ+bLnBTjZ5
+X-Received: by 2002:a05:6820:2d8a:b0:71a:e62f:62ee with SMTP id 006d021491bc7-71ae62f6ac9mr968000eaf.23.1794733610517;
+        Sun, 15 Nov 2026 01:06:50 -0800 (PST)
+Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-71ab4338765sm6198902eaf.14.2026.11.15.01.06.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 01:06:49 -0800 (PST)
+From: James Hilliard <james.hilliard1@gmail.com>
+Subject: [PATCH v2 0/3] dmaengine: sun4i: retain cyclic descriptors until
+ callbacks drain
+Date: Sun, 15 Nov 2026 02:06:33 -0700
+Message-Id: <20261115-submit-sun4i-dma-callback-lifetime-v1-v2-0-fb7d258702f8@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -84,85 +95,58 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261115-sun8i-emac-mux-uaf-v3-1-c69d4189539d@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33NQQ6CMBAF0KuYrh1Dp7FUV97DuCh1CjVSDKUNh
- nB3C25YGJc/M//9iQXqHQV23k2sp+SC63wOYr9jptG+JnD3nBkWKDnnCCF65YBabaCNI0RtgVd
- aqSPykyViufjqybpxRa/M0wCexoHdvpcQqweZYTGX38aFoevf637ia+PfVOLAQRRKU0nSGouXu
- tXueTBduw4k3BLiJ4GZkFgIKWWFUpVbYp7nD9R3qGETAQAA
-X-Change-ID: 20261112-sun8i-emac-mux-uaf-1ba885219fee
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
- linux-kernel@vger.kernel.org, Arun Iyengar <aiyengar1990@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794733507; l=1719;
- i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
- bh=+y0GcY4/PVmv5CEIOUChNpzRjsd6qAFwqN8yUicaQ8g=;
- b=WGxB9GPqMj1G3uOyPfh5GdwBrWsH+43WV1Oy91ghXj3UHSYqtPOjYOO9ZUbcawnPfHKKSQZIV
- wqJkLbTlGtqAaq9v9D/6boTgG+ufsgKqVVr5mtNEHt4mj2Rq7hd9I9S
-X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
- pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
-X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
- auth_id=1480
-X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
-Reply-To: aiyengar1990@gmail.com
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5WOQQ6CMBBFr0K6dkxboEZX3sOwaMsURimYthIN4
+ e4WPIHJJD8v+Xl/FhYxEEZ2KRYWcKZI05hBHgpmez12CNRmZpJLJQQvIb6Mp5RjrAhar8HqYTD
+ aPmAgh4k8wizAKHGWXHFzUo5l1zOgo/e+c2t+nEV3tGmTb42eYprCZ39kFlvv3818Aipba67qU
+ vDKXTuvaTjaybNmXdcv6o9WGuwAAAA=
+X-Change-ID: 20261103-submit-sun4i-dma-callback-lifetime-v1-b6192060b76f
+To: Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
+ Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Hans de Goede <hansg@kernel.org>, 
+ =?utf-8?q?Emilio_L=C3=B3pez?= <emilio@elopez.com.ar>, 
+ Maxime Ripard <mripard@kernel.org>
+Cc: dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ James Hilliard <james.hilliard1@gmail.com>
+X-Mailer: b4 0.15.2
 
-From: Arun Iyengar <aiyengar1990@gmail.com>
+Retain descriptors through callback synchronization using a shared virt-dma
+termination helper, then use it to fix sun4i cyclic callback lifetime
+and IRQ serialization. The helper keeps termination usable in atomic
+context while callbacks finish in process-context synchronization.
 
-If mdio_mux_init() fails after the internal PHY was powered, the error
-path releases rst_ephy and ephy_clk before sun8i_dwmac_exit() uses them
-to unpower it. Unpower the PHY first, as sun8i_dwmac_remove() does.
+Also serialize pending IRQ handling with physical-channel reuse so an
+old transfer's interrupt state cannot complete its replacement or disable
+the replacement's interrupts.
 
-Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+Assisted-by: Codex:gpt-6-astra
+Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+
 ---
-Found by Sashiko's review of another dwmac-sun8i series of mine.
-Build-tested only (arm64 and arm, W=1): I have no board with the
-internal PHY (H3, H5 or V3s), so the error path was not exercised.
-
-Developed with Claude (Anthropic); I reviewed it.
----
-Changes in v3:
-- Drop the Fixes tag (Andrew Lunn)
-- Shorter commit message
-- Link to v2: https://patch.msgid.link/20261113-sun8i-emac-mux-uaf-v2-1-6203666b2687@gmail.com
-
 Changes in v2:
-- Target net-next instead of net, drop Cc: stable (Andrew Lunn)
-- Shorter commit message
-- Rebased onto net-next
-- Link to v1: https://patch.msgid.link/20261112-sun8i-emac-mux-uaf-v1-1-308ae7e6fcf2@gmail.com
----
- drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index 2ece7ba9dd73..898560e8e95c 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -1245,6 +1245,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
- 	return 0;
- 
- dwmac_mux:
-+	sun8i_dwmac_unpower_internal_phy(gmac);
- 	reset_control_put(gmac->rst_ephy);
- 	clk_put(gmac->ephy_clk);
- dwmac_remove:
+- Add a shared virt-dma descriptor-retirement helper before the sun4i
+  fix, following Frank's review.
+- Retain all collected descriptors until synchronization, avoiding
+  provider-specific cyclic checks and preserving repeated termination.
+- Retire pending IRQ state before physical-channel reuse and acknowledge
+  events under the owning virtual channel's lock in a separate fix.
+- Link to v1: https://patch.msgid.link/20261103-submit-sun4i-dma-callback-lifetime-v1-v1-1-4c5a0653104f@gmail.com
 
 ---
-base-commit: 6964ff21c5d8b75649211a52dbfd92753e605649
-change-id: 20261112-sun8i-emac-mux-uaf-1ba885219fee
+James Hilliard (3):
+      dmaengine: virt-dma: share deferred descriptor retirement
+      dmaengine: sun4i: retain cyclic descriptors until callbacks drain
+      dmaengine: sun4i: retire interrupt state before channel reuse
+
+ drivers/dma/sun4i-dma.c | 68 +++++++++++++++++++++++++++++--------------------
+ drivers/dma/virt-dma.h  | 20 ++++++++++++++-
+ 2 files changed, 59 insertions(+), 29 deletions(-)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20261103-submit-sun4i-dma-callback-lifetime-v1-b6192060b76f
 
 Best regards,
 --  
-Arun Iyengar <aiyengar1990@gmail.com>
-
+James Hilliard <james.hilliard1@gmail.com>
 
