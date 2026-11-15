@@ -1,84 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794719566;
-	b=iN23bwkHPeaL1FXHWmp6F2mjMQVTPnOfD3BwaKXUKX646X0pKT/27xht3B5o/cVtq2cJ
-	 b9qFKtGA9bqOJbwTJvKiLx9dcORXE70gcqdsTZ0EmFUHa+24hMfclTVmRRvfew8eyT/Uc
-	 R4b70uE9z3L5XXwWoTnqOMPFmF+1jquA5ZNOlllS5kRzb1Lg0FeVrEwBPXvvLGFTMjWej
-	 ATpDWOJ+H5a8Q0IuNYpTIa0Sun6aMbhN5YCbmaLo5U90t2ZXttky8kUgYMAqbVEdmZT+f
-	 J4M3lxEsChx74qaUE3QgyJTKr5LhidqJGrUWykegvy1ZgntCMx+hbzt67YA4yP43AZg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794719566;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version:X-ZohoMailClient;
-	bh=sxOBPrCyzV/VX68JlD+bnzHrsOO/mwcMVPnkr3sQCJE=;
-	b=cDS9mylYzKJeKqqMuzKwSEx+1ccY4XZwOJcmRyzkcypO4QDq5owZvFHBZG4VFq4xoMaR
-	 wQxKaPsjg+NACLKaSo3oLEL9BqJvL74Owv56PLF0K6sqyHGEFfQurEiAgin5VScB/dv45
-	 /PcbbsSsiZc351UhkLGtUWALGUvgLjfHSa+Eg+gOjGAgOxGaDuZhAzzsdpQ10QvgMzV9t
-	 siH1q41K67PvU/3D+UtoWhJGzqtPHlE+q2/DMS2+jKmW9O/urHbpkAk1/sq/k8bnFuZWa
-	 1lmi4vtrsDPqAznPwxJSkLZba+sG2VlbpDJSIT6kzdOLMocbrkId7QlnbdDxWBHVGag==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=icenowy.me;
-	spf=pass smtp.mailfrom=icenowy.me;
-	dkim=pass header.d=icenowy.me header.i=@icenowy.me header.a=rsa-sha256 header.s=zmail2 header.b=Shf9I945;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
-Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794723082;
+	b=hBaaCK2KgKU2bNSES5PItxg8IfRxPxcjxix7GV9BUwLiHsvPi0rjIGe62DCLQppHk6Ok
+	 hctlwm/jtURx5aXBO87igAiQicCXugBZclIr3buXMQOM+q0Hm4vkEUYXvgJGxT1hzjJ4N
+	 YcYhQVzha6qenn5b+/0UGJcctBsaINaK0gCcg5/7Sk0VA1+V+qbiXCFNp1XfsQlQtPsLk
+	 qFWIGatdxe/xLaCG1CaYYJ9PLG/FHq9Lmrw5YSW04dtO++0iXVUxEowsKrK5RPmnAAtS5
+	 YZmoWVjiyuq5OWXXp4Rhmzw2qvn6LZ3rFfPIUKxXCf6hpkMFAgMyeCO2HvLewKs+sdw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794723082;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=jucsGGsP4A94CkjewiCz+sSfRnTZY+EbzcNS/u6Mk/w=;
+	b=F7n3dKBp5+himVVJ8EgiU9Ru4Tp8oUVqOO30VsznOOY+Eg+9nrRIh7acf6eObIt73U9H
+	 Ua9oSHt2rZaIOW44EdCQFxbfXCOuJiGt1Hy3dJA2/DnbsORx28fShHWW8LoFno2//eBzC
+	 6yvUjDCYAep3P1Y8ZHaUh64IwEirU4Z1k+6guowWGfEgtNWAiD1qIY2xfGxbzL7/Edo/v
+	 kYDRI96bQWTc2kQIpBDQxWekIb1hXXrZl17s1kVOqyqI5Iau+xfQ28zICIU2JcUX98DAb
+	 A3MM2Vo2luWF/hGVKABSREuLzAcrK15ff38hu6kLRVPR2HyRSgQBaDbLZujAwS+NYqw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dU5V4wVn;
+	arc=none smtp.remote-ip=209.85.221.49
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6114A606A323
-	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 05:12:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6114A606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8011F606A32E
+	for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 06:11:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8011F606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=icenowy.me header.i=@icenowy.me header.a=rsa-sha256 header.s=zmail2 header.b=Shf9I945
-ARC-Seal: i=1; a=rsa-sha256; t=1794719509; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=JOGlxjHP0/DLspL53khKYZ0SgtKL6wuFzI00xEcjsX2X0naxDeDwG+mN0JTsz+5zf0ZCsFsBMFVqrfaYnQkAUR3t8lbRG8f1BqRhvEj48tV95ZrVQTmeVdXAt/QIi6mKdxRQO4HSe+Y2wYyGGmY5++jbPgiD+NxssVDB9aWoBjQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1794719509; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=sxOBPrCyzV/VX68JlD+bnzHrsOO/mwcMVPnkr3sQCJE=; 
-	b=JTenAkqIMAIIKYfr7QF4ukYjfy4yNh7djxPijM5gJBR3O9VQkxjSsfcuEF+p9XA5MdQEuNgbt7oMj340d21QTX0xU1gbejcKMOP0wnSw4pDSpshTztxX0p8eRsiJSxdrfO19Rmjh226WJc5Bx5ELVWdzILkLoI3UZafzszEw3oM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: a=rsa-sha256; b=Shf9I945a9oA67J+8Ds7UcvmrKj5kNlbGheeRhdtymi+TrNqZRK6TwdNA0v0w0R1b75OQzmI+Pyn/9GuzyrrZRQfM0JQGmkR68MafrCHVXz++GT9O2md5umoQoi44aXHOxbY6STIXDFBFIAEQXgeWQUE//D0QAsCIq6o9b5zNPUZt+5+wuziXnY35ZuNhZHvxU7OHkjnTNRyt2a3mSonSL2WllJDuNrDRkoqTTG0IN5p2Lc+cTSCHPlIF9dSfOHF+TkdKAJJrJV1uxIjEm7+Zqpjmq88uP2UTLimDIQ3QB1f6xrpwLEoaunTnY0SDU7qEWPeTq0v3mNjL5iZ6ia4tA==; c=relaxed/relaxed; s=zmail2; d=icenowy.me; v=1; bh=sxOBPrCyzV/VX68JlD+bnzHrsOO/mwcMVPnkr3sQCJE=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by smtp.zohomail.com with SMTPS id 1794719506138787.2843822660936;
-	Sat, 14 Nov 2026 21:11:46 -0800 (PST)
-Message-ID: <45f41ca4bcc76a6c5d0b9180c6492308ec3e85c9.camel@icenowy.me>
-Subject: Re: [PATCH 19/19] MAINTAINERS: add an entry for the Allwinner V861
- SoC
-From: Icenowy Zheng <uwu@icenowy.me>
-To: gaohan@iscas.ac.cn, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt	
- <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti	
- <alex@ghiti.fr>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Guo Ren	
- <guoren@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Radu Rendec	
- <radu@rendec.net>, Samuel Holland <samuel.holland@sifive.com>, Daniel
- Lezcano	 <daniel.lezcano@kernel.org>, Anup Patel <anup@brainfault.org>,
- Stephen Boyd	 <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>,
- Jerome Brunet	 <jbrunet+clk@baylibre.com>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec	 <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Philipp Zabel	 <p.zabel@pengutronix.de>, Alexandre
- Belloni <alexandre.belloni@bootlin.com>,  Maxime Ripard
- <mripard@kernel.org>, Linus Walleij <linusw@kernel.org>, Andre Przywara
- <andre.przywara@arm.com>
-Cc: Han Gao <rabenda.cn@gmail.com>, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Paul Walmsley <paul.walmsley@sifive.com>, 
- Palmer Dabbelt <palmer@sifive.com>, Conor Dooley <conor@kernel.org>,
- devicetree@vger.kernel.org, 	linux-csky@vger.kernel.org,
- linux-sunxi@lists.linux.dev, 	linux-clk@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, 	linux-rtc@vger.kernel.org,
- linux-gpio@vger.kernel.org
-Date: Sun, 15 Nov 2026 13:11:31 +0800
-In-Reply-To: <20261114-v861-v1-19-eb71ec3ee523@iscas.ac.cn>
-References: <20261114-v861-v1-0-eb71ec3ee523@iscas.ac.cn>
-	 <20261114-v861-v1-19-eb71ec3ee523@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dU5V4wVn
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-490c3ae81d3so1152385f8f.2
+        for <linux-sunxi@lists.linux.dev>; Sat, 14 Nov 2026 22:11:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794723081; x=1795327881; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jucsGGsP4A94CkjewiCz+sSfRnTZY+EbzcNS/u6Mk/w=;
+        b=dU5V4wVnXeoYjyLR8q+vCnGNQiHMVBHDBUQ5xPEJGbPd19/P5sluo/u1ZUViWEmp+n
+         rnaL0QDqpK9AN+wFG4lTPDUAg02KbQRYOaD34921XQExOBOA/8lEmrOy++kpQ0DpitS2
+         5TnN6FIqeqt8Ff/3G66PzwGDQRtXd4co4Zkagn+XBLZTog4CT9hstueb1aPqredv6eya
+         zKLghCQ7vt2yxZlmbbRjEI4YMnctp5Ub8AHyRi3HHjU43l1r89X69X8Nj6R7k0x/fEdd
+         wtrcwHSZnqhWu904VI9LxZ8GDVG5UU4+vpoiWwY4cy7qIe7d/u9YeflYDICxVLXWRjbZ
+         amIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794723081; x=1795327881;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jucsGGsP4A94CkjewiCz+sSfRnTZY+EbzcNS/u6Mk/w=;
+        b=gCyBd/ihT3dm6Y83/qw4MybkTvJP9GHo4LnBkSRGgJbWQojywqxs2wkGws40bOKfuS
+         W9GzqOdGo7WTn/fceS6kSbZlJRbsKuLp3vFJD7E4ACl3pLZrWvIVWx72mWnadBSpPYNA
+         Ct5LdDLekYWUNyuoszkCPnLMDedMFlVGl66FmicMs5vj8qgkKbiWpD/Que6rxZulJElQ
+         ch15SnLUBuC/pTmnb/lc8RLsMS9sJ4JAGPJg9Gm4F8EcDmjz1Weh8M7GsGWPAyScEOQ0
+         yEro/1IjleC8IhDGtL1UnxP9/DpW4t/B8z3rGMOnKNlpT3ubDeWUgASU+4nZlXx1HnSl
+         KBOQ==
+X-Forwarded-Encrypted: i=1; AL+hErHJLL+HPDNKM33FxGru3J4vKcY+9HCQfFGmhZI24HeTys+Br8VxrihMSxWbfXDrCwp2lbEgFHoB8DFxdA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/vvLmBU3DfhglsgdFOtHLYlDU2jL9rDr/4KkRejdoDnIcC/x4H
+	O2DBmYeagtOGSCb/mARUj+9cb59sCBaarQPniIp7EBSFngSb/Z5F9Z7z
+X-Gm-Gg: AYBFou2taSecYJPtYeCFMnmbszqypI4/coNOw5fewbxtm57UqFPTZYsrSiBIEXVp0yE
+	2sXv9Ih2fJ6UQux10MEpOR9GsKtehquQNJmPdzmEl+UjcfL6NMMbcs5+kU7HNtQITpM1372xWNW
+	fLEZPLWMXFtI0/OLEjQBx8RiVVyEBKU9TwWWFvVHjN8jcHmjwmT5lg9ydpvb4Go/ZYSHSoEFxRg
+	/0YVHPGDhD5BtHrXF/i9euDQVPJpQm5Y5eSHvV/NDo18+PzFG3YB6xQ1blXkQtRaXbjwMw6HTe4
+	VW1LSOLo0lONjN4BQQA8xGWZRMksH2GHhoTvXHMJ0eSz7QqRrsd8tF3gwpEEVR/1bxPPrW8naeu
+	LijGXNigLzMQsL5ClM4NP4LlDD6320APWrmaQjo7NdSaNK1l5lhOdy07Dz02JUuZJhB0gVhz0XD
+	DYTpKpHDpUjKpT6err5J/fBhxcaBeXpeaii+FWMB4c6Ed18sLWIEgLcNcdsJmNXjM1lt7cQMhVT
+	ZTNg0fNupViveeR+gpKRzxcOkHw/p/SBuir1p3jJG3/Ez5ywc6GJN0Izq137s0gOh01m70KPLnz
+	Ji0fl8j9LadHunJ0TGmTvZc+Y00VvDHQjPgt1ajKjL5G+IirwvyMozQk728Gj6srZ2GL67S7/wL
+	A0dEG4zIIlRHSRwv/lPKEuXP/0a3MMk5sAbhALTH4VeGtImCNO6HbCe4eOwgx7VDaFvSSs0d1kb
+	YxeFzKefL9iGmhf/cb2O16rl0NMmkuqU95A5tr0kwoLHmAwKSfZJiVz1jr6jRES/OdP/FQwx4E6
+	0YLdD3Y2vk1wA==
+X-Received: by 2002:a05:600c:4e56:b0:4ac:aae6:6400 with SMTP id 5b1f17b1804b1-4bb55a48042mr148514035e9.13.1794723080596;
+        Sat, 14 Nov 2026 22:11:20 -0800 (PST)
+Received: from jernej-laptop ([2a00:ee2:6a02:9300:bb69:6bcf:1b11:e85b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb5ba25b50sm139331075e9.14.2026.11.14.22.11.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Nov 2026 22:11:20 -0800 (PST)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@kernel.org>,
+	Samuel Holland <samuel@sholland.org>
+Cc: mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	bmasney+clk@redhat.com,
+	jbrunet+clk@baylibre.com,
+	sboyd@kernel.org,
+	Andre Przywara <andre.przywara@arm.com>,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org
+Subject: [PATCH v3 0/8] drm/sun4i: update DE33 support
+Date: Sun, 15 Nov 2026 07:10:54 +0100
+Message-ID: <20261115061102.229680-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -88,50 +114,89 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
-=E5=9C=A8 2026-11-14=E5=85=AD=E7=9A=84 06:33 +0800=EF=BC=8CHan Gao via B4 R=
-elay=E5=86=99=E9=81=93=EF=BC=9A
-> From: Han Gao <gaohan@iscas.ac.cn>
->=20
-> Add myself as maintainer for the V861 bindings, clock and pin control
-> drivers and device trees.
+This is second series out of tree which aims at properly introducing
+support for H616 Display Engine 3.3. Previous series [1] reorganized
+driver so proper DE33 support can be easily implemented.
 
-I think traditionally sunxi do not add maintainers for specific SoCs.
+H616 DE33 support was actually introduced a while back, but it was done
+without fully understanding hardware design. Issue with existing binding
+is that it considers planes as resource which is hardwired to each mixer
+as it was done on older Display Engine generations (DE3 and lower). That
+is not the case anymore. This series introduces new driver for planes
+management, which allows doing proper plane assignments.
 
-Maybe you should patch the regexp of "ARM/Allwinner sunXi SoC support"
-item instead.
+Note that this series intentionally breaks existing H616 DE33 mixer
+binding, which was released in v6.17. Old binding can't describe shared
+planes, so second mixer can't be supported with it, and it never had any
+user - there is no H616 Display Engine node in upstream DT, rest of H616
+display pipeline is not upstream yet and no other known DT consumer
+implements it. Reasons are documented in patch 7 and driver prints error
+asking to update DT if old binding is detected (patch 8). See v2
+discussion for more details.
 
-Thanks,
-Icenowy
+Remaining patches, which introduce all the missing bits to fully support
+display pipeline on H616 SoC, will be sent once this series is merged.
+WIP patches, which can be used for testing purposes, can be found at [2].
 
->=20
-> Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
-> ---
-> =C2=A0MAINTAINERS | 12 ++++++++++++
-> =C2=A01 file changed, 12 insertions(+)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 93abbb315065..dfc300dc1eb2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -24031,6 +24031,18 @@ F:	drivers/irqchip/irq-riscv-intc.c
-> =C2=A0F:	include/linux/irqchip/riscv-aplic.h
-> =C2=A0F:	include/linux/irqchip/riscv-imsic.h
-> =C2=A0
-> +RISC-V ALLWINNER V861 SoC SUPPORT
-> +M:	Han Gao <gaohan@iscas.ac.cn>
-> +L:	linux-riscv@lists.infradead.org
-> +L:	linux-sunxi@lists.linux.dev
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/clock/allwinner,sun252i-
-> v861-ccu.yaml
-> +F:	arch/riscv/boot/dts/allwinner/sun252i-v861*
-> +F:	drivers/clk/sunxi-ng/ccu-sun252i-v861*.c
-> +F:	drivers/pinctrl/sunxi/pinctrl-sun252i-v861*.c
-> +F:	include/dt-bindings/clock/sun252i-v861*.h
-> +F:	include/dt-bindings/reset/sun252i-v861*.h
-> +
-> =C2=A0RISC-V ANDES SoC Support
-> =C2=A0M:	Ben Zong-You Xie <ben717@andestech.com>
-> =C2=A0S:	Maintained
+Please take a look.
+
+Best regards,
+Jernej
+
+Changes since v2:
+- rebased on v7.4-rc3+ (mainline sun4i fixes)
+- patch 1: explain in commit message that DE33 has only one bus clock
+- patch 2: don't register regmap with syscon, drop preset plane mapping
+  and reword commit message
+- patch 4: don't expose YCbCr color properties on planes without YUV
+  formats (kept Chen-Yu's R-b)
+- patch 5: collected Krzysztof's R-b
+- patch 6: renamed, get mapping regmap from display clocks device and
+  add device link instead of using syscon, defer probe until display
+  clocks are bound, set drvdata only after mapping is initialized,
+  register driver from mixer module instead of module_platform_driver()
+- patch 7: explain in commit message why old binding is incompatible and
+  will not be supported
+- patch 8: renamed, initialize blender pipe modes for DE33, add device
+  link to planes device, limit DE33 display regmap to its 128 KiB region,
+  print error asking to update DT when old binding is detected
+
+Link to v2: https://lore.kernel.org/linux-sunxi/20260509190015.79086-1-jernej.skrabec@siol.net/
+Link to v1: https://lore.kernel.org/linux-sunxi/20251115141347.13087-1-jernej.skrabec@gmail.com/
+
+[1] https://lore.kernel.org/linux-sunxi/20251104180942.61538-1-jernej.skrabec@gmail.com/T/#t
+[2] https://github.com/jernejsk/linux-1/commits/sun4i-drm-refactor/
+
+Jernej Skrabec (8):
+  clk: sunxi-ng: de2: Fix Display Engine 3.3 definitions
+  clk: sunxi-ng: de2: Export register regmap for DE33
+  drm/sun4i: Add support for DE33 CSC
+  drm/sun4i: vi_layer: Limit formats for DE33
+  dt-bindings: display: allwinner: Add DE33 planes
+  drm/sun4i: Add DE33 shared plane driver
+  dt-bindings: display: allwinner: Split H616 DE33 layer reg space
+  drm/sun4i: Switch DE33 to split plane bindings
+
+ .../allwinner,sun50i-h616-de33-planes.yaml    |  46 ++++
+ .../allwinner,sun8i-a83t-de2-mixer.yaml       |  16 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-de2.c          |  82 ++++++-
+ drivers/gpu/drm/sun4i/Makefile                |   3 +-
+ drivers/gpu/drm/sun4i/sun50i_planes.c         | 215 ++++++++++++++++++
+ drivers/gpu/drm/sun4i/sun50i_planes.h         |  43 ++++
+ drivers/gpu/drm/sun4i/sun8i_csc.c             |  71 ++++++
+ drivers/gpu/drm/sun4i/sun8i_csc.h             |   5 +
+ drivers/gpu/drm/sun4i/sun8i_mixer.c           | 193 +++++++++++-----
+ drivers/gpu/drm/sun4i/sun8i_mixer.h           |  10 +-
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c        |  72 ++++--
+ 11 files changed, 663 insertions(+), 93 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/allwinner,sun50i-h616-de33-planes.yaml
+ create mode 100644 drivers/gpu/drm/sun4i/sun50i_planes.c
+ create mode 100644 drivers/gpu/drm/sun4i/sun50i_planes.h
+
+
+base-commit: b3dfbde62cf1981c4638939c159dfd087b7a72e9
+-- 
+2.43.0
+
