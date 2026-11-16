@@ -1,63 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794837267;
-	b=18fpASd2BSWELj/TsaXZ380Lm3svXd1+uusDbrqLnyCXjR4n/7+orE4awMGKoz1ET2HL
-	 vGC7B1nX37UL9jPTcHE+kiURUx7uN6834PdtIWBex8kqgvW/+gVYNteyZEwboXkylQY3H
-	 x1WkljSqgnIyZ9IXnqu60x5WSNcEm0uX+8kYv2KSzvtVIs/u7SBOZAwSbrcf3M720KlFh
-	 tyZ9r4L1Sb7OX6fEod5Xk9mso9VfndVZ3kMAcLp3zKMx0Wf2i25SvLLj1dbwlwNihwXL1
-	 ulROhtnhYoZmB25BfcXJ8QYylkdQlxyokbooauygOs3AgSZGzATzCkdBXi40kukNTxw==
+	t=1794838996;
+	b=tv91TTlHJ4UP02yb/4d3EreX+kPXJmLjgBajSeW+ClMjSytG5tAFTywZ21/StfwlkR2N
+	 ZyJ4BXDWYbp/qoWS6eAJiHOkUYplrdxSjNjSZ5HXzP92yMLU879kBWN+0BCfS5WmQmwqu
+	 XPTyjAREvcBKVQtIJdEM9JQ8v8i1rC3f14zi7nA6cAuw+ugqoJMoWeXIKWUjxcghkgbLN
+	 caWO+L09205krQyl3swSnT+FH+eoogQpO75FQRLwJ8KF3McCKNpmtG/MKRBMUQsoleXBo
+	 oml9uq+J8kum2RaSR+mUfCyAUHsfw40ybqnODP+967DktMXKLuZJaxfLo7lS7fbUPag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794837267;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=r132SAdA06PRgqTYVS2JcCR63njeCiFKuORU3KC+nDs=;
-	b=msWyjGhuPXeD/UYkIRHjhk6MYY1XcAE4PknwEV7P0Jl6ahl0bhp+smGklgTGpKfxmAA1
-	 ZriyZmaxnshpn4bKUpvOlLPj8HjhzzRekSMC1RO8bygoUMPVGN3MCWb62H4u1BqyOAxmk
-	 JX7mWi+CwULBq/FG5KVIbvBj26suHiHCsGKQEKZRi1UsXPQQ/lLbyxb+vFkKUlPM4PcO7
-	 2O/BLM1Lwq+X4EcKkK+iI61V6hwnLUfU0+4Vbtgx5R9XxbP/lGppg59Ck9hWcSOvD4ELP
-	 y/k1Wzdr7Qzw189+7Q2VEZ90wXLAc4bZpqo+o43mvBQ2bIQsliFsW/1w14O5xuJmuKw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794838996;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=3+LDIf7xcOUg0Ytv5NF1ZKANWMIYF3HNRlqe1V/Gd84=;
+	b=oGynLhV1gE3XaUVXd0d+duM+cYiAcABNaha1t3blpVA4d4JpCGucQxeZG1+DnxmTLiaZ
+	 mY8CjMG6JXR36aF6pS0RaOmt13PysVZoYk7IR5a3PnvMQoPK7lvKKc4Nm3W81ZaWX17U2
+	 dRWADU6JgcpvXcjdbZ658Alf+IoaoU8EUHDSLbAwrYrk4AS2lVjik5XzKqcg8bTj+aTBe
+	 UJ+QXH82tVpYwkeljGeWuHDNExGZVUls8a7768vyJhLoYdjKOWNFdSGNsDdFcuXtVY8vm
+	 VCcA0YKWEED9cTlnq4vdhBZJZ3mofk++Z6MzHfs1m9a0KXZbbk9yZhvJ4uTqMWZZYnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jsG1lsIw;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Y964wnSk;
+	arc=none smtp.remote-ip=74.125.82.53
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831FD606A8AD;
-	Mon, 16 Nov 2026 13:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82955606A329
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 14:23:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 82955606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jsG1lsIw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C8A31F00939;
-	Mon, 16 Nov 2026 13:54:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794837267;
-	bh=r132SAdA06PRgqTYVS2JcCR63njeCiFKuORU3KC+nDs=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=jsG1lsIwomGEJPRulw+J9IOMIPhSEI/1L3q7SbqlvCsL+Jh/xsOVnDRT60s8cJdnU
-	 ET+U8E1zh5FKiqrW/6V80mUSz0od/cb3Ah7dG1xmNxrF288O9fWj4YnRgkUeRd/OVk
-	 RGI+g0ho4SEDBzVI0SUoUDHkiSsRvqz45K5wBNbJOV0tqYo52QSU9mCwZjQ2viv+3y
-	 fXws0v9H6L4+kaMBX/gzGEiJVIrp2uWQrQAKJ7UwTB5ieTpQk2SVmThCOz5qqKuV/i
-	 nEfTNJnbUEawV1krTs/YV+veN7EKw+ED/k1eKzAygGv+RgYxMKqY5drqKe42kD7cn2
-	 98nipByPKcaoQ==
-Subject: Re: [PATCH net-next v2 2/2] net: stmmac: dwmac-sun8i: Enable jumbo
- frames up to MTU 2018
-From: netdev-bot+sashiko@kernel.org
-To: aiyengar1990@gmail.com
-Cc: maxime.chevallier@bootlin.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com, wens@kernel.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, netdev@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org,
- clabbe.montjoie@gmail.com
-Date: Mon, 16 Nov 2026 13:54:25 +0000
-Message-ID: <179483726554.3136.14444857396156719322@kernel.org>
-In-Reply-To: <20261112-sun8i-emac-jumbo-v2-2-aca0cf23cf17@gmail.com>
-References: <20261112-sun8i-emac-jumbo-v2-2-aca0cf23cf17@gmail.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Y964wnSk
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1b3b4944a0eso1517977c88.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 06:23:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794838995; x=1795443795; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3+LDIf7xcOUg0Ytv5NF1ZKANWMIYF3HNRlqe1V/Gd84=;
+        b=Y964wnSk2Rzd4+I/+puZ57qR4VgEAVvb4U7s9diF5qqzL+2zseW3kUiReG7T502jBm
+         DBd/l+PFDw56eB8nJN+Hf7dcCaYGOO1EEYtbQrUTcB1f8K3h1tDd/TVFkoEs5KM7Dmj5
+         Q0/TB7lOIZeyKHw4hyaalYqecIDM9M4wzKKbG7SUhAhS488/eg7G2tuK5JI+HQ2mkEWG
+         pQawf78a29jEkzxiE834EYYC1P2IitVnwk0rUFCa9xgXZBEzQrk+MkBcv89lODgfcdWa
+         iJPpCslXzeB6xLcXW/a3Eun5UqfmoveeESZpn4842b/S4Mo5OFUnLpV8WQTDylS8JHch
+         Srnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794838995; x=1795443795;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3+LDIf7xcOUg0Ytv5NF1ZKANWMIYF3HNRlqe1V/Gd84=;
+        b=QgAlXWkAe+1MpDOGCUnXBb303RljpF904oJJb5bmgi5L8S9YoxejC8p2HGr+eBS5i2
+         Qx1ytPeBaGEn9+Jh3DY93rZBfUQKNLEwp4EkP9dGZSDPE4XVxz/z8EAu9z1+ZQT8w0QF
+         FnQ+It0scZv9l0fD31js2mXhzQ7IObEvdp5zqwZVgbL1QLpjMImo/+VWg/CeMud+qkec
+         tSCtvwYCEtZZwTnUIz+KIfocQpTCgJABHkoc0ws6nPQV5ixbTG+9i17/oMNhT+OnM7Gq
+         mZGg4VVdsoP1YfpDnxq5KyQVVOuS3b5Ft3fKHEI2Xol1AbTAwALutDwDObOJeesMUSYx
+         oLCQ==
+X-Forwarded-Encrypted: i=1; AL+hErEZ1+L4PYw8cCnWw6WO5TgbkvQnw3dZdnA1lgCEf80pqRaHbySKTaeqBfum9F1epknWmPRE2Q48KTyVmw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/izv6hJrIMLCHbfziH7eP+xvuHo31zS63iP8FFZ9vUjBa9BiSh
+	8tfFvNAQ8LjXuvugla4GE3AJgyVBHfaClvwSkp7MPWb7y7Je+YdbZqOo
+X-Gm-Gg: AYBFou1gllwvXYHB++VMZwdvwK77L+TrrFl5WcFetSWJY4pMDb0YLm86Not6H085h3Q
+	en+3gtLg5NQvINDGR2U14WvS0G6pMPEG7kLtF7a7aT+3bNGagDIdDJHvcQ7iollwS0gQ8Cd0axF
+	K/vq+ATgN+xGlalWsRbTqyGTylRLzFwPhWQzGJ5HIbKXlAQgwfPwNTgLub0fb2DI9IeT0NTADEZ
+	7Sa/STaSN8S36twkSlbewH7NsdHSvpFWfCGpK6usgm/x8EEc8lyJw+oGHceZGhyGwJnM82CdiXM
+	/LR5JE6Ey1ci/qLk2C1Dtps1ErSRJ2XlGGUHSjkt+ze+Q+00KfYzTytZ2O7cJY1Z0T+6WQSAdBw
+	wux0bY2lOk5z6F+uGwHvV+Eq1zUVuSPAYUeOTbLqR/iBju/qdcjHR2Mvn2z0q44d/a4bP/hJYrE
+	or1G3vSFhKjTfsR8KuDVU9j2gtVcxcgckWwpzSPeuEynbqnorFkIl7feEHpVeK9rfdaa02erOqd
+	bR6aLL0wERQTzTONdOQ6yUwYZtrnskaMX3kxVZ6TFMXn7eInjtaai7sCA/9ctyBE5TT7YMLlaBm
+	LOQ418I5PqjLj0VAhWF9BOgAGxNgcWMM8X8mrWw=
+X-Received: by 2002:a05:7023:904:b0:1ac:2f6d:e1c6 with SMTP id a92af1059eb24-1b503068271mr10508055c88.6.1794838995363;
+        Mon, 16 Nov 2026 06:23:15 -0800 (PST)
+Received: from arch.localdomain ([152.175.35.61])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b50319e381sm32526875c88.12.2026.11.16.06.23.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 06:23:14 -0800 (PST)
+From: Jun Yan <jerrysteve1101@gmail.com>
+To: jernej.skrabec@gmail.com
+Cc: conor+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	james.hilliard1@gmail.com,
+	krzk+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	robh@kernel.org,
+	samuel@sholland.org,
+	wens@kernel.org,
+	Jun Yan <jerrysteve1101@gmail.com>
+Subject: Re: [PATCH 1/2] arm64: dts: allwinner: sun50i-h6: Add AC200 companion chip
+Date: Mon, 16 Nov 2026 22:23:07 +0800
+Message-ID: <20261116142307.671340-1-jerrysteve1101@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261115171148.37784-2-jernej.skrabec@gmail.com>
+References: <20261115171148.37784-2-jernej.skrabec@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -67,141 +106,132 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+Hi Jernej,
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 1
-
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
-
-- [Medium] The commit message says "A device tree max-frame-size can
-  still lower it", but for this driver that is false.
-- [Low] The max_mtu clamp fixes a real, user-visible bug, but the commit
-  is framed as a feature ("Enable jumbo frames") and has no Fixes: tag.
-
---
-
-net: stmmac: dwmac-sun8i: Enable jumbo frames up to MTU 2018
-
-This patch sets the JUMBO_FRM_EN bit in EMAC_RX_CTL0 from
-sun8i_dwmac_core_init(), so the sun8i EMAC accepts frames longer than 1518
-bytes. It also clamps plat_dat->maxmtu to 2018 in sun8i_dwmac_probe(). With
-that limit, a frame with two VLAN tags and the FCS fits in a single 2044
-byte descriptor buffer.
-
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> index 0c82662fbe6ea..a18d3daf6a3ff 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-
-[ ... ]
-
-> @@ -645,6 +659,15 @@ static void sun8i_dwmac_core_init(struct mac_device_info *hw,
+> Every H6 package contains an X-Powers AC200 die next to the SoC. It is
+> controlled over I2C3 (PB17/PB18), takes its 24 MHz reference clock from
+> PWM1 (PB19), and its Fast Ethernet PHY connects to the EMAC through the
+> RMII pins on port A.
+> 
+> Describe these parts in the SoC dtsi:
+> - the I2C3 controller with the AC200 at address 0x10 as its child,
+> - a pwm-clock that runs PWM1 in bypass mode at 24 MHz as the AC200
+>   input clock,
+> - the I2C3, PWM1 and RMII pin groups,
+> - the EPHY calibration value in the SID.
+> 
+> Everything stays disabled. Boards that use the AC200 enable the
+> pwm-clock, the PWM and I2C3 controllers and describe the PHY package on
+> their MDIO bus.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 53 ++++++++++++++++++++
+>  1 file changed, 53 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> index 48c771223af4..5e48b35d13de 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> @@ -17,6 +17,16 @@ / {
+>  	#address-cells = <1>;
+>  	#size-cells = <1>;
 >  
->  	v = (8 << EMAC_BURSTLEN_SHIFT); /* burst len */
->  	writel(v, ioaddr + EMAC_BASIC_CTL1);
+> +	ac200_clk: ac200-clk {
+> +		compatible = "pwm-clock";
+> +		#clock-cells = <0>;
+> +		clock-frequency = <24000000>;
+> +		pinctrl-names = "default";
+> +		pinctrl-0 = <&pwm1_pin>;
+> +		pwms = <&pwm 1 42 0>;
+> +		status = "disabled";
+> +	};
 > +
-> +	/* Without JUMBO_FRM_EN the receiver flags every frame longer than
-> +	 * 1518 bytes (1522 with a VLAN tag) as a length error, so any MTU
-> +	 * above 1500 is unusable. Frames are still bounded by the RX
-> +	 * descriptor buffer size, see EMAC_MAX_MTU.
-> +	 */
-> +	v = readl(ioaddr + EMAC_RX_CTL0);
-> +	v |= EMAC_RX_JUMBO_FRM_EN;
-> +	writel(v, ioaddr + EMAC_RX_CTL0);
->  }
+>  	cpus {
+>  		#address-cells = <1>;
+>  		#size-cells = <0>;
+> @@ -314,6 +324,10 @@ ths_calibration: thermal-sensor-calibration@14 {
+>  			cpu_speed_grade: cpu-speed-grade@1c {
+>  				reg = <0x1c 0x4>;
+>  			};
+> +
+> +			ephy_calibration: ephy-calibration@2c {
+> +				reg = <0x2c 0x1>;
+> +			};
+>  		};
+>  
+>  		timer@3009000 {
+> @@ -388,6 +402,11 @@ i2c2_pins: i2c2-pins {
+>  				function = "i2c2";
+>  			};
+>  
+> +			i2c3_pins: i2c3-pins {
+> +				pins = "PB17", "PB18";
+> +				function = "i2c3";
+> +			};
+> +
+>  			mmc0_pins: mmc0-pins {
+>  				pins = "PF0", "PF1", "PF2", "PF3",
+>  				       "PF4", "PF5";
+> @@ -414,6 +433,19 @@ mmc2_pins: mmc2-pins {
+>  				bias-pull-up;
+>  			};
+>  
+> +			pwm1_pin: pwm1-pin {
+> +				pins = "PB19";
+> +				function = "pwm1";
+> +			};
+> +
+> +			/omit-if-no-ref/
+> +			rmii_pins: rmii-pins {
+> +				pins = "PA0", "PA1", "PA2", "PA3", "PA4",
+> +				       "PA5", "PA6", "PA7", "PA8", "PA9";
+> +				function = "emac";
+> +				drive-strength = <40>;
+> +			};
+> +
+>  			/omit-if-no-ref/
+>  			spi0_pins: spi0-pins {
+>  				pins = "PC0", "PC2", "PC3";
+> @@ -626,6 +658,27 @@ i2c2: i2c@5002800 {
+>  			#size-cells = <0>;
+>  		};
+>  
+> +		i2c3: i2c@5002c00 {
+> +			compatible = "allwinner,sun50i-h6-i2c",
+> +				     "allwinner,sun6i-a31-i2c";
+> +			reg = <0x05002c00 0x400>;
+> +			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_BUS_I2C3>;
+> +			resets = <&ccu RST_BUS_I2C3>;
+> +			pinctrl-names = "default";
+> +			pinctrl-0 = <&i2c3_pins>;
+> +			status = "disabled";
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			/* AC200 is co-packaged with the H6 die. */
+> +			ac200: mixed-signal@10 {
+> +				compatible = "x-powers,ac200";
+> +				reg = <0x10>;
+> +				clocks = <&ac200_clk>;
+> +			};
+> +		};
+> +
+>  		spi0: spi@5010000 {
+>  			compatible = "allwinner,sun50i-h6-spi",
+>  				     "allwinner,sun8i-h3-spi";
+> -- 
+> 2.43.0
+> 
 
-[Severity: Low]
+Tested-by: Jun Yan <jerrysteve1101@gmail.com>
 
-JUMBO_FRM_EN is now set unconditionally. A peer can therefore send oversized
-frames that reach the RX DMA even at the default MTU of 1500, and those
-frames span several descriptors.
+Tested on a TaiqiCat (TQC) A01 with similar board changes on top: the new
+I2C3, PWM1 clock, RMII pins and SID calibration cell all work there as
+well.
 
-Dropping them correctly depends on commit 834ec9530832 ("net: stmmac: drop
-split frames on AF_XDP zero-copy RX"). That commit made
-ndesc_get_rx_status() return discard_frame | rx_not_ls for non-last
-descriptors, and made stmmac_rx() test status & discard_frame and drain the
-split frame.
-
-On a tree without that commit, wouldn't stmmac_rx() treat the last fragment
-of such a frame as a new packet? The commit message cites 834ec9530832 only
-as background. Could it be listed as a prerequisite for backporters?
-
-Related to this, the max_mtu clamp in sun8i_dwmac_probe() also fixes an
-existing problem, but the patch has no Fixes: tag. Before this patch, the
-driver advertised a max_mtu of 3712 and was in this state:
-
-- stmmac_hw_init() forces chain mode for STMMAC_FLAG_HAS_SUN8I.
-- stmmac_xmit() calls stmmac_is_jumbo_frm() only for enh_desc.
-- norm_set_tx_desc_len_on_chain() masks the length to 11 bits:
-
-    p->des1 |= cpu_to_le32(len & TDES1_BUFFER1_SIZE_MASK);
-
-So with an MTU between 2048 and 3712, a linear TX frame longer than 2047
-bytes was silently truncated. Would a Fixes: tag make sense for that part?
-
-[ ... ]
-
-> @@ -1209,6 +1232,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
->  	plat_dat->mac_setup = sun8i_dwmac_setup;
->  	plat_dat->tx_fifo_size = 4096;
->  	plat_dat->rx_fifo_size = 16384;
-> +	plat_dat->maxmtu = min(plat_dat->maxmtu, EMAC_MAX_MTU);
-
-[Severity: Medium]
-
-The commit message says:
-
-    A device tree max-frame-size can still lower it.
-
-Is that true for this driver? stmmac_probe_config_dt() reads the property
-only for a few compatibles:
-
-stmmac_platform.c:stmmac_probe_config_dt() {
-    ...
-	if (of_device_is_compatible(np, "st,spear600-gmac") ||
-		of_device_is_compatible(np, "snps,dwmac-3.50a") ||
-		of_device_is_compatible(np, "snps,dwmac-3.70a") ||
-		of_device_is_compatible(np, "snps,dwmac-3.72a") ||
-		of_device_is_compatible(np, "snps,dwmac")) {
-		...
-		of_property_read_u32(np, "max-frame-size", &plat->maxmtu);
-    ...
-}
-
-None of the compatibles in sun8i_dwmac_match[] can carry an snps,dwmac
-fallback under allwinner,sun8i-a83t-emac.yaml. So plat_dat->maxmtu always
-holds the JUMBO_LEN default (9000) when this min() runs, and the line always
-sets it to 2018.
-
-The binding does accept max-frame-size on these nodes, because it includes
-snps,dwmac.yaml through allOf, and that pulls in ethernet-controller.yaml.
-If a board sets max-frame-size to cap the MTU for a PHY or switch limit, the
-driver ignores it without a warning.
-
-Should the commit message be corrected, or should the driver parse
-max-frame-size itself?
-
-If the property is ever parsed for these nodes, the min() has a second
-problem. plat->maxmtu is an int filled by of_property_read_u32(). A value
-below min_mtu, or one that is negative as an int, passes straight through
-min(). stmmac_dvr_probe() then only warns:
-
-	if (priv->plat->maxmtu < ndev->min_mtu)
-		dev_warn(priv->device,
-			 "%s: warning: maxmtu having invalid value (%d)\n",
-			 __func__, priv->plat->maxmtu);
-	else if (priv->plat->maxmtu < ndev->max_mtu)
-		ndev->max_mtu = priv->plat->maxmtu;
-
-In that case ndev->max_mtu stays at SKB_MAX_HEAD(NET_SKB_PAD + NET_IP_ALIGN).
-Wouldn't that bring back the TX truncation and the RX split-frame drops that
-this patch is meant to prevent?
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261112-sun8i-emac-jumbo-v2-0-aca0cf23cf17%40gmail.com
+Thanks,
+Jun
