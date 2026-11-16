@@ -1,54 +1,63 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794848229;
-	b=uaaIDbEz0QRGyclYBCg6h+5JC3er+UREokQPNtSaFdvixDnjTVOOvqA+VGKxsq+c6C/h
-	 bSurZqKoSJXPJ4gS6d/nCrpWwwoJyhWxpb+0CZvlGMjxzMVygML5XrjiMr2c9cKCA0P1F
-	 aMaguOM5EePn+EMJn8ScaQbwcu38gxsD6KuZsaQuMiPGN3CgaxGOYRVTWZXuvS/w4Ze2l
-	 7fGUL/ahLkgKDTwhCucuKKSS6520eZA5E+0CY1AGd2GLGGOP9YGlSXQQTtqRaHC0OrkfF
-	 zB6k4AQ5g8P8lrK6uVcRJemRsWF2BZ5NOPzT/QSLEBrp5n8Sw9D01oSmdmAUxDgpOFQ==
+	t=1794848350;
+	b=2KRQVBqX+Pu3SZYi4BaKHTbXxbYjN7fBDRwxw5zcdXNimuh0KmFywKArjpQ/m0qEOW1q
+	 JPc38W1mnzpdgQLyrzo5vPH4I3fiWHHAaQPhoY+Rm861YhypJwITWq3yQpsDut3aLB6Iu
+	 Ob8N4iFD2PaRxW0Oo5DqSDgWKS2j9luQ88vxpsPjNAlQY6kwsCusUs3hCQfXGQAip4PWZ
+	 pZgz0G7w+ozRTc1q+K6V+F2/iRmXqLCpH/7Sx93kPfh9XorRnIiV967k+vL/T+YyX0Fka
+	 cu4jhX6C7Cz0UD8Vj33vRl9Fn3i4+MGO8yvR4IEDThw1hoZrosDWk4vKs7Out4eFVOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794848229;
-	h=Received:DKIM-Signature:Received:X-Gm-Message-State:X-Received:
-	 MIME-Version:References:In-Reply-To:Reply-To:From:Date:
-	 X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=ihPcbJ+Vb6nHbO8tsEJQxsCuMD2idQvF3dKfV9eNT3k=;
-	b=HjpQhEOeF3qLkjKJ/jUL4TG7niul7gJqP42x1B2YsdPWfdiJj/rY1ojB2L75NrwXNez0
-	 zOaKiJEw1Kzvg0lKY5ziMDBj+aCXASJT5Xd/3ZVElW+EG+6HbQ0OKVootcVnrlWrvJvy0
-	 yzxNz+r3v+wyK3fw1PJWtBPfYPrSXEZUbnIoFVVf3fMVgEPeBsfCgp24dgzRXo//q2rkU
-	 krIz28Z6kRofkDnr4ZH/0FYByZy/e6UArrx7NL0F98ptjsyATgZR/svIQbeCpqY9N4ooi
-	 Kl58pqdjS2QbeIHcEir511OtgFsPmt8ZC1/U7xg6oYFBndgHMwCq+8pSRKVlrCWa4Mg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794848350;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=F4ur6QQF1zfwW0GccFtcSQ/AKccCErCW2OP1q88a0fY=;
+	b=yqpeYRCydSuah152YZ8mW3WHJ7lBQSrjrmzUP7AZSTq1UZMUYQMkm56uJ1/2KAIUjCff
+	 FPlTqzkgwzuK6tgH1YhksnbdNu5QF/kTyew8jdDK848taPfcciOas5ygKg1hl+BDURAwp
+	 VA9Ghv2lH8eGYjqPxLFztrDmZ0i8KR9llabzsQmaXymF6qOqkX+3M2su2kdg/3UGRx7dh
+	 8jClugH0h8IW3Q4l4XstqqwC+zcbVgcJG/04CT2/QH3mtvfhKTWc8htWSnPuQuJHFwvsZ
+	 jZ3DtHMWrtpYa+3qFP6oTxfKnoBNbdLPtRE1bh1t4OBWa/Q9+y1q5uiK90SsZUb2BxQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Yqt/tYi5";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="R+J/+BLB";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AFED606A333
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 16:57:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE5CD606A88C;
+	Mon, 16 Nov 2026 16:59:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yqt/tYi5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 169031F000CA
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 16:57:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R+J/+BLB
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58BF11F000C9;
+	Mon, 16 Nov 2026 16:59:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794848229;
-	bh=ihPcbJ+Vb6nHbO8tsEJQxsCuMD2idQvF3dKfV9eNT3k=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=Yqt/tYi5+ZGwIQFMIV16w9kVWjuuv8MPq2gLuQQHHz864LGcDoIK5AnvfxWMjI1a3
-	 AIZmsae9+ORpJ6HXG/NF/pI6pZTpqaKqyJnkwCcWmRhoifXFzHDQcBz+tJB9jFPDB3
-	 S6VzaZtLFYnY2b5cVZTOeYK9Uj9QBUpxivUnW+S+OCYG1iJAkHL4NuMcP9eiS5UWG0
-	 53YFJk2W+922LiKMEfWkvd8yQBj8w4b2HKEyzBONpFiz4MwQIxD3JGwnEO41NLHSsx
-	 ae9RiOUadY8rIXNciX2tpx6qgr6N4dZvIZqlnl+7hVyvOyH+lWMYqqy3gcxXZhfisw
-	 1XyI1A0ZYESiQ==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-3ad5529ae64so35499321fa.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 08:57:09 -0800 (PST)
-X-Gm-Message-State: APuU4Z9z/VTjje8aK+1F9c2bfyT7EvCMb3ZCh/rQccNkx59JCdGaBQKp
-	c9aZ7mq6P1u9uXNadhfEqbDRBC5O6Yq1YOhn9WmgI4DnQaiTaPH3+CzDBtZlEpzxm8ZdVdZ/WVx
-	JohepTTO/vz8GBQRFx/l54G+CpLQBGQg=
-X-Received: by 2002:a2e:ac0b:0:b0:3a9:abd6:1acd with SMTP id
- 38308e7fff4ca-3ae2b4b5d4bmr33782431fa.6.1794848227241; Mon, 16 Nov 2026
- 08:57:07 -0800 (PST)
+	s=k20260515; t=1794848350;
+	bh=F4ur6QQF1zfwW0GccFtcSQ/AKccCErCW2OP1q88a0fY=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=R+J/+BLBz+v52V9EodmNskSXjI2QqourwXmDMgYvUbT0Ub4f/14FFzmxeLVLTXwDZ
+	 X67lDVVo3CPtZYv7EqpPzrhrDECuAP2Yywv2k7CByL57487wrLHryTKwlT/I+Q26zP
+	 mhaMxAJWvSgnVQh8Ls3ZPImmprsNBNi2bFt0jmEQhyzFdKq+Kod6dewfhoi0bTZ0nN
+	 +AtP0/JKrPvy12U2L8HhD/XWZzfUU9xwhDrT35EnFaZza8C2RBL+vDfqWxNehBavKw
+	 DRye2gVa0ew179KbWnn0t9Ryy30XfI0vvFls6xe73+QUZvRWh1NpjR3W+wJVj468S8
+	 guvkwKmZ30QGA==
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Brian Masney <bmasney+clk@redhat.com>, 
+ Jerome Brunet <jbrunet+clk@baylibre.com>, 
+ Arun Iyengar <aiyengar1990@gmail.com>
+Cc: Andre Przywara <andre.przywara@arm.com>, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Philippe Simons <simons.philippe@gmail.com>, 
+ Ilya Titov <ilya.titov@wirenboard.com>, linux-clk@vger.kernel.org, 
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261116-h616-pll-output-gate-v2-0-a418026ffae6@gmail.com>
+References: <20261116-h616-pll-output-gate-v2-0-a418026ffae6@gmail.com>
+Subject: Re: [PATCH v2 0/2] clk: sunxi-ng: h616: PLL output gate and GPU
+ notifier order
+Message-Id: <179484834812.3674093.743014872311780954.b4-ty@kernel.org>
+Date: Tue, 17 Nov 2026 00:59:08 +0800
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -58,200 +67,28 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261026-sunxi-orangepi-3-lts-v3-0-98fef4f75184@gmail.com>
- <20261026-sunxi-orangepi-3-lts-v3-2-98fef4f75184@gmail.com>
- <CAGb2v65eCotQPfnFsj6XfExs=ybE+xPWMFUhC9DFJRehfv7XAQ@mail.gmail.com>
- <CAH87RzSWDuiA9w8-ZkZXjVmQ_3EbRGKu8dKUzBf=KhNJHZFgjA@mail.gmail.com>
- <CAGb2v64Fd4ZN7fbTwcz45wK4Sc=hD10gjaVCYgW+HDa8O7W7_w@mail.gmail.com> <CAH87RzSJsk8ypdw0cDZzopeUxgPR1VdyiF_sHDLjKYR4AfzWXQ@mail.gmail.com>
-In-Reply-To: <CAH87RzSJsk8ypdw0cDZzopeUxgPR1VdyiF_sHDLjKYR4AfzWXQ@mail.gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Tue, 17 Nov 2026 00:56:53 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65VY0OFaUuE9qX2JGRcGjEMGCKMjUUvurx7UBxDm+81rw@mail.gmail.com>
-X-Gm-Features: AclHuK9eCzsnkZ4gGUBVKhOaPUkWgSy2T84SmEfd_eoJadqeR2ggIDq1fX6dZNU
-Message-ID: <CAGb2v65VY0OFaUuE9qX2JGRcGjEMGCKMjUUvurx7UBxDm+81rw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] arm64: dts: allwinner: h6: Add Orange Pi 3 LTS
-To: Cristian Filipescu <filipescu.cristian@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Andre Przywara <andre.przywara@arm.com>, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.2
 
-On Tue, Nov 17, 2026 at 12:44=E2=80=AFAM Cristian Filipescu
-<filipescu.cristian@gmail.com> wrote:
->
-> On Mon, Nov 16, 2026 at 7:38=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> wr=
-ote:
-> >
-> > On Mon, Nov 16, 2026 at 7:47=E2=80=AFAM Cristian Filipescu
-> > <filipescu.cristian@gmail.com> wrote:
-> > >
-> > > Hi Chen-Yu,
-> > >
-> > > On Sun, Nov 15, 2026 at 3:14=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org=
-> wrote:
-> > > >
-> > > > On Tue, Oct 27, 2026 at 7:34=E2=80=AFAM Cristian Filipescu via B4 R=
-elay
-> > > > <devnull+filipescu.cristian.gmail.com@kernel.org> wrote:
-> > > > >
-> > > > > From: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > > >
-> > > > > Add the board description for the Allwinner H6-based Orange Pi 3 =
-LTS,
-> > > > > including its regulators, storage, Ethernet PHY, LEDs and USB por=
-ts.
-> > > > >
-> > > > > Specify the Motorcomm YT8531C PHY ID to avoid early ID autodetect=
-ion,
-> > > > > which failed on MAC driver rebind. Reset the sole PHY at MDIO bus
-> > > > > registration and keep reset outside interface detach so its confi=
-gured
-> > > > > 125 MHz clock output is retained. Use PHY-internal RGMII delays.
-> > > > >
-> > > > > Select the weakest GPIO drive level for both LEDs. Enable 1.8 V e=
-MMC
-> > > > > DDR52 and HS200 modes; retain the H6 maximum frequency of 150 MHz=
-.
-> > > > >
-> > > > > Link: https://lore.kernel.org/linux-sunxi/20250413134318.66681-3-=
-jernej.skrabec@gmail.com/
-> > > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > > > Signed-off-by: Cristian Filipescu <filipescu.cristian@gmail.com>
-> > > > > ---
-> > > > >  arch/arm64/boot/dts/allwinner/Makefile             |   1 +
-> > > > >  .../dts/allwinner/sun50i-h6-orangepi-3-lts.dts     | 379 +++++++=
-++++++++++++++
-> > > > >  2 files changed, 380 insertions(+)
-> > > > >
-> > > > > diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/=
-boot/dts/allwinner/Makefile
-> > > > > index aa21f58a4..7ea136380 100644
-> > > > > --- a/arch/arm64/boot/dts/allwinner/Makefile
-> > > > > +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> > > > > @@ -41,6 +41,7 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h5-orangep=
-i-zero-plus.dtb
-> > > > >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h5-orangepi-zero-plus2.dtb
-> > > > >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-beelink-gs1.dtb
-> > > > >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-orangepi-3.dtb
-> > > > > +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-orangepi-3-lts.dtb
-> > > > >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-orangepi-lite2.dtb
-> > > > >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-orangepi-one-plus.dtb
-> > > > >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-pine-h64.dtb
-> > > > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3-l=
-ts.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3-lts.dts
-> > > > > new file mode 100644
-> > > > > index 000000000..e2ca41b94
-> > > > > --- /dev/null
-> > > > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3-lts.dts
-> > > > > @@ -0,0 +1,379 @@
-> > > > > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > > > > +// Copyright (C) 2025 Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > > > +// Based on sun50i-h6-orangepi-3.dts, which is:
-> > > > > +// Copyright (C) 2019 Ond=C5=99ej Jirman <megous@megous.com>
-> > > >
-> > > > We now have a common sun50i-h6-orangepi.dtsi file. You really shoul=
-d
-> > > > rewrite this patch to just use that as a base.  It is mostly the sa=
-me
-> > > > across all the OrangePi H6 boards.
-> > >
-> > > v4 now uses that include and keeps the LTS-specific additions
-> > > and overrides. I compared the resolved DTBs to check the inherited
-> > > properties and preserved the LTS electrical settings, except for the
-> > > review changes described below. Common naming cleanups are deferred.
-> >
-> > [...]
-> >
-> > > > Set the supply on all cores.
-> > >
-> > > Done. All four running CPU nodes reference DCDCA, and all four CPUs a=
-re
-> > > online with the shared cpufreq policy.
-> >
-> > I should've mentioned that since this is already enabled at the .dtsi
-> > level, you shouldn't add it anymore. If anything, it's the .dtsi file
-> > that should have all cores referencing the regulator.
->
-> Understood on the CPU supply. I have rebased onto sunxi/dt-for-7.5 at
-> 098728144545 and removed the board-local CPU0-CPU3 supply declarations
-> and CPU/GPU OPP includes. These are now inherited from the common
-> Orange Pi H6 description. I also removed the redundant ramp-delay and
-> CPU maximum-voltage overrides, keeping the existing LTS 800 mV minimum.
-> Any all-core supply cleanup belongs in the common include.
->
-> >
-> > [...]
-> >
-> > > > > +&mmc1 {
-> > > > > +       vmmc-supply =3D <&reg_wifi_3v3>;
-> > > > > +       vqmmc-supply =3D <&reg_bldo3>;
-> > > >
-> > > > Something is fishy here. The schematic also shows vcc-wifi-io (on t=
-he aw859
-> > > > side) directly derived from vcc-wifi (reg_wifi_3v3). I suggest at l=
-east
-> > > > checking with a multimeter to confirm what the voltage is on the VD=
-DIO
-> > > > pin of the module.
-> > > >
-> > >
-> > > Regarding the AW859A I/O supply, I traced U60 pin 22 (VDDIO) to
-> > > VCC-WIFI-IO, which is connected to BLDO3 in the schematic. I measured
-> > > 1.8 V at an RW1 pad relative to board ground. This supports keeping t=
-he
-> > > existing BLDO3 vqmmc assignment; I have left it unchanged.
-> >
-> > You traced it on the board or on the schematic?
-> >
-> > Can you test at U60? The schematic has two options for I/O voltage from
-> > the LDOs, and then another from VCC-WIFI, hence I would like to be
-> > certain. I imagine the SMT components aren't labeled on the board, so
-> > it would be somewhat hard / eye-hurting to trace the board directly.
-> >
->
-> The Wi-Fi connection trace was from the schematic. Initially I was worrie=
-d I
-> would short some pin, but I see pin 22 is at the edge. I have now measure=
-d
-> 1.8 V directly at U60/AW859A pin 22 (VDDIO), relative to board ground aft=
-er
-> the kernel boots.
+On Mon, 16 Nov 2026 08:45:06 +0000, Arun Iyengar wrote:
+> Patch 1 gates the H616 PLLs with their output enable bit instead of
+> powering them down. Patch 2 registers the GPU PLL notifier before the
+> mux notifier, as Ilya Titov's 0ec5e7572ddc did for the CPU.
+> 
+> No Cc: stable: the patch 1 crash needs out-of-tree H616 HDMI, and the
+> old GPU notifier order never failed here.
+> 
+> [...]
 
-Cool! Thanks for confirming.
+Applied to sunxi/clk-for-7.5 in sunxi, thanks!
 
+[1/2] clk: sunxi-ng: h616: Gate the PLLs with their output enable bit
+      https://git.kernel.org/sunxi/linux/c/5aae0639bcc6
+[2/2] clk: sunxi-ng: h616: Register GPU PLL notifier before mux notifier
+      https://git.kernel.org/sunxi/linux/c/3f8438336a3b
 
-ChenYu
+Best regards,
+-- 
+Chen-Yu Tsai <wens@kernel.org>
 
-> > [...]
-> >
-> > > > > +&usb2otg {
-> > > > > +       dr_mode =3D "host";
-> > > > > +       status =3D "okay";
-> > > > > +};
-> > > > > +
-> > > > > +&usb2phy {
-> > > > > +       usb0_id_det-gpios =3D <&pio 2 15 GPIO_ACTIVE_HIGH>; /* PC=
-15 */
-> > > >
-> > > > This isn't connected to anything but a pull-up. And you already spe=
-cified
-> > > > host mode only above.
-> > >
-> > > Removed usb0_id_det-gpios with /delete-property/ so the common includ=
-e's
-> > > PC6 setting is removed too. USB0 remains fixed to host mode. The runn=
-ing
-> > > DT confirms the ID GPIO property is absent and dr_mode is host.
-> >
-> > Thanks!
-> > ChenYu
->
->
-> Regards,
-> Cristian Filipescu
-> ------------------------------------
