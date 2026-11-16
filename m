@@ -1,101 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794839112;
-	b=wSZO8iMpTRhAe09kcMLZmrUmXEg49Er00uYbAUhF6z0MrbekYCVGW+ocf/rPH5dehI4k
-	 zHAc7ZlFhcatsy01+BTAJiRO2HoUOIKxrZL7yUrGF/H7wWHKMZL8d8HSLmDBhaiwzxUt4
-	 DH3lAJo7OYoTZdJjANjDc9wofCejWWYAfwpBuG5Gt+eMxZvLE0BviClwqCauJqYQJULzh
-	 KdtWojmE0F3L90C6774IsntoTsegXkXZbti7PYJdoIzseduP7ux+jEGiEPu0kWazNHPPW
-	 9vguvTah5J90LWTCJOSJpTOXj5u3WKehb9QO0qwJB3DYZhE/nqAPpo4gjR6q8cpYYCw==
+	t=1794839911;
+	b=RghJcSDih0P8nCcvHnuWtlg9sWX7OdhjhVo7dontyhx/oLQOdUifaMYzGq+hSpLn0Wc9
+	 XJxV3MsqwhZOsiz8BuWorVqYxva65VXRf2V5/d1AtU0mr70yPp5RwgIhnk/DuZRcRHR2x
+	 3W3A8U9vKrOr1z/bebJPpvdJUxR35K3AojrKjR5hOE4K26P2mg7W+t0B5Ym+cz3X4ZgsM
+	 Cqwcbw1Yfb1UXpmPpvblONUUZ126ssFb7c3fEl79RuG7KDx1KiZy+EPZPDA6Xt/RxSnZV
+	 I6rHkDoXICACviMWaIrvaoDSeHLhMspPigK3gW79TulMSgXQ+eIJ5WwCJdxajiUMgvA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794839112;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=8droy8SkDbf75L1AVTA69UoLCcieNW/rhnOo3JtrCC0=;
-	b=x5tcWoboynM4AmIuWyjC8JTlS7cLR0dwxFbeg1ssPExOW7FUxuuYoKqqi39oFUdHiXBH
-	 lScF4qSZXW2lFrrBam0j7bKavHNsPnKbeAuL2lPho+4szu1FRgfHk+4a2ZqulD7x6OceC
-	 ky4mutd0xZ8tzI7eQWV4wdQaNdTfZ0ttduEoAg5s/HmVw7+kkJjqDd8TudFI8sX+7gAiZ
-	 C9T1E/1sFuDaspKR3iUQskZa8o8HQai/xtZBTHGkYRWGW7HTfQta9+wHqFhisgrpFZQZI
-	 +d5q0tNoJFTqAPVMjOXWz92jBtgQ55Y6Z8q2HgUaZUn6WVpIfVwrnBUCwwh4CEJKQnA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794839911;
+	h=Received:DKIM-Signature:Received:X-Gm-Message-State:X-Received:
+	 MIME-Version:References:In-Reply-To:Reply-To:From:Date:
+	 X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=AB+oE85rBz3kYmqVCq+Wu2uFRwaOKmFVZVyN/Ci/tK8=;
+	b=z/xrdLwrJZiZ0PXBiMcdcmItks3C6X50lX5ds445OfivUCEIUHwDY9NyuEKW+N+BMz8H
+	 byURFtzUo/b1ZAMjhHsdIIahvBHXbiS6MeesjI/oaOdoDOKc2HbI6jevtldb10lGxMbRP
+	 /ew6/k/qXGD22xibmVv11T8QYkxV2makmFN4l8L5o566izi74M+g2Fd+yjEYcKQhr5wCF
+	 0Nk9t7vzJMridwcwL3voOrZCQXLEsxRNQCVnbEp4jS4MloKpRSoofVa2cGrASPwLrNT+i
+	 WL6s/5x6b0A8tnMhFtyS+7jb+T8AY6LUrv2f8+Gw18QtMYpJ/WNsymElVnz0T6PeLOg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DpRbeKzP;
-	arc=none smtp.remote-ip=209.85.210.170
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="H/vP6umn";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD9F606A32C
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 14:25:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BD9F606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A28606A323
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 14:38:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DpRbeKzP
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-8b2382bf051so1926893b3a.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 06:25:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794839111; x=1795443911; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8droy8SkDbf75L1AVTA69UoLCcieNW/rhnOo3JtrCC0=;
-        b=DpRbeKzPekqV3yvqayxKbTtqLOMzfT+8FCBW/FhNVaHKRYMXhvctB9x7IGN7eJWMlj
-         qN0aCAWeYvxSNuIQuffnKk+3pdiBog8w0yCOWI6VZkzCNKDvZk0y3XOnRmb66sZuu9GB
-         j9ftNhXVzk4vzWwOVSLRupolx7Xpp7ch8xWqk6U4cdqMPC5yn8UsNjH2gBUNoIxjSLZg
-         JbA2xVftxUP3brTtaLMR06r54+0KDhLodJLGBPwzypgOtleOu15/vA4/Iv4nNfHhTk5l
-         /pq9w6+U5NMnVdJUioVglYx9GX1RQIBrHZbRfEAnhYsMnFpsucL/LJqvGfGAG4xHGvu0
-         tF5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794839111; x=1795443911;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8droy8SkDbf75L1AVTA69UoLCcieNW/rhnOo3JtrCC0=;
-        b=Oe2g7gBeqzyQU64hTCpzWegb8E/iKGJRW/CeJpyjB/qtsFAX2SMrCC4IFfL5Ryb9bg
-         zFttvncJPvwr7aDiBatrJw29q44mfQtzYMGXiQaX810L/CJBXqK6Xo2qignA4bEzq74C
-         iDKZt4lCOO1s3AorExlYMCgNQQNDF7v1S89Ff6QVrV8bomxbyekno++o04wKlCTG6ENq
-         dysmvPNET5d9EERxqX+TDsozUyO2ihfDq7ADXiokcIhrJXpMH6MMnklmHvNw4B861k+K
-         luqvfyewy/2QtaykbX5mCFM4KcIgGsixxpekKVmQFDOUHbEiDEzB0oTotSUOZ42I1GoM
-         SxhA==
-X-Forwarded-Encrypted: i=1; AL+hErEcil0wu5VnTOdy5AXD5CM3TsdtD2Tksmx5Gt7hmiBgqY2GdImsBCPjdeFFU11n1gMQdzW4CjFo9vWJ3Q==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9sRr/UYZfenOMTiPbo0zg0fViE2m74x4usphkWVpdSeAOEgzy3
-	hr47Y228C6PiYsCODw/YegKVSL7dS4GLE2eYtfwfLQ4kFDoHr0NJjjR+
-X-Gm-Gg: AYBFou2DdHciIm+hghm+tDR9vUU6Xb/ULdfVVpkAb/P1N09Z08Symd7lc+aFkTq2cth
-	RDHG2NEGRJGusEPlJibkAIqLNCDnZalpy2+NzDhEIUGBIK4EnbupDxhW7s+GwcfAXyF4IneF48x
-	3b2v7/+JHdw2t9IshH9NDQQTUTUwkI/9WeOkwyhPh/LgJ+IxsYperzqSpVOE36Aodrrvo5n5DdY
-	HLLQ23VvIxuTWmoZGjImiHKtNUzuz/to9sOedvBqbABubZwroUNAtYIowUnE90QXcjZ2mzSNbUs
-	/GKURiRBrsxTnDU116GexFr3zfSzR0iMWtkoRcRdS/KcsLwrcIne+yIiCSS8FNTXpdKJmcdZZWh
-	rrZwFx2fLP7hCDDY2CvqWda9WNy9xBz3T+Fy91r9b5IxGp0LinYsLFspAVgu9ILkD7bLNCn/9Zq
-	Gi0dtuUdXpkLteTBB+IPApKGaiy/LWJeHFHM87aA+4JauviTxKqQgPItjz4kooMxzJsEC6MBB96
-	3aaWP60DtokiFlFYQtA74L1M61lWuuM2w4fqlDgDc/wuq25ocozMfzShBuV5X4c6ymApFhe6I9w
-	R2FejlalL6E+hORPaD/fgSTIaLE+pH62WEjV4hJukEmziXYINflmjSck7e43
-X-Received: by 2002:a05:6a21:8883:b0:3e2:2234:62a with SMTP id adf61e73a8af0-3f7a84cef9bmr7584081637.55.1794839111006;
-        Mon, 16 Nov 2026 06:25:11 -0800 (PST)
-Received: from arch.localdomain ([152.175.35.19])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed2053d26sm3834158b3a.36.2026.11.16.06.25.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 06:25:10 -0800 (PST)
-From: Jun Yan <jerrysteve1101@gmail.com>
-To: jernej.skrabec@gmail.com
-Cc: conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	james.hilliard1@gmail.com,
-	krzk+dt@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	robh@kernel.org,
-	samuel@sholland.org,
-	wens@kernel.org
-Subject: Re: [PATCH 0/2] arm64: dts: allwinner: h6: Enable Ethernet on Tanix TX6
-Date: Mon, 16 Nov 2026 22:25:03 +0800
-Message-ID: <20261116142503.671907-1-jerrysteve1101@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261115171148.37784-1-jernej.skrabec@gmail.com>
-References: <20261115171148.37784-1-jernej.skrabec@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H/vP6umn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C279E1F000C8
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 14:38:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794839910;
+	bh=AB+oE85rBz3kYmqVCq+Wu2uFRwaOKmFVZVyN/Ci/tK8=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=H/vP6umnpg8doI5lkkWefq+xXfyvGElZk8fQLWEIscLnlwSeBgmYHRXZxcPyPbakk
+	 K4h/NnosT92GjGhxzcv1UGNmTNRlgHog2mDzmAqP4h+FL7Bka3t3W2pP9wWnS9B/k/
+	 3/UXDvz9qLBS8asJOU1YAmNtDJAOXtSlqJ1CK7ocsdl6blwRi78YtUfGmofT/EE/ET
+	 UM5SEV+m91UMb478Z8XVpg0MJFfpLcWetufctlmvhOVW8lpW4zjNfgpksVpUtS3Eu1
+	 U236iqOy/gQKIyH5MMwVCkj5XDreYY+zRQhf9wSJuWxMwAiBQwJfeldLqsPTe+OkXk
+	 oT1aPMz5L8RhQ==
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5c17a1775fcso2046647e87.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 06:38:30 -0800 (PST)
+X-Gm-Message-State: APuU4Z//IfvrkyFEZgZraDcdNMmbnd9UhwzRT00yx85uVzqHpXKW3Wm5
+	h+3vWVVma4lEfZAhqkK1ouaIolE0HMtvEcsSox69UQ22/5zwPbv+qhNeLJ4F7NohiLbObah9Eg6
+	XuRxVOSKkKTMWT/QVlNkxs0JCXWJW8mg=
+X-Received: by 2002:a05:6512:2204:b0:5c1:5984:a67e with SMTP id
+ 2adb3069b0e04-5c170b7e0bbmr4090987e87.56.1794839909219; Mon, 16 Nov 2026
+ 06:38:29 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -105,47 +58,151 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261026-sunxi-orangepi-3-lts-v3-0-98fef4f75184@gmail.com>
+ <20261026-sunxi-orangepi-3-lts-v3-2-98fef4f75184@gmail.com>
+ <CAGb2v65eCotQPfnFsj6XfExs=ybE+xPWMFUhC9DFJRehfv7XAQ@mail.gmail.com> <CAH87RzSWDuiA9w8-ZkZXjVmQ_3EbRGKu8dKUzBf=KhNJHZFgjA@mail.gmail.com>
+In-Reply-To: <CAH87RzSWDuiA9w8-ZkZXjVmQ_3EbRGKu8dKUzBf=KhNJHZFgjA@mail.gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Mon, 16 Nov 2026 22:38:15 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64Fd4ZN7fbTwcz45wK4Sc=hD10gjaVCYgW+HDa8O7W7_w@mail.gmail.com>
+X-Gm-Features: AclHuK96KoHqco8_GcNqfELYX9slSpaQgkQilXtuce9_buWQRgFm-Lbh0tQJI6I
+Message-ID: <CAGb2v64Fd4ZN7fbTwcz45wK4Sc=hD10gjaVCYgW+HDa8O7W7_w@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] arm64: dts: allwinner: h6: Add Orange Pi 3 LTS
+To: Cristian Filipescu <filipescu.cristian@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Andre Przywara <andre.przywara@arm.com>, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jernej,
+On Mon, Nov 16, 2026 at 7:47=E2=80=AFAM Cristian Filipescu
+<filipescu.cristian@gmail.com> wrote:
+>
+> Hi Chen-Yu,
+>
+> On Sun, Nov 15, 2026 at 3:14=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> wr=
+ote:
+> >
+> > On Tue, Oct 27, 2026 at 7:34=E2=80=AFAM Cristian Filipescu via B4 Relay
+> > <devnull+filipescu.cristian.gmail.com@kernel.org> wrote:
+> > >
+> > > From: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > >
+> > > Add the board description for the Allwinner H6-based Orange Pi 3 LTS,
+> > > including its regulators, storage, Ethernet PHY, LEDs and USB ports.
+> > >
+> > > Specify the Motorcomm YT8531C PHY ID to avoid early ID autodetection,
+> > > which failed on MAC driver rebind. Reset the sole PHY at MDIO bus
+> > > registration and keep reset outside interface detach so its configure=
+d
+> > > 125 MHz clock output is retained. Use PHY-internal RGMII delays.
+> > >
+> > > Select the weakest GPIO drive level for both LEDs. Enable 1.8 V eMMC
+> > > DDR52 and HS200 modes; retain the H6 maximum frequency of 150 MHz.
+> > >
+> > > Link: https://lore.kernel.org/linux-sunxi/20250413134318.66681-3-jern=
+ej.skrabec@gmail.com/
+> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > Signed-off-by: Cristian Filipescu <filipescu.cristian@gmail.com>
+> > > ---
+> > >  arch/arm64/boot/dts/allwinner/Makefile             |   1 +
+> > >  .../dts/allwinner/sun50i-h6-orangepi-3-lts.dts     | 379 +++++++++++=
+++++++++++
+> > >  2 files changed, 380 insertions(+)
+> > >
+> > > diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot=
+/dts/allwinner/Makefile
+> > > index aa21f58a4..7ea136380 100644
+> > > --- a/arch/arm64/boot/dts/allwinner/Makefile
+> > > +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> > > @@ -41,6 +41,7 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h5-orangepi-ze=
+ro-plus.dtb
+> > >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h5-orangepi-zero-plus2.dtb
+> > >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-beelink-gs1.dtb
+> > >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-orangepi-3.dtb
+> > > +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-orangepi-3-lts.dtb
+> > >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-orangepi-lite2.dtb
+> > >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-orangepi-one-plus.dtb
+> > >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-pine-h64.dtb
+> > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3-lts.d=
+ts b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3-lts.dts
+> > > new file mode 100644
+> > > index 000000000..e2ca41b94
+> > > --- /dev/null
+> > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3-lts.dts
+> > > @@ -0,0 +1,379 @@
+> > > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> > > +// Copyright (C) 2025 Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > +// Based on sun50i-h6-orangepi-3.dts, which is:
+> > > +// Copyright (C) 2019 Ond=C5=99ej Jirman <megous@megous.com>
+> >
+> > We now have a common sun50i-h6-orangepi.dtsi file. You really should
+> > rewrite this patch to just use that as a base.  It is mostly the same
+> > across all the OrangePi H6 boards.
+>
+> v4 now uses that include and keeps the LTS-specific additions
+> and overrides. I compared the resolved DTBs to check the inherited
+> properties and preserved the LTS electrical settings, except for the
+> review changes described below. Common naming cleanups are deferred.
 
-> The AC200 MFD and Ethernet PHY drivers and their bindings were merged
-> in v7.4-rc1. This series adds the device tree parts needed to use them
-> on H6, starting with the Tanix TX6 and TX6 mini TV boxes, whose only
-> Ethernet port goes through the PHY in the AC200 co-packaged with the
-> H6.
-> 
-> Patch 1 describes the AC200 in the H6 dtsi: the I2C3 controller with
-> the AC200 on it, a pwm-clock that provides its 24 MHz reference clock
-> from PWM1, the RMII pins and the EPHY calibration value in the SID.
-> Everything stays disabled.
-> 
-> Patch 2 enables Ethernet on the Tanix boards.
-> 
-> Tested on a Tanix TX6: 100 Mbit/s full duplex, about 11 MB/s in each
-> direction, and the link comes up both after cold boots with no
-> Ethernet initialisation in U-Boot and after U-Boot has used it. The
-> TX6 mini shares the same dtsi and was not tested separately.
-> 
-> The arm64 defconfig does not enable CONFIG_MFD_AC200 and
-> CONFIG_XPOWERS_ACX00_PHY yet; I can send a separate patch for that.
-> 
-> Best regards,
-> Jernej
-> 
-> Jernej Skrabec (2):
->   arm64: dts: allwinner: sun50i-h6: Add AC200 companion chip
->   arm64: dts: allwinner: tanix: Enable Ethernet
-> 
->  .../boot/dts/allwinner/sun50i-h6-tanix.dtsi   | 40 ++++++++++++++
->  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 53 +++++++++++++++++++
->  2 files changed, 93 insertions(+)
-> 
-> -- 
-> 2.43.0
+[...]
 
-Same AC200 setup on TaiqiCat (TQC) A01; I'll send the board enablement
-separately once the H6 dtsi changes are merged.
+> > Set the supply on all cores.
+>
+> Done. All four running CPU nodes reference DCDCA, and all four CPUs are
+> online with the shared cpufreq policy.
 
-Thanks,
-Jun
+I should've mentioned that since this is already enabled at the .dtsi
+level, you shouldn't add it anymore. If anything, it's the .dtsi file
+that should have all cores referencing the regulator.
+
+[...]
+
+> > > +&mmc1 {
+> > > +       vmmc-supply =3D <&reg_wifi_3v3>;
+> > > +       vqmmc-supply =3D <&reg_bldo3>;
+> >
+> > Something is fishy here. The schematic also shows vcc-wifi-io (on the a=
+w859
+> > side) directly derived from vcc-wifi (reg_wifi_3v3). I suggest at least
+> > checking with a multimeter to confirm what the voltage is on the VDDIO
+> > pin of the module.
+> >
+>
+> Regarding the AW859A I/O supply, I traced U60 pin 22 (VDDIO) to
+> VCC-WIFI-IO, which is connected to BLDO3 in the schematic. I measured
+> 1.8 V at an RW1 pad relative to board ground. This supports keeping the
+> existing BLDO3 vqmmc assignment; I have left it unchanged.
+
+You traced it on the board or on the schematic?
+
+Can you test at U60? The schematic has two options for I/O voltage from
+the LDOs, and then another from VCC-WIFI, hence I would like to be
+certain. I imagine the SMT components aren't labeled on the board, so
+it would be somewhat hard / eye-hurting to trace the board directly.
+
+[...]
+
+> > > +&usb2otg {
+> > > +       dr_mode =3D "host";
+> > > +       status =3D "okay";
+> > > +};
+> > > +
+> > > +&usb2phy {
+> > > +       usb0_id_det-gpios =3D <&pio 2 15 GPIO_ACTIVE_HIGH>; /* PC15 *=
+/
+> >
+> > This isn't connected to anything but a pull-up. And you already specifi=
+ed
+> > host mode only above.
+>
+> Removed usb0_id_det-gpios with /delete-property/ so the common include's
+> PC6 setting is removed too. USB0 remains fixed to host mode. The running
+> DT confirms the ID GPIO property is absent and dr_mode is host.
+
+Thanks!
+ChenYu
