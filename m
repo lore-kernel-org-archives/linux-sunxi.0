@@ -1,79 +1,192 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794818709;
-	b=nHgNd1HDKxX6kqgC89MFLD9QXgG4b2Nt+uQeY5QbBmhajT3N6UVg44xAWPGCuH8e/xGO
-	 429pYFRFbxh5DazKZKAs6vBl3SE/CFFIqEgTnsar43povp5k9By2fVKGIub7OrOBr6uHw
-	 D+9/I8ygsohL8Ewm15oCaVTmPhHO3mbZqWggrNHdrdgNHkGfz6dbQiCtW4kG64F1C3/Kd
-	 gmCNuzzyA2ShzKGb57WnB0C4hTdhK4MBeG9CG2ULGb9Ke6TgIo4oa4GsJuUKJH73o71eC
-	 drxKC6ak1khDqoezMcG/oo1uHnBZj/bgqg+6mLuOBzSOp+lCFzz8xm8vSCnsUk3TffA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794818709;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Z4qmgXwM2I+am+EKwmSmoiLxNulMJ5aJrfNpjBxX2QM=;
-	b=oSWDOJA7GL+YPFdHsrACaWrggjXFhgEaqBo/4dvdicBOvXSsLq+GT/v2+k2+2yVenKnG
-	 EfkhPIyu2C2EbcG0XDmpE8aWiEska5sRGfsbhyjMfy4AjRji/AjLKxXv6xymJesqZvna3
-	 2iK6xaYOy2vqwqCRJrScSw3gvZlGEYUfk2yJAf+yYnNEgpJmVED4yJjKEWzSPt6lBpqe1
-	 XdB3Ahk4fxElB72tqQC86dL7BBXqZaIj2emy4OUvus0bpXcrDMxfrJjHJCrIDfHUeILmt
-	 Y0io2brGrAkREY4lqak2fhEFdVC1wRPSPVtvbx3z1jwECI7pI0CR925rZV4A/fiW8kg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TyKTOqIy;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794824465;
+	b=B5O77vnQ6x2TIbyKwwx1W4Obrw/XLVDIn3Wc42mY6Z+2X1j4En6zq7CRbhrg19W7NkWN
+	 tsY4rMPPQgZj4VRo+3VwcQY5dWvl9NZVYUiGCxUAvQBHwH9/WUQShG5LSJgw3Ms9YtZS/
+	 WDs5Lr7foEEKQvrgshIyvnwdeGZkSqJnNxi3YQRo3sxrF3Saph6hQkfY9fYBQRi864oJ7
+	 eMWsNwlhmTzvIHIqo8i7IROqvetyQUXovVfW3PmhsojWb6g6/SG9cdj0PuHtdHPNeM34Y
+	 MhN2bjFpn/RbWcyvgInyQHo7OV7LebMqKlfy5c14uXPMfTSZvEiX0RUmgDGLWys6YMQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794824465;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=eCrA9mVjaBK8MAY40JPU1DywzMNRUcfqehnrbY/XXEA=;
+	b=0HcooimI3joPfI5l8GXgNcIQB3Vj8V2vzROykv/xU9QvzScoY1UYzi5DwdSFktn0wtiq
+	 xF75Esl67mFRdqSwKuNv01owscve8cMgUrzSaj0RcB+WHi8DYKjJ1zbiihY2qDKqNi25X
+	 rwKb3WFuXd018LUfDalTcf7PCAPTgIyym+efWT6pa7+Hxw+N04Spk4YjXceL6THnBNVAR
+	 lZmMGEqxWxv79uPk8ZjZH3ztOnXqb3rU5b/hW8FKSGP6HrmqmAHRUoc896sF92NxFwA1r
+	 2B0XfYC1vjTcvBYO0nRKU+Ta8N0dbxHfqtZ9ikkF17BjtvuBgPEofHGlM37Ry7anosw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A4AF64nu;
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E725606A332;
-	Mon, 16 Nov 2026 08:45:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61ECB606A335;
+	Mon, 16 Nov 2026 10:21:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TyKTOqIy
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794818709;
-	b=D+D+St9UKRC0rB/ZIg3lEl1+BpFUf8TnhF+Ej3tE15hSm1UqyRuEv3P6DwYZqvRjWIA8
-	 65jEvaz1PKCL5NSjRNn2spwcIjQXe2wKO5ZyNrHQMdJJcO4gUl6BWR3fePLHz1lhEMLZo
-	 XYnYom+i78Jbtp6XKa9Nk2xeAdxwY614Yh9gY+Mowczl7TlS26sVjeMDf+bDh+VJhoLPY
-	 CcxEsp2S/sBiS8yJXVdoLFU33Zp5HvwWvJ4vBwCnWJveKcHJ5ut+nH98kj+Mv7jjXYj6p
-	 0TwcY62HI95LBWYXmOFCytW9mB2xwkmcV3K/z4WOfkZbz30cI+NO2Gm1DvSC0aTvFqQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794818709;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Z4qmgXwM2I+am+EKwmSmoiLxNulMJ5aJrfNpjBxX2QM=;
-	b=k1cbD5TCviaeLzLs6vx0rOoBal7Td5p3DT0o9alKBMIGKs74SlYjGt9aOTB8iBlWCU3W
-	 iRRBdJ7p2bCakqgD6k+oyMxeGc54d8vQdduUJf3cgYF/W46tP15smSV7UeNyZx4CVbEJ6
-	 fZ2ARpozJbe2w/xE1AuVOGU1H56TNBa6GmY1ir7W4cpxPuPapmPOJC/f/ENT6B81tPAL/
-	 AtFf67sqNMRCCGxu889JaQDzTghQjMu/CALzEx7o0wsLCRGUuvdmKfRuZlK7t3aCDeJvn
-	 tmFqEffpE+0+UU/yXIlWCMtZMjEMEwRgJIrfeu6ToFYdJA13jBtHcnxiTfFVla0UhgA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 06C671F000C4;
-	Mon, 16 Nov 2026 08:45:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=A4AF64nu
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4BA51F000C6;
+	Mon, 16 Nov 2026 10:21:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794818709;
-	bh=Z4qmgXwM2I+am+EKwmSmoiLxNulMJ5aJrfNpjBxX2QM=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=TyKTOqIylekrsjRO3i6r75Muw0/Qohjr/Ij/v33WpTiTdh1/V2PnER/pL9XmTJRuj
-	 MGFxowdNGWCg4irxUfjbEd01ag8T3xPBEoHaIshuh6+ivfO1YCcSkZ1E3layFU4H25
-	 YpUKDPjezrfDI9L8/iOCuhEMAoSSwSrQOAc2iVnK8IVQLhCOFOVP2uokGyprsMkPr2
-	 ID+1PfYI/3OJM68Yl+tnSnY9SWtROaZxhQNp2V44SJMpPpIXOI2i41idWZw9Cv/xzM
-	 0IT/iKXyqASr+X6ARSzauZduV0VtxUmSeN2SscDSpA930+PsXhYpcasnhywQU56PEB
-	 Yd1d1Uhg9unkQ==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 741D84A3D1;
-	Mon, 16 Nov 2026 08:45:07 +0000 (UTC)
-From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
-Date: Mon, 16 Nov 2026 08:45:07 +0000
-Subject: [PATCH v2 1/2] clk: sunxi-ng: h616: Gate the PLLs with their
- output enable bit
+	s=k20260515; t=1794824465;
+	bh=eCrA9mVjaBK8MAY40JPU1DywzMNRUcfqehnrbY/XXEA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=A4AF64nuBLP4D/WB5XYrARCuvN2Uya+3U/WL8n/jma9gny6IDC2hNd/K8trp//kOW
+	 03vAkDVhr12heLXIsz1vZ3Lizif1tDNSK+WI9rfYCraTnB+tG780UlFvGKGfeYW4Yj
+	 /IGW6YDtveTz1JbN3vYsZvH06G36SZgQ90exTJ8WtMz1sp4PXUGZOa7wDC7+oNODEN
+	 esEoQ++w65AfXmz1JPtKklbmO8G8ttx+3dNK4t7h98eTe2QMB5YoB+XXQnlZYrcWRj
+	 ZrIAkdIqvc1bQVWn9O14VYmxY1+VqEs5E6zOpHJTbvhSY+cUGEVijNGts5/I2lDndf
+	 xBytnwQqkpBDA==
+From: Maxime Ripard <mripard@kernel.org>
+To: David Airlie <airlied@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: dri-devel@lists.freedesktop.org,
+	Janne Grunau <j@jannau.net>,
+	Sasha Finkelstein <k@chaosmail.tech>,
+	asahi@lists.linux.dev,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	amd-gfx@lists.freedesktop.org,
+	Aun-Ali Zaidi <admin@kodeit.net>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Joel Stanley <joel@jms.id.au>,
+	Dave Airlie <airlied@redhat.com>,
+	Jocelyn Falempe <jfalempe@redhat.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Dharma Balasubiramani <dharma.b@microchip.com>,
+	Manikandan Muralidharan <manikandan.m@microchip.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Inki Dae <inki.dae@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	linux-samsung-soc@vger.kernel.org,
+	Alison Wang <alison.wang@nxp.com>,
+	Stefan Agner <stefan@agner.ch>,
+	Ruben Wauters <rubenru09@aol.com>,
+	Tian Tao <tiantao6@hisilicon.com>,
+	Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+	Yongbang Shi <shiyongbang@huawei.com>,
+	John Stultz <jstultz@google.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Xinliang Liu <xinliang.liu@linaro.org>,
+	Yongqin Liu <yongqin.liu@linaro.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Saurabh Sengar <ssengar@linux.microsoft.com>,
+	linux-hyperv@vger.kernel.org,
+	Fabio Estevam <festevam@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>,
+	Liu Ying <victor.liu@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	imx@lists.linux.dev,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Paul Cercueil <paul@crapouillou.net>,
+	linux-mips@vger.kernel.org,
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Icenowy Zheng <zhengxingda@iscas.ac.cn>,
+	Jianmin Lv <lvjianmin@loongson.cn>,
+	Mingcong Bai <jeffbai@aosc.io>,
+	Qianhai Wu <wuqianhai@loongson.cn>,
+	Xi Ruoyao <xry111@xry111.site>,
+	Linus Walleij <linusw@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-amlogic@lists.infradead.org,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Sean Paul <sean@poorly.run>,
+	freedreno@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	Marek Vasut <marex@denx.de>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Lyude Paul <lyude@redhat.com>,
+	nouveau@lists.freedesktop.org,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	spice-devel@lists.freedesktop.org,
+	virtualization@lists.linux.dev,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	=?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+	Sandy Huang <hjc@rock-chips.com>,
+	linux-rockchip@lists.infradead.org,
+	Marcus Folkesson <marcus.folkesson@gmail.com>,
+	David Lechner <david@lechnology.com>,
+	Iker Pedrosa <ikerpedrosam@gmail.com>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Raphael Gallais-Pou <rgallaispou@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Philippe Cornu <philippe.cornu@foss.st.com>,
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
+	Yannick Fertre <yannick.fertre@foss.st.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-sunxi@lists.linux.dev,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	linux-tegra@vger.kernel.org,
+	Jyri Sarha <jyri.sarha@iki.fi>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Kamlesh Gurudasani <kamlesh.gurudasani@gmail.com>,
+	Alex Lanzano <lanzano.alex@gmail.com>,
+	LiangCheng Wang <zaq14760@gmail.com>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Chia-I Wu <olvaffe@gmail.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Gurchetan Singh <gurchetansingh@chromium.org>,
+	Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Louis Chauvet <louis.chauvet@bootlin.com>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Zack Rusin <zack.rusin@broadcom.com>,
+	Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Aditya Garg <aditya.garg@linux.dev>,
+	Andy Yan <andyshrk@163.com>
+Subject: Re: (subset) [PATCH RESEND 00/83] drm: Switch drivers to drm_mode_config_create_initial_state
+Date: Mon, 16 Nov 2026 11:20:59 +0100
+Message-ID: <179482445067.74579.7064780976000809844.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261105-drm-no-more-config-reset-v1-0-1f58d1e33380@kernel.org>
+References: <20261105-drm-no-more-config-reset-v1-0-1f58d1e33380@kernel.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -84,176 +197,22 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261116-h616-pll-output-gate-v2-1-a418026ffae6@gmail.com>
-References: <20261116-h616-pll-output-gate-v2-0-a418026ffae6@gmail.com>
-In-Reply-To: <20261116-h616-pll-output-gate-v2-0-a418026ffae6@gmail.com>
-To: Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Stephen Boyd <sboyd@kernel.org>, 
- Brian Masney <bmasney+clk@redhat.com>, 
- Jerome Brunet <jbrunet+clk@baylibre.com>
-Cc: Andre Przywara <andre.przywara@arm.com>, 
- Maxime Ripard <mripard@kernel.org>, 
- Philippe Simons <simons.philippe@gmail.com>, 
- Ilya Titov <ilya.titov@wirenboard.com>, linux-clk@vger.kernel.org, 
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Arun Iyengar <aiyengar1990@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794818707; l=4955;
- i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
- bh=8jODp0ifglQsXJHJh7FAOxppXVcA5WOgGJP8Gd4G8UQ=;
- b=lcVILKaaUIqNwmfPoDq7OsVPyU9PQI7Va8OL8g2mnN5zlfOtrwpotn90YOF1jCKJOVHhuRWM/
- oHmTpOlEoxABhhLOnTwnJ3zjebpso2ewYjnN8rF+mPt2w2mOgYgKyCH
-X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
- pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
-X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
- auth_id=1480
-X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
-Reply-To: aiyengar1990@gmail.com
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-From: Arun Iyengar <aiyengar1990@gmail.com>
+On Thu, 05 Nov 2026 16:29:09 +0100, Maxime Ripard wrote:
+> drm_mode_config_reset() has a dual role: it creates the initial KMS
+> state at probe time, and resets hardware and software state during
+> suspend/resume cycles. However, the two roles need different
+> behaviors, notably for objects like drm_private_obj that must persist
+> across suspend/resume and are excluded from drm_mode_config_reset()
+> by design.
+> 
+> [...]
 
-Gate the H616 PLLs with the output enable bit (27) instead of the enable
-bit (31), which powers the PLL down, as the manual (3.3.3.6) recommends
-and the A100, D1 and A523 drivers do. Power them up once at probe.
+Applied to misc/kernel.git (drm-misc-next)
 
-On an Orange Pi Zero2, powering pll-video0 down at 453 MHz crashes the
-CPU doing the write.
+[45/83] drm/sti: Switch to drm_mode_config_create_initial_state
+        commit: a8670a2ab1a81dc3fc30093e47c23b83244ca4d0
 
-Fixes: 88dde5e23da1 ("clk: sunxi-ng: Add support for the Allwinner H616 CCU")
-Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
----
- drivers/clk/sunxi-ng/ccu-sun50i-h616.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-index c5e5b3f78846..4037c5f022a8 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
-@@ -36,7 +36,7 @@
-  */
- #define SUN50I_H616_PLL_CPUX_REG	0x000
- static struct ccu_mult pll_cpux_clk = {
--	.enable		= BIT(31),
-+	.enable		= BIT(27),
- 	.lock		= BIT(28),
- 	.mult		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
- 	.common		= {
-@@ -50,7 +50,7 @@ static struct ccu_mult pll_cpux_clk = {
- /* Some PLLs are input * N / div1 / P. Model them as NKMP with no K */
- #define SUN50I_H616_PLL_DDR0_REG	0x010
- static struct ccu_nkmp pll_ddr0_clk = {
--	.enable		= BIT(31),
-+	.enable		= BIT(27),
- 	.lock		= BIT(28),
- 	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
- 	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
-@@ -65,7 +65,7 @@ static struct ccu_nkmp pll_ddr0_clk = {
- 
- #define SUN50I_H616_PLL_DDR1_REG	0x018
- static struct ccu_nkmp pll_ddr1_clk = {
--	.enable		= BIT(31),
-+	.enable		= BIT(27),
- 	.lock		= BIT(28),
- 	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
- 	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
-@@ -80,7 +80,7 @@ static struct ccu_nkmp pll_ddr1_clk = {
- 
- #define SUN50I_H616_PLL_PERIPH0_REG	0x020
- static struct ccu_nkmp pll_periph0_clk = {
--	.enable		= BIT(31),
-+	.enable		= BIT(27),
- 	.lock		= BIT(28),
- 	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
- 	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
-@@ -97,7 +97,7 @@ static struct ccu_nkmp pll_periph0_clk = {
- 
- #define SUN50I_H616_PLL_PERIPH1_REG	0x028
- static struct ccu_nkmp pll_periph1_clk = {
--	.enable		= BIT(31),
-+	.enable		= BIT(27),
- 	.lock		= BIT(28),
- 	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
- 	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
-@@ -114,7 +114,7 @@ static struct ccu_nkmp pll_periph1_clk = {
- 
- #define SUN50I_H616_PLL_GPU_REG		0x030
- static struct ccu_nkmp pll_gpu_clk = {
--	.enable		= BIT(31),
-+	.enable		= BIT(27),
- 	.lock		= BIT(28),
- 	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
- 	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
-@@ -133,7 +133,7 @@ static struct ccu_nkmp pll_gpu_clk = {
-  */
- #define SUN50I_H616_PLL_VIDEO0_REG	0x040
- static struct ccu_nm pll_video0_clk = {
--	.enable		= BIT(31),
-+	.enable		= BIT(27),
- 	.lock		= BIT(28),
- 	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
- 	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
-@@ -151,7 +151,7 @@ static struct ccu_nm pll_video0_clk = {
- 
- #define SUN50I_H616_PLL_VIDEO1_REG	0x048
- static struct ccu_nm pll_video1_clk = {
--	.enable		= BIT(31),
-+	.enable		= BIT(27),
- 	.lock		= BIT(28),
- 	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
- 	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
-@@ -169,7 +169,7 @@ static struct ccu_nm pll_video1_clk = {
- 
- #define SUN50I_H616_PLL_VIDEO2_REG	0x050
- static struct ccu_nm pll_video2_clk = {
--	.enable		= BIT(31),
-+	.enable		= BIT(27),
- 	.lock		= BIT(28),
- 	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
- 	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
-@@ -187,7 +187,7 @@ static struct ccu_nm pll_video2_clk = {
- 
- #define SUN50I_H616_PLL_VE_REG		0x058
- static struct ccu_nkmp pll_ve_clk = {
--	.enable		= BIT(31),
-+	.enable		= BIT(27),
- 	.lock		= BIT(28),
- 	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
- 	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
-@@ -202,7 +202,7 @@ static struct ccu_nkmp pll_ve_clk = {
- 
- #define SUN50I_H616_PLL_DE_REG		0x060
- static struct ccu_nkmp pll_de_clk = {
--	.enable		= BIT(31),
-+	.enable		= BIT(27),
- 	.lock		= BIT(28),
- 	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
- 	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
-@@ -229,7 +229,7 @@ static struct ccu_sdm_setting pll_audio_sdm_table[] = {
- 
- #define SUN50I_H616_PLL_AUDIO_REG	0x078
- static struct ccu_nm pll_audio_hs_clk = {
--	.enable		= BIT(31),
-+	.enable		= BIT(27),
- 	.lock		= BIT(28),
- 	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
- 	.m		= _SUNXI_CCU_DIV(16, 6),
-@@ -1183,10 +1183,10 @@ static int sun50i_h616_ccu_probe(struct platform_device *pdev)
- 	if (IS_ERR(reg))
- 		return PTR_ERR(reg);
- 
--	/* Enable the lock bits and the output enable bits on all PLLs */
-+	/* Power up and lock-enable all PLLs; bit 27 gates them (3.3.3.6) */
- 	for (i = 0; i < ARRAY_SIZE(pll_regs); i++) {
- 		val = readl(reg + pll_regs[i]);
--		val |= BIT(29) | BIT(27);
-+		val |= BIT(31) | BIT(29);
- 		writel(val, reg + pll_regs[i]);
- 	}
- 
-
--- 
-2.55.0
-
-
+Thanks!
+Maxime
