@@ -1,78 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794854222;
-	b=cxSCBp9QRp1Q3q1H0UbkT5MsExO8+LIcRfcVvnCw6oExjDWY2fFo04yqJVqTM7Fy4YXe
-	 tp8UcEFF//N68JFesMyF5jWE0S50n4tKxi0yXaUIwvulE1gR4Hrr53Pvf33pitbGvVk61
-	 /yxziHc3y5JkqsN+zqRghMSRpPM8ClJ6Qr34nh5lRKRBs9CVazbDVRAy7wrluN1hgQLJ6
-	 Z1c+xZQAO4+6YAo3fTMK9G+i7+FHmRw8BYUmwH02nGR03onkRWPHNaWryiivWReLZGw8B
-	 j4WQv6w5mCe8/coNmrabs/IBN24mNX1w9rG8O6l8GEeAdd790xK5cUyKTUnrCLMjAqw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794854222;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=JG6CA7hF3cK3MbnlBMlTCcJ/avGWqkbsETlXUPBQl38=;
-	b=DZXf+VI1FKsMMU3AVUxhmaX6wVCejw5SLa/tuVBbnoMgxBU77dxYWnfE3R6m+Fra1ssJ
-	 RgvAJjZsQp3SaIfJcii0QvaaW7CsTq7I9PQ8oWyZTBH2Ravq+sjrNHa/9IPRfhE/MdW0y
-	 NWgfvG3mu1XHnIxy3KG/YUvRIK0w1mgyg2Yek3VIwoXzmMCD+W76weKU211GJUatiSCnK
-	 EWtduYEjJ9EzWkcNcNB+zJ8HVlGNHjvxqA83vN9Ek9zQFzkiY9FAVwOlOU6QDwWure7Kl
-	 QQLfULJDy9WqylmE+/C5jGJtdlHKpNHcXzqf2d/XqmHvBu6rWco4GAVmL0xn13crREw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ndEjBJh4;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.217.46
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794854412;
+	b=jV2OyxDEG2z3zczIUeAuZ4V7FhmaTmLi3ggWax+7Z77YOm5D8ao8pQ2MCt5a4Oe+tc00
+	 nbb0sWohSufKal3alzf1+iXr1HA9MZoAJdr/gKDPbsRJOl5dI5eL9/5Mg3GwgeNoernKB
+	 2rSWu2G+nj2nvpn5A9suthHgtS+g5sXFbhNHQ0RG5IMRIZK8Fuo12RJKs1gtOq+5rZMoj
+	 Ae8EcgGLdyZzhgmhqNYyMBrb9RwhqYLCx86J8LyzSsPVJTYKq3Rjc64EZdyiGpAxt7Jw2
+	 lkr8PMwXmEL3Bd49Jvoz8MNc5AMa3hzyXaLt1fkio4sqbQq92S2P4cEBKBMOsjVZ36Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794854412;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=/Wfo4XPULnebZxDQKGgawMBq41Rv1aopAmpn/6ecL8I=;
+	b=nDKMGSgCoN9uY+S0j+gpkxe1HYbC2pcmhNJ3ZAy7URELj5EC8c67GVnvKOhfe6FhPPRz
+	 x806jen4XbSk95qcgtNjnfQzpzkYP996X2XWSPzB1kAQllKfBwAxrNQy+58v60HlADMzj
+	 12VN7O3cDjtCP4+b7XntiJqlyJiB9aQqhXiy8lEuxytFEimK0sBQct4u/stmqkExvFxzZ
+	 ZVBqOkGTG0epJbHJO1QN0qz7xQ/Pz8SGaF1evNUlrh9sLZpxWU70WPqdr4O9xU3vQC6kj
+	 k3dZ5wj9hsxtzD9IoTXmwBFW1iBl/AZH1zFEaJ1x5O2cfsoo223+pMtjEjDjhqgP9AA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rwklnB8x;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.217.46
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026F9606A322;
-	Mon, 16 Nov 2026 18:37:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E501606A329
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 18:40:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E501606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ndEjBJh4
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EC9B1F000C9;
-	Mon, 16 Nov 2026 18:36:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794854221;
-	bh=JG6CA7hF3cK3MbnlBMlTCcJ/avGWqkbsETlXUPBQl38=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ndEjBJh4ItJInOcvAxXux03Rf6tpEY0aWYJTVaMRE/qyOsLT128+uXQ8uOG3HDHp9
-	 ChBqi477ZssuhxtEiLH75iEoGzJY6P83E4z7dKmRH+p8AjK1UugOd4VaCRidUiQy8+
-	 ivCV0SQkBr5DT+toW//ktRk/zd1Ku9RJJeGftspFZ4TqWUpsCi8E53JVEpDbg19Ay0
-	 7HxLxa+dO4hD3sJmTkhEk5DE35FLaw0ic7fnOkJN7LiuHiL9eCekpMed+XOQwsHlA7
-	 JwQ0tdq7fJZ/LczVaXMxWKfzMmdt0PnEA0rfqKNeM5VSl6xv2i0bal3tg3hb5gZh5W
-	 QQmK3hHskdGtg==
-Date: Mon, 16 Nov 2026 18:36:53 +0000
-From: Conor Dooley <conor@kernel.org>
-To: gaohan@iscas.ac.cn
-Cc: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Guo Ren <guoren@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Anup Patel <anup@brainfault.org>, Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Han Gao <rabenda.cn@gmail.com>, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@sifive.com>, devicetree@vger.kernel.org,
-	linux-csky@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rtc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 05/19] dt-bindings: clock: sunxi-ng: document the
- Allwinner V861 CCUs
-Message-ID: <20261116-untapped-venomous-10a258880fe4@spud>
-References: <20261114-v861-v1-0-eb71ec3ee523@iscas.ac.cn>
- <20261114-v861-v1-5-eb71ec3ee523@iscas.ac.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rwklnB8x
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-7777fa8f1ccso1142709137.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 10:40:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794854409; cv=none;
+        d=google.com; s=arc-20260327;
+        b=TnEIOqNRi35vBxUtOqM9bdVthASxJQEvLXKnpspexBnV9ttu9QoCGA1BTJ5u7jZxTD
+         B7h3ykH0ACw4X3qAbnXEvVo+oHM2OtWucGzBvcbap3Ed/vVa5Wnc+qZvx599JE7i++v8
+         beFDdY+sX/1MQ+MXNTc+42gtQyaDkoVfFy483dm1l5h3uGZCberCav/+dE9f0LxdnlnJ
+         MWSnkDKyDLF+Tm+TdC7oTpokEL37k2e+3fpt88fC3s8nMbLC1dO0srRLcC0yWvnWtSU+
+         X0Fhl5QJui3uSPPZBG/+JnGr5+Ps56dm1j6zlCZYpTca475POVxUoDiMqMRHOYJSDD1x
+         jKbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/Wfo4XPULnebZxDQKGgawMBq41Rv1aopAmpn/6ecL8I=;
+        fh=qkwMBWDj5Nq/weQzFKOtRQeKF7kpNdCGHt9CprXmy1U=;
+        b=RvqKZs+Stbrn5PUOSay0xUEXWPbmCGQi5tzh1hQiU8GAt+Fi7cOKO2DbHgw+gWVvSF
+         M6qsl1P/GJ3r+EBQKNWw4DBEtWRibCEW5MpVkR8lA3mepcrgkwBMIQMVkyUrMLgZkg9h
+         nmz9jDAw3XQ51iqG4VA6m8eckIDDwmpzl1iY+9gcrOxAIO1IO+acGh+/AfgcWDWFXpRE
+         QkoDmlAn7iBOLxvab3nXnpV9pKzsUScfwNY0uhrM2vffJO/pdzD/Vrv5XuNUvRyzBKiA
+         6QKOlO9QePSMazXm92E8GSHEb1iLCscN5Hiq5KYe0Bq34+eLP8+EPsMHEaaM/iWZeyt7
+         Strg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794854409; x=1795459209; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/Wfo4XPULnebZxDQKGgawMBq41Rv1aopAmpn/6ecL8I=;
+        b=rwklnB8xRmB4Ccdj5/l6heAsQfOeuCknc5rb+11Nqv+i11oJ99fVkIRSl3AzNZ065S
+         CKoOg2v9FnyxK1sluPZSyjmNqmmGHMYroxfEduWQ7cUJoUVckeSgH3ybVN57xGOQutfF
+         L3kWT5NCRd4oj4/SxxUFMDm4GHAgzszWR2ct2gw6coL6lXGw4k39GNFe8NVskbIWOhPB
+         NLfjvWaV9YhYE3ISYELTSjZngNYa8FBAmp/4HEKE5mxClNRkha6w/q04e+hPNo8VpR8N
+         TXjRFn3lLsKhRsOJkv4i0hwa93MrCOc5UUq/Ka4xt133g8eE5dAz8LSTOM6n3woFCAi0
+         nFBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794854409; x=1795459209;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/Wfo4XPULnebZxDQKGgawMBq41Rv1aopAmpn/6ecL8I=;
+        b=HxN1RbSxRSO8XSkIb8cL9gE6+SNzBlrHmmJYNLLebAxJyI4ldvZe0e3MdNdyn42JA4
+         /n6z8THFKtDp8JG87VwUKuhZhGPaIT31xHt9RSKBFLAQ3hxqNfydy1FAcQymjleZFKl+
+         7JLRmzMDpb7RwtYrP9vuh5s8r+vddlaEgycGBEsW3bzfPAudkGKl59hATUJKQyY7v1Tt
+         EowM1Z59RGweAINmK0ZdL83AAE5fiNaBDCwaxLcMeM9njHPfSuvvb26/KlKndLFk2dVE
+         +XCZopmhq7mL019pDA3mSt54Qb0Tt9jYbo6cDeLiyLD7OKYiefKe7tfEHHlrG/EdExEA
+         /0Kg==
+X-Forwarded-Encrypted: i=1; AL+hErHlXp8CQ0eWs7c8RBdBamPtBFcTVC/SL/elfoqZi4Zpo9AmZ3CBo+N5FnG6XdpMq/VwDQTHts6L9SwZrw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+YkBwf3XDybtQEPfoqBE/BYApkJVrpGzbJJpN8zJhfq5CKKH6g
+	bABLc0oCYx9XobetJYd/3MAIxkdKGLE0zu+4oELkGday8AeqVuy+R6fQof47ntRpwbTzL6jdFPC
+	wwVyKy8Hc3oZ5kb3FgvlxCVSKu6MCCKY=
+X-Gm-Gg: AYBFou0KdT3wUi9xFPg48nJReV2jIiEvM4t1nlffNsOevKRvuf02INUdg5s7VRmnn7n
+	3CQX9MVUplvaLhoYLziphHjSGNfnTAY+JA6wWIy9Wp1VxyLR44VteDHLyrInCrkb8V8QINTnIT5
+	LJNiOeEqqk7QdvQJoqe8bFPXXyOSto8Vg+BozChyrSqdmU5ncwfeZbadfUKX7LMOb50iOt3tSqw
+	uKbxVgPIChQMEjw5iEda1xOKn01PnaPzaB6/MzrEGtnR6MSQhWdtFfaHabbNI7OVBVNvF726c/f
+	O0cd0uMhDyxmEc4N3i1anwHq8icWgB3Z47xuZxj+GgkFcskagJNMxrB7lLYXhBZFtF/kGI85V1g
+	TO9OQXC0Yv7cM53drus9PFj6S8QEeZO02PcUjZB3BDnJgMJNbDOjjFTqwxllz5lyOyjHbkvsf5v
+	+WpfpHXRYtR64E7cZqktZuTi0c88R/hqQ2LHL3YSKWw4K/WgJK0AjGtW3zKk9XEcykwZMJ7rFlY
+	t8JE1VUuPFrVUl6pHl7yqBtbUNarEY=
+X-Received: by 2002:a05:6102:3fa3:b0:7a8:2a34:432e with SMTP id
+ ada2fe7eead31-7d64d6d6b49mr3145463137.9.1794854409349; Mon, 16 Nov 2026
+ 10:40:09 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -82,404 +106,533 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jqXi36KkUpYdOM0M"
-Content-Disposition: inline
-In-Reply-To: <20261114-v861-v1-5-eb71ec3ee523@iscas.ac.cn>
-
---jqXi36KkUpYdOM0M
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20261115-submit-rawnand-retained-handle-lifetime-v1-v5-0-cbc49c5c5e74@gmail.com>
+ <87fqx0rdzx.fsf@bootlin.com>
+In-Reply-To: <87fqx0rdzx.fsf@bootlin.com>
+From: James Hilliard <james.hilliard1@gmail.com>
+Date: Mon, 16 Nov 2026 11:39:58 -0700
+X-Gm-Features: AclHuK80Js2d1O-1lEpkwJYgyZ2cXRLts_QMhx0f_IppjgEhxt6Wg6mnBuiXRf8
+Message-ID: <CADvTj4pe5BLcsZg3WYCywTi91jiHMFVg26SPhP3Lk=8KQ=gbtw@mail.gmail.com>
+Subject: Re: [PATCH v5 00/58] mtd: rawnand: retain chip and controller state
+ across removal
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, linux-mtd@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Tze Yee Ng <tze.yee.ng@altera.com>, 
+	Richard Cochran <richardcochran@gmail.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>, Yuqiang Sun <izaiahsun@gmail.com>, 
+	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Bernhard Frauendienst <kernel@nospam.obeliks.de>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	Kees Cook <kees@kernel.org>, linux-hardening@vger.kernel.org, 
+	Arseniy Krasnov <AVKrasnov@sberdevices.ru>, Boris Brezillon <bbrezillon@kernel.org>, 
+	Brian Norris <computersforpeace@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>, 
+	David Woodhouse <dwmw2@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Vitaly Wool <vitalywool@gmail.com>, David Woodhouse <David.Woodhouse@intel.com>, 
+	Russell King <rmk+kernel@arm.linux.org.uk>, Mike Rapoport <rppt@kernel.org>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Christophe Kerello <christophe.kerello@st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Jason Roberts <jason.e.roberts@intel.com>, Boris Brezillon <boris.brezillon@collabora.com>, 
+	Michal Simek <michal.simek@amd.com>, Mason Yang <masonccyang@mxic.com.tw>, 
+	Ramuthevar Vadivel Murugan <vadivel.muruganx.ramuthevar@linux.intel.com>, Lucas Stach <dev@lynxeye.de>, 
+	Dmitry Osipenko <digetx@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org, 
+	Stefan Agner <stefan@agner.ch>, Thierry Reding <thierry.reding@kernel.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>, linux-mediatek@lists.infradead.org, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
+	linux-rockchip@lists.infradead.org, Yifeng Zhao <yifeng.zhao@rock-chips.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Keguang Zhang <keguang.zhang@gmail.com>, 
+	linux-mips@vger.kernel.org, Shan-Chun Hung <schung@nuvoton.com>, 
+	Jacky Huang <ychuang3@nuvoton.com>, Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
+	imx@lists.linux.dev, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Han Xu <han.xu@nxp.com>, 
+	linux-renesas-soc@vger.kernel.org, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Liang Yang <liang.yang@amlogic.com>, 
+	linux-amlogic@lists.infradead.org, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org, 
+	Manivannan Sadhasivam <mani@kernel.org>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Kamal Dasu <kamal.dasu@broadcom.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Harvey Hunt <harveyhuntnexus@gmail.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Maxim Levitsky <maximlevitsky@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 14, 2026 at 06:33:31AM +0800, Han Gao via B4 Relay wrote:
-> From: Han Gao <gaohan@iscas.ac.cn>
->=20
-> The V861 has a main CCU and a PRCM CCU. Add the binding and the clock
-> and reset indices for both.
->=20
-> Signed-off-by: Han Gao <gaohan@iscas.ac.cn>
-> ---
->  .../bindings/clock/allwinner,sun252i-v861-ccu.yaml |  99 ++++++++++++++++
->  include/dt-bindings/clock/sun252i-v861-ccu.h       | 127 +++++++++++++++=
-++++++
->  include/dt-bindings/clock/sun252i-v861-r-ccu.h     |  14 +++
->  include/dt-bindings/reset/sun252i-v861-ccu.h       |  55 +++++++++
->  include/dt-bindings/reset/sun252i-v861-r-ccu.h     |  12 ++
->  5 files changed, 307 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun252i-v8=
-61-ccu.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun252i-v86=
-1-ccu.yaml
-> new file mode 100644
-> index 000000000000..29fc23ab2401
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/clock/allwinner,sun252i-v861-ccu.=
-yaml
-> @@ -0,0 +1,99 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/clock/allwinner,sun252i-v861-ccu.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner V861 Clock Control Unit
-> +
-> +maintainers:
-> +  - Han Gao <gaohan@iscas.ac.cn>
-> +
-> +properties:
-> +  "#clock-cells":
-> +    const: 1
-> +
-> +  "#reset-cells":
-> +    const: 1
-> +
-> +  compatible:
-> +    enum:
-> +      - allwinner,sun252i-v861-ccu
-> +      - allwinner,sun252i-v861-r-ccu
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 3
-> +    maxItems: 4
-> +
-> +  clock-names:
-> +    minItems: 3
-> +    maxItems: 4
-> +
-> +required:
-> +  - "#clock-cells"
-> +  - "#reset-cells"
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
+On Mon, Nov 16, 2026 at 8:30=E2=80=AFAM Miquel Raynal <miquel.raynal@bootli=
+n.com> wrote:
+>
+> James,
+>
+> If I may, I already told you how hard, difficult and painful it was to
+> review your 100% LLM generated patches.
 
-reg and compatible should come before other properties, here and above.
+I'm having a lot of trouble figuring out what specifically is making
+these so difficult/painful to review, this can't possibly be an issue
+with all of my patches right?
 
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          enum:
-> +            - allwinner,sun252i-v861-ccu
-> +
-> +    then:
-> +      properties:
-> +        clocks:
-> +          items:
-> +            - description: High Frequency Oscillator (usually at 24MHz)
-> +            - description: Low Frequency Oscillator (usually at 32kHz)
-> +            - description: Internal Oscillator
-> +
-> +        clock-names:
-> +          items:
-> +            - const: hosc
-> +            - const: losc
-> +            - const: iosc
+These should essentially all be fixing high confidence correctness
+issues, is this an issue with the commit messages or the code or
+both? Is there an issue with how I'm organizing/submitting fixes?
 
-both devices duplicate this, so it can move to the top level.
-then all you need to do is set maxItems to 3 here and minitems to 4
-below.
+I use similar LLM agent driven workflows elsewhere and have
+not had any categorical reviewability complaints like these from
+other maintainers.
 
-pw-bot: changes-requested
+Many of the patches I sent are simple correctness fixes, are even
+these difficult to review? I can't possibly see how simple patches
+like these could be unusually/excessively difficult to review.:
+https://lore.kernel.org/r/20261108-submit-mtd-devname-retry-v1-v2-1-09f576b=
+cc51f@gmail.com/
+https://lore.kernel.org/r/20261106-submit-mtdchar-read-stats-v1-v1-1-173ac5=
+c3ceb0@gmail.com/
+https://lore.kernel.org/r/20261104-submit-mtd-empty-io-v1-v1-1-3f6bcf474e2a=
+@gmail.com/
+https://lore.kernel.org/r/20261104-submit-mtd-oob-bounds-v1-v1-1-05209fce5a=
+3e@gmail.com/
+https://lore.kernel.org/r/20261103-submit-rawnand-timing-recovery-v1-v1-1-1=
+cc33723e052@gmail.com/
+https://lore.kernel.org/r/20261103-submit-rawnand-bbt-read-error-v1-v1-1-2f=
+f0abffaf2e@gmail.com/
+https://lore.kernel.org/r/20261103-submit-rawnand-bbt-scan-error-v1-v1-1-0b=
+ef8334198c@gmail.com/
+https://lore.kernel.org/r/20261108-submit-r852-smartmedia-attach-v1-v1-1-56=
+d08c0571a2@gmail.com/
+https://lore.kernel.org/r/20261108-submit-r852-registration-unwind-v1-v1-1-=
+e54be2c652c2@gmail.com/
+https://lore.kernel.org/r/20261108-submit-qcom-nand-child-probe-errors-v1-v=
+2-1-4a8704cbf7b4@gmail.com/
+https://lore.kernel.org/r/20261108-submit-nandsim-page-count-v1-v1-1-63e961=
+cc1dcf@gmail.com/
+https://lore.kernel.org/r/20261108-submit-nandsim-overridesize-bound-v1-v1-=
+1-9cde7657a69b@gmail.com/
+https://lore.kernel.org/r/20261108-submit-macronix-otp-errors-v1-v1-1-8f64a=
+2ad5a10@gmail.com/
+https://lore.kernel.org/r/20261108-submit-intel-nand-probe-disable-v1-v1-1-=
+eb0471429e09@gmail.com/
+https://lore.kernel.org/r/20261108-submit-au1550nd-resource-claim-v1-v1-1-8=
+f4c694fdd39@gmail.com/
 
-Thanks,
-Conor.
+> The past 2 weeks, while I was off, you litteraly bombed me with not less
+> than 379 patches.
 
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          enum:
-> +            - allwinner,sun252i-v861-r-ccu
-> +
-> +    then:
-> +      properties:
-> +        clocks:
-> +          items:
-> +            - description: High Frequency Oscillator (usually at 24MHz)
-> +            - description: Low Frequency Oscillator (usually at 32kHz)
-> +            - description: Internal Oscillator
-> +            - description: Peripherals PLL (200 MHz output)
-> +
-> +        clock-names:
-> +          items:
-> +            - const: hosc
-> +            - const: losc
-> +            - const: iosc
-> +            - const: pll-periph
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    clock-controller@2001000 {
-> +        compatible =3D "allwinner,sun252i-v861-ccu";
-> +        reg =3D <0x02001000 0x1000>;
-> +        clocks =3D <&osc24M>, <&rtc 0>, <&rtc 2>;
-> +        clock-names =3D "hosc", "losc", "iosc";
-> +        #clock-cells =3D <1>;
-> +        #reset-cells =3D <1>;
-> +    };
-> +
-> +...
-> diff --git a/include/dt-bindings/clock/sun252i-v861-ccu.h b/include/dt-bi=
-ndings/clock/sun252i-v861-ccu.h
-> new file mode 100644
-> index 000000000000..1123b894a493
-> --- /dev/null
-> +++ b/include/dt-bindings/clock/sun252i-v861-ccu.h
-> @@ -0,0 +1,127 @@
-> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
-> +/*
-> + * Copyright (c) 2026 Han Gao <gaohan@iscas.ac.cn>
-> + */
-> +
-> +#ifndef _DT_BINDINGS_CLK_SUN252I_V861_CCU_H_
-> +#define _DT_BINDINGS_CLK_SUN252I_V861_CCU_H_
-> +
-> +#define CLK_PLL_DDR		0
-> +#define CLK_PLL_PERIPH0_4X	1
-> +#define CLK_PLL_PERIPH0_2X	2
-> +#define CLK_PLL_PERIPH0_800M	3
-> +#define CLK_PLL_PERIPH0_480M	4
-> +#define CLK_PLL_PERIPH0_600M	5
-> +#define CLK_PLL_PERIPH0_400M	6
-> +#define CLK_PLL_PERIPH0_300M	7
-> +#define CLK_PLL_PERIPH0_200M	8
-> +#define CLK_PLL_PERIPH0_160M	9
-> +#define CLK_PLL_PERIPH0_150M	10
-> +#define CLK_PLL_VIDEO_8X	11
-> +#define CLK_PLL_VIDEO_4X	12
-> +#define CLK_PLL_VIDEO_2X	13
-> +#define CLK_PLL_VIDEO_1X	14
-> +#define CLK_PLL_CSI_8X		15
-> +#define CLK_PLL_CSI_4X		16
-> +#define CLK_PLL_CSI_2X		17
-> +#define CLK_PLL_CSI_1X		18
-> +#define CLK_PLL_AUDIO		19
-> +#define CLK_PLL_AUDIO_DIV2	20
-> +#define CLK_PLL_AUDIO_DIV3	21
-> +#define CLK_PLL_AUDIO_DIV5	22
-> +#define CLK_PLL_AUDIO_4X	23
-> +#define CLK_PLL_AUDIO_1X	24
-> +#define CLK_PLL_NPU_8X		25
-> +#define CLK_PLL_NPU_4X		26
-> +#define CLK_PLL_NPU_2X		27
-> +#define CLK_PLL_NPU_1X		28
-> +#define CLK_AHB			29
-> +#define CLK_APB0		30
-> +#define CLK_APB1		31
-> +#define CLK_APB_UART		32
-> +#define CLK_DE			33
-> +#define CLK_BUS_DE		34
-> +#define CLK_G2D			35
-> +#define CLK_BUS_G2D		36
-> +#define CLK_CE			37
-> +#define CLK_BUS_CE		38
-> +#define CLK_BUS_CE_SYS		39
-> +#define CLK_VE			40
-> +#define CLK_BUS_VE		41
-> +#define CLK_NPU			42
-> +#define CLK_BUS_NPU		43
-> +#define CLK_BUS_SGDMA		44
-> +#define CLK_BUS_NDMA		45
-> +#define CLK_BUS_MSGBOX0		46
-> +#define CLK_BUS_MSGBOX1		47
-> +#define CLK_BUS_SPINLOCK	48
-> +#define CLK_BUS_HSTIMER		49
-> +#define CLK_AVS			50
-> +#define CLK_BUS_TIMER		51
-> +#define CLK_BUS_DBG		52
-> +#define CLK_BUS_PWM		53
-> +#define CLK_DRAM		54
-> +#define CLK_MBUS		55
-> +#define CLK_MBUS_DMA		56
-> +#define CLK_MBUS_VE		57
-> +#define CLK_MBUS_CE		58
-> +#define CLK_MBUS_CSI		59
-> +#define CLK_MBUS_ISP		60
-> +#define CLK_MBUS_G2D		61
-> +#define CLK_BUS_DRAM		62
-> +#define CLK_MMC0		63
-> +#define CLK_MMC1		64
-> +#define CLK_MMC2		65
-> +#define CLK_BUS_MMC0		66
-> +#define CLK_BUS_MMC1		67
-> +#define CLK_BUS_MMC2		68
-> +#define CLK_PSRAM		69
-> +#define CLK_BUS_PSRAM		70
-> +#define CLK_BUS_UART0		71
-> +#define CLK_BUS_UART1		72
-> +#define CLK_BUS_UART2		73
-> +#define CLK_BUS_UART3		74
-> +#define CLK_BUS_I2C0		75
-> +#define CLK_BUS_I2C1		76
-> +#define CLK_BUS_I2C2		77
-> +#define CLK_BUS_I2C3		78
-> +#define CLK_SPI0		79
-> +#define CLK_SPI1		80
-> +#define CLK_SPI2		81
-> +#define CLK_SPIF		82
-> +#define CLK_BUS_SPI0		83
-> +#define CLK_BUS_SPI1		84
-> +#define CLK_BUS_SPI2		85
-> +#define CLK_BUS_SPIF		86
-> +#define CLK_GMAC_25M		87
-> +#define CLK_BUS_GMAC		88
-> +#define CLK_BUS_GPADC		89
-> +#define CLK_BUS_THS		90
-> +#define CLK_I2S0		91
-> +#define CLK_BUS_I2S0		92
-> +#define CLK_AUDIO_CODEC_DAC	93
-> +#define CLK_AUDIO_CODEC_ADC	94
-> +#define CLK_BUS_AUDIO_CODEC	95
-> +#define CLK_USB_OHCI0		96
-> +#define CLK_BUS_OHCI0		97
-> +#define CLK_BUS_EHCI0		98
-> +#define CLK_BUS_OTG		99
-> +#define CLK_BUS_DPSS_TOP	100
-> +#define CLK_TCON_LCD		101
-> +#define CLK_BUS_TCON_LCD	102
-> +#define CLK_CSI			103
-> +#define CLK_CSI_MCLK0		104
-> +#define CLK_CSI_MCLK1		105
-> +#define CLK_CSI_MCLK2		106
-> +#define CLK_BUS_CSI		107
-> +#define CLK_FANOUT_24M		108
-> +#define CLK_FANOUT_12M		109
-> +#define CLK_FANOUT_16M		110
-> +#define CLK_FANOUT_25M		111
-> +#define CLK_FANOUT_27M		112
-> +#define CLK_FANOUT_PCLK		113
-> +#define CLK_FANOUT0		114
-> +#define CLK_FANOUT1		115
-> +#define CLK_FANOUT2		116
-> +
-> +#endif /* _DT_BINDINGS_CLK_SUN252I_V861_CCU_H_ */
-> diff --git a/include/dt-bindings/clock/sun252i-v861-r-ccu.h b/include/dt-=
-bindings/clock/sun252i-v861-r-ccu.h
-> new file mode 100644
-> index 000000000000..41eaf8aab2c0
-> --- /dev/null
-> +++ b/include/dt-bindings/clock/sun252i-v861-r-ccu.h
-> @@ -0,0 +1,14 @@
-> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
-> +/*
-> + * Copyright (c) 2026 Han Gao <gaohan@iscas.ac.cn>
-> + */
-> +
-> +#ifndef _DT_BINDINGS_CLK_SUN252I_V861_R_CCU_H_
-> +#define _DT_BINDINGS_CLK_SUN252I_V861_R_CCU_H_
-> +
-> +#define CLK_R_AHB		0
-> +#define CLK_R_APB0		1
-> +#define CLK_BUS_R_PPU		2
-> +#define CLK_BUS_R_RTC		3
-> +
-> +#endif /* _DT_BINDINGS_CLK_SUN252I_V861_R_CCU_H_ */
-> diff --git a/include/dt-bindings/reset/sun252i-v861-ccu.h b/include/dt-bi=
-ndings/reset/sun252i-v861-ccu.h
-> new file mode 100644
-> index 000000000000..4e0245c6c99a
-> --- /dev/null
-> +++ b/include/dt-bindings/reset/sun252i-v861-ccu.h
-> @@ -0,0 +1,55 @@
-> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
-> +/*
-> + * Copyright (c) 2026 Han Gao <gaohan@iscas.ac.cn>
-> + */
-> +
-> +#ifndef _DT_BINDINGS_RST_SUN252I_V861_CCU_H_
-> +#define _DT_BINDINGS_RST_SUN252I_V861_CCU_H_
-> +
-> +#define RST_MBUS		0
-> +#define RST_BUS_DE		1
-> +#define RST_BUS_G2D		2
-> +#define RST_BUS_CE		3
-> +#define RST_BUS_CE_SYS		4
-> +#define RST_BUS_VE		5
-> +#define RST_BUS_NPU		6
-> +#define RST_BUS_SGDMA		7
-> +#define RST_BUS_NDMA		8
-> +#define RST_BUS_MSGBOX0		9
-> +#define RST_BUS_MSGBOX1		10
-> +#define RST_BUS_SPINLOCK	11
-> +#define RST_BUS_HSTIMER		12
-> +#define RST_BUS_TIMER		13
-> +#define RST_BUS_DBG		14
-> +#define RST_BUS_PWM		15
-> +#define RST_BUS_DRAM		16
-> +#define RST_BUS_MMC0		17
-> +#define RST_BUS_MMC1		18
-> +#define RST_BUS_MMC2		19
-> +#define RST_BUS_PSRAM		20
-> +#define RST_BUS_UART0		21
-> +#define RST_BUS_UART1		22
-> +#define RST_BUS_UART2		23
-> +#define RST_BUS_UART3		24
-> +#define RST_BUS_I2C0		25
-> +#define RST_BUS_I2C1		26
-> +#define RST_BUS_I2C2		27
-> +#define RST_BUS_I2C3		28
-> +#define RST_BUS_SPI0		29
-> +#define RST_BUS_SPI1		30
-> +#define RST_BUS_SPI2		31
-> +#define RST_BUS_SPIF		32
-> +#define RST_BUS_GMAC		33
-> +#define RST_BUS_GPADC		34
-> +#define RST_BUS_THS		35
-> +#define RST_BUS_I2S0		36
-> +#define RST_BUS_AUDIO_CODEC	37
-> +#define RST_USB_PHY0		38
-> +#define RST_BUS_OHCI0		39
-> +#define RST_BUS_EHCI0		40
-> +#define RST_BUS_OTG		41
-> +#define RST_BUS_DPSS_TOP	42
-> +#define RST_BUS_TCON_LCD	43
-> +#define RST_BUS_CSI		44
-> +
-> +#endif /* _DT_BINDINGS_RST_SUN252I_V861_CCU_H_ */
-> diff --git a/include/dt-bindings/reset/sun252i-v861-r-ccu.h b/include/dt-=
-bindings/reset/sun252i-v861-r-ccu.h
-> new file mode 100644
-> index 000000000000..ed0f3063df49
-> --- /dev/null
-> +++ b/include/dt-bindings/reset/sun252i-v861-r-ccu.h
-> @@ -0,0 +1,12 @@
-> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
-> +/*
-> + * Copyright (c) 2026 Han Gao <gaohan@iscas.ac.cn>
-> + */
-> +
-> +#ifndef _DT_BINDINGS_RST_SUN252I_V861_R_CCU_H_
-> +#define _DT_BINDINGS_RST_SUN252I_V861_R_CCU_H_
-> +
-> +#define RST_BUS_R_PPU		0
-> +#define RST_BUS_R_RTC		1
-> +
-> +#endif /* _DT_BINDINGS_RST_SUN252I_V861_R_CCU_H_ */
->=20
-> --=20
-> 2.55.0
->=20
->=20
+I think it's around 129 posted Linux NAND/MTD patches if you exclude
+stale revisions. About half of those are this one series however.
 
---jqXi36KkUpYdOM0M
-Content-Type: application/pgp-signature; name=signature.asc
+I agree it's a lot...but I didn't want to lose track of bugs so I figured i=
+t
+made sense to just send out fixes for issues as they were being
+discovered most of the time, especially for small isolated issues.
 
------BEGIN PGP SIGNATURE-----
+I actually have more fixes locally that I held off on sending due to
+being too dependent on the fixes I sent.
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCavtNRAAKCRB4tDGHoIJi
-0s9KAQCX4Bs6wwg+pTycon8WFV2ntH+sKnw+Q81hcKt96NcBzAEA7J6TxHPWsnUN
-XyUZNGs0O+rQmq5NSbKFCG3P8mHbsQE=
-=LJxo
------END PGP SIGNATURE-----
+> Please, stop.
 
---jqXi36KkUpYdOM0M--
+So what should I do when I find a bug? Should I just ignore it?
+What should I be doing instead?
+
+It's often difficult to fix specific driver issues when generic
+subsystem code has too many correctness bugs with potential
+implications for the more specific driver issues, a large amount
+of correctness issues seem to be in error handling logic that
+manual testing can easily miss.
+
+>
+> Thanks,
+> Miqu=C3=A8l
+>
+> On 15/11/2026 at 23:29:15 -07, James Hilliard <james.hilliard1@gmail.com>=
+ wrote:
+>
+> > An MTD handle can outlive controller unbind. Its metadata and NAND lock=
+s
+> > must remain valid, including when a writable file closes and calls sync=
+,
+> > while further hardware access must be rejected after disconnection.
+> >
+> > This builds on earlier MTD removal-lifetime work. Commit 19bfa9ebebb5
+> > ("mtd: use refcount to prevent corruption") added MTD reference countin=
+g
+> > [0], but retaining an MTD reference does not by itself retain the
+> > driver-owned allocation containing the master. The read/unbind discussi=
+on
+> > also covered raw NAND [1] and draining active operations [2]. Tze Yee N=
+g's
+> > SPI-NOR series addresses the corresponding SPI-NOR paths [3].
+> >
+> > Following Greg's review [7], separate class-device data from the MTD
+> > backing allocation. Delete the device's interfaces and drain NVMEM and
+> > class PM callbacks before releasing backing data. Bare device reference=
+s
+> > retain an independently allocated device, whose type, PM dispatch and
+> > final release are built in even when MTD is modular. NVMEM similarly
+> > disconnects and drains provider and layout callbacks before unregister
+> > returns; retained consumers keep core-owned metadata and receive -ENODE=
+V
+> > on subsequent access.
+> >
+> > Introduce opt-in backing-object ownership for MTD masters. Registered
+> > nodes and acquired MTD handles retain the chip, while nested partitions
+> > also retain their parent metadata. Unregister first so removal notifier=
+s
+> > can finish I/O, then disconnect raw NAND and drain admitted operations.
+> > Hardware resources can be released without waiting for open files to cl=
+ose.
+> >
+> > Virtual concatenations serialize publication and removal across physica=
+l
+> > controllers. Disconnect and drain a published concatenation before any
+> > component can disappear, then release its component references. An old
+> > handle keeps the disconnected virtual device, independently of a later
+> > replacement.
+> >
+> > Run NAND and controller-specific cleanup during disconnection, while
+> > the controller driver is still bound. Snapshot the OOB layout in core-o=
+wned
+> > data before publication so metadata queries remain valid without driver
+> > callbacks. The NAND core frees retained chip and controller allocations=
+;
+> > the final MTD put never calls back into the controller module. Ordinary
+> > MTD and NVMEM handles retain the NAND core that implements their
+> > operations, rather than the hardware driver.
+> >
+> > Share allocation ownership across the raw-NAND drivers, including
+> > partially published probes. Shared controllers remain allocated until
+> > their last retained chip is released. R852 allocates a new chip for eac=
+h
+> > card, and NDFC allocates controller state per binding.
+> >
+> > Based on NAND next at 30daaf3e7897, with Tze Yee Ng's module-reference
+> > ordering fix [4], Karl Mehltretter's OTP cleanup fix [6], and the separ=
+ately
+> > posted registration, operation-locking and controller probe/teardown fi=
+xes
+> > identified by the prerequisite metadata. TLA+ models and their assumpti=
+ons
+> > and coverage limits are available in [5].
+> >
+> > [0] https://lore.kernel.org/r/20230620131905.648089-2-alexander.usyskin=
+@intel.com
+> > [1] https://lore.kernel.org/r/CAND4H7dz94Gsi_tXSQmLNme9uROnouOUwuCX9BW_=
++RCc2ZFDqA@mail.gmail.com
+> > [2] https://lore.kernel.org/r/mafs0bjs73tbq.fsf@kernel.org
+> > [3] https://lore.kernel.org/r/20261022035352.52129-1-tze.yee.ng@altera.=
+com
+> > [4] https://lore.kernel.org/r/20261022035352.52129-2-tze.yee.ng@altera.=
+com
+> > [5] https://github.com/jameshilliard/linux-h616-nand-tla
+> > [6] https://lore.kernel.org/r/20260816163027.10044-1-kmehltretter@gmail=
+.com
+> > [7] https://lore.kernel.org/r/2026111037-stir-hermit-cb21@gregkh
+> >
+> > Assisted-by: Codex:gpt-6-astra
+> > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> > ---
+> > Changes in v5:
+> > - Use logical MTD registration state during unregister and failed
+> >   registration cleanup, independently of retained class devices.
+> > - Pass the master to provider get hooks, matching the put hooks.
+> > - Preserve sibling partitions when a child is removed during parsing,
+> >   and limit subpartition rollback to its parent.
+> > - Add the introducing Fixes tag for the Technologic node ownership
+> >   correction and collect Wolfram's Renesas Acked-by.
+> > - Link to v4: https://patch.msgid.link/20261113-submit-rawnand-retained=
+-handle-lifetime-v1-v4-0-556b1d7c6221@gmail.com
+> >
+> > Changes in v4:
+> > - Keep MTD subdirectories behind CONFIG_MTD so boolean child options
+> >   do not become built-in users of a modular MTD core.
+> > - Serialize partition publication with deletion and retain a handle
+> >   while parsing subpartitions. Reject children of removed partitions.
+> > - Distinguish explicit NULL NVMEM owners from the parent-module
+> >   fallback, including OTP providers backed by built-in NAND code.
+> > - Register layout-owned cells explicitly, preserving provider cells
+> >   added before or after a layout binds.
+> > - Rebuild cell attributes across layout bind/unbind, free partial
+> >   allocations on failure and remove attributes before device deletion.
+> > - Pair NVMEM_REMOVE notifications only with successful NVMEM_ADD
+> >   notifications and remove the redundant disconnected-device check.
+> > - Resolve concatenation OOB layouts through the first component's
+> >   master, including partition-backed components.
+> > - Link to v3: https://patch.msgid.link/20261111-submit-rawnand-retained=
+-handle-lifetime-v1-v3-0-ce537999741d@gmail.com
+> >
+> > Changes in v3:
+> > - Finish NAND and driver cleanup during disconnection, leaving final
+> >   allocation release in the NAND core, following Greg's networking exam=
+ple.
+> > - Snapshot OOB layouts before publication and drain complete BBM/BBT
+> >   updates before releasing their working state.
+> > - Separate MTD class-device allocation and final release from backing-o=
+bject
+> >   ownership, following Greg's review.
+> > - Drain class PM callbacks under the device lock before detaching backi=
+ng
+> >   data; keep device-type and PM dispatch storage with the built-in devi=
+ce.
+> > - Drain NVMEM provider and layout callbacks during unregister, retainin=
+g
+> >   core-owned metadata for old consumers and retiring cells across rebin=
+d.
+> > - Keep NVMEM consumer-owner references, with converted raw NAND
+> >   providers naming the NAND core instead of the controller module.
+> >   Release write-protect GPIOs once provider callbacks are drained.
+> > - Acquire an MTD handle for PTP OCP firmware updates through a class de=
+vice.
+> > - Drain concatenation operations before releasing components, including
+> >   concurrent removal of masters without opt-in lifetime ownership.
+> > - Use scoped cleanup consistently in Tegra probe and add the introducin=
+g
+> >   commits for Socrates and FSL UPM, following Sashiko's review.
+> > - Link to v2: https://patch.msgid.link/20261110-submit-rawnand-retained=
+-handle-lifetime-v1-v2-0-9137d08f05df@gmail.com
+> >
+> > Changes in v2:
+> > - Keep the MTD device callback owner pinned through callback return,
+> >   with the final module put performed by the device core.
+> > - Retain virtual-concat components across removal and rebind, serialize
+> >   staging/publication and unwind incomplete partition registrations.
+> > - Balance Tegra's probe-time child-node reference separately from the
+> >   reference retained for the chip lifetime.
+> > - Refresh the prerequisite stack to the separately posted fixes, using
+> >   the latest QCOM child-probe revision.
+> > - Keep the lifetime changes on top of those fixes: preserve QCOM scan
+> >   before publication, R852 per-card initialization and Intel probe
+> >   hardware shutdown.
+> > - Fold Macronix disconnection handling into the NAND disconnect patch;
+> >   its operation locking is supplied by the posted prerequisite.
+> > - Use Karl Mehltretter's posted OTP cleanup fix as a prerequisite in
+> >   place of the duplicate preparatory patch.
+> > - Keep the NVMEM context callback module pinned until its final callbac=
+k
+> >   returns, independently of the provider's consumer owner.
+> > - Use the posted fixes for dynamic partition publication and partition-=
+node
+> >   ownership. Keep master get/put accounting independent of
+> >   later master registration in the MTD ownership patch.
+> > - Propagate disconnection through BBT error recovery without marking
+> >   the eraseblock bad.
+> > - Make suspend of a disconnected, retained NAND device a no-op.
+> > - Handle R852 card events during removal while preventing new work from
+> >   being queued.
+> > - Initialize Denali and Atmel cleanup variables at allocation and add
+> >   the introducing-commit trailers for Orion and MPC5121.
+> > - Link to v1: https://patch.msgid.link/20261107-submit-rawnand-retained=
+-handle-lifetime-v1-v1-0-0181ef0cc4c8@gmail.com
+> >
+> > To: Miquel Raynal <miquel.raynal@bootlin.com>
+> > To: Richard Weinberger <richard@nod.at>
+> > To: Vignesh Raghavendra <vigneshr@ti.com>
+> > Cc: linux-kernel@vger.kernel.org
+> > Cc: linux-mtd@lists.infradead.org
+> >
+> > ---
+> > James Hilliard (58):
+> >       nvmem: disconnect provider callbacks before unregister returns
+> >       mtd: acquire an MTD handle from a referenced class device
+> >       mtd: separate class devices from retained backing objects
+> >       mtd: retain virtual concatenations across component removal
+> >       mtd: rawnand: separate hardware disconnection from cleanup
+> >       mtd: rawnand: share retained chip and controller ownership
+> >       mtd: rawnand: sunxi: retain chip state until the final MTD put
+> >       mtd: rawnand: plat_nand: retain open-handle state on removal
+> >       mtd: rawnand: gpio: retain open-handle state on removal
+> >       mtd: rawnand: stm32_fmc2: retain open-handle state on removal
+> >       mtd: rawnand: denali: retain chips across controller removal
+> >       mtd: rawnand: arasan: retain chips across controller removal
+> >       mtd: rawnand: mxic: retain open-handle state on removal
+> >       mtd: rawnand: intel: retain open-handle state on removal
+> >       mtd: rawnand: tegra: retain open-handle state on removal
+> >       mtd: rawnand: mtk: retain chips across controller removal
+> >       mtd: rawnand: rockchip: retain chips across controller removal
+> >       mtd: rawnand: atmel: retain chips across controller removal
+> >       mtd: rawnand: orion: retain open-handle state on removal
+> >       mtd: rawnand: socrates: retain open-handle state on removal
+> >       mtd: rawnand: fsl_upm: retain open-handle state on removal
+> >       mtd: rawnand: pasemi: retain open-handle state on removal
+> >       mtd: rawnand: ams-delta: retain open-handle state on removal
+> >       mtd: rawnand: xway: retain open-handle state on removal
+> >       mtd: rawnand: hisi504: retain open-handle state on removal
+> >       mtd: rawnand: vf610: retain open-handle state on removal
+> >       mtd: rawnand: technologic: retain open-handle state on removal
+> >       mtd: rawnand: loongson: retain open-handle state on removal
+> >       mtd: rawnand: ma35d1: retain open-handle state on removal
+> >       mtd: rawnand: pl35x: retain open-handle state on removal
+> >       mtd: rawnand: mxc: retain open-handle state on removal
+> >       mtd: rawnand: fsmc: retain open-handle state on removal
+> >       mtd: rawnand: gpmi: retain open-handle state on removal
+> >       mtd: rawnand: omap2: retain open-handle state on removal
+> >       mtd: rawnand: marvell: retain open-handle state on removal
+> >       mtd: rawnand: renesas: retain open-handle state on removal
+> >       mtd: rawnand: meson: retain open-handle state on removal
+> >       mtd: rawnand: cadence: retain open-handle state on removal
+> >       mtd: rawnand: qcom: retain open-handle state on removal
+> >       mtd: rawnand: cafe: retain open-handle state on removal
+> >       mtd: rawnand: brcmnand: retain open-handle state on removal
+> >       mtd: rawnand: au1550nd: retain chip state across removal
+> >       mtd: rawnand: sharpsl: retain chip state across removal
+> >       mtd: rawnand: davinci: retain chip state across removal
+> >       mtd: rawnand: sh_flctl: retain chip state across removal
+> >       mtd: rawnand: lpc32xx_slc: retain chip state across removal
+> >       mtd: rawnand: lpc32xx_mlc: retain chip state across removal
+> >       mtd: rawnand: ndfc: retain chip state across removal
+> >       mtd: rawnand: txx9ndfmc: retain chip state across removal
+> >       mtd: rawnand: ingenic: retain chip state across removal
+> >       mtd: rawnand: mpc5121: retain chip state across removal
+> >       mtd: rawnand: bcm47xxnflash: retain chip state across removal
+> >       mtd: rawnand: fsl_elbc: retain chip state across removal
+> >       mtd: rawnand: fsl_ifc: retain chip state across removal
+> >       mtd: rawnand: r852: retain chip state across removal
+> >       mtd: rawnand: nandsim: retain chip state across removal
+> >       mtd: rawnand: cs553x: retain chip state across removal
+> >       mtd: rawnand: diskonchip: retain chip state across removal
+> >
+> >  drivers/Makefile                                   |   2 +-
+> >  drivers/media/pci/cobalt/cobalt-flash.c            |   2 +-
+> >  drivers/mtd/Kconfig                                |   5 +
+> >  drivers/mtd/Makefile                               |   5 +-
+> >  drivers/mtd/devices/bcm47xxsflash.c                |   2 +-
+> >  drivers/mtd/devices/docg3.c                        |   4 +-
+> >  drivers/mtd/devices/mchp23k256.c                   |   2 +-
+> >  drivers/mtd/devices/mchp48l640.c                   |   2 +-
+> >  drivers/mtd/devices/mtd_dataflash.c                |   2 +-
+> >  drivers/mtd/devices/mtd_intel_dg.c                 |  30 +-
+> >  drivers/mtd/devices/powernv_flash.c                |   4 +-
+> >  drivers/mtd/devices/spear_smi.c                    |   2 +-
+> >  drivers/mtd/devices/sst25l.c                       |   2 +-
+> >  drivers/mtd/devices/st_spi_fsm.c                   |   8 +-
+> >  drivers/mtd/hyperbus/hyperbus-core.c               |   2 +-
+> >  drivers/mtd/lpddr/lpddr2_nvm.c                     |   2 +-
+> >  drivers/mtd/maps/lantiq-flash.c                    |   2 +-
+> >  drivers/mtd/maps/physmap-core.c                    |   2 +-
+> >  drivers/mtd/maps/plat-ram.c                        |   2 +-
+> >  drivers/mtd/maps/pxa2xx-flash.c                    |   2 +-
+> >  drivers/mtd/maps/sa1100-flash.c                    |   2 +-
+> >  drivers/mtd/maps/vmu-flash.c                       |   2 +-
+> >  drivers/mtd/mtd_blkdevs.c                          |   2 +-
+> >  drivers/mtd/mtd_virt_concat.c                      | 526 +++++++++++--=
+--------
+> >  drivers/mtd/mtdconcat.c                            | 103 +++-
+> >  drivers/mtd/mtdcore.c                              | 308 +++++++-----
+> >  drivers/mtd/mtdcore.h                              |   5 +
+> >  drivers/mtd/mtddevice.c                            |  59 +++
+> >  drivers/mtd/mtddevice.h                            |  12 +
+> >  drivers/mtd/mtdpart.c                              |  68 ++-
+> >  drivers/mtd/mtdpstore.c                            |  50 +-
+> >  drivers/mtd/nand/ecc.c                             |   3 +-
+> >  drivers/mtd/nand/onenand/generic.c                 |   2 +-
+> >  drivers/mtd/nand/onenand/onenand_omap2.c           |   2 +-
+> >  drivers/mtd/nand/onenand/onenand_samsung.c         |   2 +-
+> >  drivers/mtd/nand/raw/Makefile                      |   1 +
+> >  drivers/mtd/nand/raw/ams-delta.c                   |  28 +-
+> >  drivers/mtd/nand/raw/arasan-nand-controller.c      |  49 +-
+> >  drivers/mtd/nand/raw/atmel/nand-controller.c       |  44 +-
+> >  drivers/mtd/nand/raw/au1550nd.c                    |  23 +-
+> >  drivers/mtd/nand/raw/bcm47xxnflash/main.c          |  18 +-
+> >  drivers/mtd/nand/raw/brcmnand/brcmnand.c           |  65 ++-
+> >  drivers/mtd/nand/raw/cadence-nand-controller.c     |  51 +-
+> >  drivers/mtd/nand/raw/cafe_nand.c                   |  27 +-
+> >  drivers/mtd/nand/raw/cs553x_nand.c                 |  44 +-
+> >  drivers/mtd/nand/raw/davinci_nand.c                |  26 +-
+> >  drivers/mtd/nand/raw/denali.c                      |  28 +-
+> >  drivers/mtd/nand/raw/denali_dt.c                   |  13 +-
+> >  drivers/mtd/nand/raw/denali_pci.c                  |   9 +-
+> >  drivers/mtd/nand/raw/diskonchip.c                  |  17 +-
+> >  drivers/mtd/nand/raw/fsl_elbc_nand.c               |  56 ++-
+> >  drivers/mtd/nand/raw/fsl_ifc_nand.c                |  48 +-
+> >  drivers/mtd/nand/raw/fsl_upm.c                     |  20 +-
+> >  drivers/mtd/nand/raw/fsmc_nand.c                   |  19 +-
+> >  drivers/mtd/nand/raw/gpio.c                        |  18 +-
+> >  drivers/mtd/nand/raw/gpmi-nand/gpmi-nand.c         |  19 +-
+> >  drivers/mtd/nand/raw/hisi504_nand.c                |  20 +-
+> >  drivers/mtd/nand/raw/ingenic/ingenic_nand_drv.c    |  41 +-
+> >  drivers/mtd/nand/raw/intel-nand-controller.c       |  20 +-
+> >  drivers/mtd/nand/raw/internals.h                   |   2 +-
+> >  drivers/mtd/nand/raw/loongson-nand-controller.c    |  21 +-
+> >  drivers/mtd/nand/raw/lpc32xx_mlc.c                 |  38 +-
+> >  drivers/mtd/nand/raw/lpc32xx_slc.c                 |  40 +-
+> >  drivers/mtd/nand/raw/marvell_nand.c                |  46 +-
+> >  drivers/mtd/nand/raw/meson_nand.c                  |  49 +-
+> >  drivers/mtd/nand/raw/mpc5121_nfc.c                 |  26 +-
+> >  drivers/mtd/nand/raw/mtk_nand.c                    |  40 +-
+> >  drivers/mtd/nand/raw/mxc_nand.c                    |  23 +-
+> >  drivers/mtd/nand/raw/mxic_nand.c                   |  23 +-
+> >  drivers/mtd/nand/raw/nand_base.c                   | 103 +++-
+> >  drivers/mtd/nand/raw/nand_bbt.c                    |  24 +-
+> >  drivers/mtd/nand/raw/nand_lifetime.c               | 246 ++++++++++
+> >  drivers/mtd/nand/raw/nand_macronix.c               |   8 +-
+> >  drivers/mtd/nand/raw/nand_onfi.c                   |   4 +-
+> >  drivers/mtd/nand/raw/nandsim.c                     |  21 +-
+> >  drivers/mtd/nand/raw/ndfc.c                        |  34 +-
+> >  .../mtd/nand/raw/nuvoton-ma35d1-nand-controller.c  |  42 +-
+> >  drivers/mtd/nand/raw/omap2.c                       |  27 +-
+> >  drivers/mtd/nand/raw/orion_nand.c                  |  24 +-
+> >  drivers/mtd/nand/raw/pasemi_nand.c                 |  22 +-
+> >  drivers/mtd/nand/raw/pl35x-nand-controller.c       |  38 +-
+> >  drivers/mtd/nand/raw/plat_nand.c                   |  20 +-
+> >  drivers/mtd/nand/raw/qcom_nandc.c                  |  39 +-
+> >  drivers/mtd/nand/raw/r852.c                        | 111 +++--
+> >  drivers/mtd/nand/raw/r852.h                        |   1 +
+> >  drivers/mtd/nand/raw/renesas-nand-controller.c     |  37 +-
+> >  drivers/mtd/nand/raw/rockchip-nand-controller.c    |  45 +-
+> >  drivers/mtd/nand/raw/sh_flctl.c                    |  22 +-
+> >  drivers/mtd/nand/raw/sharpsl.c                     |  22 +-
+> >  drivers/mtd/nand/raw/sm_common.c                   |  15 +-
+> >  drivers/mtd/nand/raw/sm_common.h                   |   2 +-
+> >  drivers/mtd/nand/raw/socrates_nand.c               |  19 +-
+> >  drivers/mtd/nand/raw/stm32_fmc2_nand.c             |  19 +-
+> >  drivers/mtd/nand/raw/sunxi_nand.c                  |  46 +-
+> >  drivers/mtd/nand/raw/technologic-nand-controller.c |  22 +-
+> >  drivers/mtd/nand/raw/tegra_nand.c                  |  27 +-
+> >  drivers/mtd/nand/raw/txx9ndfmc.c                   |  41 +-
+> >  drivers/mtd/nand/raw/vf610_nfc.c                   |  20 +-
+> >  drivers/mtd/nand/raw/xway_nand.c                   |  24 +-
+> >  drivers/mtd/nand/spi/core.c                        |   2 +-
+> >  drivers/mtd/nand/spi/esmt.c                        |   2 +-
+> >  drivers/mtd/nand/spi/micron.c                      |   4 +-
+> >  drivers/mtd/nand/spi/otp.c                         |   2 +-
+> >  drivers/mtd/spi-nor/core.c                         |   2 +-
+> >  drivers/mtd/ubi/build.c                            |   2 +-
+> >  drivers/nvmem/Kconfig                              |   1 +
+> >  drivers/nvmem/core.c                               | 463 ++++++++++++-=
+-----
+> >  drivers/nvmem/internals.h                          |  16 +-
+> >  drivers/nvmem/layouts.c                            |   2 +
+> >  drivers/nvmem/layouts/fixed-layout.c               |   2 +-
+> >  drivers/nvmem/layouts/onie-tlv.c                   |  20 +-
+> >  drivers/nvmem/layouts/sl28vpd.c                    |   3 +-
+> >  drivers/nvmem/layouts/u-boot-env.c                 |  25 +-
+> >  drivers/ptp/ptp_ocp.c                              |   7 +-
+> >  include/linux/mtd/concat.h                         |  22 +-
+> >  include/linux/mtd/mtd.h                            |  21 +-
+> >  include/linux/mtd/rawnand.h                        |  37 +-
+> >  include/linux/nvmem-provider.h                     |  16 +-
+> >  118 files changed, 2751 insertions(+), 1265 deletions(-)
+> > ---
+> > base-commit: 30daaf3e7897b4a8d9b72e5b0c86dd6e2a4d7d85
+> > base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git =
+nand/next
+> > change-id: 20261104-submit-rawnand-retained-handle-lifetime-v1-0b4225e5=
+ce0b
+> > prerequisite-patch-id: a51b9cb4077105499133c413d58c7ad21d973b38
+> > prerequisite-patch-id: b3679cda4dcb45ce7712bffe2dd0576b254df44d
+> > prerequisite-patch-id: 07b5c70e44ad951d20eea9478c98fda35ec765c0
+> > prerequisite-patch-id: abea50275922fe359d72ca4de5cbc211b04bbd57
+> > prerequisite-patch-id: 57776b214ffb0331319f024412f21d35e4ca9056
+> > prerequisite-patch-id: 09be2baaffe1f053704263cc4b0d39f2faa4f49c
+> > prerequisite-patch-id: c3ad85600dc897ac310be450d8daa2275fb91ee6
+> > prerequisite-patch-id: 4a85600553ddcc7db5a9537efd905a71cd623f65
+> > prerequisite-patch-id: 579990ee4a49297efc5a593b00efb9cd73fa15e8
+> > prerequisite-patch-id: 2ee61a8a32fd147d52e0f9d03758634912d8bfef
+> > prerequisite-patch-id: 1487df8ce8e6c48471fd77c7470ce9de582dfe3c
+> > prerequisite-patch-id: 5ecbe86f928d9c5c0bf2cb6065c5672708511fc4
+> > prerequisite-patch-id: ac68e9b65d3aa5661bd7ac0f2e77dcf5c75fcfe0
+> > prerequisite-patch-id: e70f0f0c4d430d416a3ad848b37ffad16bd7df07
+> > prerequisite-patch-id: 05adcddbc50f745ee2640b8c21f3bf76a217f249
+> > prerequisite-patch-id: 0b60b7ab6196076f327c919be5e7b8bb2051ee12
+> >
+> > Best regards,
