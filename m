@@ -1,83 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794826563;
-	b=vwOuAopY2fOE6gcM9P94cazhPvXvP477N+JVhgoJgn/46ltLywgLXjCMtvQu9nHSZkqQ
-	 wt3TLFX9j3s2/9+0oNWY0qtjTQf+Or/GWsGwzVozSceN8Y51VHfkHpDo/pBxGS3QvGumS
-	 gTeJlP1d6e5GlkGGefANwoh28KhIRM5kEMVhAT8Ctk9xYLFTtc+oqOhFPy0yqo+Ig58xF
-	 NQIorTg1zl4w8hHFAQ1LXUAAbok6NzbM10VsZuEhLw64igGuF6FHHm00LEqj1OqrQ8SMy
-	 k+jpviJucjHFk3k+J6tcv0sdMQoehmuvDyN+tyzuG1KJn5m6UF38PV1xRHzEaejAOKw==
+	t=1794826571;
+	b=cPMAyd2nO4JG4sCKFEXIFX/wjy+W8OVhGxsg/ysKGyHZ6cL2eocYxBmvZACLhPhl6QKO
+	 pL4dKBffa79bCjANtO1qhZWZnbAhnX/hSg0jlAwdK6rGIdaIcygXDwuaRBcJ7xqTsw8jg
+	 LWFrnIfNIj9ehsm4Is5c/mkoJG8jWFUe9VsVjFK3cXpkVj3qk+6vxUAAC99lAoA/3rzVx
+	 D2HWPVQL5dRJ1AG09LZ3mTX9Uw9bsX+otHYeSEw5N86M6PSxv5HyzJgByJH+B0d+NNDkD
+	 pEZuPa9f6C7CVJt9Lyh0jsIeqfAwDHmFhMBfhD4CCSTuBLgAaOMO5QoYkRi2LfYEfVA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794826563;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794826571;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=EJkLT5+FbYsBkV6aiXjOdMACJbaO9v6pAiv+btB2ar8=;
-	b=mznap+4Rd+Fsv12TwpX3Kr+sISH8My7b+YUx0B2h7uCHY0fHk/sc5cvyeMymZTDao8TL
-	 9LaYWOlCAeL57pkQV9ZZhHG8eoCFR3s7rFu5+rDGWRVJYm/fkTWIlCihu4KItG6fxPt4v
-	 Fvo8LyABtDlzid0PwmFoRPPkBUKBA7XDDcssSo1Bzx9KqonNRp7Tde5XAzWvqEGpBkXxC
-	 4XIZ6TJ8hjLWwvY/T55/EbCvut/1luwKqRuVDj5Jhjisfa8MQVBTKKH3GFzVndB6l8TPw
-	 HNXO8hwtS9im4ROJYzq1JQCulxhGkz4DFy61wRQBSZBr5QGeu0DynFyeGO12KR4OWiA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=Uuenm5c7uLenhEpnUWoxIYDWfrao2MY0rp9vEXUhv6c=;
+	b=F8o7aDLbN7MJEDU8EDZZ6Gk3hu33JGyHawZLWEd9tBVsLG8SAez++VeuJMQjkav+gZK7
+	 GC76WmMW2fmpec23NJJdfRGWoMzHorMLPzf0tn1JLBz5iubHrF9MYnG4ks14sjIJ4jJ39
+	 +1DFhoFQTUJIBh1tsyklfH5DcBBtKbB1mICVfA9HEl+GtLzQXBITYwPrltFmnIqSmrkZy
+	 owVADTE1LdLw7LizjYlbNi4e//Qk8gmdAOSsye0he5q/FoQmbtpmcfeQmFM8FOOZZr2u7
+	 uZjWPcNw0QVXLdnIsuEF8aBZAVSuW8WlRjyw4xI40O17nZb4DujWy9W0WUXJQ0eQfJA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aSwixBmv;
-	arc=none smtp.remote-ip=209.85.128.178
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pw8wsFcz;
+	arc=none smtp.remote-ip=209.85.128.172
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C40606A323
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 10:56:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C9C40606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392F8606A32C
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 10:56:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 392F8606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aSwixBmv
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-8b4b2bf375fso10012397b3.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 02:56:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pw8wsFcz
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-8b335eeb340so23617227b3.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 02:56:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794826562; x=1795431362; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EJkLT5+FbYsBkV6aiXjOdMACJbaO9v6pAiv+btB2ar8=;
-        b=aSwixBmvGkZRdqXyMwHbmTQP4VE2Lq4xI0Qx6GzOmQyfmBig6UXtjZWc8txrVfzFEf
-         KLBtJXifzgwusTq45LEGxYeN8IVH6L7l/I8mMdIkgUoGa8J9R9F2A9Tu2qj71OXng34U
-         JKet4qYlCVofOJ6UWD0ECVOEMctOmYDzHIcIGgE4b4fdNQjYEZdPd/8geRsG2ZGIUF6c
-         whQVgROp/0M3QI4du2+wNvr8O5m3NMa3sPby9RQ50DGnvU+KCqNYNano62hXyhxmi4uo
-         VReP9B+QZ3mkt0DKgL3NQ1bCzLx/hnPf7bcOzzA3CSMahLi8cysxOpLDpSBgAVXruX/z
-         +eHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794826562; x=1795431362;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794826570; x=1795431370; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=EJkLT5+FbYsBkV6aiXjOdMACJbaO9v6pAiv+btB2ar8=;
-        b=oGDhNVVZ0NYv4L0zAmf9bc7WI8rDYJ6j1yMp3zpAlXXvmToJ4Wc51TxonsNFoZKgr6
-         vc7Vldvtza+cUe/FBbkfW5zxPvFBTGZw/bUw3aDlxKoP/5i3X+2VmPnn7NHGG5Kmf28u
-         7RvCYueXLrustjTwbmP05tLeLVBMxh7napxC26bhd5HLECuVWvZwnekiR0hfif7/GHsB
-         kPMimFerxxKrC2Z7UhNPaEeAZP9A1H0mNXriA1/9ypu21pYBoXzWs6+vQnfGBpz/KGi/
-         7amfJ+B4PtrRLfITnH1az6NPKYEejeyyaFRHC0F77o3uPh65NrLZA6uY+GWcSzfECRfa
-         rR6w==
-X-Forwarded-Encrypted: i=1; AL+hErG3EDbDcFoVn/OuINalI86G0BZTw0BmA2ukUMjbk5ozqExWEFeULu0zYiLftmx+HHL/OI5Xya/iFGmt3w==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/6ojqkTIkHj7USfaQKIFCbKdwqm0+V6F2Zcb1L/4QbIFRnu0QH
-	wh6cP0t3T2JEsg9jsBd0gHaDuOeK1aFg0+AZJHvvDYAfcJj/rODrzbfS
-X-Gm-Gg: AZFdTZf1fnhjDwdv3+9gLYunZ0Chmsi5Emwk3gSbgOO9T5v3Foi3SrL9dTgSLOfrc4N
-	desSVv98NkcLA8k8qoRUpr2xxIAn5zq39pSN64RL3ui5Jr0X1eZm3aPi46X287yaidTeb2ZmBSF
-	btyUN8j9RTpBeKoXQ9wxiz3gEpKeDeZ01KEHP2gYAijbXzWhuZ+xfc+twgPvK43rn5FxxhaU00b
-	AH+oYNNGvTr+pZp2D6UpxQLMwyeVEAbU+FBDRMo4Vx7GDyZ6L07aSmQthtaXCax+onUC9CXa8HW
-	C4Bn/6mfIE7taxDzbK4KwBlWLQAAVS4XeasbSp0wdNMRu5/EDbiHobo0Pb7ZsPrpdPgsq8Sl8P/
-	HytDdRSYdCwSOi28X1cRFSRaGS77KuQesNCC+IqcotUA0XCfOuRVCrTwX/E+mL//JQke5cSpQeP
-	me6IL54TVlxXBl+0MQpK8/K3KXcgw78ikfvDsoAtayJaN6dlVQNeZLSFPtRqnz8/0y4X4DABgLC
-	BECE48KE6JbRKwpjlhZU7bTPYQoQ61z8bFNHBptK7I0KfosWJsGGhp1ASe04pVIj9yy1y97vSRZ
-	VT5JgSA501YMNyRNgQUwOpW2d0Lpqj00U9x6AHKWpAs1On01Lmc7NvMpiFs6pFW1ePvWUkOcV7z
-	T5H6uKbYdixskau4YUiPxVWkHbYUVguOfiSx41/IVAeeCjyg52yFbQ/74QA==
-X-Received: by 2002:a05:690c:34c9:b0:8b4:c9b1:ba6b with SMTP id 00721157ae682-8b4c9b1c520mr26140997b3.23.1794826561834;
-        Mon, 16 Nov 2026 02:56:01 -0800 (PST)
+        bh=Uuenm5c7uLenhEpnUWoxIYDWfrao2MY0rp9vEXUhv6c=;
+        b=pw8wsFczfKlQAIX/apwrgtn0Q/J3r0w/Qv4HZm97H1PM4TG0RrkgFYEwFqjIOwyUc1
+         s8vECQT0nqyEvPAG/fLloqFez5FvX6bRxLmPADjmZp1sfi5gskvNolRzffPPQL1GpLA7
+         bf8rdkLTPL7eptYWNw09JMIq3VsSefrGTIVPdM3naQfMUng/4SsFGvTRtkIO8hXCZ7xr
+         tvlHwchyVujJ6qVzMGw/LL9h9WRo6+8o4V06q4CHqRJFSKYsbr0inno+Iil6qWwkNCzK
+         ACBBy2MQPKpngSSrMotyOd5xNyoPXTZmclZIEVJrLMxFyb6JVuXJyPhwNEc1GSRXI4zE
+         wH3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794826570; x=1795431370;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Uuenm5c7uLenhEpnUWoxIYDWfrao2MY0rp9vEXUhv6c=;
+        b=JA2bdBvBcLzKvdjMt8OvzlrkBQnOpBKs/gk3kd0LkGYtQt0IXVZ4qL8teyOzkP2nOG
+         fOyT93Wbn/wHzZNtIzQnYJQBc26QiRFPHNd1pS9eVpdTy74JgqhBYuh4UJlYVi6kjc34
+         KkbpWad1mk0+ZWjyF4WRpKd0rBQ9dOXyq1FRtbNk16BTqUmJvdr7/qudLunviQUsUbCr
+         N/ZPwFfcS4Uw2UVHvrNIivoyuV2M6Ps1rH5tvCXgF1LshH0e5P+bT8fZaW+aA8UYcxdE
+         YZ2pLyd4Eg0ajn7l4zdxP65+bCvxxTKJnVoVtD9z+txyCThOmX9jrzLTVGHBShWxy0ZP
+         s0Ug==
+X-Forwarded-Encrypted: i=1; AL+hErG9UUfUdD2oYYGBr0o1dVqwm/acsSgJau4+Oi6r0+iuLyexsRroOOkptuKp9dhhirOtD6C4STE3kyKAXQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+DckCQW+N6is16h7l/3f3/JvHICS5quedSthVX2gE38MhaviNs
+	QULmPHqCbGTw8yhql+naoVUDCObzkjmmxs97XhvEOCzsjL9+BlKVgLnq
+X-Gm-Gg: AZFdTZe2RMALm6yZXa15nPHBzvHNZe8HoyzY4IgAye47Xg4LpZXgb30+dh5NFY53oQ5
+	6rBABJ8NuqAVwcPHLg+Jzq7XhepaueJFZO6E+u+N8obPDtM1pGHjcQayyH5JcJNAHig5CEsuY0W
+	9jtKX7U8tE/9E+CRa3ujFuL/BYwuQPO+QSLguQUYXll67tm0JRw1WZBVm7p9cEjt0517G2d/3aT
+	g9AKt4dRYsMKWnoWzLng1HFh1ORXMGRXZXqffrWSzv4R5XCbJ6JNoD/it0d/QnMxVXV3sUcrr/l
+	tHRq6TDaPG6vmXJtAMluQooKHLJF6e/3CQAwl9kzOmNVlQ4Utf1eFSfImWgCzJWEVaZNbG8YLgh
+	NHYFmgeyUO0Oi/4G+S8qbEZXcH7sp5XwOy2TuNMr0xMUupKo2ujtWBYKuGZEQWO03LgOmF+y/9Y
+	Ln0YVOYBPIvraV9YdVMVOosp/hZb7e382dav0q5n3oW2ZAedQVyUA8iaOCZ3s69VSu942fn4XvN
+	rZQHxGhcjA3KRZ0iLU8fM23/HUwnGs6ANfetFZW51Yub6+ZkXeg5wC/GKbu0C+AhiBYNIXSBFOw
+	Cq1JYwexUp9Yi0YTJu4GCIwNXZWx0wI4is5EsMmQ7S4EY3Eptn0ejWm7z2woJndR6dp09cw+SYu
+	BtRlbZrwp/JOzOWrvAZuGwZuAzYds05EG+ZSc
+X-Received: by 2002:a05:690c:389:b0:8b3:2445:889b with SMTP id 00721157ae682-8b4aa2eb92bmr50305027b3.91.1794826570279;
+        Mon, 16 Nov 2026 02:56:10 -0800 (PST)
 Received: from MaquinaLab.. ([2804:1b2:aa41:8a69:2b8b:32cb:351d:f30d])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4aa7f1a0dsm82274987b3.1.2026.11.16.02.55.55
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4aa7f1a0dsm82274987b3.1.2026.11.16.02.56.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 02:56:01 -0800 (PST)
+        Mon, 16 Nov 2026 02:56:09 -0800 (PST)
 From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
 To: Vinod Koul <vkoul@kernel.org>
 Cc: Neil Armstrong <neil.armstrong@linaro.org>,
@@ -95,10 +96,12 @@ Cc: Neil Armstrong <neil.armstrong@linaro.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/2] phy: sun4i-usb: add the Allwinner A733 USB PHY
-Date: Mon, 16 Nov 2026 07:55:42 -0300
-Message-ID: <20261116105544.669029-1-vinicius.eduardo.pedrosa@gmail.com>
+Subject: [PATCH v2 1/2] dt-bindings: phy: document Allwinner A733 USB-2.0 PHY
+Date: Mon, 16 Nov 2026 07:55:43 -0300
+Message-ID: <20261116105544.669029-2-vinicius.eduardo.pedrosa@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261116105544.669029-1-vinicius.eduardo.pedrosa@gmail.com>
+References: <20261116105544.669029-1-vinicius.eduardo.pedrosa@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -110,46 +113,28 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This adds the A733 to the sun4i-usb PHY driver. It works with the D1
-settings, except that the A733 gets SIDDQ cleared before the PHY reset
-is released (patch 2). That made an intermittent USB1 enumeration
-failure go away on my board.
+The Allwinner A733 USB 2.0 PHY uses the same configuration as the D1,
+so add its compatible with the D1 fallback. The A733-specific
+compatible lets the driver clear SIDDQ before releasing the PHY reset,
+without changing the PHY configuration.
 
-I only have one Cubie A7Z, running a local DT, since there's no A733
-dtsi upstream yet. Only USB1 is enabled in it, so PHY0 (the OTG port)
-never went through the new order. The boots ran the same reorder on
-top of 7.3-rc6, before I turned it into a per-SoC flag.
+Signed-off-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+---
+ .../devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml    | 1 +
+ 1 file changed, 1 insertion(+)
 
-The numbers are in patch 2. The comparison inside the last run alone
-(1/31 vs 0/60) isn't statistically significant, so it leans on the
-earlier 3/40 too.
-
-One question. The vendor BSP uses this order in common code, for every
-SoC. I kept it per SoC because I can't test the others and the manual
-says nothing about the order. Would you prefer it for all the SoCs that
-clear PHY_CTL_SIDDQ (D1, H616, and A100/A523 through the D1 fallback),
-or is a per-SoC flag fine?
-
-Changes in v2:
-- Reword the binding commit message into a single paragraph (Krzysztof)
-- Rebase on phy/next and drop the dependency on Xu Rao's "phy:
-  allwinner: sun4i-usb: disable the PHY2 PMU clock after SIDDQ setup".
-  Patch 2 only overlaps with it in context.
-
-v1: https://lore.kernel.org/all/20261029172325.3425046-1-vinicius.eduardo.pedrosa@gmail.com/
-
-Vinicius
-
-Vinicius Pedrosa (2):
-  dt-bindings: phy: document Allwinner A733 USB-2.0 PHY
-  phy: sun4i-usb: clear SIDDQ before the PHY reset on A733
-
- .../phy/allwinner,sun50i-a64-usb-phy.yaml     |  1 +
- drivers/phy/allwinner/phy-sun4i-usb.c         | 35 ++++++++++++++++---
- 2 files changed, 31 insertions(+), 5 deletions(-)
-
-
-base-commit: 6bdfbe223ed4735073c299a6645ebd3faac3f51f
+diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml
+index 580c3296a18d..da4ad6fb3531 100644
+--- a/Documentation/devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml
+@@ -23,6 +23,7 @@ properties:
+           - enum:
+               - allwinner,sun50i-a100-usb-phy
+               - allwinner,sun55i-a523-usb-phy
++              - allwinner,sun60i-a733-usb-phy
+           - const: allwinner,sun20i-d1-usb-phy
+ 
+   reg:
 -- 
 2.43.0
 
