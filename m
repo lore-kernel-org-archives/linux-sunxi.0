@@ -1,79 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.46
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794808527;
-	b=1QJ5ToM2yb4sbdMpLCpr5eP13qhDaAf/kDg7avPmLUc6TtSmnKA70SiXiVlCb06QV7dl
-	 sIZlMUydYAlNXxEnPBFLAYfPxWSLaGA7wds2ltO/DESvDSr8+tprDbT4+cg6+cqL5Ig/q
-	 +WodJjDth4jE1d2zGdcfCT8CVYBhOG2L7Jf9Yt+Mxk34yaXDa5R9nTpim/nEpM0xcSNZd
-	 ot+KYq37877aV9y2mv2RyZ7XOOp+MlL714Ugx01LDt9C3fQHWPEWH7C/Bi+0Rzs0fB6Zz
-	 nli9AcSIammJh7CWWhbu5gozghwUCsoblaPpAflUa/SRyDdn6Q9EoVne2ubaBddEoMQ==
+	t=1794808731;
+	b=mgcIw0lQdSPXINoDn4inr6TFZdzs3ACxqo2lSyWjvprdiZ/mGmcF9lRHCphXq1nxaZds
+	 3lHW8r0NgcAfjNyk+IfbkPIHq1tc9mE0n5mhbYp/Wzy1xFObBMuU4N8y5NOoSkB07u5nm
+	 1S0OE6lVkbRSdCacUjONoaBcT+lnNHkCBGjyK7hP6E2MGnOQyut8vXqqg37CVLgp6K0sT
+	 GaU7XXDsWF7dBJB8a5plvomAeOrerIeeLAW37KG0BI7aPNLQPRG59dDRPCeQZPtO4mY9C
+	 dtiKHk2e/dHcpSh93OgzmYLlEzNSzy755TRkDBw0/M8nsgkCFIia6UdGdqLLiei2/YA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794808527;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=VNX+WPtkvXcf+EOQMuEjoia+Dr8rsdBKgwFXK6gvpAU=;
-	b=3thy0WmBUYAeRSVtGts//xzaS6GafKC4vtCr4+uzBkaWttBPUYfmNQniU0G1ggKMmbr+
-	 DN3wm9N01aQcRlvHaZ4TtvylDBX6zX9SOikYJPLjuiJgPzQVlTBYV5mkUGLBt05tBtFyo
-	 R1SyJURu9V37loYeuCDTWY8epity0O0bmu/IRv52z5gefPKUnlgrjP0pe6KbKfHmV9Odi
-	 NMYHFqUDf8+4A2zkQsZs7iX7IxUP4eHfeQ3u16gi3DNfstnzbXZq40uajhNp3YSmhttf2
-	 gGtZBRDQfZvqUUUCg5+/B+eK/2rPZbS1f4VE+8xV42iWjQyMYC9/1b80ijKSRMQW14g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794808731;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=HKC6wftTAfwgm7hfDMXB92AtkaDOnYKFMImjf+ok55c=;
+	b=rXiSwvL7+UxE4cq6erVkqyzQWvwSmdJh2Nxql5M/vJ7Pn9nwT+1q1HP5B1K5O28DlRkB
+	 Sbq509mFvDoYM8Jj6BpDnb85CJ5jhUEV36bTcf3eqdk53PV7teg4kiolJkqw7s/bH3fUD
+	 0WpcfVqKm2o6CUuhxzDMoXpuKd+zGOTMQn/JtZPHxKAihEPZwnBbrxIq7SUm7IGASqKSY
+	 Ot+0uv8V75ci7XLf3yYBAaTZfmleWeUAsgT8orvmMNuewdOhFizAufFDTyrQchcG1xuun
+	 deZepnfHfpwScT0K3i5IDJ9bkLCyiZlNe+MzxybJUdu+MucAlYbofie4++FXGeoKuiQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hT9NzDnj;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB97606A336;
-	Mon, 16 Nov 2026 05:55:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hT9NzDnj
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794808527;
-	b=AsiFTzXHxZ3agWgoOAeIDLIzq/rycvgWU7SmAauNCGjc/FNX2+3X+wA038qpoCn2s3Lg
-	 EY5Wvyjwlxfj1+QgYH6rxSAGDCFAInvM3Fg06aWXnWqzvRQwwRsgVEJH6Fm/RMfClAcx8
-	 QfFrc3rwWSG91m685CcKxsjrqbOrY0O6vCl9QjQIJAwIIj3OiqGLrkI7OUVA7qZoHo4q/
-	 QoEXiBXgsXW6VLD9da+EA1pq6Ep1glDeZF68kn+H/wsEll4ZehmppqtujZQcpZK8BHqie
-	 o4wJWeYtj2T26KdSO1Jj7f9iK35T2bW5Ccal66Eh/ONj/aQB9wnVpgTf0aS9psGkI6g==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794808527;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=VNX+WPtkvXcf+EOQMuEjoia+Dr8rsdBKgwFXK6gvpAU=;
-	b=v/wO+KM7wJcPo3mABc4WlvtSAr927dNlf/ptW9j+YIbg/zekrGKttRK+MSFmvP30pVOu
-	 pQ6lLGYISD32Q2/bBEDWTnTx/LF+T8AtY2/4XAF5fVUmLFoIHxPiBzArrRCx7sLHBtLli
-	 AVmsI6sXF4kjcZvvCbiEE2L7fXqAlShwUf2rEV1gG/9fDrchkteLjx/2IEaoeiPX64zaZ
-	 L0Tp35VOQEwhP79afQLyPcHuWv4kvzD3eYYxP4ZCWmvFJ8KyzhCCBHHPDol8K1TGYk1vJ
-	 KXS+xxLqBY4RVSXFKVkomQSBuOxmQ+o90/341/3kq3ZCohwP1f2qJfnaA13dAlBa3QQ==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ORQnbZdF;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.46
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id EDA501F000C4;
-	Mon, 16 Nov 2026 05:55:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794808527;
-	bh=VNX+WPtkvXcf+EOQMuEjoia+Dr8rsdBKgwFXK6gvpAU=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=hT9NzDnjP2j5JJtINzR4Orc6/7T7GpoParFOhUtMAm6jGk+FBjSFNKeVuUfNMlMwM
-	 kvxHGgWxD9Dc1+XXv1/ShCFJEufQYWWSZr25YN9hA39PbhjxsuO0OujEPPD1idFhUt
-	 FOPK51D2Zpsz1LpF5skk4+rR2YRcGOcbe6ZIAdyCuyuFqeIqAg3UMrcOJ8wY7mbMQL
-	 Owzu96LS17Vi8OHIDjDvOXYlKVFqYvmbLrnNNE9DMKDvsXwhDgwAlU80SaUwn24W7d
-	 JwmgkxRPprJrGRm8EKGstXnPJSv/9+oR+8Y46ErKB65FMsp0fVYG4XqwqWYp/Nj+EM
-	 vHA7IPbbEj+Fw==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 511C34A338;
-	Mon, 16 Nov 2026 05:55:25 +0000 (UTC)
-From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
-Subject: [PATCH v2 0/2] spi: sun6i: Add dual read support for the H616
-Date: Mon, 16 Nov 2026 05:55:24 +0000
-Message-Id: <20261116-spi-sun6i-h616-dual-read-v2-0-e0c66eb71e20@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D31606A331
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 05:58:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8D31606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ORQnbZdF
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5c14c0503dfso198983e87.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 15 Nov 2026 21:58:50 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794808729; cv=none;
+        d=google.com; s=arc-20260327;
+        b=VhXQ2L2TvSaK3qdmYxDRrnRI1UP+pxa1t83CqR05lQ9Ys/YWVgzssOfYQVSfwZYyjU
+         tlEhVnMuS3kS8LiHWWQoE0wSce2Ulv4IvwXe+tml2XleNVIo+WFlliqEN/27yEJEIBW8
+         Mm12p95PQ8Whtv83JBzHKeAo6lY0xCfVXtVtqFtHLOWUdF7j7RCpgZ9c2VhVvykGKND0
+         QyWeModTotDnpGSUme2Fd4eBnPJkLSwoDG3BwXheS+BtdfKC8brg7Nb9Ya9vFSNCkaS/
+         2nUzbIPVrSNhusJy19eXrYNWjIJgkJ72/BNR4QWjkq5XL5h+lffaVd6+aYPQIvjB/BZX
+         yLKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HKC6wftTAfwgm7hfDMXB92AtkaDOnYKFMImjf+ok55c=;
+        fh=hwgW/ANXllPdMdBmzcoqEcJk8IVtSOCjWgvUYJ9uP7M=;
+        b=oKi5qNKXlqBa5m2Ve8wvvxAa5XbSCmdSzfa3g6pmuwvoWCsvny8QepD7GRgs4h8FNE
+         gWcCYlbF9B0iM1Lm/FsEdGLGgIJXxFjJH7eW6GDKFRXeMn7E1TcEF0XyV/5EoFdQA504
+         mZ9LHsIQN3D+2jsV/uVUW1mny76Vd850D1+33lOy9GpbvXuXckPpmjROlYjt4rP86S8y
+         kAu9dcRo4SBstpTFOMcjpA6R3iZeKkMezO0Ul2G2xLV+FFB06MhMCcrCOcgmOsEEFO6k
+         xkaZksXCTwCbx9wAbAamQaxFOKTcxjMxixqyss66gWBTgeBy/g4Y0oUA1ZdSYaUgY7+/
+         5lRw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794808729; x=1795413529; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HKC6wftTAfwgm7hfDMXB92AtkaDOnYKFMImjf+ok55c=;
+        b=ORQnbZdF+Jn2j091NuxlqAmH8paefDPkxN4Sr7R1NF0X1NdcwAnitdRYwGzaOV8I8w
+         xbevJd7ZXQYYL8csrHmTMJxn1yKj5CivHb4+x4njlGORGDeJx/hBt8wiKKV1tq1BSprn
+         HlKksd9mWi2GyoWxDhaoTwCWur38Hpv5k1jKGBcAqn4seJfgl9o28CasDp30T9DH4Ls8
+         LnGDOnP825T7QStUt670A7y9Jt/afVEB+9cgWhZNy1lUz24UfYyiv3IApdS7l5BxfP1Z
+         CQ4MrtWrGA5jJMbvEyyt3n8xOF0/ygxrMIaCMpUH1FITg6PZyPqGD9c+3zq1EA//ILRH
+         hpNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794808729; x=1795413529;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HKC6wftTAfwgm7hfDMXB92AtkaDOnYKFMImjf+ok55c=;
+        b=SmIXdN3J0RoXyf1DdvyN9Z8buaQB2sklOf8daicopjvariKgGVEopWoA8NzvHPwT7B
+         18edohwNRKR/y1KwDhgru6+sav0nxx8jdHafq1N4uXaCRoIR6pHjhAqvpOZ26JLYgJvM
+         FZ4Qn1xnrnu+P7kJLb/4BsRdG8dr8LzAA1PoyqJZiu2sIGT6cXdh6o4ANh91jUakufZJ
+         MN98IzxFNTcBAVuty27lGklzzK+jh9cAj8NJ3sFXXz8XhSQ8TVUJ8nY7LMOjXWZ5qXhI
+         AZzqcqS32HJB8Nf6CLec/2i+06W454GZtoHqAJvYiLBapvPA0vSzXZSa9/qVoVLQBaDO
+         U3PQ==
+X-Forwarded-Encrypted: i=1; AL+hErHI2yhkjcPjSB6LQWP4lCW0tGin3C4+EyJzqhlm/Bd882wUWuTDqbpXZ1vqz95kGIJSfVph4KQECxm79A==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/pEuhc8utNd9wfrxzDHK9qy8AilvDTPBuUuVilPWlFp6Glhlm+
+	v4CoMThen0GjCHvX+MwienvkE6erKkfYJ9nNgyp/xntLNNrylcK8/LVO0g6GJsewgFl5VYWhPgk
+	hz1dSX3QoQ2CayXUBnOgg3bPsIJHu8OI=
+X-Gm-Gg: AYBFou0ABDP6lIsORSVhNvMuFQY2yYDGaR0Z8i7sToyfVNa9X2W/yY1LhCCc8m5hKJE
+	z6QOWVJ9n6oMZw5nYW2/uLSf1iqRTTywKjYMi5yNeUiQEwVwiwVK3J6oR0n7l3UQkILeopXer/2
+	lBtAoeZHTluj9ubxrHb55bmqhwx/EbK0WE9NIZLrwL2cQVFicpGuPqVsERwZgMmhoJwx51JlB8g
+	4jDAaL/NFtkLakkBPXz/EWGAF3USxVUUcFXQk/ulBUwVfLcFsuDf6WSDgTqzPRWEwJyK1h3SiJw
+	N0fvand1+C+JqwZzhD08w2pKkdGfNvZyGs7fTJBoyb2TxfQAlu3bMGYto+tQIOtyiBEWHlYWkdH
+	c5oi3AfWVrpCZIzbtP8soA/lwo4RrTpkAHifRb98wDIQ5RvE7I5UD5MDiUK3YEqXarh0ISNg=
+X-Received: by 2002:a05:6512:3e0d:b0:5bf:a66f:e5e with SMTP id
+ 2adb3069b0e04-5c17058b108mr3973537e87.0.1794808728737; Sun, 15 Nov 2026
+ 21:58:48 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -83,61 +104,40 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/42NTQ6CMBBGr2Jm7RimQgFX3sOwKO0IY/hLC0RDu
- LuAF3D5kve9b4HAXjjA7bSA51mC9N0G6nwCW5uuYhS3MahIaSKKMAyCYeq0YK1Jo5tMg56Nw0S
- rLL6WVkUuhW0+eH7K+0g/ih+HqXyxHffebtQSxt5/ju+Zdu+Pm5mQMMlLNonJ8tTF96o10lxs3
- 0KxrusX0+eYvNIAAAA=
-X-Change-ID: 20261110-spi-sun6i-h616-dual-read-562843bc20d7
-To: Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
-Cc: linux-spi@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Arun Iyengar <aiyengar1990@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794808525; l=1092;
- i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
- bh=UssfpM7cd+H4kc8EHiRkjSsNRV0nMySWvKuNCOar8aA=;
- b=o5ph33NBY6zwlbrocmmsY0IBnv4A6gM+ObeF3Ij4Gp9qQz1zhrlub2WBcQ5PeiSs4KN1Ggjua
- 2LE1xbAy6sxAR2CVDTtALy60W/bX02Uf91CMzceFv51cDSE6QG41iCR
-X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
- pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
-X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
- auth_id=1480
-X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
-Reply-To: aiyengar1990@gmail.com
+References: <20261110-spi-sun6i-h616-dual-read-v1-1-59bea5a897d4@gmail.com>
+ <179461167656.590303.12402709871115244251.b4-review@b4> <CAEy9hNUgWgO_tzV=3=X82A3kOYBxhukOvqRzaq+-YC18=RZW-A@mail.gmail.com>
+In-Reply-To: <CAEy9hNUgWgO_tzV=3=X82A3kOYBxhukOvqRzaq+-YC18=RZW-A@mail.gmail.com>
+From: Arun Iyengar <aiyengar1990@gmail.com>
+Date: Sun, 15 Nov 2026 21:58:37 -0800
+X-Gm-Features: Aa3M54oyNaHJcBkKzqdmGmOePaHsPjod2sYjt6MjOSlPfYgCgkl8Fvj4W_J60DU
+Message-ID: <CAEy9hNXFw1Fr81p=27vHR4HbNOA2ni4srU1RyP3W8wxoas6Ztw@mail.gmail.com>
+Subject: Re: [PATCH] spi: sun6i: Add dual read support for the H616
+To: Mark Brown <broonie@kernel.org>
+Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-spi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The H616 SPI controllers support dual and quad transfers but bind
-through the H3 fallback. Patch 1 lets the binding allow those bus
-widths for the H616, patch 2 enables dual reads in the driver.
+> This new compatible needs a corresponding DT binding update.
 
-Developed with Claude (Anthropic), which wrote the code and the commit
-messages. I reviewed them and tested on an Orange Pi Zero2.
+You were right and my earlier reply was wrong: the binding limits the
+H616 to single-line bus widths, so a dual-read flash node fails the DT
+check. v2 adds the binding change as patch 1.
 
----
-Changes in v2:
-- New patch 1: the binding update Mark Brown asked for
-- Patch 2: shorter commit message, no code change
-- Link to v1: https://patch.msgid.link/20261110-spi-sun6i-h616-dual-read-v1-1-59bea5a897d4@gmail.com
+Arun
 
----
-Arun Iyengar (2):
-      spi: dt-bindings: sun6i: Allow Dual SPI and Quad SPI for the H616
-      spi: sun6i: Add dual read support for the H616
-
- Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml | 1 +
- drivers/spi/spi-sun6i.c                                            | 7 +++++++
- 2 files changed, 8 insertions(+)
----
-base-commit: 7a043c9d31af627f0689757b29b8aad6155a9376
-change-id: 20261110-spi-sun6i-h616-dual-read-562843bc20d7
-
-Best regards,
---  
-Arun Iyengar <aiyengar1990@gmail.com>
-
-
+On Fri, Nov 13, 2026 at 5:13=E2=80=AFPM Arun Iyengar <aiyengar1990@gmail.co=
+m> wrote:
+>
+> > This new compatible needs a corresponding DT binding update.
+>
+> The binding already has it: allwinner,sun6i-a31-spi.yaml lists
+> "allwinner,sun50i-h616-spi" with the "allwinner,sun8i-h3-spi" fallback,
+> and sun50i-h616.dtsi uses that pair. The patch only makes the driver
+> match the specific compatible before the fallback.
+>
+> I'll say so in the commit message if a v2 is needed.
+>
+> Arun
