@@ -1,56 +1,63 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794892847;
-	b=hW82zZr10Rgzbxc/r1aBQeKFvlfZyqydAz0KUKvZ//jH3QDI2f29F0KIwHmuDHqzh9rR
-	 8rXcrVnDY4JvsahuWqguEYqMlSwvaQy34hGCrQpbuYamLVB3a4nT3lxgosD3p+eM23fL4
-	 8LySmX02lmJIxiYCsmFcQ+W5gy99QVlRWZlmIqXUtIwlnbE0t2wrtNqGkKM5/espU50mz
-	 B9emO9kfFsQNiWcGtJ9tnr8MYE/NGg7gnfbCaksje0dBg2f+OXz0SH1P8SqD0wKBPUeWr
-	 Td9Y7sX2DfDNl2jxAOHkyMBMsAk0Ax+7oInSuM6nuRNI8r1W1hzk8Ol+Tl6y8+mtqzg==
+	t=1794903217;
+	b=IuF5B8GDXx3Ne6q8lxBPOvd4fasLXMU8HPOalHHOkw3JTGzMBgZ7JVvn6MFH+ELn368V
+	 erEJ2yY9s2uQQmir6Fub2bCBxrN3tKfwtKLrxDa9u1i4nDTyE/o6rhPhrFf0EPlz75bIU
+	 YBQ0886OKyRoXMCHimCuoL05oLewrgX6rQI4BaGQCGV/nMEBHZ/r58HxSbaFSuq8HN2Sj
+	 H1e6LxWyRNy++iqJUKpKFQetSiw0fBeJ/rHaQeVE56cG+m1m6IcQaDrhiGACHFcmq0njE
+	 go/tDLfmgUpM0kuq1VgXwaIWuIhGNxq41ip03LMX6IWOW3TgEeAPlmr5dV8XrYvQyUQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794892847;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=6XP1P1MaUHqmBLx1P7JlXwdoH9Xb14V9Uo/hAccbf/E=;
-	b=qQrXogOldKtj7LmGhMs4HDDXgUVnrntbvzXVNP09EaB+V5nQZe2DmoE5frdNd994fsPD
-	 Byzl9GsBVxbax4OY0r9EOG0WVsOcBOJdeW2u7Bw0ODpUG3/s7zNbIUGNDsbNb2An8fnRo
-	 A/tH6ZdDUB3OT9WYih3HUnoOq7VasLODkxKygcUDYemfGy/TCZUikpGHdFuS0wEHDB0Nt
-	 lMq5dmeJQqD+OUZyL3xYkJDP1UzadHIRSfVgcv041NaM/CJXpzcgvbY7+aFXJxzgY0NDm
-	 fbCHDDIYysyZaBpAHWn253ODZf3TWMfdhK5iSQOeblaXYRzQIray8eIoK5/uvqfdmjg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794903217;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=3O6S7yO4SQJHxOcv2++oGhLkkx0cIpw5t3Ed/1hH8U4=;
+	b=e3GdzfVUdWZLHVw3AjXsoPEjNJHF/tw/v2Rc9NFkAZ3jr2Phlj/PAWLeryYR9LLVcI7w
+	 ofTnqywqXgCD+nZ2h07PvAOGWromcyo8UH1xIXExW2tuBXlwyPD2PWW6CtUiriu+fM9Wc
+	 jo1k4WwBN7APLEpwuS/Lafp+77aO+1wF9bzUihRBfTDL2Zhk3WHSczXjlvFwnuKodk2hG
+	 IRy71a+tLYK/22FwqowI+Q/GMi9m1BHEKCcOFjbqWs4tycC9fAf2EPPszFYHaAWwU8FtT
+	 VbMzIpUmPsJh9yocgwGHozEoSdDocLXshmslT67P9D5xnqWv4d8Ig6HCLTg0Rc4WXHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n5PpOO67;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ANkW0hyQ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB26E606A31C;
-	Tue, 17 Nov 2026 05:20:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6A2606A31C;
+	Tue, 17 Nov 2026 08:13:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n5PpOO67
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E65331F000C4;
-	Tue, 17 Nov 2026 05:20:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ANkW0hyQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6F0A1F000C4;
+	Tue, 17 Nov 2026 08:13:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794892847;
-	bh=6XP1P1MaUHqmBLx1P7JlXwdoH9Xb14V9Uo/hAccbf/E=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=n5PpOO67vAII8Vmjmnfi00D1cDngDkuHMFrN5cf8c0AruftqI7sZsQUqHdMMYKBh0
-	 jhO+gzgCpeymbyGl6m8xnlyjTYwxR+6cWhY1doKlBzhSg31ME9kvk0+hNDSzgumJpo
-	 ALg+S+ZLAhhHYLZdKfpfGs+xrpyqiAorSfzTh8K8zBNYoK2lSqbRMwyxUZBWGnKygh
-	 u0pYu494DmsTtxwFZLYG/oKL5ar/5zlxuY4Rl2zzWVcBP91oTsbicq76TZLuzzDV7V
-	 93KQkx6xaOPJEoZtEyiL2/6r7m3g6sWQ2sG5rv8KbnAWEszTIVn/t6t9yfcD8l/Dbe
-	 +rZeZxhDH1OKg==
-Message-ID: <sashiko-outbox-218197@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RFC] leds: DT: migrating existing labels to
- function/color
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Cristian Filipescu" <filipescu.cristian@gmail.com>, linux-leds@vger.kernel.org, devicetree@vger.kernel.org
-Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org, lee@kernel.org
-In-Reply-To: <179489221679.1.1429296960451969532.led-label-policy-rfc@gmail.com>
-References: <179489221679.1.1429296960451969532.led-label-policy-rfc@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 05:20:46 +0000
+	s=k20260515; t=1794903216;
+	bh=3O6S7yO4SQJHxOcv2++oGhLkkx0cIpw5t3Ed/1hH8U4=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=ANkW0hyQxMDE36CgnUWo7ZifITT+NGNfdL5+Iv2W28jTFWKh0ltv549rzmQaop0Ys
+	 aMbHp3snSOH22SlS4BIxv6PysQ5Qw8THqbXEQRcRAS1PL8b3FybPwHRXYEwDSrGVr9
+	 j/YhYwyeex47SsE0mkSWjWBwBKRVnQpOSjhoBCf6y7G31aMemRzTUAuofSsoFlxnzM
+	 2mEVh5JJrsWI0N+fiQd1O0aTtj8ZNLG5EX+Ar6JnP644Pyt/usW4pl+EGe2s2rSUHp
+	 G+5OfysEvToubt8D5uIomoIRF8b+SYZYMSU3lZdMnuRhAiW0UB53QDtWkzbIaRdDzx
+	 D6bZ3xHjihFxQ==
+Subject: Re: [PATCH net-next] net: stmmac: dwmac-sun8i: Defer probe when the
+ EPHY clock is not ready
+From: netdev-bot+sashiko@kernel.org
+To: aiyengar1990@gmail.com
+Cc: maxime.chevallier@bootlin.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, wens@kernel.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org, clabbe.montjoie@gmail.com,
+ netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Date: Tue, 17 Nov 2026 08:13:35 +0000
+Message-ID: <179490321548.3136.12535368591168637116@kernel.org>
+In-Reply-To: <20261113-b4-sun8i-emac-ephy-defer-v1-1-12a8591702fe@gmail.com>
+References: <20261113-b4-sun8i-emac-ephy-defer-v1-1-12a8591702fe@gmail.com>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,131 +66,118 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [High] arm64: dts: allwinner: missing Signed-off-by trailer and RFC
-  commit format
-- [Medium] arm64: dts: allwinner: removing LED label changes sysfs and
-  GPIO names
-- [Low] arm64: dts: allwinner: inaccurate DTB count and Orange Pi 3 LTS
-  claim in log
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
+
+Critical: 0 · High: 1 · Medium: 0 · Low: 0
+
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
+
+- [High] The patch makes get_ephy_nodes() in
+  drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c return -EPROBE_DEFER…
+
 --
 
-commit 9235c19cbef601645f52663823784ba072327e48
-Author: Cristian Filipescu <filipescu.cristian@gmail.com>
+net: stmmac: dwmac-sun8i: Defer probe when the EPHY clock is not ready
 
-> leds: DT: migrating existing labels to function/color
->
-> Hi,
->
-> The common LED binding deprecates label in favour of function and color.
-> Is removing existing labels desirable when it changes established LED cla=
-ss
-> names, or should existing board descriptions retain them for compatibilit=
-y?
->
-> For example, the Orange Pi H6 descriptions could replace their labels with
-> LED_FUNCTION_POWER/STATUS and LED_COLOR_ID_RED/GREEN. With gpio-leds, this
-> would change the names under /sys/class/leds:
->
->   orangepi:red:power    -> red:power
->   orangepi:green:status -> green:status
->
-> The example below changes two files and affects Orange Pi 3, 3 LTS, Lite2
-> and One Plus. GPIOs, polarity, pinctrl, defaults and triggers are unchang=
-ed.
-> All four DTBs compile before and after; comparison found only the intended
-> label/function/color changes. The renamed LEDs have not been tested on
-> hardware.
+With this patch, get_ephy_nodes() returns -EPROBE_DEFER when of_clk_get()
+on the internal PHY node returns -EPROBE_DEFER. Before, it skipped the
+node and the probe ended with -ENODEV. Other clock errors still skip the
+node.
 
-[Severity: Low]
-Is the list of four affected DTBs accurate?
-
-arch/arm64/boot/dts/allwinner/Makefile only builds three H6 Orange Pi DTBs:
-sun50i-h6-orangepi-3.dtb (from sun50i-h6-orangepi-3.dts) and
-sun50i-h6-orangepi-lite2.dtb and sun50i-h6-orangepi-one-plus.dtb (which
-include sun50i-h6-orangepi.dtsi).  There is no Orange Pi 3 LTS device tree
-in the kernel tree.
-
-> I was thinking of converting all the deprecated LED labels, but I wanted
-> to see if this was something maintainers wanted, since it would touch a l=
-ot
-> of files. Would you prefer retaining existing labels (potentially adding
-> function and color alongside them), or reviewing migrations with the name
-> changes explicitly documented?
->
-> This is a discussion example, not a patch for inclusion. Preparation and
-> static checks were assisted by OpenAI Codex.
->
-> Thanks,
-> Cristian
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> index 2ece7ba9dd73b..8163e49fa7ad0 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> @@ -801,8 +801,13 @@ static int get_ephy_nodes(struct stmmac_priv *priv)
+>  		struct clk *ephy_clk;
+>  
+>  		ephy_clk = of_clk_get(iphynode, 0);
+> -		if (IS_ERR(ephy_clk))
+> +		if (IS_ERR(ephy_clk)) {
+> +			if (PTR_ERR(ephy_clk) == -EPROBE_DEFER) {
+> +				of_node_put(mdio_internal);
+> +				return -EPROBE_DEFER;
+> +			}
+>  			continue;
+> +		}
+>  		gmac->rst_ephy = of_reset_control_get_exclusive(iphynode, NULL);
+>  		if (IS_ERR(gmac->rst_ephy)) {
+>  			ret = PTR_ERR(gmac->rst_ephy);
 
 [Severity: High]
-This commit has no Signed-off-by: trailer, uses an RFC email body instead
-of a declarative changelog, and uses "leds: DT: ..." rather than the
-"arm64: dts: allwinner: h6: ..." subject prefix.
+Does this deferral come too late in the probe?
 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts b/arc=
-h/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
-> index ce82aa265cfd1..8e411705769b1 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
-> @@ -8,6 +8,7 @@
->  #include "sun50i-h6-gpu-opp.dtsi"
-> =20
->  #include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/leds/common.h>
-> =20
->  / {
->  	model =3D "OrangePi 3";
-> @@ -45,13 +46,15 @@ leds {
->  		compatible =3D "gpio-leds";
-> =20
->  		led-0 {
-> -			label =3D "orangepi:red:power";
-> +			function =3D LED_FUNCTION_POWER;
-> +			color =3D <LED_COLOR_ID_RED>;
->  			gpios =3D <&r_pio 0 4 GPIO_ACTIVE_HIGH>; /* PL4 */
->  			default-state =3D "on";
->  		};
-> =20
->  		led-1 {
-> -			label =3D "orangepi:green:status";
-> +			function =3D LED_FUNCTION_STATUS;
-> +			color =3D <LED_COLOR_ID_GREEN>;
->  			gpios =3D <&r_pio 0 7 GPIO_ACTIVE_HIGH>; /* PL7 */
->  		};
->  	};
+The only caller of get_ephy_nodes() is sun8i_dwmac_probe(), and it calls
+it after stmmac_pltfr_probe() has already run:
 
-[Severity: Medium]
-Does removing label here and in sun50i-h6-orangepi.dtsi cause a userspace
-regression by renaming the sysfs entries and GPIO consumer names?
+sun8i_dwmac_probe()
+  stmmac_pltfr_probe()
+    sun8i_dwmac_init()          (plat->init, enables the phy regulator)
+    __stmmac_dvr_probe()
+      deasserts the stmmac reset
+      stmmac_mdio_register(ndev)
+      register_netdev(ndev)
+  pm_runtime_get_sync()
+  get_ephy_nodes()
+    return -EPROBE_DEFER
+  goto dwmac_remove
+    stmmac_pltfr_remove()
+    sun8i_dwmac_unset_syscon()
 
-When gpio_leds_create() registers these nodes without label,
-led_compose_name() formats the LED names as "red:power" and "green:status"
-instead of "orangepi:red:power" and "orangepi:green:status", and passes the
-new kobject name to gpiod_set_consumer_name().  That breaks userspace
-scripts and board configurations that rely on the existing /sys/class/leds/
-paths and GPIO consumer labels on Orange Pi 3, Lite2, and One Plus.
+So when the new -EPROBE_DEFER is returned, the MDIO bus and an ethN
+netdev already exist as children of the platform device.
 
-Documentation/devicetree/bindings/leds/common.yaml leaves "deprecated: true"
-off the label property so existing device trees can keep their established
-names without dtbs_check warnings.  Note also that adding function alongside
-an existing label has no effect, because led_parse_fwnode_props() returns
-immediately after reading label:
+Documentation/driver-api/driver-model/driver.rst says to defer as early
+as possible, and it also says:
 
-drivers/leds/led-core.c:led_parse_fwnode_props() {
-	...
-	if (fwnode_property_present(fwnode, "label")) {
-		ret =3D fwnode_property_read_string(fwnode, "label", &props->label);
-		if (ret)
-			dev_err(dev, "Error parsing 'label' property (%d)\n", ret);
-		return;
-	}
-	...
+  -EPROBE_DEFER must not be returned if probe() has already created
+  child devices, even if those child devices are removed again
+  in a cleanup path.
+
+The commit message describes an EPHY clock provider that probes later.
+In that case, wouldn't every deferred probe retry do all of the
+following?
+
+  - power up the phy regulator
+  - toggle the MAC reset
+  - register and unregister the MDIO bus and an ethN interface that
+    userspace can see
+  - rewrite the syscon EMAC clock register
+
+driver_probe_device() also re-triggers deferred probing if
+deferred_trigger_count changes during a probe:
+
+drivers/base/dd.c:driver_probe_device() {
+    ...
+	if (trigger_count != atomic_read(&deferred_trigger_count) &&
+	    !defer_all_probes)
+		driver_deferred_probe_trigger();
+    ...
 }
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/179489221679.1.1429=
-296960451969532.led-label-policy-rfc@gmail.com?part=3D1
+If another device binds during any attempt, this starts another full
+cycle. That can become the endless .probe() loop the documentation warns
+about.
+
+get_ephy_nodes() only uses priv->device->of_node and the sunxi_priv_data.
+None of the mdio-mux lookup, of_clk_get() or
+of_reset_control_get_exclusive() on the iphy node needs the MAC to be up.
+The "mux must be registered after parent MDIO" comment only seems to
+constrain sun8i_dwmac_register_mdio_mux().
+
+Could the EPHY clock and reset lookup move into sun8i_dwmac_probe(),
+before stmmac_pltfr_probe()?
+
+The commit message uses the existing reset lookup deferral as precedent.
+That path returns -EPROBE_DEFER from the same late point. Would moving the
+lookup earlier fix both cases, instead of adding a second late deferral?
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261113-b4-sun8i-emac-ephy-defer-v1-1-12a8591702fe%40gmail.com
