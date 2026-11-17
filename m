@@ -1,63 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.2
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794903217;
-	b=IuF5B8GDXx3Ne6q8lxBPOvd4fasLXMU8HPOalHHOkw3JTGzMBgZ7JVvn6MFH+ELn368V
-	 erEJ2yY9s2uQQmir6Fub2bCBxrN3tKfwtKLrxDa9u1i4nDTyE/o6rhPhrFf0EPlz75bIU
-	 YBQ0886OKyRoXMCHimCuoL05oLewrgX6rQI4BaGQCGV/nMEBHZ/r58HxSbaFSuq8HN2Sj
-	 H1e6LxWyRNy++iqJUKpKFQetSiw0fBeJ/rHaQeVE56cG+m1m6IcQaDrhiGACHFcmq0njE
-	 go/tDLfmgUpM0kuq1VgXwaIWuIhGNxq41ip03LMX6IWOW3TgEeAPlmr5dV8XrYvQyUQ==
+	t=1794907221;
+	b=egaZIZSYaCmzC42HC2HSSazQgOd0JSrXYcMpPS0XmllLcrVB3i/7dlWabDz142I5117Y
+	 edYYiAeZFcaAuF/sZajl0n4E9savH3d8Kt7mCmC1NTI3uwTxBmufGczKFbF4nQ3T+JvDA
+	 r6edjk+wn8iTltyWgYawEpjTvo+Ar51E5leCWqVySKBxfG4IuCafF1ceWt+2aO1pIRPpm
+	 vTzMdrltfVpe2u50DLwuYpjB0qhg8aK4K3TXrKtU/oxEyeAdXCxGpwfj4WNHL8qb1SGHo
+	 RL+0bCxw26lbhUnwl6BgXKpNHl/dGJJUmeISM/zPWnvdHC7EZoq9FAUpoRSoi6vgiZg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794903217;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=3O6S7yO4SQJHxOcv2++oGhLkkx0cIpw5t3Ed/1hH8U4=;
-	b=e3GdzfVUdWZLHVw3AjXsoPEjNJHF/tw/v2Rc9NFkAZ3jr2Phlj/PAWLeryYR9LLVcI7w
-	 ofTnqywqXgCD+nZ2h07PvAOGWromcyo8UH1xIXExW2tuBXlwyPD2PWW6CtUiriu+fM9Wc
-	 jo1k4WwBN7APLEpwuS/Lafp+77aO+1wF9bzUihRBfTDL2Zhk3WHSczXjlvFwnuKodk2hG
-	 IRy71a+tLYK/22FwqowI+Q/GMi9m1BHEKCcOFjbqWs4tycC9fAf2EPPszFYHaAWwU8FtT
-	 VbMzIpUmPsJh9yocgwGHozEoSdDocLXshmslT67P9D5xnqWv4d8Ig6HCLTg0Rc4WXHA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794907221;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
+	bh=yxHn6IyMEc/gFXG0FL2K57vaxjrPtjjGVPSWUg++9V4=;
+	b=L1RZSCB9bZqiUGsSg4cnsm2zOCqpD2pM7csNndTo0tJqmrSPi6pLQVeQgYGJdfdI/XI3
+	 arMh5Fete5S4ozxblZLowyp6o0ASt66C/Pfix9J33HPUsXS+KSWzp90Q8gVIJNGLpGY2l
+	 rkPisxTQdpt3LAXP0oZF355ZO3rMXm5FjZVODRavSjCSyuD7Izz5az5HUZabKPx2xIbna
+	 7dv8xIkYEMJ5IpfeJIygNFiX6mlyYdQxAeWqgbOyKIHmcSSUkWXzYbhen1dMTJKBMF7zY
+	 pTrEwIPhSxUfYD9mpUp4q1cZGvjdbnRT+p8i/uXNzhRAp/PF52WUTPj6VY4Pz/LWCvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ANkW0hyQ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=jsonSMlU;
+	arc=none smtp.remote-ip=220.197.31.2
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D6A2606A31C;
-	Tue, 17 Nov 2026 08:13:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EDA606A336
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Nov 2026 09:20:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0EDA606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ANkW0hyQ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6F0A1F000C4;
-	Tue, 17 Nov 2026 08:13:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794903216;
-	bh=3O6S7yO4SQJHxOcv2++oGhLkkx0cIpw5t3Ed/1hH8U4=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=ANkW0hyQxMDE36CgnUWo7ZifITT+NGNfdL5+Iv2W28jTFWKh0ltv549rzmQaop0Ys
-	 aMbHp3snSOH22SlS4BIxv6PysQ5Qw8THqbXEQRcRAS1PL8b3FybPwHRXYEwDSrGVr9
-	 j/YhYwyeex47SsE0mkSWjWBwBKRVnQpOSjhoBCf6y7G31aMemRzTUAuofSsoFlxnzM
-	 2mEVh5JJrsWI0N+fiQd1O0aTtj8ZNLG5EX+Ar6JnP644Pyt/usW4pl+EGe2s2rSUHp
-	 G+5OfysEvToubt8D5uIomoIRF8b+SYZYMSU3lZdMnuRhAiW0UB53QDtWkzbIaRdDzx
-	 D6bZ3xHjihFxQ==
-Subject: Re: [PATCH net-next] net: stmmac: dwmac-sun8i: Defer probe when the
- EPHY clock is not ready
-From: netdev-bot+sashiko@kernel.org
-To: aiyengar1990@gmail.com
-Cc: maxime.chevallier@bootlin.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
- mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, wens@kernel.org,
- jernej.skrabec@gmail.com, samuel@sholland.org, clabbe.montjoie@gmail.com,
- netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Date: Tue, 17 Nov 2026 08:13:35 +0000
-Message-ID: <179490321548.3136.12535368591168637116@kernel.org>
-In-Reply-To: <20261113-b4-sun8i-emac-ephy-defer-v1-1-12a8591702fe@gmail.com>
-References: <20261113-b4-sun8i-emac-ephy-defer-v1-1-12a8591702fe@gmail.com>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=jsonSMlU
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=yx
+	Hn6IyMEc/gFXG0FL2K57vaxjrPtjjGVPSWUg++9V4=; b=jsonSMlU/qFR/LGbrw
+	US8FN5DM8ZRMxPU1uxA2FZtzN7afpX7ibK6qqV0aOnASLZyuGfYNygEkH1UeWESQ
+	/2S06Igfg++lr77IQkUFsIcjZm/6Xs+BoYrNH4jVywPmuhEODDWPUrhaApqN/ZoW
+	1FitzLJBlfpF27lY24ZMFsRQ4=
+Received: from SYPC (unknown [])
+	by gzsmtp3 (Coremail) with SMTP id PigvCgDn70U7HPxqqd4dGg--.33581S2;
+	Tue, 17 Nov 2026 17:19:55 +0800 (CST)
+From: Yang Siyuan <hsyysy@163.com>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-gpio@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 RESEND] pinctrl: sunxi: request the per-bank supply optionally
+Date: Tue, 17 Nov 2026 17:19:44 +0800
+Message-ID: <20261117091944.12082-1-hsyysy@163.com>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -67,117 +64,134 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PigvCgDn70U7HPxqqd4dGg--.33581S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCFW7AF4rCr1UtrW5trW7CFg_yoWrtF1xpr
+	4fXryayr4rJFyxJw4xAw12yryS9a1xJa43CFykK345AFn8GFy3Jw1jkF4YkFs8Cr4kJr4Y
+	vFyDZ34xGFn8X3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07ULeOXUUUUU=
+X-CM-SenderInfo: 5kv152r16rljoofrz/xtbC7RzvJGr8HDxjQQAA3u
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider.
+The per-bank "vcc-pX" supplies are optional in the device tree: the
+binding documents them, but notes that many boards do not describe them.
+sunxi_pmx_request() uses regulator_get() anyway, so the regulator core
+falls back to a dummy regulator and warns for every bank that has no
+supply:
 
-Critical: 0 · High: 1 · Medium: 0 · Low: 0
+  sun50i-h616-r-pinctrl 7022000.pinctrl: supply vcc-pl not found, using
+  dummy regulator
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+The H616 R_PIO is such a controller, and its PL0/PL1 pins drive the
+R_I2C bus, so every H616 board hits the warning during boot.
 
-- [High] The patch makes get_ephy_nodes() in
-  drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c return -EPROBE_DEFER…
+Use of_regulator_get_optional() instead.  A bank supply that is described
+in the device tree is still acquired and enabled, as it powers the
+physical VCC-Px rail, but one that is absent is skipped without a
+warning.
 
---
+The OF-only lookup matters here: regulator_get_optional() also falls back
+to a global regulator-name lookup.  If a regulator with the same name as
+an absent bank supply is registered later, a subsequent pin request in
+that bank could acquire it and start the per-bank refcount at one, after
+earlier pins in the bank had already been requested without a regulator.
+Freeing any of those pins would then disable the supply while other pins
+in the bank are still active.  Restricting the lookup to the pinctrl node
+makes an absent supply permanent; record that state so later pin requests
+do not retry the lookup.  The refcount therefore stays balanced.
 
-net: stmmac: dwmac-sun8i: Defer probe when the EPHY clock is not ready
+Signed-off-by: Yang Siyuan <hsyysy@163.com>
+---
 
-With this patch, get_ephy_nodes() returns -EPROBE_DEFER when of_clk_get()
-on the internal PHY node returns -EPROBE_DEFER. Before, it skipped the
-node and the probe ended with -ENODEV. Other clock errors still skip the
-node.
+Changes in v3:
+- Use of_regulator_get_optional() instead of regulator_get_optional().
+  The latter still performs a global regulator-name lookup, which can
+  bind an unrelated regulator that appears after some pins were already
+  requested and unbalance the per-bank refcount.
+- Remember that a bank has no supply so later pin requests skip the
+  lookup, and keep the existing no-regulator check in sunxi_pmx_free().
+- Link to v2: https://lore.kernel.org/linux-gpio/20261026152027.1417178-1-hsyysy@163.com/
+- Link to v1: https://lore.kernel.org/linux-gpio/20261026144751.1392715-1-hsyysy@163.com/
+---
+---
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c | 29 +++++++++++++++++++++++++--
+ drivers/pinctrl/sunxi/pinctrl-sunxi.h |  1 +
+ 2 files changed, 28 insertions(+), 2 deletions(-)
 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> index 2ece7ba9dd73b..8163e49fa7ad0 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> @@ -801,8 +801,13 @@ static int get_ephy_nodes(struct stmmac_priv *priv)
->  		struct clk *ephy_clk;
->  
->  		ephy_clk = of_clk_get(iphynode, 0);
-> -		if (IS_ERR(ephy_clk))
-> +		if (IS_ERR(ephy_clk)) {
-> +			if (PTR_ERR(ephy_clk) == -EPROBE_DEFER) {
-> +				of_node_put(mdio_internal);
-> +				return -EPROBE_DEFER;
-> +			}
->  			continue;
-> +		}
->  		gmac->rst_ephy = of_reset_control_get_exclusive(iphynode, NULL);
->  		if (IS_ERR(gmac->rst_ephy)) {
->  			ret = PTR_ERR(gmac->rst_ephy);
-
-[Severity: High]
-Does this deferral come too late in the probe?
-
-The only caller of get_ephy_nodes() is sun8i_dwmac_probe(), and it calls
-it after stmmac_pltfr_probe() has already run:
-
-sun8i_dwmac_probe()
-  stmmac_pltfr_probe()
-    sun8i_dwmac_init()          (plat->init, enables the phy regulator)
-    __stmmac_dvr_probe()
-      deasserts the stmmac reset
-      stmmac_mdio_register(ndev)
-      register_netdev(ndev)
-  pm_runtime_get_sync()
-  get_ephy_nodes()
-    return -EPROBE_DEFER
-  goto dwmac_remove
-    stmmac_pltfr_remove()
-    sun8i_dwmac_unset_syscon()
-
-So when the new -EPROBE_DEFER is returned, the MDIO bus and an ethN
-netdev already exist as children of the platform device.
-
-Documentation/driver-api/driver-model/driver.rst says to defer as early
-as possible, and it also says:
-
-  -EPROBE_DEFER must not be returned if probe() has already created
-  child devices, even if those child devices are removed again
-  in a cleanup path.
-
-The commit message describes an EPHY clock provider that probes later.
-In that case, wouldn't every deferred probe retry do all of the
-following?
-
-  - power up the phy regulator
-  - toggle the MAC reset
-  - register and unregister the MDIO bus and an ethN interface that
-    userspace can see
-  - rewrite the syscon EMAC clock register
-
-driver_probe_device() also re-triggers deferred probing if
-deferred_trigger_count changes during a probe:
-
-drivers/base/dd.c:driver_probe_device() {
-    ...
-	if (trigger_count != atomic_read(&deferred_trigger_count) &&
-	    !defer_all_probes)
-		driver_deferred_probe_trigger();
-    ...
-}
-
-If another device binds during any attempt, this starts another full
-cycle. That can become the endless .probe() loop the documentation warns
-about.
-
-get_ephy_nodes() only uses priv->device->of_node and the sunxi_priv_data.
-None of the mdio-mux lookup, of_clk_get() or
-of_reset_control_get_exclusive() on the iphy node needs the MAC to be up.
-The "mux must be registered after parent MDIO" comment only seems to
-constrain sun8i_dwmac_register_mdio_mux().
-
-Could the EPHY clock and reset lookup move into sun8i_dwmac_probe(),
-before stmmac_pltfr_probe()?
-
-The commit message uses the existing reset lookup deferral as precedent.
-That path returns -EPROBE_DEFER from the same late point. Would moving the
-lookup earlier fix both cases, instead of adding a second late deferral?
-
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+index 70099052d..d2345a85a 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+@@ -913,23 +913,44 @@ static int sunxi_pmx_request(struct pinctrl_dev *pctldev, unsigned offset)
+ 					    PINS_PER_BANK;
+ 	struct sunxi_pinctrl_regulator *s_reg = &pctl->regulators[bank_offset];
+ 	struct regulator *reg = s_reg->regulator;
++	struct device_node *np = dev_of_node(pctl->dev);
+ 	char supply[16];
+ 	int ret;
+ 
+ 	if (WARN_ON_ONCE(bank_offset >= ARRAY_SIZE(pctl->regulators)))
+ 		return -EINVAL;
+ 
++	if (s_reg->supply_absent)
++		return 0;
++
+ 	if (reg) {
+ 		refcount_inc(&s_reg->refcount);
+ 		return 0;
+ 	}
+ 
++	if (!np) {
++		s_reg->supply_absent = true;
++		return 0;
++	}
++
+ 	snprintf(supply, sizeof(supply), "vcc-p%c", 'a' + bank);
+-	reg = regulator_get(pctl->dev, supply);
+-	if (IS_ERR(reg))
++	/*
++	 * Use the OF-only lookup: regulator_get_optional() would also match
++	 * a same-named regulator from another device.  Such a regulator can
++	 * appear after some pins in this bank have already been requested,
++	 * which would unbalance the per-bank refcount.
++	 */
++	reg = of_regulator_get_optional(pctl->dev, np, supply);
++	if (IS_ERR(reg)) {
++		if (PTR_ERR(reg) == -ENODEV) {
++			s_reg->supply_absent = true;
++			return 0;
++		}
++
+ 		return dev_err_probe(pctl->dev, PTR_ERR(reg),
+ 				     "Couldn't get bank P%c regulator\n",
+ 				     'A' + bank);
++	}
+ 
+ 	ret = regulator_enable(reg);
+ 	if (ret) {
+@@ -959,6 +980,10 @@ static int sunxi_pmx_free(struct pinctrl_dev *pctldev, unsigned offset)
+ 					    PINS_PER_BANK;
+ 	struct sunxi_pinctrl_regulator *s_reg = &pctl->regulators[bank_offset];
+ 
++	/* The per-bank supply is optional, so this bank may not have one. */
++	if (!s_reg->regulator)
++		return 0;
++
+ 	if (!refcount_dec_and_test(&s_reg->refcount))
+ 		return 0;
+ 
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+index 8bd00c6ff..651249b23 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
+@@ -162,6 +162,7 @@ struct sunxi_pinctrl_group {
+ struct sunxi_pinctrl_regulator {
+ 	struct regulator	*regulator;
+ 	refcount_t		refcount;
++	bool			supply_absent;
+ };
+ 
+ struct sunxi_pinctrl {
+base-commit: 091b06388b117fefdcb63336ac09956a4914b961
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261113-b4-sun8i-emac-ephy-defer-v1-1-12a8591702fe%40gmail.com
+2.56.0
+
