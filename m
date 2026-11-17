@@ -1,49 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=34.202.193.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794936158;
-	b=nJD+/Cro6FJicrNgi+74RbwgYphY6RhN3zl/ij8DOZ1GQVUIAX+SCz5ayE2jP0pLqLOk
-	 V0MrRVqJkYNHkSYkz1Zz2Ca/HGWTUhNP13+it2J7egZqzAmlndWJM9jAyD67odXDsQLWu
-	 iLGaonaF3i161F56RBLkvDiIkOZPygj4q/dgvcjpuTuZKXTJLJn1J4tvlRwInB2nuLcGj
-	 2Ge34gJtP8z0CbUuLr89Xxe/cm/UzuhD/AiyWgjB2tLAXPZbLwxjOpUO9eFpLYp+aTrdk
-	 yimQvQwy5qDa5qJl1PaGqbknatdlaNJdgzQIIi/JP4StA1Vn28HYQXB/KSDzDIOIYSw==
+	t=1794954888;
+	b=2pm6EdN0Ye++F1nqvw9U82rT15Jb6FGZKDKjzS3PUi1gkRfOYmws8UBvBCQrPrHOV98P
+	 EEm6Zu5JN6H57xtVVVxf339QvwkW3/LzQnGzDWyA7x8KpYdNKxj4Go+/bdf4LeYlkWc3t
+	 dloRQa4ttwEPZvOQGzw8nkSWJlVi1xj4s+pP8K5+g+dPIG1LpcvvJcz5oRBgooLhulHFB
+	 L0z1Ms2OHzbl7Y5Rr2vNphsXh7GWOHuu4Fa4ETcxwYSeLPoRTVNq50zEHvDp4tmCFoYaF
+	 8KRl08zbH0UvGz0vUWT2hTQFrJKjLv3nuiCjZwQtxM4momXSbTL6G/N1VeHhiujC7JQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794936158;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=K8c9i2c9pA77ON1bwB34pN+TouNHlVdKNHMldunC6Ho=;
-	b=dTAGWOqmIzcJmhuXR4x+2xszEYWoBHsS02RSmYEnfhDuB3is1+COp1D7dc8i4ly3Oaz9
-	 1mNCjnCBBBuGti7K3P5RGIWHbzm1C6CyWdK6ZFDtBfKzhuMkrssMeVMeSskTNS4xXtdLK
-	 KsRTUW+lXK1kGbq4Kebh4Pltz4iaQqjBFl1jPSYanQ7NEVn7hqOgfqDfh+ELk3mQ6ipp4
-	 G/Ghp7dB84WOlOAdvkJd7NL8gTgItik5votbMqQK8qLVXGPydN/vkUzccrHX/MK5aDzfc
-	 qlsgdjEdjGJAO9/QhzfCqM7KspNKUwgEZZYp/M4GdtGLD3M8IegwEPdfbdeLnoPLLbg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794954888;
+	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:Feedback-ID:
+	 X-Pm-Original-To:Received:Message-ID:Subject:From:To:Cc:Date:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 User-Agent:MIME-Version;
+	bh=ohzi203yKMWUnbkmuyMG76MMrHD3zBvQvlxSie9xOmQ=;
+	b=l0eLxG18C7IYqPHo//20NV+/qd+0zGm2mnbZENL4U+hxdeT8ZFh3KFhRQZjVQDa0lm//
+	 SVBDLLTAeo6Iwg7o91QJczfJPKO3oSMati4qp4LE1qy0M+rLQXT92J7x5VYeXumyzn0nf
+	 v3ZlN7WDWj+Ydhe9jSqv2uynR3+Tjw+lFyimpNETx8McA0Hze8EeicgXBMlOSzNP2uuRH
+	 vXI1UO3HmHwVhhKs1+otSsFV1z03eHZ4CaaIBDTEsNa8tM1bsjI3gDXScuCo/6Q93tZgF
+	 zFogQpy3+gOkzqEJbC24xXJswUglL3poAiVOklQMr7xNe6sSTqLqVq6MTsFQJZTmilQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="JrhUs/dN";
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C31F606A337
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Nov 2026 17:22:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C31F606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=sverdlin.org;
+	spf=pass smtp.mailfrom=sverdlin.org;
+	dkim=pass header.d=sverdlin.org header.i=@sverdlin.org header.a=rsa-sha256 header.s=purelymail1 header.b=dIhqHrpZ;
+	dkim=pass header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail1 header.b=Kq53aB+F;
+	arc=none smtp.remote-ip=34.202.193.197
+Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84D50606A31C
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Nov 2026 22:34:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 84D50606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sverdlin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sverdlin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=JrhUs/dN
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D7C281A00;
-	Tue, 17 Nov 2026 09:22:33 -0800 (PST)
-Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 06AAE3F632;
-	Tue, 17 Nov 2026 09:22:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794936156; bh=jCf/7a/YsnLbBlVT2TCDpR5Rx5MDswY+TpQ4UF++u2c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JrhUs/dNEIiQrr+/fgwKCnNl6TD35vdP16BsU/ZIFqsA/KLgpTVbHKprOfL+6wMok
-	 H/uYWKOGIDQNUILCf/caFLrLO3Q5XIqFEFcPcQyeDiMc5+uv0k4Gz2CyXPaUQtIt5Z
-	 y6oTZAuRVjiWbda/dmaY3wYF6OGb9v+JzHIhEJ90=
-Message-ID: <76d4d8ee-801d-426f-bda9-2ed8b9a074e0@arm.com>
-Date: Tue, 17 Nov 2026 18:22:37 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=sverdlin.org header.i=@sverdlin.org header.a=rsa-sha256 header.s=purelymail1 header.b=dIhqHrpZ;
+	dkim=pass (2048-bit key, unprotected) header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail1 header.b=Kq53aB+F
+DKIM-Signature: a=rsa-sha256; b=dIhqHrpZ2o7lgKWDF475+Jzn84Ku+ta2e7VDE9zTgbQzUzPaDnoDl2MWOmiEkOHLJfxI5P+nUjfRaXVhY2IW6w62VDEof6zlL4fdO0gdlHIv2ADrUPdZUo6Db+UskSpL3ja0WfRwhNizReBbjZ7vbmDNdLbDFzzUXJosdFgR1KBPe4FRHwB1nGW5AL//r/1msQjhfM11gSvcXqRLH9UyUH3i8xOv409bPkUpPnr3fy8hb424STcgKkYnCtp4vWN/5w6vxRKUw7zTT3M6Ifx1S29453eKXnNdaCee+i9TnQc4tdjRuz7K9DFC7ZA00fms6W/yq4yK0FXWFw6/sgLHTQ==; s=purelymail1; d=sverdlin.org; v=1; bh=ohzi203yKMWUnbkmuyMG76MMrHD3zBvQvlxSie9xOmQ=; h=Received:Message-ID:Subject:From:To:Date;
+DKIM-Signature: a=rsa-sha256; b=Kq53aB+FMbAK0mUP0TDBhtTnsPTxD/kdYw+nuXc4Vl+PEgAkB9A+mig3SbRW5VX2tZgsDxE7SJ3tZ396Yqt6yP4p+s9/ptB/0hWUe5vpU+yCEo6RYpONZktFmwW3PNVgLhevpJeOTFAWNhdeMN7ZeW3pccQUsg/VJjUsJ4FLTDCKyQw34jGQrtCdHCmGxSIpVolzKIIkw6Wom+xz1ePRldN/9U0t6gAMehQoA2+Qxq11oXCdN1v01U6opo2Ghor5t0QQNtg8rIUwhqGGlJ3cnGmtyJz0m3drnmFwjSQGUBSbn2U9/aNU3PUioMgZ/gxQrruFkcocfL+43f9nmTHUlQ==; s=purelymail1; d=purelymail.com; v=1; bh=ohzi203yKMWUnbkmuyMG76MMrHD3zBvQvlxSie9xOmQ=; h=Feedback-ID:Received:Message-ID:Subject:From:To:Date;
+Feedback-ID: 815097:39668:null:purelymail
+X-Pm-Original-To: linux-sunxi@lists.linux.dev
+Authentication-Results: purelymail.com; auth=pass
+Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id 1938573665;
+          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+          Tue, 17 Nov 2026 22:34:32 +0000 (UTC)
+Message-ID: <6350ad134c9d09d9754ad79d942a9205c8cdaf84.camel@sverdlin.org>
+Subject: Re: [PATCH 2/6] cpufreq: sun50i: Move nvmem cell reading into a
+ helper
+From: Alexander Sverdlin <alex@sverdlin.org>
+To: rajanyadav0307@gmail.com
+Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Cody Eksal <masterr3c0rd@epochal.quest>
+Date: Tue, 17 Nov 2026 23:34:20 +0100
+In-Reply-To: <20261104-a133-series-v1-2-58217cb33a87@gmail.com>
+References: <20261104-a133-series-v1-0-58217cb33a87@gmail.com>
+	 <20261104-a133-series-v1-2-58217cb33a87@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.62.1 
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -53,73 +68,47 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] pinctrl: sunxi: a733: do not switch the mux to read IRQ
- lines
-To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
- Linus Walleij <linusw@kernel.org>, linux-gpio@vger.kernel.org
-Cc: Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- Bartosz Golaszewski <brgl@kernel.org>,
- Enzo Adriano <enzo.adriano.code@gmail.com>,
- Pablo Mazzini <pmazzini@gmail.com>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20261110130157.112155-1-vinicius.eduardo.pedrosa@gmail.com>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20261110130157.112155-1-vinicius.eduardo.pedrosa@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi Rajan,
 
-On 11/10/26 14:01, Vinicius Pedrosa wrote:
-> The A733 description sets irq_read_needs_mux.
+thank you for the series!
 
-ouch, I missed that, sorry about that. I removed that even explicitly 
-from the A523 ...
+On Wed, 2026-11-04 at 22:40 -0600, Rajan Yadav via B4 Relay wrote:
+> From: Rajan Yadav <rajanyadav0307@gmail.com>
+>=20
+> The A133 speed grade needs several efuse cells, but the cell reading
+> is open coded in sun50i_cpufreq_get_efuse() for a single cell. Move it
+> into sun50i_cpufreq_read_cell(), which takes the cell name, so the next
+> patch can read the A133 cells by name.
+>=20
+> No functional change: the existing users read the first cell, as
+> before, with the same length check, byte order and error message. The
+> raw bytes are now held in a __le32, the type le32_to_cpu() expects,
+> which also removes the sparse warning "cast to restricted __le32" that
+> the kernel test robot reported.
+>=20
+> Claude Code (Anthropic) drafted this refactor and its message; I
+> reviewed and tested it.
+>=20
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202603021703.aBD0w99y-lkp@i=
+ntel.com/
+> Signed-off-by: Rajan Yadav <rajanyadav0307@gmail.com>
 
-> When a GPIO used as an
-> interrupt is read, sunxi_pinctrl_gpio_get() then switches the pin to
-> input and back to SUN4I_FUNC_IRQ, which is function 6. The A733
-> interrupt function is 14, so after the first read the pin is left on
-> function 6 and its interrupt no longer fires.
-> 
-> On my board this breaks microSD card detection: the PF6
-> card-detect line is read at probe, and after that neither removal nor
-> insertion of the card is noticed.
-> 
-> The A733 data register reports the pin level while the pin is muxed
-> to the interrupt function, so the switch is not needed. The A523 and
-> D1 descriptions do not set this flag either. Drop it.
-> 
-> Fixes: 0535bfbfa97b ("pinctrl: sunxi: add support for the Allwinner A733")
-> Signed-off-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+I've tested the series on A133 "marking 0x1400, bin 4, revision 6: speed gr=
+ade 9":
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+Vendor build had scaling_max_freq =3D=3D 1512000.
+Upstream before the patch scaling_max_freq =3D=3D 1464000.
+With your series scaling_max_freq =3D=3D 1512000.
 
-Thanks,
-Andre
+I also tried to set 1008000 and 1512000 and `mhz` tool
+reports cpu_MHz=3D1005.475 and cpu_MHz=3D1509.625 respectively.
+
+Reviewed-by: Alexander Sverdlin <alex@sverdlin.org>
+Tested-by: Alexander Sverdlin <alex@sverdlin.org>
 
 > ---
-> Tested on a Cubie A7Z with the pending A733 clock, PMIC and DT series
-> applied: before this change PF6 read back function 6 and card removal
-> and insertion were not seen; with it PF6 stays on function 14 and one
-> removal/insertion cycle was detected.
-> 
->   drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c b/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
-> index ca82f08a3a65..456d9170c2a2 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c
-> @@ -23,7 +23,6 @@ static const u8 a733_irq_bank_muxes[SUNXI_PINCTRL_MAX_BANKS] =
->   
->   static struct sunxi_pinctrl_desc a733_pinctrl_data = {
->   	.irq_banks = 10,
-> -	.irq_read_needs_mux = true,
->   	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
->   };
->   
-
+> =C2=A0drivers/cpufreq/sun50i-cpufreq-nvmem.c | 55 ++++++++++++++++++++---=
+-----------
+> =C2=A01 file changed, 33 insertions(+), 22 deletions(-)
