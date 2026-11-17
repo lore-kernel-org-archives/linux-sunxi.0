@@ -1,63 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=34.202.193.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794955994;
-	b=HKu3dNovnXtGILBC/EXpPrbc0SaNDj5hABDZCOOke0cgjkPAPQodvRixc2bzMo5hDLlD
-	 Il4y9xPUN7WM+m4JQ6yah9B70VXvX9ci82vSfYRiOnx5Ek2KS9nU4JMC0X/vAB7KjBCcG
-	 0EESCJ6rBWBpRD9KASrgVO5cETP3LdirPdrrBnRFHSda9HNiBc02SE6pkWkYxASYV9yPS
-	 nVMdYaFgkiGoI1LHi+Dq78ZCvkF3Qm9IvbzqLWMP1s2yy9fcYPhGPYIiKqaMBxYOq/EEx
-	 MVg4hpzKH41zeBne8m45Mp46XNkE29JiEpC+EhOSMa6qQ0RKNmM2NpTz+B2IXYzKhjw==
+	t=1794957521;
+	b=dMyloYBNobQ6/1nGF6OiyUqT2ujdCxTAaTPWt2NUwdUsZXS7OyuRK9KVfWxc9T8qwFRQ
+	 fKuRzYR9dxRXhlQXkC//JxwaMBKVCTpWd9EiXgS2Sd+PaZZCV+GjjJ7XJ4amBTlLaSvAQ
+	 mz0ZppXAaJoTmgeYjMNg3wk2HgaBQzyytyhLkbWnC5WzM+BWuCd/x8AcQRkEFQdOL/4Qm
+	 ijVwk0nPRwG/j4X8iaj5er6TsZXLqddy3ARj9FSdI+aTWAGuI5uJuyY20b8/fv0molsHL
+	 pWtS1EgeXlkp5Aa/0o5aLE1Zr9bOUApO7/IyJAWHfOEQNbTqxLBPQi28KjXuxlgHSqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794955994;
-	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:Feedback-ID:
-	 X-Pm-Original-To:Received:Message-ID:Subject:From:To:Cc:Date:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version;
-	bh=utpAkiwFHBjBDfI84DKHsLpQh91ULE12v2wjMHOYcls=;
-	b=YwpHoEadmxIur9wj3GlA3x+RZBI+vCSTq3q4bWnbvh0lP5hRWyDiTqQLHQYJ9m5CkO7T
-	 1IapE6yhnFPUQhGJ/SB9ordahJ0Q83djkqdzv/DgxyWbSsZvjjjdKJE5TzvqXg9cr+29H
-	 MlcZ60Z6aYCHU70/aidA4+VcVl8RFMu5BhVKfpEIjoHxkY0ElOoyVOIWsl9h2y/IaVepH
-	 XvkYIp32y77dvjk9zHZXn6Ih+7Vm7yQKUsrdpQ/h/Vm0umcNQCA/w0FAR3e5vseuJBhQA
-	 Hto0sDPtfAajKChJXIlGafmRLq/EGmM/QGEhpUyzG6zbjJd42BcSPGfafGFXn6RAE7Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794957521;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-Originating-IP:X-CM-SenderInfo;
+	bh=qfG8+HNjWNjgKY/1LVDEwnEFGbVLXME85VZs5AOT4/s=;
+	b=nafGw1+Pa+ctjSVwS4nmjEbRqbp5XD0tRnsYCxrJFjXeWl4vO22xxpmS990mQQilYc9S
+	 6q6p51bPzWlHoqhKPkidBUSEGfWQ/ssqcvAooOgN3Mms1V4DQ1K6KBmHzfZDsNxWIe8xs
+	 HvcCXJmMaRlnrCXwoQXPBrEbqXjd5PH2KEn96bg5Edm7+kTCYO2idZbebfl3QCcCwT0la
+	 11go2XRVYuAXBgkpFKb7OG5QbfTDZ1G7MTdjcWa6DNw4AHT6jv0LJ8ZGTA1V7qIl4ZcIt
+	 2lJ+0cu9Bzo3D/BTDyLrrQB6QAld1CGrGsSRg8qoTTHocqn9FDas1V48+ParWszgrkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=sverdlin.org;
-	spf=pass smtp.mailfrom=sverdlin.org;
-	dkim=pass header.d=sverdlin.org header.i=@sverdlin.org header.a=rsa-sha256 header.s=purelymail1 header.b=VpISasGt;
-	dkim=pass header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail1 header.b=WPQqpMNw;
-	arc=none smtp.remote-ip=34.202.193.197
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=D+3yX0wV;
+	arc=none smtp.remote-ip=117.135.210.4
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E63606A31C
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Nov 2026 22:53:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33E63606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sverdlin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sverdlin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F06606A31C
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Nov 2026 23:18:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4F06606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=sverdlin.org header.i=@sverdlin.org header.a=rsa-sha256 header.s=purelymail1 header.b=VpISasGt;
-	dkim=pass (2048-bit key, unprotected) header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail1 header.b=WPQqpMNw
-DKIM-Signature: a=rsa-sha256; b=VpISasGt6hFOUpKJTSi8dBra3gbAk0b9ucNeEEkvSqEDrMQnNovWvDWBhHWiWmB45EPYqReyCK7Sn6X/U0djwvify9yCIB43hDeIbXKLHM5QYUUSRGJUzUid3yOjmEyDLYzhjxt1IXUfFaBOROF5X9yxvrvqn6DfiUsb4gpUlQoARK8KLCElCUCDYdQk8eGi96Bo9QQKXDi39+dxnydUF5ql3qVR/IuXM4iZI6ioJFs4l7aFD0rmLu/0RtbJMt1tsuA8PHouvRhjf9ZQFvzcssgv1IzBPrE9U/TMQ09b0Tu5iZkhLHc1P7LScvCpfmMt5NOde73baMDHiAKN/k9png==; s=purelymail1; d=sverdlin.org; v=1; bh=utpAkiwFHBjBDfI84DKHsLpQh91ULE12v2wjMHOYcls=; h=Received:Message-ID:Subject:From:To:Date;
-DKIM-Signature: a=rsa-sha256; b=WPQqpMNw/2XWir5D2XHi3oGT4BNQ0Vp9yoeFLqxVPB+h019xYU004bkv1X/PlsK67Dkdy0Hpo5UvS3N+yw9L6WJZ6iF+DP23jHF3CvXu8rvhhzBWA8YdUrpM482YqXQ0ZXQqbukhRsY/CtzdI3yjQ9dkV9eLUzPhdOJJT8LxHZkbRS/U4XovujIi3W6Lw5Fik9BatQ6tO+mRUeD+AGetIJ9lkmtcGhua93XPiJYItjVwwsGy58yR1mBIVCc1MqeOpGuJcvN/Dnr9dAAM22CR2snE5SGZh95gT6gUZfzjDsCU5y9XdoUck1nhVyt73hHcUoda3qWDI6XEJtvZ18DbhA==; s=purelymail1; d=purelymail.com; v=1; bh=utpAkiwFHBjBDfI84DKHsLpQh91ULE12v2wjMHOYcls=; h=Feedback-ID:Received:Message-ID:Subject:From:To:Date;
-Feedback-ID: 815097:39668:null:purelymail
-X-Pm-Original-To: linux-sunxi@lists.linux.dev
-Authentication-Results: purelymail.com; auth=pass
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id 150623937;
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Tue, 17 Nov 2026 22:53:04 +0000 (UTC)
-Message-ID: <f7752d1d155491876ae5d4bc1694c01c8d86b789.camel@sverdlin.org>
-Subject: Re: [PATCH 5/6] arm64: dts: allwinner: a133: Add CPU OPP table
-From: Alexander Sverdlin <alex@sverdlin.org>
-To: rajanyadav0307@gmail.com
-Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Cody Eksal <masterr3c0rd@epochal.quest>
-Date: Tue, 17 Nov 2026 23:52:52 +0100
-In-Reply-To: <20261104-a133-series-v1-5-58217cb33a87@gmail.com>
-References: <20261104-a133-series-v1-0-58217cb33a87@gmail.com>
-	 <20261104-a133-series-v1-5-58217cb33a87@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.62.1 
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=D+3yX0wV
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=qf
+	G8+HNjWNjgKY/1LVDEwnEFGbVLXME85VZs5AOT4/s=; b=D+3yX0wVYBhvGBXf88
+	nxmOrOsC0UVwZ95uwemG5wZI/zzHFewQ6NxwPgKFi5fMQ83yHImsxbk6km0ePDOh
+	DcovJ3SWSzeaftSd5VAHUWNjzpMfqvIX7qEpTKmVUY9XW6ewAQKmw+t9U51CjxaC
+	GKeSSFY8OqLDU1d08BXXIJmHg=
+Received: from SYPC (unknown [])
+	by gzga-smtp-mtada-g0-4 (Coremail) with SMTP id _____wDXt8a_4PxqUebhIw--.17204S2;
+	Wed, 18 Nov 2026 07:18:24 +0800 (CST)
+From: Yang Siyuan <hsyysy@163.com>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-gpio@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4] pinctrl: sunxi: request the per-bank supply optionally
+Date: Wed, 18 Nov 2026 07:18:07 +0800
+Message-ID: <20261117231807.264348-1-hsyysy@163.com>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261117091944.12082-1-hsyysy@163.com>
+References: <20261117091944.12082-1-hsyysy@163.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -67,52 +67,102 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDXt8a_4PxqUebhIw--.17204S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCFW7AF4rAFWrur45Zr4kCrg_yoW5try8pr
+	sxXFsIkr4rAFyxKwsxuw12yr1S9an7J343CFykK34rAFn8JF4fXw12kr4YkFs5Gr4kJr4Y
+	vrWUZa4xGan8X3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07Ul_MfUUUUU=
+X-CM-SenderInfo: 5kv152r16rljoofrz/xtbC7QBCdmr84MADPgAA3S
 
-Hi Rajan!
+The per-bank "vcc-pX" supplies are optional in the device tree: the
+binding documents them, but notes that many boards do not describe them.
+sunxi_pmx_request() uses regulator_get() anyway, so the regulator core
+falls back to a dummy regulator and warns for every bank that has no
+supply:
 
-On Wed, 2026-11-04 at 22:41 -0600, Rajan Yadav via B4 Relay wrote:
-> From: Rajan Yadav <rajanyadav0307@gmail.com>
->=20
-> Add the A133 CPU OPPs from the vendor BSP (sun50iw10p1.dtsi). There
-> are ten voltage sets, speed0-5 for the a0-a5/a6 grades and speed6-9
-> for the "high speed" b0-b3 grades. opp-supported-hw selects the
-> frequencies of each grade:
->=20
-> - 1464 MHz only for the a grades
-> - 1416 and 1512 MHz only for the b grades
-> - 408-1320 MHz for all
->=20
-> The highest voltage is 1.18 V, inside the 0.81-1.2 V recommended
-> operating range of VDD_CPU in the A133 datasheet (V1.5, table 5-2).
->=20
-> The BSP uses 1008 MHz where the A100 table uses 1080 MHz, at the same
-> voltages for a0-a2. U-Boot starts the CPU at 1008 MHz, which mainline
-> now reports as an unlisted initial frequency. This table follows the
-> BSP. The BSP table stops at 1512 MHz, so there is no 1608 MHz OPP,
-> although some datasheet versions list 1.6 GHz for the A133. A newer
-> factory kernel adds 1608 MHz for b0 and b1 only; that is left for a
-> follow-up.
->=20
-> The table has the A100 compatible as a fallback and the speed bin cell
-> first, so a kernel without A133 support selects speed0-2 from the speed
-> bin and gets the voltages of the A100 table, with 1008 instead of
-> 1080 MHz. It needs the efuse cells added to sun50i-a100.dtsi in the
-> previous patch.
->=20
-> A script compared every voltage and the frequency set of every grade
-> with the BSP file and found no difference.
->=20
-> Claude Code (Anthropic) drafted this table and its message from the
-> vendor BSP device tree (numbers only) and wrote the comparison script;
-> I reviewed it and tested it on a KickPi K5C.
->=20
-> Suggested-by: Andre Przywara <andre.przywara@arm.com>
-> Signed-off-by: Rajan Yadav <rajanyadav0307@gmail.com>
+  sun50i-h616-r-pinctrl 7022000.pinctrl: supply vcc-pl not found, using
+  dummy regulator
 
-Reviewed-by: Alexander Sverdlin <alex@sverdlin.org>
-Tested-by: Alexander Sverdlin <alex@sverdlin.org>
+The H616 R_PIO is such a controller, and its PL0/PL1 pins drive the
+R_I2C bus, so every H616 board hits the warning during boot.
 
-> ---
-> =C2=A0.../boot/dts/allwinner/sun50i-a133-cpu-opp.dtsi=C2=A0=C2=A0=C2=A0 |=
- 172 +++++++++++++++++++++
-> =C2=A01 file changed, 172 insertions(+)
+Use of_regulator_get_optional() instead.  A bank supply that is described
+in the device tree is still acquired and enabled, as it powers the
+physical VCC-Px rail, but one that is absent is skipped without a
+warning.
+
+The OF-only lookup matters here: regulator_get_optional() also falls back
+to a global regulator-name lookup, which could bind a regulator that
+merely shares the name with an absent bank supply and is not the supply
+of this bank.
+
+Skip the free path for a bank that never obtained a supply, so the
+refcount is only decremented when it was incremented.
+
+Signed-off-by: Yang Siyuan <hsyysy@163.com>
+---
+Changes in v4:
+- Drop the supply_absent flag and the early return that tested it.  The
+  result of the OF lookup cannot change at runtime, so repeating it for
+  every pin request is harmless and caching it only complicated the code.
+  Suggested by Jernej Skrabec.
+- Link to v3: https://lore.kernel.org/linux-gpio/20261117091944.12082-1-hsyysy@163.com/
+
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+index 31cd142..1fcab0d 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+@@ -912,6 +912,7 @@ static int sunxi_pmx_request(struct pinctrl_dev *pctldev, unsigned offset)
+ 	unsigned short bank_offset = bank - pctl->desc->pin_base /
+ 					    PINS_PER_BANK;
+ 	struct sunxi_pinctrl_regulator *s_reg = &pctl->regulators[bank_offset];
++	struct device_node *np = dev_of_node(pctl->dev);
+ 	struct regulator *reg = s_reg->regulator;
+ 	char supply[16];
+ 	int ret;
+@@ -924,12 +925,24 @@ static int sunxi_pmx_request(struct pinctrl_dev *pctldev, unsigned offset)
+ 		return 0;
+ 	}
+ 
++	if (!np)
++		return 0;
++
+ 	snprintf(supply, sizeof(supply), "vcc-p%c", 'a' + bank);
+-	reg = regulator_get(pctl->dev, supply);
+-	if (IS_ERR(reg))
++	/*
++	 * Use the OF-only lookup: regulator_get_optional() also falls back to
++	 * a global regulator-name lookup and could bind a same-named
++	 * regulator that is not the supply of this bank.
++	 */
++	reg = of_regulator_get_optional(pctl->dev, np, supply);
++	if (IS_ERR(reg)) {
++		if (PTR_ERR(reg) == -ENODEV)
++			return 0;
++
+ 		return dev_err_probe(pctl->dev, PTR_ERR(reg),
+ 				     "Couldn't get bank P%c regulator\n",
+ 				     'A' + bank);
++	}
+ 
+ 	ret = regulator_enable(reg);
+ 	if (ret) {
+@@ -959,6 +972,10 @@ static int sunxi_pmx_free(struct pinctrl_dev *pctldev, unsigned offset)
+ 					    PINS_PER_BANK;
+ 	struct sunxi_pinctrl_regulator *s_reg = &pctl->regulators[bank_offset];
+ 
++	/* The per-bank supply is optional, so this bank may not have one. */
++	if (!s_reg->regulator)
++		return 0;
++
+ 	if (!refcount_dec_and_test(&s_reg->refcount))
+ 		return 0;
+ 
+base-commit: 091b06388b117fefdcb63336ac09956a4914b961
+-- 
+2.56.1
+
