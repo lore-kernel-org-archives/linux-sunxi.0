@@ -1,56 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794907668;
-	b=Kjb/4P39M6StVWUamqtmluES8Yw0vnA0yDlaBUqZqofeODR26WszOPXcrFOVbEp6hIwy
-	 +LKl1X0HGHw91DF+49wzewOpqHikNWC0IHj6LIyFvmrHLqOI6eRV5qv2fwqGPoDYD6XHg
-	 JfxUXXzuBxf6sCKVfgIxeI4HBq5E8KOmLpoTpxjsNWzUwL7AaJKz6CnLM9jPJl2enC8e4
-	 sBcfCtV3SNcSPS0c6Xr0Brt4T0Jde0u7qQtkL9Haw4YZAGs87ORLnKmql0vOw17ttzYmK
-	 xLOCjJmnivizTy5KZAThP83fwTBDhHNuSqtXIZ/6H+SC0HrejefgkKu6Eu6gl9vFuYA==
+	t=1794908133;
+	b=vXr//l6b96XDL4B+Si7PB72WI0u0aKgQiXHdujSIEq6t7vjLRGJWGBexzbgpiorlKsOl
+	 OsGAd6l3QcIott/LC61GyTfdM8sYi72tfi3ZDcJ6aTgQyg11ZYct428qBYIcFg5aYdq3T
+	 ms4MW+vXmPiR7sKjqZidGXGq0M9oRAhPapC0KyZrN95cwpWZIkctKpzU92bd2m6lttSDB
+	 BW79jgsRTESpW0MKAbay3BhEfWLqQvqW2BXh1X0wjq+fudIRHf/NdAnLvZXJUdCRjDfrJ
+	 1X88mw1FBX/K6Bo7+jwLoqkdGyGWFSQzH2dp3i7U8Q7A7PixV80jdmFEEt9mErnfjqQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794907668;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ITwwlYvfP5Zx1SwPrI9bFvqzw5Aia9EoYj13v8b1XFM=;
-	b=5Q042Hwl42ZuA5MDS1jNQy0YyDzzrXbs4/hDQjesCWWVQao7V3e0xkS8h8pT8MY9Ildx
-	 HevesuQCpCwcLRTJ/+/XgY6joclVNsK+cVTZUz8lehh3aacPsSuvdW+EQ8Gue1zoUwfeF
-	 Azgpvzzddf6zsmIJfipnjlvLcAkH6cDuSLLOYZdcyiGBcj2zEyGh3t8i9ZCvH/lkd2HNu
-	 YYOAomLG/uEY5FvX4y5m7KtwFoRGbMBFRt+8QdHTSSzsDGa3Et81s2+iJ0IdkdkXovcaA
-	 y8UV52fst9NASthkg5Gsyuvk82psrU69YuOFmfqvj80wwZXgJLcE8XI78ov+JU3bKow==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794908133;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-Last-TLS-Session-Version;
+	bh=WwhwaYFJNMtPhT56t3rNjNOo+MK4UinclZfxdqo22ag=;
+	b=P1T51UW0gokvghOlyp0GOAzecUm07uxv4cLWwCanU6A80gFhXLQ7+/7a1mg4Urff4x11
+	 Ypka0gKfPpeChmBScBsef6PWhzwgr1hyjxDxiMKr6LW/51Kv1Vgx025vQjihb1wsbXXqb
+	 I8nqxo0PXM+ntIFpsGs/P/KcNaJPzc06+l9Pags50bncDe4oLVpAdp9LkP+GTpPSOC1WS
+	 DfkkwU36SmfkVXTDpH9aa4Y0p7ZqdN9Jc/DqOUnbvrKl3bS9BScDp5HRAdLXr3D1lWJAr
+	 cvdO45WDWwUX9eNNzVmeZAJgSHU4cUqE8IbMjmxHSIrJmTK+HKNrzudlYTBKLZmokGg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nwz1nE2z;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=vI11SneC;
+	arc=none smtp.remote-ip=185.246.84.56
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97915606A330;
-	Tue, 17 Nov 2026 09:27:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3BF7606A323
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Nov 2026 09:35:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D3BF7606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nwz1nE2z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1730E1F000C5;
-	Tue, 17 Nov 2026 09:27:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794907668;
-	bh=ITwwlYvfP5Zx1SwPrI9bFvqzw5Aia9EoYj13v8b1XFM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Nwz1nE2zc3zc5xldLvnMPuAHtAB+qg5StKJxeN/SbHK2iR6Xtr6znofcc8woCYHGN
-	 BXr8C+ArdTJn31N2pevFwNer/1qlTiJ256Mv9A3lwqgRFTR1aiWrufYSUmOI+/qJjb
-	 qJd/09Oii4LElL1Uzzdhp9lIonZ8L3c3doXqhuWGBeU7PO6Xix+B9naotN808PtwTJ
-	 7ptxciPC/pvtqfuJ9efc5mxdiVwGvg8VUqRNwrsVNjiHejfKRe6KThml82WubMD3Cn
-	 uPideC4XfEQsSN71T8l+jd52HsQ0NC+HU3hBUIaruI2oYnb3TTUy3jO91kx7z+wBOE
-	 RgAqPb9gV1lOQ==
-Message-ID: <sashiko-outbox-218483@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] arm64: dts: allwinner: rg35xx: keep RTL8821CS powered
- during suspend
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Yang Siyuan" <hsyysy@163.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261117092024.12163-1-hsyysy@163.com>
-References: <20261117092024.12163-1-hsyysy@163.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 09:27:47 +0000
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=vI11SneC
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 6F5591A158C;
+	Tue, 17 Nov 2026 09:35:31 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 410EE5FC81;
+	Tue, 17 Nov 2026 09:35:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 18CF011BC0B8F;
+	Tue, 17 Nov 2026 10:35:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1794908130; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=WwhwaYFJNMtPhT56t3rNjNOo+MK4UinclZfxdqo22ag=;
+	b=vI11SneCI57vK3QInTMJGFmCHhAx0leLQ4YOKCpOSQITmvWd+ijDWcMsdWsjwe4olDvKXG
+	lJp6vHcNgfsAYJxHFIKAjUyZJopqKXIdt9Yko+ilDnz//erJz52amc8o9TGyqanFZ0/rdE
+	d1WeNt4Uog1Cwm5T8A7opkjYz+Tus1i0LdB7ADk2ztleDz9d7yG20dJAt2gukKMI8LpKNU
+	V/+umM5GnXCckLLfBcPOxL3AwE6Xz8+81LvUTp65dgQhOavHiH90OqrA9+m3E6q6WAlj61
+	vs6Gh+caEYLNzCDzVE5RMMdEGKLg5on2sgGZgCyR9NVksik888lc7sYrsO4CuA==
+Message-ID: <7b9a4fe1-a885-4ace-bad0-b819ac8b11b4@bootlin.com>
+Date: Tue, 17 Nov 2026 10:35:23 +0100
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,42 +61,85 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] net: stmmac: dwmac-sun8i: Defer probe when the
+ EPHY clock is not ready
+To: netdev-bot+sashiko@kernel.org, aiyengar1990@gmail.com
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, pabeni@redhat.com, mcoquelin.stm32@gmail.com,
+ alexandre.torgue@foss.st.com, wens@kernel.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, clabbe.montjoie@gmail.com, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20261113-b4-sun8i-emac-ephy-defer-v1-1-12a8591702fe@gmail.com>
+ <179490321548.3136.12535368591168637116@kernel.org>
+Content-Language: en-US
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+In-Reply-To: <179490321548.3136.12535368591168637116@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Low] arm64: dts: allwinner: missing Fixes trailer on RG35XX-Plus
-  suspend fix
---
+Hi,
 
-commit 6bc1ccf6bdee4d4322a5c25361fc4b5c6087cce2
-Author: Yang Siyuan <hsyysy@163.com>
+On 11/17/26 09:13, netdev-bot+sashiko@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential
+> issue(s) to consider.
+> 
+> Critical: 0 · High: 1 · Medium: 0 · Low: 0
+> 
+> If you believe none of the issues are legitimate, please reply to each
+> issue of Medium severity or higher and explain why the AI is wrong.
+> If any of them are legitimate and you plan to respin, please let patchwork
+> know by including "pw-bot: cr" as a separate line at the end of your reply
+> (one such reply per series is enough).
+> 
+> - [High] The patch makes get_ephy_nodes() in
+>   drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c return -EPROBE_DEFER…
+> 
+> --
+> 
+> net: stmmac: dwmac-sun8i: Defer probe when the EPHY clock is not ready
+> 
+> With this patch, get_ephy_nodes() returns -EPROBE_DEFER when of_clk_get()
+> on the internal PHY node returns -EPROBE_DEFER. Before, it skipped the
+> node and the probe ended with -ENODEV. Other clock errors still skip the
+> node.
+> 
+>> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+>> index 2ece7ba9dd73b..8163e49fa7ad0 100644
+>> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+>> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+>> @@ -801,8 +801,13 @@ static int get_ephy_nodes(struct stmmac_priv *priv)
+>>  		struct clk *ephy_clk;
+>>  
+>>  		ephy_clk = of_clk_get(iphynode, 0);
+>> -		if (IS_ERR(ephy_clk))
+>> +		if (IS_ERR(ephy_clk)) {
+>> +			if (PTR_ERR(ephy_clk) == -EPROBE_DEFER) {
+>> +				of_node_put(mdio_internal);
+>> +				return -EPROBE_DEFER;
+>> +			}
+>>  			continue;
+>> +		}
+>>  		gmac->rst_ephy = of_reset_control_get_exclusive(iphynode, NULL);
+>>  		if (IS_ERR(gmac->rst_ephy)) {
+>>  			ret = PTR_ERR(gmac->rst_ephy);
+> 
+> [Severity: High]
+> Does this deferral come too late in the probe?
+I agree with the bot here, this defer happens after the netdev is registered,
+which isn't great... And it's likely the PHY is on that mux'd bus, no ?
 
-> arm64: dts: allwinner: rg35xx: keep RTL8821CS powered during suspend
->
-> The RTL8821CS SDIO WiFi on the RG35XX Plus/SP is soldered and powered by
-> CLDO4.  rtw88's SDIO suspend callback asks the MMC host to keep power
-> during system suspend:
->
->     rtw88_8821cs mmc1:0001:1: Failed to host PM flag MMC_PM_KEEP_POWER
->
-> sdio_set_host_pm_flags() only accepts MMC_PM_KEEP_POWER when the host's
-> pm_caps contains it, and mmc_of_parse() sets that flag from the
-> "keep-power-in-suspend" DT property.  Without it, the first s2idle
-> suspend aborts with -EINVAL before the system can enter suspend.
->
-> Add keep-power-in-suspend to &mmc1 so the WiFi stays powered and s2idle
-> works.  Tested on an Anbernic RG35XX-SP: the board suspends and resumes
-> from the lid switch, and the WiFi reconnects after resume.
->
-> Signed-off-by: Yang Siyuan <hsyysy@163.com>
+Was this tested ? Doesn't it really work to return a probedefer so late ?
 
-[Severity: Low]
-Since this fixes broken s2idle suspend on the RG35XX Plus/H/SP boards
-where &mmc1 was introduced without keep-power-in-suspend, should this
-include:
+This mdio mux logic should likely be reworked so that we register the mux in due
+time (i.e during the mdio init sequence, may be by hooking into stmmac_mdio_setup
+or something like that ?)
 
-  Fixes: 398e5fdf60ed ("arm64: dts: allwinner: h700: Add RG35XX-Plus DTS")
+Maxime
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117092024.1216=
-3-1-hsyysy@163.com?part=3D1
+
+
