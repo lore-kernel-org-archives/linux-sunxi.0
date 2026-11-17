@@ -1,98 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794892311;
-	b=0j1CmS8BG0qD2yM9mhx+qhlxizjcoGl9slR+uU8Zj6nlPAZpxDlOrWPrU2OMYCEqKrtw
-	 gTTEZKR1ZzL62BkPYIveoJTyprscoXYgpfvctEQMah+VkgTUPHRBZhcAoq2U1TVv+7L3q
-	 filaWZ6vDYmiw5BsZP5H00NOR4UlREWm9FYr4ioMQeSZ6mRH0EDaVFfJeZmoAfdxziGBq
-	 tb3MfB26Md4jYy1gxFt6guQuhpt2IThYh/P3fgfOXVWpfU2nTholLXMWA2F+bJ6lsxDws
-	 Rg1TyizNma26YQgXkOxwHArHegU2R7nu7CFshpf5dDZZEdzfZce/DShZrmFyCqKZbaw==
+	t=1794892847;
+	b=hW82zZr10Rgzbxc/r1aBQeKFvlfZyqydAz0KUKvZ//jH3QDI2f29F0KIwHmuDHqzh9rR
+	 8rXcrVnDY4JvsahuWqguEYqMlSwvaQy34hGCrQpbuYamLVB3a4nT3lxgosD3p+eM23fL4
+	 8LySmX02lmJIxiYCsmFcQ+W5gy99QVlRWZlmIqXUtIwlnbE0t2wrtNqGkKM5/espU50mz
+	 B9emO9kfFsQNiWcGtJ9tnr8MYE/NGg7gnfbCaksje0dBg2f+OXz0SH1P8SqD0wKBPUeWr
+	 Td9Y7sX2DfDNl2jxAOHkyMBMsAk0Ax+7oInSuM6nuRNI8r1W1hzk8Ol+Tl6y8+mtqzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794892311;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=cFIGFgrqmh7vJ8p05TfgpCv8oubT+IqY4VjNLXb1IxQ=;
-	b=FvIkc2Y0GwdRUQGy+DtYsNAX+d/38QzjlrqYN28r/Glf/WzXomlh3Eq7DDPB7NHD6+XP
-	 CD581z+0dowlvKgPfooE6/o+6cFW2ITvb6ZDdo8Oz+PVaqDn9Ew339NVhMzCvpZfkXuLM
-	 Fo53dKLYIXbCoS604n/+EaSX1rkRtm/n9kMk2a2f0nPhq8CnKRBPU+1CRFm+yQ0xA2JYc
-	 BfkJ8zmyNJ1eDKBGCDgeYPtGPrO/gBoU7LBoPw6jqG0N1gx1hSEnbGf3OO9SaqVP1aQGT
-	 vox9WzU3jIUmMrmfP+IGajQceWcVdSrpX96M80BPNhBxJZw+QmsPqfS6oq/Hik89ahA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794892847;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=6XP1P1MaUHqmBLx1P7JlXwdoH9Xb14V9Uo/hAccbf/E=;
+	b=qQrXogOldKtj7LmGhMs4HDDXgUVnrntbvzXVNP09EaB+V5nQZe2DmoE5frdNd994fsPD
+	 Byzl9GsBVxbax4OY0r9EOG0WVsOcBOJdeW2u7Bw0ODpUG3/s7zNbIUGNDsbNb2An8fnRo
+	 A/tH6ZdDUB3OT9WYih3HUnoOq7VasLODkxKygcUDYemfGy/TCZUikpGHdFuS0wEHDB0Nt
+	 lMq5dmeJQqD+OUZyL3xYkJDP1UzadHIRSfVgcv041NaM/CJXpzcgvbY7+aFXJxzgY0NDm
+	 fbCHDDIYysyZaBpAHWn253ODZf3TWMfdhK5iSQOeblaXYRzQIray8eIoK5/uvqfdmjg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linaro.org;
-	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=QoB0OCST;
-	arc=none smtp.remote-ip=74.125.82.50
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n5PpOO67;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1BE8606A329
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Nov 2026 05:11:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B1BE8606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB26E606A31C;
+	Tue, 17 Nov 2026 05:20:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=QoB0OCST
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-1b50a4bd2f3so4858713c88.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 16 Nov 2026 21:11:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1794892310; x=1795497110; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=cFIGFgrqmh7vJ8p05TfgpCv8oubT+IqY4VjNLXb1IxQ=;
-        b=QoB0OCSTUCiwhiTFm7AFgszuy5bWdV1Dez86Vzd08rZSyDhAsM4eFklUBDIUPw96Ta
-         8xJ0wtaD5ov8QiUHv3liX98JyxbLLjPzcXSs4Ode7MfTRrfF4+c9Ur7nWJdLeBMM+FYX
-         DnbKTS0nJYLcwhlavOSpoT5KicwE1bYD3jZp4nyR1xzojz1Y2fap4gtySwGrfXvLcK5j
-         oxkBOSzDZRc8wM6wBrmr/9k4OWmpPGQSDD6Gv/QAkvAuAwhXEPzTSUXF/lUjoPi86f5G
-         pJNYYt4258AHXFbnaBGjnD57ZAICOITfGEuFsfZ3iD24yDxGlAo/B9hygDr4t9sQeO/Q
-         G5tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794892310; x=1795497110;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cFIGFgrqmh7vJ8p05TfgpCv8oubT+IqY4VjNLXb1IxQ=;
-        b=MyFtlwcW9FPr/I6meFDb4oX661JYxg7KBYWhodt+UJbz7R3RgMhoB16tyX7zKErsq5
-         GAolmHVNcIgORLK0eRR1U1z/jN7TVlD+HhZBA7ooSY717qvX17RlOSSmEHKJbEBZ7agl
-         dJphUGOC23awlCx6wIHsBHuqPUS/xmAdQTIKPA8reReu8ZzZNowLQsD6BgTbLEnDargY
-         id5qIthTbm5zitSNHuDNuQimMUkRBf8ZYfUQpY8KVFBxVxwK9J7ENsZBR8ooe9Cx/Knp
-         HaCNJiUlIvOXMW8y9jicfOwT0KlfALrZVAhsD8mlqRmHeXF0reMV6/uBrCxACV8hzZcD
-         I4bw==
-X-Forwarded-Encrypted: i=1; AL+hErHYO52VXR1X9QT2wMBRUStxY6VjXNlkl5OzFeT/OYK/jjc00soXNMBwJqm0XKFs395Zvm4xxG0mSsvVZg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8+Fcq8R+hjcYHT52IsL9Jg0MVzvck86GXxiQj0VpRZWNYdYdw6
-	jtStrP+IVnXGLfH9mBkKPidojUMpXA+Z6NKZ+apOqjGpcqzH1h90z5kPfs8uP0xy6uY=
-X-Gm-Gg: AYBFou3y/SrKbQyfTbYXiDmkYdRHhx4fymkbc68eaypEB2dLv0xNtQKt2ZsYIrxbR8u
-	Rax8WYfqUm3Wwb28VK9DF7FmcVW/QSTly3cysr6bFJbwLsA+uIyl7Cw1TqEmBwg6nht+zxc9t2M
-	TjIslntwvgw2LyFIMIjdLZhIZTEzIlYjJXegMJPfW4lPa8DcStF5X0zZX1lgs8rnsBzbImFK711
-	s7KlQ+CTPl6SiC5afpX2GziaQOrfkIxnsbaLGRc+1z64eSo4iHKtZztFm4rFsmEwvtl7HpQRkWF
-	AoOzFz8tc8KXHFRMKmmQTy38cezzYZ+7THZ04iM9eWGv/0qjOVp8QMP2bC43gmWV8qtk74IwdkS
-	CyhIhflRGkS1OkWxEs7obnzBW4Qa0v5wkBTjyKgsAuAydb3URFqRDGWXdo43vlqAoZJuFYL/yun
-	kOhj/M2g5JQQ3TOxji+DJ8HY1TEFEHnMIU0ZbjIKfH5GcPf+nLLWWPZ5F9sFoAsfrWSG3BaHrfR
-	FDbx5P0uj6XjepGHrGAuphmZ9/VqYFP1RKY+pgK1mlw8sDvH8jf9xdTRwBje/xxUWs4bWLmuLbh
-	YSxpdkqR+Ig7981m2MkGqmyJipfliw==
-X-Received: by 2002:a05:701a:cc87:20b0:1b5:3878:aa29 with SMTP id a92af1059eb24-1b53878b8c1mr2057482c88.38.1794892309617;
-        Mon, 16 Nov 2026 21:11:49 -0800 (PST)
-Received: from localhost ([122.172.83.36])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5031918c7sm53754284c88.9.2026.11.16.21.11.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 21:11:48 -0800 (PST)
-Date: Tue, 17 Nov 2026 10:41:45 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: rajanyadav0307@gmail.com
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Yangtao Li <tiny.windzz@gmail.com>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andre Przywara <andre.przywara@arm.com>, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] cpufreq: sun50i: Handle boards with the
- allwinner,sun50i-a133 compatible
-Message-ID: <avviEW1-h495D0B5@vireshk-B250M-D3H>
-References: <20261104-a133-fix-v1-1-d0b5ad3d4c5d@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n5PpOO67
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E65331F000C4;
+	Tue, 17 Nov 2026 05:20:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794892847;
+	bh=6XP1P1MaUHqmBLx1P7JlXwdoH9Xb14V9Uo/hAccbf/E=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=n5PpOO67vAII8Vmjmnfi00D1cDngDkuHMFrN5cf8c0AruftqI7sZsQUqHdMMYKBh0
+	 jhO+gzgCpeymbyGl6m8xnlyjTYwxR+6cWhY1doKlBzhSg31ME9kvk0+hNDSzgumJpo
+	 ALg+S+ZLAhhHYLZdKfpfGs+xrpyqiAorSfzTh8K8zBNYoK2lSqbRMwyxUZBWGnKygh
+	 u0pYu494DmsTtxwFZLYG/oKL5ar/5zlxuY4Rl2zzWVcBP91oTsbicq76TZLuzzDV7V
+	 93KQkx6xaOPJEoZtEyiL2/6r7m3g6sWQ2sG5rv8KbnAWEszTIVn/t6t9yfcD8l/Dbe
+	 +rZeZxhDH1OKg==
+Message-ID: <sashiko-outbox-218197@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RFC] leds: DT: migrating existing labels to
+ function/color
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Cristian Filipescu" <filipescu.cristian@gmail.com>, linux-leds@vger.kernel.org, devicetree@vger.kernel.org
+Cc: linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org, lee@kernel.org
+In-Reply-To: <179489221679.1.1429296960451969532.led-label-policy-rfc@gmail.com>
+References: <179489221679.1.1429296960451969532.led-label-policy-rfc@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 17 Nov 2026 05:20:46 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -101,75 +59,131 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104-a133-fix-v1-1-d0b5ad3d4c5d@gmail.com>
 
-On 04-11-26, 22:07, Rajan Yadav via B4 Relay wrote:
-> From: Rajan Yadav <rajanyadav0307@gmail.com>
-> 
-> The Teclast P80 uses "allwinner,sun50i-a133" as its only SoC
-> compatible, as documented in the arm/sunxi.yaml binding. Neither the
-> sun50i cpufreq driver nor the cpufreq-dt-platdev blocklist lists it.
-> cpufreq-dt then probes on its own, finds only opp-microvolt-speedN
-> properties and fails:
-> 
->   cpu cpu0: opp_parse_microvolt: opp-microvolt missing although OPP managing regulators
->   cpu cpu0: _of_add_opp_table_v2: Failed to add OPP, -22
->   cpu cpu0: OPP table can't be empty
-> 
-> so the board runs without CPU frequency scaling.
-> 
-> Add the compatible to both lists.
-> 
-> Tested on a KickPi K5C (A133) with its root compatible changed to
-> "allwinner,sun50i-a133" only: on v7.4-rc1 cpufreq fails as above, with
-> this change the sun50i driver probes and the A100 speed1 OPPs are used.
-> v6.18 fails the same way, also with "kickpi,k5c" listed first.
-> 
-> Claude Code (Anthropic) drafted this change and its message from my test
-> logs; I reviewed and tested it.
-> 
-> Fixes: 60b064eb82e6 ("arm64: dts: allwinner: A133: add basic support for Teclast P80 tablet")
-> Signed-off-by: Rajan Yadav <rajanyadav0307@gmail.com>
-> ---
-> This fixes the Teclast P80 support added in v7.4-rc1, so I think it can
-> go in as a fix for 7.4. I do not have a Teclast P80; I reproduced the
-> failure on a KickPi K5C as described above. A series with A133 speed
-> grade support, which Andre asked for, follows separately.
-> ---
->  drivers/cpufreq/cpufreq-dt-platdev.c   | 1 +
->  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 1 +
->  2 files changed, 2 insertions(+)
-> 
-> diff --git a/drivers/cpufreq/cpufreq-dt-platdev.c b/drivers/cpufreq/cpufreq-dt-platdev.c
-> index bce4c87573a..6bdeba47749 100644
-> --- a/drivers/cpufreq/cpufreq-dt-platdev.c
-> +++ b/drivers/cpufreq/cpufreq-dt-platdev.c
-> @@ -110,6 +110,7 @@ static const struct of_device_id blocklist[] __initconst = {
->  	{ .compatible = "airoha,en7581", },
->  
->  	{ .compatible = "allwinner,sun50i-a100" },
-> +	{ .compatible = "allwinner,sun50i-a133", },
->  	{ .compatible = "allwinner,sun50i-h6", },
->  	{ .compatible = "allwinner,sun50i-h616", },
->  	{ .compatible = "allwinner,sun50i-h618", },
-> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> index 9261d148a16..5d4ff192e99 100644
-> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> @@ -324,6 +324,7 @@ static struct platform_driver sun50i_cpufreq_driver = {
->  static const struct of_device_id sun50i_cpufreq_match_list[] = {
->  	{ .compatible = "allwinner,sun50i-h6" },
->  	{ .compatible = "allwinner,sun50i-a100" },
-> +	{ .compatible = "allwinner,sun50i-a133" },
->  	{ .compatible = "allwinner,sun50i-h616" },
->  	{ .compatible = "allwinner,sun50i-h618" },
->  	{ .compatible = "allwinner,sun50i-h700" },
-> 
+Thank you for your contribution! Sashiko AI review found 3 potential
+issues to consider:
+- [High] arm64: dts: allwinner: missing Signed-off-by trailer and RFC
+  commit format
+- [Medium] arm64: dts: allwinner: removing LED label changes sysfs and
+  GPIO names
+- [Low] arm64: dts: allwinner: inaccurate DTB count and Orange Pi 3 LTS
+  claim in log
+--
 
-Applied. Thanks.
+commit 9235c19cbef601645f52663823784ba072327e48
+Author: Cristian Filipescu <filipescu.cristian@gmail.com>
 
--- 
-viresh
+> leds: DT: migrating existing labels to function/color
+>
+> Hi,
+>
+> The common LED binding deprecates label in favour of function and color.
+> Is removing existing labels desirable when it changes established LED cla=
+ss
+> names, or should existing board descriptions retain them for compatibilit=
+y?
+>
+> For example, the Orange Pi H6 descriptions could replace their labels with
+> LED_FUNCTION_POWER/STATUS and LED_COLOR_ID_RED/GREEN. With gpio-leds, this
+> would change the names under /sys/class/leds:
+>
+>   orangepi:red:power    -> red:power
+>   orangepi:green:status -> green:status
+>
+> The example below changes two files and affects Orange Pi 3, 3 LTS, Lite2
+> and One Plus. GPIOs, polarity, pinctrl, defaults and triggers are unchang=
+ed.
+> All four DTBs compile before and after; comparison found only the intended
+> label/function/color changes. The renamed LEDs have not been tested on
+> hardware.
+
+[Severity: Low]
+Is the list of four affected DTBs accurate?
+
+arch/arm64/boot/dts/allwinner/Makefile only builds three H6 Orange Pi DTBs:
+sun50i-h6-orangepi-3.dtb (from sun50i-h6-orangepi-3.dts) and
+sun50i-h6-orangepi-lite2.dtb and sun50i-h6-orangepi-one-plus.dtb (which
+include sun50i-h6-orangepi.dtsi).  There is no Orange Pi 3 LTS device tree
+in the kernel tree.
+
+> I was thinking of converting all the deprecated LED labels, but I wanted
+> to see if this was something maintainers wanted, since it would touch a l=
+ot
+> of files. Would you prefer retaining existing labels (potentially adding
+> function and color alongside them), or reviewing migrations with the name
+> changes explicitly documented?
+>
+> This is a discussion example, not a patch for inclusion. Preparation and
+> static checks were assisted by OpenAI Codex.
+>
+> Thanks,
+> Cristian
+
+[Severity: High]
+This commit has no Signed-off-by: trailer, uses an RFC email body instead
+of a declarative changelog, and uses "leds: DT: ..." rather than the
+"arm64: dts: allwinner: h6: ..." subject prefix.
+
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts b/arc=
+h/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
+> index ce82aa265cfd1..8e411705769b1 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
+> @@ -8,6 +8,7 @@
+>  #include "sun50i-h6-gpu-opp.dtsi"
+> =20
+>  #include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/leds/common.h>
+> =20
+>  / {
+>  	model =3D "OrangePi 3";
+> @@ -45,13 +46,15 @@ leds {
+>  		compatible =3D "gpio-leds";
+> =20
+>  		led-0 {
+> -			label =3D "orangepi:red:power";
+> +			function =3D LED_FUNCTION_POWER;
+> +			color =3D <LED_COLOR_ID_RED>;
+>  			gpios =3D <&r_pio 0 4 GPIO_ACTIVE_HIGH>; /* PL4 */
+>  			default-state =3D "on";
+>  		};
+> =20
+>  		led-1 {
+> -			label =3D "orangepi:green:status";
+> +			function =3D LED_FUNCTION_STATUS;
+> +			color =3D <LED_COLOR_ID_GREEN>;
+>  			gpios =3D <&r_pio 0 7 GPIO_ACTIVE_HIGH>; /* PL7 */
+>  		};
+>  	};
+
+[Severity: Medium]
+Does removing label here and in sun50i-h6-orangepi.dtsi cause a userspace
+regression by renaming the sysfs entries and GPIO consumer names?
+
+When gpio_leds_create() registers these nodes without label,
+led_compose_name() formats the LED names as "red:power" and "green:status"
+instead of "orangepi:red:power" and "orangepi:green:status", and passes the
+new kobject name to gpiod_set_consumer_name().  That breaks userspace
+scripts and board configurations that rely on the existing /sys/class/leds/
+paths and GPIO consumer labels on Orange Pi 3, Lite2, and One Plus.
+
+Documentation/devicetree/bindings/leds/common.yaml leaves "deprecated: true"
+off the label property so existing device trees can keep their established
+names without dtbs_check warnings.  Note also that adding function alongside
+an existing label has no effect, because led_parse_fwnode_props() returns
+immediately after reading label:
+
+drivers/leds/led-core.c:led_parse_fwnode_props() {
+	...
+	if (fwnode_property_present(fwnode, "label")) {
+		ret =3D fwnode_property_read_string(fwnode, "label", &props->label);
+		if (ret)
+			dev_err(dev, "Error parsing 'label' property (%d)\n", ret);
+		return;
+	}
+	...
+}
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/179489221679.1.1429=
+296960451969532.led-label-policy-rfc@gmail.com?part=3D1
