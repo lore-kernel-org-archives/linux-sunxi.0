@@ -1,57 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794921960;
-	b=duOy1M2PGQ2NDWAJfMytHNXSQ2M1bJ9J9tp8ZaIFr29Ucmzyvd7+MdlNFDNG/P1d3nTT
-	 eK4/E92GSb/gYoQv4Tbjh0TOqeHq/6ncTWBsSErRgzsGB/GyREvagEaoIBWvndzhkj5uX
-	 MKugc5XJnrfitZ0zZpuvyhbx3yPK93jd33ZS8pOUMox76RQGSMJ8de/9/buvbF75Wauk3
-	 CVjY9mUt6PU2NDGFomZ4POvaBRD9WRF7sRrIHwB/saTDFpIlj7tNMcev4Kt2swkiRoMSU
-	 tfJaoLQvSep9umKh3cM/vXy8QqKHVmmMLLu73YWZhQtR2y9EYxCD81wwnxahDtXnsag==
+	t=1794925298;
+	b=tevMOQko0fP/LMPSqkMSq7gfAGCco08DIexDV+Dezot1lCyunAoftTvJZ2T3iPJpA0Q/
+	 CuwdS9WDjaXyNohihAaw17u+Qwmy+WJu8kg/sDPDj0cKG+/Dn+RvVagRPNfWQXDQ/MVLV
+	 akAEhMx6k1+/EaS+rzTvLi0zy1IXiZaQI1SMEXk0OFLwR5QcfkQh+LxDFvxD5vdEGSsSw
+	 Tu25OExZ9Y8LEePTvjys9EcKdmvGRhP2CvNa85Rytb4hj8L+OCNnijaRfhn7gQq+nTLCL
+	 3TpUOzxTXD6biAPEYl93Bu9YEfkw54k3SeDrm7gmJSDsb94+WYtPqOzJWdmxuub89kQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794921960;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=rGvyXa65+jPhF49u6mGHSwSOqNT03B5XvAEIQ2fSMhk=;
-	b=SHk9xP8sP6rggWJ+lMCtuf4G9bfK2l1VL5M7kvBL6Rucw8/fLx6zxZmK3F80HHA3/ou8
-	 QLyRx7uVQSjoEGnIOzPtSca4X53TCJ2WbOUn1FpNeYgYbxw60S7nmv/zOqTRpmYpPXoXO
-	 o8MNAXokzx5t9c73volhkWvNOSvrkd6oY4WzCD2gEFwb/VNpbjKI4TcApBHo2+CeSkc4v
-	 1DNBpFxQDBgmpsJu02XmQFDvq1FNNUnDZFUPKJO/AxrDU69mKGMhUuMGVX/IqFalVKCaL
-	 qcPaj0AT4DmAsZxOXuRL8Zli7R/HFj2FJfjye8039V/kg2pI/Pjq6FUCeWISRxGEPHA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794925298;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=BHww8Xe65qt/2LoVxnXWkn4bOLdKbZqwOjujT9tpZqM=;
+	b=2Uyk5NngiuovMCLq5fIJZP8m4hn922X/2BJHB5lgd2hOq8k9Uz4EfuTm6se7z25g1JnW
+	 4p/4jBctspoqsyW4oT9+gvofDoBTihOaAJe7Xj4nuMHS2ABytpk4DtJzWcSXR9thV5Km+
+	 qadt9mqywsLa4VIhijHOwkn8NJ4whtOiZH9IAoLePEVcnFGJLoRslPFYM6nkx3a8J3mMq
+	 PiqLL7NVLGeTUpNN9+5v84yR0LfyfhAKsqfiKnLeA8WyBFcK/TzWE2fCTy5nRv86AAhUR
+	 Vky2gITM5vgdpk0YqTxkWtTgWjRcPfaPBAi3Gz6cCIKocJ+V0V9bE1cxwKvjU8mQ+Qg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mH5OoSen;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=G+mKfOp6;
+	arc=none smtp.remote-ip=74.125.82.177
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB6F9606A31C;
-	Tue, 17 Nov 2026 13:26:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77EFC606A32C
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Nov 2026 14:21:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77EFC606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mH5OoSen
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 668BC1F000C4;
-	Tue, 17 Nov 2026 13:26:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794921960;
-	bh=rGvyXa65+jPhF49u6mGHSwSOqNT03B5XvAEIQ2fSMhk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mH5OoSen2cTSC5lDbmNLNR1+U6x2AM0tfkok/BdLxUg6fh4qQQDYMj5HYu0WNp6TL
-	 VymTrRKJ1bhsFE0F3955KIlByTLG2ESdWUowYyLAYRtQreihh6ZrWdsiw3sCQS5oI+
-	 NE8azrYp0G6+zheqb27iDzR5V2gzqPo47leL9hVI76qlpyS3nW1y+Ajj2Pp+gQQjpG
-	 JV2eHlb1NUl9nHOY/ZMxqQoE4ncqMpCR/Jjw60Z06f4SDPqLz5IPk9MvxM6JYlIoNx
-	 shzDy2tvLYoL/LIClx+7V4a6ZUBcK0pfCjf04vU+ujOpBUs3dzF2I9l0iuVkuVBWPD
-	 RtduajTmsVLkg==
-Message-ID: <sashiko-outbox-218872@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/2] phy: sun4i-usb: Assert reset before deasserting in
- phy init
-Reply-To: sashiko-reviews@lists.linux.dev
-To: Roadbobek <admin@roadbobek.com>
-Cc: linux-usb@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-phy@lists.infradead.org, vkoul@kernel.org, neil.armstrong@linaro.org, olteanv@gmail.com
-In-Reply-To: <20261117-usb-sunxi-reset-fix-v1-2-c2b76e0e84e1@roadbobek.com>
-References: <20261117-usb-sunxi-reset-fix-v1-0-c2b76e0e84e1@roadbobek.com>
- <20261117-usb-sunxi-reset-fix-v1-2-c2b76e0e84e1@roadbobek.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 17 Nov 2026 13:25:59 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=G+mKfOp6
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-380b40319bdso2284500eec.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 17 Nov 2026 06:21:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794925296; x=1795530096; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=BHww8Xe65qt/2LoVxnXWkn4bOLdKbZqwOjujT9tpZqM=;
+        b=G+mKfOp6zJ6/jXtPT8pBsjfWo+JJu68MMYkPbOduzMgHCa/zPvmbzSbZWpzZEvBBxp
+         ltQ7AF6hnIvNU/2nmkJftduo9LsoXiFbT7DIlBft+lWZixIEzs8B5iklXg2KT9iUTmD0
+         6t9QyFAROVcjwiY/F8flIBEiVTVlI7Mz0CAk2NtjDKFbuhTBbzfLagzFVcyotSGcO6LS
+         SlMKnzL0Uv2IdwAh9aJac1W8HWWMw6Ru8go/d+rkgDZ1FKOlfV40Ov6l2rRw/BYS+bvg
+         IaNc+CdFOF8tMsLHDc6+tYbqG4d3AHF2nGTPcOycZGWfqqV8wvVLncy1zHOAsrGwmuzE
+         Z5gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794925296; x=1795530096;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=BHww8Xe65qt/2LoVxnXWkn4bOLdKbZqwOjujT9tpZqM=;
+        b=RGpoDbeYuMahtwPX9RC7uKELQFmnZjRiaIlIlImiWO8xg4iCnzEoxe1M9mYgqqWABM
+         BnQxticO5SxR46FkrNRIjhRM8ezX45RIW9r6yNixpDv2lNp5t/Ua4ItMSTUfDxQVvm85
+         DMWc4agiPOUatPtKr4KiYzYVZARo1KHEzj7hiAI8FafyMKgDdCOXGWCfHM8AULg7dsp3
+         IZgVNavJUA8oAYt2lKUiB/FcKSFzn5IvPALZX1YY+WWGe/h3mnOWvQG7ivqM2MgttYca
+         RhGRX8mUZXqJUiaP4Ewn10WiWZOQDfO8W0pEvz3WtGjjeFbhWeeE3sc8TNz5XqWtTip4
+         wYqg==
+X-Forwarded-Encrypted: i=1; AL+hErGw+t1jCEvPKAGns2gRT6BhRNxobiM70ltXWZcrvgb6baHrgS0230jboK224gCE47+l9kzeGlAUa9k1wg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/d85oXOiF9L/7C2t/wxxPCD5OKGRdsnV+TdWBjnuqErDlUEL+j
+	l6aYq7/lUJpzN5mk+vRrw5eiTocl8st+idphU2M98zkNWVWp0/qmr8nc
+X-Gm-Gg: AZFdTZfZ+3QGSYlCG5mxiM0idpsfV4u29nkyaGooRJ6EPYWVKB3nOWd+unVbN9IO3wP
+	BGQ5fbxnprVby/pQbn00FkV4ygAKAnL9msg8CeHoBvbON3Bs5iKvfiX3DHysTrC6LkuGUgtAfaA
+	W+31EI7xm+1USBnwCiXDsLOHRvN/XMkGet9Y3GCKdJvhEWEtq+n+m8LwqIHwbNJijGNgj0UbzlE
+	1o/Nlaed3RpYO/LKrqd9FCzTw0TE/vqS0qDw/61EoEFGXeP/RwsUr/SFzbfu5QNP06e3lUN/vlg
+	1rqeG04aQkEzuaRQsisUM1G34agsalmnS/ZbZY29CyW7ZhJvtTa2ri6Gj8E8UrBzn7Jo3rB3euf
+	RkoWahqEuqp5LRakWl1Zv5+desVk8GMHY+31RVUlmdrHtzzruAncqXqgqBKzr3UGvlrE889Arp8
+	Rpgpal5fVLiQJ868AH+Ux2A/s2C5YIhJ1rhlYlSXtLYPZ88wFK5VW5axj3tYGFzF2TxxBs9FxsJ
+	xCZh3xWOtCajt1gvY6QeJpU1aXuRpjwO7qaR0R72mSN+Bg611A0UdXkiITCZQd307eiuZiIIz15
+	5rmUdGo4nQJWgOEmsKiiLfAlgNYirE4aKtFwVIw=
+X-Received: by 2002:a05:693c:41cf:10b0:34e:9923:e372 with SMTP id 5a478bee46e88-37967506841mr13477392eec.29.1794925296009;
+        Tue, 17 Nov 2026 06:21:36 -0800 (PST)
+Received: from arch.localdomain ([152.175.35.19])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3795378d7e5sm43828258eec.3.2026.11.17.06.21.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2026 06:21:35 -0800 (PST)
+From: Jun Yan <jerrysteve1101@gmail.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Jun Yan <jerrysteve1101@gmail.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] arm64: dts: allwinner: h6: taiqicat-a01: Enable Ethernet
+Date: Tue, 17 Nov 2026 22:21:21 +0800
+Message-ID: <20261117142122.246986-1-jerrysteve1101@gmail.com>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -60,117 +101,105 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issues to consider:
-- [High] phy: sun4i-usb: single-word handle in Signed-off-by trailer
-- [Medium] phy: sun4i-usb: sun4i_usb_phy_init() asserts shared PHY2
-  reset
-- [Low] phy: sun4i-usb: missing Fixes trailer for sun4i_usb_phy_init()
-  reset fix
-It also noticed 1 related pre-existing issue this patch does not
-introduce:
-- [Medium] phy: sun4i-usb: clock reference imbalance in
-  sun4i_usb_phy_init() [1]
---
+The TaiqiCat A01 has a 100 Mbit/s Ethernet port, which uses the EPHY
+integrated into the co-packaged AC200 of the Allwinner H6 SoC.
 
-commit 12bd7c6ca5df3e2bb05ffe3f4ddfe21723f76996
-Author: Roadbobek <admin@roadbobek.com>
+The AC200 derives its 24 MHz reference clock from PWM1, so enable the
+PWM controller and the pwm-clock node that supplies it. Also enable
+I2C3, over which the AC200 is accessed, and describe the AC200 EPHY
+package on the EMAC MDIO bus, with the EMAC operating in RMII mode.
 
-> phy: sun4i-usb: Assert reset before deasserting in phy init
->
-> When a bootloader initializes USB before booting Linux without
-> first tearing down the controller, phy->reset may already be
-> deasserted when sun4i_usb_phy_init() runs.
->
-> Because reset_control_deassert() alone is a no-op on an
-> already deasserted reset line, stale USB PHY state can
-> persist across the bootloader-to-kernel handoff.
->
-> Assert phy->reset briefly before deasserting it in
-> sun4i_usb_phy_init() so the PHY starts cleanly regardless of
-> prior bootloader USB usage. Tested on an Allwinner A33 Q8
-> tablet (Laser MID-786).
->
-> Signed-off-by: Roadbobek <admin@roadbobek.com>
+Signed-off-by: Jun Yan <jerrysteve1101@gmail.com>
 
-[Severity: High]
-The Author header and Signed-off-by trailer use a single-word handle
-(Roadbobek).  Documentation/process/submitting-patches.rst requires a
-known real identity (full human name) for the Developer's Certificate of
-Origin and does not allow pseudonyms or handles.
+---
+The AC200 MFD and EPHY drivers/bindings and the sun50i-h6.dtsi AC200
+description this depends on are already merged in sunxi/dt-for-7.5.
+---
+ .../dts/allwinner/sun50i-h6-taiqicat-a01.dts  | 40 +++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-[Severity: Low]
-Should this bug fix include a Fixes trailer?
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dts
+index 225f42bd3b9e..9b192caeecb2 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-taiqicat-a01.dts
+@@ -14,6 +14,7 @@ / {
+ 	compatible = "ultrapower,taiqicat-a01", "allwinner,sun50i-h6";
+ 
+ 	aliases {
++		ethernet0 = &emac;
+ 		ethernet1 = &sdio_wifi;
+ 		serial0 = &uart0;
+ 	};
+@@ -87,6 +88,10 @@ wifi_pwrseq: wifi-pwrseq {
+ 	};
+ };
+ 
++&ac200_clk {
++	status = "okay";
++};
++
+ &cpu0 {
+ 	cpu-supply = <&reg_dcdca>;
+ };
+@@ -107,6 +112,14 @@ &ehci3 {
+ 	status = "okay";
+ };
+ 
++&emac {
++	pinctrl-names = "default";
++	pinctrl-0 = <&rmii_pins>;
++	phy-mode = "rmii";
++	phy-handle = <&ac200_ephy>;
++	status = "okay";
++};
++
+ &gpu {
+ 	mali-supply = <&reg_dcdcc>;
+ 	status = "okay";
+@@ -123,6 +136,29 @@ hdmi_out_con: endpoint {
+ 	};
+ };
+ 
++&i2c3 {
++	status = "okay";
++};
++
++&mdio {
++	ethernet-phy-package@1 {
++		compatible = "x-powers,ac200-ephy-package";
++		reg = <1>;
++		#address-cells = <1>;
++		#size-cells = <0>;
++		vcc-supply = <&reg_aldo2>;
++		nvmem-cells = <&ephy_calibration>;
++		nvmem-cell-names = "configuration";
++		x-powers,ac200 = <&ac200>;
++		x-powers,xmii-rx-clock-inverted;
++
++		ac200_ephy: ethernet-phy@1 {
++			compatible = "ethernet-phy-id0044.1400";
++			reg = <1>;
++		};
++	};
++};
++
+ &mmc0 {
+ 	vmmc-supply = <&reg_cldo1>;
+ 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
+@@ -173,6 +209,10 @@ &pio {
+ 	vcc-pg-supply = <&reg_bldo3>;
+ };
+ 
++&pwm {
++	status = "okay";
++};
++
+ &r_i2c {
+ 	status = "okay";
+ 
+-- 
+2.56.1
 
-  Fixes: ba4bdc9e1dc0 ("PHY: sunxi: Add driver for sunxi usb phy")
-
-> diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinne=
-r/phy-sun4i-usb.c
-> index f26eed0db17ef..05e6dcf035a1a 100644
-> --- a/drivers/phy/allwinner/phy-sun4i-usb.c
-> +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-> @@ -270,6 +270,8 @@ static int sun4i_usb_phy_init(struct phy *_phy)
->  		return ret;
->  	}
-> =20
-> +	reset_control_assert(phy->reset);
-> +	usleep_range(10, 20);
->  	ret =3D reset_control_deassert(phy->reset);
->  	if (ret) {
->  		clk_disable_unprepare(phy->clk2);
-
-[Severity: Medium]
-Can asserting phy->reset here disrupt other active USB PHYs when PHY2 is
-initialized on SoCs with needs_phy2_siddq set (such as the Allwinner
-H616)?
-
-When sun4i_usb_phy_init() runs for PHY0, PHY1 or PHY3 on those SoCs, it
-directly deasserts data->phys[2].reset and clears hci_phy_ctl_clear in
-PHY2's PMU without going through phy_init(phy2->phy):
-
-drivers/phy/allwinner/phy-sun4i-usb.c:sun4i_usb_phy_init() {
-	/* Some PHYs on some SoCs need the help of PHY2 to work. */
-	if (data->cfg->needs_phy2_siddq && phy->index !=3D 2) {
-		struct sun4i_usb_phy *phy2 =3D &data->phys[2];
-...
-		ret =3D reset_control_deassert(phy2->reset);
-}
-
-Because sun4i_usb_phy_probe() acquires each reset via
-devm_reset_control_get() (exclusive, non-refcounted), later initializing
-PHY2 for ehci2/ohci2 will now pulse data->phys[2].reset low for 10-20 us
-(or leave it asserted if reset_control_deassert() fails) while PHY0, PHY1
-or PHY3 are already active and relying on PHY2 remaining out of reset
-with SIDDQ cleared.
-
-[Severity: Medium]
-This problem wasn't introduced by this patch, but in the needs_phy2_siddq
-block right below in sun4i_usb_phy_init(), does [1]
-clk_disable_unprepare(phy->clk2) disable the wrong clock after enabling
-phy2->clk2?
-
-drivers/phy/allwinner/phy-sun4i-usb.c:sun4i_usb_phy_init() {
-		ret =3D clk_prepare_enable(phy2->clk2);
-		if (ret) {
-...
-		}
-
-		if (phy2->pmu && data->cfg->hci_phy_ctl_clear) {
-			val =3D readl(phy2->pmu + REG_HCI_PHY_CTL);
-			val &=3D ~data->cfg->hci_phy_ctl_clear;
-			writel(val, phy2->pmu + REG_HCI_PHY_CTL);
-		}
-
-		clk_disable_unprepare(phy->clk2);
-}
-
-Initializing PHY0, PHY1 or PHY3 leaks a prepare/enable reference on
-phy2->clk2, while prematurely disabling phy->clk2 and causing an
-underflow in sun4i_usb_phy_exit().
-
-[1] https://sashiko.dev/#/bug/linux-16c490f9-c5d0-4103-a9d3-3f6814c64cb4
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261117-usb-sunxi-=
-reset-fix-v1-0-c2b76e0e84e1@roadbobek.com?part=3D2
