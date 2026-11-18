@@ -1,68 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=34.202.193.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795025074;
-	b=gm1r5zKQFvx7v9qXkHooH8ByIHOc8UYsuv1yCYYgOit9UBdi1R4nwHyVSslu8gHgbAgz
-	 +ooko377+SH7paD55zcV92N478O3/862Ujfhj+8B2bd38FJw1Y2BNETfvjPtD3GHk263q
-	 Shyj1Cx50WBfs/Mr+jVlcnyr8DYFcegSUz25tw/Co9fareSGC/b4pDMaxPyI/zZyN1aHl
-	 nM+iOx7FkhAtU06MPUB2lRCkbT/M5bnSPNTA8dp9NV4M/f8BxFMkkyvFTRSdJofebuNEc
-	 NdcmU3IR4p6v32WMwvfi7erSgC6SoJXvhy7KUYdb4HwbcQh3ZBAu/3DWzSWLwonusIg==
+	t=1795026827;
+	b=LuUhQylnAE5uM4OLIzbhEjy5kKNNqYs0lOgLwqwSxfszjQxF7cuQLRy1acFVr6uVxu8H
+	 qBCVnxqSgWCT0pkrlMHC5uvhPlRPVoXfYiAmrXJ/IK3RaDeQcZACW7Ew8FaojB4BCaKy6
+	 +qzIyu/YHrorZ2bVYgDdQyi6uTfHER83wvas2dw4CM/xOodC55vYvqAPkUA0xEN3Idv7L
+	 579Mw+su4PoiRp+0/nq9/qcWl0IlCkw0Oqs3+t1Ds+iUk9o74IOlsV2rAySTW6gAzCqBc
+	 VMSo7E2g35TG5EeKN3OnT2neM5v4jJI63QZVU+cLWNXMcgYoJC23CcHcEVlt1H+e54g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795025074;
-	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:Feedback-ID:
-	 X-Pm-Original-To:Received:Message-ID:Subject:From:To:Cc:Date:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version;
-	bh=9HNLhAXOgbRNf2ky8rheK6IxntgF9p+aCnutm+Ne68s=;
-	b=uKs7zX7fe1grk846UTMFEwmuzYAj3oKootviIxPsbGyTqui3DnnE7Ar9CoG8XbW+DbjA
-	 aYWnvqYX+VhfeaiFIdg3lGNI5G+ub2vVjvg9i0h12PTWmjLYCUv2r5v36CJFNSq/0EjkZ
-	 Fu5fWkfRHAxGCvc8LlsJ77uyUzrRYxI+Hd2BWp9PPZd8VKjSKlV5Wf/I3m9HRjDkrwodQ
-	 8Gba8kfXe4uxFJU7PcYeF3KY8rw/Kxt8MiNHb9CSQ0deBPA95ZI2qpCTVDl/fjAwA0wAs
-	 uHF7i1z/w5coijsi8sCLOhh12pMNC9x28wPdt+xV6o0cMorAAbEu2i2xmL+HtpAPGdQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795026827;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=P/YCoMP/9FT1ykUcsd21vzGLwiDJBDzH9u2nYG1nU6w=;
+	b=1tSLH290H1PueuVMPP5sBl1Z0pgPi/FwtENsGfaVEwerHmzKXZYnOtG+RRnCjYybeXA2
+	 7Dmcx5LlHVIHByJiSl2rvty29VQY53NEBBnNedSRuwpyq8MMl3zXbQQSqM5yYZYEQIRMf
+	 4QEzL2G3SA0ZDmVS0hLb+/92yVsgG5ocLV9gJjtul4na6UZ+ulQoarApHtqCYkjInjA9g
+	 aBOOssB0qAPfn8JUQma6gbZ+GOKkyFG8LWr7oxw6LgUqRjqnvLhM052HP6+GJHvpjOAiD
+	 49hQ/VJnOw3ZTxV4h1kH3Ib80uswABFXcWyMrKsTpFk5tmRB/Es5AHZ4zH0LN6fszQA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=sverdlin.org;
-	spf=pass smtp.mailfrom=sverdlin.org;
-	dkim=pass header.d=sverdlin.org header.i=@sverdlin.org header.a=rsa-sha256 header.s=purelymail1 header.b=O1Tujep7;
-	dkim=pass header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail1 header.b=ZEibGolm;
-	arc=none smtp.remote-ip=34.202.193.197
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LNHhiY4v;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142FE606A330
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 18:04:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 142FE606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sverdlin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sverdlin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA21606A331;
+	Wed, 18 Nov 2026 18:33:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=sverdlin.org header.i=@sverdlin.org header.a=rsa-sha256 header.s=purelymail1 header.b=O1Tujep7;
-	dkim=pass (2048-bit key, unprotected) header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail1 header.b=ZEibGolm
-DKIM-Signature: a=rsa-sha256; b=O1Tujep7e/1XVyvKYvTvEuu+aRkA7UNavJ0Laxf/KlP8djM4XIeOB+IYuo0oCjhxzv/VERgrW4Rwq1dfHoiz95+sFAUvRNah1B8ZgPith9FRCTlreZdOzGmxFIJi/bpYgi9ENkPebJYvwPPifbkDGzorUw334gKlnLHWciWXqYoGvCRnFk8omXt3le4IEnBgZaAPCdDJVUOmFKGYSLSHoBPNQoLY46/GjfcFBPqy+61dAcS0gYaW39X197+uWiq/SHklcSOWJo1g2R1p2/cE9u8OIs/c5LiFPA5bcF0Ldc1whuH/vdyp2d9c6P/LN6TgZ/wweYsjpGvUScml45+74Q==; s=purelymail1; d=sverdlin.org; v=1; bh=9HNLhAXOgbRNf2ky8rheK6IxntgF9p+aCnutm+Ne68s=; h=Received:Message-ID:Subject:From:To:Date;
-DKIM-Signature: a=rsa-sha256; b=ZEibGolmRRT+fr6f7AFEfGyKtqG19THS+PjvG3QEhx8l67hnzTGs8/PX85sejIBukIfMd0qZawhR4/CB9cgp6IO6tLCpV01mwUWW3znGa08ZqAzcB09ikcOLs9gs3TqUacJPUsjvYTMEVHBEqeoIGieS/CfnGFK6pBJOcUnTWNrV84fFZGPoRpB3g7W5pDMMj7ZaPN1m/mQYxWu/OT4m6SjET5Ye6nBlYo0sClkGdkqp8b9qdcY1DkGFOKX00zVm6BGMuFzpbJIgxhMO3xz1CzviNayuXuJyBg0Sx7hh2GOYAafRUi/FuOHuRsmDv2doqhqfzpP1NvagqNo/0hjJyQ==; s=purelymail1; d=purelymail.com; v=1; bh=9HNLhAXOgbRNf2ky8rheK6IxntgF9p+aCnutm+Ne68s=; h=Feedback-ID:Received:Message-ID:Subject:From:To:Date;
-Feedback-ID: 815097:39668:null:purelymail
-X-Pm-Original-To: linux-sunxi@lists.linux.dev
-Authentication-Results: purelymail.com; auth=pass
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id 2014938321;
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Wed, 18 Nov 2026 18:04:06 +0000 (UTC)
-Message-ID: <2105df7b92b20c5268a9a32c202e1cd6c24a6b27.camel@sverdlin.org>
-Subject: Re: [PATCH v3 3/3] arm64: dts: allwinner: add Radxa Cubie A7S board
-From: Alexander Sverdlin <alex@sverdlin.org>
-To: Enzo Adriano <enzo.adriano.code@gmail.com>, andre.przywara@arm.com, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, wens@kernel.org, 
-	jernej.skrabec@gmail.com, samuel@sholland.org
-Cc: Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Junhui Liu <junhui.liu@pigmoral.tech>, Jerome
- Brunet <jbrunet@baylibre.com>, Pablo Mazzini <pmazzini@gmail.com>, Vinicius
- Pedrosa	 <vinicius.eduardo.pedrosa@gmail.com>, Jun Yan
- <jerrysteve1101@gmail.com>,  Lukas Schmid <lukas.schmid@netcube.li>
-Date: Wed, 18 Nov 2026 19:03:59 +0100
-In-Reply-To: <0fe5938e04cc8a5af3825a0e01bd07b626a15b46.1794227241.git.enzo.adriano.code@gmail.com>
-References: <cover.1794227241.git.enzo.adriano.code@gmail.com>
-	 <0fe5938e04cc8a5af3825a0e01bd07b626a15b46.1794227241.git.enzo.adriano.code@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.62.1 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LNHhiY4v
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC99D1F000CB;
+	Wed, 18 Nov 2026 18:33:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795026826;
+	bh=P/YCoMP/9FT1ykUcsd21vzGLwiDJBDzH9u2nYG1nU6w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=LNHhiY4vwIsJI6fmpylX0eXCxvEuKKvvPaFvQODi7o0zakHtQMbheWJPlEfJ2MeQd
+	 26JyAhCrZYr6agIm3RA06OEK7Fweq9rzySEVuHyPgD9fn43FZVAcS9the+5jd1Fvib
+	 5dBJi2udP0osSq//doOsk0Ekge0G/T06LfmSmTTK5w51vcY102WXoiTZDG4diVGv9M
+	 usA2fBPQtqvpG8JFjEyfaYluExZ+XSC8o51qcILMxvjxxANgOGUFsF4+sfM1xbd4S+
+	 2opIP+uJM9VWW9PI2bYEbq7wJM7fHok4AOMuCia2TDoHh4nO0pwQkibUmzlL2rA65x
+	 CNQuRIDAwmKjw==
+Date: Wed, 18 Nov 2026 18:33:41 +0000
+From: Lee Jones <lee@kernel.org>
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mfd@lists.linux.dev, linux-sunxi@lists.linux.dev,
+	Sashiko <sashiko-bot@kernel.org>
+Subject: Re: [PATCH v8 2/5] mfd: axp20x-i2c: Fix i2c instantiation
+Message-ID: <20261118183341.GI98456@joneslee-macbookpro.roam.internal>
+References: <20260910-axp318-regulator-v8-0-e906a61a7f3d@baylibre.com>
+ <20260910-axp318-regulator-v8-2-e906a61a7f3d@baylibre.com>
+ <20260924082705.GO3864833@google.com>
+ <1jy0cq94na.fsf@starbuckisacylon.baylibre.com>
+ <20261014104801.GI199624@google.com>
+ <1ja4ogfp5l.fsf@starbuckisacylon.baylibre.com>
+ <1jh5he2o9z.fsf@starbuckisacylon.baylibre.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -72,360 +68,125 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1jh5he2o9z.fsf@starbuckisacylon.baylibre.com>
 
-Hi Enzo,
+On Wed, 18 Nov 2026, Jerome Brunet wrote:
 
-On Mon, 2026-11-09 at 23:45 -0500, Enzo Adriano wrote:
-> Enable the Cubie A7S serial console, PMIC and microSD slot to provide
-> an initial usable board configuration. Supply the 26 MHz crystal and
-> 32768 Hz RTC input, enable UART0 and the AXP318W on R-I2C0, and describe
-> the PMIC input/output and CPU supply connections from the Radxa Cubie
-> A7S schematic v1.10. Preserve firmware settings on rails whose working
-> voltage is not established. BLDO2 has no programmed voltage constraint:
-> its software 3.3 V selector does not establish its physical output with
-> the schematic's nominal 2.4 V input.
->=20
-> Describe the card's SWOUT2 supply and PF6 active-high detect with an
-> internal pull-down. Enable MMC0 at up to 50 MHz using 3.3 V signaling
-> only. Its high-voltage path uses VCCIO; CLDO5 also feeds PC and the PF
-> 1.8 V input and must not be raised for SD signaling. Firmware must
-> select the 3.3 V PF path; dynamic voltage switching is not provided.
-> Keep other storage off.
->=20
-> Connect the documented bank supplies. PL's self-supply phandle is
-> omitted to avoid the PMIC/I2C/pinctrl bootstrap cycle, as on the
-> upstream Cubie A5E; ALDO1 is retained always-on. The separate pinctrl
-> voltage-mode fix is required for these bank-supply connections.
->=20
-> These board DTS bytes were RAM-booted on a Cubie A7S with vendor
-> firmware on November 4: UART0, PMIC registration and MMC0 read-only
-> transfers worked. Card writes, physical hotplug, 1.8 V signaling and
-> physical BLDO2 voltage were not tested.
+> On mer. 14 oct. 2026 at 14:21, Jerome Brunet <jbrunet@baylibre.com> wrote:
+> 
+> > On mer. 14 oct. 2026 at 11:48, Lee Jones <lee@kernel.org> wrote:
+> >
+> >> Note:
+> >>
+> >> --- checkpatch.pl (3 issues) ---
+> >> Line 2: WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+> >> Line 3: ERROR: Invalid commit separator - some tools may have problems applying this
+> >> ----------------------------------
+> >
+> > I've checked before sending and checked again now, I don't have those
+> > warning. I don't see anything long on line 2 or a separator near line 3.
+> >
+> > Any specific way I should run the tool reproduce the problem if there is
+> > one ?
+> >
+> >>
+> >> On Thu, 24 Sep 2026, Jerome Brunet wrote:
+> >>
+> >>> On jeu. 24 sept. 2026 at 09:27, Lee Jones <lee@kernel.org> wrote:
+> >>> 
+> >>> > On Thu, 10 Sep 2026, Jerome Brunet wrote:
+> >>> >
+> >>> >> Apparently this device never really supported i2c instantiation via
+> >>> >> sysfs, because the driver does not even look at the i2c device data,
+> >>> >> which are not set. It would only probe if the device matched through DT.
+> >>> >> 
+> >>> >> Fix that for correctness, even-though it is probably useless.
+> >>> >> Add the missing AXP323 while at it.
+> >>> >> 
+> >>> >> Reported-by: Sashiko <sashiko-bot@kernel.org>
+> >>> >> Closes: https://lore.kernel.org/r/20260717090209.2A09B1F000E9@smtp.kernel.org
+> >>> >> Fixes: 41751b033aaa ("mfd: axp20x-i2c: Add i2c-ids to fix module auto-loading")
+> >>> >> Acked-by: Chen-Yu Tsai <wens@kernel.org>
+> >>> >> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+> >>> >> ---
+> >>> >>  drivers/mfd/axp20x-i2c.c   | 24 +++++++++++++-----------
+> >>> >>  drivers/mfd/axp20x-rsb.c   |  1 +
+> >>> >>  drivers/mfd/axp20x.c       |  1 -
+> >>> >>  include/linux/mfd/axp20x.h |  3 +--
+> >>> >>  4 files changed, 15 insertions(+), 14 deletions(-)
+> >>> >> 
+> >>> >> diff --git a/drivers/mfd/axp20x-i2c.c b/drivers/mfd/axp20x-i2c.c
+> >>> >> index 5c93136f977e..a76bec5604c4 100644
+> >>> >> --- a/drivers/mfd/axp20x-i2c.c
+> >>> >> +++ b/drivers/mfd/axp20x-i2c.c
+> >>> >> @@ -35,6 +35,7 @@ static int axp20x_i2c_probe(struct i2c_client *i2c)
+> >>> >>  	axp20x->irq = i2c->irq;
+> >>> >>  	dev_set_drvdata(axp20x->dev, axp20x);
+> >>> >>  
+> >>> >> +	axp20x->variant = (kernel_ulong_t)i2c_get_match_data(i2c);
+> >>> >
+> >]>> > device_get_match_data() is bus agnostic and should still work from the
+> >>> > core driver.  What's the purpose of splitting it out and adding
+> >>> > additional call-sites?
+> >>> 
+> >>> device_get_match_data() works when the data comes through that path,
+> >>> which is generally the case.
+> >>> 
+> >>> i2c_get_match_data() calls device_get_match_data() then fallback to the
+> >>> i2c_device_ids. It covers the instanciation from sysfs mainly, not
+> >>> something usual.
+> >>> 
+> >>> As explained in the description, this changes plugs a hole identified by
+> >>> sashiko that technically exists but I highly doubt anyone will
+> >>> instanciate the PMIC through that interface. Those things do not really
+> >>> come as breakout boards ... That being said, it is cheap to fix.
+> >>
+> >> I'm confused.
+> >>
+> >> We already call device_get_match_data() in axp20x_match_device().
+> >
+> > Not anymore with this change. It is the point.
+> >
+> >>
+> >> So if you populate .driver_data in axp20x_i2c_id[], you should be
+> >> able to drop these changes altogether, no?
+> >
+> > device_get_match_data() only goes through the DT tables.
+> > Not the i2c_driver.id_table which is purpose here.
+> >
+> > My understanding is that if you instanciate the device
+> > through sysfs (which nobody does for these devices) and you only call
+> > device_get_match_data(), you will get NULL because there is no fwnode
+> > associated with the device, which in this case silently translate to
+> > AXP152_ID.
+> >
+> > device_get_match_data() does not go through the i2c_driver.id_table.
+> > Only the i2c code does, with i2c_get_match_data() and after trying with
+> > device_get_match_data() internally, which is exactly what we want.
+> >
+> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/i2c/i2c-core-base.c?h=v7.3-rc7#n121
+> >
+> > As noted earlier, this a problem reported by sashiko that is real but
+> > extremely unlikely to show up in real world. I'd happy to drop
+> > the change if you don't want it. It is not need to support the axp318.
+> >
+> 
+> Hi Lee,
+> 
+> How could progress on this ? I genuinely do not understand the problem.
+> This change is fixing a sashiko reported issue, in the appropriate
+> manner I think. device_get_match_data() just does not care for i2c
+> .id_table so i2c_get_match_data() is needed.
+> 
+> At the same time, what we really care for to progress on the Allwinner
+> a733 HW support is the rest of the series. So if this bothers you,
+> I'm happy to re-submit without this fix. Please let me know.
 
-Should the history be moved below "---"?
+It's okay.  If you're convinced, then so am I.
 
-> Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
-> ---
-> =C2=A0arch/arm64/boot/dts/allwinner/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> =C2=A0.../dts/allwinner/sun60i-a733-cubie-a7s.dts=C2=A0=C2=A0 | 284 +++++=
-+++++++++++++
-> =C2=A02 files changed, 285 insertions(+)
-> =C2=A0create mode 100644 arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-=
-a7s.dts
->=20
-> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts=
-/allwinner/Makefile
-> index d1f768dd6461..792152525b43 100644
-> --- a/arch/arm64/boot/dts/allwinner/Makefile
-> +++ b/arch/arm64/boot/dts/allwinner/Makefile
-> @@ -68,3 +68,4 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun55i-a527-cubie-a5e.dtb
-> =C2=A0dtb-$(CONFIG_ARCH_SUNXI) +=3D sun55i-h728-x96qpro+.dtb
-> =C2=A0dtb-$(CONFIG_ARCH_SUNXI) +=3D sun55i-t527-avaota-a1.dtb
-> =C2=A0dtb-$(CONFIG_ARCH_SUNXI) +=3D sun55i-t527-orangepi-4a.dtb
-> +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun60i-a733-cubie-a7s.dtb
-> diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts b/ar=
-ch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
-> new file mode 100644
-> index 000000000000..341c24360ce2
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
-> @@ -0,0 +1,284 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
-> +/dts-v1/;
-> +
-> +#include "sun60i-a733.dtsi"
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +
-> +/ {
-> +=09model =3D "Radxa Cubie A7S";
-> +=09compatible =3D "radxa,cubie-a7s", "allwinner,sun60i-a733";
-> +
-> +=09aliases {
-> +=09=09mmc0 =3D &mmc0;
-> +=09=09serial0 =3D &uart0;
-> +=09};
-> +
-> +=09chosen {
-> +=09=09stdout-path =3D "serial0:115200n8";
-> +=09};
-> +
-> +=09reg_ps: regulator-system-power {
-> +=09=09compatible =3D "regulator-fixed";
-> +=09=09regulator-name =3D "ps";
-> +=09=09regulator-min-microvolt =3D <5000000>;
-> +=09=09regulator-max-microvolt =3D <5000000>;
-> +=09=09regulator-always-on;
-> +=09};
-> +
-> +=09reg_ldo_input: regulator-ldo-input {
-> +=09=09compatible =3D "regulator-fixed";
-> +=09=09regulator-name =3D "ldo-input";
-> +=09=09/* ETA3521: 0.6 V * (1 + RP298 / RP299), 30k / 10k. */
-> +=09=09regulator-min-microvolt =3D <2400000>;
-> +=09=09regulator-max-microvolt =3D <2400000>;
-> +=09=09regulator-always-on;
-> +=09=09vin-supply =3D <&reg_ps>;
-> +=09};
-> +
-> +=09osc32k: osc32k-clk {
+Were there any more comments?  Is another revision coming?
 
-Should two regulators and the clock have been sorted in the reverse order?
-
-> +=09=09compatible =3D "fixed-clock";
-> +=09=09#clock-cells =3D <0>;
-> +=09=09clock-frequency =3D <32768>;
-> +=09};
-> +};
-> +
-> +&cpu0 {
-> +=09cpu-supply =3D <&reg_dcdc5>;
-> +};
-> +
-> +&cpu1 {
-> +=09cpu-supply =3D <&reg_dcdc5>;
-> +};
-> +
-> +&cpu2 {
-> +=09cpu-supply =3D <&reg_dcdc5>;
-> +};
-> +
-> +&cpu3 {
-> +=09cpu-supply =3D <&reg_dcdc5>;
-> +};
-> +
-> +&cpu4 {
-> +=09cpu-supply =3D <&reg_dcdc5>;
-> +};
-> +
-> +&cpu5 {
-> +=09cpu-supply =3D <&reg_dcdc5>;
-> +};
-> +
-> +&cpu6 {
-> +=09cpu-supply =3D <&reg_dcdc3>;
-> +};
-> +
-> +&cpu7 {
-> +=09cpu-supply =3D <&reg_dcdc3>;
-> +};
-> +
-> +&mmc0 {
-> +=09bus-width =3D <4>;
-> +=09cap-sd-highspeed;
-> +=09cd-gpios =3D <&pio 5 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
-> +=09disable-wp;
-> +=09max-frequency =3D <50000000>;
-> +=09no-1-8-v;
-> +=09vmmc-supply =3D <&reg_swout2>;
-> +=09/* The 3.3 V path uses VCC-IO; no Port F voltage switching yet. */
-> +=09vqmmc-supply =3D <&reg_swout2>;
-> +=09status =3D "okay";
-
-see below...
-
-> +};
-> +
-> +&osc {
-> +=09clock-frequency =3D <26000000>;
-> +};
-> +
-> +&pio {
-> +=09vcc-pb-supply =3D <&reg_swout2>;
-> +=09vcc-pc-supply =3D <&reg_cldo5>;
-> +=09vcc-pd-supply =3D <&reg_swout1>;
-> +=09vcc-pe-supply =3D <&reg_bldo1>;
-> +=09vcc-pf-supply =3D <&reg_cldo5>;
-> +=09vcc-pg-supply =3D <&reg_aldo1>;
-> +=09vcc-ph-supply =3D <&reg_swout2>;
-> +=09vcc-pj-supply =3D <&reg_swout1>;
-> +=09vcc-pk-supply =3D <&reg_bldo1>;
-> +};
-> +
-> +&r_i2c0 {
-> +=09status =3D "okay";
-
-Should "status" have been last (preceded by a blank line)? (dts-coding-styl=
-e.rst)
-
-> +=09pinctrl-names =3D "default";
-> +=09pinctrl-0 =3D <&r_i2c0_pl_pins>;
-> +
-> +=09axp318w: pmic@36 {
-> +=09=09compatible =3D "x-powers,axp318w";
-> +=09=09reg =3D <0x36>;
-> +=09=09interrupt-parent =3D <&nmi_intc>;
-> +=09=09interrupts =3D <0 IRQ_TYPE_LEVEL_LOW>;
-> +=09=09interrupt-controller;
-> +=09=09#interrupt-cells =3D <1>;
-> +
-> +=09=09aldo156in-supply =3D <&reg_ps>;
-> +=09=09aldo234in-supply =3D <&reg_aldo1>;
-> +=09=09bldoin-supply =3D <&reg_ldo_input>;
-> +=09=09cldoin-supply =3D <&reg_ldo_input>;
-> +=09=09dldoin-supply =3D <&reg_ps>;
-> +=09=09eldoin-supply =3D <&reg_dcdc9>;
-> +=09=09ips-supply =3D <&reg_ps>;
-> +=09=09vin19-supply =3D <&reg_ps>;
-> +=09=09vin23-supply =3D <&reg_ps>;
-> +=09=09vin45-supply =3D <&reg_ps>;
-> +=09=09vin678-supply =3D <&reg_ps>;
-> +
-> +=09=09regulators {
-> +=09=09=09reg_dcdc1: dcdc1 {
-> +=09=09=09=09regulator-name =3D "vcc-3v3";
-> +=09=09=09=09regulator-min-microvolt =3D <3300000>;
-> +=09=09=09=09regulator-max-microvolt =3D <3300000>;
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_dcdc2: dcdc2 {
-> +=09=09=09=09regulator-name =3D "vdd-sys";
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_dcdc3: dcdc3 {
-> +=09=09=09=09regulator-name =3D "vdd-cpub";
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_dcdc4: dcdc4 {
-> +=09=09=09=09regulator-name =3D "vdd-gpu";
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_dcdc5: dcdc5 {
-> +=09=09=09=09regulator-name =3D "vdd-cpul";
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_dcdc6: dcdc6 {
-> +=09=09=09=09regulator-name =3D "vcc-draml";
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_dcdc7: dcdc7 {
-> +=09=09=09=09regulator-name =3D "vcc-dram";
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_dcdc8: dcdc8 {
-> +=09=09=09=09regulator-name =3D "vcc-ufs-io";
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_dcdc9: dcdc9 {
-> +=09=09=09=09regulator-name =3D "eldo-input";
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_swout1: swout1 {
-> +=09=09=09=09regulator-name =3D "vcc33-lcd";
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_swout2: swout2 {
-> +=09=09=09=09regulator-name =3D "vcc-io-card";
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_aldo1: aldo1 {
-> +=09=09=09=09regulator-name =3D "vcc-pl";
-> +=09=09=09=09regulator-min-microvolt =3D <3300000>;
-> +=09=09=09=09regulator-max-microvolt =3D <3300000>;
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_bldo1: bldo1 {
-> +=09=09=09=09regulator-name =3D "vcc-pe-pk-mcsi";
-> +=09=09=09};
-> +
-> +=09=09=09reg_bldo2: bldo2 {
-> +=09=09=09=09regulator-name =3D "vcc-lvds0";
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_bldo4: bldo4 {
-> +=09=09=09=09regulator-name =3D "vcc18-codec";
-> +=09=09=09=09regulator-min-microvolt =3D <1800000>;
-> +=09=09=09=09regulator-max-microvolt =3D <1800000>;
-> +=09=09=09};
-> +
-> +=09=09=09reg_cldo1: cldo1 {
-> +=09=09=09=09regulator-name =3D "vcc33-18-usb";
-> +=09=09=09=09regulator-min-microvolt =3D <1800000>;
-> +=09=09=09=09regulator-max-microvolt =3D <1800000>;
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_cldo2: cldo2 {
-> +=09=09=09=09regulator-name =3D "vcc18-hdmi";
-> +=09=09=09=09regulator-min-microvolt =3D <1800000>;
-> +=09=09=09=09regulator-max-microvolt =3D <1800000>;
-> +=09=09=09};
-> +
-> +=09=09=09reg_cldo3: cldo3 {
-> +=09=09=09=09regulator-name =3D "vcc-pll-dram";
-> +=09=09=09=09regulator-min-microvolt =3D <1800000>;
-> +=09=09=09=09regulator-max-microvolt =3D <1800000>;
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_cldo5: cldo5 {
-> +=09=09=09=09regulator-name =3D "vcc18-pf-pc";
-> +=09=09=09=09regulator-min-microvolt =3D <1800000>;
-> +=09=09=09=09regulator-max-microvolt =3D <1800000>;
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_dldo1: dldo1 {
-> +=09=09=09=09regulator-name =3D "vcc-efuse";
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_dldo6: dldo6 {
-> +=09=09=09=09regulator-name =3D "vcc-ufs";
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_eldo1: eldo1 {
-> +=09=09=09=09regulator-name =3D "vcc09-vdd2l";
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_eldo6: eldo6 {
-> +=09=09=09=09regulator-name =3D "vdd-cpus";
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +
-> +=09=09=09reg_rtc_ldo: rtc-ldo {
-> +=09=09=09=09regulator-name =3D "vcc-rtc";
-> +=09=09=09=09regulator-min-microvolt =3D <1800000>;
-> +=09=09=09=09regulator-max-microvolt =3D <1800000>;
-> +=09=09=09=09regulator-always-on;
-> +=09=09=09};
-> +=09=09};
-> +=09};
-> +};
-> +
-> +&r_pio {
-> +=09/* PL powers the PMIC bus itself; firmware must keep ALDO1 enabled. *=
-/
-> +=09vcc-pm-supply =3D <&reg_aldo1>;
-> +};
-> +
-> +&rtc {
-> +=09clocks =3D <&r_ccu CLK_BUS_R_RTC>, <&osc>, <&r_ccu CLK_R_AHB>,
-> +=09=09 <&osc32k>;
-> +=09clock-names =3D "bus", "hosc", "ahb", "ext-osc32k";
-> +};
-> +
-> +&uart0 {
-> +=09pinctrl-names =3D "default";
-> +=09pinctrl-0 =3D <&uart0_pb_pins>;
-> +=09status =3D "okay";
-
-see above...
-
-> +};
+-- 
+Lee Jones
