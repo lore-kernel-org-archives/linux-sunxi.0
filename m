@@ -1,81 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.37
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.85.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794975869;
-	b=JRFUy/H2Fv4r6Nih1z5LOAlLVTictj77EbNg/wuaFXbIyLp3xz9/wou0mBGSgeQZVO1z
-	 Cbw15hY+ldjGz5Z6Ru2HS6cNzrDYW2ZoJqgjMOpDAV+svdEo7fhq6A/a8QSJscQHQiym8
-	 AIOXbHAhtcEw/Nk5PO4fR2XtjU+d+i2h8xnUklifxbHFwxtzzG0o94zCrIEtoHydNgTy3
-	 pcgW1sNJu9U27NzvDXIDiy7Ws6xieNRnuseMm+KkWkjyJvgDyU3Lfmw1aRnNcqffysHb8
-	 N81Qc0VhFcuntdnH1PB82ypuUYHbsTOa1uWchGnoTz0rfN7c596DbtqciXu/fTPl5Uw==
+	t=1794987820;
+	b=HLxm7DrzKo44g+mwyUY7Q68WDmazLFxy1LlzPNnYQfe6Rr/i11NLiehnxyFF4sQaLqWJ
+	 esxhGLHhbvlvDFkU1lRCeOdgi/U5v6bmRuBX8ycLcMoV4U+1lbmq0ZkXldQjHYtFuwzLg
+	 bI69sGHdEKYtNgSVG3IiIqQ7DQ9rqgqTP1yWJcVTdczA9p8EtEGAt0/INPgLlVnm5pUXJ
+	 nBMDy8Q73CoNQerq6y9aSem9R79gSl3ojQTTDCDfuMBs2QV3qOGxiCRETDF1OI0337QzI
+	 6zvBK6abNuNJ576Dfq9gVJIpjFGPwm0FlkpfzyCvec10R/PAns0GdWFifLIu+YgTMNg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794975869;
-	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:
-	 X-Source-L:X-Exim-ID:X-Source:X-Source-Args:X-Source-Dir:
-	 X-Source-Sender:X-Source-Auth:X-Email-Count:X-Org:X-Source-Cap:
-	 X-Local-Domain:X-CMAE-Envelope;
-	bh=lGriT5mvGmwLjZVhyWJORLnWv5py1JwCn14OrwKl/ns=;
-	b=RfwViMiDNIzlynLCDnkjR9Hfd4/SIY1fFk0yDbdughY6zbB7r3PJhoFvFr1hIJAWfn/r
-	 yZFnl2DLXYVshYEnJ+nuZboqQyWwtYtN00DHibmYKwQczP549AinPPUqEq0INA63AkOFY
-	 7Lq9/kN3JKDcLYaNN9vcnVXhKCHA32hkkJFM0b4lVSp5T6iYqry6v7r3YRudcv+LTgH8d
-	 hmU0qko0BtBhy99XnHR6g9j659lmIF4+pOuLxg5DqzS/c7736ia/ox4m+/6s7w0eLA762
-	 QQeTyx+HPZSrVe9nrbvk7+QmBubndIqQUGSzfbXouFVXF2XAovtw/qjf+d4Fk3Ixd6w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794987820;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Date:From:To:
+	 Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Last-TLS-Session-Version;
+	bh=5tdOi87MUQVrh0lDnm0y5zaT0nPUT+qlg7v5xkEiqMk=;
+	b=c76nfDNzEbdsALBiAltPxaNuzN5NO6N21se3xVhlA2WUhos0FNAIZIfmqYhXSxoZcWIZ
+	 fuk6SpjDztA8DS/I5c3bbGQyzlOeynFHjV1K3N1HmxzudUKM1GQLgfyPw+t6Vx3qazlY1
+	 Ufyy3nsHr4a2osJkAoGET73RHoiHYBjZXMeufaIErd03PMgEwipkXkiguzVboGI/RAzr5
+	 yqx192QfAEb1lrNNDOqgqSPZnHMtHLzcZFjxYvYLClNtD++C2fICGDeclrb4JMbUrAwW7
+	 hamShFuDwmg9PRG/1J0yGZzG9L2kvVD6kKSMKfBlhrWp71oRTCzlKlITXm4hVXIipXQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=roeck-us.net;
-	spf=fail smtp.mailfrom=roeck-us.net;
-	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=ZkvXRGQy;
-	arc=none smtp.remote-ip=35.89.44.37
-Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=lvlw2APD;
+	arc=none smtp.remote-ip=185.246.85.4
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936AD606A32A
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 04:24:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 936AD606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DEED606A333
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 07:43:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6DEED606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=ZkvXRGQy
-Received: from eig-obgw-6007b.ext.cloudfilter.net ([10.0.30.166])
-	by cmsmtp with ESMTPS
-	id TVFzxZ1H2VK9UTXDhxEYX6; Wed, 18 Nov 2026 04:24:29 +0000
-Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with ESMTPS
-	id TXDgxkf3o3nNNTXDgx14fb; Wed, 18 Nov 2026 04:24:28 +0000
-X-Authority-Analysis: v=2.4 cv=TuLmhCXh c=1 sm=1 tr=0 ts=6afd287c
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10 a=Byx-y9mGAAAA:8
- a=bFsclcQv4yI7B98-yzEA:9 a=CjuIK1q_8ugA:10 a=KPbNTLLc3YvdawN95zVk:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
-	:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
-	:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=lGriT5mvGmwLjZVhyWJORLnWv5py1JwCn14OrwKl/ns=; b=ZkvXRGQyU0Wzkfafy1hMVHyBGu
-	HCriZteRWNHQit/5wA01C7TLyBVGK2iOveswT90ziJ2AfriLIUXMGCGTwlBnNsaDRorcqjItIFQW2
-	a5bmgGt2lfTj8ShHcmxjmPi6evkb1+wyslBtAyZEk7c1QrNUrWNevqcaRuBXNIwm43smI3xYCmW8Z
-	fqvhqEh5dErJ3qO0uE8lJwRrY8DBn5PE3iccQmtedd4ed1oZE9kdXzFqLeIv4oL1WFfGND1L78JYO
-	JsVK1CyKrTuaGoBH5u1XsVo+3kl0mtVGaFn0+8Lk3rVxRYylcXvn3tw8fgwi8N5sE4Dg5tM3lW/xN
-	SpglVpHw==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:42556 helo=server.roeck-us.net)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <linux@roeck-us.net>)
-	id 1xTXDg-00000004C8t-0Nnp;
-	Wed, 18 Nov 2026 09:54:28 +0530
-Date: Tue, 17 Nov 2026 20:24:27 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Yang Siyuan <hsyysy@163.com>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	linux-watchdog@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] watchdog: sunxi_wdt: stop the watchdog across system
- suspend
-Message-ID: <164e54ff-8a1f-4841-92eb-7fe1b7815a64@roeck-us.net>
-References: <ece4aa08-fb86-4f76-b4b8-a9351a71df14@roeck-us.net>
- <20261118005048.385059-1-hsyysy@163.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=lvlw2APD
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 5E7754E4160A;
+	Wed, 18 Nov 2026 07:43:35 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1DE395FE9B;
+	Wed, 18 Nov 2026 07:43:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 77C8D11BC076C;
+	Wed, 18 Nov 2026 08:42:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1794987811; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=5tdOi87MUQVrh0lDnm0y5zaT0nPUT+qlg7v5xkEiqMk=;
+	b=lvlw2APDkLOsWdPZXrcTGO0SBvJt5AeVKx0Z42miklOsc8vPctTcjUfLvtwVkHahSrHPLo
+	CGkq45BFyuEH8fedQgM6HJ/XMbau2Rz9aKP/PJ7PtvuBj2hMJXvtJKDgvO7p6Q3pjLfN6i
+	0Ut1+LTYYEyg77hZo16dxZxUGEgStz4MKBFw9hj/2Tiw4koxWXy5yQ8yIHNJQ0YwvKbt02
+	l/18CHS5c8YF9Wb/y9UNTxVZrOZMCPnkOtQCGZPI3/uD2p7Qv4dv6TVs+LHq5iTBVHSMvU
+	434h8Tsq1BRLh2Btis1Fush6eJ7xmbr9hxqVcPbs2tV0AeddsTbxh0K8Mz1lOg==
+Date: Wed, 18 Nov 2026 08:42:46 +0100
+From: Herve Codina <herve.codina@bootlin.com>
+To: Peng Fan <peng.fan@linux.dev>
+Cc: Thomas Gleixner <tglx@kernel.org>, Radu Rendec <radu@rendec.net>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Peter Griffin
+ <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, Andrew
+ Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>,
+ Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Ryan Chen
+ <ryan_chen@aspeedtech.com>, Benjamin Herrenschmidt
+ <benh@kernel.crashing.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+ <andrew@codeconstruct.com.au>, Billy Tsai <billy_tsai@aspeedtech.com>, Tan
+ Siewert <tan.siewert@9elements.com>, Eddie James <eajames@linux.ibm.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>, Ray Jui
+ <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, Broadcom
+ internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Caleb
+ James DeLisle <cjd@cjdns.fr>, Marc Zyngier <maz@kernel.org>, Miodrag Dinic
+ <miodrag.dinic@mips.com>, Frank Li <Frank.Li@nxp.com>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Huacai Chen <chenhuacai@kernel.org>,
+ WANG Xuerui <kernel@xen0n.name>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Vladimir Zapolskiy <vz@mleia.com>, Piotr Wojtaszczyk
+ <piotr.wojtaszczyk@timesys.com>, Anup Patel <anup@brainfault.org>, Paul
+ Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Samuel Holland
+ <samuel.holland@sifive.com>, Qin Jian <qinjian@cqplus1.com>, Changhuang
+ Liang <changhuang.liang@starfivetech.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Nishanth Menon <nm@ti.com>, Tero Kristo
+ <kristo@kernel.org>, Santosh Shilimkar <ssantosh@kernel.org>, Linus Walleij
+ <linusw@kernel.org>, Michal Simek <michal.simek@amd.com>, Anirudha Sarangi
+ <anirudha.sarangi@amd.com>, Tushar Nimkar <tushar.nimkar@amd.com>,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-i2c@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org,
+ linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+ imx@lists.linux.dev, loongarch@lists.linux.dev,
+ linux-riscv@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-sunxi@lists.linux.dev, git@amd.com, linux-arm-msm@vger.kernel.org,
+ Peng Fan <peng.fan@nxp.com>
+Subject: Re: [PATCH] irqchip: Convert chained handlers to
+ guard_chained_irq()
+Message-ID: <20261118084246.5b5bf203@bootlin.com>
+In-Reply-To: <20261114-irqchip-cleanup-api-v1-1-4a9d598b0bdb@nxp.com>
+References: <20261114-irqchip-cleanup-api-v1-1-4a9d598b0bdb@nxp.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -85,53 +107,31 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261118005048.385059-1-hsyysy@163.com>
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1xTXDg-00000004C8t-0Nnp
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (server.roeck-us.net) [108.223.40.66]:42556
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 9
-X-Org: HG=direseller_whb_net_legacy;ORG=directi;
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfLa2rSpfom3dcrwI9juijjqPyMX9OIhgJlrm7uhHKOhMJ5o6eAbi45Yr/fnm3BXnA6ErG4kUFwikdbwPWat+AWfx+BlQJeFsQkkQwgg7nKCqHlFINCnX
- Z6+gBR5R00f6S8UzmSxhb2uLOZY23w4B7rnaKxmJApy2n3WRUFFyktv6OWBXB3wFqoYPPUOUVTiO7t7XYZ2VARhcLaZWQla0VEqJ25AF2qov0gLvicW67jT0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Wed, Nov 18, 2026 at 08:50:48AM +0800, Yang Siyuan wrote:
-> The H616 watchdog has a maximum timeout of 16 seconds.  systemd keeps
-> /dev/watchdog0 open with RuntimeWatchdogSec=16s, but during system
-> suspend all userspace is frozen and the watchdog core does not stop the
-> hardware.  A suspend longer than the timeout therefore resets the board
-> before it can resume.
-> 
-> Add system sleep PM ops to stop the watchdog before suspend and restart
-> it after resume if it was running.  The driver did not store its private
-> data in the platform device, so add platform_set_drvdata() for the PM
-> callbacks.
-> 
-> Use DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr(), and use
-> watchdog_hw_running() instead of a private flag to decide whether the
-> hardware needs to be stopped and restarted.
-> 
-> Tested on an Anbernic RG35XX-SP: a 30-second s2idle suspend resumes
-> without the 16-second watchdog reset, and /dev/watchdog0 keeps working
-> afterwards.
-> 
-> Signed-off-by: Yang Siyuan <hsyysy@163.com>
+Hi Peng,
 
-Applied.
+On Sat, 14 Nov 2026 23:06:15 +0800
+Peng Fan <peng.fan@linux.dev> wrote:
 
-Thanks,
-Guenter
+> From: Peng Fan <peng.fan@nxp.com>
+> 
+> Use the scope-based guard_chained_irq() helper in all chained handlers
+> under drivers/irqchip/ so that chained_irq_exit() is always invoked when
+> the handler returns. Handlers that duplicated the exit call on an error
+> path or jumped to a common exit label simply return now and rely on the
+> guard.
+> 
+> No functional changes.
+> 
+> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+> ---
+
+For the irq-lan966x-oic driver:
+
+Reviewed-by: Herve Codina <herve.codina@bootlin.com> # irq-lan966x-oic.c
+
+Best regards,
+Hervé
