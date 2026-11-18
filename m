@@ -1,101 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.51
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795000395;
-	b=EdJ0RJgGbUHOFIdto2XzcYCuRV8qQe2n3zmYs8vc/KIg7sE7nCHbdZ6FI+DRhKS6KdCK
-	 9WJKBBtm2Q1h1S5Pa3+PaFKSOQrA1aj4HVU3TL6VuoFJER423mkXyEpk1vujM+FY4Ep9o
-	 ABVdHxdMti0NQ1J2nAsg9QyqHO2qCcv/fSKpYLV/3fSUjGQuhHIe//z8p2aR3f+6GA/6Q
-	 iniDtjzvrAuXabnloWx1gTVbb7qmFXu3XhaZE+NydKU37ArqZ/w98vlfMgEQjz0BdLzFI
-	 ZRfWSUNXgAihfzj3XIFIOubvDtTDiggDJf8sEf9yqlb5wcqk/JJbX4Qu6fhxCY21nwQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795000395;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=sHi5V+1hpRfrxl1HVLwRyrTDDCQxfUTOQX4vPNFhHb8=;
-	b=AHxdsa+vvnLleDzaEYzsi9c2BhpAKy2B1UN0N5zwZdNRwPgHZqv5jx8qUieZfJFYRRKF
-	 QDtVei/SDeZ9xTBONm9kXMNi/4t4fSdrujiQ3GUZGe80ldz7Nt164OeILIwaDZ3rcwi9c
-	 +edsblgv846AFz7TPuV8tQ9wpInBkKqgQ7OPgKM9mpjQXfVkeVV4Z1aBdkJIh+IUtDRn9
-	 D3C8RAww1P8B/Tu16CQQkRR8CP4xkiTxgqfVaPKRRfD8J9+jod0h1yChmzNDaSsLkOQOY
-	 RHgJjDJxaVK9RBP3H2xmUVGzoVZ8zh4UcKz9OrfOqnarFBu/OhXdAsWzc9CFtIVf6xQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Xf9a/JpG";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.51
-Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A05606A31C
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 11:13:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79A05606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795000746;
+	b=qVm7AE+IvGcsNZmZ8c04fOYU+KCCHwesA+JSPWGoG71joCBX6ZiG1rnqNT07ZG+klUoo
+	 SJMWnxhWWmfW6ZizJHV6GIYQBCflRH2WfEtp5Yx4n5YtyNX0cW0S+s7Prg1Uo1QI9DXm7
+	 p5OfRhknXMXYnPRcA9mpURRGUTVX5tON8VUh0DtI+E+0jphwUl+CFgDxLu5JMoQV+vy72
+	 uKtOCiA1zToF619AEI4HD0Ozz80YJiHdj0VW+bX1sd9PSIC7fyMvJuvQs/0QrQbkQd2CL
+	 S4HDE2Eh76fAjiJ+7KkKCOBxOlHzqf4Ihm3i0aoe4KhysJnnSBEVYHffR7iB7bpVzqw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795000746;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=zmXjV3iawTS0v0ZQvsd7944Tri/Bv2s1a3To2GaIC2Q=;
+	b=wG321LrquFpCDhw/F5SgRbOyGfDPoRiZvb01XJrqmLnrtckblKQUfR+jecDyl/m3mbWa
+	 WCJjScyAdTAgzoTJgDSfZOK4Ca4sKEjawIQL7SIwUMkfOgHhh3RABSrXu1KtEV77ReEZl
+	 VfX/4UFZrzKFxX+zKKHwnbJJkALn4DxEGp6C/Eg9mAGfI0MBm1EsvHukYkzrai8qiLnvg
+	 cPLWATgYInuKVwwAypNWb09wyi3RJa03xLeMs/7eJBVWkaasvqD0APjvYhNcv2ntV+Y4/
+	 bnac5NQGqdqLUMdW6F8IS805C6QwxJp4310swdGCr7J91LX2QDThiRTEJmwq8FMLteQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=P+LqYcQo;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92B32606A32F
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 11:19:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92B32606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Xf9a/JpG
-Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-67c6a0abc2eso836430d50.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 03:13:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795000394; cv=none;
-        d=google.com; s=arc-20260327;
-        b=AjdBjQ7o+eLvv68jjFZIq8aRfr6R/zQVesKk732KLxfd/yJauv3yJ5K25YvNyOB6+F
-         lmNHk+w8WMili8MS7OXr8m9L5RomOnwnlj3k+1nmvJ96bfZjS5Q7X5fBZYVH5gcrDUXZ
-         +Wte5CiTAHUkGQOEkkpASF0zqHDNUT3yzFglB68FWMQfHcId3kP5pL5hay9evxVqSz5H
-         RLyvUhz4vCwyZTEJmnPFpLd8IwaKxA1vLyD7LVimYh5AQ9ccG71xGQphaKP75DagljGk
-         BKbnexdgqh9cpcdLk4OuJi2MCgpo5YwUT4TEi3NJlkki//bqk/Rl2O4YcZktUEFWhpfx
-         /61w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=sHi5V+1hpRfrxl1HVLwRyrTDDCQxfUTOQX4vPNFhHb8=;
-        fh=CqZ6wSoeCTGJl76wxfIHgd7iG56hXA3MDEymsUAmS4w=;
-        b=ny8rKR8a/i3L2mLM28fpxxKETMIthyUgSuCwMGPsrQJTU4AnSR3jUq6kh/MMwfsVlo
-         RGiK6aE7HMivMUhTn9I7mcFoK05Ml7H9wIViXph7NHU/ChigqSgrdNYg7DjTpYa2FV82
-         dcs2Esyx/PeOS96MW0wbany3ns87ezHMpdiCpR85y5vvgnNMAcr8n5RWTrBEcbcM819u
-         IoA+8OlwskmPAWI5daE8TY9YBPhECv7Y8hS259wD0zlzwtOsG7LthnA+pdEc+x4Nisf3
-         PGOIVXLpD+p+HN++KJvv7BTV+SGbuUXpt7WUUANe05LhrdQDo9A0PX7TDEFbjinQi979
-         juxg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795000394; x=1795605194; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=sHi5V+1hpRfrxl1HVLwRyrTDDCQxfUTOQX4vPNFhHb8=;
-        b=Xf9a/JpGBWrljoNdDErT6lgzui8AUGbibrRFW1+b8779VEBnfg4i/Yppkx4V5U3YnL
-         zX1w1iwr47VZXANuJo799R/lrGwVNJtI36dN27siAF+eVhI9vsm49ENhcNY4G68uloVw
-         szeCNoOHw2qp70BF6QgU+IWseOiY4UGYt6WpVaqdGP3lCw7IfS8TR0qPK+EfA97WHWfe
-         jDkgP2udMOiqvV4o+WT6YcEX2EpufaKK6//alqREZ6TTecEm6iCOQsx+3qmRsiHXAGA9
-         GkLQ6u6f6ewazd2FBmjIJMVSKBuaJ6rYI1i7ZbtljXvgLK9DKy0gEmFMRZEurQuhuLem
-         S86A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795000394; x=1795605194;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sHi5V+1hpRfrxl1HVLwRyrTDDCQxfUTOQX4vPNFhHb8=;
-        b=jdPiAquSxqp4Yk57Ll4irkgry9tvfKcDafaOtWqkdQHR4lal3DU2dJ54K9NdM5wWcv
-         qNuMrs2OYxLPYKemMoe21LTGNKDqm4voUCoSXyim8lBO2KGRfrD05ya5zcAuA5bbNGwj
-         a/1MVk2NUC+746d8nfbxBuFa7e1gxO3Qj3zS0jIxGktGwJt8BnNy6lNQjPiachee1QD3
-         dIfAZfGTpTUzh6I3u9BUVVeNuhMzr7/yaty+BgGksziyOywDw4rODyUAqSvScp4VaSXX
-         nFn+E0W02RLKrskloJL3bB6uB4yTxZGigCcd5UpHO7tZNM2j6+upoUKwwHZTnKDDSHie
-         Vqxg==
-X-Forwarded-Encrypted: i=1; AL+hErHFI/XXbDiR8U604gazWfxuUG61N5dm8Qd3T0WsY3S4i5fRRgwYG10mdNAanoA2LjbZ/E9sEfruuL4/OQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z///G+8PktwJT02K7tJ2LWNialaX/mHoqEZkp1wTQXsEBWn36EU
-	HqBFe9IxFr7MNAR0oigN/paAVYn+SOPMxTgd/msn/LKvzmskSVZboNuCXhEJQyFgfdtA53Q3Kvy
-	ZgzzFJ6DGRXwN7t2UR2B2U6EfIgAX4w==
-X-Gm-Gg: AZFdTZfvULZSqTwCd4RdodAygQkAtr6oNVjQarCVT4Dw+HuY0UIFI4RteJquYhm+IXp
-	sPdj6vlNE443uEIwq2YwJ9iZQrmTy+nJJTJrJdRB73QL0zS+IGgzqUZppjaRoaZQ5WjQzD/M965
-	RA9VJJzW7F1fCbtt2NjMYkxvzCqyAdN1m71cfn80Jz5hQ6Em37koK5Mk2CKIgUNcPk0y9BF074d
-	99dtxXe3J+6wKYYkL5RNUL4uTa0N/iEDfUExjnL5ioGecXf1spUb//5jYaTHDlH4pBGcAcc9mz+
-	v197EeteIxRra6LE4IdExf1mYySFPOMgkq4v+lqDhGXW8Klss3w/Mx3xS9egmrS2RB2YYCx197H
-	ksX/aNRDm/7BvFJw+jZcGiq30w24/UL7CkLsJ35qoO2P/RfzvyXd2kngCXkh6dZoj2DRLPFGWbB
-	s1Mommd8pPx29uDVU=
-X-Received: by 2002:a05:690c:720a:b0:8b4:fc2d:2fbc with SMTP id
- 00721157ae682-8b4fecfa8fdmr6432697b3.17.1795000394419; Wed, 18 Nov 2026
- 03:13:14 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=P+LqYcQo
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EBA2E1596;
+	Wed, 18 Nov 2026 03:19:01 -0800 (PST)
+Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC1723F673;
+	Wed, 18 Nov 2026 03:19:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795000744; bh=ctVycx8CAE9HKS7xZ8rpaNfM80sKn1OMLQroGjvCHV4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=P+LqYcQodHIrsRQtwJwhcavH4FJ2SP66b1oUrhYo/E21Jk+GpJS2V6Y99CfcIYwt2
+	 s+5XGDeJy8eS+y2JFHg3wrEBJHgh59qQriN5/QpDPs6YzoyPawbpqKMUcfSWHCQFxh
+	 mLxiZETSRm6rt0Tb769phP/EHvdi1Jmj1XH/DERA=
+Message-ID: <aa1d651d-8ace-40c2-97c1-7ef68fa0f44f@arm.com>
+Date: Wed, 18 Nov 2026 12:19:04 +0100
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -105,56 +53,90 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261103-a100-thermal-trips-v1-1-73bce7ff0767@gmail.com>
- <CAGb2v64fEDzpn-ytggienzYjOGiQYsJ=SLCVx4zz9psw=bvjYg@mail.gmail.com>
- <CANxy8yTbu63ykQnqa_XA=HhV7JTDZd3ac2XWGzYNwuHBAd2DuQ@mail.gmail.com>
- <CANxy8ySZ_ErH4gi3PbWv6bb+uLvvUV4_-WmBkDrMw+RJqazA5w@mail.gmail.com> <CAGb2v65D6ACO83fAm5_Jh4RC5X3H=26EQYHAz8tVOWEVerSPXA@mail.gmail.com>
-In-Reply-To: <CAGb2v65D6ACO83fAm5_Jh4RC5X3H=26EQYHAz8tVOWEVerSPXA@mail.gmail.com>
-From: Rajan Yadav <rajanyadav0307@gmail.com>
-Date: Wed, 18 Nov 2026 05:13:03 -0600
-X-Gm-Features: AclHuK9n1arnwuviwRTqKqG6GX0B1k9jEh54QwQkpt5LgjUFE7LwWPEIi0qBPfo
-Message-ID: <CANxy8yT4E474NpEZPE_6QHh1UJvj7xQEVR4mOxW759y75SBd2g@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: a100: Add CPU thermal trips and
- cooling maps
-To: wens@kernel.org
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] arm64: dts: allwinner: orangepi-zero2: Read the SPI NOR
+ over two lines
+To: aiyengar1990@gmail.com, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20261118-zero2-spi-nor-dual-read-v1-1-bcdcbf785be0@gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20261118-zero2-spi-nor-dual-read-v1-1-bcdcbf785be0@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Chen-Yu,
+Hi,
 
-A gentle ping on this patch. It has Andre's Reviewed-by and still
-applies cleanly to sunxi/for-next.
-As agreed, the OPP fix comes first: v2 of the A133 speed grade and OPP
-series is now on the list [1]. Its thermal tests rely on the 90 C trip
-from this patch, so it would be good if this one could go in first.
-[1] https://lore.kernel.org/all/20261118-a133-series-v2-0-8bcec9c9aadf@gmai=
-l.com/
-Thanks,
-Rajan
+On 11/18/26 04:55, Arun Iyengar via B4 Relay wrote:
+> From: Arun Iyengar <aiyengar1990@gmail.com>
+> 
+> WP# and HOLD# are tied to VCC (schematic v1.3), so read over two lines.
+> 
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+> ---
+> Needs the spi-sun6i H616 dual read series v2 (prerequisite below).
 
-On Tue, Nov 3, 2026 at 9:33=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> wrote=
-:
->
-> On Tue, Nov 3, 2026 at 10:47=E2=80=AFPM Rajan Yadav <rajanyadav0307@gmail=
-.com> wrote:
-> >
-> > On Tue, Nov 3, 2026 at 7:07 PM Chen-Yu Tsai <wens@kernel.org> wrote:
-> > > Does the downstream BSP have this? It would be nice if we could port
-> > > it over. Then you can properly use the power allocator and/or the
-> > > schedutil governor.
-> >
-> > Yes. The BSP (sun50iw10p1.dtsi) has dynamic-power-coefficient =3D <190>
-> > on cpu0, and sustainable-power =3D <1200> on the CPU thermal zone.
-> >
-> > The energy model uses the OPP voltages, and Andre points out that the
-> > current OPPs are A100-only and don't fit the A133. So I'd like to fix
-> > the OPPs first, and then add the coefficient as a follow-up, tested wit=
-h
-> > the power allocator on the K5C. Is that okay with you?
->
-> That works.
+I don't think it does, and this dependency wouldn't be legal anyway: the 
+DT and Linux driver code are independent, even though they live in the 
+same repository.
+So as it stands: if you specify a 2 bit wide bus, but the driver doesn't 
+support this (older kernels), the driver will just ignore this, though 
+you get a message:
+[    4.226908] spi spi0.0: setup: ignoring unsupported mode bits 400
+
+So there is not hard dependency, functionality-wise, though it will be 
+faster only if you have both the driver and the DT changes.
+
+> Tested on an Orange Pi Zero2 with it: 1-1-2 reads (opcode 0x3b), 2 MiB in
+> 0.28 s instead of 0.52 s, identical data.
+> 
+> Developed with Claude (Anthropic), which wrote the commit message. I
+> reviewed it.
+> ---
+>   arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+> index 90c25e12e189..fb117116002e 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+> @@ -150,6 +150,7 @@ &pio {
+>   
+>   &spi0 {
+>   	flash@0 {
+
+This double reference looks odd. Why not just add a label to the flash 
+node, and skip the spi0 reference altogether? Should have been done on 
+the patch adding the supply (which has been already merged), but maybe 
+we can still rectify this.
+
+> +		spi-rx-bus-width = <2>;
+
+Please note that this is true for the OrangePi Zero3 as well, so this 
+property should be moved into sun50i-h616-orangepi-zero.dtsi.
+Tested this on my Zero3 board, it works and reads the entire 16MB flash 
+in 1.8 instead of 3.5 seconds.
+
+Cheers,
+Andre
+
+>   		vcc-supply = <&reg_aldo1>;
+>   	};
+>   };
+> 
+> ---
+> base-commit: a203a4bac3316451a3036653657c8b250dea2055
+> change-id: 20261115-zero2-spi-nor-dual-read-645a6de25e81
+> prerequisite-message-id: <20261116-spi-sun6i-h616-dual-read-v2-0-e0c66eb71e20@gmail.com>
+> prerequisite-patch-id: 28b145097d0f859e5bd27bcc5028d0915f3ba4bd
+> prerequisite-patch-id: fb47570beb53613acb42c518fd1999e05e0c54fb
+> 
+> Best regards,
+> --
+> Arun Iyengar <aiyengar1990@gmail.com>
+
