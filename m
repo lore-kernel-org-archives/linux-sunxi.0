@@ -1,64 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=34.202.193.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795026827;
-	b=LuUhQylnAE5uM4OLIzbhEjy5kKNNqYs0lOgLwqwSxfszjQxF7cuQLRy1acFVr6uVxu8H
-	 qBCVnxqSgWCT0pkrlMHC5uvhPlRPVoXfYiAmrXJ/IK3RaDeQcZACW7Ew8FaojB4BCaKy6
-	 +qzIyu/YHrorZ2bVYgDdQyi6uTfHER83wvas2dw4CM/xOodC55vYvqAPkUA0xEN3Idv7L
-	 579Mw+su4PoiRp+0/nq9/qcWl0IlCkw0Oqs3+t1Ds+iUk9o74IOlsV2rAySTW6gAzCqBc
-	 VMSo7E2g35TG5EeKN3OnT2neM5v4jJI63QZVU+cLWNXMcgYoJC23CcHcEVlt1H+e54g==
+	t=1795032291;
+	b=wLq1hT4FG9mqtS+OVtDVHfuYvUCc1hySzTwl8OURlrQloXA5WplhdUr35q8ppcDqSsu0
+	 JfE26Sa+2/F1mKwJk6Oa8tRpFHw9tzucpi/7GuHeqeGMQdm2URck5l3O8bXCDCRSnX8rG
+	 Zrhvg3f3Vo5UBteqxrPorWmXOUFY48PfaheAOXj0HanoWLiz0Hc1g9E5Edl1KP3wYVJub
+	 d/ElIOZzG2b7KjASMr5tRi0tldYIFIzKiSb3em5NjUh+wpj/H+9zU5gDyM5VF+XeToBWJ
+	 hCWyinyd6iV7OaF1Q2D99Y2JisPutXLDXVQj0uCdlzjK1AeKJOm71v0irvpeY/6IRmw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795026827;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=P/YCoMP/9FT1ykUcsd21vzGLwiDJBDzH9u2nYG1nU6w=;
-	b=1tSLH290H1PueuVMPP5sBl1Z0pgPi/FwtENsGfaVEwerHmzKXZYnOtG+RRnCjYybeXA2
-	 7Dmcx5LlHVIHByJiSl2rvty29VQY53NEBBnNedSRuwpyq8MMl3zXbQQSqM5yYZYEQIRMf
-	 4QEzL2G3SA0ZDmVS0hLb+/92yVsgG5ocLV9gJjtul4na6UZ+ulQoarApHtqCYkjInjA9g
-	 aBOOssB0qAPfn8JUQma6gbZ+GOKkyFG8LWr7oxw6LgUqRjqnvLhM052HP6+GJHvpjOAiD
-	 49hQ/VJnOw3ZTxV4h1kH3Ib80uswABFXcWyMrKsTpFk5tmRB/Es5AHZ4zH0LN6fszQA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795032291;
+	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:Feedback-ID:
+	 X-Pm-Original-To:Received:Message-ID:Subject:From:To:Cc:Date:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 User-Agent:MIME-Version;
+	bh=GZNlEJ57vvQoyzdnQf9Tf6a/soql6P4/Cbt/mYWG1eE=;
+	b=tjbG2yiYuqERklfTy5W9vK/3QB693BKkRrdi58v6p4dcbYh0brPDQktxCHh5T/cBpu+r
+	 8wEqQg/pA8qVn8HL9Mmtd6A0KWNPAAL25xwraeUyj1T8SwbjeRyJ0F6Wu1pXDotBp714b
+	 CrWqTZrq0EV2ik8VPWOjYl1H0DIsZCUkwbwuWaFZP8NxFsqWroq5rwYYmAOZ/4Oe8fvp0
+	 JLqGC4C4nMESkTfoprNIczO85SFAbD+5p+QRg0lfSWODtOMU9VUzF7/59sgwpyxD1n+dB
+	 nJ5uAxjq9oKi8RMWvOTdr7t4uKaigMQMOnIXZJo+n0u+fNg5XRiH5WcXrxyWdDl1F8Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LNHhiY4v;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=sverdlin.org;
+	spf=pass smtp.mailfrom=sverdlin.org;
+	dkim=pass header.d=sverdlin.org header.i=@sverdlin.org header.a=rsa-sha256 header.s=purelymail1 header.b="IYRG/xW4";
+	dkim=pass header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail1 header.b=opf4l8EM;
+	arc=none smtp.remote-ip=34.202.193.197
+Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA21606A331;
-	Wed, 18 Nov 2026 18:33:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B55606A33D
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 20:04:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54B55606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sverdlin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sverdlin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LNHhiY4v
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC99D1F000CB;
-	Wed, 18 Nov 2026 18:33:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795026826;
-	bh=P/YCoMP/9FT1ykUcsd21vzGLwiDJBDzH9u2nYG1nU6w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LNHhiY4vwIsJI6fmpylX0eXCxvEuKKvvPaFvQODi7o0zakHtQMbheWJPlEfJ2MeQd
-	 26JyAhCrZYr6agIm3RA06OEK7Fweq9rzySEVuHyPgD9fn43FZVAcS9the+5jd1Fvib
-	 5dBJi2udP0osSq//doOsk0Ekge0G/T06LfmSmTTK5w51vcY102WXoiTZDG4diVGv9M
-	 usA2fBPQtqvpG8JFjEyfaYluExZ+XSC8o51qcILMxvjxxANgOGUFsF4+sfM1xbd4S+
-	 2opIP+uJM9VWW9PI2bYEbq7wJM7fHok4AOMuCia2TDoHh4nO0pwQkibUmzlL2rA65x
-	 CNQuRIDAwmKjw==
-Date: Wed, 18 Nov 2026 18:33:41 +0000
-From: Lee Jones <lee@kernel.org>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mfd@lists.linux.dev, linux-sunxi@lists.linux.dev,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH v8 2/5] mfd: axp20x-i2c: Fix i2c instantiation
-Message-ID: <20261118183341.GI98456@joneslee-macbookpro.roam.internal>
-References: <20260910-axp318-regulator-v8-0-e906a61a7f3d@baylibre.com>
- <20260910-axp318-regulator-v8-2-e906a61a7f3d@baylibre.com>
- <20260924082705.GO3864833@google.com>
- <1jy0cq94na.fsf@starbuckisacylon.baylibre.com>
- <20261014104801.GI199624@google.com>
- <1ja4ogfp5l.fsf@starbuckisacylon.baylibre.com>
- <1jh5he2o9z.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key, unprotected) header.d=sverdlin.org header.i=@sverdlin.org header.a=rsa-sha256 header.s=purelymail1 header.b=IYRG/xW4;
+	dkim=pass (2048-bit key, unprotected) header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail1 header.b=opf4l8EM
+DKIM-Signature: a=rsa-sha256; b=IYRG/xW445PJRT4UmZRgekHROgeT6auxlIgxTpu/5m7YtxNvPlNdUcWI1CD5+VuSFe+IO36Mr/lirfI0fK+ivsoI9AaED6fPk+g3kJxhHWEUuQVVxMCHQzKIWeA1UARlPrsB7xeWtdjO0vs+GEmlxplHXIGPDyQBJP1+Tu3mmIxnmZ4cVo5gFDi+20rTGiLr1qRGaId64iJgmQrbrh74svfiqAdTi3wofMUkl2jy8rfD9+vvV99c9lVqJe5Osc3PYaPs3ndbY0x9/pUrBs/AfASlJPa2x2HWLb0O0q3kXCcg1gMOAvVLbdT7TRp7pD78aNFdaIIbhtbBXdM7+NavHA==; s=purelymail1; d=sverdlin.org; v=1; bh=GZNlEJ57vvQoyzdnQf9Tf6a/soql6P4/Cbt/mYWG1eE=; h=Received:Message-ID:Subject:From:To:Date;
+DKIM-Signature: a=rsa-sha256; b=opf4l8EMklNabkEMKp+mORQZKQyKsAWUzdyFmxlVmoLTVLz/Wl0EibNt5CvrdJpBngfLhdUhBCAO9MpR722hU9p4XzRv3MUv//T64oEgUzsJom4KySXNG5M3txHPExJVchEqEWhLvcgo+XrHd0OfMEFVV1zK6SeV5rkVFUdbGbotazM66Oi0hBH9UgJ+TnDZApWnmSftQ1OhtFbPpYRar3C8NrboSQrWvYroKdT0NOGnmxso3S+iLeSGom4Z5SNZ9OuWNMhxaZF2fVZzWWfgMYmn8w8hofIyFa0X6DRqbAecChE0mKI+oSmXeZAAS179BnCS/dgifmihdmQ05+tglA==; s=purelymail1; d=purelymail.com; v=1; bh=GZNlEJ57vvQoyzdnQf9Tf6a/soql6P4/Cbt/mYWG1eE=; h=Feedback-ID:Received:Message-ID:Subject:From:To:Date;
+Feedback-ID: 815097:39668:null:purelymail
+X-Pm-Original-To: linux-sunxi@lists.linux.dev
+Authentication-Results: purelymail.com; auth=pass
+Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id 885494569;
+          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+          Wed, 18 Nov 2026 20:04:09 +0000 (UTC)
+Message-ID: <8a2d6ac552e7a5b7142dc00b72edd0d3b7a1382c.camel@sverdlin.org>
+Subject: Re: [PATCH v2 5/6] arm64: dts: allwinner: a133: Add CPU OPP table
+From: Alexander Sverdlin <alex@sverdlin.org>
+To: rajanyadav0307@gmail.com, Andre Przywara <andre.przywara@arm.com>
+Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Cody Eksal <masterr3c0rd@epochal.quest>, Paul
+ Kocialkowski <paulk@sys-base.io>
+Date: Wed, 18 Nov 2026 21:03:59 +0100
+In-Reply-To: <20261118-a133-series-v2-5-8bcec9c9aadf@gmail.com>
+References: <20261118-a133-series-v2-0-8bcec9c9aadf@gmail.com>
+	 <20261118-a133-series-v2-5-8bcec9c9aadf@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.62.1 
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -68,125 +68,113 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1jh5he2o9z.fsf@starbuckisacylon.baylibre.com>
 
-On Wed, 18 Nov 2026, Jerome Brunet wrote:
+Hi Rajan,
 
-> On mer. 14 oct. 2026 at 14:21, Jerome Brunet <jbrunet@baylibre.com> wrote:
-> 
-> > On mer. 14 oct. 2026 at 11:48, Lee Jones <lee@kernel.org> wrote:
-> >
-> >> Note:
-> >>
-> >> --- checkpatch.pl (3 issues) ---
-> >> Line 2: WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
-> >> Line 3: ERROR: Invalid commit separator - some tools may have problems applying this
-> >> ----------------------------------
-> >
-> > I've checked before sending and checked again now, I don't have those
-> > warning. I don't see anything long on line 2 or a separator near line 3.
-> >
-> > Any specific way I should run the tool reproduce the problem if there is
-> > one ?
-> >
-> >>
-> >> On Thu, 24 Sep 2026, Jerome Brunet wrote:
-> >>
-> >>> On jeu. 24 sept. 2026 at 09:27, Lee Jones <lee@kernel.org> wrote:
-> >>> 
-> >>> > On Thu, 10 Sep 2026, Jerome Brunet wrote:
-> >>> >
-> >>> >> Apparently this device never really supported i2c instantiation via
-> >>> >> sysfs, because the driver does not even look at the i2c device data,
-> >>> >> which are not set. It would only probe if the device matched through DT.
-> >>> >> 
-> >>> >> Fix that for correctness, even-though it is probably useless.
-> >>> >> Add the missing AXP323 while at it.
-> >>> >> 
-> >>> >> Reported-by: Sashiko <sashiko-bot@kernel.org>
-> >>> >> Closes: https://lore.kernel.org/r/20260717090209.2A09B1F000E9@smtp.kernel.org
-> >>> >> Fixes: 41751b033aaa ("mfd: axp20x-i2c: Add i2c-ids to fix module auto-loading")
-> >>> >> Acked-by: Chen-Yu Tsai <wens@kernel.org>
-> >>> >> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
-> >>> >> ---
-> >>> >>  drivers/mfd/axp20x-i2c.c   | 24 +++++++++++++-----------
-> >>> >>  drivers/mfd/axp20x-rsb.c   |  1 +
-> >>> >>  drivers/mfd/axp20x.c       |  1 -
-> >>> >>  include/linux/mfd/axp20x.h |  3 +--
-> >>> >>  4 files changed, 15 insertions(+), 14 deletions(-)
-> >>> >> 
-> >>> >> diff --git a/drivers/mfd/axp20x-i2c.c b/drivers/mfd/axp20x-i2c.c
-> >>> >> index 5c93136f977e..a76bec5604c4 100644
-> >>> >> --- a/drivers/mfd/axp20x-i2c.c
-> >>> >> +++ b/drivers/mfd/axp20x-i2c.c
-> >>> >> @@ -35,6 +35,7 @@ static int axp20x_i2c_probe(struct i2c_client *i2c)
-> >>> >>  	axp20x->irq = i2c->irq;
-> >>> >>  	dev_set_drvdata(axp20x->dev, axp20x);
-> >>> >>  
-> >>> >> +	axp20x->variant = (kernel_ulong_t)i2c_get_match_data(i2c);
-> >>> >
-> >]>> > device_get_match_data() is bus agnostic and should still work from the
-> >>> > core driver.  What's the purpose of splitting it out and adding
-> >>> > additional call-sites?
-> >>> 
-> >>> device_get_match_data() works when the data comes through that path,
-> >>> which is generally the case.
-> >>> 
-> >>> i2c_get_match_data() calls device_get_match_data() then fallback to the
-> >>> i2c_device_ids. It covers the instanciation from sysfs mainly, not
-> >>> something usual.
-> >>> 
-> >>> As explained in the description, this changes plugs a hole identified by
-> >>> sashiko that technically exists but I highly doubt anyone will
-> >>> instanciate the PMIC through that interface. Those things do not really
-> >>> come as breakout boards ... That being said, it is cheap to fix.
-> >>
-> >> I'm confused.
-> >>
-> >> We already call device_get_match_data() in axp20x_match_device().
-> >
-> > Not anymore with this change. It is the point.
-> >
-> >>
-> >> So if you populate .driver_data in axp20x_i2c_id[], you should be
-> >> able to drop these changes altogether, no?
-> >
-> > device_get_match_data() only goes through the DT tables.
-> > Not the i2c_driver.id_table which is purpose here.
-> >
-> > My understanding is that if you instanciate the device
-> > through sysfs (which nobody does for these devices) and you only call
-> > device_get_match_data(), you will get NULL because there is no fwnode
-> > associated with the device, which in this case silently translate to
-> > AXP152_ID.
-> >
-> > device_get_match_data() does not go through the i2c_driver.id_table.
-> > Only the i2c code does, with i2c_get_match_data() and after trying with
-> > device_get_match_data() internally, which is exactly what we want.
-> >
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/i2c/i2c-core-base.c?h=v7.3-rc7#n121
-> >
-> > As noted earlier, this a problem reported by sashiko that is real but
-> > extremely unlikely to show up in real world. I'd happy to drop
-> > the change if you don't want it. It is not need to support the axp318.
-> >
-> 
-> Hi Lee,
-> 
-> How could progress on this ? I genuinely do not understand the problem.
-> This change is fixing a sashiko reported issue, in the appropriate
-> manner I think. device_get_match_data() just does not care for i2c
-> .id_table so i2c_get_match_data() is needed.
-> 
-> At the same time, what we really care for to progress on the Allwinner
-> a733 HW support is the rest of the series. So if this bothers you,
-> I'm happy to re-submit without this fix. Please let me know.
+On Wed, 2026-11-18 at 04:52 -0600, Rajan Yadav via B4 Relay wrote:
+> From: Rajan Yadav <rajanyadav0307@gmail.com>
+>=20
+> Add the A133 CPU OPPs from the vendor BSP (sun50iw10p1.dtsi), plus
+> 1608 MHz for b0 and b1 from the vendor table in the factory firmware of
+> the KickPi K5C. There are ten voltage sets, speed0-5 for the a0-a5/a6
+> grades and speed6-9 for the "high speed" b0-b3 grades.
+> opp-supported-hw selects the frequencies of each grade:
+>=20
+> - 1464 MHz only for the a grades
+> - 1416 and 1512 MHz only for the b grades
+> - 1608 MHz only for b0 and b1, the revision A-E "high speed" grades
+> - 408-1320 MHz for all
+>=20
+> The highest voltage is 1.18 V, inside the 0.81-1.2 V recommended
+> operating range of VDD_CPU in the A133 datasheet (V1.5, table 5-2).
+>=20
+> The BSP uses 1008 MHz where the A100 table uses 1080 MHz, at the same
+> voltages for a0-a2. U-Boot starts the CPU at 1008 MHz, which mainline
+> now reports as an unlisted initial frequency. This table follows the
+> BSP.
+>=20
+> The BSP table stops at 1512 MHz, although some datasheet versions list
+> 1.6 GHz for the A133. The factory firmware of the KickPi K5C (Linux
+> 4.9.170, built January 2026) has the same table plus five OPPs:
+> 1608 MHz for b0 (1.18 V) and b1 (1.13 V, at most 1.14 V), and 1416 MHz
+> for a0-a2. This patch takes the 1608 MHz OPP from it.
+>=20
+> The K5C is a b2 part and never uses this OPP. With a test-only change
+> that forces the grade, the CPU PLL locked at 1608 MHz and the PMIC was
+> set to 1.18 V for b0 and 1.13 V for b1. Forced to b0, two 20-minute
+> runs of full load on the K5C without a heatsink reached the 90 C
+> passive trip after 10-13 minutes; from then on the temperature stayed
+> between 83.5 and 90.4 C.
+>=20
+> The table has the A100 compatible as a fallback and the speed bin cell
+> first, so a kernel without A133 support selects speed0-2 from the speed
+> bin and gets the voltages of the A100 table, with 1008 instead of
+> 1080 MHz. It needs the efuse cells added to sun50i-a100.dtsi in the
+> previous patch.
+>=20
+> A script compared every voltage and the frequency set of every grade
+> with both vendor tables. It found no difference to the BSP file other
+> than the added 1608 MHz OPP, and no difference to the factory table
+> other than its 1416 MHz OPP for a0-a2.
+>=20
+> Claude Code (Anthropic) drafted this table and its message from the
+> two vendor device trees (numbers only) and wrote the comparison script;
+> I reviewed it and tested it on a KickPi K5C.
+>=20
+> Suggested-by: Andre Przywara <andre.przywara@arm.com>
+> Signed-off-by: Rajan Yadav <rajanyadav0307@gmail.com>
 
-It's okay.  If you're convinced, then so am I.
+I've re-tested the whole series on HelperBoard A133
+("marking 0x1400, bin 4, revision 6: speed grade 9"),
+no 1608MHz for me (as expected):
 
-Were there any more comments?  Is another revision coming?
+# cat /sys/devices/system/cpu/cpufreq/policy0/scaling_available_frequencies
+408000 600000 816000 1008000 1200000 1320000 1416000 1512000=20
 
--- 
-Lee Jones
+Reviewed-by: Alexander Sverdlin <alex@sverdlin.org>
+Tested-by: Alexander Sverdlin <alex@sverdlin.org>
+
+> ---
+> Changes in v2:
+> - Add 1608 MHz for b0 and b1 from the factory firmware table, as Andre
+> =C2=A0 asked; the commit message describes the source and the K5C tests.
+> - Alexander's Reviewed-by and Tested-by for v1 are not carried over
+> =C2=A0 because of this change. Alexander, could you check whether they
+> =C2=A0 still apply to this version?
+> ---
+> =C2=A0.../boot/dts/allwinner/sun50i-a133-cpu-opp.dtsi=C2=A0=C2=A0=C2=A0 |=
+ 182 +++++++++++++++++++++
+> =C2=A01 file changed, 182 insertions(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-cpu-opp.dtsi b/arc=
+h/arm64/boot/dts/allwinner/sun50i-a133-cpu-opp.dtsi
+> new file mode 100644
+> index 00000000000..dd5fdeea7ea
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-cpu-opp.dtsi
+
+[]
+
+> +=09=09opp-1512000000 {
+> +=09=09=09clock-latency-ns =3D <244144>; /* 8 32k periods */
+> +=09=09=09opp-hz =3D /bits/ 64 <1512000000>;
+> +
+> +=09=09=09opp-microvolt-speed6 =3D <1180000>;
+> +=09=09=09opp-microvolt-speed7 =3D <1130000 1130000 1140000>;
+> +=09=09=09opp-microvolt-speed8 =3D <1100000>;
+> +=09=09=09opp-microvolt-speed9 =3D <1080000>;
+> +=09=09=09opp-supported-hw =3D <0x3c0>;
+> +=09=09};
+> +
+> +=09=09opp-1608000000 {
+> +=09=09=09clock-latency-ns =3D <244144>; /* 8 32k periods */
+> +=09=09=09opp-hz =3D /bits/ 64 <1608000000>;
+> +
+> +=09=09=09opp-microvolt-speed6 =3D <1180000>;
+> +=09=09=09opp-microvolt-speed7 =3D <1130000 1130000 1140000>;
+> +=09=09=09opp-supported-hw =3D <0xc0>;
+> +=09=09};
+> +=09};
+> +};
+
+[]
