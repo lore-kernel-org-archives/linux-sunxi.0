@@ -1,68 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=34.202.193.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.7
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795020502;
-	b=QmLeAVP6D4JmxYfxBRtpQEkpufjvsfkTR3rT2nI2WuQ8ZPdPaKUKtOR8XOAqvce2QgJe
-	 2pCxMyBEhehKyfIR3we5FVOd4F/Ez5pg2C/OS1T8n2SxAjMQzfBefxa1MZMGG32GoNoMd
-	 4VZ7wssVSTcWoFFAjSOpvCpa7u9qsVTcuzFJXWmB9BWM/KHhkrEQxwou4MNcLepjt8ta0
-	 ftN7pBLI+4FBWaZFMhBH0vdzmRH8KEXXzatI7J7g6Ac6MMv0Iw/ErSu6254qY8Bj7yULX
-	 gvdjovlgEenVc1a60Go6FAT2lTmCdNi83Qhr5j9VFJuuv9UIYoBjXfJnnabaDa0D+Lg==
+	t=1795020680;
+	b=Tods9eJ5C1e50/FKJZV6ynH0eEGH1cRmkvKwYOxdJVz5AUwqbQQNu7erDV+fWFQgwK1J
+	 gYVVe8vXp1krHEiwmoVE/nvquZEjp2JX0EPnG1ea2Fx0dm3rD22R2z9IIM5EflVL2fzFg
+	 sdljW+vRh6NEsZSknMLc4e1xqc6VEd4twmEN4sYwuZC8kvrT48J+R4AGOcXTXRgzgSpgQ
+	 ADH1JjUDUidGMOcsIq9wS1ls72a+d7vnhgK7XdHjg+vRNleNz662aHdTHD2Q+pGP7erp8
+	 dPFA/ni4Uj6NAzsP/RZB5kUIns6RtNj5mRTQHy5W1G5RYzsWGRFlyRL1gdtJgrYJ2rA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795020502;
-	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:Feedback-ID:
-	 X-Pm-Original-To:Received:Message-ID:Subject:From:To:Cc:Date:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version;
-	bh=3GFJvAq6nIGqoHQdnUueliZjnKVhW3Nxe+pY+OXTGGI=;
-	b=Kn7X2zgDNcm5eCSoefgTb1Erxbt3Cfq3/gTl/RFTpjReNnoAsY9hUBnz7igxodNQNCQk
-	 zd7+56pcOfkDC/bIQGUjKlATod3ixLzANMyF7Py7SJAaWdstqJWC25TbyLxltoy49K4xU
-	 qyS2nZXk6LLUvwQCk1NqrzQZWhy6nDQAS531RrsZxaqF9VjdfulXeVYSyQIdW4RTaWVa1
-	 EZE+48BH9qB+PVGlFZczS3Ngsh9ZWRS1J4lmvxyD6m1K5SO/qpKkD6TLlo90Ng2HInjyM
-	 fB3n0eErAPPurlVsSqVkuxcuYLOWQ8pnrHtGS+CSDDrj44lCKZnL1uUXa2eRHQoJyVA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795020680;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 In-Reply-To:Organization:References:Date:Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=/cUldU1e2XAI/ZxV0Ch4uDE5FUyxfirjC3SAjGA4JrA=;
+	b=MdOsyd5LBjGK8ictZiH3Sl6o/W92FdT9eWuDEAT6TIxJW4D6oE57uLfjSyWWjKdccfDc
+	 vmz6qYzZJz+90OY29Y5YAmbGJJQqsJUHwuiclA7bKaf5ws+ZniT5cki9Z52y6eyyb83D8
+	 pMPnjUgYqUJxz6BFJQHgE3eh8/38s+HCgYW6mKIJDY9FQcSY2bxr+EEeVqN8krKf9IJVx
+	 +v7Pw8wimSnww8Ob35XiApCmbPclTt4P30tBQ+EMXXX0REdc7qlhbnwu+nl+Zf5ZdXnU9
+	 6AJ14xCfo+oLS8HiaLUoWX0xMxXo5ftY1H4Vh3FAMzxuDkoU5L3+ul4/A7EClMr5RUQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=sverdlin.org;
-	spf=pass smtp.mailfrom=sverdlin.org;
-	dkim=pass header.d=sverdlin.org header.i=@sverdlin.org header.a=rsa-sha256 header.s=purelymail1 header.b=I8bCTST9;
-	dkim=pass header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail1 header.b=BbUox9wp;
-	arc=none smtp.remote-ip=34.202.193.197
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="E7bR/4DJ";
+	arc=none smtp.remote-ip=192.198.163.7
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C77606A31C
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 16:48:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93C77606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sverdlin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sverdlin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C42760A263C;
+	Wed, 18 Nov 2026 16:51:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0C42760A263C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=sverdlin.org header.i=@sverdlin.org header.a=rsa-sha256 header.s=purelymail1 header.b=I8bCTST9;
-	dkim=pass (2048-bit key, unprotected) header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail1 header.b=BbUox9wp
-DKIM-Signature: a=rsa-sha256; b=I8bCTST92F3zmyAYodaEjsSLXsM5S9DByOnz4Gcsgh3Mth9Or7p9q9h5a73lbc0P/CSv8FENk6Ghix8Ho1Zj07NlsXpAOHEKizvWamr6eFj93n8SSvlnfAUJhYqzMUSBXvq8aPLl1wWayDrm15QI6tlcqv2Quc692ivy3MpTixI9xBIsKyk8AqU5/kKYTZ+diiQdOphV41Cmk/d0BonYfQEYYKPogeMcD01Zwi2bvd9iYZHupZ5qZoUJYTOEewZygu6n7zmbkqZlbAPCZYhXQOlU3jV0RPPlCI4BmevIW381XxH0D2dx3DOpysMB6N9KffYOwovvK6iZZUe/7WtBzQ==; s=purelymail1; d=sverdlin.org; v=1; bh=3GFJvAq6nIGqoHQdnUueliZjnKVhW3Nxe+pY+OXTGGI=; h=Received:Message-ID:Subject:From:To:Date;
-DKIM-Signature: a=rsa-sha256; b=BbUox9wpp4bm6ak0OZWnsFHsYcTYBHOImytaHxkA863ZfZFKXa7cjN3TCpW7ubl65E3u+PkHsraVdGOyfgSiOf3x5Z1VoeEc+aoZ8zd8Zd/ub2Gj+xtJHRHXFu3u9f6eY4Md5wBYsy2z/4g44qHjBAEf63LqzsXmXxvaFkQet1bfWjOb994yZWVRHI1oNCSZgTNxk4pYm3BrNl78B+MhQe+0/btTe6AX9/vWIdQV7y+kbMbImJ2TiHQmMbxtC0EcHEnvLHJMCtW2drdNiti5vB46xcKOmXTclWR5Ju7loj0qmKZhj4ty8mIG6AVkyUH91OydufNPF0XO6hGe901gNA==; s=purelymail1; d=purelymail.com; v=1; bh=3GFJvAq6nIGqoHQdnUueliZjnKVhW3Nxe+pY+OXTGGI=; h=Feedback-ID:Received:Message-ID:Subject:From:To:Date;
-Feedback-ID: 815097:39668:null:purelymail
-X-Pm-Original-To: linux-sunxi@lists.linux.dev
-Authentication-Results: purelymail.com; auth=pass
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -527604635;
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Wed, 18 Nov 2026 16:47:54 +0000 (UTC)
-Message-ID: <18a78cddfc3c28c011bb5d0c566c2f307773b235.camel@sverdlin.org>
-Subject: Re: [PATCH v3 2/3] arm64: dts: allwinner: add A733 SoC description
-From: Alexander Sverdlin <alex@sverdlin.org>
-To: Enzo Adriano <enzo.adriano.code@gmail.com>, andre.przywara@arm.com, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, wens@kernel.org, 
-	jernej.skrabec@gmail.com, samuel@sholland.org
-Cc: Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Junhui Liu <junhui.liu@pigmoral.tech>, Jerome
- Brunet <jbrunet@baylibre.com>, Pablo Mazzini <pmazzini@gmail.com>, Vinicius
- Pedrosa	 <vinicius.eduardo.pedrosa@gmail.com>, Jun Yan
- <jerrysteve1101@gmail.com>,  Lukas Schmid <lukas.schmid@netcube.li>
-Date: Wed, 18 Nov 2026 17:47:49 +0100
-In-Reply-To: <7c0ee4e609db5979d2a6598f46f40896b4f47a57.1794227241.git.enzo.adriano.code@gmail.com>
-References: <cover.1794227241.git.enzo.adriano.code@gmail.com>
-	 <7c0ee4e609db5979d2a6598f46f40896b4f47a57.1794227241.git.enzo.adriano.code@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.62.1 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=E7bR/4DJ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795020680; x=1826556680;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=ajDnh0zw+64dcFPrEUfvS5sWfWZYQWJZbcQwO+AcVNs=;
+  b=E7bR/4DJh5YbzHocFFIpAPmtKk9ggCJnqN7MeuUBIy77erwdx4Qj0zW9
+   7AmNZZdHn+mbO/c8iNCVhx+Lf1UfjdgKq4PCJAfcKdEtPaOqOltBKxMJ4
+   yhIwzQ34h21kM/n6FLQc8d5UapQYlDuwkIWIp7NMq5rPlOEl66TH293FC
+   P9QbpRnJNgc+z2koC+4bFreXbDesML2ZT9GreUYVunZu5FhlSX5AixWDL
+   vUItwz6XzUEKLENsGQNIGbqkJ6vXRu2s1H/EZQ3oIWrCsXpQF49egqqqj
+   adaqme7U88uBmf5gmN2NZ/S46kgz/B1arycKCWvwZkIxUFzAfuU27qXxt
+   w==;
+X-CSE-ConnectionGUID: 2pM0sEieQwey1oInVeA3WQ==
+X-CSE-MsgGUID: poBVPHPaTf+8pvsf5oAIYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11970"; a="3699698"
+X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
+   d="scan'208";a="3699698"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 08:50:31 -0800
+X-CSE-ConnectionGUID: k/DCmaX/Qp2q9S20vakyDw==
+X-CSE-MsgGUID: YVFQiz1BSVmcIhLrCJbvrQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,219,1787036400"; 
+   d="scan'208";a="9985477"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.187])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2026 08:50:21 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sasha
+ Finkelstein <k@chaosmail.tech>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, dri-devel@lists.freedesktop.org,
+ asahi@lists.linux.dev, linux-aspeed@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+ linux-riscv@lists.infradead.org, etnaviv@lists.freedesktop.org,
+ linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, imagination@lists.freedesktop.org,
+ linux-mips@vger.kernel.org, lima@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-amlogic@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v1 9/9] drm: Unify coding style for *_device_id arrays
+In-Reply-To: <av2rKJQ0AKU9CFZI@monoceros>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <cover.1795002467.git.ukleinek@kernel.org>
+ <a2d5ce256b8ec150de4a6494c177b19693a33222.1795002467.git.ukleinek@kernel.org>
+ <7692c160e418e7ad0528739fcc879b11fbac8ab0@intel.com>
+ <av2rKJQ0AKU9CFZI@monoceros>
+Date: Wed, 18 Nov 2026 18:50:19 +0200
+Message-ID: <8ebe3b7219ffd963a498cccbcfe6cefc92717f0c@intel.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -72,121 +101,92 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Enzo,
+On Wed, 18 Nov 2026, Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com> w=
+rote:
+> Hello Jani,
+>
+> On Wed, Nov 18, 2026 at 03:27:40PM +0200, Jani Nikula wrote:
+>> > [...]
+>> >  drivers/gpu/ipu-v3/ipu-common.c               |   8 +-
+>> >  drivers/gpu/ipu-v3/ipu-pre.c                  |   4 +-
+>> >  drivers/gpu/ipu-v3/ipu-prg.c                  |   4 +-
+>> >  254 files changed, 1155 insertions(+), 940 deletions(-)
+>>=20
+>> How do you expect a patch of this size be merged?
+>
+> Using b4 am :-) Honestly, in the cover letter I wrote about an immutable
+> branch and offered to rebase to 7.4-rc1. When trying to apply this
+> series on top ov 7.4-rc1 there are only 6 conflicts (1x modify/delete
+> and 5x content); these are all not so hard to resolve (and even dropping
+> the respective hunks (i.e. resolving using `git checkout HEAD`) is fine
+> for me.)
+>
+>> > diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i9=
+15_pci.c
+>> > index 84a7dc6ab5db..faceb3de4fa3 100644
+>> > --- a/drivers/gpu/drm/i915/i915_pci.c
+>> > +++ b/drivers/gpu/drm/i915/i915_pci.c
+>> > @@ -870,7 +870,7 @@ static const struct pci_device_id pciidlist[] =3D {
+>> >  	INTEL_ATS_M_IDS(INTEL_VGA_DEVICE, &ats_m_info),
+>> >  	INTEL_ARL_IDS(INTEL_VGA_DEVICE, &mtl_info),
+>> >  	INTEL_MTL_IDS(INTEL_VGA_DEVICE, &mtl_info),
+>> > -	{}
+>> > +	{ }
+>>=20
+>> Personally, I would *always* use {} instead of { }, and would rather not
+>> change.
+>>=20
+>> Across the tree, {} is slightly more common than { }. IMO changing them
+>> is pointless churn.
+>
+> It depends on how you count. My statistic looks as follows (on top of
+> next-20261117):
+>
+> 	$ git grep -l device_id | xargs -n 1 perl -g -n -e 'print "$1\n" if m/de=
+vice_id\s*[a-zA-Z_0-9]*\[\]\s*=3D\s*{(?:\s*{[^}]*},\s*({\s*}))/' | sort | u=
+niq -c
+> 	      2 	}
+> 	      2 {
+> 	      6 {  }
+> 	   2598 { }
+> 	   1262 {}
+>
+> So over all *_device_id { } is more common by a factor of > 2. This
+> series fixes one {  } and reduces the number of {} by 37. For only
+> pci_device_id it's:
+>
+> 	$ git grep -l pci_device_id | xargs -n 1 perl -g -n -e 'print "$1\n" if =
+m/pci_device_id\s*[a-zA-Z_0-9]*\[\]\s*=3D\s*{(?:\s*{[^}]*},\s*({\s*}))/' | =
+sort | uniq -c
+> 	    159 { }
+> 	     32 {}
+>
+> Without the context of an array initializer there are many empty
+> code blocks (function bodys or `do {} while (0)`), empty dt nodes, and
+> {} in Rust code, which IMHO have to be considered off-topic for this
+> statistic.
 
-On Mon, 2026-11-09 at 23:45 -0500, Enzo Adriano wrote:
-> Provide the SoC description needed for the Cubie A7S console, PMIC and
-> microSD support. Describe the CPUs, PSCI, architectural timers, GIC,
-> RTC, main and always-on clock/reset and pin controllers. Include the
-> main and R-domain UART/I2C instances and MMC0-2 with their pin groups.
->=20
-> The GIC maintenance PPI 9 and ARMv8.2 EL2 virtual-timer PPI 12 follow
-> the A733 User Manual v1.00, section 12.2.3. The GICD/GICR/ITS windows
-> and noncoherent attributes follow Andre Przywara's public A733
-> reference and the A523 precedent. The CPUX interconnect diagram in
-> section 5.1.2 supports noncoherency as an integration inference. The
-> ITS stays disabled pending its clock/reset and MSI integration.
->=20
-> The enabled console, R-I2C0/PMIC and MMC0 paths were exercised on a
-> Cubie A7S with vendor firmware in the November 4 RAM boot of DT v2.
-> EL2 interrupt delivery and ITS/MSI were not tested.
+I realize my phrasing was careless.
 
-Shall parts of this go below "---" as history/changelog?
+My point was not so much about one being more common than the other, but
+rather that there are *thousands* of instances of both, specifically as
+C compound literals with empty initializer list. I think it's pointless
+to convert one to other, regardless of whether you're adding or removing
+a space.
 
-> Link: https://gist.githubusercontent.com/apritzel/60fd7379b9560a15b8b3529=
-86b69d39f/raw/efd9cdf8f26ba5b0c7e138f093af44a1cf322469/sun60i-a733.dts
-> Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
-> ---
-> =C2=A0.../arm64/boot/dts/allwinner/sun60i-a733.dtsi | 601 +++++++++++++++=
-+++
-> =C2=A01 file changed, 601 insertions(+)
-> =C2=A0create mode 100644 arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
->=20
-> diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun60i-a733.dtsi
-> new file mode 100644
-> index 000000000000..d0b9f432e3ab
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
-> @@ -0,0 +1,601 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
-> +
-> +#include <dt-bindings/clock/sun6i-rtc.h>
-> +#include <dt-bindings/clock/allwinner,sun60i-a733-ccu.h>
-> +#include <dt-bindings/clock/allwinner,sun60i-a733-r-ccu.h>
-> +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> +#include <dt-bindings/reset/allwinner,sun60i-a733-ccu.h>
-> +#include <dt-bindings/reset/allwinner,sun60i-a733-r-ccu.h>
-> +
-> +/ {
-> +=09#address-cells =3D <2>;
-> +=09#size-cells =3D <2>;
-> +=09interrupt-parent =3D <&gic>;
-> +
-> +=09cpus {
-> +=09=09#address-cells =3D <1>;
-> +=09=09#size-cells =3D <0>;
-> +
-> +=09=09cpu0: cpu@0 {
-> +=09=09=09compatible =3D "arm,cortex-a55";
-> +=09=09=09device_type =3D "cpu";
-> +=09=09=09reg =3D <0x0>;
-> +=09=09=09enable-method =3D "psci";
-> +=09=09};
-> +
-> +=09=09cpu1: cpu@100 {
-> +=09=09=09compatible =3D "arm,cortex-a55";
-> +=09=09=09device_type =3D "cpu";
-> +=09=09=09reg =3D <0x100>;
-> +=09=09=09enable-method =3D "psci";
-> +=09=09};
-> +
-> +=09=09cpu2: cpu@200 {
-> +=09=09=09compatible =3D "arm,cortex-a55";
-> +=09=09=09device_type =3D "cpu";
-> +=09=09=09reg =3D <0x200>;
-> +=09=09=09enable-method =3D "psci";
-> +=09=09};
-> +
-> +=09=09cpu3: cpu@300 {
-> +=09=09=09compatible =3D "arm,cortex-a55";
-> +=09=09=09device_type =3D "cpu";
-> +=09=09=09reg =3D <0x300>;
-> +=09=09=09enable-method =3D "psci";
-> +=09=09};
-> +
-> +=09=09cpu4: cpu@400 {
-> +=09=09=09compatible =3D "arm,cortex-a55";
-> +=09=09=09device_type =3D "cpu";
-> +=09=09=09reg =3D <0x400>;
-> +=09=09=09enable-method =3D "psci";
-> +=09=09};
-> +
-> +=09=09cpu5: cpu@500 {
-> +=09=09=09compatible =3D "arm,cortex-a55";
-> +=09=09=09device_type =3D "cpu";
-> +=09=09=09reg =3D <0x500>;
-> +=09=09=09enable-method =3D "psci";
-> +=09=09};
-> +
-> +=09=09cpu6: cpu@600 {
-> +=09=09=09compatible =3D "arm,cortex-a76";
-> +=09=09=09device_type =3D "cpu";
-> +=09=09=09reg =3D <0x600>;
-> +=09=09=09enable-method =3D "psci";
-> +=09=09};
-> +
-> +=09=09cpu7: cpu@700 {
-> +=09=09=09compatible =3D "arm,cortex-a76";
-> +=09=09=09device_type =3D "cpu";
-> +=09=09=09reg =3D <0x700>;
-> +=09=09=09enable-method =3D "psci";
-> +=09=09};
+I mentioned my preference, because if I were to go on a style fixing
+spree, I'd go the other direction. But I think that too would be
+pointless.
 
-Do we need capacity-dmips-mhz, cpu-map and two PMUs here, similar
-to rk3588-base.dtsi? This in turn would mean ppi-partitions with
-#interrupt-cells =3D <4> in GIC?
+I suggest to just accept either.
 
-> +=09};
->=20
+
+BR,
+Jani.
+
+
+--=20
+Jani Nikula, Intel
