@@ -1,128 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794998515;
-	b=BuiwPBzRT2LP5Kl+1hP5Csf3Fw3qXmbtQD+gBoTyLDj+krpnROlH3HzScVb4d0rD3ncW
-	 cUVmWqiTQx4krIDEXeocqIUGe09y7EZBHS9Vlx8ud8hCOQi5uasuOzzcArLhKBjJhZf/P
-	 JEbu2KASF0sr+FSXC/7zropyWAhafA64ecWkJidA1lQJzI5/kvPq6yVlEptHubgZpXr3r
-	 qXClUD8j3tXbqloPiK7RAyUDEaieXxnkcbPiuAL0c7I8SdnmQ0XcL+EP6n3h0dhHuW2UA
-	 rw1GntVAIwxBY6v/iJ/V2ERRBh/Lcr5abaMthEqk2cKiuZJC67IPXFhc0Cp9GokrZ7w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794998515;
-	h=Received:DKIM-Signature:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-SA-Exim-Connect-IP:X-SA-Exim-Rcpt-To:X-SA-Exim-Mail-From:
-	 X-SA-Exim-Scanned;
-	bh=sY+sAZbrr9MFv4Pz0Kc/4nMk77/MPigr7GAG+Y6LLrw=;
-	b=actYOc5W42wBtGaFxK9wEg/Eo5Fc+wvI74rO2hY7gURxn16YLKi1QlThAZ97DYKCEZJG
-	 ygbxSau5z1JBMk1M5TfjqF5LqkaxzxGKx4qgmdgYQAG9J0rgrg3skRC7QO8luVDy0jSF/
-	 hHggmX3bJEt/oQyRvYfoqCfb4AubiDgKBmbE7v0B373qFBMfSNGxg3QAo8e/hq1B9nwHl
-	 Qnh9ZE1V1NLBWhG/pxoqTWTDEYCthXXMuISWWjDj5fAWiNssmQxpd1PMGhxCmTZVFoJTg
-	 ttyPW8JUm9mZNbrpCpOxfDC9ms0b/fSfHocf+XczWN391ZcEj/lcFG+lbzIgDqRMIqg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TxYrnDyp;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794999146;
+	b=nNiR1AQBt5Ha2vc5L5P2R7PSKK0YTczyhgNWaykJOH4icRqp7A0BqYobKnEogw0XfhWF
+	 oW2lOGamrlvlx2CxdlWdD8Aha8YwGY/h/rHpvySxXqyAti85Bj9s/BA0mlcAm+zps9ayl
+	 eUMnN7HhxKUF7Rky22PkfUkCMqDP80KLzLwITheZsgpTL9AEh/nPjXRsAvflDBjaVKKtm
+	 CMpeSVEfiC3TekzXOA83RXGpdG+CA6paJBNyvLekI5ROz7NYAzNaI2/L9NFG7St6VJ9/Y
+	 PXiHmlyeogfBh0SYqPryImYXfal7/S5TqkBx3bIBlHu5cWgLgYjGyce9syWa/uUcHtw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794999146;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=7gsWmvqHjORY7K1m06+fKawyHuEa0Hrt5rL694njs3E=;
+	b=ZNaizuzCjGqAZQPLbhNFUE3AsevMhVr9rNqHsqlgY3gIM1aPrDzi6ObuGbyeUQ5DD+SF
+	 CxCfzH6pLiEAMn1fvFUuy3wYBgAymXQ/a0U9hL1PuJ+u3W8Lz3M7Oi/2fLTzt1LU7QqRW
+	 M9hjix0brIOfDx3bYEhbBwoRnmzJJ3jhEmuG3Prh/YoRoSJW+hekVdoOf8US90EgYsEZV
+	 XC2mDarQ6MflTano5ibBAt/83ZJowEvlkF54ER7b4qcWqFs4JGR5G4Dx+G9JhBfF7dvlB
+	 /7HTpbnTMfhLKfIh18RhAWXbvWHhxJ1uhfEESiPGp+1E0FKpY50SfvBoaD8Ybx5dVjQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EJlr6Yjt;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A044606A320;
-	Wed, 18 Nov 2026 10:41:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC31606A31C;
+	Wed, 18 Nov 2026 10:52:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TxYrnDyp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC87E1F000C4;
-	Wed, 18 Nov 2026 10:41:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EJlr6Yjt
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794999146;
+	b=OInwZ1SS1WMPlSC/VhRWGKIGRSxDHkfx/7cnGbPP8b/Nx1VQ5lP+Gu1KY2JoInLQETVh
+	 hbnvzH01M0TmymWzEGr+JKiTMgDb59MI+9U/Lf6RS37cra25Mu2l9i/1sna/n4jnCBupg
+	 TeO+WKqvkxWMgDRvuXVfiJht4WZ/z4M4IVgtqWR2DSVfc4jf40LbwraLLGF3mmBNz06Sg
+	 MVifEzCuU2/REqqcc2PhxzjxpoUG28ZOzSuvD2mQBaTGCw1OkLolEbAvGnhaQbvhz7H0S
+	 /VrpgTmKnweawoYMNdF8MiPhcVe5ElS8TnLgtGCjdYG/IvO+sqUsPj79SK6XwZRgLNA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794999146;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=7gsWmvqHjORY7K1m06+fKawyHuEa0Hrt5rL694njs3E=;
+	b=UaEfz8RCmR/YO56PJcgeFX+JauR+Ie3t4217F5XNPPStGX3JNTUQJ4Y65iNrRnGMEMIW
+	 c/M7kpglmP97K1oCkYJ+g4Ek77bBEx6jPUyl41ZhzEkFEvs1+vPPUw+pNGHps1b58PcnO
+	 YwA2FRmGT9hrdFUQxQAdmfxN0n6X7NUdxGPI2WBQhXXRu+ZY+ZRvBHx28DtuHDAUWP0Wx
+	 Jea3IVgBW8CgOhZTVhiW9UAbVN/CidMPfL4AlFer7LVY9cRMI62qbA04hpVJd/XqFo9UD
+	 W4qOFVHI3nS5UsLvhLruV/+r5o4lspV5VQLy3TEOUNWCq1zGcTd5AgAlKQb4uPp7nSg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id E33121F000C5;
+	Wed, 18 Nov 2026 10:52:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794998515;
-	bh=sY+sAZbrr9MFv4Pz0Kc/4nMk77/MPigr7GAG+Y6LLrw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=TxYrnDypzM3e7JBSIBnX6AyKkQsKfwPrA2ry8lUYErmw0JQx/G6r0ttoymBx7BOsI
-	 +4Rzx3e4tzmRz0NgS9WalY9CgjAQ1+jgJ9RXg6eDZbqtcqbarNOBAMQmMDCOJgBtGG
-	 J1AFOpijvxM2Htv+gQshgrr9dWtcl1BcIF89mLPZAn0XRrZdYy0lqitEKV1B8pUXfz
-	 C6le5T+lKrAuCnLO24LwFAcFoOvI2RRnFuhSBkFdNsGlgG3rFuWCLhm9EMgP+pR04I
-	 kG0IKZhfATgM5jbDRYxYQ+rZTkFTH2LRoBdT5SBaNoFf9oVaaQf+JhXlGMnPeu/0b3
-	 jWTdpSnCWZgVw==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1xTd6u-0000000HTLD-08Oa;
-	Wed, 18 Nov 2026 10:41:52 +0000
-Date: Wed, 18 Nov 2026 10:41:50 +0000
-Message-ID: <868q2q1kwh.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Peng Fan <peng.fan@linux.dev>
-Cc: Thomas Gleixner <tglx@kernel.org>,
-	Radu Rendec <radu@rendec.net>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Ryan Chen <ryan_chen@aspeedtech.com>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Billy Tsai <billy_tsai@aspeedtech.com>,
-	Tan Siewert <tan.siewert@9elements.com>,
-	Eddie James <eajames@linux.ibm.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Caleb James DeLisle <cjd@cjdns.fr>,
-	Miodrag Dinic <miodrag.dinic@mips.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Herve Codina <herve.codina@bootlin.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Jiaxun Yang <jiaxun.yang@flygoat.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,
-	Anup Patel <anup@brainfault.org>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Qin Jian <qinjian@cqplus1.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Nishanth Menon <nm@ti.com>,
-	Tero Kristo <kristo@kernel.org>,
-	Santosh Shilimkar <ssantosh@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	Anirudha Sarangi <anirudha.sarangi@amd.com>,
-	Tushar Nimkar <tushar.nimkar@amd.com>,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	openbmc@lists.ozlabs.org,
-	linux-aspeed@lists.ozlabs.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	imx@lists.linux.dev,
-	loongarch@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev,
-	git@amd.com,
-	linux-arm-msm@vger.kernel.org,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH] irqchip: Convert chained handlers to guard_chained_irq()
-In-Reply-To: <20261114-irqchip-cleanup-api-v1-1-4a9d598b0bdb@nxp.com>
-References: <20261114-irqchip-cleanup-api-v1-1-4a9d598b0bdb@nxp.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	s=k20260515; t=1794999146;
+	bh=7gsWmvqHjORY7K1m06+fKawyHuEa0Hrt5rL694njs3E=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=EJlr6Yjty1SPLK9BRj7k1c6KYMpBSMsHX7PFgWZPs4Gi3QF1NkvHFRjAtK1iFYHYd
+	 rvicB05dCV34uSyXIJ9/O6bjueE+4PDIJ7Gp2jxQ1CGD59uTJAJnMrwR/C9Jt2arOI
+	 KGMgzeP3QGv0GWFDw827/bftGeWwErtMoZQm/hxqBAraFhXPffnTKWIMGtK5jwWFyT
+	 KFFZ14MqPqZqZZNRVZAkcZocQQwb2pfI9sYvpH0jDsVOpRcMsSZ0vVjYQYp+mErGaw
+	 NW9SI1MGIg8AErKWdn+uokrrb3kwpSrxDNPGWTSHhHtbfbx5EpvyDw/JG0tpuXTrWP
+	 FPWNHbdkvQk4Q==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 614834AD0C;
+	Wed, 18 Nov 2026 10:52:25 +0000 (UTC)
+From: Rajan Yadav via B4 Relay <devnull+rajanyadav0307.gmail.com@kernel.org>
+Date: Wed, 18 Nov 2026 04:52:24 -0600
+Subject: [PATCH v2 1/6] dt-bindings: opp: h6: Add A133 operating points
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -131,32 +81,202 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: peng.fan@linux.dev, tglx@kernel.org, radu@rendec.net, krzk@kernel.org, peter.griffin@linaro.org, alim.akhtar@samsung.com, andrew@lunn.ch, gregory.clement@bootlin.com, sebastian.hesselbarth@gmail.com, ryan_chen@aspeedtech.com, benh@kernel.crashing.org, joel@jms.id.au, andrew@codeconstruct.com.au, billy_tsai@aspeedtech.com, tan.siewert@9elements.com, eajames@linux.ibm.com, florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com, bcm-kernel-feedback-list@broadcom.com, cjd@cjdns.fr, miodrag.dinic@mips.com, Frank.Li@nxp.com, s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, herve.codina@bootlin.com, chenhuacai@kernel.org, kernel@xen0n.name, jiaxun.yang@flygoat.com, vz@mleia.com, piotr.wojtaszczyk@timesys.com, anup@brainfault.org, pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr, samuel.holland@sifive.com, qinjian@cqplus1.com, changhuang.liang@starfivetech.com, mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.co
- m, wens@kernel.org, jernej.skrabec@gmail.com, nm@ti.com, kristo@kernel.org, ssantosh@kernel.org, linusw@kernel.org, michal.simek@amd.com, anirudha.sarangi@amd.com, tushar.nimkar@amd.com, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, linux-i2c@vger.kernel.org, openbmc@lists.ozlabs.org, linux-aspeed@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org, linux-mips@vger.kernel.org, imx@lists.linux.dev, loongarch@lists.linux.dev, linux-riscv@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, git@amd.com, linux-arm-msm@vger.kernel.org, peng.fan@nxp.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261118-a133-series-v2-1-8bcec9c9aadf@gmail.com>
+References: <20261118-a133-series-v2-0-8bcec9c9aadf@gmail.com>
+In-Reply-To: <20261118-a133-series-v2-0-8bcec9c9aadf@gmail.com>
+To: Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>, 
+ Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, 
+ Andre Przywara <andre.przywara@arm.com>
+Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Alexander Sverdlin <alex@sverdlin.org>, 
+ Cody Eksal <masterr3c0rd@epochal.quest>, 
+ Paul Kocialkowski <paulk@sys-base.io>, 
+ Rajan Yadav <rajanyadav0307@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794999144; l=6454;
+ i=rajanyadav0307@gmail.com; s=20261103; h=from:subject:message-id;
+ bh=t1FpjYwSX+5T/HhM/HdhDFg5tta8TvLt0nYNWKvJh/Y=;
+ b=s/+eOpb58cAPqfEPoRIndBMnjW5N+hQVNtb5yB7TgCrvO8dxB3q8zH55rGPr+O+5mLo8WdCJb
+ n6oj4pWjl3MDvSbHtUcjNY2mL5SZTWLcmNVOG5j6EiPwwquLn5YXLyu
+X-Developer-Key: i=rajanyadav0307@gmail.com; a=ed25519;
+ pk=4ZPeiP5qrv2b44q/Obxi2koUS70Q6npbttJnpUoTlgg=
+X-Endpoint-Received: by B4 Relay for rajanyadav0307@gmail.com/20261103 with
+ auth_id=1391
+X-Original-From: Rajan Yadav <rajanyadav0307@gmail.com>
+Reply-To: rajanyadav0307@gmail.com
+Content-Transfer-Encoding: 7bit
 
-On Sat, 14 Nov 2026 15:06:15 +0000,
-Peng Fan <peng.fan@linux.dev> wrote:
-> 
-> From: Peng Fan <peng.fan@nxp.com>
-> 
-> Use the scope-based guard_chained_irq() helper in all chained handlers
-> under drivers/irqchip/ so that chained_irq_exit() is always invoked when
-> the handler returns. Handlers that duplicated the exit call on an error
-> path or jumped to a common exit label simply return now and rely on the
-> guard.
-> 
-> No functional changes.
-> 
-> Signed-off-by: Peng Fan <peng.fan@nxp.com>
+From: Rajan Yadav <rajanyadav0307@gmail.com>
 
-Acked-by: Marc Zyngier <maz@kernel.org>
+The vendor BSP for the A100/A133 family (sun50iw10) selects the CPU
+speed grade from four efuse fields and the die revision: the speed bin
+(SID offset 0x1c, which also holds the ICPU current), the chip marking
+ID (0x00), a value programmed at production that the BSP calls PCPU
+(0x20) and a bin extension bit (0x28). It knows 11 grades, a0-a6 and
+b0-b3. The A100 operating points describe only three speed bins, taken
+from 0x1c.
 
-	M.
+Add allwinner,sun50i-a133-operating-points for this. In its tables the
+N of opp-microvolt-speedN is the vendor grade: 0-5 are a0-a5 (a6 has
+the same OPPs and voltages as a5) and 6-9 are b0-b3. The four cells are
+named, with the speed bin first. The meaning of the PCPU field is not
+documented; the name follows the vendor BSP.
+
+Indices 0-2 are the vendor grades a0-a2, which have the voltages of the
+three A100 speed bins. So allwinner,sun50i-a100-operating-points is a
+valid fallback: software that knows only the A100 compatible reads the
+first cell, selects one of speed0-2 with the A100 rule and gets the
+OPPs and voltages of the A100 table today, with 1008 instead of
+1080 MHz. That is the A100 selection, not the vendor's; the new
+compatible adds the vendor's. The binding requires indices 0-2 to stay
+usable this way.
+
+The new compatible is SoC specific, like the root compatible
+allwinner,sun50i-a133; the A100 compatible stays as it is for existing
+DTBs. The schema now also limits the other compatibles to the single
+unnamed cell that all in-tree users have.
+
+Claude Code (Anthropic) drafted this change and its message from the
+vendor BSP sources (field layout and numbers only, no code copied); I
+reviewed it and checked it with dt_binding_check and dtbs_check.
+
+Tested-by: Alexander Sverdlin <alex@sverdlin.org>
+Signed-off-by: Rajan Yadav <rajanyadav0307@gmail.com>
+---
+ .../opp/allwinner,sun50i-h6-operating-points.yaml  | 94 ++++++++++++++++++++--
+ 1 file changed, 86 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+index 75ab552f6ec..5fa6a1074da 100644
+--- a/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
++++ b/Documentation/devicetree/bindings/opp/allwinner,sun50i-h6-operating-points.yaml
+@@ -16,24 +16,70 @@ description: |
+   Voltage Scaling Tables define the voltage and frequency values based
+   on the speedbin blown in the efuse combination.
+ 
++  With allwinner,sun50i-a133-operating-points, the speed bin index N of
++  opp-microvolt-speedN and opp-supported-hw is the speed grade of the
++  Allwinner BSP: 0-5 are a0-a5 (a6 uses the a5 values) and 6-9 are b0-b3.
++  Indices 0-2 must be usable as the A100 speed bins 0-2, because software
++  using the A100 fallback compatible selects only these.
++
+ allOf:
+   - $ref: opp-v2-base.yaml#
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: allwinner,sun50i-a133-operating-points
++    then:
++      properties:
++        nvmem-cells:
++          minItems: 4
++      required:
++        - nvmem-cell-names
++    else:
++      properties:
++        nvmem-cells:
++          maxItems: 1
++        nvmem-cell-names: false
+ 
+ properties:
+   compatible:
+-    enum:
+-      - allwinner,sun50i-a100-operating-points
+-      - allwinner,sun50i-h6-operating-points
+-      - allwinner,sun50i-h616-operating-points
++    oneOf:
++      - enum:
++          - allwinner,sun50i-a100-operating-points
++          - allwinner,sun50i-h6-operating-points
++          - allwinner,sun50i-h616-operating-points
++      - items:
++          - const: allwinner,sun50i-a133-operating-points
++          - const: allwinner,sun50i-a100-operating-points
+ 
+   nvmem-cells:
+     description: |
+-      A phandle pointing to a nvmem-cells node representing the efuse
+-      register that has information about the speedbin that is used
+-      to select the right frequency/voltage value pair. Please refer
+-      to the nvmem-cells bindings in
++      Phandles pointing to nvmem-cells nodes representing the efuse
++      registers that have information about the speedbin that is used
++      to select the right frequency/voltage value pair. Please refer to
++      the nvmem-cells bindings in
+       Documentation/devicetree/bindings/nvmem/nvmem.yaml and also the
+       examples below.
++    minItems: 1
++    items:
++      - description:
++          Speed bin, or the chip marking ID on the H616. With the A133
++          compatible, bits 15:12 are the CPU bin and bits 11:0 the ICPU
++          current in units of 0.1 mA.
++      - description: Chip marking ID.
++      - description:
++          Value programmed at production, called PCPU by Allwinner. Bits
++          11:0 are used together with the ICPU current to select the speed
++          grade; their unit is not documented.
++      - description:
++          Bin extension. Bit 31 is used to select the speed grade.
++
++  nvmem-cell-names:
++    items:
++      - const: bin
++      - const: marking
++      - const: pcpu
++      - const: bin-ext
+ 
+   opp-shared: true
+ 
+@@ -132,4 +178,36 @@ examples:
+         };
+     };
+ 
++  - |
++    opp-table {
++        compatible = "allwinner,sun50i-a133-operating-points",
++                     "allwinner,sun50i-a100-operating-points";
++        nvmem-cells = <&cpu_speed_grade>, <&chip_marking>,
++                      <&cpu_pcpu>, <&cpu_bin_ext>;
++        nvmem-cell-names = "bin", "marking", "pcpu", "bin-ext";
++        opp-shared;
++
++        opp-408000000 {
++            clock-latency-ns = <244144>; /* 8 32k periods */
++            opp-hz = /bits/ 64 <408000000>;
++
++            opp-microvolt-speed0 = <900000>;
++            opp-microvolt-speed1 = <900000>;
++            opp-microvolt-speed2 = <900000>;
++            opp-microvolt-speed8 = <940000>;
++            opp-supported-hw = <0x107>;
++        };
++
++        opp-1512000000 {
++            clock-latency-ns = <244144>; /* 8 32k periods */
++            opp-hz = /bits/ 64 <1512000000>;
++
++            opp-microvolt-speed6 = <1180000>;
++            opp-microvolt-speed7 = <1130000 1130000 1140000>;
++            opp-microvolt-speed8 = <1100000>;
++            opp-microvolt-speed9 = <1080000>;
++            opp-supported-hw = <0x3c0>;
++        };
++    };
++
+ ...
 
 -- 
-Without deviation from the norm, progress is not possible.
+2.34.1
+
+
