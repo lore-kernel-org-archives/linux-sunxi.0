@@ -1,63 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.37
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794974431;
-	b=g/7s0mnQAVZBDhYoALyZm+teke5/nz5oKrDxLBXLdUqqMUjT5b0Gvz6xTXOLeGUkV5S+
-	 rDWUHrY7dYjKddBWp2CLZqIdZE5F9NBsTGy/eGlQD8Qeol28CiYWx/aejzJ3+SiCY7fm6
-	 y+vMwF17XvmBa99TomSDUYBwNSmNU2DBETxxBV1kZGVgu6HjvjpB/N7EzGLlMKHohnHbk
-	 w2d0WxuAhSeUgLeRTcfAe15b7D7oFoEeUnJu4pU+qy6wcDr0GdtrkICOQgxu8fm3GObHo
-	 hfwVDTdxmpzwhINpfwOoQ6bncdEyZGGYIkqtr41PWfLrpK+HFF3zYRjBvbpiq9YcSdA==
+	t=1794975869;
+	b=JRFUy/H2Fv4r6Nih1z5LOAlLVTictj77EbNg/wuaFXbIyLp3xz9/wou0mBGSgeQZVO1z
+	 Cbw15hY+ldjGz5Z6Ru2HS6cNzrDYW2ZoJqgjMOpDAV+svdEo7fhq6A/a8QSJscQHQiym8
+	 AIOXbHAhtcEw/Nk5PO4fR2XtjU+d+i2h8xnUklifxbHFwxtzzG0o94zCrIEtoHydNgTy3
+	 pcgW1sNJu9U27NzvDXIDiy7Ws6xieNRnuseMm+KkWkjyJvgDyU3Lfmw1aRnNcqffysHb8
+	 N81Qc0VhFcuntdnH1PB82ypuUYHbsTOa1uWchGnoTz0rfN7c596DbtqciXu/fTPl5Uw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794974431;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=ce09li/mRE3QKbeYZW0hYgjy4tmbydFrUNpFWj4zNGo=;
-	b=uQfx5sSaX+JqnMzOlKvY8oV+vSPyuRxECRwit+clEC67UohImtGKj6kpZFS5GEJjAJNL
-	 R8AenLvTCOzFfU8332ZyuLnKktIzx3Ps0DMZQJu/fJHP9ne0M7WD7nmBSoEh4QAeKrnI8
-	 3YfeVc3QJiuJC/BFpUs7HxMxI7a+T54wUK0orhlK4OzHxy3bkYtSY9wziSO6slqIiyA8N
-	 oDi6HOdIP6pK9304ed1ujEP5I9LFiOgN/1wP51qmnWPNqx44bh/aub33+1cCotZEorC/s
-	 FVaWSXsRwboVGUVuuqUIMi6Fojit0ahglxXb2QWo0P/7yHdpqx8iOvYJXqT6dFLlWWQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794975869;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:
+	 X-Source-L:X-Exim-ID:X-Source:X-Source-Args:X-Source-Dir:
+	 X-Source-Sender:X-Source-Auth:X-Email-Count:X-Org:X-Source-Cap:
+	 X-Local-Domain:X-CMAE-Envelope;
+	bh=lGriT5mvGmwLjZVhyWJORLnWv5py1JwCn14OrwKl/ns=;
+	b=RfwViMiDNIzlynLCDnkjR9Hfd4/SIY1fFk0yDbdughY6zbB7r3PJhoFvFr1hIJAWfn/r
+	 yZFnl2DLXYVshYEnJ+nuZboqQyWwtYtN00DHibmYKwQczP549AinPPUqEq0INA63AkOFY
+	 7Lq9/kN3JKDcLYaNN9vcnVXhKCHA32hkkJFM0b4lVSp5T6iYqry6v7r3YRudcv+LTgH8d
+	 hmU0qko0BtBhy99XnHR6g9j659lmIF4+pOuLxg5DqzS/c7736ia/ox4m+/6s7w0eLA762
+	 QQeTyx+HPZSrVe9nrbvk7+QmBubndIqQUGSzfbXouFVXF2XAovtw/qjf+d4Fk3Ixd6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Fo2sJyOz;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=ZkvXRGQy;
+	arc=none smtp.remote-ip=35.89.44.37
+Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BB5606A31C;
-	Wed, 18 Nov 2026 04:00:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936AD606A32A
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 04:24:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 936AD606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Fo2sJyOz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CD081F000C4;
-	Wed, 18 Nov 2026 04:00:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794974431;
-	bh=ce09li/mRE3QKbeYZW0hYgjy4tmbydFrUNpFWj4zNGo=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=Fo2sJyOzhoOIx3tm7h6MSHaw2g65Rdo7lkEFqCZA5pMcvsSs2luGzSNylqaOHkBrz
-	 ZXLS0J6AXNLqEfhmLzE/Y3me9hev9Ip3uIk8JPtLjryuTxU0yPPgabZKL0Ejp9nev6
-	 cLuj9wQ9z9SHNHfgu1EVR45eqD9RI7Ge5XYdMzgadCgVoai8fDGAT7diGzZTQEv534
-	 Pj9D5nmoX/pAVeC5kEiFd5Y/W4HGqc9v1Dw7x1ffHULi0ZBa7m42/8BS7SFjaRTGbG
-	 PMdTJlIs751SFo+vYN56dGXymMvfZrwsWe49EVzn4EbvMAoo76NrBJnWCEZ76AIL69
-	 XXhTAOr7ImL3A==
-Subject: Re: [PATCH net] net: stmmac: dwmac-sun8i: Honor the RX checksum
- offload setting
-From: netdev-bot+sashiko@kernel.org
-To: james.hilliard1@gmail.com
-Cc: netdev@vger.kernel.org, maxime.chevallier@bootlin.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, wens@kernel.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, clabbe.montjoie@gmail.com,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Date: Wed, 18 Nov 2026 04:00:29 +0000
-Message-ID: <179497442968.3136.18415990643273213851@kernel.org>
-In-Reply-To: <20261115-submit-sun8i-emac-rx-checksum-v1-v1-1-f186d127b39f@gmail.com>
-References: <20261115-submit-sun8i-emac-rx-checksum-v1-v1-1-f186d127b39f@gmail.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=ZkvXRGQy
+Received: from eig-obgw-6007b.ext.cloudfilter.net ([10.0.30.166])
+	by cmsmtp with ESMTPS
+	id TVFzxZ1H2VK9UTXDhxEYX6; Wed, 18 Nov 2026 04:24:29 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id TXDgxkf3o3nNNTXDgx14fb; Wed, 18 Nov 2026 04:24:28 +0000
+X-Authority-Analysis: v=2.4 cv=TuLmhCXh c=1 sm=1 tr=0 ts=6afd287c
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10 a=Byx-y9mGAAAA:8
+ a=bFsclcQv4yI7B98-yzEA:9 a=CjuIK1q_8ugA:10 a=KPbNTLLc3YvdawN95zVk:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
+	:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+	:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=lGriT5mvGmwLjZVhyWJORLnWv5py1JwCn14OrwKl/ns=; b=ZkvXRGQyU0Wzkfafy1hMVHyBGu
+	HCriZteRWNHQit/5wA01C7TLyBVGK2iOveswT90ziJ2AfriLIUXMGCGTwlBnNsaDRorcqjItIFQW2
+	a5bmgGt2lfTj8ShHcmxjmPi6evkb1+wyslBtAyZEk7c1QrNUrWNevqcaRuBXNIwm43smI3xYCmW8Z
+	fqvhqEh5dErJ3qO0uE8lJwRrY8DBn5PE3iccQmtedd4ed1oZE9kdXzFqLeIv4oL1WFfGND1L78JYO
+	JsVK1CyKrTuaGoBH5u1XsVo+3kl0mtVGaFn0+8Lk3rVxRYylcXvn3tw8fgwi8N5sE4Dg5tM3lW/xN
+	SpglVpHw==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:42556 helo=server.roeck-us.net)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xTXDg-00000004C8t-0Nnp;
+	Wed, 18 Nov 2026 09:54:28 +0530
+Date: Tue, 17 Nov 2026 20:24:27 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Yang Siyuan <hsyysy@163.com>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	linux-watchdog@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] watchdog: sunxi_wdt: stop the watchdog across system
+ suspend
+Message-ID: <164e54ff-8a1f-4841-92eb-7fe1b7815a64@roeck-us.net>
+References: <ece4aa08-fb86-4f76-b4b8-a9351a71df14@roeck-us.net>
+ <20261118005048.385059-1-hsyysy@163.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -67,129 +85,53 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261118005048.385059-1-hsyysy@163.com>
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xTXDg-00000004C8t-0Nnp
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (server.roeck-us.net) [108.223.40.66]:42556
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 9
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfLa2rSpfom3dcrwI9juijjqPyMX9OIhgJlrm7uhHKOhMJ5o6eAbi45Yr/fnm3BXnA6ErG4kUFwikdbwPWat+AWfx+BlQJeFsQkkQwgg7nKCqHlFINCnX
+ Z6+gBR5R00f6S8UzmSxhb2uLOZY23w4B7rnaKxmJApy2n3WRUFFyktv6OWBXB3wFqoYPPUOUVTiO7t7XYZ2VARhcLaZWQla0VEqJ25AF2qov0gLvicW67jT0
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+On Wed, Nov 18, 2026 at 08:50:48AM +0800, Yang Siyuan wrote:
+> The H616 watchdog has a maximum timeout of 16 seconds.  systemd keeps
+> /dev/watchdog0 open with RuntimeWatchdogSec=16s, but during system
+> suspend all userspace is frozen and the watchdog core does not stop the
+> hardware.  A suspend longer than the timeout therefore resets the board
+> before it can resume.
+> 
+> Add system sleep PM ops to stop the watchdog before suspend and restart
+> it after resume if it was running.  The driver did not store its private
+> data in the platform device, so add platform_set_drvdata() for the PM
+> callbacks.
+> 
+> Use DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr(), and use
+> watchdog_hw_running() instead of a private flag to decide whether the
+> hardware needs to be stopped and restarted.
+> 
+> Tested on an Anbernic RG35XX-SP: a 30-second s2idle suspend resumes
+> without the 16-second watchdog reset, and /dev/watchdog0 keeps working
+> afterwards.
+> 
+> Signed-off-by: Yang Siyuan <hsyysy@163.com>
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 1
+Applied.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
-
-- [Medium] Clearing EMAC_RX_DO_CRC (EMAC_RX_CTL0 bit 27) whenever
-  NETIF_F_RXCSUM is off may also turn off the MAC's Ethernet FCS…
-- [Low] When RX checksum offload is turned back on, frames the sun8i MAC
-  received while EMAC_RX_DO_CRC was clear can be marked…
-
---
-
-net: stmmac: dwmac-sun8i: Honor the RX checksum offload setting
-
-Before this patch, sun8i_dwmac_rx_ipc_enable() always set
-EMAC_RX_DO_CRC. With the patch, it sets or clears the bit based on
-hw->rx_csum, so that turning off RX checksum offload through ethtool
-also turns off the hardware checksum engine.
-
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> index 2ece7ba9dd73b..98cc7503bddeb 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> @@ -705,7 +705,10 @@ static int sun8i_dwmac_rx_ipc_enable(struct mac_device_info *hw)
->  	u32 v;
->
->  	v = readl(ioaddr + EMAC_RX_CTL0);
-> -	v |= EMAC_RX_DO_CRC;
-> +	if (hw->rx_csum)
-> +		v |= EMAC_RX_DO_CRC;
-> +	else
-> +		v &= ~EMAC_RX_DO_CRC;
-
-[Severity: Medium]
-Does clearing bit 27 of EMAC_RX_CTL0 also turn off the MAC's Ethernet
-FCS check, and not only the IP/L4 checksum engine?
-
-The bit is named after the CRC:
-
-    #define EMAC_RX_DO_CRC BIT(27)
-
-The probe code says the hardware features were "copied from Allwinner
-drivers". That code sets this bit with the comment "Enable CRC & IPv4
-Header Checksum". The Allwinner manuals describe CHECK_CRC as "Calculate
-CRC and check the IPv4 Header Checksum".
-
-On this path, sun8i does not have the hardware strip the FCS.
-stmmac_rx() removes it in software without checking it:
-
-    /* ACS is disabled; strip manually. */
-    if (likely(!(status & rx_not_ls)))
-        len -= ETH_FCS_LEN;
-
-The only FCS check left is the hardware RDES0_CRC_ERROR bit, which
-ndesc_get_rx_status() turns into discard_frame.
-
-Suppose bit 27 does control CRC calculation. After "ethtool -K ethX rx
-off", the path is stmmac_set_features() -> hw->rx_csum = 0 ->
-sun8i_dwmac_rx_ipc_enable(). Frames with a corrupted FCS would then no
-longer set RDES0_CRC_ERROR. They would reach the stack as good frames,
-with the FCS silently stripped. That behaves like NETIF_F_RXALL rather
-than "RX checksum offload off".
-
-Is there a datasheet reference or a bad-FCS test showing that bit 27
-gates only the L3/L4 checksum? If the hardware ties the two checks
-together, a different approach may be needed. For example, keep bit 27
-set and, when rx_csum is 0, stop discarding frames whose only error is
-the IP or payload checksum.
-
-[Severity: Low]
-Can frames that arrive while EMAC_RX_DO_CRC is clear be marked as
-checksum-verified once RX checksum offload is turned back on?
-
-When "ethtool -K ethX rx on" runs, stmmac_set_features() publishes the
-software flag before the MMIO write that re-enables the engine:
-
-stmmac_set_features() {
-    ...
-    if (features & NETIF_F_RXCSUM)
-        priv->hw->rx_csum = priv->plat->rx_coe;
-    else
-        priv->hw->rx_csum = 0;
-    ...
-    stmmac_rx_ipc(priv, priv->hw);
-    ...
-}
-
-NAPI is not disabled, RX DMA is not stopped and the ring is not drained.
-Meanwhile, stmmac_rx() may run on another CPU and read the flag
-directly:
-
-    int coe = priv->hw->rx_csum;
-    ...
-    if (unlikely(!coe) || !stmmac_has_ip_ethertype(skb) ||
-        (status & csum_none))
-        skb_checksum_none_assert(skb);
-    else
-        skb->ip_summed = CHECKSUM_UNNECESSARY;
-
-sun8i uses normal descriptors. ndesc_get_rx_status() never returns
-csum_none, so nothing in the descriptor says whether the hardware
-actually checked a given frame.
-
-Any unchecked frame still in the RX ring would then be passed up as
-CHECKSUM_UNNECESSARY. That covers frames received before the writel()
-in sun8i_dwmac_rx_ipc_enable() and frames received just after it.
-Before this patch, the bit was never cleared, so this state could not
-happen on sun8i.
-
-Swapping the two writes would narrow the window, but it would not cover
-frames already in the ring. Would RX need to be quiesced or drained
-across this transition?
-
->  	writel(v, ioaddr + EMAC_RX_CTL0);
->
->  	return 1;
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261115-submit-sun8i-emac-rx-checksum-v1-v1-1-f186d127b39f%40gmail.com
+Thanks,
+Guenter
