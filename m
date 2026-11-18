@@ -1,106 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795010806;
-	b=sOUiWycbwAIF5Fk7/JgKLu6wSAthYpRQS0CDPq8fuxN8P3/YVW2TMiRkOsYQY9AVKE9y
-	 Bb0EXVpopsJxxw/FEg12MeS3WiRnREhI4r70eiowheWYVTBp351+4fXYiLkdVrEiHYZZS
-	 FDT13b+xdVDAhDFcS15d44L3Bu3xeV5BGoCn1+ZrALvJguOmRU16YnK4eQ1p04TQz+DPo
-	 gvx2GV4MVMUpjmxBhV9gACpwqqRxVwhmiKONyx3aN6bQJlPImG/1k2WL2Jb7CDv88Wbpo
-	 lpt/4WvV36txaWcwDXJ51AqAEp5sQujv+P28yYHQg5KfeCaSIOsJmklURx560+2sGhg==
+	t=1795013020;
+	b=WW6KVBuWWYYC5kxfuwwgR0AW6gvL2Tld+ye3Ntf6aisKUtLSdIA4frzxJ4WfxrQNlPE3
+	 qHUUuHfGDb9My2zKwGVqUqRxlEPgilpFNoaTtQ+ijUnlEt2BFWPA1x0hBOAyEOmOopTfO
+	 d5SrYOLzFxCjcFd95zEQpqwx4qgYbJl1MhVRnIiAi8FSQX0ONn732KCunw+9ou1F5JwPs
+	 tG5cP5qx42GT+hTZX7PsCUTddIRbyTk+55yyKFCgn/Mm9CLObapo6yOlFB7YAMXiP82sn
+	 yhxyji1gTYksiUwWoC5ZrVYZtenU7uexsMphKPdFhz6lHNzGej3PKpLkncJhqjIVmwg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795010806;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795013020;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=O8kUxWwNMGGKdJF+2JBGIvhWCx8VFS9Gq0fs2XPEP3c=;
-	b=g8M+OEVzg8YkmDITFMpYy1lRD56WqOxUedEXv7gcQovhio5GGYVOQ2CrDdqGQ0FNxsQX
-	 t7ZFxOd0j4HHiYbRoxypZUBDhulQwo554d96422Qy5NHxGFn3l7n+XQd9MKxqBa1LFa5z
-	 oo8ILZP2rRs91HHjg9S3aAEpg1Ojm7xl/2UtuKQaHl6/WjVxRty1+kTjdnkec8u60Wxfg
-	 0cQRXvrQMe1jONttc5zHkbtLuO3qxEf4bn+LoCHsB7bdWedXHOe99jouNN2qgjwbxOuA0
-	 AGNCBeGLzrk+7VZJ/fXGnpNsnMvRy06PHfEYHPAZJvHTwYvGPWPaIQPprHtCZCqaS1A==
+	 From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type;
+	bh=lofE1i0lcl9nIDZVdZhTFR9XGUpRnG24017uwCNl4OI=;
+	b=LoNQjoVOfs8zqGBv5rjFBpey+nRDzJDvTw223RABohOydTXJKAKexVd8BIdPQeqtpoIL
+	 J9b7WIhRv3cDDtpSc/YVzA7AHcxEtXE+DOmzl3ntoOTgSoeTIqGrqfnBkSafv/8bk2ThM
+	 HQT8caWnPKpG1u0zS6Le+lYzKXO7pBZHXgU94e1BQ1FJZvxAAKt+7hlDgbrm2K1pONW7M
+	 mU86LghiFsb71qSk7po6O+F8UjHetr24OR6UWLvRcGA3IaHgvR/T064Q7OTHR/dMXMPV+
+	 4CeCCeHUhinrqy7cEkWHsudHRGbZXA9iezTt3q3l9DQzmeyDEndvumWYxODaYxSykkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=baylibre.com;
 	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=m+xbdE2k;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=mPieSCZ5;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946CE606A332
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 14:06:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 946CE606A332
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D203606A32C
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 14:43:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D203606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=m+xbdE2k
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4bb69f5b161so6631595e9.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 06:06:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=mPieSCZ5
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4ba013938d7so10015805e9.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 06:43:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1795010804; x=1795615604; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=O8kUxWwNMGGKdJF+2JBGIvhWCx8VFS9Gq0fs2XPEP3c=;
-        b=m+xbdE2k5CCVtpBP577o2tkxcRdCBv8X0ubrc4Nn7qvC4s7OT1ONYtLDkxTy81wS5s
-         XLRxhavPkNIyPjaAfZ6kanIOp/tyFL/uG4Faezv5bA6NYiFOnyy1oPi3XQBSvAMea7aK
-         ltrHwWADMWOV1HqENeFcmmHZOUlHBXT0MtECSc41tppkRmtQbVOd1Iw+W/9bRFPg0xwZ
-         AfOa6Xj4i9j5ebEXys5PkCUIFA6nAUcOmu3Sxzy3pFSURiCUsqKkBSDMD0t53bG7ur2+
-         ydjYlSXuGjuc7BAbkG3yeDi9kwk4d92sCO9wZLm1CgzZa+DWoaEd/Oy3RS6bWfeG8hdq
-         GTgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795010804; x=1795615604;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=baylibre.com; s=google; t=1795013017; x=1795617817; darn=lists.linux.dev;
+        h=content-type:mime-version:message-id:date:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=O8kUxWwNMGGKdJF+2JBGIvhWCx8VFS9Gq0fs2XPEP3c=;
-        b=Rg9/5UOIamNr4gfuUPNp1THhUcVrF1TVrWPpsjkDMVchIDLwmwbGX8XkzIXGjXreVu
-         qkwMS8iNtzPx5gGvI4I4BAIN62+5dbQAx1QpvwpFGAw+HUbuZDn/cmYt56W9EbJZITml
-         CdueoEFjD9TaN3feDNz3Lj/e0ihV/GAiM7EbYfdtMF+XJSl11Q4w/vVq9NcPUUn/96il
-         /KaiHCBqfy+M7yOEICZNOIHjWTu9tGGMbiHxRVkoApBfzIqPDKBjUGdGMMqfz6Gs3xHD
-         J9OOuv93oi3vj8u/FPy9BJy3I3/A3p6oHveJLxvTXwJr1M9n+Bc9CuGeKnbE7PM5k7MM
-         Salw==
-X-Forwarded-Encrypted: i=1; AL+hErGW7eO6FIZC/6Ty7OLGx5SJtj867S8IKvJze4o5N/fi/XtfJrWo9KjbIVKjBRSX9SKDGKrsjuUuH5Qagw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8lFP0HnfY/8+M9l4uYEsG+i78Y9nhXE1c92KC01PjFqyrv/pF3
-	evyLTGaN8dEzwPDbHwOQNDJSoCcxrdcSI1y5zo/TrO6i9jJl2HOSMO7Tm3BGM+hqiHI=
-X-Gm-Gg: AYBFou0XUHerMVr0xjQBdvtEMaKzLr7TLA+G7QAQtYGerkrpymT/3JYsjQycuEoH8sE
-	JTR9jgo1RlvAzHJSi2hkgzmcd7CqQh04f9tzjrHtv9ogCpUNFUtEG+5adV2J268cLI9PnuVc43l
-	sHHn0xf0OSuQRzeBEvYrRtZXdN5sVlTGIr3IeBAhtlc88OQ7WJw44sdWYAlWZ2neZzoftD7rI24
-	KCWU1WieAJwlmgsbSg3gQ7CK98UGW0nUqMOAoDg2PACzCQiztASDOzEnUQR4W+2MZq2vRsZoVWy
-	hlXFTiJf4MgxNCgiUfFZY31mfxyEysavcJAV2ZDWHtTymneLOnfKTf84xhqaXcGM+wy4z+sMHnA
-	aF0Nd7eCzGZwBsqcnRDFlcD0fcX7C7DLiBCmxmgIy5zkQXxs5ORJ+EBnjLbZNsT3+mq3hQtoVeO
-	lK9/UsorKPWXDWZSZWL4ynZhdWhfKK78rBpqfXKNDP38fvEaE6yHPndAiTygt1zvYDsrnvW41Rp
-	RAQFu2GoukTyZVAwMDdFpEAq5Z0/jCKWy6T9/QgGDF+LYxjtsJVcxuoGH7vQ69jZF48maL5u0Xy
-	RQ6NUVofeiBm4Wj8JvtR/y8hxbA5smYG0tE=
-X-Received: by 2002:a05:600c:3509:b0:4bb:68b9:f610 with SMTP id 5b1f17b1804b1-4bb7da03954mr52120315e9.9.1795010803953;
-        Wed, 18 Nov 2026 06:06:43 -0800 (PST)
-Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4bb7d256f64sm61534715e9.1.2026.11.18.06.06.42
+        bh=lofE1i0lcl9nIDZVdZhTFR9XGUpRnG24017uwCNl4OI=;
+        b=mPieSCZ5R2FY+D9y17c5MMtObeNPB87aoroerDZtwQCIg2lfALm0j6W18RyIiHhxr9
+         zgCrd8VF28ukZxXEcot678aOHq7fKx4xt+HeWSTP2GbOeVNzXIQRPOaKkQdN62vzOdvZ
+         PJvM5b7rqYkY9veGH9Lj8hkxu1iIICnWUxnvh5oqN4NsB0U1BSFn2ZZn3UO0S1g/8KRz
+         xWw0nZQgJn+2jRqhb4KzQf8NfhrSt201Fl5qQm3Zgg6WYI1TmIaLcc6FiuCtPkpPzCLQ
+         dMQFOaPPdUugsFOS37g9vH3OOfaxFKy5EocGfy3sfLihxKxP0GPTqShLHoTJC3N2/4FQ
+         FW9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795013017; x=1795617817;
+        h=content-type:mime-version:message-id:date:references:in-reply-to
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=lofE1i0lcl9nIDZVdZhTFR9XGUpRnG24017uwCNl4OI=;
+        b=sTIR24XagsECDu4+18rrckZnDKVSWfHQbYsJQCknHAWk+N4QM6erTLGcjfUfvW0ytx
+         ZVSsufmzwsCYkUcTyZBt7tpt2SwJy9BR1khEdr/ldl7aITJdA77VJYLrqqZ7qkqKGjCJ
+         CJk92gQRDmxjHCNC8HtHwYjETAHPgkjXVT+8iK4DN6YituluR9G8N+ofNrllg37X13U+
+         TO4v/7y5QAcS6cnAUPOURyGwfFP9EHw7IDudIhu9Po4oGVp4mbYojZnD+BFNSB6VvAhK
+         3C4xd+e7MDwLdxqVHJAOV6b1m6+lWpKb9IPgL3fvm4jmasOzcxSxHcKPIz7g5QPnhFF9
+         WYYQ==
+X-Forwarded-Encrypted: i=1; AL+hErGVViXdhb5Gx/R1Z9xwRrM5kdWrdp5HgwQy3ecEyUEX5ILop5tiACcOs8z4ANbuM/IFKKVa5Iut404zYg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9cbbHQ80o2GMDhgpp8M5wmu+LQLS+Y/0BJvkZ5Ip1qptDwQ0/W
+	Y+WD+f6ol+6o35JjLAlyHPdmQaeprs//CtNRXdrn6Lb0QVo5A8p950dcOsVdagEb7jI=
+X-Gm-Gg: AYBFou2HBc4q/3VIHpYxEp+cEXPJcdram50gt99wjXQFq819WBUSJDicV/9kNiScWu1
+	CIIJfAR2YyWmSBhVfWtbf3/7DZL9u2WQdelbLf71XWAf+JyXktpxcyS9KcDdBmuyilxK3k8qe5n
+	AHS8yvHdMetkrFwnil3xDbC6+FoVgVvH9d4nvf1ArmTR+zWbgR5z7YkrNgtVEfluYdCUwJm0iHr
+	uy24xDntmcpO+E9nB696mY3HBAz29nQ9GFleYRhUlB/yFbG/YVDnBjSzQ9Bp5KRx2oKvq9ZUL9h
+	/NrLobn//wJnJFJGKcgWTl6SdhjuFcHXR3OwZ09fU/nf+gN8x38DScILpRCsco7WR6EMui4Chu6
+	iTwIoYWDHdpV7U7cfj8ZJClrEXNbXuAM2QOgaAxIkljCCyjVRa1GIY1+u58teVbn40ZOyVtwHJc
+	qif/g/FhaHBQPt3ca3dk5RxuSiqY6pxF4RkehtLKIu63Rd55S8iC4KZZTjqWLTsRdSPjppeHrQu
+	zo6Iwt6sd240vkdiAr8WGE932VySBWyxwyRh+kdcuhoTTHwveuZJScos6G1kapnxwnCInUBv26k
+	TXNICSjuq3heJuI3WKyeSFLtx/4HXcRBle32A2jN+XJ9yO24AwUIZZ2HCuL0H0lgdRov9A==
+X-Received: by 2002:a05:600c:81c5:b0:4a1:f720:74cd with SMTP id 5b1f17b1804b1-4bb7da38bd0mr52621935e9.24.1795013017611;
+        Wed, 18 Nov 2026 06:43:37 -0800 (PST)
+Received: from localhost (82-67-6-57.subs.proxad.net. [82.67.6.57])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7e5919c5sm29710375e9.3.2026.11.18.06.43.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 06:06:43 -0800 (PST)
-Date: Wed, 18 Nov 2026 15:06:41 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sasha Finkelstein <k@chaosmail.tech>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, dri-devel@lists.freedesktop.org, asahi@lists.linux.dev, 
-	linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev, 
-	linux-riscv@lists.infradead.org, etnaviv@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org, 
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
-	imagination@lists.freedesktop.org, linux-mips@vger.kernel.org, lima@lists.freedesktop.org, 
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v1 9/9] drm: Unify coding style for *_device_id arrays
-Message-ID: <av2rKJQ0AKU9CFZI@monoceros>
-References: <cover.1795002467.git.ukleinek@kernel.org>
- <a2d5ce256b8ec150de4a6494c177b19693a33222.1795002467.git.ukleinek@kernel.org>
- <7692c160e418e7ad0528739fcc879b11fbac8ab0@intel.com>
+        Wed, 18 Nov 2026 06:43:37 -0800 (PST)
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Lee Jones <lee@kernel.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Hans de Goede
+ <hansg@kernel.org>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, mfd@lists.linux.dev,
+ linux-sunxi@lists.linux.dev, Sashiko <sashiko-bot@kernel.org>
+Subject: Re: [PATCH v8 2/5] mfd: axp20x-i2c: Fix i2c instantiation
+In-Reply-To: <1ja4ogfp5l.fsf@starbuckisacylon.baylibre.com>
+References: <20260910-axp318-regulator-v8-0-e906a61a7f3d@baylibre.com>
+ <20260910-axp318-regulator-v8-2-e906a61a7f3d@baylibre.com>
+ <20260924082705.GO3864833@google.com>
+ <1jy0cq94na.fsf@starbuckisacylon.baylibre.com>
+ <20261014104801.GI199624@google.com>
+ <1ja4ogfp5l.fsf@starbuckisacylon.baylibre.com>
+Date: Wed, 18 Nov 2026 15:43:36 +0100
+Message-ID: <1jh5he2o9z.fsf@starbuckisacylon.baylibre.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -110,98 +106,117 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5c6ped4sw6nigwko"
-Content-Disposition: inline
-In-Reply-To: <7692c160e418e7ad0528739fcc879b11fbac8ab0@intel.com>
+Content-Type: text/plain
 
+On mer. 14 oct. 2026 at 14:21, Jerome Brunet <jbrunet@baylibre.com> wrote:
 
---5c6ped4sw6nigwko
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v1 9/9] drm: Unify coding style for *_device_id arrays
-MIME-Version: 1.0
+> On mer. 14 oct. 2026 at 11:48, Lee Jones <lee@kernel.org> wrote:
+>
+>> Note:
+>>
+>> --- checkpatch.pl (3 issues) ---
+>> Line 2: WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+>> Line 3: ERROR: Invalid commit separator - some tools may have problems applying this
+>> ----------------------------------
+>
+> I've checked before sending and checked again now, I don't have those
+> warning. I don't see anything long on line 2 or a separator near line 3.
+>
+> Any specific way I should run the tool reproduce the problem if there is
+> one ?
+>
+>>
+>> On Thu, 24 Sep 2026, Jerome Brunet wrote:
+>>
+>>> On jeu. 24 sept. 2026 at 09:27, Lee Jones <lee@kernel.org> wrote:
+>>> 
+>>> > On Thu, 10 Sep 2026, Jerome Brunet wrote:
+>>> >
+>>> >> Apparently this device never really supported i2c instantiation via
+>>> >> sysfs, because the driver does not even look at the i2c device data,
+>>> >> which are not set. It would only probe if the device matched through DT.
+>>> >> 
+>>> >> Fix that for correctness, even-though it is probably useless.
+>>> >> Add the missing AXP323 while at it.
+>>> >> 
+>>> >> Reported-by: Sashiko <sashiko-bot@kernel.org>
+>>> >> Closes: https://lore.kernel.org/r/20260717090209.2A09B1F000E9@smtp.kernel.org
+>>> >> Fixes: 41751b033aaa ("mfd: axp20x-i2c: Add i2c-ids to fix module auto-loading")
+>>> >> Acked-by: Chen-Yu Tsai <wens@kernel.org>
+>>> >> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
+>>> >> ---
+>>> >>  drivers/mfd/axp20x-i2c.c   | 24 +++++++++++++-----------
+>>> >>  drivers/mfd/axp20x-rsb.c   |  1 +
+>>> >>  drivers/mfd/axp20x.c       |  1 -
+>>> >>  include/linux/mfd/axp20x.h |  3 +--
+>>> >>  4 files changed, 15 insertions(+), 14 deletions(-)
+>>> >> 
+>>> >> diff --git a/drivers/mfd/axp20x-i2c.c b/drivers/mfd/axp20x-i2c.c
+>>> >> index 5c93136f977e..a76bec5604c4 100644
+>>> >> --- a/drivers/mfd/axp20x-i2c.c
+>>> >> +++ b/drivers/mfd/axp20x-i2c.c
+>>> >> @@ -35,6 +35,7 @@ static int axp20x_i2c_probe(struct i2c_client *i2c)
+>>> >>  	axp20x->irq = i2c->irq;
+>>> >>  	dev_set_drvdata(axp20x->dev, axp20x);
+>>> >>  
+>>> >> +	axp20x->variant = (kernel_ulong_t)i2c_get_match_data(i2c);
+>>> >
+>]>> > device_get_match_data() is bus agnostic and should still work from the
+>>> > core driver.  What's the purpose of splitting it out and adding
+>>> > additional call-sites?
+>>> 
+>>> device_get_match_data() works when the data comes through that path,
+>>> which is generally the case.
+>>> 
+>>> i2c_get_match_data() calls device_get_match_data() then fallback to the
+>>> i2c_device_ids. It covers the instanciation from sysfs mainly, not
+>>> something usual.
+>>> 
+>>> As explained in the description, this changes plugs a hole identified by
+>>> sashiko that technically exists but I highly doubt anyone will
+>>> instanciate the PMIC through that interface. Those things do not really
+>>> come as breakout boards ... That being said, it is cheap to fix.
+>>
+>> I'm confused.
+>>
+>> We already call device_get_match_data() in axp20x_match_device().
+>
+> Not anymore with this change. It is the point.
+>
+>>
+>> So if you populate .driver_data in axp20x_i2c_id[], you should be
+>> able to drop these changes altogether, no?
+>
+> device_get_match_data() only goes through the DT tables.
+> Not the i2c_driver.id_table which is purpose here.
+>
+> My understanding is that if you instanciate the device
+> through sysfs (which nobody does for these devices) and you only call
+> device_get_match_data(), you will get NULL because there is no fwnode
+> associated with the device, which in this case silently translate to
+> AXP152_ID.
+>
+> device_get_match_data() does not go through the i2c_driver.id_table.
+> Only the i2c code does, with i2c_get_match_data() and after trying with
+> device_get_match_data() internally, which is exactly what we want.
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/i2c/i2c-core-base.c?h=v7.3-rc7#n121
+>
+> As noted earlier, this a problem reported by sashiko that is real but
+> extremely unlikely to show up in real world. I'd happy to drop
+> the change if you don't want it. It is not need to support the axp318.
+>
 
-Hello Jani,
+Hi Lee,
 
-On Wed, Nov 18, 2026 at 03:27:40PM +0200, Jani Nikula wrote:
-> > [...]
-> >  drivers/gpu/ipu-v3/ipu-common.c               |   8 +-
-> >  drivers/gpu/ipu-v3/ipu-pre.c                  |   4 +-
-> >  drivers/gpu/ipu-v3/ipu-prg.c                  |   4 +-
-> >  254 files changed, 1155 insertions(+), 940 deletions(-)
->=20
-> How do you expect a patch of this size be merged?
+How could progress on this ? I genuinely do not understand the problem.
+This change is fixing a sashiko reported issue, in the appropriate
+manner I think. device_get_match_data() just does not care for i2c
+.id_table so i2c_get_match_data() is needed.
 
-Using b4 am :-) Honestly, in the cover letter I wrote about an immutable
-branch and offered to rebase to 7.4-rc1. When trying to apply this
-series on top ov 7.4-rc1 there are only 6 conflicts (1x modify/delete
-and 5x content); these are all not so hard to resolve (and even dropping
-the respective hunks (i.e. resolving using `git checkout HEAD`) is fine
-for me.)
+At the same time, what we really care for to progress on the Allwinner
+a733 HW support is the rest of the series. So if this bothers you,
+I'm happy to re-submit without this fix. Please let me know.
 
-> > diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i91=
-5_pci.c
-> > index 84a7dc6ab5db..faceb3de4fa3 100644
-> > --- a/drivers/gpu/drm/i915/i915_pci.c
-> > +++ b/drivers/gpu/drm/i915/i915_pci.c
-> > @@ -870,7 +870,7 @@ static const struct pci_device_id pciidlist[] =3D {
-> >  	INTEL_ATS_M_IDS(INTEL_VGA_DEVICE, &ats_m_info),
-> >  	INTEL_ARL_IDS(INTEL_VGA_DEVICE, &mtl_info),
-> >  	INTEL_MTL_IDS(INTEL_VGA_DEVICE, &mtl_info),
-> > -	{}
-> > +	{ }
->=20
-> Personally, I would *always* use {} instead of { }, and would rather not
-> change.
->=20
-> Across the tree, {} is slightly more common than { }. IMO changing them
-> is pointless churn.
-
-It depends on how you count. My statistic looks as follows (on top of
-next-20261117):
-
-	$ git grep -l device_id | xargs -n 1 perl -g -n -e 'print "$1\n" if m/devi=
-ce_id\s*[a-zA-Z_0-9]*\[\]\s*=3D\s*{(?:\s*{[^}]*},\s*({\s*}))/' | sort | uni=
-q -c
-	      2 	}
-	      2 {
-	      6 {  }
-	   2598 { }
-	   1262 {}
-
-So over all *_device_id { } is more common by a factor of > 2. This
-series fixes one {  } and reduces the number of {} by 37. For only
-pci_device_id it's:
-
-	$ git grep -l pci_device_id | xargs -n 1 perl -g -n -e 'print "$1\n" if m/=
-pci_device_id\s*[a-zA-Z_0-9]*\[\]\s*=3D\s*{(?:\s*{[^}]*},\s*({\s*}))/' | so=
-rt | uniq -c
-	    159 { }
-	     32 {}
-
-Without the context of an array initializer there are many empty
-code blocks (function bodys or `do {} while (0)`), empty dt nodes, and
-{} in Rust code, which IMHO have to be considered off-topic for this
-statistic.
-
-Best regards
-Uwe
-
---5c6ped4sw6nigwko
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmr9sOcACgkQj4D7WH0S
-/k4vggf+PQfM4MkbLgaQRCdXRWWsc4/Fa0tTMBQAl4gjx2p5NE/N7TDUO571o3+N
-oWcelzY5O1uRcc2qHZVnu3vAxFqzk4YHfGjsbGHsxQAibxnIFW7ttYTzt0w5a9NH
-v65V6+sebCdwLrPVE5ilcqzFFSgmnv1wTNm2vCEUxdKGacifySaGRmg4+ax+fLb1
-CL+RS7fM2EkQxG1k4iDEPv1Onrm9S4DtwTts0wxkK780rWYD9FoSLjHyX/x21Y8x
-SZKaXeNZlxtHJpQLq8ub8AL/t6k82nC020wYZOUbUmvPyqxhNoUuuS0/RVlz9xT6
-kXiliIwWzcMtAKt4ik8nbTRO5JERhQ==
-=0alU
------END PGP SIGNATURE-----
-
---5c6ped4sw6nigwko--
+Cheers
+Jerome
