@@ -1,102 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795013020;
-	b=WW6KVBuWWYYC5kxfuwwgR0AW6gvL2Tld+ye3Ntf6aisKUtLSdIA4frzxJ4WfxrQNlPE3
-	 qHUUuHfGDb9My2zKwGVqUqRxlEPgilpFNoaTtQ+ijUnlEt2BFWPA1x0hBOAyEOmOopTfO
-	 d5SrYOLzFxCjcFd95zEQpqwx4qgYbJl1MhVRnIiAi8FSQX0ONn732KCunw+9ou1F5JwPs
-	 tG5cP5qx42GT+hTZX7PsCUTddIRbyTk+55yyKFCgn/Mm9CLObapo6yOlFB7YAMXiP82sn
-	 yhxyji1gTYksiUwWoC5ZrVYZtenU7uexsMphKPdFhz6lHNzGej3PKpLkncJhqjIVmwg==
+	t=1795013503;
+	b=k59u3CPHh6WIhkpW8Z06M/Nh7Ea1gjT85/PNKKt6DCmx8pEvKaOys8qRhvPpu2QkyaLG
+	 MyvFZUVDt9ivoPs86MiZ0/F+16h5GKVJPZ5PmY35AiomNBaAkaimLwuy65ugF3lKMnGFW
+	 XdkzZ93TsRyIwGPMjt7P9IDlLA6VGnOE0RW+582xaQoYXw9R3N8ZbDDcNNL0C5tz90X6y
+	 e3sfRfNoZSfA2oPjGpDSXeKlv3K8dWqEbFkWvxKjFz0NY35+xdc1ya4o/t/8pBOS53jhL
+	 8NWjEYq1LUoIA2l1jlq872KSGEu5I2SjP+h6o4AtF3if8cEBcEuvgetFUWOHiXtNXmA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795013020;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type;
-	bh=lofE1i0lcl9nIDZVdZhTFR9XGUpRnG24017uwCNl4OI=;
-	b=LoNQjoVOfs8zqGBv5rjFBpey+nRDzJDvTw223RABohOydTXJKAKexVd8BIdPQeqtpoIL
-	 J9b7WIhRv3cDDtpSc/YVzA7AHcxEtXE+DOmzl3ntoOTgSoeTIqGrqfnBkSafv/8bk2ThM
-	 HQT8caWnPKpG1u0zS6Le+lYzKXO7pBZHXgU94e1BQ1FJZvxAAKt+7hlDgbrm2K1pONW7M
-	 mU86LghiFsb71qSk7po6O+F8UjHetr24OR6UWLvRcGA3IaHgvR/T064Q7OTHR/dMXMPV+
-	 4CeCCeHUhinrqy7cEkWHsudHRGbZXA9iezTt3q3l9DQzmeyDEndvumWYxODaYxSykkQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795013503;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=u/v5EB4DuKP19larRiTYLfjHU2pmt6tp/b9vDdb9Zro=;
+	b=2LORwGy6qpwele0IQVmw1lc5Tg1SUlO96w9oj/YksP9lgd68jQz00HH8IOJB92jhpeqf
+	 +9b5rO+fEp8LG3AbLzm4hqvhJZWgUc0OulrlBKDCtZgi9lHOZcjNx2+cPW0G5X+5DGO6L
+	 D5hQ7uL+oRnqqsvoOXy8JrHEwOjbGDaz5wnV4VK6rl/lgMjsvsrfNesyCxA49xJK/iCsR
+	 ZomZqxKbwlpPRX8PwnyMIaBQQLYlTEEzHgTkkV0ra3SicMJh2YHnF3mDYW9YSL5c8vDlB
+	 BA+JLCzFpfLsYqyoQFMgMK6fvU83KhVSQZTmQ34XLYyuHvleJ7Q7wsk2ZdQLsO0JPOg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=mPieSCZ5;
-	arc=none smtp.remote-ip=209.85.128.46
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D203606A32C
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 14:43:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D203606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=ByOj+lem;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28867606A332
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 14:51:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28867606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=mPieSCZ5
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4ba013938d7so10015805e9.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 06:43:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1795013017; x=1795617817; darn=lists.linux.dev;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=lofE1i0lcl9nIDZVdZhTFR9XGUpRnG24017uwCNl4OI=;
-        b=mPieSCZ5R2FY+D9y17c5MMtObeNPB87aoroerDZtwQCIg2lfALm0j6W18RyIiHhxr9
-         zgCrd8VF28ukZxXEcot678aOHq7fKx4xt+HeWSTP2GbOeVNzXIQRPOaKkQdN62vzOdvZ
-         PJvM5b7rqYkY9veGH9Lj8hkxu1iIICnWUxnvh5oqN4NsB0U1BSFn2ZZn3UO0S1g/8KRz
-         xWw0nZQgJn+2jRqhb4KzQf8NfhrSt201Fl5qQm3Zgg6WYI1TmIaLcc6FiuCtPkpPzCLQ
-         dMQFOaPPdUugsFOS37g9vH3OOfaxFKy5EocGfy3sfLihxKxP0GPTqShLHoTJC3N2/4FQ
-         FW9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795013017; x=1795617817;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=lofE1i0lcl9nIDZVdZhTFR9XGUpRnG24017uwCNl4OI=;
-        b=sTIR24XagsECDu4+18rrckZnDKVSWfHQbYsJQCknHAWk+N4QM6erTLGcjfUfvW0ytx
-         ZVSsufmzwsCYkUcTyZBt7tpt2SwJy9BR1khEdr/ldl7aITJdA77VJYLrqqZ7qkqKGjCJ
-         CJk92gQRDmxjHCNC8HtHwYjETAHPgkjXVT+8iK4DN6YituluR9G8N+ofNrllg37X13U+
-         TO4v/7y5QAcS6cnAUPOURyGwfFP9EHw7IDudIhu9Po4oGVp4mbYojZnD+BFNSB6VvAhK
-         3C4xd+e7MDwLdxqVHJAOV6b1m6+lWpKb9IPgL3fvm4jmasOzcxSxHcKPIz7g5QPnhFF9
-         WYYQ==
-X-Forwarded-Encrypted: i=1; AL+hErGVViXdhb5Gx/R1Z9xwRrM5kdWrdp5HgwQy3ecEyUEX5ILop5tiACcOs8z4ANbuM/IFKKVa5Iut404zYg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9cbbHQ80o2GMDhgpp8M5wmu+LQLS+Y/0BJvkZ5Ip1qptDwQ0/W
-	Y+WD+f6ol+6o35JjLAlyHPdmQaeprs//CtNRXdrn6Lb0QVo5A8p950dcOsVdagEb7jI=
-X-Gm-Gg: AYBFou2HBc4q/3VIHpYxEp+cEXPJcdram50gt99wjXQFq819WBUSJDicV/9kNiScWu1
-	CIIJfAR2YyWmSBhVfWtbf3/7DZL9u2WQdelbLf71XWAf+JyXktpxcyS9KcDdBmuyilxK3k8qe5n
-	AHS8yvHdMetkrFwnil3xDbC6+FoVgVvH9d4nvf1ArmTR+zWbgR5z7YkrNgtVEfluYdCUwJm0iHr
-	uy24xDntmcpO+E9nB696mY3HBAz29nQ9GFleYRhUlB/yFbG/YVDnBjSzQ9Bp5KRx2oKvq9ZUL9h
-	/NrLobn//wJnJFJGKcgWTl6SdhjuFcHXR3OwZ09fU/nf+gN8x38DScILpRCsco7WR6EMui4Chu6
-	iTwIoYWDHdpV7U7cfj8ZJClrEXNbXuAM2QOgaAxIkljCCyjVRa1GIY1+u58teVbn40ZOyVtwHJc
-	qif/g/FhaHBQPt3ca3dk5RxuSiqY6pxF4RkehtLKIu63Rd55S8iC4KZZTjqWLTsRdSPjppeHrQu
-	zo6Iwt6sd240vkdiAr8WGE932VySBWyxwyRh+kdcuhoTTHwveuZJScos6G1kapnxwnCInUBv26k
-	TXNICSjuq3heJuI3WKyeSFLtx/4HXcRBle32A2jN+XJ9yO24AwUIZZ2HCuL0H0lgdRov9A==
-X-Received: by 2002:a05:600c:81c5:b0:4a1:f720:74cd with SMTP id 5b1f17b1804b1-4bb7da38bd0mr52621935e9.24.1795013017611;
-        Wed, 18 Nov 2026 06:43:37 -0800 (PST)
-Received: from localhost (82-67-6-57.subs.proxad.net. [82.67.6.57])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7e5919c5sm29710375e9.3.2026.11.18.06.43.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 06:43:37 -0800 (PST)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Lee Jones <lee@kernel.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Hans de Goede
- <hansg@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, mfd@lists.linux.dev,
- linux-sunxi@lists.linux.dev, Sashiko <sashiko-bot@kernel.org>
-Subject: Re: [PATCH v8 2/5] mfd: axp20x-i2c: Fix i2c instantiation
-In-Reply-To: <1ja4ogfp5l.fsf@starbuckisacylon.baylibre.com>
-References: <20260910-axp318-regulator-v8-0-e906a61a7f3d@baylibre.com>
- <20260910-axp318-regulator-v8-2-e906a61a7f3d@baylibre.com>
- <20260924082705.GO3864833@google.com>
- <1jy0cq94na.fsf@starbuckisacylon.baylibre.com>
- <20261014104801.GI199624@google.com>
- <1ja4ogfp5l.fsf@starbuckisacylon.baylibre.com>
-Date: Wed, 18 Nov 2026 15:43:36 +0100
-Message-ID: <1jh5he2o9z.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=ByOj+lem
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D2861596;
+	Wed, 18 Nov 2026 06:51:38 -0800 (PST)
+Received: from [10.57.69.78] (unknown [10.57.69.78])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A4F63F632;
+	Wed, 18 Nov 2026 06:51:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795013501; bh=p1Y9kHEyN3vd2Wh1wITEyX27uB3SFUWAu7d3tBIEFBM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ByOj+lemTBjazJeZupwPkqMz/bPa1QgkOgQ5nCJ57x2NvIvm02Kwzhu4mpjbfHmcD
+	 wMVA3i2dtfSiRhsDGtTKAWsg7rkKoaUsyD42U4IoavnNTYaA/V33K7MoGxP/WLZYig
+	 yw1YB5kt1e9GhoE5MH5iOOtSFJ1FODE1mWlgEggQ=
+Message-ID: <124bb855-f2f6-4b10-b0be-99fb53cc2ee8@arm.com>
+Date: Wed, 18 Nov 2026 15:51:36 +0100
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -106,117 +53,179 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] clk: sunxi-ng: a733: Keep SCP firmware bus clocks
+ enabled
+To: wens@kernel.org
+Cc: Enzo Adriano <enzo.adriano.code@gmail.com>, sboyd@kernel.org,
+ bmasney+clk@redhat.com, jbrunet+clk@baylibre.com, jernej.skrabec@gmail.com,
+ samuel@sholland.org, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+ Junhui Liu <junhui.liu@pigmoral.tech>,
+ Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+References: <20261112-a733-fwclk-v2@gmail.com>
+ <2374cc08-fd47-435a-b1e8-c7e9a61954c4@arm.com>
+ <CAGb2v66w9XYO7CUFrvJq2HL7ELABptg=3Bs4XbZxMh7VU0pepw@mail.gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <CAGb2v66w9XYO7CUFrvJq2HL7ELABptg=3Bs4XbZxMh7VU0pepw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On mer. 14 oct. 2026 at 14:21, Jerome Brunet <jbrunet@baylibre.com> wrote:
+Hi,
 
-> On mer. 14 oct. 2026 at 11:48, Lee Jones <lee@kernel.org> wrote:
->
->> Note:
+On 11/18/26 14:41, Chen-Yu Tsai wrote:
+> On Wed, Nov 18, 2026 at 1:18 AM Andre Przywara <andre.przywara@arm.com> wrote:
 >>
->> --- checkpatch.pl (3 issues) ---
->> Line 2: WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
->> Line 3: ERROR: Invalid commit separator - some tools may have problems applying this
->> ----------------------------------
->
-> I've checked before sending and checked again now, I don't have those
-> warning. I don't see anything long on line 2 or a separator near line 3.
->
-> Any specific way I should run the tool reproduce the problem if there is
-> one ?
->
+>> Hi,
 >>
->> On Thu, 24 Sep 2026, Jerome Brunet wrote:
+>> the patch itself looks fine, but the comments and the commit message are
+>> not entirely correct, I think.
 >>
->>> On jeu. 24 sept. 2026 at 09:27, Lee Jones <lee@kernel.org> wrote:
->>> 
->>> > On Thu, 10 Sep 2026, Jerome Brunet wrote:
->>> >
->>> >> Apparently this device never really supported i2c instantiation via
->>> >> sysfs, because the driver does not even look at the i2c device data,
->>> >> which are not set. It would only probe if the device matched through DT.
->>> >> 
->>> >> Fix that for correctness, even-though it is probably useless.
->>> >> Add the missing AXP323 while at it.
->>> >> 
->>> >> Reported-by: Sashiko <sashiko-bot@kernel.org>
->>> >> Closes: https://lore.kernel.org/r/20260717090209.2A09B1F000E9@smtp.kernel.org
->>> >> Fixes: 41751b033aaa ("mfd: axp20x-i2c: Add i2c-ids to fix module auto-loading")
->>> >> Acked-by: Chen-Yu Tsai <wens@kernel.org>
->>> >> Signed-off-by: Jerome Brunet <jbrunet@baylibre.com>
->>> >> ---
->>> >>  drivers/mfd/axp20x-i2c.c   | 24 +++++++++++++-----------
->>> >>  drivers/mfd/axp20x-rsb.c   |  1 +
->>> >>  drivers/mfd/axp20x.c       |  1 -
->>> >>  include/linux/mfd/axp20x.h |  3 +--
->>> >>  4 files changed, 15 insertions(+), 14 deletions(-)
->>> >> 
->>> >> diff --git a/drivers/mfd/axp20x-i2c.c b/drivers/mfd/axp20x-i2c.c
->>> >> index 5c93136f977e..a76bec5604c4 100644
->>> >> --- a/drivers/mfd/axp20x-i2c.c
->>> >> +++ b/drivers/mfd/axp20x-i2c.c
->>> >> @@ -35,6 +35,7 @@ static int axp20x_i2c_probe(struct i2c_client *i2c)
->>> >>  	axp20x->irq = i2c->irq;
->>> >>  	dev_set_drvdata(axp20x->dev, axp20x);
->>> >>  
->>> >> +	axp20x->variant = (kernel_ulong_t)i2c_get_match_data(i2c);
->>> >
->]>> > device_get_match_data() is bus agnostic and should still work from the
->>> > core driver.  What's the purpose of splitting it out and adding
->>> > additional call-sites?
->>> 
->>> device_get_match_data() works when the data comes through that path,
->>> which is generally the case.
->>> 
->>> i2c_get_match_data() calls device_get_match_data() then fallback to the
->>> i2c_device_ids. It covers the instanciation from sysfs mainly, not
->>> something usual.
->>> 
->>> As explained in the description, this changes plugs a hole identified by
->>> sashiko that technically exists but I highly doubt anyone will
->>> instanciate the PMIC through that interface. Those things do not really
->>> come as breakout boards ... That being said, it is cheap to fix.
+>> On 11/12/26 22:38, Enzo Adriano wrote:
+>>> The A733 PRCM's bus-r-riscv and bus-r-msgbox gates have no Linux
+>>> consumers, so unused-clock cleanup gates them. With vendor SCP firmware
+>>> running on the E902 as shipped on Cubie A7S, warm reboot then stalls.
 >>
->> I'm confused.
+>> Please note that we don't support "vendor firmware" with mainline Linux.
+>> That was mostly incompatible in the past, and while it might work these
+>> days, this is not something we control and want to endorse.
+>> So we would be quite reluctant (to put it mildly) about merging patches
+>> that are solely needed for BSP firmware bits.
 >>
->> We already call device_get_match_data() in axp20x_match_device().
->
-> Not anymore with this change. It is the point.
->
+>>> Keep both critical until remoteproc/mailbox drivers can claim them.
 >>
->> So if you populate .driver_data in axp20x_i2c_id[], you should be
->> able to drop these changes altogether, no?
->
-> device_get_match_data() only goes through the DT tables.
-> Not the i2c_driver.id_table which is purpose here.
->
-> My understanding is that if you instanciate the device
-> through sysfs (which nobody does for these devices) and you only call
-> device_get_match_data(), you will get NULL because there is no fwnode
-> associated with the device, which in this case silently translate to
-> AXP152_ID.
->
-> device_get_match_data() does not go through the i2c_driver.id_table.
-> Only the i2c code does, with i2c_get_match_data() and after trying with
-> device_get_match_data() internally, which is exactly what we want.
->
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/i2c/i2c-core-base.c?h=v7.3-rc7#n121
->
-> As noted earlier, this a problem reported by sashiko that is real but
-> extremely unlikely to show up in real world. I'd happy to drop
-> the change if you don't want it. It is not need to support the axp318.
->
+>> I don't think this "until" is an argument. Even if we'd have Linux
+>> driver support, they would be optional to use (not compiled, not
+>> loaded), and would only be needed to *communicate* with the firmware.
+>>
+>> But those clocks are actually there to drive the RISC-V core clock, and
+>> also the "RISC-V side" of the peripherals, due to a lack of separate
+>> clock controls in the SoC in the Allwinner design. So the kernel should
+>> not care about or touch those clocks at all - which is what
+>> CLK_IS_CRITICAL does.
+> 
+> No. CLK_IS_CRITICAL also tells the kernel to turn it on, and you then
+> can never turn it off. You get a big warning if you try to defeat the
+> refcounting, but nothing else happens.
 
-Hi Lee,
+Good point, so is CLK_IGNORE_UNUSED a better flag? As far as I can see, 
+it only prevents turning it off if unclaimed, it doesn't turn it on if 
+it was off initially, and it doesn't disallow turning it off.
 
-How could progress on this ? I genuinely do not understand the problem.
-This change is fixing a sashiko reported issue, in the appropriate
-manner I think. device_get_match_data() just does not care for i2c
-.id_table so i2c_get_match_data() is needed.
+> So what if the *real* remoteproc driver needs to turn the clock off to
+> pause the RISC-V core? It can't
 
-At the same time, what we really care for to progress on the Allwinner
-a733 HW support is the rest of the series. So if this bothers you,
-I'm happy to re-submit without this fix. Please let me know.
+I guess this depends on the use case, which isn't very well defined. If 
+this E902 is really a remoteproc device entirely controlled by Linux, 
+then sure: Linux should have full control over its clock.
+But if it's running some kind of firmware component, then the kernel 
+shouldn't mess with it, IMHO. But I think there is still the arisc on 
+the A733, so this would more likely run the management processor (SCP) code?
 
-Cheers
-Jerome
+Cheers,
+Andre
+
+> So, not a fan of this. If the loaded firmware somehow needs some resources
+> then perhaps the software that loaded it needs to somehow tell the kernel
+> they are needed, like the bootloader patching the DT passed to the kernel.
+> 
+> If the firmware needs a piece of DRAM, you don't say in the kernel that
+> this piece of DRAM is off-limits. You let the bootloader tell the kernel.
+> Static DRAM carve outs with reserved-memory nodes in the DT source is also
+> ugly, as you could end up with mismatches if the firmware somehow changed.
+> 
+> IMO CLK_IS_CRITICAL should be used for things that the kernel knows it needs
+> but there's nothing to claim it.
+> 
+> 
+> ChenYu
+> 
+>>> This follows A523 bus-r-cpucfg in commit 1dba74abf3e2 ("clk: sunxi-ng:
+>>> Mark A523 bus-r-cpucfg clock as critical") and the temporary SCPI firmware
+>>> clock protection for Meson AXG fclk_div3 in drivers/clk/meson/axg.c.
+>>>
+>>> On Cubie A7S with vendor boot0/BL31/SCP/U-Boot and without
+>>> clk_ignore_unused, warm reboot returns with both clocks critical and
+>>> stalls without them. Vinicius found either flag alone insufficient on
+>>> Cubie A7Z. Power-off, suspend, single flags on A7S, other
+>>> boards/firmware and upstream TF-A were not tested.
+>>>
+>>> Link: https://lore.kernel.org/r/20261005183038.417798-1-vinicius.eduardo.pedrosa@gmail.com
+>>> Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
+>>> ---
+>>> Changes in v2:
+>>> - Drop r-timer0, bus-r-timer and bus-msgbox0: A7S warm reboot works with
+>>>     these at 0/0. Keep only the two E902/mailbox bus gates after Junhui's
+>>>     review, pending remoteproc/mailbox ownership.
+>>> - Rebase on CCU v7; its PRCM clock definitions are unchanged from v6.
+>>>
+>>> v1:
+>>> https://lore.kernel.org/r/20261031020640-263f7b05-a7s-clock@gmail.com
+>>>
+>>> Base: v7.4-rc1. Depends on CCU v7 (all eight patches):
+>>> https://lore.kernel.org/r/20261112-a733-clk-v7-0-db7c5451ffa2@pigmoral.tech
+>>>
+>>> November 12 board test: two RAM boots and warm reboot -f returns on
+>>> Cubie A7S with vendor boot0/BL31/SCP/U-Boot, without clk_ignore_unused.
+>>> Both retained clocks were 1/1; all three dropped clocks were 0/0.
+>>> The no-flag stall was observed with CCU v6 on Nov 10; PRCM code is
+>>> byte-identical in v7, where the no-flag control was not repeated.
+>>> Runtime used DT v3 and its dependencies (all four UART v2 patches),
+>>> with the PMIC identifier and pinctrl IRQ-map context adapted to the base:
+>>> https://lore.kernel.org/r/cover.1794227241.git.enzo.adriano.code@gmail.com
+>>
+>> I don't think there is any need for those longish test descriptions,
+>> especially if they pass.
+>>
+>>>
+>>>    drivers/clk/sunxi-ng/ccu-sun60i-a733-r.c | 7 +++++--
+>>>    1 file changed, 5 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733-r.c b/drivers/clk/sunxi-ng/ccu-sun60i-a733-r.c
+>>> index b8f6e8c6e507..f2965daba0d3 100644
+>>> --- a/drivers/clk/sunxi-ng/ccu-sun60i-a733-r.c
+>>> +++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733-r.c
+>>> @@ -108,7 +108,9 @@ static SUNXI_CCU_DUALDIV_MUX_GATE(r_spi_clk, "r-spi", r_spi_parents, 0x150,
+>>>                                  0);
+>>>    static SUNXI_CCU_GATE_HW(bus_r_spi_clk, "bus-r-spi", &r_ahb_clk.common.hw, 0x15c, BIT(0), 0);
+>>>
+>>> -static SUNXI_CCU_GATE_HW(bus_r_msgbox_clk, "bus-r-msgbox", &r_ahb_clk.common.hw, 0x17c, BIT(0), 0);
+>>> +/* Vendor SCP firmware on E902 needs this until a remoteproc/mailbox driver claims it. */
+>>
+>> Please change this comment. Something like the msgbox clock is shared
+>> between the E902 core and the Arm APs.
+>>
+>>> +static SUNXI_CCU_GATE_HW(bus_r_msgbox_clk, "bus-r-msgbox", &r_ahb_clk.common.hw,
+>>> +                      0x17c, BIT(0), CLK_IS_CRITICAL);
+>>>
+>>>    static SUNXI_CCU_GATE_HW(bus_r_uart0_clk, "bus-r-uart0", &r_apb1_clk.common.hw, 0x18c, BIT(0), 0);
+>>>    static SUNXI_CCU_GATE_HW(bus_r_uart1_clk, "bus-r-uart1", &r_apb1_clk.common.hw, 0x18c, BIT(1), 0);
+>>> @@ -146,8 +148,9 @@ static SUNXI_CCU_MUX_DATA_WITH_GATE(r_riscv_clk, "r-riscv", r_riscv_parents, 0x2
+>>>                                  24, 2,        /* mux */
+>>>                                  BIT(31),      /* gate */
+>>>                                  0);
+>>> +/* Vendor SCP firmware on E902 needs this until a remoteproc/mailbox driver claims it. */
+>>
+>> and this. Just note that the E902 might be running on its own, in a pure
+>> firmware role, or even completely separate from the main kernel.
+>>
+>> Oh, and also please put somewhere that this is based on the linux-sunxi
+>> for-next tree, aside from just having the base-commit ID below.
+>>
+>> Cheers,
+>> Andre
+>>
+>>>    static SUNXI_CCU_GATE_HW(bus_r_riscv_clk, "bus-r-riscv", &r_apb0_clk.common.hw,
+>>> -                      0x21c, BIT(0), 0);
+>>> +                      0x21c, BIT(0), CLK_IS_CRITICAL);
+>>>    static SUNXI_CCU_GATE_HW(bus_r_riscv_cfg_clk, "bus-r-riscv-cfg", &r_apb0_clk.common.hw,
+>>>                         0x21c, BIT(1), 0);
+>>>
+>>>
+>>> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+>>
+
