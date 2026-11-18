@@ -1,78 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.51
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794999148;
-	b=LV13a3kuDLeflhBE//Yf8gqsQ9XZoYxt+5F6cpwe0Xwm/XtILH/+K6y7JiuaIifKJgjl
-	 hCzLtiLLi2HTCSLbwMrgK6rXAvFk6DKfkDYlqsiuIetEqgmeueNTFoAup2nXmGtyzuUOx
-	 wlu4KJOakkuS/9xQepL46ekojMtq50lHojYBlSiFDQbMuhivJ/jeFkmEI7MKNMunYHzsy
-	 VAdKb021W89H+q2jwYQNWc+mBC+qVnwS9eaJqqRo85xN47UgCa6gF8xNSZAhUMqKNXe5W
-	 BKL1pGL7FbqwG4/6X7z3icaQ4ReWC30rhhsfUb9xTwI3pksFZuMwiPt4kzDcaVluEUw==
+	t=1795000395;
+	b=EdJ0RJgGbUHOFIdto2XzcYCuRV8qQe2n3zmYs8vc/KIg7sE7nCHbdZ6FI+DRhKS6KdCK
+	 9WJKBBtm2Q1h1S5Pa3+PaFKSOQrA1aj4HVU3TL6VuoFJER423mkXyEpk1vujM+FY4Ep9o
+	 ABVdHxdMti0NQ1J2nAsg9QyqHO2qCcv/fSKpYLV/3fSUjGQuhHIe//z8p2aR3f+6GA/6Q
+	 iniDtjzvrAuXabnloWx1gTVbb7qmFXu3XhaZE+NydKU37ArqZ/w98vlfMgEQjz0BdLzFI
+	 ZRfWSUNXgAihfzj3XIFIOubvDtTDiggDJf8sEf9yqlb5wcqk/JJbX4Qu6fhxCY21nwQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794999148;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=ekSWlwMFYCJb5CWNs9PahwiZ4lvhB0X9D5Up2UC4Rjo=;
-	b=MzZ5a28bn/59chOD3ycXuIPVqRjN4vrU+NfiKXwG2+z4eqEs+Ps2uXKeHpzLFSDy7sZB
-	 2miu+VR4OBWzpWohkL9hR52pNDbk5JQ7lhi3ZOrvOvLjSsmceMZBjlbT00+7KQog2UDQs
-	 kTkQ3GlGdTKWIJiqdUEEeQD7a/hVDegq5o8P+BnP7O9WyanbjIzpb7zc4wng82z9FqJiw
-	 iSRETUZLSWjQmWf7KpeTdY0wiWJzLAPPzA3L/jG5qoJSML7y8ZK4V+x4gy8dacOpDHRSL
-	 HOsKdxMf+zqOmAzakUv84NYPVpUnvm5SKXFQjFw3qIco4mHpcdJi1GNxcH8Xis/W5Ig==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795000395;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=sHi5V+1hpRfrxl1HVLwRyrTDDCQxfUTOQX4vPNFhHb8=;
+	b=AHxdsa+vvnLleDzaEYzsi9c2BhpAKy2B1UN0N5zwZdNRwPgHZqv5jx8qUieZfJFYRRKF
+	 QDtVei/SDeZ9xTBONm9kXMNi/4t4fSdrujiQ3GUZGe80ldz7Nt164OeILIwaDZ3rcwi9c
+	 +edsblgv846AFz7TPuV8tQ9wpInBkKqgQ7OPgKM9mpjQXfVkeVV4Z1aBdkJIh+IUtDRn9
+	 D3C8RAww1P8B/Tu16CQQkRR8CP4xkiTxgqfVaPKRRfD8J9+jod0h1yChmzNDaSsLkOQOY
+	 RHgJjDJxaVK9RBP3H2xmUVGzoVZ8zh4UcKz9OrfOqnarFBu/OhXdAsWzc9CFtIVf6xQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="T08J5mk/";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742AB60A2626;
-	Wed, 18 Nov 2026 10:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T08J5mk/
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794999148;
-	b=VOTTUb8d3CKjguUjFo7lsae+fiQwaDYp726xJuW3/FpL4qWiIHXL1IxheP0oXMdvXs0i
-	 y0kel/6tlVWjFiZnbkIQaKlF5oD0wkow8V4CkHkDHA11rOKlZNYFW93136m4gy6ed5XVa
-	 Mp3XN0melYnqjY84WypwhV+1xtZPZzXu8cpbmT0gwF9E5voIFseezv0CxM+5y7lhArzxy
-	 WHKcplzy0E18r04zJdRx8igP3tr8+dZYqrb5g/aaFhTEJDX7o/cddAa59zeEGCSt09qk2
-	 CwySHSswf43IQefSFPiAESXZwjoYVOKySILvcL+ixjGcWp4y1hvifAsKvDMwedMJcdw==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794999148;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=ekSWlwMFYCJb5CWNs9PahwiZ4lvhB0X9D5Up2UC4Rjo=;
-	b=QfjAlkXvjIf10KpP7nK+ZlVaZ0pzmyUtziH5mo4z3VlfmtmPKIWq32uv73Pd2LhZN0bY
-	 hQ7xljUQ8fWBD4niogYKhFQbXfxnz7eIx06cUXhoDQpr/rnBYCVn0+kSM/911TIfmel/E
-	 0ZRgUZUoPSsDnjnRbSJ723MIObN3RNzCn3qrheZjrvWVm30i3GEaP+4U1hI44GRYLYq+D
-	 +dxhEJVgbL/mlFe6fU5uKc42+ueB/vXUSsydhJ1YaW4qbPBtXVmqIAkMLGliArgZ0rdEl
-	 omb78gXpARoU6t0oUjGokKmUDzfQRVYtp77aMShBwSyzsvr6H5Db5MG5Yh+kRFdFdZw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Xf9a/JpG";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.224.51
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 3F1D71F000CF;
-	Wed, 18 Nov 2026 10:52:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794999148;
-	bh=ekSWlwMFYCJb5CWNs9PahwiZ4lvhB0X9D5Up2UC4Rjo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=T08J5mk/RX+6cdghSOFju2FhuuUou8N/LBUCqTfCa0UBoNFADH1c0K+WWAd5VX7q+
-	 qQ9i1fmK3w/dGi9R8ZelK4hnt+aRYzdu5NocH0lCTxB+XvifWeP5tG5Xbkf3172m0T
-	 QAGhnl4/MISUWXDLO6pnwWSbVPsXOsGAD+/OTaOSog++vtmQlW/7pHUEvChE84BUh5
-	 YrdKeXodM9ip2r5An5YEzOmHJZDtx4kUaVbKd0Gb/INaNWQA+dvmuYnoNDgCForaxG
-	 jF0QMbqWXfGILVyi+ZWKgjbkRucvanuiwjQf8+uxJKJsHSt8NrZZlsi63KvjyUjq+t
-	 FGou5gFdsE31g==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id BE0884AD20;
-	Wed, 18 Nov 2026 10:52:25 +0000 (UTC)
-From: Rajan Yadav via B4 Relay <devnull+rajanyadav0307.gmail.com@kernel.org>
-Date: Wed, 18 Nov 2026 04:52:28 -0600
-Subject: [PATCH v2 5/6] arm64: dts: allwinner: a133: Add CPU OPP table
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A05606A31C
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 11:13:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79A05606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Xf9a/JpG
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-67c6a0abc2eso836430d50.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 03:13:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795000394; cv=none;
+        d=google.com; s=arc-20260327;
+        b=AjdBjQ7o+eLvv68jjFZIq8aRfr6R/zQVesKk732KLxfd/yJauv3yJ5K25YvNyOB6+F
+         lmNHk+w8WMili8MS7OXr8m9L5RomOnwnlj3k+1nmvJ96bfZjS5Q7X5fBZYVH5gcrDUXZ
+         +Wte5CiTAHUkGQOEkkpASF0zqHDNUT3yzFglB68FWMQfHcId3kP5pL5hay9evxVqSz5H
+         RLyvUhz4vCwyZTEJmnPFpLd8IwaKxA1vLyD7LVimYh5AQ9ccG71xGQphaKP75DagljGk
+         BKbnexdgqh9cpcdLk4OuJi2MCgpo5YwUT4TEi3NJlkki//bqk/Rl2O4YcZktUEFWhpfx
+         /61w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=sHi5V+1hpRfrxl1HVLwRyrTDDCQxfUTOQX4vPNFhHb8=;
+        fh=CqZ6wSoeCTGJl76wxfIHgd7iG56hXA3MDEymsUAmS4w=;
+        b=ny8rKR8a/i3L2mLM28fpxxKETMIthyUgSuCwMGPsrQJTU4AnSR3jUq6kh/MMwfsVlo
+         RGiK6aE7HMivMUhTn9I7mcFoK05Ml7H9wIViXph7NHU/ChigqSgrdNYg7DjTpYa2FV82
+         dcs2Esyx/PeOS96MW0wbany3ns87ezHMpdiCpR85y5vvgnNMAcr8n5RWTrBEcbcM819u
+         IoA+8OlwskmPAWI5daE8TY9YBPhECv7Y8hS259wD0zlzwtOsG7LthnA+pdEc+x4Nisf3
+         PGOIVXLpD+p+HN++KJvv7BTV+SGbuUXpt7WUUANe05LhrdQDo9A0PX7TDEFbjinQi979
+         juxg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795000394; x=1795605194; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=sHi5V+1hpRfrxl1HVLwRyrTDDCQxfUTOQX4vPNFhHb8=;
+        b=Xf9a/JpGBWrljoNdDErT6lgzui8AUGbibrRFW1+b8779VEBnfg4i/Yppkx4V5U3YnL
+         zX1w1iwr47VZXANuJo799R/lrGwVNJtI36dN27siAF+eVhI9vsm49ENhcNY4G68uloVw
+         szeCNoOHw2qp70BF6QgU+IWseOiY4UGYt6WpVaqdGP3lCw7IfS8TR0qPK+EfA97WHWfe
+         jDkgP2udMOiqvV4o+WT6YcEX2EpufaKK6//alqREZ6TTecEm6iCOQsx+3qmRsiHXAGA9
+         GkLQ6u6f6ewazd2FBmjIJMVSKBuaJ6rYI1i7ZbtljXvgLK9DKy0gEmFMRZEurQuhuLem
+         S86A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795000394; x=1795605194;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=sHi5V+1hpRfrxl1HVLwRyrTDDCQxfUTOQX4vPNFhHb8=;
+        b=jdPiAquSxqp4Yk57Ll4irkgry9tvfKcDafaOtWqkdQHR4lal3DU2dJ54K9NdM5wWcv
+         qNuMrs2OYxLPYKemMoe21LTGNKDqm4voUCoSXyim8lBO2KGRfrD05ya5zcAuA5bbNGwj
+         a/1MVk2NUC+746d8nfbxBuFa7e1gxO3Qj3zS0jIxGktGwJt8BnNy6lNQjPiachee1QD3
+         dIfAZfGTpTUzh6I3u9BUVVeNuhMzr7/yaty+BgGksziyOywDw4rODyUAqSvScp4VaSXX
+         nFn+E0W02RLKrskloJL3bB6uB4yTxZGigCcd5UpHO7tZNM2j6+upoUKwwHZTnKDDSHie
+         Vqxg==
+X-Forwarded-Encrypted: i=1; AL+hErHFI/XXbDiR8U604gazWfxuUG61N5dm8Qd3T0WsY3S4i5fRRgwYG10mdNAanoA2LjbZ/E9sEfruuL4/OQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z///G+8PktwJT02K7tJ2LWNialaX/mHoqEZkp1wTQXsEBWn36EU
+	HqBFe9IxFr7MNAR0oigN/paAVYn+SOPMxTgd/msn/LKvzmskSVZboNuCXhEJQyFgfdtA53Q3Kvy
+	ZgzzFJ6DGRXwN7t2UR2B2U6EfIgAX4w==
+X-Gm-Gg: AZFdTZfvULZSqTwCd4RdodAygQkAtr6oNVjQarCVT4Dw+HuY0UIFI4RteJquYhm+IXp
+	sPdj6vlNE443uEIwq2YwJ9iZQrmTy+nJJTJrJdRB73QL0zS+IGgzqUZppjaRoaZQ5WjQzD/M965
+	RA9VJJzW7F1fCbtt2NjMYkxvzCqyAdN1m71cfn80Jz5hQ6Em37koK5Mk2CKIgUNcPk0y9BF074d
+	99dtxXe3J+6wKYYkL5RNUL4uTa0N/iEDfUExjnL5ioGecXf1spUb//5jYaTHDlH4pBGcAcc9mz+
+	v197EeteIxRra6LE4IdExf1mYySFPOMgkq4v+lqDhGXW8Klss3w/Mx3xS9egmrS2RB2YYCx197H
+	ksX/aNRDm/7BvFJw+jZcGiq30w24/UL7CkLsJ35qoO2P/RfzvyXd2kngCXkh6dZoj2DRLPFGWbB
+	s1Mommd8pPx29uDVU=
+X-Received: by 2002:a05:690c:720a:b0:8b4:fc2d:2fbc with SMTP id
+ 00721157ae682-8b4fecfa8fdmr6432697b3.17.1795000394419; Wed, 18 Nov 2026
+ 03:13:14 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -82,292 +105,56 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261118-a133-series-v2-5-8bcec9c9aadf@gmail.com>
-References: <20261118-a133-series-v2-0-8bcec9c9aadf@gmail.com>
-In-Reply-To: <20261118-a133-series-v2-0-8bcec9c9aadf@gmail.com>
-To: Yangtao Li <tiny.windzz@gmail.com>, Viresh Kumar <vireshk@kernel.org>, 
- Nishanth Menon <nm@ti.com>, Stephen Boyd <sboyd@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, 
- Andre Przywara <andre.przywara@arm.com>
-Cc: linux-pm@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Alexander Sverdlin <alex@sverdlin.org>, 
- Cody Eksal <masterr3c0rd@epochal.quest>, 
- Paul Kocialkowski <paulk@sys-base.io>, 
- Rajan Yadav <rajanyadav0307@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794999144; l=8781;
- i=rajanyadav0307@gmail.com; s=20261103; h=from:subject:message-id;
- bh=S+uzsmUxTcW+8l4ePq+AR9wIIhaHfO1sQ5kGjKEbYc8=;
- b=Z1W2EcEk0u4/zpyvz+58cjfxO4XScNr+ZSFY4Po66FZn9lAt7r2eIttql/Zm9+MB23ZWG8vF7
- lm5AEAE8SPxCHurWhhPwzl+ash1AglMpeWGOG9tRC4ODdhyx7C6x09g
-X-Developer-Key: i=rajanyadav0307@gmail.com; a=ed25519;
- pk=4ZPeiP5qrv2b44q/Obxi2koUS70Q6npbttJnpUoTlgg=
-X-Endpoint-Received: by B4 Relay for rajanyadav0307@gmail.com/20261103 with
- auth_id=1391
-X-Original-From: Rajan Yadav <rajanyadav0307@gmail.com>
-Reply-To: rajanyadav0307@gmail.com
-Content-Transfer-Encoding: 7bit
-
+References: <20261103-a100-thermal-trips-v1-1-73bce7ff0767@gmail.com>
+ <CAGb2v64fEDzpn-ytggienzYjOGiQYsJ=SLCVx4zz9psw=bvjYg@mail.gmail.com>
+ <CANxy8yTbu63ykQnqa_XA=HhV7JTDZd3ac2XWGzYNwuHBAd2DuQ@mail.gmail.com>
+ <CANxy8ySZ_ErH4gi3PbWv6bb+uLvvUV4_-WmBkDrMw+RJqazA5w@mail.gmail.com> <CAGb2v65D6ACO83fAm5_Jh4RC5X3H=26EQYHAz8tVOWEVerSPXA@mail.gmail.com>
+In-Reply-To: <CAGb2v65D6ACO83fAm5_Jh4RC5X3H=26EQYHAz8tVOWEVerSPXA@mail.gmail.com>
 From: Rajan Yadav <rajanyadav0307@gmail.com>
+Date: Wed, 18 Nov 2026 05:13:03 -0600
+X-Gm-Features: AclHuK9n1arnwuviwRTqKqG6GX0B1k9jEh54QwQkpt5LgjUFE7LwWPEIi0qBPfo
+Message-ID: <CANxy8yT4E474NpEZPE_6QHh1UJvj7xQEVR4mOxW759y75SBd2g@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: allwinner: a100: Add CPU thermal trips and
+ cooling maps
+To: wens@kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add the A133 CPU OPPs from the vendor BSP (sun50iw10p1.dtsi), plus
-1608 MHz for b0 and b1 from the vendor table in the factory firmware of
-the KickPi K5C. There are ten voltage sets, speed0-5 for the a0-a5/a6
-grades and speed6-9 for the "high speed" b0-b3 grades.
-opp-supported-hw selects the frequencies of each grade:
+Hi Chen-Yu,
 
-- 1464 MHz only for the a grades
-- 1416 and 1512 MHz only for the b grades
-- 1608 MHz only for b0 and b1, the revision A-E "high speed" grades
-- 408-1320 MHz for all
+A gentle ping on this patch. It has Andre's Reviewed-by and still
+applies cleanly to sunxi/for-next.
+As agreed, the OPP fix comes first: v2 of the A133 speed grade and OPP
+series is now on the list [1]. Its thermal tests rely on the 90 C trip
+from this patch, so it would be good if this one could go in first.
+[1] https://lore.kernel.org/all/20261118-a133-series-v2-0-8bcec9c9aadf@gmai=
+l.com/
+Thanks,
+Rajan
 
-The highest voltage is 1.18 V, inside the 0.81-1.2 V recommended
-operating range of VDD_CPU in the A133 datasheet (V1.5, table 5-2).
-
-The BSP uses 1008 MHz where the A100 table uses 1080 MHz, at the same
-voltages for a0-a2. U-Boot starts the CPU at 1008 MHz, which mainline
-now reports as an unlisted initial frequency. This table follows the
-BSP.
-
-The BSP table stops at 1512 MHz, although some datasheet versions list
-1.6 GHz for the A133. The factory firmware of the KickPi K5C (Linux
-4.9.170, built January 2026) has the same table plus five OPPs:
-1608 MHz for b0 (1.18 V) and b1 (1.13 V, at most 1.14 V), and 1416 MHz
-for a0-a2. This patch takes the 1608 MHz OPP from it.
-
-The K5C is a b2 part and never uses this OPP. With a test-only change
-that forces the grade, the CPU PLL locked at 1608 MHz and the PMIC was
-set to 1.18 V for b0 and 1.13 V for b1. Forced to b0, two 20-minute
-runs of full load on the K5C without a heatsink reached the 90 C
-passive trip after 10-13 minutes; from then on the temperature stayed
-between 83.5 and 90.4 C.
-
-The table has the A100 compatible as a fallback and the speed bin cell
-first, so a kernel without A133 support selects speed0-2 from the speed
-bin and gets the voltages of the A100 table, with 1008 instead of
-1080 MHz. It needs the efuse cells added to sun50i-a100.dtsi in the
-previous patch.
-
-A script compared every voltage and the frequency set of every grade
-with both vendor tables. It found no difference to the BSP file other
-than the added 1608 MHz OPP, and no difference to the factory table
-other than its 1416 MHz OPP for a0-a2.
-
-Claude Code (Anthropic) drafted this table and its message from the
-two vendor device trees (numbers only) and wrote the comparison script;
-I reviewed it and tested it on a KickPi K5C.
-
-Suggested-by: Andre Przywara <andre.przywara@arm.com>
-Signed-off-by: Rajan Yadav <rajanyadav0307@gmail.com>
-
----
-Changes in v2:
-- Add 1608 MHz for b0 and b1 from the factory firmware table, as Andre
-  asked; the commit message describes the source and the K5C tests.
-- Alexander's Reviewed-by and Tested-by for v1 are not carried over
-  because of this change. Alexander, could you check whether they
-  still apply to this version?
----
- .../boot/dts/allwinner/sun50i-a133-cpu-opp.dtsi    | 182 +++++++++++++++++++++
- 1 file changed, 182 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a133-cpu-opp.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a133-cpu-opp.dtsi
-new file mode 100644
-index 00000000000..dd5fdeea7ea
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a133-cpu-opp.dtsi
-@@ -0,0 +1,182 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+// Copyright (C) 2026 Rajan Yadav <rajanyadav0307@gmail.com>
-+/*
-+ * A133 CPU OPPs. The voltages and grade selection follow the Allwinner
-+ * vendor BSP (sun50iw10p1.dtsi); 1608 MHz for b0 and b1 is from the vendor
-+ * table in the factory firmware of the KickPi K5C. Index 0-5 are the
-+ * vendor's a0-a5 grades (a6 uses the a5 values), index 6-9 are the "high
-+ * speed" b0-b3 grades. This needs the efuse cells from sun50i-a100.dtsi.
-+ */
-+
-+/ {
-+	cpu_opp_table: opp-table-cpu {
-+		compatible = "allwinner,sun50i-a133-operating-points",
-+			     "allwinner,sun50i-a100-operating-points";
-+		nvmem-cells = <&cpu_speed_grade>, <&chip_marking>,
-+			      <&cpu_pcpu>, <&cpu_bin_ext>;
-+		nvmem-cell-names = "bin", "marking", "pcpu", "bin-ext";
-+		opp-shared;
-+
-+		opp-408000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <408000000>;
-+
-+			opp-microvolt-speed0 = <900000>;
-+			opp-microvolt-speed1 = <900000>;
-+			opp-microvolt-speed2 = <900000>;
-+			opp-microvolt-speed3 = <940000>;
-+			opp-microvolt-speed4 = <940000>;
-+			opp-microvolt-speed5 = <920000>;
-+			opp-microvolt-speed6 = <900000>;
-+			opp-microvolt-speed7 = <900000>;
-+			opp-microvolt-speed8 = <940000>;
-+			opp-microvolt-speed9 = <920000>;
-+			opp-supported-hw = <0x3ff>;
-+		};
-+
-+		opp-600000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <600000000>;
-+
-+			opp-microvolt-speed0 = <900000>;
-+			opp-microvolt-speed1 = <900000>;
-+			opp-microvolt-speed2 = <900000>;
-+			opp-microvolt-speed3 = <940000>;
-+			opp-microvolt-speed4 = <940000>;
-+			opp-microvolt-speed5 = <920000>;
-+			opp-microvolt-speed6 = <900000>;
-+			opp-microvolt-speed7 = <900000>;
-+			opp-microvolt-speed8 = <940000>;
-+			opp-microvolt-speed9 = <920000>;
-+			opp-supported-hw = <0x3ff>;
-+		};
-+
-+		opp-816000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <816000000>;
-+
-+			opp-microvolt-speed0 = <940000>;
-+			opp-microvolt-speed1 = <900000>;
-+			opp-microvolt-speed2 = <900000>;
-+			opp-microvolt-speed3 = <940000>;
-+			opp-microvolt-speed4 = <940000>;
-+			opp-microvolt-speed5 = <920000>;
-+			opp-microvolt-speed6 = <900000>;
-+			opp-microvolt-speed7 = <900000>;
-+			opp-microvolt-speed8 = <940000>;
-+			opp-microvolt-speed9 = <920000>;
-+			opp-supported-hw = <0x3ff>;
-+		};
-+
-+		opp-1008000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <1008000000>;
-+
-+			opp-microvolt-speed0 = <1020000>;
-+			opp-microvolt-speed1 = <980000>;
-+			opp-microvolt-speed2 = <950000>;
-+			opp-microvolt-speed3 = <1020000>;
-+			opp-microvolt-speed4 = <960000>;
-+			opp-microvolt-speed5 = <940000>;
-+			opp-microvolt-speed6 = <980000>;
-+			opp-microvolt-speed7 = <950000>;
-+			opp-microvolt-speed8 = <960000>;
-+			opp-microvolt-speed9 = <940000>;
-+			opp-supported-hw = <0x3ff>;
-+		};
-+
-+		opp-1200000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <1200000000>;
-+
-+			opp-microvolt-speed0 = <1100000>;
-+			opp-microvolt-speed1 = <1020000>;
-+			opp-microvolt-speed2 = <1000000>;
-+			opp-microvolt-speed3 = <1100000>;
-+			opp-microvolt-speed4 = <980000>;
-+			opp-microvolt-speed5 = <960000>;
-+			opp-microvolt-speed6 = <1020000>;
-+			opp-microvolt-speed7 = <1000000>;
-+			opp-microvolt-speed8 = <980000>;
-+			opp-microvolt-speed9 = <960000>;
-+			opp-supported-hw = <0x3ff>;
-+		};
-+
-+		opp-1320000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <1320000000>;
-+
-+			opp-microvolt-speed0 = <1160000>;
-+			opp-microvolt-speed1 = <1060000>;
-+			opp-microvolt-speed2 = <1030000>;
-+			opp-microvolt-speed3 = <1160000>;
-+			opp-microvolt-speed4 = <1020000>;
-+			opp-microvolt-speed5 = <1000000>;
-+			opp-microvolt-speed6 = <1060000>;
-+			opp-microvolt-speed7 = <1030000>;
-+			opp-microvolt-speed8 = <1020000>;
-+			opp-microvolt-speed9 = <1000000>;
-+			opp-supported-hw = <0x3ff>;
-+		};
-+
-+		opp-1416000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <1416000000>;
-+
-+			opp-microvolt-speed6 = <1100000>;
-+			opp-microvolt-speed7 = <1070000>;
-+			opp-microvolt-speed8 = <1060000>;
-+			opp-microvolt-speed9 = <1040000>;
-+			opp-supported-hw = <0x3c0>;
-+		};
-+
-+		opp-1464000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <1464000000>;
-+
-+			opp-microvolt-speed0 = <1180000>;
-+			opp-microvolt-speed1 = <1180000>;
-+			opp-microvolt-speed2 = <1130000>;
-+			opp-microvolt-speed3 = <1180000>;
-+			opp-microvolt-speed4 = <1100000>;
-+			opp-microvolt-speed5 = <1080000>;
-+			opp-supported-hw = <0x3f>;
-+		};
-+
-+		opp-1512000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <1512000000>;
-+
-+			opp-microvolt-speed6 = <1180000>;
-+			opp-microvolt-speed7 = <1130000 1130000 1140000>;
-+			opp-microvolt-speed8 = <1100000>;
-+			opp-microvolt-speed9 = <1080000>;
-+			opp-supported-hw = <0x3c0>;
-+		};
-+
-+		opp-1608000000 {
-+			clock-latency-ns = <244144>; /* 8 32k periods */
-+			opp-hz = /bits/ 64 <1608000000>;
-+
-+			opp-microvolt-speed6 = <1180000>;
-+			opp-microvolt-speed7 = <1130000 1130000 1140000>;
-+			opp-supported-hw = <0xc0>;
-+		};
-+	};
-+};
-+
-+&cpu0 {
-+	operating-points-v2 = <&cpu_opp_table>;
-+};
-+
-+&cpu1 {
-+	operating-points-v2 = <&cpu_opp_table>;
-+};
-+
-+&cpu2 {
-+	operating-points-v2 = <&cpu_opp_table>;
-+};
-+
-+&cpu3 {
-+	operating-points-v2 = <&cpu_opp_table>;
-+};
-
--- 
-2.34.1
-
-
+On Tue, Nov 3, 2026 at 9:33=E2=80=AFAM Chen-Yu Tsai <wens@kernel.org> wrote=
+:
+>
+> On Tue, Nov 3, 2026 at 10:47=E2=80=AFPM Rajan Yadav <rajanyadav0307@gmail=
+.com> wrote:
+> >
+> > On Tue, Nov 3, 2026 at 7:07 PM Chen-Yu Tsai <wens@kernel.org> wrote:
+> > > Does the downstream BSP have this? It would be nice if we could port
+> > > it over. Then you can properly use the power allocator and/or the
+> > > schedutil governor.
+> >
+> > Yes. The BSP (sun50iw10p1.dtsi) has dynamic-power-coefficient =3D <190>
+> > on cpu0, and sustainable-power =3D <1200> on the CPU thermal zone.
+> >
+> > The energy model uses the OPP voltages, and Andre points out that the
+> > current OPPs are A100-only and don't fit the A133. So I'd like to fix
+> > the OPPs first, and then add the coefficient as a follow-up, tested wit=
+h
+> > the power allocator on the K5C. Is that okay with you?
+>
+> That works.
