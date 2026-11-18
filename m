@@ -1,101 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=34.202.193.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795018961;
-	b=VuhP0dPTuFso/13bixp3EJvviD+IfDDXtu9RUY2HdH8BSbye07TFfaKqcg+BUlCEWQCq
-	 54MFpqOPWG+2uwz1rbA2oSQU20lR6t6uMEKKPPH/F2Bc7J/CMIBmrcai/Lle+EtkRC432
-	 Px02s+NIoEoEwsSKT2fQItlXsWwHWZEWX18WAeWFwOghSDix3anPYp8uQYo49HVpKc5S5
-	 rz9VqQ+q8AUILn0R7tWnu/WEC3xV44jAQ2c9s3IIybxaNW/g3bC7/8NBLLbutja/W8hJs
-	 90s7N4Gr5b/xsBZyPCkyF/Wdf5ctGFJhmSECauvOQ3+aRIy3ltzBFV48yMlzjJ6YN4g==
+	t=1795020502;
+	b=QmLeAVP6D4JmxYfxBRtpQEkpufjvsfkTR3rT2nI2WuQ8ZPdPaKUKtOR8XOAqvce2QgJe
+	 2pCxMyBEhehKyfIR3we5FVOd4F/Ez5pg2C/OS1T8n2SxAjMQzfBefxa1MZMGG32GoNoMd
+	 4VZ7wssVSTcWoFFAjSOpvCpa7u9qsVTcuzFJXWmB9BWM/KHhkrEQxwou4MNcLepjt8ta0
+	 ftN7pBLI+4FBWaZFMhBH0vdzmRH8KEXXzatI7J7g6Ac6MMv0Iw/ErSu6254qY8Bj7yULX
+	 gvdjovlgEenVc1a60Go6FAT2lTmCdNi83Qhr5j9VFJuuv9UIYoBjXfJnnabaDa0D+Lg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795018961;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=sUMfqx7WyF+WdMCXuuqSGNAynRyVFfZG82HjesEDTws=;
-	b=ZIlXYfn7KglrYBIsLPcPD5OYdTHiry+MdO6VCtff272xjvkODm9TgOQrvC0wC8HeanpR
-	 eNZ8cE3U+AUPrz0jWI3s9tiBX7xOVuyjUM0n/S15c+hme9R6+VlvyMJo7/aN4vJKQHGZw
-	 U3h8U9LPXxhzUCgTEpJr27EZfQjUJTRL62eABNi30XFdAtbB0qeNa50DDey8lyL/oofAj
-	 1LR9qQpP2xpFdbbukdPQk/0G7/nq44aiAYPE5+n7s3LAGMa7gXJRlYsaE5TPlS9ouSuQz
-	 eaGn9ppOQ4waGoVxg9ZuKeAI9BXnrUiUldn6xBR84tItl6xFMdbfh7QXRHFmX1+HVHg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795020502;
+	h=DMARC-Filter:DKIM-Signature:DKIM-Signature:Feedback-ID:
+	 X-Pm-Original-To:Received:Message-ID:Subject:From:To:Cc:Date:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 User-Agent:MIME-Version;
+	bh=3GFJvAq6nIGqoHQdnUueliZjnKVhW3Nxe+pY+OXTGGI=;
+	b=Kn7X2zgDNcm5eCSoefgTb1Erxbt3Cfq3/gTl/RFTpjReNnoAsY9hUBnz7igxodNQNCQk
+	 zd7+56pcOfkDC/bIQGUjKlATod3ixLzANMyF7Py7SJAaWdstqJWC25TbyLxltoy49K4xU
+	 qyS2nZXk6LLUvwQCk1NqrzQZWhy6nDQAS531RrsZxaqF9VjdfulXeVYSyQIdW4RTaWVa1
+	 EZE+48BH9qB+PVGlFZczS3Ngsh9ZWRS1J4lmvxyD6m1K5SO/qpKkD6TLlo90Ng2HInjyM
+	 fB3n0eErAPPurlVsSqVkuxcuYLOWQ8pnrHtGS+CSDDrj44lCKZnL1uUXa2eRHQoJyVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=svhHM7Xz;
-	arc=none smtp.remote-ip=209.85.221.51
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=sverdlin.org;
+	spf=pass smtp.mailfrom=sverdlin.org;
+	dkim=pass header.d=sverdlin.org header.i=@sverdlin.org header.a=rsa-sha256 header.s=purelymail1 header.b=I8bCTST9;
+	dkim=pass header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail1 header.b=BbUox9wp;
+	arc=none smtp.remote-ip=34.202.193.197
+Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22198606A31C
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 16:22:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22198606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C77606A31C
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 16:48:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93C77606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sverdlin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sverdlin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=svhHM7Xz
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4a7b8abe209so538201f8f.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 08:22:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795018959; x=1795623759; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sUMfqx7WyF+WdMCXuuqSGNAynRyVFfZG82HjesEDTws=;
-        b=svhHM7XzpxTDo05DvdnGKkJ04H3d4T1WNbMnN2TDcmzh92iWDOYBAuqvb29E2DCOqy
-         hM8gYp9DDAwCkuTRzyq9/PQWpQSTlZdZRh/Je0LEMlehuBU8T0V4rhnXSErcH9ovrU6B
-         HDKBzPYr6VBANED6+BH6qw7eyXxDqYh8UWG3DZ5rSsWy9GjaID3xysEmirVOyGE+qLlN
-         3M72uAuCMaYO0avWmz0m7UfrkM19i/r7W4fFB9AnkCqMFaVt6KpAJ8AetcU76BUCIlsJ
-         /eBApvw6+tSuVhJEl46JjjuYyqQM7bm4mIfGEiZOkKVll7sBnnKenS3xb+Mki80WYgZ1
-         tLPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795018959; x=1795623759;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=sUMfqx7WyF+WdMCXuuqSGNAynRyVFfZG82HjesEDTws=;
-        b=EGV7bH29uqlcCJtH1EQYjlLo1V1NGc6v9iyd55X99E83ZxwkJM5k+yqAiFvyp3MFM4
-         sTVxyEUxUtHUkYB2lRqv+oqWMJFethQhJkriKvYztD8zal7EyR6DVA9NKoXeVohedjY7
-         v1G91VMJ/DXhCUPThp1dSvrKWBi4D74Aw+uPoLMPFZP5CtMGa4B84YyH1wIcjGp4mLDa
-         aUDq9CK0KNu02PW2XWdQPDDJ8eVo1XHHzlJleBKGp6BG6vbSk9qlMvsOVk8P8FuShhEZ
-         dGZBhc8E+WoMGG8uOXL6vrrRCpiGbRklQnoprdJUyb/hJEQ+WaQYRS7V635keHrBrJOk
-         AVwA==
-X-Forwarded-Encrypted: i=1; AL+hErHfGK9GA1fAFRPCr79rxjSsutKotPAkRf4RsKS0PSwDV5s8vcoShFpnaDXoBJ/qMG5ajmdPrxuiCpjjzA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8+j5ioE0jEeyEAj3ViaHJ8uFcicc9azPKgVZjZCPG9X/GZIP9o
-	eyCu3qe28nam2S3+BD6fjZd7T30U7dY47RltKBY175ftMkXsIzZiDiYB
-X-Gm-Gg: AZFdTZef5VUrzCNb5XVgv7YxORNPW63KtkNMUT2ZhdCc8ekNYY1O54ShD1hCicxHg6T
-	THGR6ZT3Zbl8M3W4m2Q+GUxs1hpxMZAy1xPuakXHGOTja1/h7mnp5g/TvGPmjgfrbhEXsIdJ5nV
-	BnaCjke8yKpAnIG8CpIgEbhJTLFJwPJAb5cj2o6il3rn+pVAFhHbogQ/ex4p5srOZ24u2ioLaD0
-	h9IogoyXnoxM0FwzEv6kevRN2YGt9cMdChgP6KzO4jNj+Pz3ZaASicBjG05d4G79XXp/EOGOe1l
-	iluH9yfEAq0CGCuQQOwn0EgJXY0Hm++rpEWKYJD2n9G5ngiOCw9csF22atUwi8EJCvN5xXykNWV
-	Fq6WZMWQFsd83DEkf9PqhIKYXamC57X8Qnlf3JymF43spL1TkOveSSOZI+kz4Gv4mh9Pik2VTAu
-	lf3emua2POVVQ05l4EUAKQ87zYHA7L/pbgoW7HKJhDW4u7tk23B4gaH80Xm313WTBPbeObZhqKT
-	NNxc6cmtJCutW3mfl29wTHXJKt0CEk2UR+qXdGVUfKEUnepNYekaA224UVGd+52/5oYViWdFGvH
-	lW7jzL0RdVrn3hJ/hNWv6wnVbQX2QpuzicKj/Mrxz1DhRP6hputKmrI6pzfT6S0ktk93TnYRVZ2
-	UBZWSDrlAQWiMMwKs9MHQaqRbORTt3/k=
-X-Received: by 2002:a5d:6f0f:0:b0:48c:4f6f:62e3 with SMTP id ffacd0b85a97d-4a63c65829bmr5664866f8f.18.1795018959207;
-        Wed, 18 Nov 2026 08:22:39 -0800 (PST)
-Received: from localhost.localdomain ([2001:861:39c2:e340:26a9:c0e4:d23b:6722])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a65609391bsm5780458f8f.36.2026.11.18.08.22.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 08:22:38 -0800 (PST)
-From: Romain TISSERAND <romain.tisserand@gmail.com>
-To: Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Frank Oltmanns <frank@oltmanns.dev>,
-	linux-clk@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	sashiko-reviews@lists.linux.dev
-Subject: [PATCH] clk: sunxi-ng: nkm: use div64_ul() for the rate divisions
-Date: Wed, 18 Nov 2026 17:22:37 +0100
-Message-ID: <20261118162237.1664352-1-romain.tisserand@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=sverdlin.org header.i=@sverdlin.org header.a=rsa-sha256 header.s=purelymail1 header.b=I8bCTST9;
+	dkim=pass (2048-bit key, unprotected) header.d=purelymail.com header.i=@purelymail.com header.a=rsa-sha256 header.s=purelymail1 header.b=BbUox9wp
+DKIM-Signature: a=rsa-sha256; b=I8bCTST92F3zmyAYodaEjsSLXsM5S9DByOnz4Gcsgh3Mth9Or7p9q9h5a73lbc0P/CSv8FENk6Ghix8Ho1Zj07NlsXpAOHEKizvWamr6eFj93n8SSvlnfAUJhYqzMUSBXvq8aPLl1wWayDrm15QI6tlcqv2Quc692ivy3MpTixI9xBIsKyk8AqU5/kKYTZ+diiQdOphV41Cmk/d0BonYfQEYYKPogeMcD01Zwi2bvd9iYZHupZ5qZoUJYTOEewZygu6n7zmbkqZlbAPCZYhXQOlU3jV0RPPlCI4BmevIW381XxH0D2dx3DOpysMB6N9KffYOwovvK6iZZUe/7WtBzQ==; s=purelymail1; d=sverdlin.org; v=1; bh=3GFJvAq6nIGqoHQdnUueliZjnKVhW3Nxe+pY+OXTGGI=; h=Received:Message-ID:Subject:From:To:Date;
+DKIM-Signature: a=rsa-sha256; b=BbUox9wpp4bm6ak0OZWnsFHsYcTYBHOImytaHxkA863ZfZFKXa7cjN3TCpW7ubl65E3u+PkHsraVdGOyfgSiOf3x5Z1VoeEc+aoZ8zd8Zd/ub2Gj+xtJHRHXFu3u9f6eY4Md5wBYsy2z/4g44qHjBAEf63LqzsXmXxvaFkQet1bfWjOb994yZWVRHI1oNCSZgTNxk4pYm3BrNl78B+MhQe+0/btTe6AX9/vWIdQV7y+kbMbImJ2TiHQmMbxtC0EcHEnvLHJMCtW2drdNiti5vB46xcKOmXTclWR5Ju7loj0qmKZhj4ty8mIG6AVkyUH91OydufNPF0XO6hGe901gNA==; s=purelymail1; d=purelymail.com; v=1; bh=3GFJvAq6nIGqoHQdnUueliZjnKVhW3Nxe+pY+OXTGGI=; h=Feedback-ID:Received:Message-ID:Subject:From:To:Date;
+Feedback-ID: 815097:39668:null:purelymail
+X-Pm-Original-To: linux-sunxi@lists.linux.dev
+Authentication-Results: purelymail.com; auth=pass
+Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -527604635;
+          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+          Wed, 18 Nov 2026 16:47:54 +0000 (UTC)
+Message-ID: <18a78cddfc3c28c011bb5d0c566c2f307773b235.camel@sverdlin.org>
+Subject: Re: [PATCH v3 2/3] arm64: dts: allwinner: add A733 SoC description
+From: Alexander Sverdlin <alex@sverdlin.org>
+To: Enzo Adriano <enzo.adriano.code@gmail.com>, andre.przywara@arm.com, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, wens@kernel.org, 
+	jernej.skrabec@gmail.com, samuel@sholland.org
+Cc: Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Junhui Liu <junhui.liu@pigmoral.tech>, Jerome
+ Brunet <jbrunet@baylibre.com>, Pablo Mazzini <pmazzini@gmail.com>, Vinicius
+ Pedrosa	 <vinicius.eduardo.pedrosa@gmail.com>, Jun Yan
+ <jerrysteve1101@gmail.com>,  Lukas Schmid <lukas.schmid@netcube.li>
+Date: Wed, 18 Nov 2026 17:47:49 +0100
+In-Reply-To: <7c0ee4e609db5979d2a6598f46f40896b4f47a57.1794227241.git.enzo.adriano.code@gmail.com>
+References: <cover.1794227241.git.enzo.adriano.code@gmail.com>
+	 <7c0ee4e609db5979d2a6598f46f40896b4f47a57.1794227241.git.enzo.adriano.code@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.62.1 
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -105,65 +72,121 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-ccu_nkm_calc_rate() and ccu_nkm_calc_parent_rate() divide their 64-bit
-products by an unsigned long (m, n * k) with do_div(), whose divisor is
-32 bits: on 64-bit it would be truncated. The N, K and M factors keep
-it far below 2^32, so the results do not change, but use div64_ul(),
-which takes an unsigned long divisor, as coccinelle suggests. On 32-bit
-it is the same do_div() as before.
+Hi Enzo,
 
-Fixes: e9d9dae0d248 ("clk: sunxi-ng: nkm: avoid 32-bit overflow in rate calculations")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202611151822.QXTOs54d-lkp@intel.com/
-Signed-off-by: Romain TISSERAND <romain.tisserand@gmail.com>
----
-Notes:
-- Follow-up to e9d9dae0d248 in sunxi/clk-for-7.5, for the coccinelle
-  report of the kernel test robot (do_div() with an unsigned long
-  divisor); squash it into that commit if you prefer.
-- No functional change: m and n * k stay far below 2^32 for every NKM
-  clock, so do_div() never saw a truncated divisor.
-- Testing: built with W=1 for arm (multi_v7_defconfig with the A31 and
-  A33 CCUs) and arm64 (defconfig), no warnings; on arm the divisions
-  still go through __do_div64 (no __aeabi_uldivmod). Not run on
-  hardware: the generated code for the rates the hardware uses is the
-  same division as before.
-- Tool disclosure: prepared with Claude Opus 5.5 (Anthropic) as a coding
-  assistant, from the robot report; I reviewed and understand the change.
+On Mon, 2026-11-09 at 23:45 -0500, Enzo Adriano wrote:
+> Provide the SoC description needed for the Cubie A7S console, PMIC and
+> microSD support. Describe the CPUs, PSCI, architectural timers, GIC,
+> RTC, main and always-on clock/reset and pin controllers. Include the
+> main and R-domain UART/I2C instances and MMC0-2 with their pin groups.
+>=20
+> The GIC maintenance PPI 9 and ARMv8.2 EL2 virtual-timer PPI 12 follow
+> the A733 User Manual v1.00, section 12.2.3. The GICD/GICR/ITS windows
+> and noncoherent attributes follow Andre Przywara's public A733
+> reference and the A523 precedent. The CPUX interconnect diagram in
+> section 5.1.2 supports noncoherency as an integration inference. The
+> ITS stays disabled pending its clock/reset and MSI integration.
+>=20
+> The enabled console, R-I2C0/PMIC and MMC0 paths were exercised on a
+> Cubie A7S with vendor firmware in the November 4 RAM boot of DT v2.
+> EL2 interrupt delivery and ITS/MSI were not tested.
 
- drivers/clk/sunxi-ng/ccu_nkm.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Shall parts of this go below "---" as history/changelog?
 
-diff --git a/drivers/clk/sunxi-ng/ccu_nkm.c b/drivers/clk/sunxi-ng/ccu_nkm.c
-index e5a8f22d50f5..a11d51dd0f2a 100644
---- a/drivers/clk/sunxi-ng/ccu_nkm.c
-+++ b/drivers/clk/sunxi-ng/ccu_nkm.c
-@@ -35,9 +35,8 @@ static unsigned long ccu_nkm_calc_rate(unsigned long parent,
- 				       unsigned long n, unsigned long k,
- 				       unsigned long m)
- {
--	u64 rate = (u64)parent * n * k;
-+	u64 rate = div64_ul((u64)parent * n * k, m);
- 
--	do_div(rate, m);
- 	return min_t(u64, rate, ULONG_MAX);
- }
- 
-@@ -45,9 +44,8 @@ static unsigned long ccu_nkm_calc_parent_rate(unsigned long rate,
- 					      unsigned long n, unsigned long k,
- 					      unsigned long m)
- {
--	u64 parent = (u64)rate * m;
-+	u64 parent = div64_ul((u64)rate * m, n * k);
- 
--	do_div(parent, n * k);
- 	return min_t(u64, parent, ULONG_MAX);
- }
- 
+> Link: https://gist.githubusercontent.com/apritzel/60fd7379b9560a15b8b3529=
+86b69d39f/raw/efd9cdf8f26ba5b0c7e138f093af44a1cf322469/sun60i-a733.dts
+> Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
+> ---
+> =C2=A0.../arm64/boot/dts/allwinner/sun60i-a733.dtsi | 601 +++++++++++++++=
++++
+> =C2=A01 file changed, 601 insertions(+)
+> =C2=A0create mode 100644 arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
+>=20
+> diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi b/arch/arm64/=
+boot/dts/allwinner/sun60i-a733.dtsi
+> new file mode 100644
+> index 000000000000..d0b9f432e3ab
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
+> @@ -0,0 +1,601 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
+> +
+> +#include <dt-bindings/clock/sun6i-rtc.h>
+> +#include <dt-bindings/clock/allwinner,sun60i-a733-ccu.h>
+> +#include <dt-bindings/clock/allwinner,sun60i-a733-r-ccu.h>
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> +#include <dt-bindings/reset/allwinner,sun60i-a733-ccu.h>
+> +#include <dt-bindings/reset/allwinner,sun60i-a733-r-ccu.h>
+> +
+> +/ {
+> +=09#address-cells =3D <2>;
+> +=09#size-cells =3D <2>;
+> +=09interrupt-parent =3D <&gic>;
+> +
+> +=09cpus {
+> +=09=09#address-cells =3D <1>;
+> +=09=09#size-cells =3D <0>;
+> +
+> +=09=09cpu0: cpu@0 {
+> +=09=09=09compatible =3D "arm,cortex-a55";
+> +=09=09=09device_type =3D "cpu";
+> +=09=09=09reg =3D <0x0>;
+> +=09=09=09enable-method =3D "psci";
+> +=09=09};
+> +
+> +=09=09cpu1: cpu@100 {
+> +=09=09=09compatible =3D "arm,cortex-a55";
+> +=09=09=09device_type =3D "cpu";
+> +=09=09=09reg =3D <0x100>;
+> +=09=09=09enable-method =3D "psci";
+> +=09=09};
+> +
+> +=09=09cpu2: cpu@200 {
+> +=09=09=09compatible =3D "arm,cortex-a55";
+> +=09=09=09device_type =3D "cpu";
+> +=09=09=09reg =3D <0x200>;
+> +=09=09=09enable-method =3D "psci";
+> +=09=09};
+> +
+> +=09=09cpu3: cpu@300 {
+> +=09=09=09compatible =3D "arm,cortex-a55";
+> +=09=09=09device_type =3D "cpu";
+> +=09=09=09reg =3D <0x300>;
+> +=09=09=09enable-method =3D "psci";
+> +=09=09};
+> +
+> +=09=09cpu4: cpu@400 {
+> +=09=09=09compatible =3D "arm,cortex-a55";
+> +=09=09=09device_type =3D "cpu";
+> +=09=09=09reg =3D <0x400>;
+> +=09=09=09enable-method =3D "psci";
+> +=09=09};
+> +
+> +=09=09cpu5: cpu@500 {
+> +=09=09=09compatible =3D "arm,cortex-a55";
+> +=09=09=09device_type =3D "cpu";
+> +=09=09=09reg =3D <0x500>;
+> +=09=09=09enable-method =3D "psci";
+> +=09=09};
+> +
+> +=09=09cpu6: cpu@600 {
+> +=09=09=09compatible =3D "arm,cortex-a76";
+> +=09=09=09device_type =3D "cpu";
+> +=09=09=09reg =3D <0x600>;
+> +=09=09=09enable-method =3D "psci";
+> +=09=09};
+> +
+> +=09=09cpu7: cpu@700 {
+> +=09=09=09compatible =3D "arm,cortex-a76";
+> +=09=09=09device_type =3D "cpu";
+> +=09=09=09reg =3D <0x700>;
+> +=09=09=09enable-method =3D "psci";
+> +=09=09};
 
-base-commit: 3f8438336a3b340ffbda9e89480630436423782d
--- 
-2.43.0
+Do we need capacity-dmips-mhz, cpu-map and two PMUs here, similar
+to rk3588-base.dtsi? This in turn would mean ppi-partitions with
+#interrupt-cells =3D <4> in GIC?
 
+> +=09};
+>=20
