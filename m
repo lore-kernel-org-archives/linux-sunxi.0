@@ -1,100 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794972009;
-	b=GIYYQolpJgkR1VDf7fHlP+r4cdwww+RmrXsg1oVh4lC81o+QJsFgCLFWt+jpkkj5kVys
-	 yQZjr8gmjYQ6AsuRRXvZkGjdyaHjYy5p1FHf7dvGaeLR/ijHpTiefqDqGa3uwg8LAJZH6
-	 4q7GdniVNEGwM9cfrDo8RVoTWIdHg6AQnkcnL5vNSHdRnLFm5WyMH4lwgq1tLEugFZJnd
-	 JcMa7CtUTn7LV1yJkvlKR54dKISDGcrvsBKn/D8BqR3KYioCdjsfUwRvjeapFcljxh+1f
-	 C7X04nOPFHQ4MZtjshzELX3Vlr8wHyAxFjZz3MFSbYIOwYImzvIfWV/iW0mYI4S2XFg==
+	t=1794974159;
+	b=f/8nYfu7ot3NyQXrFKgjq/NqqoVv8PPEtis7ZXsN1FIisAeXQgj0yLudOrL4BrlY7iWN
+	 HC4gciRYoln5A4C/aPpwqbObLXurhUqKyWJ8Noc6lo4SbwZclyYbFxDMIFsrwsb2T6XRg
+	 QuegP50F8yWy0PT7NlXFxq0RKNkfiudA3cpXtgk9/jzrVaWvnLeA12/cw3CiojO9roxnN
+	 zVKnXMwAeUTkRe6GSXtIo8anKfwDihtGbTKk+EackADJ0zo008FYV9P9bVd2xg90v58Hn
+	 e8q5c43voNP6pZU6WrUyNpzW4JICnjC+JZ+hyZ7EwJp/iND5OzBI0ZFmgP1JHQvnf+g==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794972009;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=pMB2AXoRBZXKC3VHrDoIQ+zmQluYyx7XzY5w5JiTaps=;
-	b=bZttN7+P5F+AQov876jSnMUExz3I5fzegw1QWNr11HweTpl8JrKFqf/pMVqdFqVmGcG0
-	 0g/HkUJK0eEHOxJ6UG+ovO22VJ7VJupl50Z/7YzfQC6qHd8j2uPz5HimFcTAkAL1sYtEp
-	 enb+4M5mpquilqFVw1QZNLSSh/YMtuX7BykZ8m/c7dxL8TcYfBdQazglw7sxVBmHzoSzT
-	 XAM60Vk4NoihrY5YYqsjH55zPTw2/9rqrf5/ERkFXsmqDlGkpfcLFzt9C5VV1GHMqrCJs
-	 cdf/T3TSpENzAi1v72wNL32K94i6fzw4neW52iLvgFc90eDVe06Bj3tSIcQgTcMY2hQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794974159;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=W1b/vpjXN8C9t9fKqB2jfvx8t9qyI65mD8KatIp/OZo=;
+	b=0wXENcYXqfGZYs3OIyRCYdnXWdCeh4+ZMYEeKn8GZQkZ5EAo8HAOKSxFQEr/b4sQvngG
+	 2/sPPvrOzDkE7ahssGK+VLw4Duck7N3aYNE2akJEbk4xF7440a6O8N+K+BlHUiNzLFczi
+	 MFRfqHwK9gLW3EUjtiacnuCQc/rTu++ual6EFexGZx3ly0vMK8a6+fLZYKvNj7kaawyh2
+	 Zy8qiXYinpB8Rhp3iFthJcCy/oxdRpnDK6YPNHP5Sm2Uao5pv5ZXX5JGBiFRdfTIjdKMz
+	 yEvf4o7lieXLO9W+MsxYeqO5T6dYpkpLwLE2nMYGsfLIev+HiOWtBNR4sWxbNFqLpFw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Mgzdrw6q;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.169
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aAmuvRO0;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F57606A31C;
+	Wed, 18 Nov 2026 03:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aAmuvRO0
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794974159;
+	b=e5/YsxtSAl3YhMrSk/wd+/C1calzNb6HU4kcdBTEw0T6fN/n6Ld05xcMYq4wsLlzsESQ
+	 fOTAeCzDqbFxqKL9p65Ad7VQsuT+4elu/gQy3nmEwlIs0RBRpRoxBFIEVzqa5DMAb7PGe
+	 +euaYePlHVNxsjzEAIS7Ot5W/f5bhGz253349hf8Mhqw1zL1AWic5Sc3FMPzSaHaqbcsl
+	 GV4VMfnxDC3sdPIzU17iceN0bLFbm1IVvCp0rHDAbPQno/ExGwwvG3hlWXZj73f+Up21/
+	 TRDs1PnDlpcDLfhmcfag3WZmuKAoqR8fbD7B1ECU2FScrSpTvOhJVgEguUopq3bkABQ==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794974159;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=W1b/vpjXN8C9t9fKqB2jfvx8t9qyI65mD8KatIp/OZo=;
+	b=dRWmT2hgPQ3Vdq4/sLXS97Zgelcdzfd6AWBy8PkL7fBuWEVf30PSylJ75sm7ZEfujPPj
+	 LE46RleWXV9koiLe83LOCRU3JQUjYO9cKUM2QpA1KDqe6deMkYFCSm6v4dMfgRT4Ruc8b
+	 1xCOAH21SWxO+1ZxpwxPk9C8UdGF/YpQdjDl4tA9sOnbjGoZ1jmyfnWv3oKAYpK8xb5b0
+	 6g5C5Q/PLDn301hR41HXAEZlUddCzezZfmKayDcPhKjCAekDpt9Urfuka199owAwTcoN2
+	 +v/QIjERjsg7llcKW+kdRv+d2/lAmbvGtbjUA4UVtLbqTa+vyb1aITrnv65X/BXB+2Q==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE42606A31C
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Nov 2026 03:20:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0AE42606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Mgzdrw6q
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-3ae3b5b1027so696841fa.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 17 Nov 2026 19:20:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794972007; cv=none;
-        d=google.com; s=arc-20260327;
-        b=dIi7uv4EZN8csZqWX7PxZPlMXMYT3RtthBD07DKebU/WEcZEwJytr1db2jinJcWy94
-         sR65cZULLwhvoikRK2H23K/yvO+QOg9CQ469SzEw4jNoWujkFQ1f+njDw0Ub7KDsMCkG
-         QzOP4gUfOlFW3RLynierudiASDRnjYxaqmZVRJs0Kw5ImtJVl5BLZVOu7XVAoMEPl4c0
-         M4fK0J5uZeTX/B2dK7v9P7BiI8ACoDK3p/G4uSSqechMCc3yHYlomUy13v+WshsZ0LsR
-         dKXykcOqO7Hkoc29kklr6ai5BLwsF74gVA8hT3uk7ZUvavmAO0Gznlzflk74nojKbyUH
-         K1sw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=pMB2AXoRBZXKC3VHrDoIQ+zmQluYyx7XzY5w5JiTaps=;
-        fh=4ohGpIjnjr/jYsa3UjAzZuW70BEOUfS/skHJMrI5LuI=;
-        b=Dg7zDyyVfoHi/6SHGxVwz0Gwj/OVmFNLGz4VTMCoy+Sn8+2qPwMyXYrR7qgxXp/wFH
-         X5HVBumGm6mRP48F7Ej2KKw5xaCqfDLs5ncDESqyKCdXCRNy3hN2VPV68mSs2n2IIcOj
-         jYCujl9jnGNOf3MTg4TUNIia6wmCcR/VRSsbJ3Urd4x64XRkTh6v2aGArpaAN0kwRLTp
-         Iw8d9L0sFsv774cxuitVHwxHyYM0vGqs25QG5GjV4m1tuLsclneitmgib/inItvdLzoC
-         HPVNGZDk01tmYuwWKtEhX/lZ+KPN1agoboCQ9N298K4Fn7vYzfGTcUxAgLPBeOXMmDkL
-         VCNA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794972007; x=1795576807; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=pMB2AXoRBZXKC3VHrDoIQ+zmQluYyx7XzY5w5JiTaps=;
-        b=Mgzdrw6qwKntBpP3Z+nYLBLnsILBs/5bb9S1hl7sWs7vPT4bsygCxxXHGg+PGv1VEL
-         zjDD2KymbtQpx2cW11Pkd+YodYrtIrC6rSTHuEzWSKJ6m/RzFYMiHmFAdm+tUGWrUPl2
-         JeLNeCh56kSCrk1IXnEeVm0UPvlf0LAs/2ELDYkOmvZCHD1m+Tq0OEQerdApP07Sm9v3
-         gGgJqPIzvtUBRtRn9wOMbwpgGDcwyEZo/dsPyep8gG1CnHlTPl1b840hXgSH/ZlwtVVM
-         3oD1nezOfudbRExJKCet+oJOH1eglbTBdm76UsWp4RHjMR9dBJEPYoXxbZxp920UzYh7
-         GIMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794972007; x=1795576807;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=pMB2AXoRBZXKC3VHrDoIQ+zmQluYyx7XzY5w5JiTaps=;
-        b=QXfgJ5M6BM+UtepdcNP5rNH7kvs8N8O/62cCdHbiIHfCfPytTB6IDnqC84b3lEB2wQ
-         7XngfykyfYaJQ86UD2kc1aFjzpJZhb8OrBkC4UN0aJ6FpsuHz7Eaiq3BIcfiyMFUf8BQ
-         pKgMIw7KoNqhvHLAfqLAXp9sCmYEbThLDpKLEEUhLZTtHAI8UJZk4LenhHEcB12RYcn4
-         MPL9Z9mTaZkQ8BiIEzKo2dLruHlxzM5Auw+bnWm+uTRPdSpug2uZYLUAT2vBfxJgXcYF
-         6M+772101Gq9WchWGGHSnWP7xddi+S/QBAEU4f6n0VBeTFD25ga6Ys4MBdRnIP17T4jA
-         DJOA==
-X-Forwarded-Encrypted: i=1; AL+hErEIAKWubgWByXa3udnh+Dev4RkujsLuxWfEm8vJUGGcgjSEom029dsP/KwT2yMRf+lxFN1GtaLdByx5Vg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8GZDAIEgIwSnwFH95xiZUxfSm5WEBoi20a/7L5t3v0n+j9KO1v
-	Zh3mdhjtf8bImaeB4cu5cH1Hh6zOZ9TkY19H3wtBi1I0Spy79LaqV8/x5JbttsvCy1JNEJl4EBu
-	0rBE1MQ+osYz5jh822TXYe2a2XGEM2zU=
-X-Gm-Gg: AYBFou1wGY5GSk4x9zALJvfG4ilWkdMb98n/PNc7dx4WuWwJo6hZiiBc1zPH1R7NouH
-	qnI76BHfQBKFfYQAqksTaawxw8VpPUksKEdOa5G//cMcPOE+gqSl0TCok1oR9TYvoVGBE5n+GbB
-	f+4Uf6xWp9gSaS8rb+ypyeo96uM9goinS/ITAJ2HrSwe5o9UHMLAcv5FErDLJAGslrniNOYbUaA
-	ziNBGXJHX7eqCUTui8XLYlBW+vRS7R2Tov1ZcyRuRyuxUZd5QBY/MTpTrW9tT5y4bAQd0x6tTRK
-	s0k+y/2ngIPtupIaF3XfhOnzQIid+aNnJrif+r/lNISY1ezDR2KtVjja8VdNVHq38pMO2S5G6JC
-	8pRsirghgJrpHpm26lrQVejYFkapLxowRxsFDeFDXLa5osDNH07zysn/zlWN70tNu+x92XfSxWK
-	Rr8S55nLWRgQfFVS5k
-X-Received: by 2002:a05:6512:1326:b0:5c1:4e17:1ed6 with SMTP id
- 2adb3069b0e04-5c1aa2d9e10mr388793e87.6.1794972006813; Tue, 17 Nov 2026
- 19:20:06 -0800 (PST)
+	by smtp.kernel.org (Postfix) with ESMTPS id B611E1F000C4;
+	Wed, 18 Nov 2026 03:55:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794974159;
+	bh=W1b/vpjXN8C9t9fKqB2jfvx8t9qyI65mD8KatIp/OZo=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=aAmuvRO08r3U6fKqiJ7cc2J1yxMP1Ryniv4w1vBwYsCVeYL7yAqEcB23m5Vk8Qecy
+	 XFom66Fk/Mf0oyW5CFUe2OrvUtLtnP3+Ukug2mcD2EDiMRAS2Viziw7YqToUndfoh+
+	 QHBA6SyWSjUc8Xx5g1IadIEjoZA3uoY+bUavSsg0AyL6W1DRwyW6KgKa3n5RDimqEd
+	 26Ixos3Fmln8nIhikMnQKxi6vyiTZrrtxcD13c4hAwGfClrQeOXpOhwqf5Xe4S6lVh
+	 Wdya5obP77t9TSA138bZT7PPml9f+FmXIsyp0ZRuIYBHf7NFtE7Ui4X5+Fh4ao2IGd
+	 5qsQswfw5Vgdw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 154384ABC9;
+	Wed, 18 Nov 2026 03:55:58 +0000 (UTC)
+From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
+Date: Wed, 18 Nov 2026 03:55:58 +0000
+Subject: [PATCH] arm64: dts: allwinner: orangepi-zero2: Read the SPI NOR
+ over two lines
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -104,37 +83,72 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261113-b4-sun8i-emac-ephy-defer-v1-1-12a8591702fe@gmail.com>
- <179490321548.3136.12535368591168637116@kernel.org> <7b9a4fe1-a885-4ace-bad0-b819ac8b11b4@bootlin.com>
-In-Reply-To: <7b9a4fe1-a885-4ace-bad0-b819ac8b11b4@bootlin.com>
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261118-zero2-spi-nor-dual-read-v1-1-bcdcbf785be0@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/0WNUQuCMBRG/4rsuRvbyBUS0f8IH+Z20xvpbHMSi
+ f+9pUKPB77vnIkF9ISBFdnEPI4UyHUJxC5jptFdjUA2MZNcKiFEDh/0TkLoCTrnwUb9BI/agjr
+ kWlmUOZ4ES+/e453ei/lWrhxi9UAz/HTbwuMrpuSwzliLIeglWWTnraiWVoidImhUwn9ylMABu
+ VEKq6NAya91q+m5N669sHKevwbesJbdAAAA
+X-Change-ID: 20261115-zero2-spi-nor-dual-read-645a6de25e81
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Arun Iyengar <aiyengar1990@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794974157; l=1356;
+ i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
+ bh=azsGory18NjrLZMbFK+fhx8bhUeiwb0w4jtTyXOp1s0=;
+ b=m180m4A6WLT+kJyz23ClvGlYswZxgc9As93hAgp5fKtYXJeB/FchFqqzONmKShqEBxtX3Pvm7
+ 5EFnJiBr/UxAFBEGtfj77F7geCTkl7SG03XkW5QUEsvFcmgngCX6CKD
+X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
+ pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
+X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
+ auth_id=1480
+X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
+Reply-To: aiyengar1990@gmail.com
+Content-Transfer-Encoding: 7bit
+
 From: Arun Iyengar <aiyengar1990@gmail.com>
-Date: Tue, 17 Nov 2026 19:19:55 -0800
-X-Gm-Features: Aa3M54qlIUAd0hNudODtwjUM3vp3szpxLVn6rqxVCrMmIBzKBehn34SS0rG8Tt0
-Message-ID: <CAEy9hNW=h41aoAaBQJzL80X4BgMM=xQe6Y4_sR6jw3RWBue0sA@mail.gmail.com>
-Subject: Re: [PATCH net-next] net: stmmac: dwmac-sun8i: Defer probe when the
- EPHY clock is not ready
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: netdev-bot+sashiko@kernel.org, andrew+netdev@lunn.ch, davem@davemloft.net, 
-	edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com, 
-	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, wens@kernel.org, 
-	jernej.skrabec@gmail.com, samuel@sholland.org, clabbe.montjoie@gmail.com, 
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-Hi Maxime,
+WP# and HOLD# are tied to VCC (schematic v1.3), so read over two lines.
 
-You and the bot are right: get_ephy_nodes() runs after stmmac_pltfr_probe()
-has registered the netdev, so the deferral comes too late.
+Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+---
+Needs the spi-sun6i H616 dual read series v2 (prerequisite below).
+Tested on an Orange Pi Zero2 with it: 1-1-2 reads (opcode 0x3b), 2 MiB in
+0.28 s instead of 0.52 s, identical data.
 
-Yes, the internal and the external PHY are both behind the mux. stmmac
-attaches the PHY at open, so today the mux is registered only after the
-netdev is visible.
+Developed with Claude (Anthropic), which wrote the commit message. I
+reviewed it.
+---
+ arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 1 +
+ 1 file changed, 1 insertion(+)
 
-It was build-tested only, as the notes said; I have no H3, H5 or V3s board
-with the internal PHY.
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+index 90c25e12e189..fb117116002e 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+@@ -150,6 +150,7 @@ &pio {
+ 
+ &spi0 {
+ 	flash@0 {
++		spi-rx-bus-width = <2>;
+ 		vcc-supply = <&reg_aldo1>;
+ 	};
+ };
 
-I will drop this patch and move the mux registration into the MDIO setup,
-together with the probe and remove ordering that Chen-Yu raised on the mux
-use-after-free patch.
+---
+base-commit: a203a4bac3316451a3036653657c8b250dea2055
+change-id: 20261115-zero2-spi-nor-dual-read-645a6de25e81
+prerequisite-message-id: <20261116-spi-sun6i-h616-dual-read-v2-0-e0c66eb71e20@gmail.com>
+prerequisite-patch-id: 28b145097d0f859e5bd27bcc5028d0915f3ba4bd
+prerequisite-patch-id: fb47570beb53613acb42c518fd1999e05e0c54fb
+
+Best regards,
+--  
+Arun Iyengar <aiyengar1990@gmail.com>
+
+
