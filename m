@@ -1,59 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795115773;
-	b=oQMoLQgFu1HYlIGzLmo/0rw7DXBLW3IAw8QsL69lVIm/226fjb6ASLfeMmpc86vz0EgM
-	 sC5L/2YesJMz6YY23qubY2IAUiwPpvJUFjhQt3VlwoXllIcSeN6jtlvwhPh8rvHIt1SNx
-	 Kthh8qROIl7M3GwxGp5uKu4t0+tk1VfalzCf+Mglm9Pemvjnqm9jRqZuuePXPq9kvWFKf
-	 ibLuswbM6PXANxHe47iFPZxGuhv9s2+6UGfkgYdA52IPly2qZOCL/mjGY8ybqmTjQ+4Gl
-	 tD9B/Y7EVVWFZzm2ZQhlWojAtWyLHCqoKZrqcwtghAE86edqP5i3r3gdvFw3+JkEofA==
+	t=1795115981;
+	b=hfXEHPGvLUESXmfNSJS9aM0C3qhAWvE1ZwfrXLt9RHBgJKieoT+w/1Yp0nh/hGS17s2c
+	 9aYkyM4vIsudHJtzVANYA2lmC+t9OdPEzVloeQBKp9SH4ROlYk37KythrDsxjgK9ADS7G
+	 dxz+InReiAUwAMlsGF6vJNQgRp0SV8XucQ0bEQg4moL/l14koYRhXapQ6/bTyagD1hP2A
+	 5ivgINq9y6rCVQrhRxPvsG5p4osBtfCCm02Wjf5p4guDaWER8xdvUW12iuSTBFKB6a1wi
+	 Dcp9sMOefh+JnoTFxn9ymIvZ90VpADSG7h6awZv+K4xmdBJUF43lFguw5G30/0uSTyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795115773;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795115981;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=+YptLFOK/EBAxVUJQntkNmJVGlHLd+Rimgm9hn2ud24=;
-	b=DeTtrN8raG/F+HRqS+/Li5rQXaRT6ZVH6fdbF43tw+1rcPq4yxw6eS+QnC3UpQabpn+A
-	 e+8UGzqtzGHTQoYyQ+iCtyGF27/BDROqOx00DzmWYQTrxx2iPj2d39dryDQfOCSAHt2wk
-	 +NlNIY+KGP/apvYs88CPJ+kQDbcw3YhxJUjc/PMoIyhqASZsRE19PZOrunEGEQu8BPKEN
-	 05JZS8OK8ZjNDoo/1hN07UWqfcfsETH/KHKuJjwmgwgK2Fm4eEk2vZTz46ViFwXPrEiEp
-	 F23ImEhrkCHNmXNtychHydCJz98yJkYAQUsQvamOP3kS4+3miacR30C1UABLPdLOSqQ==
+	bh=l2yGCyd0WOkWatITgKbibGfxPc9WbZpzN9WO6vvnkw4=;
+	b=crqF+KzlJFQat0yeJzpsyR+SJZspV5whsB1rg8byUxye2lDXs2r84qbyQwzvWTi/ADdh
+	 vf95Xc5bFbbm7+zHYua3Xpiut8Ao5m/SL/Y2UzXCBnRF6839dDbPz/BuAvnhdOPXSs707
+	 NHcaP+QFPZp8I0R6xmT4e3CDAffRKw41kPeI11dvX/CkTg5cPgMZsLu0mWlMcevHAA9Am
+	 z1lgCNVmyT82PyNEXIn8pfsL73clRK6dt60SpEpuIRX9z4V2HtQO+4zvnZEMdeXjN+QZW
+	 hjFDQeLBaVl0+/ATcjsFnEO9d7O9zlLkq8XIlcCnRgVEYQH5N4v/yNCdsQM/42CRZ8Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fFyZ+0Gf;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K5T6wx0b;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754C4606A325;
-	Thu, 19 Nov 2026 19:16:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E37C606A324;
+	Thu, 19 Nov 2026 19:19:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fFyZ+0Gf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA5F11F000C5;
-	Thu, 19 Nov 2026 19:16:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K5T6wx0b
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B27851F000C5;
+	Thu, 19 Nov 2026 19:19:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795115773;
-	bh=+YptLFOK/EBAxVUJQntkNmJVGlHLd+Rimgm9hn2ud24=;
+	s=k20260515; t=1795115981;
+	bh=l2yGCyd0WOkWatITgKbibGfxPc9WbZpzN9WO6vvnkw4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=fFyZ+0Gfk6xbAOKNndUs+ptaS8i8DhdiJ5Fu7nIzVLIYMD5nzK9YZOrGWIJXwmG/u
-	 yJlalwvLh6kKBO5E2YqTASKMYqqPTQ4WYqaS0ztNB5eRUucp6w+l+rnR8qmoW4y1lc
-	 Lua33bLSUieVq1KSp54d5xc+Zj1elEX28TgSLJgCJk79UUSsQGi1S7xW37OMrfJT8F
-	 RpKd8mNlEuydD0XGtTsUa/4yYO4ZTzrJlE7gyq61Pk7ojktodGTet+o+bJl/k+8fBz
-	 Bxy2su0W88pajyqVLCkLGkGG5vthDyX8LB5cy3SPOv/KffphLWYXNg0iwkH3Rl/ezF
-	 yvIGXbpU385Ww==
-Date: Thu, 19 Nov 2026 19:16:07 +0000
-From: Lee Jones <lee@kernel.org>
-To: Jerome Brunet <jbrunet@baylibre.com>, broonie@kernel.org
-Cc: Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh@kernel.org>,
+	b=K5T6wx0b8lOjgrFDMvRhVsk5I5tspkzk9dL51eD5ZDc4WZHBeR5bZCo/jF8+n9wso
+	 VKIoXy8Tc6tNgYLtwsUA7H4WKMsDFXqF2Q7reNxzxFjYNVDbFYvcrjWs8ppUk6NKDN
+	 Hg54SmxOFB0HzxLZ+MVW86IbFSkkk046YbtvDKs07GS2chBWcFoHHMQn0p+iNC94/s
+	 fBXXldxHpRcBJsAlPXtGz70dfRNYdqdw/WKvBOSmHerjMPw4XcUg6c//f/Gfk6H43B
+	 0kEMnnJeWkQ+vUtwMSs8retplLJ1n4oL5pPt5ii+zzViOI+bXz4dv/TnMSzUzHORDu
+	 nt2ZUCv5wgWPA==
+Date: Thu, 19 Nov 2026 13:19:32 -0600
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: James Hilliard <james.hilliard1@gmail.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Stephen Boyd <sboyd@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	mfd@lists.linux.dev, linux-sunxi@lists.linux.dev,
-	Sashiko <sashiko-bot@kernel.org>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v8 0/5] regulator: Add X-Powers AXP318W PMIC support
-Message-ID: <20261119191607.GC70182@joneslee-macbookpro.roam.internal>
-References: <20260910-axp318-regulator-v8-0-e906a61a7f3d@baylibre.com>
+	linux-sunxi@lists.linux.dev, Samuel Holland <samuel@sholland.org>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Brian Masney <bmasney+clk@redhat.com>, linux-kernel@vger.kernel.org,
+	Chen-Yu Tsai <wens@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	linux-clk@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: clock: sun50i-h616: export the APB2
+ clock
+Message-ID: <179511597213.4062021.4090144090706436568.robh@kernel.org>
+References: <20261021-submit-sun50i-h616-apb2-clock-v1-v1-0-7b857ad1198d@gmail.com>
+ <20261021-submit-sun50i-h616-apb2-clock-v1-v1-1-7b857ad1198d@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -65,14 +67,19 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260910-axp318-regulator-v8-0-e906a61a7f3d@baylibre.com>
+In-Reply-To: <20261021-submit-sun50i-h616-apb2-clock-v1-v1-1-7b857ad1198d@gmail.com>
 
-> This patch series adds support for the X-Powers AXP318W PMIC, which is
-> used recently on new boards with Allwinner SoCs (the A733).
 
-Okay, this looks good enough.
+On Wed, 21 Oct 2026 18:08:55 -0600, James Hilliard wrote:
+> UARTs use APB2 as their baud clock. Expose its existing clock ID so device
+> trees can describe it separately from the per-port bus gate. Keep the
+> existing clock numbering.
+> 
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> ---
+>  include/dt-bindings/clock/sun50i-h616-ccu.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Mark, do you need a PR?
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
--- 
-Lee Jones
