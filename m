@@ -1,111 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795111720;
-	b=jb3bxgGPloHtK3fbo3ids5WjFSg1B2HGafRrUicQUOSXt8n7WlTRkxEPKnIhIwJLSTb0
-	 T0fpjgsxio/bieEAOKBGDqHUBVg5AgQzOQI08/nWYYiQWx7gKD7UQPz+dWZ7xEdCU+JNo
-	 TDrrAieq8Ba3H0+wEw6AQeOfdn0Z/QIpgfXvKuj0AKSXmLi486v8Ecb4ZPrDF9Vc1nB0o
-	 nWjbi5o34Qu4bXeILAdB8jpiqlkOEILGv05V7EJ60I17GgAsv4Sz8X0vA81eYaus8ohap
-	 +0DA/eZOpOvMdhtn/8M5bm5N3m7JWE929QYjil3jv5ZtiYpgEcetJrYfDwkfvb3SZEA==
+	t=1795111741;
+	b=i9ccYUjkSJTJQT6MihZd4pzTbswNOyQ+2oFj6XmbouOr2e4bHkSudS/aZULs21rUu3tY
+	 DR+cGcfqmFMkvdB0Hl5f4oBnha5Vnpl0jenjLeUrazSKp3Q8V3iWyy8/1pg+86cbInW9o
+	 tzMqrIUO58TvxrScB/Zz8xMfKYgwWOP0O6+Iv6/BmrzQc3uTJG8/OG0yADiVZfCsG7EjP
+	 zxKb/fUeZ2SnaOrazQOmtAGdl2aAq3+qL8XUXP5YoebCOISA/hzVjSJfTc/iF/Rrf0v+X
+	 mZkIXwluP2Ljly6ayBAnoZdDstXGZEzMsfQpGlW1fx5zFOY4WMEjmtjo32KNXxi/m7Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795111720;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795111741;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 Content-Type:MIME-Version:Content-Transfer-Encoding;
-	bh=0MaTsfOQh1jufjU6A22r/oLKFgUzvbTte9hFal8/x1s=;
-	b=G0jrb1qUDvwxUlnyl86Yllr2yJjfhnqIOVAxBTvqN2NnFuidsQCTbsHXfrq0oxQWGiiz
-	 1wVr+ZqaD9+m/NdUCnNLoy4pAGSMggELAWNP+vEmzwhw5hBnYWTobVXCbZyOpQKb6QCMX
-	 gcT1geVh5soKfZKsduke5OhbLshOCOsta0qxmydaRV3TpczMnVPIyYHuiG6Mr3/xWqMLA
-	 HDWscb2J4fsXVmDEAsQAW0r8F7nwnLd4xtG/CZJV8djglm8u9Pt16f6iVz8eLNNtxTtsh
-	 oEdWt9+/4ZXEor6c4IZIJX6UoTYOf447TJspLdrZ95y2o0taSfLH77/r9lAD3Q0MSoA==
+	bh=6LpUWSQfpzuimr5UJ1RUHtokD4yvNzLYRTwB5Co/Fic=;
+	b=vbGABgYak/OPZMDi2QZbfJaBVK2/vk7BI9aUubV9Sm3DMkGqT4t04u48c2Sx4e26Izpy
+	 deVQUhsNVqLdgYJnrFrhkUGe7Zb0T69LHaew0sIQIs50fobxH+kZyovLD4x6zOECw+sB8
+	 exjUTIh6dOPq/MlfEN8ObsaTyuCjHIU154RlBFxgAScXJmINwkgdvdsAh21MoEwDeagDH
+	 fLr81NVt30VP0RDmmVaUzYlqaXuNE3JCb23jto3M5uHpvcXhlttQDbEutY9CBMWb2RHxk
+	 WuavWJzaRX0SKGHBojCBuXshpLETe5nL+LXQqyXfGwoTKljJvzUyCw5vm7Hdln0P3vA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="pdT5V/nI";
-	arc=none smtp.remote-ip=209.85.210.52
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FU7iBj5m;
+	arc=none smtp.remote-ip=209.85.160.44
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA29606A32F
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 Nov 2026 18:08:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AA29606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB121606A335
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 Nov 2026 18:09:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB121606A335
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pdT5V/nI
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-843cf077f10so85197a34.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 19 Nov 2026 10:08:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FU7iBj5m
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-4ada9579947so74816fac.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 19 Nov 2026 10:09:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795111719; x=1795716519; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795111740; x=1795716540; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:content-type:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=0MaTsfOQh1jufjU6A22r/oLKFgUzvbTte9hFal8/x1s=;
-        b=pdT5V/nIwmlbH05exz1OAiVQLG1DaHZcXTSF+DbZUBF3/cmvUZ8p5czNnLjOtcmQFE
-         vhlGxOQgG2MUYVRfabG5mUhlGBjiKwR4ZWGRBDGlMRFVNg8E/mtUbD3HD4Xlnsh/Pb5E
-         aDOl1+ZD/+Zz1RpowXWpYEEI4jTa0gSLctakhBzyh7jV6ZXevH1mPWCMXARXl/bee0wl
-         jlUSZbBV53QYhNigOgyekmJFeuIdeaGTWoOpeZHTRwD/5O4G87yTztSO0eu8xDi5sbvV
-         F6ryWtgwX7xC1Aj68r/BdDiRo78gkaIi2HdH6HP/N9VU7x/ej421OWBhkON+QsrXscdg
-         nTQQ==
+        bh=6LpUWSQfpzuimr5UJ1RUHtokD4yvNzLYRTwB5Co/Fic=;
+        b=FU7iBj5mk2WuwQ04vwiLTZnEAwVeLr40UAvflZgU2r8f3WyMmPdNusXMc7F7vDbsDl
+         EvFO/u0SXIK1mtQTldL6g8ukXMk2L9cvkQ7l4jNieK8rUMpXEBMDhdKJ2UybBvflhB2Y
+         N/jgzaLFxeMsaZiXajYgEZpyjflxsrMfo4dIMdRhquJGHC1hJoMfjMP/ykju79MgIs0E
+         XjxEBY911V4yeNVn2xC3pLd/7cnxV2ZWuTmzk4SoXThFf41VHLIwUI8hI2JUtLXjgOhI
+         C/r3BFKnNVsA1RIYv8dfWrwu9Nt/tMTL6x7TOCJ6r7aSR2lPKxjjXkBDe66z+5g4pAK/
+         wVFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795111719; x=1795716519;
+        d=1e100.net; s=20260707; t=1795111740; x=1795716540;
         h=content-transfer-encoding:mime-version:content-type:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=0MaTsfOQh1jufjU6A22r/oLKFgUzvbTte9hFal8/x1s=;
-        b=gHpVpP1i9+dQqUvQ0F50oo/ls4F9KtTlmTwD/B7Ieec5qDTTKGnjbv2+ypYiL5o8ra
-         au4L5mrj49wdmLNVGEzI8JrbRBcL90319dyTnYVhPpaUV3AFawL/ro9MsRxUHcE520RO
-         yOzAsvMxOPAHwkEfUbE9SO6YNVIoDWgzG3NY0klW6leqYxyc2bf0BOI/cM00jrS17J/3
-         N5BCgAjP6QTj9w1en4krQcO/MIl2uhl+RHHct3yFb7WUPt+e5pE0abhCsLJV7tqM2OQ2
-         OVSOlC8VS28CNEXVjLAfmYwl6skV6MHNCjmCeL2LY4bRtDcY3Emp/0pCCsuz+px360ZB
-         z+mQ==
-X-Forwarded-Encrypted: i=1; AL+hErG9DzeJ91To4FCOjIOzKXzRM3pcv+RQohaHOLKhTzrdsYJYksJdXxgNA4lOP0NwdLFLMr3dPKCNj9p48Q==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+xF6e0rxxplIZYB6T+9n/+eUB8LyQ6uAuNV8CTFqzmqO6l2jjj
-	g5m+LejPEP8AWpF8139bBJ2VfmeuvgngK9xzQe49zFkSYhVKWX4Y8B0/
-X-Gm-Gg: AYBFou0GG66zjFwYcnif/BOqkq91hlvhjvLdu9z08tH6hDO14tBfR/D5GUY4BBS6VTD
-	7jaa1IQnXK6KaiL70A2reD4zdJsV/6h5QK/ronRalCfEGWfkWWjcLLX4zX4L+ZNrXwfy242f0za
-	90C41AT6IuZanVxfe42K4wr0oHyAMqkyfq474fwO7fDKNHhZkz3yJjilVviaS6ShVTtpVQvwXbj
-	cU7l5j2qxRqv12JW8/gSqCt8o166+6nTqyQQg1IyaVOCahzCtqGf/v/IGMT0ZQHXxSlykgVsIEF
-	VghbfGCi6QjtLtEnZ2cH30GEcuE2r2tJTblG06oii63Fpbdci6G7ThO70UIzygV0PkAqYVWzppt
-	PL9blbXfgdub358rXWmsOti5yjgUj3nq/vk0u13lmqcuKthV60S7MFpkPR/KY1ijGx04UXZk5uc
-	Cug4m/E9ex0wdVYZSJgfCUdib9e7pcqMJd/yrQLkOYqcRvXUaveho8ryXuSjFChkLXYVE7g2Epg
-	CKALD+go/EYpkdBmTo941QkYd85uP0SSmMSrZxOzVqX3ooqhvhfnWc+o+f5vZROe8syYT27wAXY
-	fsgVLdm+A9Dcv3owpBoFS/zah6bViK1AuoJfuf2Vh8QhRplTQhjRRszx8bwhHZX5z9JfrQOrCTo
-	0
-X-Received: by 2002:a05:6871:e7c5:b0:448:a3d6:c2d2 with SMTP id 586e51a60fabf-4bc802e97admr436457fac.10.1795111719191;
-        Thu, 19 Nov 2026 10:08:39 -0800 (PST)
+        bh=6LpUWSQfpzuimr5UJ1RUHtokD4yvNzLYRTwB5Co/Fic=;
+        b=EEZTPVNeZBeHbfWQvmGhLo1EwfD9uSylKmKaGg+C+qUWKcCoB51pXW8G8/feU9lx5b
+         56JDqqyI5UbMihVSX43M+r6Exb1z53i84SXZyBQvURpsVjsy+OdQJ4TzOeD6x2xFR9ow
+         LJVA9Jvqx/QbKQo/UEpf9FmZyjbPXTK0j+gz0hgBNhz8mlCd5Gz/OvYgdT4Ev27MsKeF
+         C9YNWSxXHDkzHY0lJj4aMvVKHWs9s0JN7dWFRT25gXsoyXUHaft76IlaES6BB07r4rXc
+         MiSGH+SziGhYHKXZG4J+D2K1PtsMB15gcc/JHW4dRLkPh7NY6WX7U88w6fEPIm3cYMEz
+         6p0A==
+X-Forwarded-Encrypted: i=1; AL+hErGR0We12NcI4WwYejUob7O6JQoPO79c5j5PRbE6da1BevoMWmZY36FtEpHwcN16U8vjAMpu5wvZGJsb6g==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/BQGuAYkz1kkJHAHETKo4gsjYjbzeUQxyBwKLD6OnshETJAaJ3
+	swfn5bXRglTlpbiLrN7DuLMKuRg3yhFlHuGMnDA7JUQygc1sRhwIcmPz
+X-Gm-Gg: AYBFou25biaOdo/QML0R6lsq9orm+2I6NJhDeHx8oJdIFQiYLNgl3W65NbUPTqr1WGS
+	3fpPzvgoX4BAY0zQ98Fl5SUPXoGxIqvgr6Lkr1wD//xDVrpchS3FJpgZh7FoedBc3psvXTKqamk
+	jU38mzksepZEDV01nxOwFvpSLG5acgxkj0Zgm7vJYk+lp3/ZK7ridJBwD5pyencK7GPzQz+LQFN
+	xaRNSiXycmY7MMrA6HzB4YuitPZp/xYiUZFXVpIEQGXWtqSBMbLaETxPQKc1TbcO/zyBfixnYqg
+	UtBrDxPknDIl2uV9DVKM0a5ULbSMcQ8UQkjQlb7RhOZWMQ2gIvXljz+2EY5wskQ8UqNzhygn8Mf
+	gJpEYZ97OTswmNiuyLyKoK8lzpS7o8K6P9fbYytPS2Af5DzxidmiuqKqPMlK7S3woBG32XUVxxB
+	VUnwK8Pwo9CegornbDwIDmerWySviM/0gSB0iouiyL7sAQ+vUaRXb4PJox5n6xg0df6DyVVuuRB
+	u4xXK/OZZQVsdicBqyXh16qBtMChY/Q9WA0Df0nujakFFvaji5nh3Euns5ZC5/elPSaeTn4vnLY
+	SLUMT/DAquPYMYpHDwRr7Ly8IAEReCLPmLeSJzDCA0KZ6sv+ymBqnfKzaLMm90z70/2xL4D6K2C
+	4
+X-Received: by 2002:a05:6870:dc48:b0:491:47e1:6283 with SMTP id 586e51a60fabf-4bc810b3516mr386675fac.27.1795111739744;
+        Thu, 19 Nov 2026 10:08:59 -0800 (PST)
 Received: from AMD.home.local (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4bc5fcb19a9sm456866fac.10.2026.11.19.10.08.37
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4bc61081159sm452437fac.15.2026.11.19.10.08.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 10:08:38 -0800 (PST)
+        Thu, 19 Nov 2026 10:08:59 -0800 (PST)
 From: Enzo Adriano <enzo.adriano.code@gmail.com>
-To: alex@sverdlin.org
-Cc: andre.przywara@arm.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	wens@kernel.org,
+To: andre.przywara@arm.com,
+	wens@kernel.org
+Cc: sboyd@kernel.org,
+	bmasney+clk@redhat.com,
+	jbrunet+clk@baylibre.com,
 	jernej.skrabec@gmail.com,
 	samuel@sholland.org,
-	Maxime Ripard <mripard@kernel.org>,
-	devicetree@vger.kernel.org,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	linux-clk@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
 	Junhui Liu <junhui.liu@pigmoral.tech>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Pablo Mazzini <pmazzini@gmail.com>,
-	Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
-	Jun Yan <jerrysteve1101@gmail.com>,
-	Lukas Schmid <lukas.schmid@netcube.li>
-Subject: Re: [PATCH v3 3/3] arm64: dts: allwinner: add Radxa Cubie A7S board
-Date: Thu, 19 Nov 2026 13:08:36 -0500
-Message-ID: <20261118-a733-dt-v3-3-reply@gmail.com>
+	Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+Subject: Re: [PATCH v2] clk: sunxi-ng: a733: Keep SCP firmware bus clocks enabled
+Date: Thu, 19 Nov 2026 13:08:57 -0500
+Message-ID: <20261118-a733-fwclk-v2-reply@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <2105df7b92b20c5268a9a32c202e1cd6c24a6b27.camel@sverdlin.org>
-References: <cover.1794227241.git.enzo.adriano.code@gmail.com> <0fe5938e04cc8a5af3825a0e01bd07b626a15b46.1794227241.git.enzo.adriano.code@gmail.com> <2105df7b92b20c5268a9a32c202e1cd6c24a6b27.camel@sverdlin.org>
+In-Reply-To: <35a06829-dd6d-4ef1-aadf-245d1e7ca433@arm.com>
+References: <20261112-a733-fwclk-v2@gmail.com> <2374cc08-fd47-435a-b1e8-c7e9a61954c4@arm.com> <CAGb2v66w9XYO7CUFrvJq2HL7ELABptg=3Bs4XbZxMh7VU0pepw@mail.gmail.com> <124bb855-f2f6-4b10-b0be-99fb53cc2ee8@arm.com> <CAGb2v65A4rAFTFYyB_sZBC9O7fb0TJWE1YRjdGrLeNgwyVzcSw@mail.gmail.com> <35a06829-dd6d-4ef1-aadf-245d1e7ca433@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -118,23 +117,47 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Alexander,
+Hi Chen-Yu, Andre,
 
-> Should the history be moved below "---"?
+>>> But I think there is still the arisc on
+>>> the A733, so this would more likely run the management processor (SCP) code?
 
-Yes, in v4.
+The A733 CPUS domain has both an E902 and an OR100 (manual section 1.2,
+figure 1-1). The vendor SCP firmware Radxa ships for Cubie A7S, called
+"arisc" by Allwinner, runs on the E902: vendor BL31 writes its entry
+point to E902_RST_START_ADDR_REG at 0x07032204 (manual section 5.2.3).
+Radxa's BL31, in its system reset path, sends a reboot request to the
+E902 through the CPUX-to-CPUS msgbox. Exactly where the no-flag reboot
+stalls is not known.
 
-> Should two regulators and the clock have been sorted in the reverse order?
+> The question now is whether this SCP use case is something we deem 
+> useful, for mainline. If it's just about to run the BSP firmware, I 
+> think we shouldn't bother, we just don't support that. But if we end up 
+> running something like crust on the E902, then it's a different story.
 
-Yes. osc32k-clk sorts before the two regulator nodes; I will fix the
-order in v4.
+For me this is only about the vendor BSP firmware; I have no other SCP
+firmware for the E902 to test with. Upstream Crust has no A733 target,
+and the A733 TF-A port under review resets through the watchdog, not
+the msgbox [1].
 
-> Should "status" have been last (preceded by a blank line)? (dts-coding-style.rst)
+>>>> So, not a fan of this. If the loaded firmware somehow needs some resources
+>>>> then perhaps the software that loaded it needs to somehow tell the kernel
+>>>> they are needed, like the bootloader patching the DT passed to the kernel.
 
-Yes. In v4 I will put status last in r_i2c0, after its properties and
-before the PMIC child node, with a blank line before each. mmc0 and
-uart0 already put status last; I will add the preceding blank lines
-there too.
+Vendor U-Boot already applies DT fixups, but the A733 CCU binding and
+driver do not accept protected-clocks today. A loader-declared handoff
+would need a new binding and driver support, plus loader changes.
+
+> So I wonder if we should just pragmatically add CLK_IGNORE_UNUSED, to 
+> not shut on the door on this SCP use case later.
+> If we ever only want to use remoteproc, I think we don't need this patch.
+
+CLK_IGNORE_UNUSED would also leave a future remoteproc driver free to
+gate the core. Chen-Yu, if you are fine with it, I will test it on A7S
+and send v3 based on linux-sunxi for-next, with Andre's comment wording
+and a short test note. Otherwise I will drop the patch.
+
+[1] https://review.trustedfirmware.org/c/TF-A/trusted-firmware-a/+/55200
 
 Thanks,
 Enzo
