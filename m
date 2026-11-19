@@ -1,56 +1,129 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795113031;
-	b=UmB0vPnblCgCNX4PjOtSZ3ZhlTHLwOiDs3KAHtq+tVXD4loqxhh+DcJDKjJyvjesnxh0
-	 ZizpXgfE1+sj8b6NtomUbRPAccALGKLFXP7LDfZG+NElxYafZmFYcFnJh8SCFO6wneDV1
-	 Udgn0OyqcCx0gUBd6SLqCDEl4+WeIbbPEK8y5UrDfHd+mhEVUqqW3kKgP29wOtgxjl6Lv
-	 Mp8o7jyL4beMIyTirwD5ehotIAcaDHn1Sqqkc9kWU98T2USz31B16mJbst1XzINl9tl7w
-	 4dc2ZgonEiI/Pat2w3cg+syRjMBGBxsjUCxguzrQHWMcR0qBzsmVXW9YRoceNXO4W7w==
+	t=1795114927;
+	b=uEJ5FL22TD5ALozpe4ZhxqtsBs7mxLD+xvaz9vRh0tD+3NyTB61y98g98QlvHj+RNA7/
+	 hID1ZL0abryTI/SN8yGh/hbZ+py2vZFsvTEKAI7Y7/XTuNKERTV8lnXranCCARAnLyiB7
+	 3PJ2Wz1LrQNm7jjEnLgcnU4CqpM+UmmETt2jeJyh3v7LIml/wqx+C0nB+Uw63fMgNDauv
+	 Aou9SepCyI+RWO3Uuvg4VxHiNbSmD2R9TjP10T0opUuv3WWD7ptduh+jdfYO39h1qJ2Pe
+	 nB58gGHlnq4GbHNdDFf3b2SroT8eLSQQa8gWVaxexeGLkBzCAuBc/UF9c/XetQYBbDg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795113031;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Xg3fF7f+P2P2O66a6WP5C/XN4Y1WPbaDROXPu+3BD8w=;
-	b=XSmqZUf6wRlkN6MRTwZ2M+maAK3kYSwBfJQOMQQ6/SCnfyQBSYoscOOhmkq9QxnnALK8
-	 kRPLhXH2jFXsWoSCcLLN8KXYE0Lt1KespaR3Se8Ldz06Meywwu2WgOFdWWumpM8Lg4ghe
-	 fLE9brRJsujbVaqnBBRQ+688LJ6zsS5cv2+vF6LcBxNSf4LQSStGAnwykWtRFluQ+ucN6
-	 0tgFoddaSCLfpRZ11tspyVaris+QoU7h2UybEZUWp+7yKJqzKDuA7d7a49taXAv9cKEBR
-	 5acqbMwakQ6Ben/a8XjBNiUcxPqwmNrSsnSirICgT1u2gha+CbQWWV3joQ5Dy9Goyxw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795114927;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
+	 Content-Type:User-Agent:MIME-Version;
+	bh=hKkPpNGKPc9dB0PHZyw3/Ep3fUq1c/BlK7UqcWPEb1A=;
+	b=zjiktmpCHFQnU3Bi4/sj5fYzJRd2afhbuuntGEAmMAFuIdCXoEHFoExSI8x4pMe1h5UN
+	 GKdEEf6fy2Qqkf4KjM1E1HPJzQ8IVuNOSS90gLMPuRF1Q/ISvofQ3ZCeIXI3tnsxVgRFC
+	 3a+ifvnIm+cLOnnCEvlAWGZYmk2xHxVzG80eY/eNjpXXSxOiEU0kUVrKiUg6c2vW0pAA4
+	 Jf8E4KMXrRdZahYqGQdogMXPv8muhy+VcSjNnqR8A3kHf+/kVOPvF21Aq74yKl+PUCxVL
+	 q6WKYVkhCrQVkBoqi9j1fxMMXoJm+aS4/nCarTKqUzyxGO37hjQTX6blFsdTaZt2+3A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ILaeC0K6;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=ndufresne.ca;
+	spf=pass smtp.mailfrom=ndufresne.ca;
+	dkim=pass header.d=ndufresne-ca.20260707.gappssmtp.com header.i=@ndufresne-ca.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=J1K3uzlH;
+	arc=none smtp.remote-ip=209.85.221.173
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F31B606A320;
-	Thu, 19 Nov 2026 18:30:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F19606A324
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 Nov 2026 19:02:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12F19606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ILaeC0K6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E8A11F000C4;
-	Thu, 19 Nov 2026 18:30:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795113030;
-	bh=Xg3fF7f+P2P2O66a6WP5C/XN4Y1WPbaDROXPu+3BD8w=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ILaeC0K6WCfwO40tG6Up7mzygTkfImhQlh5tATQVnvUOER/457XxgPkKP4u6UdXJX
-	 L9qtXiE7Ep1mXs81IdiLY9t4xsBFMhlusUbaAJxa1pMCjtW36G1UbURDcDmJUOoKcg
-	 9HpgfS9zQkeHu+JJ9II55/4KuSeYam/hspOzYXPklH7OMWsXPuZ1cp93I2SWzQsC/h
-	 NMmjGILyToUAAQd/u1fSrpPQrDCD1WmPk1UA2hi834dI6mO2juLTVY3iLOOdWYoVVR
-	 WgxBVugv4Z9WIBefvYjRDY4CjgAyI2Xu3KIRTfgkPKD8T6TqbZyf9pCAWgs1tWpsAF
-	 hjz5dMyjvCe1w==
-Message-ID: <sashiko-outbox-223770@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 2/3] arm64: dts: allwinner: add A733 SoC description
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Enzo Adriano" <enzo.adriano.code@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <dbfb7c5ea8b0ade2d48ef8e5cfd0b9e5a9946483.1795034153.git.enzo.adriano.code@gmail.com>
-References: <cover.1795034153.git.enzo.adriano.code@gmail.com>
- <dbfb7c5ea8b0ade2d48ef8e5cfd0b9e5a9946483.1795034153.git.enzo.adriano.code@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 19 Nov 2026 18:30:30 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=ndufresne-ca.20260707.gappssmtp.com header.i=@ndufresne-ca.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=J1K3uzlH
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5ec6f271883so10781e0c.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 19 Nov 2026 11:02:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20260707.gappssmtp.com; s=20260707; t=1795114926; x=1795719726; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-type:autocrypt:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=hKkPpNGKPc9dB0PHZyw3/Ep3fUq1c/BlK7UqcWPEb1A=;
+        b=J1K3uzlH6p2N756sLc5rSBtHDJUBFbERDnP9PRQ7oIdok2AIReIaZd1lVrZMKg1qcd
+         6pTtuXiqYIf0XZXZPfqecCFozJsS6t806RGPQtUHJPKBzNQ0QvIeHK7RoPEqOvTUk1eF
+         fz1Tlu8ai5NHbcj6TToHX2E8wZbUjihBpmB5oF1KMOxLu8de3voI9EAjJ9KgI72il4+L
+         TCXKYGxqXSgtFQYGoixPCwdOOGOJkqEiOyaXsWIVYQe01wfiEHUH0EtoMAmV2scnzGdY
+         x8ifkdHuRESnDUykzkqs548ZWhI4A4+eH9BirVC+WCoVKB3/btdd3J3p7rR72t44lRKz
+         sT5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795114926; x=1795719726;
+        h=mime-version:user-agent:content-type:autocrypt:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hKkPpNGKPc9dB0PHZyw3/Ep3fUq1c/BlK7UqcWPEb1A=;
+        b=qypa8aEhzXLaJILS2ypI4NtaWUJMOV6dWk2CnsjqS1fQhLvC2pkzwDX27Su+UjpY0W
+         4JTTwyLKw2C+1aWEg6aEPrFhUG/n5XFJ/BfRDkINRHYGECF1HV3c4nEMXlfSKRrK454E
+         I56HANxipAiV/h2XOU//d8sY/aw6hKoOtBetOCyRyNigJGfU4+KgdgS+ZxTg6efNNNRr
+         N+vsxhW6W9HeFlZkd7ELpqQI1ttQ8Mpojcsiu4hj7MHEdkNIyVl8D3wtxC3JS29wq9Ds
+         wieXJ0YhZDbpD4xhiAYg4CV1XP6xszTVKq2a2Jt4crUqMf4DsSJq9vc6Chsp8Cb1QGHQ
+         ydrg==
+X-Forwarded-Encrypted: i=1; AL+hErGE5KsiCOaptGps7747/6fp7/DTESW0OuWz3tEaWHyAiLZ9rYMEQS1uGdu+4Fv5jC4CCCYr42lvSheXlg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/qmUbz6t72i8UhAeINhJIJE4hGQV3aASalCd7M7ZqEjKUbfunA
+	PXoIq4g2ZFyeUWieBLrmBFOjm2El5fyy0MH3CTOrdhVPHPJUgrI4OK+z/haiQOyo8Uw=
+X-Gm-Gg: AZFdTZdIyktf9JRI4PxdIRtCn4WflcHZ6oM+0DwXCS5qS91NtlyOCcAWvtgq4HAc6FM
+	so0eTDiZosuibplGoIi2DParFy9YRk5qssSToCKlIW7Wz39yMUzF1rrpUxdfiYH7ZJ2NdkTZjV2
+	EBrM1JtcKEzM09hFfaGyIpJ/S97k1UHhVic8ZMVKJjq57WrRaclI0mElzt6/Ovin5ToTdjLQvlZ
+	ThsRL7XubN7D8pzES2MXSld5MkImGqGU4cqeakgH5P2aBDU7nIjIYN8gi9Ed1JJK5LLLTv8Ou92
+	Nhoy1a86dQQbL3FzX8838/xCC+QZ+ZCMMlfgbxEs/Ysgyrr+wkIoeTDW6YoL9drGG74yxOQGaFi
+	lr38QqM99xiXb15wyg5EuiPq1rkXzNqyz0+etkFVCIi6LhDG4Oj1c4ZJVYwrdPsFHbW+18NYbcs
+	sBey4JOvWP589ihQayeCcPiT+9R65aLvUVJ0x0BD+/fWGy/d5FEgy5ih5EuNZAJ0KxpOTMuxAKQ
+	DMgyLdLBzXnNTa+sdItJA2KLbFOd4KtLMT77cJNEJWphPAZIrNa6Audcd4OCXoJcsoRsYuvXthf
+	bfK/jreLOiBqgOXXR8xKeMcLQcepBPGubL6bxsFpzeSRojEqtOt/hdY=
+X-Received: by 2002:a05:6122:c88:b0:5ca:f811:25ac with SMTP id 71dfb90a1353d-5ee8aefbb61mr486259e0c.14.1795114925522;
+        Thu, 19 Nov 2026 11:02:05 -0800 (PST)
+Received: from ?IPv6:2606:6d00:11:8ec9::c41? ([2606:6d00:11:8ec9::c41])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99e6df8a28dsm809462241.4.2026.11.19.11.02.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2026 11:02:04 -0800 (PST)
+Message-ID: <84fd9703862c225d63d973cf170b06ab7a962312.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 6/6] staging: media: cedrus: Use
+ devm_of_reserved_mem_device_init()
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>, Daniel Scally	
+ <dan.scally@ideasonboard.com>, Jacopo Mondi
+ <jacopo.mondi@ideasonboard.com>,  Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Eddie James <eajames@linux.ibm.com>, Joel Stanley	
+ <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>, Minghsiu
+ Tsai	 <minghsiu.tsai@mediatek.com>, Houlong Wei <houlong.wei@mediatek.com>,
+  Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Tiffany Lin
+ <tiffany.lin@mediatek.com>, Yunfei Dong	 <yunfei.dong@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,  AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, Joseph Liu <kwliu@nuvoton.com>,
+ Marvin Lin <kflin@nuvoton.com>,  Dmitry Osipenko
+ <dmitry.osipenko@collabora.com>, Maxime Ripard <mripard@kernel.org>, Paul
+ Kocialkowski	 <paulk@sys-base.io>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>,  Chen-Yu Tsai <wens@kernel.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland	 <samuel@sholland.org>
+Cc: Ryan Chen <ryan_chen@aspeedtech.com>, Billy Tsai
+ <billy_tsai@aspeedtech.com>, 	linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	openbmc@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, 	linux-aspeed@lists.ozlabs.org,
+ linux-mediatek@lists.infradead.org, 	kernel@collabora.com,
+ linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev
+Date: Thu, 19 Nov 2026 14:02:01 -0500
+In-Reply-To: <20260902200703.2016410-7-mukesh.ojha@oss.qualcomm.com>
+References: <20260902200703.2016410-1-mukesh.ojha@oss.qualcomm.com>
+	 <20260902200703.2016410-7-mukesh.ojha@oss.qualcomm.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-Zy5+UcnjO9CPStg5/eKL"
+User-Agent: Evolution 3.62.1 (3.62.1-1.fc45) 
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,93 +132,32 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issues to consider:
-- [High] arm64: dts: allwinner: pio node lists 10 interrupts instead of
-  11 on A733
-- [Low] arm64: dts: allwinner: undocumented allwinner,sun60i-a733-uart
-  compatible
---
+--=-Zy5+UcnjO9CPStg5/eKL
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-commit b822d1469c44857fd000cc1a89105a359018f41b
-Author: Enzo Adriano <enzo.adriano.code@gmail.com>
+Le jeudi 03 septembre 2026 =C3=A0 01:37 +0530, Mukesh Ojha a =C3=A9crit=C2=
+=A0:
+> Use the devres-managed devm_of_reserved_mem_device_init() instead of
+> the manual of_reserved_mem_device_init()/of_reserved_mem_device_release()
+> pair, letting the device resource manager handle cleanup automatically.
+>=20
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 
-arm64: dts: allwinner: add A733 SoC description
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-This commit adds the base Devicetree description for the Allwinner A733
-SoC, covering CPUs, GIC, timers, clocks, pin controllers, UART, I2C, and
-MMC controllers.
+--=-Zy5+UcnjO9CPStg5/eKL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-Link: https://gist.githubusercontent.com/apritzel/60fd7379b9560a15b8b352986=
-b69d39f/raw/efd9cdf8f26ba5b0c7e138f093af44a1cf322469/sun60i-a733.dts
+-----BEGIN PGP SIGNATURE-----
 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun60i-a733.dtsi
-> new file mode 100644
-> index 0000000000000..b0f642f37803a
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
-> @@ -0,0 +1,657 @@
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCav9HqQAKCRDZQZRRKWBy
+9KPMAP43HkphsVrqQTwGITR+0glsiS4Fp5Wyse7t/ZPwvyRH2gEA4/6BFP8fPbe6
+9p9JGy6Ck2BZu8qjXZw4UU8oUtkiJgI=
+=GZdK
+-----END PGP SIGNATURE-----
 
-[ ... ]
-
-> +		pio: pinctrl@2000000 {
-> +			compatible =3D "allwinner,sun60i-a733-pinctrl";
-> +			reg =3D <0x02000000 0x800>;
-> +			interrupts =3D <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 81 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 85 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 87 IRQ_TYPE_LEVEL_HIGH 0>;
-
-[Severity: High]
-Does omitting Port A's interrupt (<GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH 0>) at
-index 0 shift all main-domain GPIO bank interrupts off by one?
-
-The binding in Documentation/devicetree/bindings/pinctrl/allwinner,sun55i-a=
-523-pinctrl.yaml
-requires 11 interrupts for allwinner,sun60i-a733-pinctrl.  In the driver,
-Port A occupies bank 0 with 0 pins, so prepare_function_table() assigns
-irqbank 1 through 10 to Ports B through K, and sunxi_irq_base_reg()
-indexes the per-bank IRQ registers from Port A at bank 0:
-
-drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c:prepare_function_table() {
-    ...
-		if (irq_mux) {
-			if (bank > last_bank)
-				irq_bank++;
-			func[lastfunc].muxval =3D irq_mux;
-			func[lastfunc].irqbank =3D irq_bank;
-    ...
-}
-
-With only 10 interrupts starting at Port B (GIC_SPI 69), pctl->irq[0..9]
-are registered one bank off from the hardware registers.  When any GPIO
-interrupt on Ports B through K fires, sunxi_pinctrl_irq_handler() reads
-and clears the preceding bank's status register, leaving the interrupt
-asserted.
-
-[ ... ]
-
-> +		uart0: serial@2500000 {
-> +			compatible =3D "allwinner,sun60i-a733-uart",
-> +				     "snps,dw-apb-uart";
-
-[Severity: Low]
-Is "allwinner,sun60i-a733-uart" documented in
-Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml?
-
-Neither that schema nor this series defines "allwinner,sun60i-a733-uart",
-so dtbs_check will fail on uart0 through uart6 and r_uart0 through
-r_uart1.  Other Allwinner arm64 SoCs use "snps,dw-apb-uart" alone unless
-the SoC-specific compatible is added to the binding.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1795034153.gi=
-t.enzo.adriano.code@gmail.com?part=3D2
+--=-Zy5+UcnjO9CPStg5/eKL--
