@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795111617;
-	b=uDXiGqsgTp99fXQ1grL6hMqbtty7petxa4YsATsIEiKVplHHHzBEcMzOI6l+ZYgLjWf5
-	 IvGIHHev2ZTXPUaWjyg9m16Kw3s0Aco/Gjjo7585PAjrlHlgMMakF+W1qkw55gUNCoaTQ
-	 jyr3+5bKJw2KM+B0v4sQw4QbWLevmO6xGMOiop9VSnK8YEhe6DNdtCQjXylgV9TK2sFoD
-	 OpwGIS8IbHkFSKomD5/DHy6yUSc72DE97+kUDmq72khRH/LH3oOU2M7W3qI9Rhu5LBYtX
-	 mGq82JBgGhysURF14XdqqwpKgJhfRoTJqDcsXmz4aUQ4X4UlB89RcqM5TZWqDEetv2Q==
+	t=1795111720;
+	b=jb3bxgGPloHtK3fbo3ids5WjFSg1B2HGafRrUicQUOSXt8n7WlTRkxEPKnIhIwJLSTb0
+	 T0fpjgsxio/bieEAOKBGDqHUBVg5AgQzOQI08/nWYYiQWx7gKD7UQPz+dWZ7xEdCU+JNo
+	 TDrrAieq8Ba3H0+wEw6AQeOfdn0Z/QIpgfXvKuj0AKSXmLi486v8Ecb4ZPrDF9Vc1nB0o
+	 nWjbi5o34Qu4bXeILAdB8jpiqlkOEILGv05V7EJ60I17GgAsv4Sz8X0vA81eYaus8ohap
+	 +0DA/eZOpOvMdhtn/8M5bm5N3m7JWE929QYjil3jv5ZtiYpgEcetJrYfDwkfvb3SZEA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795111617;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795111720;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 Content-Type:MIME-Version:Content-Transfer-Encoding;
-	bh=u+h1+6/yXyfCQxVyWKiaA+3PG2QahTNSPc0SUKvEWjo=;
-	b=ncez2WEzXrh7F4b6RBuHZCEz0FOc/UbbMfyoa/Lgc6ttCjmOOq35NUoqSbFMMWd3vL2m
-	 Q56nwlgeK7xiIHnbz0xwACdMS1y+3kvaBvWXI7J52/nv0i85fUPEeHsT9prOm0b0FC1A9
-	 8IhqyrsT6OXpRY1IsQ8iI82qNFyTeTjp9gKmBnWtt1XR16xL89K5/B2F9gFuFNSZQopGr
-	 rgK2LzS+4gbXt0Sbd+HGDqAX2ccVrkz2X8DF32FuQB922oXm3+BwUsfikrDkvbuadr31x
-	 Np1/PqMMDQJf+bUSd7tKV9ZOPfwFQR/Cc6JokV8WpSu5dpQmD6YY52N7oPTo3yIG7xQ==
+	bh=0MaTsfOQh1jufjU6A22r/oLKFgUzvbTte9hFal8/x1s=;
+	b=G0jrb1qUDvwxUlnyl86Yllr2yJjfhnqIOVAxBTvqN2NnFuidsQCTbsHXfrq0oxQWGiiz
+	 1wVr+ZqaD9+m/NdUCnNLoy4pAGSMggELAWNP+vEmzwhw5hBnYWTobVXCbZyOpQKb6QCMX
+	 gcT1geVh5soKfZKsduke5OhbLshOCOsta0qxmydaRV3TpczMnVPIyYHuiG6Mr3/xWqMLA
+	 HDWscb2J4fsXVmDEAsQAW0r8F7nwnLd4xtG/CZJV8djglm8u9Pt16f6iVz8eLNNtxTtsh
+	 oEdWt9+/4ZXEor6c4IZIJX6UoTYOf447TJspLdrZ95y2o0taSfLH77/r9lAD3Q0MSoA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=t8PQpYuB;
-	arc=none smtp.remote-ip=209.85.160.52
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="pdT5V/nI";
+	arc=none smtp.remote-ip=209.85.210.52
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2E7606A331
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 Nov 2026 18:06:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF2E7606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA29606A32F
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 Nov 2026 18:08:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AA29606A32F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=t8PQpYuB
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-4b563403c7eso34999fac.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 19 Nov 2026 10:06:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pdT5V/nI
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-843cf077f10so85197a34.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 19 Nov 2026 10:08:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795111616; x=1795716416; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795111719; x=1795716519; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:content-type:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=u+h1+6/yXyfCQxVyWKiaA+3PG2QahTNSPc0SUKvEWjo=;
-        b=t8PQpYuBN03elopI81lUGFj+RT4iEt1oEZdO72doFwxKOzHO9LyxkvgxSGDCil9nrW
-         oKR08Mv1O9ea5q74yawZ3S/5Gwf7XhNsASwsPEnJO08btI9GjW5hfvp7qZHUOPqKo1Ug
-         pMzsQjG544+y0mwowM6pKSgNvAnvxdkXvzRLKWi6K7OHZgAKPDAji6Dkpnf1nKJhjpro
-         EqOWhItjclkZbrCA2LK5tYrszrWbcZlXVRUYBbOPy/eweCOPqp9PH7vse4weaXE9W+x1
-         i9mY7/DImcADnMmnia2pfrpeGZYAry8Xic7Hfep0L+/flE3Wsa/ChTGa5RD2Y0Xb813j
-         zCPg==
+        bh=0MaTsfOQh1jufjU6A22r/oLKFgUzvbTte9hFal8/x1s=;
+        b=pdT5V/nIwmlbH05exz1OAiVQLG1DaHZcXTSF+DbZUBF3/cmvUZ8p5czNnLjOtcmQFE
+         vhlGxOQgG2MUYVRfabG5mUhlGBjiKwR4ZWGRBDGlMRFVNg8E/mtUbD3HD4Xlnsh/Pb5E
+         aDOl1+ZD/+Zz1RpowXWpYEEI4jTa0gSLctakhBzyh7jV6ZXevH1mPWCMXARXl/bee0wl
+         jlUSZbBV53QYhNigOgyekmJFeuIdeaGTWoOpeZHTRwD/5O4G87yTztSO0eu8xDi5sbvV
+         F6ryWtgwX7xC1Aj68r/BdDiRo78gkaIi2HdH6HP/N9VU7x/ej421OWBhkON+QsrXscdg
+         nTQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795111616; x=1795716416;
+        d=1e100.net; s=20260707; t=1795111719; x=1795716519;
         h=content-transfer-encoding:mime-version:content-type:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=u+h1+6/yXyfCQxVyWKiaA+3PG2QahTNSPc0SUKvEWjo=;
-        b=SuTi9/uNZ3ePs6ydRm/h8XWmLTO3dYVlbd6hFTI585YKookk9lEGazjrrNnoX5CImW
-         gesO5QrtPuSayn8KKq4WF97AhC17T1xRZ6zttTp7UpLht6mXeoF0vZfvx9fN1qeP1uoI
-         0yJPNkVHtPKeDV0T6r9M+Ee4aL2F8YjxjwPV6/xr/KbcTOQhxrTXR4BKTik2VB95897w
-         wUn0UrClB7OH+SMalR027OtG2+rPNRFAWUaC5CPG+yb8k2hmeN2F0xquVzkFq8sH680G
-         ETTVCvA8Btf9eBbazwBxnIwRL+ETkIlSxjTcorj3YEhhoAcHVXe/CWCYNkVShVWeN1ey
-         eXmg==
-X-Forwarded-Encrypted: i=1; AL+hErFUiXixKY52jgonYA2O/8EZQ9jthNxBjUfZevxIrLtk+vRmlMgo7OwGqqQsJRuffCNXH5N5vFJLXVgWIA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+sQ002o17YViM4Y8U86qxm3VS4zeopsxg8UVWKN9Rqylm6PofJ
-	z5QkA1NbIoJftM4pUIS06nnqNW1Eng1EZfNNvLntGHMpMfv+Ucfokb4X
-X-Gm-Gg: AYBFou2IqnrtrQISJc4kgBzaRRyyHFwa8AbckXqq4i2GaXjg6kpf7PmMegrMnCFKv3U
-	zDBhumrwIrVlvVq1Ha7/fgXIDpdtZ4DYNbYOFXiEPjsbegPICNxYjdcn1dhVkNXIutNwFX3c9lr
-	Rt8Cr2jjuoHWnIeWUOP73RH8cRCIPQWnpudFqJ/2TAvdCaHiRNg0EVOMFsxlNpEpgEzNulRKzbw
-	NUb86KBuDcjNLVjTXyOIpkMxm514duqrR6sN85NMgWH0LrdabwJk3+htsJkJSAHPIduHwIQZV3K
-	FpTqFHTcxh7C4TL7t4z2S8JKtVo1/cVfX7PwYtKFQWYN65XHDQ5W/KbUppetyl//K9A4VoyBZ0s
-	eSzy5VQIAYB3LSaHXWc04Rr+F8eDgzABv1a1LhlAEvZU25r+AexwEjC7+jvmV7j0y1yDhsjVlaV
-	An4/vkaFnqZPsh0JyY0B2v0EmGJVm6nYmQSagkCyO/RZpLD/dEt4vyyRjh9BM8qmr0coqfme/rf
-	ZxqUNhJS43d89dgzh7LJkeRgGPrpocB5XHXdVn2qP+At1Lnp+U+ils2kiREF2MVdwy66XS0/mZH
-	M4U+xOSvmUX9vb3cqgZU8w52Zjc/Lh51mPDhUIe/2v23zkM7zJZfirS2aUKFs5qSqaIOFVuBKyg
-	C6A==
-X-Received: by 2002:a05:6870:ac13:b0:4bb:98d6:f37c with SMTP id 586e51a60fabf-4bc81ca0dbemr415502fac.15.1795111615833;
-        Thu, 19 Nov 2026 10:06:55 -0800 (PST)
+        bh=0MaTsfOQh1jufjU6A22r/oLKFgUzvbTte9hFal8/x1s=;
+        b=gHpVpP1i9+dQqUvQ0F50oo/ls4F9KtTlmTwD/B7Ieec5qDTTKGnjbv2+ypYiL5o8ra
+         au4L5mrj49wdmLNVGEzI8JrbRBcL90319dyTnYVhPpaUV3AFawL/ro9MsRxUHcE520RO
+         yOzAsvMxOPAHwkEfUbE9SO6YNVIoDWgzG3NY0klW6leqYxyc2bf0BOI/cM00jrS17J/3
+         N5BCgAjP6QTj9w1en4krQcO/MIl2uhl+RHHct3yFb7WUPt+e5pE0abhCsLJV7tqM2OQ2
+         OVSOlC8VS28CNEXVjLAfmYwl6skV6MHNCjmCeL2LY4bRtDcY3Emp/0pCCsuz+px360ZB
+         z+mQ==
+X-Forwarded-Encrypted: i=1; AL+hErG9DzeJ91To4FCOjIOzKXzRM3pcv+RQohaHOLKhTzrdsYJYksJdXxgNA4lOP0NwdLFLMr3dPKCNj9p48Q==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+xF6e0rxxplIZYB6T+9n/+eUB8LyQ6uAuNV8CTFqzmqO6l2jjj
+	g5m+LejPEP8AWpF8139bBJ2VfmeuvgngK9xzQe49zFkSYhVKWX4Y8B0/
+X-Gm-Gg: AYBFou0GG66zjFwYcnif/BOqkq91hlvhjvLdu9z08tH6hDO14tBfR/D5GUY4BBS6VTD
+	7jaa1IQnXK6KaiL70A2reD4zdJsV/6h5QK/ronRalCfEGWfkWWjcLLX4zX4L+ZNrXwfy242f0za
+	90C41AT6IuZanVxfe42K4wr0oHyAMqkyfq474fwO7fDKNHhZkz3yJjilVviaS6ShVTtpVQvwXbj
+	cU7l5j2qxRqv12JW8/gSqCt8o166+6nTqyQQg1IyaVOCahzCtqGf/v/IGMT0ZQHXxSlykgVsIEF
+	VghbfGCi6QjtLtEnZ2cH30GEcuE2r2tJTblG06oii63Fpbdci6G7ThO70UIzygV0PkAqYVWzppt
+	PL9blbXfgdub358rXWmsOti5yjgUj3nq/vk0u13lmqcuKthV60S7MFpkPR/KY1ijGx04UXZk5uc
+	Cug4m/E9ex0wdVYZSJgfCUdib9e7pcqMJd/yrQLkOYqcRvXUaveho8ryXuSjFChkLXYVE7g2Epg
+	CKALD+go/EYpkdBmTo941QkYd85uP0SSmMSrZxOzVqX3ooqhvhfnWc+o+f5vZROe8syYT27wAXY
+	fsgVLdm+A9Dcv3owpBoFS/zah6bViK1AuoJfuf2Vh8QhRplTQhjRRszx8bwhHZX5z9JfrQOrCTo
+	0
+X-Received: by 2002:a05:6871:e7c5:b0:448:a3d6:c2d2 with SMTP id 586e51a60fabf-4bc802e97admr436457fac.10.1795111719191;
+        Thu, 19 Nov 2026 10:08:39 -0800 (PST)
 Received: from AMD.home.local (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4bc5fcb19a9sm453262fac.10.2026.11.19.10.06.54
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4bc5fcb19a9sm456866fac.10.2026.11.19.10.08.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 10:06:55 -0800 (PST)
+        Thu, 19 Nov 2026 10:08:38 -0800 (PST)
 From: Enzo Adriano <enzo.adriano.code@gmail.com>
 To: alex@sverdlin.org
 Cc: andre.przywara@arm.com,
@@ -100,12 +100,12 @@ Cc: andre.przywara@arm.com,
 	Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
 	Jun Yan <jerrysteve1101@gmail.com>,
 	Lukas Schmid <lukas.schmid@netcube.li>
-Subject: Re: [PATCH v3 2/3] arm64: dts: allwinner: add A733 SoC description
-Date: Thu, 19 Nov 2026 13:06:53 -0500
-Message-ID: <20261118-a733-dt-v3-2-reply@gmail.com>
+Subject: Re: [PATCH v3 3/3] arm64: dts: allwinner: add Radxa Cubie A7S board
+Date: Thu, 19 Nov 2026 13:08:36 -0500
+Message-ID: <20261118-a733-dt-v3-3-reply@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <18a78cddfc3c28c011bb5d0c566c2f307773b235.camel@sverdlin.org>
-References: <cover.1794227241.git.enzo.adriano.code@gmail.com> <7c0ee4e609db5979d2a6598f46f40896b4f47a57.1794227241.git.enzo.adriano.code@gmail.com> <18a78cddfc3c28c011bb5d0c566c2f307773b235.camel@sverdlin.org>
+In-Reply-To: <2105df7b92b20c5268a9a32c202e1cd6c24a6b27.camel@sverdlin.org>
+References: <cover.1794227241.git.enzo.adriano.code@gmail.com> <0fe5938e04cc8a5af3825a0e01bd07b626a15b46.1794227241.git.enzo.adriano.code@gmail.com> <2105df7b92b20c5268a9a32c202e1cd6c24a6b27.camel@sverdlin.org>
 Content-Type: text/plain; charset="us-ascii"
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -120,30 +120,21 @@ Content-Transfer-Encoding: 8bit
 
 Hi Alexander,
 
-> Shall parts of this go below "---" as history/changelog?
+> Should the history be moved below "---"?
 
-Yes. In v4 I will move the dated test results below "---" and keep
-the hardware rationale in the commit message.
+Yes, in v4.
 
-> Do we need capacity-dmips-mhz, cpu-map and two PMUs here, similar
-> to rk3588-base.dtsi? This in turn would mean ppi-partitions with
-> #interrupt-cells = <4> in GIC?
+> Should two regulators and the clock have been sorted in the reverse order?
 
-The A733 manual shows one DynamIQ cluster with six Cortex-A55 cores
-(0-5) and two Cortex-A76 cores (6-7) sharing L3 (section 5.1.2,
-figure 5-1). Every core's PMU interrupt is PPI 7 (section 12.2.3,
-table 12-1).
+Yes. osc32k-clk sorts before the two regulator nodes; I will fix the
+order in v4.
 
-In v4 I will add a single-cluster cpu-map and separate
-arm,cortex-a55-pmu and arm,cortex-a76-pmu nodes on PPI 7 with
-ppi-partitions, and switch the GIC to #interrupt-cells = <4>, as
-MT8186 does for the same six-plus-two layout.
+> Should "status" have been last (preceded by a blank line)? (dts-coding-style.rst)
 
-I will leave capacity-dmips-mhz out until measured on A733. Radxa's
-BSP uses 430/1024 without a stated method. In the November 18
-RAM boot on Cubie A7S with the v4 DT, CPUs 0-7 were in one cluster,
-with the A55 PMU on CPUs 0-5 and the A76 PMU on CPUs 6-7 counting
-and receiving PPI 7 overflow interrupts on each CPU.
+Yes. In v4 I will put status last in r_i2c0, after its properties and
+before the PMIC child node, with a blank line before each. mmc0 and
+uart0 already put status last; I will add the preceding blank lines
+there too.
 
 Thanks,
 Enzo
