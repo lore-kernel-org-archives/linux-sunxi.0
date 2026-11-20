@@ -1,102 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.52
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795162611;
-	b=T03OY3/O/CzHQHQePMY/2WekKBPUqhHxMdMtSE8GgD1izd4DHPr6dt9JnNV6u8z6JAMZ
-	 hSJXV9BzpfekZ3bMIZQNoYZjikbM5rHO5dcGCmk65urgodl/E1vrcs8YKxoC6x0kQmQyQ
-	 v755woK0egNBnMtIjuyPEgspU7VJEdjCjQPcQFxBX3CjL/9E+lqQi0rRWfhHos4rXmKyY
-	 2oEEt3SIWSiOqHiUA2uGIJjE8Rpm+Q4d+/RfYO9+FA/3P3QJaNu/DVU7pYH0ihAHzvZsw
-	 Uhk5gOinjx2fNjrW2Oij7QR6pmctgiNC2Z5klBYfmdl8x3Ysx5sMtKMkTb9eG3Uqw3A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795162611;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=DTrRBBbOjFLAct0zJAH34zNdYPnC8LWnjifmPkUTr3s=;
-	b=w4UzTNSCYlFB21KWwv/k3L+/gCgR0FicTPTzBvpPFJmmwCqpxJSy1yZOJtOP/HfdHDkA
-	 6Pgpa5D7nUWAGile9UJ9NmS3gICsVRthR//ZyLhjcjy0wu1gTOHwpEBVZVmlpzg8WoUsk
-	 SBDBV2F/SMh3Uz99DVhcelTiAWoH5CfElGM04SsYIerCR7V+BOXLtg9qoAHufzdXAmhhO
-	 RLBs+dZTAZFmIdejd17YYLBDhS3uDDHc4QoHv13rvE5il0y0gfvGJx5Xgal9BR6DpliBI
-	 hWTZf554HNJr2ZqXkjsqfa3wg+hvYqNqBS+Tlbqyu0y9lstZPo1I3lC4V4VlZa9TLCA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OMmq7fBY;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.52
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=180.181.231.80
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795168219;
+	b=IjYrVfUTMzRu5aYA5R5R9wrCx/6jfGOeGrwiyWEwMU9XOqJlI8JAas3k2Q9NE4f7bNXG
+	 kLMkZMOXogGLKkKfaDqdkXdgm+lWhBrJ2n2Ocqbv6ARzwSyPtyhJ9ztiIIDQSrRv6iKRv
+	 tUS+HBxnz1w63IFKuUa/vTRwZBu7V9STn8Fb2b1OD5Gk6iW9bh3cCL+RgHuKIefEssmtU
+	 FSKIO5JDJLuKjisIPNOyelajqHg95qKXMIuBzEGCy0fmVlxYvbc5HEfNJgHccDaYu3EN0
+	 EvoEjJ+yVWeRgqz2J6B1GgLG0ZriVML6RLYDp8jtHxE3FRdVziIMEb4OW6LoC9vhb5w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795168219;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=F8y3ngxftG0ENPhoLrdIy/L2Ib00nYENk3A0Xinf4Y8=;
+	b=Gxqcc+zTxTZ4FjOlsDFQhlCQxdIR+eee182H2F8T2i8woLh8ZkTQWjCYTS1RnQlIQWSl
+	 MtB8iY6YmtJerrw10Ju3AhxhGjiGDTGB1W+EvYcQymWX3Vqu/ngwZ8tWCjqjWTalK/1nT
+	 in3R0WHqdkVgIc8+7ia8IcIi8I4bxsPY5KvI9QZn91L9PvxqxX2SNUmzjXdI8K6M7LEK4
+	 ufq9k8c/4m2QTzuaj0XApwY1hOgUCkvJGZS6TIdZIpzEMsKUFHuIEcof4yAAFzG7+H1Ix
+	 pGhv+sKGP8H5rgDc9asXhYpS9i1dLkMVjbEJohDHooq3ESNjMMlNbImYrdsUMguKk4A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gondor.apana.org.au;
+	spf=pass smtp.mailfrom=gondor.apana.org.au;
+	dkim=pass header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.a=rsa-sha256 header.s=h01 header.b="SXQ/CEAk";
+	arc=none smtp.remote-ip=180.181.231.80
+Received: from abb.hmeau.com (abb.hmeau.com [180.181.231.80])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77F3B60A2601
-	for <linux-sunxi@lists.linux.dev>; Fri, 20 Nov 2026 08:16:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77F3B60A2601
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D0B606A325;
+	Fri, 20 Nov 2026 09:50:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41D0B606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OMmq7fBY
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-99e0db26c4bso184221241.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 20 Nov 2026 00:16:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795162609; cv=none;
-        d=google.com; s=arc-20260327;
-        b=h6s8K5ERoMGLQ1tb1hS/K5tTp4BdRLBCPDCJyI/OT88pTDW96wePaykiEg17gkIREE
-         IFi882jWnbsWURPcTMcgbfs69hRnY9mOtn8cpgEJXHpdDSFY+nrGc11ckZaqQzCdFsqm
-         stzsQX0xCyqdUBSnTadd/ZRN3JtnjGRyXxy7/2VIaajt+jZMj5nRvWyWiFX5kER6eb1n
-         yP6S59lvbt02Po/naGfUAxh3YJLACFQxg9iQ0yGRkCT2444eUe5p026Jv13VLFP1ULNL
-         djGxdr/RZCCWyZ1daNvT+f5/sCR/K80FgFR5eNo8Swcmkryww8l1HF4oFMdMk4rolufK
-         2jyQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=DTrRBBbOjFLAct0zJAH34zNdYPnC8LWnjifmPkUTr3s=;
-        fh=WWSE3rO7GNIeSPtE+02IuCpZq5LWOdZI3jf3NK4TNL8=;
-        b=Nymi4npfNAFhv51nPkJg8GvjHv3DCSoA4NWCO91Ji+C4wKaUFv1pmBvTnh6blReuPy
-         EcutcyFuAyfwqDjSaEHNT9115HKnLc60MMqnBvgU9ilJzHhK/U4atZPXjY35zxpcOOGI
-         hAVA4pntqTNkgvJWV6sEOJBclLFMAiHoLtix4J9UrLhKJh4jFQxa7jozfY5Z7ODrzaVd
-         XN3bYwK8JXsosev7rkL24kcznAydS3GoxaqKcILOvcSQF5P9a/toW/C8VuAdYc7HlN1g
-         WFbANy9vassTxsv2WZ8ebIfmxIR6A22GTfWelQO+eJu0UPk+12y91/MapzAM0ebW2pva
-         kCtg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795162609; x=1795767409; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DTrRBBbOjFLAct0zJAH34zNdYPnC8LWnjifmPkUTr3s=;
-        b=OMmq7fBYJmYDDO0YPkpMBfbewIII60RRA+EsFLvymtpcUzRjQCocRlE1FL+ZUnWkju
-         hNz0gLudjmtALnAZzwrbKAwQAVwh9VqVVcg5qaFgNrTxSJ3CwU5/IJt1oIxsaqv7UDMc
-         /BwDhqH74V1ReKYCdrAFfUlzAPwaDKUBKDA7Gxv0BrBLHoPc3KVFeRTyyYYioUwH1ETg
-         fdTGezZIpM+oo0fZlMONmAzsy7EG+ejhVPvCM4Uts47MKztTYGazMrVLOalhxNfBRcUw
-         GublB8bFrgFz8ZzPJTl8ZsbyWERuiEehsoTl6LIM8Q/YZZyqsefjacWngsFsb2+ayLuo
-         I+UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795162609; x=1795767409;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DTrRBBbOjFLAct0zJAH34zNdYPnC8LWnjifmPkUTr3s=;
-        b=n6bS0nFwfz+VuZ6nxnCouOfOVkv7iZtkwfa0a+xP7n1NSEiV73lWfT/biv54TMlWDz
-         QtSZMt/PFP1h6xPpPUi07hSMeMhanm92zuCmBELNfYtZLj75anoukllNc6GVCLYC+OKY
-         tdagK6lxwZyH8PL08ttSM0Wk7jyfsw/1hcwtPaEf+vdGA5x9EquLF9Ap/GkfzdnfOfSz
-         /Hz9y1Hwbk14GEOYaGnTM3Qn1sNb8Yx4Z4lWUrNxFsUo1AMv6qBq+jUYjL2N9aEowBhi
-         iMExSEXvJISEb8Z9NcB89GBAtF1S7PaGqXwAooaMwx8xUcsfm3NTBNJkKR9vEx8aVnCN
-         0otQ==
-X-Forwarded-Encrypted: i=1; AL+hErH6NsRvhbrOJTRQz4OiD8h69GuuuJFULdvvvVdse3+Y/jtIxF5KUpUGuZJXbP8nlaXSpB7KNZ5WGRoyZw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/vI5J6ppCS8iZYyfoCcFzTBN2JLYdhC9pGgi4cu2stGimNuuYr
-	pdMzH7Y5BTqx9vVcTblJB/FvzdsS5dyIaL2WzQJEPA4GV/pLFhI21kd5LiWhQl08EXmx9HegrxW
-	JlzV1y1Pwr8WRV0Dc9emEV6yQ2zuX5Fs=
-X-Gm-Gg: AZFdTZdMJ1QcSunHNAT0U+sbsKYbKRt0B81ItjmnZgEESeebELwP2qELP0H2Stp9d9x
-	fnJPULMIAMFmlcWu8yU6/wOJN17Vu4oOGYMQ49F/qTkTn6nViztfgv5HLmDQrIyiCw9AFgQ6xi6
-	SQQVbiOXpzm63efKYNTvpnTgKCIgLSs7DVWgdty3cHMhh9s+/eemlibQ3XPvZiPC5IkLoT4TJUI
-	9pBPZCU/qsAHXJ5Wm+fLDCdEwvkyXfPCnTv65Kf5w5Ev+npGZbRb9gfG6JlfoIMTl1THW5h0WTa
-	9w8ZeVtavBtjKZ12Y2ZTmvJ0BA7TmHaKKk8EZS+1aKdEt/ht3tKXkfZMci5PE9TXtiFurTIfyN+
-	h/lVKMEvKpaJOINHV7KN+tCnpiizjfX2FRaNDMMuZwxKsarLKkHvf7PyAdoNixl3cllw3yeYpLx
-	0Bg1r4wgPUzPjn9XZNdPKPt9zWn6PFjPjPHI3nnBN0CRjnaWP/4gBzltGEvIjqXAY5QpA3Inarl
-	6opXmMkJVSCtBJgv0nsYAMRNZCHrg==
-X-Received: by 2002:a05:6102:5cc8:b0:7c5:4da3:aefb with SMTP id
- ada2fe7eead31-7d7396b4513mr725084137.34.1795162609310; Fri, 20 Nov 2026
- 00:16:49 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gondor.apana.org.au header.i=@gondor.apana.org.au header.a=rsa-sha256 header.s=h01 header.b=SXQ/CEAk
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=gondor.apana.org.au; s=h01; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:cc:to:subject:message-id:date:
+	from:content-type:reply-to; bh=F8y3ngxftG0ENPhoLrdIy/L2Ib00nYENk3A0Xinf4Y8=; 
+	b=SXQ/CEAkEl4P6uDfTOq0HyKwpyL6AD4/eU5WMfxxtOWIvNdlkDTETKXyvFUADi2/hbAbOVQ6fzW
+	9W8jUDDDZ5PPfNRTmCGsvk3+Dkj4Z5eB1s9MVrDcIdQPaMj8ajBVomlee2zujyxQ9FDAKB62y2qHK
+	Bhe35QFgOXPigP6wDgCz/8TwOyrQv+34h+PgoW+5yPkmNyDIW1zG6IFbUKQaBEt/0oy9zm+5z14ou
+	wWQskJeK+WvItIUql5WR6YO2Sids11jh1G4Z3UBgOnSoEwgrZsJ56pFz80YFPLEWVcuej/A2Lv9R7
+	iPHYLJrEbOLRAW0QtpsdIWoXCt/9e9SxZtOw==;
+Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
+	by formenos.hmeau.com with smtp (Exim 4.98.2 #2 (Debian))
+	id 1xULG0-0000000HYYw-1Bsn;
+	Fri, 20 Nov 2026 17:50:13 +0800
+Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Fri, 20 Nov 2026 17:50:12 +0800
+Date: Fri, 20 Nov 2026 17:50:12 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: aiyengar1990@gmail.com
+Cc: Corentin Labbe <clabbe.montjoie@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] crypto: sun8i-ce - Add AES-XTS for the H616
+Message-ID: <awAX1GM9UHkGkgPk@gondor.apana.org.au>
+References: <20261110-sun8i-ce-h616-xts-v2-1-0b99efabc1d8@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -106,79 +69,92 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261021-submit-sun50i-h616-apb2-clock-v1-v1-0-7b857ad1198d@gmail.com>
- <20261021-submit-sun50i-h616-apb2-clock-v1-v1-1-7b857ad1198d@gmail.com> <CAGb2v642E3bDZ60_3oA7CN=hOVGn757RwfVaZWXvRSuWoo5kag@mail.gmail.com>
-In-Reply-To: <CAGb2v642E3bDZ60_3oA7CN=hOVGn757RwfVaZWXvRSuWoo5kag@mail.gmail.com>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Fri, 20 Nov 2026 01:16:38 -0700
-X-Gm-Features: Aa3M54opK0HsAqJ5IKoxodsp8AVX0yGJFnC-piFBxQLeC7dh0z1JF0IENGFsfTk
-Message-ID: <CADvTj4pkgZj77566ni_ifFJODRC0XvvOddiOij4kGRxoseBqfA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: clock: sun50i-h616: export the APB2 clock
-To: wens@kernel.org
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
-	Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261110-sun8i-ce-h616-xts-v2-1-0b99efabc1d8@gmail.com>
 
-On Thu, Nov 19, 2026 at 10:02=E2=80=AFPM Chen-Yu Tsai <wens@kernel.org> wro=
-te:
->
-> On Thu, Oct 22, 2026 at 8:09=E2=80=AFAM James Hilliard
-> <james.hilliard1@gmail.com> wrote:
-> >
-> > UARTs use APB2 as their baud clock. Expose its existing clock ID so dev=
-ice
->
-> And how did you discover this? How did you differentiate this from it jus=
-t
-> using a combined clock from the UART bus gate, which is also driven from
-> APB2?
+On Tue, Nov 10, 2026 at 06:25:05AM +0000, Arun Iyengar via B4 Relay wrote:
+> From: Arun Iyengar <aiyengar1990@gmail.com>
+> 
+> The H616 crypto engine has a separate RAES unit (algorithm type 0x30)
+> that does AES-ECB, AES-CBC and AES-XTS. Its XTS mode (symmetric mode
+> 0b1001) takes the two keys back to back at the key address, the tweak
+> at the IV address, and an xts_first/xts_last pair of flags that mark the
+> first and the last block of a data unit. The key size field gives the
+> size of one of the two keys: 128 or 256 bits, there is no 192-bit XTS.
+> 
+> Register xts(aes) for the H616: each request is one data unit, so both
+> flags are set and the request IV is the tweak of its first block. XTS
+> returns no IV, so the CBC write-back of the last block is skipped.
+> Ciphertext stealing (lengths that are not a multiple of the block size)
+> and two 192-bit keys go to the fallback, as do the requests that the
+> existing checks already send there.
+> 
+> The engine is much slower at XTS than the CPU's ARMv8 AES instructions:
+> 4 times slower for 64 KiB requests (213 against 861 MB/s), 8 times for
+> 4 KiB and 17 times for 512 bytes. Register it below every CPU
+> implementation of xts(aes) (priority 90), so that the CPU stays the
+> default, for dm-crypt too, and the engine is only used when it is
+> asked for by driver name.
+> 
+> The other variants get CE_ID_NOTSUPP for the new mode, so nothing
+> changes for them.
+> 
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+> ---
+> The H616 crypto engine can do AES-XTS in its separate RAES unit. This
+> patch registers xts(aes) for the H616, below the CPU implementations
+> because the engine is slower than the ARMv8 Crypto Extensions; it stays
+> available by driver name (xts-aes-sun8i-ce) for users who want to
+> offload the CPU.
+> 
+> Testing on an Orange Pi Zero2 (H616), v7.3-based kernel with this
+> patch (sun8i-ce is unchanged between v7.3 and cryptodev-2.6):
+> - the boot-time self-test of xts-aes-sun8i-ce passes, and the testmgr
+>   vectors run on the engine (debugfs request counters);
+> - 21 known-answer vectors (IEEE 1619 and generated, including
+>   ciphertext stealing lengths, which go to the fallback) pass, and 3000
+>   random requests (10% with misaligned buffers) give the same result as
+>   xts-aes-ce;
+> - dm-crypt with capi:xts-aes-sun8i-ce-plain64, 512 and 4096-byte
+>   sectors: 48 MiB written and read back with matching sha256, and the
+>   raw sectors decrypt with xts-aes-ce; with this priority, xts(aes)
+>   and plain aes-xts-plain64 resolve to the CPU's xts-aes-ce;
+> - the existing ECB/CBC ciphers, hashes and the TRNG still match their
+>   software implementations.
+> Throughput, engine against xts-aes-ce: 20/352 MB/s for 512-byte
+> requests, 98/759 MB/s for 4 KiB, 213/861 MB/s for 64 KiB.
+> 
+> This patch was developed with Claude (Anthropic) as a
+> coding assistant: it investigated the problem, wrote the code and
+> the commit messages. I reviewed it, and it was tested on an
+> Orange Pi Zero2 (H616) as described above.
+> ---
+> Changes in v2:
+> - Select CRYPTO_XTS: the xts(aes) transform allocates an xts(aes)
+>   fallback in sun8i_ce_cipher_init(), which fails without it (found by
+>   the Sashiko AI review).
+> - Link to v1: https://patch.msgid.link/20261110-sun8i-ce-h616-xts-v1-1-2fff3eb0807a@gmail.com
+> 
+> To: Corentin Labbe <clabbe.montjoie@gmail.com>
+> To: Herbert Xu <herbert@gondor.apana.org.au>
+> To: "David S. Miller" <davem@davemloft.net>
+> To: Chen-Yu Tsai <wens@kernel.org>
+> To: Jernej Skrabec <jernej.skrabec@gmail.com>
+> To: Samuel Holland <samuel@sholland.org>
+> Cc: linux-crypto@vger.kernel.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-sunxi@lists.linux.dev
+> Cc: linux-kernel@vger.kernel.org
+> ---
+>  drivers/crypto/allwinner/Kconfig                   |   1 +
+>  .../crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c    | 102 +++++++++++++++++----
+>  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c  |  44 +++++++--
+>  drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h       |  21 ++++-
+>  4 files changed, 142 insertions(+), 26 deletions(-)
 
-I got APB2 from section 9.2.3.5.2 of the H616 manual, which says
-=E2=80=9CSCLK is usually APB2.=E2=80=9D I took that to mean the UART needed=
- a separate
-reference to APB2 in DT.
-
-> I'm not adding this simply because you want / need a baud clk that you
-> can set the rate on. That's the wrong way to go about this. You should
-> just add CLK_SET_RATE_PARENT to the bus gates. And making the bus clocks
-> variable is a whole different discussion.
-
-I tried your suggestion on H616. With CLK_SET_RATE_PARENT on the UART
-bus gates, I can change the baud rate using just the existing gate
-clock. So I don't think we need to export CLK_APB2 for the UARTs.
-
->
->
-> ChenYu
->
-> > trees can describe it separately from the per-port bus gate. Keep the
-> > existing clock numbering.
-> >
-> > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-> > ---
-> >  include/dt-bindings/clock/sun50i-h616-ccu.h | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/include/dt-bindings/clock/sun50i-h616-ccu.h b/include/dt-b=
-indings/clock/sun50i-h616-ccu.h
-> > index 6889405f9fec..e3318772c92d 100644
-> > --- a/include/dt-bindings/clock/sun50i-h616-ccu.h
-> > +++ b/include/dt-bindings/clock/sun50i-h616-ccu.h
-> > @@ -11,6 +11,7 @@
-> >  #define CLK_CPUX               21
-> >
-> >  #define CLK_APB1               26
-> > +#define CLK_APB2               27
-> >
-> >  #define CLK_DE                 29
-> >  #define CLK_BUS_DE             30
-> >
-> > --
-> > 2.53.0
-> >
-> >
+Patch applied.  Thanks.
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
