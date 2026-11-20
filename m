@@ -1,80 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1795156209;
-	b=kZKAkI8AO5tkraR4VFEYZQtZxGVfw3kORyu1IIMTT2JXzrURrH8MIn86A9UCmWg+cXgB
-	 2MXseLAXBdxsJI3K1ooyTULwgQ2caXfHklmsC9J7gkIcTG6t9P54X0r+BfE9Pj57w15Gz
-	 s7kP/Y5zetDUrmcYonZpqUahn4C6NDlkf7H38z+3yPGNzPYsqQcjLOgHzXRe8klr/Ax4O
-	 uqMFRydXzKZLqIuVtAUXNYIn2Lx25FSuDfdjQChAK/UToleBTKzMyp1rffmhhJkziCpSu
-	 MM6st7IhTOlJtJuiB2cFzV16PpvV8+/8WQmSkFiuNocGWF+DbyS/YeXKLTlffblM4Og==
+	b=uh6MIS58h2SaGNL4jkGZT9Xexm2weFIsb1KQ+H4LgWTeHKH7o1hb1lnXYi0cI1i0RLS0
+	 LJX0VOjKO1vK5yeIK5cMHVeuvvjORUgb45Pf6rMLCfoKArc1+jTC3nzIZ2/Fu3etNBXBd
+	 NM1AZ8UDeNirHAus4ZsY7WcFXM9zt43lbf29mUW3bOnokDaGc3Jv3afCVj2+yt6bd2/YT
+	 YGU9UCQy489is8EWlX78mnr7Ek3iEnL3NweKIC5ovNQVjEJ5wQ9O3n4jK51GYDlb2vn7h
+	 g+hVevFuETPF83YQGXAnTkKAmljAa9UutH1+wcYHifIg+iy442DGwB/a5oeCGfJjPOg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795156209;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=+YKEUIR17Ys1qiI9vqcZUQdQMdxe3ZpuES93oeUi848=;
-	b=x3Wcamjey2VC3PsEY16RHhiWljXVkcu+4aPGR+9vuCYIQ3Q7I2f5NetjtOvz39a8CSy1
-	 +z5ed3J1gpvn6oyrf8yF0AsNcloI1Xz/IhsqFPDSi9XzQyJ7DzHDjAyi+F1xqHz0alaTR
-	 47eJNLUqOAyv/pu5RYx321vQlrJd0z1+Gs7PXdv2eD/LC1rbdRqQ2O7Vq3gctBWPuTlbJ
-	 iHVpGUZkmAKAJYFPjIzzNee/Rm0xEG8tWAUhR4W63xEsMxXR425J71c5uBUvQKuCLRR2G
-	 KAVmdomaLkeo/qT7/wGY51Uet7vtfEIpat35fmGvLZ6DmcGWI3smC3QHyrW5qnOAObg==
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=wCDtoYs9Drt1wHmB8iFY9FDelCzj7GP2TQZhEY2AxnQ=;
+	b=35VLQlaIwBauOUxoeMPK/sN7JXwGso3g/DTKwj1vD7AGYAAyG7Tmuc0i6nVBR0MKPqt9
+	 BHsN/pD7iU1a5sh4rwONyqX1zFmbFeNjAKSO9atnKUAiFyIRz/8JGhg/++Pwu6ehRL3iN
+	 g7CKyxmbszJQVSQCmVsoe7P9G+QmWPT5wI6BJYTFDN+vblBXb9mpNRZSEBw0TZi2TQ2hs
+	 53SArhzHNWYa8CkzG8Efm0m5ORMiIxXZDmUZI6k4j6SNJusTIu7DvNri4QGb2N4vXs3PD
+	 byzpYnyUiaPr6QuY0BMHGFostF+rDRpqHodIyR8aHYOJ4INlxmJHUtZECnm2D3zf8Cw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DSrohA7B;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DfBeh1dD;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E2A606A32A;
-	Fri, 20 Nov 2026 06:30:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BD5606A334;
+	Fri, 20 Nov 2026 06:30:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DSrohA7B
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DfBeh1dD
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795156208;
-	b=SjrtBkaLQpjGM5exSIKr8AktAqQ1qyJTS51CbokUjwStvDlSrYDHnJlXyfukumITT0BW
-	 mKLHemg86/xlVgYRasf67lnDxidM9AQ9ohhYe8KskFJId8Ow5+CkaYOuz2M/YNFzmt7Za
-	 SdG7sZITLwtFcHJIj1DkLBNoQzVHY4ugL8yTN+1ojFPl3NxnJndp6AE4TfCuWk+UuKlG/
-	 o8dYCIvCxmSIUjmOeY2qHxQ2QW3GVXnijTBZ8NIDstyusoDM0L0pJLnie2mZrSytaBmeh
-	 ODtDzIx7Xv+cdCMhda/gv2aMYalOmKXQ8ZkOMmPPROkvvWXmZyRV1x4SgPkhx3QmPRw==
+	t=1795156209;
+	b=eta30DzRYkYOb6Ug//Sw4Rehg6HEWGmT+I+7VGBp+dEQTVqpFo3rH9H4sp4eo5DD+6P/
+	 G+nqz4sxoQ4+Hzc1YGKQYKZNTCJRx30nGOjla9mn/dbPomj8u5au6iHKxP1giOx4H/Nay
+	 ChysZCBrKQxxVnVrJaagC9Kwhkve/O07jyNCTiQaQ7+8FkIGj7tWroObmrtmkvHe8ZJPK
+	 P11ZJveG1656a3hKP+rLgDKL0TpUlW2gVqBreZqc/I+iHVJWIQGX1xDD/NlTuGlLyV7xg
+	 ToZ4WhG5U8szdpwfLyOU85/T87lmF87nt0YTm096ArsmFdMvBJfwq9DdybL6ue46CRw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795156208;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=+YKEUIR17Ys1qiI9vqcZUQdQMdxe3ZpuES93oeUi848=;
-	b=LiwQ5vqS+GxbtaL9xu9ZneKWuNgf+EYXo6+xaOrWtL+6ZgwhZQK2jE7WFZOdi3aWqm6m
-	 f8mzyBYmfCAt0RbKJBeKrLsR4XcM2t+uxJI56rjqMJEkZ01paKgDH1zKFMPAE61RodJMG
-	 /zmJaEkMOhTOTnJHqY7a+JiiuG0WGu3mLtWYw+5dWUnkSqjvS778qeQg6RFBhBydduhoE
-	 PTJaBG1wYsMvhDEnFP9U19q9K/zqGwWXuTSv64xMciMZ14tlA6RcWcX1NFAVaio2hnVuK
-	 8VHFkviCbN5rq447feDp/mtx5/68HTZjVKiv4ssMEywFpJFDpgUIMmqPLacuTYYwIHQ==
+	c=relaxed/relaxed; t=1795156209;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=wCDtoYs9Drt1wHmB8iFY9FDelCzj7GP2TQZhEY2AxnQ=;
+	b=JyVpejQXCsePLX3rxBkTbOlvtRFVf0S8XPDVeaFWJ+/Gl1MnrMyWoyOkmO0zeSoJk0WT
+	 c4OXpVDuJdUY4MU98nQgOi+OhzFtEi/hnccMGdwsQ1ycSn/hgg8DvDkGN6umsF5Jghlx9
+	 dMOCclQ/wVvYx1bSRMoVqwRslqmBag2fXAwZkTrddvCsT0Ocg6mZOrNyV6ymlR2603IwK
+	 UKCbe3NOhgMSpIUPob3x6K82bseTv8C7oVmgXOLzua6CjcrJ+84J0PZZa9wcwjclabh+g
+	 8PbKAYb5tMXfA1iuFhIM7kn79ep18QHLMBM9zhcFG2F2S5ZcyQC3epTod8mTkwyR1Ow==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 391551F000C6;
+	by smtp.kernel.org (Postfix) with ESMTPS id 4C62E1F000CA;
 	Fri, 20 Nov 2026 06:30:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795156208;
-	bh=+YKEUIR17Ys1qiI9vqcZUQdQMdxe3ZpuES93oeUi848=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=DSrohA7BZ/otoqL7hjWAvxfbdSp3M0+AtXv5W1oODjIgup71PkFo8+rhK9ficQXVh
-	 39L36mO20AV7lG60uJfT6vK/Epluo68OP7x70LCsCsCPQVTpNUyhcyL11kAYEQjkIn
-	 cQ9l1qbIKkX7GcTctbVVxgeAqEqHt1ssH8fJX6y9LEnlWjnXZs+TIFqBcKlBURV1A2
-	 dNFyi+84rHjzSWaMKyhgksCS1hkBDUbS9ezZzSwkRc6EBMAhFMeueeenb+IY4MUODU
-	 BnL7Rec818rp9tn7jlXxtI5K7j2tkhC2mlIv/rF3ozB7VAer3Rp2i1p+xpSoiKyJEE
-	 nMPFbjUAKJH5w==
+	s=k20260515; t=1795156209;
+	bh=wCDtoYs9Drt1wHmB8iFY9FDelCzj7GP2TQZhEY2AxnQ=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=DfBeh1dDHixTbqj8wfJ9XSuGa7/JzIl7mR7jgC8sHaFdiI7lSkmfC1zVcSxnhYY5E
+	 Dv1uxt80qUkOcSWT93pzs2dn/hH2eyW0Tkl2R0bFf5Y+hOe0vlWSAKa/xhPIU5jZRF
+	 0AJ7kXpzI6lSP63LsnJBqxqtlIN27IU4/NXp8i4HRW3hOWMDof+3eJ1tPWZayK5ZWh
+	 F7+AH0TT865bB2HukaQdTS9SPovddpZFqAmVNV522N8EcPmmUVPa4cNzRIzyZxzlqD
+	 z1IEbOt54d3IF2Hdza3zvfxBkJ6SKvCC4tb8Xl40tOh0tKkxOguWD2C238HJGbY9Sr
+	 UGRpbXUsIj2HA==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id AC4784970D;
+	by lkml.kernel.org (Postfix) with ESMTP id CD66B496FB;
 	Fri, 20 Nov 2026 06:30:07 +0000 (UTC)
 From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
-Subject: [PATCH v3 0/2] arm64: dts: allwinner: orangepi-zero2/zero3: Read
- the SPI NOR over two lines
-Date: Fri, 20 Nov 2026 06:30:07 +0000
-Message-Id: <20261120-zero2-spi-nor-dual-read-v3-0-1cbb0caaed91@gmail.com>
+Date: Fri, 20 Nov 2026 06:30:08 +0000
+Subject: [PATCH v3 1/2] arm64: dts: allwinner: orangepi-zero2/zero3: Set
+ the SPI NOR supply by label
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -85,13 +84,9 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XPTW6DMBAF4KsgrzuVbRiws+o9qi78MwRXCSY2o
- LYRd69DssgmyyfNfG/myjKlQJkdqitLtIYc4lhC/VYxN5jxSBB8yUxy2QohEP4oRQl5CjDGBH4
- xJ0hkPLQNmtaTRFKCle0pUR9+dvnz657zYr/JzTfuMZHospTK+T7GJjO7oRQeKqmsaJDrzvNeo
- Sa0XnbWOeRSea4F9rU1jfXsRg8hzzH97j+sYpce56qX564CBFjnne07hZb4x/FswundxfNurvL
- Z0a8dCRyEQqc63iLV+tnZtu0fJM5pAmEBAAA=
-X-Change-ID: 20261115-zero2-spi-nor-dual-read-645a6de25e81
+Message-Id: <20261120-zero2-spi-nor-dual-read-v3-1-1cbb0caaed91@gmail.com>
+References: <20261120-zero2-spi-nor-dual-read-v3-0-1cbb0caaed91@gmail.com>
+In-Reply-To: <20261120-zero2-spi-nor-dual-read-v3-0-1cbb0caaed91@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, 
@@ -100,64 +95,82 @@ Cc: Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
  linux-kernel@vger.kernel.org, Arun Iyengar <aiyengar1990@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795156207; l=2063;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795156207; l=2431;
  i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
- bh=TbezzXnMhGFtPtXyzkhDKAuplra+gjD4n+VzAJSqXBY=;
- b=y4xQhOYT0fd7FkbqvjjxEuvNHMYfcJJYHOVEN9DSjUQzLlKWclQbSGmDywej7kWEbWNHUuEOT
- mYejXy/io01BbI1yB/kRaFxCJt9dabk3SOd7C3Mbdh1sH6mD3imFJ7J
+ bh=/FJTmo3i66dNfZqxF9WLXYNpaf/9aeDUvFfosXiYN8E=;
+ b=J2WHGsYmMyWqVDJrcMintnsJAsO4BksZ2s9MpOWF9K21/LCEC39FZpeuciqWRSzVDqDChg5g2
+ klC0o2urSPiCsu/1U7ESosS/zs+q9h2p0fQYIjN4PpdZ/UC7zDOJ9J1
 X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
  pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
 X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
  auth_id=1480
 X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
 Reply-To: aiyengar1990@gmail.com
+Content-Transfer-Encoding: 7bit
 
-Andre Przywara reviewed v1 and suggested labelling the flash node (patch
-1) and setting spi-rx-bus-width in the dtsi shared with the Zero3 (patch 2).
+From: Arun Iyengar <aiyengar1990@gmail.com>
 
-spi-rx-bus-width = <2> needs the binding patch of [1] (acked, not applied
-yet) to pass dtbs_check.
-Without the driver patch of [1] the driver ignores the setting.
+Label the flash node in the shared dtsi, so each board sets its supply
+through the label. The Zero2 keeps reg_aldo1. On the Zero3 the flash VDD
+is on the 3.3V rail from the AXP313A DLDO1 pin (schematic v1.2), so it
+gets reg_dldo1.
 
-Tested on an Orange Pi Zero2, with [1]: 1-1-2 reads (opcode 0x3b),
-two 2 MiB reads identical to an earlier dump.
-
-[1] https://lore.kernel.org/r/20261116-spi-sun6i-h616-dual-read-v2-0-e0c66eb71e20@gmail.com
-
-Developed with Claude (Anthropic), which wrote the patches and commit
-messages. I reviewed them.
-
+Suggested-by: Andre Przywara <andre.przywara@arm.com>
+Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 ---
-Changes in v3:
-- Label renamed to spi_flash (Andre)
-- Zero3 flash supply added (Andre): reg_dldo1, see the note in patch 1
-- Zero2 &spi_flash moved after &pio (sorted)
-- Dropped Suggested-by on patch 2, added Andre's tags
-- Link to v2: https://patch.msgid.link/20261119-zero2-spi-nor-dual-read-v2-0-185c87065e39@gmail.com
-
-Changes in v2:
-- Label the flash node, no nested &spi0 override (Andre)
-- spi-rx-bus-width moved to the shared dtsi, Zero3 included (Andre;
-  he read 16 MB on a Zero3 in 1.8 s instead of 3.5 s)
-- Dropped the driver dependency (Andre); the binding is still needed for dtbs_check
-- Link to v1: https://patch.msgid.link/20261118-zero2-spi-nor-dual-read-v1-1-bcdcbf785be0@gmail.com
-
+Andre: reg_dldo1 instead of reg_aldo1 on the Zero3. Schematic v1.2
+sheet 4 labels the 3.3V net "ALDO1", but it comes from AXP313A pin 12
+(DLDO1, VCC33-DLDO); pin 15 (ALDO1) is the 1.8V VCC18-ALDO. The flash
+VDD (U61 pin 8, net DCDCE) is on that 3.3V net. Not tested, no Zero3
+here.
 ---
-Arun Iyengar (2):
-      arm64: dts: allwinner: orangepi-zero2/zero3: Set the SPI NOR supply by label
-      arm64: dts: allwinner: orangepi-zero2/zero3: Read the SPI NOR over two lines
-
- arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi | 3 ++-
+ arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi | 2 +-
  arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts | 6 ++----
  arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts | 4 ++++
- 3 files changed, 8 insertions(+), 5 deletions(-)
----
-base-commit: 90e0d3fd460ec365617982b56bd7ea5179b36197
-change-id: 20261115-zero2-spi-nor-dual-read-645a6de25e81
-prerequisite-patch-id: 28b145097d0f859e5bd27bcc5028d0915f3ba4bd
+ 3 files changed, 7 insertions(+), 5 deletions(-)
 
-Best regards,
---  
-Arun Iyengar <aiyengar1990@gmail.com>
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
+index 0d3e761f6466..cd1f67ad7c2b 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
+@@ -104,7 +104,7 @@ &spi0 {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&spi0_pins>, <&spi0_cs0_pin>;
+ 
+-	flash@0 {
++	spi_flash: flash@0 {
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+ 		compatible = "jedec,spi-nor";
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+index 90c25e12e189..2f8a16d1c9aa 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+@@ -148,8 +148,6 @@ &pio {
+ 	vcc-pi-supply = <&reg_aldo1>;
+ };
+ 
+-&spi0 {
+-	flash@0 {
+-		vcc-supply = <&reg_aldo1>;
+-	};
++&spi_flash {
++	vcc-supply = <&reg_aldo1>;
+ };
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
+index c51d4d9120de..afa753dead30 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
+@@ -103,3 +103,7 @@ &pio {
+ 	vcc-ph-supply = <&reg_dldo1>;
+ 	vcc-pi-supply = <&reg_dldo1>;
+ };
++
++&spi_flash {
++	vcc-supply = <&reg_dldo1>;
++};
+
+-- 
+2.55.0
 
 
