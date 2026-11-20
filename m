@@ -1,79 +1,80 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795174858;
-	b=PLKhOfwb2hKyh4Tq65uYRSfLnnxAlr8b0ynrRdgQS5huwaxtdsiWZKdIdG+OGzchQRYB
-	 IwudBPC1U4eueTmOQSp4Zs3ro5p7A5IQRplCFu9wCMXQikWxZwJermlhok0cvlaHTcIMo
-	 0DKA0hJiv68eKI/m0M+8b+MDalE6hXkD6Xj4CyN2FRsXDlFk2BkK30zO6UYazBIfzoeoV
-	 NaqQJOABPyFGUY3i0cnjlXxtzpXiP+0bRFX4JL+geD9itIkNCdZyU1oi70pI9L6ZvQ6PJ
-	 ihO9QaYUaE3nWNpCL1KX4BS3aTOQipdYvy8sTTFdDNfmwRz5U2Xto+3D4y2WKJ4Nfrw==
+	t=1795174859;
+	b=xH/1ZoZ7QEdaItsrnmQc/XiG9i2HJxFNT1/QLaA0XZgovsKQb9I0dulXrMjk2Da2nen9
+	 FyuYrCLDTuaZiYCkBzsTp1IoCeYNAmjiToSNyfCGf4N4X0FZtw0hPF+yLeQBe5VgiECpX
+	 uqIwr+8CCZ84NagMtq37aqBliGCwVn9pCznTccu1XY6OPP23GKs8j4Qy7Ugb9h2yC/epF
+	 JZCHvJxt2L0gPx+/lC8uxGoqTupqgM/uCpCkSCVKgTejhy6C7NhiGxK+3g+zwfyIXjF67
+	 Zl3s4Q43KqRehPQ4efz12CwuOD19YXfuK5FhLwA+TxAERvLPUMjKQpKpM2FqEYRvc2A==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795174858;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=5sTfjmvRmInRg9bzSas7Pj5tLY1aYw/Q3j6D0qSG5DA=;
-	b=11xVhuoRyjRk3yVsPqVprpujO68vxmOjfY8XCwHCeRtdvc/iyv0o34v68REkwK0SctiJ
-	 1Rcz9zXyCCfwk5xfB18k32PxdXP/rnqexnf3McHoTGpnCBHPDmoMrSyeDfVTu3s+6zf8p
-	 nE4vi+XULMFfTRS1oQXC3jc2KYVjIZwVpP2DSfIgU0pAmKhCRFuCChD8i/vhiq5xWR9E5
-	 YY38Jes8F/HNrCrO+9iydjrJFBGRekI9TfcdWEaRfoe8v7gBmpa+x6Z2LD9L+D5ClWQkl
-	 uGwfdJ0pH/SZwQQtA2M1LfycupT+MCf5+KRhOyxH1flmoXNH25irB1fa3vfket87J2Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795174859;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=3hjpsQQN2Wrc7/hxg/+pcCIIGQ1HkqwD7EgDr+mzxCE=;
+	b=UZX1+EoxX3WgZ4obrCejKBjkrWkObc+1XD3xOKlwuRokFrhWj+DYpp7c/ngyZx2FS7BG
+	 2GpUOetBrWN/ofklI5ttV40VhSvnEBA46FXENNd2LVvcS1gk9NPsbiD6+u8BP/Yx6f/mE
+	 rRFhLA1q4F+zUW6j44H0Ha9za1JEIVfVBKAhXYUqVyjiHJ9Wz2pvr2RqlBHaFdaFxD91E
+	 DZugoDIGIUNGaIjWV7/qWIaZwqwduPV2yPI0EcySptkJsUHIYPBVX3Y2Q2+UpwRcckKYl
+	 k1Nmyn/XoKTCI8yU9VevCe2Evrm0lrMFCA06aR2LH8RVPFX2MYi+hAavSS8v0gwHjSA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R24ohYu5;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jwMQkOIk;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AED6606A32C;
-	Fri, 20 Nov 2026 11:40:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537B4606A326;
+	Fri, 20 Nov 2026 11:40:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R24ohYu5
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jwMQkOIk
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795174857;
-	b=fUGt+OKQRNKz/1th9wppEZt1u8YXemp90wMSR9TauROKSI9EWd19ntEayufc3xRf0wkY
-	 niFaACZZlBSUUSrUYdNqf3F3odmywYpf0pobgsF6PotoQjRfT75orYLfWeiY1MHb0XpzX
-	 2Cr3Wx69TveAvWzUDkZl0G72T7i/M9k6tnrvGgZZQfkFnvvDjmS8W4b+zuqHjLbAUX8al
-	 9eBAvoWOcn1TnD/XAi2FRn+IgJV0psCwaPEqijmNF9tnotAXv8aVUd0z4pCfucTMO2V6/
-	 9t524WrG3VJPGMmLoctGyhrtEZ/hBW+CBwF+VCyP5APO+5PKX7PLALxvlsDPpW07f1A==
+	t=1795174858;
+	b=WorYiQJ87REYkL14Fl3qt17KynX1nER1KZ8ji2T5PD+O7++DNPDsV63AAy/9j+LO++Vj
+	 bju82Nbr6ijW4MPJO8BINLRT1/EJ52h3hcW7i/USqyAo/nvySRRAlzXJ+VLa6grfy/0qa
+	 ImUoPbKKQfpF+8p1SEHBOb0wTfZRI3LKG46pZEpJ2tiYDRVzlCa/VQmJQJDVDDN9tBWeh
+	 y713VdxUkDIZW63LSRDf5go5m5qUSJBDxUswj9ZJ8tC0bjw3I4x+xSqm48091Ta++Ycuv
+	 OOIwiVfBFIPP1o57mTZqY8Z+WvP1RNZUPxSIKjTNLvRAHFk4L032yxEIHA8ArCeAjdA==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795174857;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	c=relaxed/relaxed; t=1795174858;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=5sTfjmvRmInRg9bzSas7Pj5tLY1aYw/Q3j6D0qSG5DA=;
-	b=o41U0kZrcYis4PmfFam5gh0uK1m+Of+zV8EMIQhpL3DVVKPYuDLMXCb2mrPeWotGtg3j
-	 RrMKELRUMSj3IevzY9tDjUgy5BrYJdb3s9UlkCkgvUkC/7mfS0bhN7HZWQO3kic0A+VxS
-	 Q8wB8iCgBigBH3JKu1IJjVOHxtNK6g7cR4a8U0Juh8uQY3j+gaZ6o3/xf9Wd99ISNY/Gy
-	 7k1x4pczKWcKQ2VMiaS65kITtjdZTdSmGq79yCexqBFGk+W5p2SacfkxwHGJ2nh8TphxM
-	 PAL9l96Bi3OKJHSv2bqniBekwBgzKdPhaLXkdXkM0CsopcjmZuCVUOjVvlxoKcbv3tw==
+	 X-Original-From:Reply-To;
+	bh=3hjpsQQN2Wrc7/hxg/+pcCIIGQ1HkqwD7EgDr+mzxCE=;
+	b=2KN7P8F9thsHlQJAs4STZ8S6rMrJZGv7W3KV2a8efwMKFZNiXTtfVa1VsRV4fR2exVXj
+	 j+rmzG7N40BfSSK4RNaHZWEIecPCquvx0hjAerEkDQ5XVvCe5XwnxiAc44pJ5RpwARskm
+	 uXwZzO9DO1ZvN8dFDZD95Lp2I1tYS2r4bLszHBMEy6yW0yI97XAfyrYpAVg8JzphS7knn
+	 B4pCS6U9kr0EdewQvXB5uEyzKFmdH4rQfjEKe1fCFV5QP0mytseUUl6xJklQIps350jWM
+	 07cwpnFXAis1KiklQtlbj95aWr2LPVU0zzvJcrWgBDhrTP/R5uUl22lAxwsl6YeV8mQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 352CB1F000D8;
-	Fri, 20 Nov 2026 11:40:47 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id D48201F000C4;
+	Fri, 20 Nov 2026 11:40:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795174857;
-	bh=5sTfjmvRmInRg9bzSas7Pj5tLY1aYw/Q3j6D0qSG5DA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=R24ohYu5kb/29/Mjxeu6qbnW+AxltB3RBuDFqYc9cz9O+2PUIVz+CW8SfGWTA7I7p
-	 3Wvp0HRdKK2OnxhUZBSS6yM8MPtMHQByDGg8vqUsjuOGdkqR/h19QTHdNoilLCCckA
-	 xMGl9f94+TSatX/2i/T9/i+zzOoULO0PIt+N9DUF5750Ga18xe6l6/cuOvGUz6vE30
-	 VKdt/DWsqNxI3g4V5LX6wujxEW0uR7EOLyPd9ZVACsJtbd/U718LYKEgB8CCDVdGqn
-	 /0VoLij2eP/LfcNMdBywNI9flmQELRS1sBD9/sAH8JHc7598UXhxIpEBvtuvwS8XnV
-	 Ni3sY3SyswH9Q==
+	s=k20260515; t=1795174858;
+	bh=3hjpsQQN2Wrc7/hxg/+pcCIIGQ1HkqwD7EgDr+mzxCE=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=jwMQkOIkmAasuMd363UDUY4F9X7nqos5YKBlH/TYgAfQJmO3MLGh1HdindqM6RR85
+	 Pw3BYUy2YXptE51rS45cbBPVJNcXS0+6QoYADe/s+E4xho6t/tezcTvj1Z9/avIx2x
+	 VFZp78ciGF2tt3+cXmuIZQhewjgzY5Klj/0SkHctwk4DUtTNBnbNni1/DrbevzH6W7
+	 yFoIivAiQheDi++mSWaWUwjOsIliygfUojnK4YR9XVs8LIDrfgJdg4XIamiTOMa89M
+	 lUgAWbdgt3ecTmXhrJG/JBtpJZvOCt5XhNAJk2aJMydaWOJdEfDYQkXDRjShQ7LEpm
+	 8h+9ZEmaV6lLQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id C039E4986F;
+	by lkml.kernel.org (Postfix) with ESMTP id 6AD4349868;
 	Fri, 20 Nov 2026 11:40:46 +0000 (UTC)
 From: Ivan Pfarher via B4 Relay <devnull+ipfarher.gmail.com@kernel.org>
-Date: Fri, 20 Nov 2026 12:40:47 +0100
-Subject: [PATCH 3/4] arm64: dts: allwinner: h5: orangepi-zero-plus2: Fix
- USB peripheral mode
+Subject: [PATCH 0/4] arm64: dts: allwinner: h5: orangepi-zero-plus2: Fix
+ Bluetooth and USB gadget
+Date: Fri, 20 Nov 2026 12:40:44 +0100
+Message-Id: <20261120-orangepi-zero-plus2-fixes-v1-0-ecd792189f27@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -84,9 +85,10 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261120-orangepi-zero-plus2-fixes-v1-3-ecd792189f27@gmail.com>
-References: <20261120-orangepi-zero-plus2-fixes-v1-0-ecd792189f27@gmail.com>
-In-Reply-To: <20261120-orangepi-zero-plus2-fixes-v1-0-ecd792189f27@gmail.com>
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALwxAGsC/x2LSQqAMAwAvyI5G2gDCvoV8eASNSC2JCii+Herx
+ 5lhbjBWYYM6u0H5EJOwJfB5BsPSbTOjjImBHJXek8Ogn42CF2vAuO5GOMnJhhWN7KrB98VUQPq
+ j8h/S3rTP8wIiTPS3awAAAA==
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, 
@@ -94,81 +96,72 @@ To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-sunxi@lists.linux.dev, Ivan Pfarher <ipfarher@gmail.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795174845; l=2079;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795174845; l=2806;
  i=ipfarher@gmail.com; s=20261120; h=from:subject:message-id;
- bh=xNp8GjP59av7t0jD0DKAR+qLGNBv0iVBKlMlHOJX/bQ=;
- b=LYdIeAg0Z6D9hFAlocH2PSZCyaBHHy6WLerO7QNpZyL8gPTX5MGhRlVA/p/PhMwtgBawPihCa
- rdmDDcSs/jAA4Ylcsg0pIyPD2nV8r7aCpwj4HNwPn8qfRJX8icDs9kq
+ bh=8NDP5ZNmJidSCuINYDzvhJHNJXi8K2RXS0VdGYiDgfo=;
+ b=fwAfu0dfR2ngc4aIhPPXVyWR5bhlGxXAzqv3mF4h8OXYi1vICRCu30qqI8QT4BDRKtmUWBF/7
+ EUWKft9RMhEDuGYa0/VJ1BF2zar9tVd2HX8K/l551LcaHvOq+8GH1eu
 X-Developer-Key: i=ipfarher@gmail.com; a=ed25519;
  pk=3DMYyz/xl+KRAx2TNGJpheG+5QUm7lqHhKXFqVu2TmY=
 X-Endpoint-Received: by B4 Relay for ipfarher@gmail.com/20261120 with
  auth_id=1582
 X-Original-From: Ivan Pfarher <ipfarher@gmail.com>
 Reply-To: ipfarher@gmail.com
-Content-Transfer-Encoding: 7bit
 
-From: Ivan Pfarher <ipfarher@gmail.com>
+On the Orange Pi Zero Plus2 (H5), neither the Bluetooth part of the
+AP6212 module nor the micro USB port in peripheral mode work with the
+current device tree. This series fixes both and adds MMC aliases:
 
-The micro USB port is set to dr_mode = "peripheral" because it cannot
-supply VBUS, but EHCI0/OHCI0, which share USB PHY 0 with the MUSB
-controller, are enabled too.
+1. The AP6212 needs the RTC 32.768 kHz clock (osc32k-out) as LPO. It
+   is not referenced, so it gets disabled as unused, and the BT ROM
+   then answers nothing but HCI_Reset.
+2. Describe the Bluetooth controller on UART1 (BT_REG_ON on PA10), so
+   hci_bcm can power it, load its firmware and use it at 1.5 Mbaud.
+3. EHCI0/OHCI0 share USB PHY 0 with the MUSB controller. When they
+   register, the USB core switches the PHY to host mode, so the
+   peripheral-only micro USB port never enumerates as a gadget. Drop
+   them, as the port cannot supply VBUS anyway.
+4. Add MMC aliases so the microSD card and the eMMC keep fixed numbers.
 
-When they register, usb_add_hcd() asks the shared PHY for host mode
-(since commit e671765e521c ("usb: core: Try generic PHY_MODE_USB_HOST
-if usb_phy_roothub_set_mode fails")), and phy-sun4i-usb switches PHY 0
-to host ("Changing dr_mode to 1"). MUSB then stays in a_wait_vrise, the
-UDC stays "not attached", and a gadget never shows up on the host.
+About patch 3: the root cause is that phy-sun4i-usb accepts the
+host-mode request from the HCD even though the PHY's dr_mode is fixed
+to "peripheral". Changing the PHY driver would also cover other
+boards, but that is a separate discussion; this series only fixes the
+board DT. The H3 version of the board (sun8i-h3-orangepi-zero-plus2.dts)
+has the same USB and AP6212 setup and very likely the same problems,
+but it is not changed here because I could not test it.
 
-The port cannot work as a host on this board anyway, so drop EHCI0 and
-OHCI0.
+Testing: all four changes were tested on an Orange Pi Zero Plus2 (H5)
+running Linux 6.6.160 (Yocto scarthgap, meta-sunxi) with the same DT
+changes: Bluetooth comes up with firmware loaded and scans, the g_cdc
+gadget enumerates on a PC, and the board boots with the microSD card
+as mmcblk0 and the eMMC as mmcblk1. Against current mainline the
+series is build-tested only: dtc gives no new warnings and dt-validate
+reports nothing for the resulting DTB.
 
-Tested on an Orange Pi Zero Plus2 (H5) running Linux 6.6.160 with this
-change applied: g_cdc enumerates on the PC (CDC ECM + ACM), the UDC
-state is "configured" and MUSB is in b_peripheral. Build-tested only
-against current mainline.
+The issues were found and the patches drafted with the help of an AI
+coding assistant (Claude by Anthropic), which also ran the diagnostics
+on the board (raw HCI commands over the UART, GPIO and clock
+experiments, USB PHY state). I reviewed and tested the changes.
 
-The H3 version of the board (sun8i-h3-orangepi-zero-plus2.dts) has the
-same setup from the same commit but is not changed here, as it could
-not be tested.
+Signed-off-by: Ivan Pfarher <ipfarher@gmail.com>
 
-This problem was investigated, and the patch drafted, in an interactive
-session with an AI coding assistant (Claude by Anthropic). The submitter
-reviewed the change and ran the tests described above.
-
-Fixes: 43aad09c7928 ("ARM: dts: orange-pi-zero-plus2: enable USB OTG port")
 Signed-off-by: Ivan Pfarher <ipfarher@gmail.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts | 8 --------
- 1 file changed, 8 deletions(-)
+Ivan Pfarher (4):
+      arm64: dts: allwinner: h5: orangepi-zero-plus2: Add LPO clock for AP6212
+      arm64: dts: allwinner: h5: orangepi-zero-plus2: Add AP6212 Bluetooth
+      arm64: dts: allwinner: h5: orangepi-zero-plus2: Fix USB peripheral mode
+      arm64: dts: allwinner: h5: orangepi-zero-plus2: Add MMC aliases
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts
-index 5697251b9..892723b46 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dts
-@@ -66,10 +66,6 @@
- 	status = "okay";
- };
- 
--&ehci0 {
--	status = "okay";
--};
--
- &hdmi {
- 	status = "okay";
- };
-@@ -115,10 +111,6 @@
- 	status = "okay";
- };
- 
--&ohci0 {
--	status = "okay";
--};
--
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_pa_pins>;
+ .../allwinner/sun50i-h5-orangepi-zero-plus2.dts    | 25 +++++++++++++++-------
+ 1 file changed, 17 insertions(+), 8 deletions(-)
+---
+base-commit: 65e4fd942f72a9dba0e4e257290c4fa1aa756854
+change-id: 20261120-orangepi-zero-plus2-fixes-92de09c1b5f5
 
+Best regards,
 -- 
-2.43.0
+Ivan Pfarher <ipfarher@gmail.com>
 
 
