@@ -1,65 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795133513;
-	b=anzitFDfk7Q3wWlCM7l1GFCBuIGwcXDqiFXQo3eYdMJtBrQqinVNcq0uZ4V3r9R9M9xR
-	 z8H8n87mqnT4fDie1rWfiA8PKXOTs/ZEs7/gfjPcF2hlDbwS58MOhNkDU8k1Fe6t1yzhP
-	 Ojyp60bdbNV2DoiP11DzU32r5l5tM+onwt2/neR6an1V7eNx8/qO/LZ2V/u5qifoAqI1X
-	 H/B6E5Y3hfxnau1SDqygLo3UGDGaaEJmlPgTUoDLrwoQ5h7X3V5zFu3mh1JFlq9Fl0bO/
-	 rvnJd3Vo719SBbEP2sMDZ7iwcgSNLIEUmYI26nKtPFD6TYyHjLPG8au0BlUYFb2X7tA==
+	t=1795150971;
+	b=ZEVa+rrg1RHawbiyVeDvh64rWDpUpc+JdldqaqUA2/MMTvzrx2BywfQq6uOlM6F4BqJN
+	 4krKeLpn3oBCfP0R0JiD1m2iFJjWnin5FWPyirZcKU6sCYGGxhMQfoWQHSoRFMtYBkVFp
+	 lPSOFGaSnqY3OR9tj1uuHpH/Vw5hpcyxc2Zhlc3Rq2lcz8NHN2gh4vQuAxiZ4t2j+Q5kV
+	 17/m0gtsTiUjk5AN2W5AcL5RMuipcv5O9Rby94jKGucsdWO3mQCE4eKd5jz0H2id8bZyd
+	 w4oIgsQ7B/mi3pTdWUhztMmfNDK6G6ymIuVaHA9H35iQF5Sm/NouS/Av8Ce65biHkZQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795133513;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=GCUENms0Eg+zy1gRC4+um4g3Klzq7iMeIXkFPj0+DsI=;
-	b=hZ8RCgEA/r43V4tKaA/mbYDcW5brp2FHqN2ZD2btMDDqfcUmr/EGnk6HA1fEwz16D/sa
-	 assUlNkMdVpHAqk/P5JbHNS0WAcV2kG7+hJZ0YhWAHc9rij4vhxUvAmEmYiKxZLgjSwj5
-	 SIf8oRRAdhkcARLg3NzqoknGdhzQgMSLrxnIfx/0TTa5H+g2dpKHq5YKXQd5FX8fcF+UL
-	 hEDhxCsQDrBcNh+n3xrViAi+bhWqacCy+NHJrC9XRAUCZdhMKJjTl9lH7VwspWqUegdkA
-	 NhvFyxSuqm5x9mE6LO8L+e0QtJCxXSl32H8Dp+t1xdLXVzFj22qINPP/rGmujdKiiwA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795150971;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=UR5Yzs/oFvUpg1Sblo1/aojO43HzfrnhOihYQJjm9Rs=;
+	b=fNRCwoGTT64tSK+Qg7x025rXM2HaA/zCMLnr0MU+uIiMZQXC76X3XsZdsotNTTgG4Rux
+	 1DU+us4uSzeLyTEbOaCzWeisRpRtxoV5xZM2fXPd4tC8EOmlgtkmaXoDBs301IcDMOCL+
+	 UUYUR3aIk9B5mrxpPqKB6Lhq4dh1J92rsnHpXwielFYv0xejVdH9MgKKoSVQuqJtZnBfx
+	 0XM7BvW7Yoyy+/oXfFL3Y1zxBEk/2a/+X//uSffYeHAqEFVokiwkZTJy+45QOpCIdhpCH
+	 V+MXomWgdCi1OThTmFzIxxW9+YWt4/4BNBhnrwssy6YjxWj/VapJLEt65104n5o1FEA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="kRQ7/C0f";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FO+VJ7CK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308CB60A2600;
-	Fri, 20 Nov 2026 00:11:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B7D606A32A
+	for <linux-sunxi@lists.linux.dev>; Fri, 20 Nov 2026 05:02:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kRQ7/C0f
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52B5B1F000CA;
-	Fri, 20 Nov 2026 00:11:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FO+VJ7CK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D49191F000D4
+	for <linux-sunxi@lists.linux.dev>; Fri, 20 Nov 2026 05:02:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795133512;
-	bh=GCUENms0Eg+zy1gRC4+um4g3Klzq7iMeIXkFPj0+DsI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=kRQ7/C0f8r5gpJCV38GIqMKqTE8KoilEbFEHcXcWJZpuQ1ZqdZ9KpLDOS5z4lqMsS
-	 +NXr7y8Aw0vXzMBLumsq9BTQMqtS1UGiJBTnjX6IyDaeYr3/4Ad4+a6PgAuNe/d+wx
-	 YKpGn0eal0CK1ZteXl3WXH6g5iaJVHalixU//2WW/W2oJDnByEOBle1wdK6mQSWxCJ
-	 yYnUFMF4qUuBqwYiHbDxqDoqqWjwKNDzb/AxXKR6hHMg+qjjh7SV683H5xXdwD2OpT
-	 HhePPyxwkuYGgD6Jkire9ewfL9QeumC8auK3CTLdjUPGMcEeprdMLE/bHcBWk2fiNf
-	 Tlb6L0UkCAlUQ==
-Date: Thu, 19 Nov 2026 16:11:51 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: netdev@vger.kernel.org, Maxime Chevallier
- <maxime.chevallier@bootlin.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
- LABBE Corentin <clabbe.montjoie@gmail.com>,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net] net: stmmac: dwmac-sun8i: Honor the RX checksum
- offload setting
-Message-ID: <20261119161151.5251fc86@kernel.org>
-In-Reply-To: <CADvTj4oJ6HDR2k6qVgefUX-h0TGh2n+AO5gx_dcJFzzWML+2UQ@mail.gmail.com>
-References: <20261115-submit-sun8i-emac-rx-checksum-v1-v1-1-f186d127b39f@gmail.com>
-	<20261119144848.4ddd88cb@kernel.org>
-	<CADvTj4oJ6HDR2k6qVgefUX-h0TGh2n+AO5gx_dcJFzzWML+2UQ@mail.gmail.com>
+	s=k20260515; t=1795150970;
+	bh=UR5Yzs/oFvUpg1Sblo1/aojO43HzfrnhOihYQJjm9Rs=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=FO+VJ7CKnrtrNobYSBza6XeHT02s8nna+qPJtIOMEiXcaaagVJDNTlw7htFigim50
+	 9jMcYRhtlu4/VAU6qyU/cllxszBGbN11HqQ6DrB+Dg4b+vFf0ZImpR2QvVOgDJFZrW
+	 G+vliQjLafirSXm6CoTofJEX/EwtvJH2203ec1c40VjEmpCYSNqlDbUaMpfr9ajaBb
+	 JemZ/Fm2iSUMTVCFb+PijP2HwJL0ERaPqPqkhoh4phPOJUNLQX2jfy2QfbvuNn+ed9
+	 kikSIPEBafpOqL2gdy1Qi9gVWd7qI0kQ63F8VzAdrfPL/wvwHm6zDGhkg7i8HJqm4I
+	 37OPVulaSnhQw==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3ab4354db11so4257381fa.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 19 Nov 2026 21:02:50 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGyg8yrrcJbddIK7L/lFyZj6Fjxoa/uBNcLfXY+0JKCjZF7S9vl+8Xdo9fRb99vviIFGg5Uv/zcHEIICg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8LcjKA+2UcwypEFSDT5XKVhvX1c8iP4FyLRf+WxThSv3CTVws2
+	pU3EnY+56Uh8f3hEiQiIskryMHvv92wI/lgpT9dc+xcbTMpclsITw3kOJzJm7r9PL5K2LG+LO2+
+	WigRtq95xiUJt5x64EiRzgbxX1w1POCM=
+X-Received: by 2002:a05:6512:3a89:b0:5c1:5975:66da with SMTP id
+ 2adb3069b0e04-5c1bc686852mr492882e87.2.1795150969118; Thu, 19 Nov 2026
+ 21:02:49 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -69,27 +59,67 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20261021-submit-sun50i-h616-apb2-clock-v1-v1-0-7b857ad1198d@gmail.com>
+ <20261021-submit-sun50i-h616-apb2-clock-v1-v1-1-7b857ad1198d@gmail.com>
+In-Reply-To: <20261021-submit-sun50i-h616-apb2-clock-v1-v1-1-7b857ad1198d@gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Fri, 20 Nov 2026 13:02:37 +0800
+X-Gmail-Original-Message-ID: <CAGb2v642E3bDZ60_3oA7CN=hOVGn757RwfVaZWXvRSuWoo5kag@mail.gmail.com>
+X-Gm-Features: Aa3M54qNcqF7z40wKma44B-tprBWYu7aZzF6KOEzN8MUiDG2dextbs8dFAlCz5Y
+Message-ID: <CAGb2v642E3bDZ60_3oA7CN=hOVGn757RwfVaZWXvRSuWoo5kag@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dt-bindings: clock: sun50i-h616: export the APB2 clock
+To: James Hilliard <james.hilliard1@gmail.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
+	Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-clk@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 19 Nov 2026 16:32:58 -0700 James Hilliard wrote:
-> Would it make sense to address the `rx on` drops in a separate
-> follow-up along the lines of Oleksij's dwmac4 fix [0]? On sun8i that
-> would mean enabling error forwarding to DMA and passing packets whose
-> only error is an IP or transport checksum up as CHECKSUM_NONE, while
-> still discarding frames with a bad FCS or other fatal RX errors.
-> 
-> If we leave the checker enabled in both modes, `rx off` would only
-> control whether the driver reports a checksum as verified. In that
-> form the follow-up would replace the conditional bit-27 write rather
-> than depend on this patch.
+On Thu, Oct 22, 2026 at 8:09=E2=80=AFAM James Hilliard
+<james.hilliard1@gmail.com> wrote:
+>
+> UARTs use APB2 as their baud clock. Expose its existing clock ID so devic=
+e
 
-I'm not very clear on the changes needed to get to "bad L4 csum packets
-still reach the stack" / correct behavior. Would you be willing to
-sketch the full series out already, and then we decide what gets
-applied where?
+And how did you discover this? How did you differentiate this from it just
+using a combined clock from the UART bus gate, which is also driven from
+APB2?
 
-What I would like to avoid is us applying this fix to net (which
-seems legitimate on the surface), but then following up with another
-fix which unconditionally clears EMAC_RX_DO_CRC since AFAIU we
-need to clear it for the correct behavior.
+I'm not adding this simply because you want / need a baud clk that you
+can set the rate on. That's the wrong way to go about this. You should
+just add CLK_SET_RATE_PARENT to the bus gates. And making the bus clocks
+variable is a whole different discussion.
+
+
+ChenYu
+
+> trees can describe it separately from the per-port bus gate. Keep the
+> existing clock numbering.
+>
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> ---
+>  include/dt-bindings/clock/sun50i-h616-ccu.h | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/include/dt-bindings/clock/sun50i-h616-ccu.h b/include/dt-bin=
+dings/clock/sun50i-h616-ccu.h
+> index 6889405f9fec..e3318772c92d 100644
+> --- a/include/dt-bindings/clock/sun50i-h616-ccu.h
+> +++ b/include/dt-bindings/clock/sun50i-h616-ccu.h
+> @@ -11,6 +11,7 @@
+>  #define CLK_CPUX               21
+>
+>  #define CLK_APB1               26
+> +#define CLK_APB2               27
+>
+>  #define CLK_DE                 29
+>  #define CLK_BUS_DE             30
+>
+> --
+> 2.53.0
+>
+>
