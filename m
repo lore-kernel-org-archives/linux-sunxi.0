@@ -1,79 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1795159335;
-	b=FVFItxDE47nifcietwsT781Q9HNP8+hOj5wJJEfzSKb44KwgZZzR4KkrHBPopVCqZ0lJ
-	 E6NnvtCi+yQikgTUBJESGUFcL+7/DaBgGM0WyLfVSt/IU/et2tXnZD1jFYnuhqwHNiK3u
-	 LLAo0uGcS+MHmVn9wa3ljjafV25JVCGBfiPxzBW19g2ACuljEjw4ec+lChna1pmb3r6Ui
-	 q4DeLXOBmc0QMoyVHl2senFlh+oka9cJ9doqx7YeZGotSPAgOZekmFsHt7MBEM4b8y7IL
-	 KG68coFTY+9gzdlWobZc7pVcBiJun8pwWqgmAyFFzhVjZtHCN0vuL91iw07WXuwLDWQ==
+	b=WFwPigkGzhvEEly3IJFfBmDD8F3vdmg+bL1R6QetRm5YBieidBtL04nkLSIDnfTZdKcA
+	 tqdI0us4hLlIT66cGtgAKUQvaHTJU7Ue9/xUo5yLj62g6tiOYW9gabJLUIv8rRGH9mPWO
+	 5U+kViZR5Ckb/PK66apqxDTmnMyYaxgJikvbQUdUdi8HjzTcupGiCS6Hh29ixwi4NA1b+
+	 ytVM55TuvwzA6ywG8nUmFOYp2JdS8DMFxFdUPUvSbytuhig94ah+MAj148FaSUDsvf6T0
+	 D2Llb4Ovw8nVDPMir2JnL8Ur5BkeacoyrdcCmbsd+GrHRXzZGG1sOpM13hQ6Cy18XZQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1795159335;
-	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=SgGlaD2qvSZTgKkBZYUiqasXOgAILp8sL1oUkZRojRA=;
-	b=mA5XsTBbi8HfzJS1t9KO48w38gfVWi0GjPAnB0YrVKiKwoM1PsexUzIFfbGR+rjqVRYl
-	 kN+YvjHU94IiU83QisU4gV/AwnXZOSCHVJaUUXKYDpr3ao4/65wNSqbaflNQOjD/ilNGO
-	 8gFwiFNH8mQIikJtathvl+qJ4xuABa//oo6oUWBHd8aGxVfsVnFzD+lC0BCz1xdE3sL3w
-	 R1el2gTy2fhaDK8cvCW+u3b1UUi19hk3qPhodPq7jXs90G7BVr2nAq3gpQFgJSRpvIbpM
-	 GVXn1w5qhl3PpfEuON1THhPk8pV5E+qB6kqVFac1b65GUaNbfd4N0G7uSjrbUllreJw==
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=6PV0I3fyfn8zBfMmYUBIzSZOXpy2iut4tvAaW/Eyfo4=;
+	b=4HXSS1Rb77J42pYCAMD97o/5BTNJNdoB8dOsiAu++ueXtXBGTtquCg2rzXpMs5smWzJ3
+	 UUdJdmIjRnT7jk+wsyIBZ+ozOAGcaaUSaUhszL3yxrrp5Hptpbx4erXfLAuUlistCPEux
+	 mXpCjaFhfLNR7U6Un/95s7GNt4V5qFljDG5v6SUHI418HMLAGmkGgfwtSpi5AtwGxMqGq
+	 EGPq3k/UGlNzn8Q9PIOumLuUBNruOIIxiNp6lRuoyNNuSL9Dxi/N+5iGaFSiAhPw/Fcnf
+	 9447Bnss0RrTQFlgCnNbf1PJIrB956xoeBo02jkMu9pCMRd04Tj0XwyGagdMDubch1A==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O4acv0kS;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KddBGkPR;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85829606A330;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89BCC606A331;
 	Fri, 20 Nov 2026 07:22:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=O4acv0kS
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KddBGkPR
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1795159335;
-	b=2/0XqR1c3W1fBlle5dCcHBGIrQLV59yue0SxoGGLOmWOGfliOvlyMlrHbyBUzb+iBZZP
-	 GxModWwrhMsDdyihamm2MKZfmrsRhyZCqUFrTsMkPDUTqHVV+/7OpAbm29OQRYEJACdbA
-	 T40XV5UOT4nMU+NOfR8AG3e9XtsoYhZRajz9Wbt/3AGUv/ROJcrB78gIrfe5f9sxug5Fv
-	 IVs1A9gX4YSihJoOPs5bl9bOytDnGb6qM+aVXsmrXbT2vHcnOmw7U6jEvyZBU1TBDKty+
-	 1qa50+5GxmJYYFmBMXa+4hj3fVQKiXgxkJ3yc06LVqpBUuOQ/6qf68L1wlWY5OTM4UQ==
+	b=3iOeObrae4QCEXCeupgh/QdJh+1MzlB6MXmVqG05wn2wYMTEB4h0FMkJLtAl1svMFalK
+	 aETYIlLU/4rdehxXoSJJBUhjA1r9+okEURmweH+grGErFAhNcjQEbJqOikZHbTbe7gC/S
+	 ZW7EOVDEHS3lpiGmUJH4Z4ND3rcnKRdws/5Qdy/UmcBpfktA1ug9bmpfa0G5LkuC3YqJy
+	 9L29BW71NWUhe2m0o0ySOdxywPS43aOD5OBNbnUXKvSEG9nvHgYa6IEnclzvf32kDaKI/
+	 Ap6Z0QYeqV8qZqfSlvnhnJvJLxx21trrM4lFeqIdSBGi8/JaiDIKgdREMVJyF4dmKvg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1795159335;
-	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To;
-	bh=SgGlaD2qvSZTgKkBZYUiqasXOgAILp8sL1oUkZRojRA=;
-	b=TkKMPLz3HJ5/oyKNzh/97eLUhL6OXoP9VHQiC5F9XilYUkvmDpOaAGpCwwSvDCOwP+/b
-	 FUbjlwUAVNB9igCN3ov/7SB09M2aKMbwjSq/moKluqFOPJX/jeIlRD31c6VC494uTh2uQ
-	 WPUaqmuaaFT0bfgGSJO2VvzdqOcXPhbNwL801WMBsBdErP89q6b1ekYeQdR1qdSGEC7HX
-	 yq5FEgkyEX9vDp20Dmc1jcJXUuTA4fBh3tIIvox07IkSX2MQQ9J91UJiy04ugfsg4NC6o
-	 18/9/qc1uOkvii6UE/nnmuh1TmWhWdlBN3dTFca8Xd9g0G1KPZQM/gT1xtV20mlxdjw==
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=6PV0I3fyfn8zBfMmYUBIzSZOXpy2iut4tvAaW/Eyfo4=;
+	b=V6s4PwZ6qj7VWnWLhkI+zEj8O8z6ssckMFjoFUFkeyUQKflxQuxBmDJf+6FhvQ5xDf8F
+	 engFYUIQ7Asb2fjo5n2vsK/Smhwzd/LBC5hDpsRzT8zmQBSmINiEk0PAJm6BhlQKwJTQ8
+	 vsoLc5EXuiOho5XzFHWCsu6nZnFJXysOS7NJbwBqA5jhZILBYGj75qNNFnvGfG3ZMSm8R
+	 fV1+0c20YQSMNEREh7yEeOrACbQIthGdcUFjuhWA3U8ov1nNdvpo1wUYZb2omZb5BtUbb
+	 CVAJ7FsOHTOYWaUtNJdS1pdOjxSTzy79avZvUaZ7LRNwjNTZJ+0sbeJ11SK1x03PRrQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 1A50F1F000C4;
+	by smtp.kernel.org (Postfix) with ESMTPS id 53DA31F000CF;
 	Fri, 20 Nov 2026 07:22:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1795159335;
-	bh=SgGlaD2qvSZTgKkBZYUiqasXOgAILp8sL1oUkZRojRA=;
-	h=From:Subject:Date:To:Cc:Reply-To;
-	b=O4acv0kSmwJdXnnLIgsXmADNzHJkcQgQwRyoi5DZtNixkXu4r3/5SqCEQwD4Wl75P
-	 sKEv+b8z+lXYyUfsPlNNg9E4Tr5yGpeF/RP+wxN4e2OTfsmzkJpf/T8Hc+sNX95yR+
-	 L9EOpvudiWtsqr2dBdanNQLPQpMSaob06srovYPzMwGjSAnnaeTY0HYMXi+h7AY9ej
-	 phwtPGp9fhPrfeHvC7rzgrVqyjVeXSjSfbSHotRgzli906tEoy8SnO0Ao+NPy8u2S9
-	 JFTH5YGENAu5jlNXD5jaZA2ZI1OxYstzSOnTh4J+j4gLT1ncSp3KqG5hURwcqKPhjF
-	 kMA/0PL7hkWjQ==
+	bh=6PV0I3fyfn8zBfMmYUBIzSZOXpy2iut4tvAaW/Eyfo4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=KddBGkPRtLiRVpVibud/8Iq5qIK0ridPFQO4uyysEJh/jxwo8nORV+0IImg3iV160
+	 X3QbjI+Dw9RHM3SyZrv3K726NZ4baUoh1IO96XStkbqprgPn91Ha7qyQq14Ug8fNBL
+	 fbQ/Gh6PnhNKjtjLm4+zcsf2O1WWYJJTJjuCxZbBKsc/3Bn7kNXCHKUiwle4EVgGRA
+	 nPzPh1bb7visPTG7SPevrnjosmA2MJ6qRzrk38GRkSzDqoRHl6eaglq7w75SsKds4L
+	 XVcV/RBxeah81p3lhx1qZKSZihPxUOurtufbMLpn2FQU0UOKQdm/7Ysr/A4Bb4gbw2
+	 CKhW49QYSbgPw==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 9DBFE4974C;
+	by lkml.kernel.org (Postfix) with ESMTP id D572A4975C;
 	Fri, 20 Nov 2026 07:22:13 +0000 (UTC)
 From: Rajan Yadav via B4 Relay <devnull+rajanyadav0307.gmail.com@kernel.org>
-Subject: [PATCH 0/4] arm64: dts: allwinner: Add KickPi K5C
-Date: Fri, 20 Nov 2026 01:22:12 -0600
-Message-Id: <20261120-k5c-dt-v1-v1-0-d9681df67bc0@gmail.com>
+Date: Fri, 20 Nov 2026 01:22:14 -0600
+Subject: [PATCH 2/4] dt-bindings: arm: sunxi: Add KickPi K5C
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -84,11 +83,9 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIACT1/2oC/yXM3QpAQBBA4VfRXJsy6zevIheswVBod0nJu1tcf
- nU6F1g2whbK4ALDh1hZFw8KA9BjswyM0nmDilRGpCKcU42dw4MwLnLO0qZISCfg+81wL+f3qur
- fdm8n1u4dwH0/nClLCG0AAAA=
-X-Change-ID: 20261120-k5c-dt-v1-387e65a841c4
+Message-Id: <20261120-k5c-dt-v1-v1-2-d9681df67bc0@gmail.com>
+References: <20261120-k5c-dt-v1-v1-0-d9681df67bc0@gmail.com>
+In-Reply-To: <20261120-k5c-dt-v1-v1-0-d9681df67bc0@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, 
@@ -99,117 +96,54 @@ Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  Paul Kocialkowski <paulk@sys-base.io>, 
  Rajan Yadav <rajanyadav0307@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795159332; l=5556;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795159332; l=1161;
  i=rajanyadav0307@gmail.com; s=20261103; h=from:subject:message-id;
- bh=PNC3qCIwbbDam5Yu7LK4Iz66FU/xwdUVpki3A9YlmrM=;
- b=jzPCYr6zsXU3C0Ttm80LxId1a1QLk8L+fERlK0JT+zYRmqO/7+vlOiilo3obWjLIwAjLrL4yx
- eESescRv2oXAYiui4Y8G/pqM6hpfl9tLRjkO9lyAWftwq9ADSH7kbcB
+ bh=I6vTUiLrsSlHBFAWdmnCYgV4zJVZLtmnTrmixiYpI3k=;
+ b=ivPANXo15cQvw/pll2FSLMB+F0n4tBG0M/5PnBd34+VGKE4ZuaF0S5IqXfE3QqBq2Calcjhe5
+ eZ93q4HzeKqAz9m66TJSwX3+ay9dM9EDtKE7xdq6G50kPZxVbAVnmQK
 X-Developer-Key: i=rajanyadav0307@gmail.com; a=ed25519;
  pk=4ZPeiP5qrv2b44q/Obxi2koUS70Q6npbttJnpUoTlgg=
 X-Endpoint-Received: by B4 Relay for rajanyadav0307@gmail.com/20261103 with
  auth_id=1391
 X-Original-From: Rajan Yadav <rajanyadav0307@gmail.com>
 Reply-To: rajanyadav0307@gmail.com
+Content-Transfer-Encoding: 7bit
 
-Andre asked [1] to get the device tree for the KickPi K5C upstream and
-to work with Paul on it. Paul, I have not heard back from you yet [2], so
-here is my version; I am happy to rework it with your input, and a review
-or a test on your board would be very welcome.
+From: Rajan Yadav <rajanyadav0307@gmail.com>
 
-The KickPi K5C is a single board computer with an Allwinner A133. This
-series adds a vendor prefix for KickPi (patch 1), the board compatible
-(patch 2), a pin group for I2C3 on PH12/PH13, where the board's RTC sits
-(patch 3), and the board device tree (patch 4). It is based on
-sunxi/for-next, which has the A100 CPU thermal trips.
+The KickPi K5C is a single board computer with an Allwinner A133 SoC,
+2 GB of DDR3 DRAM, eMMC, an SD card slot, Gigabit Ethernet, a Wi-Fi/BT
+module, USB host ports and a USB-C OTG port.
 
-A correction to my mail of 18 November [2]: I wrote that I do not have
-the board schematic. That was wrong. KickPi publishes the V1.3 schematic
-on its documentation site; the regulators and pins in patch 4 follow it
-and were checked against the vendor's device tree and on the board.
+Add its compatible. Like the Teclast P80, it names the SoC as
+allwinner,sun50i-a133.
 
-The vendor prefix uses the company name that KickPi gives on its own
-documentation site and as the registered owner of the KICKPI trademark
-(Shenzhen Kickpi Digital Technology Co., Ltd., US registration
-7747802 [4]). KickPi confirmed this name and the "kickpi" prefix by
-e-mail, and their engineers would like to follow the review; I will send
-them the link to this thread.
+Claude Code (Anthropic) drafted this change and its message; I
+reviewed it and checked it with dt_binding_check.
 
-Patch 4 describes only what I could verify on the board. Left out for
-now, with the reason in the commit message: Ethernet (the PHY driver is
-not in mainline yet), the Wi-Fi/BT module (no mainline driver, and its
-SDIO card did not come up after a cold boot in my tests), USB data on
-the USB-C port (not tested) and the RTC alarm interrupt (on PB8; it will
-follow once fully tested). The CPU uses the A100 OPP table, like the
-other A133 boards; once the A133 speed grade series [3] is merged, I
-will send a one-line patch to switch the K5C to the A133 table.
-
-Testing (KickPi K5C, PCB V1.3, powered from a PC's USB port through the
-USB-C connector; sunxi/for-next plus "cpufreq: sun50i: Handle boards
-with the allwinner,sun50i-a133 compatible" [5], which is applied to the
-cpufreq tree and in linux-next; without it cpufreq does not start on
-this board, but there is no build dependency):
-- dtbs_check W=1 adds no warning (only the existing /soc one from
-  sun50i-a100.dtsi), also on linux-next; dt_binding_check, checkpatch
-  --strict and dt-check-style (relaxed: clean; strict: only property
-  names defined by existing bindings); each patch builds on its own
-- PMIC: every enabled rail read back from the AXP registers matches the
-  device tree; unused rails are off; DCDC2/3 dual phase confirmed
-- eMMC: HS200, 8-bit, 150 MHz; two full reads of the 15.6 GB device give
-  the same checksum
-- SD card: 256 MB written, read back after dropping caches, identical
-- USB-A: the on-board GL852G hub enumerates; a USB stick reads back
-  identically at high speed
-- RTC: time set and read back, kept across reboots (no backup battery
-  is fitted on my board, so it is lost on power-off)
-- status LED: lights up when switched on and blinks with the heartbeat
-  trigger
-- cpufreq: every OPP runs at the expected clock and PMIC voltage; the
-  90 C passive and 110 C critical trips are in place
-- 30 warm reboots and 3 cold boots of this version, each checked (eMMC
-  HS200, SD, USB hub, RTC, LED, cpufreq, thermal trips)
-- 10034 random cpufreq transitions under load: every OPP ran at the
-  expected clock and PMIC voltage
-- soaks of 1 and 3 hours with full load on all four cores and, in
-  parallel, repeated eMMC reads, SD card write/read-back and USB stick
-  reads (477 passes each): no mismatch, no I/O error, no new kernel
-  warning; without a heatsink the CPU sits at the 90 C passive trip
-  and is throttled by one step, never near the 110 C critical trip
-- the RTC kept time to within 1 s over 3 hours
-
-How this was made (Documentation/process/generated-content.rst): I used
-Claude Code (Anthropic, Claude Opus 5.5) throughout. It used the board
-schematic, KickPi's documentation and the vendor device tree as sources
-of hardware facts, compared the existing A133 board files for style,
-drafted the device tree, the binding changes and all commit messages,
-and wrote the test scripts. No text or code was copied from vendor
-sources. I reviewed every patch and ran the tests on my board myself,
-and I take responsibility for the series.
-
-[1] https://lore.kernel.org/all/d4d89cf9-884d-424b-927d-5b6692f50327@arm.com/
-[2] https://lore.kernel.org/all/CANxy8yTA7Nqmggk=qn7tCnXn50vS2ceHdZYZC0_OancmZhnKcg@mail.gmail.com/
-[3] https://lore.kernel.org/all/20261118-a133-series-v2-0-8bcec9c9aadf@gmail.com/
-[4] https://tsdr.uspto.gov/statusview/sn98032871
-[5] https://lore.kernel.org/all/20261104-a133-fix-v1-1-d0b5ad3d4c5d@gmail.com/
-
+Signed-off-by: Rajan Yadav <rajanyadav0307@gmail.com>
 ---
-Rajan Yadav (4):
-      dt-bindings: vendor-prefixes: Add Shenzhen Kickpi Digital Technology
-      dt-bindings: arm: sunxi: Add KickPi K5C
-      arm64: dts: allwinner: a100: Add I2C3 pins on PH12/PH13
-      arm64: dts: allwinner: a133: Add KickPi K5C
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
- Documentation/devicetree/bindings/arm/sunxi.yaml   |   5 +
- .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
- arch/arm64/boot/dts/allwinner/Makefile             |   1 +
- arch/arm64/boot/dts/allwinner/sun50i-a100.dtsi     |   6 +
- .../boot/dts/allwinner/sun50i-a133-kickpi-k5c.dts  | 228 +++++++++++++++++++++
- 5 files changed, 242 insertions(+)
----
-base-commit: 03b3355ed7a39b4416f0d0a39061479b1aa13196
-change-id: 20261120-k5c-dt-v1-387e65a841c4
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index 7da84e2de74..b21205f327f 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -405,6 +405,11 @@ properties:
+           - const: jesurun,q5
+           - const: allwinner,sun4i-a10
+ 
++      - description: KickPi K5C
++        items:
++          - const: kickpi,k5c
++          - const: allwinner,sun50i-a133
++
+       - description: Lamobo R1
+         items:
+           - const: lamobo,lamobo-r1
 
-Best regards,
---  
-Rajan Yadav <rajanyadav0307@gmail.com>
+-- 
+2.34.1
 
 
