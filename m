@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795156209;
-	b=QJptxD7kTnnhDXO14zSoPYDnzdOVLW25xZEOWvwpNf9YBPXja0/39Qq8LyPe8HfpCwfA
-	 +r/+RMLII4im+eH69JzqBGIugI1ckrd4zi8l4404MJewxEelYqvBWAkJmbqtc4Q4eSPlW
-	 yq3INMoopfWiLXaNqkfTteUIfdxiGYZfOPrP8vAN58HnyAz1I6F+KeUebGqBLQGYodthd
-	 KHHqTc4WbM2w/6peG3vJ4rgl6W+6x7EbC+JpXNb7SShY3joypAcx8g+cLGXolsvIuQaPW
-	 7UGRJMZxx6y+22RU6HvsK7WqlwczsgL0dzrbFJdpbHo+oDeE8h9jqMIRzpJs+/IZDYA==
+	t=1795159335;
+	b=JJR4Cqse4lvT600MyasjD9+ow+KRhhZSNPLeLE2nIzeYzFyOMm9gYaR/Kc+Nq3kxMHjF
+	 0ir9W2XL6nA18Ko1mxcZLekgFf6OBsxkb5As+J/XYRCXwoCQaW7pYoqxGWInNrEFlGeEt
+	 WUaNBcBlwwFLV/aOYR1EFpvcnBMnsJd5fL8RILAmEiqx4im3IafGcHYHmUYATJ1rD8rys
+	 MwZByTdLtzWCXsvO+XiVNuhnySabxHao9B/U7bhL+W7oWuvLPmxttLfx1e42vXgbZArie
+	 tsBBSoSFwUHa+YZ7vQTMSls4osvsrZlV0uz7UMPwGPhN9yP/zdBJBeEbo8Ncvvn6NZA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795156209;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795159335;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=UPPB6eKs+nKRNCgR3sJ7bUEYoqJvPS4BWSVR+3TcBU0=;
-	b=zBQT7HlTDEpGeo11OEEbJMle+QQZN2tVuan50Yu3CqtDt3/tQdRpRIpo43Q+La3/JZQE
-	 6XpmIIcpMnTPTFqWw7akrJfhnUPXX3KMPTGohWOQnIUclyyf5203JMia3OHCjvuOBayFf
-	 l18W0+yAtEah2OZmzRUsbYRIkHEGN24rR2SrhDen5O5sGBFsfsHKK6W06snHCmG3gYzPT
-	 BkXOdJdXK4ENIoquUn44MC+8XURwZIKx93nM34HC8PAjvLiTYSnjx9GNUHIutDXEUbUdp
-	 0xOsVFJbBY06jhhsQQ5+LPETcyFTTicFRyOQpZr6U3VEZeDYJGxQIA0rxL6V9QvI8lQ==
+	bh=KwRrc7jJFjacNOYQ22+KumrrMJDm4/e2Aq0/zpjEOGY=;
+	b=Ek5jm7BAtMXWnnwfEAnQe1kD76yT8bDL3GaFR3+FTIVx+xq135vaSPDJZuqUn1Lg7Ojl
+	 ZofNTSfJN0At0udT85xSGkCqQZ2uSmdc95IAoqxrJaAakSvEz8jT7VPoVczwGtcuGa62M
+	 J76tob22Zx03OmqqQckfbk+Gjos7C3MfFnXSmBnFLCpGl8Y/9fxlfrBi5oTR3DVUdFuI8
+	 o8ex1Rp+HA2NHAzkmQuFKVQnMkt/1YFOfd8UPF+W5TLGYBS6axfkr6rOdUUjsnLzoGzvm
+	 jnlkOwR5ejxZ2CFmm9D/Dgy8FzwBGm5wTAYAxBvhRrC1qjzkYKsw4qp3YlLTA9VK3kg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MFwaT6MO;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AR6hGc0F;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 574C0606A33D;
-	Fri, 20 Nov 2026 06:30:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30615606A320;
+	Fri, 20 Nov 2026 07:22:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MFwaT6MO
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AR6hGc0F
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795156209;
-	b=CqOtxOAZ6EIYX2S3eNyL2GomDKqL2hGfW75S3RQVBxgv2CjZGekUeSr2Nvk5awzsKedc
-	 6Cg8GJL1UdrZceCuGlZI2hkm5slrOFFhqUHZQnXMvIjt4S5bG//Ss9HUonY/obPhLE/Jt
-	 yqoYquZII8XsDAuXv5d/pdp+PzdyQOGdbEKw+EOv6xtcAMxZ6Qy0Bic8JHSmTuKIZuyiZ
-	 oHtVVwbaZnT3Tb2MBRmtcSzb7M3Yyh4L/VSO2yXNhUscDJCCqqeEvUy4pMLHztgS0PsNt
-	 xTszhNKj85El/c3Zc0GnOaWdZsYw4AV/Xbz8e961X0BsdYstQArt9gKxZNP2DJNPyug==
+	t=1795159334;
+	b=KfofeOJVDifvWALXiZJy8vrJ05YiIVAPycKrn1+oh32oz/a9U/58pUQHDl1EJxwfVZUD
+	 v7PfVNlyPBZfcJpE/KpSy4yzKIzlu6pJ71ug2+WwoWiS0Ld0i54MwgPyGrn3OLl6iFXiP
+	 swTmyW3klxp+VgPqSEUH/DhzvdXBPHh7qfJ8J6sXX7b43OGjJqqAexRqgnxXYVy3XWniQ
+	 hVuzjFRwyDivSBKmSaPcyjK6/8NqWS5+xDojjyupD11CeL+QMHqznU3+Vq2aMI8GdIZkv
+	 SBbmU+7o8PuczaeA+s2f4ovGygwGG4OMpSjbc9iVllMb9lhETfYMhlX8Zsoutxcri7A==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795156209;
+	c=relaxed/relaxed; t=1795159334;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=UPPB6eKs+nKRNCgR3sJ7bUEYoqJvPS4BWSVR+3TcBU0=;
-	b=1MKKn/fGYRDW+sYshWehIpa5NNFLYaUsAcz5W5OgaqOXRL0shdbaMMiLTmg9cf/W2tj/
-	 ulsq0YHs3YYSF+KzpjkJvosXd/Z1LFr32pF77bE53nCZ2GYKMtgXdb6I6g+BcpZw38wX6
-	 LEBRG9Zr+oeq5WSZw99B7pKQAKJ767uXsq0H1ZvimWLE2Wk17k/EpqSVQLKQgHUcNkOSi
-	 q8STbjANzGgzmULwN+o4/NgerRcZJfU0DkcujxzGo7xoVfh26bWeoVu9iuMNZI03vB8RG
-	 8k+c3Nn97zKkqPXw1GKWakkxxhyRddTo8U3qCW62kr3W9I+Y9c4Xk6tqQiRaoMHYAcQ==
+	bh=KwRrc7jJFjacNOYQ22+KumrrMJDm4/e2Aq0/zpjEOGY=;
+	b=BIejPMlC5Rn6Ks4XsZKVXpk0lNEj+ZFnm2rq2gJarLMqdK3yO/4FNuQ0cXx2mb7ntdYD
+	 6jWwcaDHyHZkrjx9J8nNTwblGeLHu0VWaG0YfxqBUGsyNajbZUUloEqCnAQ4P82rKO4AN
+	 SfhZzXfPG4xRe4Ms+sItCnbQj77gMBc490shay27BybN5zt7JrAR5b1oxyTsTyEBV0yrj
+	 iV9MsXUa/iWvmkcghz0UYc2vycjzlMjq6FSFINLntoy0DFSZcodgL6UGZVQQyFVuE+0cu
+	 3IRRQ1ab/DbjpXdrQHkny8Jp1ddNnAiK0aQW9Dd78seAR0xL2fFu6l5H+icVNqAio3A==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 64E1D1F000C4;
-	Fri, 20 Nov 2026 06:30:08 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 391361F000C6;
+	Fri, 20 Nov 2026 07:22:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795156209;
-	bh=UPPB6eKs+nKRNCgR3sJ7bUEYoqJvPS4BWSVR+3TcBU0=;
+	s=k20260515; t=1795159334;
+	bh=KwRrc7jJFjacNOYQ22+KumrrMJDm4/e2Aq0/zpjEOGY=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=MFwaT6MO9zFkFsn40n8X7dkl8ArNiyj93aYUuhjTnOrp3gasfJK4nf7aUDTgjxnUY
-	 XyCnvq0EJ2o+qGHx4I7iOpYvmaHIToKmBtHi0K21tusMITe1Ayv9kyr3nkXL3YiKXk
-	 Pk5T9puHifVgRLQ615VjC7w/XJoPqsMxE2Eeyrmyx8fvRyCetPKkeOoBwl5QC77wEi
-	 X3Mp52CLSYWERBl/KI/6SRgpsSWHADDhnBcF6cbYIKAIUMoO1zDvKHyBzBnzsEpgkH
-	 6R5S+6zy6BeBHC76nREpoE+LzGYEFG8remQUtai2cnxBITiRGmMjZj9h+kmRVEJj8x
-	 IBvWXYUenHd6Q==
+	b=AR6hGc0FWWvzA7TxqsXIQFaJwAxG9t/GiRMKFboQjVVH+1ivnk0Tsb912GOCfiVeB
+	 z4YzxeUEE1te3BrBtEzhohNjNSFpfor4SQVTeKFLEVr0P9uk7TmBdJLJrez2b9GTIi
+	 N4IMOE3kkLqGcfBAM1P7e73YsQcxnmAKZoDQPJvbeojxQ4uWnxnduGDApJM2ZO5Q8k
+	 zlZO0MEvhPv2r0SCttYHrVQyNhQu7D6eExMcO+lFi1flxmIohrMfWMNl9wFy8c0bvy
+	 dTuCOXSluqCirN/10wMe7Ze7X1QLx4BG48Claue9KxMSanOjM6D3YHwtdwyzpirpqj
+	 Oeubqqpcwm0lw==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id E53DB49712;
-	Fri, 20 Nov 2026 06:30:07 +0000 (UTC)
-From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
-Date: Fri, 20 Nov 2026 06:30:09 +0000
-Subject: [PATCH v3 2/2] arm64: dts: allwinner: orangepi-zero2/zero3: Read
- the SPI NOR over two lines
+	by lkml.kernel.org (Postfix) with ESMTP id BD00D4975B;
+	Fri, 20 Nov 2026 07:22:13 +0000 (UTC)
+From: Rajan Yadav via B4 Relay <devnull+rajanyadav0307.gmail.com@kernel.org>
+Date: Fri, 20 Nov 2026 01:22:13 -0600
+Subject: [PATCH 1/4] dt-bindings: vendor-prefixes: Add Shenzhen Kickpi
+ Digital Technology
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -84,56 +84,66 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261120-zero2-spi-nor-dual-read-v3-2-1cbb0caaed91@gmail.com>
-References: <20261120-zero2-spi-nor-dual-read-v3-0-1cbb0caaed91@gmail.com>
-In-Reply-To: <20261120-zero2-spi-nor-dual-read-v3-0-1cbb0caaed91@gmail.com>
+Message-Id: <20261120-k5c-dt-v1-v1-1-d9681df67bc0@gmail.com>
+References: <20261120-k5c-dt-v1-v1-0-d9681df67bc0@gmail.com>
+In-Reply-To: <20261120-k5c-dt-v1-v1-0-d9681df67bc0@gmail.com>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org, 
+ Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Arun Iyengar <aiyengar1990@gmail.com>
+ Andre Przywara <andre.przywara@arm.com>, 
+ Paul Kocialkowski <paulk@sys-base.io>, 
+ Rajan Yadav <rajanyadav0307@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795156207; l=912;
- i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
- bh=OFC2RTSAEIuxlffHGnd62HFfopM0iDcm7zOUqP8Ye3s=;
- b=3TPkb/mogKB7+d2lLRxELbLqFT8QmXwfBqvA+b0x7Tq0Xvg1CXRsH6XCTUCfv/kctAr8msjod
- arVGTFtCRyhDJ8AgI00m7plFRPIFm4EMDFJLA4vttS1S5lNPVENED0H
-X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
- pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
-X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
- auth_id=1480
-X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
-Reply-To: aiyengar1990@gmail.com
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795159332; l=1286;
+ i=rajanyadav0307@gmail.com; s=20261103; h=from:subject:message-id;
+ bh=gFo6j59NzHKrlOvLgDxrGptA4LIjDH4Hdw5hr398y8U=;
+ b=fFpAMIAg/lv2xBPfX2kce0TU5AiNuFAAajV4OUITbIHuTYyxTXr5MeOoYbe4kC1sej5l5Qq7W
+ 6WdSvsIj/s1Acp0v5kKMtccaa7nlP+78pRUp8XmFIMVrfZTnqcAY8Qf
+X-Developer-Key: i=rajanyadav0307@gmail.com; a=ed25519;
+ pk=4ZPeiP5qrv2b44q/Obxi2koUS70Q6npbttJnpUoTlgg=
+X-Endpoint-Received: by B4 Relay for rajanyadav0307@gmail.com/20261103 with
+ auth_id=1391
+X-Original-From: Rajan Yadav <rajanyadav0307@gmail.com>
+Reply-To: rajanyadav0307@gmail.com
 Content-Transfer-Encoding: 7bit
 
-From: Arun Iyengar <aiyengar1990@gmail.com>
+From: Rajan Yadav <rajanyadav0307@gmail.com>
 
-WP# and HOLD# are tied to VCC on the Zero2 (schematic v1.3), so read over
-two lines. Andre Przywara pointed out that the Zero3 is the same.
+Shenzhen Kickpi Digital Technology Co., Ltd. makes single board
+computers under the KickPi name, such as the KickPi K5C with an
+Allwinner A133 SoC. Add a vendor prefix for them.
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Tested-by: Andre Przywara <andre.przywara@arm.com>
-Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+The company name is the one KickPi uses on its documentation site
+(doc.kickpi.com) and as the registered owner of the KICKPI trademark
+(US registration 7747802); their e-mail and web domain is kickpi.com.
+
+Claude Code (Anthropic) drafted this change and its message; I
+reviewed it and checked it with dt_binding_check.
+
+Link: https://www.kickpi.com/
+Signed-off-by: Rajan Yadav <rajanyadav0307@gmail.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
-index cd1f67ad7c2b..de05cbbd2cae 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
-@@ -110,6 +110,7 @@ spi_flash: flash@0 {
- 		compatible = "jedec,spi-nor";
- 		reg = <0>;
- 		spi-max-frequency = <40000000>;
-+		spi-rx-bus-width = <2>;
- 	};
- };
- 
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 5471a06f93f..a67f9c1c896 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -919,6 +919,8 @@ patternProperties:
+     description: Keymile GmbH
+   "^khadas,.*":
+     description: Khadas
++  "^kickpi,.*":
++    description: Shenzhen Kickpi Digital Technology Co., Ltd.
+   "^kiebackpeter,.*":
+     description: Kieback & Peter GmbH
+   "^kinetic,.*":
 
 -- 
-2.55.0
+2.34.1
 
 
