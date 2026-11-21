@@ -1,102 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.217.43
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795293687;
-	b=W3Q3JyKPFa2S93qiotwi0Aw+XFJbBkY4lAMe42QDMPvyEd56VKiEnSKebWACUk3PP+vI
-	 3NcRTLJjBWXHtaCiqRIcW8Z56dtiKaxveSt6ISH9DBbkIBccBXW9oP+mMspa8+np2vN9T
-	 oIy30fQIw0bgNbzL3C2J6U3sOI/EbfHSqZjhe4a4W+gxZaT7dSfloR2BB9ZaPegyO0yms
-	 CVENvUit23RCMpH7zyezUQ+Wj7rtVSsqv+8ANRneQehSfoTyVt3VIzHumjqClDaK9qw8Z
-	 0O/3sZ1lcOhC/TJSFRZQSdpu01TpUehMHCJtsIosdie+eqHhf31t5hqTFdKHsQo6tDg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795293687;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=uQdPu5z2EGJ4csNcE/ZMXtBS35QjemgectDDwKWjhJM=;
-	b=vGERNr5OhWRD6vEAJJ3AqA0ss3yfqNNLIWNtmEmtIUyjEqbDepa30Px4qxwdE+kGfh2J
-	 RCojOv3vtw1SU1PvMXgUM7wnd+PujH+8kqypJzecBWhq0+prWwSUw4jfj1aVSUr4sNBjS
-	 4cu5QcWHCtyvaWIgj+M+X+iX7+gH8UMgUq1xGF8TimxV2bqjxVwNhvhDC16WmDRQ8bz8t
-	 zpKfjc2LwLuTR5JJ/2/Ju5BOa0nkS3/71tv+Kbrus8RxkcGQ9zgH/SQjsH60mY1xhtopd
-	 +2HLexH8BPGf6QFcdm08rJwwAvN2h6ANZdjviAdx0J4MB3AAyGZPoZSFw2/4LaGv1rQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cidbrxCN;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.217.43
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E55606A33D
-	for <linux-sunxi@lists.linux.dev>; Sat, 21 Nov 2026 20:41:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7E55606A33D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1795304397;
+	b=wNWZ5z/XJguMPJt2TDzcfFnQzX7M5k83TbQCgEEf8iYfeDv69BskPdlzgiUvWC+tbF/u
+	 fpJib6oWmESNA1JTNaztP37M5JsYH4CiuBkJ1/pXNKugI4qgnAvV0iK0jpd/84zHP3z62
+	 iGsaHn22lUzjmsid+kq5xvdyBwyFIzOzfAAVDVWa925GJcjiXL2kaIMzuEOB0P0kUEr6J
+	 BY4ZJiFnd5Get1c+uQV/NVco6+tgLLqVH/T6FjKPOBzbGpd9w+Ykin1cpoxjVeZK64pSx
+	 oRZYuF0zE7EuFYN+CYTihFVT+6qsKyj3QS3Gt+6wMT3NaZzlcbw46OqfXwVFScKVmcA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795304397;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=6G+qoyuS+XfWQYbP6gY4xhAOdcI4aLBFdUBf8L1UOt8=;
+	b=aauVTEcjAqgD4KlcmoIvp/w8u0npqGSX+ASkEj+inJTvssdHsU/LXebS2kHeMlmrv+tf
+	 K+mMOT5CoTiRVvMNqVxlakyV3pvyhS0Zee75F85lrP62Q7uw0pkF7nee7PkfIqMElo6dB
+	 9Fcea4Apv97zcRvdXj6n5XeW9+NlTZ/gaU505bZm3Mh/gU0iyXdUJRB7oEmLO2HEXfYPi
+	 StxpaYPSbJttYpdVWJKGR469Sz+cgFy9HznCQSjQ+F6D/DyGApLVgfCFM6ybKtUOBfslh
+	 y5L5zTNbnJbRwoJIUJYkl14qebLN2VtrpymJCvOvj100UQRGldaIWAYuFS1mrixxy4g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=FzyB8Xwe;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28B03606A32A
+	for <linux-sunxi@lists.linux.dev>; Sat, 21 Nov 2026 23:39:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28B03606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cidbrxCN
-Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-7d2dbc0a8d4so650854137.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 21 Nov 2026 12:41:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795293686; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jCZ2bp8QdacEWMuvUkJkpQzoR9ckXzIhROan6qHbkg+wPQGcl6ShtMymRwm0BCviAB
-         DtnQ3SQnZCtZPBhXKfQkumgDX2KV9jcb34ui/ZoD85jVB8idcWW8u62BzwJ14gw3dTyS
-         lTWGxdJ43M/d46Jsk3lnFtMxMXbj015BaOpRR/W/QabktB0XZiMGWbu7Q7/yKH2DqSnm
-         wzEX/io01IpZ751TWVKUyYnnXRjj4wBpleTN0S8f5MGHTwO4Bx/1Z+dcV3U9OrBcLihY
-         MsnYi+zi2Eri2J/Xxi16xF9eu5nBheBKCRwQzmh3DIeoPf97fvrpQoVduXqCo6sHDSM7
-         65Hg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=uQdPu5z2EGJ4csNcE/ZMXtBS35QjemgectDDwKWjhJM=;
-        fh=oC4mH6QnThV1iaAIvQ4yqcBfsi924QxThTLUwR+Ifr0=;
-        b=HDEvKc7ayagdJdt7VxhEbD+y5DiP8ANEF4iDXiSxSbHtISQkigSr/0i1jkpTRculAs
-         HdN2glTNpu6CePX8C0h9P/RjobEIJPeT84hQkq29v2hIu96PsbBuBvOSKeKp4sF/DG6R
-         7F4W3QVhYezH/03pZNNvamCpCde2lAaryIRZC2JdV4/csN94qRY8YukFa15cQBWRMgKR
-         k/yG8677QnWsGKXasCx+T0BORve/Qzg7z8Z3G72NLEJ32t1nMs+LVuoMHLJ/ybi1NyZV
-         GoATwbKdPZInFzVBNjkqEN1ezjQ6tEN9F6Xbojxwt1SBXm1W7ac5ou9mMe5f+UkeGVOR
-         z0RQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795293686; x=1795898486; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=uQdPu5z2EGJ4csNcE/ZMXtBS35QjemgectDDwKWjhJM=;
-        b=cidbrxCNn1+nLCLfIngou1EglEDL7TChJ/kN321OSuNFjQVRSFWrcY3+VpX7H5DpEg
-         bPzXyQZ8bzlhVtVUGk78db5ZX9RTXKk0lu31LI8qp/klM1sNatFu6coXZnhj6kGQtc4h
-         wlez1ttMAfCY40gXBd95eiP62lhFnfVQXZkZX/eBcRzEY6+9HTDzeIigIF/wxqGWK4My
-         v4Mv1WBryEzJzRsq1RaluhYwIRWriSRtfnQrwJ6grRpSXQ+6eqcJQTwJQvtCTNrf3VUb
-         eDpkiu+2u1MKnuMlMW287ZRpSuiSVfKUjk5g/4VAzZlLmyUunDc0BNJLZ0gX/nT540FL
-         T+zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795293686; x=1795898486;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uQdPu5z2EGJ4csNcE/ZMXtBS35QjemgectDDwKWjhJM=;
-        b=NMFVde1kb/PQRcR0sf+7e0Kmox1ar31H4lDbpB9HiOyQEnGL3tB76iTNzzlBVyhYhR
-         93hxOit/JArefNoif5FOCMLHmLvgT18rUrn/om4EgRcy4k4peuSlePh6/Dg8oUuDDHii
-         7tZ/jXufctRGDHJtQOruY3cARUPmlDEopY3QsOGhO6o4fVX0o5Uukf4k0SLVko4vKBmv
-         RyNFihcowpx9qWo5xV0k04tL+itYpfOHQn2U+0aXKqkDWfLGq5r1VhvxaX3Y6HSGGNqH
-         U3RXhss0omnt0U2KpTcy2J0bxnHafTOXYVh/blQA11C1vi/lSfQWAtOzbFQETxrKDAOv
-         ImWQ==
-X-Forwarded-Encrypted: i=1; AL+hErE+Zb/OGuhHcPUIvQbZIBf5heIx2NxPDr9VntbsDsq2owZaC7qGafkeQFBiTqUaRuWzD5Xr0UHi9Pldig==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8ygQPq9UF+b3FizqpXpry3iMuDCmmXJf75BXToKG9RCBlzvnfT
-	KEVXVdJmWgBC4o00t4ucT3iEtcf6bJ52qhKBta+SckoGmRmumKGRY5ZvYuWV6V+Mt60fW/WXvQD
-	dSsOeQ9ueFFXu81Zji/v+8RUf35rrPDk=
-X-Gm-Gg: AZFdTZeD5oD/z06+qt4W7IK26RMIUH8bZpwomMlnL7mMl/eweOS+yG7zjUYE36EQm5S
-	tUqju0t0yoWwtlM79jAJhSeKH/5Vfio8TlBe7+z6sa1OgurGOHCeEKXuTe44PMJO/OfcWbrgN20
-	ggWzlOX0gI9Ioq59LMWhd9ZdP2QS7ZwG/NLt/hqU4DYiYpgBrCToAbwva58GdS01HopfTWFz7Kn
-	SB9pBDFt5j5aBwnGizkMifsLnTKJNUuzQ2Q/pgbrNHvh8ItpXgqRTFeo76oG9meK6l3rXb7q3tz
-	aao3e83Ll/C8d2pTQK3pKF2vjjXxxCYuvF1gmtCOijk2Pr50F7DYg0l3q1ATIA2pnpZOYF9LnYi
-	dXn1n7Sq5+s8QAb8DSLh07HPVrCjVfEF8wI+53bNmbyuzNLglw7KDDrFwCuRgkG508yVhnTwHl1
-	eRFc23FGRXHMxSdJO5U8sblbtFL6PmlnOmvtzJ9BrBzB975o567bwS2DFrXukBegUvDj5YM8ExH
-	yzOO1tolca7Y4G3QMU2tMR4HuG24w==
-X-Received: by 2002:a05:6102:2ad1:b0:7c4:a0e4:1a79 with SMTP id
- ada2fe7eead31-7d7395c2401mr2651293137.19.1795293685637; Sat, 21 Nov 2026
- 12:41:25 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=FzyB8Xwe
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BDDE71575;
+	Sat, 21 Nov 2026 15:39:45 -0800 (PST)
+Received: from ryzen.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 123EE3F632;
+	Sat, 21 Nov 2026 15:39:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795304388; bh=uIGjGTNYItK1fO2IWuO0oXrmBCGSoTMgNCNIlJE47d0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=FzyB8Xwe09oftNAYS2TqWMzCF6d8+cKG5wNCbM2p+cvgq62XAySRC43E5kSp0T2/z
+	 cuUYkLRLSY42Wof1QN7x72KFLitCD2aDUSUt5xarAS9ktgI2YEOp/tb7oWXk1Zgx0b
+	 jbw+eieLEUGiR173VOekc1YOWrP8kQZjMcDrSnww=
+Date: Sun, 22 Nov 2026 00:39:32 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Enzo Adriano <enzo.adriano.code@gmail.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org, Maxime
+ Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Junhui Liu <junhui.liu@pigmoral.tech>, Jerome
+ Brunet <jbrunet@baylibre.com>, Pablo Mazzini <pmazzini@gmail.com>, Vinicius
+ Pedrosa <vinicius.eduardo.pedrosa@gmail.com>, Alexander Sverdlin
+ <alex@sverdlin.org>, Jun Yan <jerrysteve1101@gmail.com>, Lukas Schmid
+ <lukas.schmid@netcube.li>
+Subject: Re: [PATCH v4 3/3] arm64: dts: allwinner: add Radxa Cubie A7S board
+Message-ID: <20261122003932.568c099c@ryzen.lan>
+In-Reply-To: <448e7551a6f560d8b8ede245ccfbc74101c76ef4.1795034153.git.enzo.adriano.code@gmail.com>
+References: <cover.1795034153.git.enzo.adriano.code@gmail.com>
+ <448e7551a6f560d8b8ede245ccfbc74101c76ef4.1795034153.git.enzo.adriano.code@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -106,200 +70,491 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261115-submit-rawnand-retained-handle-lifetime-v1-v5-0-cbc49c5c5e74@gmail.com>
- <87v75tc7i5.fsf@bootlin.com>
-In-Reply-To: <87v75tc7i5.fsf@bootlin.com>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Sat, 21 Nov 2026 13:41:14 -0700
-X-Gm-Features: Aa3M54oFXYK5vYkufMa20MNvSVURFxi72uRFVRNsrbS-Gdn6Fv1aeUhFqCfOY8s
-Message-ID: <CADvTj4opS_oL0AZjL=eBArgpbqtyH-MQxxSC1KdTxDm88OXpKw@mail.gmail.com>
-Subject: Re: [PATCH v5 00/58] mtd: rawnand: retain chip and controller state
- across removal
-To: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, linux-mtd@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Srinivas Kandagatla <srini@kernel.org>, Tze Yee Ng <tze.yee.ng@altera.com>, 
-	Richard Cochran <richardcochran@gmail.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>, Yuqiang Sun <izaiahsun@gmail.com>, 
-	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Bernhard Frauendienst <kernel@nospam.obeliks.de>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	Kees Cook <kees@kernel.org>, linux-hardening@vger.kernel.org, 
-	Arseniy Krasnov <AVKrasnov@sberdevices.ru>, Boris Brezillon <bbrezillon@kernel.org>, 
-	Brian Norris <computersforpeace@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>, 
-	David Woodhouse <dwmw2@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Vitaly Wool <vitalywool@gmail.com>, David Woodhouse <David.Woodhouse@intel.com>, 
-	Russell King <rmk+kernel@arm.linux.org.uk>, Mike Rapoport <rppt@kernel.org>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Christophe Kerello <christophe.kerello@st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Jason Roberts <jason.e.roberts@intel.com>, Boris Brezillon <boris.brezillon@collabora.com>, 
-	Michal Simek <michal.simek@amd.com>, Mason Yang <masonccyang@mxic.com.tw>, 
-	Ramuthevar Vadivel Murugan <vadivel.muruganx.ramuthevar@linux.intel.com>, Lucas Stach <dev@lynxeye.de>, 
-	Dmitry Osipenko <digetx@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org, 
-	Stefan Agner <stefan@agner.ch>, Thierry Reding <thierry.reding@kernel.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>, linux-mediatek@lists.infradead.org, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
-	linux-rockchip@lists.infradead.org, Yifeng Zhao <yifeng.zhao@rock-chips.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, Keguang Zhang <keguang.zhang@gmail.com>, 
-	linux-mips@vger.kernel.org, Shan-Chun Hung <schung@nuvoton.com>, 
-	Jacky Huang <ychuang3@nuvoton.com>, Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
-	imx@lists.linux.dev, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Han Xu <han.xu@nxp.com>, 
-	linux-renesas-soc@vger.kernel.org, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Kevin Hilman <khilman@baylibre.com>, Liang Yang <liang.yang@amlogic.com>, 
-	linux-amlogic@lists.infradead.org, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org, 
-	Manivannan Sadhasivam <mani@kernel.org>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Kamal Dasu <kamal.dasu@broadcom.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Harvey Hunt <harveyhuntnexus@gmail.com>, 
-	Paul Cercueil <paul@crapouillou.net>, Maxim Levitsky <maximlevitsky@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 19, 2026 at 5:49=E2=80=AFAM Miquel Raynal <miquel.raynal@bootli=
-n.com> wrote:
->
-> Hi James,
->
-> On 15/11/2026 at 23:29:15 -07, James Hilliard <james.hilliard1@gmail.com>=
- wrote:
->
-> > An MTD handle can outlive controller unbind. Its metadata and NAND lock=
-s
-> > must remain valid, including when a writable file closes and calls sync=
-,
-> > while further hardware access must be rejected after disconnection.
-> >
-> > This builds on earlier MTD removal-lifetime work. Commit 19bfa9ebebb5
-> > ("mtd: use refcount to prevent corruption") added MTD reference countin=
-g
-> > [0], but retaining an MTD reference does not by itself retain the
-> > driver-owned allocation containing the master. The read/unbind discussi=
-on
-> > also covered raw NAND [1] and draining active operations [2]. Tze Yee N=
-g's
-> > SPI-NOR series addresses the corresponding SPI-NOR paths [3].
-> >
-> > Following Greg's review [7], separate class-device data from the MTD
-> > backing allocation. Delete the device's interfaces and drain NVMEM and
-> > class PM callbacks before releasing backing data. Bare device reference=
-s
-> > retain an independently allocated device, whose type, PM dispatch and
-> > final release are built in even when MTD is modular. NVMEM similarly
-> > disconnects and drains provider and layout callbacks before unregister
-> > returns; retained consumers keep core-owned metadata and receive -ENODE=
-V
-> > on subsequent access.
-> >
-> > Introduce opt-in backing-object ownership for MTD masters. Registered
-> > nodes and acquired MTD handles retain the chip, while nested partitions
-> > also retain their parent metadata. Unregister first so removal notifier=
-s
-> > can finish I/O, then disconnect raw NAND and drain admitted operations.
-> > Hardware resources can be released without waiting for open files to cl=
-ose.
-> >
-> > Virtual concatenations serialize publication and removal across physica=
-l
-> > controllers. Disconnect and drain a published concatenation before any
-> > component can disappear, then release its component references. An old
-> > handle keeps the disconnected virtual device, independently of a later
-> > replacement.
-> >
-> > Run NAND and controller-specific cleanup during disconnection, while
-> > the controller driver is still bound. Snapshot the OOB layout in core-o=
-wned
-> > data before publication so metadata queries remain valid without driver
-> > callbacks. The NAND core frees retained chip and controller allocations=
-;
-> > the final MTD put never calls back into the controller module. Ordinary
-> > MTD and NVMEM handles retain the NAND core that implements their
-> > operations, rather than the hardware driver.
-> >
-> > Share allocation ownership across the raw-NAND drivers, including
-> > partially published probes. Shared controllers remain allocated until
-> > their last retained chip is released. R852 allocates a new chip for eac=
-h
-> > card, and NDFC allocates controller state per binding.
-> >
-> > Based on NAND next at 30daaf3e7897, with Tze Yee Ng's module-reference
-> > ordering fix [4], Karl Mehltretter's OTP cleanup fix [6], and the separ=
-ately
-> > posted registration, operation-locking and controller probe/teardown fi=
-xes
-> > identified by the prerequisite metadata. TLA+ models and their assumpti=
-ons
-> > and coverage limits are available in [5].
->
-> While lifetime issues are a real concern in the kernel, please note that
-> in general, removing or unbinding the flash controller driver is not a
-> practical operation. While highly unlikely, this is possible though. But
-> I am not going to sacrifice all the devm_ calls in favor of reinstating
-> manual error handling just for that. If there is a way, it must be
-> different.
+On Thu, 19 Nov 2026 13:09:26 -0500
+Enzo Adriano <enzo.adriano.code@gmail.com> wrote:
 
-Unbind is unusual for fixed flash, although there was a report of a
-Denali read racing with unbind [0]. With removable media, this can
-happen during normal use: r852 unregisters the MTD device when the card
-is ejected, while the PCI driver stays bound. It should be possible to
-handle both cases without giving up managed probe cleanup.
+Hi Enzo,
 
-> Also, this kind of contribution can only be done if you *understand*
-> what you are doing. Getting the big picture here is not optional.
+> Enable the Cubie A7S serial console, PMIC and microSD slot to provide
+> an initial usable board configuration. Supply the 26 MHz crystal and
+> 32768 Hz RTC input, enable UART0 and the AXP318W on R-I2C0, and describe
+> the PMIC input/output and CPU supply connections from the Radxa Cubie
+> A7S schematic v1.10. Preserve firmware settings on rails whose working
+> voltage is not established. BLDO2 has no programmed voltage constraint:
+> its software 3.3 V selector does not establish its physical output with
+> the schematic's nominal 2.4 V input.
+> 
+> Describe the card's SWOUT2 supply and PF6 active-high detect with an
+> internal pull-down. Enable MMC0 at up to 50 MHz using 3.3 V signaling
+> only. Its high-voltage path uses VCCIO; CLDO5 also feeds PC and the PF
+> 1.8 V input and must not be raised for SD signaling. Firmware must
+> select the 3.3 V PF path; dynamic voltage switching is not provided.
+> Keep other storage off.
+> 
+> Connect the documented bank supplies. PL's self-supply phandle is
+> omitted to avoid the PMIC/I2C/pinctrl bootstrap cycle, as on the
+> upstream Cubie A5E; ALDO1 is retained always-on. The separate pinctrl
+> voltage-mode fix is required for these bank-supply connections.
+> 
+> Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
+> ---
+> 
+> The November 18 v4 RAM boot on Cubie A7S with vendor firmware exercised
+> UART0, PMIC probe and MMC0 read-only transfers. PMIC/NMI interrupt
+> delivery, card writes, physical hotplug, 1.8 V signaling and physical
+> BLDO2 voltage were not tested.
+> 
+>  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>  .../dts/allwinner/sun60i-a733-cubie-a7s.dts   | 287 ++++++++++++++++++
+>  2 files changed, 288 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+> index da39f02252d4..9d1e740ff19e 100644
+> --- a/arch/arm64/boot/dts/allwinner/Makefile
+> +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> @@ -69,3 +69,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun55i-a527-cubie-a5e.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun55i-h728-x96qpro+.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun55i-t527-avaota-a1.dtb
+>  dtb-$(CONFIG_ARCH_SUNXI) += sun55i-t527-orangepi-4a.dtb
+> +dtb-$(CONFIG_ARCH_SUNXI) += sun60i-a733-cubie-a7s.dtb
+> diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
+> new file mode 100644
+> index 000000000000..9af9a68950d8
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
+> @@ -0,0 +1,287 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
+> +/dts-v1/;
+> +
+> +#include "sun60i-a733.dtsi"
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +
+> +/ {
+> +	model = "Radxa Cubie A7S";
+> +	compatible = "radxa,cubie-a7s", "allwinner,sun60i-a733";
+> +
+> +	aliases {
+> +		mmc0 = &mmc0;
 
-Consider a writable /dev/mtdX file that's idle when the card is
-ejected. There's no I/O to drain from that file, but closing it later
-still calls mtd_sync(). That close must not touch the old card or a new
-one inserted in its place. Removal needs to wait for I/O already using
-the device to finish or be aborted, not for userspace to close the file.
+We don't do mmc aliases. Long discussion, I understand it seems useful,
+but relying on Linux device numbering is not a good idea. So please
+drop this line. U-Boot will give it back to you if you use the U-Boot
+devicetree ($fdtcontroladdr).
 
-> Maybe the problem is MTD refcounting? Maybe the problem is the devm_
-> orderging? I don't know, I haven't looked in depth at all the
-> patches. But the current approach is clearly not acceptable.
 
-The issue is what the MTD reference owns. The change in [1] defers MTD
-core cleanup until the last reference is dropped. In raw NAND, though,
-the mtd_info is embedded in the nand_chip. An MTD reference doesn't
-keep the driver's allocation containing that chip alive. Reordering
-devres cleanup can't protect a close that happens after detach.
+> +		serial0 = &uart0;
+> +	};
+> +
+> +	chosen {
+> +		stdout-path = "serial0:115200n8";
+> +	};
+> +
+> +	osc32k: osc32k-clk {
+> +		compatible = "fixed-clock";
+> +		#clock-cells = <0>;
+> +		clock-frequency = <32768>;
+> +	};
+> +
 
-One way to keep the fix in the core would be to give consumers an MTD
-object whose storage is separate from the chip. At unregister, the core
-could disconnect that object from the driver and drain operations that
-already have access to it, much like NVMEM does for provider operations
-[2]. The driver could then free its private state. Reads and writes on
-the old file would return -ENODEV, and close would drop the reference
-without calling the driver. The main change for raw NAND is that it
-could no longer recover the chip from the consumer's mtd_info by
-assuming one is embedded in the other.
+> +	reg_ldo_input: regulator-ldo-input {
 
-The other way to free the chip at removal is to keep the current layout
-and have every consumer drop its MTD pointer at unregister. That could
-work for mtdchar, but it would also have to cover in-kernel consumers
-such as UBI. Fixing the close path alone wouldn't be enough.
+I think the node name alone is slightly misleading: it's indeed
+supplying some LDO input rails on the PMIC, but the chip itself is a
+DC/DC step down converter. Please add a comment here like this:
+	/* discrete ETA3521 DC/DC step-down regulator */
+And maybe use "regulator-2v4" as the node name (to match the binding
+requirement), the regulator name can then carry the usage meaning.
 
-A shared allocation helper or a per-provider reference, as proposed for
-SPI NOR [3], would keep the allocation until the last put. That's not a
-permanent leak, but an idle file could still pin driver-private memory
-indefinitely. Waiting for the last put during removal would instead let
-the same file block removal indefinitely.
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "ldo-input";
+> +		/* ETA3521: 0.6 V * (1 + RP298 / RP299), 30k / 10k. */
+> +		regulator-min-microvolt = <2400000>;
+> +		regulator-max-microvolt = <2400000>;
+> +		regulator-always-on;
+> +		vin-supply = <&reg_ps>;
+> +	};
+> +
+> +	reg_ps: regulator-system-power {
 
-Would it make sense to pursue the core-owned MTD object, so an open
-file can survive removal without keeping any driver-private memory
-alive?
+Please add a comment here, saying: 
+	/* board wide 5V supply from the USB-C connector */
+And then change the node name to "regulator-5v".
+Also please move this whole node first, as this is the root of the
+whole power tree.
 
-[0] https://lore.kernel.org/r/CAND4H7dz94Gsi_tXSQmLNme9uROnouOUwuCX9BW_+RCc=
-2ZFDqA@mail.gmail.com/
-[1] https://lore.kernel.org/r/20230620131905.648089-2-alexander.usyskin@int=
-el.com/
-[2] https://lore.kernel.org/r/20261002101352.1084447-10-srini@kernel.org/
-[3] https://lore.kernel.org/r/20261022035352.52129-1-tze.yee.ng@altera.com/
 
-> Thanks,
-> MIqu=C3=A8l
+> +		compatible = "regulator-fixed";
+> +		regulator-name = "ps";
+> +		regulator-min-microvolt = <5000000>;
+> +		regulator-max-microvolt = <5000000>;
+> +		regulator-always-on;
+> +	};
+
+There are two LEDs on the last page of the schematic, controlled by
+PJ26 and PM2. Please add them here. Check other (Allwinner) DTs for how
+to do that.
+
+> +};
+> +
+> +&cpu0 {
+> +	cpu-supply = <&reg_dcdc5>;
+> +};
+> +
+> +&cpu1 {
+> +	cpu-supply = <&reg_dcdc5>;
+> +};
+> +
+> +&cpu2 {
+> +	cpu-supply = <&reg_dcdc5>;
+> +};
+> +
+> +&cpu3 {
+> +	cpu-supply = <&reg_dcdc5>;
+> +};
+> +
+> +&cpu4 {
+> +	cpu-supply = <&reg_dcdc5>;
+> +};
+> +
+> +&cpu5 {
+> +	cpu-supply = <&reg_dcdc5>;
+> +};
+> +
+> +&cpu6 {
+> +	cpu-supply = <&reg_dcdc3>;
+> +};
+> +
+> +&cpu7 {
+> +	cpu-supply = <&reg_dcdc3>;
+> +};
+> +
+
+The schematic shows an EEPROM on I2C0. There is a binding for that chip
+already, check rk3576-rock-4d.dts.
+Please add that chip.
+
+> +&mmc0 {
+> +	bus-width = <4>;
+> +	cap-sd-highspeed;
+
+I think we want the other two standard capabilities as well:
+	cap-mmc-highspeed;
+	cap-sdio-irq;
+
+> +	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+> +	disable-wp;
+> +	max-frequency = <50000000>;
+
+Where does this limit come from? As it stands right now, at 3.3V you
+won't get faster anyway, so it's moot. Please remove if you agree.
+
+> +	no-1-8-v;
+> +	vmmc-supply = <&reg_swout2>;
+> +	/* The 3.3 V path uses VCC-IO; no Port F voltage switching yet. */
+> +	vqmmc-supply = <&reg_swout2>;
+
+Just leave that out (for now), the default is to revert to vmmc-supply,
+if vqmmc is not given anyway.
+
+> +
+> +	status = "okay";
+> +};
+> +
+> +&osc {
+> +	clock-frequency = <26000000>;
+> +};
+> +
+> +&pio {
+> +	vcc-pb-supply = <&reg_swout2>;
+
+Please add a comment that this comes via VCC-IO, see the A527/T527
+boards.
+
+> +	vcc-pc-supply = <&reg_cldo5>;
+> +	vcc-pd-supply = <&reg_swout1>;
+> +	vcc-pe-supply = <&reg_bldo1>;
+> +	vcc-pf-supply = <&reg_cldo5>;
+
+Same here, comment about this being VCC-IO, at least for now.
+
+> +	vcc-pg-supply = <&reg_aldo1>;
+> +	vcc-ph-supply = <&reg_swout2>;
+> +	vcc-pj-supply = <&reg_swout1>;
+> +	vcc-pk-supply = <&reg_bldo1>;
+> +};
+> +
+> +&r_i2c0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&r_i2c0_pl_pins>;
+> +
+> +	status = "okay";
+> +
+> +	axp318w: pmic@36 {
+> +		compatible = "x-powers,axp318w";
+> +		reg = <0x36>;
+> +		interrupt-parent = <&nmi_intc>;
+> +		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+> +		interrupt-controller;
+> +		#interrupt-cells = <1>;
+> +
+> +		aldo156in-supply = <&reg_ps>;
+> +		aldo234in-supply = <&reg_aldo1>;
+> +		bldoin-supply = <&reg_ldo_input>;
+> +		cldoin-supply = <&reg_ldo_input>;
+> +		dldoin-supply = <&reg_ps>;
+> +		eldoin-supply = <&reg_dcdc9>;
+> +		ips-supply = <&reg_ps>;
+> +		vin19-supply = <&reg_ps>;
+> +		vin23-supply = <&reg_ps>;
+> +		vin45-supply = <&reg_ps>;
+> +		vin678-supply = <&reg_ps>;
+> +
+> +		regulators {
+> +			reg_dcdc1: dcdc1 {
+> +				regulator-name = "vcc-3v3";
+> +				regulator-min-microvolt = <3300000>;
+> +				regulator-max-microvolt = <3300000>;
+> +				regulator-always-on;
+
+Please add a comment or use a speaking regulator name to justify that
+this regulator must be always on. "regulator-always-on" should be the
+exception, not the rule. This applies to all the nodes below, I will
+comment with some hints below again.
+
+> +			};
+> +
+> +			reg_dcdc2: dcdc2 {
+> +				regulator-name = "vdd-sys";
+> +				regulator-always-on;
+
+We should have a voltage or a range for every regulator. Here it should
+be 0.8V.
+
+> +			};
+> +
+> +			reg_dcdc3: dcdc3 {
+> +				regulator-name = "vdd-cpub";
+
+Do we have some OPPs for the cores? The range should reflect the
+min/max used voltages in there. 
+
+> +				regulator-always-on;
+> +			};
+> +
+> +			reg_dcdc4: dcdc4 {
+> +				regulator-name = "vdd-gpu";
+> +				regulator-always-on;
+
+Why is this always on? If I see this correctly, that's just supplying
+the GPU, which will have its own supply property.
+Voltages should be in the same range as for the CPUs.
+
+> +			};
+> +
+> +			reg_dcdc5: dcdc5 {
+> +				regulator-name = "vdd-cpul";
+> +				regulator-always-on;
+> +			};
+> +
+> +			reg_dcdc6: dcdc6 {
+> +				regulator-name = "vcc-draml";
+> +				regulator-always-on;
+
+0.6/0.5V I guess.
+
+> +			};
+> +
+> +			reg_dcdc7: dcdc7 {
+> +				regulator-name = "vcc-dram";
+> +				regulator-always-on;
+
+Probably 1.1V.
+
+> +			};
+> +
+> +			reg_dcdc8: dcdc8 {
+> +				regulator-name = "vcc-ufs-io";
+> +				regulator-always-on;
+> +			};
+
+But there is no UFS on this board, right? All the UFS signals seem to
+be not-connected, so this power supply will be going nowhere. And DCDC8
+seems to be used exclusively for UFS, so I would just leave this whole
+node out. 
+
+> +
+> +			reg_dcdc9: dcdc9 {
+> +				regulator-name = "eldo-input";
+> +				regulator-always-on;
+
+Again, why the always-on? This is referenced by eldoin-supply, so the
+kernel should keep this on.
+As for the voltage, the schematic doesn't seem to give a clue, so maybe
+you can look this up on a running BSP kernel.
+
+> +			};
+> +
+> +			reg_swout1: swout1 {
+> +				regulator-name = "vcc33-lcd";
+> +				regulator-always-on;
+> +			};
+
+Why always-on? Should be referenced by the pinctrl device.
+
+> +
+> +			reg_swout2: swout2 {
+> +				regulator-name = "vcc-io-card";
+> +				regulator-always-on;
+> +			};
+> +
+> +			reg_aldo1: aldo1 {
+> +				regulator-name = "vcc-pl";
+> +				regulator-min-microvolt = <3300000>;
+> +				regulator-max-microvolt = <3300000>;
+> +				regulator-always-on;
+> +			};
+> +
+> +			reg_bldo1: bldo1 {
+> +				regulator-name = "vcc-pe-pk-mcsi";
+
+Does this intentionally miss the voltage setting?
+The datasheets suggests that VCC-MCSI must be 1.8V. 
+
+> +			};
+> +
+> +			reg_bldo2: bldo2 {
+> +				regulator-name = "vcc-lvds0";
+> +				regulator-always-on;
+
+Should not be needed.
+And again, the voltage is missing. Per the datasheet, VCC_LVDS0 must be
+1.8V, and the VCC18-LCD label connected to BLDO2 supports this.
+
+> +			};
+> +
+> +			reg_bldo4: bldo4 {
+> +				regulator-name = "vcc18-codec";
+> +				regulator-min-microvolt = <1800000>;
+> +				regulator-max-microvolt = <1800000>;
+> +			};
+
+Do we need this at all? I don't see this (VCC18-CODEC) connected
+anywhere?
+
+> +
+> +			reg_cldo1: cldo1 {
+> +				regulator-name = "vcc33-18-usb";
+
+That's not the right name. The connection between VCC33-18-USB and CLDO1
+is "NC" in the schematic, so this is a red herring.
+However this also connects to VDD18-LPDDR, which would justify the
+always-on.
+
+> +				regulator-min-microvolt = <1800000>;
+> +				regulator-max-microvolt = <1800000>;
+> +				regulator-always-on;
+> +			};
+> +
+> +			reg_cldo2: cldo2 {
+> +				regulator-name = "vcc18-hdmi";
+> +				regulator-min-microvolt = <1800000>;
+> +				regulator-max-microvolt = <1800000>;
+> +			};
+> +
+> +			reg_cldo3: cldo3 {
+> +				regulator-name = "vcc-pll-dram";
+
+This is a correct example, btw: it's always on, but the regulator name
+makes it almost obvious why.
+
+> +				regulator-min-microvolt = <1800000>;
+> +				regulator-max-microvolt = <1800000>;
+> +				regulator-always-on;
+> +			};
+> +
+> +			reg_cldo5: cldo5 {
+> +				regulator-name = "vcc18-pf-pc";
+
+VCC18-PF is confusing, please remove that from the name.
+
+> +				regulator-min-microvolt = <1800000>;
+> +				regulator-max-microvolt = <1800000>;
+> +				regulator-always-on;
+
+Should not be needed.
+Voltage is missing, should be 1.8V, I think.
+Please try to double check on a system running with the BSP kernel.
+
+> +			};
+> +
+> +			reg_dldo1: dldo1 {
+> +				regulator-name = "vcc-efuse";
+> +				regulator-always-on;
+
+Voltage is missing, should be 1.8V, I think.
+Please try to double check on a system running with the BSP kernel.
+
+> +			};
+> +
+> +			reg_dldo6: dldo6 {
+> +				regulator-name = "vcc-ufs";
+> +				regulator-always-on;
+
+Apparently UFS is not supported on that board, so please remove that
+node.
+
+> +			};
+> +
+> +			reg_eldo1: eldo1 {
+> +				regulator-name = "vcc09-vdd2l";
+> +				regulator-always-on;
+
+Voltage should be 0.9V.
+
+> +			};
+> +
+> +			reg_eldo6: eldo6 {
+> +				regulator-name = "vdd-cpus";
+> +				regulator-always-on;
+
+Schematics suggest 0.8V.
+
+Cheers,
+Andre
+
+> +			};
+> +
+> +			reg_rtc_ldo: rtc-ldo {
+> +				regulator-name = "vcc-rtc";
+> +				regulator-min-microvolt = <1800000>;
+> +				regulator-max-microvolt = <1800000>;
+> +				regulator-always-on;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&r_pio {
+> +	/* PL powers the PMIC bus itself; firmware must keep ALDO1 enabled. */
+> +	vcc-pm-supply = <&reg_aldo1>;
+> +};
+> +
+> +&rtc {
+> +	clocks = <&r_ccu CLK_BUS_R_RTC>, <&osc>, <&r_ccu CLK_R_AHB>,
+> +		 <&osc32k>;
+> +	clock-names = "bus", "hosc", "ahb", "ext-osc32k";
+> +};
+> +
+> +&uart0 {
+> +	pinctrl-names = "default";
+> +	pinctrl-0 = <&uart0_pb_pins>;
+> +
+> +	status = "okay";
+> +};
+> 
+
