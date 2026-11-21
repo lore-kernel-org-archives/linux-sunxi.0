@@ -1,90 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795223485;
-	b=BhT0JYATItIJy8i7x0F+k8u72zu2JLr97a9U6wl9pAVCMO+R7E/xAX9xGtlWrfeCGzN9
-	 XsH90ZLWRCfmDJUIICLgONj3i1DvsuI2VmUUZQ9VBMF0c3G9G7SGTFlUWwJAuWk5rjfx4
-	 lDlWanhHb9+S7c0u3F61EVbNX8+mRSaj82wLNNtgQUSzBKRpg+wNTCIt9wpa0OCa9OTXr
-	 F0gVASORBaqe+3LtwmEXaClmykFQpOrjj6vRak7lQBw2EKJQmnYNDSs8Ya9KBz2rzC+KB
-	 ZRnwn1zyQIrpiZ8ca265RSipVFWEe5/RfivEJ3CaXu7H0MCswIfJIQFUHlvnLPfFRaw==
+	t=1795223487;
+	b=u+f7HldWONCag46E4v2vLgr5Xkdg3L3y7rULPdLBRbwRS8N+27JAW9MfwV2sG9rPek8+
+	 he0staPm3G3Vk5Vmv2pEKCE8cJ5HTePybUTK/omLalewIcXQbeBx2JgL7i8POuqE5brwa
+	 YuFjKWEy2an1Vv8ppwU0kGJcRFy4a/C9rh8GzgXA0vsw7QvB0/ZN49MQ1do5e+uPxPpUL
+	 w7t6M5XZdKLrAokv/7/1fsZHSfRavqGUgofYIGHN6tTtZ7BDgWB5HUZrUn5zf6l37j8aw
+	 H+ilJsuEJEkXDLzBORSsS8CIKwcvVLd91hA5TSyJXJbqHpZhEOkC44/sK90NDoGqrrw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795223485;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795223487;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=CgxsAtXFuwPIOpoqITa/yCw7bucmWGSvP7CHXYFl5l4=;
-	b=EbiB3aPOTOdHebIu/3ij4hjYh3VALLHI0KNMIiUbIO/ql7I63xb5G11kB7i49gQ7Jg3n
-	 lY6PfI+aPcgtyfMl3qe4YSwSCIG8/vKm69bvNZUnfZalcEw9x842YO8mYyIscd7Q7efhX
-	 pVaO6RgqH4YOx0/FXM30H6+ROu29gxeGdyGkA1CHexwKAZC5uNy2hK9+MIlUPnNoC1B2q
-	 9Io2jZWU3FO9lMLaQ2wb4xoWpMygscB5tKIa4yBUchx1fap74xMb9JsCEfnHIyUmQcbYw
-	 9j50/hoDcWFEGZO7irLRvyOEE8nnKnQk8si1j6JlJPV/3FMDkmTbuiDq6hM9Rpak88Q==
+	bh=1uJoG142fYCuU8vw67QDp3rEWq4mupCEBikzvmy4Exg=;
+	b=g6E/GIMFDGemmE0p1b9JlLMaGo4+I0R+0uvbRaY0jV96ylTkclYgKybqEAvACqmI26c4
+	 A8ZKhLM81Jnsao05c0tbYNlqLp317vB3wyKXhnTUanR4TAyUuv3ht/MHgDufj29/dOr58
+	 8BkxY97ZKNnABfvq/gv9ipy7kYJ5DyyvjbVe2FqAHgrfocPVxKTZ5aTp5gigcyKYn+OnY
+	 hedxBX8EOBqx1Umnls2EH85UkQsOFGaE6JleTYe5SUN/pHz5k+sqADFjOuYQ8Yb2Pq7o0
+	 jV4+UB+URPh2LLH3kXiQ/bASTKRyTh1ClZ2DnW0prmBWRWNhiR350oV4ZX9pQdVmRZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TH3CWbiC;
-	arc=none smtp.remote-ip=209.85.210.50
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cFleb2QW;
+	arc=none smtp.remote-ip=209.85.167.175
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02BD60A3834
-	for <linux-sunxi@lists.linux.dev>; Sat, 21 Nov 2026 01:11:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A02BD60A3834
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F83606ACF3
+	for <linux-sunxi@lists.linux.dev>; Sat, 21 Nov 2026 01:11:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 23F83606ACF3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TH3CWbiC
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-833e671ee9fso1455054a34.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 20 Nov 2026 17:11:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cFleb2QW
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-56431524c22so678555b6e.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 20 Nov 2026 17:11:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795223475; x=1795828275; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795223485; x=1795828285; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=CgxsAtXFuwPIOpoqITa/yCw7bucmWGSvP7CHXYFl5l4=;
-        b=TH3CWbiCrMbCZNyUW0OMS3B+p1NMxJvpNBa2USUEN7+V6soCc4bDk1CnydoeGUgVn4
-         +6GgS0z9AZAtgLN+Og4qcFyvlZrfnj6EQEt18V14L3x7eDjxu8QGP2g7PZQ5KVJTv/6D
-         Q/wYwf1O3x4WyzjUfUr7R6BFjWOXfMM8XKs/RMYA41XzXCOoIegkWJRhm68edXs8sT/3
-         KZb6cKLol4bcaYU1Eyrb+BsR8halSUHLhgXnV3be8Rs79tchpRRA/Kfs0hWFHYa87C4M
-         m9MEN+FVd+sQlTx49E33sYfHYreSsgdWz6Os7b35FOX4vfnkH5RQlIVhWk2qQn83+C3y
-         BB4A==
+        bh=1uJoG142fYCuU8vw67QDp3rEWq4mupCEBikzvmy4Exg=;
+        b=cFleb2QWZnIY6JP1tnav001EFHGR3tEZslNIKBYF078lRfmiRWVEfcceTUw09ocQlt
+         aVxJ8n/QiBuQd8mach1eJmU+jhT9nPwkEAAqcGPPtdcIeNyMRmAvlhFSsczsUFj03m6I
+         f5uq7sdfAuyrBSa/FniEeaxPMqkKen0X6XUO2WxoZ+6J83sHJL7X7CzSyKeAW9LpV6ZR
+         jicbVonCIKt/LoUvXObjDiwXpbnLF8LO7/90+7MPTQ084tysRylfbrEXP2htG/v5Dino
+         xTF98bQcOZl5+LlMT8Tzgjp5lCqvzD840Ii+UKnpNS7Akc+EJyPHG0Wr3t6+LIQf4pdk
+         MxQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795223475; x=1795828275;
+        d=1e100.net; s=20260707; t=1795223485; x=1795828285;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=CgxsAtXFuwPIOpoqITa/yCw7bucmWGSvP7CHXYFl5l4=;
-        b=uw+ei17KMNPWSGrsjZQwCG2+vnQO6pprCUvkx0YEct8Uwbxao69j8PR7g4uXfGzMf6
-         6whg9kYwsdSFKN/l+J6pzcTri9iyvaFAM6POy7FEh6GlQZWBuv8kjlrNwnOxctpNwpLb
-         hrzTtvsTTva9hL5+OLnVfnOVHgjyW+YibDvssscLoD42G4988QW8I6/roYDAdVu+3wJm
-         4GJdKYTcLK2fDTUucJbCZ7uT7Hhj8cTkpJrCnvfz3Y2kQ2Njpol/HIU7Vg8Krg7E3+7t
-         yyRt+Y9EB3XP043bINZngJsGNTZIaJ7gkNsFATIPttOfM6D1/tlSzbn5uYucvkIxTBoW
-         6Rig==
-X-Forwarded-Encrypted: i=1; AL+hErGiXjtrR/j0CAlE4FE+7Hh519x9q7rGNxG5NE8lHW5UHX/ImcpZu6LpsdMVO8od6livQa5iKn0y+d5/EQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8SQ/JdtVkaWfiitKCQICyzIMFvVNKjht7ChDqE6cDiVDAgXPgH
-	/yfHRqA34S3/6Gslh7QWhXrQIZcfjZrTA+2Cd+2C7yukbeV6ZOweKwz8
-X-Gm-Gg: AYBFou3KI5emryNS8VPcSuKfrW6dqB5F3ZMu3skS8XOqLHCeC2EnjKidLeMgDQ7hQOq
-	omode5l87OhmFTWFnGGWoDeeRbbPLsocIWgHsfZHzAkCcFdqZqTdDmyMmJigBFzTCpt1P8UYSQE
-	Px+u1TxPWMu49FVEZEMabyoVcy223BlO8+YhosqgMVrlsIhoP9bnOT2SftnOyaA28ujZevgK4mW
-	NaPIBHhFXGsLOZiV+3ycgdewU3sAd9fa9TXp4JSft5IXVp3JBYckzyDQGGmZJtliCYNGC2L989H
-	dyEDkanlpQw3BlgyCk9Di6kBdmUSm68CwC6FRBZSMljjX3yM0Xb3AMJID7FscvwbvJTRk/glA/s
-	AOv+aet+Uh7amUuP4Piks7NtQLra4dzPtg8tt74khIXj9mpoyawj4X5UqRu7Q/XdU4ZAZ2topCh
-	s+jtjSNeq8lHEAFjPna/LdbXLpsfjoTkJj8UVVVQWQ7mStlFDaWZpGzkQFK864yIhpR5bqyIErb
-	yXdO4wlCM9lesqVSLP3zrfU/0EOIbZX+Cu3GTL6jkXtqPzqudyaFtcoGI9nKm1Mq8pkgOZu1uQ1
-	OfWqGd4KiEbznGpUNex1ucU/sqILwv3tAF0uzmH63b2ZH88yNPncD6O3w/EzlN1jnb9V+OKnhyJ
-	OzAh1KbeCc2KWhR2jraCM5jC4f1eI0fFxyJnuRA97ZqNgDGfXoUgQXpvzdQX/ytBcEus6GOGxxo
-	OuMQs6PvtdBnZDcMvF8PFedr/VfBxQaB5pc2lujeo2xLvF3A6xcMkX
-X-Received: by 2002:a05:6808:23c3:b0:567:f5d0:741c with SMTP id 5614622812f47-57a0b959e91mr6046198b6e.34.1795223475472;
-        Fri, 20 Nov 2026 17:11:15 -0800 (PST)
+        bh=1uJoG142fYCuU8vw67QDp3rEWq4mupCEBikzvmy4Exg=;
+        b=rMlvACXAxitojjiN5+TS0f68VwfgJI63sJu7EbFcTNIZyxp58x5FUoLa8fZ4LhT7px
+         JL86d7qsMkBdPmXo4o39/NVEYL5L0wLeJFyuosgqtR1MtCD4vMsGWGZabOky7CfknFr1
+         lxIkzwKXwpfhA6EphMwgt6YeDNzvPyKpl4VtfSK7Esv2dqT2bBFLboJmtvEinGmPnlP8
+         +2NVuFHJ9YfBrZS7m8i8W3ihaw/6K4UWUhf2Jr7G8pS2+9eDZzEfmU26VBN/ZEcpzvlt
+         Jtr+hxTjnSEzZ9h93gEdRTw2b5C4o1dQ32KCIMoeqBzBJzaTgA8lMHfmCi1A5KDK25vQ
+         CqTw==
+X-Forwarded-Encrypted: i=1; AL+hErF9k/+vrtW8IayxsAmQNqTLz/cRLKnd1CNTmqPiqF8kVpGVl9JihuqK2awv258y2F2rvfV4qZ1QJTdFGg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/AnHtbmcdaW0Cr3ID76uXkMdq8+fM02sV+8jtZ2/h/mkkHi8B0
+	Czh6NwdcmTjuImfiA5vO7FQxeF53wdf5wnRsqMmL/jgwDBTIZHkC2gEn
+X-Gm-Gg: AYBFou3A/kUIIQ73QWpY1lDOn1J6VGQNwDMqXGe01GgLItz48rD2sW+4YLC/6y5e0bh
+	0nvStdVgs4GrxutO+9u8NLE8g8bdjVYLM89LS4EKrgdjVfmrFWS5ZimaAQjaHSP1XC3tO3i/2FY
+	RqEVeubPn7G3owVDMGrvANV+L8xXeitZzoVKiqluLs8JadTzP4RQMrQPtcDMAoE3WE9Nzh1IHLl
+	9tX5XFKXJQrB+0xuYVieXfT/Y+USPkxfLWFWxuTrV7CuYHaY7w3d6c+CCvUDWg3aaG0g9/kskVz
+	sSz4KPjq0DMviamwv+fOJBH8BQW66mCNn8yJvY+8zFCBth6WGYqJpc92I5YV/5koOG5lCCf0iI2
+	F85eNSkDgawpEstYIb8JU9D0R2CVbAjYwPGWQRZhNh/O4ZVHnS4mMpn8D2NbxUjhxtbvhKXQk1J
+	p+Q/ajsbpiOFSJxbiFV33A7XkRDiRKE3CNtz/1xrIohip2RSgKcIYmre6jFaE7WcfC7oeXNIvkW
+	TebGdSoZUhHVJMfOvTYDlzzYphcl84rdxmKJN9ZR6SRvCSOPafkBdv2R1dg2wDFI90DFFEVYVOR
+	gIDJL9tC3c2grREwx5GLySEyb/zuFBzbB0kM/Gbk5utU/R9eyoBrgAY9UTheZAzrWh5FJSJC1my
+	VfhwVn2VgEMcFolOlxJwWtUxI8t1grcnGCS4E32bsU9/tEown8COCp9izF+MJjvf4NcsgPR1eMK
+	7fYFV0npvZktbISOQ/bl0aT1NY9QzsBRj5kHnJz+5guYjsEm5hmLgC
+X-Received: by 2002:a05:6808:1915:b0:4f7:867a:1136 with SMTP id 5614622812f47-57a0c7bef2emr6229820b6e.64.1795223484984;
+        Fri, 20 Nov 2026 17:11:24 -0800 (PST)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-57a3485e3ecsm3291532b6e.9.2026.11.20.17.11.14
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-57a3485e3ecsm3291532b6e.9.2026.11.20.17.11.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 17:11:15 -0800 (PST)
+        Fri, 20 Nov 2026 17:11:24 -0800 (PST)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Fri, 20 Nov 2026 18:10:37 -0700
-Subject: [PATCH v11 14/26] mtd: rawnand: sunxi: avoid a second program
- confirm for OOB writes
+Date: Fri, 20 Nov 2026 18:10:44 -0700
+Subject: [PATCH v11 21/26] mtd: rawnand: sunxi: skip unavailable NAND child
+ nodes
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -96,7 +96,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-submit-sunxi-nand-vendor-oob-layout-v1-v11-14-9721b1905ef4@gmail.com>
+Message-Id: <20261120-submit-sunxi-nand-vendor-oob-layout-v1-v11-21-9721b1905ef4@gmail.com>
 References: <20261120-submit-sunxi-nand-vendor-oob-layout-v1-v11-0-9721b1905ef4@gmail.com>
 In-Reply-To: <20261120-submit-sunxi-nand-vendor-oob-layout-v1-v11-0-9721b1905ef4@gmail.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>, 
@@ -118,44 +118,35 @@ Cc: Chen-Yu Tsai <wens@kernel.org>,
  devicetree@vger.kernel.org
 X-Mailer: b4 0.17-dev
 
-An OOB-only write can report failure after the NAND has already
-programmed the page. Both the PIO and DMA page writers issue PAGEPROG,
-wait for completion and check the status. The OOB wrapper then issues
-the same command without another program setup or data transfer. If
-that second confirm fails, its error masks the successful write.
+A disabled NAND child can prevent usable chips on the same controller
+from appearing if there is no chip at its address. The driver scans
+every child, even those marked disabled or reserved, and aborts probe
+on a scan failure. If the chip does respond, it is registered despite
+being marked unavailable.
 
-Return the page writer's result directly. It remains responsible for the
-single program confirm and status check, including on the
-bad-block-marker write path. Raw OOB writes use separate callbacks and
-are unchanged.
+Iterate over available children so unavailable nodes are skipped before
+claiming their chip selects or issuing NAND commands. Keep the scoped
+iterator so node references are released on both normal and error exits.
 
-Fixes: 25f815f66a14 ("mtd: nand: force drivers to explicitly send READ/PROG commands")
+Fixes: 1fef62c1423b ("mtd: nand: add sunxi NAND flash controller support")
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- drivers/mtd/nand/raw/sunxi_nand.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ drivers/mtd/nand/raw/sunxi_nand.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
-index 712648864407..7f9bc0237cea 100644
+index 4478189bf920..73d6cd89ca19 100644
 --- a/drivers/mtd/nand/raw/sunxi_nand.c
 +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-@@ -1779,15 +1779,10 @@ static int sunxi_nfc_hw_ecc_write_oob(struct nand_chip *nand, int page)
- {
- 	struct mtd_info *mtd = nand_to_mtd(nand);
- 	u8 *buf = nand_get_data_buf(nand);
--	int ret;
+@@ -2661,7 +2661,7 @@ static int sunxi_nand_chips_init(struct device *dev, struct sunxi_nfc *nfc)
+ 	struct device_node *np = dev->of_node;
+ 	int ret;
  
- 	memset(buf, 0xff, mtd->writesize);
--	ret = nand->ecc.write_page(nand, buf, 1, page);
--	if (ret)
--		return ret;
- 
--	/* Send command to program the OOB data */
--	return nand_prog_page_end_op(nand);
-+	return nand->ecc.write_page(nand, buf, 1, page);
- }
- 
- static const struct sunxi_nfc_timings sun4i_a10_nfc_timings = {
+-	for_each_child_of_node_scoped(np, nand_np) {
++	for_each_available_child_of_node_scoped(np, nand_np) {
+ 		ret = sunxi_nand_chip_init(dev, nfc, nand_np);
+ 		if (ret) {
+ 			sunxi_nand_chips_cleanup(nfc);
 
 -- 
 2.53.0
