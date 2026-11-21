@@ -1,56 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795287285;
-	b=ugwa+yu5FZLPJTMbRaHUBTeOVnzCQMmhseKq5asm+EB0r/AnNryq7hM0a9DrwXkWR5H5
-	 7SdM6s3pN95tRsKN7RJXNzqQVjAKCqWKbVwRo0bpTmlSMRVFer9aMICLGvR5S65STqYVb
-	 xl/Hiq4ABU53Jik1hcmxUo+B1rdFDp06d3+baCIEiaXriyssve3uLc0DQLR1lcYiB1k9p
-	 OZRNw3xKMQ2ZJlYn78RohEgtTUkrMAbttMaOGEqc8+eBiZX74GWvF0iAuoGmkObOg7CQG
-	 dEGSQhQn8GsbEnSsPiNWq3zWgx28s7ukrWi9hFLmMxafmQyHvJ5F2Qh5H5q8CswnrYQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795287285;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=rOsjq9WZvuCHvq4RVsYAQKDzGsMKcpaGLrQYwYNorGM=;
-	b=yTQA31tNfBAbTHADmakgdBHW1kLWPGV5eSZFt71/mCxgYaKkK/TCM1D5JTQLq/xg7Ggb
-	 zjMQUFeIiZNt6MZmjl0x6RxWvYIPhS9HVESaRoqyH2tLzYMowVWwsEUKgIbolwojE1eXM
-	 m+WaHPdU/DZ4bquV4O73oSICq3TBv3KJ3CzXB8dYaVNP1QCb2nzqK9UnPemrID3G8RcTF
-	 yw9ZblUItSLwCccNplnnzPpJLccqUfgVCL0Nvz13HYmhw5NJBZRQYDyVCjGcxHaSu5MQe
-	 mjfRkQJLQpY9z8NK+n/8v4VMeYBhKP9ZkBnNJxyR/0hP2kJ02mMdqP/5x6+btTKUdZQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n9J5Apvl;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.217.43
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795293687;
+	b=W3Q3JyKPFa2S93qiotwi0Aw+XFJbBkY4lAMe42QDMPvyEd56VKiEnSKebWACUk3PP+vI
+	 3NcRTLJjBWXHtaCiqRIcW8Z56dtiKaxveSt6ISH9DBbkIBccBXW9oP+mMspa8+np2vN9T
+	 oIy30fQIw0bgNbzL3C2J6U3sOI/EbfHSqZjhe4a4W+gxZaT7dSfloR2BB9ZaPegyO0yms
+	 CVENvUit23RCMpH7zyezUQ+Wj7rtVSsqv+8ANRneQehSfoTyVt3VIzHumjqClDaK9qw8Z
+	 0O/3sZ1lcOhC/TJSFRZQSdpu01TpUehMHCJtsIosdie+eqHhf31t5hqTFdKHsQo6tDg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795293687;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=uQdPu5z2EGJ4csNcE/ZMXtBS35QjemgectDDwKWjhJM=;
+	b=vGERNr5OhWRD6vEAJJ3AqA0ss3yfqNNLIWNtmEmtIUyjEqbDepa30Px4qxwdE+kGfh2J
+	 RCojOv3vtw1SU1PvMXgUM7wnd+PujH+8kqypJzecBWhq0+prWwSUw4jfj1aVSUr4sNBjS
+	 4cu5QcWHCtyvaWIgj+M+X+iX7+gH8UMgUq1xGF8TimxV2bqjxVwNhvhDC16WmDRQ8bz8t
+	 zpKfjc2LwLuTR5JJ/2/Ju5BOa0nkS3/71tv+Kbrus8RxkcGQ9zgH/SQjsH60mY1xhtopd
+	 +2HLexH8BPGf6QFcdm08rJwwAvN2h6ANZdjviAdx0J4MB3AAyGZPoZSFw2/4LaGv1rQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cidbrxCN;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.217.43
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C701606A320
-	for <linux-sunxi@lists.linux.dev>; Sat, 21 Nov 2026 18:54:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7E55606A33D
+	for <linux-sunxi@lists.linux.dev>; Sat, 21 Nov 2026 20:41:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7E55606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n9J5Apvl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA15D1F000C0;
-	Sat, 21 Nov 2026 18:54:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795287284;
-	bh=rOsjq9WZvuCHvq4RVsYAQKDzGsMKcpaGLrQYwYNorGM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=n9J5Apvlyd0jtXsXe314JZQaYrCmGI2Mkz6y3vQ0UDcwx/JStnig1n1ESd1PUahYB
-	 eQvSv9HFoNPMaRWIUbJHq8FzzG3TuiS5MuKVoaESQr3qn2Ls5yoRqixhe5uWSIUzyS
-	 QnZQTtMR8g3bxpGCkKt2E0GTjj9PBCT1+rWx+ijNpBjyz3tfjH92ckuptcpyhi1zEE
-	 U8khmWxHeXGqnttKJrPf+JTCpZxkVrMKf6NQmZBCABXh8w2cfPukPObLf7r7wZYQhA
-	 2g2bD8xrFs9XjWAR8w5aD5ZMHbUASAZo2lTnY+rD/8sQpYAPOgsBkZTwL+0WoAcfWA
-	 soRouf/yTD9tg==
-Message-ID: <sashiko-outbox-227278@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v3] net: stmmac: preserve RX checksum capability
- when offload is disabled
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "James Hilliard" <james.hilliard1@gmail.com>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20261120-submit-stmmac-rx-checksum-capability-v1-v3-1-e9e1fd85f380@gmail.com>
-References: <20261120-submit-stmmac-rx-checksum-capability-v1-v3-1-e9e1fd85f380@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 Nov 2026 18:54:44 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=cidbrxCN
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-7d2dbc0a8d4so650854137.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 21 Nov 2026 12:41:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795293686; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jCZ2bp8QdacEWMuvUkJkpQzoR9ckXzIhROan6qHbkg+wPQGcl6ShtMymRwm0BCviAB
+         DtnQ3SQnZCtZPBhXKfQkumgDX2KV9jcb34ui/ZoD85jVB8idcWW8u62BzwJ14gw3dTyS
+         lTWGxdJ43M/d46Jsk3lnFtMxMXbj015BaOpRR/W/QabktB0XZiMGWbu7Q7/yKH2DqSnm
+         wzEX/io01IpZ751TWVKUyYnnXRjj4wBpleTN0S8f5MGHTwO4Bx/1Z+dcV3U9OrBcLihY
+         MsnYi+zi2Eri2J/Xxi16xF9eu5nBheBKCRwQzmh3DIeoPf97fvrpQoVduXqCo6sHDSM7
+         65Hg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=uQdPu5z2EGJ4csNcE/ZMXtBS35QjemgectDDwKWjhJM=;
+        fh=oC4mH6QnThV1iaAIvQ4yqcBfsi924QxThTLUwR+Ifr0=;
+        b=HDEvKc7ayagdJdt7VxhEbD+y5DiP8ANEF4iDXiSxSbHtISQkigSr/0i1jkpTRculAs
+         HdN2glTNpu6CePX8C0h9P/RjobEIJPeT84hQkq29v2hIu96PsbBuBvOSKeKp4sF/DG6R
+         7F4W3QVhYezH/03pZNNvamCpCde2lAaryIRZC2JdV4/csN94qRY8YukFa15cQBWRMgKR
+         k/yG8677QnWsGKXasCx+T0BORve/Qzg7z8Z3G72NLEJ32t1nMs+LVuoMHLJ/ybi1NyZV
+         GoATwbKdPZInFzVBNjkqEN1ezjQ6tEN9F6Xbojxwt1SBXm1W7ac5ou9mMe5f+UkeGVOR
+         z0RQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795293686; x=1795898486; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=uQdPu5z2EGJ4csNcE/ZMXtBS35QjemgectDDwKWjhJM=;
+        b=cidbrxCNn1+nLCLfIngou1EglEDL7TChJ/kN321OSuNFjQVRSFWrcY3+VpX7H5DpEg
+         bPzXyQZ8bzlhVtVUGk78db5ZX9RTXKk0lu31LI8qp/klM1sNatFu6coXZnhj6kGQtc4h
+         wlez1ttMAfCY40gXBd95eiP62lhFnfVQXZkZX/eBcRzEY6+9HTDzeIigIF/wxqGWK4My
+         v4Mv1WBryEzJzRsq1RaluhYwIRWriSRtfnQrwJ6grRpSXQ+6eqcJQTwJQvtCTNrf3VUb
+         eDpkiu+2u1MKnuMlMW287ZRpSuiSVfKUjk5g/4VAzZlLmyUunDc0BNJLZ0gX/nT540FL
+         T+zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795293686; x=1795898486;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uQdPu5z2EGJ4csNcE/ZMXtBS35QjemgectDDwKWjhJM=;
+        b=NMFVde1kb/PQRcR0sf+7e0Kmox1ar31H4lDbpB9HiOyQEnGL3tB76iTNzzlBVyhYhR
+         93hxOit/JArefNoif5FOCMLHmLvgT18rUrn/om4EgRcy4k4peuSlePh6/Dg8oUuDDHii
+         7tZ/jXufctRGDHJtQOruY3cARUPmlDEopY3QsOGhO6o4fVX0o5Uukf4k0SLVko4vKBmv
+         RyNFihcowpx9qWo5xV0k04tL+itYpfOHQn2U+0aXKqkDWfLGq5r1VhvxaX3Y6HSGGNqH
+         U3RXhss0omnt0U2KpTcy2J0bxnHafTOXYVh/blQA11C1vi/lSfQWAtOzbFQETxrKDAOv
+         ImWQ==
+X-Forwarded-Encrypted: i=1; AL+hErE+Zb/OGuhHcPUIvQbZIBf5heIx2NxPDr9VntbsDsq2owZaC7qGafkeQFBiTqUaRuWzD5Xr0UHi9Pldig==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8ygQPq9UF+b3FizqpXpry3iMuDCmmXJf75BXToKG9RCBlzvnfT
+	KEVXVdJmWgBC4o00t4ucT3iEtcf6bJ52qhKBta+SckoGmRmumKGRY5ZvYuWV6V+Mt60fW/WXvQD
+	dSsOeQ9ueFFXu81Zji/v+8RUf35rrPDk=
+X-Gm-Gg: AZFdTZeD5oD/z06+qt4W7IK26RMIUH8bZpwomMlnL7mMl/eweOS+yG7zjUYE36EQm5S
+	tUqju0t0yoWwtlM79jAJhSeKH/5Vfio8TlBe7+z6sa1OgurGOHCeEKXuTe44PMJO/OfcWbrgN20
+	ggWzlOX0gI9Ioq59LMWhd9ZdP2QS7ZwG/NLt/hqU4DYiYpgBrCToAbwva58GdS01HopfTWFz7Kn
+	SB9pBDFt5j5aBwnGizkMifsLnTKJNUuzQ2Q/pgbrNHvh8ItpXgqRTFeo76oG9meK6l3rXb7q3tz
+	aao3e83Ll/C8d2pTQK3pKF2vjjXxxCYuvF1gmtCOijk2Pr50F7DYg0l3q1ATIA2pnpZOYF9LnYi
+	dXn1n7Sq5+s8QAb8DSLh07HPVrCjVfEF8wI+53bNmbyuzNLglw7KDDrFwCuRgkG508yVhnTwHl1
+	eRFc23FGRXHMxSdJO5U8sblbtFL6PmlnOmvtzJ9BrBzB975o567bwS2DFrXukBegUvDj5YM8ExH
+	yzOO1tolca7Y4G3QMU2tMR4HuG24w==
+X-Received: by 2002:a05:6102:2ad1:b0:7c4:a0e4:1a79 with SMTP id
+ ada2fe7eead31-7d7395c2401mr2651293137.19.1795293685637; Sat, 21 Nov 2026
+ 12:41:25 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,86 +105,201 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+References: <20261115-submit-rawnand-retained-handle-lifetime-v1-v5-0-cbc49c5c5e74@gmail.com>
+ <87v75tc7i5.fsf@bootlin.com>
+In-Reply-To: <87v75tc7i5.fsf@bootlin.com>
+From: James Hilliard <james.hilliard1@gmail.com>
+Date: Sat, 21 Nov 2026 13:41:14 -0700
+X-Gm-Features: Aa3M54oFXYK5vYkufMa20MNvSVURFxi72uRFVRNsrbS-Gdn6Fv1aeUhFqCfOY8s
+Message-ID: <CADvTj4opS_oL0AZjL=eBArgpbqtyH-MQxxSC1KdTxDm88OXpKw@mail.gmail.com>
+Subject: Re: [PATCH v5 00/58] mtd: rawnand: retain chip and controller state
+ across removal
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, linux-mtd@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Tze Yee Ng <tze.yee.ng@altera.com>, 
+	Richard Cochran <richardcochran@gmail.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>, Yuqiang Sun <izaiahsun@gmail.com>, 
+	Amit Kumar Mahapatra <amit.kumar-mahapatra@amd.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Bernhard Frauendienst <kernel@nospam.obeliks.de>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	Kees Cook <kees@kernel.org>, linux-hardening@vger.kernel.org, 
+	Arseniy Krasnov <AVKrasnov@sberdevices.ru>, Boris Brezillon <bbrezillon@kernel.org>, 
+	Brian Norris <computersforpeace@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@kernel.org>, 
+	David Woodhouse <dwmw2@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Vitaly Wool <vitalywool@gmail.com>, David Woodhouse <David.Woodhouse@intel.com>, 
+	Russell King <rmk+kernel@arm.linux.org.uk>, Mike Rapoport <rppt@kernel.org>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Christophe Kerello <christophe.kerello@st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Jason Roberts <jason.e.roberts@intel.com>, Boris Brezillon <boris.brezillon@collabora.com>, 
+	Michal Simek <michal.simek@amd.com>, Mason Yang <masonccyang@mxic.com.tw>, 
+	Ramuthevar Vadivel Murugan <vadivel.muruganx.ramuthevar@linux.intel.com>, Lucas Stach <dev@lynxeye.de>, 
+	Dmitry Osipenko <digetx@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, linux-tegra@vger.kernel.org, 
+	Stefan Agner <stefan@agner.ch>, Thierry Reding <thierry.reding@kernel.org>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>, linux-mediatek@lists.infradead.org, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Heiko Stuebner <heiko@sntech.de>, 
+	linux-rockchip@lists.infradead.org, Yifeng Zhao <yifeng.zhao@rock-chips.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Keguang Zhang <keguang.zhang@gmail.com>, 
+	linux-mips@vger.kernel.org, Shan-Chun Hung <schung@nuvoton.com>, 
+	Jacky Huang <ychuang3@nuvoton.com>, Fabio Estevam <festevam@gmail.com>, Frank Li <Frank.Li@nxp.com>, 
+	imx@lists.linux.dev, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Han Xu <han.xu@nxp.com>, 
+	linux-renesas-soc@vger.kernel.org, 
+	Wolfram Sang <wsa+renesas@sang-engineering.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Liang Yang <liang.yang@amlogic.com>, 
+	linux-amlogic@lists.infradead.org, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, linux-arm-msm@vger.kernel.org, 
+	Manivannan Sadhasivam <mani@kernel.org>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Kamal Dasu <kamal.dasu@broadcom.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+	Vladimir Zapolskiy <vz@mleia.com>, Harvey Hunt <harveyhuntnexus@gmail.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Maxim Levitsky <maximlevitsky@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] net: stmmac: stmmac_init_rx_csum() checks dev->features
-  instead of wanted
---
+On Thu, Nov 19, 2026 at 5:49=E2=80=AFAM Miquel Raynal <miquel.raynal@bootli=
+n.com> wrote:
+>
+> Hi James,
+>
+> On 15/11/2026 at 23:29:15 -07, James Hilliard <james.hilliard1@gmail.com>=
+ wrote:
+>
+> > An MTD handle can outlive controller unbind. Its metadata and NAND lock=
+s
+> > must remain valid, including when a writable file closes and calls sync=
+,
+> > while further hardware access must be rejected after disconnection.
+> >
+> > This builds on earlier MTD removal-lifetime work. Commit 19bfa9ebebb5
+> > ("mtd: use refcount to prevent corruption") added MTD reference countin=
+g
+> > [0], but retaining an MTD reference does not by itself retain the
+> > driver-owned allocation containing the master. The read/unbind discussi=
+on
+> > also covered raw NAND [1] and draining active operations [2]. Tze Yee N=
+g's
+> > SPI-NOR series addresses the corresponding SPI-NOR paths [3].
+> >
+> > Following Greg's review [7], separate class-device data from the MTD
+> > backing allocation. Delete the device's interfaces and drain NVMEM and
+> > class PM callbacks before releasing backing data. Bare device reference=
+s
+> > retain an independently allocated device, whose type, PM dispatch and
+> > final release are built in even when MTD is modular. NVMEM similarly
+> > disconnects and drains provider and layout callbacks before unregister
+> > returns; retained consumers keep core-owned metadata and receive -ENODE=
+V
+> > on subsequent access.
+> >
+> > Introduce opt-in backing-object ownership for MTD masters. Registered
+> > nodes and acquired MTD handles retain the chip, while nested partitions
+> > also retain their parent metadata. Unregister first so removal notifier=
+s
+> > can finish I/O, then disconnect raw NAND and drain admitted operations.
+> > Hardware resources can be released without waiting for open files to cl=
+ose.
+> >
+> > Virtual concatenations serialize publication and removal across physica=
+l
+> > controllers. Disconnect and drain a published concatenation before any
+> > component can disappear, then release its component references. An old
+> > handle keeps the disconnected virtual device, independently of a later
+> > replacement.
+> >
+> > Run NAND and controller-specific cleanup during disconnection, while
+> > the controller driver is still bound. Snapshot the OOB layout in core-o=
+wned
+> > data before publication so metadata queries remain valid without driver
+> > callbacks. The NAND core frees retained chip and controller allocations=
+;
+> > the final MTD put never calls back into the controller module. Ordinary
+> > MTD and NVMEM handles retain the NAND core that implements their
+> > operations, rather than the hardware driver.
+> >
+> > Share allocation ownership across the raw-NAND drivers, including
+> > partially published probes. Shared controllers remain allocated until
+> > their last retained chip is released. R852 allocates a new chip for eac=
+h
+> > card, and NDFC allocates controller state per binding.
+> >
+> > Based on NAND next at 30daaf3e7897, with Tze Yee Ng's module-reference
+> > ordering fix [4], Karl Mehltretter's OTP cleanup fix [6], and the separ=
+ately
+> > posted registration, operation-locking and controller probe/teardown fi=
+xes
+> > identified by the prerequisite metadata. TLA+ models and their assumpti=
+ons
+> > and coverage limits are available in [5].
+>
+> While lifetime issues are a real concern in the kernel, please note that
+> in general, removing or unbinding the flash controller driver is not a
+> practical operation. While highly unlikely, this is possible though. But
+> I am not going to sacrifice all the devm_ calls in favor of reinstating
+> manual error handling just for that. If there is a way, it must be
+> different.
 
-commit 71e6607bc9a26db47d719c3ea93eefca52be2961
-Author: James Hilliard <james.hilliard1@gmail.com>
+Unbind is unusual for fixed flash, although there was a report of a
+Denali read racing with unbind [0]. With removable media, this can
+happen during normal use: r852 unregisters the MTD device when the card
+is ejected, while the PCI driver stays bound. It should be possible to
+handle both cases without giving up managed probe cleanup.
 
-net: stmmac: preserve RX checksum capability when offload is disabled
+> Also, this kind of contribution can only be done if you *understand*
+> what you are doing. Getting the big picture here is not optional.
 
-This commit passes the requested RX checksum offload state directly to the
-MAC and masks NETIF_F_RXCSUM when enabling the hardware checker fails,
-reconciling features on open and resume instead of discarding the detected
-checksum capability.
+Consider a writable /dev/mtdX file that's idle when the card is
+ejected. There's no I/O to drain from that file, but closing it later
+still calls mtd_sync(). That close must not touch the old card or a new
+one inserted in its place. Removal needs to wait for I/O already using
+the device to finish or be aborted, not for userspace to close the file.
 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/=
-net/ethernet/stmicro/stmmac/stmmac_main.c
-> index a685ce4638f61..786eb089dc2b8 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> @@ -3675,25 +3675,51 @@ static bool stmmac_tso_channel_permitted(struct s=
-tmmac_priv *priv,
->  	return !(priv->dma_conf.tx_queue[chan].tbs & STMMAC_TBS_AVAIL);
->  }
-> =20
-> +static int stmmac_set_rx_csum(struct stmmac_priv *priv, unsigned int rx_=
-csum)
-> +{
-> +	int ret;
-> +
-> +	if (!rx_csum) {
-> +		WRITE_ONCE(priv->hw->rx_csum, 0);
-> +		stmmac_rx_ipc(priv, priv->hw, false);
-> +		return 0;
-> +	}
-> +
-> +	ret =3D stmmac_rx_ipc(priv, priv->hw, true);
-> +	if (ret <=3D 0) {
-> +		WRITE_ONCE(priv->hw->rx_csum, 0);
-> +		priv->rx_csum_failed =3D true;
-> +		return ret ?: -EIO;
-> +	}
-> +
-> +	WRITE_ONCE(priv->hw->rx_csum, rx_csum);
-> +	return 0;
-> +}
-> +
-> +/* Recheck the wanted features if this reset clears or uncovers a failur=
-e. */
-> +static bool stmmac_init_rx_csum(struct net_device *dev)
-> +{
-> +	struct stmmac_priv *priv =3D netdev_priv(dev);
-> +	bool was_failed =3D priv->rx_csum_failed;
-> +	unsigned int rx_csum;
-> +
-> +	priv->rx_csum_failed =3D false;
-> +	rx_csum =3D dev->features & NETIF_F_RXCSUM ? priv->plat->rx_coe : 0;
-> +	if (stmmac_set_rx_csum(priv, rx_csum))
-> +		netdev_warn(dev, "RX IPC Checksum Offload disabled\n");
-> +
-> +	return was_failed || priv->rx_csum_failed;
-> +}
+> Maybe the problem is MTD refcounting? Maybe the problem is the devm_
+> orderging? I don't know, I haven't looked in depth at all the
+> patches. But the current approach is clearly not acceptable.
 
-[Severity: Medium]
-Should stmmac_init_rx_csum() test dev->wanted_features instead of
-dev->features?
+The issue is what the MTD reference owns. The change in [1] defers MTD
+core cleanup until the last reference is dropped. In raw NAND, though,
+the mtd_info is embedded in the nand_chip. An MTD reference doesn't
+keep the driver's allocation containing that chip alive. Reordering
+devres cleanup can't protect a close that happens after detach.
 
-After a previous enable failure sets priv->rx_csum_failed, NETIF_F_RXCSUM
-is cleared in dev->features while remaining set in dev->wanted_features.
-On the next open or resume, checking dev->features gives rx_csum =3D=3D 0, =
-so
-stmmac_init_rx_csum() clears priv->rx_csum_failed without retesting
-stmmac_rx_ipc(priv, priv->hw, true) and returns true (was_failed).  The
-caller's netdev_update_features() then leaves NETIF_F_RXCSUM unmasked in
-stmmac_fix_features() and invokes stmmac_set_features() with
-NETIF_F_RXCSUM set, which fails again with -EIO and aborts
-__netdev_update_features() before applying other feature updates.
+One way to keep the fix in the core would be to give consumers an MTD
+object whose storage is separate from the chip. At unregister, the core
+could disconnect that object from the driver and drain operations that
+already have access to it, much like NVMEM does for provider operations
+[2]. The driver could then free its private state. Reads and writes on
+the old file would return -ENODEV, and close would drop the reference
+without calling the driver. The main change for raw NAND is that it
+could no longer recover the chip from the consumer's mtd_info by
+assuming one is embedded in the other.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120-submit-stm=
-mac-rx-checksum-capability-v1-v3-1-e9e1fd85f380@gmail.com?part=3D1
+The other way to free the chip at removal is to keep the current layout
+and have every consumer drop its MTD pointer at unregister. That could
+work for mtdchar, but it would also have to cover in-kernel consumers
+such as UBI. Fixing the close path alone wouldn't be enough.
+
+A shared allocation helper or a per-provider reference, as proposed for
+SPI NOR [3], would keep the allocation until the last put. That's not a
+permanent leak, but an idle file could still pin driver-private memory
+indefinitely. Waiting for the last put during removal would instead let
+the same file block removal indefinitely.
+
+Would it make sense to pursue the core-owned MTD object, so an open
+file can survive removal without keeping any driver-private memory
+alive?
+
+[0] https://lore.kernel.org/r/CAND4H7dz94Gsi_tXSQmLNme9uROnouOUwuCX9BW_+RCc=
+2ZFDqA@mail.gmail.com/
+[1] https://lore.kernel.org/r/20230620131905.648089-2-alexander.usyskin@int=
+el.com/
+[2] https://lore.kernel.org/r/20261002101352.1084447-10-srini@kernel.org/
+[3] https://lore.kernel.org/r/20261022035352.52129-1-tze.yee.ng@altera.com/
+
+> Thanks,
+> MIqu=C3=A8l
