@@ -1,90 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795223490;
-	b=k59dc9qEOAZ95D/lkVSXKbjd63xakgC1gYCTmUh9ugL0yGq5fJx/ZLfZhwHRfMkOawXB
-	 /VMizzHQOMaKC5WJJ2lYd5LRJ7NLT1R/z5ipo+mAHaWqavkf6umJi8yjcDbJ5tgvqUCW+
-	 HgRvdqGrfcrreuUi+ENYI4QSPFIM8fDj1uorHtDyddP/I+K7ciR7gHNMFql+uTjwqwnk7
-	 NXnK8XG5B5gfwGnVU97AMCzQfLD9ziu8tGgeNa079AeWShyHI/Zzz6cBRQ+Vk5fu5qm8m
-	 LTd6kHmYKm1Ib7IdCiJEn9+n876pybPNslxPWpid5VQd50zdy7Mblc+Cu4G5eriHoow==
+	t=1795223492;
+	b=0B6t83QVGyj2HYtSC4A7gKoEssJsf5Qhwd6XrQriJ2xXkD2EjtfqIb3SG/wVkLQJ+rfC
+	 Y3S6Hyd5rlTd2jVKmOdGclVffedWagSK+balY049vccaVpVzR8d43fPgT2spLn7YtF3Cy
+	 B9GN6MIqeV3OqwaqifUHHwzfcvuu+e78Pv0VDL6I34X0fPyHBNM+EKMXmMYC99MoWXzX8
+	 6+AvuR4a5GjDFu1R0agO1/ORcL0uL6jGaa/FHF5nDCQtTJNzZQTWGi9koXAX4n2WuheTz
+	 l0GILVRy4zQtuoH9DH6hDUZeIIQpt/JlOHImof0Uw+eZ7r4dpapnzS1WfNvQ/TBKGiA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795223490;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795223492;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=8wmwptSly1/jnXieQYc5MDUwaGqVqpFqBShPCzacVyA=;
-	b=LjDawBXKw/VCkhkI2IPOz6owoHxM8zC1o4zXV/3NN4Nr0UNAZ9q5FOt9igtlfBHng+j4
-	 PuQCBkwJ8h602/+7AGTBfaMS/87Z7NLHIjz3cjoqZIHKMcvEtjtS1Y1dyh+EJm+sPCjND
-	 HwEmYt5DCMQwzRtWAuiq+MGQwHXGKzJc0o48v8M7rgJY4BRvJVd6qiLf6+e3VpH1O41ve
-	 mLJwrOclAdgtGcl4FHYhzeQzfebmbZ/k1FlqSkk82DREmw6vjv6tuhl48X2GGTt54WsgM
-	 uGBFtVdHHTfvWVrk0/W9K0YSVky3o0ARpl9uNjt1hzsm1sGnCnRJeaP8nd2zpW50BVQ==
+	bh=KCmwAi76omzV3Ocey3RKQm8GgxKEzZYW/hAI8TU8mC4=;
+	b=4S/98532+COD9JNwMmQ+oaPr2DtXHedpHmTsruHcBsMkiPGbh8jmtX0+Tubub9hlWsE7
+	 yjdvMLTz286egTWHtGDTwdyxTDwV8Lj1e9+bAQwfp0kf7mk6iTXOFYBqcj/TEJ59ZKkgF
+	 8ahW9fU0kiTWeqCiqBGcRtS8KluRVOqll9y0rFj1f54P5q0MKTMDklYnk8E+bttzci1pb
+	 7010DlNlDLuqixFajz8x1fdQvu5B9U3Sg3LFrb2VqGzVIhIDPth8NUzl50IhoyGIIMlHu
+	 m9lXr1BzMdyjA0jpZXc48kKG5nj/t0WC38qzVzkdESUv1eiU3ZOEHNIXj0mVtIrFXMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oRFXLhvY;
-	arc=none smtp.remote-ip=209.85.167.180
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dUfJKR5C;
+	arc=none smtp.remote-ip=209.85.167.178
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CF060A263E
-	for <linux-sunxi@lists.linux.dev>; Sat, 21 Nov 2026 01:11:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2CF060A263E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3B7606A332
+	for <linux-sunxi@lists.linux.dev>; Sat, 21 Nov 2026 01:11:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E3B7606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oRFXLhvY
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-55650fe1f0dso924896b6e.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 20 Nov 2026 17:11:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dUfJKR5C
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-4a451915d8aso1058877b6e.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 20 Nov 2026 17:11:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795223488; x=1795828288; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795223481; x=1795828281; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8wmwptSly1/jnXieQYc5MDUwaGqVqpFqBShPCzacVyA=;
-        b=oRFXLhvYkpJHHWopAfhW6I2PVzmZrjGr6MmnClk0OaD04hxy5uo5fyDN1dFHzbTtOs
-         HY1f34bHm/7Eyq+SR2R9s5IR7eC53O9RCbPEuIzkKSQVOtgHd6frcY/1FIaMTVY+954v
-         TLl5NM8+6MmlWEge+ifoauuw4LDFw4Doc/buWDxL7/ADUJ9qu8zLqJY/HSpdaMg+HLdv
-         0gkdoKocANCwp3ELflQG+iuBlU7z6+Z9i5927yss+Y4bFngF2Ow9R5Z/rVPzqqKxC7wc
-         4FaCJUVy41GjBI6scYpOAERSMhLyOKg5AH6SWQf/UJxu7IZeb3ncHrxKZQqV/poFOTZj
-         9oyg==
+        bh=KCmwAi76omzV3Ocey3RKQm8GgxKEzZYW/hAI8TU8mC4=;
+        b=dUfJKR5Co0HiNlns/knQqGqHSozCwHpvG5LIOoYKAgJKRpenRopNjyZmK7xCG8ERwI
+         PAq8bVsgzkkPG5MVyhXwwDoN7ZQbWdpVXDJ7cma16N9BXU3PrItES3SfQxltxJP+/Jst
+         VPVVOGNyn65VuPFRqCxZFpZD5WgkQq9fYBl4u62jzRDBwepvZnZhblOMUvtvHb6HWerz
+         PlkBNvrwYx/g4+RTAP1dZJJBKa6iuV1y2ZTkLbZXhDnQMZSejcX7QlT7ZFq1gTIOJ1jz
+         uVCUn9NwDEeca3HSQSQtc5I7WgJTnNJExQ12q3cmFRd9jAmo+MMv84Q0BpezbzLN6Vjs
+         jVzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795223488; x=1795828288;
+        d=1e100.net; s=20260707; t=1795223481; x=1795828281;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=8wmwptSly1/jnXieQYc5MDUwaGqVqpFqBShPCzacVyA=;
-        b=DCVkmeho4mg4KuWHLkbcpVNGlpmGYKZSP1cSuh6apc7/bWpv1WuOxaHMBK9a1MqCg/
-         fhchNoj8q8jqAIfVXigjd4xd/LCoNldNrAivm6tUtFz0j9N3NqmpOtXMtEcYVIBQOS0G
-         tP3IVZ9x+F66QIGdOZ0eWqdb7ZZlaKxAg49dinPN2wI5fCM9qaiw8lH0ZVh2B9KyjWe0
-         A0kB/Rn0yrw6Mm/ougn3T8uwANFwFQ644sPgjrwKLdpZ1p5hP2bPm1rutxwFrNNeaBQz
-         JvdTXX2UE5RxNI1aaSJrrb+ZBPd2tw2GMl/KDzjTwHqRjerTYb60SAMq9eekzTcllfBo
-         Ht+w==
-X-Forwarded-Encrypted: i=1; AL+hErE1JGKR84yi+hhrrylznl5VUMferC7kR3Z05zb/ikSTcOmSZFDzWt/dXBCbkCz8GDPN++jc3+UwjyLcWg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+Av4sB4twj/rhrqa/jo5L+yx2EslvZ4a+ZISDW/9XkIW1mYA55
-	WitnZnBySrfZGqDQUqVy7Y7jC1+kvUkCuPudRdDxXRospG89h7xBc/z+
-X-Gm-Gg: AYBFou1HFuWv6yXoqo4s+oBCN3WHiZqcXTZjds1iBfAaI0RA6YihBAIZHVzBvGuPwN3
-	0nc8NrUiOd7/CqNxkqpmWGoy69Rn3Jie4W4CEhF0qE2ph4jnqWPOrkpKGlWO/m5m5LRdNRsJoeG
-	JAPtc5r8C9xE16F/coHfd9z6ZuO6POkWKM/180uGeaAxAkE2tktHyINsZpTvRV9/zK7Un5BvllW
-	+qmt8b7lxpJPCLl6GyOWRyoL8pE+DTTDriq3DO6kYpSmPzV2yvFwKy1EK0oUTXMYZvmp5fi7TNb
-	5by1/BEWUdcQaVl23zk84L9bxjD20hkQMKciOL6hVodJE4aNd9EQMJ7Hp0yHAdcknl0RH3QLxdK
-	Q6yxuHRrUiEbU0AZUQGPUnlOVrUGprindcMCJcIkrQLFaG7oEprFWjJ1lUi07ygDyGVkO47Hwnr
-	pGHqfFl3T76RQoBgQJBMqlqI9sPISydJve9PFF9HBItJYCZD0dXI4F2xw4N5NQMHJPRrJWM4LfO
-	4RvxNFXsMW2Sbw5E3Dd7ki7BHChgrHEHj+x6XA9bGwq267uELEZW7xM8g2c3ioxu7GC/CKMP2a6
-	mtgnemre6X9P4oDmcdFel0Et1rT7lPTv8sedHfMCFSFMA3V2hSsyfYqDOw43EWiyGsq2Pb0v+VM
-	gCPB1yehr9z7F6Q3uDcgS5klGuQmjUYaQiEoDjro+FZfz5DkVJD5cBic2iG0mzJqFvdvuY4reeE
-	EMVwbBiedrWlgTJchRv1310TWrzqMw8fDiRJJF0GiHgNg27gs3oRpB
-X-Received: by 2002:a05:6808:2220:b0:572:e8eb:36a6 with SMTP id 5614622812f47-57a0bc9d273mr5655190b6e.56.1795223487680;
-        Fri, 20 Nov 2026 17:11:27 -0800 (PST)
+        bh=KCmwAi76omzV3Ocey3RKQm8GgxKEzZYW/hAI8TU8mC4=;
+        b=w4f8PoW0b57SIPWdqyLbT5224hdpWejZLiM9TH5dwFYDuOqekC7Pj/wUZSdGHsI27t
+         0LAAmMakiQOvNYkK34XACbcsHeyfZL8WRNuCjB+3iJF/Tjnl8nG5uVz2y2a0UryKYax+
+         JNL25xGoKlL1jDaPy5hJ7zMJ0OvMeBTzvV+DM4TNxcaes2x9wj5gvkv9G7bqqa/VV5h4
+         76d9CQB/ZIsN7kCnwZLqBeNp3P2nmGqFtKkFOqM9Y+CJTjs27Z5E/Mam4VgYiPiXSLjU
+         wnl9mLunqZN8qQK157GotYYwj243vOILC1AcXT8j1t6+WuGOSBtcMBmS7iC5RCRNDBDF
+         OVHg==
+X-Forwarded-Encrypted: i=1; AL+hErEYnxODdUpPdv8s94wAfNAR5JQRSyLaX1ukgfyyHpdoErLua3DxA+JxD62GlL6mKRzaO/rmrXBBVVJUBA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/0XZs5wCNMmHqxSq4SemDEy6H9192LmbNetaXJ6Vxc8S8Z3w+G
+	o9U1SBHtY8ySM2QblYUOZxg71huB1Jtz3x+GE6SGwg4CdbU4fwt3wLBE
+X-Gm-Gg: AYBFou0egTJcIVtB73uqbti+p/0pxPzCo/HIFRHm3NJFKqV6FOPhkFyG3hC7pqGzt8f
+	wDrYv71q1s1ZTl219S5Ie3XhIIKp1wcC/JyNAINVoYH/UDxa+gwSztJM4T/wmXcDJdvYxHv8vff
+	VnTMvV660UhyxjK/MwIlqJce3DE0i7Khl2QD0R82/DaWk8/kjBqewP7W+3I1oCxBr4b/Gyj5opV
+	SnCQm3ofZil9LskCMMUmfAB/MmHVPP74AL0ZG/Q0eL9v+j1cUxg7y9rUazmHxJHCamUXq66vNBp
+	VmT0JJ//7pD8lx9u1YDITN3rwZfjIU8dlFQDM4ZjMXSf9+2rBbXRU2CNivwFwTbzlio+4qAGwl/
+	zfs3nPKyU8MlmDg3RtkeuhyaeTJoqU41N12tZCutXBENe0GPe6PmSLcAQ271roSqQu8vFg27kPa
+	i6ONzBnZCBDpINti1mtJQcQGyFvt2+kDBnAJ4sojToQK3CIPrh7eJ7MwgzIeN1W9gLT6Oe/QPWV
+	dNlL1zM5C+uv2XkyaXx5Ekq42BKgNIYPMtPeNNKmC0ks5XCctcaY84dPPCL9qvnPBDoXLR+dv5A
+	/UkoRIq5FffJauUzdE5l9TwOI6IAk6+WwhS8l0FDrD5kdnjpadGY8yrWkKNEhPxCB0Uyu7Wy6Ml
+	6mx4gJtGGVRlyY/lewTPxIux9qAB83rAp4kyMO4z9mf5fvtJgK/ve/ZIsrZmIeoqVxhAE/OWqVD
+	V+oCOQtK4p7JIu1sA+K+i732YPXWipkg4X6nWIP6byGkOh/oS8leZHtYTX7sxscyNNH5gNiV5b/
+	A==
+X-Received: by 2002:a05:6808:152b:b0:53c:156b:a16d with SMTP id 5614622812f47-57a0a70b0d0mr5784172b6e.56.1795223481233;
+        Fri, 20 Nov 2026 17:11:21 -0800 (PST)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-57a3485e3ecsm3291532b6e.9.2026.11.20.17.11.26
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-57a3485e3ecsm3291532b6e.9.2026.11.20.17.11.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 17:11:27 -0800 (PST)
+        Fri, 20 Nov 2026 17:11:20 -0800 (PST)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Fri, 20 Nov 2026 18:10:46 -0700
-Subject: [PATCH v11 23/26] dt-bindings: mtd: sunxi: require the H616 AHB
- reset
+Date: Fri, 20 Nov 2026 18:10:41 -0700
+Subject: [PATCH v11 18/26] mtd: rawnand: sunxi: send all address cycles in
+ split operations
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -96,7 +97,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-submit-sunxi-nand-vendor-oob-layout-v1-v11-23-9721b1905ef4@gmail.com>
+Message-Id: <20261120-submit-sunxi-nand-vendor-oob-layout-v1-v11-18-9721b1905ef4@gmail.com>
 References: <20261120-submit-sunxi-nand-vendor-oob-layout-v1-v11-0-9721b1905ef4@gmail.com>
 In-Reply-To: <20261120-submit-sunxi-nand-vendor-oob-layout-v1-v11-0-9721b1905ef4@gmail.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>, 
@@ -118,38 +119,40 @@ Cc: Chen-Yu Tsai <wens@kernel.org>,
  devicetree@vger.kernel.org
 X-Mailer: b4 0.17-dev
 
-Normal NAND reads and writes worked on H616. Fault injection exposed a
-failure when recovering from an aborted internal DMA transfer: the
-controller's soft reset could leave the first subsequent read displaced,
-sometimes without an ECC error. This was not observed during ordinary
-I/O.
+When an address instruction exceeds the controller's eight-cycle limit,
+the driver can report success without sending all of the requested
+address. The parser splits the instruction; nand_subop_get_num_addr_cyc()
+returns a count for the current part, but the driver treats it as an end
+offset in the original instruction.
 
-The controller needs its AHB reset to stop internal DMA and restore data
-ordering after an aborted transfer. Require resets and reset-names for
-the H616 compatible so the binding describes the reset needed for
-recovery. The in-tree H616 SoC description already supplies the named
-reset. Older descriptions that omit it were valid under the previous
-binding and do not describe the reset needed after a DMA abort.
+For example, an instruction with ten address cycles is accepted by the
+parser and split into eight cycles followed by two. The second
+suboperation starts at offset eight, so the old loop sends no address
+at all while reporting success.
 
+Use the returned count as the loop bound and retain the start offset only
+when indexing the original address buffer. The parser limits each
+suboperation to the eight cycles supported by the address registers.
+
+Fixes: df5057999f8c ("mtd: rawnand: sunxi: Migrate to ->exec_op()")
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/mtd/nand/raw/sunxi_nand.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml b/Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml
-index 9d061e2216cb..ccf616fabc91 100644
---- a/Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml
-+++ b/Documentation/devicetree/bindings/mtd/allwinner,sun4i-a10-nand.yaml
-@@ -119,6 +119,9 @@ allOf:
-           minItems: 4
-         clock-names:
-           minItems: 4
-+      required:
-+        - resets
-+        - reset-names
+diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
+index f8bc6e3c3ac9..ee68ef9bba33 100644
+--- a/drivers/mtd/nand/raw/sunxi_nand.c
++++ b/drivers/mtd/nand/raw/sunxi_nand.c
+@@ -2410,7 +2410,7 @@ static int sunxi_nfc_exec_subop(struct nand_chip *nand,
+ 		case NAND_OP_ADDR_INSTR:
+ 			remaining = nand_subop_get_num_addr_cyc(subop, i);
+ 			start = nand_subop_get_addr_start_off(subop, i);
+-			for (j = 0; j < 8 && j + start < remaining; j++) {
++			for (j = 0; j < remaining; j++) {
+ 				u32 addr = instr->ctx.addr.addrs[j + start];
  
- examples:
-   - |
+ 				addrs[j / 4] |= addr << (j % 4) * 8;
 
 -- 
 2.53.0
