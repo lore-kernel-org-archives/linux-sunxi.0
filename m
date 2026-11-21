@@ -1,91 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795223474;
-	b=oClNAyWqpqTDCyspJdrnpCsVXISGRL4i+rP/ZAfR96jWraJwtrKfmphpawC3/qexwoMk
-	 dTJAo9Tx8u224XYNBO3Vo6WGBBJbj7Hn/Qyo5S/1XZ6tLHoj0DKlAfIDmh7VdiGV0V6+9
-	 akETofRMGCw9ERZxugT138TKELAmccdxI/ZFY7Xv0vlZb/is1VKnPGp88M62m9xNgYFbm
-	 y7QZjhDXEsKo+ZiTHR8BG8hIBIuexrrop6OKZmnn4tBGzoQkfU9tEHv0vBgMfT7NX7EEg
-	 yoC9aLiO5Ag79i4Fbub22KUFWleodYfHJYJgl+D9dUFlu9tRH7ZuHi840z/eYZJ50EQ==
+	t=1795223475;
+	b=RZnxgQL1ye3WSA34Fla6vPhXfuGThFzyG+05PiWTPqcrAAqpDw9DiX3HCsVFE1+831bE
+	 77y9QjrUUjhKnNW3bPih78YGX3m+QOhMJ17wnaDWRCzyoKfAVQaRWxazVMWvs2OgkyWfY
+	 hL4ZiHPFOZdg5hUfnATzt0ooUyZEVQAeUvjmUPn8ob+Qh7TgRMpmIAMX3QtujYuotVEFS
+	 BR7C/5TfhGUC6Bka5JW1hSTDSQc3dDS4BgepTEUeFuzdxRjSJYiVB286veazCAt29u3i2
+	 E01RmJpJcOzhqrM8xySlpUq8tkaRqj3sCg+36M0z7VIUVCPiE0ZvZdwhVTOVp3RYK/Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795223474;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795223475;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=u89IqnoAKi5kjnWBIZSz6wZn1oqd6Ypo53SPsotyUk8=;
-	b=1GLQbHL9OKiC/ld2pqa6jZTZUgOwObu8+EFPOG7t+X+dRB1o9sx2CeaQqG0J0yX2LY0V
-	 dWp/+W79vhkBz7bGglKei37nWlruH8AkSZPh3DvLQFPS1CpeLZtDfSsmhA238YpkE2K4n
-	 LLFNlpepsgU6t3BFBNEntpLDZKRnflA+faSHWj9hAyKp7HE9VFfahs/p0SyfMfLMwIlH/
-	 DY3+GScL7KNn1OOOGMPVBgPWlFX+WRb0H6hrKM5b717KEOiv8YCkViz6ZvzbcvFIfdAF+
-	 uCHA30vVznuuLR27Pp7S04aP9mG1ukoap8TTxgft7BXWjjUptw31IZQPHlBkfj4GvUg==
+	bh=T83jSZtlzKtrASqdJI86cD7q3EhrQGMc7SvJoDp9Zl0=;
+	b=rE2QZfYL647V0oedr6NMO3/OB1nP+fTmAg35pLeZ2/uluRTxxGWQ9U4ykxTTAh9S8sF2
+	 qWTJ1EzheNY0Q2hVxPB7uI9MLl57EGg/+7qW+OxeE27BvkqgtdVMS1QSMrUlnucKJ+RXZ
+	 jvv72JFvqL/QaAKjrHzFNhBEcZYERbLJApj0pnZidSub2LdPzQM1xQmc+JYUEmUVjMQqi
+	 1WTbKZMR7E6qwRCanPZ3m9vb4Ks2GgpOxHtvrdH2YVsYUSjEx4edemC84H+V1ajXLVYwJ
+	 3H7c3GpdHJEH82o42mad+KlIUi9alAIFB1DXD9wugYhjV4wMRf4rM9kLauOMvgCu2Tw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AcOn6EqE;
-	arc=none smtp.remote-ip=209.85.167.172
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Wn2S4Zk6;
+	arc=none smtp.remote-ip=209.85.210.49
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD0760A2629
-	for <linux-sunxi@lists.linux.dev>; Sat, 21 Nov 2026 01:11:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3DD0760A2629
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6CA360A3817
+	for <linux-sunxi@lists.linux.dev>; Sat, 21 Nov 2026 01:11:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6CA360A3817
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AcOn6EqE
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-4b28d7c729fso1187915b6e.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 20 Nov 2026 17:11:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Wn2S4Zk6
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-862b76e3c8cso679959a34.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 20 Nov 2026 17:11:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795223471; x=1795828271; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795223470; x=1795828270; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=u89IqnoAKi5kjnWBIZSz6wZn1oqd6Ypo53SPsotyUk8=;
-        b=AcOn6EqEuTrh46YRUAgHrxCIOXmaP4c2vGk73HZlRKB7bxD++wLNCuP1dsPEnyQNEY
-         /b9iKKjkjZyRnmzpbzveTzAdI20pmH/g+7VRk0Yt5jb3o4nqXLGn8Ca44LZP6Z3jOsWU
-         zKPmBePmmqs+sxXaPBHzKy60dx+64c+ief9sv5d+Nr3DfMcnfC/HycHFcdlSiICBymuC
-         4n9ZzwE39xExQgiuJvq9D8rYfXd6zFdZiQNZgZh+Z0ZE4ANY0x/xLzDVyCcHMfrJbJUQ
-         uQgi8cEvCDpNDFn/Tnh3I7BUYoGed6CmlvVSc5VdIBwjlmNb5y5iXJn/weQ+ITtJUO18
-         JeDg==
+        bh=T83jSZtlzKtrASqdJI86cD7q3EhrQGMc7SvJoDp9Zl0=;
+        b=Wn2S4Zk6Qj3woLe1216iSseJ2TO4r1ssJY8XMuWB3jx7T+8UvWey5AI+1JvMJDTYxc
+         S9zWXq1GCMIVbumFXyTVA3X+Xw2nZqAOfRzRAdFtDFv/D4fybsU7FBxp8vdAZ72gt+aF
+         J0QRG+cgPNp/ODhpnbedw0xnNBT9MhaJRxXrjS+8YJLtj8Hvn9LXh2CLL7OaAMAqhKZV
+         fSW2kyOq4VvPTuThuUtNeRbUa7hDNmaZ+6XKs0r+wVy+rrv23f8ronyz1DqdzswQBAPl
+         X1wNiKJVJkAYg5LiRUOJzx8W94tKdMt1Z6s4a0QSNyvlbQXuWuYAzJDB0uWRpIMCUDQF
+         J24A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795223471; x=1795828271;
+        d=1e100.net; s=20260707; t=1795223470; x=1795828270;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=u89IqnoAKi5kjnWBIZSz6wZn1oqd6Ypo53SPsotyUk8=;
-        b=fTB4+njBrReHcPcH6IblSYCRgmIlNAcwVHcS0seznuUJrzhFvLeDHAOkHIFMdb9Ct4
-         IXnt4OJW37pcQiOHzBOdwFl/lSNAENHrNIgdF0hq0oasP4L5UX0Gpe0bdEPhrqcGdayC
-         Tthlpz8Cwb/NrMBdTX+krE9lkHIfVFGHCUXoRNOAw8wBV2xe8G6PhXuB3s/NoaMmkL6e
-         ioRNTWeQZ5xdVsvLO4Sue26VdqMelau7JKoN0KW+94NOSSvXTnXTIfej+RMTyigS14ND
-         Fg1p1HAtnvZycqxxMQv2qPJM3/OoQez+V5mOSawJRCFtghe87EHV0uHx6trN0WF3v59u
-         J45Q==
-X-Forwarded-Encrypted: i=1; AL+hErE+ySehsKlpefmFuVkrGoGWfd+QO5+ploiTeCSD8/Pj4JbtJChLAjZ08w9oMQGwGsQ+6e0P/UywVxJPvw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/KbEzd6jk4B4PK+pNpIEnZqtRIk1qtR0eHkukz7PqFs/fL425p
-	d7bNRs7PiUMvFt/yjv8B5yrKxTJ3Zc1LKop6dvvNZEOBV6RxTCy53YkG
-X-Gm-Gg: AYBFou3l5jbvTGXVXZRgnbO1LIIYy0L2Dm40gukUOKUh2ZTuZQNsseS2gjGLcb6B8WL
-	1SFdk5+hUk/Fjwv/MriF5qLSvhluD60zecWkF+l1fKQKrBlt6fslKaU4Rre8/5gTE45BVgAIeT7
-	RMabjHG15rQO3/jot7k0x66hv6DSPTuxw4GOTd8mT/Q978HHAzdVhPYmeiI66nhLDAeGSbV00sN
-	/6b9HtG1RjtUCzhk3ar1oOVln4/L6kqEG7dFUn1bzu6mX0IK3fWvxnEYurf0wuZiGOF9QMtoBZq
-	qmJaZnnyU7lHK0WcurajQ/1kiKkXn2Wp+7VAOOxAAXDBKftk9PNa8pSmVQC+5S7wW+wvyfQ3dxF
-	WgtTdI5UYcgXavpllsptGUzdzSCUfWRbXkTeybIMGLHT05iQbQoYLGNM5AN0SuaJy/cdlf15lYW
-	9TZ2ksa929Ankvv56ocrU45cjT5D4jYjMkqSshquJctGKxVjJxSW5an5uNIdAfPUs59ucFx2Bnc
-	TQU1l2gogla32T5mL0mSTSaWAAFsEh35VX+Gq41ZuNMxrgqvboVymtkonKK67DU/1y799QFMF75
-	AQq3GK6xQRWSGRyIWoKVQojGa3BNwuT9YD8mu1cDOAmyCI1AEcsaA2YCmLwQDI5hA1tssCUxcE+
-	Dtq5LX2l44im090u7tDgL56mSzcTJcmFqm6Z5eJYwzDC4dRIoZ3XceoSTE+0t3bkMIzQhxEOs7j
-	M1O1U0CXMOJX+F3R4ZCc2JIEy7WdX2Qw/bii6OM0hRZrFmvZ1OgdzkDZsst23v3r5Vig/yJHAm6
-	Q==
-X-Received: by 2002:a05:6808:244e:b0:574:6f37:671d with SMTP id 5614622812f47-57a056c81c5mr5959981b6e.5.1795223471048;
-        Fri, 20 Nov 2026 17:11:11 -0800 (PST)
+        bh=T83jSZtlzKtrASqdJI86cD7q3EhrQGMc7SvJoDp9Zl0=;
+        b=M6eiGIx34Sed8Y9iBT0EgizrFarqWKeE+D2yWAf4Ds6gMDjj55CDgfyCEZv+kPpbfD
+         3K3M7U1qyV5awHoxIDbmclsTcd5e3AW+gxWGGqgrJqt6zhj4bqdGfhW4oNE+gV+VXYHc
+         HHbsSPzi/VIHlhfoDpcU3+1XJlUO+zMOP/tEEaT17b3ZzdNVbXP/TKwcsXjaUaKAETAe
+         xUQIR42OFKJIWV17y4IMgRKi0PQd5mg/I87Hur4yip+bSd3wt4z0IA1MqlEYADfdc0+6
+         txSzZsyPmywpcBAEDbxi+oLO6jhgwNQD8HNTq+oTkhlHwtKAPLtPn/DXSFlRgPIZXLlt
+         FjBA==
+X-Forwarded-Encrypted: i=1; AL+hErHo2cUtNb33aYxlONNkgFL2Sb/w4v4+UGMhl5Hl7zWs5jTxkfFZ16RxqoFr+LzwIDyg0bIPjpf1nxYXbg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+Bcox7DxGVfncO0qrQId52ewgtNvoLtxqncXnifuwCqkCibADZ
+	O8V56eUhiIhckpv0rAmLum9zSwbjf3vPAntAdfza1KiSPozZEmIcC369
+X-Gm-Gg: AYBFou1UtawlPCFipRGngohBXyd/TBDupr6hMildJJaQZlGZ0MVctzx4Cs3NEw4kegL
+	hEHJujsn4SZ+NO7gyRiAf51WBjX/M86kgEJ9LiQ81nLanGD0uUBcPxVR9IO5HqVVO3mfRa0zLSs
+	DELNH2DUUCr+54kIrJ6p/X3AlNq6QNXMxQqn6J8f8mQoDtd/Qb9/sUrZxbEuTD8BAlb5HNnQSbY
+	sLUcWv4oIEpCRhYGjMt61NJVyM+S4mZXGNWOAkRum1bjmkDHmuPDNCI46qxCzp+SffYq8ILe5RA
+	JBvcg2ZNhEodqPGtYkUCe/mlDiWM1AJb76MsfFFnoIrtepXa69iY7g7Ifu5UAN1I7OgmamGRlUl
+	6mrcsjjH3TKyjNXxlPhqcl/uwGKsZT+8Swzgxalq3QSuZVe0pMHWzbCYe0gggCJ9hoWDTYOQezL
+	9jsyBZUXjosgGToMamtB6ZPAroXyU7gJSk7if98wuFk1LI9AtTDfRCcZGArgQUTUG/CtaaIHJUt
+	SpHALN6u+a7BYyur2j96nc9TvAWFHTKqfT8JZhtZZ1YwIq6a55LXEvPsXoLsBnZZ7/dlw5MfngA
+	dcGlqq3geb9CQ9DWlBiHEJNBo6XQUzRYGiiQSr89atq0JkSx9R+6IVhZ0D7ZwyZvKwBHpRY3rvO
+	/JliKNTA5CX0qz4cNN8BtoakMGewWFAm6OQjy8GykxiUlKzNEb+nCFrBbojEvN+miTsQ1kawmG0
+	L6rQfUj5xrBdotFN64kfxk+827gBbQKoSed/iHnUuttOAN5Vt7TzKw
+X-Received: by 2002:a05:6808:19a7:b0:55c:844:98b3 with SMTP id 5614622812f47-57a0bb53de5mr6320056b6e.50.1795223469671;
+        Fri, 20 Nov 2026 17:11:09 -0800 (PST)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-57a3485e3ecsm3291532b6e.9.2026.11.20.17.11.09
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-57a3485e3ecsm3291532b6e.9.2026.11.20.17.11.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 17:11:10 -0800 (PST)
+        Fri, 20 Nov 2026 17:11:09 -0800 (PST)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Fri, 20 Nov 2026 18:10:34 -0700
-Subject: [PATCH v11 11/26] mtd: rawnand: sunxi: preserve synthesized
- zero-pattern data and OOB
+Date: Fri, 20 Nov 2026 18:10:33 -0700
+Subject: [PATCH v11 10/26] mtd: rawnand: sunxi: select the pattern ID for
+ the current ECC step
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -97,7 +96,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261120-submit-sunxi-nand-vendor-oob-layout-v1-v11-11-9721b1905ef4@gmail.com>
+Message-Id: <20261120-submit-sunxi-nand-vendor-oob-layout-v1-v11-10-9721b1905ef4@gmail.com>
 References: <20261120-submit-sunxi-nand-vendor-oob-layout-v1-v11-0-9721b1905ef4@gmail.com>
 In-Reply-To: <20261120-submit-sunxi-nand-vendor-oob-layout-v1-v11-0-9721b1905ef4@gmail.com>
 To: Miquel Raynal <miquel.raynal@bootlin.com>, 
@@ -116,47 +115,40 @@ Cc: Chen-Yu Tsai <wens@kernel.org>,
  Brian Norris <computersforpeace@gmail.com>, linux-mtd@lists.infradead.org, 
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
  linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
- devicetree@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>
+ devicetree@vger.kernel.org
 X-Mailer: b4 0.17-dev
 
-With scrambling enabled, a PIO read can report success for a physical
-all-zero chunk but return descrambled SRAM data instead of zeros.
-Both PIO and DMA can also reload the requested OOB after filling it
-with the zero pattern.
+A DMA read with scrambling enabled can report success but return zeros
+for an all-ones ECC step, or all ones for an all-zero step. Requested
+OOB can also be filled with the wrong pattern.
 
-The ECC helper fills the buffers for either hardware-detected pattern,
-but the caller skips normal buffer retrieval only for an all-ones
-chunk, the pattern it treats as erased.
+The controller reports a pattern-found bit and a pattern-ID bit for
+each hardware slot. The driver tests the current slot's pattern-found
+bit but uses slot zero's ID to choose between zero and 0xff. PIO only
+uses slot zero. DMA can report several slots in one transfer, and
+their patterns need not match.
 
-Skip normal buffer retrieval for either pattern when there is no ECC
-error. Only an all-ones chunk selects a raw read for trailing OOB; a
-later all-zero chunk must not undo that choice. Keep the physical
-reread and erased-chunk check for ECC errors.
+Use the pattern-ID bit for the same slot as the pattern-found bit.
 
-Fixes: cc6822fb756b ("mtd: nand: sunxi: move some ECC related operations to their own functions")
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://lore.kernel.org/r/sashiko-outbox-172123@kernel.org
+Fixes: 614049a8d904 ("mtd: nand: sunxi: add support for DMA assisted operations")
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- drivers/mtd/nand/raw/sunxi_nand.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/mtd/nand/raw/sunxi_nand.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/mtd/nand/raw/sunxi_nand.c b/drivers/mtd/nand/raw/sunxi_nand.c
-index 43c0796d953a..538ffcc79108 100644
+index 76f60fde7a86..43c0796d953a 100644
 --- a/drivers/mtd/nand/raw/sunxi_nand.c
 +++ b/drivers/mtd/nand/raw/sunxi_nand.c
-@@ -1226,8 +1226,9 @@ static int sunxi_nfc_oob_read_batch(struct nand_chip *nand,
- 			continue;
- 		}
+@@ -1086,7 +1086,7 @@ static int sunxi_nfc_hw_ecc_correct(struct nand_chip *nand, u8 *data, u8 *oob,
+ 	if (pattern_found & BIT(step)) {
+ 		u8 pattern;
  
--		if (erased) {
--			read->has_erased_chunk = true;
-+		/* Both patterns are already filled; only all-ones is erased. */
-+		if (pattern_found & BIT(i)) {
-+			read->has_erased_chunk |= erased;
- 			continue;
- 		}
- 
+-		if (unlikely(!(readl(nfc->regs + NFC_REG_PAT_ID(nfc)) & 0x1))) {
++		if (unlikely(!(readl(nfc->regs + NFC_REG_PAT_ID(nfc)) & BIT(step)))) {
+ 			pattern = 0x0;
+ 		} else {
+ 			pattern = 0xff;
 
 -- 
 2.53.0
