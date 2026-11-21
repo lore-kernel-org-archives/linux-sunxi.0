@@ -1,57 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795275159;
-	b=3Ax3gB02y4GZ2mjfIqK0hXv2MsUkwjnGCfWzOXZN0ewbZoJP1V4xmIsijyjkyJ7DmacC
-	 vzdTofewdztfNVDpt7Dp7mScHtOBu5fOEb5sdwUIROd5IjK3V34ItHWkoJ867VgkYopMn
-	 Uo1GjfXmsLUvKb692qCKZNBdewjrpfrRmpV78jZ2QHwBhWUpO/d5RZWenD5FbF6vL0GuI
-	 +dFg8Lu2xynnwtorijPXOaN/qXnbxS34PxDJnjo2cWmBWUXZ/DZ5Iwz+BoTHSXuZqz0gr
-	 YISROelwGDHYdbZwQemc2Rq6MqYv0AY4lS9L5FUEqCIegCwMqAapysSPjdSZVPyMEVg==
+	t=1795284176;
+	b=lnm//N/i42Fw9mLmKGfQ3a2oXqi/vwfT4BbyOEa44L7UGjlK/Rt3PwYGzpllHN5GR4Qx
+	 j+KhTkj4ooCxwvrSHinbbpA9s0la2muFgYHG1v8MQpgk/w4XFm/x3KLwHIxApJTptX87x
+	 30T18aApasjbJdLfjGpTlNznsHif1cF9E0q8r/dDh9JYLVwzcoWsrtk6j99lWB9zVNOhL
+	 BZRqhKNa2CA9+xNpbC/Ixw9c7CM8SM8wVd4B/lQsu1uubZM4RudGGi38duTUTIWGwn8hH
+	 prGiy7RWhcYoNVqsQ9drWJvRO3uLaguiY9fTcNVWAMcfne6227aOBvZzBS8HZRMt1ew==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795275159;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=OxeLKH8w6bWJ7DlWw96QFNDxhXNONm3mamP1sCpj5lk=;
-	b=wrqcbXz7WMBftYQdz4/kxNaXHL8tG1FNiD1CEOGQf+mSsKWnUZEDnhqBediC/GSfCk8Z
-	 9YwOICbpgfN3OLMltMnybeaDnEXLpl2tTs+i8hvWeWWbEKltQJPx58EfPqrFkz/gxn5hT
-	 mfFZKP74IlWxb7CX8rraYq5K/CNKduRvsN4UcpWVrqM7Rjftk00GDMM/640EJEOsNtRH6
-	 DDGfPUyv5jLX7VMiCawanVPYb2WA3t5kHSjoMPbElx6OZCbf7qEfRUdC0WVFihr4fwb6H
-	 ydKYbqjbQB//XWcdG2f61PEsu5YKDrfrE5qqWwjY4l7/wcFdVQiu2oYeO1STQ7LoqJw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795284176;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=ZjOww6Av4TYuUIUrHXUPGTFtUR3yqkQIr555NuUOYP4=;
+	b=LfTCDYTj0duGugKfQEpl/GtaL9oqAOSpFGbx5NjfCahgytUuKYILSuWjqwxRrejSQhBe
+	 ZWb1sfO0IBmiDKjdo2UpgAHh1ZHeTP6pNRg+x0JFQEEN0I/eez2LE7PH2thIDYgepmZtR
+	 jtF0Ym9wtj4pzOHI3nJxGTehIJ9J222AcKtvFBlCDkBIeYKOON8/EO9/oF8uAfSjn0+5X
+	 LBi9EItiGXZVbUccCwlm3yZz4Iw5DVZUCb62gFyKxMyGfc/Tg1JpqH42zoK5DuNWRnuDv
+	 oaoI4jq3uweVXS6B1m+kUm0cOlUkp3FUBpQRUpeSIJyNfx6gu+On039TQf8R135aUFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lPGN5GvY;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=NQy5ayoe;
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3ACD606A32C
-	for <linux-sunxi@lists.linux.dev>; Sat, 21 Nov 2026 15:32:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96557606A32C;
+	Sat, 21 Nov 2026 18:02:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96557606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lPGN5GvY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69A481F000C4;
-	Sat, 21 Nov 2026 15:32:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795275159;
-	bh=OxeLKH8w6bWJ7DlWw96QFNDxhXNONm3mamP1sCpj5lk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=lPGN5GvY29peC2vxA+baw9g38/l+Ik9XTG+1pzwD4ezhYrqc6GFocaOm/wrO5I2o+
-	 xNFCpsKt9P0Xo1fqrdYx0uTURscyLX+8Pep4RDc+kf1jtm+Sn4jMPQ8IzRJ9xtWDGa
-	 cduDWte/lc5fyDyXGUpfN1SC5IJEj4Oq1jmpnlQ4aftdqVjCDexrclOrGJ7dSxnQLk
-	 h4iX1obkqvFzZrumLwXGzMb47M4TDTNai5f4RblxQTXheMYASSBxMMMzzGN5N0QWUl
-	 TudYjXb8oX+PLQKs05v4B2KVPPJ93ERzCh/txuBLIF6zNdk9TV4jpQBTGc6nCVCMwG
-	 XBImThd7VvZ7A==
-Message-ID: <sashiko-outbox-227127@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next 2/2] net: stmmac: dwmac-sun8i: support ethtool
- rx-all
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "James Hilliard" <james.hilliard1@gmail.com>
-Cc: linux-sunxi@lists.linux.dev
-In-Reply-To: <20261120-submit-sun8i-rx-features-v1-v1-2-5058fecba6b3@gmail.com>
-References: <20261120-submit-sun8i-rx-features-v1-v1-0-5058fecba6b3@gmail.com>
- <20261120-submit-sun8i-rx-features-v1-v1-2-5058fecba6b3@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 Nov 2026 15:32:39 +0000
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=NQy5ayoe
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=ZjOww6Av4TYuUIUrHXUPGTFtUR3yqkQIr555NuUOYP4=; b=NQy5ayoerTWJL/iw2Dp7R0pY/8
+	9OYzjOKz3wZJGygM/bkvVNRK6RArDIz2w9i8ryW+/3jGc+ENmmttk+4SA12zROqWAiPKx+ezFx6Xe
+	A10j5IRJj8/yXoTScm0agc9zOEk+yptuWcZ8jaCz0lFFE8tHTvpiuizaw3acnuc1d5XY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xUpQ6-000TX2-Q4; Sat, 21 Nov 2026 19:02:38 +0100
+Date: Sat, 21 Nov 2026 19:02:38 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: aiyengar1990@gmail.com
+Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	LABBE Corentin <clabbe.montjoie@gmail.com>, netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	Russell King <rmk+kernel@armlinux.org.uk>,
+	Nicolai Buchwitz <nb@tipi-net.de>, stable@vger.kernel.org
+Subject: Re: [PATCH net] net: stmmac: dwmac-sun8i: Limit the MTU to one
+ descriptor buffer
+Message-ID: <7dee2bac-9892-42df-b2d3-62d648af3452@lunn.ch>
+References: <20261121-sun8i-emac-mtu-limit-v1-1-22492842d318@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -60,75 +74,28 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261121-sun8i-emac-mtu-limit-v1-1-22492842d318@gmail.com>
 
-Thank you for your contribution! Sashiko AI review found no new issues
-in this patch, but noticed 1 related pre-existing issue it does not
-introduce:
-- [Critical] net: stmmac: stale priv->sph_active state in
-  stmmac_set_features() [1]
---
+On Sat, Nov 21, 2026 at 04:43:41AM +0000, Arun Iyengar via B4 Relay wrote:
+> From: Arun Iyengar <aiyengar1990@gmail.com>
+> 
+> Russell King pointed out in [1] that max_mtu ignores the 11-bit buffer
+> size of normal descriptors. dwmac-sun8i always uses them in chain mode,
+> so a frame must fit one buffer, but max_mtu is SKB_MAX_HEAD() (3712 on
+> arm64). Sashiko asked in [2] for this to go in as a fix.
+> 
+> On an H616 the RX DMA fills 2044 bytes of a buffer and
+> ndesc_get_rx_status() drops a frame that spans two. On TX the MAC cuts
+> a frame after 2048 bytes (TX_FRM_LEN_CTL is clear). At MTU 2033 no UDP
+> datagram gets through in either direction.
+> 
+> Limit the MTU so that a frame with two VLAN tags and the FCS fits 2044
+> bytes (MTU 2018). MTU 2019-2026, which worked without VLAN tags, is now
+> refused.
 
-commit f9a339d9b6caf3c825c74a9901dfe11d7efeed56
-Author: James Hilliard <james.hilliard1@gmail.com>
+Is this problem specific to the dwmac-sun8i?
 
-net: stmmac: dwmac-sun8i: support ethtool rx-all
-
-This commit adds opt-in NETIF_F_RXALL support for dwmac-sun8i so frames
-with reported wire errors and runts can be delivered to the networking
-stack for packet capture without claiming a verified checksum or counting
-them in good-packet and good-byte totals.
-
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/=
-net/ethernet/stmicro/stmmac/stmmac_main.c
-> index 2f33fc0126b11..0a893c2cea78b 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-
-[ ... ]
-
-> @@ -6453,6 +6466,11 @@ static int stmmac_set_features(struct net_device *=
-netdev,
->  {
->  	struct stmmac_priv *priv =3D netdev_priv(netdev);
-> =20
-> +	if (((netdev->features ^ features) & NETIF_F_RXALL) &&
-> +	    netif_running(netdev) && netif_device_present(netdev) &&
-> +	    priv->hw->mac->set_rx_all)
-> +		priv->hw->mac->set_rx_all(priv, features & NETIF_F_RXALL);
-> +
->  	/* Keep the COE Type in case of csum is supporting */
->  	if (features & NETIF_F_RXCSUM)
->  		priv->hw->rx_csum =3D priv->plat->rx_coe;
-
-[Severity: Critical]
-This problem wasn't introduced by this patch, but when NETIF_F_RXCSUM is
-disabled in stmmac_set_features(), does leaving priv->sph_active set
-[1] corrupt multi-descriptor packets?
-
-Just below this hunk, stmmac_set_features() disables Split Header (SPH) in
-hardware when priv->hw->rx_csum is cleared, without updating
-priv->sph_active:
-
-drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:stmmac_set_features() {
-    ...
-	if (priv->sph_capable) {
-		bool sph_en =3D (priv->hw->rx_csum > 0) && priv->sph_active;
-		u8 chan;
-
-		for (chan =3D 0; chan < priv->plat->rx_queues_to_use; chan++)
-			stmmac_enable_sph(priv, priv->ioaddr, sph_en, chan);
-	}
-    ...
-}
-
-The hardware then writes payload sequentially into Buffer 1 across all
-descriptors, but stmmac_rx_buf1_len() still sees priv->sph_active set and
-returns 0 for non-first descriptors (where len > 0), discarding the valid
-payload in Buffer 1 and building the SKB from uninitialized memory in
-Buffer 2.
-
-[1] https://sashiko.dev/#/bug/linux-c61bc2a2-cd8e-40f1-be85-31573536e5d4
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261120-submit-sun=
-8i-rx-features-v1-v1-0-5058fecba6b3@gmail.com?part=3D2
+   Andrew
