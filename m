@@ -1,89 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795333588;
-	b=x9pEzNaCfQGPfS3NnmCdRNwsnOrO5ad3xs1E453GA4eBx/9fgFS0lRrMpHRC/roh8sYJ
-	 YOF5MJ0ZOwio9Ad1qJJJTPifZJc/A7b9OFc2qeCrg86PC9+8NkAp94PYOrsUrnsFk8kSG
-	 nrehIBuW9HMs1enRTsOKv40P95okJM0/mwmUsBD7jCtMdenWUKeG4BNuoGVm/MSWdNkSH
-	 21Fb/PxFHtF9JeaLU0GCd9WSN36P19OfUU6V9fiYLQxFB7ZNVADKgDWKj/t1HC9TUm1uN
-	 ePJIk8V9S9X9BefnKGghA0KAzfEttTdkbXrQ5YPsrxuQnA/kPF4gLszO1sP5wWR2d5g==
+	t=1795333590;
+	b=rYMK5xKwLV9NaIOcxPGb/NsrO6TqmJ/3JgGQ8wYIJWRfv66MYWi6/UGey9L5Vi0vDOiZ
+	 lBjyZyyOQ6VbuicmZ/wH01WsOrA+kfwY/pEGCQgFvnVtTdkkEbu4nMabJXlcKwn1z9EZN
+	 ijbgYS1/izdU3EvDRSfibCQP3Kcuxd2737z6nhxCANRxCImlzWLE3JaAE6TP77BJrVreZ
+	 ZyhWH+or7D4unssAlbkrOc0OYnS7l6JQkkg7gqzrD2Z98gTrnGbN9ITfhcrR7zWhvuDAe
+	 TzFRozKXi0FGjeFMXrCVrgXiO88IR+OfvR6+CjViVyVAJo2OlL+Ix9PKSIrQHL7REow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795333588;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795333590;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
-	bh=5rIXOAbRqzpNweQh5zZVLwYn2XFN8mtukNpU08cq/RI=;
-	b=m8hsvyC493WKZSjg6+ixAGvgbaWZLXxW5q5vXIu4BHsyykz8d7v+rimGh9BS4mypvOEk
-	 LGGDGYSSngU4OTq1nIQJwjOG1nb2xrP4xpQco3ygkjT0gqH/zmPq82ALeOWDVGyNg9fZl
-	 WjiYLOufnPnOsdVFByqiY3rOkVT0VPLyVa55EWOh8sMXZW+w5pKbJkzrCVspGal+Tdlv8
-	 OpCk0nVACnfqvsKWFrh+3GmxOhV74ro81+R7ffqRnLNADXBFVb6gta3tGibZssdAEoCum
-	 VnhFDEkjSDuPmr/GOz0WocLdVX/ewqnvGLwPzFSbO39mwSxguXHfFm3tELihRn4Ae0Q==
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
+	bh=y8XgGvlVCCjPCeMynCuGBvpdTmWq070BiRu3GuXh4v0=;
+	b=cV06CEe5G86EEiDsFMoJnTiE/vwqebKfYwqY7rAZY7Eu224Xym3WSllWA23S+hLoYp/o
+	 j6SI2E+qo5B5p/heSe7vd0MEKap49H+/zD2jpDOw2XDM0QNvO1RAoes12aY4BRFfCgKpM
+	 Ml1frqAbZzA3tcvvh6l4JGagP+0SBhvhDXMxpiQ4x9Mbwwt/naOtY+d7g1UGHz6MzcwXE
+	 /8ve87DxUTDljLyJtAJtAiWx/ZhGv6PC5tlnq5U7SQJovBUYclxe3j4hskgxVfbroNzgf
+	 I0oQv8CxIEcBQCSMt4L0lroK6j1nEePwv5P58eQ9dfWpyaGwPHdvenu9cILH3Wbf+Fg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TN47CEOx;
-	arc=none smtp.remote-ip=209.85.167.182
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zCMrsBjR;
+	arc=none smtp.remote-ip=209.85.167.181
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A4A606A32A
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 07:46:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6A4A606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A848606A337
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 07:46:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0A848606A337
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TN47CEOx
-Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-571eb508edaso1026897b6e.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 21 Nov 2026 23:46:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zCMrsBjR
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-4b28d7c729fso1914970b6e.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 21 Nov 2026 23:46:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795333586; x=1795938386; darn=lists.linux.dev;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=5rIXOAbRqzpNweQh5zZVLwYn2XFN8mtukNpU08cq/RI=;
-        b=TN47CEOxAMdTG+jDnCCAlDsG7qiHU6Z4pfJ8HIkR4W02ECpjCYvOQA4a6pOp+xm7rr
-         w4MlASVthO/wChK1Ch1a5veNZVqdL0TzpqJRWsMUcXi3AyzqTGzCzxcVpJiYhNG63aag
-         GwL+d5PFLBval0jqG2mV7qjS1T7b+Hz8DyagdBPxh4NmWdCNXXmpguCB4mV4vnG6chQL
-         dkrzkTzvowF7JED4+smmNbmIdaldIblhS03qeemqkXQXXCpujmEd5E/kaGovpUoViNrm
-         HFJ2nfFotZ6w9kk8lNc85qOUH82PxxVlx4JPeSHQKFW1mjUPZAKbkA33lUILFohRE2Gx
-         wZbg==
+        d=gmail.com; s=20260707; t=1795333588; x=1795938388; darn=lists.linux.dev;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=y8XgGvlVCCjPCeMynCuGBvpdTmWq070BiRu3GuXh4v0=;
+        b=zCMrsBjRluGplpvM99V8xAn//DswU9qdlcG8Qibhbl8cdV3EvlKlb0Wk7+FxXhrD+M
+         KyL059q34ayiPcjp8JK4lB/pnzJKFKoD/h4m9lEihnIBAFQo0tDN9WyEGVfpl676uPAB
+         zG3sU+RZi5vifS/3OdQXFUJble6vQc35hoMMk/kPCugzkt0+DzsYfpeWPaINjOjazSdr
+         mYd3RJJXw6SxwZT4OvtqVCAPf+idj0tV+gmB2IWKHZfF3j6bIkncC8K98FlhEe3o82LK
+         kPPUhslOzQ+xfmb62W+1cYgtq1N6BWAvWyulwQqftU+r8YvJHLfBbMS/Dx7060yet3Y4
+         fWJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795333586; x=1795938386;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=5rIXOAbRqzpNweQh5zZVLwYn2XFN8mtukNpU08cq/RI=;
-        b=YkmUi4gOzgmFkhOp+obzwsIYNrsT9i8gxjaKG6CCoGPT7/1S0eT1ywI3cpe+XmAd1m
-         3rV0Wzif55BNf9WzKRHvYmtgPMXCQwV71jifVR4oF2loU2i+k5rQo0cmxR9G+S5h0JXR
-         s9gWevhKak3GWLlUSMGInLrKHk9mQ2XQwcnYplwpKPOIRz751it+17c9dymv4Nzr53q6
-         D8eHhb1wow9G+HS5+gv3Jf70+W6+b9WOHkZ3+O4k20C5+7taj5O6/H0sY+vQtGO9bQxa
-         b2vJ5bfnuDjvif06jjs+hG55nibQmbPH6IEVuFbU0PRj9zdEIGV7mJhtWujlMN0D744b
-         F0kQ==
-X-Forwarded-Encrypted: i=1; AL+hErGd/J0j0cogQFQ2gj4HTbL5KpVPhm8JIGY3DHWWlf96U4hGl3JKBUA6vj5ooJzvGmhT6VtmpadI6tGoMw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9PIKtAul0WOkIm84gLTaoBuDF3uutCdTIPW83L/CCmoJgxstJ4
-	5pvvrG1jHKPebZjLqj0uIJJW0xFexZDrIJ+8p68P+MgNVyT/hOiXhDnH
-X-Gm-Gg: AZFdTZeMwlZnfw8WelH75QnPeSkyasjqeaylY1UYEdejhDxxAXoI64IzQ/urUuZDlRo
-	OtARJy/esm/g3+ZIb5uXa35Hvs5VP0xkJrB15YLjmtbJGbuROy97rQNC34AoquFYlLf6ICE+rIX
-	uye1Qz/ZaeS0+9LW5k4H6wcBvhoYcsGPxyLWeKDgPnfiG1gAVuzqEXra4rSxd9eBSbRkgHbljeK
-	lNAeZ2dqAhIJ8QZPL3hpIYeH2XbEb+mlsFMVqlATYXSBjgPTz75VcLSMlNSKSfthV3GoztEdoWL
-	q8BSiRujCY4A/Fvgv71ZkK6lEDace0h8+FXox/LhFenig5OBctwDCqVSJdMpPxOMKDgexopTNlL
-	zA5QT2raREj+LyJMg8fPKKHI/ZZoSE4kYMA001JwyclUH6qII4srRt9wmJiBQ41WylhDYQKCOT/
-	GpcyH0EP5K0M6obIVKjMaLinwa++0O6mY+VJToHgbYjHJKRoidMVRrT9BQTMcWbyXoDakMuQjaK
-	wFBG/Vti/QzvBl3NVrfIt9h8H4YFbleESOCUyGXTcPf8iemH29odj43IMhN6lnGeqzax1RgFB3h
-	tZ+VpU/ed/ykmkfM7Jmov4pnXztzEajzTrgu+lthWvSz2TGc8X7G3o7XVItMgpoSuGk+q1aD9md
-	kzUPiEGggA8GAHOAqqrkXk4bl/tRubFWNARHllw+ZtmgpB+Vw2M5hDBwrqwfVwoovqcvdAtuuJc
-	OteRg4oYamZGpbozdX037qASjn30nRn/vjt/y9hMhzpZtCBOwF83Xy
-X-Received: by 2002:a05:6808:6404:b0:4b9:a829:f015 with SMTP id 5614622812f47-57a0b645f11mr8031031b6e.33.1795333586557;
-        Sat, 21 Nov 2026 23:46:26 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795333588; x=1795938388;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=y8XgGvlVCCjPCeMynCuGBvpdTmWq070BiRu3GuXh4v0=;
+        b=H7ca73lJyRiYhg/YkoCuD5PmtmLLLyaoazUB5QT9Y+WMkgN+S/rLSyh5HakWabC+JA
+         RFPjcah3bUQZnZbeytFOJVqBDVROxdr8KmDccOx+83RRvmyDr3EoM+u6qvszKZ64m37M
+         Ice6mCFDFGOpq4mY1pEPZCCJ/Il6AeKiUXy4+Jlf0j3HoRVy34RxgXU/pmTfEdCfJjuM
+         UlVXM4uJ11KdpBIEryXnPSVCMJpclmNMUEmW9szC4ZfM/ysdOK5pGECLWqDs1p1RmyPd
+         qKNQKCYAXQqXrqsLQGsuD/CCRrDsW0X8Fcy5zM0nqqC99CeprfQry5qp9F5jXuOQxtsU
+         TZFA==
+X-Forwarded-Encrypted: i=1; AL+hErGxbE2DVCh3HEO70rS2ZqH+yf0PNAR1Ye+Yxbac4BeRN93I3++wsLC5hc7Z4C5nEvYPfbWCsp3r87DRUg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9B0K+tsCOiDvvGihiGpDzOqVwQclOaNNqWzrH6LIjxTHu9RS+J
+	B6UDC4GtN9KlKZBrKlPkmYJxgCrBxmbQvQ9e6z+InbxQdc9hSyWCPiaG
+X-Gm-Gg: AZFdTZdEsmXdF9O/53sMcrGmtBoiindLmTPqf/yHivVf2b4F4D6yyUCZ9mRzn3hivx0
+	hX1/H5hS6LNT2sbuEQGctePRzfmvAuzezqdSlk3jnr9m5ibMxRMr9NAQedmSGH4LFr4TSGd5TY6
+	xwUYcg9SpL8c2hvFiniFtoNdGSAiFoKdyB0gpbh+K/iiSzK1WPDDrKVxNcT4YI+XDtezEZFjDXs
+	0j7YdUbQrVZELlfC7T+1E+phbLlLMzeXCMLZqn070lesAsUBqpVh2KNhfxNibLaCmjfLWAAwOIU
+	ZOXgs2hUo6Hv4iTPyHxqlHLYMYz4Exb3M2sWUmdazbakHDI8SI/EThwMdC+duSyVu8KpNLqvKBW
+	jDktYNnJC0hZJF+mNPYgQo2kDua3QV8KhVsmSyrBYOf3DVSuDYgLfFiPkCbeTLQ/K58zQRPp6Jk
+	l7GUKfIVZW9kHdeoGAj9vWvbcUDsvj+bejLf4xfSFz4Go/cyaciEzjlNCemHkJFznPB2PGQX+EJ
+	4QanIMDl8IHQ5Z/G48NTOTSV2fwZ4mqd8Sxf0GBS9nlmXU/QthCwbiNqGP1qYEUCunbNouNrQt7
+	eZEC+Nzi8Vhj+F6wstyU3uVQZpuV7gNxcEu9t6Px2Cygka8GJoqUb5uXGIPvppnCU77W40QNr1Y
+	ylj1Ov3tVgDUgcwXBa6Xi6StJNB4h9/ZJ3YL5+xXU1e1wK09JXJgWmjLldaF0IfRfaac4nD+VRU
+	e2r1uOGsnzWjnRz21zmV6aENcdcXDw/FXQYp4DQyvCISAZ/oCzFLh0
+X-Received: by 2002:a05:6808:309f:b0:573:3cbc:9775 with SMTP id 5614622812f47-57a0900b93amr8494959b6e.27.1795333587934;
+        Sat, 21 Nov 2026 23:46:27 -0800 (PST)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-57a34252987sm6121800b6e.4.2026.11.21.23.46.25
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-57a34252987sm6121800b6e.4.2026.11.21.23.46.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2026 23:46:26 -0800 (PST)
+        Sat, 21 Nov 2026 23:46:27 -0800 (PST)
 From: James Hilliard <james.hilliard1@gmail.com>
-Subject: [PATCH net-next 0/2] net: stmmac: support ethtool rx-all on sun8i
-Date: Sun, 22 Nov 2026 00:45:45 -0700
-Message-Id: <20261122-submit-sun8i-rxall-v1-v1-0-607789772c56@gmail.com>
+Date: Sun, 22 Nov 2026 00:45:46 -0700
+Subject: [PATCH net-next 1/2] net: stmmac: add common RXALL handling
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -95,12 +95,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/12Oy27CMBBFfyWaNZY8E+NHfqVi4TiT1ggMtZ0oE
- uLfawoLxGp0NfdxblA4Ry4wdDfIvMYSL6kJ3HUQfnz6ZhGnpoEkaUQiUZbxHGs7yUaRN386iRU
- Faa1DmMlLktCy18xz3P57vyBxFYm3Cofnp1UcOdRH7cub+Xdp0/UVGH1hES7nNjR0POpJByunf
- q+UC2SUwRGtUTP2sq1K563TaoJ35KF7AqP7BBYz+7o0iAe2Q2PY9mT3zg4rweF+/wOeUeDzEgE
- AAA==
-X-Change-ID: 20261122-submit-sun8i-rxall-v1-2666ccf2a020
+Message-Id: <20261122-submit-sun8i-rxall-v1-v1-1-607789772c56@gmail.com>
+References: <20261122-submit-sun8i-rxall-v1-v1-0-607789772c56@gmail.com>
+In-Reply-To: <20261122-submit-sun8i-rxall-v1-v1-0-607789772c56@gmail.com>
 To: netdev@vger.kernel.org, 
  Maxime Chevallier <maxime.chevallier@bootlin.com>, 
  Andrew Lunn <andrew+netdev@lunn.ch>, 
@@ -116,39 +113,153 @@ Cc: Jakub Kicinski <kuba@kernel.org>,
  James Hilliard <james.hilliard1@gmail.com>
 X-Mailer: b4 0.17-dev
 
-On H616 the PHY can count a bad-FCS frame even when it does not appear
-in a packet capture. Enabling rx-all lets a capture see the complete
-errored frames the MAC can forward. On this hardware, a 64-byte frame
-with a bad FCS reaches DMA, but a 63-byte one does not, even with runt
-forwarding enabled. Both lengths include the FCS.
+Allow a MAC to distinguish complete frames with wire errors from
+descriptors that must always be discarded. When rx-all is enabled,
+deliver the former without trusting their checksum or counting them
+as good packets. Keep counting the errors in either mode.
 
-Add the common stmmac receive and feature-handling paths first, then
-enable them for sun8i. This feature was previously posted alongside the
-checksum fix and is now separate following Maxime's review [0].
+Apply the same policy to page-pool and zero-copy RX. Advertise rx-all
+only when the MAC supplies the receive-mode callback; leave it off by
+default.
 
-[0] https://lore.kernel.org/r/a91278be-9c14-4769-81f1-38497c38c47b@bootlin.com/
-
-Assisted-by: Codex:gpt-6.2-astra
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-
 ---
-James Hilliard (2):
-      net: stmmac: add common RXALL handling
-      net: stmmac: dwmac-sun8i: support ethtool rx-all
-
  drivers/net/ethernet/stmicro/stmmac/common.h      |  2 +
- drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 73 +++++++++++++----------
  drivers/net/ethernet/stmicro/stmmac/hwif.h        |  1 +
- drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 52 +++++++++++-----
- 4 files changed, 80 insertions(+), 48 deletions(-)
----
-base-commit: eb6d6c80d35449c27471b1874f13066c09a8964d
-base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git main
-change-id: 20261122-submit-sun8i-rxall-v1-2666ccf2a020
-prerequisite-change-id: 20261119-submit-sun8i-rx-features-v1-9177e8328598:v2
-prerequisite-patch-id: cfcd83b1605af3856aff1188ef7bdbdbfc19cce0
+ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 52 ++++++++++++++++-------
+ 3 files changed, 39 insertions(+), 16 deletions(-)
 
-Best regards,
---  
-James Hilliard <james.hilliard1@gmail.com>
+diff --git a/drivers/net/ethernet/stmicro/stmmac/common.h b/drivers/net/ethernet/stmicro/stmmac/common.h
+index 706feb7bcbed..ab959ee3a5dd 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/common.h
++++ b/drivers/net/ethernet/stmicro/stmmac/common.h
+@@ -360,6 +360,8 @@ enum rx_frame_status {
+ 	llc_snap = 0x4,
+ 	dma_own = 0x8,
+ 	rx_not_ls = 0x10,
++	/* Complete frame with a wire error, deliverable only with RXALL. */
++	rx_error_frame = 0x20,
+ };
+ 
+ /* Tx status */
+diff --git a/drivers/net/ethernet/stmicro/stmmac/hwif.h b/drivers/net/ethernet/stmicro/stmmac/hwif.h
+index 9ea76de030e4..c20babf8cb45 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/hwif.h
++++ b/drivers/net/ethernet/stmicro/stmmac/hwif.h
+@@ -321,6 +321,7 @@ struct stmmac_ops {
+ 	void (*set_mac)(void __iomem *ioaddr, bool enable);
+ 	/* Enable and verify that the IPC module is supported */
+ 	int (*rx_ipc)(struct mac_device_info *hw);
++	void (*set_rx_all)(struct stmmac_priv *priv, bool enable);
+ 	/* Enable RX Queues */
+ 	void (*rx_queue_enable)(struct mac_device_info *hw, u8 mode, u32 queue);
+ 	/* RX Queues Priority */
+diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+index 70157efc2255..32e7906522a0 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
++++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+@@ -5646,10 +5646,12 @@ static void stmmac_dispatch_skb_zc(struct stmmac_priv *priv, u32 queue,
+ 	skb_record_rx_queue(skb, queue);
+ 	napi_gro_receive(&ch->rxtx_napi, skb);
+ 
+-	u64_stats_update_begin(&rxq_stats->napi_syncp);
+-	u64_stats_inc(&rxq_stats->napi.rx_packets);
+-	u64_stats_add(&rxq_stats->napi.rx_bytes, len);
+-	u64_stats_update_end(&rxq_stats->napi_syncp);
++	if (likely(!(status & rx_error_frame))) {
++		u64_stats_update_begin(&rxq_stats->napi_syncp);
++		u64_stats_inc(&rxq_stats->napi.rx_packets);
++		u64_stats_add(&rxq_stats->napi.rx_bytes, len);
++		u64_stats_update_end(&rxq_stats->napi_syncp);
++	}
+ }
+ 
+ static bool stmmac_rx_refill_zc(struct stmmac_priv *priv, u32 queue, u32 budget)
+@@ -5707,6 +5709,21 @@ static struct stmmac_xdp_buff *xsk_buff_to_stmmac_ctx(struct xdp_buff *xdp)
+ 	return (struct stmmac_xdp_buff *)xdp;
+ }
+ 
++static bool stmmac_rx_discard(struct stmmac_priv *priv, int status, u32 *rx_errors)
++{
++	if (likely(!(status & (discard_frame | rx_error_frame))))
++		return false;
++
++	if (status & discard_frame) {
++		if (!priv->hwts_rx_en)
++			(*rx_errors)++;
++		return true;
++	}
++
++	(*rx_errors)++;
++	return !(READ_ONCE(priv->dev->features) & NETIF_F_RXALL);
++}
++
+ static int stmmac_rx_zc(struct stmmac_priv *priv, int limit, u32 queue)
+ {
+ 	struct stmmac_rxq_stats *rxq_stats = &priv->xstats.rxq_stats[queue];
+@@ -5797,11 +5814,8 @@ static int stmmac_rx_zc(struct stmmac_priv *priv, int limit, u32 queue)
+ 							   status);
+ 		}
+ 
+-		if (unlikely(!error && (status & discard_frame))) {
+-			error = 1;
+-			if (!priv->hwts_rx_en)
+-				rx_errors++;
+-		}
++		if (!error)
++			error = stmmac_rx_discard(priv, status, &rx_errors);
+ 
+ 		if (unlikely(error)) {
+ 			xsk_buff_free(buf->xdp);
+@@ -5995,11 +6009,8 @@ static int stmmac_rx(struct stmmac_priv *priv, int limit, u32 queue)
+ 							   status);
+ 		}
+ 
+-		if (unlikely(!error && (status & discard_frame))) {
+-			error = 1;
+-			if (!priv->hwts_rx_en)
+-				rx_errors++;
+-		}
++		if (!error)
++			error = stmmac_rx_discard(priv, status, &rx_errors);
+ 
+ 		/* We do not support SG in XDP mode */
+ 		if (unlikely(!error && (status & rx_not_ls) &&
+@@ -6161,8 +6172,10 @@ static int stmmac_rx(struct stmmac_priv *priv, int limit, u32 queue)
+ 
+ 		skb_record_rx_queue(skb, queue);
+ 		napi_gro_receive(&ch->rx_napi, skb);
+-		rx_packets++;
+-		rx_bytes += len;
++		if (likely(!(status & rx_error_frame))) {
++			rx_packets++;
++			rx_bytes += len;
++		}
+ next:
+ 		in_progress = false;
+ 		skb = NULL;
+@@ -6444,6 +6457,11 @@ static int stmmac_set_features(struct net_device *netdev,
+ {
+ 	struct stmmac_priv *priv = netdev_priv(netdev);
+ 
++	if (((netdev->features ^ features) & NETIF_F_RXALL) &&
++	    netif_running(netdev) && netif_device_present(netdev) &&
++	    priv->hw->mac->set_rx_all)
++		priv->hw->mac->set_rx_all(priv, features & NETIF_F_RXALL);
++
+ 	/* Keep the COE Type in case of csum is supporting */
+ 	if (features & NETIF_F_RXCSUM)
+ 		priv->hw->rx_csum = priv->plat->rx_coe;
+@@ -8276,6 +8294,8 @@ static int __stmmac_dvr_probe(struct device *device,
+ 	}
+ 
+ 	ndev->features |= ndev->hw_features | NETIF_F_HIGHDMA;
++	if (priv->hw->mac->set_rx_all)
++		ndev->hw_features |= NETIF_F_RXALL;
+ 	ndev->watchdog_timeo = msecs_to_jiffies(watchdog);
+ #ifdef STMMAC_VLAN_TAG_USED
+ 	/* Both mac100 and gmac support receive VLAN tag detection */
+
+-- 
+2.53.0
 
