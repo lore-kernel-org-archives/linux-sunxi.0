@@ -1,58 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795368959;
-	b=OLLFTiGBXimci5dbD901QUjATqFGeNJVdqpehvHssuTSoJ1nzTQ1f507RerBKuH7DG0k
-	 4Do3DZyYxZ00/QTsZHgQ07KTGbt0JpGsbDFf2W6+3qfUZvtdLJhoY2UMhTo0LpoHMea6w
-	 mHwew3Bqz98DSxgVx4BQNCdoaCoKwsyM6IDzeFgSch5XXQ52h6k1ePh4EqhtRJKQQi32Y
-	 oU4x9OjjaLEWUDqnqszKb6SEFpZLtxTurRzBXj3bIzWPYCVP3LqEwnH4V6A7y3o0XjIfZ
-	 DD6GHtV9TpF2WsIfAEg8vnGip9X3a77Le+tNIkGQE+PvSTpeBUp8oEvDrGvHJRGTZRw==
+	t=1795370051;
+	b=pnuEWMgqPrSHoXP5OYaHW476RgWuYIBv6YwWFzzm6nAXkY1mF4wTOVsNuf1Ws+6rVAhZ
+	 HNu6gSeKiwU7p2F8LS3slZG6kslR6yJ94H/PWXOkqsIwVP/AjB5M5WPKdHk/j0UU5+ocB
+	 TTcu/oQvk50Uq7vE6qAE4Dd760cOLOA/gcC0rnDAAI8nL3E/DmGYh7uItrxr25Z/pfUHC
+	 tYnNwxsU95cQGR/60I2E4keBWW1nQxHJEagEtxiaAe3/1GYMXMtEFvIsx/kQiYIM8QO9R
+	 SfLINcFT4J+gnXiMCabeC1FIPwuElBG1jxCgfyZu5YMqi7hybjvKFFh50Cw7bmMvA4g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795368959;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-Last-TLS-Session-Version;
-	bh=2vMjYyTFhWJCTrJmGUbixPZ6wCp7swb0ApFE0Hp03Lo=;
-	b=fBrKtaglgvjXifYAicgXfSEzQ21a0Z97IkH3vpqVksMGbRYDaJkl/6izzZ6BMFZ07TVg
-	 GOCLTgo1Zlbhmwbxe7c+G5mXvvFvA0T4rvTxgW2h/jYf/5DdIrbbMl244Yu4b+MyL3Wgf
-	 ChnFDBcPiP0yces/4NgAHVNsjhfsLAQhoGkV11IeE5auz1/fAPpTtanMrCPS7JwA2DXBR
-	 64QdV+pntTPshYUjPMGWDn/C2LBMMxAjSi10L53anyZTihZEwUoUrJ4VkB/XS18coWhxL
-	 2cZwUl1FIorBYLTUnD4ouhlI5iMiAlDekOoFGaQij6hdBMdu/Wigj/be3DpRxeE5Z/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795370051;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=Lqr2my7RK1rlIMbBVQfce1d8JLq0RXfqlMr2oVJYgIw=;
+	b=ez6Jr4yMcAKeQpp7FVebD6UplhmLWlovJtEdhJs3EdeKoYcEBArRTSxKH+VY8FfkfKL7
+	 hgaZRxgYh7SMhGkAcsSxCsXFhIRu9O7ZM96PCVyKOuS6nBQT7bBU6e0Vfk58TII/UwFna
+	 KSYvDx7zQd3PJTrXBpZXRs7K3BxxcYEmkATVZZKAZ5kkED9Lc1VvEF9ro0m8g8lBhqW/Q
+	 EP6yznUmGvwXdBOWYUsrv5X6M24TY1gxpfHpAibR19A7hhRROIf7ez/Q56IhW3QWgR8EY
+	 xnomdlhnJ6XU6zDY70ZYCjamnOQ14sqtyaETbw3AzFW/1BOnpB93C2apmknKsHoGPHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=zNRmYkSv;
-	arc=none smtp.remote-ip=185.171.202.116
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eo4HcbdH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC81D606A33A
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 17:35:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC81D606A33A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D075606A320
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 17:54:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=zNRmYkSv
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id ECA09C6223F;
-	Sun, 22 Nov 2026 17:36:02 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4F51660512;
-	Sun, 22 Nov 2026 17:35:56 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 676F811E61B2A;
-	Sun, 22 Nov 2026 18:35:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795368954; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=2vMjYyTFhWJCTrJmGUbixPZ6wCp7swb0ApFE0Hp03Lo=;
-	b=zNRmYkSvMIH7cXgMV8K5iRg0WqNLOciUWQnXRteH17Ph7cI4kaEEXhnAAv8c3SlYcUS25j
-	ysfya2BRE20ESnevTSd1M9Zmgi+GoEpHeUoLaUn1tt63XoqdNtu2tGYYXbCgUfJVxX1VRQ
-	l5iSj0/4SXT2EQawrTX9KRuhJwmZ4GWQkKD8odVA5JRg2WKDWRfyu3sKWw8Zbtygt9HuOH
-	qt0SUatHmQ4isJ5Wfsy+/fvtkPxksnsYPfb5aO+EdKXZrxX9ts6jeUBCKrXldGmTMq8jKM
-	mr6s+r/BVWVBDRcbnRBluzBN6Zh+X42k4LPuJgUv08QXSOYv1G4U78Edpq1QNg==
-Message-ID: <abcc0261-ed4b-4b1f-9035-04d17d630d22@bootlin.com>
-Date: Sun, 22 Nov 2026 18:35:49 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eo4HcbdH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AFFA1F000CF
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 17:54:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795370050;
+	bh=Lqr2my7RK1rlIMbBVQfce1d8JLq0RXfqlMr2oVJYgIw=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=eo4HcbdHgBVpemzOYf6oy5CgelFnR8d3OVCpLJNniLJk3xN5NwmFhvCdpciT8oVDI
+	 C/FQPq6UA1SqdiAZZToK/b4nxVBiYpEVtfnAifv8JTeIXmz6On0l5/WsJl9oNsP3P6
+	 awxA/khgreVTcq/A6tSEnSKw/daJ01cXNa6wmeYGMEiBKudPvDi/ooy20J+ntFPt58
+	 dKMhLWld7BcM/bIjhoA3dcZ0xMdgMAEJCR6kmKkc1XlhqPbmbRvS52TN00TcoGvZTx
+	 tJ3xd+3I3s35BMT2Il98iyTwjjuUwysNC/5nQAWLziGHUCfTAOaY/TWGXLvyb33Pjq
+	 nb449gghN/cHg==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-3ab3b29a298so20195481fa.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 09:54:10 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGYqpDhH7qrTHFiJv+pGgz0XL37kaEhENY4kLwK5Q2j4hn246sR44lSY7Gi6gLUpbHOd0S1dATBzbP0hQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9PTSWdlNt9+dyaUuESHIssn2PWpJurP9phsfYidmBUL7XoIwri
+	Y7gei13aO5apX9UEHr/gAooddT9ERoh6wFOVeA9GqMeqic7C7Yo9I6DLyDJAd/0RBelrNkCtfbm
+	Qkxs0XxHRfdQ/xVXCGrRxfEj27XdJGbc=
+X-Received: by 2002:a05:651c:1593:b0:3ab:4eb4:5ef5 with SMTP id
+ 38308e7fff4ca-3ae7f9d5e95mr25703721fa.9.1795370049024; Sun, 22 Nov 2026
+ 09:54:09 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -62,98 +59,39 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v4 4/5] net: stmmac: Add MDIO init and exit
- platform hooks
-To: aiyengar1990@gmail.com, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Russell King <linux@armlinux.org.uk>
-Cc: netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
- linux-kernel@vger.kernel.org
-References: <20261120-sun8i-emac-mux-uaf-v4-0-57eba8915f25@gmail.com>
- <20261120-sun8i-emac-mux-uaf-v4-4-57eba8915f25@gmail.com>
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Content-Language: en-US
-In-Reply-To: <20261120-sun8i-emac-mux-uaf-v4-4-57eba8915f25@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20261119175437.2520400-1-jernej.skrabec@gmail.com> <20261119175437.2520400-2-jernej.skrabec@gmail.com>
+In-Reply-To: <20261119175437.2520400-2-jernej.skrabec@gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Mon, 23 Nov 2026 01:53:55 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66dXR=Z9FEcudG8NL_miWWH4uRvwg-RYpkTJnSrx3NKwA@mail.gmail.com>
+X-Gm-Features: Aa3M54o38aETzb2mUkHD0BeP41inxjrl5JHrW3hwDkzzKCE5Y7QgUCWC98J_8iU
+Message-ID: <CAGb2v66dXR=Z9FEcudG8NL_miWWH4uRvwg-RYpkTJnSrx3NKwA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/5] drm/sun4i: Reject fractional source coordinates
+ without scaler
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>, mripard@kernel.org, 
+	maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@gmail.com, 
+	simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	Andre Przywara <andre.przywara@arm.com>, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi again,
+On Fri, Nov 20, 2026 at 1:54=E2=80=AFAM Jernej Skrabec <jernej.skrabec@gmai=
+l.com> wrote:
+>
+> The layer code programs the scaler whenever the source rectangle has a
+> fractional offset, since only the scaler can apply a sub-pixel phase.
+> drm_atomic_helper_check_plane_state() with DRM_PLANE_NO_SCALING doesn't
+> catch that: it only compares the scaling factor, which may still be
+> exactly 1.0 with fractional source coordinates.
+>
+> Channels without a scaler would thus have the non-existent scaler
+> programmed instead of an error being returned. Reject fractional source
+> coordinates on such channels.
+>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-On 11/20/26 11:45, Arun Iyengar via B4 Relay wrote:
-> From: Arun Iyengar <aiyengar1990@gmail.com>
-> 
-> A glue driver that adds devices on top of the stmmac MDIO bus, such as
-> an MDIO mux, can only do so after stmmac_dvr_probe() has registered the
-> netdev.
-> 
-> Add mdio_init(), called once the bus is registered, and mdio_exit(),
-> called before it is unregistered.
-> 
-> Suggested-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
-
-Manually tested on H2+,
-
-Tested-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
-
-Maxime
-
-> ---
->  drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c | 11 +++++++++++
->  include/linux/stmmac.h                            |  2 ++
->  2 files changed, 13 insertions(+)
-> 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-> index 7396b68899c6..fb1f7b1a5323 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-> @@ -682,8 +682,16 @@ int stmmac_mdio_register(struct net_device *ndev)
->  bus_register_done:
->  	priv->mii = new_bus;
->  
-> +	if (priv->plat->mdio_init) {
-> +		err = priv->plat->mdio_init(priv);
-> +		if (err)
-> +			goto mdio_init_fail;
-> +	}
-> +
->  	return 0;
->  
-> +mdio_init_fail:
-> +	priv->mii = NULL;
->  no_phy_found:
->  	mdiobus_unregister(new_bus);
->  bus_register_fail:
-> @@ -703,6 +711,9 @@ int stmmac_mdio_unregister(struct net_device *ndev)
->  	if (!priv->mii)
->  		return 0;
->  
-> +	if (priv->plat->mdio_exit)
-> +		priv->plat->mdio_exit(priv);
-> +
->  	mdiobus_unregister(priv->mii);
->  	priv->mii->priv = NULL;
->  	mdiobus_free(priv->mii);
-> diff --git a/include/linux/stmmac.h b/include/linux/stmmac.h
-> index 00be2df63d22..e94f9cab973d 100644
-> --- a/include/linux/stmmac.h
-> +++ b/include/linux/stmmac.h
-> @@ -296,6 +296,8 @@ struct plat_stmmacenet_data {
->  	int (*crosststamp)(ktime_t *device, struct system_counterval_t *system,
->  			   void *ctx);
->  	void (*dump_debug_regs)(void *priv);
-> +	int (*mdio_init)(struct stmmac_priv *priv);
-> +	void (*mdio_exit)(struct stmmac_priv *priv);
->  	int (*pcs_init)(struct stmmac_priv *priv);
->  	void (*pcs_exit)(struct stmmac_priv *priv);
->  	struct phylink_pcs *(*select_pcs)(struct stmmac_priv *priv,
-> 
-
+Reviewed-by: Chen-Yu Tsai <wens@kernel.org>
