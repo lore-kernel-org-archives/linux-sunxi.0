@@ -1,101 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795340243;
-	b=o+oQK/rnHKIXSF/CPJCj3EKLsWoHpeWbbhxCeP4ZnxBOybEq0jXsW8l+RKHVfrEfZOF+
-	 vO3P8WRb35/NtjcLviZ/QkWM9g/dJJdyK1enV6lZRv2XzMnBXAI5LM3P39duvS8vj85u5
-	 JNrJ/WCj9JurgSjCl1qxQOdqL+bAVmWBztoc22h2wQ3s0SF3gsLO92jFlSjMk94AkQU+M
-	 PMyZselfAp9O/Wr3vcvtQyh0Z0aZAZukaaN/qMXuVkCpCAYorTmjHbkh4yVR4LJlo4ry+
-	 v4TfMSRhiHMqc0p+sNNOsazxgYTv9fLpfByPi0W0MHSIsgMxshu3DavxkCHuqiP7s5g==
+	t=1795344540;
+	b=NqGRTFy12J1ZQmO6qnax+IuKEEhNGdZ3naah1UUZGfBINCHPPYogHWDrqiopNVqbG0hm
+	 SPpFcscn1UeRFAeZrfbZ7Rn08+2JwPDRb/iP7MaoHMLaPIRNj7/SXbkQ5Sl6bdIaIgkVf
+	 5nXLtfO4xSXl9gS6SxTmOrBeTyc6LpB80n9Ql3DOVbC7L5l6dz6iGaRN7lDPnjuiZQ1of
+	 qUtFaQhTLFHXoTSJkAkNPN5HbJ4UtH/bmia4Lz9ZPMacfWUvsoMnIFuRT3CD49CGPfILw
+	 ZRYzLtHPs8wkWDIz0OndFLCIZLRuq8WhmMWaUAZJkU06rPEWZxpp+UpHNfamLASUqUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795340243;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Date:Message-ID;
-	bh=0O70Q7pwLusshInas4sUrkw+Osg9GoLbcJc1oYS+7u0=;
-	b=SPd8DS+UppOakkZUDImFve/6XWpvH7N9ikhojAQ+ZiyvBhZwGTF2wRt2CGqkQINf4DVl
-	 o5GxGnxcTzcRinlpzlStQQSIIkLQHV5U9ENhvHMxbfkhw5/Hq3u2NX85sPioczETCDzzN
-	 FFyDIh0HhUTB5kqDv7E+/fUpUH7wQaLhLOdjUECWyC44qq0TXDNBogp7oXIvdJnyCkSDF
-	 /F4Fy8k4nz1zkTbv/x9MGp5jhakxvLQ50+92AZkT4nXJlzEIQBuPli5BSbbEFUzR+L9qH
-	 gusx9viqSm/KmcHtwg+MvaCl0GD+G2JbVwr7P3UxKwlukly+gPWVhkt46uuyr37ftUw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795344540;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=82vT/MidDA+8aMYka2WD5yUJcaeeqPoH6Zw6wVte8cw=;
+	b=kL4S61FveJLamOdkGiVYOVuKsdYdOVT2gKBzVERaBoWZcEsGMl9tK0OZ3UA4h2pU4Nyw
+	 BkVQpH88vuXLOwpIHgAW8+EqAK/djwe1dHGMnDA53z2Wm8jRzzB1Pp0gd+2DswwX0iDEl
+	 zh1pALo/HuEKCaGzFof5H448vMjWBYwK924Fj/DmKlmWDHUKJrf2893HDYbguRm9oncCA
+	 8X/kxfZAz1gaSReyd1Z7bwyq1s6Md4ZYHJUzwoaQWA5GrYgtY1aXg4f1k//jgYcVDSmzQ
+	 MYlWWm1cPundRv7Nj2imsnc54fmADMioroU8dY3E+V6ck+LG/5tXMVRdenaa1WSDRpw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QWpZrvBp;
-	arc=none smtp.remote-ip=209.85.216.41
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q3tRe0tK;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BAF606A330
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 09:37:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1BAF606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9827606A320
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 10:49:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QWpZrvBp
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3b40a522c00so284754a91.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 01:37:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795340242; x=1795945042; darn=lists.linux.dev;
-        h=message-id:date:content-transfer-encoding:content-type:mime-version
-         :references:in-reply-to:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0O70Q7pwLusshInas4sUrkw+Osg9GoLbcJc1oYS+7u0=;
-        b=QWpZrvBpclSk8Y3djgHf+V1CY1agQnMb9AM7M/k0MXemNugZrqLpkQmkhHLIhr2DNl
-         OP4h1r/abJkwKQIbtrPl8Z7HvQlVGrinrWjuD3VE9I2T7lF7HdElQhmLr9SBqNIyIm6Z
-         eKTpvkZRyeVS65tI7wKc60EpMNbiezPxuKeMXBA70uE8omtvKIexQx9gmIVdN5dXEFeM
-         u8Fj5guEFhVZ1JT86cUC1oaww5wFcDtGg1rKdeL+4x2gqlmJM1Eda/tzBnAL1Q68iJuI
-         PKrwc1qyvkgB0EH2Q+ifTq9Q/45X+HkTdm8uxw5ZyV8OatE6Y8oJpk6i3o3Z8R0BfY9J
-         2i9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795340242; x=1795945042;
-        h=message-id:date:content-transfer-encoding:content-type:mime-version
-         :references:in-reply-to:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0O70Q7pwLusshInas4sUrkw+Osg9GoLbcJc1oYS+7u0=;
-        b=eIEYCjF9HSF5Dx42iQ7D89A+DnYXITgU+ydtqtriy8+fXhvkoDRdc8xPPaWOZuMskZ
-         +0li74PV4xBea4NIpJ1omnqU63DlbOm2cTHbpsNSM0UVCKe05s7URWrdLdDABKFGdAH4
-         XdwtIHr+5CEuLvDQOOlUkVb8IWl4aQy+3AmzAToh+TpWgS3yt0hvCfYGuawTztBOz4Qm
-         132hCsXl8pYnRKij5aUgVJ0XW2ldmbsO1LhsIX9VNm2hqCjl6DukMSCAjf/l2w5AY5PP
-         5YAYRqMr2Xe5MdGsgG2o9jE1qbUBDeTTKIq8026XC5rPSXwSm2pIL6x822uId6yd0m2S
-         STVw==
-X-Forwarded-Encrypted: i=1; AL+hErH0EXDLOFKAk7sm/GpTEiLNBw5SHAnTubGhnZvq546PbDvkvpZ54zMPoFVvdsK9VbnHvTbPfGrOKbH2Ng==@lists.linux.dev
-X-Gm-Message-State: APuU4Z83rImTw/tonE5ZqvJgm+8UX+gCEC+14iQ0qymM6QbvRj39APN7
-	CtjxP62KHBJvx06GT4gVx/AQBQMrteutDvkBX4wIFw1TslQvTJ2JK9MC
-X-Gm-Gg: AZFdTZd1vzrpcllLHN6B2241JxVWTUtifrWf/d71dzAFua1i6E+kG1v7jSoLFBiQrCg
-	4pRfiG4p3x3WLOcXNXr3EY2s3nR8vurLpRpD6CVqBcnLAx94jH20KP6ITPtWi3y0cH5hsFuOUIV
-	dTfWkpkfssx+R+WYMPZEV2bK2wPhRjxng/ArWl0Xut/xIXV4RGqZ/6Uf0lQ3ferVQTHevAORcRE
-	3IhtV0GEfY43nxX/pHIMRG07UmfF225uSogBtrkulTT4xSbCf+5FanOumEBzhdb8u0OcuxX7xET
-	XAa+vN9icHiD9ZkM6SyT4oRUVtvmvPNNnGAIOjf+beswBDT5ZypSr/LaUKwT6wQipPjcAKGB3r6
-	qa3jPL6c8v3ujavDtc76vlsuFKN8oWY0VsNieCiOXANmuwmKyaEIU6yGIUEcUIA84U4+rBoVXBu
-	XCt4yzMzMOQ/v7GlzuFLr1kYYObpI4rRb93isVKIcwDBTPDiwfxsdclCduxdnKk3OZusSx0i6PA
-	BDw6x/7wOlDasl7KJYh2M8hWSTbdQLyRRWy2VEjbNqzoB0c/+k4hzydTM+NHzYDVra5uFTGptR/
-	a7QvQBwOOZl1h/H59YtlwUFoNGlbkkI2TsIccfScLxFOeGDPckTOaDTb8rQhGpUWu82Kf9VBRE1
-	PhtQvEgPNAtk6Ur+OYKBJH5czGGw=
-X-Received: by 2002:a17:90b:2ecb:b0:3b0:9a3e:bf8b with SMTP id 98e67ed59e1d1-3b41c98a1f8mr12481111a91.6.1795340242152;
-        Sun, 22 Nov 2026 01:37:22 -0800 (PST)
-Received: from claudebox.iyengar.cloud ([50.39.139.68])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cde6cfe9bb9sm3367272a12.12.2026.11.22.01.37.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 01:37:20 -0800 (PST)
-From: Arun Iyengar <aiyengar1990@gmail.com>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Ilpo =?utf-8?q?J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
- linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: Re: [PATCH v6 0/8] serial: 8250_dw: describe the Allwinner H616 and
- A523 UART configurations
-In-Reply-To: <20261102-submit-h616-uart-fifo-v1-v6-0-25afcb346b0c@gmail.com>
-References: <20261102-submit-h616-uart-fifo-v1-v6-0-25afcb346b0c@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q3tRe0tK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B78FA1F000E6
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 10:49:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795344540;
+	bh=82vT/MidDA+8aMYka2WD5yUJcaeeqPoH6Zw6wVte8cw=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=Q3tRe0tKc+da4fHoKNZggf+QYLWK/vw/RT2uLgHl0fU/2aO0OT1jAjK4bf+xeyIbM
+	 WL5hrs5EqOPsI9Vd5n5n73nG13jsMd/zZQ26MhWur+5jcjOH/qUU+/c5ND84/GrT06
+	 atCOmot23FoQM6oc7n8w4ILuhPkx35rD9bRB54dUrP44iPF16GIc0fJMnFtY6UnvcR
+	 cBdftCQ8izLhWvRPd0DkX4YKlQ7fetTicDR1Knq+We68oZSx3vBVpS5PFdBROluTQJ
+	 cgcDOCp3iBzj5huZTUfRRDJ+w882AMl5P4dHV9ipwgLRUi3SATQhzFVCVkSwJeoEpg
+	 XxAKPk49RUx0g==
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3ae1fd4252fso22399681fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 02:49:00 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErHa7Mqw+EmXbZDub2J87KEXBXzewozThMLQOaate5G7g5mT7S79NPPMm3L+9WPh/2RUdbpLm+kBOY8wSw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8FuOyD7NO6UFGcz+Xe8IkCzHs97RojvPzHYjeBr3MAL6uf7LBO
+	RE4aV30Te4T2QKxdV6K6cF19qEyqt9xbwAy0H1lepX5O0XaUJuL9XLqY0Hj+nJRAmwJ6KSPSkAJ
+	SD9SgnzNswjxL7Ew7sbGxFsa4c/ledFI=
+X-Received: by 2002:a05:6512:6811:b0:5bf:a209:f81f with SMTP id
+ 2adb3069b0e04-5c1bc8227e0mr1708230e87.37.1795344539095; Sun, 22 Nov 2026
+ 02:48:59 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -105,16 +59,73 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Date: Sun, 22 Nov 2026 09:37:19 -0000
-Message-ID: <179534023971.231108.3039673113639895699@gmail.com>
+References: <20261122-sun8i-emac-mtu-limit-v2-0-c4081e5b83cf@gmail.com>
+In-Reply-To: <20261122-sun8i-emac-mtu-limit-v2-0-c4081e5b83cf@gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sun, 22 Nov 2026 18:48:47 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66oxp7G92psuF-pQsha5doh47j2gSMiTY7PAB2dYfozUw@mail.gmail.com>
+X-Gm-Features: Aa3M54r7bLOgFVd2AUy7gPHcb4qGTG5JYucqFv0oQ6biMXQehq8fLcl6BjtfAGY
+Message-ID: <CAGb2v66oxp7G92psuF-pQsha5doh47j2gSMiTY7PAB2dYfozUw@mail.gmail.com>
+Subject: Re: [PATCH net v2 0/2] net: stmmac: Limit the MTU of normal
+ descriptors to one buffer
+To: aiyengar1990@gmail.com
+Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	LABBE Corentin <clabbe.montjoie@gmail.com>, netdev@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Russell King <rmk+kernel@armlinux.org.uk>, Nicolai Buchwitz <nb@tipi-net.de>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Tested patches 1-7 on an Orange Pi Zero2 (H616), backported to v7.3.3
-with the two prerequisites; 8/8 not applied (no A523 here). The UART0
-console at 115200 passed about 700 KB out and 350 KB in with matching
-md5 sums and no frame, parity or overrun errors. UART0 and UART5 come
-up as 16550A with a 256-byte FIFO, and rx_trig_bytes 1, 64, 128 and 254
-set and read back.
+On Sun, Nov 22, 2026 at 5:13=E2=80=AFPM Arun Iyengar via B4 Relay
+<devnull+aiyengar1990.gmail.com@kernel.org> wrote:
+>
+> Normal descriptors take frames of at most one 2047-byte buffer, but
+> max_mtu allows 3712 on arm64. Patch 1 limits it in the core, patch 2
+> limits dwmac-sun8i further to the 2044 bytes its RX DMA fills.
 
-Tested-by: Arun Iyengar <aiyengar1990@gmail.com>
+I think you should clearly state that *one normal descriptor* can have
+a buffer of up to 2047 bytes. And the driver is currently limited to
+using one descriptor per-frame.
+
+The way you write it makes it unclear whether it's a hardware or driver
+limitation. I believe it is the latter.
+
+> Tested on an Orange Pi Zero2 (H616) on net/main. Without the patches,
+> MTU 2029 to 2100 is accepted and ping gets no reply. With patch 1 the
+> maximum is 2021, with both 2018. UDP and ping are lossless up to the
+> maximum, and larger MTUs are refused. Ring mode and other cores are
+> untested.
+>
+> Claude (AI) helped write these patches; I reviewed and tested them.
+>
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+> ---
+> Changes in v2:
+> - Limit normal descriptors in the core (patch 1, Andrew Lunn, Maxime
+>   Chevallier), keep the lower sun8i limit as patch 2
+> - Link to v1: https://patch.msgid.link/20261121-sun8i-emac-mtu-limit-v1-1=
+-22492842d318@gmail.com
+>
+> ---
+> Arun Iyengar (2):
+>       net: stmmac: Limit the MTU of normal descriptors to one buffer
+>       net: stmmac: dwmac-sun8i: Limit the MTU to 2018
+>
+>  drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 1 +
+>  drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 3 +++
+>  2 files changed, 4 insertions(+)
+> ---
+> base-commit: 890f23ba87a7ca1aba97c8320770a686e3b689fb
+> change-id: 20261121-sun8i-emac-mtu-limit-66a936064965
+>
+> Best regards,
+> --
+> Arun Iyengar <aiyengar1990@gmail.com>
+>
+>
