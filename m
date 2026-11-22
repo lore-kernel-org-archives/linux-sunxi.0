@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795344540;
-	b=NqGRTFy12J1ZQmO6qnax+IuKEEhNGdZ3naah1UUZGfBINCHPPYogHWDrqiopNVqbG0hm
-	 SPpFcscn1UeRFAeZrfbZ7Rn08+2JwPDRb/iP7MaoHMLaPIRNj7/SXbkQ5Sl6bdIaIgkVf
-	 5nXLtfO4xSXl9gS6SxTmOrBeTyc6LpB80n9Ql3DOVbC7L5l6dz6iGaRN7lDPnjuiZQ1of
-	 qUtFaQhTLFHXoTSJkAkNPN5HbJ4UtH/bmia4Lz9ZPMacfWUvsoMnIFuRT3CD49CGPfILw
-	 ZRYzLtHPs8wkWDIz0OndFLCIZLRuq8WhmMWaUAZJkU06rPEWZxpp+UpHNfamLASUqUA==
+	t=1795347559;
+	b=QzeyurHiN/FSEu+f2raA4lDfhmtchBhzZcgJyHo+4zoIFkzvWJS3A/qC60wx1+tDKNTo
+	 6h/ptCP6vvWwbUr4Up+P+AqRA67yBOV6+yFQLci/sTNTX9Q8Ah+9FcSaOcOF2xQDYJQIJ
+	 QMs3AZCHGenAfQjtcxQHguxbmcHCBXONrbhoV6CMqEL9bFQIzyIpXgrB3eidYI1UECm0S
+	 9BvX3xcdR611gqe08z3iKtFIFZ8huN2emmM2w4c+Esb2mbTJJYpC7kkoLBT/gr29Bt/5R
+	 wAVBceLU3PTOu0H2Xzhp3myuQ9EjWi1EvQM/Uvny9ctK9xvY7o9Hh5scaLeMy/ye/iQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795344540;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795347559;
 	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
 	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=82vT/MidDA+8aMYka2WD5yUJcaeeqPoH6Zw6wVte8cw=;
-	b=kL4S61FveJLamOdkGiVYOVuKsdYdOVT2gKBzVERaBoWZcEsGMl9tK0OZ3UA4h2pU4Nyw
-	 BkVQpH88vuXLOwpIHgAW8+EqAK/djwe1dHGMnDA53z2Wm8jRzzB1Pp0gd+2DswwX0iDEl
-	 zh1pALo/HuEKCaGzFof5H448vMjWBYwK924Fj/DmKlmWDHUKJrf2893HDYbguRm9oncCA
-	 8X/kxfZAz1gaSReyd1Z7bwyq1s6Md4ZYHJUzwoaQWA5GrYgtY1aXg4f1k//jgYcVDSmzQ
-	 MYlWWm1cPundRv7Nj2imsnc54fmADMioroU8dY3E+V6ck+LG/5tXMVRdenaa1WSDRpw==
+	bh=OfjJ0WvNmPf3yRVeCkab8QDdbLg01cA0144pAfNS/ko=;
+	b=UVoZ6PYpoS55JIVLI88WexkoGhEkJnnpUSN+TJtg4UnkBJkEkEHwDrkHi79dsYzPoq3u
+	 kONzkkrFqPV1s9shoNreyWwLzPNtqKfX16zrzFlBHM0TJM+936r9I0d6DtKukhsc9v5zl
+	 ZHGe5zj0gaTjJLaUNCmI2FxdbCZ1cOAmybQWTimZxyCjl+awSQg83B2gOGcP88TNEbJ8J
+	 mZgJxgTmDGChDbmXZ6NXqmBM/93sYe+ycHwqlsAVKasfJ4aHkYDXyU/gzwL+siGR5Qx8n
+	 Du0z5rt79CEnw+D0zjB9lPvlNNhxIWexJencJJjY7y4sChGawz2sFLdqtNgS+Vqmzag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q3tRe0tK;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kOpbrZVn;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9827606A320
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 10:49:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31ED3606A331
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 11:39:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Q3tRe0tK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B78FA1F000E6
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 10:49:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kOpbrZVn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C94831F000D0
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 11:39:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795344540;
-	bh=82vT/MidDA+8aMYka2WD5yUJcaeeqPoH6Zw6wVte8cw=;
+	s=k20260515; t=1795347558;
+	bh=OfjJ0WvNmPf3yRVeCkab8QDdbLg01cA0144pAfNS/ko=;
 	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=Q3tRe0tKc+da4fHoKNZggf+QYLWK/vw/RT2uLgHl0fU/2aO0OT1jAjK4bf+xeyIbM
-	 WL5hrs5EqOPsI9Vd5n5n73nG13jsMd/zZQ26MhWur+5jcjOH/qUU+/c5ND84/GrT06
-	 atCOmot23FoQM6oc7n8w4ILuhPkx35rD9bRB54dUrP44iPF16GIc0fJMnFtY6UnvcR
-	 cBdftCQ8izLhWvRPd0DkX4YKlQ7fetTicDR1Knq+We68oZSx3vBVpS5PFdBROluTQJ
-	 cgcDOCp3iBzj5huZTUfRRDJ+w882AMl5P4dHV9ipwgLRUi3SATQhzFVCVkSwJeoEpg
-	 XxAKPk49RUx0g==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3ae1fd4252fso22399681fa.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 02:49:00 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErHa7Mqw+EmXbZDub2J87KEXBXzewozThMLQOaate5G7g5mT7S79NPPMm3L+9WPh/2RUdbpLm+kBOY8wSw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8FuOyD7NO6UFGcz+Xe8IkCzHs97RojvPzHYjeBr3MAL6uf7LBO
-	RE4aV30Te4T2QKxdV6K6cF19qEyqt9xbwAy0H1lepX5O0XaUJuL9XLqY0Hj+nJRAmwJ6KSPSkAJ
-	SD9SgnzNswjxL7Ew7sbGxFsa4c/ledFI=
-X-Received: by 2002:a05:6512:6811:b0:5bf:a209:f81f with SMTP id
- 2adb3069b0e04-5c1bc8227e0mr1708230e87.37.1795344539095; Sun, 22 Nov 2026
- 02:48:59 -0800 (PST)
+	b=kOpbrZVnERYgmaaHoZkURlOzHTL+LmFRPMuRjwwd8z7TPSCj6Lk3JAEbho+16Z0/R
+	 apEgAP3EnQ5uxlyI7qAJyaD7CI5muLzZaudrhoiYnUwWOd+c+4H54zZ1ocD0jUedQg
+	 jBZ0cStZBZ/mLGr0V8v+gpT9duqIkGufxmUhwvviey5PImNCxB1AE8HsqfVmWAPUFr
+	 hrf3oI4Go6+NmSFQkOStXZXLHtl7rdCEDoxstXxHP5PXodvvdaQiSQGK7VlC2eTwvN
+	 WTN4tMGmaYk6ghQmHlRPX0UP+KHi8Hj4eJswJez/PSW+9LAMKQUSCUqB5JBW1Q47el
+	 lDsbMfWHFEvjA==
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3ae85add4ceso14738751fa.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 03:39:18 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErF1Kp1VgnPi523hIkMgjRaRHtRMN/LiDUHxByymcTmmtKdXbazDqURdQeUqeqOTwjuXwihtY01FGc1NbQ==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/HJbEI8SbrwZnt/w7LVWFuReoyb4OcFRvoT2VTPvqXSD6bzoGX
+	rJu/MkBViJLxj4VFtnwusjDWZHvbI+MnEedIY0txNp4DaUdGBS49xzPFcyiByFZN3umANgej2ma
+	/muQM7iqkwO0VeNSqd+SLaaabWCISync=
+X-Received: by 2002:a05:6512:61aa:b0:5c1:57cd:5c3d with SMTP id
+ 2adb3069b0e04-5c1bc806a59mr2586829e87.23.1795347557053; Sun, 22 Nov 2026
+ 03:39:17 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,20 +59,18 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261122-sun8i-emac-mtu-limit-v2-0-c4081e5b83cf@gmail.com>
-In-Reply-To: <20261122-sun8i-emac-mtu-limit-v2-0-c4081e5b83cf@gmail.com>
+References: <20261122-sun8i-emac-mtu-limit-v2-0-c4081e5b83cf@gmail.com> <20261122-sun8i-emac-mtu-limit-v2-2-c4081e5b83cf@gmail.com>
+In-Reply-To: <20261122-sun8i-emac-mtu-limit-v2-2-c4081e5b83cf@gmail.com>
 Reply-To: wens@kernel.org
 From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 22 Nov 2026 18:48:47 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66oxp7G92psuF-pQsha5doh47j2gSMiTY7PAB2dYfozUw@mail.gmail.com>
-X-Gm-Features: Aa3M54r7bLOgFVd2AUy7gPHcb4qGTG5JYucqFv0oQ6biMXQehq8fLcl6BjtfAGY
-Message-ID: <CAGb2v66oxp7G92psuF-pQsha5doh47j2gSMiTY7PAB2dYfozUw@mail.gmail.com>
-Subject: Re: [PATCH net v2 0/2] net: stmmac: Limit the MTU of normal
- descriptors to one buffer
-To: aiyengar1990@gmail.com
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+Date: Sun, 22 Nov 2026 19:39:05 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65_vY86WqvKr1m=g0N1Qr2UhLC1v3OHKPG3x+oURUKp7Q@mail.gmail.com>
+X-Gm-Features: Aa3M54rz_NQ7yOvBXle79aW57ZyemtshMgGI-7Gz1C236a3c9B6hMMfTmke5swY
+Message-ID: <CAGb2v65_vY86WqvKr1m=g0N1Qr2UhLC1v3OHKPG3x+oURUKp7Q@mail.gmail.com>
+Subject: Re: [PATCH net v2 2/2] net: stmmac: dwmac-sun8i: Limit the MTU to 2018
+To: aiyengar1990@gmail.com, Maxime Chevallier <maxime.chevallier@bootlin.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
 	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
 	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
 	LABBE Corentin <clabbe.montjoie@gmail.com>, netdev@vger.kernel.org, 
@@ -85,47 +83,73 @@ Content-Transfer-Encoding: quoted-printable
 On Sun, Nov 22, 2026 at 5:13=E2=80=AFPM Arun Iyengar via B4 Relay
 <devnull+aiyengar1990.gmail.com@kernel.org> wrote:
 >
-> Normal descriptors take frames of at most one 2047-byte buffer, but
-> max_mtu allows 3712 on arm64. Patch 1 limits it in the core, patch 2
-> limits dwmac-sun8i further to the 2044 bytes its RX DMA fills.
-
-I think you should clearly state that *one normal descriptor* can have
-a buffer of up to 2047 bytes. And the driver is currently limited to
-using one descriptor per-frame.
-
-The way you write it makes it unclear whether it's a hardware or driver
-limitation. I believe it is the latter.
-
-> Tested on an Orange Pi Zero2 (H616) on net/main. Without the patches,
-> MTU 2029 to 2100 is accepted and ping gets no reply. With patch 1 the
-> maximum is 2021, with both 2018. UDP and ping are lossless up to the
-> maximum, and larger MTUs are refused. Ring mode and other cores are
-> untested.
+> From: Arun Iyengar <aiyengar1990@gmail.com>
 >
-> Claude (AI) helped write these patches; I reviewed and tested them.
->
+> The H616 RX DMA fills only 2044 bytes of a buffer, so frames of 2045 to
+> 2047 bytes, allowed by the previous patch, are dropped. Limit the MTU
+> so that a frame with two VLAN tags and the FCS fits 2044 bytes.
+
+FWIW I think this applies to all DWMAC cores.
+
+So I tried to do some research of my own. Google AI search pointed me to
+STM32F4 or STM32F7, and some Altera FPGAs (I used the Intel=C2=AE Arria=C2=
+=AE 10 Hard
+Processor System Technical Reference Manual"), that had some variant or
+version of the DWMAC core, and had proper programming guides.
+
+The STM32F4 reference manuals has this note:
+
+Even when the start address of a receive buffer is not aligned to the
+system databus width
+the system should allocate a receive buffer of a size aligned to the
+system bus width. For
+example, if the system allocates a 1024 byte (1 KB) receive buffer
+starting from address
+0x1000, the software can program the buffer start address in the
+receive descriptor to have
+a 0x1002 offset. The receive DMA writes the frame to this buffer with
+dummy data in the first
+two locations (0x1000 and 0x1001). The actual frame is written from
+location 0x1002. Thus,
+the actual useful space in this buffer is 1022 bytes, even though the
+buffer size is
+programmed as 1024 bytes, due to the start address offset.
+
+The Intel one had the same note. It looks pretty much the same, but I didn'=
+t
+compare it word-for-word.
+
+So for normal descriptors the buffer size is bound to (2KB - bus width).
+Not tested, but I think there is more evidence supporting a cross-platform
+limit.
+
+
+ChenYu
+
+> Fixes: 9f93ac8d4085 ("net-next: stmmac: Add dwmac-sun8i")
+> Cc: stable@vger.kernel.org
 > Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 > ---
-> Changes in v2:
-> - Limit normal descriptors in the core (patch 1, Andrew Lunn, Maxime
->   Chevallier), keep the lower sun8i limit as patch 2
-> - Link to v1: https://patch.msgid.link/20261121-sun8i-emac-mtu-limit-v1-1=
--22492842d318@gmail.com
->
-> ---
-> Arun Iyengar (2):
->       net: stmmac: Limit the MTU of normal descriptors to one buffer
->       net: stmmac: dwmac-sun8i: Limit the MTU to 2018
->
 >  drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 1 +
->  drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 3 +++
->  2 files changed, 4 insertions(+)
-> ---
-> base-commit: 890f23ba87a7ca1aba97c8320770a686e3b689fb
-> change-id: 20261121-sun8i-emac-mtu-limit-66a936064965
+>  1 file changed, 1 insertion(+)
 >
-> Best regards,
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/=
+net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> index 2ece7ba9dd73..ec401cae8187 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> @@ -1208,6 +1208,7 @@ static int sun8i_dwmac_probe(struct platform_device=
+ *pdev)
+>         plat_dat->mac_setup =3D sun8i_dwmac_setup;
+>         plat_dat->tx_fifo_size =3D 4096;
+>         plat_dat->rx_fifo_size =3D 16384;
+> +       plat_dat->maxmtu =3D 2044 - ETH_HLEN - 2 * VLAN_HLEN - ETH_FCS_LE=
+N;
+>
+>         ret =3D sun8i_dwmac_set_syscon(&pdev->dev, plat_dat);
+>         if (ret)
+>
 > --
-> Arun Iyengar <aiyengar1990@gmail.com>
+> 2.55.0
 >
 >
