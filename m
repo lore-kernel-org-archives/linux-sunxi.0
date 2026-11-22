@@ -1,55 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795347559;
-	b=QzeyurHiN/FSEu+f2raA4lDfhmtchBhzZcgJyHo+4zoIFkzvWJS3A/qC60wx1+tDKNTo
-	 6h/ptCP6vvWwbUr4Up+P+AqRA67yBOV6+yFQLci/sTNTX9Q8Ah+9FcSaOcOF2xQDYJQIJ
-	 QMs3AZCHGenAfQjtcxQHguxbmcHCBXONrbhoV6CMqEL9bFQIzyIpXgrB3eidYI1UECm0S
-	 9BvX3xcdR611gqe08z3iKtFIFZ8huN2emmM2w4c+Esb2mbTJJYpC7kkoLBT/gr29Bt/5R
-	 wAVBceLU3PTOu0H2Xzhp3myuQ9EjWi1EvQM/Uvny9ctK9xvY7o9Hh5scaLeMy/ye/iQ==
+	t=1795358985;
+	b=Ej0R0gf1yhMoTATew22PdofeLm1SPwq6qcJq8BEbcJn2zU17yX8o9I7XZxpdlmIuh13l
+	 HZa9hB743K1uzu5/fpLyLnPzShl/V5th6iQGo94FIyNr3NOwzebvkqxOUgnppjbIls7D/
+	 D89M77/ZJ2ecHkP+NTwevn8LxsCt/IoIF3KH83saTTFsToM9jmgh1HH2Efo22pS5mQCZv
+	 kmjaRQ6YpReww2m3/vMJdF0eQFeqlkGOFtMvJEdBzw6NvjaDcUUzEqf66JntDM3z8bBYu
+	 r+gBou08SVa6zCxDNMtBjkJh2G5Ga8cgOrYOhUr/0ERBQrdB08sb/V7EIrbA5iEGuxQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795347559;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=OfjJ0WvNmPf3yRVeCkab8QDdbLg01cA0144pAfNS/ko=;
-	b=UVoZ6PYpoS55JIVLI88WexkoGhEkJnnpUSN+TJtg4UnkBJkEkEHwDrkHi79dsYzPoq3u
-	 kONzkkrFqPV1s9shoNreyWwLzPNtqKfX16zrzFlBHM0TJM+936r9I0d6DtKukhsc9v5zl
-	 ZHGe5zj0gaTjJLaUNCmI2FxdbCZ1cOAmybQWTimZxyCjl+awSQg83B2gOGcP88TNEbJ8J
-	 mZgJxgTmDGChDbmXZ6NXqmBM/93sYe+ycHwqlsAVKasfJ4aHkYDXyU/gzwL+siGR5Qx8n
-	 Du0z5rt79CEnw+D0zjB9lPvlNNhxIWexJencJJjY7y4sChGawz2sFLdqtNgS+Vqmzag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795358985;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-Last-TLS-Session-Version;
+	bh=UT6ps64F668nova2kLKPiXUITTrjy6DxQnfrymQobSo=;
+	b=CjzaGb5s2JdO+yoG/lzH5uKDPR/0LSg0xabw8xoRLh3BVFwtl+qsQOrJ+nJLAfeYUkz/
+	 G0QZGCsPRxrVpRBhNnE1tqOJLv1czLqrut44M3smD5qIerooNvnXAprzjeE/bpes/TvCX
+	 95/K0sCGTK1Tmjik26J+tpabLN2i0VIWEbH/yi6vcFIfO7TeWE2+XzuOpUTso2WKUInIP
+	 bxkYsu/GU+oRKbiygyF3xOg+zs56jwF8pf+CWVPgVpsN5qhhsGufBUhcBZqA5ki073ppo
+	 fBJ9kbXdo6TZXdZKwQ6DF0s7zE7+cha/D9Oul6o1HpGSVVYoXCOvYpbER3RsmJCE5Xw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kOpbrZVn;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=N66DNJa8;
+	arc=none smtp.remote-ip=185.246.84.56
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31ED3606A331
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 11:39:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5EF606A320
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 14:49:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B5EF606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kOpbrZVn
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C94831F000D0
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 11:39:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795347558;
-	bh=OfjJ0WvNmPf3yRVeCkab8QDdbLg01cA0144pAfNS/ko=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=kOpbrZVnERYgmaaHoZkURlOzHTL+LmFRPMuRjwwd8z7TPSCj6Lk3JAEbho+16Z0/R
-	 apEgAP3EnQ5uxlyI7qAJyaD7CI5muLzZaudrhoiYnUwWOd+c+4H54zZ1ocD0jUedQg
-	 jBZ0cStZBZ/mLGr0V8v+gpT9duqIkGufxmUhwvviey5PImNCxB1AE8HsqfVmWAPUFr
-	 hrf3oI4Go6+NmSFQkOStXZXLHtl7rdCEDoxstXxHP5PXodvvdaQiSQGK7VlC2eTwvN
-	 WTN4tMGmaYk6ghQmHlRPX0UP+KHi8Hj4eJswJez/PSW+9LAMKQUSCUqB5JBW1Q47el
-	 lDsbMfWHFEvjA==
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3ae85add4ceso14738751fa.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 03:39:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErF1Kp1VgnPi523hIkMgjRaRHtRMN/LiDUHxByymcTmmtKdXbazDqURdQeUqeqOTwjuXwihtY01FGc1NbQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/HJbEI8SbrwZnt/w7LVWFuReoyb4OcFRvoT2VTPvqXSD6bzoGX
-	rJu/MkBViJLxj4VFtnwusjDWZHvbI+MnEedIY0txNp4DaUdGBS49xzPFcyiByFZN3umANgej2ma
-	/muQM7iqkwO0VeNSqd+SLaaabWCISync=
-X-Received: by 2002:a05:6512:61aa:b0:5c1:57cd:5c3d with SMTP id
- 2adb3069b0e04-5c1bc806a59mr2586829e87.23.1795347557053; Sun, 22 Nov 2026
- 03:39:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=N66DNJa8
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 9EEA31A1709;
+	Sun, 22 Nov 2026 14:49:40 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6B10D60512;
+	Sun, 22 Nov 2026 14:49:40 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2790711E60230;
+	Sun, 22 Nov 2026 15:49:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1795358978; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=UT6ps64F668nova2kLKPiXUITTrjy6DxQnfrymQobSo=;
+	b=N66DNJa8YjNzKnWHnzM692QDi5itNkxnx6Ayb++iXjPUDAcogJMw+rMrENYvBOWTlFBbom
+	mTGXMFnyfNjZzPZSpCZ9BRLDj/vwGTBAsEjw3+M+m0C8MgwD1KQSxrMhgsQsQvBAyCYblY
+	P5/96JdenISrIOSaThFIZmtkt08J1BlT9/Drbqd8rA6YHNh5Jp8rfh4JrL2cn0kPUJzov5
+	5dIqnVzbbHCwzdGIjAsvUuyzm4v7LomRT5Vw7XoROt3MEDB43GesDqX0O5ybkXMHyKY3tw
+	+95lW2RqUXKwLe+eEfIrFCN0/EMgknyHpCFl1qbfn80sxNR0ethuhWhqjal7tA==
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>,
+	davem@davemloft.net,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Willem de Bruijn <willemb@google.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Lorenzo Bianconi <lorenzo.bianconi@oss.qualcomm.com>,
+	Nicolai Buchwitz <nb@tipi-net.de>
+Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	thomas.petazzoni@bootlin.com,
+	=?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH net-next 0/3] net: stmmac: dwmac-sun8i: enable Flow Control
+Date: Sun, 22 Nov 2026 15:49:22 +0100
+Message-ID: <20261122144926.284857-1-maxime.chevallier@bootlin.com>
+X-Mailer: git-send-email 2.56.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,97 +85,51 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261122-sun8i-emac-mtu-limit-v2-0-c4081e5b83cf@gmail.com> <20261122-sun8i-emac-mtu-limit-v2-2-c4081e5b83cf@gmail.com>
-In-Reply-To: <20261122-sun8i-emac-mtu-limit-v2-2-c4081e5b83cf@gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 22 Nov 2026 19:39:05 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65_vY86WqvKr1m=g0N1Qr2UhLC1v3OHKPG3x+oURUKp7Q@mail.gmail.com>
-X-Gm-Features: Aa3M54rz_NQ7yOvBXle79aW57ZyemtshMgGI-7Gz1C236a3c9B6hMMfTmke5swY
-Message-ID: <CAGb2v65_vY86WqvKr1m=g0N1Qr2UhLC1v3OHKPG3x+oURUKp7Q@mail.gmail.com>
-Subject: Re: [PATCH net v2 2/2] net: stmmac: dwmac-sun8i: Limit the MTU to 2018
-To: aiyengar1990@gmail.com, Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	LABBE Corentin <clabbe.montjoie@gmail.com>, netdev@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	Russell King <rmk+kernel@armlinux.org.uk>, Nicolai Buchwitz <nb@tipi-net.de>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Sun, Nov 22, 2026 at 5:13=E2=80=AFPM Arun Iyengar via B4 Relay
-<devnull+aiyengar1990.gmail.com@kernel.org> wrote:
->
-> From: Arun Iyengar <aiyengar1990@gmail.com>
->
-> The H616 RX DMA fills only 2044 bytes of a buffer, so frames of 2045 to
-> 2047 bytes, allowed by the previous patch, are dropped. Limit the MTU
-> so that a frame with two VLAN tags and the FCS fits 2044 bytes.
+While running the "ethtool -t" selftests on H2+ (orangepi zero), the
+Flow Control selftests consistently fails.
 
-FWIW I think this applies to all DWMAC cores.
+I originally blamed that on the fact that the board was connected to a
+peer that didn't support Pause and that we didn't negotiate Pause at all.
 
-So I tried to do some research of my own. Google AI search pointed me to
-STM32F4 or STM32F7, and some Altera FPGAs (I used the Intel=C2=AE Arria=C2=
-=AE 10 Hard
-Processor System Technical Reference Manual"), that had some variant or
-version of the DWMAC core, and had proper programming guides.
+The ethtool selftest are sensitive to what the Peer advertises even
+though this is a full loopback test, but it is what it is :(
 
-The STM32F4 reference manuals has this note:
+Since then, the orangepi zero I'm testing dwmac-sun8i on has been wired to
+a proper peer, and the selftest still fails. This selftest sends tons of
+frames in loopback and checks that Pause frames are generated, and
+failing it means no pause frames were sent by the MAC.
 
-Even when the start address of a receive buffer is not aligned to the
-system databus width
-the system should allocate a receive buffer of a size aligned to the
-system bus width. For
-example, if the system allocates a 1024 byte (1 KB) receive buffer
-starting from address
-0x1000, the software can program the buffer start address in the
-receive descriptor to have
-a 0x1002 offset. The receive DMA writes the frame to this buffer with
-dummy data in the first
-two locations (0x1000 and 0x1001). The actual frame is written from
-location 0x1002. Thus,
-the actual useful space in this buffer is 1022 bytes, even though the
-buffer size is
-programmed as 1024 bytes, due to the start address offset.
+Turns out, multiple things were missing in the dwmac-sun8i
+implementation to get Flow Control to work.
 
-The Intel one had the same note. It looks pretty much the same, but I didn'=
-t
-compare it word-for-word.
+Patch 1 allows independently setting RX/TX FC
 
-So for normal descriptors the buffer size is bound to (2KB - bus width).
-Not tested, but I think there is more evidence supporting a cross-platform
-limit.
+Patch 2 is the one making FC actually work, by configuring the fifo
+thresholds
 
+Patch 3 sets the quanta values in the frames.
 
-ChenYu
+This seems to have never worked, so since it's not fixing a regression
+I'm targetting net-next here.
 
-> Fixes: 9f93ac8d4085 ("net-next: stmmac: Add dwmac-sun8i")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
-> ---
->  drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/=
-net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> index 2ece7ba9dd73..ec401cae8187 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> @@ -1208,6 +1208,7 @@ static int sun8i_dwmac_probe(struct platform_device=
- *pdev)
->         plat_dat->mac_setup =3D sun8i_dwmac_setup;
->         plat_dat->tx_fifo_size =3D 4096;
->         plat_dat->rx_fifo_size =3D 16384;
-> +       plat_dat->maxmtu =3D 2044 - ETH_HLEN - 2 * VLAN_HLEN - ETH_FCS_LE=
-N;
->
->         ret =3D sun8i_dwmac_set_syscon(&pdev->dev, plat_dat);
->         if (ret)
->
-> --
-> 2.55.0
->
->
+This was tested only on H2+.
+
+Thanks,
+
+Maxime
+
+Maxime Chevallier (3):
+  net: stmmac: dwmac-sun8i: allow controlling TX and RX flow control
+    separately
+  net: stmmac: dwmac-sun8i: emit pause frames when the RX FIFO fills
+  net: stmmac: dwmac-sun8i: configure the pause time for TX flow control
+
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 30 +++++++++++++++----
+ 1 file changed, 25 insertions(+), 5 deletions(-)
+
+-- 
+2.56.1
+
