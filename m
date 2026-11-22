@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.13.80.246
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795363065;
-	b=yG+leAnQc8cs52Vsn4D1XuIKyZcjJx7EqC0dwY1ZPYZrLf9kYnU+jdDWSB6K0BTdzTK9
-	 uH/wW02zJ4OfW+S20T0mdW+TUvzJ3yqbhb1IKkzDzrRaJyJjvvUpyL+O0+3pQC/Bb80e8
-	 zEAqeSXjh3iVVHxuzraeEO5JFtX9p9uxECeiVpetuvlpBPR/2YQp0wrzHgpO8q+PcWWIB
-	 m+HvLoAMXL4nN3aEL/i6+ihP7U+mOOzjHiPs5mq9iox94sf+wK6WGl3BHUVCXuE5pPaqP
-	 6x60dl6a0TDmwcTvnCIfhA5q6OBsHRLwhMmG7kV6qRxUSHvADpylJgmqIcy/LMWn/KA==
+	t=1795363136;
+	b=Yu5TCZzLd/tvJKHZEqB1jHPbsuZTBX64Z9gtB0f8dHHvQDRcz6da30rrAhto6ovhgb7j
+	 euDUQ7oqHQ1puMvUrF9p2MkuqXGXfUJP6C50UtTOzj4Ic9l+WYKXGgUo85SKK4mgRSw7f
+	 CF0XiZQOxR4bbab1hzIV3RvDDnAXxK21MrBU12B1URhCAQ73mhlrzODQ8U3IuoF90ivNe
+	 /PFaO1qSqui5qfHcmpzfk8NteJboRWGMU6n1iAXgEs7Bboo68lxMggTzBrzRl5cglenFN
+	 8Y4gHBwvdwxyUKmi9L5vrVbbM/eh+wAfA7jspjGEK9CyM2XUCj4pv9xnxFB2rjif4qg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795363065;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795363136;
 	h=DMARC-Filter:Received:DKIM-Signature:MIME-Version:Date:From:To:Cc:
 	 Subject:In-Reply-To:References:Message-ID:X-Sender:Content-Type:
 	 Content-Transfer-Encoding:X-Last-TLS-Session-Version;
-	bh=8XFKXyx1GOfO5xGIHtXdRmS/LrQDe1E2/0CLeb0IQjQ=;
-	b=3IrxIvOtJgFGKZAor0U9USFVtyWKdgwSJ1WWsAi3jOZWw6vud9stYea0589o6SnJjzYi
-	 VIo4KKm0i+6XyMWNYEGmOLuAr5EGbergYvNbfDGj3vPCo/YZ4+NQk0TKhDYduz+db7bDu
-	 b0e2HKzdx1vfRm60CLs9EL33zWRFJouVK16Fwgdg+FhOnqyLM6wZIf+X2ecKlrOuY+LTV
-	 e2ZqBNgT124oXBKd408gPH8Mj44Ha36FrDq1JReGPzUCwhG/AyCY+iX8qf7wyNZoX7zA9
-	 FVCNlSYg8UCh//kcrJskGwItD9L1F9robBFFKZug3sE80abENcRn4iEnKqNIEZHt7xg==
+	bh=2ZV8cdqFBGoUVN0JXYMIHWaqsQ8elfBEyab0KgL/LQQ=;
+	b=s060n0twRjIpmF5avhRSIVt8csTwYLr0rYaeFiDX40EsKGpkl64PrfBEEZpJQlmyM+FV
+	 AUynA2Qm5fC7YaQsX7FyiPT+1RFfUXwWdTYk+c/8/DN8IPN64wu514w4FqHqDnXnuE7Ak
+	 iPalJK0w0WRkMfwps06oWtNhSL/BIW8KFF0zLSLjf20bZKs6eJSrp5FZesxHdYzD4noPN
+	 g6XC4LWLTKJ/TWcoK3cEjVVROzl5cmCVLketqYvref06bv0D1I/mvZ1hzoVpKOnEY8w+q
+	 6pwMFAlydAPxdChGuNBnMpX9Q3ufYuXkZQRVNRgaOmjbNq0gVOYrd7pxMLAh1eYZn6A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=tipi-net.de;
 	spf=pass smtp.mailfrom=tipi-net.de;
-	dkim=pass header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=QMoncX0k;
+	dkim=pass header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=4lEXrQEZ;
 	arc=none smtp.remote-ip=194.13.80.246
 Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D64D606A32A
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 15:57:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0D64D606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC551606A320
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 15:58:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC551606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=QMoncX0k
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3B944A023C;
-	Sun, 22 Nov 2026 16:57:40 +0100 (CET)
+	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=4lEXrQEZ
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EDCFCA157F;
+	Sun, 22 Nov 2026 16:58:50 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
-	t=1795363061; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1795363132; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=8XFKXyx1GOfO5xGIHtXdRmS/LrQDe1E2/0CLeb0IQjQ=;
-	b=QMoncX0kbUNktHVsqC7SkFlEI0N7Fs7OwtUaYespsF20PTXAK/En3B9Grn0PPamfmiPJdU
-	fyiTim553wM3e/omRjM8egf24MnL+jqrsVGGvR5cr0dfxM6tim/TvsWykJBV4xJUpyLWyu
-	0Q4ACmWEPc0y/JvPdF1dSCXcDpsxIFjV9MlJ4ICjGykwIZC0QffHaWXo2HD/kV+fcU4RvF
-	Xo5rx7fQ54OI1barIla3Nh8HUxzf+QasyJGERXkSf/J8sFm/XU2xARWNxRbZuXtVo7MW+Y
-	uIbWXBkgFhGa/FO8xrS1koyBjqqY+Srk2amcMal6qoJaK1LipUr6mJ9/RDk2yQ==
+	bh=2ZV8cdqFBGoUVN0JXYMIHWaqsQ8elfBEyab0KgL/LQQ=;
+	b=4lEXrQEZxrDyggcU/gr8xHKxGVKEtBXm1KE0CHNAsZYYAe/yR2fdv4/KxoE4PJ68qCUiXm
+	Wa4EG6gQKhKJxwyZpZ+QoUnOXHVAW5F4vWj9bWStOh5lJuEDkbrlanXdwtymvXf3L+6GRr
+	Kf4MwsZ8vOOOmiQkMfXojWszdw+UsV+U/Mc0AgrZ3uRwtGRkVLkL7puxG/UNUx41R8b2rI
+	g91ycEdcDiwywkh6YNgR4TZ+dDWT3p8nSyoOd9gkKqEUm6qiJOU1DgrAm/EEef4I3Ixjt+
+	JLvv77ElSVKk5bOkN/lhdekg+MCORQ37dldz4EF0vA43W0RYLrPh57DD6y92oA==
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Date: Sun, 22 Nov 2026 16:57:40 +0100
+Date: Sun, 22 Nov 2026 16:58:50 +0100
 From: Nicolai Buchwitz <nb@tipi-net.de>
 To: Maxime Chevallier <maxime.chevallier@bootlin.com>
 Cc: Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski <kuba@kernel.org>,
@@ -68,12 +68,12 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>, Jakub Kicinski <kuba@kernel.org>,
  <alexis.lothore@bootlin.com>, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH net-next 2/3] net: stmmac: dwmac-sun8i: emit pause frames
- when the RX FIFO fills
-In-Reply-To: <20261122144926.284857-3-maxime.chevallier@bootlin.com>
+Subject: Re: [PATCH net-next 3/3] net: stmmac: dwmac-sun8i: configure the
+ pause time for TX flow control
+In-Reply-To: <20261122144926.284857-4-maxime.chevallier@bootlin.com>
 References: <20261122144926.284857-1-maxime.chevallier@bootlin.com>
- <20261122144926.284857-3-maxime.chevallier@bootlin.com>
-Message-ID: <5eb47dcb49898e948968a54bfa992e72@tipi-net.de>
+ <20261122144926.284857-4-maxime.chevallier@bootlin.com>
+Message-ID: <19a0e0afd9e05731bbba69b6d765bfe4@tipi-net.de>
 X-Sender: nb@tipi-net.de
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
@@ -81,27 +81,14 @@ Content-Transfer-Encoding: 7bit
 X-Last-TLS-Session-Version: TLSv1.3
 
 On 22.11.2026 15:49, Maxime Chevallier wrote:
-> The TX flow control mechanism needs multiple things setup to actually
-> work:
+> When sending pause frames for flow control, we need to indicate the
+> number of quantums the peer should wait before sending more frames.
 > 
->  - The TX_FLOW_CTL_EN bit needs to be set in the TC_FLOW_CTL register,
-
-nit: finger off by one :) TC_FLOW_CTL -> TX_FLOW_CTL
-
->    this is already done
+> This is maintained in stmmac's "pause_time" global variable (it's a
+> module param).
 > 
->  - The RX fifo thresholds needs to be set, to indicate when the MAC 
-> needs
->    to start sending pause frames based on the RX fifo occupancy, and
->    when it should stop.
-> 
-> Let's configure the threshold the following way:
-> 
->  - Send pause frames when there's less than 2K left in the RX fifo
->  - Stop sending them when there's more than 4K left in the RX fifo.
-> 
-> This was tested in Allwinner H2+ using the ethtool -t "flow control"
-> selftest. On that SoC, the RX fifo is 16K.
+> Let's program the pause time value, and also allow sending the
+> zero-quanta pause frame when the peer can resume sending traffic.
 > 
 > Signed-off-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
 
