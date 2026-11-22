@@ -1,78 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.53
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795338829;
-	b=lV1fwBLm3rSDvsuR9pnZN8ssNoLHymLWV61zMId/10lbZN0hy3UhuwpWPiP9HZVcoXHY
-	 zPz09jd/Ht9uzR7Uc17bqjFivKxVJVZF7382IEtX00OLX5gDrZdUV78QyRdFv8cOY7HtR
-	 pbaRYEOSWNuPVCyw17YkDOKnUygJsIc6BmN+dNRVbAAhX4v8aMS94IC402A4A5aRujay0
-	 q1m7TehGTh+2imlmyIiOtnVUcn0JSfrOk5O9IPZ8ER3DRINQLc9rb5jL557c21NvYqlEV
-	 Iv3sYGWNQjvnTIgoiK5h8Vw89cOzXtxtU6/ptn1vs3P18s53LrkcsydtnmoO860yenw==
+	t=1795339013;
+	b=mm9yfQKRpV6mJ2qIFlc5NZ/QMpno3H4TFdR5r5xLjSnOBA0bsyz6T68TG4v8rtdenube
+	 wsSfw/SYdguLPpoTTD2CfXd0oEPvKlSbeGirHM66M4wl5BavChoNYRSinHdkPprLUPJ8L
+	 udYVdRXGZ1rY4VUN4WWiOHCyvWUiWTOGBcOZyqdLEEv2RVVnZv8BXWxFxtKzMFuOXwG2i
+	 rI899E6PEzBg6FFOZrjRrConek62LsIGWeBlVhuaoioJspulRjpwJz/irt4NSKtYZyK4j
+	 oFjoxVU6IBILciS7Mx6bUH25wjOEEOc9W4vvljO894LD44L4+kyxZ3uSaUxUuMgRt0g==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795338829;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=03lpGLn/bddD577LSC4qtqKsNtreiXE/VEdiR+KAR38=;
-	b=bporuLPPzl4nvbi8g9VO/5j857LuPDBu2o/HVfGZ5kr5Vi9IEWTBecio31MPuqzadI60
-	 NjCc5IrgcFLcmYTxqoHkZSkDRWpAThHRDcujsRAHpfGJct8K/xRoCRaBDsJLlKacrFzN8
-	 lhueis+oHWnPONpWHj0M8cR2gcFwKO5nVEtxyCqsiGR3LjAMPg4wgkiQXsf4kEA2xLETF
-	 SUvuct1zsp2mAb5nJviwPZ0PeznKgvNY6d6w15eBAI96UjnCLXONQ3yEm1UO/ssNBNsvm
-	 /T5+LymkhZz80V7qfn/HW217DTcGkJfUNwcmGurJYhVm5YDApAK683f5jaXbD8nDQFQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795339013;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=jlk4MoliGvZW1IkxqxKZvX+OlKzVs5YdkLc7yt4n2p4=;
+	b=rMm1fEsUCEDWCMOYhR8cA6xX7QYFed86udD461bLC8NYN+B5ZsvGVd7jo47wSO1S46fF
+	 LqRXJwMJa2C0SpTrkz4dwR6n1RlI1hakwMstMr6i7kRxOqKVSMT3wsVsE6LdwlT+0JkRZ
+	 3OVAg+IUZFB6YnGi5nItm3JrCgrRUOp6mTX20ACkiMDAQxwfg3hJYmwwNq3PgooJuwgy3
+	 kPIZnHM9paEtL0IRf539t0Ma7NscHBUVGPbPBoYDV4RYUqppbgO+NWc0lVkSE6dzvUGaZ
+	 L5f1UETcnCc29rIA7847IidFNpceLZNfC4ktyk63y7aEGhHAY/jYsS4wCtMaNjmlAmw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="SXiOCo/d";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B517606A338;
-	Sun, 22 Nov 2026 09:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SXiOCo/d
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795338828;
-	b=JUx5MZUTrkdGqMiR91i9Qqek1GbCdzNIUm6aiYULjvUS2trcw/Mdkt0YGGJmcoOL+ZIO
-	 uGR/fRqoBeXxQ32YPsUJVFyZpMAIUBLN0izl+u13bQZyQnbFdLdKH/dBFyEtxP9zwy4zT
-	 EjaTnRZgxNzRfP08t4BtU0JZeLc/VicpkcFAPEAi++TI7sWprZlGloMuvnYox+fnn1jOV
-	 WvDoYm1pzNBIuSqqsAfIliy82f0OyB0Y0nc7KbrJyVtdKyUhuavui0VTVqsw/kQ/H7BOF
-	 UNKL92Ufr11FM9xkxHay/14DgVcQkIPGZMWF9hKkkonKiLqAOgr05Bam63th1COC1Mg==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795338828;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=03lpGLn/bddD577LSC4qtqKsNtreiXE/VEdiR+KAR38=;
-	b=e3eCDFHTqOZEfI+Ah7SZ/4PJ9rP+BydaVI5HO5RuZ0p0ZxyY5uW3uL+AhqvXr0EWdcXe
-	 Dkla9VKW9vg+UnGtw7vsVjfjLr6MbU+97Qaep+ZhFeppxTxHEtfWLfjZVrGK6mlh8tpl7
-	 zbLN0KK079X5bYSVdCL/8nA8xcauATOfBLruXbGBsLZT01n+HGgyKscfMOq+UcjFfWEjn
-	 KtQb2BWlLrSeu0gowvU3jbKG7BA1A1OmAfb1xBc9bwm33H58MWn4cvScD3r85bR18XZEF
-	 ROAnMUSCXgQ2isL5FqZfaIPVqfEGgOihwIAm90SLQOoGpKpWZeztF0BoAws8lp+kkxg==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OSGnuEfw;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.53
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id BFA891F000CF;
-	Sun, 22 Nov 2026 09:13:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795338828;
-	bh=03lpGLn/bddD577LSC4qtqKsNtreiXE/VEdiR+KAR38=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=SXiOCo/dV6Mpv/ALd/f5WJLrpYUV5rSMonz7x9bSN5rrzUezVn22LW7S6MXLzb0FI
-	 lYRJFE/za5KXtdj1rgoPVsfI6JPZDVpuAv2vyhXeNy+Inx/GxCcNkc/cEQ41dL6UsV
-	 bL/onpK9xL+jW5W891QcllFHdHT5Gnp/EZzufrZEHDCiNVV5nHjEUrYx+I+jEaR/uj
-	 74RQlobRcgJnt7AJK/1kwjSh/NO+o9Xl0vr+CLFUlYKlbZJSIPNJxJrQRVDGm9FXx/
-	 HmjDlOW+0OElzqQHWGo5XtuWXwpwxFU5UOkXhTJE/YDw9W4bq4YshQhMctknPHMvl6
-	 UPZQMWDSXFO1A==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 4DF194BFCD;
-	Sun, 22 Nov 2026 09:13:47 +0000 (UTC)
-From: Arun Iyengar via B4 Relay <devnull+aiyengar1990.gmail.com@kernel.org>
-Date: Sun, 22 Nov 2026 09:13:48 +0000
-Subject: [PATCH net v2 2/2] net: stmmac: dwmac-sun8i: Limit the MTU to 2018
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B08606A331
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 09:16:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35B08606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OSGnuEfw
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5be3dd6f636so185782e87.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 01:16:52 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795339011; cv=none;
+        d=google.com; s=arc-20260327;
+        b=NggK69+IqqKO1gMy5Pabh4zTJdzGljje7z18xnaQWCylLLBwMTChjmgVPrxFOFt2e6
+         kwAKuqU78wRjhotavarAh3KDvSJoDeUBBFMM/DxS5WIc9t81alvqPbtIqfGJ7l8dKl34
+         VzCuoeQzdAUr/36TkYf0DIQPFrzR5UACy2FL9aQMPZ2xF7zbxeq78bM1N6aGnXFCKE51
+         dslbCMrUn8Xm2y71g5Ws0zcMBab+kX1qYgO8RebVpWSNiUu2taY3Xue6rrGeK6ecydVP
+         bYW9QKhG9NXf0XJp5J9AZc8e0otJ7+u3QqEI5kkv66L4peLB4CLESuIW696DKO+L0Lwk
+         8Nzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=jlk4MoliGvZW1IkxqxKZvX+OlKzVs5YdkLc7yt4n2p4=;
+        fh=g/Ddk9n4z1H+gipAKw42RaiQ9Xh7PLNxL4qwl7lX1L4=;
+        b=JDw+noTZ91VpMnb2DlLxTEz/g6adkXB7gTHx685SiBQRxdLoc9Dg3dRrxeA4TlKKBY
+         rY5tR1lwGiZNcgmMAJJZqp5+zU4CILS2pVIyilAvtHRvDlgpwcP8n500unqdK8E80dAn
+         JWFpQjKKR2LG9RhvRECHHpEPug6ohIko03bG30Z5EJ0KQkrf9FUpTa+kGtP42XfUfEkO
+         MibU9YrwqX+Jm0BLYky6Smv6iVHcEwZcut/aSFXjGvtlfVTnNXhavtEb8cXy47YM1gh7
+         L+cggtd8MywxkbVGPyghMLok0BGecFpX5SgAKNQvQQDB1k5q7cl7yRq5XLUFHunIRGsi
+         oxHg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795339011; x=1795943811; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jlk4MoliGvZW1IkxqxKZvX+OlKzVs5YdkLc7yt4n2p4=;
+        b=OSGnuEfwLrZQ40ctuC81pGZncUHmL2AeBGWE3lOFxZYTVzquawFGaPIa2IdmDoy7w1
+         9Vwu4Av3KIa4dRNsgpI08Ce3hu28u0Mc1GqRmy4KLnXyVZ6wBvZmM8Py31wjZd0xlN7g
+         h4f8XNMbXM2eBZxzEAqsQhZzGx/4o9SOb1zVeRtNhBAe+P/LktZNfmYAc+rQXIfja3Ct
+         nO4Z1XjfZVsPW/nDDp4hDtgXs0fsrSYuMywbKQrkHUOFlSMexI2+95xdzF241a8U0bUE
+         KL+LdJBvYy3ut3upLDKmg2wNw8aLgFOOt+3c/ldkCUGlqBdi8w6rztM7MX3CabaLBBWh
+         q1mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795339011; x=1795943811;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=jlk4MoliGvZW1IkxqxKZvX+OlKzVs5YdkLc7yt4n2p4=;
+        b=wDa5JWJ+FzU+sA3wQAD6kliLTHv39eVttaiqAFBSHzBGt3/hetC/veTzf+Tue/lAJT
+         o8ED3s0Wor+hz5rAeS6hfpIOWf6tFd6yh63gATdjxVjKu+KyKGIPDxqGNNyNvWIFhzBW
+         bQfQt9esqx+th9xKsGKnEqPByyiDw26EuEvEzXX4ILpcCOzzdS/RjPgq/kcXxlSJ7Uk/
+         hp34q20UUtp5AwxQbPRsIKb0vr+MMOcy8fWCK6iLLSLvTPg9S5wdNhLCVGsvliM2sHiy
+         yUvVf4B/caWqIHVVYlgtyU8WpCclGIWGmzQ0VrrASD6e3dYihV4aZFnecQlaYp+mszW6
+         zN8A==
+X-Forwarded-Encrypted: i=1; AL+hErE9NGMieF0n/PiDwIyLLPR1Tu7bYOHgNgVhApJTKwh+4pogYW2+dyhppWDg7rv6JaQaEIRtGjrjuPHgUg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+etSvEMkwnl7YLnbmSATpKQ0nhsV2Ksxf6yKGgek/a/NOF3yuK
+	IAp9cL8/0m9V/dZNVGWtbYijwfEkR9AgQC1Snil37LJAFgnRXGJIzRbiL9Vru6EPougKh7vIUSY
+	vlduJCPdpvlXkUT7YUbMMlsanIQftklOXunUrz6Q2Wg==
+X-Gm-Gg: AZFdTZcqGBK4Bifgi4Oe8TvNIvR/lYv00F5kBwuyR6DXZa/TlJG/97geYeAkX9siJ+9
+	HdCIC7RMGPfid6kQaJYkEJEwsvnOe2veBkJDUhhceDX3n4J06RbTS+RmBYZtdb6ftXy+dDmxbFT
+	XMcobh1OgMEDDKp6oHGsdcu70XTjPvRGCFNRez4m+99LYFzeQZp+VhWTY+JdYaTbYy5ZrbK6671
+	eCpXMKHdDjzNmyH3xCmlGfeAtMOxmDe8lxJvLiOl772qYE50ENzkIPGyy5qmWHfv4bFN5B+eshx
+	tmX9r7xgFcoufeOc0MagCbKc/Lja7Fm/hrMjZnuJxsJSUPtDZCSoHjFRb8h42oejwtpi++m/WVI
+	HJwr+YyKYuAjEs3FN/Ujvvoczyjx0EEsItG+WbxBxDjGarkSdQeAVk9/dlMPcu279o5WGI0s=
+X-Received: by 2002:a05:6512:6719:b0:5bf:ba43:fa67 with SMTP id
+ 2adb3069b0e04-5c1bc935c91mr2187197e87.6.1795339010786; Sun, 22 Nov 2026
+ 01:16:50 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -82,65 +103,29 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261122-sun8i-emac-mtu-limit-v2-2-c4081e5b83cf@gmail.com>
-References: <20261122-sun8i-emac-mtu-limit-v2-0-c4081e5b83cf@gmail.com>
-In-Reply-To: <20261122-sun8i-emac-mtu-limit-v2-0-c4081e5b83cf@gmail.com>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- LABBE Corentin <clabbe.montjoie@gmail.com>
-Cc: netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Russell King <rmk+kernel@armlinux.org.uk>, 
- Nicolai Buchwitz <nb@tipi-net.de>, Arun Iyengar <aiyengar1990@gmail.com>, 
- stable@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795338826; l=1070;
- i=aiyengar1990@gmail.com; s=20261110; h=from:subject:message-id;
- bh=hoWHCAAprzrO2D+coALtPpyIBw9Qkx95wvyejnjliCM=;
- b=so3ZK26Uz/bNPFobSNeO22ZQm5P4aH7euK1OUEWe1ZVZE0wm4pIfqRAkW6IWpaCz3BSNnqcoH
- 8J38CexopsuDI097y8ytNlosmfgYlB7QO7/ZFWQ1GLxpzn+Ltn+ToJd
-X-Developer-Key: i=aiyengar1990@gmail.com; a=ed25519;
- pk=zXpRgUTrhaFe6jLyPqbBy3ccfkj04w0g2690Wv3mg+0=
-X-Endpoint-Received: by B4 Relay for aiyengar1990@gmail.com/20261110 with
- auth_id=1480
-X-Original-From: Arun Iyengar <aiyengar1990@gmail.com>
-Reply-To: aiyengar1990@gmail.com
-Content-Transfer-Encoding: 7bit
-
+References: <20261119-b4-cedrus-mpeg1-v1-0-aa5ba1192822@gmail.com>
+ <20261119-b4-cedrus-mpeg1-v1-2-aa5ba1192822@gmail.com> <1a1f912f033.2efff015191157.7190884739957848478@collabora.com>
+In-Reply-To: <1a1f912f033.2efff015191157.7190884739957848478@collabora.com>
 From: Arun Iyengar <aiyengar1990@gmail.com>
+Date: Sun, 22 Nov 2026 01:16:39 -0800
+X-Gm-Features: Aa3M54oE-VNyvNZaxxRREWe_L_ECyiIpVpQf2rmUEBWZs2-DphbG3Q0KscfmLqc
+Message-ID: <CAEy9hNVXZvfbW6U=Y7aiONidPKee7npGWpWuR2yQOeUu4aOVfg@mail.gmail.com>
+Subject: =?UTF-8?Q?Re=3A_=C2=A0=5BPATCH_RFC_2=2F2=5D_media=3A_cedrus=3A_mpeg2=3A_decode_M?=
+	=?UTF-8?Q?PEG=2D1_as_V4L2=5FPIX=5FFMT=5FMPEG1=5FSLICE?=
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: hverkuil@kernel.org, mchehab@kernel.org, benjamin.gaignard@collabora.com, 
+	p.zabel@pengutronix.de, mripard@kernel.org, paulk@sys-base.io, 
+	gregkh@linuxfoundation.org, wens@kernel.org, jernej.skrabec@gmail.com, 
+	samuel@sholland.org, jonas@kwiboo.se, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, ckoever@outlook.de
+Content-Type: text/plain; charset="UTF-8"
 
-The H616 RX DMA fills only 2044 bytes of a buffer, so frames of 2045 to
-2047 bytes, allowed by the previous patch, are dropped. Limit the MTU
-so that a frame with two VLAN tags and the FCS fits 2044 bytes.
+On Fri, 20 Nov 2026 08:08:50 -0500, Nicolas Dufresne wrote:
+> MPEG2 requires MPEG1 support. The new format simply add noise, you can
+> fix cedrus with V4L2_MPEG2_SEQ_FLAG_MPEG1 alone.
 
-Fixes: 9f93ac8d4085 ("net-next: stmmac: Add dwmac-sun8i")
-Cc: stable@vger.kernel.org
-Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
----
- drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index 2ece7ba9dd73..ec401cae8187 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -1208,6 +1208,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
- 	plat_dat->mac_setup = sun8i_dwmac_setup;
- 	plat_dat->tx_fifo_size = 4096;
- 	plat_dat->rx_fifo_size = 16384;
-+	plat_dat->maxmtu = 2044 - ETH_HLEN - 2 * VLAN_HLEN - ETH_FCS_LEN;
- 
- 	ret = sun8i_dwmac_set_syscon(&pdev->dev, plat_dat);
- 	if (ret)
-
--- 
-2.55.0
-
-
+Thanks, done in v2: the format is gone and cedrus selects MPEG-1 from
+V4L2_MPEG2_SEQ_FLAG_MPEG1.
+https://lore.kernel.org/r/20261121-b4-cedrus-mpeg1-v2-0-95e4decf03fa@gmail.com
