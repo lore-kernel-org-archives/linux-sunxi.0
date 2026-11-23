@@ -1,59 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=119.15.109.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795396544;
-	b=Ux2FfoQ5NCPnlE/bQsaLL0Ae9AKWd++aYd7Xj49nKhl+xtE6LaxeG5J+eFHGkW0VzaB0
-	 Y5taYkbKYRSz8MV1LnnQzzPTu363BNeX1b8hq3h2t0y9pKik+GCrJZpgTw7wOoTA0tbaF
-	 CzDZs0h0jrOmttVZtMUxo+0CVogy9Pas6Ry0kUKj33m758/NKIxiYcZ9d3ZrQAdj388sn
-	 NrvN9mOnbsOEdxCuvwz8x5uHulnApuSyrRGt55o6yeSk5nOFNaVSUWhTmiFyk04GtK4XH
-	 rZIXUyV7uZG9J5qOqH5OTeSfjOADVJ3KrxJePBYzVlQ3OeH5SIg+YPscEk7SHBQnwjQ==
+	t=1795396549;
+	b=RjNWTin6P6A/Va7V/EAE6PwxYcZV6w8bBDGX4mGUZ5sr1y+DLW7/eH+ARS3XW54rRhOv
+	 arYQBFvmLd1HxAvZJwuHDq41n8cFYpqSx9XLMWcnEoOHtuGFIH3d9JH1g5P30lCCmJsr4
+	 WQ90sV3iTEGs/gp5j79zOGur4vHMMdiwfsCfiaDoHBw5+cOmziIWfBgQ6nsI+xiqLCT0s
+	 6lyIIsZGn4i2lIRACBCn6FbeoSyNybv9BAreuNT3u4yHlLUApQNjXNS5kf5unQkrEU9+k
+	 K+cUzzlAgVtEDwnGRuiPMjcNSS4P4NPQoZrMe/Xz6qxubF7wMCiuOOJCmGMDR+Ib8qw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795396544;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795396549;
 	h=DMARC-Filter:Received:DKIM-Signature:X-GPT-Reason:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=WkbteLaz5AkZYE5rWlkLsnJtoGTPuZQfXqAUSmFnezM=;
-	b=lpvlSg/XXMpL6NeqIi0hfJLG7WpfjBeXDdPdQEc26PFhEcuaVpdMT40wWA3hhUr0u/KP
-	 IJ4HHXfTk02Qcnjr3cCDrHYakXi52zcCEZfjv4YtRI2KwurTvqOnRdhfRAKOpeaOmhdXp
-	 pOxzbDiyJyhIUMpMcFBD22q+3Qgn+s7ItGD9aM8hr9jyojsWbpLOpPb8r2fNEXhqnsoMY
-	 VQjdDlKY1ENhf31x8iwcUC15IM0vwEUy+v31grDJ/EFatRtYiojvE242OiBfWkDnVDLF6
-	 T9i0tJMG1jiCQzE+/twvJtQ54iWftinauC8yAuEL1dH9/0IJUXxUZ7Apx8DZYvTL/hg==
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=xtlSslIv8yyKofUr6fezJE3hB+sqQhvOYjegQ+KxQ18=;
+	b=x0OMeGBiav4oHvgMESSdc5g/x30xcnYKvW1QxMObXNc9Vfs/f/opu0DgHNma5Nbz9EqC
+	 uvbdUTaUCcU9blSObQPEomwj0xjGzXNnavtOhRKDedtaVoXivkBDY5XfN2dIsvfF0k6Db
+	 seq4+HI+dze++xqKxNHcGgo915pZdTWD7FgFydnOOp4dsJ/zCCnbamS1D2/pDfCaafGjl
+	 dWJ4xSDv7GliUBqgWD64n1oBqyszmxjuLiJFAp48Mnpz4fWFZqFdLFWxgplaIESJYPzhw
+	 nNPnjfz+o7vK9mW0thmJ2Cq73FIb3rwLIhct0GlKOisymxIEWAlaB+ziwkliNerkhjw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=d-silva.org;
 	spf=pass smtp.mailfrom=d-silva.org;
-	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b="j/uflWUF";
+	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=u5ff06I5;
 	arc=none smtp.remote-ip=119.15.109.137
 Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201EC606A31D
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Nov 2026 01:15:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 201EC606A31D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9678F606A320
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 Nov 2026 01:15:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9678F606A320
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=j/uflWUF
+	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=u5ff06I5
 Received: from Hawking.lan (hawking.lan [10.0.1.4])
-	by www.nmnhosting.com (Postfix) with ESMTP id 754084028E;
-	Mon, 23 Nov 2026 12:15:34 +1100 (AEDT)
+	by www.nmnhosting.com (Postfix) with ESMTP id BB7D642712;
+	Mon, 23 Nov 2026 12:15:40 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
-	t=1795396534;
+	t=1795396540;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=WkbteLaz5AkZYE5rWlkLsnJtoGTPuZQfXqAUSmFnezM=;
-	b=j/uflWUFe5QCilunt1xK/yZMGG1Lv7YfmQnZau7feyPZN3450iAEFKOnWL5PsPVr13kGY8
-	3tzkVNt/3kEinAJi77HCGSwXVz7skDqCuIQtoCkmXCw8mdMoSDnS4bfkKve0/Gykgv18lt
-	sNaoQxFhuo3l9FU30cluV+Z70rYXZuICokzfRr9u2vL5SBpcaaW4RNboMEA8Ubt+pB60SF
-	V9xyhdgt3eF8WTaxY/2M8AIjAqGi2XkDB+++Q3vNfBHiK57c3GB+PcfFXdDy6TkW/pPFCh
-	6LULL5LP/NZBytUrMePfD4gX6grUGQKI9i2vIe5YzvwnM20jPqQkj0IgPgaWmA==
-X-GPT-Reason: legitimate_personal_or_technical_communication; the
-	email content is a technical patch description for a Linux kernel
-	driver (AXP318W PMIC) which is consistent with a developer workflow;
-	the sender (alastair@d-silva.org) matches a known personal/business
-	mailbox (alastair@d-silva.org) provided in the context; there are
-	no phishing indicators, no links, no urgency, and the content is
-	highly specific and technical rather than a broad marketing or
-	scam message.
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xtlSslIv8yyKofUr6fezJE3hB+sqQhvOYjegQ+KxQ18=;
+	b=u5ff06I5ROBOg4cQRnyNz/DLf0k0Lqn0Am3zTaHxjO+RpBPfxZ6PNO8TWfd+2JLDIzs4bP
+	jEk+sJKCziDo0GV/B9UzwUTpIkHt5GFMwxyS9cXZenSXEU4yIri68MdN/AkVAmRl0/0+Kz
+	8usZsHhP8jy915oDA+5DAULbILcUL/0PZYllL4lwXJ5t7v8/hfSJMu/Zf48tRoIH9fPPjl
+	LksRJrH9eH+eRyT8TqE1R75vIsE69l8kB6/84a6ANdntG9suvdPDSX6+nCQ1TTvKx8dKxH
+	Il3CPk+spBSx2CP9sKVez8HB/+Lp4Oe1myeO3wd99tHQ5jI3POJkjKgcFdP6wQ==
+X-GPT-Reason: This email is classified as personal/technical communication.
+	The content is a technical software patch description (Linux kernel/driver
+	style) that perfectly aligns with the mailbox's owner (alastair@d-silva.org)
+	and the sender's identity (alastair@d-silva.org). There are no
+	signs of marketing, phishing, or urgency; the message contains specific
+	technical details regarding voltage masks and bitwise operations,
+	and the From/Return-Path domains are consistent and authenticated
+	by the personal domain.
 From: Alastair D'Silva <alastair@d-silva.org>
 To: u-boot@lists.denx.de
 Cc: Andre Przywara <andre.przywara@arm.com>,
@@ -64,10 +66,12 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
 	Yixun Lan <dlan@gentoo.org>,
 	linux-sunxi@lists.linux.dev,
 	Alastair D'Silva <alastair@d-silva.org>
-Subject: [PATCH 0/3] power: axp: Fix AXP318W bugs and extend SPL support
-Date: Mon, 23 Nov 2026 12:15:31 +1100
-Message-ID: <20261123011534.1692975-1-alastair@d-silva.org>
+Subject: [PATCH 1/3] power: regulator: axp: Fix AXP318W ELDO voltage mask
+Date: Mon, 23 Nov 2026 12:15:32 +1100
+Message-ID: <20261123011534.1692975-2-alastair@d-silva.org>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261123011534.1692975-1-alastair@d-silva.org>
+References: <20261123011534.1692975-1-alastair@d-silva.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -79,28 +83,47 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series fixes two bugs in the AXP318W PMIC/regulator drivers and
-extends SPL power support (needed by the Orange Pi 4 Pro):
+On AXP318W, ELDO1-ELDO6 span 500 mV to 1500 mV in 25 mV steps.
+This 41-step range (selectors 0x00 to 0x28) requires a 6-bit mask (0x3f).
 
-1. Fix the ELDO1-ELDO6 voltage mask (0x1f -> 0x3f) so voltages above
-   1275 mV read back and clear correctly.
-2. Use register 0x55 instead of 0x32 for AXP318W sysreset poweroff.
-3. Add AXP318W DCDC6/7 and ALDO/BLDO/DLDO/ELDO support in SPL, with
-   read-modify-write updates and -1 OTP-default skip semantics.
+The current 5-bit mask (0x1f) breaks voltages above 1275 mV.
+axp_regulator_get_value() masks out bit 5, reporting 1300-1500 mV as
+500-700 mV.
+axp_regulator_set_value() only clears bits [4:0], leaving bit 5 stuck
+high when lowering a rail.
 
-Alastair D'Silva (3):
-  power: regulator: axp: Fix AXP318W ELDO voltage mask
-  power: pmic: axp: Fix AXP318W sysreset shutdown register
-  power: axp: Extend AXP318W SPL support with DCDC6/7 and LDOs
+Update the ELDO1-ELDO6 voltage mask to 0x3f in axp318_regulators[].
 
- board/sunxi/board.c                     |  23 ++++-
- drivers/power/Kconfig                   | 110 ++++++++++++++++++----
- drivers/power/axp_spl.c                 | 119 ++++++++++++++++++++++--
- drivers/power/pmic/axp.c                |   4 +-
- drivers/power/regulator/axp_regulator.c |  12 +--
- include/axp_pmic.h                      |   5 +
- 6 files changed, 240 insertions(+), 33 deletions(-)
+Fixes: 71f07932756f ("power: regulator: add AXP318W support")
+Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+---
+ drivers/power/regulator/axp_regulator.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/power/regulator/axp_regulator.c b/drivers/power/regulator/axp_regulator.c
+index 16d3a8f7f90..e425f3bf8b2 100644
+--- a/drivers/power/regulator/axp_regulator.c
++++ b/drivers/power/regulator/axp_regulator.c
+@@ -227,12 +227,12 @@ static const struct axp_regulator_plat axp318_regulators[] = {
+ 	{  "dldo4", 0x22, BIT(3), 0x37, 0x1f,  500, 3400, 100, NA },
+ 	{  "dldo5", 0x22, BIT(4), 0x38, 0x1f,  500, 3400, 100, NA },
+ 	{  "dldo6", 0x22, BIT(5), 0x39, 0x1f,  500, 3400, 100, NA },
+-	{  "eldo1", 0x22, BIT(6), 0x3a, 0x1f,  500, 1500,  25, NA },
+-	{  "eldo2", 0x22, BIT(7), 0x3b, 0x1f,  500, 1500,  25, NA },
+-	{  "eldo3", 0x23, BIT(0), 0x3c, 0x1f,  500, 1500,  25, NA },
+-	{  "eldo4", 0x23, BIT(1), 0x3d, 0x1f,  500, 1500,  25, NA },
+-	{  "eldo5", 0x23, BIT(2), 0x3e, 0x1f,  500, 1500,  25, NA },
+-	{  "eldo6", 0x23, BIT(3), 0x3f, 0x1f,  500, 1500,  25, NA },
++	{  "eldo1", 0x22, BIT(6), 0x3a, 0x3f,  500, 1500,  25, NA },
++	{  "eldo2", 0x22, BIT(7), 0x3b, 0x3f,  500, 1500,  25, NA },
++	{  "eldo3", 0x23, BIT(0), 0x3c, 0x3f,  500, 1500,  25, NA },
++	{  "eldo4", 0x23, BIT(1), 0x3d, 0x3f,  500, 1500,  25, NA },
++	{  "eldo5", 0x23, BIT(2), 0x3e, 0x3f,  500, 1500,  25, NA },
++	{  "eldo6", 0x23, BIT(3), 0x3f, 0x3f,  500, 1500,  25, NA },
+ 	{ "swout1", 0x11, BIT(3),   NA,   NA,   NA,   NA,  NA, NA },
+ 	{ "swout2", 0x11, BIT(4),   NA,   NA,   NA,   NA,  NA, NA },
+ 	{ }
 -- 
 2.53.0
 
