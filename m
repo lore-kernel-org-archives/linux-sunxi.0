@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795456894;
-	b=kl5sWT/jWTHPYHkhd0dVxyAh0UHdyzYudF//bWw7bozpn+dNFzJqs+6zx7ytEGlNLZfX
-	 lCC/2WtJFnl0O8tZX0i3cBws8L2ftryBvdfxqzJIiD3df/5oxbnJsyNaJ2SMmJ7ayF30Q
-	 FpDZmMEvTLBfgH4AqCf+afR5hE93jHfd3Et+iT+bhO/tSShPGycUCRJs64WLAnl6l9e9/
-	 iHyly0orRattFMDxD/rhBkjgTBbFE+uSblk33VNELLQwtqqAgL3wJiJ/4g5yfc9UExaHZ
-	 uo/rUnDLU8aexXg+1tIfAxSiO0+MaPhOXWROr5jV8AsUhVy5tSeFCG/RNG8S+TU4cOg==
+	t=1795457483;
+	b=p+Skt7uJKv4qVP1paz8FFjq0lZxO/2/RTZgWb+Blg2tyRyFsQMXrJRPycXoAf36tTRsg
+	 rcSkYDbiyCSgQbJcHjKyPFOvx0req0ooqEsOQxgBs1hFBO13sEDYHgwp+YSuVQaMlP3Z+
+	 yOIB6xioljVwlGcvL0kxMxGXiOCuuaQL8RbTVtFMfVUTyDd6YnP2zK6URWqqsxzpN+8LA
+	 RVI07jnSqcBCT33AZgGvUmE+9hai/flDDKvRMOG7STEn/D/RaKyazTmegcUR/KdJl4OOs
+	 C7BkK+Bwfv7oOurIqlqo62sRlpLc2zM7LwPyX3YU5+RWFzW6e0O3veRK79+Wm+agDiQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795456894;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795457483;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=jgsmFkQcJTRjr+5kofVo4qXbEGT1C/E4F/foxT+ncPA=;
-	b=pKZ6X4sR17B25i0/1wxgdw+kuyjEPSo1DJcAODyoLmZc11s5rHt3csCflmqcxs0JUTIk
-	 l6iuUlCvZAuRC1JGg3NXPrCYZpnZmx+2gNasRP8f5fCmJ6X+JNLAUZ/sUOfIF0K40yghk
-	 MmN1lD05I+oV6eZGU7LyPqh5lPv17g397RsX/pbYKDxjTSRECwT35u/e7fq2jekRDXvVN
-	 1qAc1OZBvTR6sRFIVyaW3KbD3stBzDIWHXeepP1Gg8oj/GlHrrLLxEflbWR+LGRcJJfRh
-	 SWrC2y+s/X+MDgHd+P8x59VZyzJ6bjjnTxHRsS5D04vHDM0vnkpD4XIdxhgl1do4VdA==
+	bh=vgIU1HlB1YNAMsqqmknEVgX8ZoIIZUz/3pk7Cr52YZg=;
+	b=chmXLx6wcz0nWML7XfvTGpSz4yehBs9yrbUzfgNeG+8Zg5Mvbb57z352eORJtrILZQ4E
+	 WGXgGicTGmrtMo1mndaGaEfNKT/j7qw5Pv5BDerZZdVCpvmqEcfopAPfgFzlhf8mAgr2C
+	 KTL0zZz8Iu5Jlx/uYdT9noM8/rl8yXdpqupHS7u4YqTbYfojKgignqnmnUU8MuXmKv2Ye
+	 NDPbcNH7bTL4q5FrZye3kx9VUvZbmqhNjL5FWQsqL78ookRWXmBdOKzysgIHT/qoG0sp5
+	 tMeQyxNJmUc4MklSQ1xBTcxglJyas+JNZAn6WvDWVtYVYjEoK5l2FNkMm2cktlajFXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Dh+Ph1za;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=czUqZZic;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F200606A31E;
-	Mon, 23 Nov 2026 18:01:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86586606A33B;
+	Mon, 23 Nov 2026 18:11:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Dh+Ph1za
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78DA31F000D8;
-	Mon, 23 Nov 2026 18:01:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=czUqZZic
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB8D81F000C0;
+	Mon, 23 Nov 2026 18:11:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795456893;
-	bh=jgsmFkQcJTRjr+5kofVo4qXbEGT1C/E4F/foxT+ncPA=;
+	s=k20260515; t=1795457483;
+	bh=vgIU1HlB1YNAMsqqmknEVgX8ZoIIZUz/3pk7Cr52YZg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Dh+Ph1za8FiTO93H749j/yXWRKkxs4++oobWaPbkZYvSpqsxvaY1vEFSiwvZzvQnq
-	 ay8O5Joe88JDRHbyp/gmtVSrWKD6hHfqU9OXNi/7JtF3bjYwPkgWVgsYCDk/kGqgIO
-	 QQ1zpiwuMVyn+HgmBIOxAmHMgn9Ptg2IKsDzUvsF9ZO9rpnxYG7IbVItEJ2YAgYInW
-	 qXEIgU0AQD8ePbr+tRanlZcolldqFQWxLEnyz2qQNWy6XE4WVqhFRSkRnFU2/a5cf9
-	 RQyvWqyPFcdHBSJcpykXxcSUl+JRJ/1PIX2YAMtlgPMKF066KkQvhgRHkNrGzaqP5h
-	 TTaH2ICO5Y79w==
-Message-ID: <sashiko-outbox-229789@kernel.org>
+	b=czUqZZicdRIOWHYENkpcM57jzzEmmVWTxSBL9Lbbjrj8qRyPATrfgGV4hIjh9fB1u
+	 M44v5iBlo+xgkiW+ie+XK5ju97yHsaVz5I5whXNf8ImrdeeNnR7fN46N68MCsiOhY3
+	 qLbmlA4VJ42DSJwmwyObwWP0i6YmEmgQxKCAv/g2PaNlZV43/5A3O37jhdPZbt8yWm
+	 DzqkaWhWN9utWVh1/ybpTedsHPK4OXx1Q4i8ersNajqmy8xTfGIzwb5ymZUD8dbHIz
+	 ATox5ql/xjdP+1XNr9/YktDdz6cE6/GizpNEHyuNy3Xc9rSRgEQWejHMP9hEc9DQTf
+	 tK5u1WNmtbAUw==
+Message-ID: <sashiko-outbox-229796@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 2/3] arm64: dts: allwinner: add A733 SoC description
+Subject: Re: [PATCH v5 3/3] arm64: dts: allwinner: add Radxa Cubie A7S board
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Enzo Adriano" <enzo.adriano.code@gmail.com>
 Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261121-a733-cubie-a7s-dt-v5-2@gmail.com>
+In-Reply-To: <20261121-a733-cubie-a7s-dt-v5-3@gmail.com>
 References: <20261121-a733-cubie-a7s-dt-v5-0@gmail.com>
- <20261121-a733-cubie-a7s-dt-v5-2@gmail.com>
+ <20261121-a733-cubie-a7s-dt-v5-3@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 23 Nov 2026 18:01:33 +0000
+Date: Mon, 23 Nov 2026 18:11:22 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -60,91 +60,163 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 4 potential
 issues to consider:
-- [High] arm64: dts: allwinner: missing Port A interrupt in A733 pio
-  node
+- [High] arm64: dts: allwinner: unbound x-powers,axp318w PMIC defers all
+  consumers
+- [High] arm64: dts: allwinner: pio bank supplies program inverted A733
+  IO bias mode
+- [Low] arm64: dts: allwinner: non-generic osc32k-clk fixed-clock node
+  name
 - [Low] arm64: dts: allwinner: undocumented allwinner,sun60i-a733-uart
   compatible
 --
 
-commit e06ab06b491f829b4ed6d875edfe27c2c5015fab
+commit e16e02bf9bff4295531a8fc06d6b6852a523f527
 Author: Enzo Adriano <enzo.adriano.code@gmail.com>
 
-arm64: dts: allwinner: add A733 SoC description
+arm64: dts: allwinner: add Radxa Cubie A7S board
 
-This commit adds the base Devicetree source include for the Allwinner
-A733 SoC, describing the CPUs, GIC, timers, clocks, pin controllers,
-UARTs, I2C controllers, MMC controllers, and RTC.
+This commit adds the initial Devicetree source for the Allwinner
+A733-based Radxa Cubie A7S board, enabling the UART0 console, AXP318W
+PMIC, microSD slot, I2C0 EEPROM, and GPIO LEDs.
 
-Link: https://gist.githubusercontent.com/apritzel/60fd7379b9560a15b8b352986=
-b69d39f/raw/efd9cdf8f26ba5b0c7e138f093af44a1cf322469/sun60i-a733.dts
-Link: https://github.com/radxa/allwinner-bsp/blob/2045a3ca2a01f088c0314dc92=
-4bda59d154e363e/drivers/pinctrl/pinctrl-sun60iw2.c#L1591-L1610
+Link: https://dl.radxa.com/cubie/a7s/hw/radxa_cubie_a7s_schematic_v1.10.pdf
+Link: https://github.com/radxa/allwinner-device/blob/6d911d1582dcccdb5a4c38=
+be8d3c1ee851019795/configs/cubie_a7s/linux-5.15/board.dts#L372-L384
 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun60i-a733.dtsi
+> diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts b/ar=
+ch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
 > new file mode 100644
-> index 0000000000000..8a258f16751e6
+> index 0000000000000..7451c00570fb7
 > --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
 
 [ ... ]
 
-> +		pio: pinctrl@2000000 {
-> +			compatible =3D "allwinner,sun60i-a733-pinctrl";
-> +			reg =3D <0x02000000 0x800>;
-> +			interrupts =3D <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 81 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 85 IRQ_TYPE_LEVEL_HIGH 0>,
-> +				     <GIC_SPI 87 IRQ_TYPE_LEVEL_HIGH 0>;
-
-[Severity: High]
-Is the Port A interrupt (GIC_SPI 67) missing from the first slot of
-pio's interrupts property?
-
-In drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c, prepare_function_table()
-starts with irq_bank =3D 0 and last_bank =3D 0.  Because Port A (bank 0) has
-0 pins, the first pin (PB0, bank 1) increments irq_bank to 1, so Ports B
-through K are assigned irq_bank 1 through 10 and sunxi_irq_base_reg()
-indexes the IRQ registers by that bank number.  Omitting GIC_SPI 67
-at index 0 shifts pctl->irq[] by one bank, so when a GPIO interrupt fires
-on Ports B through K, sunxi_pinctrl_irq_handler() reads the preceding
-bank's status register and leaves the interrupt unhandled.
-
-Documentation/devicetree/bindings/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
-also requires 11 interrupts for allwinner,sun60i-a733-pinctrl, matching
-6b81aa0c8a4f ("arm64: dts: allwinner: a523: Add missing GPIO interrupt").
-
-[ ... ]
-
-> +		uart0: serial@2500000 {
-> +			compatible =3D "allwinner,sun60i-a733-uart",
-> +				     "snps,dw-apb-uart";
-> +			reg =3D <0x02500000 0x400>;
-> +			interrupts =3D <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH 0>;
-> +			reg-shift =3D <2>;
-> +			reg-io-width =3D <4>;
-> +			clocks =3D <&ccu CLK_BUS_UART0>;
-> +			resets =3D <&ccu RST_BUS_UART0>;
-> +			status =3D "disabled";
-> +		};
+> +	osc32k: osc32k-clk {
+> +		compatible =3D "fixed-clock";
+> +		#clock-cells =3D <0>;
+> +		clock-frequency =3D <32768>;
+> +	};
 
 [Severity: Low]
-Is "allwinner,sun60i-a733-uart" documented in
-Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml?
+Should this fixed-clock node use a generic node name such as clock-osc32k
+or clock-32768?
 
-Without a binding entry, dtbs_check fails on uart0 through uart6 and
-r_uart0 through r_uart1.  Other Allwinner arm64 SoC device trees (such as
-sun55i-a523.dtsi and sun50i-h616.dtsi) use compatible =3D "snps,dw-apb-uart"
-directly unless the SoC-specific compatible is added to the binding schema.
+Documentation/devicetree/bindings/clock/fixed-clock.yaml deprecates node
+names that do not match the ^clock-([0-9]+|[a-z0-9-]+)$ pattern.
+
+[ ... ]
+
+> +&pio {
+> +	vcc-pb-supply =3D <&reg_swout2>;	/* via VCC-IO */
+> +	vcc-pc-supply =3D <&reg_cldo5>;
+> +	vcc-pd-supply =3D <&reg_swout1>;
+> +	vcc-pe-supply =3D <&reg_bldo1>;
+> +	/* PF uses VCC-IO at 3.3 V, with CLDO5 as the 1.8 V input. */
+> +	vcc-pf-supply =3D <&reg_swout2>;
+> +	vcc-pg-supply =3D <&reg_aldo1>;
+> +	vcc-ph-supply =3D <&reg_swout2>;
+> +	vcc-pj-supply =3D <&reg_swout1>;
+> +	vcc-pk-supply =3D <&reg_bldo1>;
+> +};
+
+[Severity: High]
+Does wiring vcc-pb-supply through vcc-pk-supply on &pio configure inverted
+1.8 V and 3.3 V I/O bias modes on the A733 pin banks?
+
+The commit message notes that the A733 pinctrl voltage-mode fix is required
+for these bank supply connections, but a733_pinctrl_data in
+drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c still uses
+BIAS_VOLTAGE_PIO_POW_MODE_SEL instead of BIAS_VOLTAGE_PIO_POW_MODE_CTL_INV.
+When pins in banks PB through PK are requested with resolved bank
+regulators, sunxi_pinctrl_set_io_bias_cfg() writes un-inverted mode bits to
+pow_mod_sel_offset, programming 3.3 V banks for 1.8 V withstand mode and
+1.8 V banks for 3.3 V mode.
+
+> +
+> +&r_i2c0 {
+> +	pinctrl-names =3D "default";
+> +	pinctrl-0 =3D <&r_i2c0_pl_pins>;
+> +
+> +	status =3D "okay";
+> +
+> +	axp318w: pmic@36 {
+> +		compatible =3D "x-powers,axp318w";
+> +		reg =3D <0x36>;
+> +		interrupt-parent =3D <&nmi_intc>;
+> +		interrupts =3D <0 IRQ_TYPE_LEVEL_LOW>;
+> +		interrupt-controller;
+> +		#interrupt-cells =3D <1>;
+> +
+> +		aldo156in-supply =3D <&reg_ps>;
+> +		aldo234in-supply =3D <&reg_aldo1>;
+> +		bldoin-supply =3D <&reg_ldo_input>;
+> +		cldoin-supply =3D <&reg_ldo_input>;
+> +		dldoin-supply =3D <&reg_ps>;
+> +		eldoin-supply =3D <&reg_dcdc9>;
+> +		ips-supply =3D <&reg_ps>;
+> +		vin19-supply =3D <&reg_ps>;
+> +		vin23-supply =3D <&reg_ps>;
+> +		vin45-supply =3D <&reg_ps>;
+> +		vin678-supply =3D <&reg_ps>;
+> +
+> +		regulators {
+> +			reg_dcdc1: dcdc1 {
+
+[ ... ]
+
+> +			reg_dcdc9: dcdc9 {
+> +				regulator-name =3D "eldo-input";
+> +			};
+> +
+> +			reg_swout1: swout1 {
+> +				regulator-name =3D "vcc33-lcd";
+> +			};
+> +
+> +			reg_swout2: swout2 {
+> +				/* VCC-IO to the console and microSD. */
+> +				regulator-name =3D "vcc-io-card";
+> +				regulator-always-on;
+> +			};
+
+[Severity: High]
+Will any consumer of the axp318w regulators ever finish probing without a
+driver or Devicetree binding for x-powers,axp318w?
+
+Neither Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml nor
+axp20x_i2c_of_match[] in drivers/mfd/axp20x-i2c.c includes
+"x-powers,axp318w" (or the grouped supply properties aldo156in-supply,
+aldo234in-supply, vin19-supply, vin23-supply, vin45-supply, vin678-supply
+and child regulator nodes dcdc9, swout1, swout2).  Because no driver binds
+to pmic@36, none of its child regulators are registered.  When consumers
+such as pio, r_pio, uart0, mmc0, i2c0, eeprom@50, and leds request their
+bank or device supplies, sunxi_pmx_request() -> regulator_get() ->
+of_regulator_dev_lookup() finds the DT regulator node without a registered
+regulator device and returns -EPROBE_DEFER instead of falling back to the
+dummy regulator, leaving the serial console, microSD slot, EEPROM, and
+LEDs permanently deferred while also failing dtbs_check.
+
+[ ... ]
+
+> +&uart0 {
+> +	pinctrl-names =3D "default";
+> +	pinctrl-0 =3D <&uart0_pb_pins>;
+> +
+> +	status =3D "okay";
+> +};
+
+[Severity: Low]
+Does sun60i-a733-cubie-a7s.dtb fail dtbs_check on the UART nodes inherited
+from sun60i-a733.dtsi?
+
+Commit "arm64: dts: allwinner: add A733 SoC description" defines uart0
+through uart6 and r_uart0 through r_uart1 in sun60i-a733.dtsi with
+compatible =3D "allwinner,sun60i-a733-uart", "snps,dw-apb-uart", but
+"allwinner,sun60i-a733-uart" is not documented in
+Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261121-a733-cubie=
--a7s-dt-v5-0@gmail.com?part=3D2
+-a7s-dt-v5-0@gmail.com?part=3D3
