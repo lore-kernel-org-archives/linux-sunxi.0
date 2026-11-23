@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795455756;
-	b=gvNC6e9DDYgf5P8qLcBvKUFdOy0vU1fs7zN9VcDEYwda7zpjVoOhYRo9lMg5HhXz59id
-	 vjaYTtEJRbcyUSo2UuwdLSgqPIFWtWU97oDvJjycY79lfRWYXUyaaa67jyqTtAcTN9oqo
-	 fYDZGXfOHqKAje877EmmqsPxUObUs2pRr2ywicCt1IPmPKRuUtaPqMNvfSrvljlts4y1n
-	 eMCZXlcFF9OovDrGevp08SsbJesi5M8+VNKjBAIOsK9Jg6+n/4mKiZjvmQVChFfmWpNN2
-	 fxNlXICttDrAVRtzfbGfgtkZavmKXSqzonKTTTipQJO7NN1CU95cRVpRvRx4s2vBXpw==
+	t=1795455760;
+	b=lFz8Zyi9QYI0RTUoYIWOvUn/dzjoaJpqDtlBtdrgTSOvA2krRWa+KWayKRcqzn4w6aFx
+	 YqKZ9ypRRFFkKvATVJhCSQ3pGmXsWt+Qu+fBPpc84Yt/0ZhK11k5vaaTgcgCdMxDkA0om
+	 dxoYO/ptlTbD0uy83frHUyzxpXJvElleKm2RuL+6C2D6RSIjFM6TJ26Wkb36SyspP6qR5
+	 4ET6O5uvC15+5PVwZtRRAMax6sSGAs+G9BbDsBdRrcflkwWQIA9v7pnHSL/dOxhbeCTLs
+	 XIriQSqchgu85WX1XhVDNVffdi18r6lhxGqviS8EqUoKnunyw5c7lkHqjE1hzCnyfWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795455756;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795455760;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=Mr85ZWqgEyPMqdzVkovxmF6wpEmn3zDhjq47PMicrEs=;
-	b=B7PDWVnkJfwVwgIRuuwO3ecWnnaVeufyoMCCk1Lj2QHvqbR63O0d7yCwwK3l+CwJC7z4
-	 R0/DENVbhNRoUFodVel45Cb9xkLKMH+G00a7BkBxt3daRIJsO14tsAhTkVlNUlTUy9Rrj
-	 VPYoCmkYqzNFffGr3DEj2HziIH4LGjCiz9/RgYcgfstDs/phUObT+UlIzVd3bHAloek0v
-	 EGjsgKtQiQq/PNGnHg5/yEkRFQEJMQe6WKVoqW70BckfFvme2PY400ZaSOxJs99mFxX2w
-	 CtM1WZPJzcVCWaZqmzgaxP3QrFRcYfjqBok96xDjF8RiZAdvPhqktRbMt+Ccqww1eiQ==
+	bh=/iStH9VraSG0DXuR71oDMSPL4T/9R4xeacMR1pzctQI=;
+	b=flPK8bLJa++falwe0s/RQW5OyfwOxsS00eg1s46bJx+thCb1jQR/i1zDHm/Zu3B9QwJ8
+	 8w+sm9ZyCeLmxlQYXB9vXePn0zR6Cvx5T0+BSzT1hYI5ZW/p54arfHNgSAAYob0lHwOBC
+	 6tTk5hUvTV2ffQMtrBohZRXGhoNLvA0KmGHlE7VrW0OAR7/miXd4bCXrqFGfDKsElKS+P
+	 mxVc7d/RVtJbm9Y9+p2L7E+fRDKfNN58tVIAmz7CvST+MTkWDYGQg0cH0cDFrDqoEYmCR
+	 YO72bu4lcdtO/+G8g9vWi+c1qZt+eMNwhtYgPkwxZ6rmwDX1W/P0H1+gQlKAzTFVSRg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=izWRyCyj;
-	arc=none smtp.remote-ip=209.85.160.53
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=f3O5rCtd;
+	arc=none smtp.remote-ip=209.85.210.50
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC55E606A31A
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Nov 2026 17:42:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC55E606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F4DA606A332
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 Nov 2026 17:42:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F4DA606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=izWRyCyj
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-4b0348a4c79so2522093fac.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 23 Nov 2026 09:42:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=f3O5rCtd
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-862a5b64755so2043640a34.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 23 Nov 2026 09:42:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795455755; x=1796060555; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795455759; x=1796060559; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Mr85ZWqgEyPMqdzVkovxmF6wpEmn3zDhjq47PMicrEs=;
-        b=izWRyCyj8Zr4ZdI/iuhA3JTJp9oiWEoY71KN3qPibDZzMOYlkfNSnSakwy/zaPGOn4
-         iw2YKX+lE5QlbQHvmO829DE/hEAxmMuS9A3Y/AeJswoBu7B/Z4ORgDsf4mah+eoHoDJn
-         llCqp9dxSRTm53Z7vt+S9JuHeQ2bEamJ18BCalT556XKQyJhCrRfIvZgF4NbGb+IPXqe
-         DSjaeCvGuqzhqnhb4LsEASvHvRFLpawVqG6qCtl/qxWO38mkEUMCVj0cKbQZHYjnpUi9
-         yVeMFn7NEvXV0oerY+WXZt9WVKJ9zgVLvRJaL24KLOij4f8EfSdyuScfw/LkPfXv6Lhn
-         iXiA==
+        bh=/iStH9VraSG0DXuR71oDMSPL4T/9R4xeacMR1pzctQI=;
+        b=f3O5rCtdfavvzwSp5/1X8h0l4yB/2YceFyfB2zVofVBlGgSBfsXoaUAfkNRt6vYr2I
+         r+GlXNsw/VpPD6uaHcrh/O7fccA72yU8bZF9DyAur3qnTjdxxgEXfz/PRqR029JFdgYj
+         QCv1zwpm94/P24drDhir4fo/y0Z7wFLcRPVap8MhymxtVf/qWmHAXlyJC9jX+/GsCW+y
+         SOxqydXfLxVVoqaoCaAmS03klVQGGcazBIojTKSBQtnBPgsErAchZNA9GaJCtsXsRSZG
+         fO9u8d0DkU7WTRu+75EqLsOgHdtUDGL9sg16wN9kGjUVGiQvBwyoMOuZtFGmIWy6C+gA
+         dvjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795455755; x=1796060555;
+        d=1e100.net; s=20260707; t=1795455759; x=1796060559;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Mr85ZWqgEyPMqdzVkovxmF6wpEmn3zDhjq47PMicrEs=;
-        b=Vzd63rhOKdWSCPZLHjnATiMv+GyBgVzhCYPfISszaKoJN1/4mGrJhwp6mjssipRiKU
-         PgVVVCwQYVmeWbAO6HwobUAUEnk6XxnSPYr8HdbkXCZrKGK8DI6dmYNSsqpp6hf7fYg7
-         dmNIr4WLc2iOEY4amrja1zrPEXuiksz9G4xRMgoblO9nyPD72DZh8Sz37ceu6NvcFgQj
-         STWXNLw8W93mC6g3kaTucnTOC1XCsGR/PEC0wdPHbtqcF6BvJSHZ7NCGtyGJQj0viQ8Y
-         rz6hvJl68N97IWDQk5aPOFwe7utjPtlnnG9uTf5DSDaOLqsmKj01cRL3MMnnVK+CKtF0
-         IeTw==
-X-Forwarded-Encrypted: i=1; AL+hErFVjNzorIq63DjCE9idhS/KxsBbwpusvKysx1NxktLIxsB5I8joteJk+5sh27GeBs+zt9LdWrvEfza04w==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+O+x+tU9+vQ0XUOwQhQD9j2SYPkwA60lBsjw//x1pG+hm2qGod
-	0xmF3rCbdcWYQLDw7/wcnejVB/XsD6sIQTsX9h63/lEeHGAmKfzc26dA
-X-Gm-Gg: AZFdTZcPAqoqVosycPikzm/MVkn15MHXsyJAHFLit6tCb07q3mgaJyMysIKyBGmdF1l
-	VzAP+oA8cfykf8GZJLBomcXhZ0eGi+UlDYCStqSEDORRcClGgYTXfoA1dJnssUOy7RwWSEbofoe
-	8NYTkKdYsFHMgX9NtNi5d7lC9X3Pi6eCs03vdmSNa7YvShyMVXt4UZnbmWS04LshTPK6T2pvqvA
-	A4Lc81z6cJ9uihb8eoDiXTa3cC9uZjMffMYKpZ5QuHA3IvteZ+T8VL3XennxsUHwTcbaiEaD25g
-	lQPftVqsZIMbNxWGRKUnD+SEQHmg1rjfyEGNScU3I466A1vsJNTz1GJp0j0Atp61tUReXmqfDyv
-	D/8ddmmzPX/mcP1EnkK/YhNBxiO6NzYk2h1kg1gX20XqD9iydfsMIBM8YS04plvkLxHCI3Echun
-	K5NPBoMiEAcR5yYMqZSkFI4JaQnjHHew8+rdczbeiTkJ4A0QYlbu+6btUmHGWeixAsPvqNPm8T/
-	ZbG4b8xAQs/TCjfJGPLNYQ6xP6HLVL5nA6654a9tQ9dRgYpFmEcj15xFyWdrGnOkxBeaLHWgjCX
-	+hO8JfZS3uYvKlCksTicp4okkqVkI9b1AKfnwPBeMnAzhwrdx0p2mhJyWSPJsYWFcFFCS2HWo7b
-	cYM6A
-X-Received: by 2002:a05:6870:7207:b0:4a6:f610:87eb with SMTP id 586e51a60fabf-4bc7bea98c8mr11767783fac.3.1795455754458;
-        Mon, 23 Nov 2026 09:42:34 -0800 (PST)
+        bh=/iStH9VraSG0DXuR71oDMSPL4T/9R4xeacMR1pzctQI=;
+        b=pK6f6yxUcz3CQxZcCvZNcBDRCwh3jYkux0rA+I78t2jXlPP+XylgfOFXj/Qu7/fms+
+         AFYbEXfjnDNiWX5e0y3mtmut22pS6zrdufQuUDYVQAoRR85sRpOirIP94FFwLKxfW2OH
+         PLGk+xjx92EygNYRdoIVnBiaejquQ3Iazc7suCqRsWzGVHaRg1dhD7xnzZYNZ7M5jIPH
+         pjYreh2QY6KjazI+8QmOpnZgU5O+JrYrkSkcPe7uUkwZJ0kuKSbnFT+kK3DzhdoMotFZ
+         uqP0FtUdWTnB1YBE4QBQRflZogSROG7PmZTz8yYHSmYArE+2tdNwolXoV1B9/e/gmV1b
+         4blQ==
+X-Forwarded-Encrypted: i=1; AL+hErFKWlFHSwueOceEpLdzpng7suYHodzjlCu7g/dAmBuzmmaHfwe805iYiH31NcDV9kln6bL9ELtHxP6o1Q==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9MYjcNkRvX1nIqBa7+i3xqgNVwebAF99E3ferH4KsYltljuK65
+	UyUUdU/lKCi+Z/1eZyh350rGPksfr0Yf3OSoQft0b1viuS/Xa8QBfvgS
+X-Gm-Gg: AZFdTZd6VHLJVAIuGkDbBuEmGdlcPAgDyqzvyJsJrW+EY9XNQ+TeanhFql5HzzJp+Ls
+	E7wMIA6VTgbdYhWElUA9RkonDP3u0rTAkookStLOEwqakLzTk95RmbbfuEMYUdng48fzTpBFXAR
+	VS+Q49A/5/da11y1SFbWjPvH2Aym5S48U5Q6QuNlDUfAD6rttBCITPI31Tl+U6nsLcrrYFCXqDk
+	BtZ1Gx4aQhWt6JLbOcAkTd2g61m7slT0QCmV2IDfSkLt4kH18VDputeXlxSl++V+dNRx1LfMbiw
+	vaJZVNyRm1pOvAIqntdzz7+dBx16hI+/rIFLsicBWjGQRaSTFVt7FPByiH2tZ0DfJt/0DJuBJm+
+	RqhRBToto8H9M+EZZFZoDBd6oSJgNxNvb1L7EUNc4WEn0Yugzn5kHw/okzS0ZnSJ4SssOPY2ClH
+	kgNQBK2tUwnDhoyJzC+tAX+X5vRs+RiIS10e8Mp9vCF+7TsNymJ+4OYtz5bEyP3WxkCVWd/JaDr
+	49UBQyybHwd+Au/sJfmYNb/T2NRi46/N/KF/Y2n8FOgEy2t6DyK8Vi+q3Y2QDbNn2b5gmY1diJy
+	LDkD6o54VuSLC6YvGpmk1H6ggW2uFPBIAfgkKSfgsGoqXbDfxBVcQJDpkXMMvs/s3kbDfD/dFtG
+	Z4ZAJ
+X-Received: by 2002:a05:6830:4ac5:b0:81e:b506:592d with SMTP id 46e09a7af769-86315987fa5mr13350328a34.27.1795455758836;
+        Mon, 23 Nov 2026 09:42:38 -0800 (PST)
 Received: from AMD.home.internal (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4bc60497300sm11927269fac.11.2026.11.23.09.42.32
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-86322db2d1asm7539853a34.4.2026.11.23.09.42.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 09:42:33 -0800 (PST)
+        Mon, 23 Nov 2026 09:42:38 -0800 (PST)
 From: Enzo Adriano <enzo.adriano.code@gmail.com>
 To: andre.przywara@arm.com,
 	robh@kernel.org,
@@ -99,9 +99,9 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 	Alexander Sverdlin <alex@sverdlin.org>,
 	Jun Yan <jerrysteve1101@gmail.com>,
 	Lukas Schmid <lukas.schmid@netcube.li>
-Subject: [PATCH v5 2/3] arm64: dts: allwinner: add A733 SoC description
-Date: Mon, 23 Nov 2026 12:42:32 -0500
-Message-ID: <20261121-a733-cubie-a7s-dt-v5-2@gmail.com>
+Subject: [PATCH v5 3/3] arm64: dts: allwinner: add Radxa Cubie A7S board
+Date: Mon, 23 Nov 2026 12:42:36 -0500
+Message-ID: <20261121-a733-cubie-a7s-dt-v5-3@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261121-a733-cubie-a7s-dt-v5-0@gmail.com>
 References: <20261121-a733-cubie-a7s-dt-v5-0@gmail.com>
@@ -116,709 +116,406 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Provide the SoC description needed by the initial Cubie A7S DTS for its
-console, PMIC, EEPROM and microSD. Describe the CPUs, PSCI, architectural
-timers, GIC, RTC, main and always-on clock/reset and pin controllers.
-Include the main and R-domain UART/I2C instances and MMC0-2 with their
-pin groups. Use mux 6 for I2C0 on PG8/PG9, as in Radxa's BSP pinctrl
-driver and its Cubie A7S device tree.
+Enable the serial console, PMIC and microSD slot for initial Cubie A7S
+bring-up with vendor firmware. Describe the oscillator inputs and the
+power tree using the Radxa A7S v1.10 schematic, sheets 4, 7 and 8. Keep
+the boot-critical supplies enabled. Use the Radxa 5.15 BSP CPU and
+GPU OPP envelopes for DCDC3/5 and DCDC4. Use its regulator readback
+for DCDC2, BLDO1, DLDO1 and ELDO6, consistent with sheets 4 and 8
+and the VCC-MCSI entry in the A733 datasheet.
 
-The GIC maintenance PPI 9 and ARMv8.2 EL2 virtual-timer PPI 12 follow
-the A733 User Manual v1.00, section 12.2.3. The GICD/GICR/ITS windows
-and noncoherent attributes follow Andre Przywara's public A733
-reference and the A523 precedent. The CPUX interconnect diagram in
-section 5.1.2 supports noncoherency as an integration inference. The
-ITS stays disabled pending its clock/reset and MSI integration.
+Allow 0.50-0.60 V on DCDC6, covering the 0.50 V LPDDR5 and 0.60 V
+LPDDR4X VDDQ options on sheet 5. Allow 1.05-1.10 V on DCDC7,
+covering LPDDR5 VDD2H at 1.05 V and the 1.10 V DRAM rail shown on
+sheets 4 and 5. The BSP readback was 0.56 V and 1.08 V, respectively.
+Both fall inside the bounds, so those selector values can be kept
+after DRAM training. Set the LVDS0 supply to 1.8 V per the A733
+Datasheet v1.00, table 5-2, and leave its enable under consumer control.
+Omit the unused UFS and codec regulator nodes (schematic sheets 4 and 6).
 
-Describe the single DynamIQ unit and shared L3 shown in section 5.1.2
-(figure 5-1). The big and little DVFS groups can be described by their
-clocks, OPP tables and supplies. Partition PPI 7 (section 12.2.3,
-table 12-1) between the Cortex-A55 and Cortex-A76 PMUs so each probes
-its own core type. Defer capacity-dmips-mhz until it is measured on A733.
+Use SWOUT2 for the card and the Port F VCC-IO path (sheets 4, 7 and 13).
+Firmware must select the 3.3 V PF path for use with MMC0. CLDO5
+supplies the separate 1.8 V input. The controller uses fixed signalling
+with no VQMMC regulator and advertises no UHS modes. Describe the
+active-high card-detect line on PF6 and its pull-down.
 
-Link: https://gist.githubusercontent.com/apritzel/60fd7379b9560a15b8b352986b69d39f/raw/efd9cdf8f26ba5b0c7e138f093af44a1cf322469/sun60i-a733.dts
-Link: https://github.com/radxa/allwinner-bsp/blob/2045a3ca2a01f088c0314dc924bda59d154e363e/drivers/pinctrl/pinctrl-sun60iw2.c#L1591-L1610
+Add the PM2 power and PJ26 status LEDs, and the BL24C16F on I2C0 as
+shown on sheets 7 and 16. The EEPROM is at 0x50 in Radxa's 5.15 DT.
+PC7 drives an inverter that pulls the EEPROM's write-protect pin low.
+
+Keep ALDO1 always on for Port L, which powers the PMIC's own bus.
+Omit the Port L supply phandle, as on the Cubie A5E: requesting
+it would require the PMIC regulator before the PMIC can be reached.
+The A733 pinctrl voltage-mode fix is required for the bank supply
+connections.
+
+Link: https://dl.radxa.com/cubie/a7s/hw/radxa_cubie_a7s_schematic_v1.10.pdf
+Link: https://github.com/radxa/allwinner-device/blob/6d911d1582dcccdb5a4c38be8d3c1ee851019795/configs/cubie_a7s/linux-5.15/board.dts#L372-L384
 Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
 ---
 
-v4 -> v5: Rename osc to hosc and add the I2C0 PG8/PG9 group. Keep the
-one-cluster CPU map and the two PMU partitions.
+v4 -> v5: Add GPIO LEDs and the I2C0 EEPROM. Drop the MMC alias,
+50 MHz cap and vqmmc-supply, and describe MMC/SDIO high-speed and IRQ
+capabilities. Describe the 3.3 V PF supply. Name and order the fixed
+regulators, remove the UFS and codec rails, and document the
+remaining always-on supplies. Add the DCDC2-7, BLDO1/2, DLDO1
+and ELDO6 voltage constraints.
 
-Untested on v5: physical CPU/cache topology, PMU counting, EL2
-interrupt delivery and ITS/MSI.
+Untested on v5: physical rail voltages, visible LED operation, EEPROM
+contents, writes and write protection, early and repeatable MMC reads,
+MMC ios, SD writes, hotplug and 1.8 V switching, stimulated PMIC/NMI
+interrupts, suspend, power-off and other boards.
 
- .../arm64/boot/dts/allwinner/sun60i-a733.dtsi | 663 ++++++++++++++++++
- 1 file changed, 663 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
+ arch/arm64/boot/dts/allwinner/Makefile            |   1 +
+ .../boot/dts/allwinner/sun60i-a733-cubie-a7s.dts  | 331 ++++++++++++++++++++
+ 2 files changed, 332 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
+diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
+index da39f02252d4..9d1e740ff19e 100644
+--- a/arch/arm64/boot/dts/allwinner/Makefile
++++ b/arch/arm64/boot/dts/allwinner/Makefile
+@@ -69,3 +69,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun55i-a527-cubie-a5e.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun55i-h728-x96qpro+.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun55i-t527-avaota-a1.dtb
+ dtb-$(CONFIG_ARCH_SUNXI) += sun55i-t527-orangepi-4a.dtb
++dtb-$(CONFIG_ARCH_SUNXI) += sun60i-a733-cubie-a7s.dtb
+diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
 new file mode 100644
-index 000000000000..8a258f16751e
+index 000000000000..7451c00570fb
 --- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
-@@ -0,0 +1,663 @@
++++ b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
+@@ -0,0 +1,331 @@
 +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
++/dts-v1/;
 +
-+#include <dt-bindings/clock/sun6i-rtc.h>
-+#include <dt-bindings/clock/allwinner,sun60i-a733-ccu.h>
-+#include <dt-bindings/clock/allwinner,sun60i-a733-r-ccu.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
-+#include <dt-bindings/reset/allwinner,sun60i-a733-ccu.h>
-+#include <dt-bindings/reset/allwinner,sun60i-a733-r-ccu.h>
++#include "sun60i-a733.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/leds/common.h>
 +
 +/ {
-+	#address-cells = <2>;
-+	#size-cells = <2>;
-+	interrupt-parent = <&gic>;
++	model = "Radxa Cubie A7S";
++	compatible = "radxa,cubie-a7s", "allwinner,sun60i-a733";
 +
-+	cpus {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
++	aliases {
++		serial0 = &uart0;
++	};
 +
-+		cpu-map {
-+			cluster0 {
-+				core0 {
-+					cpu = <&cpu0>;
-+				};
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
 +
-+				core1 {
-+					cpu = <&cpu1>;
-+				};
++	leds {
++		compatible = "gpio-leds";
 +
-+				core2 {
-+					cpu = <&cpu2>;
-+				};
-+
-+				core3 {
-+					cpu = <&cpu3>;
-+				};
-+
-+				core4 {
-+					cpu = <&cpu4>;
-+				};
-+
-+				core5 {
-+					cpu = <&cpu5>;
-+				};
-+
-+				core6 {
-+					cpu = <&cpu6>;
-+				};
-+
-+				core7 {
-+					cpu = <&cpu7>;
-+				};
-+			};
++		power-led {
++			function = LED_FUNCTION_POWER;
++			color = <LED_COLOR_ID_GREEN>;
++			gpios = <&r_pio 1 2 GPIO_ACTIVE_HIGH>; /* PM2 */
++			default-state = "on";
 +		};
 +
-+		cpu0: cpu@0 {
-+			compatible = "arm,cortex-a55";
-+			device_type = "cpu";
-+			reg = <0x0>;
-+			enable-method = "psci";
-+		};
-+
-+		cpu1: cpu@100 {
-+			compatible = "arm,cortex-a55";
-+			device_type = "cpu";
-+			reg = <0x100>;
-+			enable-method = "psci";
-+		};
-+
-+		cpu2: cpu@200 {
-+			compatible = "arm,cortex-a55";
-+			device_type = "cpu";
-+			reg = <0x200>;
-+			enable-method = "psci";
-+		};
-+
-+		cpu3: cpu@300 {
-+			compatible = "arm,cortex-a55";
-+			device_type = "cpu";
-+			reg = <0x300>;
-+			enable-method = "psci";
-+		};
-+
-+		cpu4: cpu@400 {
-+			compatible = "arm,cortex-a55";
-+			device_type = "cpu";
-+			reg = <0x400>;
-+			enable-method = "psci";
-+		};
-+
-+		cpu5: cpu@500 {
-+			compatible = "arm,cortex-a55";
-+			device_type = "cpu";
-+			reg = <0x500>;
-+			enable-method = "psci";
-+		};
-+
-+		cpu6: cpu@600 {
-+			compatible = "arm,cortex-a76";
-+			device_type = "cpu";
-+			reg = <0x600>;
-+			enable-method = "psci";
-+		};
-+
-+		cpu7: cpu@700 {
-+			compatible = "arm,cortex-a76";
-+			device_type = "cpu";
-+			reg = <0x700>;
-+			enable-method = "psci";
++		status-led {
++			function = LED_FUNCTION_STATUS;
++			color = <LED_COLOR_ID_BLUE>;
++			gpios = <&pio 9 26 GPIO_ACTIVE_HIGH>; /* PJ26 */
++			linux,default-trigger = "heartbeat";
 +		};
 +	};
 +
-+	hosc: clock-hosc {
++	osc32k: osc32k-clk {
 +		compatible = "fixed-clock";
 +		#clock-cells = <0>;
++		clock-frequency = <32768>;
 +	};
 +
-+	pmu-a55 {
-+		compatible = "arm,cortex-a55-pmu";
-+		interrupts = <GIC_PPI 7 IRQ_TYPE_LEVEL_HIGH &ppi_a55>;
++	/* board wide 5V supply from the USB-C connector */
++	reg_ps: regulator-5v {
++		compatible = "regulator-fixed";
++		regulator-name = "ps";
++		regulator-min-microvolt = <5000000>;
++		regulator-max-microvolt = <5000000>;
++		regulator-always-on;
 +	};
 +
-+	pmu-a76 {
-+		compatible = "arm,cortex-a76-pmu";
-+		interrupts = <GIC_PPI 7 IRQ_TYPE_LEVEL_HIGH &ppi_a76>;
++	/* discrete ETA3521 DC/DC step-down regulator */
++	reg_ldo_input: regulator-2v4 {
++		compatible = "regulator-fixed";
++		regulator-name = "ldo-input";
++		/* Hardwired BLDO/CLDO input: 0.6 V * (1 + RP298 / RP299). */
++		regulator-min-microvolt = <2400000>;
++		regulator-max-microvolt = <2400000>;
++		regulator-always-on;
++		vin-supply = <&reg_ps>;
 +	};
++};
 +
-+	psci {
-+		compatible = "arm,psci-0.2";
-+		method = "smc";
++&cpu0 {
++	cpu-supply = <&reg_dcdc5>;
++};
++
++&cpu1 {
++	cpu-supply = <&reg_dcdc5>;
++};
++
++&cpu2 {
++	cpu-supply = <&reg_dcdc5>;
++};
++
++&cpu3 {
++	cpu-supply = <&reg_dcdc5>;
++};
++
++&cpu4 {
++	cpu-supply = <&reg_dcdc5>;
++};
++
++&cpu5 {
++	cpu-supply = <&reg_dcdc5>;
++};
++
++&cpu6 {
++	cpu-supply = <&reg_dcdc3>;
++};
++
++&cpu7 {
++	cpu-supply = <&reg_dcdc3>;
++};
++
++&hosc {
++	clock-frequency = <26000000>;
++};
++
++&i2c0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&i2c0_pg_pins>;
++
++	status = "okay";
++
++	eeprom@50 {
++		compatible = "belling,bl24c16f", "atmel,24c16";
++		reg = <0x50>;
++		pagesize = <16>;
++		vcc-supply = <&reg_aldo1>;
++		wp-gpios = <&pio 2 7 GPIO_ACTIVE_LOW>; /* PC7 via Q2 */
 +	};
++};
 +
-+	timer {
-+		compatible = "arm,armv8-timer";
-+		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_HIGH 0>,
-+			     <GIC_PPI 14 IRQ_TYPE_LEVEL_HIGH 0>,
-+			     <GIC_PPI 11 IRQ_TYPE_LEVEL_HIGH 0>,
-+			     <GIC_PPI 10 IRQ_TYPE_LEVEL_HIGH 0>,
-+			     <GIC_PPI 12 IRQ_TYPE_LEVEL_HIGH 0>;
-+		arm,no-tick-in-suspend;
-+	};
++&mmc0 {
++	bus-width = <4>;
++	cap-mmc-highspeed;
++	cap-sd-highspeed;
++	cap-sdio-irq;
++	cd-gpios = <&pio 5 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
++	disable-wp;
++	no-1-8-v;
++	vmmc-supply = <&reg_swout2>;
 +
-+	soc@0 {
-+		compatible = "simple-bus";
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges = <0x0 0x0 0x0 0x40000000>;
++	status = "okay";
++};
 +
-+		pio: pinctrl@2000000 {
-+			compatible = "allwinner,sun60i-a733-pinctrl";
-+			reg = <0x02000000 0x800>;
-+			interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH 0>,
-+				     <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH 0>,
-+				     <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH 0>,
-+				     <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH 0>,
-+				     <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH 0>,
-+				     <GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH 0>,
-+				     <GIC_SPI 81 IRQ_TYPE_LEVEL_HIGH 0>,
-+				     <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH 0>,
-+				     <GIC_SPI 85 IRQ_TYPE_LEVEL_HIGH 0>,
-+				     <GIC_SPI 87 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_APB1>, <&hosc>, <&rtc CLK_OSC32K>;
-+			clock-names = "apb", "hosc", "losc";
-+			gpio-controller;
-+			#gpio-cells = <3>;
-+			interrupt-controller;
-+			#interrupt-cells = <3>;
++&pio {
++	vcc-pb-supply = <&reg_swout2>;	/* via VCC-IO */
++	vcc-pc-supply = <&reg_cldo5>;
++	vcc-pd-supply = <&reg_swout1>;
++	vcc-pe-supply = <&reg_bldo1>;
++	/* PF uses VCC-IO at 3.3 V, with CLDO5 as the 1.8 V input. */
++	vcc-pf-supply = <&reg_swout2>;
++	vcc-pg-supply = <&reg_aldo1>;
++	vcc-ph-supply = <&reg_swout2>;
++	vcc-pj-supply = <&reg_swout1>;
++	vcc-pk-supply = <&reg_bldo1>;
++};
 +
-+			i2c0_pg_pins: i2c0-pg-pins {
-+				pins = "PG8", "PG9";
-+				function = "i2c0";
-+				allwinner,pinmux = <6>;
++&r_i2c0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&r_i2c0_pl_pins>;
++
++	status = "okay";
++
++	axp318w: pmic@36 {
++		compatible = "x-powers,axp318w";
++		reg = <0x36>;
++		interrupt-parent = <&nmi_intc>;
++		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
++		interrupt-controller;
++		#interrupt-cells = <1>;
++
++		aldo156in-supply = <&reg_ps>;
++		aldo234in-supply = <&reg_aldo1>;
++		bldoin-supply = <&reg_ldo_input>;
++		cldoin-supply = <&reg_ldo_input>;
++		dldoin-supply = <&reg_ps>;
++		eldoin-supply = <&reg_dcdc9>;
++		ips-supply = <&reg_ps>;
++		vin19-supply = <&reg_ps>;
++		vin23-supply = <&reg_ps>;
++		vin45-supply = <&reg_ps>;
++		vin678-supply = <&reg_ps>;
++
++		regulators {
++			reg_dcdc1: dcdc1 {
++				/* Board 3.3 V loads and the SWOUT1/2 input. */
++				regulator-name = "vcc-3v3";
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-always-on;
 +			};
 +
-+			mmc0_pins: mmc0-pins {
-+				pins = "PF0", "PF1", "PF2", "PF3", "PF4", "PF5";
-+				function = "mmc0";
-+				allwinner,pinmux = <2>;
-+				drive-strength = <30>;
-+				bias-pull-up;
++			reg_dcdc2: dcdc2 {
++				/* System and DRAM core/PHY supply. */
++				regulator-name = "vdd-sys";
++				regulator-min-microvolt = <800000>;
++				regulator-max-microvolt = <800000>;
++				regulator-always-on;
 +			};
 +
-+			mmc1_pins: mmc1-pins {
-+				pins = "PG0", "PG1", "PG2", "PG3", "PG4", "PG5";
-+				function = "mmc1";
-+				allwinner,pinmux = <2>;
-+				drive-strength = <30>;
-+				bias-pull-up;
++			reg_dcdc3: dcdc3 {
++				/* Powers the running Cortex-A76 CPUs. */
++				regulator-name = "vdd-cpub";
++				regulator-min-microvolt = <800000>;
++				regulator-max-microvolt = <1050000>;
++				regulator-always-on;
 +			};
 +
-+			mmc2_pins: mmc2-pins {
-+				pins = "PC5", "PC6", "PC8", "PC9", "PC10", "PC11",
-+				       "PC13", "PC14", "PC15", "PC16";
-+				function = "mmc2";
-+				allwinner,pinmux = <3>;
-+				drive-strength = <30>;
-+				bias-pull-up;
++			reg_dcdc4: dcdc4 {
++				regulator-name = "vdd-gpu";
++				regulator-min-microvolt = <800000>;
++				regulator-max-microvolt = <960000>;
 +			};
 +
-+			uart0_pb_pins: uart0-pb-pins {
-+				pins = "PB9", "PB10";
-+				function = "uart0";
-+				allwinner,pinmux = <2>;
-+			};
-+		};
-+
-+		ccu: clock-controller@2002000 {
-+			compatible = "allwinner,sun60i-a733-ccu";
-+			reg = <0x02002000 0x2000>;
-+			clocks = <&hosc>, <&rtc CLK_OSC32K>, <&rtc CLK_IOSC>,
-+				 <&rtc CLK_OSC32K_FANOUT>;
-+			clock-names = "hosc", "losc", "iosc", "losc-fanout";
-+			#clock-cells = <1>;
-+			#reset-cells = <1>;
-+		};
-+
-+		uart0: serial@2500000 {
-+			compatible = "allwinner,sun60i-a733-uart",
-+				     "snps,dw-apb-uart";
-+			reg = <0x02500000 0x400>;
-+			interrupts = <GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH 0>;
-+			reg-shift = <2>;
-+			reg-io-width = <4>;
-+			clocks = <&ccu CLK_BUS_UART0>;
-+			resets = <&ccu RST_BUS_UART0>;
-+			status = "disabled";
-+		};
-+
-+		uart1: serial@2501000 {
-+			compatible = "allwinner,sun60i-a733-uart",
-+				     "snps,dw-apb-uart";
-+			reg = <0x02501000 0x400>;
-+			interrupts = <GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH 0>;
-+			reg-shift = <2>;
-+			reg-io-width = <4>;
-+			clocks = <&ccu CLK_BUS_UART1>;
-+			resets = <&ccu RST_BUS_UART1>;
-+			status = "disabled";
-+		};
-+
-+		uart2: serial@2502000 {
-+			compatible = "allwinner,sun60i-a733-uart",
-+				     "snps,dw-apb-uart";
-+			reg = <0x02502000 0x400>;
-+			interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH 0>;
-+			reg-shift = <2>;
-+			reg-io-width = <4>;
-+			clocks = <&ccu CLK_BUS_UART2>;
-+			resets = <&ccu RST_BUS_UART2>;
-+			status = "disabled";
-+		};
-+
-+		uart3: serial@2503000 {
-+			compatible = "allwinner,sun60i-a733-uart",
-+				     "snps,dw-apb-uart";
-+			reg = <0x02503000 0x400>;
-+			interrupts = <GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH 0>;
-+			reg-shift = <2>;
-+			reg-io-width = <4>;
-+			clocks = <&ccu CLK_BUS_UART3>;
-+			resets = <&ccu RST_BUS_UART3>;
-+			status = "disabled";
-+		};
-+
-+		uart4: serial@2504000 {
-+			compatible = "allwinner,sun60i-a733-uart",
-+				     "snps,dw-apb-uart";
-+			reg = <0x02504000 0x400>;
-+			interrupts = <GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH 0>;
-+			reg-shift = <2>;
-+			reg-io-width = <4>;
-+			clocks = <&ccu CLK_BUS_UART4>;
-+			resets = <&ccu RST_BUS_UART4>;
-+			status = "disabled";
-+		};
-+
-+		uart5: serial@2505000 {
-+			compatible = "allwinner,sun60i-a733-uart",
-+				     "snps,dw-apb-uart";
-+			reg = <0x02505000 0x400>;
-+			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH 0>;
-+			reg-shift = <2>;
-+			reg-io-width = <4>;
-+			clocks = <&ccu CLK_BUS_UART5>;
-+			resets = <&ccu RST_BUS_UART5>;
-+			status = "disabled";
-+		};
-+
-+		uart6: serial@2506000 {
-+			compatible = "allwinner,sun60i-a733-uart",
-+				     "snps,dw-apb-uart";
-+			reg = <0x02506000 0x400>;
-+			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH 0>;
-+			reg-shift = <2>;
-+			reg-io-width = <4>;
-+			clocks = <&ccu CLK_BUS_UART6>;
-+			resets = <&ccu RST_BUS_UART6>;
-+			status = "disabled";
-+		};
-+
-+		i2c0: i2c@2510000 {
-+			compatible = "allwinner,sun60i-a733-i2c",
-+				     "allwinner,sun8i-v536-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x02510000 0x400>;
-+			interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_BUS_I2C0>;
-+			resets = <&ccu RST_BUS_I2C0>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		i2c1: i2c@2511000 {
-+			compatible = "allwinner,sun60i-a733-i2c",
-+				     "allwinner,sun8i-v536-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x02511000 0x400>;
-+			interrupts = <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_BUS_I2C1>;
-+			resets = <&ccu RST_BUS_I2C1>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		i2c2: i2c@2512000 {
-+			compatible = "allwinner,sun60i-a733-i2c",
-+				     "allwinner,sun8i-v536-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x02512000 0x400>;
-+			interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_BUS_I2C2>;
-+			resets = <&ccu RST_BUS_I2C2>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		i2c3: i2c@2513000 {
-+			compatible = "allwinner,sun60i-a733-i2c",
-+				     "allwinner,sun8i-v536-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x02513000 0x400>;
-+			interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_BUS_I2C3>;
-+			resets = <&ccu RST_BUS_I2C3>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		i2c4: i2c@2514000 {
-+			compatible = "allwinner,sun60i-a733-i2c",
-+				     "allwinner,sun8i-v536-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x02514000 0x400>;
-+			interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_BUS_I2C4>;
-+			resets = <&ccu RST_BUS_I2C4>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		i2c5: i2c@2515000 {
-+			compatible = "allwinner,sun60i-a733-i2c",
-+				     "allwinner,sun8i-v536-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x02515000 0x400>;
-+			interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_BUS_I2C5>;
-+			resets = <&ccu RST_BUS_I2C5>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		i2c6: i2c@2516000 {
-+			compatible = "allwinner,sun60i-a733-i2c",
-+				     "allwinner,sun8i-v536-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x02516000 0x400>;
-+			interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_BUS_I2C6>;
-+			resets = <&ccu RST_BUS_I2C6>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		i2c7: i2c@2517000 {
-+			compatible = "allwinner,sun60i-a733-i2c",
-+				     "allwinner,sun8i-v536-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x02517000 0x400>;
-+			interrupts = <GIC_SPI 18 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_BUS_I2C7>;
-+			resets = <&ccu RST_BUS_I2C7>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		i2c8: i2c@2518000 {
-+			compatible = "allwinner,sun60i-a733-i2c",
-+				     "allwinner,sun8i-v536-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x02518000 0x400>;
-+			interrupts = <GIC_SPI 19 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_BUS_I2C8>;
-+			resets = <&ccu RST_BUS_I2C8>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		i2c9: i2c@2519000 {
-+			compatible = "allwinner,sun60i-a733-i2c",
-+				     "allwinner,sun8i-v536-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x02519000 0x400>;
-+			interrupts = <GIC_SPI 20 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_BUS_I2C9>;
-+			resets = <&ccu RST_BUS_I2C9>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		i2c10: i2c@251a000 {
-+			compatible = "allwinner,sun60i-a733-i2c",
-+				     "allwinner,sun8i-v536-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x0251a000 0x400>;
-+			interrupts = <GIC_SPI 21 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_BUS_I2C10>;
-+			resets = <&ccu RST_BUS_I2C10>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		i2c11: i2c@251b000 {
-+			compatible = "allwinner,sun60i-a733-i2c",
-+				     "allwinner,sun8i-v536-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x0251b000 0x400>;
-+			interrupts = <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_BUS_I2C11>;
-+			resets = <&ccu RST_BUS_I2C11>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		i2c12: i2c@251c000 {
-+			compatible = "allwinner,sun60i-a733-i2c",
-+				     "allwinner,sun8i-v536-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x0251c000 0x400>;
-+			interrupts = <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_BUS_I2C12>;
-+			resets = <&ccu RST_BUS_I2C12>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		gic: interrupt-controller@3400000 {
-+			compatible = "arm,gic-v3";
-+			reg = <0x03400000 0x10000>, <0x03460000 0x100000>;
-+			interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH 0>;
-+			dma-noncoherent;
-+			interrupt-controller;
-+			#interrupt-cells = <4>;
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			ranges;
-+
-+			its: msi-controller@3440000 {
-+				compatible = "arm,gic-v3-its";
-+				reg = <0x03440000 0x20000>;
-+				msi-controller;
-+				#msi-cells = <1>;
-+				dma-noncoherent;
-+				status = "disabled";
++			reg_dcdc5: dcdc5 {
++				/* Powers the running Cortex-A55 CPUs. */
++				regulator-name = "vdd-cpul";
++				regulator-min-microvolt = <800000>;
++				regulator-max-microvolt = <1050000>;
++				regulator-always-on;
 +			};
 +
-+			ppi-partitions {
-+				ppi_a55: interrupt-partition-0 {
-+					affinity = <&cpu0 &cpu1 &cpu2 &cpu3 &cpu4 &cpu5>;
-+				};
-+
-+				ppi_a76: interrupt-partition-1 {
-+					affinity = <&cpu6 &cpu7>;
-+				};
++			reg_dcdc6: dcdc6 {
++				/* DRAM PHY and LPDDR4X/LPDDR5 VDDQ (via RP15). */
++				regulator-name = "vcc-draml";
++				regulator-min-microvolt = <500000>;
++				regulator-max-microvolt = <600000>;
++				regulator-always-on;
 +			};
-+		};
 +
-+		mmc0: mmc@4020000 {
-+			compatible = "allwinner,sun60i-a733-mmc",
-+				     "allwinner,sun20i-d1-mmc";
-+			reg = <0x04020000 0x1000>;
-+			interrupts = <GIC_SPI 161 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_BUS_MMC0>, <&ccu CLK_MMC0>;
-+			clock-names = "ahb", "mmc";
-+			resets = <&ccu RST_BUS_MMC0>;
-+			reset-names = "ahb";
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&mmc0_pins>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		mmc1: mmc@4021000 {
-+			compatible = "allwinner,sun60i-a733-mmc",
-+				     "allwinner,sun20i-d1-mmc";
-+			reg = <0x04021000 0x1000>;
-+			interrupts = <GIC_SPI 162 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_BUS_MMC1>, <&ccu CLK_MMC1>;
-+			clock-names = "ahb", "mmc";
-+			resets = <&ccu RST_BUS_MMC1>;
-+			reset-names = "ahb";
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&mmc1_pins>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		mmc2: mmc@4022000 {
-+			compatible = "allwinner,sun60i-a733-mmc",
-+				     "allwinner,sun20i-d1-mmc";
-+			reg = <0x04022000 0x1000>;
-+			interrupts = <GIC_SPI 163 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&ccu CLK_BUS_MMC2>, <&ccu CLK_MMC2>;
-+			clock-names = "ahb", "mmc";
-+			resets = <&ccu RST_BUS_MMC2>;
-+			reset-names = "ahb";
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&mmc2_pins>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		r_ccu: clock-controller@7010000 {
-+			compatible = "allwinner,sun60i-a733-r-ccu";
-+			reg = <0x07010000 0x250>;
-+			clocks = <&hosc>, <&rtc CLK_OSC32K>, <&rtc CLK_IOSC>,
-+				 <&ccu CLK_SYS_24M>, <&ccu CLK_PLL_PERIPH0_200M>,
-+				 <&ccu CLK_PLL_PERIPH0_300M>,
-+				 <&ccu CLK_PLL_PERIPH1_300M>;
-+			clock-names = "hosc", "losc", "iosc", "sys-24m",
-+				      "pll-periph0-200m", "pll-periph0-300m",
-+				      "pll-periph1-300m";
-+			#clock-cells = <1>;
-+			#reset-cells = <1>;
-+		};
-+
-+		nmi_intc: interrupt-controller@7010320 {
-+			compatible = "allwinner,sun60i-a733-nmi",
-+				     "allwinner,sun55i-a523-nmi";
-+			reg = <0x07010320 0xc>;
-+			interrupts = <GIC_SPI 188 IRQ_TYPE_LEVEL_HIGH 0>;
-+			interrupt-controller;
-+			#interrupt-cells = <2>;
-+		};
-+
-+		r_pio: pinctrl@7025000 {
-+			compatible = "allwinner,sun60i-a733-r-pinctrl";
-+			reg = <0x07025000 0x800>;
-+			interrupts = <GIC_SPI 198 IRQ_TYPE_LEVEL_HIGH 0>,
-+				     <GIC_SPI 200 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&r_ccu CLK_R_APB0>, <&hosc>, <&rtc CLK_OSC32K>;
-+			clock-names = "apb", "hosc", "losc";
-+			gpio-controller;
-+			#gpio-cells = <3>;
-+			interrupt-controller;
-+			#interrupt-cells = <3>;
-+
-+			r_i2c0_pl_pins: r-i2c0-pl-pins {
-+				pins = "PL0", "PL1";
-+				function = "r_i2c0";
-+				allwinner,pinmux = <2>;
++			reg_dcdc7: dcdc7 {
++				/* DRAM PHY and LPDDR5 VDD2H (VCC-DRAM). */
++				regulator-name = "vcc-dram";
++				regulator-min-microvolt = <1050000>;
++				regulator-max-microvolt = <1100000>;
++				regulator-always-on;
 +			};
-+		};
 +
-+		r_uart0: serial@7080000 {
-+			compatible = "allwinner,sun60i-a733-uart",
-+				     "snps,dw-apb-uart";
-+			reg = <0x07080000 0x400>;
-+			interrupts = <GIC_SPI 201 IRQ_TYPE_LEVEL_HIGH 0>;
-+			reg-shift = <2>;
-+			reg-io-width = <4>;
-+			clocks = <&r_ccu CLK_BUS_R_UART0>;
-+			resets = <&r_ccu RST_BUS_R_UART0>;
-+			status = "disabled";
-+		};
++			reg_dcdc9: dcdc9 {
++				regulator-name = "eldo-input";
++			};
 +
-+		r_uart1: serial@7081000 {
-+			compatible = "allwinner,sun60i-a733-uart",
-+				     "snps,dw-apb-uart";
-+			reg = <0x07081000 0x400>;
-+			interrupts = <GIC_SPI 202 IRQ_TYPE_LEVEL_HIGH 0>;
-+			reg-shift = <2>;
-+			reg-io-width = <4>;
-+			clocks = <&r_ccu CLK_BUS_R_UART1>;
-+			resets = <&r_ccu RST_BUS_R_UART1>;
-+			status = "disabled";
-+		};
++			reg_swout1: swout1 {
++				regulator-name = "vcc33-lcd";
++			};
 +
-+		r_i2c0: i2c@7083000 {
-+			compatible = "allwinner,sun60i-a733-i2c",
-+				     "allwinner,sun8i-v536-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x07083000 0x400>;
-+			interrupts = <GIC_SPI 203 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&r_ccu CLK_BUS_R_I2C0>;
-+			resets = <&r_ccu RST_BUS_R_I2C0>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
++			reg_swout2: swout2 {
++				/* VCC-IO to the console and microSD. */
++				regulator-name = "vcc-io-card";
++				regulator-always-on;
++			};
 +
-+		r_i2c1: i2c@7084000 {
-+			compatible = "allwinner,sun60i-a733-i2c",
-+				     "allwinner,sun8i-v536-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x07084000 0x400>;
-+			interrupts = <GIC_SPI 204 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&r_ccu CLK_BUS_R_I2C1>;
-+			resets = <&r_ccu RST_BUS_R_I2C1>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
++			reg_aldo1: aldo1 {
++				/* Port L powers the PMIC's own I2C bus. */
++				regulator-name = "vcc-pl";
++				regulator-min-microvolt = <3300000>;
++				regulator-max-microvolt = <3300000>;
++				regulator-always-on;
++			};
 +
-+		r_i2c2: i2c@7085000 {
-+			compatible = "allwinner,sun60i-a733-i2c",
-+				     "allwinner,sun8i-v536-i2c",
-+				     "allwinner,sun6i-a31-i2c";
-+			reg = <0x07085000 0x400>;
-+			interrupts = <GIC_SPI 205 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&r_ccu CLK_BUS_R_I2C2>;
-+			resets = <&r_ccu RST_BUS_R_I2C2>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+			status = "disabled";
-+		};
++			reg_bldo1: bldo1 {
++				regulator-name = "vcc-pe-pk-mcsi";
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++			};
 +
-+		rtc: rtc@7090000 {
-+			compatible = "allwinner,sun60i-a733-rtc",
-+				     "allwinner,sun50i-r329-rtc";
-+			reg = <0x07090000 0x400>;
-+			interrupts = <GIC_SPI 196 IRQ_TYPE_LEVEL_HIGH 0>;
-+			clocks = <&r_ccu CLK_BUS_R_RTC>, <&hosc>, <&r_ccu CLK_R_AHB>;
-+			clock-names = "bus", "hosc", "ahb";
-+			#clock-cells = <1>;
++			reg_bldo2: bldo2 {
++				regulator-name = "vcc-lvds0";
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++			};
++
++			reg_cldo1: cldo1 {
++				regulator-name = "vdd18-lpddr";
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-always-on;
++			};
++
++			reg_cldo2: cldo2 {
++				regulator-name = "vcc18-hdmi";
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++			};
++
++			reg_cldo3: cldo3 {
++				regulator-name = "vcc-pll-dram";
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-always-on;
++			};
++
++			reg_cldo5: cldo5 {
++				regulator-name = "vcc18-pc-comb0";
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++			};
++
++			reg_dldo1: dldo1 {
++				/* SoC eFuse supply has no SID regulator consumer. */
++				regulator-name = "vcc-efuse";
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-always-on;
++			};
++
++			reg_eldo1: eldo1 {
++				regulator-name = "vdd2l-lpddr";
++				regulator-always-on;
++			};
++
++			reg_eldo6: eldo6 {
++				/* Standby CPU and USB supply. */
++				regulator-name = "vdd-cpus";
++				regulator-min-microvolt = <800000>;
++				regulator-max-microvolt = <800000>;
++				regulator-always-on;
++			};
++
++			reg_rtc_ldo: rtc-ldo {
++				regulator-name = "vcc-rtc";
++				regulator-min-microvolt = <1800000>;
++				regulator-max-microvolt = <1800000>;
++				regulator-always-on;
++			};
 +		};
 +	};
++};
++
++&r_pio {
++	/* PL powers the PMIC bus itself; firmware must keep ALDO1 enabled. */
++	vcc-pm-supply = <&reg_aldo1>;
++};
++
++&rtc {
++	clocks = <&r_ccu CLK_BUS_R_RTC>, <&hosc>, <&r_ccu CLK_R_AHB>,
++		 <&osc32k>;
++	clock-names = "bus", "hosc", "ahb", "ext-osc32k";
++};
++
++&uart0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart0_pb_pins>;
++
++	status = "okay";
 +};
 -- 
 2.53.0
