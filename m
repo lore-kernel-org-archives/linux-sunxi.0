@@ -1,94 +1,73 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=119.15.109.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795386889;
-	b=ezO2fVMThVM+/h68Fo03v6QmLilzqdsRImn0KrsSzrCf0ajGAuZzNnMWVdAoYdxoG1Il
-	 5KbOcSLMGOuGuMSL8wQBs3r2EyEf8wS0ThsP4+gYQwrdW3BwwE6+8USoHDJ0U8/QiBdKs
-	 +JgrtBr1nnvNsG9saly/jXx2wqf67idl1gt9soBC29Pmtj51CzJmDIx8e+gDViiv3k7R2
-	 +Z3Xl7A7rwQhpnolCrn+iI/oB2VKlIokCLNhBodGU85AJsnVqxrKwGmsDu0645ZJhdjkz
-	 HJMkgRqKae5zSwyjY8aIFRuFTOyz4XbFh2Zee46Wuo0JBEwXrO4y4Lsj9WmzyDGWV9A==
+	t=1795396544;
+	b=Ux2FfoQ5NCPnlE/bQsaLL0Ae9AKWd++aYd7Xj49nKhl+xtE6LaxeG5J+eFHGkW0VzaB0
+	 Y5taYkbKYRSz8MV1LnnQzzPTu363BNeX1b8hq3h2t0y9pKik+GCrJZpgTw7wOoTA0tbaF
+	 CzDZs0h0jrOmttVZtMUxo+0CVogy9Pas6Ry0kUKj33m758/NKIxiYcZ9d3ZrQAdj388sn
+	 NrvN9mOnbsOEdxCuvwz8x5uHulnApuSyrRGt55o6yeSk5nOFNaVSUWhTmiFyk04GtK4XH
+	 rZIXUyV7uZG9J5qOqH5OTeSfjOADVJ3KrxJePBYzVlQ3OeH5SIg+YPscEk7SHBQnwjQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795386889;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Autocrypt:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=L9096wAOIruC60s2u9oZuXYB2g4eS9172S25FcHhMGQ=;
-	b=PThvoeVCh763qckoI6QZyLzG3GK0CLzjuCkuyEBBvY0P/ssNfI+HLbS+utFmWRLBO0rw
-	 xezP11HLg2HWCVXN+K2Yiw7Mh8ZgNfYIyw2wWd34neBvVJ1pJVrxf9HdoAD24+x5zrmOF
-	 4qszzJjldNnVumZch5L3rDVMGrZQUFxUIvEp/r9DyIkYssw1LJO4C1IpVFq+EOT3bHa59
-	 KVY6M5vsktDC91govWpi6JaOrrzV4SxfmocfSXJDisJcaLCLS7yz0Tgimq7ftxEN/NWKt
-	 iW+5CLN9690dFx2p312ZxGiBHOrXeGMu3UVJy/FNruFkBN38aSGv2nMJXTdTGJydKtg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795396544;
+	h=DMARC-Filter:Received:DKIM-Signature:X-GPT-Reason:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=WkbteLaz5AkZYE5rWlkLsnJtoGTPuZQfXqAUSmFnezM=;
+	b=lpvlSg/XXMpL6NeqIi0hfJLG7WpfjBeXDdPdQEc26PFhEcuaVpdMT40wWA3hhUr0u/KP
+	 IJ4HHXfTk02Qcnjr3cCDrHYakXi52zcCEZfjv4YtRI2KwurTvqOnRdhfRAKOpeaOmhdXp
+	 pOxzbDiyJyhIUMpMcFBD22q+3Qgn+s7ItGD9aM8hr9jyojsWbpLOpPb8r2fNEXhqnsoMY
+	 VQjdDlKY1ENhf31x8iwcUC15IM0vwEUy+v31grDJ/EFatRtYiojvE242OiBfWkDnVDLF6
+	 T9i0tJMG1jiCQzE+/twvJtQ54iWftinauC8yAuEL1dH9/0IJUXxUZ7Apx8DZYvTL/hg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=d-silva.org;
 	spf=pass smtp.mailfrom=d-silva.org;
-	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=Wcl0V8lr;
+	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b="j/uflWUF";
 	arc=none smtp.remote-ip=119.15.109.137
 Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD89606A31A
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 Nov 2026 22:34:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1AD89606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201EC606A31D
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 Nov 2026 01:15:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 201EC606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=Wcl0V8lr
-Received: from hawking.lan (ntp.lan [10.0.1.1])
-	by www.nmnhosting.com (Postfix) with ESMTPSA id 7FE504028E;
-	Mon, 23 Nov 2026 09:34:36 +1100 (AEDT)
+	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=j/uflWUF
+Received: from Hawking.lan (hawking.lan [10.0.1.4])
+	by www.nmnhosting.com (Postfix) with ESMTP id 754084028E;
+	Mon, 23 Nov 2026 12:15:34 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
-	t=1795386876;
+	t=1795396534;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=L9096wAOIruC60s2u9oZuXYB2g4eS9172S25FcHhMGQ=;
-	b=Wcl0V8lruqrEiDLddJU+2kWoNRlPO1ArpisUWwHCHbXNXklnGcfqRtzvd8D8Y1ixlkpN5f
-	qrv2oJOjIhnsgQZjwwkULqnhIcIhPdG05tBjqqLZ8hjAUYOqHLOwuSnrUvISCQlaFTnOLG
-	dn0GhKUOVmnfk5hJQ7CQcN+mNs0MIZu36W3K7TkCX9H2JD3HtUnRKtG3f1hdvY1JoplE5M
-	IFq/J4GodwiyVd42i1UnQWrc1dddBS+l0QKSHElfgGxfVdBwrLI8Al2r2qHLbfuIVC0U2J
-	nnOjnj7+3EtnwO2TDlYOVboY5ihJnSEnGC/KhLP0Q46uDX21MbLUW+HzXOdLGg==
-Message-ID: <59f7e4e9cfd9a0050cfc2a8352cc67c910733849.camel@d-silva.org>
-Subject: Re: [TF-A / sunxi] Allwinner A733 (sun60iw2) TF-A Support &
- Validation on Orange Pi 4 Pro
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=WkbteLaz5AkZYE5rWlkLsnJtoGTPuZQfXqAUSmFnezM=;
+	b=j/uflWUFe5QCilunt1xK/yZMGG1Lv7YfmQnZau7feyPZN3450iAEFKOnWL5PsPVr13kGY8
+	3tzkVNt/3kEinAJi77HCGSwXVz7skDqCuIQtoCkmXCw8mdMoSDnS4bfkKve0/Gykgv18lt
+	sNaoQxFhuo3l9FU30cluV+Z70rYXZuICokzfRr9u2vL5SBpcaaW4RNboMEA8Ubt+pB60SF
+	V9xyhdgt3eF8WTaxY/2M8AIjAqGi2XkDB+++Q3vNfBHiK57c3GB+PcfFXdDy6TkW/pPFCh
+	6LULL5LP/NZBytUrMePfD4gX6grUGQKI9i2vIe5YzvwnM20jPqQkj0IgPgaWmA==
+X-GPT-Reason: legitimate_personal_or_technical_communication; the
+	email content is a technical patch description for a Linux kernel
+	driver (AXP318W PMIC) which is consistent with a developer workflow;
+	the sender (alastair@d-silva.org) matches a known personal/business
+	mailbox (alastair@d-silva.org) provided in the context; there are
+	no phishing indicators, no links, no urgency, and the content is
+	highly specific and technical rather than a broad marketing or
+	scam message.
 From: Alastair D'Silva <alastair@d-silva.org>
-To: Alvin Sun <alvin.sun@linux.dev>, linux-sunxi@lists.linux.dev
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, Andre Przywara
-	 <andre.przywara@arm.com>, Samuel Holland <samuel@sholland.org>, Yixun Lan
-	 <dlan@gentoo.org>
-Date: Mon, 23 Nov 2026 09:34:36 +1100
-In-Reply-To: <d29caad6a3d59785.1795182796@smtp.migadu.com>
-References: <c8d7c508075e081219a0ed9ec8650aebade205db.camel@d-silva.org>
-	          <whzyZ-3mTjSNFzcz-TbNtw@gmail.com>
-	          <556cd32394062960a3ea4af0011155cfa83ae91f.camel@d-silva.org>
-	          <20261111091047.a733-fw.alvin@linux.dev>
-	          <3a4378bfcbc13ff0d5959117f23b4dc6f45258c7.camel@d-silva.org>
-	 <d29caad6a3d59785.1795182796@smtp.migadu.com>
-Autocrypt: addr=alastair@d-silva.org; prefer-encrypt=mutual;
- keydata=mQINBGactvoBEADBFM2HqfQUUM4j40ZQPyYzmnM8S6zrycO0ipDDPMs7nZMzyzGzOdqfS
- VB/tuYvZOOKVWzJuWJ5aT/YyHx54r3L+D5hTkEG0sXPVJky3yTS9sbHEMSLBHb8TVVuhPVPuieV4g
- Nkqg5POMTidk8xAw50WpV++tUlewXVSciehnuCQPXhXMP7FcCh4uO8LdN7E8m7ir1LafKTFfoWPah
- KVT8NGG9r+ucrFcN5F+VnHxTDaI68yRPkNdtUWmp22wIX1KwDCtKFrndYO4p5Hv2hlDKomsuIIHHn
- muQGRwuh0xpf0nVJNF8ETZHMzxQLfo3e/HvxBFOTkwY9w7CuuQFZchbhS0I3PfmGT0+jiNcdfqjDC
- fPPB5uhy+DkR6wO72vuwFYUrpU2mdliDSdKEtWBHulnXMJjpBOXetfIwhI8G2dTVg59lN5i9DvJZc
- 7y1Sp+qfZQ4P9qpYZyQEKR4GNDOdnm6F2LW2cZkcyAU/Ii765zdDMTQMIzZNSxT/FcDd0K1voTNRl
- QHbQw+kmIMhzSv2JefcC9oNbE0XYzcBDNP5T3O/4itOQ90GCKQEPAbIPeBjlQif7kkyvo/H6yv4s9
- duuK7zbJD9AID/+KGLkpU3p68VDB/C2ZSb9rQz3p1CJNSfsX/CPk7sPqA7RKZ4a2B0hSJ2pJCncNZ
- KXtMlkkm/FmewARAQABtCdBbGFzdGFpciBEJ1NpbHZhIDxhbGFzdGFpckBkLXNpbHZhLm9yZz6JAl
- EEEwEKADsWIQTQGemDFwqYyU/dBWv75AdnjVo60gUCZpy2+gIbAwULCQgHAgIiAgYVCgkICwIEFgI
- DAQIeBwIXgAAKCRD75AdnjVo60qHZEACJnLfpS71Hk8bX0CLCNJ5wgqdZD3pBHEdbv9Ux9kRlZp4a
- ZFwlg9ltwBjl2dZP3PLtD9xQdsdYKVippKd5a7ZZC2y81oDaHjeC9LnPYn8+ce3mGE/+gRyoNfToY
- N06DeUNJKSlZ9t11UIqZCgfp12u16/Yrigy8C4ihEeHXlLhNX6JkeJR5gsHXJnC7vSuMZY+Qz2R72
- ZidWg+cd2WDMGop5sbTvc+55q94A7vTMlWzaix5HdbEUA3sd2U0dMBju5QodRGGhDQMcCu64TydRD
- MtMzzOk9ThJ036ze3HASWGOppyQmaw58k+XNzbHlr9Sc1LsFUNF7zpWXac2rzlywbyRAdFIT/TC76
- hy9zOkwIo2nwA/tdIwLx1j0UZPpAMQmcDUvJqZh6sE+fv6HN0yMPr+sSYJmriMt8Z6leCEHQXOHVI
- SI5z5FvV3coMmHYRq6aXpfs/8SLiYgkV3B0HE/E18Y3j1OkeLYoqIH1VfzQZeCSL/S77NYvk60/MV
- 1HFSyqLdUR3uWZI4uZzoEcMoB0GX33uCTp2Ntc00+wSntwekCUQLCMLUb7dZrbpVuobHoWWtkiD2I
- uE5kAiaVwwwzM0BUwiM6VzVoKbeECz93rdsNtwoDqM0NtzoISC46H/BKVQ9mRNXDO4ThEBpJ4H2Tn
- mPNRYYcR0u2mNy1EJII04w==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+To: u-boot@lists.denx.de
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jaehoon Chung <jh80.chung@samsung.com>,
+	Peng Fan <peng.fan@nxp.com>,
+	Tom Rini <trini@konsulko.com>,
+	Yixun Lan <dlan@gentoo.org>,
+	linux-sunxi@lists.linux.dev,
+	Alastair D'Silva <alastair@d-silva.org>
+Subject: [PATCH 0/3] power: axp: Fix AXP318W bugs and extend SPL support
+Date: Mon, 23 Nov 2026 12:15:31 +1100
+Message-ID: <20261123011534.1692975-1-alastair@d-silva.org>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -98,38 +77,30 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2026-11-20 at 13:53 +0000, Alvin Sun wrote:
-> On Wed, 2026-11-11 at 13:14 +1100, Alastair D'Silva wrote:
-> > Hi Alvin,
-> >=20
-> > Thanks! I'm just about to submit UBoot patches for SPL (replacing vendo=
-r boot0)
-> > and the PMU that trains memory.
-> >=20
-> > I only have LPDDR5 support in it at the moment, if you have other Cubie=
- boards on
-> > hand that support LPDDR4, adding LPDDR4 support to that would be of hug=
-e value
-> > (I don't have the relevant hardware to test).
-> >=20
-> I only have the Cubie A7A (8GB LPDDR5) on hand; an Orange Pi Zero3W
-> (1GB LPDDR4) is on the way and I can validate your LPDDR4 training
-> path on it once it lands.
->=20
->=20
+This series fixes two bugs in the AXP318W PMIC/regulator drivers and
+extends SPL power support (needed by the Orange Pi 4 Pro):
 
-Hmm, if you have an A7A, there would be value in building the board DTS
- for it, and reviewing/testing the patches on the UBoot list:
-https://lists.u-boot-project.org/pipermail/u-boot/2026-November/640180.html
+1. Fix the ELDO1-ELDO6 voltage mask (0x1f -> 0x3f) so voltages above
+   1275 mV read back and clear correctly.
+2. Use register 0x55 instead of 0x32 for AXP318W sysreset poweroff.
+3. Add AXP318W DCDC6/7 and ALDO/BLDO/DLDO/ELDO support in SPL, with
+   read-modify-write updates and -1 OTP-default skip semantics.
 
-The series only supports the Orange Pi 4 Pro, but adds most of the base sup=
-port
-you'll need for the A7A.
+Alastair D'Silva (3):
+  power: regulator: axp: Fix AXP318W ELDO voltage mask
+  power: pmic: axp: Fix AXP318W sysreset shutdown register
+  power: axp: Extend AXP318W SPL support with DCDC6/7 and LDOs
 
-(I'll be breaking that series up for V2)
+ board/sunxi/board.c                     |  23 ++++-
+ drivers/power/Kconfig                   | 110 ++++++++++++++++++----
+ drivers/power/axp_spl.c                 | 119 ++++++++++++++++++++++--
+ drivers/power/pmic/axp.c                |   4 +-
+ drivers/power/regulator/axp_regulator.c |  12 +--
+ include/axp_pmic.h                      |   5 +
+ 6 files changed, 240 insertions(+), 33 deletions(-)
 
-Cheers,
+-- 
+2.53.0
 
---=20
-Alastair D'Silva
