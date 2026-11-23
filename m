@@ -1,100 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795446665;
-	b=Qito3PJJtqiHQJxkHeO97r4F0zlsp0pJ31kL/g3LJGRDwl2vBoQ5VwZUzqsrWIjhGEmB
-	 N3YBAWSJd7O5oaa142qHOQWAaAO+SZHRrXmSaTne/eu7IbaPULSI7ro6QyUGoc5cxPt6b
-	 T9POu6zHzxD784sFzbC5itfIvjFSOZy44bcyXgdF28rg/UQEVqolKiCAceLixcGdFvr57
-	 5XkJPcBNQ9MmmErFZKqV3dJNtFT/p0mRNybc9Pe1ZMF/QYEX85gR/qxpsqA2jAWjRUBeK
-	 wulHE6rWRNhHVSzoYZB3bE91TLUbYO7FxaFP8rQ2Z/iPUsIpgSojOWXUcTT1gjNMkoA==
+	t=1795446697;
+	b=PnFrvo8v6C4Qe97VrT3tb1FZBGeTJYFNutmnaxwn1iCGa++bnBDv4Jix82DQIvhsTiOn
+	 252aO/3ZJzXgG70cXBcRdD/M3v8uJ8LZAtKinMIzp20HfInw4eACL4+l4jUl1sDAhUEyh
+	 1OQFNtScsS8BiB6oQTmOQmH4PBERAKDjHcBctcCZvP9qTfPLF7BkzulPi2LiQMs+sWd6Y
+	 aJWYgJTn2Y8/D/qV9s1JDm/owAA8NS2/G/vMM9RLsVpqe7Oxa4IIiHNZ126xHGfTgyHps
+	 iDqQ3CsPASH16gXBYHP1ydGtCXd/Ge/TSxoLstgklkGgXthjGzX1gU3tRRuxTlgsPKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795446665;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795446697;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=2rXwqdKcXils5ZX0aUJ4kLahSvMQRVDM5PZVEx1DXik=;
-	b=U3ovmN7HmPYhyQ/ncwi1k9KjWQOtVl1UHXeN3SHpHdBz2+WNCDHGSLjIA7fRvrbauftd
-	 2YO7A+9Eot8lo6xBa6BGWkHzPMoF9ybaEcAxb1rAX4c/z4YRNk6+jTKQLHIz3DyQBcOKL
-	 iG+zkUS28a2cyexzGyA6iLEKRXrINuirSMr2t+zG7ah+4MJ7W+rX3CmWmamH9fhZ+Hijr
-	 SvMaxeI0gI5QQL7ogk5iEoYylICyH3LI+STKDn0eBCRqFf620RkXNrIxRdXauNAmEOHsd
-	 K0vPnztjICpB85NNgPjr9G2+87f1oQJhgRip4so3BYWhh7xH6f4Fcj//PZ6Bym9g2Mg==
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=STeVH55BBeBKM6xcTx+69M7sUEKnUAjtUBsUatOVMGw=;
+	b=bNT7CdbpJbcNfA6mdeOEl1gRGOXAPj1UUIG9DajsqDuZowBX7BMoErxLal2L8nz8k7EP
+	 VO62ebH9mjtIakpmviG63sK34Oi8mJXBQKFZk1dPwPGjipAlwDzrFihEzDrBEAEDPJAxn
+	 CjPptvXyWY61Ux2iMhGHMYrQ180+2B5H55vU2Bh/tn/uVNpcpgkecmDL6UOAblloZ82ND
+	 U3cPspJJjTQjw2vANRxSXXFSr3+3b/dWSE61XmPq2l4H1NRlq9jkP6Y1kzQe/ucZ7i0a4
+	 K+wQPImXkpAoTZX0vpGgHWN5Rq5Ojcc8TgXrbeUsFlG6/7VXb36VXUy2McUJN2UnqZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vk93L+Dt;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iQuxI9z5;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4A8606A31A;
-	Mon, 23 Nov 2026 15:11:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87C7606A32C;
+	Mon, 23 Nov 2026 15:11:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vk93L+Dt
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5906A1F000D2;
-	Mon, 23 Nov 2026 15:10:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iQuxI9z5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 282D31F000CF;
+	Mon, 23 Nov 2026 15:11:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795446665;
-	bh=2rXwqdKcXils5ZX0aUJ4kLahSvMQRVDM5PZVEx1DXik=;
-	h=From:To:Cc:Subject:Date;
-	b=Vk93L+Dt9YLMBXzvXYfSpC+H3lffXA2iZOKJX2mWjUeIaeUHbBaqwNoa5LUcMB6lC
-	 JfWNJXpQxz1SBDTRWQGOikzJIMIbAB/RORvCqKOBB5G8dP0T7z/v8TERi9xkaGAtTP
-	 i/qTJZHV3ue2mzAkVJz6r0ecPZwLtyJNsWjW0ciNe8zX9EEQBVbnR4zAiGXI35M6Lc
-	 XPRdP/r12xXxidCz58UwmLi6cuT0gObPoQw96fM9tMr1jvlk+CL6VV44kNCS4nV8un
-	 ZhcPhVMQ5QpqHxKmRiROaRwQswAgRC1oWqN45oCedzrzy2erJ0kxIHoMmWX3AgLV8d
-	 mtMQtwbFYf9Mg==
+	s=k20260515; t=1795446697;
+	bh=STeVH55BBeBKM6xcTx+69M7sUEKnUAjtUBsUatOVMGw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=iQuxI9z5WzUZZyvlumpBl7lcu5ipk202NNdsZPnzmCgWGAvZa1ay60Fxq64Rp5KCp
+	 rHfctmjrETxSiuULSIL7i3VOpXh35crvqibh3btRqwuRLzMrSHbul92HPic8ircLfH
+	 bsBKfrFNI6SwINufuwPRKS98uTt0xnRuI8hfm40Khn+C+Od/orlQuiEyBHGUz2RUzQ
+	 R5nMiXWOcIHzT7NwxLinqSHvkCdZYQeJRzl/w1gyX1j7qQsXTtr6mqzkCDfJnRulc7
+	 66NyzfOQZY98dQ23iYtSbhtTGi+T+R3x0cP4LkbwXIyWS31Yiok+k7lUWRtO3iCOt8
+	 74cstbe/A8PZg==
 From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	=?UTF-8?q?Horia=20Geant=C4=83?= <horia.geanta@nxp.com>,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-	Aleksander Jan Bajkowski <olek2@wp.pl>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Antoine Tenart <atenart@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Bharat Bhushan <bbhushan2@marvell.com>,
-	bui duc phuc <phucduc.bui@gmail.com>,
-	Bulent Abali <abali@us.ibm.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+To: lee@kernel.org,
 	Corentin Labbe <clabbe.montjoie@gmail.com>,
-	Dan Streetman <ddstreet@ieee.org>,
-	Evgeniy Polyakov <johnpol@2ka.mipt.ru>,
-	Haren Myneni <haren@us.ibm.com>,
 	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Kim Phillips <kim.phillips@freescale.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org,
-	Longfang Liu <liulongfang@huawei.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Meenakshi Aggarwal <meenakshi.aggarwal@nxp.com>,
-	Meng Yu <yumeng18@huawei.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Nicolas Royer <nicolas@eukrea.com>,
-	Pankaj Gupta <pankaj.gupta@nxp.com>,
-	Pascal van Leeuwen <pvanleeuwen@insidesecure.com>,
-	Paul Louvel <paul.louvel@bootlin.com>,
-	Robert Jennings <rcj@linux.vnet.ibm.com>,
-	Sahil Malhotra <sahil.malhotra@nxp.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Seth Jennings <sjenning@linux.vnet.ibm.com>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>,
-	Srujana Challa <schalla@marvell.com>,
-	Stanimir Varbanov <svarbanov@mm-sol.com>,
-	Steffen Trumtrar <kernel@pengutronix.de>,
-	Thorsten Blum <blum@kernel.org>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Weili Qian <qianweili@huawei.com>,
-	Zaibo Xu <xuzaibo@huawei.com>,
-	Zhiqi Song <songzhiqi1@huawei.com>
-Subject: [PATCH 00/10] crypto: Assorted bug fixes across crypto drivers
-Date: Mon, 23 Nov 2026 15:09:51 +0000
-Message-ID: <20261123151055.2533735-1-lee@kernel.org>
+	bui duc phuc <phucduc.bui@gmail.com>,
+	linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org
+Subject: [PATCH 04/10] crypto: sun8i-ss - Fix scatterlist array overflow for HMAC requests
+Date: Mon, 23 Nov 2026 15:09:55 +0000
+Message-ID: <20261123151055.2533735-5-lee@kernel.org>
 X-Mailer: git-send-email 2.56.1.750.gf70dc682cf-goog
+In-Reply-To: <20261123151055.2533735-1-lee@kernel.org>
+References: <20261123151055.2533735-1-lee@kernel.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -107,85 +72,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-These issues were reported by Sashiko.
+sun8i_ss_hash_need_fallback() reserves one hardware scatterlist slot
+out of MAX_SG (8) for the trailing hash padding buffer, allowing up to
+7 input scatterlist entries.
 
-None of these changes have been tested on physical hardware.
+However, for HMAC requests (tfmctx->keylen > 0), sun8i_ss_hash_run()
+also shifts the mapped source array up by one slot to insert the inner
+pad at index 0 and increments i before writing the trailing padding
+entry at rctx->t_src[i] and rctx->t_dst[i].  When an HMAC request
+contains 7 block-aligned scatterlist entries, i reaches 8 (MAX_SG),
+writing past the end of rctx->t_src and rctx->t_dst, corrupting
+rctx->method and rctx->flow, and indexing out of bounds into ss->flows.
 
-Cc: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: "Horia Geantă" <horia.geanta@nxp.com>
-Cc: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Cc: Aleksander Jan Bajkowski <olek2@wp.pl>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Antoine Tenart <atenart@kernel.org>
-Cc: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Bharat Bhushan <bbhushan2@marvell.com>
-Cc: bui duc phuc <phucduc.bui@gmail.com>
-Cc: Bulent Abali <abali@us.ibm.com>
-Cc: Chen-Yu Tsai <wens@kernel.org>
-Cc: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: Corentin Labbe <clabbe.montjoie@gmail.com>
-Cc: Dan Streetman <ddstreet@ieee.org>
-Cc: Evgeniy Polyakov <johnpol@2ka.mipt.ru>
-Cc: Haren Myneni <haren@us.ibm.com>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Kim Phillips <kim.phillips@freescale.com>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-arm-msm@vger.kernel.org
-Cc: linux-crypto@vger.kernel.org
-Cc: linux-sunxi@lists.linux.dev
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: Longfang Liu <liulongfang@huawei.com>
-Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: Meenakshi Aggarwal <meenakshi.aggarwal@nxp.com>
-Cc: Meng Yu <yumeng18@huawei.com>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Nicholas Piggin <npiggin@gmail.com>
-Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
-Cc: Nicolas Royer <nicolas@eukrea.com>
-Cc: Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: Pascal van Leeuwen <pvanleeuwen@insidesecure.com>
-Cc: Paul Louvel <paul.louvel@bootlin.com>
-Cc: Robert Jennings <rcj@linux.vnet.ibm.com>
-Cc: Sahil Malhotra <sahil.malhotra@nxp.com>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: Seth Jennings <sjenning@linux.vnet.ibm.com>
-Cc: Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: Srujana Challa <schalla@marvell.com>
-Cc: Stanimir Varbanov <svarbanov@mm-sol.com>
-Cc: Steffen Trumtrar <kernel@pengutronix.de>
-Cc: Thorsten Blum <blum@kernel.org>
-Cc: Tudor Ambarus <tudor.ambarus@linaro.org>
-Cc: Weili Qian <qianweili@huawei.com>
-Cc: Zaibo Xu <xuzaibo@huawei.com>
-Cc: Zhiqi Song <songzhiqi1@huawei.com>
+Reserve an extra scatterlist slot in sun8i_ss_hash_need_fallback() when
+tfmctx->keylen is non-zero so 7-entry HMAC requests use the software
+fallback.
 
-Lee Jones (10):
-  crypto: caam - Fix descriptor buffer overflow in caam_process_blob()
-  crypto: marvell - Fix AEAD key buffer overflow for SHA-384/512 HMAC
-  crypto: nx - Fix bounce buffer copy overflow in decompress()
-  crypto: sun8i-ss - Fix scatterlist array overflow for HMAC requests
-  crypto: hisilicon/hpre - Fix buffer overflow on odd ECDH input size
-  crypto: talitos - Remove duplicate IV unmap in AEAD encrypt path
-  crypto: safexcel - Check scatterlist errors before max() for in-place
-  crypto: qce - Pass mapped scatterlist count to qce_dma_prep_sgs()
-  crypto: qce - Terminate RX DMA channel if TX preparation fails
-  crypto: atmel-tdes - Update output IV before clearing busy flag
+Fixes: 801b7d572c0a ("crypto: sun8i-ss - add hmac(sha1)")
+Closes: https://sashiko.dev/#/bug/linux-93388c71-507c-42fd-9c86-8076b06fc7c0
+Cc: stable@vger.kernel.org
+Signed-off-by: Lee Jones <lee@kernel.org>
+---
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
- drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c  |  7 +++++--
- drivers/crypto/atmel-tdes.c                        |  7 +++++--
- drivers/crypto/caam/blob_gen.c                     | 12 ++++++++----
- drivers/crypto/hisilicon/hpre/hpre_crypto.c        |  5 +++--
- drivers/crypto/inside-secure/safexcel_cipher.c     |  7 +++----
- drivers/crypto/marvell/octeontx/otx_cptvf_algs.h   |  2 +-
- drivers/crypto/marvell/octeontx2/otx2_cptvf_algs.h |  2 +-
- drivers/crypto/nx/nx-842.c                         |  5 ++++-
- drivers/crypto/qce/dma.c                           |  8 ++++++--
- drivers/crypto/qce/sha.c                           |  9 +++++----
- drivers/crypto/talitos.c                           |  4 ----
- 11 files changed, 41 insertions(+), 27 deletions(-)
-
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
+index 56ba4ff6d5ff..c2e0c6520f84 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
+@@ -344,9 +344,11 @@ static int sun8i_ss_run_hash_task(struct sun8i_ss_dev *ss,
+ static bool sun8i_ss_hash_need_fallback(struct ahash_request *areq)
+ {
+ 	struct crypto_ahash *tfm = crypto_ahash_reqtfm(areq);
++	struct sun8i_ss_hash_tfm_ctx *tfmctx = crypto_ahash_ctx(tfm);
+ 	struct ahash_alg *alg = crypto_ahash_alg(tfm);
+ 	struct sun8i_ss_alg_template *algt;
+ 	struct scatterlist *sg;
++	int max_sg;
+ 
+ 	algt = container_of(alg, struct sun8i_ss_alg_template, alg.hash.base);
+ 
+@@ -360,8 +362,9 @@ static bool sun8i_ss_hash_need_fallback(struct ahash_request *areq)
+ 		return true;
+ 	}
+ 
+-	/* we need to reserve one SG for the padding one */
+-	if (sg_nents(areq->src) > MAX_SG - 1) {
++	/* Reserve one SG for padding and, for HMAC, one for ipad */
++	max_sg = tfmctx->keylen ? MAX_SG - 2 : MAX_SG - 1;
++	if (sg_nents(areq->src) > max_sg) {
+ 		algt->stat_fb_sgnum++;
+ 		return true;
+ 	}
 -- 
 2.56.1.750.gf70dc682cf-goog
 
