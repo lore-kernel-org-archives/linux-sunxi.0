@@ -1,56 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795457483;
-	b=p+Skt7uJKv4qVP1paz8FFjq0lZxO/2/RTZgWb+Blg2tyRyFsQMXrJRPycXoAf36tTRsg
-	 rcSkYDbiyCSgQbJcHjKyPFOvx0req0ooqEsOQxgBs1hFBO13sEDYHgwp+YSuVQaMlP3Z+
-	 yOIB6xioljVwlGcvL0kxMxGXiOCuuaQL8RbTVtFMfVUTyDd6YnP2zK6URWqqsxzpN+8LA
-	 RVI07jnSqcBCT33AZgGvUmE+9hai/flDDKvRMOG7STEn/D/RaKyazTmegcUR/KdJl4OOs
-	 C7BkK+Bwfv7oOurIqlqo62sRlpLc2zM7LwPyX3YU5+RWFzW6e0O3veRK79+Wm+agDiQ==
+	t=1795472750;
+	b=wkDYHwUSS9eScLpkXaexvabCnQ7z+Wun+Tp2x/jK/aYYxkN/Vhce3xL6ZWg1TxPXMRMu
+	 8slM57xBho8IpK6eRDXeCde3vVVRw3FJrNivj8CdQeIX9Q4ieJoCLPHhbIL75eBTJbxla
+	 OxDZl9TsAYbbKmG/P5pfjVrDrM4Z9ys3kX434YyxdYKo4R32MmfgHKf6sN93VJWJoVet/
+	 DvN3K/OZXYKkQc2BQl558P9EsOeVw4KsuHcRo3V4RP1H0aqkiWjGjr2sK6oWB0af/ENzM
+	 widHanJ6Nj5z4eoLvqLPm5imSCA9s0XkvnCBdoCL3fJI6w9G2uygkyDKMBi+67Cquvw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795457483;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=vgIU1HlB1YNAMsqqmknEVgX8ZoIIZUz/3pk7Cr52YZg=;
-	b=chmXLx6wcz0nWML7XfvTGpSz4yehBs9yrbUzfgNeG+8Zg5Mvbb57z352eORJtrILZQ4E
-	 WGXgGicTGmrtMo1mndaGaEfNKT/j7qw5Pv5BDerZZdVCpvmqEcfopAPfgFzlhf8mAgr2C
-	 KTL0zZz8Iu5Jlx/uYdT9noM8/rl8yXdpqupHS7u4YqTbYfojKgignqnmnUU8MuXmKv2Ye
-	 NDPbcNH7bTL4q5FrZye3kx9VUvZbmqhNjL5FWQsqL78ookRWXmBdOKzysgIHT/qoG0sp5
-	 tMeQyxNJmUc4MklSQ1xBTcxglJyas+JNZAn6WvDWVtYVYjEoK5l2FNkMm2cktlajFXA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795472750;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Autocrypt:Organization:Content-Type:
+	 User-Agent:MIME-Version;
+	bh=JX+HHBcYrn3L5tSgwvRkhN44cZXQrgeMOcFjZIISQlg=;
+	b=rBb9SvEpRqLkLCueO/u63w4gC2wbNJ8zu2MsK23n61r3HmE+cctojD6I/OmWnPrdlgFz
+	 uKUAvtMaYn1rjVyIoZ8erm00q1rDRvD9lld7emENSPjC3IdxrvKWsF6LRN5t7tK6rnx0I
+	 8fT+DgPKnOzk7YOpHcFxgJH4iP3XFmJF9f5NiRrArvOwH44yoji3NQl99O0SR3sRk+615
+	 S7zsWQkqAa012Kyo5w+qX5zxNmXMHMfz5u5iNY2MRRzlVZNA50V3R0BtAbCpGktiCN1uN
+	 td23M/um62oR7kKG+FI+b9kZTsZTWTV+lRVYLGeexGzSf5sh2rR6bJqym7m+vOAIiKQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=czUqZZic;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=collabora.com;
+	spf=pass smtp.mailfrom=collabora.com;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=GhC6SClc;
+	arc=none smtp.remote-ip=148.251.105.195
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86586606A33B;
-	Mon, 23 Nov 2026 18:11:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35362606A31E;
+	Mon, 23 Nov 2026 22:25:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35362606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=czUqZZic
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB8D81F000C0;
-	Mon, 23 Nov 2026 18:11:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795457483;
-	bh=vgIU1HlB1YNAMsqqmknEVgX8ZoIIZUz/3pk7Cr52YZg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=czUqZZicdRIOWHYENkpcM57jzzEmmVWTxSBL9Lbbjrj8qRyPATrfgGV4hIjh9fB1u
-	 M44v5iBlo+xgkiW+ie+XK5ju97yHsaVz5I5whXNf8ImrdeeNnR7fN46N68MCsiOhY3
-	 qLbmlA4VJ42DSJwmwyObwWP0i6YmEmgQxKCAv/g2PaNlZV43/5A3O37jhdPZbt8yWm
-	 DzqkaWhWN9utWVh1/ybpTedsHPK4OXx1Q4i8ersNajqmy8xTfGIzwb5ymZUD8dbHIz
-	 ATox5ql/xjdP+1XNr9/YktDdz6cE6/GizpNEHyuNy3Xc9rSRgEQWejHMP9hEc9DQTf
-	 tK5u1WNmtbAUw==
-Message-ID: <sashiko-outbox-229796@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 3/3] arm64: dts: allwinner: add Radxa Cubie A7S board
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Enzo Adriano" <enzo.adriano.code@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261121-a733-cubie-a7s-dt-v5-3@gmail.com>
-References: <20261121-a733-cubie-a7s-dt-v5-0@gmail.com>
- <20261121-a733-cubie-a7s-dt-v5-3@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 23 Nov 2026 18:11:22 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=GhC6SClc
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1795472748;
+	bh=fGAAPcKd6neM53/qNC4krvVR7BMl/k9dOCzKOiSZl1w=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=GhC6SClc0hZW2vieXL75I5S4Soj0UI262Mm8goxTT6F5gkpZ4O/dfD47hr+sJ1C1P
+	 BSMKy51uiY/6vKfZFPa2n82onhcR5sA2l057o8ynNoi0EatkmAswyxUj6L7rvTLjMb
+	 o3GkgI3axQtvTGp1UGx4Ye2h/U/B82kz4Sw5DZyhjPKWzn9LULLK+45M+VJJgGCdZw
+	 CthGBLlHQybBawW4rJBYTY6uh3lwrsYEYcCLRUObc+wk77ldDxQhCdX7IwI8fz5AO7
+	 K3LNbTOLVjswX0eKA6l+zDSbvKguMKzvI2yX1VOKK4lZmqltLqzV9Nm2wdZUX2qJvh
+	 tNe+CueCnVl/g==
+Received: from [100.64.0.214] (unknown [100.64.0.214])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 05B7517E0DB6;
+	Mon, 23 Nov 2026 23:25:45 +0100 (CET)
+Message-ID: <24a2298a6aaa561990b38fe6aabd1a6734c01982.camel@collabora.com>
+Subject: Re: [PATCH v2 1/3] media: uapi: mpeg2: add MPEG-1 flags
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: aiyengar1990@gmail.com, Hans Verkuil <hverkuil@kernel.org>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Philipp Zabel	 <p.zabel@pengutronix.de>,
+ Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski	 <paulk@sys-base.io>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,  Chen-Yu Tsai
+ <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland	 <samuel@sholland.org>
+Cc: Jonas Karlman <jonas@kwiboo.se>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, Christian Stefan
+ =?ISO-8859-1?Q?K=F6v=E9r-Draxl?=	 <ckoever@outlook.de>
+Date: Mon, 23 Nov 2026 17:25:44 -0500
+In-Reply-To: <20261121-b4-cedrus-mpeg1-v2-1-95e4decf03fa@gmail.com>
+References: <20261121-b4-cedrus-mpeg1-v2-0-95e4decf03fa@gmail.com>
+	 <20261121-b4-cedrus-mpeg1-v2-1-95e4decf03fa@gmail.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-4L4mp99RXxCJlUHtrXto"
+User-Agent: Evolution 3.62.1 (3.62.1-1.fc45) 
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,164 +94,163 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 4 potential
-issues to consider:
-- [High] arm64: dts: allwinner: unbound x-powers,axp318w PMIC defers all
-  consumers
-- [High] arm64: dts: allwinner: pio bank supplies program inverted A733
-  IO bias mode
-- [Low] arm64: dts: allwinner: non-generic osc32k-clk fixed-clock node
-  name
-- [Low] arm64: dts: allwinner: undocumented allwinner,sun60i-a733-uart
-  compatible
---
+--=-4L4mp99RXxCJlUHtrXto
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-commit e16e02bf9bff4295531a8fc06d6b6852a523f527
-Author: Enzo Adriano <enzo.adriano.code@gmail.com>
+Hi,
 
-arm64: dts: allwinner: add Radxa Cubie A7S board
+Le samedi 21 novembre 2026 =C3=A0 10:10 +0000, Arun Iyengar via B4 Relay a =
+=C3=A9crit=C2=A0:
+> From: Arun Iyengar <aiyengar1990@gmail.com>
+>=20
+> Stateless MPEG-2 decoders can decode MPEG-1, but the uAPI cannot say a
+> stream is MPEG-1, and decoding it as MPEG-2 is wrong: MPEG-1 has its own
+> inverse quantisation mismatch control, full pel motion vectors and
+> D-pictures.
+>=20
+> Add V4L2_MPEG2_SEQ_FLAG_MPEG1, V4L2_MPEG2_PIC_FLAG_FULL_PEL_FORWARD and
+> _BACKWARD, and allow V4L2_MPEG2_PIC_CODING_TYPE_D for MPEG-1. Drivers
+> that cannot decode MPEG-1 or D-pictures reject them, also in
+> VIDIOC_TRY_EXT_CTRLS. Kernels without this change accept the flag and
+> decode the stream as MPEG-2.
 
-This commit adds the initial Devicetree source for the Allwinner
-A733-based Radxa Cubie A7S board, enabling the UART0 console, AXP318W
-PMIC, microSD slot, I2C0 EEPROM, and GPIO LEDs.
+We require open source users to demonstrate the usage of new APIs. You coul=
+d try
+and port either ffmpeg or gstreamer. Considering how hard these are to find=
+, its
+pretty historical kind of stream, you should document few known sources too=
+.
 
-Link: https://dl.radxa.com/cubie/a7s/hw/radxa_cubie_a7s_schematic_v1.10.pdf
-Link: https://github.com/radxa/allwinner-device/blob/6d911d1582dcccdb5a4c38=
-be8d3c1ee851019795/configs/cubie_a7s/linux-5.15/board.dts#L372-L384
+Nicolas
 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts b/ar=
-ch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
-> new file mode 100644
-> index 0000000000000..7451c00570fb7
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7s.dts
+>=20
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+> ---
+>  .../media/v4l/ext-ctrls-codec-stateless.rst        | 34 ++++++++++++++++=
+++++--
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c          |  1 +
+>  include/uapi/linux/v4l2-controls.h                 |  3 ++
+>  3 files changed, 36 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-statel=
+ess.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.r=
+st
+> index d7a3b8ef03a7..f51017b5d6f0 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+> @@ -1317,6 +1317,22 @@ FWHT Flags
+>        - 0x01
+>        - Indication that all the frames for the sequence are progressive =
+instead
+>  =09of interlaced.
+> +    * - ``V4L2_MPEG2_SEQ_FLAG_MPEG1``
+> +      - 0x02
+> +      - The sequence is an ISO/IEC 11172-2 (MPEG-1) sequence: the invers=
+e
+> +=09quantisation uses the MPEG-1 mismatch control, motion vectors may be
+> +=09full pel and pictures may be D-pictures. Drivers that cannot decode
+> +=09MPEG-1 reject this flag, also in ``VIDIOC_TRY_EXT_CTRLS``. MPEG-1 has
+> +=09no sequence or picture extensions: applications set the fields that
+> +=09come from them to chroma_format 1, V4L2_MPEG2_SEQ_FLAG_PROGRESSIVE,
+> +=09frame pictures with V4L2_MPEG2_PIC_FLAG_FRAME_PRED_DCT and
+> +=09V4L2_MPEG2_PIC_FLAG_PROGRESSIVE, intra_dc_precision 0, the flags
+> +=09V4L2_MPEG2_PIC_FLAG_Q_SCALE_TYPE, V4L2_MPEG2_PIC_FLAG_INTRA_VLC,
+> +=09V4L2_MPEG2_PIC_FLAG_ALT_SCAN, V4L2_MPEG2_PIC_FLAG_CONCEALMENT_MV,
+> +=09V4L2_MPEG2_PIC_FLAG_TOP_FIELD_FIRST and
+> +=09V4L2_MPEG2_PIC_FLAG_REPEAT_FIRST cleared, both components of
+> +=09``f_code[0]`` set to forward_f_code and of ``f_code[1]`` to
+> +=09backward_f_code.
+> =20
+>  .. raw:: latex
+> =20
+> @@ -1366,8 +1382,12 @@ FWHT Flags
+>      * - __u8
+>        - ``picture_coding_type``
+>        - Picture coding type for the frame covered by the current slice
+> -=09(V4L2_MPEG2_PIC_CODING_TYPE_I, V4L2_MPEG2_PIC_CODING_TYPE_P or
+> -=09V4L2_MPEG2_PIC_CODING_TYPE_B).
+> +=09(V4L2_MPEG2_PIC_CODING_TYPE_I, V4L2_MPEG2_PIC_CODING_TYPE_P,
+> +=09V4L2_MPEG2_PIC_CODING_TYPE_B, or V4L2_MPEG2_PIC_CODING_TYPE_D in MPEG=
+-1
+> +=09sequences). Decoding D-pictures is optional: drivers that cannot
+> +=09decode them reject V4L2_MPEG2_PIC_CODING_TYPE_D, also in
+> +=09``VIDIOC_TRY_EXT_CTRLS``, which applications can use to find out
+> +=09whether D-pictures are supported.
+>      * - __u8
+>        - ``picture_structure``
+>        - Picture structure (1: interlaced top field, 2: interlaced bottom=
+ field,
+> @@ -1415,6 +1435,16 @@ FWHT Flags
+>      * - ``V4L2_MPEG2_PIC_FLAG_PROGRESSIVE``
+>        - 0x00000080
+>        - Indicates whether the current frame is progressive.
+> +    * - ``V4L2_MPEG2_PIC_FLAG_FULL_PEL_FORWARD``
+> +      - 0x00000100
+> +      - full_pel_forward_vector of an MPEG-1 picture header: the forward
+> +=09motion vectors are in full pel units. Only valid with
+> +=09V4L2_MPEG2_SEQ_FLAG_MPEG1.
+> +    * - ``V4L2_MPEG2_PIC_FLAG_FULL_PEL_BACKWARD``
+> +      - 0x00000200
+> +      - full_pel_backward_vector of an MPEG-1 picture header: the backwa=
+rd
+> +=09motion vectors are in full pel units. Only valid with
+> +=09V4L2_MPEG2_SEQ_FLAG_MPEG1.
+> =20
+>  .. raw:: latex
+> =20
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4=
+l2-core/v4l2-ctrls-core.c
+> index 6e751a043a21..a12359626121 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> @@ -1049,6 +1049,7 @@ static int std_validate_compound(const struct v4l2_=
+ctrl *ctrl, u32 idx,
+>  =09=09case V4L2_MPEG2_PIC_CODING_TYPE_I:
+>  =09=09case V4L2_MPEG2_PIC_CODING_TYPE_P:
+>  =09=09case V4L2_MPEG2_PIC_CODING_TYPE_B:
+> +=09=09case V4L2_MPEG2_PIC_CODING_TYPE_D:
+>  =09=09=09break;
+>  =09=09default:
+>  =09=09=09return -EINVAL;
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2=
+-controls.h
+> index d17e41d51d2e..e7e6030ac00c 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -2007,6 +2007,7 @@ struct v4l2_ctrl_vp8_frame {
+>  /* Stateless MPEG-2 controls */
+> =20
+>  #define V4L2_MPEG2_SEQ_FLAG_PROGRESSIVE=090x01
+> +#define V4L2_MPEG2_SEQ_FLAG_MPEG1=090x02
+> =20
+>  #define V4L2_CID_STATELESS_MPEG2_SEQUENCE (V4L2_CID_CODEC_STATELESS_BASE=
++220)
+>  /**
+> @@ -2055,6 +2056,8 @@ struct v4l2_ctrl_mpeg2_sequence {
+>  #define V4L2_MPEG2_PIC_FLAG_ALT_SCAN=09=09=090x0020
+>  #define V4L2_MPEG2_PIC_FLAG_REPEAT_FIRST=09=090x0040
+>  #define V4L2_MPEG2_PIC_FLAG_PROGRESSIVE=09=09=090x0080
+> +#define V4L2_MPEG2_PIC_FLAG_FULL_PEL_FORWARD=09=090x0100
+> +#define V4L2_MPEG2_PIC_FLAG_FULL_PEL_BACKWARD=09=090x0200
+> =20
+>  #define V4L2_CID_STATELESS_MPEG2_PICTURE (V4L2_CID_CODEC_STATELESS_BASE+=
+221)
+>  /**
 
-[ ... ]
+--=-4L4mp99RXxCJlUHtrXto
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-> +	osc32k: osc32k-clk {
-> +		compatible =3D "fixed-clock";
-> +		#clock-cells =3D <0>;
-> +		clock-frequency =3D <32768>;
-> +	};
+-----BEGIN PGP SIGNATURE-----
 
-[Severity: Low]
-Should this fixed-clock node use a generic node name such as clock-osc32k
-or clock-32768?
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCawS9aAAKCRDZQZRRKWBy
+9DjeAQD/AB413RIOudh7Noe1qnnb5Kzj1Cmq6mZZKtnd2um+CAD/fcf5tS7LToUl
+fYVwwCwQ4ktac4g5XWrf68wO+Afn0wE=
+=9OjG
+-----END PGP SIGNATURE-----
 
-Documentation/devicetree/bindings/clock/fixed-clock.yaml deprecates node
-names that do not match the ^clock-([0-9]+|[a-z0-9-]+)$ pattern.
-
-[ ... ]
-
-> +&pio {
-> +	vcc-pb-supply =3D <&reg_swout2>;	/* via VCC-IO */
-> +	vcc-pc-supply =3D <&reg_cldo5>;
-> +	vcc-pd-supply =3D <&reg_swout1>;
-> +	vcc-pe-supply =3D <&reg_bldo1>;
-> +	/* PF uses VCC-IO at 3.3 V, with CLDO5 as the 1.8 V input. */
-> +	vcc-pf-supply =3D <&reg_swout2>;
-> +	vcc-pg-supply =3D <&reg_aldo1>;
-> +	vcc-ph-supply =3D <&reg_swout2>;
-> +	vcc-pj-supply =3D <&reg_swout1>;
-> +	vcc-pk-supply =3D <&reg_bldo1>;
-> +};
-
-[Severity: High]
-Does wiring vcc-pb-supply through vcc-pk-supply on &pio configure inverted
-1.8 V and 3.3 V I/O bias modes on the A733 pin banks?
-
-The commit message notes that the A733 pinctrl voltage-mode fix is required
-for these bank supply connections, but a733_pinctrl_data in
-drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c still uses
-BIAS_VOLTAGE_PIO_POW_MODE_SEL instead of BIAS_VOLTAGE_PIO_POW_MODE_CTL_INV.
-When pins in banks PB through PK are requested with resolved bank
-regulators, sunxi_pinctrl_set_io_bias_cfg() writes un-inverted mode bits to
-pow_mod_sel_offset, programming 3.3 V banks for 1.8 V withstand mode and
-1.8 V banks for 3.3 V mode.
-
-> +
-> +&r_i2c0 {
-> +	pinctrl-names =3D "default";
-> +	pinctrl-0 =3D <&r_i2c0_pl_pins>;
-> +
-> +	status =3D "okay";
-> +
-> +	axp318w: pmic@36 {
-> +		compatible =3D "x-powers,axp318w";
-> +		reg =3D <0x36>;
-> +		interrupt-parent =3D <&nmi_intc>;
-> +		interrupts =3D <0 IRQ_TYPE_LEVEL_LOW>;
-> +		interrupt-controller;
-> +		#interrupt-cells =3D <1>;
-> +
-> +		aldo156in-supply =3D <&reg_ps>;
-> +		aldo234in-supply =3D <&reg_aldo1>;
-> +		bldoin-supply =3D <&reg_ldo_input>;
-> +		cldoin-supply =3D <&reg_ldo_input>;
-> +		dldoin-supply =3D <&reg_ps>;
-> +		eldoin-supply =3D <&reg_dcdc9>;
-> +		ips-supply =3D <&reg_ps>;
-> +		vin19-supply =3D <&reg_ps>;
-> +		vin23-supply =3D <&reg_ps>;
-> +		vin45-supply =3D <&reg_ps>;
-> +		vin678-supply =3D <&reg_ps>;
-> +
-> +		regulators {
-> +			reg_dcdc1: dcdc1 {
-
-[ ... ]
-
-> +			reg_dcdc9: dcdc9 {
-> +				regulator-name =3D "eldo-input";
-> +			};
-> +
-> +			reg_swout1: swout1 {
-> +				regulator-name =3D "vcc33-lcd";
-> +			};
-> +
-> +			reg_swout2: swout2 {
-> +				/* VCC-IO to the console and microSD. */
-> +				regulator-name =3D "vcc-io-card";
-> +				regulator-always-on;
-> +			};
-
-[Severity: High]
-Will any consumer of the axp318w regulators ever finish probing without a
-driver or Devicetree binding for x-powers,axp318w?
-
-Neither Documentation/devicetree/bindings/mfd/x-powers,axp152.yaml nor
-axp20x_i2c_of_match[] in drivers/mfd/axp20x-i2c.c includes
-"x-powers,axp318w" (or the grouped supply properties aldo156in-supply,
-aldo234in-supply, vin19-supply, vin23-supply, vin45-supply, vin678-supply
-and child regulator nodes dcdc9, swout1, swout2).  Because no driver binds
-to pmic@36, none of its child regulators are registered.  When consumers
-such as pio, r_pio, uart0, mmc0, i2c0, eeprom@50, and leds request their
-bank or device supplies, sunxi_pmx_request() -> regulator_get() ->
-of_regulator_dev_lookup() finds the DT regulator node without a registered
-regulator device and returns -EPROBE_DEFER instead of falling back to the
-dummy regulator, leaving the serial console, microSD slot, EEPROM, and
-LEDs permanently deferred while also failing dtbs_check.
-
-[ ... ]
-
-> +&uart0 {
-> +	pinctrl-names =3D "default";
-> +	pinctrl-0 =3D <&uart0_pb_pins>;
-> +
-> +	status =3D "okay";
-> +};
-
-[Severity: Low]
-Does sun60i-a733-cubie-a7s.dtb fail dtbs_check on the UART nodes inherited
-from sun60i-a733.dtsi?
-
-Commit "arm64: dts: allwinner: add A733 SoC description" defines uart0
-through uart6 and r_uart0 through r_uart1 in sun60i-a733.dtsi with
-compatible =3D "allwinner,sun60i-a733-uart", "snps,dw-apb-uart", but
-"allwinner,sun60i-a733-uart" is not documented in
-Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261121-a733-cubie=
--a7s-dt-v5-0@gmail.com?part=3D3
+--=-4L4mp99RXxCJlUHtrXto--
