@@ -1,49 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795453359;
-	b=o1gtgjZ5p+bwh88aWDl9BiHh08SNyxUU0sSkePiGwpgG/w80DMpFC0pcI9vxoV6VZ7Tz
-	 InwlfB5tVbhRR2Avqk7dy1LupLAoDJF8ecqt/qgNlar6IZOaGpFb1R+2xlfQDUf0YIkuC
-	 uxnZgEU5vMGbeHQBma9KnjRT86bl4NyzzWWOHDnCihF788cFCWNXrH1Q+WQeIDtP2aFJM
-	 uxRJock5GULRDZvGBu4IPD+XK9H82HfbbFYiyW8M8yV2BAn8Ez1YK3gywXWiEuDaZIlKW
-	 1lMnG75fwj892YfL1Dsv4nj/kXx8Wuf7bRVEp0gXZpKQcOxKkci/FZaZn5pgmWNEVMw==
+	t=1795455743;
+	b=lNPz99x3PCz2fHLJ/Q2EwCNdS8sE6piuPZcReo3NjMio/xiTXQ1mEYg8oveqRTsXnMv3
+	 +07MGCVFhERAEni2gYJvBN58/a3LBKSPA1RksudFWWnaApYalYRCZ4pfQAcQ3sMLgksu9
+	 VEp+5MeQwpJ2M5l2Biis/S0dwUTRNkO7h3h9ofPXXe8xADPYlyLVqj/TtkvhyaYt69zp8
+	 5b/bED8z9wLFH9me20ZlbyAe5Y8yTuoSHnjOC0UzmY08ojbHoOQpKovszY9jo6knJxlbz
+	 7B4tCBAQK2pwOI1wIjFiRMQqWvIuiguLwMVUaraXcBB15uSukiooa/7X/xKAgbqCiXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795453359;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=Zs6ODemD0A60MW9aPf1NQdG6KomEoEDS4UdX3N3dA0Y=;
-	b=uEO2XMTGDe0N9kV2RzYjQhrx+oqIVaS3t8FNmH8CCa+HV0La8IaqyY+dlT5gGhaUeHlJ
-	 cWiz5TL3aeoOhDS84WiJbVjknAZoYBF4wTKkwaHlMPtsC5oH9lnaKncLY4xhBm5s0XLYx
-	 015ZCND1V0oVTA8S1bZwSAqGXDnRkOJz8Y3Tm++140NZOOmcBOH/H28qF3IUk6d48ANsh
-	 Uo2f1SuSctlsID76ZFGhv2K2wgieA6azQq+cjbilhPuJeJt2dAzolKhfJxE0uzn+x4bst
-	 P3nc54Ou7UyWOk2pNl0BxSKhn50ddklaAcZh6FC+IkqZdWy49Bhw1IkPXlxKdB26DnQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795455743;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=SIbteC45At9e/phHEDZccWeZUiRHWTYBk94KBVq+cmo=;
+	b=dAHmHHl5v65jK7P2qspgY14uxwlJe7g1rxoHRgrlnywKEJkUdES8qRVKiw574sTdHFhs
+	 tgt05f20NED0ncGxXb8+CiHk8GKox74IN/vygdRDB8XfUqTLLqCeeqci02Q6iZ+PMROtn
+	 gWQ9umiGIH6rGvOkKsKbUDTxmpw0RGE+j+YoVqpLEP5jiXgVJPFth4/aLqxx9dJgJJff3
+	 Eo7EjDdsWvnhYVXSSp1M3RZSQMELEKwClKMaM5Mgvte0m4eW+XRGLd5ixKarjKRw1D+mQ
+	 6aqWuIhPvtpOe+9sZOYMQoLqy87DMJWORHWEedET3Qz3Z1FT+KFXnNHFrab6mSsv/WQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=hstLZrCp;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25663606A31F
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 Nov 2026 17:02:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 25663606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DR+M0usT;
+	arc=none smtp.remote-ip=209.85.167.175
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC21D606A31E
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 Nov 2026 17:42:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC21D606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=hstLZrCp
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 65127143D;
-	Mon, 23 Nov 2026 09:02:35 -0800 (PST)
-Received: from [10.57.69.138] (unknown [10.57.69.138])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2038A3F632;
-	Mon, 23 Nov 2026 09:02:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795453358; bh=6og8JjoteR1OR9XmbXU7Qe5NkDb+Li/Uj9lHNxClAAk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hstLZrCpD0pFFB1FhcOgXTeMLO88zumcdAk2AtDxhmt4G9BIsX/AugvmgM7JTBdwj
-	 UU+e9lurTsWqUjV8TgO6oI9iNXKHdZpFmN+rzwsn30XHnP2ghNpi79qECvJ9aMvKFx
-	 r5C6rN9lcGXUipJgTQU5pSA2BtoDcjPk+oLhKllA=
-Message-ID: <e06ebd54-d41d-4cec-8f1d-cce8339297a4@arm.com>
-Date: Mon, 23 Nov 2026 18:02:34 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DR+M0usT
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-57e468d51b1so3531b6e.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 23 Nov 2026 09:42:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795455742; x=1796060542; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SIbteC45At9e/phHEDZccWeZUiRHWTYBk94KBVq+cmo=;
+        b=DR+M0usTsw+BRyAaG1FDumoTSEift59PfxamDi5HxF6LyS3IDJsUyFP6Klh+909o4b
+         KcjO4vR2C4s24GFsKFftQZZhEJ5B2pVPB9Ahn978A5VrQ9H74fI6sAK3g4gjukxjgWx2
+         vePykIZPKqTbk3wLX3EXJXTs884oweZyiLdEhVUZn8HEfjwtsYayVwRe9wuwTlf5P32c
+         FAR19g0Sxco8mi303EhSnnCpQjp+xPuRfne0QJGzYcpG9CpPcF9DeE5vgz/eWZaQSUj2
+         GLvIs66xeAC4+gMyGYNcTOfXubYlfM8EPBfelNfrJtF64O4lxknqXzDJ34+1tKdbBQQL
+         x4fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795455742; x=1796060542;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SIbteC45At9e/phHEDZccWeZUiRHWTYBk94KBVq+cmo=;
+        b=sWLolIbwE04a3vCDu3OpbnPTCkfTwQCNllNGtRTw3YPXmP93NLNjBRnuCeiOiS2TN+
+         Y3h/4eHOwK512OWYb/9FtV3dnxl5JOfMyTF9iYZHPnq2ZvyGGEvH1kc2RZAysOEvG30q
+         NeK6DChjOlULPIc4Cew5xfUXee8M9un2stER6iF5OjpGcxrS/dy6xc0IIhO8fdFnTi+u
+         rzhVTwTeFZ6FCKSM44mwEVsExC/XQCgMHoTsc+KrrO4vWbizf0a+91LfgEVEHnjDD134
+         1OuO75d/VveM1jtLW4R4Jjr/UncDVkKZcfpuDCk53lS4YUXIHMGdLtqEmRpuDFUR/XAf
+         zA0A==
+X-Forwarded-Encrypted: i=1; AL+hErGW2nRBJ3cWMEaPaPmX5StHJ3FVaCq4SESMLUwmYbsygXYBwwyQnJ6gAfa39+TlKyuPVa4M5hETF0UV5Q==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9ingoffksXZ9YjaOF9nwZE5nXyOLvRR8I6/cgO92Ldss4V1DSL
+	OHU9/mj5iY0br3yOFscCRGyzVcIJ7yE2EYKFRNMA6iz0y791qrv8eMa9
+X-Gm-Gg: AZFdTZddzBOND1w/uvR+W7RZFDkRWAFaVS9rkH8KCEoEi+i5PnN+VIFfpiYJ06nBq2b
+	7tXfZRuasLsjRs3iFxv1goPexJHGmVBom+CDuIU6ywEDqa3+UeisJaFM9j9u10kYmbXMLpGSl3U
+	TybAaPesF1pot9gbmqbFADgI3obRdGBX0XiPq2QFrTiPMkf7oCL5b/tqP5PFIQIOdMGpuz+l/2W
+	cbNifpf6nE/Gn1FgVHPPTpSqbmHJSv50Buvqagne2TI53RqmCx9mQuR3814nCn44NPL0MDzAgXs
+	5WNa0ZbWGdKPtuAbsPucFyZ0Xz97aqlURP45Xdd39nRPsldjC9aO2+Yy3RwshR4hIh7i2SQdPqC
+	LYAHB1ZXbx6uC1KBAUv7QKBTYtmVwgRfK4ctkmTSFif6zo2LaVacRpiu6AHGI+bdI8SAN9LK3K8
+	NF4cncaNMDe+ivceFDFrTnhXsxGJZhGQiGf/O3tjM5GXPF+nlLs+0U+Aok0xVLNuKr+CzX2pLvP
+	Qw4LLlI3mwXwdwXK3/TnZnMkj1hjTaGlWOq59VP3USG56j6mpLs0hBmhQzuyP+/8AoZnla2g3CS
+	VQB/rec4QyZBdGQwbgWIHVqJWJ69ZwlIOkgC3fxVh5E5dvKw+T53lLe4SyTdOkwX02iglJNd2qJ
+	xb2FP9A==
+X-Received: by 2002:a05:6808:1908:b0:571:b166:3d76 with SMTP id 5614622812f47-57a0ab2460amr14209938b6e.29.1795455741608;
+        Mon, 23 Nov 2026 09:42:21 -0800 (PST)
+Received: from AMD.home.internal (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4bc5b07d57csm11240123fac.1.2026.11.23.09.42.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 09:42:20 -0800 (PST)
+From: Enzo Adriano <enzo.adriano.code@gmail.com>
+To: andre.przywara@arm.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org
+Cc: Maxime Ripard <mripard@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Junhui Liu <junhui.liu@pigmoral.tech>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Pablo Mazzini <pmazzini@gmail.com>,
+	Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
+	Alexander Sverdlin <alex@sverdlin.org>,
+	Jun Yan <jerrysteve1101@gmail.com>,
+	Lukas Schmid <lukas.schmid@netcube.li>
+Subject: [PATCH v5 0/3] arm64: dts: allwinner: add A733/Cubie A7S support
+Date: Mon, 23 Nov 2026 12:42:18 -0500
+Message-ID: <20261121-a733-cubie-a7s-dt-v5-0@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -53,493 +111,78 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] arm64: dts: allwinner: add Radxa Cubie A7Z board
-To: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, wens@kernel.org,
- jernej.skrabec@gmail.com, samuel@sholland.org
-Cc: enzo.adriano.code@gmail.com, mripard@kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20261111134919.90264-1-vinicius.eduardo.pedrosa@gmail.com>
- <20261111134919.90264-3-vinicius.eduardo.pedrosa@gmail.com>
- <8f9f9752-4c23-48de-9483-63268627ff3c@arm.com>
- <nh-1384c024-38de-4962-9d4f-a0bfb55471a6@google.com>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <nh-1384c024-38de-4962-9d4f-a0bfb55471a6@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Add initial Allwinner A733 and Radxa Cubie A7S device trees for the
+console, PMIC, microSD, LEDs and EEPROM. The Cubie A7A compatible is
+for Andre Przywara's forthcoming DTS:
+https://lore.kernel.org/r/20261122004008.0ee8e16d@ryzen.lan
 
-On 11/23/26 17:57, Vinicius Pedrosa wrote:
-> On Mon, Nov 23, 2026 at 1:35 PM Andre Przywara <andre.przywara@arm.com> wrote:
->> sorry, I missed your post earlier, so made my own version of the DT
->> yesterday. So this is more like comparing this to yours ;-)
-> 
-> No worries. I'll fold your comments into a v2 once Enzo's v5 is out. Do
-> you plan to post yours? I'd rather end up with one A7Z DT than two.
+Base: sunxi/for-next (2ba07dfcd45bb6ec414e68213620490548fd5aec).
+Previous version:
+https://lore.kernel.org/r/cover.1795034153.git.enzo.adriano.code@gmail.com
 
-No, yours was first, and you got my review on it, so we go with that.
-I have an A7A .dts almost ready as well, will post that later.
+Changes in v5:
+- 1/3: Add the Cubie A7A compatible.
+- 2/3: Keep one DynamIQ cluster, rename osc to hosc and add I2C0 pins.
+- 3/3: Add LEDs and EEPROM, simplify MMC0, describe the 3.3 V PF path,
+  and revise the PMIC rail descriptions, bounds and always-on flags.
 
->>> + reg_dcdc9: dcdc9 {
->>> + regulator-name = "eldo-input";
->>
->> The schematic says 1.1V/1.25V. Can you check what it is on your board,
->> at runtime? If in doubt, go with 1.1V, this should be enough headroom
->> for the ELDO6 this supplies, with outputs 0.8V.
-> 
-> It reads 1240 mV at runtime on my v1.11, what the firmware leaves. I also
-> ran it at a fixed 1.1 V and it was fine for a few minutes, but the
-> AXP318W datasheet draft lists 1.2 V as the minimum ELDOIN as an LDO. I'd
-> use a 1.2 to 1.25 V range, which keeps 1.24 V.
+The hosc label also affects Vinicius's A7Z and Alastair's U-Boot import:
+https://lore.kernel.org/r/20261111134919.90264-3-vinicius.eduardo.pedrosa@gmail.com
+https://lore.kernel.org/r/20261113023236.569054-26-alastair@d-silva.org
 
-Ah, I missed that requirement in the AXP datasheet, 1.24V it is, then.
+Runtime dependencies in application order:
+[1] AXP318W PMIC v8
+https://lore.kernel.org/r/20260910-axp318-regulator-v8-0-e906a61a7f3d@baylibre.com
+[2] Pinctrl IRQ-bank v3
+https://lore.kernel.org/r/20261025142412.112216-1-pmazzini@gmail.com
+[3] A733 8250_dw v2, patches 1-4
+https://lore.kernel.org/r/cover.1792439398.git.vinicius.eduardo.pedrosa@gmail.com
+[4] Firmware-clock v2 for vendor-firmware warm reboot
+https://lore.kernel.org/r/20261112-a733-fwclk-v2@gmail.com
+[5] Pinctrl voltage-mode v3
+https://lore.kernel.org/r/20261109-a733-pinctrl-v3@gmail.com
 
-Thanks,
-Andre
+The A7S DTB and schema checks use [1] 3/5, [2] 2/3 and [3] 3/4.
+The runtime build uses context adjustments for [1] 5/5 and [5]
+after the regulator allocation and IRQ-bank changes.
 
-> Thanks,
-> Vinicius
-> 
-> On Mon, 23 Nov 2026 13:35:44 +0100, Andre Przywara
-> <andre.przywara@arm.com> wrote:
->> Hi Vinicius,
->>
->> sorry, I missed your post earlier, so made my own version of the DT
->> yesterday. So this is more like comparing this to yours ;-)
->> As you saw my reply to Enzo's .dtsi and A7S .dts, I will keep the same
->> issues I mentioned there brief.
->>
->> On 11/11/26 14:49, Vinicius Pedrosa wrote:
->>> Add the device tree for the Radxa Cubie A7Z. Describe UART0, the AXP318W
->>> PMIC over R-I2C0, MMC0, RTC and the bank supplies. It is based on the
->>> Cubie A7S DT.
->>>
->>> Unlike the A7S, this board uses BLDO5 for PG and a SY8089 regulator for
->>> the PMIC's BLDO and CLDO inputs, and the microSD card-detect line has an
->>> external pull-up, so no internal pull-down is used. ELDO1 only supplies
->>> VDD2L for LPDDR5 and this board uses LPDDR4, so it is not described.
->>> SWOUT1 only feeds ports D and J on the 40-pin header, so it is not kept
->>> always-on.
->>
->> I think this stanza does not belong into the commit message, as
->> comparing to some different board is not relevant here.
->> Instead you should briefly list the features/connectors of this board,
->> look at other commit messages for board .dts files.
->>
->>>
->>> Signed-off-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
->>> ---
->>> arch/arm64/boot/dts/allwinner/Makefile | 1 +
->>> .../dts/allwinner/sun60i-a733-cubie-a7z.dts | 286 ++++++++++++++++++
->>> 2 files changed, 287 insertions(+)
->>> create mode 100644 arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7z.dts
->>>
->>> diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
->>> index 792152525b43..2eee91dcbd77 100644
->>> --- a/arch/arm64/boot/dts/allwinner/Makefile
->>> +++ b/arch/arm64/boot/dts/allwinner/Makefile
->>> @@ -69,3 +69,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun55i-h728-x96qpro+.dtb
->>> dtb-$(CONFIG_ARCH_SUNXI) += sun55i-t527-avaota-a1.dtb
->>> dtb-$(CONFIG_ARCH_SUNXI) += sun55i-t527-orangepi-4a.dtb
->>> dtb-$(CONFIG_ARCH_SUNXI) += sun60i-a733-cubie-a7s.dtb
->>> +dtb-$(CONFIG_ARCH_SUNXI) += sun60i-a733-cubie-a7z.dtb
->>> diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7z.dts b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7z.dts
->>> new file mode 100644
->>> index 000000000000..ab3d3d70f9ff
->>> --- /dev/null
->>> +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7z.dts
->>> @@ -0,0 +1,286 @@
->>> +// SPDX-License-Identifier: (GPL-2.0-only OR MIT)
->>
->> I think you need a copyright line here.
->>
->> Also please explain the situation with the v1.10 and v1.11 versions here.
->>
->>> +/dts-v1/;
->>> +
->>> +#include "sun60i-a733.dtsi"
->>> +
->>> +#include <dt-bindings/gpio/gpio.h>
->>> +
->>> +/ {
->>> + model = "Radxa Cubie A7Z";
->>> + compatible = "radxa,cubie-a7z", "allwinner,sun60i-a733";
->>> +
->>> + aliases {
->>> + mmc0 = &mmc0;
->>
->> Please remove.
->>
->>> + serial0 = &uart0;
->>> + };
->>> +
->>> + chosen {
->>> + stdout-path = "serial0:115200n8";
->>> + };
->>> +
->>> + reg_ps: regulator-system-power {
->>
->> Please add a short comment where this power comes from (USB-C connector).
->>
->>> + compatible = "regulator-fixed";
->>> + regulator-name = "ps";
->>> + regulator-min-microvolt = <5000000>;
->>> + regulator-max-microvolt = <5000000>;
->>> + regulator-always-on;
->>> + };
->>> +
->>
->> As mentioned in the other mail, please add a comment that this has been
->> added in v1.11, and v1.10 doesn't have it.
->>
->>> + reg_ldo_input: regulator-ldo-input {
->>> + compatible = "regulator-fixed";
->>> + regulator-name = "ldo2v5-input";
->>> + /* SY8089: 0.6 V * (1 + RP11 / RP6), 30k / 10k. */
->>> + regulator-min-microvolt = <2400000>;
->>> + regulator-max-microvolt = <2400000>;
->>> + regulator-always-on;
->>> + vin-supply = <&reg_ps>;
->>> + };
->>> +
->>> + osc32k: osc32k-clk {
->>> + compatible = "fixed-clock";
->>> + #clock-cells = <0>;
->>> + clock-frequency = <32768>;
->>> + };
->>> +};
->>> +
->>> +&cpu0 {
->>> + cpu-supply = <&reg_dcdc5>;
->>> +};
->>> +
->>> +&cpu1 {
->>> + cpu-supply = <&reg_dcdc5>;
->>> +};
->>> +
->>> +&cpu2 {
->>> + cpu-supply = <&reg_dcdc5>;
->>> +};
->>> +
->>> +&cpu3 {
->>> + cpu-supply = <&reg_dcdc5>;
->>> +};
->>> +
->>> +&cpu4 {
->>> + cpu-supply = <&reg_dcdc5>;
->>> +};
->>> +
->>> +&cpu5 {
->>> + cpu-supply = <&reg_dcdc5>;
->>> +};
->>> +
->>> +&cpu6 {
->>> + cpu-supply = <&reg_dcdc3>;
->>> +};
->>> +
->>> +&cpu7 {
->>> + cpu-supply = <&reg_dcdc3>;
->>> +};
->>> +
->>> +&mmc0 {
->>> + bus-width = <4>;
->>> + cap-sd-highspeed;
->>
->> Same as the A7S, please add the others.
->>
->>> + /* PF6 has an external 10k pull-up and reads high with a card. */
->>
->> "reads high with a card" is a redundant comment, since this is what
->> GPIO_ACTIVE_HIGH already says.
->> Please explain the situation with the v1.10 vs. v1.11 versions here.
->> And my v1.10 board needs GPIO_PULL_DOWN
->>
->>> + cd-gpios = <&pio 5 6 GPIO_ACTIVE_HIGH>;
->>> + disable-wp;
->>> + max-frequency = <50000000>;
->>> + no-1-8-v;
->>
->> Please remove both.
->>
->>> + vmmc-supply = <&reg_swout2>;
->>> + /* The 3.3 V path uses VCC-IO; no Port F voltage switching yet. */
->>> + vqmmc-supply = <&reg_swout2>;
->>
->> Please remove those two lines, we will add vqmmc later.
->>
->>> + status = "okay";
->>> +};
->>> +
->>> +&osc {
->>> + clock-frequency = <26000000>;
->>> +};
->>> +
->>> +&pio {
->>> + vcc-pb-supply = <&reg_swout2>;
->>
->> Please add a comment that this comes from VCC-IO. See the Cubie A5E DT.
->>
->>> + vcc-pc-supply = <&reg_cldo5>;
->>> + vcc-pd-supply = <&reg_swout1>;
->>> + vcc-pe-supply = <&reg_bldo1>;
->>> + /* CLDO5 feeds VCC18-PF; the 3.3 V path uses VCC-IO. */
->>> + vcc-pf-supply = <&reg_cldo5>;
->>
->> As it stands this is VCC-IO, so swout2, please change that, plus the
->> VCC-IO comment.
->>
->>> + vcc-pg-supply = <&reg_bldo5>;
->>> + vcc-ph-supply = <&reg_swout2>;
->>
->> VCC-IO comment, please.
->>
->>> + vcc-pj-supply = <&reg_swout1>;
->>> + vcc-pk-supply = <&reg_bldo1>;
->>> +};
->>> +
->>> +&r_i2c0 {
->>> + status = "okay";
->>> + pinctrl-names = "default";
->>> + pinctrl-0 = <&r_i2c0_pl_pins>;
->>> +
->>> + axp318w: pmic@36 {
->>> + compatible = "x-powers,axp318w";
->>> + reg = <0x36>;
->>> + interrupt-parent = <&nmi_intc>;
->>> + interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
->>> + interrupt-controller;
->>> + #interrupt-cells = <1>;
->>> +
->>> + aldo156in-supply = <&reg_ps>;
->>> + aldo234in-supply = <&reg_aldo1>;
->>> + bldoin-supply = <&reg_ldo_input>;
->>> + cldoin-supply = <&reg_ldo_input>;
->>
->> Please add a comment about v1.10 differing.
->>
->>> + dldoin-supply = <&reg_ps>;
->>> + eldoin-supply = <&reg_dcdc9>;
->>> + ips-supply = <&reg_ps>;
->>> + vin19-supply = <&reg_ps>;
->>> + vin23-supply = <&reg_ps>;
->>> + vin45-supply = <&reg_ps>;
->>> + vin678-supply = <&reg_ps>;
->>> +
->>> + regulators {
->>> + reg_dcdc1: dcdc1 {
->>> + regulator-name = "vcc-3v3";
->>> + regulator-min-microvolt = <3300000>;
->>> + regulator-max-microvolt = <3300000>;
->>> + regulator-always-on;
->>> + };
->>> +
->>> + reg_dcdc2: dcdc2 {
->>> + regulator-name = "vdd-sys";
->>
->> Please add the voltage: 0.8V.
->>
->>> + regulator-always-on;
->>> + };
->>> +
->>> + reg_dcdc3: dcdc3 {
->>> + regulator-name = "vdd-cpub";
->>
->>  From the OPP tables I could find in the Radxa repo on github, the range
->> should be 0.8V - 1.05V. We can adjust this later when we add proper DVFS
->> support, if needed.
->>> + regulator-always-on;
->>> + };
->>> +
->>> + reg_dcdc4: dcdc4 {
->>> + regulator-name = "vdd-gpu";
->>> + regulator-always-on;
->>
->> Voltage range should be 0.8V - 0.96V, and drop the always-on.
->>
->>> + };
->>> +
->>> + reg_dcdc5: dcdc5 {
->>> + regulator-name = "vdd-cpul";
->>
->> Voltage range 0.8V - 1.05V.
->>
->>> + regulator-always-on;
->>> + };
->>> +
->>> + reg_dcdc6: dcdc6 {
->>> + regulator-name = "vcc-draml";
->>> + regulator-always-on;
->>> + };
->>> +
->>> + reg_dcdc7: dcdc7 {
->>> + regulator-name = "vcc-dram";
->>> + regulator-always-on;
->>> + };
->>> +
->>> + reg_dcdc8: dcdc8 {
->>> + regulator-name = "vcc-ufs-io";
->>
->> The voltage is 1.2V, and please drop the always-on.
->>
->>> + regulator-always-on;
->>> + };
->>> +
->>> + reg_dcdc9: dcdc9 {
->>> + regulator-name = "eldo-input";
->>
->> The schematic says 1.1V/1.25V. Can you check what it is on your board,
->> at runtime? If in doubt, go with 1.1V, this should be enough headroom
->> for the ELDO6 this supplies, with outputs 0.8V.
->>
->>> + regulator-always-on;
->>
->> Please remove.
->>
->>> + };
->>> +
->>> + reg_swout1: swout1 {
->>> + regulator-name = "vcc33-lcd";
->>
->> Please use "vcc-pd-pj" as the name.
->>
->>> + };
->>> +
->>> + reg_swout2: swout2 {
->>> + regulator-name = "vcc-io-card";
->>
->> I used "vcc-io-ph-usb", "card" does not seem to be used.
->>
->>> + regulator-always-on;
->>> + };
->>> +
->>> + reg_aldo1: aldo1 {
->>> + regulator-name = "vcc-pl";
->>
->> Also USB it seems, so I used "vcc-pl-usb".
->>
->>> + regulator-min-microvolt = <3300000>;
->>> + regulator-max-microvolt = <3300000>;
->>> + regulator-always-on;
->>> + };
->>> +
->>> + reg_bldo1: bldo1 {
->>> + regulator-name = "vcc-pe-pk-mcsi";
->>
->> Voltage is 1.8V.
->>
->>> + };
->>> +
->>> + reg_bldo2: bldo2 {
->>> + regulator-name = "vcc-lvds0";
->>
->> 1.8V as well.
->>
->>> + regulator-always-on;
->>> + };
->>> +
->>> + reg_bldo4: bldo4 {
->>> + regulator-name = "vcc18-codec";
->>> + regulator-min-microvolt = <1800000>;
->>> + regulator-max-microvolt = <1800000>;
->>> + };
->>> +
->>> + reg_bldo5: bldo5 {
->>> + regulator-name = "vcc-pg";
->>> + regulator-min-microvolt = <1800000>;
->>> + regulator-max-microvolt = <1800000>;
->>> + };
->>> +
->>> + reg_cldo1: cldo1 {
->>> + regulator-name = "vcc33-18-usb";
->>
->> That is a confusing name ;-) "vcc-pm-lpddr" should explain the always-on.
->>
->>> + regulator-min-microvolt = <1800000>;
->>> + regulator-max-microvolt = <1800000>;
->>> + regulator-always-on;
->>> + };
->>> +
->>> + reg_cldo2: cldo2 {
->>> + regulator-name = "vcc18-hdmi";
->>> + regulator-min-microvolt = <1800000>;
->>> + regulator-max-microvolt = <1800000>;
->>> + };
->>> +
->>> + reg_cldo3: cldo3 {
->>> + regulator-name = "vcc-pll-dram";
->>> + regulator-min-microvolt = <1800000>;
->>> + regulator-max-microvolt = <1800000>;
->>> + regulator-always-on;
->>> + };
->>> +
->>> + reg_cldo5: cldo5 {
->>> + regulator-name = "vcc18-pf-pc";
->>
->> "pf" is somewhat misleading. I had "vcc-pc-combo".
->>> + regulator-min-microvolt = <1800000>;
->>> + regulator-max-microvolt = <1800000>;
->>> + regulator-always-on;
->>> + };
->>> +
->>> + reg_dldo1: dldo1 {
->>> + regulator-name = "vcc-efuse";
->>
->> Voltage is 1.8V.
->>
->>> + regulator-always-on;
->>> + };
->>> +
->>> + reg_dldo6: dldo6 {
->>> + regulator-name = "vcc-ufs";
->>
->> Voltage is 2.5V, and no always-on should be needed.
->>
->>> + regulator-always-on;
->>> + };
->>> +
->>> + reg_eldo6: eldo6 {
->>> + regulator-name = "vdd-cpus";
->>
->> Voltage is 0.8V.
->>
->>> + regulator-always-on;
->>> + };
->>> +
->>> + reg_rtc_ldo: rtc-ldo {
->>> + regulator-name = "vcc-rtc";
->>> + regulator-min-microvolt = <1800000>;
->>> + regulator-max-microvolt = <1800000>;
->>> + regulator-always-on;
->>> + };
->>> + };
->>> + };
->>> +};
->>> +
->>> +&r_pio {
->>> + /* PL powers the PMIC bus itself; firmware must keep ALDO1 enabled. */
->>
->> Probably better to copy the comment from the other DTs, and have the
->> "would-be" line inside the comment (vcc-pl-supply = <&reg_aldo1>;)
->>
->> Cheers,
->> Andre
->>
->>> + vcc-pm-supply = <&reg_aldo1>;
->>> +};
->>> +
->>> +&rtc {
->>> + clocks = <&r_ccu CLK_BUS_R_RTC>, <&osc>, <&r_ccu CLK_R_AHB>,
->>> + <&osc32k>;
->>> + clock-names = "bus", "hosc", "ahb", "ext-osc32k";
->>> +};
->>> +
->>> +&uart0 {
->>> + pinctrl-names = "default";
->>> + pinctrl-0 = <&uart0_pb_pins>;
->>> + status = "okay";
->>> +};
+Validation: clean application of the mail patches, arm64 defconfig
+Image, arm/sunxi.yaml binding check and warning-free A7S
+W=2 CHECK_DTBS=y.
+
+On a Cubie A7S, a RAM boot with vendor firmware, this DTB and the runtime
+dependencies above reached a responsive console and probed the PMIC.
+Pre-boot U-Boot selector reads put every bounded rail within its bounds;
+none changed at registration (sysfs at about 1 and 91 seconds, and no
+regulator "Bringing" messages). At about 32 seconds unused-regulator
+cleanup disabled DCDC4, BLDO1, BLDO2 and CLDO2; DCDC9, SWOUT1 and
+CLDO5 stayed enabled through their users, and the console remained
+responsive. MMC0 enumerated the card in High Speed, with a 50 MHz clock
+tree reading, and completed a 4 MiB read; its data was not verified.
+Both LEDs registered: green:power was on with trigger none, blue:status
+was off at sampling with heartbeat selected. AT24 registered the 2 KiB
+EEPROM with its WP GPIO; topology sysfs showed one cluster. A warm
+reboot returned to vendor firmware. Not tested: early and repeatable MMC
+reads, MMC ios, SD writes, hotplug and 1.8 V switching; EEPROM contents,
+writes and write protection; visible LED operation; physical rail voltages
+and CPU/cache topology; PMU counting, EL2 interrupts, ITS/MSI, stimulated
+PMIC/NMI interrupts, suspend, power-off and other boards.
+
+---
+Enzo Adriano (3):
+  dt-bindings: arm: sunxi: document Radxa Cubie A7A and A7S
+  arm64: dts: allwinner: add A733 SoC description
+  arm64: dts: allwinner: add Radxa Cubie A7S board
+
+ Documentation/devicetree/bindings/arm/sunxi.yaml  |  10 +
+ arch/arm64/boot/dts/allwinner/Makefile            |   1 +
+ .../boot/dts/allwinner/sun60i-a733-cubie-a7s.dts  | 331 ++++++++++
+ arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi    | 663 ++++++++++++++++++++
+ 4 files changed, 1005 insertions(+)
+
+base-commit: 2ba07dfcd45bb6ec414e68213620490548fd5aec
+-- 
+2.53.0
 
