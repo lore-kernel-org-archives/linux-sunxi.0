@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795445519;
-	b=MW1S4LrCmhXbcXKVH1mCXXs7SwmPMWTeYcSOw2BpkY62fwaz9OsnWLu2cucEqBi6gDat
-	 xeH5F4tcVsEvkmBDMGv4MPE+X+A3AboLK36LI1DATt3HcTgLHqQDtavVU1PcR8WzymBB3
-	 SWLXQkudZLVUiSrq+3B8x/8J0kex0rWX8+qt8KaHwNJIPmkcGIoKEhUs75RvC38KvXz2b
-	 9RO6h+XrwfDB9z2CqZaEC1HEb4xmmLjMRcVNm4V/jip5gnGETdtR3q8LVFoXqugqbJmFx
-	 f6IKKfrcgi6G3i1vfCuZWaQDOk22PPSelY5duElIA4fGNtrDLTprTGV9mYiM1SmgMew==
+	t=1795445521;
+	b=or2GsNjiQEDv4wrqTnEy3CMeW8w9l6AVYplC6xKv27HXgEcQwX3Qo1Hv97lGwkN0JhQc
+	 U8W8v1nLd96OEKgNcsUXm0uk2RIA6RFNPBOXeNxtfNHmnjQLkQre2Y4foH1BPn+ox8T8f
+	 9ZF60nlG2wH02n1YFS4QyX4sZxE4voofzLV/2p9It4EECBSkSBawj+V16efgucNfz0ynL
+	 yT6oGwdczeF8M2ybaf1x8Oot7IdugWnPOsNCFLABG5BDGL7sanBtjetcoBHW0bXYk3rWg
+	 Bvz+7iUc19nQNmTWCFGyJ6C+joDESrrZdVJMjAjglMDNJqbDhpIjEKsRwZr5qSbsCpQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795445519;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795445521;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=OM5RiI5MPg9K/gV7t/uunDu6RnP3U/TYNj4L/SIdYKc=;
-	b=ux5ua7gpWPjXFcvrDM9NOHcOIG8sDB7RRXnWcd/GzDYwcNz5D3kivhUS5AQ188PJa7EK
-	 b1SqXPiobBgzb1mnDC6UP0oS5mq3yPIjkFWfSZVaBoY4YwJmJg7HTLACRVapNKOw8klss
-	 cVxy5cmjo2zixsWW611hmbyOOZrbSrdf3Y/y+I9FyPKS4KsDegZg23vXlE363N4Al+WWH
-	 F/mG464LAq6gIguvPb6+FZHV3WXdPtkR/+BfKBSjL98qpxpvW6Ot+apdPxpOygWkXinU/
-	 sN9x1md1A1Ct8C9meMN5COKdf+5CldkZOAd9aTWd3lsvtHBIODxKHqsVRLG74fC9smQ==
+	bh=9JDW8BjO8pV2V62+zC72GsPlWIjoxqy4Dkv4PW8Y9/w=;
+	b=vRI2cjCXLaYyzTSRRp8hPORKqEnI1iEgRQcFT609M8usgSFLpL4VPEERuHZ4YmiqFORE
+	 BAqySo1X+v7xlX/23ZaZSSqNIwH0b4i6n68rMaaSyMKkHbTK8mYj17bJejcrdnwKP+rY0
+	 5YyK3gVdestvCq3hCE9x4zwnaWSHq3PaK6VehB3WvSOYmVQM4TnSk30tbLcT4cLELk10v
+	 30hiCy/HAd2xudSWpjb1Rms2/MZxD66qdbNi+MdcFeJBuqyTkFGnA62tf4FoH8QCH0lzG
+	 leA9f5CdcoBtiEVxIJ5+SypktXKKJrTT+GGZyMDvIATYHbR+1trbxay7l8e7N/D/ZoQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YAZVdFjD;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qak6zpwX;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649DC606A31E;
-	Mon, 23 Nov 2026 14:51:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84BB3606A32E;
+	Mon, 23 Nov 2026 14:52:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YAZVdFjD
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B739C1F000CA;
-	Mon, 23 Nov 2026 14:51:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qak6zpwX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C253E1F000D1;
+	Mon, 23 Nov 2026 14:51:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795445518;
-	bh=OM5RiI5MPg9K/gV7t/uunDu6RnP3U/TYNj4L/SIdYKc=;
+	s=k20260515; t=1795445521;
+	bh=9JDW8BjO8pV2V62+zC72GsPlWIjoxqy4Dkv4PW8Y9/w=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=YAZVdFjDFEs0NzeNC9ZBFipCn50+OJD1FhfJDKJIG9+2Ye+6MuGT+5KOdWqzczomL
-	 1vDrFJmuDqfKIM4Gihh3D7LyHgVFo5g3cwIzrwfsc6XD7VxKYi8AthMvCm+OvHVMaE
-	 Y/tlkC8M5TpfIlLC3BoxgfdUQ20PB+5gFH5BmCxRCJhiyJ+7h2OacdXCsVX9jFzW4m
-	 yijw7+N4MT0qDz5XVvjQtxr6wxytTWJ6agFqBBf5yikMZsadymw1KW2pH8Z/W6GwyJ
-	 X7Ui+2IFY7ahw1ZYRShTIZRe1EHv7akMEnt2os4lmsF9e/BV/1SngxKXwJ6pK/UK1Z
-	 V42Wjr7MN15Dg==
-Subject: Re: [PATCH net-next 1/3] net: stmmac: dwmac-sun8i: allow controlling
- TX and RX flow control separately
+	b=Qak6zpwXQJLL3Kvq6BKWq53jr5EnQT+eXPjt5h9GM9HBjjdLh8vjMyXNOJ3ihQOmR
+	 oKSJyZ0ARs+nkqN3CUTDERe7H7uXl1iFvONORXopVNbfNZajlZvSqpoXFRT/vXUFtm
+	 4xxzBjadJV/vlVscAEFb1qk8HB+EX5nT3/2mSSQromZXe1m/UKTTqfa0ggEp0y0qnc
+	 rxp1gwWEDnxihTYnd7RveF0HylGtogWM7lsHvmO7J9tXjoA1U/fRvz/sr4hx0BjwHI
+	 D1CKEUYtXjsoErHwgqloaC9NIIwv+GBnPKFsLgqY3OYk4UzmAmuPzYN0enAOeu4jCh
+	 Q2dGMnPGPwkCw==
+Subject: Re: [PATCH net-next 2/3] net: stmmac: dwmac-sun8i: emit pause frames
+ when the RX FIFO fills
 From: netdev-bot+sashiko@kernel.org
 To: maxime.chevallier@bootlin.com
 Cc: andrew+netdev@lunn.ch, kuba@kernel.org, davem@davemloft.net,
@@ -52,11 +52,11 @@ Cc: andrew+netdev@lunn.ch, kuba@kernel.org, davem@davemloft.net,
  thomas.petazzoni@bootlin.com, alexis.lothore@bootlin.com,
  netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Date: Mon, 23 Nov 2026 14:51:57 +0000
-Message-ID: <179544551726.3135.4955672049699501900@kernel.org>
-In-Reply-To: <20261122144926.284857-2-maxime.chevallier@bootlin.com>
-References: <20261122144926.284857-2-maxime.chevallier@bootlin.com>
-X-sashiko-severity: Low
+Date: Mon, 23 Nov 2026 14:51:59 +0000
+Message-ID: <179544551937.3135.9976133356956488963@kernel.org>
+In-Reply-To: <20261122144926.284857-3-maxime.chevallier@bootlin.com>
+References: <20261122144926.284857-3-maxime.chevallier@bootlin.com>
+X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -69,66 +69,106 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-Low priority / nit picks for your consideration:
+Critical: 0 · High: 0 · Medium: 1 · Low: 0
 
-- [Low] In drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c, the commit
-  message for sun8i_dwmac_flow_ctrl() presents the change as a new…
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
+
+- [Medium] Unserialized read-modify-write of EMAC_RX_CTL1 in
+  sun8i_dwmac_flow_ctrl() (drivers/net/ethernet/stmicro/stmmac/dwmac-…
 
 --
 
-net: stmmac: dwmac-sun8i: allow controlling TX and RX flow control separately
+net: stmmac: dwmac-sun8i: emit pause frames when the RX FIFO fills
 
-This changes sun8i_dwmac_flow_ctrl() in dwmac-sun8i.c to test the FLOW_RX
-and FLOW_TX bits on their own. Before, it only enabled
-EMAC_RX_FLOW_CTL_EN and EMAC_TX_FLOW_CTL_EN when fc == FLOW_AUTO.
+This commit sets the RX FIFO flow control thresholds in EMAC_RX_CTL1 from
+sun8i_dwmac_flow_ctrl(). With these thresholds, the MAC sends pause
+frames when less than 2K is left in the RX FIFO and stops when more than
+4K is free. The new bits are set only when TX flow control is requested.
 
-> Currently, the sun8i flow control setup only looks at FLOW_AUTO (which
-> is FLOW_RX | FLOW_TX), and enables RX/TX based on that.
->
-> Allow enabling RX/TX flow control directions separately.
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> index c63f4d87de509..75c743dfe3483 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
 
-[Severity: Low]
-Would this be better described as a fix than as a new capability?
+[ ... ]
 
-Since commit 9cb54af214a7 ("net: stmmac: Fix IP-cores specific MAC
-capabilities"), sun8i_dwmac_setup() advertises asymmetric pause to
-phylink:
+> @@ -766,6 +772,17 @@ static void sun8i_dwmac_flow_ctrl(struct mac_device_info *hw,
+>  		v &= ~EMAC_RX_FLOW_CTL_EN;
+>  	writel(v, ioaddr + EMAC_RX_CTL0);
+>  
+> +	v = readl(ioaddr + EMAC_RX_CTL1);
+> +	v &= ~(EMAC_RX_FIFO_FLOW_CTL | EMAC_RX_FLOW_CTL_TH_ACT |
+> +	       EMAC_RX_FLOW_CTL_TH_DEACT);
+> +	if (fc & FLOW_TX)
+> +		v |= EMAC_RX_FIFO_FLOW_CTL |
+> +		     FIELD_PREP(EMAC_RX_FLOW_CTL_TH_ACT,
+> +				EMAC_RX_FLOW_CTL_TH_2K) |
+> +		     FIELD_PREP(EMAC_RX_FLOW_CTL_TH_DEACT,
+> +				EMAC_RX_FLOW_CTL_TH_4K);
+> +	writel(v, ioaddr + EMAC_RX_CTL1);
 
-    mac->link.caps = MAC_ASYM_PAUSE | MAC_SYM_PAUSE |
-                     MAC_10 | MAC_100 | MAC_1000;
+[Severity: Medium]
+Can this read-modify-write of EMAC_RX_CTL1 race with the RX DMA start and
+stop helpers?
 
-When pause resolves asymmetrically, stmmac_mac_link_up() passes a single
-direction:
+EMAC_RX_CTL1 also holds EMAC_RX_DMA_EN and EMAC_RX_DMA_START.
+sun8i_dwmac_dma_start_rx() and sun8i_dwmac_dma_stop_rx() update those bits
+without a lock:
 
-    if (rx_pause && tx_pause)
-        flow_ctrl = FLOW_AUTO;
-    else if (rx_pause && !tx_pause)
-        flow_ctrl = FLOW_RX;
-    else if (!rx_pause && tx_pause)
-        flow_ctrl = FLOW_TX;
+    v = readl(ioaddr + EMAC_RX_CTL1);
+    v &= ~EMAC_RX_DMA_EN;
+    writel(v, ioaddr + EMAC_RX_CTL1);
 
-With the old fc == FLOW_AUTO test in sun8i_dwmac_flow_ctrl(), FLOW_RX or
-FLOW_TX alone cleared both EMAC_RX_FLOW_CTL_EN and EMAC_TX_FLOW_CTL_EN.
-Phylink and ethtool -a still reported pause as active.
+The phylink resolve worker reaches sun8i_dwmac_flow_ctrl() through this
+path:
 
-There are two ways to reach the rx-only case:
+phylink_resolve()
+  phylink_link_up()
+    stmmac_mac_link_up()
+      stmmac_mac_flow_ctrl()
+        sun8i_dwmac_flow_ctrl()
 
-- The link partner advertises only Asym_Pause, so linkmode_resolve_pause()
-  gives rx_pause=1 and tx_pause=0.
-- The admin runs "ethtool -A ethX autoneg off rx on tx off".
+That path holds pl->phydev_mutex and pl->state_mutex, but not rtnl.
 
-In that case the MAC ignores the partner's PAUSE frames.
+On the XDP and XSK paths, the DMA start and stop callers hold only rtnl
+and never call phylink_stop(). One example:
 
-Should the commit message say that this fixes that behaviour, and add a
-tag like this one?
+stmmac_xdp_set_prog()
+  stmmac_xdp_release()
+    stmmac_stop_all_dma()
+    free_dma_desc_resources()
 
-Fixes: 9f93ac8d4085 ("net-next: stmmac: Add dwmac-sun8i")
+The same applies to stmmac_xdp_open()->stmmac_start_all_dma(), and to
+stmmac_disable_rx_queue() and stmmac_enable_rx_queue() during XSK pool
+setup.
 
-That would let the stable maintainers consider it for backporting.
+If a link-up event is handled while an XDP program is being attached or
+detached, two interleavings look possible.
+
+In the first, flow_ctrl reads RX_CTL1 while DMA_EN is set. Then
+stmmac_xdp_release() clears DMA_EN and frees the RX rings. Finally,
+flow_ctrl writes back the stale value, which sets DMA_EN again.
+
+If the sun8i RX DMA resumes on DMA_EN alone, could the hardware then
+access the freed descriptors?
+
+In the second, flow_ctrl reads DMA_EN as 0. Then stmmac_xdp_open() or
+stmmac_enable_rx_queue() sets DMA_EN | DMA_START, and flow_ctrl writes
+DMA_EN back as 0.
+
+Would RX then stay stopped until the interface is reconfigured?
+
+Before this patch, flow_ctrl did not touch EMAC_RX_CTL1, so these writers
+could not overlap. Could accesses to this register be serialized, or could
+the thresholds be programmed from a path that is already ordered against
+DMA start and stop?
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261122144926.284857-1-maxime.chevallier%40bootlin.com
