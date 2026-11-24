@@ -1,91 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795472788;
-	b=Y5pWj7dN7MVNDw/Il4KRBxSF0PEnqC4Ae0gVetZ5zPdwMVetrYu1TnYoJwoqnyOxeB+5
-	 nlHUQkc2rQP9UoAiAOY4kx87REfSpFCui8grUPHRfl66jiLnpLlqM+4il26VkL5PIve9F
-	 PlgMC+BP/RcusIJwih3h6F3DdId3kCC7LtwTA4yidjDfGACAZl9ByfpSvfdW6x8kG2n8x
-	 jXbvynSN7EdAkmE2XqnBSQX++YTN8/pus+MnaU2y0IhW0/hOHRnEneyGNVSWzzG9eKrTd
-	 YIFvfmlxZH0P2vWgZD4rrxmgZH23v5veY73ZeGCLAOp7IF7MAz8QU6CTwNd0uR2UvFg==
+	t=1795506055;
+	b=2ccJLKoeziMysvLS+Chzk51vOgNlaLVUcXMNm3iPBgHJBYX7CPv7Lhitu0KwN1jzeyd0
+	 RsHEfNIQGj2j+4P4BMHe9HmzA4w0WFOlq7hvbVGbOa4FIhS/HTrRrqsDPO3usGu7z688O
+	 4iUbLUPJ/fIh+3Q38V7lX6v+4bHVTjzs1PVyp/ns9eePs/X05t2T1yS3AejFXKv9FOB8Y
+	 wUtG1sRaSvgiFbqS5qKaYaWTaJcrScod7njLnjRV7b+syBzXBiT7Lh1Wyy9JZPA5sY4PE
+	 5+cIakqIZkPK70sPfbouCe4ZktNmWqimh3g2HqMtagnqYqOP4wLdQmK0a5ZtXI3jV1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795472788;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Autocrypt:Organization:Content-Type:
-	 User-Agent:MIME-Version;
-	bh=zL9FW6qmJVERb9uBjlstt4dUn5W525DT8FCMzg4JX1I=;
-	b=3rHPS5m2fA/MYoSapqi7+6gFvLOiDPRhvy4DPyzZbBYU93V+tdGLgmYxp10xhvIlBzRJ
-	 wJ7UL5eLzUAxJgNzbCz+wX3vN4QIPLzTgF75XxGk2g3gBJt0vXB04EQrMbsN1we7mmaaX
-	 5eDNV1kiWStKLpWX1bSdKp/TlFIzWiWtGUbSU4qMDceX4eUOhmzUH9cji0pE0cDMIfyTc
-	 JfWiK37gQK3EeIawVL+QW4+zIDOnPvdtVhAROk4lykcW884e7OfsVNAw1egylXeCQwacU
-	 E04cox8LBUrCBUY80ceBkPkK1rqyKmyDf5tVghsbqwLb0fLyaeZO+fN/UfnZcXdD0/g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795506055;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=yq9KtC/Vr6jX4nQrqLEI9ETBwLEZhdEPTg6w69t4M3Q=;
+	b=blOwP0U9tfdVrErmd3Q2PBMENGgMl9qMjoNYb4iwdjRklGKUM5zHAugLVQJS8hIUp+v5
+	 1dcXG8BWXVDaOddmyi71+krTyfg0+REHkMyuOshOobqKo/EQtpIlRUZ7e7QgHDu9Viyvw
+	 Ek8ctmSrZ6Fdy2JTNl3PTSEK2nO9g/YZSsTcXFX/Z2hFcWrDYrLpPQfrZjKmiE0a1saJL
+	 PKs2I8H+Tx3FOHkHmbsLu9xcoGZPWo+S1B20svGIDg5XNGmAIU1Ihyt+hxPD5mAEGYSI7
+	 D6eG+Xlkx6oEwVaa07a1N5MfVGzG+R5g4GbQlAa6n+lFu9dU/5A45wqWuqxtTRMFKgg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=collabora.com;
-	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=ntYxdNfw;
-	arc=none smtp.remote-ip=148.251.105.195
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=irIQYn8I;
+	arc=none smtp.remote-ip=209.85.216.47
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CC8606A322;
-	Mon, 23 Nov 2026 22:26:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E8CC8606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE20606A321
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 Nov 2026 07:40:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5BE20606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=ntYxdNfw
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1795472786;
-	bh=jafCJiO5kEDoT7LeCzSexDLui/CmGZgBcYWpbAal89Q=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=ntYxdNfwbYMnR4G45krGiMK/xALKPCbBjGzrhhLZGJQYQdwmRIX5bijv4Rj14dK7C
-	 YoIU6u0/EddOz3/sPdJScestRmDdf7TqRSAspK9AodsFySnvLSrxw0AQjQ67/sHDhZ
-	 +oC3+nJZlvNNbwEx7VZ3xLY7EUBEv6uvDz7H74nM2NP4NdK1o4bXh6Gz25gIHf0PXd
-	 onMmipYGNV55v3SSLWC2IgIQoPJElx9DzDTmGBpAqe8DRMojWjUdrrXwFUhCqRjPcO
-	 skrk3XF/3Mcke4Qw3KUSoOqJDSBxCqUPpw2lWsqCic43iwh2yRWnmIK7X6lavKcMmb
-	 VAhExsYZuVxOw==
-Received: from [100.64.0.214] (unknown [100.64.0.214])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 424EA17E05F2;
-	Mon, 23 Nov 2026 23:26:24 +0100 (CET)
-Message-ID: <adfcc7bb137c294d01395dff64bfb915d2f34a5e.camel@collabora.com>
-Subject: Re: [PATCH v2 2/3] media: verisilicon: reject MPEG-1 controls
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: aiyengar1990@gmail.com, Hans Verkuil <hverkuil@kernel.org>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Philipp Zabel	 <p.zabel@pengutronix.de>,
- Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski	 <paulk@sys-base.io>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,  Chen-Yu Tsai
- <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland	 <samuel@sholland.org>
-Cc: Jonas Karlman <jonas@kwiboo.se>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, Christian Stefan
- =?ISO-8859-1?Q?K=F6v=E9r-Draxl?=	 <ckoever@outlook.de>
-Date: Mon, 23 Nov 2026 17:26:23 -0500
-In-Reply-To: <20261121-b4-cedrus-mpeg1-v2-2-95e4decf03fa@gmail.com>
-References: <20261121-b4-cedrus-mpeg1-v2-0-95e4decf03fa@gmail.com>
-	 <20261121-b4-cedrus-mpeg1-v2-2-95e4decf03fa@gmail.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-fZd9Y1jimBb0WSf6xeuw"
-User-Agent: Evolution 3.62.1 (3.62.1-1.fc45) 
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=irIQYn8I
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3b08cf16decso2441752a91.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 23 Nov 2026 23:40:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1795506054; x=1796110854; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=yq9KtC/Vr6jX4nQrqLEI9ETBwLEZhdEPTg6w69t4M3Q=;
+        b=irIQYn8IHaHV3ZhOkzpXNyvE7Yf4yoUelb9AvSpWnCuCVa7B0o8wX6CTkkOvA9yguJ
+         ywmHrCCrZe+QORLvOS1EU1gs5t3Z7aawcm4L0S7w/1uYvWJvipv7nA1p2dCrcMTs9Sou
+         58y9dwtICmZ1WR2CjsV/aIXUVFIDR72WufNL4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795506054; x=1796110854;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yq9KtC/Vr6jX4nQrqLEI9ETBwLEZhdEPTg6w69t4M3Q=;
+        b=ShRyfCEgQLjQkVCVBgiauB9T+Nf84mYut8BlFjyOZ5v/hM7oczGr4edpu55riFnNT4
+         6iZO0wk0Dy2SCrFVjjww0Isp7JQx4iuOWN0xArLZeCpwd/dk7UmEuEbAU4w30yACnJ//
+         deYjsp2TaAJrgZ8+XkF+SraKwidEV4N5ovMDIpc/PO/vuzU+CBU/yvl16CbZAjmI1eJQ
+         vSf6Q8ZZFc/etzmkesezyBe/+sOqpJ92QzJEtZbRRjZixy9mMegkqpAxmLSGLFyDpCh5
+         cV9DjJYXPfW8IE7bRJMu9n4/phOJlCo7toowFz7xh2l4rFWzgziex6Rpz/YHYh1vJoW3
+         PRug==
+X-Forwarded-Encrypted: i=1; AL+hErEc23tiMXufGGZY3FM8603s2BBczAH/wIuUVGVgtZ5o3Xuq1GQbmyiHNJDpMhi2jxhk+m3qxBxTsvNO5g==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9WxVCPhFr147QzR8MdpLgQX6xWBECdkaj4ZLu7agJHOPsGbYID
+	wod9s5Ks74Pbnq3kpOMF9AZ4tHTYFJVV3E+TzWY2+UqLgo8veKKDMYFpSVjnve2gPA==
+X-Gm-Gg: AZFdTZcalgzWedzAUuk9LxFa4myxqXW/yR/6iIfkpeiajD2+hFmlCOKsQ/SIR9wb4/F
+	HTZr8xrYcYSSQlImeHWuayIzQkkpcL6NqKwiop3N6IRpkCCZ4N+9XPhui4KZUKgWsieyqRs+seh
+	y41gMBXMk58GdZkoksK0VxUOD98PpCg3zwgAxvtm2VrzfZo4RMi5FsaFIoK60n9PJJDxR6qBp4+
+	gL2Rn9b2jChMKWp27GYdA3WcnCArkbm1na7NwCGp0rdBkGagAyeb2WZ6MNYeUQDU2s5VN6X3wZN
+	3u36yVi4WuQHRcUd8PHqa0lqDWh/czUafiXg6aNluxZn4yU0K7LpATbxJ8hDSKO+1OGMK6xWBSA
+	LJ/8iQ8AA2Fyo5isk9l2pG2UbHSUjAHNRaagk6QoWps1eX7hIXepQPQKhDmGn7dpHf0cHHFUjZd
+	X84iB4wjLRX0etwsIy5tzJEaAm6OTAL+N5osm2Bq6uHCFGuSWsIwBWAavkl+rioSuJRfdrhS5go
+	CkJ3ztILymhohShX4qXqT/vjD2M6adHvAKk4hM5H94l8X7V97LlRJd3rzILm9rKJPb3tkt+o+pW
+	xwS58mPlaeRB9/tIDhTXhLOSdufaberW5qkwP1toa/fl/utpzToHfwg67KEz
+X-Received: by 2002:a17:90b:5289:b0:3b3:8094:321d with SMTP id 98e67ed59e1d1-3b41c9080bamr13617140a91.32.1795506053661;
+        Mon, 23 Nov 2026 23:40:53 -0800 (PST)
+Received: from localhost ([2a00:79e0:203d:7:8f32:8910:4727:ea03])
+        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-cde84cd5ed8sm3771777a12.10.2026.11.23.23.40.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Nov 2026 23:40:53 -0800 (PST)
+From: Chen-Yu Tsai <wenst@chromium.org>
+To: Liu Ying <victor.liu@nxp.com>,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Chen-Yu Tsai <wenst@chromium.org>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	linux-sunxi@lists.linux.dev,
+	imx@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH RFT v3 0/5] drm: Add and use drm_fb_dma_get_gem_clipped_addr() helper
+Date: Tue, 24 Nov 2026 15:39:28 +0800
+Message-ID: <20261124074041.115251-1-wenst@chromium.org>
+X-Mailer: git-send-email 2.56.1.809.ga0b61035b5-goog
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -95,82 +105,83 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---=-fZd9Y1jimBb0WSf6xeuw
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Le samedi 21 novembre 2026 =C3=A0 10:10 +0000, Arun Iyengar via B4 Relay a =
-=C3=A9crit=C2=A0:
-> From: Arun Iyengar <aiyengar1990@gmail.com>
->=20
-> The driver decodes everything in MPEG-2 mode. Reject
-> V4L2_MPEG2_SEQ_FLAG_MPEG1, the full pel flags and D-pictures, which it
-> would otherwise decode as MPEG-2. Compile tested only.
+This is v3 of my drm_fb_dma_get_gem_clipped_addr() series.
 
-That change flags the the API is not backward compatible. Please fix.
+Changes since v2:
+- Change drm_framebuffer_get_block_offset() offset variable and return
+  type to u64, and use mul_u32_u32() to avoid 32-bit overflow (Thomas)
 
-Nicolas
+Changes since v1:
+- Add and use new drm_framebuffer_get_block_offset() helper (Thomas)
 
->=20
-> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
-> ---
->  drivers/media/platform/verisilicon/hantro_drv.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->=20
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/me=
-dia/platform/verisilicon/hantro_drv.c
-> index 26e5d5547466..c910a69e8e3c 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -264,6 +264,16 @@ static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->  =09=09if (sps->bit_depth_luma_minus8 !=3D 0 && sps->bit_depth_luma_minus=
-8 !=3D 2)
->  =09=09=09/* Only 8-bit and 10-bit are supported */
->  =09=09=09return -EINVAL;
-> +=09} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_MPEG2_SEQUENCE) {
-> +=09=09if (ctrl->p_new.p_mpeg2_sequence->flags & V4L2_MPEG2_SEQ_FLAG_MPEG=
-1)
-> +=09=09=09return -EINVAL;
-> +=09} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_MPEG2_PICTURE) {
-> +=09=09const struct v4l2_ctrl_mpeg2_picture *pic =3D ctrl->p_new.p_mpeg2_=
-picture;
-> +
-> +=09=09if (pic->picture_coding_type =3D=3D V4L2_MPEG2_PIC_CODING_TYPE_D |=
-|
-> +=09=09    pic->flags & (V4L2_MPEG2_PIC_FLAG_FULL_PEL_FORWARD |
-> +=09=09=09=09  V4L2_MPEG2_PIC_FLAG_FULL_PEL_BACKWARD))
-> +=09=09=09return -EINVAL;
->  =09} else if (ctrl->id =3D=3D V4L2_CID_STATELESS_VP9_FRAME) {
->  =09=09const struct v4l2_ctrl_vp9_frame *dec_params =3D ctrl->p_new.p_vp9=
-_frame;
-> =20
-> @@ -435,11 +445,13 @@ static const struct hantro_ctrl controls[] =3D {
->  =09=09.codec =3D HANTRO_MPEG2_DECODER,
->  =09=09.cfg =3D {
->  =09=09=09.id =3D V4L2_CID_STATELESS_MPEG2_SEQUENCE,
-> +=09=09=09.ops =3D &hantro_ctrl_ops,
->  =09=09},
->  =09}, {
->  =09=09.codec =3D HANTRO_MPEG2_DECODER,
->  =09=09.cfg =3D {
->  =09=09=09.id =3D V4L2_CID_STATELESS_MPEG2_PICTURE,
-> +=09=09=09.ops =3D &hantro_ctrl_ops,
->  =09=09},
->  =09}, {
->  =09=09.codec =3D HANTRO_MPEG2_DECODER,
 
---=-fZd9Y1jimBb0WSf6xeuw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+This series adds a helper to retrieve the buffer starting address of a
+"clipped" framebuffer. This contrasts with drm_fb_dma_get_gem_addr(),
+which gives the address of the full buffer.
 
------BEGIN PGP SIGNATURE-----
+Some drivers program their hardware with clipped dimensions, so they
+should be using the clipped buffer address as well, unless the hardware
+can advance the scanout directly. (Side note: many drivers still use
+the non-clipped dimensions.)
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCawS9jwAKCRDZQZRRKWBy
-9FgnAQD8bTw31XYUe1vtqtfkbGoUUqyeBO03yvS9WjlSeEZEqAEAwb/xlN87u1WT
-eKzhSo5iACnSctSO6DI1zERR4hborwY=
-=+31i
------END PGP SIGNATURE-----
+While at it, also pull out the offset calculation of drm_fb_dma_get_gem_addr()
+into a separate helper in drm_framebuffer.[ch], thereby separating
+responsibilities.
 
---=-fZd9Y1jimBb0WSf6xeuw--
+The sun4i driver was recently incorrectly converted to use the unclipped
+drm_fb_dma_get_gem_addr() helper. This broke offsets into subsampled
+pixel groups, but also exposed the mismatch between the dimensions used
+vs the buffer address. Two other drivers were also touched.
+
+
+Patch 1 adds a new helper to return the byte offset into a framebuffer
+for the start of the pixel block of the given pixel coordinates.
+
+Patch 2 adds the new helper to return the buffer address based on
+clipped coordinates.
+
+Patch 3 switches the sun4i driver to the new helper, and fixes the
+luma plane buffer address offset for subsampled YUV formats.
+
+Patch 4 converts the imx/dc driver to use the new helper. This fixes a
+mismatch between the programmed coordinates and the buffer address.
+
+Patch 5 replaces the open coded buffer address calculation in the
+imx/dcss driver with the new helper. Existing behavior, which might be
+wrong, is preserved.
+
+
+Please help test. The series is only compile tested on my end. The sun4i
+changes should revert its behavior to before the drm_fb_dma_get_gem_addr()
+helper was adopted. The imx/dcss changes should not have any behavioral
+difference.
+
+
+Thanks
+ChenYu
+
+Chen-Yu Tsai (5):
+  drm: Split framebuffer pixel offset calculation from
+    drm_fb_dma_get_gem_addr()
+  drm/fb-dma-helper: Add drm_fb_dma_get_gem_clipped_addr()
+  drm/sun4i: layers: Fix VI buffer address for clipped offsets
+  drm/imx/dc: plane: Switch to drm_fb_dma_get_gem_clipped_addr()
+  drm/imx/dcss: plane: Switch to drm_fb_dma_get_gem_clipped_addr()
+
+ drivers/gpu/drm/drm_fb_dma_helper.c    | 61 ++++++++++++++------------
+ drivers/gpu/drm/drm_framebuffer.c      | 46 +++++++++++++++++++
+ drivers/gpu/drm/imx/dc/dc-plane.c      |  4 +-
+ drivers/gpu/drm/imx/dcss/dcss-plane.c  | 34 ++++++--------
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c |  2 +-
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 16 ++++++-
+ include/drm/drm_fb_dma_helper.h        |  4 ++
+ include/drm/drm_framebuffer.h          |  3 ++
+ 8 files changed, 119 insertions(+), 51 deletions(-)
+
+-- 
+2.56.1.809.ga0b61035b5-goog
+
