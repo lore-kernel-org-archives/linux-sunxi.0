@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795541867;
-	b=Xkn5tdzDIq8gO2WwCetSHnDON+rV3OlszztlEKNvkH1rtVth214r6miCW/8C7/Aibcvc
-	 dA/ON8qqIDNzEqn7R3WULTMW3YlnlTw6XfvupV2TT9YsMUvhAvOgZwTAE/DnA1PY9Owk3
-	 JASQiiMqsOWvJ/4OUSOHdZLzbuw0RZGOlpPjX76PeBRlEYHJUgZvDNIZnGbsGX6byCQdG
-	 DpMoXNb72SrItrk0zDdQ5hBTNw7hinXBHVjRPsZsHLVSnMbFQNUjC9lH8oXlYhmDaoCqa
-	 1+exXMQcE/+ogILu8MFAhmBxTnuApGmdpP7hxsndW9+bxh6AjyBWiI/JCYuiy5HQzqw==
+	t=1795545474;
+	b=EVr4Ew/VC5HpxYlziDO8CbjvCAvlbCRj5PS0YNySZfjr2mPFkv5CEv2jYEUoS/zfbZUF
+	 egjzgM0GFAtyRdCWf7XSTbRx0/11Iu3MB0c+hAGm6AHxv25GoRrS3snWttaMKHPQyeqxF
+	 ofBQ2oJSK6PuOQgYYAMWt79PO0ZNanDKPBlnLtyM9ZNflSvGP4w7CLTsGsVTWu2xjgjfH
+	 CfoT92KW4xJSPjCDWwShD8RGXRMLT0b7cnLl0offPu+U01MN/qYgLk/BX8s/yS3RDt6D1
+	 fdsnUuUNEUXbXsJTTmEUGC+HIVmCWiq+4nEXajn5qy3xUJhsXHPRO+X0kr4cHnTfRXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795541867;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795545474;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=0UUY+MjptFzuugSfQZ14pmIXRSmdlnMNFxjO8+xiH+c=;
-	b=mje3D6HDrzKtZjsKgbWw0K4UfwZCoTLjLyyYxI9eluUiGwKRIpr4G5ZbHmetQtxpDlji
-	 C3gC7pLkCqXXtlAEum1av1SHNktlYxie1PA5DH5tPkMxwH2OJJFedsivRy/qiMEe7HpLg
-	 Di6Ty82B5X7oHmhCgeTOCm1U8EnZrB+ULVwyGguhgdlpVKE/k9CN3DotmPUUbGku9UDdl
-	 ycgafLNXsDnvBKh95MjyJN3BIDhZT18EhAgzIB2U27Hd2oZ+t6EPB2nyPQGYzTLeoHhSW
-	 nEaxJbY7QqVIxRGz8ZaLWzGPAmJUFZ+knP5vEMeTRQMlBxN8hR/lqWJzbboMihzje2Q==
+	bh=kdSX7Cc7U4dcagG0XSqjhxyzglI210L8O7SrXEG8/h8=;
+	b=OSGcIa4/aS8trAe2gM5nMOc/PXE6Bncjy/N+pYNdrvN9zWc1U2dxSmElWPiN5doG7G91
+	 R8foLOAdMeo+ZdvgRHkBVvBYV0PNJxoDch4PITNKaB5pckrJzFgDbALIQH1GtauP2tzjZ
+	 BzEF2FwWTZ/FpCC+zaRiI1zQ355WY1DUvnDCuEhsxWc8ZbZdVAvq/v/aKU0/dkD5x8Z8i
+	 zEHKXT3Cn/4MzPwIKEEa1vIFqqCP4q15tCQnyhDxt6Js1PzjpUWt225aZUTwss4llkSJT
+	 1zp7gUEkjYWEv9f2csaI4WBbap0qmAnd1NwHG2MyhuYUOBnAj5qrQLoxLmEM1ZPmVkg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KHWfUPp+;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="MTL/x/9B";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDDD606A31E;
-	Tue, 24 Nov 2026 17:37:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4675606A326;
+	Tue, 24 Nov 2026 18:37:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KHWfUPp+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCF331F000CA;
-	Tue, 24 Nov 2026 17:37:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MTL/x/9B
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 827AF1F000C6;
+	Tue, 24 Nov 2026 18:37:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795541866;
-	bh=0UUY+MjptFzuugSfQZ14pmIXRSmdlnMNFxjO8+xiH+c=;
+	s=k20260515; t=1795545473;
+	bh=kdSX7Cc7U4dcagG0XSqjhxyzglI210L8O7SrXEG8/h8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=KHWfUPp+BdRw6i/fsFaxAvJVDumrgcyVv5rJwcETee3rJPA3B0itlD10TPYUKn/ON
-	 klPwAifqaos6dimDaDdPlfbmK0dLSvqAmx5Pm/95K4uhg4dcNCc3h6YQt3tqQ5unPy
-	 E61nfMXWmXYnqbg6CDAvdA5za2yAgMLlppxvyvV2ANW7BoDsGJd1MY/LY7BBqox9C4
-	 oLX8fEkjERJTyaLJbRXDM8Zqiv4pSPlZIEQg+c5nHmsCprGZpTXCRa102e06MM5c9C
-	 Yk7SRdf+o6rY2BOm3ayBsHsDRkMRqtZvmR/LE8+HQ+vntuZ6VNPOyzJQFGlkaXjYA6
-	 I7hQ+WMyQVN0A==
+	b=MTL/x/9BSEZcZP0y7PFGJaNndr0D1uIBMiBZY8WngqccxSHwH2fsYzZOekr5NPh2n
+	 50XNCPeumqN8+u0ykQeOwtgzq4B+AZAUe7oYTKTKb897nRwApEZOKwhnnyIzcdvROD
+	 u3PaQ+jmE+gcpmyUOmFN35cXgehXpJUQSg8LDimIWph5Pd63gVzdR8Jlp1Z295iU84
+	 CEKa4v+9j3aRs1sJ6ERUL8/KnncN6fREDHXyLbt8RcvpBbv4JUaVLurtRMYx5hLD3R
+	 ns2wm81IL/68DtQ9DFDUYtX685/e6n9A+YRYQSWTuOWCO4/ztmH1y2yqWheGqG/tej
+	 tKIf+N0hITz0w==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org
 Cc: Binbin Zhou <zhoubinbin@loongson.cn>,
@@ -49,12 +49,13 @@ Cc: Binbin Zhou <zhoubinbin@loongson.cn>,
 	Huacai Chen <chenhuacai@loongson.cn>,
 	Ulf Hansson <ulf.hansson@linaro.org>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 6.6.y 1/2] mmc: sunxi: Use devm_mmc_alloc_host() helper
-Date: Tue, 24 Nov 2026 12:37:43 -0500
-Message-ID: <20261124173733.2004923-1-sashal@kernel.org>
+Subject: [PATCH 5.10.y 2/3] mmc: sunxi: Use devm_mmc_alloc_host() helper
+Date: Tue, 24 Nov 2026 13:37:48 -0500
+Message-ID: <20261124183704.2394957-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <2026112459-diameter-aroma-1a35@gregkh>
-References: <2026112459-diameter-aroma-1a35@gregkh>
+In-Reply-To: <20261124183704.2394957-1-sashal@kernel.org>
+References: <2026112400-clumsy-mobile-79f3@gregkh>
+ <20261124183704.2394957-1-sashal@kernel.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -87,10 +88,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-index e0ab5fd635e6c..cc7c8594a6cac 100644
+index 67e05d7000991..9f8d20be1926b 100644
 --- a/drivers/mmc/host/sunxi-mmc.c
 +++ b/drivers/mmc/host/sunxi-mmc.c
-@@ -1369,11 +1369,10 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
+@@ -1336,11 +1336,10 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
  	struct mmc_host *mmc;
  	int ret;
  
@@ -106,7 +107,7 @@ index e0ab5fd635e6c..cc7c8594a6cac 100644
  	platform_set_drvdata(pdev, mmc);
  
  	host = mmc_priv(mmc);
-@@ -1383,15 +1382,13 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
+@@ -1350,15 +1349,13 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
  
  	ret = sunxi_mmc_resource_request(host, pdev);
  	if (ret)
@@ -126,7 +127,7 @@ index e0ab5fd635e6c..cc7c8594a6cac 100644
  
  	if (host->cfg->ccu_has_timings_switch) {
  		/*
-@@ -1481,8 +1478,6 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
+@@ -1448,8 +1445,6 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
  
  error_free_dma:
  	dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
@@ -135,7 +136,7 @@ index e0ab5fd635e6c..cc7c8594a6cac 100644
  	return ret;
  }
  
-@@ -1498,7 +1493,6 @@ static void sunxi_mmc_remove(struct platform_device *pdev)
+@@ -1465,7 +1460,6 @@ static void sunxi_mmc_remove(struct platform_device *pdev)
  		sunxi_mmc_disable(host);
  	}
  	dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
