@@ -1,49 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.85.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795531369;
-	b=FjZ/41Mmv59f2oQB3m2FboYby+O/kydMZ8RWKOp2fWW0ta4QA2TwNeXfJ7x5YF+0FQBT
-	 aLozsA+9wKaEd8crgZBfkWOkK9cIbjoyA6Ctq0HABHcfTw+wwrFN99iWTRcyR3xV9rXhB
-	 olatVN29CwIsteS+BJsxxdoSzw2ULwsNGkG5xO3FHx70SDCMc3GiZxRPv7Cj6t7ZCI93A
-	 v1jyHqupeQ6ov/D6NoGz9c2izxECpXR2CuPv+JUyvGIsVHg6moKD2g+T9pdWSGhKGs7Uj
-	 xiI35Hl47831Y8F00/PNiY2LAa4Ty17k9LWOkO0npw/ywFU+vABv+PQo3EGUgB78wPg==
+	t=1795531908;
+	b=WwkJTKSVG+Ds7lWY1vqJwBDDm5SvRWVIHSOHsvU9LUeuRsBU+F7K4bLj5TMRlUo681ZP
+	 r4pDvKU8XpbFei0W7nHIj1wCisizK48//j7uSR5yUlR8Ssgee1amkuoPDoX/ri6kpEDL1
+	 SADhgkTJWkVgX58M3TIh3b4xzAf7kbWigPpNm9KLZZRVHSQUlp6tQ/6UupG39BKVMfPPK
+	 fOqw2VQL/lP2ZK/lPxCiY+k+7mTwWtrYJVgXUXbIIe1QZBUtb7FH6Fd8c2dLAPgyyXDAa
+	 IJow/F4ThQBcU4sJwA3Ma9ucC41fmozlec08KjqavvNSCFsa4AT63kWWkZbe3qsD4sg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795531369;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=whpdiooOdtf0fQpB9RYBhngBI1Ig6SjjoowNuFUHFpk=;
-	b=gytppfaGsu2ruFihhNgWoE2F9TlwcVchW95qxClFFsKV2RPxqGZuEF/AX5Ei02z3TJXT
-	 qA20gf81cG51BONo5Q8RYA3+LmVKWdXXCkLaGI7IoQLfg+iHNBAZL5kaedBuJjBDJtnE3
-	 hl++9TEN1t18hTfL7PVQRAYy0k2LCGYm0IPvbvg1FKyOjpF2hkqfdpFIiUtcfCXdnOpkx
-	 pf2kvx5YomSMNIOfjcsUFX/Js5L1vB5ZGPkZA1q8wz3g+MUOMLNq7PDYbDrubRnd+bB0S
-	 UlWhRQXWvHRfKku4CpBOAvkF/LwOLj2azVP8o+8zjGfPeqG5RSC6DVJCWQqWnFSvB7g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795531908;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Last-TLS-Session-Version;
+	bh=ULSJeJaQRalsTqoU5W1rSuYhUrpQTwSQEQPfYYy36zk=;
+	b=3ZL0uskiYw+9IYIApIh32joQ7rhifwRXgpP0XmqIg9HYJtY49yyOZfE3dzqopcaPJ68J
+	 dmiN8uwNtTokakqPPdhAJ7Wdrp8ufxMyUfzjIJEhT/4tRHTMlGu1uTLrsnaRix4Qkqd2z
+	 mBEOL3O0XHcovfV0ggxhH9E3NqGq68JwDZ9PUCevEO5ZKtIHhxJC/PVNdgw7KduB8L36I
+	 YtG74zMXLU9rQKh/sSI0IVDqz/LSlfjw2MS4+SqhW4Xsmjc1YEIR9u8LidY75+5zy4bKG
+	 t0sm+vSyV65Jwa7aYsQJcjX77YGE6x7xVVZPP7LBRjED0h210DtTBqwY9qQE4cFoBZg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=UDdLoFoN;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4B87606A31E
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Nov 2026 14:42:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A4B87606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Jzg3QENG;
+	arc=none smtp.remote-ip=185.246.85.4
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568C5606A326
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 Nov 2026 14:51:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 568C5606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=UDdLoFoN
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BB703339;
-	Tue, 24 Nov 2026 06:42:43 -0800 (PST)
-Received: from [192.168.178.24] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B19953F86C;
-	Tue, 24 Nov 2026 06:42:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795531366; bh=HSwH1G2ztI4XVuIpxGm5jCaIGdOBrcPPn6I/LiR0ErE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=UDdLoFoNOCRh4wx8Dt+N0YAX48rS5yofCSHP4YgowGgAqupRoB1XUFyiOgWSAXjsv
-	 R9Ll5zo15TJAAAsFh8bp2IPsU6g5wRm60IFIFHPh/w9efiojqahBFW30REqhMEKzVw
-	 xry7Tl9F7uRVevJe2tDZJ9cBuK4Joj+DAPL5HUjM=
-Message-ID: <ebf2d6db-8260-4ac3-8316-ae9a0e5ee1b7@arm.com>
-Date: Tue, 24 Nov 2026 15:42:42 +0100
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=Jzg3QENG
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 758F44E41762;
+	Tue, 24 Nov 2026 14:51:46 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 45162601E1;
+	Tue, 24 Nov 2026 14:51:46 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5FCCE11E698C3;
+	Tue, 24 Nov 2026 15:51:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1795531905; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=ULSJeJaQRalsTqoU5W1rSuYhUrpQTwSQEQPfYYy36zk=;
+	b=Jzg3QENGVlhk4j/SENqmtOZebmGfYqsEyLpCNZMOV9RWteUNWbt9h7o5HLWm2gZ6UlACu9
+	Iz3GhKtkvPZU0gNvccDbmmZeYo63x1kb1z7kPU0wFk0t/hCn3II/U/3dia72VeQgXsZscw
+	Zi1TaVrwWsdn2+Rg7yIR8wT1DUNJc7qY5CuIjkCUjZ4T0n92DsYJNRL/QEMQNrjAUOI/m6
+	DqrOe8D5SwORGMVaXLAwj0+X8sWjyaBW4VRjsZZse5qJWyDPctLkPRbLS8s4DxFOEA0qHK
+	Ik/pYTwLm2pGLZ7Y7ZP+sxFxgNao51qbMd96bpcDXMpgGumI2jHaiqOpm6lW3Q==
+Message-ID: <73996d83-47bc-495d-ac5f-539c32b5147f@bootlin.com>
+Date: Tue, 24 Nov 2026 15:51:35 +0100
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -54,69 +63,58 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] dt-bindings: arm: sunxi: document Radxa Cubie A7S
-To: Enzo Adriano <enzo.adriano.code@gmail.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+Subject: Re: [PATCH net v2 2/2] net: stmmac: dwmac-sun8i: Limit the MTU to
+ 2018
+To: Nicolai Buchwitz <nb@tipi-net.de>, wens@kernel.org
+Cc: aiyengar1990@gmail.com, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ LABBE Corentin <clabbe.montjoie@gmail.com>, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Junhui Liu <junhui.liu@pigmoral.tech>,
- Jerome Brunet <jbrunet@baylibre.com>, Pablo Mazzini <pmazzini@gmail.com>,
- Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
- Alexander Sverdlin <alex@sverdlin.org>, Jun Yan <jerrysteve1101@gmail.com>,
- Lukas Schmid <lukas.schmid@netcube.li>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-References: <cover.1795034153.git.enzo.adriano.code@gmail.com>
- <428efa99fdd0182e8bc9a2ed88b78d2cbd36fa45.1795034153.git.enzo.adriano.code@gmail.com>
- <20261122004008.0ee8e16d@ryzen.lan> <20261121-a733-dt-v4-1-reply@gmail.com>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20261121-a733-dt-v4-1-reply@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Russell King <rmk+kernel@armlinux.org.uk>, stable@vger.kernel.org
+References: <20261122-sun8i-emac-mtu-limit-v2-0-c4081e5b83cf@gmail.com>
+ <20261122-sun8i-emac-mtu-limit-v2-2-c4081e5b83cf@gmail.com>
+ <CAGb2v65_vY86WqvKr1m=g0N1Qr2UhLC1v3OHKPG3x+oURUKp7Q@mail.gmail.com>
+ <5e09c85c2c33885fecbdf81cd0b9209b@tipi-net.de>
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Content-Language: en-US
+In-Reply-To: <5e09c85c2c33885fecbdf81cd0b9209b@tipi-net.de>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
 Hi,
 
-On 11/23/26 18:42, Enzo Adriano wrote:
->> Can you please add the A7A and name as well? I will send the .dts
->> patch shortly, but having the name ready would reduce the churn and
->> avoid conflicts.
+On 11/22/26 17:31, Nicolai Buchwitz wrote:
+> On 22.11.2026 12:39, Chen-Yu Tsai wrote:
+>> [...]
 > 
-> I added "radxa,cubie-a7a", "allwinner,sun60i-a733". Both strings
-
-Many thanks! I just see that I messed up my sentence above, as I wanted 
-to have the Cubie A7Z added as well, to reduce the churn and stupid 
-conflicts between series.
-If you respin, can you please add this one as well?
-
-> are in Radxa's Linux 5.15 Cubie A7A board DTS.
-
-Please note that copying from a BSP is typically not a good idea (though 
-fine in this case). The devicetree as (somewhat) published by Allwinner 
-is quite non-standard, to put it nicely. There are large conceptual 
-differences even, so it's not just about naming or such. You can use 
-their DT to figure out how peripherals are connected, or to learn about 
-some IP in general, but it's not a good template to copy from for 
-mainlining.
-I would always look at other DTs in the mainline repo for reference.
-
-> Please let me know if
-> your DTS uses a different compatible.
-
-Why would it do this? It's the very same SoC ;-)
-But yes, "radxa,cubie-a7a", "allwinner,sun60i-a733" is the right string 
-list. And just replace a7a with a7z for the other board, if you add this.
-
-Thanks,
-Andre.
-
-P.S. I would like to post my A7A DT patch, with the hope that you could 
-include that in your next post, shall you update your series again? So 
-could you wait with a potential v6 post until I got that one tested and 
-posted? Then you could ideally also include Vinicius' A7Z patch, so that 
-we have all in one series, and just need to deal with the dependencies once.
-
-> https://github.com/radxa/allwinner-device/blob/6d911d1582dcccdb5a4c38be8d3c1ee851019795/configs/cubie_a7a/linux-5.15/board.dts#L5-L9
+>> FWIW I think this applies to all DWMAC cores.
 > 
-> Enzo
+>> [...]
+> 
+>> So for normal descriptors the buffer size is bound to (2KB - bus width).
+>> Not tested, but I think there is more evidence supporting a cross-platform
+>> limit.
+> 
+> The sun8i EMAC isn't a Synopsys core, so this needs a test on one.
+> Maxime, could you try MTU 2019-2021 on your boards?
 
+Sorry for the delay, I'm back with numbers :)
+
+So on net-next, w/o this patch, I see:
+
+ - dwmac-sunxi (Allwinner A20), the first MTU that fails is 2029 (so frame size is 2046 incl. FCS)
+ - dwmac 3.70a (meson-g12a), first failing MTU is 2031
+ - dwmac-sun8i (H2+), first failing MTU is 2025
+
+The first two are ring mode, the last is chain mode.
+
+This was all untagged traffic.
+
+Maxime
