@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795518978;
-	b=xMJ+6M7H+DxduM0qRD7o4XYUPliiHC+MW78L96riYHylijvfX2tvo6x6nyd+SJlb/62o
-	 fV3i4U7w212YitDv8Gej8YgJVKLm6ScbUY2Hm6rfklg4Q2GGVM9tldnxqf/97Paw9arxw
-	 P8aHYUhVzdBWj2tO7Xe8o7F17+BHbaDTmoMTSdfUv+0fpchp0MzhaT2jiyqdtmzuvVpcQ
-	 RJ0bITj/a/ql40rqN4GVNlV6WaZI5h92mPQf0bOaPN4BPHLStK1AbX9ddZjJackjGU5ig
-	 PWzZE8hMU7zJTiqcIvNs3Ye1qjOAQ3oGoQ3YbbB9eZ8ouFdgAkBwuAxlXennf7i5WXg==
+	t=1795518981;
+	b=FnAnjomy9wARcgLN2yKnsWEay4rjAG74yOvzS3by/qWghAM+a7ScxKPqlNttJq8txf90
+	 yT+nlZvbwBpMpjDmNaZv8rRw9afueG1JcpzJGTJL3738C9HvxiZp5t7vUQHWdrbE3TzYj
+	 5Lab5hxApmKlsql7NTkvcXHJ/CRuPzp1CcPi1A8zRiXUdlkx/tbA35tBcysZux4bkIGwA
+	 8BgWctXSWoWOkZlBSWXN34WUXzuG1m1QvVhtkz4yFCdUsT9+wChYaxijPGsoo7FXQpm6e
+	 n9lACHtQjtG6XgIk16jGF9UQOaQQ/oY3widXqcqa2T9YLK9EQjfZ6a0TptptVnAJrNg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795518978;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795518981;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=L9xop1c1Tauysu/bll/wEatp4ceuZST8V2sDyCOdmPM=;
-	b=qQQqQQV8FCtgZ22J8Xo/iKEzngXDl2BgJtFi7ZPXNKJ9bO3I9I2WBSPn9HdBC55osGXn
-	 KPIIievL+r5/gnZr8SUCxD69vMmJfO6azK00e9BCMq4V4EawlXhCGHr5YoYr5+jKDTEtF
-	 /qP/zDZwwhCV/DGNrKRq/B6THrA457RR+vrE38WqO1U31uuDIC6yFZ/KyMDzKlWcNc3qg
-	 zK7A1ruAQfqbQQwe3cbK71BxbCVI7VbmyLDEMYaMO1XeFWpoIgsyug6PIX7PP/b/Qx+Sx
-	 SZmhXs5D3y0WHqieDtRh+vG0jh6s8n0B1V1NOLdXem8M3KHnSvdkhNPZHmNGc5sUXTg==
+	bh=muxY4t+JASM5puVdEtPnoVoZ9a0aIbs760H+tQNuqfA=;
+	b=TY/Rm81QGIkPALMA0luAaNhPIrg047YkyIUB28yElmaG+SObG5D/rYvCz7avrLzIVG+d
+	 Gjhd3p2UUCmnzkOVCRu++WjARj1nA7srHRMJTGPT7X4z8HmUQ+kPVVO1GukhAg/1YyhRL
+	 8A25Xdi/AZUFhDXiAr+WzVCFtYk3EMGyd3me2ROejb4lQTL/kfml54XUOoD8hkiLoSJqx
+	 zcfrWJGKzDAonbXh/9cxPvDoVteGmTyOsb4KpSJL9Tz/E48FEfJl6FcvxB9pDvT5m1uHb
+	 O+5ssur2vdLEx5lYqciHuqgy6NGj9lLjNyseHLyc6lzlLrQXIG6LEkfUmnWoNjBiFRw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yo2GIQrY;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hKos+bSh;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB26606A326;
-	Tue, 24 Nov 2026 11:16:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 591F4606A321;
+	Tue, 24 Nov 2026 11:16:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yo2GIQrY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64ACA1F000CA;
-	Tue, 24 Nov 2026 11:16:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hKos+bSh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C2A71F000CF;
+	Tue, 24 Nov 2026 11:16:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795518978;
-	bh=L9xop1c1Tauysu/bll/wEatp4ceuZST8V2sDyCOdmPM=;
+	s=k20260515; t=1795518980;
+	bh=muxY4t+JASM5puVdEtPnoVoZ9a0aIbs760H+tQNuqfA=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=Yo2GIQrYu0Z1gVKdMrg8D8gZKFKYjyhKDhmBQk/Xv75ZYSOcCSzoNTmybdjjUqagG
-	 Of2jJ/3MTUBcshtGkiIrnkGuTvHk5TXIJJlUS1vaasAjTmbGTgIljatmWLndo3rxn7
-	 SNr2G1n9+5t5SlkdRzERDrDY975d3DbthGt1SFt1tl/Dmx9fjfWp9ldY0OWW8aC4CP
-	 SoLQR7C1jZXt1+VoOv/jk7qthW2gkdr/mmPUarMGsl2ZMo7mpIfQlxHJM/gQgVOTBh
-	 JosppzUjwpBNC3G+4X7cEnNyl0WOZDkEdbM3UfALLUMyMce2SqVWekYBxr8BqdF4xz
-	 7Uz2DS9nicZ9Q==
-Subject: Re: [PATCH net-next v4 2/5] net: stmmac: dwmac-sun8i: Get the EPHY
- clock and reset before the MAC probe
+	b=hKos+bShwfIe7Dgym62Fg+t4JI0I36+nzK/h0qFQk4b7Z6URMMBHY1zt+E13ieAdb
+	 o4p7TxQrRW9leNas20xjn5LKANfaw0i9iRzoUDtF7Edi/L1nkm6UvJyMRspiXKB4dc
+	 tjw17G9ue+Pj1TCRWQ1iEL2fKWHF+cM1HvxKZkRY0H1EWUyIp6vy7fNpJEBg/49Fsy
+	 9+LBSi3aDFraQq/k6cW6MBBbpOmzoin1FaiXo2KDTP+vrkHg5PRGJmzhUeuGZ7MKeN
+	 s4nKZE9z+U2ptz5w4hznAmFo59w5k7S8AMA0of6tPxeIYzCDzq+YA8O0NwzLUnhqTK
+	 +ADOQQYAfHNLQ==
+Subject: Re: [PATCH net-next v4 3/5] net: stmmac: Balance runtime PM when the
+ probe fails
 From: netdev-bot+sashiko@kernel.org
 To: aiyengar1990@gmail.com
 Cc: maxime.chevallier@bootlin.com, andrew+netdev@lunn.ch, davem@davemloft.net,
@@ -51,11 +51,11 @@ Cc: maxime.chevallier@bootlin.com, andrew+netdev@lunn.ch, davem@davemloft.net,
  linux@armlinux.org.uk, netdev@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org
-Date: Tue, 24 Nov 2026 11:16:16 +0000
-Message-ID: <179551897695.3135.144965187993855310@kernel.org>
-In-Reply-To: <20261120-sun8i-emac-mux-uaf-v4-2-57eba8915f25@gmail.com>
-References: <20261120-sun8i-emac-mux-uaf-v4-2-57eba8915f25@gmail.com>
-X-sashiko-severity: Low
+Date: Tue, 24 Nov 2026 11:16:19 +0000
+Message-ID: <179551897911.3135.10060956110819643456@kernel.org>
+In-Reply-To: <20261120-sun8i-emac-mux-uaf-v4-3-57eba8915f25@gmail.com>
+References: <20261120-sun8i-emac-mux-uaf-v4-3-57eba8915f25@gmail.com>
+X-sashiko-severity: High
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -68,169 +68,158 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
 
-Low priority / nit picks for your consideration:
+Critical: 0 · High: 1 · Medium: 0 (1) · Low: 1
 
-- [Low] The commit message describes two failures as real bugs: "its
-  -EPROBE_DEFER comes too late", and "an EPHY clock that is not ready…
-- [Low] The concern: the patch fixes a real, user-visible probe failure
-  (-ENODEV instead of -EPROBE_DEFER when the EPHY clock provider is not…
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
+
+- [High] In __stmmac_dvr_probe()
+  (drivers/net/ethernet/stmicro/stmmac/stmmac_main.c), the patch adds an…
+- [Low] The patch fixes a real, user-visible runtime-PM bug in
+  __stmmac_dvr_probe() but has no Fixes: tag.
 
 Pre-existing issues:
-- [Low] The concern: for allwinner,sun8i-h3-emac and
-  allwinner,sun8i-v3s-emac, the DT binding makes the mdio-mux node…
+- [Medium] Before stmmac_hw_init(), __stmmac_dvr_probe() asserts and then
+  deasserts priv->plat->stmmac_rst, and deasserts the shared…
 
 --
 
-net: stmmac: dwmac-sun8i: Get the EPHY clock and reset before the MAC probe
+net: stmmac: Balance runtime PM when the probe fails
 
-This moves the internal PHY clock and reset lookup in get_ephy_nodes()
-ahead of stmmac_pltfr_probe() in sun8i_dwmac_probe(). It also makes an
--EPROBE_DEFER from of_clk_get() on the EPHY node defer the probe instead
-of skipping the node, and reorders the error unwinding so the EPHY clock
-and reset are released on every failure path.
+This adds pm_runtime_disable() and pm_runtime_put_noidle() at the
+error_mdio_register label in __stmmac_dvr_probe(). A failed or deferred
+probe then undoes the runtime PM enable and the usage count taken before
+stmmac_mdio_register(), the same way stmmac_dvr_remove() does.
 
-> get_ephy_nodes() runs after stmmac_pltfr_probe() has registered the
-> netdev, so its -EPROBE_DEFER comes too late. An EPHY clock that is not
-> ready yet does not defer at all: the node is skipped and the probe
-> fails with -ENODEV.
+> Undo both, as stmmac_dvr_remove() does.
+>
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
 
 [Severity: Low]
+Should this have a Fixes: tag?
 
-Can either of these failures happen on the in-tree device trees that use
-this path (sunxi-h3-h5.dtsi and sun8i-v3s.dtsi)?
+Commit 5ec55823438e ("net: stmmac: add clocks management for gmac
+driver") added the pm_runtime_get_noresume(), pm_runtime_set_active()
+and pm_runtime_enable() sequence to __stmmac_dvr_probe(). The only
+matching pm_runtime_put() is on the success path, and the error labels
+were never updated.
 
-On those device trees, the EMAC's own "stmmaceth" reset and the internal
-PHY's clock and reset all come from the same &ccu node:
+Something like:
 
-arch/arm/boot/dts/allwinner/sunxi-h3-h5.dtsi, emac:
-    resets = <&ccu RST_BUS_EMAC>;
-    reset-names = "stmmaceth";
+Fixes: 5ec55823438e ("net: stmmac: add clocks management for gmac driver")
 
-arch/arm/boot/dts/allwinner/sunxi-h3-h5.dtsi, internal_mdio ethernet-phy@1:
-    clocks = <&ccu CLK_BUS_EPHY>;
-    resets = <&ccu RST_BUS_EPHY>;
+would let stable tell which kernels need this. It would usually be
+targeted at the net tree as well.
 
-devm_stmmac_probe_config_dt() runs before get_ephy_nodes() in both the
-old and the new code. Its reset lookup already returns -EPROBE_DEFER
-until the CCU reset controller is registered, even though the reset is
-optional:
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> index f256244ce0d11..4ebf4b6253743 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
+> @@ -8407,6 +8407,8 @@ static int __stmmac_dvr_probe(struct device *device,
+>  error_pcs_setup:
+>  	stmmac_mdio_unregister(ndev);
+>  error_mdio_register:
+> +	pm_runtime_disable(device);
+> +	pm_runtime_put_noidle(device);
 
-drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c:stmmac_probe_config_dt() {
+[Severity: High]
+Is this pm_runtime_disable() balanced on PCI based stmmac devices?
+
+The probe path only enables runtime PM when it is not already enabled:
+
+	pm_runtime_get_noresume(device);
+	pm_runtime_set_active(device);
+	if (!pm_runtime_enabled(device))
+		pm_runtime_enable(device);
+
+Commit d90d0c175cf2 ("net: stmmac: Fix "Unbalanced pm_runtime_enable!"
+warning") made that check conditional. The PCI core has already enabled
+runtime PM before any driver binds:
+
+drivers/pci/bus.c:pci_bus_add_device() {
     ...
-	plat->stmmac_rst = devm_reset_control_get_optional(&pdev->dev,
-							   STMMAC_RESOURCE_NAME);
+	pm_runtime_enable(&dev->dev);
     ...
 }
 
-sunxi_ccu_probe() registers the clock provider before the reset
-controller. If reset registration fails, it removes the clock provider
-again:
+So for the PCI glue drivers (stmmac_pci.c, dwmac-intel.c,
+dwmac-loongson.c, dwmac-motorcomm.c), probe skips the enable. This
+error path still disables, though. That removes the PCI core's enable
+and leaves disable_depth at 1.
 
-drivers/clk/sunxi-ng/ccu_common.c:sunxi_ccu_probe() {
-    ...
-	ret = of_clk_add_hw_provider(node, of_clk_hw_onecell_get,
-				     desc->hw_clks);
-    ...
-	ret = reset_controller_register(&reset->rcdev);
-	if (ret)
-		goto err_del_provider;
-    ...
-}
+Every failure from stmmac_mdio_register() onward ends up here. That
+includes -EPROBE_DEFER, and also failures from stmmac_pcs_setup(),
+stmmac_phylink_setup(), stmmac_register_devlink() and
+register_netdev(). After that:
 
-So by the time get_ephy_nodes() runs, it doesn't look like of_clk_get()
-or of_reset_control_get_exclusive() on the EPHY node can return
--EPROBE_DEFER.
+local_pci_probe()
+    pm_runtime_put_sync(dev);      <- no effect, runtime PM disabled
+really_probe()
+    device_unbind_cleanup()
+        pm_runtime_reinit()
+            pm_runtime_set_suspended(dev);
 
-The message also leaves out what looks like the real reason for moving
-the lookup. With the later "net: stmmac: dwmac-sun8i: Register the MDIO
-mux in the MDIO setup" change, sun8i_dwmac_register_mdio_mux() becomes
-plat_dat->mdio_init and runs inside stmmac_pltfr_probe(). From there,
-mdio_mux_syscon_switch_fn()->sun8i_dwmac_power_internal_phy() uses
-gmac->ephy_clk and gmac->rst_ephy, so both have to be looked up first.
+pm_runtime_reinit() finds runtime PM disabled and the status
+RPM_ACTIVE. The function is still in D0, but it is recorded as
+RPM_SUSPENDED, and the parent bridge's child_count is decremented.
 
-Could the commit message describe this as preparation for that change,
-and as hardening for device trees where the EPHY clock or reset come from
-a different provider, rather than as a fix for a probe failure?
+When stmmac itself retries a deferred probe, it re-enables runtime PM.
+If the failure is permanent, or a different driver binds next (for
+example vfio-pci through driver_override), runtime PM stays disabled
+and the device still never runtime-suspends. The PCI callers'
+error paths, such as intel_eth_pci_probe(), do not restore it.
 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> index 9fb398f7cf9ec..4acfda235394d 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+Isn't that the same symptom the commit message says this fixes?
 
-[ ... ]
+Could a local bool record whether this probe actually called
+pm_runtime_enable(), so pm_runtime_disable() is only called in that
+case?
 
-> @@ -801,8 +800,13 @@ static int get_ephy_nodes(struct stmmac_priv *priv)
->  		struct clk *ephy_clk;
->  
->  		ephy_clk = of_clk_get(iphynode, 0);
-> -		if (IS_ERR(ephy_clk))
-> +		if (IS_ERR(ephy_clk)) {
-> +			if (PTR_ERR(ephy_clk) == -EPROBE_DEFER) {
-> +				of_node_put(mdio_internal);
-> +				return -EPROBE_DEFER;
-> +			}
->  			continue;
-> +		}
+stmmac_dvr_remove(), which the commit message names as the model,
+already has the same unconditional pm_runtime_disable(). It looks like
+it has the same mismatch on PCI. Later patches in the series do not
+appear to change this error path.
 
-[Severity: Low]
+>  	stmmac_napi_del(ndev);
+>  error_hw_init:
+>  	destroy_workqueue(priv->wq);
 
-The commit message presents this as a fix for a probe that fails with
--ENODEV instead of deferring. If that is the intent, should it carry a
-Fixes: tag?
+[Severity: Medium]
+This issue is pre-existing and was not introduced by this patch, and it
+is separate from the runtime PM problem. Since this error path is being
+matched against stmmac_dvr_remove(), should it also put the resets
+back?
 
-Based on the ordering described above, though, the old continue only
-turns a deferral into -ENODEV when the EPHY clock comes from a different
-provider than the EMAC's "stmmaceth" reset. That seems to be possible
-only with out-of-tree device trees. If so, rewording the commit message
-may fit better than adding a Fixes: tag.
+Before stmmac_hw_init(), __stmmac_dvr_probe() does:
 
-[ ... ]
-
-> @@ -1209,9 +1213,15 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
->  	plat_dat->tx_fifo_size = 4096;
->  	plat_dat->rx_fifo_size = 16384;
->  
-> +	if (gmac->variant->soc_has_internal_phy) {
-> +		ret = get_ephy_nodes(dev, gmac);
-> +		if (ret)
-> +			return ret;
-> +	}
-
-[Severity: Low]
-
-This isn't a bug introduced by this patch, but should a missing mdio-mux
-node fail the whole probe on allwinner,sun8i-h3-emac and
-allwinner,sun8i-v3s-emac?
-
-In allwinner,sun8i-a83t-emac.yaml, mdio-mux appears only under the
-h3/v3s properties clause. It is not in the required list, and no
-ethernet-phy child of the internal MDIO bus is required either. Even so,
-get_ephy_nodes() returns -ENODEV when the node is missing:
-
-	mdio_mux = of_get_child_by_name(dev->of_node, "mdio-mux");
-	if (!mdio_mux) {
-		dev_err(dev, "Cannot get mdio-mux node\n");
-		return -ENODEV;
+	if (priv->plat->stmmac_rst) {
+		ret = reset_control_assert(priv->plat->stmmac_rst);
+		reset_control_deassert(priv->plat->stmmac_rst);
+		...
 	}
 
-It does the same when there is no allwinner,sun8i-h3-mdio-internal
-child, or when no child has a usable clock.
+	ret = reset_control_deassert(priv->plat->stmmac_ahb_rst);
 
-So an H3 or V3s board that the binding allows, using only an external
-PHY and no mdio-mux, fails to probe. Before this patch the same error
-took the goto dwmac_remove path, so the result was the same. This change
-only moves the check earlier.
+stmmac_dvr_remove() asserts both again:
 
->  	ret = sun8i_dwmac_set_syscon(&pdev->dev, plat_dat);
->  	if (ret)
-> -		return ret;
-> +		goto dwmac_ephy;
+	if (priv->plat->stmmac_rst)
+		reset_control_assert(priv->plat->stmmac_rst);
+	reset_control_assert(priv->plat->stmmac_ahb_rst);
 
-[ ... ]
+None of the probe error labels do this. After a failed or deferred
+probe, the MAC is left out of reset.
+
+stmmac_ahb_rst comes from devm_reset_control_get_optional_shared() in
+stmmac_probe_config_dt(), and devres releases the handle without
+asserting it. Could that leave the shared deassert_count raised? If
+so, another consumer sharing the AHB reset could no longer really
+assert it.
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261120-sun8i-emac-mux-uaf-v4-0-57eba8915f25%40gmail.com
