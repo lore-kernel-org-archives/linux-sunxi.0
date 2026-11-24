@@ -1,59 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795539374;
-	b=teE4xKbdFvjBiSGLEfz/+8bDehFxa94ky+TiQtCGTrcqIY5DI8Y1OPLXJNfLjL2RD4Qy
-	 UAKreOc6wgTXNVGHqfo2LGsYa3keNjb3JubzFh1lqoUWVc8c8dQIfeXC+xnj4m1Zb39q0
-	 C2Wm4AKNFlQK8Vvj/dm108wX7Uan884RPBtZyNcbiCjr8HHJuCXk4+TQbm9YTWk/bnBnN
-	 PF/O7lEN9+Adu0RVtbOqTvZOlqQTNgNvEZcMDqJ+LCf0d43LD38qUA4OvFi7BUDSYSx3g
-	 WYk5VZE6vXw/dZwlJXyI657Do9GyU6DR2SysaUiT27Tm78BWp8KnnpCfxbcxgzOHUGg==
+	t=1795539377;
+	b=bT02efaLLpdae9ZDubbQrWFLQXwRI59xukpaS/RrtTRlXZOCDlowzgsj2KViUOAmBZxv
+	 Hx2cVIzHq2SzBR5Wy/G7ZHIUiphbgnegQ9Qf4Bm8aM5StMgupSfOVSnWrc4XaUIgZhZwj
+	 cGrNQTAe/o/ZXXF2X8O1F+Wd2i+f/XS6FOvMNx5RupPcGmiCSKzw6fNjQv+0ZsRV6n9kB
+	 Pukaa8bgeVMh0APmOkINElCXiiMApIUnIO6pPtEPuZoAYGF59s29vCe/Qf1KkuPQ36ocr
+	 4ZG5oOuQBURhycGzdmU2r4+e0dLgMB5wdNWwXvc8ZlteRAET+vS4WWRrKGpXVBTqrdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795539374;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795539377;
 	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
 	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 X-Mailer;
-	bh=9TBfIy+kK+77B0isGngbw1NGhsBOgn/ifky86nGhGbc=;
-	b=QCofBvffz01BHjlsTPo1c+ClCRvhNkfRkLI7NRbAa5LSFkfbhJnOhVQDoY4wKFhCYKse
-	 MZ7Xh3L3JaqfHRJWxwkfaxY2gZX0uiQxEEe6J2zZOUG4F6c9DY/ZVMrY60XBUZBY5z5G4
-	 ZdEDgYBD0bxQJuEeI+yK4ZCa97ydzNkZeTRze57/R/ZQWcxTwCJ0DUwESFhEGheCXDRdA
-	 ZZ/917LO8NxHeGjVyy6QUaSHpwAQZ94Eby+E4k4yMNJx00kk+LAj+V4P7tEJ5GMgZt7QQ
-	 XG/xglS+nmTVHO6tT62TguBT8tTbJF+yu3Evf0aDMHmwYAEMPI20oAPWWlVRZ0teEFQ==
+	bh=JUWYsAKioiVEsMSH/ZTrByubfWgl7jyBZgJzPAKIPjA=;
+	b=AIfTCSNBMly4drKIvudorn4erOK8+H5sCgSZJ/5rcfaqjVUIy/5d2Acei5nl06jor1KK
+	 86gZKQ2dWawBJ7krLSTdyhc3cMkSUeYEl3W/D8MaXZfFohi47jx54BGpZeoluwpzwu7sw
+	 n6EM8SCuuHbHBx16HIIVbMlBfsLLTttpjw6gmFwi7Hu3PqBrlMtuyrYUvwX1M6Ma/KsQk
+	 W+44rkcDBAxMkSiOto1f2WBV2vItHrj20anEXfzUf0+V1nP268hGjlXELPHEVpnhuEa5e
+	 rqLUvrOq/f9cZLn2R68VYUsBnSzxaxmzSmQ1Z3t8bL1x406hr88LqPg5Rd3hjMgly4w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YFxmBl5E;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jrZ7O5Pr;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4D9606A326;
-	Tue, 24 Nov 2026 16:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25977606A33C;
+	Tue, 24 Nov 2026 16:56:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YFxmBl5E
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AC3A1F000EF;
-	Tue, 24 Nov 2026 16:56:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jrZ7O5Pr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B232D1F000D0;
+	Tue, 24 Nov 2026 16:56:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795539374;
-	bh=9TBfIy+kK+77B0isGngbw1NGhsBOgn/ifky86nGhGbc=;
+	s=k20260515; t=1795539376;
+	bh=JUWYsAKioiVEsMSH/ZTrByubfWgl7jyBZgJzPAKIPjA=;
 	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=YFxmBl5EzV89wJN6vncSzrsEoO9kIktr6wbeWkTriaKC2xxeWJNCzKPwAFH7wO623
-	 gXNzM91BblG/vsRtofynr3Si4G2ecE7qyUVkjH5d/DAfarInZLv8Cb3J6p0CQysu+N
-	 aA39U4QVly5DLpBkyYxD2Mg5UeKQl6VPCAl1AXLNm4EUdDXCxb8bu39YYdz+s1LgPk
-	 pXTzrJVAzZGx8UHFlMys5zAujkkx6fNWK3Jst3o+3HgAbqx59YUD72jnm/5NI8gWRP
-	 q9TZp3WZlkQwON3OQARNjU/RxC4mt2a6vtBTsnqYe7b97zl8i4eOL51eEDM0ayt7er
-	 3peqoLwd5MCZA==
+	b=jrZ7O5PrGBnCEFsaQRTSwYRTcx7lreOAuF3MxWJaRgbEEvWWUpL62brFoGDIfoKDg
+	 Al9+PSt+hA2N2WcNGFR1r/FVroUhG9FwuKjF7GwVUMEhfI30VgMvL70eDofxXT+6fd
+	 ouY9d2cfKJgWKmtz/+40hj2LqV4gefeoC0aZR+zz/GIhE+cu6KrfvQYsWvt3UUjRUQ
+	 HStUct+x0tAGv/5ZgzqBgovvLyl2RKqNnXgRFqtiWqkiateLWDOuvj0U+5KGlB2FZA
+	 4H+9SRQHM5x6wHSZSa3YG37RbkhiGXQJJmbDjvW1AxvpSrJi6yCyp1Mg+dWshqkCne
+	 NxnNk42FrjCYA==
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Andrew Lunn <andrew@lunn.ch>, 
- Daniel Drake <ddrake@baylibre.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <20261118-opi4a-cldo4-ramp-delay-v1-1-9e3368973379@baylibre.com>
-References: <20261118-opi4a-cldo4-ramp-delay-v1-1-9e3368973379@baylibre.com>
-Subject: Re: [PATCH] arm64: dts: allwinner: t527: orangepi-4a: Add PHY
- enable delay
-Message-Id: <179553937193.1403078.13673574694751006977.b4-ty@kernel.org>
-Date: Wed, 25 Nov 2026 00:56:11 +0800
+ Samuel Holland <samuel@sholland.org>, Arun Iyengar <aiyengar1990@gmail.com>
+Cc: Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <20261120-zero2-spi-nor-dual-read-v3-0-1cbb0caaed91@gmail.com>
+References: <20261120-zero2-spi-nor-dual-read-v3-0-1cbb0caaed91@gmail.com>
+Subject: Re: [PATCH v3 0/2] arm64: dts: allwinner: orangepi-zero2/zero3:
+ Read the SPI NOR over two lines
+Message-Id: <179553937449.1403078.18079853682671561001.b4-ty@kernel.org>
+Date: Wed, 25 Nov 2026 00:56:14 +0800
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -67,23 +67,22 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Mailer: b4 0.14.2
 
-On Wed, 18 Nov 2026 15:42:39 +0000, Daniel Drake wrote:
-> The Motorcomm YT8531 Ethernet PHY on the Orange Pi 4A was not being
-> detected: its ID was reading back as zero and preventing ethernet from
-> working:
+On Fri, 20 Nov 2026 06:30:07 +0000, Arun Iyengar wrote:
+> Andre Przywara reviewed v1 and suggested labelling the flash node (patch
+> 1) and setting spi-rx-bus-width in the dtsi shared with the Zero3 (patch 2).
 > 
->   dwmac-sun55i 4510000.ethernet eth0: cannot attach to PHY (error: -EINVAL)
-> 
-> Add an enable delay to the PHY supply regulator, as was done for the
-> same reason on the Radxa Cubie A5E in commit 7076938d20d2 ("arm64: dts:
-> allwinner: a527: cubie-a5e: Enable second Ethernet port").
+> spi-rx-bus-width = <2> needs the binding patch of [1] (acked, not applied
+> yet) to pass dtbs_check.
+> Without the driver patch of [1] the driver ignores the setting.
 > 
 > [...]
 
 Applied to sunxi/dt-for-7.5 in sunxi, thanks!
 
-[1/1] arm64: dts: allwinner: t527: orangepi-4a: Add PHY enable delay
-      https://git.kernel.org/sunxi/linux/c/dd889887f868
+[1/2] arm64: dts: allwinner: orangepi-zero2/zero3: Set the SPI NOR supply by label
+      https://git.kernel.org/sunxi/linux/c/ac59f8d79bde
+[2/2] arm64: dts: allwinner: orangepi-zero2/zero3: Read the SPI NOR over two lines
+      https://git.kernel.org/sunxi/linux/c/7b78b5603bb6
 
 Best regards,
 -- 
