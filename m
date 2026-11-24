@@ -1,75 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.227.17.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795540816;
-	b=DqhC4c9dVdZXNLo33FV3oExUf2V2RsPyyUW4NfLV2RWO8k8UovjQ2Tx2KjHZUfj4zHCk
-	 mEyWlsrr5/B2+0uXwHQid/ZUGoX0LfmItWtnrLdG5ngTKSM+NI56YnWREikcw0fK5/8Y8
-	 6IRS+CzljWJWC7zbMjuTKvi0VxC4ZAo59BZkfPGEmD7z/73LQKRWwHpO/sRpLZPKPgUg4
-	 RZQZChskRPlf5TAtfCGahqfJGeQLQ0S5757+QeWjpBILMf35PHyPaFQHjjcmk7n5ZX7Uz
-	 xX7dSugNSdoQ+xout2mS57yYqlAAkMfpfUEuyFGRvqqZTLcIxYhv5upPC/G2PB5d6Ag==
+	t=1795541867;
+	b=Xkn5tdzDIq8gO2WwCetSHnDON+rV3OlszztlEKNvkH1rtVth214r6miCW/8C7/Aibcvc
+	 dA/ON8qqIDNzEqn7R3WULTMW3YlnlTw6XfvupV2TT9YsMUvhAvOgZwTAE/DnA1PY9Owk3
+	 JASQiiMqsOWvJ/4OUSOHdZLzbuw0RZGOlpPjX76PeBRlEYHJUgZvDNIZnGbsGX6byCQdG
+	 DpMoXNb72SrItrk0zDdQ5hBTNw7hinXBHVjRPsZsHLVSnMbFQNUjC9lH8oXlYhmDaoCqa
+	 1+exXMQcE/+ogILu8MFAhmBxTnuApGmdpP7hxsndW9+bxh6AjyBWiI/JCYuiy5HQzqw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795540816;
-	h=DMARC-Filter:DKIM2-Signature:Message-Instance:DKIM-Signature:
-	 X-UI-Sender-Class:Received:Message-ID:Date:MIME-Version:User-Agent:To:
-	 Content-Language:From:Subject:Cc:Content-Type:
-	 Content-Transfer-Encoding:X-Provags-ID:X-Spam-Flag:UI-OutboundReport;
-	bh=fRTclcQOyoE1yIED3kMV3TzEfAMgQeOZTxHIJQv6ZGc=;
-	b=Q2LQjCMuUwO8oAmjv2TbD4fYSNmKaE8l57oBVgJk2VqgDcsUk53KsIdYcSNEfz7yCWxU
-	 awLdP+cakQkbBCP60cvUqR+mShvGbxY8alLEeAwBIcGygNMDEtywtcAl+J2nhW4udIiZ2
-	 I0N9w5W+3Q2uF8n4tPGBNFgMV/AV9LS0xLKLPFqgXd0afl3UiaG8IzYvIHc+s26o3Tgx4
-	 7FHR5zs70hVFGj/Xw5CVhSmtUZCm8Er+DwwFJFPVUwD8WmtE32qb0sHL2yoYlSKDGOZ8n
-	 Es9ZKd/2T6vBMXDdhJiBQ8eZW2HJfhSQ+38fLapmr16NxNr8MFBUzIPp9it9xQRA1sA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795541867;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=0UUY+MjptFzuugSfQZ14pmIXRSmdlnMNFxjO8+xiH+c=;
+	b=mje3D6HDrzKtZjsKgbWw0K4UfwZCoTLjLyyYxI9eluUiGwKRIpr4G5ZbHmetQtxpDlji
+	 C3gC7pLkCqXXtlAEum1av1SHNktlYxie1PA5DH5tPkMxwH2OJJFedsivRy/qiMEe7HpLg
+	 Di6Ty82B5X7oHmhCgeTOCm1U8EnZrB+ULVwyGguhgdlpVKE/k9CN3DotmPUUbGku9UDdl
+	 ycgafLNXsDnvBKh95MjyJN3BIDhZT18EhAgzIB2U27Hd2oZ+t6EPB2nyPQGYzTLeoHhSW
+	 nEaxJbY7QqVIxRGz8ZaLWzGPAmJUFZ+knP5vEMeTRQMlBxN8hR/lqWJzbboMihzje2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=web.de;
-	spf=pass smtp.mailfrom=web.de;
-	dkim=pass header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=aXkA4WFD;
-	arc=none smtp.remote-ip=212.227.17.12
-Received: from mout.web.de (mout.web.de [212.227.17.12])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KHWfUPp+;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C149606A32D
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Nov 2026 17:20:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C149606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDDD606A31E;
+	Tue, 24 Nov 2026 17:37:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=web.de header.i=markus.elfring@web.de header.a=rsa-sha256 header.s=s29768273 header.b=aXkA4WFD
-DKIM2-Signature:  i=1; m=1; t=1795540813;
- mf=PE1hcmt1cy5FbGZyaW5nQHdlYi5kZT4=;
- rt=PGxpbnV4LXN1bnhpQGxpc3RzLmxpbnV4LmRldj4=;
- d=web.de;
- s=s29768273:rsa-sha256:gEekF5tuyN5+k9PfqOuivKyMemHT
-   KFI0dUHa3ujRf7IbjFNfxuMrDbvsLpUvP/aZbQ5qnLGcmSc3n0znbZp8L9j0eDj4shuk+nIXIB3
-   joLh3iYhOoRLlDj2anmlUGhm0ArkMXM/7XzwN4GRGj326nMc8kHUoU2IakF0zQE2F3lyOZ53trf
-   4MaGcQ3vpyDq149DttKXGw2CGh77hFVY5ZnJKzgBvr5Mit0C9OtcD0JSzYcIpmBRKM1zmm4/psA
-   dVZt5N476oJ//tJsC/sQJeyrWP8eJHjVww7n203UY8KSs+9BEQbxYTjtIsH8g2L/3mHr4BFxyR8
-   aqIAdzimmzDRTw==;
-Message-Instance:  m=1;
- h=sha256:
-   ZuWOG0QlwUdKqr1K2FSMphk24t6gYKxq8pFy2cnVNgc=:
-   S3L5BugI304oP36yaUvwqJOgjxe9BuaeVibyMO5JKGA=,
-  sha512:
-   cbA1Pob1rG6wXvFF9l0Rv+/EBwsjS1mSSIvixZk2rz5MUOyhC6leP4lchzGF/KxEx5quED7tnRao3uXw01WGDg==:
-   GhB1Bn6TSNWNUElEfvAlBMHDs0JLtC0bHA95+6UfjuNOquSiLe9d1M5WrcH379Y7A4OFafwVaxXg7YAuecb+Ig==;
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1795540813; x=1796145613; i=markus.elfring@web.de;
-	bh=fRTclcQOyoE1yIED3kMV3TzEfAMgQeOZTxHIJQv6ZGc=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:From:Subject:
-	 Cc:Content-Type:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=aXkA4WFD3CnEe7PUgerZjT/zRYko85iCx3LVy7dVi8EhXOAk+U5rovU1rNYlp8tH
-	 upRJvH1cgBRGtilb6Secr0yQSpL7Wrrcj61pwJAl8hh2GhJiyYJvzss1xlwdOFNRe
-	 A0tP1Dc8cHpuk22fCFOtnOevvvVjFPwLsiTjxsBq2ZVMOkIRdnH3t1e26c0Grxxbg
-	 JUf8QmgRR5M1GJyIkjZEzxo8/06FbfCPRX6JWEbhNHanoOXvr5BZlhscRfxEt13Sw
-	 PV8UvFbtWhmAcSw6ZDXBbRxCjvEUTFKkVIUMGtMLKN4PltJCHwT54OSmsENzT/T1Z
-	 UN09lW1TZed3gy7U/A==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1M6pUK-1xbySo3Mek-005Ifj; Tue, 24
- Nov 2026 18:20:12 +0100
-Message-ID: <780975ed-825f-4f9b-8ac2-67664a7a2a2f@web.de>
-Date: Tue, 24 Nov 2026 18:19:54 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KHWfUPp+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCF331F000CA;
+	Tue, 24 Nov 2026 17:37:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795541866;
+	bh=0UUY+MjptFzuugSfQZ14pmIXRSmdlnMNFxjO8+xiH+c=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=KHWfUPp+BdRw6i/fsFaxAvJVDumrgcyVv5rJwcETee3rJPA3B0itlD10TPYUKn/ON
+	 klPwAifqaos6dimDaDdPlfbmK0dLSvqAmx5Pm/95K4uhg4dcNCc3h6YQt3tqQ5unPy
+	 E61nfMXWmXYnqbg6CDAvdA5za2yAgMLlppxvyvV2ANW7BoDsGJd1MY/LY7BBqox9C4
+	 oLX8fEkjERJTyaLJbRXDM8Zqiv4pSPlZIEQg+c5nHmsCprGZpTXCRa102e06MM5c9C
+	 Yk7SRdf+o6rY2BOm3ayBsHsDRkMRqtZvmR/LE8+HQ+vntuZ6VNPOyzJQFGlkaXjYA6
+	 I7hQ+WMyQVN0A==
+From: Sasha Levin <sashal@kernel.org>
+To: stable@vger.kernel.org
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-sunxi@lists.linux.dev,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 6.6.y 1/2] mmc: sunxi: Use devm_mmc_alloc_host() helper
+Date: Tue, 24 Nov 2026 12:37:43 -0500
+Message-ID: <20261124173733.2004923-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <2026112459-diameter-aroma-1a35@gregkh>
+References: <2026112459-diameter-aroma-1a35@gregkh>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -79,218 +64,85 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
- Arnd Bergmann <arnd@arndb.de>, bui duc phuc <phucduc.bui@gmail.com>,
- Chen-Yu Tsai <wens@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@kernel.org>, Frank Li <Frank.Li@nxp.com>,
- Hans de Goede <hdegoede@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Joe Damato <joe@dama.to>,
- Julia Lawall <julia.lawall@inria.fr>, Li Youhong <liyouhong@kylinos.cn>,
- Maxime Ripard <maxime.ripard@free-electrons.com>,
- Paolo Abeni <pabeni@redhat.com>, Samuel Holland <samuel@sholland.org>
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] net: allwinner: Use devm_clk_get_enabled() in emac_probe()
-Cc: LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Christophe Jaillet <christophe.jaillet@wanadoo.fr>,
- Florian Fainelli <f.fainelli@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:wgTR1CtRXdlu59WOwlrECY/OtOvc3Nu7RDZ6g7iCOsSwB7ncoGY
- KX7R818cs6AXHUvl7GjuBHzMaIxnsnzC8WZLE0bNht3mhdgl3W2Wm/7gC84paLDAuKenrpD
- BKeeY/9/e5oIULQaAWnHwcptk0mnzmoXQ4Yn0KUpMc+JIWILuBrm1oEr+IyDmbS92hu84iH
- C9BP/zjv06LUPDgaHOqOw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:xywDQUE8IVI=;8eSaYlx3y/FS1U5kyndmYRiQkM8
- 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
+Content-Transfer-Encoding: 8bit
 
-From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Tue, 24 Nov 2026 17:56:11 +0100
+From: Binbin Zhou <zhoubinbin@loongson.cn>
 
-* Reuse existing functionality from devm_clk_get_enabled() instead of
-  keeping duplicate source code.
+[ Upstream commit 5a8af27596118f3e6a121059ac7ac8c299bee164 ]
 
-* Delete a clk_disable_unprepare() call on an error handling path
-  and in the implementation of the function =E2=80=9Cemac_remove=E2=80=9D.
+Use new function devm_mmc_alloc_host() to simplify the code.
 
-* Omit the label =E2=80=9Cout_clk_disable_unprepare=E2=80=9D.
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: linux-sunxi@lists.linux.dev
+Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
+Signed-off-by: Binbin Zhou <zhoubinbin@loongson.cn>
+Link: https://lore.kernel.org/r/ee7726b1ea37084258a5d8cec67cad12473152c2.1748933789.git.zhoubinbin@loongson.cn
+Signed-off-by: Ulf Hansson <ulf.hansson@linaro.org>
+Stable-dep-of: e35e360bd668 ("mmc: sunxi: fix clock and runtime PM leaks on probe failure")
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/mmc/host/sunxi-mmc.c | 22 ++++++++--------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
 
-This issue was detected by using the Coccinelle software.
-
-Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-=2D--
- drivers/net/ethernet/allwinner/sun4i-emac.c | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/net/ethernet/allwinner/sun4i-emac.c b/drivers/net/eth=
-ernet/allwinner/sun4i-emac.c
-index d7ee42b2c197..c075356cf6cc 100644
-=2D-- a/drivers/net/ethernet/allwinner/sun4i-emac.c
-+++ b/drivers/net/ethernet/allwinner/sun4i-emac.c
-@@ -1001,22 +1001,16 @@ static int emac_probe(struct platform_device *pdev=
-)
- 	if (emac_configure_dma(db))
- 		netdev_info(ndev, "configure dma failed. disable dma.\n");
-=20
--	db->clk =3D devm_clk_get(&pdev->dev, NULL);
-+	db->clk =3D devm_clk_get_enabled(&pdev->dev, NULL);
- 	if (IS_ERR(db->clk)) {
- 		ret =3D PTR_ERR(db->clk);
- 		goto out_dispose_mapping;
- 	}
-=20
--	ret =3D clk_prepare_enable(db->clk);
--	if (ret) {
--		dev_err(&pdev->dev, "Error couldn't enable clock (%d)\n", ret);
--		goto out_dispose_mapping;
+diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
+index e0ab5fd635e6c..cc7c8594a6cac 100644
+--- a/drivers/mmc/host/sunxi-mmc.c
++++ b/drivers/mmc/host/sunxi-mmc.c
+@@ -1369,11 +1369,10 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
+ 	struct mmc_host *mmc;
+ 	int ret;
+ 
+-	mmc = mmc_alloc_host(sizeof(struct sunxi_mmc_host), &pdev->dev);
+-	if (!mmc) {
+-		dev_err(&pdev->dev, "mmc alloc host failed\n");
+-		return -ENOMEM;
 -	}
--
- 	ret =3D sunxi_sram_claim(&pdev->dev);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Error couldn't map SRAM to device\n");
--		goto out_clk_disable_unprepare;
-+		goto out_dispose_mapping;
++	mmc = devm_mmc_alloc_host(&pdev->dev, sizeof(*host));
++	if (!mmc)
++		return dev_err_probe(&pdev->dev, -ENOMEM,
++				     "mmc alloc host failed\n");
+ 	platform_set_drvdata(pdev, mmc);
+ 
+ 	host = mmc_priv(mmc);
+@@ -1383,15 +1382,13 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
+ 
+ 	ret = sunxi_mmc_resource_request(host, pdev);
+ 	if (ret)
+-		goto error_free_host;
++		return ret;
+ 
+ 	host->sg_cpu = dma_alloc_coherent(&pdev->dev, PAGE_SIZE,
+ 					  &host->sg_dma, GFP_KERNEL);
+-	if (!host->sg_cpu) {
+-		dev_err(&pdev->dev, "Failed to allocate DMA descriptor mem\n");
+-		ret = -ENOMEM;
+-		goto error_free_host;
+-	}
++	if (!host->sg_cpu)
++		return dev_err_probe(&pdev->dev, -ENOMEM,
++				     "Failed to allocate DMA descriptor mem\n");
+ 
+ 	if (host->cfg->ccu_has_timings_switch) {
+ 		/*
+@@ -1481,8 +1478,6 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
+ 
+ error_free_dma:
+ 	dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
+-error_free_host:
+-	mmc_free_host(mmc);
+ 	return ret;
+ }
+ 
+@@ -1498,7 +1493,6 @@ static void sunxi_mmc_remove(struct platform_device *pdev)
+ 		sunxi_mmc_disable(host);
  	}
-=20
- 	db->phy_node =3D of_parse_phandle(np, "phy-handle", 0);
-@@ -1065,8 +1059,6 @@ static int emac_probe(struct platform_device *pdev)
- out_release_sram:
- 	of_node_put(db->phy_node);
- 	sunxi_sram_release(&pdev->dev);
--out_clk_disable_unprepare:
--	clk_disable_unprepare(db->clk);
- out_dispose_mapping:
- 	irq_dispose_mapping(ndev->irq);
- 	dma_release_channel(db->rx_chan);
-@@ -1093,7 +1085,6 @@ static void emac_remove(struct platform_device *pdev=
-)
- 	unregister_netdev(ndev);
- 	of_node_put(db->phy_node);
- 	sunxi_sram_release(&pdev->dev);
--	clk_disable_unprepare(db->clk);
- 	irq_dispose_mapping(ndev->irq);
- 	iounmap(db->membase);
- 	free_netdev(ndev);
-=2D-=20
-2.56.1
+ 	dma_free_coherent(&pdev->dev, PAGE_SIZE, host->sg_cpu, host->sg_dma);
+-	mmc_free_host(mmc);
+ }
+ 
+ #ifdef CONFIG_PM
+-- 
+2.53.0
 
