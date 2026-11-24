@@ -1,59 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795523322;
-	b=HkFhZxiTSa4WA4BRPLQCA7pNvcNwbAaBk5iy391NkGKsMEgWzg8BIs76Rx+zuTO8r2Hw
-	 LGtFFH8mJvFj8XwQFAq0KSZOnIicovxXTYv4/1MXc3zVMeOZXT5BGKKw24uNckpiq2kjg
-	 1gE56ZvIvhkIYtd+Jdji208yXY7tDJUpbxGU3HSfR94udiuyMB573mw9lOF5pCW98FHO6
-	 pZipARiApRdJaMEW9f035uBZ2S/CwCCTAajRbp7/90DNA8hKnUC8cQZnhcn9A8eB8eJ9l
-	 7Cg1FYq4abHhYHCy97Lfbt3QX9Lyqx9WOkVH1H1wtLTMzNloLFUMoUOEMjUkStDxLwg==
+	t=1795525742;
+	b=5dKRsGhG6xX3xVfcHrmN5X1IuTHd6lT0eT/ZAsqAFUII+As5DSg3p4D27QHI5AtrXywB
+	 FIgwI/WscQOODBad/XihwiuXAcj1NfryAV0kT3GzHzzt/BNymsV1LH5XBVGnjBAQlR7SE
+	 7//ziGbYqv68P9vbcMG4sO9H+lz+U0Qf8Q81zoTAo8wppe7pbtd1/r9Cxz1+MipqcdQc6
+	 kHsjUIUcLNXCQcWCEVtyIKjX9PBpYJVSROPvQkM69eG06CfQUYax7B/WMhkqv6oJIsUZP
+	 mb7TAHQJ5RQuqhWQGWIJ4zaI2JSc7ZM1FLi6LQd2oy8qU0Fohr7R13NOVUSMjbhLLHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795523322;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=2juA0rqU8pu1DpmHAS526Dnda9RFqW2YMGL8zHBIuM4=;
-	b=FwKuSBbbUok9PDjg97E6PRcwjqNYaMsvYAc8hA8EpMAye0lVzvT2VH3gTVjgJ6h+gRr0
-	 ycglobwdw9cy9uol4aCMnpCo4+1cF8FSj94vmuktTA03T86LjDjkeoUr8OJLoA1miD5H4
-	 c1sjaEckza1c8mYy45uiJMWZDIFkh7/mtuM4hf81na32RB7oJVE19IE91dPJTxqzY3Six
-	 p5kA4pwvkQE6CsrTuffluWGV5YVSfriQy+HGAygqSELQjW+gz3Nl4IBcooQqNlcdmR6rZ
-	 WPWAyA5ftgdYbnFAQF1DEPuLPY3YpEFYpxOjickN8Z4lMLg1dO7XcqV7vrFyPUo3F3Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795525742;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spamd-Result:
+	 X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
+	 X-Rspamd-Queue-Id;
+	bh=WcJSkaqY9Qq8Hd92McHt9i07oPBgHaZhYiQd4F7xNFM=;
+	b=ny4KlfpgAWFMU5OLEwr9aIvS5HSYaGeOc1V7PyFtnrn3RZmkJKuym9OK801cuIS9Vikp
+	 lyfdP6pP/M9Ijw194JPFV5DY/k01XjHCKlZ7vQqwfif7Phmwt/QkJLclcYfvfMIo5oONi
+	 wAmdwzEMqCQChBQzbgFL3XPj0PqPri+LeDeSqX79/TMafzZSxGu08TcVmpZx87ec7C7/L
+	 cV3uTEXhF+VKUw6+ZpBFfVeOVbANulTzilifliirWEE2L1WQQHPBkqfxEfynOaHzRMsra
+	 uiNac7xdYc5OUgpsCTlgv9Xquwf43I4SC/sycf81HIKZsIvYdAblosVx4+zrcj016sA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KNapicCu;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=mmUD+xsu;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=97c8Gm65;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=no7xFE9k;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=XvYNRNNJ;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4673A606A32A;
-	Tue, 24 Nov 2026 12:28:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24D4606A322;
+	Tue, 24 Nov 2026 13:09:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E24D4606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KNapicCu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 538501F0089E;
-	Tue, 24 Nov 2026 12:28:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795523321;
-	bh=2juA0rqU8pu1DpmHAS526Dnda9RFqW2YMGL8zHBIuM4=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=KNapicCuWhX/vW62nc3qkqVu6EVdptRq5g7QrCTBE7iTolKDnGTd+/SoZD2r2skx5
-	 Gl1VhBF2gtrhLXGPeFJrQ7DVI3zg3/IcyAw5RGZMoSV7vbIuM/RPILwGikSX0X64IE
-	 lWf5Bh1DRIzHumptedgqKhyav21cxBdmr2oumhTxQZmGLB+Nt2UhENm3HNg8XfpDg+
-	 +MOPE+oicT1XvPkVsIWOjVEU07jjU3mflUZ8YkxLi0OEe+IcXflO/63d9tKWLxqiFY
-	 Ovieuvz5a7sZAVg0L2OEB6/lgWmRbobe8+pP5UATDj0AVFPWCacr9t3T2E3nWQSeCk
-	 ZPaqgNIRX89vQ==
-From: Mark Brown <broonie@kernel.org>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
- Arun Iyengar <aiyengar1990@gmail.com>
-Cc: linux-spi@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261116-spi-sun6i-h616-dual-read-v2-0-e0c66eb71e20@gmail.com>
-References: <20261116-spi-sun6i-h616-dual-read-v2-0-e0c66eb71e20@gmail.com>
-Subject: Re: [PATCH v2 0/2] spi: sun6i: Add dual read support for the H616
-Message-Id: <179546093021.25092.9731522702680875589.b4-ty@b4>
-Date: Mon, 23 Nov 2026 19:08:50 +0000
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=mmUD+xsu;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=97c8Gm65;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=no7xFE9k;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=XvYNRNNJ
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id C79711F7CD;
+	Tue, 24 Nov 2026 13:08:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795525740; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WcJSkaqY9Qq8Hd92McHt9i07oPBgHaZhYiQd4F7xNFM=;
+	b=mmUD+xsuUa7B/iXxIoqUvGyM9xNrE4ua0l7iAxS2Y2M4GtqqEM1XZb2WmCf3R/1AQcQUns
+	R8p59avmbySAHfYg12Ab/nfBoP+gF9UK5o+ZmznsSD3TG41YbJKyeD7j8DkDDROSQ3xPK3
+	QrSlmxbpTqkIOujibWP/aRmmB9859bo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795525740;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WcJSkaqY9Qq8Hd92McHt9i07oPBgHaZhYiQd4F7xNFM=;
+	b=97c8Gm65I5xaQNqWkHPOaWRh+xRBvHI5FL66vC6xwgctIrr1cl2kCnl16LzS/ZoPm5Dhla
+	SdHo7QUcZiqvO6Ag==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=no7xFE9k;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=XvYNRNNJ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1795525739; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WcJSkaqY9Qq8Hd92McHt9i07oPBgHaZhYiQd4F7xNFM=;
+	b=no7xFE9kf7JGQKe28BZel4ShYaE4zzTL5BIak1zW8v/xo5GPsr/s6sydUbEGQhfrHAYadS
+	QaPpvH2QACCd1dCbW6K34s1EGrihvQBlJkq78AYmE3Dc3zNRA2WinzgizDD2RhMFr5tkBJ
+	HTESxp7jut2xaGEIOPCp5knzhztoMt8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1795525739;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=WcJSkaqY9Qq8Hd92McHt9i07oPBgHaZhYiQd4F7xNFM=;
+	b=XvYNRNNJXqCs9b455USCCnF4QILvmlgIMu6KafQN/mRztUDTVN1o3Xzh/fd/1U8vj1NUT1
+	O8nXZ7CNrzNImrDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2D1B813505;
+	Tue, 24 Nov 2026 13:08:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id zsLdNWqMBWt+MQAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 24 Nov 2026 13:08:59 +0000
+Message-ID: <93890802-060e-4369-842e-2a02bbd2042c@suse.de>
+Date: Tue, 24 Nov 2026 14:08:58 +0100
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -63,57 +108,235 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1598; i=broonie@kernel.org;
- h=from:subject:message-id; bh=Gl/xhCYINcG9OHOKX7Xhzx/xdThzJjdJ2Z4+WZuW27E=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJZm76yZzvv2j7z+uWwWfyFzA9+7Rae+01toovFWvUpU
- 0pO3dCI6ihlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBESjYzMnzdvzjnyO26xjy1
- c09msOUFZ1p4iaScOiko7iBjv0PgSAQjQ8eu45GFnd88Ofd+PJv4v/CD/BmGOvG1FxIL9qjLLvP
- byAcA
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFT v3 2/5] drm/fb-dma-helper: Add
+ drm_fb_dma_get_gem_clipped_addr()
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Liu Ying <victor.liu@nxp.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, linux-sunxi@lists.linux.dev,
+ imx@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20261124074041.115251-1-wenst@chromium.org>
+ <20261124074041.115251-3-wenst@chromium.org>
+ <19cd5949-05dc-4107-bd2b-d8ad1e2332eb@suse.de>
+ <CAGXv+5HSV7MJ96qTcOp+JaKWtmmYYWAmDROrT18pZ9PztNCJ-g@mail.gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <CAGXv+5HSV7MJ96qTcOp+JaKWtmmYYWAmDROrT18pZ9PztNCJ-g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-13.50 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[nxp.com,oss.nxp.com,pengutronix.de,kernel.org,sholland.org,linux.intel.com,gmail.com,ffwll.ch,lists.linux.dev,lists.freedesktop.org,lists.infradead.org,vger.kernel.org];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:email,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -13.50
+X-Spam-Level: 
+X-Rspamd-Queue-Id: C79711F7CD
 
-On Mon, 16 Nov 2026 05:55:24 +0000, Arun Iyengar wrote:
-> spi: sun6i: Add dual read support for the H616
-> 
-> The H616 SPI controllers support dual and quad transfers but bind
-> through the H3 fallback. Patch 1 lets the binding allow those bus
-> widths for the H616, patch 2 enables dual reads in the driver.
-> 
-> Developed with Claude (Anthropic), which wrote the code and the commit
-> messages. I reviewed them and tested on an Orange Pi Zero2.
-> 
-> [...]
+Hi
 
-Applied to
+Am 24.11.26 um 11:22 schrieb Chen-Yu Tsai:
+> On Tue, Nov 24, 2026 at 3:57 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>> Hi
+>>
+>> Am 24.11.26 um 08:39 schrieb Chen-Yu Tsai:
+>>> drm_fb_dma_get_gem_addr() returns the DMA address to the "unclipped"
+>>> framebuffer. However some display drivers want the "clipped" framebuffer
+>>> instead, as they are also using the clipped coordinates to program the
+>>> hardware.
+>>>
+>>> Some of these drivers are open-coding drm_fb_dma_get_gem_addr() with
+>>> the source coordinates replaced, while others have been incorrectly
+>>> converted to using drm_fb_dma_get_gem_addr(), which would end up
+>>> causing incorrect parts of the framebuffer to be displayed if it were
+>>> somehow clipped.
+>>>
+>>> Add drm_fb_dma_get_gem_clipped_addr(), a "clipped" version of
+>>> drm_fb_dma_get_gem_addr() for these drivers to use.
+>>>
+>>> Cc: <stable@vger.kernel.org> # dependency for next patch
+>>> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+>>> ---
+>>> Changes since v1:
+>>> - Use new drm_framebuffer_get_block_offset() helper
+>>> ---
+>>>    drivers/gpu/drm/drm_fb_dma_helper.c | 37 +++++++++++++++++++++++++----
+>>>    include/drm/drm_fb_dma_helper.h     |  4 ++++
+>>>    2 files changed, 37 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_fb_dma_helper.c b/drivers/gpu/drm/drm_fb_dma_helper.c
+>>> index ab0f37d8a5ff..0aaf4926db4e 100644
+>>> --- a/drivers/gpu/drm/drm_fb_dma_helper.c
+>>> +++ b/drivers/gpu/drm/drm_fb_dma_helper.c
+>>> @@ -60,15 +60,16 @@ struct drm_gem_dma_object *drm_fb_dma_get_gem_obj(struct drm_framebuffer *fb,
+>>>    EXPORT_SYMBOL_GPL(drm_fb_dma_get_gem_obj);
+>>>
+>>>    /**
+>>> - * drm_fb_dma_get_gem_addr() - Get DMA (bus) address for framebuffer, for pixel
+>>> - * formats where values are grouped in blocks this will get you the beginning of
+>>> - * the block
+>>> + * drm_fb_dma_get_gem_addr() - Get DMA (bus) address for unclipped framebuffer,
+>>> + * for pixel formats where values are grouped in blocks this will get you the
+>>> + * beginning of the block
+>>>     * @fb: The framebuffer
+>>>     * @state: Which state of drm plane
+>>>     * @plane: Which plane
+>>> - * Return the DMA GEM address for given framebuffer.
+>>>     *
+>>>     * This function will usually be called from the PLANE callback functions.
+>>> + *
+>>> + * Return: GEM DMA address for given framebuffer, unclipped.
+>>>     */
+>>>    dma_addr_t drm_fb_dma_get_gem_addr(struct drm_framebuffer *fb,
+>>>                                   struct drm_plane_state *state,
+>>> @@ -86,6 +87,34 @@ dma_addr_t drm_fb_dma_get_gem_addr(struct drm_framebuffer *fb,
+>>>    }
+>>>    EXPORT_SYMBOL_GPL(drm_fb_dma_get_gem_addr);
+>>>
+>>> +/**
+>>> + * drm_fb_dma_get_gem_clipped_addr() - Get DMA (bus) address for clipped
+>>> + * framebuffer, for pixel formats where values are grouped in blocks this
+>>> + * will get you the beginning of the block
+>>> + * @fb: The framebuffer
+>>> + * @state: Which state of drm plane
+>>> + * @plane: Which plane
+>>> + *
+>>> + * This function will usually be called from the PLANE callback functions.
+>> You should mention what clipping means in this context. It's not obvious
+>> what it's clipping against. Or maybe point to other docs that explain it.
+> What about:
+>
+> /**
+>   * drm_fb_dma_get_gem_clipped_addr() - Get DMA (bus) address for the start
+>   * of the visible (CRTC-clipped) part of the framebuffer
+>   * @fb: The framebuffer
+>   * @state: Which state of drm plane
+>   * @plane: Which plane
+>   *
+>   * A plane may be positioned partially off-screen, in which case it gets
+>   * clipped to the visible CRTC area by drm_atomic_helper_check_plane_state()
+>   * (populating the clipped coordinates in &drm_plane_state.src and
+>   * &drm_plane_state.dst). For example, if a plane extends past the left or
+>   * top edge of the screen, only its right and/or bottom portion is visible.
+>   * Drivers whose hardware cannot clip by itself (i.e. accept negative
+>   * destination coordinates) should use this helper instead of
+>   * drm_fb_dma_get_gem_addr() so scanout starts from the visible portion of
+>   * the framebuffer.
+>   *
+>   * For pixel formats where values are grouped in blocks, this returns the
+>   * beginning of the block.
+>   *
+>   * This function will usually be called from the PLANE callback functions.
+>   *
+>   * Return: GEM DMA address for the visible part of the framebuffer.
+>   */
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-7.5
+Looks good.
 
-Thanks!
+>
+>>> + *
+>>> + * Return: GEM DMA address for given framebuffer, clipped.
+>>> + */
+>>> +dma_addr_t drm_fb_dma_get_gem_clipped_addr(struct drm_framebuffer *fb,
+>>> +                                        struct drm_plane_state *state,
+>>> +                                        unsigned int plane)
+>>> +{
+>>> +     struct drm_gem_dma_object *obj;
+>>> +
+>>> +     obj = drm_fb_dma_get_gem_obj(fb, plane);
+>>> +     if (!obj)
+>>> +             return 0;
+>>> +
+>>> +     return obj->dma_addr + drm_framebuffer_get_block_offset(fb, plane,
+>>> +                                                             state->src.x1 >> 16,
+>>> +                                                             state->src.y1 >> 16);
+>> I had to look several times to spot the difference to the regular
+> I suppose I should add a comment to make the difference more visible:
+>
+>      /* Use clipped source coordinates state->src.[xy]1 instead ->src_[xy] */
 
-[1/2] spi: dt-bindings: sun6i: Allow Dual SPI and Quad SPI for the H616
-      https://git.kernel.org/broonie/spi/c/b4d26b2d6b61
-[2/2] spi: sun6i: Add dual read support for the H616
-      https://git.kernel.org/broonie/spi/c/908db9a4ca30
+Your choice.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+>
+>> helper. In any case
+>>
+>> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> If the changes above are acceptable to you I'll send out a new version
+> with your tag kept.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+Sure, go ahead.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+Best regards
+Thomas
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+>
+>
+> Thanks
+> ChenYu
 
-Thanks,
-Mark
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
+
 
