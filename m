@@ -1,111 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795518180;
-	b=2bOHl13J40CN14eoMxTf5RcoFvylUM19rKepG/vnfZL7NJmAB6chRDAxEqMjrWy/HRB1
-	 Exja3c653tAyT5/wKlTMz9HlDlxQJaK4quRiyNkWRxiVebRo8n00aZJM34QNYkni0pMNs
-	 O6+dAKWFJgTl3wEl1nskJqpaNGDhlV5CunP82TcBoGSaB4j3t4DD2y15agAUGSUwhqjsc
-	 b2bcWo2hf62rJTmzTlDPZODBzHCx3BxesuvcCv3tUD7a7fF8+pfuWnvM7iwMZ3vQVFeIN
-	 687CMxcmx+U5+5c25jqDmtSEGZ8JeddOGVv5NtNnXaJv8LbSReKKk3yUaNdjL2azK4Q==
+	t=1795518977;
+	b=2MZPtFwxmyVqktBIfWbF8UnuXlELHIFnaw3Tst9NCK00LDNbA7s4PjQGkl66IfRcBcpy
+	 58OyLecBLp89a4e5da7eazDQnTbPYyjHUC6KDsjnmyN/ym6Vd0jyEGA4Azj8kdzrlOPQ6
+	 hphTOrSKjkBFoa6Ip1Nk96zo5BiN5/9iuzVOZYUWE05DFer3siWaDE/tCgDfkI25c8RoL
+	 EH+17IMs/Vcerjt5a80w+7gtjCBBQB2Jqg54fifa6r1SQcUgIwvFy5bmPbosUWkBYHeiQ
+	 S7h6gVVl+5gmC2colKUdjxAw402Z+QB3MH6Go4sIcT1K9M6WaGwD7uts5jI0szx9wAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795518180;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=mkjJrkqN7PSqt35Slo7/CrqzZ7y1RXzaSbB1kKd5fBw=;
-	b=49RemfEkkoMWxBas/QTXyK/tbCXt3xrAJi1y2VTtyxnMVdU7Uq3P7ZOEp6ds5kxZYSZg
-	 6JIZVcgzwzrz8X6lX9QqBGhsTQxNbp1Eod7LkbmTCDEJR+aYJmcActqX/CSwlPPdhuZGO
-	 rxZKqRnGM1miBOjp9tPLsZmCOPBODWU1dnhZsTrdWVsgJlj01pMq/oIhXzEGDKQGo/kg8
-	 sTO7pz90/P1G8jnmG+yx/0i0LrjBg/4RXfOCse6HFPp1g3N+DfWApZr6q4CcebAwirtJV
-	 laIE1sdOKl904b0p0jAgbEVu+Tb7BuCy7OfKR795QR7jr0/DwN/mcUww5gyz/vOazVw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795518977;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=tybZ8A9gQEPaCmNc6ZBx7xtz6zHhGLsPWUWzuEyVLfQ=;
+	b=23aYU1YxB5v/N7Wfie4MJeJzRoDrxp1dHTj5hyhzf6n7FhXRnvDIc8HQP436eBRXfSTy
+	 YcLssJxXov++Q/j3ZeVFBisqCGmYAgxBtAfiDSdUP+I7kIqAY/XLCbvOhh4wpirlY40+r
+	 2Qlfb0fft7XjLro5ruQ1yWtzYZDoH8fs356hXFsQbF5LlIZQtWuVTBp2TFR4E3RZVfrbo
+	 Pr8a4GDwaAL3r7magnwLMKNexkl8LnF5AWplI66sl2N71dwX9W+8FPfEo0tJBGGYj9erN
+	 LBT1WMlm7E0qG1Hrux34cBpXvZwH4l3nqZ89Sh2VP25tItmjNyeELPlxVxZjMvCdnfg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Ex7aLHC/";
-	arc=none smtp.remote-ip=209.85.222.51
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QWX15aP3;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1D0606A321
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Nov 2026 11:02:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A1D0606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49504606A31E;
+	Tue, 24 Nov 2026 11:16:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Ex7aLHC/
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-9905d61449cso1126425241.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 24 Nov 2026 03:02:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795518178; x=1796122978; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=mkjJrkqN7PSqt35Slo7/CrqzZ7y1RXzaSbB1kKd5fBw=;
-        b=Ex7aLHC/Ova/io4Z2ySaF205v5wNlGPQ0uESl92ATdtDLYJiouTSqg+4YR3mnLf8Ft
-         qBKloMIGdx+wGl8KbBy7AlMqG94N9zuUyCyLFJuvGQhfuJZ2WE2FZiGntvfOrZ3XSaEE
-         WdZHrs+CnZlEskkV8YvwQJdtclvue7MhXFn5JiUr4xzCo4keIF5J4ciQXpMFmlz8ek7s
-         UwOlw1DJ9J3qWWLMk9g130ETgkybpGkGLr3Lj9Gs84lVzbYDNrIAL6DDx0QFetDW+Vld
-         tHXHDgNtRZLpDEb3dJbZvrKlXIGJIm83SVETz1mipAJ4V3yjzQt+0eSiCcldXheqwoXf
-         HNsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795518178; x=1796122978;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mkjJrkqN7PSqt35Slo7/CrqzZ7y1RXzaSbB1kKd5fBw=;
-        b=y8DiMbXSEAx+5JMzakIG0sjVf7uAOKwvhOKX0fSpqQkpE6T2K5wBMBdEpfBgp/UUXF
-         aVSsK1gh1h7lxgrdEVQf8lYOBIy4mgZqxgqhjA2KCQUG7/67Y3z0ndMrPnD5XJnzSiYg
-         OgSYqw8UHCCZtpqXZFveEuVh8T/UVoXWzRs+ZioLVosyf2zY3eUekzm4tQPhIHAv1TWg
-         7+dpZVNx/AyZBldGtsZJxv/ZOAD8XnHTQDWiSC9E2ongcolGUhTtEp3sVgzfvP5ICTtw
-         LTTmeSjZPOHc/6IlO6OUEcncLYB24zFSxXbEqM/WhkVMYyR+o7MgB0RDlzkNg/KaiuMz
-         BKMg==
-X-Forwarded-Encrypted: i=1; AL+hErG2xAYyZG5RD1mgL6HSidjZtiqBENpfmTHigUCLaWon/RuYREvz33xHutDqkjuJaHorcLPKIaBnNlP4Ng==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9e83FqZI3Owe7JFPxTjU37pBJBCC/CavTvjxDznkUuYsDBGIy6
-	dor8REkHJ7wJvL0pSj3EDzOrF0XDl9Kq2h8qn67Eq+AzAovDOAJubvD0
-X-Gm-Gg: AZFdTZd++1w2Z2daJzUt6CLnmlk52MUJwmmTyD+B3xjGSqYsxJG8vr1Qn7nQHMmAgqp
-	1fGRtPoZkO8ZfvlyK6jk4HUFURol46zjmH7bFN8MaivLrcAl6zG9gY9EmvBuuY8+qcJ8cJlXTtu
-	KfCx1ShSkBaYlxBiIXswLQSzx8HeuM9jl2jCCxVn9IMRdcHUfURDpC2c2zG2g4xeuyKixmhnnwL
-	pTE/J2ZTxr5UcEFurOYPkIz6MhxbXgrKuZnX4gPAS6tbXHvCfd3rxyKtnr6mPprsscP9q9oygGY
-	h8sZxW1YZ6CPTl78j3mwRCmhJMBQ0lCbkum77QUX5JfPZqyDqF1vfJ1BTHPFF8TrRXuPfmMItMX
-	vrConJDDR60oHuAUzKQktj47LuD0Ao1Vs/jNz9C9j6zZcPPtUI5ss//sjNVLXRODz358yxjrStJ
-	Jb/GjlCoK7Qf1tSeHY5nyPnL7zahd6suDHpI9IP/YVCP/11IoQfrzdDzXw95KDz5/qu1634XyaZ
-	zV4rGpNfqMbzFZ4d81Hn2Z7CWJ4LMrZwvxUk4Zq6TN4Ta439wARaQmH/ZKBdEYbolcmbCU38WPw
-	h3PonW6k4IGnU3BxZZNP9MIOmQxlsKRfvTIy8oMGyN8BJBxB0AgBGQBbTmupwBET+R7lEIaWtgf
-	KBNmQUvdKWOLtOla4SomtZuWViZitwLustDEzT9gSon/1Stcy
-X-Received: by 2002:a05:6102:54a8:b0:7d6:56d3:f179 with SMTP id ada2fe7eead31-7d72b361a74mr6083753137.5.1795518177851;
-        Tue, 24 Nov 2026 03:02:57 -0800 (PST)
-Received: from localhost.localdomain ([2804:1b2:aa42:30d0:da53:c2d8:5b4f:38c1])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d6e8265e55sm14978477137.11.2026.11.24.03.02.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 03:02:57 -0800 (PST)
-From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-To: Enzo Adriano <enzo.adriano.code@gmail.com>
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Junhui Liu <junhui.liu@pigmoral.tech>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Pablo Mazzini <pmazzini@gmail.com>,
-	Alexander Sverdlin <alex@sverdlin.org>,
-	Jun Yan <jerrysteve1101@gmail.com>,
-	Lukas Schmid <lukas.schmid@netcube.li>
-Subject: Re: [PATCH v5 2/3] arm64: dts: allwinner: add A733 SoC description
-Date: Tue, 24 Nov 2026 08:02:31 -0300
-Message-ID: <20261124110231.15528-1-vinicius.eduardo.pedrosa@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261121-a733-cubie-a7s-dt-v5-2@gmail.com>
-References: <20261121-a733-cubie-a7s-dt-v5-0@gmail.com> <20261121-a733-cubie-a7s-dt-v5-2@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QWX15aP3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D45611F000C0;
+	Tue, 24 Nov 2026 11:16:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795518976;
+	bh=tybZ8A9gQEPaCmNc6ZBx7xtz6zHhGLsPWUWzuEyVLfQ=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=QWX15aP3PT81dY6/DPQL3gVieVvQ6oTnTRBjI50dADq62vH9PBHJZ1bw/kPPeDTe6
+	 2WTm2ZTLjFV5Wq0WgxvA68MI3/eT3T0jzYH2ohpsw0qvCZ480OTVKSj4/8Nbi4OIVp
+	 J7Y+K3TgTTF0fUcUQ8fI5AOdFwAGYc6f01YD4dqv/LU4qDqlUoqxptNgFGlH6x3xBI
+	 xShKmi0u3MFPxWBC6YhhZvTqcsuxXxGuBFDfovKufkrMpgHd+oijxwiKn4UW0+peMb
+	 Wpz0+WglLKkwG4AKdGBR1mYuT2bm1UJ2vkGYT3g9RAylLi5lbcmBAHCoAv1gUxk2B1
+	 BG8xoxVz6Qa8g==
+Subject: Re: [PATCH net-next v4 1/5] net: stmmac: dwmac-sun8i: Put the EPHY
+ clock and reset after the MAC
+From: netdev-bot+sashiko@kernel.org
+To: aiyengar1990@gmail.com
+Cc: maxime.chevallier@bootlin.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, wens@kernel.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org, p.zabel@pengutronix.de,
+ linux@armlinux.org.uk, netdev@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org
+Date: Tue, 24 Nov 2026 11:16:15 +0000
+Message-ID: <179551897540.3135.862711203479532427@kernel.org>
+In-Reply-To: <20261120-sun8i-emac-mux-uaf-v4-1-57eba8915f25@gmail.com>
+References: <20261120-sun8i-emac-mux-uaf-v4-1-57eba8915f25@gmail.com>
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -115,23 +67,96 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Tested-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com> # Radxa Cubie A7Z V1.11
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-I tested this dtsi with my A7Z board DT on a v7.4-rc1 lab kernel with
-some of the posted dependencies and a local pinctrl fix, not the full
-list from the cover letter.
+Low priority / nit picks for your consideration:
 
-All eight CPUs came up, both A55 and A76 PMUs registered, the PPI
-partitions were recognized and sysfs shows one cluster. MMC0 ran at
-3.3 V and 50 MHz, and a read of its first partition matched the
-reference SHA-256. Two card-detect hotplug cycles worked with
-GPIO_PULL_UP and the local EINT-mux fix.
+- [Low] The commit fixes a real use-after-free on the sun8i_dwmac_probe()
+  error path but has no Fixes: tag and no Cc: stable, so stable trees…
 
-I haven't tested the new I2C0 PG8/PG9 pins, PMU counting, EL2
-interrupts, ITS/MSI or the A7S board DTS.
+--
 
-Thanks,
-Vinicius
+net: stmmac: dwmac-sun8i: Put the EPHY clock and reset after the MAC
+
+This commit moves the reset_control_put() and clk_put() calls for the
+internal PHY so they run after stmmac_pltfr_remove(). Before, they ran
+before it, both on the sun8i_dwmac_probe() mdio-mux error path and in
+sun8i_dwmac_remove(). This fixes a use-after-free because
+sun8i_dwmac_exit() still uses ephy_clk and rst_ephy to unpower the
+internal PHY.
+
+> net: stmmac: dwmac-sun8i: Put the EPHY clock and reset after the MAC
+>
+> sun8i_dwmac_exit() unpowers the internal PHY through ephy_clk and
+> rst_ephy, but the probe error path and sun8i_dwmac_remove() put both
+> before stmmac_pltfr_remove() calls it. If mdio_mux_init() fails after
+> the scan of the internal bus has powered the PHY, this is a
+> use-after-free.
+>
+> Put them after stmmac_pltfr_remove(). The explicit unpower in remove()
+> is then redundant.
+>
+> Suggested-by: Chen-Yu Tsai <wens@kernel.org>
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+
+[Severity: Low]
+Should this have a Fixes: tag, and perhaps Cc: stable? Without them, the
+stable trees won't pick up the use-after-free fix automatically.
+
+The ordering problem seems to come from commit 529254216773 ("net: stmmac:
+dwmac-sun8i: Balance internal PHY resource references"). That commit added
+the puts under the dwmac_mux label, and that error path then called
+sun8i_dwmac_exit() explicitly.
+
+Today, the same error path falls through to:
+
+stmmac_pltfr_remove()->stmmac_dvr_remove()->sun8i_dwmac_exit()
+    ->sun8i_dwmac_unpower_internal_phy()
+
+When internal_phy_powered is true, that runs clk_disable_unprepare() and
+reset_control_assert() on handles that have already been released.
+
+The flag can be true here. mdio_mux_init() scans the internal bus first,
+and mdio_mux_syscon_switch_fn()->sun8i_dwmac_power_internal_phy() sets it.
+A later child bus can then fail with -EPROBE_DEFER, which is an ordinary
+event.
+
+Would something like this be appropriate?
+
+Fixes: 529254216773 ("net: stmmac: dwmac-sun8i: Balance internal PHY resource references")
+
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> index 2ece7ba9dd73b..9fb398f7cf9ec 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> @@ -1236,7 +1236,7 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
+>  		ret = sun8i_dwmac_register_mdio_mux(priv);
+>  		if (ret) {
+>  			dev_err(&pdev->dev, "Failed to register mux\n");
+> -			goto dwmac_mux;
+> +			goto dwmac_remove;
+>  		}
+>  	}
+>
+> @@ -1244,12 +1244,11 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
+>
+>  	return 0;
+>
+> -dwmac_mux:
+> -	reset_control_put(gmac->rst_ephy);
+> -	clk_put(gmac->ephy_clk);
+>  dwmac_remove:
+>  	pm_runtime_put_noidle(&pdev->dev);
+>  	stmmac_pltfr_remove(pdev);
+> +	reset_control_put(gmac->rst_ephy);
+> +	clk_put(gmac->ephy_clk);
+>  dwmac_syscon:
+>  	sun8i_dwmac_unset_syscon(gmac);
+
+[ ... ]
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261120-sun8i-emac-mux-uaf-v4-0-57eba8915f25%40gmail.com
