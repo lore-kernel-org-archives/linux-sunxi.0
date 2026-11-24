@@ -1,92 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795551456;
-	b=vNtMssygWqO9cYLL7keN+41XEPUPZK6fvNSDmVG5TJhSsN11nsM1L1po0mzO72Zk90vQ
-	 xdOgHO9tEWzYhcfVOsx5rhI3T21zvc8PgmqQj19zzn7zr0M7AcWD47Lu3tmvC0qfSGQFM
-	 FXgp/fdxOlYExDQobljaWSLp7Q33FKehUx5K4UQ1Dlc1F8U739SG4f0nKZPSYTfiQLTMY
-	 DJ1CRCL/PQsdw/v4MtIDS+MpRusHUpxohuJ8gJHTq2VTZdTsCOIymTqgRP36NekV42Ikw
-	 mW7DZcPV7XTHbXYnIdmv5m4Cb/fGOQteBNSJL8WjgDCIAj5zFs2dfapUe73zsKw7RzQ==
+	t=1795557105;
+	b=mJB1tEdMx8dNj6ObNUq0VQ6tQh3GdHt774NFbVvuxzH8pcVlh1ArIXKz9bz9rZMUmdqj
+	 MuTFUpqH2qUcWVmfnqZyJ0bWlrkUxFaG7miMI96S8Ll92r87YEm8K5rdlmXh0syL/7rJI
+	 INJhGkxqj85PEIZ/NltoBctnCYpd+ZZDNGSgTMyMZ0++72gYW1EEEXi0HbMC48hTsZAE2
+	 fmWWPNnCoZQcqVRQ/hVEaqK8ENw2OgTLqYm/VF/fu5ijL6417bCqEzrjLZ0wtRfm8enEF
+	 +cojrbJhz5i5WCHqwDQWPQmwTAClDd0n/CnPJXAYpABJstWY2/SNBGxGYLU7na4XH3A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795551456;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
-	 Organization;
-	bh=O+rpuV/3Cdeqi3olBPq3dLsHItggXZ3BKkKR1WXWVLM=;
-	b=qzMqR+Bndg0W1gRT7CM6FJFI/du6Cq11dmGqm3KBKgRcWp9G1yTilEgkjaj8c5yIQb2i
-	 8gGraOEr+OH2rHJ+CPX4L0BrvFUy4K9TNtpGM369aPzznycSuIJVD9Eqy417G8WSZbEQv
-	 p/z40Go47cPAKe4Lc9HxsdwkN2yaXnKi1wohrXibIQYccaTpOb40RzqAsPikilXgl6UoI
-	 2QeY/ZgTkGUX5e4GCWySMayqtEcgv3rBdgHafwADrN8DtMvSQRo7/HE81QkxmT+A1F3SI
-	 pqCqEybkudsCx24hVdfDzaz2IiUpxivF2MYDxekCo0wfxKP/ibpIkMYPxKnrx2Xt80w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795557105;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Q+MVnOFEFwJuVi0O8xTOZaHRbvIQr13a56K4pIcT3Po=;
+	b=ZvaWGbfYYBcebqzOfsvYL/rxqqUwBQ9ku6E9iGdan7ps+WDoGmw0xq/sAiJQ7RAmBoJV
+	 wtuZb+pSY52+DF+MzExOwJICbDxvQpS46oHef0fkCwdmMt1+U3BxEXkBnM17RM3C7qBs5
+	 qmpYLX29nGTomm0WTNIRhKv4rky3/kjM4CmjX6Nv5MytNtcC5EAGTpJiyW7hShFi+tRse
+	 AUgU0/Px420dGyWe776ZALuL6KTsWEVN65uVGE1Nfc6cROneUmQJIjhGWYAiQQOYoGCnf
+	 z8fvL0PZOrgOoCRqmo43YdfDIS1o8KI51JuZ6DA2mWvlkki/r+oSJKxEeHf/0l5eivw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="aMIcin/J";
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FfYVdDED;
+	arc=none smtp.remote-ip=209.85.221.50
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9EC6606A327
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Nov 2026 20:17:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9EC6606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72E5606A68B
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 Nov 2026 21:51:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E72E5606A68B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aMIcin/J
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1795551456; x=1827087456;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=vemVSTIihOUQsSm9fN9JJKFg/NjYffet9HHWmoPjrPI=;
-  b=aMIcin/JqBMkc8hYc2uIhgaONMKKZ1lh8gpdnGxxyRVrhms8c56prgfO
-   hqB0xSEX4QWdiWIKH/QmOJNkFcxPjOgpPTfnpCvbhhrW4kkzutnNj8vnm
-   NHcOG10C+X+YPDCglyejN/QJduGUsCcHHwidRFVXHIhigK+cnYvEVLeLg
-   nE5P53S8P4xlAUOUQ9lNMccfF4ZqmPvyJcFssE3kn1iK1vM/jQOtB5lak
-   ht2oOhozJEnoYogJr/xscjkU+q5D8XVt+/By0a/U/Kqt16SMDHivg4jOc
-   BmSDQF7JOi8+AHLP8of2hWYiqPZhNvw+tvq4GeGcL24wwxz+3kluJpY1T
-   g==;
-X-CSE-ConnectionGUID: 8uzDspjYQNCfeb2SDqreIQ==
-X-CSE-MsgGUID: K3fqLRp1SxOa8Clp02dK/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4413224"
-X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
-   d="scan'208";a="4413224"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 12:17:31 -0800
-X-CSE-ConnectionGUID: fpE7LlwrSku8z6M0OuQLOw==
-X-CSE-MsgGUID: 4ohg0cV2Q7uBUThxTfPeUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
-   d="scan'208";a="11648580"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.125])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 12:17:25 -0800
-Date: Tue, 24 Nov 2026 22:17:23 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Arnd Bergmann <arnd@arndb.de>, bui duc phuc <phucduc.bui@gmail.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FfYVdDED
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48e20ed3b9dso4471202f8f.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 24 Nov 2026 13:51:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795557101; x=1796161901; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Q+MVnOFEFwJuVi0O8xTOZaHRbvIQr13a56K4pIcT3Po=;
+        b=FfYVdDED8jpr1sVK427lNfcqHBb2WZGdZ6jZNXXXKMk9IISHbjoCsAEWs3NDK5Hbjr
+         HJsRv1uQo15xOlFRDC6m92Kh1eTNxZ284PY6N6IgIOVyQ5msa1Gap03GuVz6K8c5/azU
+         6NEhUELFkseSnaNg6TH0i8jGveTjkPdEfx3RiXgvtHlchOpzyhVEOWebgxuZf/8leU32
+         e9NqNNn1Wtj+Zgoyra0jEh09GWtfaAD2dbk1tw3bXJQuCD9rGjnOInHbcmN5AWCy5WEn
+         4s1RAvMTQ3vYC4Zy8pSEsPDOoISff5k7r+2oDjtWWmSi6+kWJ/G0YRdE9Z7fVdTjofFT
+         vXlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795557101; x=1796161901;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Q+MVnOFEFwJuVi0O8xTOZaHRbvIQr13a56K4pIcT3Po=;
+        b=eWG4nJPSKiOn5WwDyK+RaVokYKj5ZiFBQAf2BdhzGwjKNrNzZ1UBUROpcJgjpiNzWH
+         2+CqldTQ6DECMoksDSy1Ix/Gt0jhmDBuywxd7O+8vsjx9eHn35u5icLuy3Y2ER6cDAcR
+         Js+0iBsUCQWuvwC4LhVQkKP9AqHa49Kjyi1uIG2BH2lXnkMdZTZeyd3dGJLC43WKmkg+
+         4Y1XvD1IW2YjwmxGooQ8A74ve6zJcdkSeEa+qD+mqYhjOl20UuOe+SS4Pin5LPKpvlN5
+         2MGkBKNTDUjPg7r1/Cnt1ju01bNUzNIdlGEFKLWXJKHRsVKYE0bnGLDH9hMcikAJ/POK
+         oeDw==
+X-Forwarded-Encrypted: i=1; AL+hErH3b6lHx4oLlY2Ok1CKRtiMLdYBxgcCPeniomPWdU9OHP6XEzRm6GUxbAW2ObTOHqigeRBNV9UgdKP7vA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/87Vyoj4izC37qaLqijJhuSRlhKALQBxTY4hiMq+UwfgAMUSLG
+	oWVhfavKPvmPlQFJyboAS6QX4li2mirxFDyF4aApPs+xpxV7Jx8cVsU7
+X-Gm-Gg: AZFdTZeCWFZpgao5CSTrSP3fkY2LVdNkjax2H2Q9KYCDn90HydFnlPzlIJFbg+HcXgm
+	qQJBLBwadQ0DKsNmWF3Rq6SpYWPrju0e9iD7Xaae+DDUQvN+X6tcRhi/hMaTq6k33kHCtabsEv1
+	uAq9f+6PzyCvALQTjCVI2eFNzrTAtCAkBs1AhI6a7o5a70sPwxKPaJU9Ghu7QlfBvw+B+5QFvjg
+	5hMEJXjWd0M5879q7lvnPkx27+dDmx49erhLYI0zWGEXcrcjus/Lt4MKkG1PAJiO8EHPZ4eN865
+	SEGN8vHCHe5ZgFrIXZ/dZC6k1FbwY3/J6+AX1piOqsNg973OzKbcdW+OZ58ZBqPvKxDfylSeK7d
+	uRibQWSVlnEx4DBhv3/AgcS2GNtfl/80EG8Nc/aF0W/MeN/3BTLbzePK93PexpxjDsiCXjwtrnb
+	pxPjQ5iakyf/z1gNuMH4Tf0av2M4TDYHPZHUDGyscYo/Y1TvfkbOMYeh46jaz9mFWkb6pZbQIYr
+	WFOormtA3B0mnbpFxTfB/uDc0cZgbkUtsabQKmrRtH5aBlyl1UK1QhInPXSRA60zoJk7EFHOtgm
+	zh2VG13N4InDFfovvuLwu+Ck7IVbGlGVGxaFrMN5Vw==
+X-Received: by 2002:a5d:5d87:0:b0:4b8:db69:1b4a with SMTP id ffacd0b85a97d-4b8db691b7fmr2464923f8f.55.1795557101212;
+        Tue, 24 Nov 2026 13:51:41 -0800 (PST)
+Received: from debian ([185.57.100.179])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab5ffcad11sm29194685f8f.0.2026.11.24.13.51.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 13:51:40 -0800 (PST)
+From: Pablo Mazzini <pmazzini@gmail.com>
+To: Linus Walleij <linusw@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Chen-Yu Tsai <wens@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Joe Damato <joe@dama.to>,
-	Julia Lawall <julia.lawall@inria.fr>,
-	Li Youhong <liyouhong@kylinos.cn>,
-	Maxime Ripard <maxime.ripard@free-electrons.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Samuel Holland <samuel@sholland.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	kernel-janitors@vger.kernel.org,
-	Christophe Jaillet <christophe.jaillet@wanadoo.fr>,
-	Florian Fainelli <f.fainelli@gmail.com>
-Subject: Re: [PATCH] net: allwinner: Use devm_clk_get_enabled() in
- emac_probe()
-Message-ID: <awXw07bDd0bX4Mas@ashevche-desk.local>
-References: <780975ed-825f-4f9b-8ac2-67664a7a2a2f@web.de>
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Pablo Mazzini <pmazzini@gmail.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH RESEND v3 0/3] pinctrl: sunxi: number the IRQ banks from the first one that has IRQs
+Date: Tue, 24 Nov 2026 21:50:45 +0000
+Message-ID: <20261124215048.42074-1-pmazzini@gmail.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -96,32 +105,45 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <780975ed-825f-4f9b-8ac2-67664a7a2a2f@web.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Nov 24, 2026 at 06:19:54PM +0100, Markus Elfring wrote:
-> 
-> * Reuse existing functionality from devm_clk_get_enabled() instead of
->   keeping duplicate source code.
-> 
-> * Delete a clk_disable_unprepare() call on an error handling path
->   and in the implementation of the function “emac_remove”.
-> 
-> * Omit the label “out_clk_disable_unprepare”.
-> 
-> This issue was detected by using the Coccinelle software.
+The DT pinctrl helper numbers the IRQ banks from PA, even when PA has
+none. The A523 got a DT interrupt for its unimplemented PA bank to work
+around that, the A733 would need the same, and on both PK is written
+past the end of irq_array.
 
-This breaks the order at remove and probe error path cases.
-Note, devm_*() at this case will keep just a clk object, but
-the actual enabling is done explicitly. W/o testing on real
-HW it's hard to say if this order is strict or not.
+Number the IRQ banks like the static drivers do, with irq_bank_map for
+the A523 and A733, and drop the PA interrupt from the binding and the
+A523 DT. The B288 (IRQ banks on PB, PD, PF and PG) then needs no
+made-up interrupt.
 
+RESEND:
+- rebased on v7.4-rc1, no changes
+- add Rob's ack on 2/3
+
+v3:
+- apply irq_bank_map to the A733 register layout too (Sashiko)
+
+v2:
+- give the A523 and A733 an irq_bank_map, and drop the PA interrupt
+  from the binding and the A523 DT
+
+Pablo Mazzini (3):
+  pinctrl: sunxi: dt: number the IRQ banks from the first one that has
+    IRQs
+  dt-bindings: pinctrl: sun55i-a523: one interrupt per implemented bank
+  arm64: dts: allwinner: a523: drop the PA GPIO interrupt
+
+ .../bindings/pinctrl/allwinner,sun55i-a523-pinctrl.yaml   | 8 ++++----
+ arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi            | 3 +--
+ drivers/pinctrl/sunxi/pinctrl-sun55i-a523.c               | 2 +-
+ drivers/pinctrl/sunxi/pinctrl-sun60i-a733.c               | 5 ++++-
+ drivers/pinctrl/sunxi/pinctrl-sunxi-dt.c                  | 8 +++-----
+ drivers/pinctrl/sunxi/pinctrl-sunxi.h                     | 7 ++++---
+ 6 files changed, 17 insertions(+), 16 deletions(-)
+
+
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.52.1
 
