@@ -1,49 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795550644;
-	b=jFrJJUcMB4qNOCw4RM3hVyYW+Xk6qJWuFatoZpNCauvAuYQo+L52KVhq2TkPBXaOvtnv
-	 L9UVcD8+LX4ZWOBlm0ttXH6t4Tuwwog5RKmUOwlHx6TV1pf0JtbtCZjIb0TlV5RfrkpOM
-	 dTbvQhQfFO9wCnbg1CI4QGteQoGD22QFxGH4IDIiCxKn5htklQ9B26qzkIChbaUu+qNA/
-	 yYLbgIOsPYrG6eMCqltl8uC62jNTU225nz4o744aXcSpvlNZ/oZA2Ad7QnVd/gxCAU4UE
-	 nGZO+WiehcmVq0qjPY3+Wer0+pk0/qCTQ8nt/pM+srCA8ncX9dqdxg+yKLr9oOlU/3A==
+	t=1795551456;
+	b=vNtMssygWqO9cYLL7keN+41XEPUPZK6fvNSDmVG5TJhSsN11nsM1L1po0mzO72Zk90vQ
+	 xdOgHO9tEWzYhcfVOsx5rhI3T21zvc8PgmqQj19zzn7zr0M7AcWD47Lu3tmvC0qfSGQFM
+	 FXgp/fdxOlYExDQobljaWSLp7Q33FKehUx5K4UQ1Dlc1F8U739SG4f0nKZPSYTfiQLTMY
+	 DJ1CRCL/PQsdw/v4MtIDS+MpRusHUpxohuJ8gJHTq2VTZdTsCOIymTqgRP36NekV42Ikw
+	 mW7DZcPV7XTHbXYnIdmv5m4Cb/fGOQteBNSJL8WjgDCIAj5zFs2dfapUe73zsKw7RzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795550644;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=LqL9E2CsknPEvpMVhLoxgxMbDObTKIGjsIWFOHL2N0I=;
-	b=feDbpgGqdeijJOwOyV8Rc7zGL7MpZH6Fiix2Z8OF69DHrVRgxa/bmvzCdKcYRZcmsVDa
-	 vjOBgKzdAW3Hct3eirI9PFxpeSLSd0PQn/qkLtvSnbDmGPudZb8pr5UCLvXHLYtja8Zdd
-	 sSkQJB30fqntfYm5sU7NyIrCxnTA2/lEHlBksBV7sMDE8iB4GYwX0QYt14gO0/Bkjt765
-	 vJCyqFKJ3xNwNLDukRb1oY03h5ktXLHRlf00FEFlIe2gDIjJr413CTUwJTHS+lFNI0pcX
-	 gAoF575vYDasngU9vDRrVgI7pgNlmCTSKUmq6bFQK216PzUjWJX5CexS+5cc6netEWw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795551456;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+	 Organization;
+	bh=O+rpuV/3Cdeqi3olBPq3dLsHItggXZ3BKkKR1WXWVLM=;
+	b=qzMqR+Bndg0W1gRT7CM6FJFI/du6Cq11dmGqm3KBKgRcWp9G1yTilEgkjaj8c5yIQb2i
+	 8gGraOEr+OH2rHJ+CPX4L0BrvFUy4K9TNtpGM369aPzznycSuIJVD9Eqy417G8WSZbEQv
+	 p/z40Go47cPAKe4Lc9HxsdwkN2yaXnKi1wohrXibIQYccaTpOb40RzqAsPikilXgl6UoI
+	 2QeY/ZgTkGUX5e4GCWySMayqtEcgv3rBdgHafwADrN8DtMvSQRo7/HE81QkxmT+A1F3SI
+	 pqCqEybkudsCx24hVdfDzaz2IiUpxivF2MYDxekCo0wfxKP/ibpIkMYPxKnrx2Xt80w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=YWezaFgy;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A056606A321
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 Nov 2026 20:04:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A056606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="aMIcin/J";
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9EC6606A327
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 Nov 2026 20:17:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9EC6606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=YWezaFgy
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9AFF2339;
-	Tue, 24 Nov 2026 12:03:59 -0800 (PST)
-Received: from [172.16.5.16] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CE66C3F86C;
-	Tue, 24 Nov 2026 12:03:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795550642; bh=tH2ftS9r4c42XZ26viYlbeouW30U4/gw4lJnh0zk7SU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YWezaFgy8T10St9qmvBLJvNxDlbL/eye1ooesVYZOfNAfSSorrjH81ZvoCdRYf8j+
-	 PKHCQk6RZLXWbgZ0FWxE7sw4azkh8UT/jpVVnUYrLezL0D22YEQRXDDt5FvnNRUPcq
-	 JK0SDhRZNSxWmQHbdZEC7WCFMcUlyCe8nTS/SfbM=
-Message-ID: <0e94af87-71d1-4a5c-a2bb-218a2306db27@arm.com>
-Date: Tue, 24 Nov 2026 21:03:56 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aMIcin/J
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795551456; x=1827087456;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=vemVSTIihOUQsSm9fN9JJKFg/NjYffet9HHWmoPjrPI=;
+  b=aMIcin/JqBMkc8hYc2uIhgaONMKKZ1lh8gpdnGxxyRVrhms8c56prgfO
+   hqB0xSEX4QWdiWIKH/QmOJNkFcxPjOgpPTfnpCvbhhrW4kkzutnNj8vnm
+   NHcOG10C+X+YPDCglyejN/QJduGUsCcHHwidRFVXHIhigK+cnYvEVLeLg
+   nE5P53S8P4xlAUOUQ9lNMccfF4ZqmPvyJcFssE3kn1iK1vM/jQOtB5lak
+   ht2oOhozJEnoYogJr/xscjkU+q5D8XVt+/By0a/U/Kqt16SMDHivg4jOc
+   BmSDQF7JOi8+AHLP8of2hWYiqPZhNvw+tvq4GeGcL24wwxz+3kluJpY1T
+   g==;
+X-CSE-ConnectionGUID: 8uzDspjYQNCfeb2SDqreIQ==
+X-CSE-MsgGUID: K3fqLRp1SxOa8Clp02dK/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11976"; a="4413224"
+X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
+   d="scan'208";a="4413224"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 12:17:31 -0800
+X-CSE-ConnectionGUID: fpE7LlwrSku8z6M0OuQLOw==
+X-CSE-MsgGUID: 4ohg0cV2Q7uBUThxTfPeUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,231,1787036400"; 
+   d="scan'208";a="11648580"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.125])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2026 12:17:25 -0800
+Date: Tue, 24 Nov 2026 22:17:23 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Markus Elfring <Markus.Elfring@web.de>
+Cc: linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Arnd Bergmann <arnd@arndb.de>, bui duc phuc <phucduc.bui@gmail.com>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Joe Damato <joe@dama.to>,
+	Julia Lawall <julia.lawall@inria.fr>,
+	Li Youhong <liyouhong@kylinos.cn>,
+	Maxime Ripard <maxime.ripard@free-electrons.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Samuel Holland <samuel@sholland.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	kernel-janitors@vger.kernel.org,
+	Christophe Jaillet <christophe.jaillet@wanadoo.fr>,
+	Florian Fainelli <f.fainelli@gmail.com>
+Subject: Re: [PATCH] net: allwinner: Use devm_clk_get_enabled() in
+ emac_probe()
+Message-ID: <awXw07bDd0bX4Mas@ashevche-desk.local>
+References: <780975ed-825f-4f9b-8ac2-67664a7a2a2f@web.de>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -53,108 +96,32 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] arm64: dts: allwinner: add A733 SoC description
-To: wens@kernel.org, Enzo Adriano <enzo.adriano.code@gmail.com>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- jernej.skrabec@gmail.com, samuel@sholland.org,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Junhui Liu <junhui.liu@pigmoral.tech>,
- Jerome Brunet <jbrunet@baylibre.com>, Pablo Mazzini <pmazzini@gmail.com>,
- Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
- Alexander Sverdlin <alex@sverdlin.org>, Jun Yan <jerrysteve1101@gmail.com>,
- Lukas Schmid <lukas.schmid@netcube.li>
-References: <20261121-a733-cubie-a7s-dt-v5-0@gmail.com>
- <20261121-a733-cubie-a7s-dt-v5-2@gmail.com>
- <CAGb2v64c5oirvfq7R3a1CWQCydfOOipcRD7dhSFAb=zczRdTHw@mail.gmail.com>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <CAGb2v64c5oirvfq7R3a1CWQCydfOOipcRD7dhSFAb=zczRdTHw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <780975ed-825f-4f9b-8ac2-67664a7a2a2f@web.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi,
+On Tue, Nov 24, 2026 at 06:19:54PM +0100, Markus Elfring wrote:
+> 
+> * Reuse existing functionality from devm_clk_get_enabled() instead of
+>   keeping duplicate source code.
+> 
+> * Delete a clk_disable_unprepare() call on an error handling path
+>   and in the implementation of the function “emac_remove”.
+> 
+> * Omit the label “out_clk_disable_unprepare”.
+> 
+> This issue was detected by using the Coccinelle software.
 
-On 11/24/26 17:44, Chen-Yu Tsai wrote:
-> On Tue, Nov 24, 2026 at 1:42 AM Enzo Adriano
-> <enzo.adriano.code@gmail.com> wrote:
->>
->> Provide the SoC description needed by the initial Cubie A7S DTS for its
->> console, PMIC, EEPROM and microSD. Describe the CPUs, PSCI, architectural
->> timers, GIC, RTC, main and always-on clock/reset and pin controllers.
->> Include the main and R-domain UART/I2C instances and MMC0-2 with their
-> 
->> pin groups. Use mux 6 for I2C0 on PG8/PG9, as in Radxa's BSP pinctrl
->> driver and its Cubie A7S device tree.
-> 
-> This should be evident from the schematic itself (the pins are used for
-> I2C). And then the datasheet would tell you which mux value it is.
-> 
-> Just saying, trust the datasheet and schematic a little more than the BSP.
-> And one really should write the device tree based on the schematic. The
-> BSP is there in case something doesn't work, to look for existing quirks
-> or workarounds.
+This breaks the order at remove and probe error path cases.
+Note, devm_*() at this case will keep just a clk object, but
+the actual enabling is done explicitly. W/o testing on real
+HW it's hard to say if this order is strict or not.
 
-Fully agree with that, the BSP is sketchy at best, especially their DT. 
-I have seen contradictory information in there already.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Also I think the commit message reads a bit awkward, at least it 
-deviates from what we typically see. I would start with a brief 
-introduction of the SoC. Just mentioning that we have the full user 
-manual and that this has been tested on a real board should be 
-sufficient, then it's obvious where those values come from.
-  >> The GIC maintenance PPI 9 and ARMv8.2 EL2 virtual-timer PPI 12 follow
->> the A733 User Manual v1.00, section 12.2.3. The GICD/GICR/ITS windows
->> and noncoherent attributes follow Andre Przywara's public A733
->> reference and the A523 precedent. The CPUX interconnect diagram in
->> section 5.1.2 supports noncoherency as an integration inference. The
->> ITS stays disabled pending its clock/reset and MSI integration.
->>
->> Describe the single DynamIQ unit and shared L3 shown in section 5.1.2
->> (figure 5-1). The big and little DVFS groups can be described by their
->> clocks, OPP tables and supplies. Partition PPI 7 (section 12.2.3,
->> table 12-1) between the Cortex-A55 and Cortex-A76 PMUs so each probes
->> its own core type. Defer capacity-dmips-mhz until it is measured on A733.
->>
->> Link: https://gist.githubusercontent.com/apritzel/60fd7379b9560a15b8b352986b69d39f/raw/efd9cdf8f26ba5b0c7e138f093af44a1cf322469/sun60i-a733.dts
->> Link: https://github.com/radxa/allwinner-bsp/blob/2045a3ca2a01f088c0314dc924bda59d154e363e/drivers/pinctrl/pinctrl-sun60iw2.c#L1591-L1610
->> Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
->> ---
->>
->> v4 -> v5: Rename osc to hosc and add the I2C0 PG8/PG9 group. Keep the
->> one-cluster CPU map and the two PMU partitions.
->>
->> Untested on v5: physical CPU/cache topology, PMU counting, EL2
->> interrupt delivery and ITS/MSI.
-> 
-> Someone please test the PMU.
-> 
->>   .../arm64/boot/dts/allwinner/sun60i-a733.dtsi | 663 ++++++++++++++++++
->>   1 file changed, 663 insertions(+)
->>   create mode 100644 arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
->>
->> diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
->> new file mode 100644
->> index 000000000000..8a258f16751e
->> --- /dev/null
->> +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
->> @@ -0,0 +1,663 @@
-> 
-> [...]
-> 
->> +               uart0: serial@2500000 {
->> +                       compatible = "allwinner,sun60i-a733-uart",
->> +                                    "snps,dw-apb-uart";
-> 
-> We can't merge this because the bindings haven't been merged. And they seem
-> to still be going through a lot of churn?
 
-But I think the binding patch for that is fine? And we are pretty sure 
-that we need SoC specific compatible strings for every SoC, actually, 
-regardless of how those UART fixes series' (Vinicius' and James') proceed.
-So I wonder if you could take just that binding patch already, to not 
-block progress here?
-
-Cheers,
-Andre
