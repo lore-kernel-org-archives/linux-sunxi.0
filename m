@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795518983;
-	b=39lZJYKEkNZBvHzUaZkpuzcqzNLl1GfyTM9ikUfPigdyiah7bFaoGqGN4aVdhejuXZ4f
-	 2Js7LiJGg5SsfS0SnJdp1zBKtvLe4dy+1iUa3+lUqb01b6NWtHoe/ugTMQ8W+F+mSGZsM
-	 2S04SBuI2aO2LqWgrVRIDnf+M6+haddSZwQgA8C1LgzD4AKttwdrX40leuGAdoC52+NAW
-	 XRXDs9va1gUejelV98nHqNzjMH374uY1Xg0FneNhLbH++/A1voqaDKYZUoWVCq2WZcZxw
-	 H6ZQKtRU758rwFogSSz6wpkAAGTPk4ekROAFOaZ1BF5Kb8/qh7Nl/V78Nrr1sTmnl0A==
+	t=1795518985;
+	b=zxbNpe/Y0rOwUSdz822patC6FoyyNcS/aw7xjl3DCGP6XlV+Bj8CjVjpDKTOj10XYhRk
+	 gxa1n/JFN59WA9AlrsuUjqkulcaB2J3rVEaDuxy9WEAO8137ZfzjKjdlJOMXe9GhWI6Gt
+	 6Zc4P3zyWJtoQaP6mna/0JwlX5QuXoH1rCRH6jAxVy1n8vReJ12qy6dY2W+V2pTb37gcO
+	 DMYPgrHDYA9s5pjTs+rJunsplzEDWXdAphe+6pJDRpV0nhdcUjjHibTeZZa1bV1g3y5mx
+	 Olf1VERErxtGu3RkEDfWjJRepy/JWfK5YXBjvaFNp70HB5nntBTkOCq2F/32jMif50A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795518983;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795518985;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=ZgGUj/jaoNiS6CrTSxsHf/IwQ+EgQ0chfRhTZQrXa9Q=;
-	b=5R+kj96ci0NV7Wzi1KniYHWKyeSBzRhG2SGhL0mu9TLgj9kR3Q7KqxGfTcctA8Eo0vhz
-	 tP0IE7Pagin1wAJGNXazpjhV1FpoB4y81VbukfpbaAR3mQ9UedQLSvrNBatYKdFVfqiDp
-	 IehHzjS9i3Ru3trtDOBVF1APClsLY3pzdZzP6fIyXSbwgLj3h/gdC5mf9S4GEw4JlEDOB
-	 1swP0LQllbM8cRzOndfbNBrmL5/ERDAqBR7hIwnW3tuh6bkDUI3AW5dl9pSFCgC/Cqopn
-	 bCJcOxSRf7+g9qtRcRilgiC8TiWOl4GQxOBGtsXn6JFW+JyU9gP3AfnU/0WHLRPQXSg==
+	bh=FgfkXvgrc7uLZ8CZZkTM/Ni360utD6hlAVDSp6eqokk=;
+	b=RLWHYanLiW9+R3twj+izaWl8Hnr3iXR3Izc5BeUqrn63ZtG1VwiMVdmy/gjPemSLXR6g
+	 EW8WRbn3oBsZeY9kTYuAQ4JsKTtiHD14SFkyiMNUOnDrROCyLf3qI9LFmVGOvN8DHvkOy
+	 37cfWqCrXr+7j0IzC+GsL4VJdR5JpRMbMvUh7+a/IagfwlBT5XioY5vlG6/X65IKI3eNX
+	 4iWQ0EARdIV9yRUbqn32poaHzKn+NA05qBnbTpykFicg7dvzxtYU+egO6g1rau6jQYPuK
+	 0B1qdzjYnKcQ6XAsu8CqpHlvpcLbj4sqPSo+fNVez5LlyROIP8TQFZhfxgQgmrtMb3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PkcbMMU5;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k0kVkh8d;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FCE606A33A;
-	Tue, 24 Nov 2026 11:16:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82E53606A32A;
+	Tue, 24 Nov 2026 11:16:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PkcbMMU5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1EA71F000EF;
-	Tue, 24 Nov 2026 11:16:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=k0kVkh8d
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E39731F000C0;
+	Tue, 24 Nov 2026 11:16:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795518982;
-	bh=ZgGUj/jaoNiS6CrTSxsHf/IwQ+EgQ0chfRhTZQrXa9Q=;
+	s=k20260515; t=1795518985;
+	bh=FgfkXvgrc7uLZ8CZZkTM/Ni360utD6hlAVDSp6eqokk=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=PkcbMMU5SKcnD617v++0PTbpcAYDiVO3I3SftUfbq/x3/C+mh/tEEpx4DSV0KmpGB
-	 vcLwg7jDaVvtHjzfYvApVTFDthluYn6Eq2cXtmE1+RxsXG1LcRRDFl1oOMBzlqxlV+
-	 Yxn/3uJZJUbuwsJSQ42GHrdq3TCXDD/mhOAVRR1gj8KNzUNzwzWFn97xaQWWKa1OeD
-	 sPE002aRjnlqBDqh+mjiR00hvTbWZpDApZ9QmGX2GG9bGbRrwBAzWIIAfQqiXzgAm3
-	 QKccZKg0U22AhMh5d1cl4++Qjp1gUB9i+4BvXddVqKYPeAmggtQy3P4yUA6VAmGvd4
-	 UaZj6gMobPcww==
-Subject: Re: [PATCH net-next v4 4/5] net: stmmac: Add MDIO init and exit
- platform hooks
+	b=k0kVkh8dZcS/xPqg16cgv3QP+uZzFSq2766UJlz1RxFDRIymeZXSFErQy7uhrfZLR
+	 VT/mwGl14pTgUJ4A2BYosFih2psoKYXILqbhLHy3Z390QCcdA3nBrjR9dS2bjgbNSw
+	 R6UUBCbAWaZ93WvZQMXK4Wg32x85Fxzzy9tQ1IRodkJmsbOX1wukPze5ZNE8sW1osT
+	 10thy26lELO1nJlPytAKtP9Yncw0tVEmA+YdXSHdh8W7Rbk0Lawy4tmEikl0t28srd
+	 Ip2tZEhVDWIHrBuIeH6jcifwLxkIVK12H4G6o9Pwam0UA46I3Bj8uSNn6d7VN3xF15
+	 +nTqmbvqvsKjg==
+Subject: Re: [PATCH net-next v4 5/5] net: stmmac: dwmac-sun8i: Register the
+ MDIO mux in the MDIO setup
 From: netdev-bot+sashiko@kernel.org
 To: aiyengar1990@gmail.com
 Cc: maxime.chevallier@bootlin.com, andrew+netdev@lunn.ch, davem@davemloft.net,
@@ -51,11 +51,11 @@ Cc: maxime.chevallier@bootlin.com, andrew+netdev@lunn.ch, davem@davemloft.net,
  linux@armlinux.org.uk, netdev@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-stm32@st-md-mailman.stormreply.com, linux-kernel@vger.kernel.org
-Date: Tue, 24 Nov 2026 11:16:21 +0000
-Message-ID: <179551898118.3135.17931835729016827308@kernel.org>
-In-Reply-To: <20261120-sun8i-emac-mux-uaf-v4-4-57eba8915f25@gmail.com>
-References: <20261120-sun8i-emac-mux-uaf-v4-4-57eba8915f25@gmail.com>
-X-sashiko-severity: Medium
+Date: Tue, 24 Nov 2026 11:16:23 +0000
+Message-ID: <179551898345.3135.1078888477341036847@kernel.org>
+In-Reply-To: <20261120-sun8i-emac-mux-uaf-v4-5-57eba8915f25@gmail.com>
+References: <20261120-sun8i-emac-mux-uaf-v4-5-57eba8915f25@gmail.com>
+X-sashiko-severity: Low
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -68,49 +68,89 @@ List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider.
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 0
+Low priority / nit picks for your consideration:
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
-
-- [Medium] stmmac_dvr_remove()
-  (drivers/net/ethernet/stmicro/stmmac/stmmac_main.c) asserts the MAC…
+- [Low] The commit fixes two user-visible bugs but has no Fixes: tag and
+  no Cc: stable.
+- [Low] The mux children (and the PHYs on them) are now torn down after
+  the EMAC has been put back into reset.
 
 --
 
-net: stmmac: Add MDIO init and exit platform hooks
+net: stmmac: dwmac-sun8i: Register the MDIO mux in the MDIO setup
 
-This commit adds two platform hooks, mdio_init() and mdio_exit(), to
-plat_stmmacenet_data. mdio_init() runs once the stmmac MDIO bus is
-registered and mdio_exit() runs before it is unregistered. Glue drivers
-can use them to add devices such as an MDIO mux on top of the bus.
+This patch moves registration of the sun8i MDIO mux out of
+sun8i_dwmac_probe(), where it ran after stmmac_pltfr_probe() returned,
+and into the new plat->mdio_init() hook. The mux now exists before
+register_netdev(). Teardown moves from sun8i_dwmac_remove() into
+plat->mdio_exit(), which runs after unregister_netdev().
 
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-> index 7396b68899c66..fb1f7b1a5323b 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_mdio.c
+> On remove, the mux goes away before
+> unregister_netdev(), and unbinding with the link up oopses in
+> phy_stop().
+>
+> Register and unregister the mux through the new mdio_init() and
+> mdio_exit() hooks.
+>
+> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+
+[Severity: Low]
+The message describes two user-visible bugs: an early open that cannot
+find the PHY, and an oops on unbind. There is no Fixes: tag and no
+Cc: stable. Should these tags be added so the fix is picked up for
+backporting?
+
+The probe-side logic ("The mux must be registered after parent MDIO so
+after stmmac_dvr_probe()") seems to come from commit 634db83b8265
+("net: stmmac: dwmac-sun8i: Handle integrated/external MDIOs").
+
+The remove-side ordering seems to come from commit 529254216773. That is
+the ordering where sun8i_dwmac_remove() calls mdio_mux_uninit() before
+stmmac_pltfr_remove().
+
+A backport would also need the earlier patch "net: stmmac: Add MDIO init
+and exit platform hooks". The message says "the new mdio_init() and
+mdio_exit() hooks" but does not name that patch. Could the dependency be
+named explicitly?
+
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> index 4acfda235394d..0ec25ae0b77ef 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
 
 [ ... ]
 
-> @@ -703,6 +711,9 @@ int stmmac_mdio_unregister(struct net_device *ndev)
->  	if (!priv->mii)
->  		return 0;
+> @@ -941,6 +940,13 @@ static int sun8i_dwmac_register_mdio_mux(struct stmmac_priv *priv)
+>  	return ret;
+>  }
 >  
-> +	if (priv->plat->mdio_exit)
-> +		priv->plat->mdio_exit(priv);
+> +static void sun8i_dwmac_unregister_mdio_mux(struct stmmac_priv *priv)
+> +{
+> +	struct sunxi_priv_data *gmac = priv->plat->bsp_priv;
+> +
+> +	mdio_mux_uninit(gmac->mux_handle);
+> +}
 > +
 
-[Severity: Medium]
-Is the MDIO bus still usable when mdio_exit() runs on the remove path?
+[ ... ]
 
-stmmac_dvr_remove() asserts the MAC resets before it calls
-stmmac_mdio_unregister():
+> @@ -1269,9 +1251,6 @@ static void sun8i_dwmac_remove(struct platform_device *pdev)
+>  	struct stmmac_priv *priv = netdev_priv(ndev);
+>  	struct sunxi_priv_data *gmac = priv->plat->bsp_priv;
+>  
+> -	if (gmac->variant->soc_has_internal_phy)
+> -		mdio_mux_uninit(gmac->mux_handle);
+> -
+>  	stmmac_pltfr_remove(pdev);
+
+[Severity: Low]
+With this change, stmmac_mdio_unregister() calls mdio_mux_uninit()
+through plat->mdio_exit(). In stmmac_dvr_remove() that call comes after
+the EMAC resets are asserted:
 
 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:stmmac_dvr_remove() {
     ...
@@ -124,55 +164,48 @@ drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:stmmac_dvr_remove() {
     ...
 }
 
-As a result, mdio_exit() runs while the MAC, which is the MDIO master, is
-held in reset.
+Before this patch, sun8i_dwmac_remove() tore down the mux children while
+the EMAC was still out of reset. On H3/H5, sunxi-h3-h5.dtsi supplies the
+stmmaceth reset, so plat->stmmac_rst is non-NULL there.
 
-Later in this series, dwmac-sun8i uses this hook to call mdio_mux_uninit().
-That unregisters the mux child buses and removes the PHYs on them. PHY
-removal can issue MDIO transactions through the mux:
+Could MDIO accesses made while the PHYs behind the mux are being removed
+now reach an EMAC held in reset? This happens with CONFIG_PHYLIB_LEDS
+and a PHY driver that implements led_brightness_set. The path looks like
+this:
 
-stmmac_dvr_remove()
-  reset_control_assert(stmmac_rst)
-  stmmac_mdio_unregister()
-    mdio_exit() -> sun8i_dwmac_unregister_mdio_mux()
-      mdio_mux_uninit()
-        mdiobus_unregister(child)
-          phy_remove()
-            phy_leds_unregister()
-              led_classdev_unregister() -> phy_led_set_brightness()
-            phydev->drv->remove()
+stmmac_mdio_unregister()
+  sun8i_dwmac_unregister_mdio_mux()
+    mdio_mux_uninit()
+      mdiobus_unregister(child)
+        phy_remove()
+          phy_leds_unregister()
+            led_classdev_unregister()      /* LED_OFF */
+              drv->led_brightness_set()
+                mdio_mux_write()
+                  mdio_mux_syscon_switch_fn()
+                  pb->mii_bus->write()     /* stmmac MDIO write */
 
-Each of these can reach mdio_mux_syscon_switch_fn(), which calls
-sun8i_dwmac_reset() on the MAC registers, and then
-stmmac_mdio_read_c22() or stmmac_mdio_write_c22(). The H3/H5 DT names
-its EMAC reset "stmmaceth", so plat->stmmac_rst is asserted while this
-happens.
+If the target child is not the one currently selected,
+mdio_mux_syscon_switch_fn() also does more work against the block in
+reset. It rewrites the syscon EPHY select bits, toggles internal EPHY
+power, and calls sun8i_dwmac_reset(priv->ioaddr).
 
-With the register file in reset, the busy poll in stmmac_mdio_wait() can
-read 0 and report the bus as idle:
+It is not verified what the hardware returns for reads from a block in
+reset. If it returns 0, the MII busy-bit poll and the soft-reset poll
+would pass at once and the PHY write would be dropped silently. The PHY
+LED could then stay in its previous state after unbind.
 
-	if (readl_poll_timeout(reg, v, !(v & mask), 100, 10000))
-		return -EBUSY;
+The practical impact looks limited:
 
-In that case, would MDIO writes be dropped without any error, and reads
-return 0 as if they had succeeded? On interconnects that stall on
-accesses to a block in reset, could the access hang instead?
+The only in-tree H3/H5 board with PHY LED nodes is
+sun50i-h5-orangepi-pc2.dts. It uses an RTL8211E, and that realtek driver
+entry has no led_brightness_set.
 
-Before this series, the sun8i mux teardown ran before
-stmmac_pltfr_remove(), while the MAC was still out of reset. The commit
-message says mdio_exit() is "called before it is unregistered", which
-suggests the bus still works when the hook runs. The new member in
-include/linux/stmmac.h does not mention any restriction either.
+Other glue drivers already have the same reset-before-mdio_unregister
+ordering for PHYs that sit directly on the stmmac bus.
 
-Should mdio_exit() be called before the resets are asserted in
-stmmac_dvr_remove()? If not, should the hook document that the MDIO
-master may be in reset when it runs?
-
->  	mdiobus_unregister(priv->mii);
->  	priv->mii->priv = NULL;
->  	mdiobus_free(priv->mii);
-
-[ ... ]
+sun8i_dwmac_exit() and sun8i_dwmac_unset_syscon() still reconcile EPHY
+power and syscon afterwards.
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261120-sun8i-emac-mux-uaf-v4-0-57eba8915f25%40gmail.com
