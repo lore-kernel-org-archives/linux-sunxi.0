@@ -1,63 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795547245;
-	b=h8ggtq0tJemysG8waQuYzKA/WB4RVrI0JWGlK/rgCy+u7o/tJjjHxu9kytjqlWicWqUM
-	 K8BXfj/RhJ8iZ8o7vNSZ5Zvp4Nq4VDxwlSRRIR6XD5ERWGChKEg4a8sXZxUKvQ8pTn7rb
-	 XE7Knk/T/DsKls3/8uapZvCxUCpUqexbXJ9gMHrG+TZ6ZkCPnNTBFEzInwf8S5JaAiMV2
-	 Rk9MOWx+XRV1AfYmfTZqZAO27+OUEbgL+6TTgbGKbw66po0xi1BGgX81Pq2zs+SvoJ3RA
-	 vpZcQXtiuEP4DTweKLZC9PeGvlY4N4tmm7XOOGKxIBJeOws3KZV/cx+O+zkj538XtkQ==
+	t=1795550644;
+	b=jFrJJUcMB4qNOCw4RM3hVyYW+Xk6qJWuFatoZpNCauvAuYQo+L52KVhq2TkPBXaOvtnv
+	 L9UVcD8+LX4ZWOBlm0ttXH6t4Tuwwog5RKmUOwlHx6TV1pf0JtbtCZjIb0TlV5RfrkpOM
+	 dTbvQhQfFO9wCnbg1CI4QGteQoGD22QFxGH4IDIiCxKn5htklQ9B26qzkIChbaUu+qNA/
+	 yYLbgIOsPYrG6eMCqltl8uC62jNTU225nz4o744aXcSpvlNZ/oZA2Ad7QnVd/gxCAU4UE
+	 nGZO+WiehcmVq0qjPY3+Wer0+pk0/qCTQ8nt/pM+srCA8ncX9dqdxg+yKLr9oOlU/3A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795547245;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=DgGrkzJmFZWQtPibLYb2wzpNsiS5IONW5wJ5P8ZexXg=;
-	b=SUR9Wp9yjvmvVLlsft6tSRRSnt0lSgZEhMMRYK+Frxfnx2mprY/YuPl032shM2qRTTlc
-	 MAxtCfPcGrSPlxok1ICE17y7iaGwZqMCViivuUckJggiaVOIB6isSybG6vJN4iJVkkb6m
-	 EXa23mm4O9eAbutsvDaKqAelopv8DWH3HZnio5wuS75lKQtJATY87cEzaUvB/CuEJoMS5
-	 ppVH4zpDvF5IVub77isZ0e0Gw6XRMuj4cmRGDEqkOsHqMZ+kz+zHPWs8MdcpH5+57Qe3/
-	 EXv4b9V+3Pta5T8j0xeTWDFvpKHJrHp9zN79p2dgj/nytSCn4KP4XykP35TrFfdC8gg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795550644;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=LqL9E2CsknPEvpMVhLoxgxMbDObTKIGjsIWFOHL2N0I=;
+	b=feDbpgGqdeijJOwOyV8Rc7zGL7MpZH6Fiix2Z8OF69DHrVRgxa/bmvzCdKcYRZcmsVDa
+	 vjOBgKzdAW3Hct3eirI9PFxpeSLSd0PQn/qkLtvSnbDmGPudZb8pr5UCLvXHLYtja8Zdd
+	 sSkQJB30fqntfYm5sU7NyIrCxnTA2/lEHlBksBV7sMDE8iB4GYwX0QYt14gO0/Bkjt765
+	 vJCyqFKJ3xNwNLDukRb1oY03h5ktXLHRlf00FEFlIe2gDIjJr413CTUwJTHS+lFNI0pcX
+	 gAoF575vYDasngU9vDRrVgI7pgNlmCTSKUmq6bFQK216PzUjWJX5CexS+5cc6netEWw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="PQYQDj/+";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB70606A31E;
-	Tue, 24 Nov 2026 19:07:25 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=YWezaFgy;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A056606A321
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 Nov 2026 20:04:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A056606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PQYQDj/+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BC441F000C4;
-	Tue, 24 Nov 2026 19:07:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795547244;
-	bh=DgGrkzJmFZWQtPibLYb2wzpNsiS5IONW5wJ5P8ZexXg=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=PQYQDj/+4pQgYpzPl6xOnSmGkgNxV/ryCOcW3JEXxVs5ZN3SHvDylHc2wwiJoN8Hv
-	 F8D+SFd0uaLbceiilkOyWJestNHyUE/dZWwWmKWNM4H5/QSvlSblwHps021N4vFUIg
-	 2pyOk1/C5NTYJn/bNjK2MGgsCrEVI1xgoTsDgEKqwiTgTGLuk631LED18sAJpXYnzW
-	 SO3C1zHYQu5jtXgCdPd/WZ2JGRksHn1SAWmj1vuiPUpLzOxlN7Jv3rcHENQYVLC3EB
-	 Mt60YFutqCZDXGjfHqDfKK9VezTnOE2gFuDzSPBxEusXsaigCyewh9ASX4evMj2Y6i
-	 56wEP0wJP89nA==
-Subject: Re: [PATCH net v3] net: stmmac: preserve RX checksum capability when
- offload is disabled
-From: netdev-bot+sashiko@kernel.org
-To: james.hilliard1@gmail.com
-Cc: netdev@vger.kernel.org, maxime.chevallier@bootlin.com,
- andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, peppe.cavallaro@st.com, wens@kernel.org,
- jernej.skrabec@gmail.com, samuel@sholland.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-Date: Tue, 24 Nov 2026 19:07:22 +0000
-Message-ID: <179554724297.3135.12604093728631257002@kernel.org>
-In-Reply-To: <20261120-submit-stmmac-rx-checksum-capability-v1-v3-1-e9e1fd85f380@gmail.com>
-References: <20261120-submit-stmmac-rx-checksum-capability-v1-v3-1-e9e1fd85f380@gmail.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=YWezaFgy
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9AFF2339;
+	Tue, 24 Nov 2026 12:03:59 -0800 (PST)
+Received: from [172.16.5.16] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CE66C3F86C;
+	Tue, 24 Nov 2026 12:03:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795550642; bh=tH2ftS9r4c42XZ26viYlbeouW30U4/gw4lJnh0zk7SU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=YWezaFgy8T10St9qmvBLJvNxDlbL/eye1ooesVYZOfNAfSSorrjH81ZvoCdRYf8j+
+	 PKHCQk6RZLXWbgZ0FWxE7sw4azkh8UT/jpVVnUYrLezL0D22YEQRXDDt5FvnNRUPcq
+	 JK0SDhRZNSxWmQHbdZEC7WCFMcUlyCe8nTS/SfbM=
+Message-ID: <0e94af87-71d1-4a5c-a2bb-218a2306db27@arm.com>
+Date: Tue, 24 Nov 2026 21:03:56 +0100
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -67,237 +53,108 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/3] arm64: dts: allwinner: add A733 SoC description
+To: wens@kernel.org, Enzo Adriano <enzo.adriano.code@gmail.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Junhui Liu <junhui.liu@pigmoral.tech>,
+ Jerome Brunet <jbrunet@baylibre.com>, Pablo Mazzini <pmazzini@gmail.com>,
+ Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
+ Alexander Sverdlin <alex@sverdlin.org>, Jun Yan <jerrysteve1101@gmail.com>,
+ Lukas Schmid <lukas.schmid@netcube.li>
+References: <20261121-a733-cubie-a7s-dt-v5-0@gmail.com>
+ <20261121-a733-cubie-a7s-dt-v5-2@gmail.com>
+ <CAGb2v64c5oirvfq7R3a1CWQCydfOOipcRD7dhSFAb=zczRdTHw@mail.gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <CAGb2v64c5oirvfq7R3a1CWQCydfOOipcRD7dhSFAb=zczRdTHw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issue(s) to consider.
+Hi,
 
-Critical: 0 · High: 0 · Medium: 2 · Low: 1
+On 11/24/26 17:44, Chen-Yu Tsai wrote:
+> On Tue, Nov 24, 2026 at 1:42 AM Enzo Adriano
+> <enzo.adriano.code@gmail.com> wrote:
+>>
+>> Provide the SoC description needed by the initial Cubie A7S DTS for its
+>> console, PMIC, EEPROM and microSD. Describe the CPUs, PSCI, architectural
+>> timers, GIC, RTC, main and always-on clock/reset and pin controllers.
+>> Include the main and R-domain UART/I2C instances and MMC0-2 with their
+> 
+>> pin groups. Use mux 6 for I2C0 on PG8/PG9, as in Radxa's BSP pinctrl
+>> driver and its Cubie A7S device tree.
+> 
+> This should be evident from the schematic itself (the pins are used for
+> I2C). And then the datasheet would tell you which mux value it is.
+> 
+> Just saying, trust the datasheet and schematic a little more than the BSP.
+> And one really should write the device tree based on the schematic. The
+> BSP is there in case something doesn't work, to look for existing quirks
+> or workarounds.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+Fully agree with that, the BSP is sketchy at best, especially their DT. 
+I have seen contradictory information in there already.
 
-- [Medium] When RXCSUM is wanted but the MAC never accepts the IPC
-  enable, the reset-time reconcile goes through ndo_set_features.
-- [Medium] Toggling RX checksum offload on a running interface
-  (stmmac_set_features() -> stmmac_set_rx_csum()) flips the MAC IPC bit…
-- [Low] The patch changes the stmmac_ops::rx_ipc contract in hwif.h to
-  "Configure RX checksum offload and return whether the checker is…
+Also I think the commit message reads a bit awkward, at least it 
+deviates from what we typically see. I would start with a brief 
+introduction of the SoC. Just mentioning that we have the full user 
+manual and that this has been tested on a real board should be 
+sufficient, then it's obvious where those values come from.
+  >> The GIC maintenance PPI 9 and ARMv8.2 EL2 virtual-timer PPI 12 follow
+>> the A733 User Manual v1.00, section 12.2.3. The GICD/GICR/ITS windows
+>> and noncoherent attributes follow Andre Przywara's public A733
+>> reference and the A523 precedent. The CPUX interconnect diagram in
+>> section 5.1.2 supports noncoherency as an integration inference. The
+>> ITS stays disabled pending its clock/reset and MSI integration.
+>>
+>> Describe the single DynamIQ unit and shared L3 shown in section 5.1.2
+>> (figure 5-1). The big and little DVFS groups can be described by their
+>> clocks, OPP tables and supplies. Partition PPI 7 (section 12.2.3,
+>> table 12-1) between the Cortex-A55 and Cortex-A76 PMUs so each probes
+>> its own core type. Defer capacity-dmips-mhz until it is measured on A733.
+>>
+>> Link: https://gist.githubusercontent.com/apritzel/60fd7379b9560a15b8b352986b69d39f/raw/efd9cdf8f26ba5b0c7e138f093af44a1cf322469/sun60i-a733.dts
+>> Link: https://github.com/radxa/allwinner-bsp/blob/2045a3ca2a01f088c0314dc924bda59d154e363e/drivers/pinctrl/pinctrl-sun60iw2.c#L1591-L1610
+>> Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
+>> ---
+>>
+>> v4 -> v5: Rename osc to hosc and add the I2C0 PG8/PG9 group. Keep the
+>> one-cluster CPU map and the two PMU partitions.
+>>
+>> Untested on v5: physical CPU/cache topology, PMU counting, EL2
+>> interrupt delivery and ITS/MSI.
+> 
+> Someone please test the PMU.
+> 
+>>   .../arm64/boot/dts/allwinner/sun60i-a733.dtsi | 663 ++++++++++++++++++
+>>   1 file changed, 663 insertions(+)
+>>   create mode 100644 arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
+>>
+>> diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
+>> new file mode 100644
+>> index 000000000000..8a258f16751e
+>> --- /dev/null
+>> +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
+>> @@ -0,0 +1,663 @@
+> 
+> [...]
+> 
+>> +               uart0: serial@2500000 {
+>> +                       compatible = "allwinner,sun60i-a733-uart",
+>> +                                    "snps,dw-apb-uart";
+> 
+> We can't merge this because the bindings haven't been merged. And they seem
+> to still be going through a lot of churn?
 
---
+But I think the binding patch for that is fine? And we are pretty sure 
+that we need SoC specific compatible strings for every SoC, actually, 
+regardless of how those UART fixes series' (Vinicius' and James') proceed.
+So I wonder if you could take just that binding patch already, to not 
+block progress here?
 
-net: stmmac: preserve RX checksum capability when offload is disabled
-
-This patch keeps the detected RX COE type when the IPC bit reads back as
-clear, and adds an enable argument to the rx_ipc callback. If an enable
-fails, it masks NETIF_F_RXCSUM in feature negotiation until the next MAC
-reset. It also splits stmmac_hw_setup() so open and resume can reconcile
-RX checksum features before RX is started.
-
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> index 2ece7ba9dd73b..d7dd6c5d95d47 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> @@ -699,7 +699,7 @@ static void sun8i_dwmac_get_umac_addr(struct mac_device_info *hw,
->  }
->  
->  /* caution this function must return non 0 to work */
-> -static int sun8i_dwmac_rx_ipc_enable(struct mac_device_info *hw)
-> +static int sun8i_dwmac_rx_ipc_enable(struct mac_device_info *hw, bool enable)
->  {
->  	void __iomem *ioaddr = hw->pcsr;
->  	u32 v;
-
-[Severity: Low]
-
-The new rx_ipc comment in hwif.h says the callback should "Configure RX
-checksum offload and return whether the checker is enabled". The body
-here still ignores the new enable argument:
-
-sun8i_dwmac_rx_ipc_enable() {
-	...
-	v = readl(ioaddr + EMAC_RX_CTL0);
-	v |= EMAC_RX_DO_CRC;
-	writel(v, ioaddr + EMAC_RX_CTL0);
-
-	return 1;
-}
-
-On sun8i, running ethtool -K rx off on a running interface goes through:
-
-stmmac_set_features()
-  stmmac_set_rx_csum(priv, 0)
-    stmmac_rx_ipc(priv, priv->hw, false)
-      sun8i_dwmac_rx_ipc_enable(hw, false)
-
-That call sets EMAC_RX_DO_CRC and reports the checker as enabled. The RX
-path won't mark packets verified, because hw->rx_csum is 0. However, the
-hardware checker stays on.
-
-Should this clear EMAC_RX_DO_CRC when enable is false, so the requested
-setting actually reaches this MAC as the commit message describes? The
-notes below the --- defer the sun8i changes to a separate net-next series,
-and that series isn't in this tree.
-
-[ ... ]
-
-> diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> index f256244ce0d11..88abac5afa0a3 100644
-> --- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> +++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-> @@ -3727,25 +3727,51 @@ static bool stmmac_tso_channel_permitted(struct stmmac_priv *priv,
->  	return !(priv->dma_conf.tx_queue[chan].tbs & STMMAC_TBS_AVAIL);
->  }
->  
-> +static int stmmac_set_rx_csum(struct stmmac_priv *priv, unsigned int rx_csum)
-> +{
-> +	int ret;
-> +
-> +	if (!rx_csum) {
-> +		WRITE_ONCE(priv->hw->rx_csum, 0);
-> +		stmmac_rx_ipc(priv, priv->hw, false);
-> +		return 0;
-> +	}
-> +
-> +	ret = stmmac_rx_ipc(priv, priv->hw, true);
-> +	if (ret <= 0) {
-> +		WRITE_ONCE(priv->hw->rx_csum, 0);
-> +		priv->rx_csum_failed = true;
-> +		return ret ?: -EIO;
-> +	}
-> +
-> +	WRITE_ONCE(priv->hw->rx_csum, rx_csum);
-> +	return 0;
-> +}
-
-[Severity: Medium]
-
-Does this fully handle the running interface case? stmmac_set_features()
-calls this under RTNL only, while RX DMA and NAPI keep running. Nothing
-quiesces or drains the RX ring around the IPC toggle.
-
-On enable, once the readback succeeds and rx_csum is published, the next
-stmmac_rx() poll takes a single snapshot:
-
-	int coe = READ_ONCE(priv->hw->rx_csum);
-
-That snapshot is then applied to descriptors that were written back
-while IPC was still off. Those descriptors don't carry csum_none. For
-example, dwmac4_wrback_get_rx_status() only sets csum_none on
-RDES1_IP_HDR_ERROR or RDES1_IP_PAYLOAD_ERROR. RDES1_IP_CSUM_BYPASSED
-only increments a counter. So stmmac_rx() reaches:
-
-		if (unlikely(!coe) || !stmmac_has_ip_ethertype(skb) ||
-		    (status & csum_none))
-			skb_checksum_none_assert(skb);
-		else
-			skb->ip_summed = CHECKSUM_UNNECESSARY;
-
-Can this mark frames that the checker never examined as
-CHECKSUM_UNNECESSARY?
-
-On disable, a poll that already cached a non-zero coe keeps marking
-frames as verified after IPC is cleared, up to the NAPI budget.
-stmmac_dispatch_skb_zc() has the same per-call snapshot.
-
-On Type-1 COE cores, enh_desc_get_rx_frame_len() subtracts 2 bytes based
-on the current software coe, not on the IPC state when the frame
-arrived. stmmac_rx_buf1_len() and stmmac_rx_buf2_len() also re-read
-rx_csum for each descriptor. Could frames in flight across a toggle end
-up with lengths that are off by 2 bytes?
-
-The commit message says:
-
-  Check the result of an enable before allowing RX to mark packets
-  CHECKSUM_UNNECESSARY, including when the checker is first enabled on a
-  running interface.
-
-A similar window existed before this patch. It was wider, because
-rx_csum was published before IPC was written. The patch only orders the
-register write against the flag update.
-
-Would RX or NAPI need to be quiesced around the toggle for the statement
-above to hold?
-
-> +
-> +/* Recheck the wanted features if this reset clears or uncovers a failure. */
-> +static bool stmmac_init_rx_csum(struct net_device *dev)
-> +{
-> +	struct stmmac_priv *priv = netdev_priv(dev);
-> +	bool was_failed = priv->rx_csum_failed;
-> +	unsigned int rx_csum;
-> +
-> +	priv->rx_csum_failed = false;
-> +	rx_csum = dev->features & NETIF_F_RXCSUM ? priv->plat->rx_coe : 0;
-> +	if (stmmac_set_rx_csum(priv, rx_csum))
-> +		netdev_warn(dev, "RX IPC Checksum Offload disabled\n");
-> +
-> +	return was_failed || priv->rx_csum_failed;
-> +}
-
-[Severity: Medium]
-
-What happens on later resets if the MAC never accepts the IPC enable
-while NETIF_F_RXCSUM stays in wanted_features?
-
-On the first open:
-
-__stmmac_open()
-  stmmac_init_rx_csum()
-    stmmac_set_rx_csum(priv, rx_coe) fails, rx_csum_failed = true
-  netdev_update_features()
-    stmmac_fix_features() masks NETIF_F_RXCSUM out of dev->features
-
-On the next open, MTU reopen or resume:
-
-__stmmac_open() or stmmac_resume()
-  stmmac_init_rx_csum()
-    rx_csum_failed = false
-    rx_csum is taken from dev->features, which no longer has RXCSUM
-    stmmac_set_rx_csum(priv, 0) succeeds
-    returns true because was_failed was set
-  netdev_update_features()
-    stmmac_fix_features() no longer masks NETIF_F_RXCSUM
-    stmmac_set_features() with RXCSUM on, netif_running() is true
-      stmmac_set_rx_csum(priv, rx_coe) fails again, returns -EIO
-    __netdev_update_features() logs "set_features() failed (-5) ..."
-    and returns -1, so netdev_features_change() fires
-
-netif_running() is true here because __LINK_STATE_START is set before
-ndo_open, and stmmac_resume() only gets this far when the interface is
-running.
-
-Is it intended that every later open, MTU reopen and resume prints this
-core netdev_err and sends a NETDEV_FEAT_CHANGE notification? The
-driver's own "RX IPC Checksum Offload disabled" warning is not printed
-again on those resets.
-
-There is a related problem in stmmac_set_features() when a live enable
-fails:
-
-	if (running && rx_csum != priv->hw->rx_csum) {
-		ret = stmmac_set_rx_csum(priv, rx_csum);
-		if (ret)
-			return ret;
-	}
-
-This returns before hw_vlan_en is updated and before
-stmmac_set_hw_vlan_mode() is called, so the core rejects the whole
-request. With a command like "ethtool -K eth0 rx on rxvlan off", is the
-VLAN stripping change dropped for that request?
-
-The commit message says:
-
-  This leaves unrelated changes, such as VLAN stripping, available even
-  when RXCSUM is still requested.
-
-The v3 notes also say "Keep a failed enable from blocking unrelated
-feature changes". That only seems to hold for later requests, not for
-the request in which the enable fails.
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261120-submit-stmmac-rx-checksum-capability-v1-v3-1-e9e1fd85f380%40gmail.com
+Cheers,
+Andre
