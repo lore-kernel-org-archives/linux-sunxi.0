@@ -1,49 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795642760;
-	b=Z8/508s2Zwf8AQFbJS9hvacFe0DB3QxL2STLvApPqa+uqN51UhuJce4bmUe9vD6kuVaV
-	 8M4IEhlCYtmfMKvAawmE6Jv+amILkG8k7Gg9D/JtH5gKrk5D0CwH8tqoCO4k59LzacQvC
-	 d8t30tKasy9hbGUgsYmOw59YwKPhDJxxiWgy2YV73eTWvJn4B5ERtyJnsHkr1wmS705Ap
-	 dU54V2TJFh2qM0AOxtlsNNIwftzVugfNPcnFDXkWjEcXJPb4Oje8GlyhpLIclGHB31goO
-	 1WTCGM/Q7fCkaThJp5lY4wmxrQKBLO9hFVV4p3aauzKCr3o2/l4042TYNTJ8fXuJekA==
+	t=1795649500;
+	b=qj+FETdBoBZig9/76LwmSP7jLN5EnfuioaSTIyn+/CpmTaS503TQRBgJvSUrhs3QLe6W
+	 XzuyDEJAYu/6Ohm3GEZXpIB5+6TPRbxgrtOHRFIKu2aAacopDTwEjr5lAYvKBi7gVSesh
+	 ALf+LlcSzxptdj1GBqqYCPycJ9nGp/Q5XwwW+bbtoD6ibcswR2qjS9aCORT1E+9088MlQ
+	 JOdT8RCe3wefru81yUDf8Pa9/QgJVtjHsyGthhoF/m/CZhlG3hIX0EZ4hW42H34hiyphV
+	 cd1GwVZbZfvboFzbDv4U4P4pfayNSLFQh7MCq5AM3nfh2cs3i+9kkU7N52ar82BGLKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795642760;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer;
-	bh=dJBjtHj/U35Sno9olpkCbmU3J1nhzHn1TeUoFt7nUEY=;
-	b=yw8yR0Fuk510mtQ1ndMPIdMFcShLCThiFdhiO2BwUgJERVk6M2zBzu8yXBQRBUOyAOTu
-	 4K7UBdbeu5LkwJZm26FVBjs+/hs8faW0zGiCatULW6my0tj91SH4OOXWfSXbbVYmpJ+Sp
-	 Uef4N5749Vo6OYcpRcbxjqassXX6m8z9yYE1MXGSy0i9t3g4XhzOHSGIhkSJqPxsg4UUz
-	 XL/2mI1MMdnsu/d8mdliRTt79KxHqNeYdxLKgRjLTVvqH9XHsn/DHFUNobeT0MK1B6SyJ
-	 vRkgkJtGTqxQSsHy/s9nT0nGSoK9cXwED8vW5wGq6DQo+8mxZZw1eEXXCyDIT1mExKQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795649500;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=FvvNDtfsIabNA/On19BazK/OQL2ez6R5Vi/Cev7mYvk=;
+	b=TYTqrJRXphxcQhfr49ts3+pUPvP3hU5ZWVK5ZDM85AolirTHg1fNg+Bob8R87Gu8Pn64
+	 oCwQ5Q5OiBkNbxXyQxlTLpeqq8J5khy/r3P6BTkKpJmxqUtBvk2/o7X2IN7/FNOXQHFhG
+	 PJSKKyUVeDQnMENtQfXgTjme8iqBKuOxfEVXgEQlVijRQUKs1Qqnh8YI2U9gi8UjxfFNo
+	 iCxpqe7aLp05RY+iaiyofLHwv6iGkc7ERMU2+jDbvmasafG64EBdExReC3vyZ6DveIMog
+	 J4NAYxB/M5Ogb+lFdnCnxbH65oswc9knaSZU3SsVU2haxNoQzP1O/+VldUWJBtQdviw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZLxiR+T+;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D52606A321;
-	Wed, 25 Nov 2026 21:39:20 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=O+8QmB4X;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 274CB606A682
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 23:31:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 274CB606A682
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZLxiR+T+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D9A51F000C6;
-	Wed, 25 Nov 2026 21:39:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795642759;
-	bh=dJBjtHj/U35Sno9olpkCbmU3J1nhzHn1TeUoFt7nUEY=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=ZLxiR+T+BsSHG3qnraIpxEnw1AKOgXqd27CskrcQcAzCnBPEROUGkHQ8M0dOTuEF2
-	 v+HG/9GIvXXDfUR31xFyycfQ9BqVveug3KmxNw+/KUHejD9Dw8OxWGOT7AkAbAYqaT
-	 Bs21TaIArqigX5/IgmXaw3xKR13el4OxMviNGy8OOXCDyLAW+ABLAZZbBJ7r0stztO
-	 4ZEv3kwQgp8dwDKSvLjxBmW1Ewm+SI2tnMzo2CVHfUk7ACK07Kg7xPgzSFzRuheuRW
-	 ngbOq2z34xaqRnUG5TtsT/BktFuqrdfK3SdlzvKrnRgA7O2Oxvd1C32/9p3Wcuxnu5
-	 EZnqfS6cvgYpA==
-From: "Harry Yoo (Meta)" <harry@kernel.org>
-Date: Wed, 25 Nov 2026 21:37:10 +0000
-Subject: [PATCH slab/for-next v2 09/14] iommu: specify SLAB_MAY_ACCOUNT for
- slab-backed page table caches
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=O+8QmB4X
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1344B1596;
+	Wed, 25 Nov 2026 15:31:35 -0800 (PST)
+Received: from [10.43.3.73] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 19F6A3F86F;
+	Wed, 25 Nov 2026 15:31:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795649497; bh=g4SLH4ntJ/Uj2nuvXWB8FADSkntEV5OWw71EFBWI27c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=O+8QmB4X04m2jcI9M7lf3p+aZQGd5zPftioIuuFIPcj3BZHatl8xM9lk3BdvUiu9E
+	 z+TbsQ1kjBzDZCqKqL1lK6RSPzZMdGwT9ACOiJeF5tCv1iLjx3REEREY6m2s/OJ5Vj
+	 G8HlgVQwQTcQ/2tvEAzqVA9VVjpPwGC9RWVIHAQM=
+Message-ID: <b9220cf0-ad6b-4719-aa67-154666c788ea@arm.com>
+Date: Wed, 25 Nov 2026 23:31:30 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -53,135 +53,88 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 7/7] pinctrl: sunxi: add support for the Allwinner A733
+To: Alastair D'Silva <alastair@d-silva.org>, Linus Walleij
+ <linusw@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, Yixun Lan <dlan@gentoo.org>,
+ Enzo Adriano <enzo.adriano.code@gmail.com>,
+ Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
+ linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20260910133519.459011-8-andre.przywara@arm.com>
+ <20261125115703.3724690-1-alastair@d-silva.org>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20261125115703.3724690-1-alastair@d-silva.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-9-7c680f02a734@kernel.org>
-References: <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-0-7c680f02a734@kernel.org>
-In-Reply-To: <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-0-7c680f02a734@kernel.org>
-To: Vlastimil Babka <vbabka@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Suren Baghdasaryan <surenb@google.com>, 
- Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
- Shakeel Butt <shakeel.butt@linux.dev>, 
- Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
- David Rientjes <rientjes@google.com>, Muchun Song <muchun.song@linux.dev>, 
- Hao Ge <hao.ge@linux.dev>, Pedro Falcato <pfalcato@suse.de>, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@meta.com, 
- "Harry Yoo (Meta)" <harry@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Alice Ryhl <aliceryhl@google.com>, 
- Andrew Ballance <andrewjballance@gmail.com>, 
- Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Jiayuan Chen <jiayuan.chen@linux.dev>, netdev@vger.kernel.org, 
- Kees Cook <kees@kernel.org>, David Hildenbrand <david@kernel.org>, 
- Lorenzo Stoakes <ljs@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, 
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
- Robin Murphy <robin.murphy@arm.com>, "Joerg Roedel (AMD)" <joro@8bytes.org>, 
- Amir Goldstein <amir73il@gmail.com>, 
- Casey Schaufler <casey@schaufler-ca.com>, Paul Moore <paul@paul-moore.com>, 
- James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
- linux-security-module@vger.kernel.org, Richard Weinberger <richard@nod.at>, 
- Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
- Johannes Berg <johannes@sipsolutions.net>, 
- Eric Dumazet <edumazet@kernel.org>, 
- Niklas Schnelle <schnelle@linux.ibm.com>, 
- Matthew Rosato <mjrosato@linux.ibm.com>, 
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, 
- iommu@lists.linux.dev, linux-s390@vger.kernel.org, 
- linux-sunxi@lists.linux.dev
-X-Mailer: b4 0.16.0
 
-vfio, iommufd and vhost-vdpa call iommu_map() with GFP_KERNEL_ACCOUNT
-and the gfp is passed down to the drivers' page table allocations.
-Specify SLAB_MAY_ACCOUNT when the object may be charged to a memcg.
-__GFP_ACCOUNT without SLAB_MAY_ACCOUNT will not be allowed.
+Hi Alastair,
 
-Paths:
-  VFIO_IOMMU_MAP_DMA -> iommu_map(GFP_KERNEL_ACCOUNT)
-    -> s390_iommu_map_pages() -> dma_walk_cpu_trans()
-    -> kmem_cache_alloc(dma_{region,page}_table_cache)
-  iommu_map(GFP_KERNEL_ACCOUNT) -> arm_v7s_map_pages()
-    -> __arm_v7s_alloc_table() -> kmem_cache_zalloc(data->l2_tables)
-  iommu_map(GFP_KERNEL_ACCOUNT) -> sun50i_iommu_map()
-    -> sun50i_dte_get_page_table() -> kmem_cache_zalloc(iommu->pt_pool)
+On 11/25/26 12:57, Alastair D'Silva wrote:
+> Hi Andre,
+> 
+> Two issues showed up while testing this A733 pinctrl series on the
+> OrangePi 4 Pro:
 
-Cc: Will Deacon <will@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: "Joerg Roedel (AMD)" <joro@8bytes.org>
-Cc: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>
-Cc: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
-Cc: Chen-Yu Tsai <wens@kernel.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: iommu@lists.linux.dev
-Cc: linux-s390@vger.kernel.org
-Cc: linux-sunxi@lists.linux.dev
-Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
----
- drivers/iommu/io-pgtable-arm-v7s.c | 2 +-
- drivers/iommu/s390-iommu.c         | 4 ++--
- drivers/iommu/sun50i-iommu.c       | 3 ++-
- 3 files changed, 5 insertions(+), 4 deletions(-)
+While it's the right idea to reply to the patch that introduces some 
+problematic behaviour, there are other things to consider here:
+> 1. PIO_POW_MOD_SEL (0x0040) on A733 uses 2 bits per bank instead of
 
-diff --git a/drivers/iommu/io-pgtable-arm-v7s.c b/drivers/iommu/io-pgtable-arm-v7s.c
-index 1dbef8c55007..b544e5da237a 100644
---- a/drivers/iommu/io-pgtable-arm-v7s.c
-+++ b/drivers/iommu/io-pgtable-arm-v7s.c
-@@ -706,7 +706,7 @@ static struct io_pgtable *arm_v7s_alloc_pgtable(struct io_pgtable_cfg *cfg,
- 	data->l2_tables = kmem_cache_create("io-pgtable_armv7s_l2",
- 					    ARM_V7S_TABLE_SIZE(2, cfg),
- 					    ARM_V7S_TABLE_SIZE(2, cfg),
--					    slab_flag, NULL);
-+					    slab_flag | SLAB_MAY_ACCOUNT, NULL);
- 	if (!data->l2_tables)
- 		goto out_free_data;
- 
-diff --git a/drivers/iommu/s390-iommu.c b/drivers/iommu/s390-iommu.c
-index a280ad4f63b7..467b97ec18dc 100644
---- a/drivers/iommu/s390-iommu.c
-+++ b/drivers/iommu/s390-iommu.c
-@@ -198,14 +198,14 @@ static int __init dma_alloc_cpu_table_caches(void)
- 	dma_region_table_cache = kmem_cache_create("PCI_DMA_region_tables",
- 						   ZPCI_TABLE_SIZE,
- 						   ZPCI_TABLE_ALIGN,
--						   0, NULL);
-+						   SLAB_MAY_ACCOUNT, NULL);
- 	if (!dma_region_table_cache)
- 		return -ENOMEM;
- 
- 	dma_page_table_cache = kmem_cache_create("PCI_DMA_page_tables",
- 						 ZPCI_PT_SIZE,
- 						 ZPCI_PT_ALIGN,
--						 0, NULL);
-+						 SLAB_MAY_ACCOUNT, NULL);
- 	if (!dma_page_table_cache) {
- 		kmem_cache_destroy(dma_region_table_cache);
- 		return -ENOMEM;
-diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
-index acdccb7c9eef..604a357cc1fb 100644
---- a/drivers/iommu/sun50i-iommu.c
-+++ b/drivers/iommu/sun50i-iommu.c
-@@ -1011,7 +1011,8 @@ static int sun50i_iommu_probe(struct platform_device *pdev)
- 
- 	iommu->pt_pool = kmem_cache_create(dev_name(&pdev->dev),
- 					   PT_SIZE, PT_SIZE,
--					   SLAB_HWCACHE_ALIGN | SLAB_CACHE_DMA32,
-+					   SLAB_HWCACHE_ALIGN | SLAB_CACHE_DMA32 |
-+					   SLAB_MAY_ACCOUNT,
- 					   NULL);
- 	if (!iommu->pt_pool)
- 		return -ENOMEM;
+But we know that for a while now...
 
--- 
-2.54.0
+>     1 bit. With BIAS_VOLTAGE_PIO_POW_MODE_SEL, banks are written at the
+>     wrong bit offset and left misconfigured (for example, bank H stays in
+>     1.8V mode when supplied at 3.3V, breaking RGMII Gigabit TX).
+>     Adding a 2-bit variant (writing 0b01 per bank with mask
+>     0x3U << (2 * bank)) enables hardware auto-detect from PIO_POW_VAL
+>     and fixes 3.3V RGMII TX (also addressed in Vinicius Pedrosa's
+>     follow-up series).
+
+Yes, Vinicius did the right thing, since this patch you reply to here 
+has already been merged. If you want to support his series, please reply 
+to the specific patch *there*, ideally with a Reviewed-by:, or at least 
+with a Tested-by.
+Replying to this old patch here is then not too useful.
+
+> 
+> 2. PA has 0 pins on A733, so PB..PK are hardware banks 1..10 while
+>     irq_banks = 10 maps logical IRQ banks 0..9. Without .irq_bank_map
+>     and sunxi_irq_hw_bank_num() in sunxi_irq_base_reg(), logical IRQ
+>     bank 0 (PB) accesses PA's IRQ registers (0xc0) instead of PB's
+>     (0x140). Adding:
+>       static const unsigned int a733_irq_bank_map[] = {
+>               1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+>       };
+>     and using sunxi_irq_hw_bank_num(pctl->desc, bank) inside
+>     sunxi_irq_base_reg() fixes the bank offset.
+
+Again this is an issue we know about for a while, and for which patches 
+are on the list. Please look at them, they solve this problem in a 
+different way.
+> Also, in patch 4/7, sunxi_grp_config_reg() takes an unused
+> `const struct sunxi_pinctrl *pctl` parameter that can be dropped.
+
+This again is an issue in a patch that is already merged. If you want 
+that fixed, you need to send a patch on top of v7.4-rc1, and send it 
+with a Fixes: tag, so that this can be remedied before the release.
+If you just want to report this issue, do this as a reply to that 
+specific patch, with the original patch text cited, and your report 
+inline, directly after the problematic line. After all we have this well 
+hung email patch submission system, to make this very clear and 
+transparent.
+
+Cheers,
+Andre
+
+> 
+> Tested on OrangePi 4 Pro (Allwinner A733).
+> 
+> Thanks,
+> Alastair
 
