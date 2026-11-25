@@ -1,89 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795624121;
-	b=ZNMP7Io8o4mB5/u9SxpPTn+DG1DEQdtxqHS93EmZjDUHwkWlK+s5fQdP9KdameChFc3J
-	 83mf/jp1yZ/5rL1D7e95+fTHlRWLyIyEHzpo92gevd3hB3UC1D90Vxxe20f5tiXD6moug
-	 Lc54ZXVewh6PJz8lqlaMKtO6FsPoYbRx20wBIBI6VDnxJMaH1it9SLhYxOXXQhHVA8Egr
-	 8XeAu/98QIjJKXJDE/+YzsQg91R1pVWY7oUbO/LMIS/WnN87aT4s7zm2kL6pNm72SW2Ie
-	 Qn8G0h4w2hcYPJLQN5B42aMYcr3d3x/slk0PUwMXZAlEgVmEZe8gQg5lpZr0OHsEtZA==
+	t=1795624124;
+	b=X6YNpCZnRxs6Az08O06IpJ5tpY3zYig7PAblJa2muwTElERP/xkfL65cxEja79+gDvLT
+	 BkqmfkPzM0JtyrCvZWT1oqMBeGSPrszfM6bMMOqIi14poq7VqczBngLLJWocqCDhPESlB
+	 /o4In9AsBmyV5UxBJQcuWNnDGtMATxXROTNLfneD3XlKQMjG8hhTnACntI91Pp8Ba3CmC
+	 ULi9gCInNwRFIGXexL69wXtNpob3bqmFNdt2zDwgfUw1DoxQv66MRk18IZNpyyax2A6iK
+	 S0sHcuYBolNK/3pe15udZP87f729bH19zsIFlj5wYj43NJAlnL/B9VKYnhKRKiKE6ag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795624121;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795624124;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key;
-	bh=AFDbeCHQMCzywmdZtzco98P0xWzZOKchEiBzgROq0f4=;
-	b=2TTMq4Qsmk94p8R6Sz/NGbUo90jxl7WipgEjM+z+qyIVWX/iJJ4lx9m0CZjH7AO+K7ID
-	 kElVOn5pvkQSP4t2BSI4L4PYZ2NAg4Pgs/qPk5190nwJeXxEOMX+0xFGtScmInVQzQQXM
-	 uB9CnlAyZV+Di7dj8Bd/uuah6WLhnV7d6Tl4w4JoWYpJlmRwqD7wJixLGUtcLOa/DpgSg
-	 MIlH+or2KX58xe8d7YszAJdvp1FwFlk89tyPjScXOmLOzMDs5x9tQPQ5EDqCvMm2zFVAO
-	 o44PHd4BQmi1NU3pMZ5Faxwj9tFNgoaQC/tQkxYVb6UqpA6G608R95BpRc3M7BwVTnA==
+	bh=E/Paw5QZ9QxbXxzyBtlunqj4eITAuJB1YG4IYSSOnm4=;
+	b=0Y42EYGR5PjvdDfr7m/fZHV19ls8Wb7NY/zHYVV6V7luTD4Edt4/Mfpy8Ud0eK/1AqSA
+	 cMioaA7BdsuqdzxQSw1ri5NfXfeIT71s57ywRnv0ZqlXmLAFoSNPSbC0PbtGeKiaVDyF0
+	 lTk7lbV79aAOV3HYuB21kxasXr7IHvJO8H7KaD93Z3IrouTBiGvLDDMA2wvzVa38fStwd
+	 kj+iSpeKQ84zJaaqFJRpRc7g4RoeFfLvn7TujnlMWNaQI/2LM3pWRKBzatXaMVVXBE3Ns
+	 dsc1urxyv2h/53vjrmeTCt6r1b4DFDMy4PLjALKiP0xyMYN0sFVCDTOegzcaCymAz5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=thegoodpenguin.co.uk;
 	spf=pass smtp.mailfrom=thegoodpenguin.co.uk;
-	dkim=pass header.d=thegoodpenguin-co-uk.20260707.gappssmtp.com header.i=@thegoodpenguin-co-uk.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=P7k8xwmV;
-	arc=none smtp.remote-ip=209.85.128.54
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	dkim=pass header.d=thegoodpenguin-co-uk.20260707.gappssmtp.com header.i=@thegoodpenguin-co-uk.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=S66O9YXf;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C20D8606A338
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 16:28:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C20D8606A338
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E4D1606A335
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 16:28:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3E4D1606A335
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20260707.gappssmtp.com header.i=@thegoodpenguin-co-uk.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=P7k8xwmV
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4bb702a7548so53622105e9.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 08:28:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20260707.gappssmtp.com header.i=@thegoodpenguin-co-uk.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=S66O9YXf
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4bba5e17728so8511265e9.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 08:28:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20260707.gappssmtp.com; s=20260707; t=1795624119; x=1796228919; darn=lists.linux.dev;
+        d=thegoodpenguin-co-uk.20260707.gappssmtp.com; s=20260707; t=1795624122; x=1796228922; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=AFDbeCHQMCzywmdZtzco98P0xWzZOKchEiBzgROq0f4=;
-        b=P7k8xwmV5vzq/1hDwwg4/DllkJqnBK8ekpTzxarjCGP4eWw3Khvv8pTHDHM0nFVwaJ
-         lXsB7VYwK9VUUXpm3s41fs3Ny9KkN7/Es8bxz578DzoOvc8rgGDreqGoHiO2B4G1gAaU
-         eZhls07zhPjSIr3MZuWkzAVbx8zkSxJL4wb9x0KGLDKoxYU6ZWA3pR5/r7GHeqvwmDlR
-         S5ujjpe/ww9FEk7B2caJ3daj5kfnJPjM/tsoN1uTA44v3nK1srw5b2yX6aSzuIKTj5tt
-         lSDnOXhl6vL96nR3XH2ACYnwI1zQS1l+kKnfFh6hLGKSKhUK1ssc4JW3X4zH3NjZn4iX
-         5UJw==
+        bh=E/Paw5QZ9QxbXxzyBtlunqj4eITAuJB1YG4IYSSOnm4=;
+        b=S66O9YXfumYRzbFZRDc6k3NrunNhb+Dc+z9W4+sVZgXpaQoEyRnM43wn/qfAYfg6cp
+         WsBdSlhW/KZfmSgwAXRBsBE8kSCJOiRvW/HTVMJysXn87S5aaSuX7BczkqEB8zuYEn/P
+         8NDIiMhoj8ehOp+YOycZALKtBpbj8+WmbOQJQAzpDg2hmQaHMLW6nIjOLzLhcsOU2k5K
+         SyxAQwpQwBYNaTHl+H9WsPkMP10lpet5/rgOU+qnqSghEjzhsd/N31x3Zm260e+vKriq
+         prWUi5J07gJaSylM3YNTxNyXtFs5CjGkpoyc4e240lDvF4VOeZCugezw3RN725MX2n9s
+         ys4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795624119; x=1796228919;
+        d=1e100.net; s=20260707; t=1795624122; x=1796228922;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=AFDbeCHQMCzywmdZtzco98P0xWzZOKchEiBzgROq0f4=;
-        b=pxHLTMlg+D7Q60ALiI8eLd3gcJxfR/OHqDz+au2UolsZfAe81Fcpg8dD5hyWsm83ep
-         ItPeq/NGDX907ZqRl3M1zV1bFGHGxonBTeWeZFKMHBbqtc56bz7YBYKO3Jzj4YYED8Cd
-         3PmgCMe0MDTi89fBaCqFCzkxIAZ81JlWUwiyWvC+N8uqXkjklh/WQQtchjK0EDjFhHid
-         nnYiUbIeZBp3p4I0VSX9+w5605abZhq7LXPElpQdpIOBB5fuQQ4Ac6n9HeSCUoB0wPts
-         1vkUVHPqqUSU0oVHZTa41r8jebqHPyzsR/ND4oT4WKtXDF0q/rGvuA/R1NdXZL4nfbFL
-         VfHA==
-X-Forwarded-Encrypted: i=1; AL+hErH1VaMLgzk3AqqlyDRgynnBRaAdyrpZKh8hZS2jQAxCSdMNaJjywjta3uVujeLYvcQjXixjmYeF+mfiMg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+Cg5vack4tv4FAsfKs66FaCmYRfBuUoS3SJ2ay/bW5KNf8sv/y
-	L6SPgKZLPLhVurUmoU+S68yvBm/Pr3RHIUmh2b0pThVUiaqvfcp/Wm9pbAC9vUlOuy4=
-X-Gm-Gg: AZFdTZcAgIOn25prwDwifNPuC+m0LhaP3hFjfhAs2wNo55QFNcGdb1Xn6t2l0vZHBbf
-	kbDIbaBsEmvlgaTBlu5iL9HntM8Vt6mXFfAYS82LDV3g0HFn3PyKKoyNE3HV7INklGs+ZpHfR9X
-	6RrvTZdznU9jV1/tn7gSRoQJ2eDqXegQHjCdii2QbIzG22NxGxlMmZu0A0W6hzh5+KEv4HtloLy
-	Eug9RtIDVTm9wU6lOKLFEpSa2HkrsZrT4ekFeqkYlxQoq5/cxRChJ6+EQ4nLhdeNwjllwS7QdTH
-	4WItAGJKwLCVIyzQ5v1Vf/6fyAjLSBBfYKJNgb5ZibjAY7m/pVu7giMOCwpeiEWupvfjGUQz4d3
-	E23MXZ8O6dME6BmcvLIFGUOjMUXAymwZSiWNktQe93vhw07eMiUIwVi/aG8FBIr4M5dwWxFDAtf
-	TN1qYnolEtwDEogsW1XRr62bV8Kw+OEmCkeDJnF/QShjCzxbwcMlBDsW4wbcJlN6OmJNLkLiWXU
-	P3RhKWKRBct9MN8ILQ89eRYBCTStANunsNdAf6mj2eMml3Ny1shlspxDlj+WXa3dHpIZgko9VAo
-	dFCO/7DLcy6eOdGxfyYbNMxkAUvuajmSz/xhSKI45zSoUQ==
-X-Received: by 2002:a05:600c:5246:b0:4bb:6de4:2f7c with SMTP id 5b1f17b1804b1-4bb8881c5bdmr384806975e9.20.1795624119085;
-        Wed, 25 Nov 2026 08:28:39 -0800 (PST)
+        bh=E/Paw5QZ9QxbXxzyBtlunqj4eITAuJB1YG4IYSSOnm4=;
+        b=mMzPCr9lBP+iAIiDOTyIkR3T/iPZV+vcYuX/LXqMCptCG6HcSFdcEYn+y1GFPPG9be
+         boGVIb2M2w81uDx6Kx4Yjr3gbKZZ5lj1cOEhavKtKp5Zl/Zivz5qDUAsURD7rVy67Xq2
+         7WsC6OFqcVe+e/2nhnO9syAfQ4e+E7LNvLXf/lQ1Hlfj7SHyI8TFACtJgandZlpzOVZ9
+         gqx8INxI0qn7kuD35R1VaHJXX/s4ThH8K5+c7P7PVleEkP3BfgWgsjvHh2bsq0GwRZWQ
+         cRWgTHvNEhx4RMImYiZgPDSEMFGAqP7E4mJ9htF84V+9icdLAg75nZZQQRciEzrDGHyw
+         5I6A==
+X-Forwarded-Encrypted: i=1; AL+hErGEoMbn2VJHMaydaAzPwwxtvJUxz8rMoe0Xubhl5owaHmVTodXPwa1/cpy1jhLS6PGSsQ4gd+ZyqegFsg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z830fvNm2wEL79smG+CAVP0BWvKTs+yYGbsn6VccBzRAKqnpsjp
+	oUyfBkHGA6BUKv++Lp5f/pPwW2GjeIKzSsb9pVYbdXGfyQcFjxpe34d7fwvVdDVtJ+E=
+X-Gm-Gg: AZFdTZfZfEETSzBmo23LROMpXUTYyjEKJL9Ix37VDvkrHB3s4njU6SXA5PoFkGsbLON
+	eEeetDy2511aaMEzi/FT7PAch/QXlFpSPT1m7NjGoDL64es+/J+NMHG94l/vQMdxQhdxyptNtoz
+	dVdc/9e5CgWobGwARydZ1B5PrH5C3nkWsYpuWCza+zOxp/8ZD5+f1K1tjWgvU6fHwYg4Dw4Y0Ey
+	9ACBAAaeuZkmaH5zgqMzjIj9BfWU447bSdD+rI56UrCrEvEuZtJzWe9T6mYw1XQAFV/GD9gtlTQ
+	GH4lYTfkvEiRxY2GHlYRSIb6B03bIItj8N0f0AJH4gmdcpfNuOYH33qROJ3vsxe29PRwBZjCkOu
+	Q6qb+XDLMxQyvzLFAyhr/GMm+GxMwR1QBzT5QxH50vbJYzoLQa1wVW/7lMiMwhEfyPJNA7M3iaj
+	9CEoeQx2J1vwp69dJ3vIlC+aFk+1Fa8bfLbZOkI/truTzNIg6E17hZz3Sm4k044mblbi2Qt+4y+
+	rmjZDWqXl4RGI/+jTJsxZgbN4yTDr+Z5PeoIS+o/sfFMk7J9f4zsYKkIzXfa8BIEE2kcp011fzR
+	WjqWJ/VDVKEtQb8RPEN7mCAaT1Tl2SrEFoEeOrW/ROyOLw==
+X-Received: by 2002:a05:600c:3b8a:b0:4a3:59c9:a754 with SMTP id 5b1f17b1804b1-4bb8892da25mr367205855e9.22.1795624121613;
+        Wed, 25 Nov 2026 08:28:41 -0800 (PST)
 Received: from [10.42.0.1] ([2a00:23c7:1d1a:9c01:f716:ba19:8aaa:f1c2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853368d3sm527336375e9.1.2026.11.25.08.28.36
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853368d3sm527336375e9.1.2026.11.25.08.28.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 08:28:38 -0800 (PST)
+        Wed, 25 Nov 2026 08:28:41 -0800 (PST)
 From: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-Date: Wed, 25 Nov 2026 16:28:27 +0000
-Subject: [PATCH 01/10] mtd: maps: pismo: Use named initializers for
- i2c_device_id
+Date: Wed, 25 Nov 2026 16:28:28 +0000
+Subject: [PATCH 02/10] mtd: spi-nor: Use named initializers for
+ spi_device_id
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -95,7 +95,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261125-acpi-mtd-v1-1-42ad2f645bee@thegoodpenguin.co.uk>
+Message-Id: <20261125-acpi-mtd-v1-2-42ad2f645bee@thegoodpenguin.co.uk>
 References: <20261125-acpi-mtd-v1-0-42ad2f645bee@thegoodpenguin.co.uk>
 In-Reply-To: <20261125-acpi-mtd-v1-0-42ad2f645bee@thegoodpenguin.co.uk>
 To: Miquel Raynal <miquel.raynal@bootlin.com>, 
@@ -156,40 +156,135 @@ Cc: linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>, 
  =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795624113; l=851;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795624113; l=4183;
  i=pzalewski@thegoodpenguin.co.uk; s=20260430; h=from:subject:message-id;
- bh=IHAi0qeArnt0Dz3MPX/pMNLkcr4ipLn3XGqru6V8PMg=;
- b=FYYb5NZv5bMag5GUq5jhUZI3EA/wssPu4IODYyOGaefHzIx0GqzM1xxUbS1yXt9hVm+9RShR6
- U7w6XKaTkOyAdXUAkIbyQhY8qzilz1ISb3JVyfa0dct/S0WrrapbtfS
+ bh=oSYQ7Bs6TY9Bq0it7ME4AMa1HN8RgNqdeSRr8O3thOM=;
+ b=ZzYcsPDU1eT9Urm3wkVmXrHRSn8lYS47jYwodaBWVXhHbdUtk3xdzrjUw2pFBpCbVfZ0+gfNR
+ dIrCrr0zs9uAk13TU8rgxCJLHxUgZjH9xPYqCVfddGmUaS8ISdiG+oY
 X-Developer-Key: i=pzalewski@thegoodpenguin.co.uk; a=ed25519;
  pk=vHq4n9IonORH2GTzLv8r6CWAFHzgfBuNkQPXA8NSly0=
 
-Use a designated initializer for the i2c_device_id fields which makes the
+Use a designated initializer for the spi_device_id fields which makes the
 code more readable and consistent with how lists are initialized in the
 rest of the kernel code base.
 
-Unify the list terminator to have a single space between the brackets and
-no trailing comma.
+Put every list item on a new line and unify the list terminator to have
+a single space between the brackets and no trailing comma.
 
 Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
 ---
- drivers/mtd/maps/pismo.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/mtd/spi-nor/core.c | 77 +++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 55 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/mtd/maps/pismo.c b/drivers/mtd/maps/pismo.c
-index b0310fddcaa3..babb6d367623 100644
---- a/drivers/mtd/maps/pismo.c
-+++ b/drivers/mtd/maps/pismo.c
-@@ -250,8 +250,8 @@ static int pismo_probe(struct i2c_client *client)
- }
+diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
+index a04d22d2e2e1..a76c669000d8 100644
+--- a/drivers/mtd/spi-nor/core.c
++++ b/drivers/mtd/spi-nor/core.c
+@@ -3662,42 +3662,75 @@ static const struct spi_device_id spi_nor_dev_ids[] = {
+ 	 * hack around the fact that the SPI core does not provide uevent
+ 	 * matching for .of_match_table
+ 	 */
+-	{"spi-nor"},
++	{ .name = "spi-nor" },
  
- static const struct i2c_device_id pismo_id[] = {
--	{ "pismo" },
+ 	/*
+ 	 * Entries not used in DTs that should be safe to drop after replacing
+ 	 * them with "spi-nor" in platform data.
+ 	 */
+-	{"s25sl064a"},	{"w25x16"},	{"m25p10"},	{"m25px64"},
++	{ .name = "s25sl064a" },
++	{ .name = "w25x16" },
++	{ .name = "m25p10" },
++	{ .name = "m25px64" },
+ 
+ 	/*
+ 	 * Entries that were used in DTs without "jedec,spi-nor" fallback and
+ 	 * should be kept for backward compatibility.
+ 	 */
+-	{"at25df321a"},	{"at25df641"},	{"at26df081a"},
+-	{"mx25l4005a"},	{"mx25l1606e"},	{"mx25l6405d"},	{"mx25l12805d"},
+-	{"mx25l25635e"},{"mx66l51235l"},
+-	{"n25q064"},	{"n25q128a11"},	{"n25q128a13"},	{"n25q512a"},
+-	{"s25fl256s1"},	{"s25fl512s"},	{"s25sl12801"},	{"s25fl008k"},
+-	{"s25fl064k"},
+-	{"sst25vf040b"},{"sst25vf016b"},{"sst25vf032b"},{"sst25wf040"},
+-	{"m25p40"},	{"m25p80"},	{"m25p16"},	{"m25p32"},
+-	{"m25p64"},	{"m25p128"},
+-	{"w25x80"},	{"w25x32"},	{"w25q32"},	{"w25q32dw"},
+-	{"w25q80bl"},	{"w25q128"},	{"w25q256"},
++	{ .name = "at25df321a" },
++	{ .name = "at25df641" },
++	{ .name = "at26df081a" },
++	{ .name = "mx25l4005a" },
++	{ .name = "mx25l1606e" },
++	{ .name = "mx25l6405d" },
++	{ .name = "mx25l12805d" },
++	{ .name = "mx25l25635e" },
++	{ .name = "mx66l51235l" },
++	{ .name = "n25q064" },
++	{ .name = "n25q128a11" },
++	{ .name = "n25q128a13" },
++	{ .name = "n25q512a" },
++	{ .name = "s25fl256s1" },
++	{ .name = "s25fl512s" },
++	{ .name = "s25sl12801" },
++	{ .name = "s25fl008k" },
++	{ .name = "s25fl064k" },
++	{ .name = "sst25vf040b" },
++	{ .name = "sst25vf016b" },
++	{ .name = "sst25vf032b" },
++	{ .name = "sst25wf040" },
++	{ .name = "m25p40" },
++	{ .name = "m25p80" },
++	{ .name = "m25p16" },
++	{ .name = "m25p32" },
++	{ .name = "m25p64" },
++	{ .name = "m25p128" },
++	{ .name = "w25x80" },
++	{ .name = "w25x32" },
++	{ .name = "w25q32" },
++	{ .name = "w25q32dw" },
++	{ .name = "w25q80bl" },
++	{ .name = "w25q128" },
++	{ .name = "w25q256" },
+ 
+ 	/* Flashes that can't be detected using JEDEC */
+-	{"m25p05-nonjedec"},	{"m25p10-nonjedec"},	{"m25p20-nonjedec"},
+-	{"m25p40-nonjedec"},	{"m25p80-nonjedec"},	{"m25p16-nonjedec"},
+-	{"m25p32-nonjedec"},	{"m25p64-nonjedec"},	{"m25p128-nonjedec"},
++	{ .name = "m25p05-nonjedec" },
++	{ .name = "m25p10-nonjedec" },
++	{ .name = "m25p20-nonjedec" },
++	{ .name = "m25p40-nonjedec" },
++	{ .name = "m25p80-nonjedec" },
++	{ .name = "m25p16-nonjedec" },
++	{ .name = "m25p32-nonjedec" },
++	{ .name = "m25p64-nonjedec" },
++	{ .name = "m25p128-nonjedec" },
+ 
+ 	/* Everspin MRAMs (non-JEDEC) */
+-	{ "mr25h128" }, /* 128 Kib, 40 MHz */
+-	{ "mr25h256" }, /* 256 Kib, 40 MHz */
+-	{ "mr25h10" },  /*   1 Mib, 40 MHz */
+-	{ "mr25h40" },  /*   4 Mib, 40 MHz */
++	{ .name = "mr25h128" }, /* 128 Kib, 40 MHz */
++	{ .name = "mr25h256" }, /* 256 Kib, 40 MHz */
++	{ .name = "mr25h10" },  /*   1 Mib, 40 MHz */
++	{ .name = "mr25h40" },  /*   4 Mib, 40 MHz */
+ 
 -	{ },
-+	{ .name = "pismo" },
 +	{ }
  };
- MODULE_DEVICE_TABLE(i2c, pismo_id);
+ MODULE_DEVICE_TABLE(spi, spi_nor_dev_ids);
+ 
+@@ -3707,7 +3740,7 @@ static const struct of_device_id spi_nor_of_table[] = {
+ 	 * JEDEC READ ID opcode (0x9F). Use this, if possible.
+ 	 */
+ 	{ .compatible = "jedec,spi-nor" },
+-	{ /* sentinel */ },
++	{ }
+ };
+ MODULE_DEVICE_TABLE(of, spi_nor_of_table);
  
 
 -- 
