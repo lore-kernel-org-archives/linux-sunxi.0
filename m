@@ -1,96 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=119.15.109.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795609500;
-	b=woT6NxsfS1VLVkD7HMNyicb4P9aAeFbThpWgkNlY6rDW4GcraCWsMZcBUwsVcf9w1Tpb
-	 to7NrdULH3OZDeq2ewTGTMG0JWTP5Bu3brno2zUlK7XELyRKQa1r1CPCgWLLYO2b0rWY9
-	 GgYsRvIy6PrcTLzXRnteEkQr4NEPP9v2u8REyNcKLIsWRloUgIo1tpSFrqbOGIrleoRKS
-	 BMZyiAAwIaISpJcmtMck2GXKRmcpC6sbbQydSt+3jsbphY8TtP2dcm+6tyJfjJXyS9W56
-	 S+pjl6ceJ9wgMaxxWt8T07wV955gMHILeU9UJIi2jWZLbNE/zhXq4mqULEamnphqeww==
+	t=1795610522;
+	b=4edw5zX8kutP4QF2tuxJedYexjI5Yk1dbbrwbmbSRIC9Z5ng0mhqj1tvJVM2Uf4VbOWi
+	 mi11Nj/vX9Gg+BBFHsgwKG+o4XNzzFQOmxJDn5gGVQAUlJV2Uk6W+I5p8R21Qe0fCMLSj
+	 2/bwyP6opRGwPTIgChMHAXr/cRNLKWrGAsBn7b9L1FQpvfj9bHFk6K+Gd7iFwOUNEclxk
+	 g0is+NYDoRpXvQ2vTUj+Ixs5D7mbG6r6AwHeksKPT5CJezCeGu8GqKmHXmzjsSWwpWocB
+	 Ts9UHTrTsC7MwgkzobcH/WIyg2028sORdXYtoRzv3aaXmiYaDBiUVRUCXBPLYpUS93g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795609500;
-	h=DMARC-Filter:Received:DKIM-Signature:X-GPT-Reason:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=nJaA1oVQlfD3Td2+HTDf6tsxtXlDuEgeg0sbDdSaIuw=;
-	b=3SJ/i+f99xeW6ll0erB0eEKkHJBTapTBRvgxIkhhdyC8Z0ANxc67Rd+wQhTKc5cJs7VF
-	 EeXj85mXXkPNXABFHDCYeWXF5ACyIwJHgvihjf42WDOQw6lFhU7jBlZ+6It1akB/qo61x
-	 sNPEnytL0QwkGKjkKAYO4xcvtpNGjji3zLC2RU9LN9c0bZ1YUDcSVmmBtBvu+ElDID/d2
-	 PL8ZIKYTqIVOlBZT2riIJgvd6ABVbSzKw5YD504RU4Dhnl4ONpZRNPYmJaF1kr9t5MtMK
-	 vDAh7n9/NENDpwHYCnFk4WXMF3NCm19fMAHP91kYXLrI6e/IRq10IkcNP0EarGvHE2Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795610522;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=0KRutoAXol4rkfxgv8cg1HbYxX5YuCi1F4TeDRlqdlo=;
+	b=04LxTUAZRYlSMDFQKkNUkCIfVySghE346sXQmRz03h2zYSLmaTqFCHNMIkeDBIXnGD2h
+	 d/WVpaFJkbr0boCpO+nDi+CVcK9B2RXw0HDtU1v9LiBrLAv5FPUGSuG0VbnxvZ461rXC1
+	 D19tmqQIBqiDMNb2JTNAgFDU2fNu1Kxb83RKsTbnL0Uh49Cf/0M/9DwwlkP3GqBIwPecJ
+	 5HGAJxSfRb3WbSJmjEUcv1dw0z0aVT2s4+JX51y1aQrgNGOPf/O2yyE9u/ksJFVGEQ1d9
+	 uoyV/EWj5fO1VPpTwsExSKz3asY2geF2DjkPFaTGzC0/MkF9jLjXTOX4/fSGi/NNOlA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=d-silva.org;
-	spf=pass smtp.mailfrom=d-silva.org;
-	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=u+vVcdZW;
-	arc=none smtp.remote-ip=119.15.109.137
-Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lFURgAP6;
+	arc=none smtp.remote-ip=209.85.217.42
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603CC606A321
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 12:25:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 603CC606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1649C606A326
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 12:42:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1649C606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=u+vVcdZW
-Received: from Hawking.lan (hawking.lan [10.0.1.4])
-	by www.nmnhosting.com (Postfix) with ESMTP id DE1744C930;
-	Wed, 25 Nov 2026 23:24:52 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
-	t=1795609492;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nJaA1oVQlfD3Td2+HTDf6tsxtXlDuEgeg0sbDdSaIuw=;
-	b=u+vVcdZW4+pQIvPMqTSScUsB2Z1KVWtGuyYxTL6kPLXAXgewuFltXTlahkwwEKTpQama05
-	t1wosTGBvOYsvck0FOAtpOIseOvoTHPnFlMH3qF4SY/IEf2li+X7AbwWtOe0gKIsW9UznD
-	u4Gn8UItfKrV7kTpQoVKUpecD4wsRIrh3yg68MBMSu/j/StiwcuBLL4hI9YoL/IP6x2lEI
-	zYso/XIDmQP97v4Cwi1afQCtMPrj+cmBrC2SI9HkhpxsMcHx3cRH788kzElMcalgldVvm9
-	fgSpC7adl2DxgZyvYGfRFRauvnqrFpZFCmy6akE+cuEnFdDhPeUZLPmqVZf4oA==
-X-GPT-Reason: The email is classified as legitimate personal correspondence.
-	The mailbox (alastair@d-silva.org) perfectly matches the sender
-	domain (alastair@d-silva.org), indicating a trusted personal identity.
-	The subject line "Re: [PATCH v7 4/8] clk: sunxi-ng: a733: Add PLL clocks support" follows
-	standard technical/developer communication patterns for code patches,
-	and there are no phishing red flags, urgency tactics, or suspicious
-	links.
-From: Alastair D'Silva <alastair@d-silva.org>
-To: Junhui Liu <junhui.liu@pigmoral.tech>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Brian Masney <bmasney+clk@redhat.com>,
-	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lFURgAP6
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-7d2eba2b74aso3322670137.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 04:42:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795610521; x=1796215321; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0KRutoAXol4rkfxgv8cg1HbYxX5YuCi1F4TeDRlqdlo=;
+        b=lFURgAP6kx+M7rDbMK9ylmUDToSzuvBa0JI8RMmOZY4edhQ+VIssk2mTU+naI5Xu9X
+         tEdRfWGJ/ZxQ7v8qd0bAPKDBqLWy42WhvNKN/1EvkoCif9K40+HAGGEbsiqFyQOvFNV1
+         Sq6/hXV74vdnKduf3FKP42zQsl/F8xpMT1D+DoJKS1kKrgAptkGJFaoH1e3XHBNn249J
+         RfqpKGIjTPeKZ5daOrMwBF7+aqUqziCliWuB3axYMGg05EoUKRlk6B55h8o1xxq23Z4X
+         IoP3SXZjx9uMvegwiFg82ZaiUZcJLgrrnpRIFT/gsNwGmGukEjADmPqeDGwlynw00l0n
+         jsog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795610521; x=1796215321;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0KRutoAXol4rkfxgv8cg1HbYxX5YuCi1F4TeDRlqdlo=;
+        b=c4iuhMez1hkJrGsPhK91sX0Xr+DsIANjOXfA/OgYhnePnDnuQNItE/0pPv3ys/RzIj
+         LSFDV45JSj54SFy8UbBS2SZbHgJFZltUHdq6Pjqumo8X1BE2YJVaXKEhZTh4tw5e5+Kl
+         I7chVNDSEF06vicuPA/sROF17diBFavAhte7BXOJCDhd80QcdZmFztBJ03tJF0TToTQt
+         WtyIY411wzEaGSYpWiKki8DqTTEFP2s5+5+YhAxZe7VNs9KiR5sNoiWDPP292SQX499J
+         M5E4LCokBlTV0H3VOT2+4qVTlrsZHQooO/BGBH9+JX3sqbNtPfd5Ly8OFEPzllLZoaUF
+         YdcQ==
+X-Forwarded-Encrypted: i=1; AL+hErHNjz0LpgqmKCUb86EGbeFfN4yx1CWeWeCq9Y73r0X9eMF7mdgh1les31fiS9qtz5NZKpNkluWh91yBOA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/nx1voiC84cNR/xQ+ActdhxgmwFjYvOLf1PsSm20hndHKQq/mB
+	LBxSBjjBZVyywS5zDdYwDZuZ892eE/nCzTIFyJrEfnPIiPmPinqISH/n
+X-Gm-Gg: AZFdTZc9Xz/DiefqB1/aUsVDgXnQUaztEbGqyiW4xZIdSZgJ26bHpICHXpzuBX3ijrN
+	x36opJyKqCMlUc4OdYO4lVe0FkPqgRGHJkUSfupugjDpgT1jesBlHv8/78WwviKzSzmIM0fIesf
+	1lz7Gv7Ound8XYUCo/DuGeY515c2ZZ9HI5KRAGMLdC1MavSqswFI1KVAoiniyQvdpqkeAVzpZ3H
+	53X8lYHjD3tiEMgOSvGSHZvSDbtXkILC+DqFheqPyKzkFD2iHRI6kCkBo4xJTaSEvMxquX99VXy
+	+4ssz/V44BM0Nez5KRe+O/iXh7nzkjGGyAH+2BvbdRf7Q9w35l3c5Dv5xb05R5hyXzp/UPdY0yG
+	28a/Z6uh0W2T51cNsyF8o7Jhfg1cwuaY+TwNEGd/DMeVPsj/8I6PQcRpQsg3MtM0bJdK/Ltqbpb
+	nCzG7qagVaEI3X0EtTFHwG5/gnwK9r6J0apBBEaowBSfx9ABIEtfwn6037CTc+jlSe40DBuDv5d
+	k69s4S1guIEij9tUt9bHZCDbto6HJEgGcXy9m4ZvN+yqXoOUBOCTOl5Lwa/HQynnVW7TbaIQHh7
+	Ar7SfoHT7oIl7Ai1KQn3jkMo+RB6CEYYcM8Za1hTzbIxLkM9d1MNzTw5JqeNIbF9ow/aOQ+45RM
+	PgioBl+FWpnSiVFj8uqaWuH+OxIcdM4M0mdvwwYkOH1Cp44kh
+X-Received: by 2002:a05:6102:951:b0:7cc:1192:5636 with SMTP id ada2fe7eead31-7d73939011emr10098810137.12.1795610520935;
+        Wed, 25 Nov 2026 04:42:00 -0800 (PST)
+Received: from localhost.localdomain ([2804:1b2:aa42:30d0:f600:3026:6717:b8b7])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99e6e033aafsm18213181241.7.2026.11.25.04.41.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 04:42:00 -0800 (PST)
+From: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>,
+	Enzo Adriano <enzo.adriano.code@gmail.com>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Richard Cochran <richardcochran@gmail.com>
-Cc: linux-clk@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Andre Przywara <andre.przywara@arm.com>,
-	netdev@vger.kernel.org,
-	Alastair D'Silva <alastair@d-silva.org>,
+	Maxime Ripard <mripard@kernel.org>,
 	devicetree@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Junhui Liu <junhui.liu@pigmoral.tech>,
 	Jerome Brunet <jbrunet@baylibre.com>,
-	Enzo Adriano <enzo.adriano.code@gmail.com>,
-	Norman Herms <dockseed@proton.me>,
-	Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-Subject: Re: [PATCH v7 4/8] clk: sunxi-ng: a733: Add PLL clocks support
-Date: Wed, 25 Nov 2026 23:24:52 +1100
-Message-ID: <20261125122452.3966873-1-alastair@d-silva.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261112-a733-clk-v7-4-db7c5451ffa2@pigmoral.tech>
-References: <20261112-a733-clk-v7-4-db7c5451ffa2@pigmoral.tech>
+	Pablo Mazzini <pmazzini@gmail.com>,
+	Alexander Sverdlin <alex@sverdlin.org>,
+	Jun Yan <jerrysteve1101@gmail.com>,
+	Lukas Schmid <lukas.schmid@netcube.li>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: arm: sunxi: document Radxa Cubie A7S
+Date: Wed, 25 Nov 2026 09:41:39 -0300
+Message-ID: <20261125124139.23869-1-vinicius.eduardo.pedrosa@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <ebf2d6db-8260-4ac3-8316-ae9a0e5ee1b7@arm.com>
+References: <cover.1795034153.git.enzo.adriano.code@gmail.com> <428efa99fdd0182e8bc9a2ed88b78d2cbd36fa45.1795034153.git.enzo.adriano.code@gmail.com> <20261122004008.0ee8e16d@ryzen.lan> <20261121-a733-dt-v4-1-reply@gmail.com> <ebf2d6db-8260-4ac3-8316-ae9a0e5ee1b7@arm.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -103,36 +119,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Junhui,
+Hi Andre, Enzo,
 
-On Thu, 12 Nov 2026, Junhui Liu wrote:
-> static struct ccu_nkmp pll_ref_clk = {
-> ...
-> };
-> ...
-> static CLK_FIXED_FACTOR_HWS(sys_24M_clk, "sys-24M", pll_ref_hws, 1, 1, 0);
+On 11/24/26 15:42, Andre Przywara wrote:
+> could you wait with a potential v6 post until I got that one tested and
+> posted? Then you could ideally also include Vinicius' A7Z patch, so that
+> we have all in one series, and just need to deal with the dependencies
+> once.
 
-While testing this v7 series on the OrangePi 4 Pro (24 MHz HOSC), ttyS0
-switches from earlycon to garbled output with:
+That works for me. The A7Z DTS is ready on top of Enzo's v5, with the
+review comments so far addressed. I tested it on my v1.11 board: all
+eight CPUs boot, MMC0 readback matches the reference SHA-256, and
+card-detect hotplug works with GPIO_PULL_UP. I also tested PMU counting
+and overflow interrupts on both the A55 and A76 cores.
 
-  2500000.serial: ttyS0 MMIO32:0x0000000002500000 (irq = 414, base_baud = 1384615) is a 16550A
+The A7Z binding entry is "radxa,cubie-a7z", "allwinner,sun60i-a733".
+Krzysztof already acked that addition in my v1:
+https://lore.kernel.org/r/20261113-tacky-unbeatable-pronghorn-74ed4e@quoll
 
-Because the hardware bypasses pll-ref (0x02002000) when HOSC is 24 MHz,
-sys-24M physically runs at 24 MHz from HOSC, while pll-ref remains
-disabled with reset/unprogrammed N=12, M=13 fields. Since
-ccu_nkmp_ops.recalc_rate() computes parent_rate * N / M regardless of
-the enable bit, pll-ref reports 24000000 * 12 / 13 = 22153846 Hz.
+The v1.10 board is still untested with GPIO_PULL_UP.
 
-sys-24M, apb-uart, and bus-uart0 inherit 22153846 Hz instead of
-24000000 Hz, so 8250_dw calculates base_baud = 1384615 (instead of
-1500000) and programs divisor 12 instead of 13 (+8.3% baud error).
-
-If pll-ref is disabled/bypassed (or if sys-24M is physically fixed at
-24 MHz as the comment describes), either pll_ref_clk needs a recalc_rate
-that returns 24 MHz when disabled/bypassed, or sys_24M_clk should not
-inherit an unenabled pll-ref N/M ratio.
-
-Tested on OrangePi 4 Pro (Allwinner A733).
+I'll post the updated A7Z DTS patch to the list as a follow-up to this
+thread.
 
 Thanks,
-Alastair
+Vinicius
