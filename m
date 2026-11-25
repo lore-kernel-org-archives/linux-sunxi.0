@@ -1,110 +1,129 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795624369;
-	b=tEklOPEGLWQu5FNnLkI8ctOcnzoKyhCsAkN0OxtN7fzjGLMgWrPpCkRytFq4tUkAmgYk
-	 bxB1SUhRmyBATgTVQrct7t+XWZKOd4c4GnlWTkefY7G8HUj1t6RH8CMhseKt/mvvplOcL
-	 s9ppWvKAiwVZjdQyZoP5ZIyGcObVSr4UZcGJUdy5qvf9dhCLCL6tnNuyOYhA44H75lRB1
-	 0SaTXhr6pYXm/aMbN0dz54DuQV6zpyqIx8T2bHrNOwVd/dOGqsHNE5ZR5jRsVmt3MnNGQ
-	 34OlvmmKoa8ssmAuV0fGNqKxm8eGVUkARvxSD0Cx/1nhmyV9spmMXLa7ank3/+WarLw==
+	t=1795627314;
+	b=VP4YuQb+IcOd5TF1kI+y2MeP6DHcDRDULK+wzddmLputZ541aN+Xw8lU0wV/w9rQ11VN
+	 8C6RID/M37TqExv+U90mJTK2PL9KPGIj0BwQAirOzcnqFmLjfkfBd8992gj8l5q9M2cdi
+	 Ao6VPUYoJqyo7erM2ye6xo04iucaBk9nqIgI8xHsIrQ6AwzvmkoNCcGpIDHLRDdiVNQsb
+	 ZLL53VAx03bwZS24fGxS5cBphMfkBpQ02u8jUYBUiR8GpRRo96kAu+jYig5TbwzzvYXyO
+	 KnLl3AA8bE5R3bYKPWO6Krv8vP0SRz3kTGm27q0rWA3kMLYrDFw4hnmpUnQrkGr3T+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795624369;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795627314;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type;
-	bh=fjeXOElCViRQmgZvgDDdONv2Uyhg+At7B3MV4y/CS3E=;
-	b=H/h/JQp+APhsNFVbT5xmlURQVKILjWHinvib5wQFq+ZNralpjj4VC8a7pukAw+Uk/5s1
-	 D/I4BnCn+t9dE3iUISLLe3CCPJA/06jG0CWyILCR+WeapiPqjwpjz79BZGLJEtoFXhrlr
-	 M9KysRhwLsV+mJPHArJ69bF8ARWqS9VF7Zk5OJA1w8YenCBmakZJzArwydw/h0NQ5hcRp
-	 xkgdZOG2+UsAVldKw+XLA0rTzu0lYXYHAFFhiWj37UDgDm+VzB2ewpzL3j4fQVtsMrTPv
-	 KgVhjLo7G3zOUtvsdMHJXp8Zz7FhGqDZtcqZKFbwf1kK8IgQKRNjzlXztn+p3JYCqwQ==
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=ENdJgXbQROCmKdJO5EaJi6MoXgKwvTQsbT7XHtvuy1s=;
+	b=0qoSCHEsz5mzxTOrS1HzTLYVarO9JwObUEOD/2NQVoN+L0HZQnGCECnmXccvJLZDCQRl
+	 cMeTq3qjxOWPcbPQk7R/O3a82NbukoErtk3odQxju4rmI3NYhlM0ZDljlkfjfc1aoMHue
+	 zoOe5nhlGyyJAv563lGwyyEJwWb24xHZEUPFwLZOcnqu5aEG0clYt/hdjTVVWisywSj6J
+	 o5dMCXC2Y3UvG5N7p6pfwL8BARPqf4YMuo7H9z5Ktf1WnVpf+gTIt4CNwelWD9LLqmyna
+	 MnAFBuESmYOnWAwiauJ9qGyHZ0AslhNR+BYU90cBGAxYzabwqyvzau2k2bRQkQxY9LQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vRsrn693;
-	arc=none smtp.remote-ip=209.85.128.42
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	dmarc=pass header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=RUXZ3QaU;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48F2606A33C
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 16:32:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D48F2606A33C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 924CA606A326
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 17:21:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 924CA606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vRsrn693
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a5b2be99a8so51075055e9.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 08:32:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=RUXZ3QaU
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a207b02a2cso43471405e9.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 09:21:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795624367; x=1796229167; darn=lists.linux.dev;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+        d=baylibre.com; s=google; t=1795627312; x=1796232112; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=fjeXOElCViRQmgZvgDDdONv2Uyhg+At7B3MV4y/CS3E=;
-        b=vRsrn69325843ApKLNF0OSjywFs3Xl5IXyw3SuQfgoBMgkvm+A1yV07CS7X9LbmMEn
-         bkQ0g5KmUZ/H/a34XG1nmzlnBfpQcB577g502xzJFAoXmy2fWl18hA5PUDgidR57hb+z
-         +iERTTgtlvHjtgZOdGtv9LW8Pxj/DC7pAlgXDadcuscdOz5n2buAvvvG3z63YnkgykxF
-         hn1TnZyDxVahHaML5Wbo/3LSZoD2rloGPJoVdCNNL6WQhrbpuKmteyvDvBxx0GEC4pgv
-         PLYXOiNJ4kd9VEd9g0ToEXh1EuMjNSXG5gMNLYeJ6vK1uX0u3aCow/eEF6hccestk7sW
-         rTBQ==
+        bh=ENdJgXbQROCmKdJO5EaJi6MoXgKwvTQsbT7XHtvuy1s=;
+        b=RUXZ3QaUyR827duO7rIN7wHXxXCtYyIeYDYFFvuTrAZDKTjzZGlSvAM+h5dFrmu8J8
+         O2PpIV0QOLWs/tCcdmf5H5tySLgg62Z1l26U488+j9yVMUmwqVD/0VSJAdQ7jFJwiDSo
+         nVVOs6kAPyC97jPwkJ5I0t0C+nSFspldpHEFt0Ep2lCBG4QlUGVAaNlPHZYHjPXlvFep
+         31bWKvZqIOt0XyuqaSMe6k/i+Bi316X1TCls3p8xUT7Rd+SFYmcweCnbR0b29PqaVWZ3
+         G/4gluySotQUVYlxg4h7erGSBixUW1yyr5bkuBXBJa1i0RRMDOAe6ZTA7Ygh2CxstoHt
+         1SNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795624367; x=1796229167;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1795627312; x=1796232112;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=fjeXOElCViRQmgZvgDDdONv2Uyhg+At7B3MV4y/CS3E=;
-        b=wojUPvCI+WNlzB2yVnruYMOBUTgYudaLJOV560wOjB9e0wjQaqJa5AMM62Zlr+yGBO
-         AV7hiobDt6P7kOIVZE8eH3L3kFFiff03dLQz3iiJulK0WyeQZjkG7WDOyvqx+HNenEJn
-         U0Mr+Ywql5CWi2DUriwqTR7Gy2neua4mgLTiZuHsKg8oDF4XPnr8VoPwKojbG/9bRkYg
-         YHAONx9yYYkMuBaryGNNw0LDDAN1IP+n45vHKq3meRBdu+hD1SkP52PIImVQbaQwuUcR
-         rEb9TV//mGLYUhA9LNTTX9LvGYAYVppKjUydlYD7Usiw7UO+Qx63JYzWYriJFYG9E027
-         kCrg==
-X-Forwarded-Encrypted: i=1; AL+hErHv210JCkwP1F0gEYdSM6v2X56UtzhzTFGfe/Td8KLYM+DaAlRll5TEY8neJdcPPgRtQ0TER7oCLfQ7pQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+eXcPtTCYsrkrHWnXUExQ212dFVbAAIy5gn3RlMr45nzSCDfA2
-	jCp3eAJj2ke9KY/DMI/WYeiUfZO1Pw91XZEuD5QGDhrcUmyKG4JDOWUN
-X-Gm-Gg: AZFdTZcGTuWkM743wrBRp0jjcGir24wHIIskuB/alp144XiVc7zXoN94luJVRR7V2jL
-	AO0w+ojZi+7xgPyA2vZIKGhGqbQH/vFmQZjyKP1Jt8R/JsDGl7fOZwNso+fG0at2vBo66r/bjxo
-	gbLHV1aYwdeD0PSK50f9LHpZvPOE9qA125Jntm7Q14ix9C+B3eHoR8QzEO7Tr0GuBL2naOiBazD
-	jgt69XQDh5zIKFp71F1PCkxLjS8yQXz4rkgcpiaX+PpKVNMH1VKu1K/jq2L0IISflfRWFK3eZSu
-	CJQgMQK8zcas+EPGKl7Yu9wqTD+SGGxL5Gv3TYZREzezEkvbzOwMK3P6wqzyHCbovedtofzMI71
-	Fw1fegXA/GnuA7i6Ol2cre/+I3qgLxokmHJitYfrP8slExPldxDHAern89Kdf43YMrDTaNZTqCT
-	RZe4l2G9ffqNHEnPWWT7KJFiz/mfPN2pw1PHqNKrQT1Jgij7rihBWCVfCgu9+e2gTB6KFQjTy0B
-	9opShg9jD4EP8ZbhTWc6V93p+1qA+FHKL2zPHAKw727ewbWM/U5CB55LkYGeLhqXQsuuHdRQcvf
-	f9+qCvm8jHDGiekgQDMiorpQas1IJY1A12KP8q7O10sIDBey/HN3gNLHhCRYNQ41YAkTkmzfqa4
-	uQdllPdbIy7Qs561EksBd99srHKtI3Q2T3cWaHn73/TfgRm4bIQ9gcalep2s2yLf45lCeDIcGda
-	psL1wqgw+oFeGGXfl8ti9ldu1vhqZRcc9DREnv7K/gfylSVkWaH2FcQZtDXS2d1OVCQmUfg6+gg
-	VzhxPfemzhpobo8E9OlOsQeZyD/Kn+VIgdGMuBzwmz8hq8MxYWc2o+2U7jrPJqAiXw9yyoVordV
-	4RvlhDK/
-X-Received: by 2002:a05:600c:800e:b0:4bb:7757:fe58 with SMTP id 5b1f17b1804b1-4bb8881b9d7mr381679255e9.19.1795624366963;
-        Wed, 25 Nov 2026 08:32:46 -0800 (PST)
-Received: from jernej-laptop.localnet (77-38-7-250.dynamic.telemach.net. [77.38.7.250])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853a12acsm560493135e9.8.2026.11.25.08.32.45
+        bh=ENdJgXbQROCmKdJO5EaJi6MoXgKwvTQsbT7XHtvuy1s=;
+        b=CFGpgnlZBdPAIwHJyRgZaH5KE0hCjfP0rh16TyTqUl0EokWWW89yl/kfhr51LcEpcP
+         YL9jYK/55eOvHTeJOBHLaSduHdfe9ESzE+zLdv24unndX3vnu9Pco2/1N5wPkueN4dJW
+         biHuVZ+Feh+T/oUOmue5SjMU+Ylr5pyetDGVORjrFYWv6kpQDjd/aaME0Hh/er16MoJ9
+         B06rXmXUPTzc7l1fN9/sdEAX/zkYvKD/Ab4IAUnyOxBvxfARX2mLUv3cNVq/WpTERR+K
+         qlVna6XtlHLeERC3yMkW1eA2aHIk1YL3OoYcqxNMNRFASjfW5Y47g1EA/d1h7RpJ6Q9P
+         nBzQ==
+X-Forwarded-Encrypted: i=1; AL+hErHdrySsuUEAQNpwuOn062HjPxBqoN+b1kAEjP/4Q9c+xG9PxTUAYDI9AexAMghhNlGIhXdnVJDCFSW/uA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8EgejdEdCiwOnO2pzq933oMcPdmdbEctyglahSTq+nUdYveMsU
+	0YqeaAIRidwRRF55FZk3z2GjDfXDxzttzc2OAYkQQOFi/0T/jD62rh5eqXzZHHJ5Avk=
+X-Gm-Gg: AZFdTZc8YFXsRmK5aS5EyM+YZ6RwCcGscKEjAq3zPH90sMV5c5+Rxh9k4Qly/t8Q04E
+	8XqKXl72BgzDEvCiFlpa+/+eQGBzq3radF8rqIVVQ9sjAbU8LZ7YCBKKkdrDlS9ojJNRHNUMiET
+	6yHZqBfHi2UpzXC9P5MYe9Ryxkp1Op4ZTvEpvyPfSOz6YNS426c81ujwZdFohs6Ud5cLxTOewxW
+	vjDrLsEEXktIGJ+us5wmkZwEdww293RUfFfYHvaQrqRVtaZitye6HejSn9sk3Q5QXWi9n6AlAEt
+	YHqfDcQ1IRk+HxyULltTjGDEY6+EKgqCnT0tOYmyp2ZkieH290+YWT8L3j/niar36TyfxDmMhik
+	DhPOuHc31TxgismrUHwuT4lknwJcs6YZNW4A4JKcQtTj5Q8RVz9LKumnzJlDnEfgUBhRNa+CaXE
+	eUd94vzzoIPR3fM8RKoC+dopa7mfKB46A0Sk3sLkDHpIbgLo4BgOUKATi2qyGdzZZ2BR/TXEfv9
+	6WCNYc5fmSRdBBeUj6T2JOzHV/gwBAhmYgR6IaiYfZZ/jf7RCqNl0EnYR1oT2o7sM4AX3vj+bw5
+	4Xc9a867CV7PIudnQhYsFcbN+oIG1IIfkecO8kdVNP0huIOYrvjyWJ1uSz3PvXx0HIDpLYwev1H
+	S/Ne3z8zRccrU/dRr
+X-Received: by 2002:a05:600c:1547:b0:4a2:397:73f6 with SMTP id 5b1f17b1804b1-4bb8880974amr419686485e9.8.1795627311811;
+        Wed, 25 Nov 2026 09:21:51 -0800 (PST)
+Received: from localhost (p200300f65f19a904452474b9d670397a.dip0.t-ipconnect.de. [2003:f6:5f19:a904:4524:74b9:d670:397a])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4bb853b216esm590410475e9.12.2026.11.25.09.21.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 08:32:46 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Liu Ying <victor.liu@nxp.com>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Lucas Stach <l.stach@pengutronix.de>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Chen-Yu Tsai <wenst@chromium.org>
-Cc: Chen-Yu Tsai <wenst@chromium.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, linux-sunxi@lists.linux.dev,
- imx@lists.linux.dev, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Subject:
- Re: [PATCH RFT v3 3/5] drm/sun4i: layers: Fix VI buffer address for clipped
- offsets
-Date: Wed, 25 Nov 2026 17:32:45 +0100
-Message-ID: <sBipOLw6T_aZ1e-H2zFl3g@gmail.com>
-In-Reply-To: <20261124074041.115251-4-wenst@chromium.org>
-References:
- <20261124074041.115251-1-wenst@chromium.org>
- <20261124074041.115251-4-wenst@chromium.org>
+        Wed, 25 Nov 2026 09:21:50 -0800 (PST)
+Date: Wed, 25 Nov 2026 18:21:50 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
+	Takahiro Kuwano <takahiro.kuwano@infineon.com>, Vladimir Zapolskiy <vz@mleia.com>, 
+	Robert Jarzmik <robert.jarzmik@free.fr>, Alexander Usyskin <alexander.usyskin@intel.com>, 
+	Joern Engel <joern@lazybastard.org>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
+	Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+	Shrikanth Hegde <sshegde@linux.ibm.com>, Michal Simek <michal.simek@amd.com>, 
+	Nicolas Ferre <nicolas.ferre@microchip.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>, Brian Norris <computersforpeace@gmail.com>, 
+	Kamal Dasu <kamal.dasu@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, William Zhang <william.zhang@broadcom.com>, 
+	Anand Gore <anand.gore@broadcom.com>, Kursad Oney <kursad.oney@broadcom.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>, 
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, Han Xu <han.xu@nxp.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Harvey Hunt <harveyhuntnexus@gmail.com>, 
+	Keguang Zhang <keguang.zhang@gmail.com>, Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>, 
+	Liang Yang <liang.yang@amlogic.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Stefan Agner <stefan@agner.ch>, Lucas Stach <dev@lynxeye.de>, 
+	Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Jacky Huang <ychuang3@nuvoton.com>, Shan-Chun Hung <schung@nuvoton.com>, 
+	Tudor Ambarus <tudor.ambarus@linaro.org>, Linus Walleij <linusw@kernel.org>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, linux-mtd@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
+	linux-mips@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 04/10] mtd: spi-nor: Unify of_device_id list terminator
+Message-ID: <awcY_FIcD-Lt0_am@monoceros>
+References: <20261125-acpi-mtd-v1-0-42ad2f645bee@thegoodpenguin.co.uk>
+ <20261125-acpi-mtd-v1-4-42ad2f645bee@thegoodpenguin.co.uk>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -114,107 +133,81 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vscxo3nc4bzujlaw"
+Content-Disposition: inline
+In-Reply-To: <20261125-acpi-mtd-v1-4-42ad2f645bee@thegoodpenguin.co.uk>
+
+
+--vscxo3nc4bzujlaw
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [PATCH 04/10] mtd: spi-nor: Unify of_device_id list terminator
+MIME-Version: 1.0
 
-Dne torek, 24. november 2026 ob 08:39:31 Srednjeevropski standardni =C4=8Da=
-s je Chen-Yu Tsai napisal(a):
-> Commit 79ac1c945ab8 ("drm/sun4i: layers: Use drm_fb_dma_get_gem_addr() to
-> get display memory") dropped the code to calculate the framebuffer's DMA
-> address in favor of drm_fb_dma_get_gem_addr().
+On Wed, Nov 25, 2026 at 04:28:30PM +0000, Pawel Zalewski wrote:
+> Unify the list terminator to have a single space between the brackets and
+> no trailing comma. This change doesn't introduce any diffs between
+> pre/post to the compiled binaries of the modified drivers and just aligns
+> these to the common style with other *_device_id arrays.
 >=20
-> This turned out to be wrong in a couple ways. The hardware is programmed
-> with clipped dimensions, so it needs the buffer address to start at the
-> clipped boundary. Moving to the helper negated the clipping. Also, when
-> clipping on the left, the buffer address needs to start at the first
-> pixel in the sub-sampling group even for the luma plane. The hardware
-> handles the interpolation internally.
->=20
-> Switch to the new drm_fb_dma_get_gem_clipped_addr(), which provides the
-> buffer address starting at the clipped boundary. Calculate the intra-group
-> offset and adjust the luma plane buffer address so that it points to the
-> start of the sub-sampling group.
->=20
-> Fixes: 79ac1c945ab8 ("drm/sun4i: layers: Use drm_fb_dma_get_gem_addr() to=
- get display memory")
-> Cc: <stable@vger.kernel.org> # v7.1+, needs drm_fb_dma_get_gem_clipped_ad=
-dr()
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
 > ---
-> This is an alternative to Jernej's original revert:
-> https://lore.kernel.org/all/3980ea1aeb3f7fe8b4700e36560deeba3d050664.1785=
-772659.git.jernej.skrabec@gmail.com/
-> ---
->  drivers/gpu/drm/sun4i/sun8i_ui_layer.c |  2 +-
->  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 16 +++++++++++++++-
->  2 files changed, 16 insertions(+), 2 deletions(-)
+>  drivers/mtd/spi-nor/controllers/hisi-sfc.c  | 2 +-
+>  drivers/mtd/spi-nor/controllers/nxp-spifi.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun=
-4i/sun8i_ui_layer.c
-> index f9c7f28f9fa2..67cce1b0e70f 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> @@ -130,7 +130,7 @@ static void sun8i_ui_layer_update_buffer(struct sun8i=
-_layer *layer,
->  	ch_base =3D sun8i_channel_base(layer);
+> diff --git a/drivers/mtd/spi-nor/controllers/hisi-sfc.c b/drivers/mtd/spi=
+-nor/controllers/hisi-sfc.c
+> index 4f6631950a5b..01048ca46a60 100644
+> --- a/drivers/mtd/spi-nor/controllers/hisi-sfc.c
+> +++ b/drivers/mtd/spi-nor/controllers/hisi-sfc.c
+> @@ -474,7 +474,7 @@ static void hisi_spi_nor_remove(struct platform_devic=
+e *pdev)
 > =20
->  	/* Get the start of the displayed memory */
-> -	dma_addr =3D drm_fb_dma_get_gem_addr(fb, state, 0);
-> +	dma_addr =3D drm_fb_dma_get_gem_clipped_addr(fb, state, 0);
+>  static const struct of_device_id hisi_spi_nor_dt_ids[] =3D {
+>  	{ .compatible =3D "hisilicon,fmc-spi-nor"},
+> -	{ /* sentinel */ }
+> +	{ }
+>  };
+>  MODULE_DEVICE_TABLE(of, hisi_spi_nor_dt_ids);
 > =20
->  	/* Set the line width */
->  	DRM_DEBUG_DRIVER("Layer line width: %d bytes\n", fb->pitches[0]);
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun=
-4i/sun8i_vi_layer.c
-> index 4d3fc03f9877..b6796416d550 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> @@ -205,7 +205,21 @@ static void sun8i_vi_layer_update_buffer(struct sun8=
-i_layer *layer,
+> diff --git a/drivers/mtd/spi-nor/controllers/nxp-spifi.c b/drivers/mtd/sp=
+i-nor/controllers/nxp-spifi.c
+> index 30fe2d414f07..71ee50eb1a71 100644
+> --- a/drivers/mtd/spi-nor/controllers/nxp-spifi.c
+> +++ b/drivers/mtd/spi-nor/controllers/nxp-spifi.c
+> @@ -440,7 +440,7 @@ static void nxp_spifi_remove(struct platform_device *=
+pdev)
 > =20
->  	for (i =3D 0; i < format->num_planes; i++) {
->  		/* Get the start of the displayed memory */
-> -		dma_addr =3D drm_fb_dma_get_gem_addr(fb, state, i);
-> +		dma_addr =3D drm_fb_dma_get_gem_clipped_addr(fb, state, i);
-> +
-> +		/*
-> +		 * The mixer can handle odd offsets into sub-sampled YUV
-> +		 * planes, but needs the address of the first pixel in each
-> +		 * sub-sampled block. Adjust the luma buffer address backwards.
-> +		 */
-> +		if (i =3D=3D 0) {
-> +			u32 x_diff, y_diff;
-> +
-> +			x_diff =3D (state->src.x1 >> 16) & (format->hsub - 1);
-> +			y_diff =3D (state->src.y1 >> 16) & (format->vsub - 1);
-> +			dma_addr -=3D y_diff * fb->pitches[i];
-> +			dma_addr -=3D x_diff * format->cpp[i];
-> +		}
+>  static const struct of_device_id nxp_spifi_match[] =3D {
+>  	{.compatible =3D "nxp,lpc1773-spifi"},
 
+If you touch this struct you can also add spaces after { and before }.
+But that's a nitpick, ignore at will.
 
-This could be done differently.
+> -	{ /* sentinel */ }
+> +	{ }
+>  };
+>  MODULE_DEVICE_TABLE(of, nxp_spifi_match);
 
-Before for loop (done only once):
-src_x =3D (state->src.x1 >> 16) & ~(format->hsub - 1);
-src_y =3D (state->src.y1 >> 16) & ~(format->vsub - 1);
+Best regards
+Uwe
 
-Inside for loop:
-gem =3D drm_fb_dma_get_gem_obj(fb, i);
-dma_addr =3D gem->dma_addr + drm_framebuffer_get_block_offset(fb, i, src_x,=
- src_y);
+--vscxo3nc4bzujlaw
+Content-Type: application/pgp-signature; name="signature.asc"
 
-But it works in any case, so:
-Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+-----BEGIN PGP SIGNATURE-----
 
-Best regards,
-Jernej
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmsHGSsACgkQj4D7WH0S
+/k73ogf7BALXlCQ8r5M8ZULyZTCXZBckvup39sfY/19fBNNwXXunI63allBA3oeS
+J2HDGz0wNdZ2/y1iggGBavEtOaE6mVsBVcm3jdJ97l/vwZ/DzZ18bG17D+lOa6o0
+Kukj1hQ5Q2qvFM8u49aHT99Zp8isHlf3GpEqLzOnphUzqGPj4/9xiIWC887HPgq0
+Nfab1Mu6GBOwgze0VnJbpJfJ4rOA6Bz+tZOVjrFqShym3ZSG1ADwwM4HkOixY93y
+2Z/oy3nqZHXEeEEg9uml7t299pECJEma5xTr5gSqY9g8tcQXvO8QVWh+dTUSYLTO
+i5jse6iRjG93iBKa+gKKv3oEi8y83Q==
+=PjDZ
+-----END PGP SIGNATURE-----
 
-> =20
->  		/* Set the line width */
->  		DRM_DEBUG_DRIVER("Layer %d. line width: %d bytes\n",
->=20
-
-
-
-
+--vscxo3nc4bzujlaw--
