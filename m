@@ -1,90 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=119.15.109.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795588234;
-	b=hF2jDomNm/cteBiLXe7oBBLp1gU62rtQRpdDSHJB400uAo4XCjwCxQW0e33TdlnHcZlv
-	 dgqzZwJlTlNR6a9hUyQ5VyI/Pkaqjtjif2So6pCDqlRwwFlOFFunSNf+JxScvZlKrW+Ci
-	 vMApEs9GcJqmtktaGkfWqyFNKJe+wN02nQSEL+NI6X6+n/ZbnGREo78K+5uwqc8op3kOu
-	 IFqab9LoGAnHt7HUWlGmEKBsZvhA2CpST2d3ob/jhXliUjaoen1dKKQbtQQWOKLb56WfZ
-	 wNQ1CNdWGrNn7Fb/WNwEvIb1xCnx4PB2Xj5qFEFxTylQwaLaVUlMaCFjxGE4pGsbpsg==
+	t=1795591293;
+	b=ELOjBpxMJvwSzt/lTzwFU69KeBpRg2TbVaOcSG0Caz6XO4P5iJLU4EHZOQcDcIe7xY0i
+	 PdVPGYsLo3c5JJUco1B9e3YEIUHFurXXoG/ufBVDy6GuisLQUavsfIUGSXi94n9pa1oUS
+	 yBwXoJ1RxJR5ZZ7P3e8VUWaI5GP0BIMZaD+7OjYQtOAuiLPDiV6bHGHfOozzrlXF9N4Q0
+	 S9TzD08aZ9/ndbwZI+Tbkf0IKgLQ1RL0nBUG3fQqDjwZJVILYDAAZ96flxLqJjGJylz48
+	 ezXU4J5MlpsuB6QQHuw7f42nokShDG/fzumNwYAYvtWC+MQGTHqp5Kqb4joCkYbrnFA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795588234;
-	h=DMARC-Filter:Received:DKIM-Signature:X-GPT-Reason:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=+Jd9GpNnKuAEXDZRlaw/A4HJ7oebPS5UXTKzQT7tnSw=;
-	b=gntiR8lSsAupMqCslueC5pbdMlrLeMeG6lkqbKle9larTRoNJ0k1V1QvfpRV772gT4/9
-	 SfwJhHStXqCr9XxVSqf0kA3yUsgZO5YEyGG5di9TuNwbapmVM0DB6ECYhR2zGVZyY0g1H
-	 j4H6lOe2uKEe4pOp8T7C/5bQtahd+cNXLk1VqK1SdI2tHAMDrXVWer1ZVn7qeBrTT0+CM
-	 Ju9oghyExgTWh92E+fzo9GcEQ8Tq9NAcTbTvvOxBjRY5qpaMnVCFwDnuVKzCLMf6OH55G
-	 0FaFFwRvnNU53mPMvgBD9E816cBBd3bSEGnMbc7f60WkdbPAybNkGUPgKveHizk1cBg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795591293;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:X-Google-Original-From:To:Cc:Subject:Date:Message-Id:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=R52vvQCOEP2yQoOtzfmf3tXHj9q6TsgHnskwuN5yzD0=;
+	b=CqDbvowNbcHHyoBC4GqkGpm4bcPgrv2nsel1+AesSxU3Z05+iS0OyE4KZgekpX/Mq+RW
+	 kdAblt92g7jKM1k5l6hS+xEH8KL8f2CTvt+4WsIUQA1kxTbff1VRcOactLFlRhnF/LjQ7
+	 suY19+3fTNutU8oFo470OSMHHQIkyf/HM3L/iupj8xgoYi42L6Fpegegeapg3aHFVeLwP
+	 NukpWJVn1HvHIpsRTqVoJYGJ+L+64pVVot9PEXM+iDkd10ccILyVZoUdXXfjkA3WaV9GK
+	 Itq9eSj1OcC6DbW4YvjL6VxJI8k1j5rR0b4d1Bxy+hmW5HiP2rgEb6yNLnSsQFlfnpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=d-silva.org;
-	spf=pass smtp.mailfrom=d-silva.org;
-	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=pXDTTIPR;
-	arc=none smtp.remote-ip=119.15.109.137
-Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=H96Xb7b3;
+	arc=none smtp.remote-ip=74.125.82.174
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5335606A326;
-	Wed, 25 Nov 2026 06:30:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C5335606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE71606A323
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 07:21:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0CE71606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=pXDTTIPR
-Received: from Hawking.lan (hawking.lan [10.0.1.4])
-	by www.nmnhosting.com (Postfix) with ESMTP id AAE8A4C951;
-	Wed, 25 Nov 2026 17:30:24 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
-	t=1795588224;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+Jd9GpNnKuAEXDZRlaw/A4HJ7oebPS5UXTKzQT7tnSw=;
-	b=pXDTTIPReYFx9AL9Bd7ktHuVmFgDB3d218cZmrxtQG6VGpcK9QT741Mqbktcua3l8/FXPv
-	UZOpcjQjKzYChKkqXPLE204ZSlNadlz9ZetzY/VaPNGsJUexhOoaB2++r9ZQFkWQVB5eDC
-	BPfWGUgd1fprwXpO61xpyvOKLW7CstcW0iaTv75ipaCX27XnTSYyyG57W7POHz4/eUvTDA
-	tnrFby/SjutnTmbYjYKOiBe7n82EH+OjD3rTNTBTIwWuVOgj1jnjQuMhEp53tWdo3e8Wbs
-	r5f1peoT28tzk3Il0jw49/Cj0893XFSdlyYU+H/aAlzYkY9kE6BOPqczzmjYOQ==
-X-GPT-Reason: This is a legitimate technical communication (patch
-	submission) regarding Linux kernel or hardware driver development.
-	The content is highly specific to technical engineering (PCIe,
-	PHY nodes, DMA ranges) and aligns perfectly with the sender identity
-	(alastair@d-silva.org) and the recipient's known personal domain
-	(alastair@d-silva.org). No marketing, phishing, or scam indicators
-	are present, and the technical nature of the body matches the expected
-	activity for these specific users.
-From: Alastair D'Silva <alastair@d-silva.org>
-To: Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof Wilczynski <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=H96Xb7b3
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-386d1859e1cso237477eec.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 24 Nov 2026 23:21:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795591292; x=1796196092; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=R52vvQCOEP2yQoOtzfmf3tXHj9q6TsgHnskwuN5yzD0=;
+        b=H96Xb7b3xuGfBkSCu0vSOzrVGNjrqVQtvrM7C1hNMkgk1nAhXE8HbuUWpcbPxDtsqY
+         y9Vz/YbLSel07wTGOOMqtiZaf0RmJ79xfX1nHlE4++rs4wvUfFovdSC7UvIorusl3ZJW
+         Ms+bkEhZnYzUigaELz1tB/FYdBJgzyWrrSgAj+RJ+DYj0f8VuS/iF6ywwfVgCNLu9TWJ
+         MMsG/7ALi4M6T3vRDOMCSBbNF745ttRbW+mZxlvTNeliki8sNBPCMfzyurcr0nA+kO/2
+         4Un7WPVFoLgTO5Mk7nvAXHXyBHViiL+gpro5Cf71LIe71vcxnq+WMF87ejI+2nWsQsNy
+         mxDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795591292; x=1796196092;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=R52vvQCOEP2yQoOtzfmf3tXHj9q6TsgHnskwuN5yzD0=;
+        b=GJ0FYRSsR11RCb2VKR5SlnsKbTp5uiLTlGvHslog48J84LtJzw9q7zjgGboS6Rn5IX
+         t2FyNvBAkkF5moAAqkYAIpuKCBmKcJCqTxVWYUBTkxAsNM01AcPFdL6F/R+CX5QEbiz4
+         EodqOuADo/dM9jdHN8xccCAqSsOBV3ORmqYOJZZv4pMi0G5k11ScQuGlKh8JxQTfnL/M
+         +5rCnFZnYYSf40DeFMdG6yqPt3P3yQHafVguxC/cSr7V0UAWweytbpzKQmxnq2A67oC4
+         ZiMp2RMemS2kVEJYpu68+w9P2LICrsoo4i1yYi9c8kRl3jJEA1NwiNiQjz3gR9aPMuQ9
+         GAhQ==
+X-Forwarded-Encrypted: i=1; AL+hErGlw1DAfKiGX++Mer/aKDr8qIM6SpUVGb1a+2MoYptkbtz5JiIemD5bu4/4l+SE/sdRbtBYE37taIdIuA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+zVTwxPqmGhTOiMA83DPkiKUV9nWQUtdmbidaayNTXmi1QsiEs
+	Ui3bHL2mpHvA7fh7IKCrQf2p4d9lnc6Y2Vg6luqHnVu0VlxKLo43zDYj2upnDtwK
+X-Gm-Gg: AZFdTZcFlp7VgGGRrWg/48Xh5ir4d8+agKvCbpCTvDRil+tBZcqSpDpExZdIW+3VCjd
+	bO6SRQ/63nU41eQKdn9/qD6bwEU4jNOyUgDrf6UVLYYhYKj60Cj68t7q9iExYhAlM6CzAPLrPbE
+	sZJNHwiyPK0XnZf38tcJTMpGZcBF9ddANTmje1WQ3SiFOeg+YZ9Nx/GY5n+Rs7NyRLRQ6/Umshi
+	uQC0jdo4XRP2VQQ3Brnr4AZy7aoc+irIii4YpNokQfKKnUcFDzD9ttOmuJ7b3W27aocHMf5dN8l
+	6c7OMlfKQ0lPutMn8lagqBV7v3SzjjJ2urcQ+JV2q1eT/1rAs5cQ6UCP0XO7svLDEf/cFO/7yb0
+	/wv3OZSDHmzLKtuZN7Qa/lI1VQWjaosElpnd6eJ/ARE4nURBaxGiM33NKMsYuPdM5623stTQsDM
+	tCQmibWM9BhDTM/RYcwPrCUR9oRHKTM/7nadnqoJ5oCwXq0Meu5TuS6f4vYdmW+r9EAwI89/EAX
+	ExWHfLYOzNP8TYtSBvpz0za0oHkaJNq757JUSFAN962yCLoFNXKevRvPAsaDBlQObCOFaZnOeFB
+	VuTCKBibD1pCIgQ87Z+bF7KJG4cNOE7Wahf4SZUcShTTchNXIDz1tRWKG0xXdw7j
+X-Received: by 2002:a05:693c:8943:20b0:386:af00:e9a6 with SMTP id 5a478bee46e88-386af00eb48mr8612674eec.2.1795591291989;
+        Tue, 24 Nov 2026 23:21:31 -0800 (PST)
+Received: from prasanth.alps.lineo.co.jp (vpn1.lineo.co.jp. [203.141.200.204])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-38566cd46c5sm62232352eec.11.2026.11.24.23.21.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 23:21:31 -0800 (PST)
+From: Prasanth R <ragaprasanth@gmail.com>
+X-Google-Original-From: Prasanth R <prasanth.r@lineo.co.jp>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: Hans de Goede <hansg@kernel.org>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: mfd@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
+	Samuel Holland <samuel@sholland.org>,
+	Support Opensource <support.opensource@diasemi.com>,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Enzo Adriano <enzo.adriano.code@gmail.com>,
-	Junhui Liu <junhui.liu@pigmoral.tech>
-Subject: [PATCH 5/5] arm64: dts: allwinner: sun60i-a733: Add PCIe and Combo PHY nodes
-Date: Wed, 25 Nov 2026 17:29:48 +1100
-Message-ID: <20261125062948.1234677-6-alastair@d-silva.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261125062948.1234677-1-alastair@d-silva.org>
-References: <20261125062948.1234677-1-alastair@d-silva.org>
+	linux-sunxi@lists.linux.dev,
+	Prasanth R <ragaprasanth@gmail.com>
+Subject: [PATCH 0/3] Input: clear the wake IRQ on unbind
+Date: Wed, 25 Nov 2026 16:21:21 +0900
+Message-Id: <20261125072124.2997511-1-prasanth.r@lineo.co.jp>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -96,119 +104,30 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add SerDes syscon, Cadence Combo PHY, and DesignWare PCIe Root Complex
-nodes to sun60i-a733.dtsi.
+From: Prasanth R <ragaprasanth@gmail.com>
 
-Place pcie@6000000 at the root node because soc@0 uses 1-cell addresses
-and a 1 GB ranges window, whereas pcie@6000000 requires 64-bit
-dma-ranges. Use the DWC integrated MSI receiver (msi IRQ) while GICv3
-ITS remains disabled.
+These drivers set a wake IRQ with dev_pm_set_wake_irq() and never clear
+it. After unbind and bind, dev_pm_set_wake_irq() warns "wake irq already
+initialized" and returns -EEXIST.
 
-Assisted-by: LLM
-Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
----
- .../arm64/boot/dts/allwinner/sun60i-a733.dtsi | 76 +++++++++++++++++++
- 1 file changed, 76 insertions(+)
+Switch them to the device-managed helpers.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
-index b0f642f37803a..64bab9e90b72b 100644
---- a/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
-@@ -4,6 +4,8 @@
- #include <dt-bindings/clock/allwinner,sun60i-a733-ccu.h>
- #include <dt-bindings/clock/allwinner,sun60i-a733-r-ccu.h>
- #include <dt-bindings/interrupt-controller/arm-gic.h>
-+#include <dt-bindings/phy/phy.h>
-+#include <dt-bindings/power/allwinner,sun60i-a733-pck-600.h>
- #include <dt-bindings/reset/allwinner,sun60i-a733-ccu.h>
- #include <dt-bindings/reset/allwinner,sun60i-a733-r-ccu.h>
- 
-@@ -539,6 +541,30 @@ mmc2: mmc@4022000 {
- 			status = "disabled";
- 		};
- 
-+		serdes: syscon@6c00000 {
-+			compatible = "allwinner,sun60i-a733-serdes-syscon",
-+				     "syscon";
-+			reg = <0x06c00000 0x8000>;
-+		};
-+
-+		combophy1: phy@6ca0000 {
-+			compatible = "allwinner,sun60i-a733-combophy1";
-+			reg = <0x06ca0000 0x20000>;
-+			clocks = <&ccu CLK_SERDES_PHY>,
-+				 <&ccu CLK_AHB_SERDES>,
-+				 <&ccu CLK_MBUS_SERDES>,
-+				 <&rtc CLK_HOSC_SERDES1>;
-+			clock-names = "serdes", "ahb", "mbus", "ref";
-+			assigned-clocks = <&ccu CLK_SERDES_PHY>;
-+			assigned-clock-parents = <&ccu CLK_PLL_PERIPH0_600M>;
-+			assigned-clock-rates = <100000000>;
-+			resets = <&ccu RST_BUS_SERDES>;
-+			power-domains = <&pck600 PD_PCIE>;
-+			#phy-cells = <1>;
-+			allwinner,serdes-syscon = <&serdes>;
-+			status = "disabled";
-+		};
-+
- 		r_ccu: clock-controller@7010000 {
- 			compatible = "allwinner,sun60i-a733-r-ccu";
- 			reg = <0x07010000 0x250>;
-@@ -654,4 +680,54 @@ rtc: rtc@7090000 {
- 			#clock-cells = <1>;
- 		};
- 	};
-+
-+	pcie: pcie@6000000 {
-+		compatible = "allwinner,sun60i-a733-pcie";
-+		reg = <0x0 0x06000000 0x0 0x00010000>,
-+		      <0x0 0x06300000 0x0 0x00100000>,
-+		      <0x0 0x06400000 0x0 0x00080000>,
-+		      <0x0 0x20000000 0x0 0x01000000>;
-+		reg-names = "dbi", "atu", "app", "config";
-+		#address-cells = <3>;
-+		#size-cells = <2>;
-+		bus-range = <0x00 0xff>;
-+		device_type = "pci";
-+		ranges = <0x81000000 0x0 0x21000000 0x0 0x21000000 0x0 0x00010000>,
-+			 <0x82000000 0x0 0x22000000 0x0 0x22000000 0x0 0x06000000>;
-+		dma-ranges = <0x03000000 0x0 0x40000000 0x0 0x40000000 0x3 0xc0000000>;
-+		clocks = <&ccu CLK_PCIE_AUX>,
-+			 <&ccu CLK_PCIE_AXI_SLV>,
-+			 <&ccu CLK_BUS_ITS_PCIE0_ACLK>;
-+		clock-names = "aux", "slv", "mstr";
-+		assigned-clocks = <&ccu CLK_PCIE_AXI_SLV>;
-+		assigned-clock-parents = <&ccu CLK_PLL_PERIPH0_400M>;
-+		assigned-clock-rates = <400000000>;
-+		resets = <&ccu RST_BUS_PCIE>,
-+			 <&ccu RST_BUS_PCIE_PWRUP>,
-+			 <&ccu RST_BUS_ITS_PCIE0>;
-+		reset-names = "core", "pwr", "mstr";
-+		interrupts = <GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH 0>,
-+			     <GIC_SPI 153 IRQ_TYPE_LEVEL_HIGH 0>;
-+		interrupt-names = "app", "msi";
-+		#interrupt-cells = <1>;
-+		interrupt-map-mask = <0 0 0 7>;
-+		interrupt-map = <0 0 0 1 &pcie_intc 0>,
-+				<0 0 0 2 &pcie_intc 1>,
-+				<0 0 0 3 &pcie_intc 2>,
-+				<0 0 0 4 &pcie_intc 3>;
-+		max-link-speed = <3>;
-+		num-lanes = <1>;
-+		linux,pci-domain = <0>;
-+		phys = <&combophy1 PHY_TYPE_PCIE>;
-+		phy-names = "pcie0";
-+		power-domains = <&pck600 PD_PCIE>;
-+		allwinner,serdes-syscon = <&serdes>;
-+		status = "disabled";
-+
-+		pcie_intc: legacy-interrupt-controller {
-+			interrupt-controller;
-+			#address-cells = <0>;
-+			#interrupt-cells = <1>;
-+		};
-+	};
- };
+Patch 1 is tested on an i.MX6Q SABRE-SD board by unbinding and binding
+the driver through sysfs. The others are compile-tested only (ARM,
+clang, W=1).
+
+I used an AI assistant (Claude) to find these and write the changes.
+
+Prasanth R (3):
+  Input: snvs_pwrkey - clear the wake IRQ on unbind
+  Input: sun4i-lradc-keys - clear the wake IRQ on unbind
+  Input: da9063 - clear the wake IRQ on unbind
+
+ drivers/input/keyboard/snvs_pwrkey.c      | 9 +++++++--
+ drivers/input/keyboard/sun4i-lradc-keys.c | 2 +-
+ drivers/input/misc/da9063_onkey.c         | 4 ++--
+ 3 files changed, 10 insertions(+), 5 deletions(-)
+
 -- 
-2.53.0
+2.43.0
 
