@@ -1,89 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795624126;
-	b=m7F2ztyMg5eE0TfrsSw9R1PxHKHsq4yA59pt3P4MLfiG8rU+lkYvumsrMp/1VzG++QSf
-	 GK2yxHmtbYiKe/RMdf7JWqWYnzome215+5UKkOblp81B1JfhgB75DkfogpMyfCZglahLE
-	 Y5YQeJ5HanA1HcPV6SeHg6pLrakuPJsvC+x97YolmnfCHdNQB0UiBJZ+E7+R90IAtFeGZ
-	 c9WJjfEOOkxxU8FlLFn4RO25CfqIkylCyX/IPwhI20WOM8Rs0OqTXBwdXYZWMkw8L2MOH
-	 816yWVK9nn0ZntVDFCZEjsihsMruUAhT2KV7twiMg0Jil/87CbbP7OY7vPjROly0mCw==
+	t=1795624128;
+	b=xHYkJ0RmcCSrrOYHLNXOnH8oMyDxzrWJEmdtFMVraqC3IAJ/MQ7BqNy1qkYuPFGtV7oq
+	 mO2mnq5N0NLLemuayXfoSYLkS9+YxWWChe4yhNhf8rJXxRyTlYDK5D5Y63QQ12evBFqI/
+	 fWmB1ZLLx7jaALopgM6KSqSFIHvI/5uOba3yrxnt+f8Y5Gv5ShQqppozT3Jc2ag2iF1lM
+	 CxB3blWezp1jnBXZWf/RdZ7hnGOKpDjWOvJCOE1y7mRqADaJS7um66KRspg/BF4/+rc24
+	 6vsgsQJo4kx4OVm1Nk/8fEn06xXlBl0AtOWAEBcgNpf/0gVsOXFeSByaPiZyA/P+5kA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795624126;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795624128;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key;
-	bh=+9nhx36rv66fiz/y7GxdJ9BH6dutjbJDQmWR3T0evLU=;
-	b=LcdeL64MIAxAgInUOJlJ78DmlKYuX6zQA+3myGagEYzo4UmrQy7pvDdqCtOJIjVFwNeZ
-	 0BOFpNuAS1s1BgJBajqyzyYaTLx3YIQsP+Q4cIYz9G8kIBFXHr0trAqJ/hHX5Asqa0vjV
-	 3EBey0EsTik1Vi22MNX1wQc39P/wvCGdkCaHthPLoFkKLHzJTXksoDjmysHDoVpTtOn+g
-	 VMp0Wnxx1Zo1X17MLbKPpMwqf+arCTiFmmpEtyzDuWy4TLkn4t7RcKVSi8AvyKW/3h6I2
-	 ln6016NLSVMvnTMTmxTuERhfm7tNOu5zWA1v/kI+l6r6tKNKHmpPEQaUPFy4jK7pYew==
+	bh=OnNdjklB4uWYTn3msQzxTr6Lo2LMKVqTjQIZzgFKEJ4=;
+	b=Rtn425zqtjp20Ge6d/oNyTAbP1agT8iXVZiit5BdEl7pGegseTriLUsYtXpRmYI7Blgc
+	 7ToTYLX2SuyiY2o3+/n4zT0nbcy+VaOh8PB6nUhl2J9THTopVfEppH9AylSWVnjbe/XiE
+	 cY43rH6FvfEMNJoeBSZo4AEAYObo3RYxGy/9LAas5mhrpqGPcAgwDvx/NqDLzoYg/+DJS
+	 I9ULkvkS/QgzZn0Xto3fdx0WTI4qu8hV2O9/a1D/ZKacvf1umW7Rs1pRLkM7IVa0TRxa+
+	 1Hl5fuDw5rlKbqplW68TpW+EkJ6nIYBCQaXefrZiO/Kvj2i5tP5P+5Rw7w2Hcnhwz1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=thegoodpenguin.co.uk;
 	spf=pass smtp.mailfrom=thegoodpenguin.co.uk;
-	dkim=pass header.d=thegoodpenguin-co-uk.20260707.gappssmtp.com header.i=@thegoodpenguin-co-uk.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Lt2SRHGT;
-	arc=none smtp.remote-ip=209.85.221.49
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	dkim=pass header.d=thegoodpenguin-co-uk.20260707.gappssmtp.com header.i=@thegoodpenguin-co-uk.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=lJcJnT2u;
+	arc=none smtp.remote-ip=209.85.128.44
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 822B8606A326
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 16:28:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 822B8606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EA3606A336
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 16:28:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02EA3606A336
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20260707.gappssmtp.com header.i=@thegoodpenguin-co-uk.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=Lt2SRHGT
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48e09aa5264so3475679f8f.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 08:28:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20260707.gappssmtp.com header.i=@thegoodpenguin-co-uk.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=lJcJnT2u
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4bb64c99d2fso56644745e9.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 08:28:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20260707.gappssmtp.com; s=20260707; t=1795624124; x=1796228924; darn=lists.linux.dev;
+        d=thegoodpenguin-co-uk.20260707.gappssmtp.com; s=20260707; t=1795624126; x=1796228926; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+9nhx36rv66fiz/y7GxdJ9BH6dutjbJDQmWR3T0evLU=;
-        b=Lt2SRHGTJFXIq5tsQWOVxKi/dt57DYLhzEPIAcqVwCCxb8PbGa7+SLFBFQ7gpAYTyO
-         9So8ijrf/wiqdicvfIykrUt1jqBUtl7U8rZgRD1HCkL/QIA42ybJC7OR/5k+iFy+6ZdP
-         LkQrZz6gqF3lkK5xxB0p+CzYqpm4FMdz+YqH394nXbl/fUoWSb65lhUP5j0HdoOYI6SL
-         gM3l99F7hKOFJSS0ZHdNCl3ZBgOJ1bJPDtw9LXXRiaGfdiYGppbQXNNOCFtyTERL6TYZ
-         E8SBTnCmuZZwmcvd+by6koJgxm5I5oDcfM0egJOhqUb38DXk7V4mju4Vf2qiITweuUPj
-         VfKw==
+        bh=OnNdjklB4uWYTn3msQzxTr6Lo2LMKVqTjQIZzgFKEJ4=;
+        b=lJcJnT2u9i1mvvutDEe9B7oGf2bW2J2h7T1wz42PyvwxMAH9y8HarrfWHR3AKsj0O+
+         ZB3F7xVIxl7noB7dTu850dYsZDvgzU+NAXLYkKpanmQr9nwCVhrsU9ul+31UtXqQfgH1
+         oYUUFMHxFsA+3nBAV9sSli9umXiCo4bTBqj689y+8VOZrMdXQmZZXYKs8/8H9JwFlOWz
+         HD2VkH6fcG16Mgc2v5K9YUry7N4fwjB6r6ZUaWN8mQ88DOLP+ampcdooQelGcPT33C50
+         SrVFjafH/EEtPuKePb9EN8jnvIyb+YzN4F4K9CTU9Rmw1/H/W+ULcZvUPd1n/DXMXLS4
+         hzHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795624124; x=1796228924;
+        d=1e100.net; s=20260707; t=1795624126; x=1796228926;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+9nhx36rv66fiz/y7GxdJ9BH6dutjbJDQmWR3T0evLU=;
-        b=aoXmWGBdJHZz8r3WFtM+A8FEXHPchaSJYdfj6kXITyczVp03A/5koVzsFsYIfDpHIQ
-         rftt/Hjqrt21WtU0bMdMg9IH03shsjx9BRKfBJDtd9dm2nmAtzcBXD0g/gCsKPM0KZuF
-         ePEs0jxgmyrgrXmunpaUH+wJec5zwNkErZNOqyPcZfd5LjRlcVQAaCb1o7wXyH3c1CW3
-         otchRe/64Rqi0BJmO2Z0Er1xM9u+EE7FHee6B+HeT0TDPaMOmGVPqu/N1sl3RFb7diMP
-         0BAZALzQEy0catsUSc//knEoFcJuX7qMtCWsFwbHJrartVnw9zOmX8vyJ0nWDdXKGTtW
-         enVA==
-X-Forwarded-Encrypted: i=1; AL+hErFCYF+ijvtRdyPs1n8FP0inoxHM7ufYFKnIG34RJcLHIGtplA03Z0ciGTT6CDDUaTpWAPL3FPojqBuLZw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+QSTfi/AdmUeHP65s+VqQ88dIITJcYwBm1iPG4VTHlkQKqb06s
-	PgiSHFx/f0MXtVoS2o1GrTp76NHXCAr5D9awJeBtkc26qsLB24D1RdoVhfv78mEsPxA=
-X-Gm-Gg: AZFdTZcHvBNuNxV2ByPjFySa29Au7kKwWDm2Uywc3q/cuZbfwO1a8eEZcOIwd8Iwpxr
-	qK7oHoRWpKx8/YlrheN/d2h5rsHWO5w3YBOjUlfgsOE+mNk+myfeGMFKW7JnYnjtEBp006954/x
-	VC5Uj9B2Yi1LBFqSw/fy5Z+NqnBLu2ISvhVNj9bIsSd7Uxu0me2KVKvdKOlvA2j050FEMP2R3g0
-	2d3NxWdG54rN+STEIlGCxCrf0f7hVVCtabPXw9FbVQruSQeW2tKllylzNjzG76jbSnU2/uv+H8X
-	eZ77KDRTgYJkd8vZfGm/GEKN5XOuvGtCJMxUKepgUGzyz6foYCOBZKGFU+6qokXJTD2HsKPaDbJ
-	8Fk+DpGMWzUDIINqQBy57kREarBamHetGbjqGKl9JMYwiXAY1qNSXDWx5HCD12y8c3TXy5nnEtY
-	ZEgxP1eRBngH6g/+iVIZQzMsabNzansEWwkmdw6U9vihQphzSwiWIinqS+W8Wn5FwBK8/LAwsoj
-	ZRas1VJDZHqFMBJSk4s90RSPc1xwRO7UY/GQZhds6XRSghKmUmUaQ16HFl8hLYBSTKEh1G2ZIYY
-	0S4euLmj30c5/eQ/BW6H83ObK5FcBqBkEESvYMfhmRd5mA==
-X-Received: by 2002:a05:600c:848d:b0:4a5:1cf1:b7bd with SMTP id 5b1f17b1804b1-4bb88810b2dmr361648545e9.16.1795624123960;
-        Wed, 25 Nov 2026 08:28:43 -0800 (PST)
+        bh=OnNdjklB4uWYTn3msQzxTr6Lo2LMKVqTjQIZzgFKEJ4=;
+        b=zlYygU0CaG9rRFSLshgiI37Ot6emNSEBpwoCGd8vdbXeSXCSDTni5SamMoq2e/WSgN
+         wTsbqf5AyDJjX9xAjmP10Yh6G599rtrdrF2cyiG+F7SlW5eFDJETOsyq5VO+5RjB71Wz
+         b42piLWTrtdV/CiLFRCeglZztjjTYtaXrBRmIMSWDyGOpkKG23ayPJIhWazQBOBqOz3x
+         CVN+Q8zcnFvL1oSvm3Ef5by+4WzGYApN/BeA58tJjFx8ME9HO6dTFByyKnF8qttkewU1
+         4rUuMNIE5PGbtvcujO5WwLZT7zLK4su8+KpVhBs5VL66SGlcaMqWAc5yAfQXUUFx38I/
+         eagg==
+X-Forwarded-Encrypted: i=1; AL+hErEw4twuD+LVbwMs3G5GiUoa/52ZOc5ldDwouCwTnOvNoyhAqNurcUgSKXfk/DO/WG4aniKifYRuG2KuYg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/CtKHjxao9Y0CvKQpENNVWu5ZlV4q6SqAdNNHdkK4b+bn5SXWA
+	y3ptVSZPsAPVQvgcl5YCypMqC2XWe45q+AeCscwfGBxAe0dd3OyNMT+I2fHtyIvVf8k=
+X-Gm-Gg: AZFdTZdDrD5RyfEzP1U43WByJjp0OmzyL8wql+eVtaoOI7llZrWQBjRkrsGU5ptPMbL
+	gc2AdPs3sI7tyTATy5mIwhnuPkjfM5AemU+/q2q3tyAhVJapsDDsHpFjVyxI4hyD7CuZW8Hqf8x
+	sqTohHwOKfO4hSn1ic+6FYrarq65CxflpXRo/RV03r1i7ATMaONhMGpPXnFs7C109UDKRToSSbz
+	jsjdtRXUq4O73u//5cnSg6qZ26uw4bMHgSpvy1WijzaVyjDB0pIMp5zPUuWipExAjZJnm56DUyR
+	Wjo7+aEI24EaiXr9MDykFxbjhN/zEio4hZxRJ4KwqHjpQTkKNKQ9Xe3vdJ2IVTR0FDfeZT1NWgJ
+	VCqLma3ZMBbcwiXNaBjZ0dJkWRXaLGOte65ntJh6fBwMRou/7YjLvthqwy7rQtTsstTmBBxtrKs
+	XQuSq5wXF85u/ZN8yIeOhfd64NMU08GJbBZPqdL5LCQgx0Y4l/pyZA+fa+afFKpkCwqoHSH5eSU
+	gWLheVeiargO9W1xp9VlL7t1h1lt/6SRpZLxsh2UXuv/uozlBmEzMzYjawDpRtOtBHMj2B0vhrJ
+	RO+nZDB2HOpAwU2IYn3LggfuOjyoks1V3ilpGCWX6mM9+Q==
+X-Received: by 2002:a05:600c:34c9:b0:4a3:5d64:df91 with SMTP id 5b1f17b1804b1-4bb88810d28mr405948895e9.18.1795624126434;
+        Wed, 25 Nov 2026 08:28:46 -0800 (PST)
 Received: from [10.42.0.1] ([2a00:23c7:1d1a:9c01:f716:ba19:8aaa:f1c2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853368d3sm527336375e9.1.2026.11.25.08.28.41
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853368d3sm527336375e9.1.2026.11.25.08.28.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2026 08:28:43 -0800 (PST)
+        Wed, 25 Nov 2026 08:28:46 -0800 (PST)
 From: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
-Date: Wed, 25 Nov 2026 16:28:29 +0000
-Subject: [PATCH 03/10] mtd: maps: int0800: Use named initializers for
- acpi_device_id
+Date: Wed, 25 Nov 2026 16:28:30 +0000
+Subject: [PATCH 04/10] mtd: spi-nor: Unify of_device_id list terminator
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -95,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261125-acpi-mtd-v1-3-42ad2f645bee@thegoodpenguin.co.uk>
+Message-Id: <20261125-acpi-mtd-v1-4-42ad2f645bee@thegoodpenguin.co.uk>
 References: <20261125-acpi-mtd-v1-0-42ad2f645bee@thegoodpenguin.co.uk>
 In-Reply-To: <20261125-acpi-mtd-v1-0-42ad2f645bee@thegoodpenguin.co.uk>
 To: Miquel Raynal <miquel.raynal@bootlin.com>, 
@@ -156,37 +155,51 @@ Cc: linux-mtd@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>, 
  =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795624113; l=833;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795624113; l=1549;
  i=pzalewski@thegoodpenguin.co.uk; s=20260430; h=from:subject:message-id;
- bh=blggJzzi34PPFng5frzDjV1f6bR0P7BZrevZFLsW314=;
- b=ZHZnM3Lf8DzUboiERoH/ypcNIiAQvRVlt4l5CMlhz7vJ+CymRE50z5L8UPm9qLmBzcXPpEYvV
- 3V+SKJgc8HhAzjwEkWT9COXnLzIMM7NmIiKpGWF+rOcWTSAb6lbGtOg
+ bh=pw1yVugjZoJ1sYzSavbjoh9EtNi40KpLFcyq3KxCgNo=;
+ b=kcHPBXNDukNV21LLTOphkMkZzHhEUE3GVm5MT4GkuuM2LkB9EPUAINUu71xJWBBbyUPxGyGvR
+ NyJA9ZKxwfTBYz6TriU3QIhP5Egb+QnpqA24EfhtbypOZI53FKPwK0u
 X-Developer-Key: i=pzalewski@thegoodpenguin.co.uk; a=ed25519;
  pk=vHq4n9IonORH2GTzLv8r6CWAFHzgfBuNkQPXA8NSly0=
 
-Use a designated initializer for the acpi_device_id fields which makes the
-code more readable and consistent with how lists are initialized in the
-rest of the kernel code base. Also drop explicitly setting fields to 0
-where it is redundant.
+Unify the list terminator to have a single space between the brackets and
+no trailing comma. This change doesn't introduce any diffs between
+pre/post to the compiled binaries of the modified drivers and just aligns
+these to the common style with other *_device_id arrays.
 
 Signed-off-by: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>
 ---
- drivers/mtd/maps/int0800.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/mtd/spi-nor/controllers/hisi-sfc.c  | 2 +-
+ drivers/mtd/spi-nor/controllers/nxp-spifi.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/mtd/maps/int0800.c b/drivers/mtd/maps/int0800.c
-index 1f5a7c4936dd..feb721908989 100644
---- a/drivers/mtd/maps/int0800.c
-+++ b/drivers/mtd/maps/int0800.c
-@@ -88,7 +88,7 @@ static void int0800_remove(struct platform_device *pdev)
- }
+diff --git a/drivers/mtd/spi-nor/controllers/hisi-sfc.c b/drivers/mtd/spi-nor/controllers/hisi-sfc.c
+index 4f6631950a5b..01048ca46a60 100644
+--- a/drivers/mtd/spi-nor/controllers/hisi-sfc.c
++++ b/drivers/mtd/spi-nor/controllers/hisi-sfc.c
+@@ -474,7 +474,7 @@ static void hisi_spi_nor_remove(struct platform_device *pdev)
  
- static const struct acpi_device_id int0800_ids[] = {
--	{ "INT0800", 0 },
-+	{ .id = "INT0800" },
- 	{ }
+ static const struct of_device_id hisi_spi_nor_dt_ids[] = {
+ 	{ .compatible = "hisilicon,fmc-spi-nor"},
+-	{ /* sentinel */ }
++	{ }
  };
- MODULE_DEVICE_TABLE(acpi, int0800_ids);
+ MODULE_DEVICE_TABLE(of, hisi_spi_nor_dt_ids);
+ 
+diff --git a/drivers/mtd/spi-nor/controllers/nxp-spifi.c b/drivers/mtd/spi-nor/controllers/nxp-spifi.c
+index 30fe2d414f07..71ee50eb1a71 100644
+--- a/drivers/mtd/spi-nor/controllers/nxp-spifi.c
++++ b/drivers/mtd/spi-nor/controllers/nxp-spifi.c
+@@ -440,7 +440,7 @@ static void nxp_spifi_remove(struct platform_device *pdev)
+ 
+ static const struct of_device_id nxp_spifi_match[] = {
+ 	{.compatible = "nxp,lpc1773-spifi"},
+-	{ /* sentinel */ }
++	{ }
+ };
+ MODULE_DEVICE_TABLE(of, nxp_spifi_match);
+ 
 
 -- 
 2.53.0
