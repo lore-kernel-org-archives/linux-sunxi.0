@@ -1,62 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=119.15.109.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795611995;
-	b=5cMn1Pt1zzBa9h79vt7iQCV0FIeJ0IzLP56ns1qqAYagsHZUWWg61U3dsyj5j6m60tpF
-	 a4AdCfCyg5Nk7PVhP51ze7HRal5GJOVFlKZIdK080rZcsHk3tDKPhHiavioy5qbRAugSB
-	 Of03xzgz+4taMVdV3mZx95oYUlCRc9vDVI0BiUEjaorF8bglvUD/ljxmkIsyijhkvbWp0
-	 LtifOacD4RpzeN5YpGvbjwUPaj5fu49cZuglHXpHZt+C5U6tS58jgFny4C+N0FRYzYpHr
-	 /8oOBLSVIvMayyQeDolkm9EYDRpMp8Uz/q99z6bjX3JKXhZ+NRSVSg8YJd89SKrQOLw==
+	t=1795612002;
+	b=SAJrdPpQDJJfnAfWWWKxq3EkVD7FpqtKs+qm1D1vfET85NbuewAw/Ia+oaeYNAQPuGMZ
+	 SHz2cvwqmIIn5Sc3KvTSaSye+JpXRriEZjfVqKyx9BVlVBt1Nf17/coHWlNCkdcbuNhHA
+	 Op83wfO73ZK3rZj7xravsVv1ErIO48jnw5vx0L7MbX7q2d18QVYltJYtjufHtvphsRXgo
+	 aN0mCTSg5z4HfvzQLqBYt2ZV2E7hKVGiVaPA1bik48XFA4ZDJjqLMmqjpEPl6v8O4B0SD
+	 /PDLdRGuHHv2kuiWmz9BCfhYD3WvhbcZMybWI55Qao/VjGlIegclO7sE7elswScgx2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795611995;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795612002;
 	h=DMARC-Filter:Received:DKIM-Signature:X-GPT-Reason:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=uTktEettK5eGENESmmHnlrYHfFrP7BhhYLppTL7WtPo=;
-	b=EzNhh1k+M3IA0IRjtzzWCsVhMbG7drmPZ9xH2oJkfEnhpKiQBa9bFtGfCBJJVum5wvoX
-	 TZLYDfwxr2XJN/Vu6wkmnBEMCJff3Otn/MEwyC1MM99hlYWuqiQKk2HoHZNzPNwknuXQF
-	 EKcgaN23aCIwFwZDkKOfzHbkjeT1OF/9ssZZ2EU5WrQoDpAVyN5RgiLUknzktZc4Fbfw/
-	 LHmWkTAdrRLMXI7PDqEb5NpVF/JUjhYsj9hU6sZ/PZrXQ3w4/uJsmPJHjPtbKG1zFN2bW
-	 97E46KEe+wOqZec2t5HZi32IOcKTpmWxLQoKlB+LrdUG8UZk1BlWGlY7zHdfPhgN01A==
+	bh=kqeu82JGuADzn7hPG3PlKXptf+4XC3aShLFUHiEemow=;
+	b=zxaQ/rRTcYXEWbK+W9da4JB9BnzgsVxuHgZYAsNfDWwrHAdQoJvTmJ9VhwRA78hU/vSC
+	 IHJWahGZ4WsJ20R1W8Mm0h8jgnsSvCGht2NPa1NvEMwLEotVxqO/UfoA3eam/BwtPub/b
+	 88iAkOic943jysgS/ToKkEB35M7SGURY5gEGQ1r6lAoq/NJe9POxh71nJVsuuYvNzGG96
+	 SB78AlBZOrpwM/TYmbGNLMj9XICnKoPrlcX3W9kzF/jZq1HeEBZxkv+l3Uyu+3zoncY44
+	 tU0On4Wx7CJzqDy1th8VJYA8O15kNrP/NIQg1OKeHgLTzT2v0IFdn1ESoIFxEtF/Phw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=d-silva.org;
 	spf=pass smtp.mailfrom=d-silva.org;
-	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b="s/7Amoia";
+	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b="hgLpTh/U";
 	arc=none smtp.remote-ip=119.15.109.137
 Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7976B606A326
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 13:06:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7976B606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84EC606A321
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 13:06:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E84EC606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=s/7Amoia
+	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=hgLpTh/U
 Received: from Hawking.lan (hawking.lan [10.0.1.4])
-	by www.nmnhosting.com (Postfix) with ESMTP id 5F8224C953;
-	Thu, 26 Nov 2026 00:06:25 +1100 (AEDT)
+	by www.nmnhosting.com (Postfix) with ESMTP id CA0C04C94E;
+	Thu, 26 Nov 2026 00:06:32 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
-	t=1795611985;
+	t=1795611992;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=uTktEettK5eGENESmmHnlrYHfFrP7BhhYLppTL7WtPo=;
-	b=s/7AmoiaKqF0MLOzRQIz4kIehqrY/oXIeORDRxQgGrKwdTlvE5XVQlGKEJfb8aeIdxSR+D
-	UrpLq/LD7oWxd2Kd18OxAKPjp9SI1T5sR1ZVJuDnaTnQY+u8w/+OTplOkxqW0E/D2z4VwN
-	5VMcCPj2mw0c3dPBpiR2+ugcWLZEGHGdMyWGqn3VedWN3cTwG3bbR9bKihl2cJ+O7JzyCq
-	XPlrWR3dTNyy3ARtVv4got/icXLfQgWPAqbmGEOEed8rwN87lywpCkmrpzcLRc6XOaoD/j
-	KW73EZET2UDdQf8yfoxQW7GbdOm/uofdQlMSoy6JKvLeVm2tcOAh1GSvqai1Pw==
+	bh=kqeu82JGuADzn7hPG3PlKXptf+4XC3aShLFUHiEemow=;
+	b=hgLpTh/UDZ/rfBqtkUu9YSEV02J1WXcCRKDGBLDOuNSPF2z3UOpKEif/O82QiibICiGm5B
+	QZmlME6utSibVjJjr/iMA+r6ap9sDB89i31ADEyKcDuN4FI3cwOw4ueZcvZAhvYjDFhVFI
+	kImnNIij4X/6aUvpnJvrLG3tMHdhkAN1h3d9UCTHVQgkDH77Zx73BTIEVzq9e8inPD8Fww
+	0GhHZLapk1M4m3Bv9KlViPfXxWnOhWP2Nm+ddtfosQxinAZVm/hYOcCQLBvt8j3/Y1KGMz
+	fyIzAGHyPeKKc0B0iHHPqGD7OCrpaubDDmZwmx73HiLyFxpyRTAWz4qW9/Pjqg==
 X-GPT-Reason: This email is classified as legitimate personal/professional
-	correspondence. The content is a technical Linux kernel patch
-	submission ("net: stmmac: dwmac-sun55i") that perfectly matches
-	the sender's identity (Alastair D'Silva) and the intended mailbox
-	(alastair@d-silva.org), which is a known personal/professional
-	address in this environment. There are no phishing indicators,
-	no suspicious URLs, and the technical nature of the "Signed-off-by" and
-	"Assisted-by" fields confirms it is a standard developer communication
-	rather than unsolicited marketing or a scam.
+	correspondence. The mailbox alastair@d-silva.org matches the sender's
+	domain (alastair@d-silva.org), and the content is a technical kernel
+	patch description regarding "net: stmmac" and hardware-specific
+	"Glue registers," which is consistent with a developer's workflow.
+	No phishing indicators, urgency tactics, or suspicious URL domains
+	were found, and the message follows a standard Linux kernel mailing
+	list format.
 From: Alastair D'Silva <alastair@d-silva.org>
 To: netdev@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -76,9 +75,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Maxime Chevallier <maxime.chevallier@bootlin.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Alastair D'Silva <alastair@d-silva.org>
-Subject: [PATCH 2/5] net: stmmac: dwmac-sun55i: Add per-compatible match data
-Date: Thu, 26 Nov 2026 00:06:10 +1100
-Message-ID: <20261125130613.4191841-3-alastair@d-silva.org>
+Subject: [PATCH 3/5] net: stmmac: dwmac-sun55i: Add Allwinner A733 GMAC210 support
+Date: Thu, 26 Nov 2026 00:06:11 +1100
+Message-ID: <20261125130613.4191841-4-alastair@d-silva.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261125130613.4191841-1-alastair@d-silva.org>
 References: <20261125130613.4191841-1-alastair@d-silva.org>
@@ -93,229 +92,207 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-dwmac-sun55i currently hardcodes A523 syscon lookups, glue register
-offsets, 100 ps delay steps, and stmmac flags, and writes the glue
-register only once during probe.
+The Allwinner A733 GMAC210 controller differs from A523 GMAC200 and
+requires SoC-specific glue handling:
+- Glue registers reside inside the AHB reset domain, and stmmac calls
+  plat_dat->init() before deasserting stmmac_ahb_rst, so dwmac-sun55i
+  deasserts stmmac_ahb_rst prior to devm_stmmac_pltfr_probe() (with a
+  devm action to re-assert on error or unbind).
+- An active-low clock gate at glue offset 0x80 (BIT(0)) must be cleared
+  in init() and set in exit().
+- Hardware splits the 5-bit RGMII TX delay across [17:16] and [12:10]
+  in 180 ps steps, and uses external GMII TX clocking
+  (SYSCON_ETCS_EXT_GMII) for RGMII rather than internal GMII.
+- Enable STMMAC_FLAG_SPH_DISABLE, STMMAC_FLAG_MULTI_MSI_EN for the
+  per-queue TX/RX interrupts, and STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP.
 
-Introduce struct sun55i_gmac_data and struct sun55i_gmac, and move the
-glue write into plat_dat->init so settings are restored on resume and
-A733 GMAC210 support can be added without duplicating probe logic.
-A523 behavior remains unchanged via sun55i_a523_gmac200_data.
+Add sun60i_a733_gmac210_data and its glue handling to dwmac-sun55i.
 
 Assisted-by: LLM
 Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
 ---
- .../ethernet/stmicro/stmmac/dwmac-sun55i.c    | 136 +++++++++++++-----
- 1 file changed, 103 insertions(+), 33 deletions(-)
+ .../ethernet/stmicro/stmmac/dwmac-sun55i.c    | 98 ++++++++++++++++++-
+ 1 file changed, 93 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c
-index 862df173d963..e872e241a220 100644
+index e872e241a220..c7117802abb8 100644
 --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun55i.c
-@@ -16,6 +16,7 @@
- #include <linux/of.h>
- #include <linux/phy.h>
- #include <linux/platform_device.h>
-+#include <linux/property.h>
+@@ -19,11 +19,15 @@
+ #include <linux/property.h>
  #include <linux/regmap.h>
  #include <linux/regulator/consumer.h>
++#include <linux/reset.h>
  #include <linux/stmmac.h>
-@@ -23,8 +24,6 @@
+ 
  #include "stmmac.h"
  #include "stmmac_platform.h"
  
--#define SYSCON_REG		0x34
--
++#define SYSCON_GMAC210_CLK_GATE		0x80
++#define SYSCON_GMAC210_CLK_GATE_DIS	BIT(0)
++
  /* RMII specific bits */
  #define SYSCON_RMII_EN		BIT(13) /* 1: enable RMII (overrides EPIT) */
  /* Generic system control EMAC_CLK bits */
-@@ -37,42 +36,78 @@
- #define SYSCON_ETCS_EXT_GMII	0x1
- #define SYSCON_ETCS_INT_GMII	0x2
+@@ -42,9 +46,12 @@ struct sun55i_gmac_data {
+ 	int (*init_resources)(struct platform_device *pdev,
+ 			      struct sun55i_gmac *gmac);
+ 	unsigned int flags;
++	u32 etxdc_ext_mask;
+ 	u32 txdly_step_ps;
+ 	u32 rxdly_step_ps;
+ 	u32 offset;
++	u32 etcs_rgmii;
++	bool has_clk_gate;
+ };
  
--static int sun55i_gmac200_set_syscon(struct device *dev,
--				     struct plat_stmmacenet_data *plat)
-+struct sun55i_gmac;
-+
-+struct sun55i_gmac_data {
-+	int (*init_resources)(struct platform_device *pdev,
-+			      struct sun55i_gmac *gmac);
-+	unsigned int flags;
-+	u32 txdly_step_ps;
-+	u32 rxdly_step_ps;
-+	u32 offset;
+ struct sun55i_gmac {
+@@ -65,6 +72,31 @@ static int sun55i_gmac200_init_resources(struct platform_device *pdev,
+ 	return 0;
+ }
+ 
++static const struct regmap_config sun60i_a733_regmap_cfg = {
++	.reg_bits = 32,
++	.val_bits = 32,
++	.reg_stride = 4,
 +};
 +
-+struct sun55i_gmac {
-+	const struct sun55i_gmac_data *data;
-+	struct regmap *regmap;
-+	u32 syscon_val;
-+};
-+
-+static int sun55i_gmac200_init_resources(struct platform_device *pdev,
++static int sun60i_gmac210_init_resources(struct platform_device *pdev,
 +					 struct sun55i_gmac *gmac)
 +{
-+	gmac->regmap = syscon_regmap_lookup_by_phandle(pdev->dev.of_node,
-+						       "syscon");
++	struct device *dev = &pdev->dev;
++	void __iomem *base;
++
++	base = devm_platform_ioremap_resource(pdev, 1);
++	if (IS_ERR(base))
++		return dev_err_probe(dev, PTR_ERR(base),
++				     "Unable to get glue memory region\n");
++
++	gmac->regmap = devm_regmap_init_mmio(dev, base, &sun60i_a733_regmap_cfg);
 +	if (IS_ERR(gmac->regmap))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(gmac->regmap),
-+				     "Unable to map syscon\n");
++		return dev_err_probe(dev, PTR_ERR(gmac->regmap),
++				     "Unable to init regmap for glue region\n");
 +
 +	return 0;
 +}
 +
-+static int sun55i_gmac200_validate_delay(struct device *dev, const char *dir,
-+					 u32 *val, u32 step, u32 max)
-+{
-+	if (*val % step)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "%s-delay must be a multiple of %ups\n",
-+				     dir, step);
-+	max *= step;
-+	if (*val > max)
-+		return dev_err_probe(dev, -EINVAL,
-+				     "%s clock delay exceeds maximum (%ups > %ups)\n",
-+				     dir, *val, max);
-+	*val /= step;
-+	dev_dbg(dev, "set %s-delay to %x\n", dir, *val);
-+
-+	return 0;
-+}
-+
-+static int sun55i_gmac200_parse_config(struct device *dev,
-+				       struct plat_stmmacenet_data *plat,
-+				       struct sun55i_gmac *gmac)
+ static int sun55i_gmac200_validate_delay(struct device *dev, const char *dir,
+ 					 u32 *val, u32 step, u32 max)
  {
-+	const struct sun55i_gmac_data *data = gmac->data;
- 	struct device_node *node = dev->of_node;
--	struct regmap *regmap;
- 	u32 val, reg = 0;
+@@ -93,13 +125,18 @@ static int sun55i_gmac200_parse_config(struct device *dev,
  	int ret;
  
--	regmap = syscon_regmap_lookup_by_phandle(node, "syscon");
--	if (IS_ERR(regmap))
--		return dev_err_probe(dev, PTR_ERR(regmap), "Unable to map syscon\n");
--
  	if (!of_property_read_u32(node, "tx-internal-delay-ps", &val)) {
--		if (val % 100)
--			return dev_err_probe(dev, -EINVAL,
--					     "tx-delay must be a multiple of 100ps\n");
--		val /= 100;
--		dev_dbg(dev, "set tx-delay to %x\n", val);
--		if (!FIELD_FIT(SYSCON_ETXDC_MASK, val))
--			return dev_err_probe(dev, -EINVAL,
--					     "TX clock delay exceeds maximum (%u00ps > %lu00ps)\n",
--					     val, FIELD_MAX(SYSCON_ETXDC_MASK));
-+		ret = sun55i_gmac200_validate_delay(dev, "tx", &val,
-+						    data->txdly_step_ps,
-+						    FIELD_MAX(SYSCON_ETXDC_MASK));
-+		if (ret)
-+			return ret;
++		u32 low_bits = hweight32(SYSCON_ETXDC_MASK);
++		u32 max = (1U << (low_bits + hweight32(data->etxdc_ext_mask))) - 1;
++
+ 		ret = sun55i_gmac200_validate_delay(dev, "tx", &val,
+-						    data->txdly_step_ps,
+-						    FIELD_MAX(SYSCON_ETXDC_MASK));
++						    data->txdly_step_ps, max);
+ 		if (ret)
+ 			return ret;
  
- 		reg |= FIELD_PREP(SYSCON_ETXDC_MASK, val);
+-		reg |= FIELD_PREP(SYSCON_ETXDC_MASK, val);
++		reg |= FIELD_PREP(SYSCON_ETXDC_MASK,
++				  val & FIELD_MAX(SYSCON_ETXDC_MASK));
++		if (data->etxdc_ext_mask)
++			reg |= field_prep(data->etxdc_ext_mask, val >> low_bits);
  	}
  
  	if (!of_property_read_u32(node, "rx-internal-delay-ps", &val)) {
--		if (val % 100)
--			return dev_err_probe(dev, -EINVAL,
--					     "rx-delay must be a multiple of 100ps\n");
--		val /= 100;
--		dev_dbg(dev, "set rx-delay to %x\n", val);
--		if (!FIELD_FIT(SYSCON_ERXDC_MASK, val))
--			return dev_err_probe(dev, -EINVAL,
--					     "RX clock delay exceeds maximum (%u00ps > %lu00ps)\n",
--					     val, FIELD_MAX(SYSCON_ERXDC_MASK));
-+		ret = sun55i_gmac200_validate_delay(dev, "rx", &val,
-+						    data->rxdly_step_ps,
-+						    FIELD_MAX(SYSCON_ERXDC_MASK));
-+		if (ret)
-+			return ret;
+@@ -117,10 +154,10 @@ static int sun55i_gmac200_parse_config(struct device *dev,
+ 		/* default */
+ 		break;
+ 	case PHY_INTERFACE_MODE_RGMII:
++	case PHY_INTERFACE_MODE_RGMII_TXID:
+ 	case PHY_INTERFACE_MODE_RGMII_ID:
+ 	case PHY_INTERFACE_MODE_RGMII_RXID:
+-	case PHY_INTERFACE_MODE_RGMII_TXID:
+-		reg |= SYSCON_EPIT | SYSCON_ETCS_INT_GMII;
++		reg |= SYSCON_EPIT | data->etcs_rgmii;
+ 		break;
+ 	case PHY_INTERFACE_MODE_RMII:
+ 		reg |= SYSCON_RMII_EN;
+@@ -145,9 +182,31 @@ static int sun55i_gmac200_init(struct device *dev, void *priv)
+ 		return dev_err_probe(dev, ret,
+ 				     "Failed to write glue configuration\n");
  
- 		reg |= FIELD_PREP(SYSCON_ERXDC_MASK, val);
- 	}
-@@ -95,9 +130,20 @@ static int sun55i_gmac200_set_syscon(struct device *dev,
- 				     phy_modes(plat->phy_interface));
- 	}
- 
--	ret = regmap_write(regmap, SYSCON_REG, reg);
-+	gmac->syscon_val = reg;
++	if (gmac->data->has_clk_gate) {
++		ret = regmap_clear_bits(gmac->regmap, SYSCON_GMAC210_CLK_GATE,
++					SYSCON_GMAC210_CLK_GATE_DIS);
++		if (ret < 0)
++			return dev_err_probe(dev, ret,
++					     "Failed to enable GMAC clock gate\n");
++	}
 +
-+	return 0;
-+}
-+
-+static int sun55i_gmac200_init(struct device *dev, void *priv)
-+{
-+	struct sun55i_gmac *gmac = priv;
-+	int ret;
-+
-+	ret = regmap_write(gmac->regmap, gmac->data->offset, gmac->syscon_val);
- 	if (ret < 0)
--		return dev_err_probe(dev, ret, "Failed to write to syscon\n");
-+		return dev_err_probe(dev, ret,
-+				     "Failed to write glue configuration\n");
- 
  	return 0;
  }
-@@ -107,25 +153,40 @@ static int sun55i_gmac200_probe(struct platform_device *pdev)
+ 
++static void sun55i_gmac200_exit(struct device *dev, void *priv)
++{
++	struct sun55i_gmac *gmac = priv;
++
++	if (gmac->data->has_clk_gate)
++		regmap_set_bits(gmac->regmap, SYSCON_GMAC210_CLK_GATE,
++				SYSCON_GMAC210_CLK_GATE_DIS);
++}
++
++static void sun55i_gmac_reset_assert(void *data)
++{
++	reset_control_assert(data);
++}
++
+ static int sun55i_gmac200_probe(struct platform_device *pdev)
+ {
  	struct plat_stmmacenet_data *plat_dat;
- 	struct stmmac_resources stmmac_res;
- 	struct device *dev = &pdev->dev;
-+	struct sun55i_gmac *gmac;
- 	struct clk *clk;
- 	int ret;
- 
-+	gmac = devm_kzalloc(dev, sizeof(*gmac), GFP_KERNEL);
-+	if (!gmac)
-+		return -ENOMEM;
-+
-+	gmac->data = device_get_match_data(dev);
-+	if (!gmac->data)
-+		return -EINVAL;
-+
- 	ret = stmmac_get_platform_resources(pdev, &stmmac_res);
+@@ -184,8 +243,21 @@ static int sun55i_gmac200_probe(struct platform_device *pdev)
  	if (ret)
  		return ret;
  
-+	ret = gmac->data->init_resources(pdev, gmac);
-+	if (ret)
-+		return ret;
++	if (gmac->data->has_clk_gate && plat_dat->stmmac_ahb_rst) {
++		ret = reset_control_deassert(plat_dat->stmmac_ahb_rst);
++		if (ret)
++			return dev_err_probe(dev, ret,
++					     "Failed to deassert ahb reset\n");
 +
- 	plat_dat = devm_stmmac_probe_config_dt(pdev, stmmac_res.mac);
- 	if (IS_ERR(plat_dat))
- 		return PTR_ERR(plat_dat);
- 
--	/* BSP disables it */
--	plat_dat->flags |= STMMAC_FLAG_SPH_DISABLE;
-+	plat_dat->flags |= gmac->data->flags;
- 	plat_dat->host_dma_width = 32;
- 
--	ret = sun55i_gmac200_set_syscon(dev, plat_dat);
-+	ret = sun55i_gmac200_parse_config(dev, plat_dat, gmac);
- 	if (ret)
- 		return ret;
- 
-+	plat_dat->bsp_priv = gmac;
-+	plat_dat->init = sun55i_gmac200_init;
++		ret = devm_add_action_or_reset(dev, sun55i_gmac_reset_assert,
++					       plat_dat->stmmac_ahb_rst);
++		if (ret)
++			return ret;
++	}
 +
+ 	plat_dat->bsp_priv = gmac;
+ 	plat_dat->init = sun55i_gmac200_init;
++	plat_dat->exit = sun55i_gmac200_exit;
+ 
  	clk = devm_clk_get_enabled(dev, "mbus");
  	if (IS_ERR(clk))
- 		return dev_err_probe(dev, PTR_ERR(clk),
-@@ -138,8 +199,17 @@ static int sun55i_gmac200_probe(struct platform_device *pdev)
- 	return devm_stmmac_pltfr_probe(pdev, plat_dat, &stmmac_res);
- }
- 
-+static const struct sun55i_gmac_data sun55i_a523_gmac200_data = {
-+	.init_resources = sun55i_gmac200_init_resources,
-+	.flags = STMMAC_FLAG_SPH_DISABLE,
-+	.offset = 0x34,
-+	.txdly_step_ps = 100,
-+	.rxdly_step_ps = 100,
+@@ -205,11 +277,27 @@ static const struct sun55i_gmac_data sun55i_a523_gmac200_data = {
+ 	.offset = 0x34,
+ 	.txdly_step_ps = 100,
+ 	.rxdly_step_ps = 100,
++	.etcs_rgmii = SYSCON_ETCS_INT_GMII,
 +};
 +
++static const struct sun55i_gmac_data sun60i_a733_gmac210_data = {
++	.init_resources = sun60i_gmac210_init_resources,
++	.flags = STMMAC_FLAG_SPH_DISABLE |
++		 STMMAC_FLAG_MULTI_MSI_EN |
++		 STMMAC_FLAG_EN_TX_LPI_CLK_PHY_CAP,
++	.offset = 0x0,
++	.etxdc_ext_mask = GENMASK(17, 16),
++	.txdly_step_ps = 180,
++	.rxdly_step_ps = 180,
++	.etcs_rgmii = SYSCON_ETCS_EXT_GMII,
++	.has_clk_gate = true,
+ };
+ 
  static const struct of_device_id sun55i_gmac200_match[] = {
--	{ .compatible = "allwinner,sun55i-a523-gmac200" },
-+	{ .compatible = "allwinner,sun55i-a523-gmac200",
-+	  .data = &sun55i_a523_gmac200_data },
+ 	{ .compatible = "allwinner,sun55i-a523-gmac200",
+ 	  .data = &sun55i_a523_gmac200_data },
++	{ .compatible = "allwinner,sun60i-a733-gmac210",
++	  .data = &sun60i_a733_gmac210_data },
  	{ }
  };
  MODULE_DEVICE_TABLE(of, sun55i_gmac200_match);
