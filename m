@@ -1,85 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=119.15.109.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795641225;
-	b=nYJyJt77q5WY/Z57NQiYcoqkDE/V/ANC1HAIgwuuVImwlVuNQuHpjT+dq0jcLCppM95g
-	 zLJEYkoHD3O9gIYzHsLq009yKmRFIonFr/XIKezV15VAXsCa5ZvyAPMHtLH4QXAYTDKj1
-	 MQEhHZd5NedtFaUfFf6ufHL/Z5iJhjx3c7tgHmkM5evC9m4El5EAJOKuBksMsNFlSDj9a
-	 l5HfVr4cLgVa8+v8VxSeIDLL/JJjVjyQWrdF/wQ6HsM/HtUekOwhJJqY06YKjvKwipiUZ
-	 4O6QGTMVxdO2Qw5R2KuCSxDK9Dm1rfcPIRsdpthiwGCBfJpd81GexFJHCSB35ACeV+g==
+	t=1795641996;
+	b=lNP6rl5zbEAd7wwRsqmNiUMXM2Bw8+Jbxe0Z308CDi56JTR4FIoIQWxSZmHMnlmQt0w3
+	 8NUc98XYqz0Sn0wzHum64nvfRsx8oYouNsDZJLFd5TL2+5e5d56xrCFUz7qEwKIfJdxAp
+	 YvJXpB2bfRXdhoMvN38t6fhxQq/IKR+O5/Aa3T8r0kWHWdNYSapD9y0IJDe493VeKkqgj
+	 kuYTFPA49jZLFA/VZ1ZXxKwlz4RPzfnbmxSMpKzTILE3r+HqKsS7J6Rj0qcq2IkSv/ow/
+	 moGNsO9Vnqc57HuWiLOimpfw2pSSX52pbYL7jIClABFtiEZXtf4fB+kmcRRS5Vp44Jg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795641225;
-	h=DMARC-Filter:Received:DKIM-Signature:X-GPT-Reason:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=4u9RAYDVp6rX5ALdhgzuKv4cfYzF3JOaIyRTtue0IPk=;
-	b=I38OpSi/lUy2kKNyc2GcvCGgUCHooj0hLdn3/tGvdr+kYOJOXRYaDd1KWgaz+u6BylMz
-	 Xg4sbjHdhAugzegvA3tTUaA2DJofWi1lgaavyzcN0qxQvcJtYyVF8l3sJDdCnMuc4r7RK
-	 HVnIPKbLOPcazfV9nDAYMmC17SbkN4aMHoqS0DwucP54UFl/xmZu1b3ulH3jpynoGQ18d
-	 1vHZau5Qe/31ZfGdecpFLtByjJHkzw9yxv3KpAL6WbxkPbI+29ro7UK4Rt4ZqTX3WF1j1
-	 l/W9yZetwhqOoDmn/t8xla4PcXsMkzIUScpSTGmG95cmHmagB7uWlarLmj4sXUksxYQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795641996;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=U7s9iUOSOkmOT3uFzFWi/VaQ4Kk2CxReJCkLr/OxACc=;
+	b=aBvECbddvIWC4+BNb6OoCVO+ox7oazPq7GUofKZsDNxfqAOzXyZCbWBc9V4RXx8y23V6
+	 bgdmr6WS3gaMc4gQbKkLMK8f1kNmX+nbrGKHpJsU71WpH4Dy+NyQ4mUTrQnwHy85Ix0xs
+	 8lWRqnog8lmqa6T6m42cDlNNd0Ol0DogdI0it/bqbM+18PpZ+5rYdGndN9CvswC1dRYXG
+	 yxbpi9ca68M/6riX6/Evk4dGkCPYQW4pQCk3nIcbKxu8vyjmhIV7xCLTGJ6uwjpBTRdEX
+	 1zzXvVHCECgfFSKZcvPA9MAQbUseYxD7fMWbhZWVVbXEi7wtqTqw9UYu4l2fyoxXrXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=d-silva.org;
-	spf=pass smtp.mailfrom=d-silva.org;
-	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=xjbMIAoc;
-	arc=none smtp.remote-ip=119.15.109.137
-Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=DUV+M1iM;
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD931606A337
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 21:13:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AD931606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C92D606A331;
+	Wed, 25 Nov 2026 21:26:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C92D606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=xjbMIAoc
-Received: from Hawking.lan (hawking.lan [10.0.1.4])
-	by www.nmnhosting.com (Postfix) with ESMTP id E86814C968;
-	Thu, 26 Nov 2026 08:13:35 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
-	t=1795641216;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4u9RAYDVp6rX5ALdhgzuKv4cfYzF3JOaIyRTtue0IPk=;
-	b=xjbMIAocDTV3YlEWwmesCm6mwYgKxmNkRHIkdpUJz/FgcyIVa2/6o5Hx+yUx0rbdIWkAml
-	qXtU4a5VXVZRF1Tpxb9wjfq27cQQ4KbBko8c7pRT23FtXW46oq7a9kk7NwufY7W8piv40w
-	GLyjYQlg8eoFu+phawB0H32tBMozctfHcxcG7FvvbMYR/zHnUvH18CMhgwPx52RvAjPisZ
-	ifVlItTADrDQ0s56SlA8v3/erq9yuQsnXnW30rDB7q3SR9BJ+gS9GM6Cm+o3m0+WL6Z8Bl
-	ldFKDAoO5N8JcixhNnnB9oNxPQJiD/n9Q3gnCqlIs86dzmoTY+4WTHQPhKmnDA==
-X-GPT-Reason: legitimate; the message is a personal/professional
-	correspondence regarding a technical software patch (Linux kernel/device
-	tree) which matches the sender's domain (d-silva.org) and the
-	recipient's personal mailbox (alastair@d-silva.org); there are
-	no indicators of marketing, phishing, or scam tactics; the content
-	is a standard technical reply acknowledging a code review.
-From: Alastair D'Silva <alastair@d-silva.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: netdev@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=DUV+M1iM
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=U7s9iUOSOkmOT3uFzFWi/VaQ4Kk2CxReJCkLr/OxACc=; b=DUV+M1iMoOS9UDKEBIjXzHenib
+	D6usOMeaewkhL6rhiD2Zub91D/pVdDYfHshNeie0SVXsK2ARYym4iCbXZa3qtfxUkcAm6ph8DJB83
+	hcezrILyjGrOnPmxddbrkqzilOIFCw8yBQk6mxu+VRDFmCAhGmaVynrmlvMZnX3zOs8w=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xWKVb-001RJc-NH; Wed, 25 Nov 2026 22:26:31 +0100
+Date: Wed, 25 Nov 2026 22:26:31 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Alastair D'Silva <alastair@d-silva.org>
+Cc: netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Andrew Lunn <andrew+netdev@lunn.ch>,
 	"David S . Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
 	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Alastair D'Silva <alastair@d-silva.org>
-Subject: Re: [PATCH 5/5] arm64: dts: allwinner: sun60i-a733-orangepi-4-pro: Enable GMAC0 Ethernet
-Date: Thu, 26 Nov 2026 08:13:35 +1100
-Message-ID: <20261125211335.719843-1-alastair@d-silva.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <292b18e4-dbad-42ba-9f1f-cfbe2af52148@lunn.ch>
-References: <20261125130613.4191841-1-alastair@d-silva.org> <20261125130613.4191841-6-alastair@d-silva.org> <292b18e4-dbad-42ba-9f1f-cfbe2af52148@lunn.ch>
+	Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH 5/5] arm64: dts: allwinner: sun60i-a733-orangepi-4-pro:
+ Enable GMAC0 Ethernet
+Message-ID: <9d53ad67-33c5-4626-b98e-98c86393ecba@lunn.ch>
+References: <20261125130613.4191841-1-alastair@d-silva.org>
+ <20261125130613.4191841-6-alastair@d-silva.org>
+ <292b18e4-dbad-42ba-9f1f-cfbe2af52148@lunn.ch>
+ <20261125211335.719843-1-alastair@d-silva.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -89,50 +76,31 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261125211335.719843-1-alastair@d-silva.org>
 
-Hi Andrew,
+> For v2, I will switch the board DTS to phy-mode = "rgmii-id".
 
-Thank you for the review on this series (and for the nitpick on patch 3,
-which I will fix in v2).
+Good.
 
-On Wed, Nov 25, 2026 at 06:30:24PM +0100, Andrew Lunn wrote:
-> https://elixir.bootlin.com/linux/v6.15/source/Documentation/devicetree/bindings/net/ethernet-controller.yaml#L287
->
-> phy-mode describes the PCB. If the PCB has no delays, rgmii-id should
-> be used.
->
-> The MAC/PHY pair need to decide which of the two add the delays. This
-> is not decided by phy-mode.
->
-> 3780 ps is also huge, much greater than the 2ns required by the
-> standard. It suggests something else is going on, maybe a clock is
-> inverted? Please investigate.
+> and drop
+> tx-internal-delay-ps so the YT8531 PHY provides the standard ~2 ns
+> delays,
 
-Your suspicion about an inverted RX clock was spot-on.
+Good.
+> while keeping ERXIE = 0 and setting rx-internal-delay-ps = <2160>
+> to compensate for the RX clock phase (matching existing dwmac-sun55i
+> boards).
 
-Checking Allwinner's BSP glue header, BIT(4) of the GMAC210 glue
-register (0x04508000) is ERXIE (RX clock invert, ~4 ns / 180 degrees
-at 125 MHz) and BIT(3) is ETXIE (TX clock invert). Testing on the
-Orange Pi 4 Pro confirmed:
+Not good. Please fix the clock inversion. Since this is a new
+compatible, there is no need to preserve old broken behaviour.
 
-- With phy-mode = "rgmii" (0 PHY delays) and ERXIE = 0, RX works
-  across ERXDC = 12..24 (2160..4320 ps, where 3780 ps sat).
-- With phy-mode = "rgmii" and ERXIE = 1, RX works at ERXDC = 0..6
-  (0..1080 ps), confirming the ~4 ns RX clock inversion.
-- With phy-mode = "rgmii-id" (YT8531 PHY adding ~1950 ps TX and RX):
-  - TX works with 0 ps MAC delay (tx-internal-delay-ps omitted).
-  - RX with ERXIE = 0 works across ERXDC = 8..16 (1440..2880 ps,
-    centered at 2160 ps), giving 936 Mbits/sec TCP RX and 723 Mbits/sec
-    TCP TX in iperf3.
-  - RX with ERXIE = 1 fails across ERXDC = 0..24 because 4 ns (ERXIE)
-    + 1.95 ns (PHY) overshoots the valid window.
+The majority of boards should not need rx|tx-internal-delay-ps. The
+RGMII standard says there needs to be 2ns. phy-mode rgmii-id means the
+MAC/PHY pair will add 2ns. That is typically all that is needed. 
 
-For v2, I will switch the board DTS to phy-mode = "rgmii-id" and drop
-tx-internal-delay-ps so the YT8531 PHY provides the standard ~2 ns
-delays, while keeping ERXIE = 0 and setting rx-internal-delay-ps = <2160>
-to compensate for the RX clock phase (matching existing dwmac-sun55i
-boards).
+rx|tx-internal-delay-ps are only really needed for badly designed
+boards where the lines have not been kept equal length.
 
-Thanks,
-Alastair
+	    Andrew
