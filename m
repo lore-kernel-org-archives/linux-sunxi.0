@@ -1,59 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=119.15.109.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795640741;
-	b=Fe6rE3exZYOKvlPvaV2mjKff3YqWCg3jFEbX6TM478eJ4K3FRkq9ePRJVvPqs3cpcnH5
-	 sGy94PsX3yFuOQXznmcdmLHLZiLggqth9eTeVljIqy+GnFFRHnnklKTr/oTRJHqSYYRJ0
-	 NJIpYx5/ryStIEprO+3slb2weUTFtrN72dEEN1oaPDc/ks9oDhrcsqRoBclrYSmYx18tv
-	 cJGO+BzqL8T1aREMfUcrjpgmQtMxYT4d0x40BvWJu5tPZ2EwxfRd2UdXSSiB/xHQJXunI
-	 wk1tNdNTxp68xgvYuVkLvG8t3PaoVjj+ebMqcWPCYEPMQint8cmgw108HpNekxh/J0Q==
+	t=1795640747;
+	b=UG0wwNCNiMCJNVYsbceGmCOZ5RmUral8uW4FJ/2j8hnk4o0+4YonAy2GXlMk27VD0Vsa
+	 Av3kkKXFXmsWElNSu7FY4pY2yfU1jI8V+kCNdQ4kofmC2f4gqJwa5DcmS/NGAl4lOVKyP
+	 ImGPmeQxNPJq3Hvouo1kPF7HseTMlzNPQX74Kc3zvN1xRJQBnnPPdDYmEmxKWYGjlVbv8
+	 IDlRFXZ4kM1l/UjoJejaGPurJJ7GBNSgKf7H94Q24ckSEcFQ++aBKg6afhR7DSuS89qzM
+	 DfbvP/Es5Fa/QjG8dsuiMEshDgtOfJd4+DdHfeTkWF0E34G6kwM3hMdKE0pEBcpRyBA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795640741;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795640747;
 	h=DMARC-Filter:Received:DKIM-Signature:X-GPT-Reason:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=+7MuY/6UP2Bsh775A7XrC/mnlab/U/JJYl8O0EaI6UA=;
-	b=Ui8b+V7rdUOrOIjyA3HlcjqDZ3Y2e/oL3EZ1aGZ/wUBdY0PVKwRpy1gwHwBCMu/iEVNY
-	 OVdXFFtkpuo4ycwfTko+vG2+JqLtrS9wQH1B7MBBJf1rMYqf9lHA9tPNLGm2TGjwmj4lA
-	 GzYSujK2JOo7LOoRU+/7z92TSYN6sGZ+0t4asi4RMnh0mVQ1PTOVT6mTRH7UVrEzhjCIe
-	 z1HkUZcuTbTELKhE7oulXcojgPeCwuVqMLV9oTlRjUgS/djM8oSTzq6V2kic+4res6mCN
-	 eN7xhoLCMFZT4BxQIjt4vuy4Y+m85/a+6c9OrNf/lisQK8r9PAAPrKd2Ubj7WLZb7Zw==
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=ZRjZOv/8i6ieYj7D2uL3BhEUUZX4Fu4OCFhUQZQpJ/Q=;
+	b=3uDRrI3T31FXIwghCXEPjmwpuxllXu8eA8STRO2whxLL813m0g6XeNgCJGiN/1GxPvZa
+	 hFYhTVxmbcVmkoXLU5GziS6bEiQUKgYRQ+9s6XClYUOq9xjQ08WGbxmNRZfLbIE4nx3Y1
+	 yCJZqdpRzL5Ds+KuB9ZUZkYXuzrmOZl/YAC8RCt3VRt6UAegGyst1kOe+2V+IiW1mQqRZ
+	 ZlsMxbI2LPR7nVUnsHISjULqWh7QGHSKD9oz/6d6fdYStHTaPQHm9gXMR6GIqOGS0KIL9
+	 /6U1z571Ckq/qSj6/iEs8gGShnGaUMOogVg/vwTV/Z9kjma5ZPlitj1MgHq9qV6AUyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=d-silva.org;
 	spf=pass smtp.mailfrom=d-silva.org;
-	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=j02+UmPS;
+	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=qYrec4g2;
 	arc=none smtp.remote-ip=119.15.109.137
 Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02C2606A31E
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 21:05:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A02C2606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A528606A32A
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 21:05:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3A528606A32A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=j02+UmPS
+	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=qYrec4g2
 Received: from Hawking.lan (hawking.lan [10.0.1.4])
-	by www.nmnhosting.com (Postfix) with ESMTP id 4203E4C89A;
-	Thu, 26 Nov 2026 08:05:32 +1100 (AEDT)
+	by www.nmnhosting.com (Postfix) with ESMTP id 9F6E24C95E;
+	Thu, 26 Nov 2026 08:05:38 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
-	t=1795640732;
+	t=1795640738;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=+7MuY/6UP2Bsh775A7XrC/mnlab/U/JJYl8O0EaI6UA=;
-	b=j02+UmPSaqgpY9N9yYLyP5D4k9ACgdBnURpGXfJ2NTjIMMmsDjOSOhn0nvp7N3scF20geo
-	d6biDUYWKWaSA3oOOpJSOlXppJYfguRIR7qwORiOKcWeR2n6b7T+eRd3zaIyYAxKnRVYry
-	xNR/6z4/a3p9QSRPJG0Edt1KdF9wE4T6llSiBl9bMxPqApBFpHUxFk1jzar5HwoQM5GwQz
-	uPBUeNP2epTo/YTunxSNwey2bgA3flRNN9bl8chnLuBsvOq5AgtEHS0AX16FuMaj9K6xuo
-	YNTHQHtHo8NjR1Xc/q6YXV4/tfMYI+saS7f0SHKefS+iE6gT+WYZLz1kEevYQA==
-X-GPT-Reason: legitimate; this is a technical software patch submission
-	(Linux kernel style) matching the sender's personal domain
-	(alastair@d-silva.org) and the recipient's personal domain
-	(alastair@d-silva.org); the content is highly specific to hardware
-	driver development (Allwinner A733 TRNG support) rather than marketing
-	or a scam; there are no URLs, sense of urgency, or requests for sensitive
-	information; and the message-ID is consistent with the sender's
-	domain.
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZRjZOv/8i6ieYj7D2uL3BhEUUZX4Fu4OCFhUQZQpJ/Q=;
+	b=qYrec4g2dcaHEqYhOV8PM6G85OTouIfVkJSHtEtMuqsAeEwbFyIVRPtA4i22qwHYVnDJls
+	Cp9R5Xyp3NSxeRednoIKv0cRQUz/ugYNZJfJaIjR84HyTlqRbosxaplZuio8rm1kqlCIud
+	i8592KtFCDhEjtJuP88QaMjSu3Kvxke5oea7l+K4RR4V4Kd2+ao5ol1DCzzDrEZbx6TWVk
+	JfNp3Ks5nfiROgAGr6UToK2l+8JbflarEJVFKqM7ZzbIs3zd54hTr+6bwU6Eknm98lJ7Kv
+	9ZihY1szrkqDVa3at+LDgCN+SVLzknRf/FI7SrzFVR5WqP9FhUbE210gMItRyw==
+X-GPT-Reason: This is a legitimate personal/professional correspondence.
+	The mailbox (alastair@d-silva.org) perfectly aligns with the sender
+	domain (alastair@d-silva.org) and the content is a technical patch
+	submission for a Linux kernel-related project. There are no phishing
+	indicators, no urgency/fear tactics, and the subject line corresponds
+	directly to the technical documentation provided in the body.
 From: Alastair D'Silva <alastair@d-silva.org>
 To: Herbert Xu <herbert@gondor.apana.org.au>,
 	"David S . Miller" <davem@davemloft.net>,
@@ -70,10 +70,12 @@ Cc: linux-crypto@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Alastair D'Silva <alastair@d-silva.org>
-Subject: [PATCH 0/4] hwrng: sun55i-ce: Add Allwinner A733 CE v5 TRNG support
-Date: Thu, 26 Nov 2026 08:05:28 +1100
-Message-ID: <20261125210532.695823-1-alastair@d-silva.org>
+Subject: [PATCH 1/4] dt-bindings: crypto: Add Allwinner A523/A733 Crypto Engine
+Date: Thu, 26 Nov 2026 08:05:29 +1100
+Message-ID: <20261125210532.695823-2-alastair@d-silva.org>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261125210532.695823-1-alastair@d-silva.org>
+References: <20261125210532.695823-1-alastair@d-silva.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -85,35 +87,111 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series adds True Random Number Generator (TRNG) support for the
-Allwinner Crypto Engine v5 on A523 and A733 SoCs, and enables it on the
-Xunlong OrangePi 4 Pro.
+Document the Allwinner Crypto Engine v5 on A523 and A733 SoCs.
 
-Dependencies:
-Patches 3 and 4 depend on the OrangePi 4 Pro bringup series:
-  [PATCH 0/3] arm64: dts: allwinner: Add Xunlong OrangePi 4 Pro support
-  Message-ID: <20261125124407.4098345-1-alastair@d-silva.org>
+The A733 block is register-compatible with A523 and adds an optional
+low-power/entropy control register. The separate CE_SYS clock and reset
+belong to the secure TEE instance and do not apply to this node.
 
-Tested on Xunlong OrangePi 4 Pro (/dev/hwrng).
-
-Alastair D'Silva (4):
-  dt-bindings: crypto: Add Allwinner A523/A733 Crypto Engine
-  hwrng: sun55i-ce - Add Allwinner CE v5 TRNG driver
-  arm64: dts: allwinner: sun60i-a733: Add Crypto Engine node
-  arm64: dts: allwinner: sun60i-a733-orangepi-4-pro: Enable Crypto
-    Engine
-
- .../crypto/allwinner,sun55i-a523-crypto.yaml  |  68 ++++
- MAINTAINERS                                   |   7 +
- .../allwinner/sun60i-a733-orangepi-4-pro.dts  |   4 +
- .../arm64/boot/dts/allwinner/sun60i-a733.dtsi |  12 +
- drivers/char/hw_random/Kconfig                |  13 +
- drivers/char/hw_random/Makefile               |   1 +
- drivers/char/hw_random/sun55i-ce-trng.c       | 377 ++++++++++++++++++
- 7 files changed, 482 insertions(+)
+Assisted-by: LLM
+Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
+---
+ .../crypto/allwinner,sun55i-a523-crypto.yaml  | 68 +++++++++++++++++++
+ MAINTAINERS                                   |  6 ++
+ 2 files changed, 74 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/crypto/allwinner,sun55i-a523-crypto.yaml
- create mode 100644 drivers/char/hw_random/sun55i-ce-trng.c
 
+diff --git a/Documentation/devicetree/bindings/crypto/allwinner,sun55i-a523-crypto.yaml b/Documentation/devicetree/bindings/crypto/allwinner,sun55i-a523-crypto.yaml
+new file mode 100644
+index 000000000000..00606c7dcfc9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/crypto/allwinner,sun55i-a523-crypto.yaml
+@@ -0,0 +1,68 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/crypto/allwinner,sun55i-a523-crypto.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Allwinner Crypto Engine v5
++
++maintainers:
++  - Alastair D'Silva <alastair@d-silva.org>
++
++properties:
++  compatible:
++    oneOf:
++      - const: allwinner,sun55i-a523-crypto
++      - items:
++          - const: allwinner,sun60i-a733-crypto
++          - const: allwinner,sun55i-a523-crypto
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Bus clock
++      - description: Module clock
++      - description: MBus clock
++      - description: TRNG clock
++
++  clock-names:
++    items:
++      - const: bus
++      - const: mod
++      - const: ram
++      - const: trng
++
++  resets:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/allwinner,sun60i-a733-ccu.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/reset/allwinner,sun60i-a733-ccu.h>
++
++    crypto@4603000 {
++        compatible = "allwinner,sun60i-a733-crypto",
++                     "allwinner,sun55i-a523-crypto";
++        reg = <0x04603000 0x1000>;
++        interrupts = <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&ccu CLK_BUS_CE>, <&ccu CLK_CE>,
++                 <&ccu CLK_MBUS_CE>, <&osc24M>;
++        clock-names = "bus", "mod", "ram", "trng";
++        resets = <&ccu RST_BUS_CE>;
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 782389bd5cd3..757ab4e59f61 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -892,6 +892,12 @@ T:	git git://linuxtv.org/media.git
+ F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
+ F:	drivers/media/platform/sunxi/sun6i-mipi-csi2/
+ 
++ALLWINNER CE V5 TRNG DRIVER
++M:	Alastair D'Silva <alastair@d-silva.org>
++L:	linux-crypto@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/crypto/allwinner,sun55i-a523-crypto.yaml
++
+ ALLWINNER CPUFREQ DRIVER
+ M:	Yangtao Li <tiny.windzz@gmail.com>
+ L:	linux-pm@vger.kernel.org
 -- 
 2.53.0
 
