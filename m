@@ -1,52 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.12
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.120
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1795663230;
-	b=3jhE7SGLUplVOEamszq4JhbpJR1SJZNb2d79Bse6QQNjOmkFGO1YfmrTKb9iPJwwSftq
-	 nJx2wUz0ZXwM/mfs3WEmBJvMNsLrLNkZwb8I6eRX4KA9CYVSYT3kBZqggfcRr2xq/cYU1
-	 flp8TOorTuCIt6FjYHM1AO68um3tmV0X9rktNHCpxJUEA+rRYQCj04xjYHymnRT8Ul/21
-	 1KeG5Q8Tn2WK5JCK7yKoP5KAhSuFraym9wD/MTwQOUndnkdWqUbukFLFAIn6LJeIkcN2l
-	 x9+I8dLiV+l0ppHb+wEPOyF+dQ5YtUyOfJl6wAGGB5Lwv0ONAl9+J717RrhAy09074Q==
+	t=1795664301;
+	b=v0gop1C42Jp1ZLQfVZEl7EAaBCErQKB+ThOyo3w6qTWhHbR00d3HuSNqQQZW8tGNR92H
+	 bEBZVDdxkm+XdfrOqkaIahxpXFrvWvw/SNOGrztY3UqPQvA+TG6enMrVeKL8qwSC8BAkl
+	 jBQpdlQ96U8t69HDut9CjSufPQHfSn+nOCMgGMrCUrFXBlACqyhn4Up+2U0WMKRLANyLa
+	 LuLYkFDCC22kgyFKrl7fxKc01rxSbq24E/HObubIeRJvcwKGVY4ZCUONnNBT0Zn3SQ/lr
+	 qi7Jdm7JioKspzq8fwQDSEXDiQKeAlnWMoIF9o6QQPkj5vjt4Q1ZfQ/M/CC/LBgd+HQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795663230;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795664301;
 	h=DMARC-Filter:DKIM-Signature:Received:Mime-Version:
 	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:Subject:
 	 From:To:X-Mailer:References:In-Reply-To:X-ZohoMailClient;
-	bh=wl1zFrlH173HoV75rMT0wWjqW6vBAlxFdSbEFwWvJuI=;
-	b=vnUgsTBiElSLiiuBJNDE8FVs67UMQWx0QpCjPFAVEQKW62jQbY5f0TSUX63jbIfZ4ZHN
-	 fdOkdB7Cmb+nKe/yqzEQG4ssFnyRp8k8vvkt2HXt8QsSrU5mPkeT5hEVzlEMihJeMXWn7
-	 yVuTyxC/28jfeUfHM76QtS5LQrpghyGssAG2HCcRxsygy/w+T8NL4I0u0+/V/llKSu+t9
-	 4+jvUyVX/rQF2/MdBrZEyPEZPqmvzrD24YZlXI4Ta76Ao364wWUx7JV7p+NINXhdcMJIA
-	 RbpBCoof0p3kLFz3TK3VY7LW9ceMlT8U6/Nlr3TfJZvnzn/etFEnDEhjJzy+qP54PRQ==
+	bh=4FiZB15xhKIOJGy2ZwbI3s6k8WVaPRsBBgY+WA+DbhU=;
+	b=DiO6eH0Yqu67vWSi/y2NDM4L+bBGKcuRQzeq36veOUNoZpuGZZ4L7gpOjqGNnDhM3I7x
+	 c2QXDIAeDJ0uDGWQJJOTDSozDgKP8XsYJAYSiuGtswkxAX1WGRFcS5ySOX2nor/c5dIcD
+	 7JQPqJKKJEfQ5Yj47ASSF5W3TMrZ8p7jE4S/Cwmerw1TwGoYZ2VIMhgIwn8uQMj8t2p1N
+	 BTuKRJlpVV8ipE1XlHjn3SAok81WtAnapXdwgu0DZysaeA9ItTYZyLF2MYBcGJpIa/bSb
+	 3g9ssUjjr3WyiFVNAb69m5qAVbq2FHEV/v9HARPLiygDoLQrKGfqaflunmxsUFfXHJg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=none header.from=pigmoral.tech;
 	spf=pass smtp.mailfrom=pigmoral.tech;
-	dkim=pass header.d=pigmoral.tech header.i=@pigmoral.tech header.a=rsa-sha256 header.s=zmail header.b=FAvk0CBL;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.12
-Received: from sender6-op-o12.zoho.com (sender6-op-o12.zoho.com [165.173.180.12])
+	dkim=pass header.d=pigmoral.tech header.i=@pigmoral.tech header.a=rsa-sha256 header.s=zmail header.b=EQ9IfgrN;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.120
+Received: from sender6-pp-g120.zoho.com (sender6-pp-g120.zoho.com [165.173.180.120])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F1B606A321
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 03:20:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9F1B606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B60606A31E
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 03:38:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54B60606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=pigmoral.tech header.i=@pigmoral.tech header.a=rsa-sha256 header.s=zmail header.b=FAvk0CBL
-ARC-Seal: i=1; a=rsa-sha256; t=1795663192; cv=none; 
+	dkim=pass (1024-bit key, unprotected) header.d=pigmoral.tech header.i=@pigmoral.tech header.a=rsa-sha256 header.s=zmail header.b=EQ9IfgrN
+ARC-Seal: i=1; a=rsa-sha256; t=1795664266; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=e4FII9bZdXIdBe8LYq4IGbMGRvCRAqDjcHw9c8PyTsCwtiVOHVX5/o5BFvRZq0JzdHw4je5tOQNaP8jVIjuVYUPUqGGHM2gbGyvBK9FyNT8Kycg4BOOHwfPE7RnxlVPqV/ZCxlxkMgRkxdSOsnV7mkREAb/knXDALPMCKk0t7ks=
+	b=DCST9ByL27Upx2hl0RzcqKcwt9Z7EVBalVed5KTX5p0dqKgovEq5o1KKe0YRBS+WcivtXbO2HcSsag7nrcXRTvRkdF4ReXXxt9iz1s9PoVOFQmi11LbzT9r9B/kIjmriAHMWtZhI0m0IKdtNWOgQqyyY7Juu1hLpt/ZwF3YvN7A=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1795663192; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=wl1zFrlH173HoV75rMT0wWjqW6vBAlxFdSbEFwWvJuI=; 
-	b=UUDe5cwvt/PXWuIAvUf7gV10dD720xJ276dIrDwnydvX0vcdz39b+TOiVIzKwtv0rWTBNc/hcSoszBNxJ9fhCrI6J3p/WVjxBu6hbPq+8o10JwFbnn0+/tb2RocfO8quJzYOua2SEEyGmP2fsWdF29PJKqhh0Ky4UKSiB+zECkA=
+	t=1795664266; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=4FiZB15xhKIOJGy2ZwbI3s6k8WVaPRsBBgY+WA+DbhU=; 
+	b=lf8eHZZofR8MSZAryQsfxNMzo5nZCqRPrbimNdazOKSxaVgEnEWR/uLPY3JABWWMxEx00UTdHuMZsxS+SSV4W6jOFX1Pi4Acpks+U4XjEI1LxRRFyOdmOv9gBhq8shkdbZAH5IRd82yXsBpFzdPm5yALBN6RiHDsEb5EArE4SAE=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=pigmoral.tech;
 	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
 	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
-DKIM-Signature: a=rsa-sha256; b=FAvk0CBLjnz+CVdmsl7/q3o4Fp2VSiuJJI4sTMUqqnfWurQhA1S0J/y6uFnL1wO8PJypOYhxEbmZYB28yoWSeEefIUxMG+jv39r2SBJ8lcFiQVUpBH0wno0yeu97zQDXIRopUT3Fgb/Kqtzd5SFHi9F9OFc6dMwE2FASRbwLjHQ=; c=relaxed/relaxed; s=zmail; d=pigmoral.tech; v=1; bh=wl1zFrlH173HoV75rMT0wWjqW6vBAlxFdSbEFwWvJuI=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by smtp.zohomail.com with SMTPS id 1795663189418348.39520229037566;
-	Wed, 25 Nov 2026 19:19:49 -0800 (PST)
+DKIM-Signature: a=rsa-sha256; b=EQ9IfgrNgxR+Fh8LE3AvioVr5xbMX20L/NC1Z/s6ccpmAAcOkqIZk9M8kr1WRakP3rPB+5QW3B8Um0A1PiQPrZg5YshCazvMMtRztBSlhCuqO5kYenDFYKWtlDV8c8ZnJ9wfsjd94X0fu1WcsaTvBvnW5SygE1tQv93AXACAkOg=; c=relaxed/relaxed; s=zmail; d=pigmoral.tech; v=1; bh=4FiZB15xhKIOJGy2ZwbI3s6k8WVaPRsBBgY+WA+DbhU=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
+Received: by smtp.zohomail.com with SMTPS id 1795664265088521.0475713937745;
+	Wed, 25 Nov 2026 19:37:45 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -58,8 +58,8 @@ Precedence: list
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Nov 2026 11:19:39 +0800
-Message-Id: <DN4TH0CNAM11.2OA7W5L11W78S@pigmoral.tech>
+Date: Thu, 26 Nov 2026 11:37:34 +0800
+Message-Id: <DN4TUQIL3J9N.XYYN5MTODT2C@pigmoral.tech>
 Cc: <linux-clk@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
  <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
  "Andre Przywara" <andre.przywara@arm.com>, <netdev@vger.kernel.org>,
@@ -100,6 +100,14 @@ On Wed Nov 25, 2026 at 8:24 PM CST, Alastair D'Silva wrote:
 );
 >
 > While testing this v7 series on the OrangePi 4 Pro (24 MHz HOSC), ttyS0
+
+Before ordering an Orange Pi 4 Pro to investigate this, I checked its
+schematic, "OPI 4 PRO V1_3_2_20260109.pdf". Y1 is marked
+"26M-20pF-10ppm", with a "USE 26M" note, and the CK-SEL resistors are
+configured for 26 MHz.
+
+Could you double check the crystal frequency on your board?
+
 > switches from earlycon to garbled output with:
 >
 >   2500000.serial: ttyS0 MMIO32:0x0000000002500000 (irq =3D 414, base_baud=
@@ -110,37 +118,30 @@ On Wed Nov 25, 2026 at 8:24 PM CST, Alastair D'Silva wrote:
 > disabled with reset/unprogrammed N=3D12, M=3D13 fields. Since
 > ccu_nkmp_ops.recalc_rate() computes parent_rate * N / M regardless of
 > the enable bit, pll-ref reports 24000000 * 12 / 13 =3D 22153846 Hz.
+
+I also noticed that your DTS in your U-Boot patch sets sets the
+oscillator frequency to 24 MHz. If the board actually uses a 26 MHz
+crystal, but the DTB used by Linux declares 24 MHz, the PLL_REF N/M
+ratio of 12/13 would give:
+
+  Actual:   26000000 * 12 / 13 =3D 24000000 Hz
+  Reported: 24000000 * 12 / 13 =3D 22153846 Hz
+
+This would also explain the reported rate and UART baud error.
+
+Could you check the oscillator frequency in the DTB Linux is using and
+share the raw values of PLL_REF_CTRL (0x02002000) and RTC_XO_CTRL0
+(0x07090160)? That should help distinguish these possibilities.
+
 >
 > sys-24M, apb-uart, and bus-uart0 inherit 22153846 Hz instead of
 > 24000000 Hz, so 8250_dw calculates base_baud =3D 1384615 (instead of
 > 1500000) and programs divisor 12 instead of 13 (+8.3% baud error).
-
-Thanks for testing and reporting this. This is indeed a problem. I had
-assumed that PLL_REF would be used on all boards.
-
-I also tried manually disabling or bypassing PLL_REF on my Radxa Cubie
-A7A, but have not yet managed to establish a working bypass
-configuration... I currently suspect that the selection is handled
-automatically by the hardware, but this needs further confirm.
-
 >
 > If pll-ref is disabled/bypassed (or if sys-24M is physically fixed at
 > 24 MHz as the comment describes), either pll_ref_clk needs a recalc_rate
 > that returns 24 MHz when disabled/bypassed, or sys_24M_clk should not
 > inherit an unenabled pll-ref N/M ratio.
-
-The issue may affect not just sys-24M, but also the downstream PLLs.
-According to the vendor SDK, their control registers have a PLL_FREF_SEL
-mux at bit 24, selecting between HOSC and REFPLL. The driver currently
-models these PLLs as having PLL_REF as their only parent, so their rates
-could also be calculated incorrectly when they actually use HOSC. We
-should model those muxes as well.
-
-However, my A7A, A7S and A7Z boards all use 26 MHz crystals, so I cannot
-properly validate the 24 MHz case until I get a board with a 24 MHz
-crystal. In the meantime, if you have a fix in mind, please feel
-free to send a separate patch.
-
 >
 > Tested on OrangePi 4 Pro (Allwinner A733).
 >
