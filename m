@@ -1,118 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795701764;
-	b=2NZDtUw8KipjmrRyBLVUSVAq2UDdulvRwoITpi2rRKfMCsSwon6VjWX5jtA72oXAaSZm
-	 gI67qBNofvn/NtVD62NrhJoNYdl/PyESq10OzmH1cZePxkmakR9kglHvhjTBe5wngm4gi
-	 fVOCk7XcESg++S/G1Qspa4vqsXKEgGkK5DZGm86DkpKLMx6uPN8qAuRxyTd+cJSIP+Ygu
-	 BJREbB1+x6z0TvkgRFCVe380V4SUqrzUqPqE8xrm1wcfMmYkfaNirKy2LDegARtloZhka
-	 gVyVpC7viZNwY0TCAI9HNY71lL3RY8jHYiaf+8/tzAsxXHKvra8OpU35qI1mbm5EA+A==
+	t=1795706703;
+	b=h3kz9T90PBSjbpQT48buv5cQsKiQxptjSbzN1SL9al/FkurAOI6LLf0ydb44HfLTJfCA
+	 dOkSX/CsC9/qrICf4rHeDFUc8jtP8Yn/EWYBBxUcdhHSrkBKN5lGtXjiT3dH0Ixa7T1VV
+	 cmZLmUtDjLLGJ7lNP24avpZClaSmzdMVk+lfTVqvpQ6UcnM9Uu/1iHe/poFjmfHNehgnZ
+	 ggCHQM3EZLcC+9oDg0/WrPcuoPPLqXMsEQbdVOZJ4ocOYGj1B7Xm3PRH0P7q9mD+IeUZP
+	 IqdgLn0qMmSMfUUESE0nLeTduDS7qLvDGjulug0HEX8hbiCSUTphxHgZeU9SfsBKaYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795701764;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:From:To:Cc:
-	 Subject:In-Reply-To:References:User-Agent:Date:Message-ID:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Last-TLS-Session-Version;
-	bh=Z9epXhgk8kv7aYQ6eP03FOVDBcgOKKV/qAqVe+wwWl4=;
-	b=rFn9Nahx5VdLmD5hvRbe1iWWRl7hNxyjxRF3ttITD6g41QA9BmL6OXNz1iPSsrtrRlDp
-	 5grWtWXQ1OESQ+MoZmGeT62mLm/q29Y6136rYLs/KMCZQmM1P6CGBSWLovfJgLuXt9JRJ
-	 zCO0WfvQ5gzLV+6RTWptBf++4PUxwu9M6gQNrouGDyO0rNWAQZ3EuiWf16VKCAn81iQsN
-	 qiGAR0u/FFnx9ulP5xTpkCBwK+Dk5eEt39FqQK4OIn/SKOZ5/Q0XUWzKcgDSCQ16w2BmG
-	 vnFrM5WA2s9PRTcafZj4avvwXJ8/mXR3pkwpplO5nKc/YDg5AVdBSZ9lLdCYdFnJBuQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795706703;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=WaGhGP18N1e5WQjSL7Kf13XBuOe/Lyl+VKElqyiI+RE=;
+	b=4JdHyeVIzGe5CqQpsE7HxhIRzI2w5PQ1atdfi+zK3CB0OAXQoTVbArt4L2VblRS6Dzx3
+	 iNxYQuzsywrS5rV43MhhjwZyxvbad5fSZX7E3FXtlpckNOuQ4Lsvxr+PZaSoobNphIgLI
+	 +iN2jVaPWH4ZcYhW7QLVvxQfuNatn3KS1vRWRuWTRS3+mqXMWCujwWa6j+FSVoKtMEmyV
+	 0uddI2IG/RzS+t9vVTiioVI/ZIKghBVs6bxHxotKpkgW/udDAzDROkwMG5it5ODqbWxkD
+	 brg5YE1pdhyGC7sYNX+ux0F/9ICfwS5RJoF6fen1/z85bcsriFva3BVK5YeBwVNhSZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=bPhNLogQ;
-	arc=none smtp.remote-ip=185.246.84.56
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=dVVGBgUe;
+	arc=none smtp.remote-ip=95.215.58.220
+Received: from mta1.migadu.com (out-220.mta1.migadu.com [95.215.58.220])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3AB606A326
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 14:02:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B3AB606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AC7606A33C
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 15:25:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67AC7606A33C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=bPhNLogQ
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 53BC21A1819;
-	Thu, 26 Nov 2026 14:02:41 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 1AEB2604ED;
-	Thu, 26 Nov 2026 14:02:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 14CCD11E6830D;
-	Thu, 26 Nov 2026 15:02:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795701752; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Z9epXhgk8kv7aYQ6eP03FOVDBcgOKKV/qAqVe+wwWl4=;
-	b=bPhNLogQ9VWimdCUOLB8QGQOQKOA3q3LOuc60lOK0VxQoGWyHNk3em3u0r79Qv2TJe9Cfe
-	20qCy8RMXQUbTvgUz7u/7GfAYOKn/ewG8lLFu1QNf0WJgIG5L+UoXthH0jZDMaXvtyNszH
-	N5Bcx2KVDBzThX5FDojZlNOhuwVnM0sVHkNJbJZCwV74cJVQkY6V6c/maD7VQYU6JV9TrJ
-	KF7VqiJWveeytEpTWXy3Div1ic2cBtXKpikJf9lQRxH107eQAczaA2QJr8uQnmof/znVZK
-	O6ZxG4QnWxNVw7k5esZ5CwwQb0hvFl5swQjUAt2M+XC1/yMdKhU32mauWb+i2A==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: Pawel Zalewski <pzalewski@thegoodpenguin.co.uk>,  Richard Weinberger
- <richard@nod.at>,  Vignesh Raghavendra <vigneshr@ti.com>,  Pratyush Yadav
- <pratyush@kernel.org>,  Michael Walle <mwalle@kernel.org>,  Takahiro
- Kuwano <takahiro.kuwano@infineon.com>,  Vladimir Zapolskiy <vz@mleia.com>,
-  Robert Jarzmik <robert.jarzmik@free.fr>,  Alexander Usyskin
- <alexander.usyskin@intel.com>,  Joern Engel <joern@lazybastard.org>,
-  Madhavan Srinivasan <maddy@linux.ibm.com>,  Michael Ellerman
- <mpe@ellerman.id.au>,  Nicholas Piggin <npiggin@gmail.com>,  "Christophe
- Leroy (CS GROUP)" <chleroy@kernel.org>,  "Ritesh Harjani (IBM)"
- <ritesh.list@gmail.com>,  Shrikanth Hegde <sshegde@linux.ibm.com>,  Michal
- Simek <michal.simek@amd.com>,  Nicolas Ferre
- <nicolas.ferre@microchip.com>,  Alexandre Belloni
- <alexandre.belloni@bootlin.com>,  Claudiu Beznea
- <claudiu.beznea@tuxon.dev>,  Brian Norris <computersforpeace@gmail.com>,
-  Kamal Dasu <kamal.dasu@broadcom.com>,  Broadcom internal kernel review
- list <bcm-kernel-feedback-list@broadcom.com>,  William Zhang
- <william.zhang@broadcom.com>,  Anand Gore <anand.gore@broadcom.com>,
-  Kursad Oney <kursad.oney@broadcom.com>,  Florian Fainelli
- <florian.fainelli@broadcom.com>,  =?utf-8?Q?Rafa=C5=82_Mi=C5=82ecki?=
- <rafal@milecki.pl>,  Ray
- Jui <rjui@broadcom.com>,  Scott Branden <sbranden@broadcom.com>,  Han Xu
- <han.xu@nxp.com>,  Paul Cercueil <paul@crapouillou.net>,  Harvey Hunt
- <harveyhuntnexus@gmail.com>,  Keguang Zhang <keguang.zhang@gmail.com>,
-  Piotr Wojtaszczyk <piotr.wojtaszczyk@timesys.com>,  Liang Yang
- <liang.yang@amlogic.com>,  Neil Armstrong <neil.armstrong@linaro.org>,
-  Kevin Hilman <khilman@baylibre.com>,  Jerome Brunet
- <jbrunet@baylibre.com>,  Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>,  Matthias Brugger
- <matthias.bgg@gmail.com>,  AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>,  Frank Li <Frank.Li@nxp.com>,
-  Sascha Hauer <s.hauer@pengutronix.de>,  Pengutronix Kernel Team
- <kernel@pengutronix.de>,  Fabio Estevam <festevam@gmail.com>,  Manivannan
- Sadhasivam <mani@kernel.org>,  Heiko Stuebner <heiko@sntech.de>,  Maxime
- Coquelin <mcoquelin.stm32@gmail.com>,  Alexandre Torgue
- <alexandre.torgue@foss.st.com>,  Chen-Yu Tsai <wens@kernel.org>,  Jernej
- Skrabec <jernej.skrabec@gmail.com>,  Samuel Holland <samuel@sholland.org>,
-  Stefan Agner <stefan@agner.ch>,  Lucas Stach <dev@lynxeye.de>,  Thierry
- Reding <thierry.reding@kernel.org>,  Jonathan Hunter
- <jonathanh@nvidia.com>,  Jacky Huang <ychuang3@nuvoton.com>,  Shan-Chun
- Hung <schung@nuvoton.com>,  Tudor Ambarus <tudor.ambarus@linaro.org>,
-  Linus Walleij <linusw@kernel.org>,  Kyungmin Park
- <kyungmin.park@samsung.com>,  linux-mtd@lists.infradead.org,
-  linux-arm-kernel@lists.infradead.org,  linuxppc-dev@lists.ozlabs.org,
-  imx@lists.linux.dev,  linux-mips@vger.kernel.org,
-  linux-amlogic@lists.infradead.org,  linux-kernel@vger.kernel.org,
-  linux-mediatek@lists.infradead.org,  linux-arm-msm@vger.kernel.org,
-  linux-rockchip@lists.infradead.org,
-  linux-stm32@st-md-mailman.stormreply.com,  linux-sunxi@lists.linux.dev,
-  linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 00/10] mtd: use desginated initializers in *_device_id
- arrays
-In-Reply-To: <awg4ubbFu0FksThB@monoceros> ("Uwe =?utf-8?Q?Kleine-K=C3=B6ni?=
- =?utf-8?Q?g=22's?= message of
-	"Thu, 26 Nov 2026 14:50:01 +0100")
-References: <20261125-acpi-mtd-v1-0-42ad2f645bee@thegoodpenguin.co.uk>
-	<awcZcuSbse5g3FWK@monoceros> <87v75jyiw2.fsf@bootlin.com>
-	<awg4ubbFu0FksThB@monoceros>
-User-Agent: mu4e 1.12.12; emacs 30.2
-Date: Thu, 26 Nov 2026 15:02:08 +0100
-Message-ID: <87a4mvwv1b.fsf@bootlin.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=dVVGBgUe
+X-Envelope-To: linux-sunxi@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=e8n4p5I4AJEqksbOANyj0Uvx8iI2baqGaT4jyvFlF3s=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1795706700; v=1; x=1796311500;
+ b=dVVGBgUe9owodYdGtln7dPUN0WIk3zQGtK7GCZTw6lfdipbYqFHMw0LFhVZI8JKiHj+WsVSd
+ rbidA0agbBLiw9bFTKrdjACzbkA/wZ3FPqDUSunPEUSfUSar+tGgjt4oTqTDIZE0KadgDSWuLpd
+ BbL4GL+aNZDp2IMQHMncHFDg=
+X-Envelope-To: linux-sunxi@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id e28c61dcd929e842;
+	Thu, 26 Nov 2026 15:24:58 +0000
+X-Mizu-Trace-ID: e28c61dcd929e842
+X-Migadu-Flow: FLOW_OUT
+Date: Thu, 26 Nov 2026 07:24:42 -0800
+From: Shakeel Butt <shakeel.butt@linux.dev>
+To: "Harry Yoo (Meta)" <harry@kernel.org>
+Cc: Vlastimil Babka <vbabka@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
+	David Rientjes <rientjes@google.com>, Muchun Song <muchun.song@linux.dev>, Hao Ge <hao.ge@linux.dev>, 
+	Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	kernel-team@meta.com, "Liam R. Howlett" <liam@infradead.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Andrew Ballance <andrewjballance@gmail.com>, 
+	Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Jiayuan Chen <jiayuan.chen@linux.dev>, netdev@vger.kernel.org, 
+	Kees Cook <kees@kernel.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, Robin Murphy <robin.murphy@arm.com>, 
+	"Joerg Roedel (AMD)" <joro@8bytes.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Casey Schaufler <casey@schaufler-ca.com>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	linux-security-module@vger.kernel.org, Richard Weinberger <richard@nod.at>, 
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	Eric Dumazet <edumazet@kernel.org>, maple-tree@lists.infradead.org, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Jason Xing <kerneljasonxing@gmail.com>, 
+	Willem de Bruijn <willemb@google.com>, Mina Almasry <almasrymina@google.com>, 
+	=?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
+	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
+	Anshuman Khandual <anshuman.khandual@arm.com>, linux-arm-kernel@lists.infradead.org, 
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, linuxppc-dev@lists.ozlabs.org, 
+	Niklas Schnelle <schnelle@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, iommu@lists.linux.dev, 
+	linux-s390@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-um@lists.infradead.org, 
+	cgroups@vger.kernel.org
+Subject: Re: [PATCH slab/for-next v2 00/14] mm/slab: mandate SLAB_MAY_ACCOUNT
+ for __GFP_ACCOUNT allocations to avoid wasting memory for slab metadata
+Message-ID: <20261126152250.GB738059@shakeel.butt@linux.dev>
+References: <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-0-7c680f02a734@kernel.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -122,23 +100,24 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-0-7c680f02a734@kernel.org>
 
-Hello Uwe!
+On Wed, Nov 25, 2026 at 09:37:01PM +0000, Harry Yoo (Meta) wrote:
+> TL;DR
+> -----
+> 
+> The purpose of this series is to convert existing slab users that
+> specify __GFP_ACCOUNT on allocations to specify SLAB_MAY_ACCOUNT on
+> cache creation, to reduce memory waste for slab metadata with
+> CONFIG_MEMCG=y && CONFIG_MEM_ALLOC_PROFILING=y.
+> 
+[...]
+> 
+> Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
 
->> > Acked-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
->> >
->> > with or without addressing the nitpick I had for one of the patches.
->>=20
->> Let me know what you intend to do.
->
-> Your mail was sent To: me, but that was directed to Pawel, right? (FTR:
-> I intend to do nothing here ;-)
+For the series:
 
-Yes :-) My question was indeed for Pawel! (except if you have plans for
-the sentinel removal ;-) )
+Acked-by: Shakeel Butt <shakeel.butt@linux.dev>
 
-Cheers,
-Miqu=C3=A8l
