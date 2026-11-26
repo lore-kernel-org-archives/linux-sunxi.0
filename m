@@ -1,93 +1,97 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=119.15.109.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795675434;
-	b=mM7SlYn9nd0dC3KsdTEP55I0dfeCrRLkt9Ummbn4RFaLMVUCddZdDmLuHV9pY89NNhGg
-	 a/+JbezvBkQ2K+42dhD1MxeVhdT4wLM6A/GXff354cE47Hb38d5VtlQvfMCR66XvigdJl
-	 J1i13lr6o7z3JE5BkPv3afZ0PjOhFOZxNi5NGP8Kk72O3FAuq3+gbvi8uAogb0Ir/IdEM
-	 5EhU9tpn1huoy1ruytZDAJ0HUUMj9tVkUjkxAzJwED+Hiyu29bOI3lCmuTLEhM9gf4gjX
-	 SXsf7E9BhuPOATnZCwV1+a5dXHv8CaNAeYyjkDon5jD0p8qttiWMgLXvY3GLjynOdUg==
+	t=1795675759;
+	b=snTrQbaLNZAVHdXd/95jvYvzr3lUYwtSupXbRr22RURnL+ODCnLs9Egdx8RzVPTBpqLD
+	 y5fCkWoHro9SebLS76nOaQb/8MIcz01xDpWWOKcc8XyjCASAPLz2wwP36yfG8mrn+J3aP
+	 LXlK5c2zVNd2lMAcSECaIHd7pMqafJGgtMWEtmrLcHSznMNk5sWgOOhZGcD3ZqaycipUG
+	 DxWpSGGVmUPUcWqkMkNs27M76SFhGJNtipISdoC50yDiTZwRSyOx6fo9MFxe0ndIWogH3
+	 MbZu4jHhjA428LUh91I8tGaCRqDIUuVmow/nazMcMg2bR+jcoR2nawaElFjjfDdFS4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795675434;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795675759;
 	h=DMARC-Filter:Received:DKIM-Signature:X-GPT-Reason:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=xDtIST3zZ9y4EzJ6NETBhs9+pFPleoAbssJ/eV+XnOE=;
-	b=MYSIja+n0f5G273hHddNL63BnPTnLehMK2Z8Y0wETQZ1A+iZoF3noX1yfdq8UIwccQRV
-	 b4r5rhZDyvqeuHCKs1Wz0O/+PfxGFLvNpjXysWvARcVfpyWiC+eXxqEUEhykWDb3wt1te
-	 lW27v+4Vn2oY+pLbAtRc+6UwL1k10l5t4KPidjfYbQU/4+iFWXMLVrSqNDBxBJFPSR8T3
-	 YJQeBpcT9E3480jKAiXG1VPDG4aaMWRt24qChKcVqHf03AX9W57tg6fQCcNOLyBdqrrea
-	 ref6kNm4Hw1VFKB31poXsifFS7wdeppCDRjfawe0vo2oH9JGoic94AR0IyhSVjDHd/A==
+	 Content-Type:Content-Transfer-Encoding;
+	bh=ALDZI9zzoGK/EGXlQh9cjJVsMiJ6Nq8NocmOtDE4lVY=;
+	b=fKQXpUwYfZ8zh4jAK+2kPPhxOPxdBOVlsgGWo3z6CwcEtziuYNyuPm19q2SfE4SW8aZV
+	 UuY3rqiTwRNLJpkAM7uZ9cwCOb3dmwPxmg6aNYCLZ8CJbvdqeOFTKXJYpw8dtvLERZN5I
+	 M0VeqvFi15v+mPbdRFWiryXosQjSElfQ/kOwzeljaK1U3yZMcGsO1tTb/HiYC07sPzEeh
+	 gfV6qug1gff0QIEBbDHOchAYKY1PLQtNIiK/VZxCt+qTuDXQqhe4ZAD9QSekIusr7GLDb
+	 vmbKXWhrGOu+wIp6/H+KNdY7yKFOzrWqChEJur4iLdABCvss5yl4JXqYI7Bs5Mtd+bQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=d-silva.org;
 	spf=pass smtp.mailfrom=d-silva.org;
-	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b="SjFKF5/t";
+	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=TABOzGOx;
 	arc=none smtp.remote-ip=119.15.109.137
 Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BA8606A31E
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 06:43:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77BA8606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA7F606A32C
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 06:49:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BAA7F606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=SjFKF5/t
+	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=TABOzGOx
 Received: from Hawking.lan (hawking.lan [10.0.1.4])
-	by www.nmnhosting.com (Postfix) with ESMTP id AEDCC403EF;
-	Thu, 26 Nov 2026 17:43:45 +1100 (AEDT)
+	by www.nmnhosting.com (Postfix) with ESMTP id 2FEC3403EF;
+	Thu, 26 Nov 2026 17:49:09 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
-	t=1795675425;
+	t=1795675749;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xDtIST3zZ9y4EzJ6NETBhs9+pFPleoAbssJ/eV+XnOE=;
-	b=SjFKF5/tk54Xz2Km9hT+o/URL72fTkx0Jsfqyqj9ECYBOS1JAbZ4S7UZoxx2E4V2K4nuDB
-	CjBsPCYkeTBKtm7tCpB39vnc3y8fYp0RUDSbMqzbdMo0NYwrrpVyyfGiqy77A82MWqLqts
-	gRaL3UUDOIhfL+EsjPfoSoH7g0fRDjTcg6QTYR5KEI6O/HGn4x4RiXa2zKhOgfrF1QXfFj
-	ouoHUeyW5wp7nutpSrq1e6v55JE0WM/h0mmwtyRn6cIEtxy7vLWwMS+q+ynDUgSBxrnsFY
-	S7x9GaxPK/NbWq9/tEZVBbWcdvdBdNLPoGw9S4PApBmkLScYonxN38gY5ENAdg==
-X-GPT-Reason: legitimate; this is a technical, personal, or professional
-	correspondence regarding a Linux kernel patch (net-next) that
-	perfectly aligns with the sender's identity (alastair@d-silva.org)
-	and the recipient's role; the content is highly specific technical
-	discussion about hardware clock inversion and GMAC210 support
-	with no marketing, phishing, or scam indicators; authentication is
-	supported by a consistent From domain and a lack of external links
-	or urgency tactics.
+	bh=ALDZI9zzoGK/EGXlQh9cjJVsMiJ6Nq8NocmOtDE4lVY=;
+	b=TABOzGOxi1J6AGOAfDZT/+WS29Uy6C2yZftVVmKrm7PTlSkOHLK5XDikYwiChl5+NtFTB0
+	mt0gXWk/t4zEQNHNWaVInTVHmJl3QW1DO9vFAGNlYe+OHLoSt5CnH6DUmOapf4kZwqZN32
+	OQ7A5rQ7qg9cdrnDajTtt2U8pF9kFby03TKdzdcVeFZdkIGrYOEkfqGyoBtk/EBsijjNbH
+	3GKgc8UFZntRHQ6DXwfGwE+kuJD5mUzP+eMacK91Unn975VSCFCkKCse2QzBC7lQLIOxEk
+	LcwirsXbizh3PCuS5ug6Cw3hTcqfnf1a2GYvF5pXoA7XFfKRRGVoxZc93wMlNA==
+X-GPT-Reason: This is a legitimate personal/technical correspondence
+	regarding a Linux kernel patch or hardware driver update. The
+	message is sent from a known personal domain (alastair@d-silva.org)
+	to a recipient in a technical context, and the content specifically
+	discusses hardware clock frequencies (26 MHz crystal, OrangePi
+	4 Pro, DTS files) which aligns perfectly with the subject line.
+	There are no phishing indicators, no unsolicited marketing, and
+	no suspicious links; the conversation is a standard developer follow-up.
 From: Alastair D'Silva <alastair@d-silva.org>
-To: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+To: Junhui Liu <junhui.liu@pigmoral.tech>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
 	Chen-Yu Tsai <wens@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Richard Cochran <richardcochran@gmail.com>
+Cc: linux-clk@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
 	Andre Przywara <andre.przywara@arm.com>,
 	netdev@vger.kernel.org,
+	Alastair D'Silva <alastair@d-silva.org>,
 	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alastair D'Silva <alastair@d-silva.org>
-Subject: Re: [PATCH net-next v3 5/5] net: stmmac: sun55i: Add support for Allwinner A733 GMAC210
-Date: Thu, 26 Nov 2026 17:43:45 +1100
-Message-ID: <20261126064345.2569445-1-alastair@d-silva.org>
+	linux-riscv@lists.infradead.org,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Enzo Adriano <enzo.adriano.code@gmail.com>,
+	Norman Herms <dockseed@proton.me>,
+	Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
+Subject: Re: [PATCH v7 4/8] clk: sunxi-ng: a733: Add PLL clocks support
+Date: Thu, 26 Nov 2026 17:48:50 +1100
+Message-ID: <20261126064909.2584729-1-alastair@d-silva.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260923-allwinner-a733-gmac-support-v3-5-15735155a789@baylibre.com>
-References: <20260923-allwinner-a733-gmac-support-v3-0-15735155a789@baylibre.com> <20260923-allwinner-a733-gmac-support-v3-5-15735155a789@baylibre.com>
+In-Reply-To: <20261112-a733-clk-v7-4-db7c5451ffa2@pigmoral.tech>
+References: <20261112-a733-clk-v7-4-db7c5451ffa2@pigmoral.tech> <20261125122452.3966873-1-alastair@d-silva.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -97,32 +101,20 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Jerome,
+Hi Junhui,
 
-While testing A733 GMAC210 on the Orange Pi 4 Pro (YT8531 PHY), we hit
-two hardware differences that also affect this series:
+Good catch — I confirmed the OrangePi 4 Pro has a 26 MHz crystal on
+board, and my DTS had declared 24 MHz for hosc.
 
-1. External vs. internal RGMII TX clock (SYSCON_ETCS_EXT_GMII):
-   Unlike the Cubie A7A, the Orange Pi 4 Pro wires the PHY's 125 MHz
-   CLK_OUT back to the MAC and stalls on 1 Gbps TX with
-   SYSCON_ETCS_INT_GMII (0x2). It requires SYSCON_ETCS_EXT_GMII (0x1),
-   matching Allwinner's "aw,rgmii-clk-ext" BSP property. A733 GMAC210
-   will need a DT/clock way to select EXT_GMII vs. INT_GMII so both
-   boards work.
+Updating &hosc to 26000000 Hz fixes the rate calculation:
 
-2. RX clock inversion (BIT(4), ERXIE in glue offset 0x00):
-   With BIT(4) = 0, Orange Pi 4 Pro required ~3.8-4.1 ns of total RX
-   delay (matching what you saw on Cubie A7A with 1800 ps MAC delay on
-   top of 2 ns PHY delay). Testing with BIT(4) = 1 (ERXIE) confirmed
-   it inverts RXC by ~4 ns (180 degrees at 125 MHz), centering RX at
-   0 ps MAC/PHY RX delay. Andrew Lunn requested fixing this clock
-   inversion rather than compensating with ~2-4 ns rx-internal-delay-ps.
+  2500000.serial: ttyS0 MMIO32:0x0000000002500000 (irq = 414, base_baud = 1500000) is a 16550A
 
-I plan to rebase the Orange Pi 4 Pro Ethernet support on top of this
-series and address these in follow-on patches unless you intend to
-roll them into a v4.
+ttyS0 now boots cleanly to shell with your v7 CCU series. Sorry for the
+noise, and I'll send a v2 of my OrangePi 4 Pro DTS series with 26 MHz.
 
 Thanks,
 Alastair
