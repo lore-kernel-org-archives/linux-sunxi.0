@@ -1,55 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795665412;
-	b=l72egvUDcVlxUqxzSQwuMAh+A5ft1MyTsJu7tt+IwoLpsR5w3/Y5HGXhyuYp5dy4LDGu
-	 TjImIJmC+k1bu4Q8y8qtKDubs5xhW5NnbhdeRcoPLzBQ6j8aufVH+Gg4sjCCqGOczZSDy
-	 BAz63Y7jh6d+Bf8wclHyMaljmT8HDy56BjezETSKDKBoqO27wRK2U6XOozbSGkJ0g/nKQ
-	 2jBmFVtwyOnNHgMu7q36ya31v2leBL6pMbYAozPlLcwxmzAY9IBgpNvcj8gmQNIq8YmG7
-	 iC4YHBnFnBWq6HY2cQmEFnS4pY9npTkaFIuKKKjDIuZkPBR69oC+DL7+PmIS+huYE5w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795665412;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=pnrWDLI+bbkoF+uspFaAef/gof/CKGiguNODNOS4GpA=;
-	b=yI9Nij/b6aBC91iqrcEWL5Hzifc0tfxQ3SU//TA2jtKgpgMNBxBuAPL9n5dURMfF2Ly3
-	 SiWD7ewxBoYYRtfWvesO/kffInOw3SvEmdX8dkmAjYoTPpCykT11yOgb3P6XlCl2oMURK
-	 fEmWMvY9vPKFHlSWMPQeJLRQ/zRKp8RREU3jQcAYXziyHJ6ZHihmnKpS549mO9GJTSL35
-	 qfLpQwiBT/LKHr5gZtW01kg2DR4hW6JGlfIHebaw0fjAlN25t0U0zbWL1yhIDAACI541x
-	 kq07aTHCKX2WEIfZT9NWkwI9hlcRNn0JKe8A1T4ydFIkiG2QU6VXQqCQHija/6NoItA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EnFf2oIl;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.15
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795674852;
+	b=v6NhC7ulN/fyiXS4mMoCGbleLAxD/GZ7hjoDgqAPwC9TwXEUg17h4v948mxPHUqkEuLA
+	 AMscwbJ4qblaAXaybxonMJTQrjhZmtVeZGLnWSvFMyoSc9L9zsM8h+vFhR+Ib94/zfyGB
+	 /E9SsvZdMqpiQb2gufrFzwoclLEc6FMBo/ubwlSc0kmHV3si64rsmy8bFsKs5Xu+MeDIJ
+	 yzmGkHpsZkyx/dEfAZEW9Emad53fk62+Lx3W5rNvy95AvrJHqvnei0sUM63XYZbkgNfe1
+	 pWF8sjqQyUIU0DuzGWGjME1edYN+yizds9heeZsbd0pdYQIjBFJ/+6Jy0TNbDrM19uA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795674852;
+	h=DMARC-Filter:DKIM-Signature:Received:Mime-Version:
+	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Subject:From:
+	 To:Cc:X-Mailer:References:In-Reply-To:X-ZohoMailClient;
+	bh=NqJyxkyyF1EsKV7v+Tv9BOg2FJudE4UDZ7G53p9UBJo=;
+	b=0ceVrjVlqGssjM4SamXQxrOOvH3Q8cIsTY1+/iZqnmv02H8WINi7etGSc+tH7+eDoQYW
+	 08pVkOQVX2jsO58W7Gl1cNUBq+y5Ydv4rsOJGENJz9BIv2DadU9b9YerxuR1eE493i/Ua
+	 iYWIVHwqC0wQ0YWkddSKVOK37mzkU1cFl1NRIchH9y6hEQJbuQZOOtxI+v4G4QLsfQSSn
+	 4yvr2optegdrR5X/rpXWsD+ac3pf73chzaiUmLL0KiUPJLY/8q1xNm5qAbyV78vJ3ns6M
+	 iIcNuYTltzS2T9SgOf7w3o/LcoAFuO5tmAHAuE2Fm2UUgVbfisjVJWeus/FOxd/bY7g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=pigmoral.tech;
+	spf=pass smtp.mailfrom=pigmoral.tech;
+	dkim=pass header.d=pigmoral.tech header.i=@pigmoral.tech header.a=rsa-sha256 header.s=zmail header.b=KZCIsc4c;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.182.15
+Received: from sender5-op-o15.zoho.com (sender5-op-o15.zoho.com [165.173.182.15])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC9D606A326
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 03:56:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBB2606A31C
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 06:34:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BBB2606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EnFf2oIl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3C401F000D2
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 03:56:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795665411;
-	bh=pnrWDLI+bbkoF+uspFaAef/gof/CKGiguNODNOS4GpA=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=EnFf2oIl25F5fuGyrN92NOgPL6kqIB+PTByRBEV3aAZf8ZfJ957KgMf5KK6PsD4Cw
-	 zflo82yjh57GWQAKBN0zQJ3ijLHDRdSpLs34Ypubezx1+kdfXAnPIjT0MRca7B7nRb
-	 +rO8mpQb/bCxW8CFA+2Lx5rEVRmyJz4YfrOrnc0k250Cwzd7xVTkbCMd+ipqAGmsNt
-	 HlHRpxSdtd7AvpLEw2SfBrHhhWw9nPCLZOm8brr6044aErj4rTR4DdBOsdGnfIIcmV
-	 dO3wocrkyfGT62CpwOxOuAHNl9X/82Ppq3JVVcDI5bXUE7TCNERLHEGOfW+aVa5yvh
-	 KoGaWgq/V1/8w==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-3ae2ab35d82so51162211fa.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 19:56:51 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErGN+MNEoJBYZo3zSLTZYBKqr0LGYJRznrg3WULIU2Ia7UpTVQtsx7h5VYIq9KnZLXf3pRifGMFhJq1ftQ==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8KntgIc/NdqJHjZDB9IIDxVADw9vP46l2sIMHW8WMbZuCIb2bm
-	1zJiMhhVbEOAIngUEPdUBhy/bxf+UJ5UlilXpXnqTynnKUAcXuBx9PwXfHl2enBHIBcMDP9UF+o
-	ZdnC4E0ro2qTkS1wADe2jDfdwQaQtTK8=
-X-Received: by 2002:a05:651c:a1aa:b0:3ab:3af4:c2d8 with SMTP id
- 38308e7fff4ca-3ae7fa71a15mr56174711fa.28.1795665409967; Wed, 25 Nov 2026
- 19:56:49 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=pigmoral.tech header.i=@pigmoral.tech header.a=rsa-sha256 header.s=zmail header.b=KZCIsc4c
+ARC-Seal: i=1; a=rsa-sha256; t=1795674826; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ZQvfHIW1p7x8TG0WrjfAXdkqZsXvdtX6h/tHO84gGwweCk7FdgZY0VAsEb9+K69id4KDDbRByhI13FX+PVF0F4DYAIoXM9NccLR74dMeersTm2vOaJJyUrILHvqXT8M0s9h3Jbsm1glok/FNswImy1OSwDsezaXQwkx9ESSYce4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1795674826; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=NqJyxkyyF1EsKV7v+Tv9BOg2FJudE4UDZ7G53p9UBJo=; 
+	b=NAIY+LYjEN+rweT8lCfaKbiVYn+uEZfd5Zwr/AdWNykhBq0yFAuJTHIyVeQMQV9BJ7vjY7Rxp5H0ZSkZbmDLQXk84PYlKRkbuBVJxW4ISVcLR8zSem3b2eJka83BJwPw76fXopgMMKoDbGDH+WQkD1EcqZt+EYQw+penQaBilXs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=pigmoral.tech;
+	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
+	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
+DKIM-Signature: a=rsa-sha256; b=KZCIsc4cdj6dVf/CubnCkDLGwAcGFTVU4PYw7PshqS4Va8YmA36ILwb2hvo4/sRmg0D5c7bc9Kqbrulaku+JiVdnSgoUSJJnimk/YjAEl0q8l2CleNJXwTy2hPs6OfIyvNf8b31lnXUnTIyS5hgkoTDYZy3pWVz1m5t4KRh6aLI=; c=relaxed/relaxed; s=zmail; d=pigmoral.tech; v=1; bh=NqJyxkyyF1EsKV7v+Tv9BOg2FJudE4UDZ7G53p9UBJo=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
+Received: by smtp.zohomail.com with SMTPS id 1795674823263416.48353135502407;
+	Wed, 25 Nov 2026 22:33:43 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -58,65 +55,70 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-References: <20261112-a733-clk-v7-7-db7c5451ffa2@pigmoral.tech> <20261125115320.3692954-1-alastair@d-silva.org>
-In-Reply-To: <20261125115320.3692954-1-alastair@d-silva.org>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 26 Nov 2026 12:56:37 +0900
-X-Gmail-Original-Message-ID: <CAGb2v644kMOCbLGVNB0HRFmoaQcD3qbhKY9G5FVE46O=2td12g@mail.gmail.com>
-X-Gm-Features: Aa3M54rpP-Zn9FFry4pu5XjBTgRTyOiIwDPt_8N8tX1t-bsfN3kUc7IF24g0SfQ
-Message-ID: <CAGb2v644kMOCbLGVNB0HRFmoaQcD3qbhKY9G5FVE46O=2td12g@mail.gmail.com>
-Subject: Re: [PATCH v7 7/8] clk: sunxi-ng: a733: Add bus clock gates
-To: "Alastair D'Silva" <alastair@d-silva.org>
-Cc: Junhui Liu <junhui.liu@pigmoral.tech>, Stephen Boyd <sboyd@kernel.org>, 
-	Brian Masney <bmasney+clk@redhat.com>, Jerome Brunet <jbrunet+clk@baylibre.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, Richard Cochran <richardcochran@gmail.com>, linux-clk@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>, 
-	netdev@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, Jerome Brunet <jbrunet@baylibre.com>, 
-	Enzo Adriano <enzo.adriano.code@gmail.com>, Norman Herms <dockseed@proton.me>, 
-	Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 26 Nov 2026 14:33:33 +0800
+Message-Id: <DN4XLH7YJ13T.3O62DYGNJ67FQ@pigmoral.tech>
+Subject: Re: [PATCH 0/5] net: stmmac: dwmac-sun55i: Add Allwinner A733
+ GMAC210 support
+From: "Junhui Liu" <junhui.liu@pigmoral.tech>
+To: "Alastair D'Silva" <alastair@d-silva.org>, <netdev@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-sunxi@lists.linux.dev>
+Cc: <linux-kernel@vger.kernel.org>, "Andrew Lunn" <andrew+netdev@lunn.ch>,
+ "David S . Miller" <davem@davemloft.net>, "Eric Dumazet"
+ <edumazet@kernel.org>, "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni"
+ <pabeni@redhat.com>, "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Chen-Yu Tsai"
+ <wens@kernel.org>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Samuel
+ Holland" <samuel@sholland.org>, "Maxime Chevallier"
+ <maxime.chevallier@bootlin.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Jerome Brunet" <jbrunet@baylibre.com>
+X-Mailer: aerc 0.22.0
+References: <20261125130613.4191841-1-alastair@d-silva.org>
+In-Reply-To: <20261125130613.4191841-1-alastair@d-silva.org>
+X-ZohoMailClient: External
 
-On Wed, Nov 25, 2026 at 9:02=E2=80=AFPM Alastair D'Silva <alastair@d-silva.=
-org> wrote:
->
-> Hi Junhui,
->
-> On Thu, 12 Nov 2026, Junhui Liu wrote:
-> > static SUNXI_CCU_GATE_HWS(ahb_msi_lite0_clk, "ahb-msi-lite0", ahb_hws,
-> >                         0x5c0, BIT(16), 0);
-> > ...
-> > static SUNXI_CCU_GATE_HWS(mbus_msi_lite0_clk, "mbus-msi-lite0", mbus_hw=
-s,
-> >                         0x5e0, BIT(29), 0);
->
-> While bringing up GMAC0 on the OrangePi 4 Pro with this v7 CCU series,
-> link-up and DMA broke as soon as clk_disable_unused() ran.
->
-> ahb-msi-lite0 (0x5c0, BIT(16)) and mbus-msi-lite0 (0x5e0, BIT(29)) gate
-> the shared MSI-Lite0 bus fabric used by GMAC0 and other masters, whereas
-> bus-msi-lite0 is only its register configuration clock. Referencing
-> ahb-msi-lite0 and mbus-msi-lite0 only in gmac0 does not model the
-> shared fabric, and gating them off breaks GMAC0 DMA.
->
-> Could you please mark ahb_msi_lite0_clk and mbus_msi_lite0_clk with
-> CLK_IS_CRITICAL, matching ahb_store_clk and mbus_store_clk in this
-> driver?
+Hi Alastair,
 
-The patches have been merged. Please send a fix on top.
-
-If in doubt, you can always check linux-next for patches you are tracking.
-
-> Tested on OrangePi 4 Pro (Allwinner A733).
+On Wed Nov 25, 2026 at 9:06 PM CST, Alastair D'Silva wrote:
+> This series enables Gigabit Ethernet (GMAC0) on the Allwinner A733 SoC
+> and the Xunlong Orange Pi 4 Pro board.
 >
-> Thanks,
-> Alastair
+> The goal is working 1000BASE-T RGMII Ethernet with mainline drivers and
+> bindings. Tested on the Orange Pi 4 Pro with a YT8531 PHY (DHCP, ping,
+> and iperf3 at 1Gbps/Full).
 >
+> Dependencies:
+> This series depends on the Allwinner A733 SoC and OrangePi 4 Pro core
+> bring-up series:
+>   Based-on: <20261125124407.4098345-1-alastair@d-silva.org>
+>
+> Alastair D'Silva (5):
+>   dt-bindings: net: allwinner,sun8i-a83t-emac: Add Allwinner A733
+>     GMAC210
+>   net: stmmac: dwmac-sun55i: Add per-compatible match data
+>   net: stmmac: dwmac-sun55i: Add Allwinner A733 GMAC210 support
+>   arm64: dts: allwinner: sun60i-a733: Add GMAC0 node
+>   arm64: dts: allwinner: sun60i-a733-orangepi-4-pro: Enable GMAC0
+>     Ethernet
+>
+>  .../net/allwinner,sun8i-a83t-emac.yaml        | 136 ++++++++++-
+>  .../allwinner/sun60i-a733-orangepi-4-pro.dts  |  28 +++
+>  .../arm64/boot/dts/allwinner/sun60i-a733.dtsi |  41 ++++
+>  .../ethernet/stmicro/stmmac/dwmac-sun55i.c    | 230 +++++++++++++++---
+>  4 files changed, 389 insertions(+), 46 deletions(-)
+
+There is already a series [1] posted adding A733 GMAC210 support.
+Did you check that?
+
+I think it would be better to add Ethernet support for Orange Pi 4 Pro
+based on that series.
+
+[1] https://lore.kernel.org/all/20260923-allwinner-a733-gmac-support-v3-0-1=
+5735155a789@baylibre.com/
+
+--=20
+Best regards,
+Junhui Liu
+
