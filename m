@@ -1,85 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795729480;
-	b=coieblXar/8drxCRFp1xeFApoPqeyXDW+Nxtt79Hbu7bYaVYA6dTDVHvabTkT3RYS0fa
-	 b5Ul/sLWM0oPpEgkjszPleqBByQwe3jnzZ51XMNgJRpUwM4DY1j7cRQWT24KjTAscyHhM
-	 gl/hfCBtLx+EhnTCXKaB29k7w+XrlRhPNkXpdO0TUxdXUObtqUg6F8IF02+3a0grn6iCs
-	 hE6DEjSfRd1+PfdlojRtz5T1zfQPwl25gQEowgmQ98SECxVydHz6xw44k0a7mkojnIQOo
-	 jHDXLlC2ubcJI3NnUT1zE26ahpDgK7aB8W5Wo3n85fgrBr1Kj8HWtghgyHmkakh2wfw==
+	t=1795729482;
+	b=joeY3jfr7oD9Okm/0cubEv8q/amoy9ey9o2uL4+XNp3i1RE9nPNxqGNZP2irOqWOzXfF
+	 f6zwkgjs5n01M1LvjbKyCcEILf6+M2XzilKo83j5EcgdlEas/fEyZOVcUOaNPm3q0BDir
+	 oFpZlXCJ9r/H1MG59/ibcd77dvbsKA6E5hjnd1pqFscqkNDIQtjoTgKKVdZ9iLrkBz6Cp
+	 PSg/j4ii2miTB+5GM/iW/HES8DwrV9vPDevP8FVzwbxYQx0VjLBjrQ9ho5VYLi0sdmHCB
+	 WIy5mAKsji9n38k4A9zT1tFcrz9Ys/7sJoHEvwTXZgDNZeeZawqLFgYn4xP6GINdOkg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795729480;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795729482;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=cLndCsyaUJbef6+HCqjnikoRIrtmLL/VU/FOWgoJqac=;
-	b=wUtVWbXU9O4M6faqa8CH3VDmMiqorKlIwIr2jhiKTyQ3q13rIyzE8Ucwm8u81tqsMjNQ
-	 z+SVIBfRsXAW2iYgMAgyHJd6q/rdE8qUg4sHEwUcOO+lRp9T790R5q7LQbtWW90AugpuX
-	 z6fCHj6FBCgu0pa5ihp+J4RJ2zGrF1jAk3+qclopsXVQlOEoSUb91e9IReG2CmZjfQFpT
-	 hDjXZ/ZLJL3RCz1R37z2h4BE0Ac4Bfm+IDxmlSKHK25H96F9rlyVfnzeyzo8mMIwNdFYm
-	 skidPKpGmkOQSibO1AyJq3LcQ7hbbB0a82Aw3lzpcYbjSRdDsomehRbfnxapQVDsEEg==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=RUcRI6foYh8f1Ya5l8kqwU8EomhWJwqw637x4+2iJPc=;
+	b=qC184SfYbIPE6U1t+Em43gcPQyueUdIHxU5x5cTo0EtCQKsEMXPCrD0JHUYUHosRzET+
+	 N4i5V8JLXPH++eKqPjaIDsoCP30mbuwKGzUW1RVELPsWGVeIO2TIhRi276VJttG6QJG7J
+	 bQ68znYwvmwuJR4lBLt9hIdCdIstzmhYECLk+3k2ru+7jL/xPMDCd0k5ITztrq6SWJmcN
+	 1zXsAI0U2l7D2iQ1CROP5UvzvNmVyXDEDf3NmURQ8MhCntcPorNqJATCSRfIn/IQf4MN1
+	 3TDxSPbFSzeaDNzefCdM5gUv3+UbIcKhOTtcX2iBYTgdN3Uwe9SO3tMxqF/s23WvcgQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Cc/qlcK4";
-	arc=none smtp.remote-ip=209.85.221.44
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fPGodOOc;
+	arc=none smtp.remote-ip=209.85.221.47
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1705D606A699
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 21:44:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1705D606A699
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27B9606A6A2
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 21:44:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C27B9606A6A2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Cc/qlcK4
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-4a68190a2a7so6319642f8f.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 13:44:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fPGodOOc
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48e20ed3b9dso6585863f8f.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 13:44:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795729478; x=1796334278; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cLndCsyaUJbef6+HCqjnikoRIrtmLL/VU/FOWgoJqac=;
-        b=Cc/qlcK4bJD4/JrLy8Hkoboe6gzL/8iD0RWR6KbpZ5nZHk17eGfOCwfv27edAcCSeD
-         tctQJtgGdwEq0P6SqijFNse704QsmOlJDsW97yNYW9RhjBzbO8kdv2/skVTqay1qVtlF
-         cM6fhZRpi33/12odcO5pIMvilMn4OXzP4bzcYO1JBkxbaj54rnRp6ruuj/HTC95vIhSS
-         bAEVXg6tvtFxfR+mFGw5SSFUZe+vUgiYQtINJTLyaGWZBAedhizNynGMTaVf2kw6o0iY
-         yBztIR6rGL56pntYP2s4ozMpxyg5k8Jgd5uEV8hyBanoCEUE1W7UAouacgu5vtMhBelc
-         sVXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795729478; x=1796334278;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1795729480; x=1796334280; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=cLndCsyaUJbef6+HCqjnikoRIrtmLL/VU/FOWgoJqac=;
-        b=V1Nu3CvfQhFlpJA6TE45XhYRRHX8XgDXtVKLsLC1EnJt5XIQqofe66dIkk0xR4LSTz
-         3tXfR8n4meP6hsAgD71H4YSDu1qZecIcTK+s0OncqPBOUCXRWtHA6zGfvxN+f3nWMZLb
-         UKF5ba3Pp0dgmhEU7UvE7USE8gBw9iCJvoiASTXRhFZ/tfffeaibcwcDiJ6bHX3Va1xF
-         2cBZLCsQrSiMqV2ziW/yM+sda7wZp4KF1G7oIXPgqTwEbJCu/1yioYJda7vy63H/5LjV
-         QM5sTRt81lG/YXmTqrywXifq+lgfNikHMwJYnfIKGf5FFLXp+/YjHKc/sSA+BP5rYIC0
-         R3/w==
-X-Forwarded-Encrypted: i=1; AL+hErEsOx1fJvCpe5BbMu97duUPBmh+fj1sERKu57GqkVSdjkaPDB4C8Aa5BKghzUYYikSrWa4LCGYKr4LKWA==@lists.linux.dev
-X-Gm-Message-State: APuU4Z+4G+PhwrMyuE6mCggrWms66RYLUhjyFLME1RalWZUu1O0+C1i6
-	KvbGwjXJbTrsoyEopDAVvtQkAMxdH8lYWzOrpB1voLgfDgpCbyXHePza
-X-Gm-Gg: AZFdTZcKg79LVnsdB92Y1RJ5ZOtGz87U4YX707KmLEHYPWVilJAIlFEkjv/eOslm4eh
-	YsTUB0x553ou3Aui3W2t0FkgDOYTUeP8G/VGaRzSrnJDihRWRW5mCgh/cQFTjZamYiok3kjtb8q
-	E/8ieCTt5grrDzrsJjdu6h9lMcfL37BMgdOLoqmLslRO8hoKSFJ7J44UdIql4tKPu9eL5zyP2wq
-	0hLjW/0ThEFdrOrenoe1aINIWVjKGvUo9qVFccXPQpk1T5rwXIODu9m37ZFILEzFeoYhMtSoIrM
-	IrypqF/yrlqT03NrjSZyQEYlPUvHaCwVFZPvMgBxpxQECzPtgO/CREPxlJ0Wt+B92wgDmlTh8ja
-	w1rIG1XmEhcB7SrvKj9a3BcHm9gbO27rIGkjr96jQkYLmtY5yz6LY9lW34OAFRSpLFGAb/MSUiz
-	13CVoJTurqO8nLP0zyhVxW0Ip2ZRbylx+P4PNMnAn+j4QMdzXSgnbwuZiNRdcI1zfxrIPJhRUyg
-	QX0kt7GwyZXU7n1Da7Bp6VGzBVoCnW8rgNIkNOiAHz/quaJH99bBzqIuaZM2Ky5ettyVUqEf53C
-	Wyo1GIu8aeg+e7GFVGKKoiLXdl5WW7cnO7Vn//kH/dtpmjcvBHs+HI4jYQokpPq0ZdGiw8E7Y6u
-	rt8cRcu2J26d2eAvO+AJ7pHRhuqKhBkWJAuSnVFE6OgO0SvfEeVHsDnuSrdnHBTA+PlvLUnpbk+
-	jbujq81pzfcu4GXWwJo5nu8qiPFzlqaxNfMJfT+YvK6p0RRAWgmLqEy8Jn0wgJgAfR5ExGVP9+F
-	S0Ho/Tu5umKfgrnfyFfUn/OW2b8pC5hmcLTuOBfaHgTYkDfeCB+anIO3f41He0=
-X-Received: by 2002:a05:6000:2607:b0:48f:bb92:c5a7 with SMTP id ffacd0b85a97d-4abb0c5d665mr44566145f8f.9.1795729478381;
-        Thu, 26 Nov 2026 13:44:38 -0800 (PST)
+        bh=RUcRI6foYh8f1Ya5l8kqwU8EomhWJwqw637x4+2iJPc=;
+        b=fPGodOOcmRxTS/t3OQYns76cKwL0c8gxS6+IYhnTrfvIa0dQdaQPkhWzp+mJ4J1yt4
+         uImxPkmVdZclA6Ie2KIG7WK1CtQDL+ab6nQ6v8Z0nPiASs3UKxxrnGk0zoTdvVu9aK71
+         tznkpp3/x8qQi44X2ivlxtt3sbZljtbzjf9fMUucnvmxZ5cKecFMsYeuBCUAmt7ddEJ2
+         bpC4hE6ncxXnbg2eLbmWYhtCkdx8cw04acZkaUb2xH7ZkjG6U3SMnjzF6Ja5OW/jOYM4
+         kC4MJGugS31BeVKzzgr2CLAIDaU1M/woXoN+LjzCiC/DOv1c4d8qGfxyCJQVI6bcCRv1
+         Igrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795729480; x=1796334280;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=RUcRI6foYh8f1Ya5l8kqwU8EomhWJwqw637x4+2iJPc=;
+        b=sErwMZeBlvLJA0aSg6GmGNTofwRTMfl6Iszy3WMQR58ktiHtucH3hbM+AoI4uOBmVo
+         iAW2wDMfylTd974W6eRaH7d9zNd5QRi7sgrGZheD0zNzFBq9B4YmBc/v6rS4cSD9tbLX
+         hUdJbmGFE/vNf29SctpMCNONGFGKadKVzz1tSwh+lxGQrLDNFpO4tbG8UrKVEs4tW/6l
+         rvrV7r5Dm1W4xFaUOxXBp68Nk2bMDPG7lQXy6Hlry2QhxrpfeyTjhCRWDW/nnnoGh/TX
+         9oNplEWsBTaCxxfiPzx3zFzscp3uGy1FQlFZN4qPcAj1uwbJnWOxyOOiJ7zS8/sfApL+
+         7FZQ==
+X-Forwarded-Encrypted: i=1; AL+hErGUQ9YmMWzgKfH03YFmsNrWhr/7FcS3/rpmnm7M0BpaPbz7cf01PM10pmp93Exbea6p6b/tjQBk4myVYA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8WMdlWTJvi6x5l9xyyLauP9UEkq0fHtaHb4fMJAg13cUKccWso
+	9SIaim729LOY22RiaEfagauqBWyRB3DUAlOzdyQu8pYr+pJaSWfE6VIU
+X-Gm-Gg: AZFdTZecmlmO4/SlKYCfCBOZe91wSmYT2RwU2hKAvOHZ/tDxqljGLu4OK/k6HcbOJJa
+	fjX5PaMVWlfP3yh3Fw9q+gHCVKg/WOHXwkcao03uYgSyhBvseE8rT6NjaDk96NX6eTNeTVC/cba
+	nvJwgAAJYdOUEtzfBzkl/uj4uEewLAuOuMlyIvHIJqHhCnfHxkMzPrIbbyF6R7Mlba+biduJxyF
+	QTGWkW8yAEl0Yo/qMQYsETwCwUsgGtpD1067kfqdK3FEAXQRiWJBONoWHucySarQZoFpAO5R1EY
+	Ye6O1jx/6g0AmqcQvf4JUdgZZDx01IG0+qiU2DoIJedu0dvmsWeHYxv6OZ415jBtesJnDujx6Ud
+	+pFvA1jNV7G8ZE0PESPKwo+bxsGhYiDmxuDQhdBzVgVaR3GgCAtt/LOhrUe19dXCx3MWVPe8o6/
+	ZWVWOJ5xiNCZP092hpiZSbVVYCbggJ2U2rfBxTntJrG8rzSSUE54aGhdlsPfUJ8MBhADi1t7IMu
+	kr1SAkGhRuhLJ97yv6RVYsPP+ljI9lxt5Px2REvAnmdSEZlhCqEfTEKQTRNwsisVT7/j2dQI7VI
+	+R0w8fFih3dueK2BSJSnVHjcCgTgNXCPy1J9MwV4eNJObets6nf4q3+3vLwyYd/nxoYjSMab8WW
+	ZU2IiwxP9LlpYNteqF9yCjTB1ZTQGcbPr0TuOHQbmrU3y0PC29IxZuVjDeJubu4Ulh4SP714X4R
+	KkRKAIo0xQs/OYevIvS+Sm2/5nJ/8jbPIixariUR1pwgyVOQ5eonM+MZmj+vsTGE1w4ZfSF++NV
+	h7rin+ForC6et/pG7Mm3+oEkmJHnyVh7sad5vXsfcE=
+X-Received: by 2002:a05:6000:2997:20b0:4aa:d196:f325 with SMTP id ffacd0b85a97d-4abb7f2ee9dmr30913744f8f.40.1795729479959;
+        Thu, 26 Nov 2026 13:44:39 -0800 (PST)
 Received: from jernej-laptop (77-38-7-250.dynamic.telemach.net. [77.38.7.250])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4abbd84e661sm40403963f8f.18.2026.11.26.13.44.36
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4abbd84e661sm40403963f8f.18.2026.11.26.13.44.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 13:44:37 -0800 (PST)
+        Thu, 26 Nov 2026 13:44:39 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: Chen-Yu Tsai <wens@kernel.org>,
 	Samuel Holland <samuel@sholland.org>
@@ -99,10 +100,12 @@ Cc: mripard@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 00/11] drm/sun4i: Add H616 display pipeline support
-Date: Thu, 26 Nov 2026 22:44:22 +0100
-Message-ID: <20261126214433.3562326-1-jernej.skrabec@gmail.com>
+Subject: [PATCH 01/11] dt-bindings: display: sun4i-tcon: Add R40 TCON LCD
+Date: Thu, 26 Nov 2026 22:44:23 +0100
+Message-ID: <20261126214433.3562326-2-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261126214433.3562326-1-jernej.skrabec@gmail.com>
+References: <20261126214433.3562326-1-jernej.skrabec@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -114,78 +117,52 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series adds the remaining bits for the H616 display pipeline:
-TCON TOP, TCON LCD (R40 style) and TCON TV support, HDMI PHY, display
-engine compatible, DT nodes and HDMI enablement on several boards.
+R40 TCON LCD is similar to the A83T one: it has a TCON clock, which it
+also provides as pixel clock, and separate LCD and LVDS resets.
 
-TCON LCD support also covers SoCs with the same die and full LCD
-outputs, like T507: both TCON LCDs share one LVDS reset, so it is now
-requested as shared, and TCON LCD1 programs the second LVDS PHY. TCON
-TOP now also routes LCD TCONs to the LCD pins explicitly. Dual
-link LVDS is not supported by the driver yet. As on R40, only two of
-the four TCONs can be enabled at the same time, since there are two
-mixers.
+Add a compatible for it. H616 TCON LCD is compatible with it.
 
-HDMI PHY tables follow the BSP: PLL settings per TMDS clock band, like
-on H6, and BSP specific values at CEA clocks, including their 1000/1001
-variants.
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ .../devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-The series is based on linux-next, since DT patches touch boards which
-were changed in sunxi dt-for-7.5.
-
-Tested on T95 Max (X96 Mate DT) with a 4K monitor and with a HDMI
-capture device: picture captured and checked at 25.175, 27, 40, 65,
-80.14, 88.75, 108, 119, 148.5, 178.2 and 297 MHz. 4K60 at 594 and
-593.41 MHz shows a clean picture on the monitor, which reports
-scrambling, lock and no character errors over SCDC (channel 0, the only
-one it reports).
-All capture device EDID modes set and checked twice, plus 15 hotplug
-cycles.
-An earlier version of these patches was tested on MYD-YT507H (T507)
-with an LVDS panel on TCON LCD0 and HDMI working at the same time.
-Shared LVDS reset and TCON LCD1 (second LVDS PHY) changes are build
-tested only.
-
-Best regards,
-Jernej
-
-Jernej Skrabec (11):
-  dt-bindings: display: sun4i-tcon: Add R40 TCON LCD
-  dt-bindings: display: Add H616 display engine compatibles
-  drm/sun4i: Add support for H616 TCON TOP
-  drm/sun4i: tcon: Request LVDS reset as shared
-  drm/sun4i: tcon-top: Route LCD TCONs to the LCD pins
-  drm/sun4i: tcon: Add support for R40 LCD
-  drm/sun4i: Add H616 TCON TV support
-  drm/sun4i: Add support for H616 HDMI PHY
-  drm/sun4i: Add compatible for H616 display engine
-  arm64: dts: allwinner: h616: Add display pipeline
-  arm64: dts: allwinner: h616: Enable HDMI on several boards
-
- .../bus/allwinner,sun50i-a64-de2.yaml         |  20 +-
- .../allwinner,sun4i-a10-display-engine.yaml   |   4 +-
- .../display/allwinner,sun4i-a10-tcon.yaml     |  11 +
- .../display/allwinner,sun8i-a83t-dw-hdmi.yaml |   4 +
- .../allwinner,sun8i-a83t-hdmi-phy.yaml        |   1 +
- .../display/allwinner,sun8i-r40-tcon-top.yaml |  33 ++
- .../dts/allwinner/sun50i-h313-tanix-tx1.dts   |  30 ++
- .../allwinner/sun50i-h616-orangepi-zero.dtsi  |  25 ++
- .../allwinner/sun50i-h616-orangepi-zero2.dts  |   5 +
- .../dts/allwinner/sun50i-h616-x96-mate.dts    |  30 ++
- .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 420 ++++++++++++++++++
- .../allwinner/sun50i-h618-orangepi-zero3.dts  |   5 +
- .../sun50i-h618-transpeed-8k618-t.dts         |  30 ++
- .../sun50i-h618-yuzukihd-chameleon.dts        |  30 ++
- drivers/gpu/drm/sun4i/sun4i_drv.c             |   1 +
- drivers/gpu/drm/sun4i/sun4i_tcon.c            |  67 ++-
- drivers/gpu/drm/sun4i/sun4i_tcon.h            |   2 +
- drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c        | 170 +++++++
- drivers/gpu/drm/sun4i/sun8i_tcon_top.c        |  15 +-
- drivers/gpu/drm/sun4i/sun8i_tcon_top.h        |   3 +-
- 20 files changed, 895 insertions(+), 11 deletions(-)
-
-
-base-commit: 3dd8c790a7b7027abdd568e36db5e82ffaea7c77
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+index 724d93b9193b..05ed4ddcff3a 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+@@ -29,6 +29,7 @@ properties:
+       - const: allwinner,sun8i-a33-tcon
+       - const: allwinner,sun8i-a83t-tcon-lcd
+       - const: allwinner,sun8i-a83t-tcon-tv
++      - const: allwinner,sun8i-r40-tcon-lcd
+       - const: allwinner,sun8i-r40-tcon-tv
+       - const: allwinner,sun8i-v3s-tcon
+       - const: allwinner,sun9i-a80-tcon-lcd
+@@ -231,6 +232,7 @@ allOf:
+           contains:
+             enum:
+               - allwinner,sun8i-a83t-tcon-lcd
++              - allwinner,sun8i-r40-tcon-lcd
+               - allwinner,sun8i-v3s-tcon
+               - allwinner,sun9i-a80-tcon-lcd
+               - allwinner,sun20i-d1-tcon-lcd
+@@ -280,6 +282,7 @@ allOf:
+               - allwinner,sun9i-a80-tcon-lcd
+               - allwinner,sun4i-a10-tcon
+               - allwinner,sun8i-a83t-tcon-lcd
++              - allwinner,sun8i-r40-tcon-lcd
+               - allwinner,sun20i-d1-tcon-lcd
+ 
+     then:
+@@ -297,6 +300,7 @@ allOf:
+               - allwinner,sun8i-a23-tcon
+               - allwinner,sun8i-a33-tcon
+               - allwinner,sun8i-a83t-tcon-lcd
++              - allwinner,sun8i-r40-tcon-lcd
+               - allwinner,sun20i-d1-tcon-lcd
+ 
+     then:
 -- 
 2.43.0
 
