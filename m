@@ -1,46 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795713785;
-	b=tSWGXVXIadbdvwvcWlVpqbMoC4ThN63x8Qz3xr8uKOL1e633WL+Hxqy+AYgJH00XIBVd
-	 PpkUGzZS+CF5XJqu87sKZj2yqoE41KINWNKScv9ZQYNBA7NodImXgSvJp6pXZYlSWZBmq
-	 F7gUVKPjhs7sJpOOVjr9V6ayQrRwoY8PsgX5+5QLBNfEfW1MCTSWkdSSGj2gr5vXxeJ9w
-	 F1iRC+dU/6nMf93GkAC7xPv9q/KzZCjc/XZsEuiI6J3myJUBEN/Ism9qKf6St0YM+zwkH
-	 DftHiH+RTpnfdSzQ4lEHTMqYaJXEvhnPrbiTQQp32s8MZZ1JomM4R7bBGSqj2bOSKPw==
+	t=1795713788;
+	b=H3l6VhoElpwptA4B006PPXuenVXPyiUdU9YLB0n8Ku/KQI4Fi2idpNlkkYxzROM+maAq
+	 ZbBIliDb3wbIZBh6XbZrVKAbwEivxiiMeF433w45IwdKGD+X90hAhB2mbAtV77uVY9a4T
+	 zo7yJi9uEKBDP1xx0TsPXxUlQnd+4xWRpN+gj9DHXeK0aP5UT2Gzl5r7DDrzCmSSLyABo
+	 JcTETYkzMolC3fx+qDoePV7ns7kCoes76dSANNplDQRL55+S74e0hocEG5/IKHPeI6Miq
+	 XnVlDeEli8+Ft1OuDxNTmVplCJfdkrFkeZ0Ndu+xoxf4lFho61N8iulgpSnOzSCxOeg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795713785;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795713788;
 	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=AazhS24I/7MuMOkh0TY7pWo5KAGFVFjGku5DM2Pt/BA=;
-	b=mg1d1bxsXy+fjj0Rt0PBcWA+zrqBwxXQYWmK08OSkttt9iIUUBsQGOcFKeDG8h82YmuQ
-	 ZFRi8pmXk3OViBsmvY5ALtToH2nqxD84p62HqdFSy3bpG350TmozuleR9LbPaoCg3oisS
-	 Un61QtbYDkYtYsNMrIf/iC4mICRu2gv46nRDDfBVJQCIPfFTeTjpeGxVTJV+lt29nPLAd
-	 I2BUE6Af+5tesAZrCysCvEHssRTAMkJSC2iSkf3PKQJiTHyjAJ0OrWrlgEAb5AKRvvyGI
-	 tGPSssMeSqNvpLYbwCpEonOEGLdgoNqXE02AgAz+NNhrYx8ZuZn9s6o6IoP/Y4VjxGw==
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=dLkNPiv/xl+P6umWyR3G+hlZbr8X7kcPVrM7p4myao0=;
+	b=ibhf1Dje17IyB8YYjBmLWc19bKoK/DPu6bC9tm2P3N+BE9lBlXTjcI/sR1OuKQcWMffj
+	 pi+548fRMXA7xMUYWhVOv2uNrJTKVkZI6ye6Ir6W8vI+uESGAB/uklr4H7pG70eOXISnn
+	 BwAZ4wh3hB8VagTa/SX16/aut/bPtKuhDPBoy4ovEzLAz57A7MTf1HyYtkKl4zc5KyzOl
+	 aBdQQGUWi8megKL8NviOH39G92WAnQY05ipd12Yky/EE9e+mjboLDNi7F3+sTVmMO9vDg
+	 8fYUcoPAVWKd5NkOB8X7mNOngtiLAfxvALVDQ1bxTYKf/iqswOdYK+WU5v3G9ThQPXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arm.com;
 	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=T2BEv0v4;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=A6Fv5VIS;
 	arc=none smtp.remote-ip=217.140.110.172
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 037AB606A31E
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 17:23:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 037AB606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E959606A329
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 17:23:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E959606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=T2BEv0v4
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=A6Fv5VIS
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 562CA1BA8;
-	Thu, 26 Nov 2026 09:23:01 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A7861C2B;
+	Thu, 26 Nov 2026 09:23:05 -0800 (PST)
 Received: from e142021.manchester.arm.com (e142021.arm.com [10.33.50.35])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B8CD03F632;
-	Thu, 26 Nov 2026 09:23:00 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 91FDC3F632;
+	Thu, 26 Nov 2026 09:23:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795713784; bh=ijv/jqvo5qY8ee8OXFhmAq8F26CDUX03x4X4GgLtBiI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=T2BEv0v4xCvvpktZYfwPdzScfkP5S8lUNLojcxTQJzrRj3V3wx+NZtgnWawxisl9/
-	 pTypmHyImALeo5sYPgA2jhp/716j6vDY+oioE0H2KRD8hf0pQYtxYdJvd1wtIY6Zu/
-	 v9J12xwfMjIEdG0IPxMkjI6/meao1kZdWbF7jNSw=
+	t=1795713787; bh=UW0HYlQy3YHqOrhT+H8MjwdGt+BCMyK7r7KTgbmojD4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=A6Fv5VISVzg+Oz5+JGSGNdmUl7cufPYWJW2/p60njZlDwyLdfcAucKu3i5pxV4rDb
+	 CZ8LD3C1SsKElpB2x4pUBQUPPLI4WQYqFV7fp2MHUkunbuLhlRCO8w300sK10CcmTY
+	 wOXWtcKlEeZ5e1YNlelDHmD9us4YyLOpxwNhkYlE=
 From: Andre Przywara <andre.przywara@arm.com>
 To: Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -56,10 +57,12 @@ Cc: devicetree@vger.kernel.org,
 	Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
 	Pablo Mazzini <pmazzini@gmail.com>,
 	Enzo Adriano <enzo.adriano.code@gmail.com>
-Subject: [PATCH 0/2] arm64: dts: allwinner: add Radxa Cubie A7A board
-Date: Thu, 26 Nov 2026 17:22:51 +0000
-Message-ID: <20261126172253.1097838-1-andre.przywara@arm.com>
+Subject: [PATCH 1/2] arm64: dts: allwinner: a733: add r_i2c1 pins
+Date: Thu, 26 Nov 2026 17:22:52 +0000
+Message-ID: <20261126172253.1097838-2-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261126172253.1097838-1-andre.przywara@arm.com>
+References: <20261126172253.1097838-1-andre.przywara@arm.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -71,43 +74,34 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+The Radxa Cubie A7A board connects an external RTC chip to the R_I2C1
+pins (S_TWI1 in the schematic).
+Add the pinctrl subnode to the secondary GPIO controller, to allow using
+those pins in a board .dts.
 
-this short series adds a devicetree for the Radxa Cubie A7A single board
-computer. It's based on Enzo's basic A733 .dtsi and Cubie A7S series,
-plus the other required binding patches, which are partly still in flight.
-Patch 1 adds some I2C pins to the .dtsi, as the board connects some
-external RTC chip there.
-Patch 2 is the actual .dts, supporting just a very basic system - the
-system peripherals like GIC and timer, plus the PMIC, SD card and the
-UART. USB and Ethernet should be easy to add, though binding patches for
-them are still in flight.
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Tested on the board, with MMC including card detect IRQ working, also
-the LEDs behave as expected. The EEPROM could be read via the sysfs
-interface. The I2C-attached RTC probes, though I couldn't really use it,
-as it reports an invalid calendar format. For booting, I needed the
-sunxi/for-next kernel, plus the pinctrl fixes and the AXP318 patches.
-
-Ideally this series should become part of Enzo's DT series, to avoid
-unnecessary churn and avoid conflicts: patch 1/2 should be squashed into
-the .dtsi, and patch 2/2 just added to his series.
-
-Please have a look!
-
-Cheers,
-Andre
-
-Andre Przywara (2):
-  arm64: dts: allwinner: a733: add r_i2c1 pins
-  arm64: dts: allwinner: add Radxa Cubie A7A board
-
- arch/arm64/boot/dts/allwinner/Makefile        |   1 +
- .../dts/allwinner/sun60i-a733-cubie-a7a.dts   | 385 ++++++++++++++++++
- .../arm64/boot/dts/allwinner/sun60i-a733.dtsi |   7 +
- 3 files changed, 393 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7a.dts
-
+diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
+index 8a258f16751e6..fe1abee701310 100644
+--- a/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
+@@ -585,6 +585,13 @@ r_i2c0_pl_pins: r-i2c0-pl-pins {
+ 				function = "r_i2c0";
+ 				allwinner,pinmux = <2>;
+ 			};
++
++			/omit-if-no-ref/
++			r_i2c1_pl_pins: r-i2c1-pl-pins {
++				pins = "PL12", "PL13";
++				function = "r_i2c1";
++				allwinner,pinmux = <3>;
++			};
+ 		};
+ 
+ 		r_uart0: serial@7080000 {
 -- 
 2.43.0
 
