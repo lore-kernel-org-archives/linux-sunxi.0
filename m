@@ -1,49 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795655133;
-	b=tOb34Z6F5R4HFXenGQw8stfFdC6YpJAwlLSRHHy18RmnDwsaQ+rndu9O4tnIX7okTUGA
-	 7S68XggRU+h3Z5hOAYQ1mFpfovAXgmegG2nmWQg2NDt/xZpEuLU2hEsqsPy+pCFuuLgVD
-	 ccUICin0u6cYLtlU0cOcoguAvM7iHYwhi58zwQOPodfIwa65US+K0VqCd3AZ/GLgVWWkA
-	 n9uRqSwnH2m8IgSmVKBuEz8t1nrOTQmoC10aJ9VgIlwSuO0EyKNBfY2ChuqCn6xUSQWFl
-	 0g7Ys3kRpkya9zF93cGf0QgspGVynXFgscipAjZb7XLYsPH+AGAmLAxGlSrpwsdma3g==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795655133;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=qRpQAEjbRWH0r5g7MXwq/UpiaEON6BpLBkYKni8ayh0=;
-	b=Omht/PNgbMGwLdbjEdkh/PhsjOsRAiLbV+oKzhQsszXvEmB/oAynWuifVuntqb3u7OeN
-	 sC1hGANawVsHKa+52rSdbhQ4h0V9UbIcagIoPw0baczI79FSXjJYnhOcCQkVDdhpxtVle
-	 a3c/isx9UYqpnFzf5yCSMoDG8S/mt6N87mrsPAzZ30Beu+Wg9tncvfsg8tjiWHQIHs3Ku
-	 LVHHT0PJGE3fx6LnZGYbeGJmLUdbTU5dz1/95cYwc/LvBRUwCZonJCu2OtdJV61BdtkcD
-	 YdGz3O+P3XQZNiTFexTiteZ3z+4lUVV9yj5uICH30eSIkk9/cvnKIBrmg7bTILs///g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="N6/cYmSL";
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCC61606A321
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 01:05:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DCC61606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.12
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1795663230;
+	b=3jhE7SGLUplVOEamszq4JhbpJR1SJZNb2d79Bse6QQNjOmkFGO1YfmrTKb9iPJwwSftq
+	 nJx2wUz0ZXwM/mfs3WEmBJvMNsLrLNkZwb8I6eRX4KA9CYVSYT3kBZqggfcRr2xq/cYU1
+	 flp8TOorTuCIt6FjYHM1AO68um3tmV0X9rktNHCpxJUEA+rRYQCj04xjYHymnRT8Ul/21
+	 1KeG5Q8Tn2WK5JCK7yKoP5KAhSuFraym9wD/MTwQOUndnkdWqUbukFLFAIn6LJeIkcN2l
+	 x9+I8dLiV+l0ppHb+wEPOyF+dQ5YtUyOfJl6wAGGB5Lwv0ONAl9+J717RrhAy09074Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795663230;
+	h=DMARC-Filter:DKIM-Signature:Received:Mime-Version:
+	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:Subject:
+	 From:To:X-Mailer:References:In-Reply-To:X-ZohoMailClient;
+	bh=wl1zFrlH173HoV75rMT0wWjqW6vBAlxFdSbEFwWvJuI=;
+	b=vnUgsTBiElSLiiuBJNDE8FVs67UMQWx0QpCjPFAVEQKW62jQbY5f0TSUX63jbIfZ4ZHN
+	 fdOkdB7Cmb+nKe/yqzEQG4ssFnyRp8k8vvkt2HXt8QsSrU5mPkeT5hEVzlEMihJeMXWn7
+	 yVuTyxC/28jfeUfHM76QtS5LQrpghyGssAG2HCcRxsygy/w+T8NL4I0u0+/V/llKSu+t9
+	 4+jvUyVX/rQF2/MdBrZEyPEZPqmvzrD24YZlXI4Ta76Ao364wWUx7JV7p+NINXhdcMJIA
+	 RbpBCoof0p3kLFz3TK3VY7LW9ceMlT8U6/Nlr3TfJZvnzn/etFEnDEhjJzy+qP54PRQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=pigmoral.tech;
+	spf=pass smtp.mailfrom=pigmoral.tech;
+	dkim=pass header.d=pigmoral.tech header.i=@pigmoral.tech header.a=rsa-sha256 header.s=zmail header.b=FAvk0CBL;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.12
+Received: from sender6-op-o12.zoho.com (sender6-op-o12.zoho.com [165.173.180.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F1B606A321
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 03:20:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B9F1B606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pigmoral.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pigmoral.tech
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=N6/cYmSL
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9813E1596;
-	Wed, 25 Nov 2026 17:05:28 -0800 (PST)
-Received: from [10.43.3.73] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1607E3F632;
-	Wed, 25 Nov 2026 17:05:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795655131; bh=c+M9C5R7IaV7aTw3Nf4cb/CDqUlPqYRMkhd7EMv4HRE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=N6/cYmSLbhG8aliXW5w93tk/mDSePs79g3T6DAWxzmaBtF1T9+ukEJ9KcOKSjFFAp
-	 wqBqXz98NcEPqU/u38jc3cAr5Vi78JmQxnJr88UpJH8Ek1S46gl98t4jNIjLsuIqwO
-	 ocCXR0LLLC3UISJ111FRB67rAB5HOWvaPfnjtpUY=
-Message-ID: <0750993c-1f37-46e1-884d-a4d2cffc76f7@arm.com>
-Date: Thu, 26 Nov 2026 01:05:26 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=pigmoral.tech header.i=@pigmoral.tech header.a=rsa-sha256 header.s=zmail header.b=FAvk0CBL
+ARC-Seal: i=1; a=rsa-sha256; t=1795663192; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=e4FII9bZdXIdBe8LYq4IGbMGRvCRAqDjcHw9c8PyTsCwtiVOHVX5/o5BFvRZq0JzdHw4je5tOQNaP8jVIjuVYUPUqGGHM2gbGyvBK9FyNT8Kycg4BOOHwfPE7RnxlVPqV/ZCxlxkMgRkxdSOsnV7mkREAb/knXDALPMCKk0t7ks=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1795663192; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=wl1zFrlH173HoV75rMT0wWjqW6vBAlxFdSbEFwWvJuI=; 
+	b=UUDe5cwvt/PXWuIAvUf7gV10dD720xJ276dIrDwnydvX0vcdz39b+TOiVIzKwtv0rWTBNc/hcSoszBNxJ9fhCrI6J3p/WVjxBu6hbPq+8o10JwFbnn0+/tb2RocfO8quJzYOua2SEEyGmP2fsWdF29PJKqhh0Ky4UKSiB+zECkA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=pigmoral.tech;
+	spf=pass  smtp.mailfrom=junhui.liu@pigmoral.tech;
+	dmarc=pass header.from=<junhui.liu@pigmoral.tech>
+DKIM-Signature: a=rsa-sha256; b=FAvk0CBLjnz+CVdmsl7/q3o4Fp2VSiuJJI4sTMUqqnfWurQhA1S0J/y6uFnL1wO8PJypOYhxEbmZYB28yoWSeEefIUxMG+jv39r2SBJ8lcFiQVUpBH0wno0yeu97zQDXIRopUT3Fgb/Kqtzd5SFHi9F9OFc6dMwE2FASRbwLjHQ=; c=relaxed/relaxed; s=zmail; d=pigmoral.tech; v=1; bh=wl1zFrlH173HoV75rMT0wWjqW6vBAlxFdSbEFwWvJuI=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
+Received: by smtp.zohomail.com with SMTPS id 1795663189418348.39520229037566;
+	Wed, 25 Nov 2026 19:19:49 -0800 (PST)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -52,101 +55,99 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] arm64: dts: allwinner: a133: Add KickPi K5C
-To: rajanyadav0307@gmail.com, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Paul Kocialkowski <paulk@sys-base.io>
-References: <20261120-k5c-dt-v1-v1-0-d9681df67bc0@gmail.com>
- <20261120-k5c-dt-v1-v1-4-d9681df67bc0@gmail.com>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20261120-k5c-dt-v1-v1-4-d9681df67bc0@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 26 Nov 2026 11:19:39 +0800
+Message-Id: <DN4TH0CNAM11.2OA7W5L11W78S@pigmoral.tech>
+Cc: <linux-clk@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ "Andre Przywara" <andre.przywara@arm.com>, <netdev@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-riscv@lists.infradead.org>, "Jerome
+ Brunet" <jbrunet@baylibre.com>, "Enzo Adriano"
+ <enzo.adriano.code@gmail.com>, "Norman Herms" <dockseed@proton.me>,
+ "Vinicius Pedrosa" <vinicius.eduardo.pedrosa@gmail.com>
+Subject: Re: [PATCH v7 4/8] clk: sunxi-ng: a733: Add PLL clocks support
+From: "Junhui Liu" <junhui.liu@pigmoral.tech>
+To: "Alastair D'Silva" <alastair@d-silva.org>, "Junhui Liu"
+ <junhui.liu@pigmoral.tech>, "Stephen Boyd" <sboyd@kernel.org>, "Brian
+ Masney" <bmasney+clk@redhat.com>, "Jerome Brunet"
+ <jbrunet+clk@baylibre.com>, "Chen-Yu Tsai" <wens@kernel.org>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, "Samuel Holland"
+ <samuel@sholland.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Philipp Zabel" <p.zabel@pengutronix.de>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Alexandre Ghiti" <alex@ghiti.fr>, "Richard Cochran"
+ <richardcochran@gmail.com>
+X-Mailer: aerc 0.22.0
+References: <20261112-a733-clk-v7-4-db7c5451ffa2@pigmoral.tech>
+ <20261125122452.3966873-1-alastair@d-silva.org>
+In-Reply-To: <20261125122452.3966873-1-alastair@d-silva.org>
+X-ZohoMailClient: External
 
-Hi,
+Hi Alastair,
 
-On 11/20/26 08:22, Rajan Yadav via B4 Relay wrote:
-> From: Rajan Yadav <rajanyadav0307@gmail.com>
-> 
-> The KickPi K5C is a single board computer with an Allwinner A133 SoC.
-> Mainline Linux has no support for it yet; its factory firmware runs a
-> vendor Linux 4.9 kernel. Add a device tree for PCB version V1.3, which
-> has:
-> - 2 GB DDR3 DRAM, 8-bit eMMC (HS200) and a micro SD card slot
-> - an X-Powers AXP707 PMIC, which drives VDD-CPU from DCDC2 and DCDC3
->    in dual phase mode
-> - a HYM8563 RTC on I2C3 (PH12/PH13)
-> - power input through a 12 V DC jack or the USB-C port (5 V)
-> - two USB-A ports behind an on-board USB hub on USB1, whose power
->    switch is enabled by PL8
-> - a blue status LED on PL10
-> - the debug UART on PB9/PB10
-> 
-> The regulator assignment and the pins come from the board schematic
-> (V1.3) and were checked against the vendor's device tree and on the
-> board. The pin bank supplies are the same as on the Baijie HelperBoard
-> A133. All tests were done with the board powered through the USB-C
-> port.
-> 
-> Mainline has no binding for the AXP707. Its chip ID register reads 0x51,
-> which U-Boot's AXP803 code accepts, it works with the AXP803 driver, and
-> the vendor device tree also describes it as an AXP803, so the PMIC node
-> uses the AXP803 compatible.
+On Wed Nov 25, 2026 at 8:24 PM CST, Alastair D'Silva wrote:
+> Hi Junhui,
+>
+> On Thu, 12 Nov 2026, Junhui Liu wrote:
+>> static struct ccu_nkmp pll_ref_clk =3D {
+>> ...
+>> };
+>> ...
+>> static CLK_FIXED_FACTOR_HWS(sys_24M_clk, "sys-24M", pll_ref_hws, 1, 1, 0=
+);
+>
+> While testing this v7 series on the OrangePi 4 Pro (24 MHz HOSC), ttyS0
+> switches from earlycon to garbled output with:
+>
+>   2500000.serial: ttyS0 MMIO32:0x0000000002500000 (irq =3D 414, base_baud=
+ =3D 1384615) is a 16550A
+>
+> Because the hardware bypasses pll-ref (0x02002000) when HOSC is 24 MHz,
+> sys-24M physically runs at 24 MHz from HOSC, while pll-ref remains
+> disabled with reset/unprogrammed N=3D12, M=3D13 fields. Since
+> ccu_nkmp_ops.recalc_rate() computes parent_rate * N / M regardless of
+> the enable bit, pll-ref reports 24000000 * 12 / 13 =3D 22153846 Hz.
+>
+> sys-24M, apb-uart, and bus-uart0 inherit 22153846 Hz instead of
+> 24000000 Hz, so 8250_dw calculates base_baud =3D 1384615 (instead of
+> 1500000) and programs divisor 12 instead of 13 (+8.3% baud error).
 
-... as on every other A133 board, so please drop the lengthy explanation.
+Thanks for testing and reporting this. This is indeed a problem. I had
+assumed that PLL_REF would be used on all boards.
 
-> Not described yet:
-> - Ethernet: the board has a Maxio MAE0621A PHY, which needs a driver
->    that is not in mainline yet
+I also tried manually disabling or bypassing PLL_REF on my Radxa Cubie
+A7A, but have not yet managed to establish a working bypass
+configuration... I currently suspect that the selection is handled
+automatically by the hardware, but this needs further confirm.
 
-Is that so? In the v1.3 schematic that I am looking at, it shows a 
-Realtek RTL 8211F, and also the board pictures on the KickPi website 
-clearly show a Realtek logo on the chip next to the magnetics and the 
-Ethernet socket.
-So what is going on here?
+>
+> If pll-ref is disabled/bypassed (or if sys-24M is physically fixed at
+> 24 MHz as the comment describes), either pll_ref_clk needs a recalc_rate
+> that returns 24 MHz when disabled/bypassed, or sys_24M_clk should not
+> inherit an unenabled pll-ref N/M ratio.
 
-And besides, even if you have a Maxio PHY: how is this clocked? Does it 
-have an external crystal oscillator? Or is it clocked via some PWM / 
-clock fanout pin from the SoC? Only in the latter case you need the PHY 
-driver, with a crystal it should work with the generic clause22 
-compatible string. Once we get a driver, the code will auto-detect the 
-PHY ID and use that driver, for a potentially improved feature set.
+The issue may affect not just sys-24M, but also the downstream PLLs.
+According to the vendor SDK, their control registers have a PLL_FREF_SEL
+mux at bit 24, selecting between HOSC and REFPLL. The driver currently
+models these PLLs as having PLL_REF as their only parent, so their rates
+could also be calculated incorrectly when they actually use HOSC. We
+should model those muxes as well.
 
-Cheers,
-Andre
+However, my A7A, A7S and A7Z boards all use 26 MHz crystals, so I cannot
+properly validate the 24 MHz case until I get a board with a 24 MHz
+crystal. In the meantime, if you have a fix in mind, please feel
+free to send a separate patch.
 
+>
+> Tested on OrangePi 4 Pro (Allwinner A733).
+>
+> Thanks,
+> Alastair
 
+--=20
+Best regards,
+Junhui Liu
 
-> - the Wi-Fi/BT module (VS6621S40, Seekwave SWT6621S) on MMC1: there is
->    no mainline driver for it, and in my tests its SDIO card did not come
->    up after a cold boot, so the slot is left out until that is understood
-> - USB data on the USB-C port (USB0): the vendor's firmware uses it as
->    a peripheral port, but I could not test that yet
-> - the RTC alarm interrupt on PB8: first tests pass, and it will follow
->    in a separate patch after more testing
-> - display, camera, audio, the IR receiver, the fan header and the
->    battery connector
-> 
-> The CPU uses the A100 OPP table, like the other A133 boards today.
-> 
-> Claude Code (Anthropic) drafted this device tree and its message from
-> the schematic, KickPi's documentation, the vendor device tree (as a
-> reference for values only) and my board measurements; I reviewed it
-> and tested it on a KickPi K5C.
-> 
-> Suggested-by: Andre Przywara <andre.przywara@arm.com>
-> Link: https://lore.kernel.org/all/d4d89cf9-884d-424b-927d-5b6692f50327@arm.com/
-> Signed-off-by: Rajan Yadav <rajanyadav0307@gmail.com>
-> ---
->   arch/arm64/boot/dts/allwinner/Makefile             |   1 +
->   .../boot/dts/allwinner/sun50i-a133-kickpi-k5c.dts  | 228 +++++++++++++++++++++
->   2 files changed, 229 insertions(+)
-> 
