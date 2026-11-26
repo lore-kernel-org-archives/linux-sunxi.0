@@ -1,108 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795725228;
-	b=0Dvyd7/Zw4Ar7P+iQztlnc16RwHyMmHKoFaCydWLGTJqpPD8wVqlKNCp63DXFh2ln7RH
-	 UZDQbbgltzbI9j9eDNhH+9eKmxcTFwUP1HcTPyrYEo9k+T6Ygp9GkMwP2n28F71nwMu2b
-	 CNRPwx6BwtHyCYEyXFps7ORjnQyy6v6Dn+lFxNRKFMUCxTkrWe9/rtlsHiUeRZP4edHT9
-	 3kOrkS/FEQsvD0b18Z5tayB1raRKtLnNHWAMw0GsmWjO24LeDe0B10Dh3VR01kFo2m6Hb
-	 pkqETqyrDAqCAyIWNY0eR6xSqdeL2SGqxbcv+lTClIBfBm5F787og+IcjswJiSXBNog==
+	t=1795725235;
+	b=UIMFlxWZF3aJMDWB+2UcoUaTv95X2SypoL8zAPqx8wGca090Mb5nTVaLId2B2hviSAWC
+	 8YHRtOiflTNCAcj5mEDVujPysWJHPWAovLGRNBTCcjJtcMG4Uanez0Foslyy1Gn6+54Sh
+	 1I8AYg3NW/kZtec5Yiiez85VgxFOPWTvbSfdLLnpIV8IBRd8TeM86SW6FglxLi61K44y5
+	 H1meitllqvgBPITGybGu6Rrpt9EUM9jl7/kZytzvzRZitM/5SO06Ivod8DE55HiXPEx1o
+	 2TlUyjB0Q8F44Enu2jDsq+6LtE+/rllGyye5pv+Z4lhi55wEgYV7Wdb6EQ6QTj2cvrQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795725228;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795725235;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 Content-Type:MIME-Version:Content-Transfer-Encoding;
-	bh=PPjhTscMvfM24X1rYGzlpf74+Z30vVLRif1XyUXWgAY=;
-	b=ymxtejJ9+ZUBeeHmBKgJf/3Vi0v/eqkhXQABNSMjF4kRwVCiPzLRcP6/IjJt5z0dTUMm
-	 GcfapsUmmFuUaV3ezUnD1WJS4nJjl1H8fVI1j8uyWo4opYrmb8rEljUeFEitL8w3fbh2q
-	 u9BJiEe7BNN/lXz/rLxp+yV1qzANy5A/LQ9zfI4B3tKF0N4JqWMBy7u0JiEZs/1vmPeH9
-	 BaECSUHADKTr+ZMZSCjWED/UCliD3sbzwETYYz+pIzKs6Yx5/arkwteFabW/kk8Hcvy4O
-	 LNahAQf4NObwlavChPhFvGDnJjfFJm/WGN9dqpl/U8a7Pi4b0ha739jjKoETHIjUDGA==
+	bh=r1XVIRh3fQHS2h4Sz3Sym6iq1PD22XfOzca3/RkWwfE=;
+	b=tiLF2B7Ch5P53H4LHUYFlwr+NUtBaRlNeYPnEpwwtx2Xfm3wF+PFczoUaUWumH3jDJ7D
+	 a73Kj1k2lQOGtJYPn1wke5n9XaaP/kzN6bbp1HksQzAQg7vnZOjdk9UxxUDKFXs4b47hL
+	 DQR/NaSZILuG5ucn+IDXQH86X03YXxVQYiyAvmTbR+AzaYfC99VN2vytz9otupiKZq04J
+	 1BhIZmG1+1goVsfgT73QimdvhCpc9z/yYpTI2Dd5Ur9i9IM7JvP/BsfGA3G923HO8k9f4
+	 0TYXIo9rGV/iTLNoShbnh0f4Dub+T7YfcFoJKQuhTMnX9Orkk9Ihv2zMMYzaBxvchew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oHPMikrj;
-	arc=none smtp.remote-ip=209.85.210.50
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uv2twGs7;
+	arc=none smtp.remote-ip=209.85.167.177
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E72606A327
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 20:33:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 09E72606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D84A606A333
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 20:33:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D84A606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oHPMikrj
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-8629c7cc36eso4146044a34.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 12:33:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uv2twGs7
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-57728d859e9so3110444b6e.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 12:33:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795725227; x=1796330027; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795725234; x=1796330034; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:content-type:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=PPjhTscMvfM24X1rYGzlpf74+Z30vVLRif1XyUXWgAY=;
-        b=oHPMikrjDxT9I5mh0Qke+M5vy7kuY5MrudB0kwbV57ntE+k3FNKxT54+8ErLiWqo0o
-         w/yqa7pFT0QKLo9m6S6VMyCtUUxHbCksf7Z167rNUgM/Rw5ESDx3Vy0bzuD5bvI3pHcL
-         pLG6tGjz9QVrERkhedchtzXIRDzndyfS/MoZBfr2qUSSeW/1n6yB+nZM440TUc7tm8uE
-         iGcuSwjhlnnN8zcatV3icT89CW1rnhV9qrEKMUqqidixi6PyiDUFLVXqj42xLpfXBVsl
-         lAWmUBMzLmvlY0kSc/cqTPb4XNcJO43wsPWt0bOxGPNJzcMWyym8yHj+BhZS4nB5rweK
-         1i0A==
+        bh=r1XVIRh3fQHS2h4Sz3Sym6iq1PD22XfOzca3/RkWwfE=;
+        b=uv2twGs7VCPsFQ0G72W//nw1gvKXcNoSRE4Ie0ctFMEU7+/DJPYNfnZ1Dp3oWbdhYZ
+         YLlBuLNJVLlmDkFGM/XK8+iMtLT644ISns62DatEdR8ukTeEqayiRegRaHfPZ/vMW35c
+         bwIaSANsvmoFhmHktubE+wSykQeYMt4GrkGK1kr/rgz8Cra/+Ryu3r7QBXpsOQdERuvB
+         1V2XNuVKgxRCMRfs2SOCLmY/DCjDjrjy7thCi9EDvdBXKfbdZw1BRT1t2/oxkP0SIQWl
+         ibXr4ye0MAu1DvlDBNo4r1J4wLVe0GaTZ5+ylM28+7xJgh2reuh4YfM7B81hc5CfPr5E
+         5w/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795725227; x=1796330027;
+        d=1e100.net; s=20260707; t=1795725234; x=1796330034;
         h=content-transfer-encoding:mime-version:content-type:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=PPjhTscMvfM24X1rYGzlpf74+Z30vVLRif1XyUXWgAY=;
-        b=1IreOmzlvOB4s3OGhWwgXclFuyj4gwEC+uhGEbJnAFozXenl1bJbBgLwA+W5WDRcGw
-         riu1GFHG3jEeV8Uk82aI7cEh0nUMQQ8G/cyQLGgEWTm9aaYhHWcGR4Gq+F9MIQ/bALp7
-         Ox3uoZeAUWRjX+rWCcQynkNpiElT8kJVjlZgtRh16jZ6zpjgk2ZSKjnY1OqRzDTEWIqg
-         sjWqmYESjVS+1moFxPCqcJZuBT+uL52+Y7DWDHMM0dVNvrs2SsfF7pPbMv8cZP2t32Ef
-         ydTkAicU/qQEiSf5t94X9sNWRt4wAtchvljC8J4dOcBkdvyt5ldtFqDWm9zIT0K/29th
-         V8Fg==
-X-Forwarded-Encrypted: i=1; AL+hErG4p2G2cye96kE1VSYbq96hJWXLA9/eLs5eWidor49JNPsimPrKBbzWXZDn5lH4gu05n7gbEAVt25D6hw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8gWbr8DvajSvEQpGL6Eq3RrGSQWWbz8gdLB89lqg59kdLb0pdF
-	CgSZ9fHM3FHxWiW4U6H1jAGZYTipETiWGXu4snVR3kSqzsOM0YGNWoL2
-X-Gm-Gg: AZFdTZfxNnQ0Z5nNrRp8nTDU1oR+zn8Z50qo2QMhx8J3kW3o20AK8ePY8WUkglNWwAl
-	s0yTg0hXAtE2YQ5v+ekh+SmSLxmo6inKXrVNxHcBqlSgA8ZtQAE0ibf2isLZTWPg0q9GQB3DBOM
-	6Gr3JB6CH9wBtLSg3i3BZCBAEf/j9ps/JJwzJkzxrUV3kusHrmeaQKH1sYiI0KtCjF8MjMK+ZIY
-	HsBy12FW69yGZ0w52BBDx55IxaMh9CLkhvTkIJrub4VYL44GotZI7I+NtnKqrQoHpeePFpj2WfB
-	cdJYW0d2J71QkEUY8ltl/JfYXypMRiZnB1LlCpflnC9aIqczbxlTiZ4Vd6ZNe++UY8qhGvyH4KL
-	+qV0DBmTleYmroWbXJvwbmFGhMM112qFfNc/yvhDAMOLu8+XTfWKiA+AMOAsvHL/5k+suEy3sqF
-	JH0p7DuPUrdjFn66PVfBxOdx/SatXq963XrxAN+3HruUcahf975i0dAuzMdoWnXQYQOq/TbP3W6
-	lsoMN/SMRlZ8hcb2ctOn1CqjS3MWZ25r+bDtKp3e+xgGj2WNEACidpuBlvHHYT2HVB76IeMC6zi
-	V3epf1t1FEtTEgfvrP8yrSLBYV7ndFhjdNorPDZ+33omvjcIHfR85yNvxF69zzz3cWB4IX/BSm/
-	ChYPq5w==
-X-Received: by 2002:a05:6830:2696:b0:862:c9e8:5788 with SMTP id 46e09a7af769-86314febd1cmr24635150a34.0.1795725226996;
-        Thu, 26 Nov 2026 12:33:46 -0800 (PST)
+        bh=r1XVIRh3fQHS2h4Sz3Sym6iq1PD22XfOzca3/RkWwfE=;
+        b=zvsGyAfqgNeUhiXp9o3XGxcj6j3RSIkMDG26nfAM4zN4qJdpQ2g+nqQf0pFo47mxMX
+         ds2B559YZnz6tjzch4CwUA2KttDNe+GnfyDsdNcwacIFoAKMyLB8AZ52QsbCWkMw20j5
+         eQ1DSYVc0t+HBMm1fdlA/NmsfLdjqDoYUPLQSQUXLZBkFuwO4rGXW0AiCOSOw8ACwlL5
+         I7dUnYjOufyRrTThm7RlMcTizefb6NloT0RtjBEPYxRN63VhzpRaUu0LkTkztPauW3WO
+         IPKfdG6xt0AHrLSH1XfClCz79yVgOtP14Tbgs/DXPjcKbIpXoZvjLTj8kknNXJSR2qMD
+         JdlQ==
+X-Forwarded-Encrypted: i=1; AL+hErEVAh3BfSGjiyTZ9G65p4OlGHPq2ogcGL+QVM0NicccCh+YWWcRqQtkUbGi4/kLE9q+/pKhXRXVI0dxHg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9PoQE7qBqvPtxIhtoFqr26CyC5wswhK8+q9ebonv3RIQLyJsjI
+	3/cBNw5co2HWDUr6VUT8Lv0l3ePqdCLsA+INElgNe/M14t6Op3MEcE5i
+X-Gm-Gg: AZFdTZeyEtERo3V9+YlTeNDvHo7udphVe+1/ffDFHKCJrlz7TL7O9DkXMBq7BgviFVO
+	wtj502TeqklR9ANJMbMpK/ltaZev/o2s+V9iKNLqPFdmazYkOp2NTuaKCKJzIVP1v1wpEX+gNs7
+	F2qxTb6WO7Ls6Ea5DYm16JeUexX3w6JHuFUGYmNAWgTDzkvB3kJAyJWsJ0FTXUXCn6NyQcGr8Sj
+	lFoQz7kzCh6270dFodsDMgT3enEFUeW/9KnSs/nMdWOF3lfjgz8Baoy1StHtKKq61nwfnVNjrOa
+	SY91O5JvTarHSuq28HsFsPy+CkPUXDUIMH29vsD/o+5QnIu9aGUWWsONG/oXv9jgqcIm25E3yic
+	BNsvyE0pG6MqMJdrufaDRIDp040y4wYQaPfnMh3U1QVLX1NcbuoGtFcRrKckx3GQ8oT3SNBzrg0
+	Ep9i5eLVZMIoMzii0zg1yHU7xmfmBcbXDYtjPhpHwNkfpt8Cu5HeB5mrPWJxpZmXex5NRdYEQfr
+	fmkSWuMEjNvoZYzGMJw3u0D7DZHLpHa5rJPT26GSVARjm7yejDa2YTuphKQ7H2EgjTJRB6Oeoo/
+	PTAHrAaiXk8f3j/cEHVEbfCiTduvGOkoNuwy/+HGj4hZ2ndN5k4xA9ZDGZCoKJXaaloaTshs+QF
+	dkwWWSVY=
+X-Received: by 2002:a05:6808:4fd4:b0:55c:859:adc with SMTP id 5614622812f47-57a0c5bfaaamr27052957b6e.55.1795725234464;
+        Thu, 26 Nov 2026 12:33:54 -0800 (PST)
 Received: from AMD.home.internal (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-863168c1bc5sm15139167a34.6.2026.11.26.12.33.45
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-57a31929223sm17049002b6e.1.2026.11.26.12.33.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 12:33:46 -0800 (PST)
+        Thu, 26 Nov 2026 12:33:54 -0800 (PST)
 From: Enzo Adriano <enzo.adriano.code@gmail.com>
-To: alastair@d-silva.org,
-	andre.przywara@arm.com,
-	linusw@kernel.org,
-	robh@kernel.org,
+To: andre.przywara@arm.com,
+	wens@kernel.org
+Cc: robh@kernel.org,
 	krzk+dt@kernel.org,
 	conor+dt@kernel.org,
-	wens@kernel.org,
 	jernej.skrabec@gmail.com,
-	samuel@sholland.org
-Cc: Jerome Brunet <jbrunet@baylibre.com>,
-	Yixun Lan <dlan@gentoo.org>,
-	Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
-	linux-gpio@vger.kernel.org,
+	samuel@sholland.org,
+	Maxime Ripard <mripard@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 7/7] pinctrl: sunxi: add support for the Allwinner A733
-Date: Thu, 26 Nov 2026 15:33:44 -0500
-Message-ID: <20261125-a733-04-alastair-pinctrl@gmail.com>
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Junhui Liu <junhui.liu@pigmoral.tech>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Pablo Mazzini <pmazzini@gmail.com>,
+	Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
+	Alexander Sverdlin <alex@sverdlin.org>,
+	Jun Yan <jerrysteve1101@gmail.com>,
+	Lukas Schmid <lukas.schmid@netcube.li>
+Subject: Re: [PATCH v5 2/3] arm64: dts: allwinner: add A733 SoC description
+Date: Thu, 26 Nov 2026 15:33:52 -0500
+Message-ID: <20261125-a733-02-soc@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261125115703.3724690-1-alastair@d-silva.org>
-References: <20260910133519.459011-8-andre.przywara@arm.com> <20261125115703.3724690-1-alastair@d-silva.org>
+In-Reply-To: <0e94af87-71d1-4a5c-a2bb-218a2306db27@arm.com>
+References: <20261121-a733-cubie-a7s-dt-v5-0@gmail.com> <20261121-a733-cubie-a7s-dt-v5-2@gmail.com> <CAGb2v64c5oirvfq7R3a1CWQCydfOOipcRD7dhSFAb=zczRdTHw@mail.gmail.com> <0e94af87-71d1-4a5c-a2bb-218a2306db27@arm.com>
 Content-Type: text/plain; charset="us-ascii"
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -115,31 +118,37 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
->    Adding a 2-bit variant (writing 0b01 per bank with mask
->    0x3U << (2 * bank)) enables hardware auto-detect from PIO_POW_VAL
->    and fixes 3.3V RGMII TX (also addressed in Vinicius Pedrosa's
->    follow-up series).
+> > This should be evident from the schematic itself (the pins are used for
+> > I2C). And then the datasheet would tell you which mux value it is.
 
-Vinicius posted a separate two-patch series for the same issue [1] and
-later marked it superseded by my v2 [2]. My v3 [3] sets every two-bit
-voltage-mode field to auto (01) at init on both A733 controllers, as
-documented in the A733 User Manual v1.00, sections 18.14.6.1 and
-18.14.7.20. Vinicius tested v3 on a Cubie A7Z [4].
+A7S schematic sheets 7 and 16 show PG8/PG9 going to the EEPROM.
+A733 Datasheet section 4.2.6, table 4-36 gives function 6 for TWI0
+SCK/SDA. The v6 commit message cites both. In v6 the I2C0 group has
+/omit-if-no-ref/ and the RTC clock include follows the A733 clock headers.
 
-I've posted v4, rebased onto the EINT-mux fix in pinctrl fixes:
-https://lore.kernel.org/r/20261125-a733-pinctrl-v4@gmail.com
+> > Someone please test the PMU.
 
-Could you test v4 with RGMII on bank H on the Orange Pi 4 Pro?
-I haven't tested it on that board. If it works, please reply to v4
-with your Tested-by.
+On the A7S with v4 I pinned perf to each of CPUs 0-7. Cycles and
+instructions counted on all eight. Sampling cycles at period 100000
+delivered 193 or 194 samples per CPU, all on the requested CPU. Its
+PPI 7 interrupt count increased by exactly the number of samples.
+The two PMU nodes and their interrupt partitions are unchanged through v6.
+Norman also verified PMU counting and overflow interrupts on all eight
+CPUs on his A7S with v5 [3].
+Vinicius also reports PMU counting and overflow interrupts on both
+core types on his A7Z v1.11 [1].
 
-Pablo's IRQ-bank v3 resend covers the bank offset [5].
+> So I wonder if you could take just that binding patch already, to not
+> block progress here?
 
-[1] https://lore.kernel.org/r/20261012184130.548261-1-vinicius.eduardo.pedrosa@gmail.com
-[2] https://lore.kernel.org/r/20261106113425.28936-1-vinicius.eduardo.pedrosa@gmail.com
-[3] https://lore.kernel.org/r/20261109-a733-pinctrl-v3@gmail.com
-[4] https://lore.kernel.org/r/20261111122013.35133-1-vinicius.eduardo.pedrosa@gmail.com
-[5] https://lore.kernel.org/r/20261124215048.42074-1-pmazzini@gmail.com
+The binding is Vinicius's v2 3/4 [2]. It adds the A733 compatible with
+the DW APB UART fallback and has Conor's ack. Taking it separately
+would cover the DT dependency. My console tests also used Vinicius's
+driver changes.
+
+[1] https://lore.kernel.org/r/20261125124139.23869-1-vinicius.eduardo.pedrosa@gmail.com
+[2] https://lore.kernel.org/r/09f3a181436e6f19317224e583c2fdaa787797d7.1792439398.git.vinicius.eduardo.pedrosa@gmail.com
+[3] https://lore.kernel.org/r/CqGMQaDysL6l016qtEM8oOEnYUMKACgmwLUbb0wruVAzPcwiqrz00WCOhTrhkVEaZt1YB3xfucXdEc-ZFi-sCPgn69RNqtW0v4Gn_HjQZXs=@proton.me
 
 Thanks,
 Enzo
