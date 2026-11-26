@@ -1,49 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795649500;
-	b=qj+FETdBoBZig9/76LwmSP7jLN5EnfuioaSTIyn+/CpmTaS503TQRBgJvSUrhs3QLe6W
-	 XzuyDEJAYu/6Ohm3GEZXpIB5+6TPRbxgrtOHRFIKu2aAacopDTwEjr5lAYvKBi7gVSesh
-	 ALf+LlcSzxptdj1GBqqYCPycJ9nGp/Q5XwwW+bbtoD6ibcswR2qjS9aCORT1E+9088MlQ
-	 JOdT8RCe3wefru81yUDf8Pa9/QgJVtjHsyGthhoF/m/CZhlG3hIX0EZ4hW42H34hiyphV
-	 cd1GwVZbZfvboFzbDv4U4P4pfayNSLFQh7MCq5AM3nfh2cs3i+9kkU7N52ar82BGLKg==
+	t=1795653609;
+	b=CcINBBX1g3Hu2p8zpnGSrjCRh7kggbgKJsifWdm3i1QAAhJcRQ1qSTM4JBjOYM3JJm+k
+	 OmL9/cT/q0dGEdJr0vHvJ9mjFzKO9xk1XJsRonrDZ61V7rE6fB+gCBkpjvHKfQOc6klpr
+	 8DM8PTUXzjCybvbj5Z0WfQICBrcRF5veqsPSQboSwu6a/KLqBuDOYUeixiDWtZKWRFycP
+	 8o4OHLwufY+RJ2ub2lLCprk4IQzMr2cF4lm7NOaMNY2VbiOy2ou3tMw+zRqzz761AmrTd
+	 8HINp5YXMC9W/8He30wgHx0hTpR9xHUOLBM1h9xJsqOUlA49ROMediudT5CYaPKlUgw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795649500;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=FvvNDtfsIabNA/On19BazK/OQL2ez6R5Vi/Cev7mYvk=;
-	b=TYTqrJRXphxcQhfr49ts3+pUPvP3hU5ZWVK5ZDM85AolirTHg1fNg+Bob8R87Gu8Pn64
-	 oCwQ5Q5OiBkNbxXyQxlTLpeqq8J5khy/r3P6BTkKpJmxqUtBvk2/o7X2IN7/FNOXQHFhG
-	 PJSKKyUVeDQnMENtQfXgTjme8iqBKuOxfEVXgEQlVijRQUKs1Qqnh8YI2U9gi8UjxfFNo
-	 iCxpqe7aLp05RY+iaiyofLHwv6iGkc7ERMU2+jDbvmasafG64EBdExReC3vyZ6DveIMog
-	 J4NAYxB/M5Ogb+lFdnCnxbH65oswc9knaSZU3SsVU2haxNoQzP1O/+VldUWJBtQdviw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795653609;
+	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc;
+	bh=dQm7LikkEBfw+B+30vtpusJDOLGfvvT4vrOt4kNA/ro=;
+	b=kbEGguHAJB5KjJ4/G7waIPr5CBoGR6eeV3pFKQjiHFVm83MEncvFcceAPQgOJ0rt1tvl
+	 pzySi3+tcw/Teb5kj44bXP0Gr8HQecST6i50D+mnIMKYnuGBZhTEWTHW82vftnxQvSJUC
+	 5YDkgnz/vMgPhfI7kzaAjVMyJVJKuUriUUUgismKmMStvqlILsAFa0j1m+UDOqtBQU+V/
+	 6Br4S7ZQ0Mg+RFIAqNnIcWxs8dybTxpJEUvupwtpSixX3dIvPNJ67wqp1lYAG/zc/4qRE
+	 Lf9/UtkA9TLYb0CPNE3F9ZD5xEDaFWOCmSlM+NVjnjj5pYVFlJarjn5n3z5v+CF6wjQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=O+8QmB4X;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 274CB606A682
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Nov 2026 23:31:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 274CB606A682
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MLszMzLw;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB936606A337;
+	Thu, 26 Nov 2026 00:40:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=O+8QmB4X
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1344B1596;
-	Wed, 25 Nov 2026 15:31:35 -0800 (PST)
-Received: from [10.43.3.73] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 19F6A3F86F;
-	Wed, 25 Nov 2026 15:31:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795649497; bh=g4SLH4ntJ/Uj2nuvXWB8FADSkntEV5OWw71EFBWI27c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=O+8QmB4X04m2jcI9M7lf3p+aZQGd5zPftioIuuFIPcj3BZHatl8xM9lk3BdvUiu9E
-	 z+TbsQ1kjBzDZCqKqL1lK6RSPzZMdGwT9ACOiJeF5tCv1iLjx3REEREY6m2s/OJ5Vj
-	 G8HlgVQwQTcQ/2tvEAzqVA9VVjpPwGC9RWVIHAQM=
-Message-ID: <b9220cf0-ad6b-4719-aa67-154666c788ea@arm.com>
-Date: Wed, 25 Nov 2026 23:31:30 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MLszMzLw
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FA541F000C6;
+	Thu, 26 Nov 2026 00:40:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795653609;
+	bh=dQm7LikkEBfw+B+30vtpusJDOLGfvvT4vrOt4kNA/ro=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=MLszMzLw+jzjvra04ywRzp1QJWuOntXAHvCjzCxa1FBbYR8paD1DpYZmVkCy0tc5t
+	 NlG2gcGOyVqA3RIfIEM+zaLu76C1Dkh/WcCYlALdDyIxA7iijjM7IrmJn/reFdELcC
+	 XuWTwtjulRB0Q/Do96Yt9NvXESAHj4cIvxla0d8uc1KwOvdWVV/0Z5Jzinq231oH2+
+	 fiiNi54+LGPwIw76rWl/l9OHAW4FEwKe95YTAZbI3m+ItG78954SegDAUuRR8xcY04
+	 RJI6DMiHFyseI80WPu2m4xHHAq8EuXMaOTATc3IHK4PRdBdorgSMY6gNGe6ombmyvZ
+	 LU4Dejv7shBHw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7750E3809A24;
+	Thu, 26 Nov 2026 00:40:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -53,88 +53,53 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/7] pinctrl: sunxi: add support for the Allwinner A733
-To: Alastair D'Silva <alastair@d-silva.org>, Linus Walleij
- <linusw@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, Yixun Lan <dlan@gentoo.org>,
- Enzo Adriano <enzo.adriano.code@gmail.com>,
- Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
- linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next 0/3] net: stmmac: dwmac-sun8i: enable Flow
+ Control
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179565360801.1416723.7797795365715043690.git-patchwork-notify@kernel.org>
+Date: Thu, 26 Nov 2026 00:40:08 +0000
+References: <20261122144926.284857-1-maxime.chevallier@bootlin.com>
+In-Reply-To: <20261122144926.284857-1-maxime.chevallier@bootlin.com>
+To: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Cc: andrew+netdev@lunn.ch, kuba@kernel.org, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, horms@kernel.org, willemb@google.com,
+ wens@kernel.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
+ linux@armlinux.org.uk, lorenzo.bianconi@oss.qualcomm.com, nb@tipi-net.de,
+ thomas.petazzoni@bootlin.com, alexis.lothore@bootlin.com,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20260910133519.459011-8-andre.przywara@arm.com>
- <20261125115703.3724690-1-alastair@d-silva.org>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20261125115703.3724690-1-alastair@d-silva.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hi Alastair,
+Hello:
 
-On 11/25/26 12:57, Alastair D'Silva wrote:
-> Hi Andre,
+This series was applied to netdev/net-next.git (main)
+by Willem de Bruijn <willemb@google.com>:
+
+On Sun, 22 Nov 2026 15:49:22 +0100 you wrote:
+> While running the "ethtool -t" selftests on H2+ (orangepi zero), the
+> Flow Control selftests consistently fails.
 > 
-> Two issues showed up while testing this A733 pinctrl series on the
-> OrangePi 4 Pro:
-
-While it's the right idea to reply to the patch that introduces some 
-problematic behaviour, there are other things to consider here:
-> 1. PIO_POW_MOD_SEL (0x0040) on A733 uses 2 bits per bank instead of
-
-But we know that for a while now...
-
->     1 bit. With BIAS_VOLTAGE_PIO_POW_MODE_SEL, banks are written at the
->     wrong bit offset and left misconfigured (for example, bank H stays in
->     1.8V mode when supplied at 3.3V, breaking RGMII Gigabit TX).
->     Adding a 2-bit variant (writing 0b01 per bank with mask
->     0x3U << (2 * bank)) enables hardware auto-detect from PIO_POW_VAL
->     and fixes 3.3V RGMII TX (also addressed in Vinicius Pedrosa's
->     follow-up series).
-
-Yes, Vinicius did the right thing, since this patch you reply to here 
-has already been merged. If you want to support his series, please reply 
-to the specific patch *there*, ideally with a Reviewed-by:, or at least 
-with a Tested-by.
-Replying to this old patch here is then not too useful.
-
+> I originally blamed that on the fact that the board was connected to a
+> peer that didn't support Pause and that we didn't negotiate Pause at all.
 > 
-> 2. PA has 0 pins on A733, so PB..PK are hardware banks 1..10 while
->     irq_banks = 10 maps logical IRQ banks 0..9. Without .irq_bank_map
->     and sunxi_irq_hw_bank_num() in sunxi_irq_base_reg(), logical IRQ
->     bank 0 (PB) accesses PA's IRQ registers (0xc0) instead of PB's
->     (0x140). Adding:
->       static const unsigned int a733_irq_bank_map[] = {
->               1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
->       };
->     and using sunxi_irq_hw_bank_num(pctl->desc, bank) inside
->     sunxi_irq_base_reg() fixes the bank offset.
-
-Again this is an issue we know about for a while, and for which patches 
-are on the list. Please look at them, they solve this problem in a 
-different way.
-> Also, in patch 4/7, sunxi_grp_config_reg() takes an unused
-> `const struct sunxi_pinctrl *pctl` parameter that can be dropped.
-
-This again is an issue in a patch that is already merged. If you want 
-that fixed, you need to send a patch on top of v7.4-rc1, and send it 
-with a Fixes: tag, so that this can be remedied before the release.
-If you just want to report this issue, do this as a reply to that 
-specific patch, with the original patch text cited, and your report 
-inline, directly after the problematic line. After all we have this well 
-hung email patch submission system, to make this very clear and 
-transparent.
-
-Cheers,
-Andre
-
+> The ethtool selftest are sensitive to what the Peer advertises even
+> though this is a full loopback test, but it is what it is :(
 > 
-> Tested on OrangePi 4 Pro (Allwinner A733).
-> 
-> Thanks,
-> Alastair
+> [...]
+
+Here is the summary with links:
+  - [net-next,1/3] net: stmmac: dwmac-sun8i: allow controlling TX and RX flow control separately
+    https://git.kernel.org/netdev/net-next/c/1e38a237abdf
+  - [net-next,2/3] net: stmmac: dwmac-sun8i: emit pause frames when the RX FIFO fills
+    https://git.kernel.org/netdev/net-next/c/22fc89783468
+  - [net-next,3/3] net: stmmac: dwmac-sun8i: configure the pause time for TX flow control
+    https://git.kernel.org/netdev/net-next/c/24276dd35154
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
