@@ -1,96 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.220
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.119
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795706703;
-	b=h3kz9T90PBSjbpQT48buv5cQsKiQxptjSbzN1SL9al/FkurAOI6LLf0ydb44HfLTJfCA
-	 dOkSX/CsC9/qrICf4rHeDFUc8jtP8Yn/EWYBBxUcdhHSrkBKN5lGtXjiT3dH0Ixa7T1VV
-	 cmZLmUtDjLLGJ7lNP24avpZClaSmzdMVk+lfTVqvpQ6UcnM9Uu/1iHe/poFjmfHNehgnZ
-	 ggCHQM3EZLcC+9oDg0/WrPcuoPPLqXMsEQbdVOZJ4ocOYGj1B7Xm3PRH0P7q9mD+IeUZP
-	 IqdgLn0qMmSMfUUESE0nLeTduDS7qLvDGjulug0HEX8hbiCSUTphxHgZeU9SfsBKaYg==
+	t=1795706889;
+	b=HRGltPFZiOALJo1YDJQg/z5qfaZeuJC1R0J0loSoZsjKeo3HRQeC732WJfi68I7PH3NS
+	 ugN+Mv45vezveA7rZGz3J+ujIkPLCrjryY6WkBbqi94iCx/dEC9N6HpXVKBBaTpQDp6uz
+	 7x7mmmFUJXCEVDTDycqztLt5jAscdDgkpk2C3YfGwcHsFZF9LBpv+2KUQKjUs/divZtWK
+	 rS5FxBo5qhVCxiRFMJSI7ULMHEEDYI2WVemraKSJXzPagd8OaCSHHviJBNtSicCF0pquR
+	 IBfQh0ThTQtzeLDkmgy2q0ezF8AAudg6u39kCRqXCYT19KCJwffM4voB4CwSSIjAYyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795706703;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=WaGhGP18N1e5WQjSL7Kf13XBuOe/Lyl+VKElqyiI+RE=;
-	b=4JdHyeVIzGe5CqQpsE7HxhIRzI2w5PQ1atdfi+zK3CB0OAXQoTVbArt4L2VblRS6Dzx3
-	 iNxYQuzsywrS5rV43MhhjwZyxvbad5fSZX7E3FXtlpckNOuQ4Lsvxr+PZaSoobNphIgLI
-	 +iN2jVaPWH4ZcYhW7QLVvxQfuNatn3KS1vRWRuWTRS3+mqXMWCujwWa6j+FSVoKtMEmyV
-	 0uddI2IG/RzS+t9vVTiioVI/ZIKghBVs6bxHxotKpkgW/udDAzDROkwMG5it5ODqbWxkD
-	 brg5YE1pdhyGC7sYNX+ux0F/9ICfwS5RJoF6fen1/z85bcsriFva3BVK5YeBwVNhSZw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795706889;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=dQ2pLlHkipA5j/g4e46Tzr27HhC2bIUcguIGENtKDSY=;
+	b=XkHYXXiBymUFSOGfl82hC6WuTC0HaHVS7ob65wi25NIjUawBmi8dz0cvisj0chaoxKX2
+	 3ItLzI5K/BGRgSu0RdC6vDKkJuVvDpK2HMJZf8N6UeXfHQWfoleDqS3H8lyqWg7O1Xf94
+	 uOq/6yNwdJ3tA29pf7odXvey1Sbo78/mF5qc4rjlQax8xUjoO5uvcG8Cy5JTkmGavucDo
+	 CKTtxJaa4UtgUW66aiqSXUpNna7+mU6DPoWmMTi82tNjU6dRj8thPMEopyEMDzYTh7l1u
+	 Wnopv5nga+Yzlzi/3VGf7iJoFeupH3yQkB1oAH7eEGuOVz5N5Dhygl/2qF5l1oNHqIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=dVVGBgUe;
-	arc=none smtp.remote-ip=95.215.58.220
-Received: from mta1.migadu.com (out-220.mta1.migadu.com [95.215.58.220])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=proton.me;
+	spf=pass smtp.mailfrom=proton.me;
+	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=lQ7Jk51k;
+	arc=none smtp.remote-ip=79.135.106.119
+Received: from mail-106119.protonmail.ch (mail-106119.protonmail.ch [79.135.106.119])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AC7606A33C
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 15:25:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67AC7606A33C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA7A606A321
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 15:28:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FA7A606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=dVVGBgUe
-X-Envelope-To: linux-sunxi@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=e8n4p5I4AJEqksbOANyj0Uvx8iI2baqGaT4jyvFlF3s=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1795706700; v=1; x=1796311500;
- b=dVVGBgUe9owodYdGtln7dPUN0WIk3zQGtK7GCZTw6lfdipbYqFHMw0LFhVZI8JKiHj+WsVSd
- rbidA0agbBLiw9bFTKrdjACzbkA/wZ3FPqDUSunPEUSfUSar+tGgjt4oTqTDIZE0KadgDSWuLpd
- BbL4GL+aNZDp2IMQHMncHFDg=
-X-Envelope-To: linux-sunxi@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id e28c61dcd929e842;
-	Thu, 26 Nov 2026 15:24:58 +0000
-X-Mizu-Trace-ID: e28c61dcd929e842
-X-Migadu-Flow: FLOW_OUT
-Date: Thu, 26 Nov 2026 07:24:42 -0800
-From: Shakeel Butt <shakeel.butt@linux.dev>
-To: "Harry Yoo (Meta)" <harry@kernel.org>
-Cc: Vlastimil Babka <vbabka@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
-	David Rientjes <rientjes@google.com>, Muchun Song <muchun.song@linux.dev>, Hao Ge <hao.ge@linux.dev>, 
-	Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	kernel-team@meta.com, "Liam R. Howlett" <liam@infradead.org>, 
-	Alice Ryhl <aliceryhl@google.com>, Andrew Ballance <andrewjballance@gmail.com>, 
-	Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Jiayuan Chen <jiayuan.chen@linux.dev>, netdev@vger.kernel.org, 
-	Kees Cook <kees@kernel.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Robin Murphy <robin.murphy@arm.com>, 
-	"Joerg Roedel (AMD)" <joro@8bytes.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Casey Schaufler <casey@schaufler-ca.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	linux-security-module@vger.kernel.org, Richard Weinberger <richard@nod.at>, 
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Eric Dumazet <edumazet@kernel.org>, maple-tree@lists.infradead.org, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Jason Xing <kerneljasonxing@gmail.com>, 
-	Willem de Bruijn <willemb@google.com>, Mina Almasry <almasrymina@google.com>, 
-	=?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, K Prateek Nayak <kprateek.nayak@amd.com>, 
-	Anshuman Khandual <anshuman.khandual@arm.com>, linux-arm-kernel@lists.infradead.org, 
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, linuxppc-dev@lists.ozlabs.org, 
-	Niklas Schnelle <schnelle@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, iommu@lists.linux.dev, 
-	linux-s390@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-um@lists.infradead.org, 
-	cgroups@vger.kernel.org
-Subject: Re: [PATCH slab/for-next v2 00/14] mm/slab: mandate SLAB_MAY_ACCOUNT
- for __GFP_ACCOUNT allocations to avoid wasting memory for slab metadata
-Message-ID: <20261126152250.GB738059@shakeel.butt@linux.dev>
-References: <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-0-7c680f02a734@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=lQ7Jk51k
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail2; t=1795706880; x=1795966080;
+	bh=dQ2pLlHkipA5j/g4e46Tzr27HhC2bIUcguIGENtKDSY=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=lQ7Jk51k51sJryrt6f93LDAfwohteLVmYmEZRVZHELMQtenvQeZLxHybpXp9ZkOIx
+	 yC8pjLT9PcPtRaif0E/ThjDwai8qK6mfBvmUyqeFR1iZVFqJ3fLpV54KPIlHBpN7RX
+	 OdA0wgTvwK219/BumT4wVASQAJd80Qpp0gbv8/pxAEJ4UgE/T472Ywa3UyUqvjBryx
+	 DeEQ5UPVbC5uv3U6hUZFK2Z+XnHp7+SfVPxlpR1tXLE4sv+hOGPx4/IRimi5/puBz6
+	 FCcGiV7qrBwC3el+604HBQIpnVhhPa4SlOUO8+6jzInkqi1vtQXUPlDNmHLQiiEN89
+	 RLHREO3kZTlAA==
+Date: Thu, 26 Nov 2026 15:27:56 +0000
+To: Pablo Mazzini <pmazzini@gmail.com>
+From: Norman Herms <dockseed@proton.me>
+Cc: Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>, linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH RESEND v3 1/3] pinctrl: sunxi: dt: number the IRQ banks from the first one that has IRQs
+Message-ID: <Rr1r6gV_K1pXOchQNOVGHqSsBhPKVvUm6B0ze5_HRKLV9DsfwfdiGcZAC3zB0Eabk2BwSmD9-u8KC_LZQ6U-HG7YrIKcFQ92B-7rZrQXwdQ=@proton.me>
+In-Reply-To: <20261124215048.42074-2-pmazzini@gmail.com>
+References: <20261124215048.42074-1-pmazzini@gmail.com> <20261124215048.42074-2-pmazzini@gmail.com>
+Feedback-ID: 144388465:user:proton
+X-Pm-Message-ID: 6939877897ff4f8c7a0c2e7b39d0cf71bfe5a30c
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -100,24 +64,23 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-0-7c680f02a734@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 25, 2026 at 09:37:01PM +0000, Harry Yoo (Meta) wrote:
-> TL;DR
-> -----
-> 
-> The purpose of this series is to convert existing slab users that
-> specify __GFP_ACCOUNT on allocations to specify SLAB_MAY_ACCOUNT on
-> cache creation, to reduce memory waste for slab metadata with
-> CONFIG_MEMCG=y && CONFIG_MEM_ALLOC_PROFILING=y.
-> 
-[...]
-> 
-> Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
+Hi Pablo,
 
-For the series:
+Tested on a Radxa Cubie A7S with v7.3.6 plus our A733 patches, with
+this series backported, our own IRQ-bank workaround removed, and the
+PA interrupt dropped from our A733 DT (as 3/3 does for the A523).
 
-Acked-by: Shakeel Butt <shakeel.butt@linux.dev>
+With the series, GPIO interrupts on PB0, PJ24 and PK0 are delivered
+(GIC INTIDs 101, 117, 119). Without it the parents are INTIDs 99-117
+and requesting the PK0 interrupt fails.
 
+Tested-by: Norman Herms <dockseed@proton.me> # Radxa Cubie A7S (A733)
+
+Not tested on an A523. Built and measured by AI agents (Claude) on my
+board.
+
+Thanks,
+Norman
