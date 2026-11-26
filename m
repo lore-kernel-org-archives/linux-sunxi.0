@@ -1,86 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795729491;
-	b=5L/i7mxwE8y9hRYAyp3nnd11ZAZYdEqPG2ySf7ZR7v/90NYlekpUdKWbQs1aInb3h7Ig
-	 THjWyZ71yfOBJwa2g4mI615uzz70FQrQr8ZO+UoomrZvfsQp5U/+io/77ndalgJSpjGq2
-	 LBpt5dOMJnaN/u7VnrNSvLRJQxNBiCl84uE0E4tR1sZ8ZccBng0VuHBefZdQ/NfG47Eka
-	 yNjcS3JSN+6MD9OZWti7QOfNP/VRnFLIQAFm/8PHPpYcQpPEirmqe19JXYA4kJoq1/Qrv
-	 kNoTNwBJSeG9S/SkFKrP3ktKTPCiVFNPJzurveRipSDgBzebZ+8DT7JeMgh401arknw==
+	t=1795729492;
+	b=sRtrUgd/Twq+RT6kGaKxQ03J8CGmQqAT2Rt1VuALERFQbZ6nTiG5G6jNEppyXHgxQ+Mn
+	 d+TmdzvX34d6ip0xKp5yipFBAC214ozx0JajyIVE1uhldB0OAy23ylae1LCpxzsBpWvAL
+	 cGlC83PCa1+j8G08dhd+fU/MiYe89fUSlchjOvLFZaS0YzPvGN/qGwjdLw0pgj2gyoWH1
+	 LTi4I1BSOl+5sko6/zEvs5sK3ihpm78D9huYVTGUQh4YiOTSr4d/SBVw/cRAb/VMxBYJw
+	 AnDnl8rFj+aJDQZAeUhQ5BgnWJVrl4Pg8hCl6d4nnC9xVsKSmlYHLjhsBvE4k6kuVYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795729491;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795729492;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=WSd+CxRijsj4N8ajh85kl4a69YfAGH4BSJ6W5M2ec1s=;
-	b=U0EzHduLe+rxYleULsDO3oxBSTrA4L9S+6YKYBOq4V7yoHNyX0HTVzp7d8XbBcaEhRfB
-	 CegeN9hbI3nEv6PBE1diB4h42NIGrMufW8/9vEjklKJdG/wUC50UGLkFPntsLvnxgBll+
-	 xwDfxkYtVamN3JYmEE3xagIoBUjFR1Prk4s9UOrRK21OCzzEBdtRlqSK428coTAlFcL8B
-	 SAClDQvRFORrB8/sgGsrb0mgDfIvfxpo6qS+vokLXBBe6IGC8dfvANO1UP8w2jYc+w2XG
-	 kEEsIQL0cjlqG7z2RyjL813B+0g9sMsLLIXbJ3JHO75De+TsXADH64QSG35sZClsqMw==
+	bh=P76Q0BIWW49mfVcn/szQiqY9bRx9gZaAhLyuvCUuy10=;
+	b=r6Vsz7Nyy4jiVHF4X/IZIvo6jEVXEDLOTukGnwwOAFkor8CLYHrXrrzxOyRdlmc2W+7y
+	 3T8ML/GKX9MQiZIdpp5EoIHygeWEF37tlKCQjPL1eahOoVciM/DeyUBEU5Z3FDWhs8kSR
+	 5aHvdW75rToHCCPIlxGyfnKLruD+/V6P+QWuP7kxPnMPxjQtPvVk0SlAf1WammrBWKtQi
+	 N2eaFtFNyA5U00tZ/g1cXW3+koRMSGKvc4Wxb6q46DVFnx3kDfFIQuWbsNAQGFqyBWRCY
+	 6URNSfJMuWaMp2pztS1YOCDjZB+A/njMJPCTGxY2BNs9C8/tcVAZ0mpoAFr4Rn3a9eA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gXdK+V40;
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mRf5jKUZ;
+	arc=none smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249F060A380B
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 21:44:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 249F060A380B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3108B606A695
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 21:44:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3108B606A695
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gXdK+V40
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-491f34b4e0fso3415475f8f.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 13:44:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mRf5jKUZ
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49d05d51553so52993985e9.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 13:44:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795729489; x=1796334289; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795729491; x=1796334291; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=WSd+CxRijsj4N8ajh85kl4a69YfAGH4BSJ6W5M2ec1s=;
-        b=gXdK+V40Tfa4GcZJGC7oNG06e/fxANOtLww9JdNy8dHN9TVFOgMlJXBQnNfH38fsd5
-         vWmiBS3zo4kc5FcDYBj863XuctQ4IPVOHGciOD4EYXe+lyevdhXjRI6DkTLdNIPf/DT2
-         Qj/F0KZzqaAqa7y+NFwjc5Ek1D9qKPJXz+arVnV+n/kMW/E7FGMDaisRmpYtnz1ljc5C
-         j6cxUjBQm3i3LtOu+mOBVbwQZndfkC+XhrPFkQqKzTaKGQWOo+jwg1v8fGNejkidObo2
-         nvRcDqziQn0IO1b10kdY7xl9TSS5zt0CMShxzrw3hENol3aasQIlf7FT1xcKnqw34W3m
-         yE5w==
+        bh=P76Q0BIWW49mfVcn/szQiqY9bRx9gZaAhLyuvCUuy10=;
+        b=mRf5jKUZUvSl+ubMLxg2boz+Ij6c6pp/ZLQHemdGS7TipLTOkLs5E5m4gm5jftvIMf
+         yAgHjo7LC0RTYlh8gEk53AVJdK8NSEUfnGja7tFThaqseMi1kHpPkVrR4LL0BSnZloQp
+         CvCoM1MqgRfXHwPH7wEhryD1e15s2ztUjQkhjiiE2TtuJXtDPHyefoccTcMN487iASgb
+         svgW6sKLBV6ux6VCZ/GpJ/ZqIaVrsvTMSSrQD1nQd1pg5Zk8A5VX5hh2RAmHOAd7vY4x
+         z4YJNEjEWhsHKPm3v8c9iJBOxcM2eMIT2LFtDLfyDR+vnWtjC14yaI30fHjTPBXM/5bq
+         NIUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795729489; x=1796334289;
+        d=1e100.net; s=20260707; t=1795729491; x=1796334291;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WSd+CxRijsj4N8ajh85kl4a69YfAGH4BSJ6W5M2ec1s=;
-        b=VQmGfuuK2GStguO6C/gi+yc9gONR+pJzZHGfu2pvVN27Hdw7waypnfg0q64ZYhlNKc
-         938EBPNiLAWOcIevFSc6h3YSBnzjwHGFah+h96EwPbyILhhy/i/4nUMmH0awrJqcRYBu
-         uRBv2Lf++w8CghPWs9NAlyvXszJdB3dkcgW4x1ZzU+BkJ6enAxzJv1UsalHL4DAN+Exp
-         BNQbaGQddO4n9WGa/uXtrZhUBUDODp/EfmszwV2reRpcduLy7JRgOiBLyN8Exl4zsMp4
-         DjRSPzI0jyDKvkYbMxTTYBDpBeTXG0xLuYpaOdCdJaOrPTwJQUBISWVAmWDUWaj6hMh7
-         CvTg==
-X-Forwarded-Encrypted: i=1; AL+hErGXZDXTei3LQKCW7NAeiqa8H8ID5FHR8sjKb5b7PwkdtiTlbmMzLCf12tjbgcVeio+elKQ7NFFVyZXo0w==@lists.linux.dev
-X-Gm-Message-State: APuU4Z98c249xOT2/c2p+YF4GLkqS93aaxwbfs49K3kYmD+IkMCVp32j
-	B35504iz/n7vFDXi6LccXwc9jzWNEFaZv/VE2z+QNYfACL6/t1py1B349T1j1Q==
-X-Gm-Gg: AZFdTZePPdXL3jesUc19WsXqF1A3Dr35HfrY1PGptF0f+wv8IaOiprAer/3qDpXzn/i
-	mmO8qzv4e9vvKnI8Y5U96pDTgkmfuyU5R0o9L76CE/VhG75CvdkGgs2HwwNVV0vWWFZ3ksE1Mg2
-	LJ5W0NTJSb2GQhraPHNej/C/vN5zf2oXQiCkUfC5tLCiGt+0EqOZAalEXeZfDd4353nGwxspn09
-	tyYY1KzGhETvAn1o1UuKfZBBKUQeYZyjEGkaapiSNy9FJBB0x6y0zFbcyMpyY8s/xy2nGjEXPNv
-	+1BUgrevIWBR8RTSKSTcuG0hPL6kveuzfen7O1Ml/pGOgIg03SNg/CrGCMSI2jHsV6NX/HkRTSK
-	TuNcq5Wk+0mhvZyUiCm3/hIHqbduwXEDmSl/DCc4021lCn/4CvlmFBC9vvBpATKwrohujoIYgln
-	28pfOMvkLIqcmvEjH195mWFx9Dh4QaxbwyBYJG0pQibNYpG0KBZky2V+uLyswOAnqNHZZ/xstAh
-	5enyUEETP1P03YLipdu4erBykN1zGNa8w8e/Z6t1ktv7psV2Lhebq4PvZ+zm4SkET3jx01Hawme
-	WErc8U3VARxVkRwn49++z3OQENVwjMddjZE5DXPh5b7LzzXd+JYA1v7pGRTxZqt8vX+hGs69vws
-	lRYh4ZpD/u8TWAWIqrK2mKdTevKvXbX2HtqpqXxSZH8hvs/oURo7HCCOBTQaTepq347ZKMhMjTd
-	uiKfoY9fe2Ai/SjmQGpUFFc+ippI8IWBOEkwgdy/Ly3nL62+8ZsL5oLG9vr8JOL9D5liwy7FCdq
-	5vtfXOrdc9J0lmbmcu/hEDJbWlnL7YKvN633vqdVeo=
-X-Received: by 2002:a05:6000:2406:b0:4af:e519:ccd1 with SMTP id ffacd0b85a97d-4afe519ced4mr37199366f8f.49.1795729489344;
-        Thu, 26 Nov 2026 13:44:49 -0800 (PST)
+        bh=P76Q0BIWW49mfVcn/szQiqY9bRx9gZaAhLyuvCUuy10=;
+        b=FjhPkLV+n25P6rEziIdOoqmPG2eyPObYKt8qtwYc1megywBohU2SXZCJ9TzYQKoFtC
+         YiVeeAxrCJFCg570Owcsb7YBiNML2Ycmg5GxCheOFQwBgzdnnqhALfTOJLOKQPQjX9ZI
+         qSQqxrBh+5gA1mPSX5qXZ5OIjeoVkZvqj+Xe39cEsPpu73miEX8hT6ngzco61DVZ9BL6
+         jV8RQiYLRMDVVS87+BGiqYD9OEt+wDfzmeMBkIFBUr/xpvx6nF/+sKi5w0zKKjvHHIeq
+         5MciHESGzOqr1x3O6X4ZP4fuggOHbUXVK/m7JLgj/D6mM5KPk1uHPBD4ebrURAdixUJt
+         hcyA==
+X-Forwarded-Encrypted: i=1; AL+hErF35lgTnbhwVhpelsefRfifayPbUnc4vYbnUcD5VOSISGyhovl+Ze5jjGnwNx8ap0GYJN+D69YS1Ci+XA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z+aK4T6nK9Lc9+NxfYjo4qZFE2pMfzja3A+SdmUHA4fjkBX5FHR
+	DKLVKtUVChaNBMC+J7/QsEh2N/c2MqSVZQg9wWq8sQRSVlzg9LkX5ZAW
+X-Gm-Gg: AZFdTZfRxy8z0qpvu4HZGszxIwn6DZNv+mu9JioyywOZTulAQOL3XMnhCBXpxDu3V/W
+	0eeZiF6hpYzJeDanxWdGrCKsn8e3A2LjvL3IYjnpWAGw2Mpt4N0NG88gbgtC+gF95g678QMbChi
+	s5k4EfjxOWQGD11YnjuIdHRcOcP10hxRumGAkqog9UHX/aF7913OKCHkzFgo1I1ET41Xus4SiU4
+	FJHoBAjX+zfFJnu9pGapYuKxQuV4FQnXhFmM/gHNAZ9U6sgYTvODdk8KCkzuapreEvoX6QE1Vhc
+	KhkLG5lFVjkhut3fx1eGJiTHB4DU2VimW2CNSIyntFPRpKYp3E6lE3En5Q4xVfmYBHv1XaB/8wg
+	LgE3nF4ZU6gJrEN1Do48ENE7r0t0cH6fsDwbLOFaviUEPyL5ieekERdQZ9cImV2RrVnC4xXvK6H
+	H/6po52SqR3WlEy+CcLqH2NRjA0LYz0GOrE4MRBPGdqi7THfBGKnlTHSv8K7OePCqdmDMrY3JEy
+	coZi67W5GgIiZNbx+q3t/eYSG74qCmHjU12a+vcyG9VMjK6VfLEKPYRRYjUgjQsrGnicDKbdJMl
+	E55RJe9//d48sk0qGRkN68ZHuei6bQkVffO+PsH3SurW2qa5eW0rD1EI9cMeif54XCEa2chsthc
+	XEb4y9bFxLkypOETXCpCcShSfvXOQF/R+NJVqQZ6n3vKAx4vkE1so/68Zbz3e5ZEx9YPh7K1nLj
+	C0iBi/UZACA7X1HhkCBxzLD5u16GeaEYjyDY03PErAwGXMh7LuK9T2aKp0k0G+NJYvGpoNuIbWi
+	mB57qK1bDZchw8MOsZDGHtqKFZJzba/crLx0tFCPw==
+X-Received: by 2002:a05:600c:530f:b0:4bb:68b9:f615 with SMTP id 5b1f17b1804b1-4bb88810b22mr445462945e9.17.1795729490644;
+        Thu, 26 Nov 2026 13:44:50 -0800 (PST)
 Received: from jernej-laptop (77-38-7-250.dynamic.telemach.net. [77.38.7.250])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4abbd84e661sm40403963f8f.18.2026.11.26.13.44.48
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4abbd84e661sm40403963f8f.18.2026.11.26.13.44.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 13:44:49 -0800 (PST)
+        Thu, 26 Nov 2026 13:44:50 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: Chen-Yu Tsai <wens@kernel.org>,
 	Samuel Holland <samuel@sholland.org>
@@ -100,9 +100,9 @@ Cc: mripard@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 07/11] drm/sun4i: Add H616 TCON TV support
-Date: Thu, 26 Nov 2026 22:44:29 +0100
-Message-ID: <20261126214433.3562326-8-jernej.skrabec@gmail.com>
+Subject: [PATCH 08/11] drm/sun4i: Add support for H616 HDMI PHY
+Date: Thu, 26 Nov 2026 22:44:30 +0100
+Message-ID: <20261126214433.3562326-9-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261126214433.3562326-1-jernej.skrabec@gmail.com>
 References: <20261126214433.3562326-1-jernej.skrabec@gmail.com>
@@ -117,72 +117,212 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It needs additional quirk to enable HDMI pads.
+H616 HDMI PHY is a standard Synopsys HDMI 2.0 TX PHY, like on H6, but it
+needs its own configuration table. Values are taken from the BSP.
+
+The BSP also sets undocumented bit 15 of MSM_CTRL at 594 MHz. 4K@60 works
+fine without it, same as on H6, so it's left out.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 13 +++++++++++++
- drivers/gpu/drm/sun4i/sun4i_tcon.h |  2 ++
- 2 files changed, 15 insertions(+)
+ drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 170 +++++++++++++++++++++++++
+ 1 file changed, 170 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 0cbd6ae66c4e..3596537c500b 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -1297,6 +1297,11 @@ static int sun4i_tcon_bind(struct device *dev, struct device *master,
- 				   tcon->id);
- 	}
- 
-+	if (tcon->quirks->hdmi_pad)
-+		regmap_update_bits(tcon->regs, SUN4I_TCON_GCTL_REG,
-+				   SUN4I_TCON_GCTL_PAD_SEL,
-+				   SUN4I_TCON_GCTL_PAD_SEL);
-+
- 	list_add_tail(&tcon->list, &drv->tcon_list);
- 
- 	return 0;
-@@ -1585,6 +1590,13 @@ static const struct sun4i_tcon_quirks sun20i_d1_lcd_quirks = {
- 	.set_mux		= sun8i_r40_tcon_tv_set_mux,
+diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+index 0d284804e11f..8bef4806c65b 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
++++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+@@ -124,6 +124,165 @@ static const struct dw_hdmi_phy_config sun50i_h6_phy_config[] = {
+ 	{ ~0UL,	     0x0000, 0x0000, 0x0000}
  };
  
-+static const struct sun4i_tcon_quirks sun50i_h616_tv_quirks = {
-+	.has_channel_1		= true,
-+	.polarity_in_ch0	= true,
-+	.hdmi_pad		= true,
-+	.set_mux		= sun8i_r40_tcon_tv_set_mux,
++/*
++ * Values are from the BSP. Like on H6, PLL settings depend on the TMDS clock
++ * band. The BSP has its own values for CEA clocks, which also apply to
++ * their 1000/1001 variants. PLLGMPCTRL is always 3.
++ */
++static const struct dw_hdmi_mpll_config sun50i_h616_mpll_cfg[] = {
++	{
++		30666000, {
++			{ 0x00b3, 0x0003 },
++			{ 0x2153, 0x0003 },
++			{ 0x40f3, 0x0003 },
++		},
++	},
++	{
++		36800000, {
++			{ 0x00b3, 0x0003 },
++			{ 0x2153, 0x0003 },
++			{ 0x40a2, 0x0003 },
++		},
++	},
++	{
++		46000000, {
++			{ 0x00b3, 0x0003 },
++			{ 0x2142, 0x0003 },
++			{ 0x40a2, 0x0003 },
++		},
++	},
++	{
++		61333000, {
++			{ 0x0072, 0x0003 },
++			{ 0x2142, 0x0003 },
++			{ 0x40a2, 0x0003 },
++		},
++	},
++	{
++		73600000, {
++			{ 0x0072, 0x0003 },
++			{ 0x2142, 0x0003 },
++			{ 0x4061, 0x0003 },
++		},
++	},
++	{
++		92000000, {
++			{ 0x0072, 0x0003 },
++			{ 0x2145, 0x0003 },
++			{ 0x4061, 0x0003 },
++		},
++	},
++	{
++		122666000, {
++			{ 0x0051, 0x0003 },
++			{ 0x2145, 0x0003 },
++			{ 0x4061, 0x0003 },
++		},
++	},
++	{
++		147200000, {
++			{ 0x0051, 0x0003 },
++			{ 0x2145, 0x0003 },
++			{ 0x4064, 0x0003 },
++		},
++	},
++	{
++		184000000, {
++			{ 0x0051, 0x0003 },
++			{ 0x214c, 0x0003 },
++			{ 0x4064, 0x0003 },
++		},
++	},
++	{
++		226666000, {
++			{ 0x0040, 0x0003 },
++			{ 0x214c, 0x0003 },
++			{ 0x4064, 0x0003 },
++		},
++	},
++	{
++		272000000, {
++			{ 0x0040, 0x0003 },
++			{ 0x214c, 0x0003 },
++			{ 0x5a64, 0x0003 },
++		},
++	},
++	{
++		340000000, {
++			{ 0x0040, 0x0003 },
++			{ 0x3b4c, 0x0003 },
++			{ 0x5a64, 0x0003 },
++		},
++	},
++	{
++		593400000, {
++			{ 0x1a40, 0x0003 },
++			{ 0x3b4c, 0x0003 },
++			{ 0x5a64, 0x0003 },
++		},
++	},
++	{
++		594000000, {
++			{ 0x1a7c, 0x0003 },
++			{ 0x3b4c, 0x0003 },
++			{ 0x5a64, 0x0003 },
++		},
++	},
++	{
++		~0UL, {
++			{ 0x0000, 0x0000 },
++			{ 0x0000, 0x0000 },
++			{ 0x0000, 0x0000 },
++		},
++	}
 +};
 +
- /* sun4i_drv uses this list to check if a device node is a TCON */
- const struct of_device_id sun4i_tcon_of_table[] = {
- 	{ .compatible = "allwinner,sun4i-a10-tcon", .data = &sun4i_a10_quirks },
-@@ -1605,6 +1617,7 @@ const struct of_device_id sun4i_tcon_of_table[] = {
- 	{ .compatible = "allwinner,sun9i-a80-tcon-tv", .data = &sun9i_a80_tcon_tv_quirks },
- 	{ .compatible = "allwinner,sun20i-d1-tcon-lcd", .data = &sun20i_d1_lcd_quirks },
- 	{ .compatible = "allwinner,sun20i-d1-tcon-tv", .data = &sun8i_r40_tv_quirks },
-+	{ .compatible = "allwinner,sun50i-h616-tcon-tv", .data = &sun50i_h616_tv_quirks },
- 	{ }
++static const struct dw_hdmi_curr_ctrl sun50i_h616_cur_ctr[] = {
++	/* pixelclk    bpp8    bpp10   bpp12 */
++	{ 26995000,  { 0x0000, 0x0000, 0x0000 }, },
++	{ 27032000,  { 0x0012, 0x0000, 0x0000 }, },
++	{ 30666000,  { 0x0000, 0x0000, 0x0000 }, },
++	{ 36800000,  { 0x0000, 0x0000, 0x0008 }, },
++	{ 46000000,  { 0x0000, 0x0008, 0x0008 }, },
++	{ 61333000,  { 0x0008, 0x0008, 0x0008 }, },
++	{ 73600000,  { 0x0008, 0x0008, 0x001b }, },
++	{ 74175000,  { 0x0008, 0x001a, 0x001b }, },
++	{ 74250000,  { 0x0013, 0x0013, 0x0013 }, },
++	{ 92000000,  { 0x0008, 0x001a, 0x001b }, },
++	{ 122666000, { 0x001b, 0x001a, 0x001b }, },
++	{ 147200000, { 0x001b, 0x001a, 0x0034 }, },
++	{ 148350000, { 0x001b, 0x0033, 0x0034 }, },
++	{ 148500000, { 0x0019, 0x0019, 0x0019 }, },
++	{ 184000000, { 0x001b, 0x0033, 0x0034 }, },
++	{ 226666000, { 0x0036, 0x0033, 0x0034 }, },
++	{ 272000000, { 0x0036, 0x0033, 0x001b }, },
++	{ 296700000, { 0x0036, 0x001b, 0x001b }, },
++	{ 297000000, { 0x0019, 0x001b, 0x0019 }, },
++	{ 340000000, { 0x0036, 0x001b, 0x001b }, },
++	{ 593400000, { 0x003f, 0x001b, 0x001b }, },
++	{ 594000000, { 0x0010, 0x001b, 0x001b }, },
++	{ ~0UL,       { 0x0000, 0x0000, 0x0000 }, }
++};
++
++static const struct dw_hdmi_phy_config sun50i_h616_phy_config[] = {
++	/*pixelclk   symbol   term   vlev*/
++	{ 26995000,  0x8009, 0x0004, 0x0232 },
++	{ 27032000,  0x8009, 0x0007, 0x02b0 },
++	{ 74175000,  0x8009, 0x0004, 0x0232 },
++	{ 74250000,  0x8019, 0x0004, 0x0290 },
++	{ 148250000, 0x8009, 0x0004, 0x0232 },
++	{ 148350000, 0x8009, 0x0004, 0x0230 },
++	{ 148500000, 0x8019, 0x0004, 0x0290 },
++	{ 218250000, 0x8009, 0x0004, 0x0230 },
++	{ 288000000, 0x8009, 0x0004, 0x0273 },
++	{ 296700000, 0x8029, 0x0004, 0x0273 },
++	{ 297000000, 0x8039, 0x0004, 0x022b },
++	{ 340000000, 0x8029, 0x0004, 0x0273 },
++	{ 593400000, 0x8039, 0x0004, 0x014a },
++	{ 594000000, 0x8029, 0x0000, 0x008a },
++	{ ~0UL,      0x0000, 0x0000, 0x0000 }
++};
++
+ static void sun8i_hdmi_phy_set_polarity(struct sun8i_hdmi_phy *phy,
+ 					const struct drm_display_mode *mode)
+ {
+@@ -626,6 +785,13 @@ static const struct sun8i_hdmi_phy_variant sun50i_h6_hdmi_phy = {
+ 	.phy_init = &sun50i_hdmi_phy_init_h6,
  };
- MODULE_DEVICE_TABLE(of, sun4i_tcon_of_table);
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.h b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-index fa23aa23fe4a..98bee2bd96d2 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.h
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.h
-@@ -19,6 +19,7 @@
  
- #define SUN4I_TCON_GCTL_REG			0x0
- #define SUN4I_TCON_GCTL_TCON_ENABLE			BIT(31)
-+#define SUN4I_TCON_GCTL_PAD_SEL				BIT(1)
- #define SUN4I_TCON_GCTL_IOMAP_MASK			BIT(0)
- #define SUN4I_TCON_GCTL_IOMAP_TCON1			(1 << 0)
- #define SUN4I_TCON_GCTL_IOMAP_TCON0			(0 << 0)
-@@ -243,6 +244,7 @@ struct sun4i_tcon_quirks {
- 	bool    needs_edp_reset; /* a80 edp reset needed for tcon0 access */
- 	bool	supports_lvds;   /* Does the TCON support an LVDS output? */
- 	bool	polarity_in_ch0; /* some tcon1 channels have polarity bits in tcon0 pol register */
-+	bool	hdmi_pad;	/* h616 has to enable pad for HDMI */
- 	u8	dclk_min_div;	/* minimum divider for TCON0 DCLK */
++static const struct sun8i_hdmi_phy_variant sun50i_h616_hdmi_phy = {
++	.cur_ctr  = sun50i_h616_cur_ctr,
++	.mpll_cfg = sun50i_h616_mpll_cfg,
++	.phy_cfg  = sun50i_h616_phy_config,
++	.phy_init = &sun50i_hdmi_phy_init_h6,
++};
++
+ static const struct of_device_id sun8i_hdmi_phy_of_table[] = {
+ 	{
+ 		.compatible = "allwinner,sun8i-a83t-hdmi-phy",
+@@ -647,6 +813,10 @@ static const struct of_device_id sun8i_hdmi_phy_of_table[] = {
+ 		.compatible = "allwinner,sun50i-h6-hdmi-phy",
+ 		.data = &sun50i_h6_hdmi_phy,
+ 	},
++	{
++		.compatible = "allwinner,sun50i-h616-hdmi-phy",
++		.data = &sun50i_h616_hdmi_phy,
++	},
+ 	{ /* sentinel */ }
+ };
  
- 	/* callback to handle tcon muxing options */
 -- 
 2.43.0
 
