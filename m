@@ -1,104 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795713755;
-	b=5EvE2zX1LwI47tDa5tqq/ysL+5d9RsW3nIuKl8bgUkJds8yaklgxS/EvWBpoLEKx1LKn
-	 DZX3j7HMO6ABIR8VOCP1UcAQN7swITSVxuOI42D6jxJqsAtzIrPNBhviIPd+0/8GvEWuU
-	 kGIf1EPueAA9vt1tM/4w0S3KpiF1vH30s8HJAQD+/S6cgLlKSCtYglrVTyeB8+M/Em3Ga
-	 COXTKfUIDh4UHO0joxsAQwix8VZxEx0f+zTMpvge2GixZZDSs438U3O65WFW+iA0EFF2X
-	 M4i0dPpMbzLpEZ6pSltvPJSv5N8GWVBbbXh9RlLdroBhGLSRVtA2jZjdSw6DNBVe7uQ==
+	t=1795713785;
+	b=tSWGXVXIadbdvwvcWlVpqbMoC4ThN63x8Qz3xr8uKOL1e633WL+Hxqy+AYgJH00XIBVd
+	 PpkUGzZS+CF5XJqu87sKZj2yqoE41KINWNKScv9ZQYNBA7NodImXgSvJp6pXZYlSWZBmq
+	 F7gUVKPjhs7sJpOOVjr9V6ayQrRwoY8PsgX5+5QLBNfEfW1MCTSWkdSSGj2gr5vXxeJ9w
+	 F1iRC+dU/6nMf93GkAC7xPv9q/KzZCjc/XZsEuiI6J3myJUBEN/Ism9qKf6St0YM+zwkH
+	 DftHiH+RTpnfdSzQ4lEHTMqYaJXEvhnPrbiTQQp32s8MZZ1JomM4R7bBGSqj2bOSKPw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795713755;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type;
-	bh=+o/+kD0PbzrgfqIeIyLt88wkMJdXcHeQPVqxrdmSlPw=;
-	b=WouVoxHT30mh/USYIiv7dQVoyQoFSicEOo/DttkX4ZsC/ON+kwTkGE2WhW8IJier+rZM
-	 RUcsBqr+JfVFGNzdR6A3LU7A9+FkbrKf17nsXxc/G8yh01mDaGu0r5wbp2gzqUxra6Co/
-	 mFlZc8mWQ8YeXbxgIgCMAgMfStQzNpGcazLiAHgEP/JsphTE+oM0Au+aeQm6Xt7qBjUZr
-	 0nZTwvvE0QrP2FxinC8DGgTNhvhNFP8PrggUMHhNwQyeMybN0R/uRcNZis6Z5V4CYU/KU
-	 co5O5wxWLdGgf1wB9jaSn8mtclrIw9oQs4PRFr7xsmPfjbsuQbL3plfPmXVeZ/XkdYA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795713785;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=AazhS24I/7MuMOkh0TY7pWo5KAGFVFjGku5DM2Pt/BA=;
+	b=mg1d1bxsXy+fjj0Rt0PBcWA+zrqBwxXQYWmK08OSkttt9iIUUBsQGOcFKeDG8h82YmuQ
+	 ZFRi8pmXk3OViBsmvY5ALtToH2nqxD84p62HqdFSy3bpG350TmozuleR9LbPaoCg3oisS
+	 Un61QtbYDkYtYsNMrIf/iC4mICRu2gv46nRDDfBVJQCIPfFTeTjpeGxVTJV+lt29nPLAd
+	 I2BUE6Af+5tesAZrCysCvEHssRTAMkJSC2iSkf3PKQJiTHyjAJ0OrWrlgEAb5AKRvvyGI
+	 tGPSssMeSqNvpLYbwCpEonOEGLdgoNqXE02AgAz+NNhrYx8ZuZn9s6o6IoP/Y4VjxGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="vk/UNtmH";
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D2C606A31C
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 17:22:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49D2C606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=T2BEv0v4;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 037AB606A31E
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 17:23:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 037AB606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vk/UNtmH
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a35ac4475dso52780745e9.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 09:22:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795713754; x=1796318554; darn=lists.linux.dev;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+o/+kD0PbzrgfqIeIyLt88wkMJdXcHeQPVqxrdmSlPw=;
-        b=vk/UNtmHWjlz6hpox8WmYKPeYSoXqHSKnW2rEtCyt4Ms9g2Uzn4PK/LoKIhWxtAI12
-         f7bJ+9oRdLKjdC2kN0mIGPSn1Mp+bvGzfLIwNcQzWhH3SXat09zI3X1kjYITPC0qWsOf
-         q7A7Wu3WcyQv3kPW9+4Y68gyQOG9+1xqeeLsKB0jZZFD4hWLIVpIGImWvRcwZao7bZUW
-         UH2354a3DyZl2YhKDG24CdoJQ43R7gtSEWNEgRCGfRLYyjyqyL1Hmg8de7mkrexzN6kn
-         NSlL1BPN3biA4ZRZRGOJ25Xfruq5FYvbNaleHE9yfu4/XUZWpa94zsiuViRMMSN7D5d3
-         iVcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795713754; x=1796318554;
-        h=content-type:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+o/+kD0PbzrgfqIeIyLt88wkMJdXcHeQPVqxrdmSlPw=;
-        b=D1A3wqDBEOLyDVPm327zlb+7DSnpDhiL+4NIIvgQ0jcaNKfF2VZSsDLQFseY7F9jHn
-         /oKB94iuNIQ37L7dem/GCyvCSYIMd4TI2Qo6UymdQ0+p+ULOLa+eZDYamRlETqFRBx31
-         X2xJgDZkirWszIzl3oOBh6yDxNPu1FPdjeDB0bigkFw9MtpYKBiDxEtSMKGRjH6sF3dL
-         vxivWLZuzaUSTC4YYwG/MfNX+IvN5YTs98VmbSG62GQ6VR0HPQocq93de1BjecOkPmg/
-         +LwWG7pQG7rXa2g14H3r02Viz3UTVYblHWxGJ+5MZJFDvZfirMWlw/N7VGgVBPgw/aHy
-         UkSw==
-X-Forwarded-Encrypted: i=1; AL+hErE+0UsU18W957SCMT5aPdIUDi7FYPyeAHMayWJZa85BAhJ47Snh/fYbSeQgq2SQbcCJkkSfnGKqv6Yyjw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9N0W6gu08+C7i4esy4U8TzZnZRRCoi8CeUOlsqTUNWj5Jxq8bd
-	Z3RRbC8fCsSSyCHB9mzs1GIUCkQ3AJBUzsRg6+9wTnLp+k5LLQOp+rIH
-X-Gm-Gg: AZFdTZf34z1kbYq6hcC9mmh+qhdOlpwaisaUZBmbe7eskdpxbHlnODDhzMmD59jnfC1
-	Fo/BpvNfLBTWdTq09FqlULdx93cUOL0Y6QclG2hQD+NtytNitH4oxKgMcRDYAe+hnNPrpWS9aHJ
-	NwSKM8wCsd8D2DT1WTKpa+buQhSIk4osTUHt8mBuJSfH5NivH5MrTwhGGHH2opZbzZwJ7hNAxsX
-	mSlLMvS6iVnoya9UGvSTDAkmVmUTqqW4KVSo39VLSY63zaHcODM0kEkyBuntjzbrQ4nC/3G5RG4
-	bzDYDDQDhnAG1JINXaMmKGVNP/6GU2RRyNkTagnB+rSu0dZ51qHJqxwGiM0Oe8WshxTcQwaQvct
-	trh0LymlsEG5u9v3xgTKuwedO4LJAqpnSGX8MLWUkL6C/kZIxvLVa0yL+ZyFSwmLKxxXonioZiL
-	iSvQJweFTRvJFIFzKnk/jK0OKVEPJhvIjOpAeiaI739N7L6eDBmAYeV5I6ADN+1JnZpZ3+Cz4qa
-	mjmuzg5+zpw87zEmOiI4VfVsEFp+yO+D7CKQ/uppzmmaDFrmx/sHZhvrTBtyNAYBNKqqRI0agUy
-	jAG8725odlQUfNDXtekcWhlk/Sir7s/iBl6PiYjWdWjnvzgFhOrGKK/phk9QPKRdp6Myw39f/2R
-	7tC2RgxIf9xP+5NsKahXmNlLRslV2MCFAqBqw46epsPPadmJXxcpKcy9Ph4o2likJ4Rc9LXkcns
-	HBN/DrGjW/Vu1uhZHz7BS8oMWQeYWH4uQ7KQuvYjfMei6mqnPK6cc/c4o/vsk3J5eQtdcavv0QZ
-	op0y7Z4OHuhSa9m9W+Vb1DCgVaESV0ti45xBrVP5GjLtGvoGARdRspnMXhRzac=
-X-Received: by 2002:a05:600c:c84:b0:4a8:9a2f:d27 with SMTP id 5b1f17b1804b1-4bb8881f47emr450092465e9.25.1795713753675;
-        Thu, 26 Nov 2026 09:22:33 -0800 (PST)
-Received: from jernej-laptop.localnet (77-38-7-250.dynamic.telemach.net. [77.38.7.250])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906640a2sm348317715e9.0.2026.11.26.09.22.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 09:22:33 -0800 (PST)
-From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>,
- Hans Verkuil <hverkuil@kernel.org>, aiyengar1990@gmail.com
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Arun Iyengar <aiyengar1990@gmail.com>
-Subject:
- Re: [PATCH 2/2] media: cedrus: report only the picture as capture payload
-Date: Thu, 26 Nov 2026 18:22:32 +0100
-Message-ID: <KjxG6AExQdOXUtc6OkeVCQ@gmail.com>
-In-Reply-To: <20261119-b4-cedrus-generic-fixes-v1-2-f9f50812c85b@gmail.com>
-References:
- <20261119-b4-cedrus-generic-fixes-v1-0-f9f50812c85b@gmail.com>
- <20261119-b4-cedrus-generic-fixes-v1-2-f9f50812c85b@gmail.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=T2BEv0v4
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 562CA1BA8;
+	Thu, 26 Nov 2026 09:23:01 -0800 (PST)
+Received: from e142021.manchester.arm.com (e142021.arm.com [10.33.50.35])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B8CD03F632;
+	Thu, 26 Nov 2026 09:23:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795713784; bh=ijv/jqvo5qY8ee8OXFhmAq8F26CDUX03x4X4GgLtBiI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=T2BEv0v4xCvvpktZYfwPdzScfkP5S8lUNLojcxTQJzrRj3V3wx+NZtgnWawxisl9/
+	 pTypmHyImALeo5sYPgA2jhp/716j6vDY+oioE0H2KRD8hf0pQYtxYdJvd1wtIY6Zu/
+	 v9J12xwfMjIEdG0IPxMkjI6/meao1kZdWbF7jNSw=
+From: Andre Przywara <andre.przywara@arm.com>
+To: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Alastair D'Silva <alastair@d-silva.org>,
+	Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
+	Pablo Mazzini <pmazzini@gmail.com>,
+	Enzo Adriano <enzo.adriano.code@gmail.com>
+Subject: [PATCH 0/2] arm64: dts: allwinner: add Radxa Cubie A7A board
+Date: Thu, 26 Nov 2026 17:22:51 +0000
+Message-ID: <20261126172253.1097838-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -108,59 +69,45 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Dne =C4=8Detrtek, 19. november 2026 ob 17:34:48 Srednjeevropski standardni =
-=C4=8Das je Arun Iyengar via B4 Relay napisal(a):
-> From: Arun Iyengar <aiyengar1990@gmail.com>
->=20
-> For 10-bit H.265 the driver appends the low 2 bits of every sample to
-> the capture buffer and counts them in sizeimage (extra_cap_size).
-> buf_prepare reports the whole sizeimage as bytesused, so userspace that
-> copies the payload gets the private plane as part of the picture.
->=20
-> Report only the picture; sizeimage stays the allocation size.
->=20
-> Fixes: 65429ba82572 ("media: cedrus: h265: Support decoding 10-bit frames=
-")
-> Signed-off-by: Arun Iyengar <aiyengar1990@gmail.com>
+Hi,
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+this short series adds a devicetree for the Radxa Cubie A7A single board
+computer. It's based on Enzo's basic A733 .dtsi and Cubie A7S series,
+plus the other required binding patches, which are partly still in flight.
+Patch 1 adds some I2C pins to the .dtsi, as the board connects some
+external RTC chip there.
+Patch 2 is the actual .dts, supporting just a very basic system - the
+system peripherals like GIC and timer, plus the PMIC, SD card and the
+UART. USB and Ethernet should be easy to add, though binding patches for
+them are still in flight.
 
-Best regards,
-Jernej
+Tested on the board, with MMC including card detect IRQ working, also
+the LEDs behave as expected. The EEPROM could be read via the sysfs
+interface. The I2C-attached RTC probes, though I couldn't really use it,
+as it reports an invalid calendar format. For booting, I needed the
+sunxi/for-next kernel, plus the pinctrl fixes and the AXP318 patches.
 
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/=
-staging/media/sunxi/cedrus/cedrus_video.c
-> index 9b2d24e77fdb..b7e0cbe548e6 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> @@ -511,8 +511,15 @@ static int cedrus_buf_prepare(struct vb2_buffer *vb)
->  	 * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
->  	 * it to buffer length).
->  	 */
-> -	if (V4L2_TYPE_IS_CAPTURE(vq->type))
-> -		vb2_set_plane_payload(vb, 0, pix_fmt->sizeimage);
-> +	if (V4L2_TYPE_IS_CAPTURE(vq->type)) {
-> +		unsigned int payload =3D pix_fmt->sizeimage;
-> +
-> +		if (ctx->current_codec->extra_cap_size)
-> +			payload -=3D ctx->current_codec->extra_cap_size(ctx,
-> +								     pix_fmt);
-> +
-> +		vb2_set_plane_payload(vb, 0, payload);
-> +	}
-> =20
->  	return 0;
->  }
->=20
->=20
+Ideally this series should become part of Enzo's DT series, to avoid
+unnecessary churn and avoid conflicts: patch 1/2 should be squashed into
+the .dtsi, and patch 2/2 just added to his series.
 
+Please have a look!
 
+Cheers,
+Andre
 
+Andre Przywara (2):
+  arm64: dts: allwinner: a733: add r_i2c1 pins
+  arm64: dts: allwinner: add Radxa Cubie A7A board
+
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../dts/allwinner/sun60i-a733-cubie-a7a.dts   | 385 ++++++++++++++++++
+ .../arm64/boot/dts/allwinner/sun60i-a733.dtsi |   7 +
+ 3 files changed, 393 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun60i-a733-cubie-a7a.dts
+
+-- 
+2.43.0
 
