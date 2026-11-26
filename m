@@ -1,111 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795729498;
-	b=RnYzJIwRRKXoJrERCDZIK2ZHiBUrQ8n1JymfbWHHbGM16URRKdGGTf61kl1iZT9djHGZ
-	 B+cuTdKcOvQ9rdNpQ8gJNborvvrzLaNr2eyUKbR+s2xJ8Hny5xZo2HQanEkfn9Tgt1ZIV
-	 5izrcOdZVOTLHEF/Zjjyki1GJgxlq3nxcRxdwBtun6TXr6SIgDde1gGdrOvlWdjnNJ9dZ
-	 cWBYC0Zyl8mtae6Rsyx6sgtMT66wzAXMMNZ9ksf0BYk8LhuzFoAKhztCdLRAoFe86Nugj
-	 HlHZ9SBQPIuuxgINJNirQDkOk0B8tcFacXO7nnryV1lTNwakgAyMqpn7OVLDU36FTMQ==
+	t=1795730423;
+	b=RkR33kfgcR1LOAMmhMbNzhKPHzvqLLN63PTI1Lp+okSviWXesZTHTbcW8FrimQlp90PM
+	 rSvclHJStCf8aoYm/ldkqrWm8qRwfC3pnMLT29o+BHTrvXZmiV28HUq6Isa4JqsOWihMj
+	 RVZcDHVc9d12Sdu+zBzuPg8qNAtIhZeZF96m7/ZjRq0+GO6EwnVoCogHtg2VR1FS6jFwB
+	 1ZEw0iZxrmlvcOoT0wsGryeYADB5VygYwhopo4RvZ4qYX41wb0RnNnxQ6kwIf2ziU44QH
+	 4o5kkzq2ol+G1RQvMY7V13C3Bptu22drc7u2/4xJ7VaiReRoFmam5NIRDo9WdNQM7Sw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795729498;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=rgoIgw35YcjRzBDNQLX8AgVyjJr3fxJKdB7QZhfiyn4=;
-	b=HtOAKh+TEhLuJbOwzmgCdEBWdZQI6HjhINetzn8ULZt40sXiCUMNiqIrGeYXbZ7jCEQj
-	 jyEgYNoTRiRpbNAN8sqCjsz5HnZRySmQmgZWBJXa2jTTqiaDqnX7qKJqG8DqHUrUCT4aT
-	 xBx+dI8RjU4F+Oodo3ahOvydQrckB8uJa7mu1bb2jzfxM1HDaGL1Jt3YUp7VojRw99Yk5
-	 fIY/FqZ0Ry73JG6qGs3t1mlsVi9N8Kj0bX4odk5tMm4+QW6Iy/T1H8B2RGTcBowd/sVr5
-	 QVQigwGL0lAsEoKb89QiJ5qU9n3JtbMgZNFOukfQuErsOYaJaHC4/IY4TNXhQSjSaGw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795730423;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=7c7/oytUm/cTA9mvt2dZkojdQh//AqC3WyEoCbnB0JA=;
+	b=En3wBKYHP6gArx/3Dkz0t/eUdjsFB4TVY4gqOA8gMorPNkio6Tmle9UN1yr6eOeLNcf9
+	 brvTS3BKx2WW+nFSfDcA2qL6HI90w6H4J5FaPnE/ICHwouco5SN/VZIk9NA1tcQTnKQFK
+	 cwz/S3i+kpsyVeffn4NHAHEEFtfFZYOSP3iNJaAbp08ncUqTN6MhqPYXiGAlcZq1rl6gu
+	 emz2eiqek3evAn6C69GmvUT7fAkKjF4QIlWbN01+JP6FL3of3uoBgr+ovqT8xwPjEnaiQ
+	 FwHG6i0Uj7gu/X2hfKDXb1SX3dpyzaU1TuzdZRAfFeTKOijNVayTyZ1lk86CuFWYiPg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zlViqTwB;
-	arc=none smtp.remote-ip=209.85.221.48
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="SIR/jHlR";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2723606A68D
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 21:44:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2723606A68D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0FD606A323;
+	Thu, 26 Nov 2026 22:00:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zlViqTwB
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48dee593f18so6980707f8f.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 13:44:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795729496; x=1796334296; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rgoIgw35YcjRzBDNQLX8AgVyjJr3fxJKdB7QZhfiyn4=;
-        b=zlViqTwBIyBLu4MXyg+Gy/iXGFWP8kdlUYzztCtZrCsT8YppUCIM1ocOU/DCRcq0Ic
-         xlTNBKRZZptnZ6GZ5VH+2zDqt3k6rkXsopySMyS7PnkLVNP7ItJ/4qW29EylhFWXIugL
-         +pGyFpOqYCXYz/WVZ3JXMCjXg65H0FAoY0mped9Ee53KhiTEUVYzNELan/Ti5mYgxCwV
-         CleeNOYJhgLxXbuGMcXkdAVnItXk9LaNm1BUW7h0w8W28kVM6VYKn2DNri1lnq+jM2Dy
-         TdnoUBLFLnxIP6xL05X3VrYoeJfQUmpGRYwm7mDQPyZQx8zf3l8pQwBgwI3aOvqWv+mD
-         fdyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795729496; x=1796334296;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rgoIgw35YcjRzBDNQLX8AgVyjJr3fxJKdB7QZhfiyn4=;
-        b=btj/tufFfqQTNkuHc3rTnitm8770XXU1azkm3+fgpFf/2nQpdnND0tKxVSRyktIuTq
-         4rvcLfZJYqnn8+XBiwPF9UaDlxJ4zUBWqZ73Fg5rwpSTQP4k4IG6K2pGea7pafwDaHg+
-         O6KFzYMMP9tYCJioIzr6Xc02Kx6y/RGKSYGcAbi+CYuwwIC+SjiLF0197ktjI8V8VvLE
-         5OAsWeHupEbJ5tM3Ob2CXLjOOnBMetGWu8Prv4yqUzPrMjurb6iKtKHMi1JFyTZsbOVI
-         9KoIXynIdbLsW4ndLjTFec+8rTyTwtzBQDVLKikwWB81AybQRwUG61f6XX8MKouE/mBA
-         2xwQ==
-X-Forwarded-Encrypted: i=1; AL+hErEKUN9uKWMmQ82yrOpMFF/ajgt9QlIERSCATwGqbDeQlGtvTh/vGW/jO1OHnWi8kJQ+ni/x1S+X8ga3/w==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/SL1plaFGRw3YwEPTGe2JRgUVkGQGWeozwsRepwYpX4kQhItRH
-	5h6ke1sVLSLwwp5rTwqhYgTYGK14F9gxT4F5bfPmUkIOXs9hiladRylR
-X-Gm-Gg: AZFdTZdah9Sqn6C2I9RctBzjXPQtlvUma+y2R+JTleVuzao2gnlZ8Y46PpCCmfJ2kpR
-	SgWMbfnyxpqpKs5g9cd2s3k1T6Pu4Y8NmOMXLPDEKE9aN4RIY/Rc+yGzzwNKkOzDwJ46oEeB2e7
-	x/eXihGDc0BdV+f3MU+ePJuqRdeGay5hmJVWRaej+soj1eEPwVHV/RGzP4RqqfIwtxoOEFCtzOf
-	Ect9cSCqOhOw2QO/lpN9DGblttxGR3Nm0e1NzeWvbEru7O36zz3HUYad+iVKP2nZoo9wjMsW2b4
-	qCsDgIJlT61wXIYEao/FY9sdBaUPnhvyk4LnMdjeCSK0jde5JeiFBf37jiXe0rc8wOopYV2YZT9
-	wZ81TIgkUMMhZKNc1N+mQ+JuFbyUyrR7hkpplow/iPUhoiQhTLBpclUoWkTMeHf5Vwmzorn3s1Q
-	rBdto+6HgeuMZYkqiXec4Z2y5nse6sr9oFpK1rUzJLoS9k0RwZ5Qg7DYia08zymch1PnOx8kGaK
-	ug2PVBkEfnzHGyAEi4zLGhQBv5tSu7+A6WhWPgpsRiqXYNHOh9OGZN0BwdOD/A81mrjsYwr172b
-	JFm1TbcJCtLpuQSGQJhTI/vtCrrfsoImxbtTS/sHIxA7HFRieQg7JLb+6ADxwq8gbzZrfC0HJbP
-	MTe0gM4PZiDWd2it3j11ErJUwkUDMwOa31Fmy8PICOk5Mr0YKCEIBqtP3H4tbdkULyDmlqrZ3fs
-	/3bK1upA/GHr6Wyb1FuqJVj/uAoqf5pLZGle7VYGMZPwkeR99GKs9sy8wDY3q8c1/Lm9kcL1Mcx
-	ZRKEHiQVIKCGNEIotZASP6Bm/bagi/HVwcYVE3SJA==
-X-Received: by 2002:a5d:5846:0:b0:4a6:4ac6:d950 with SMTP id ffacd0b85a97d-4abb400ae95mr45098156f8f.39.1795729495913;
-        Thu, 26 Nov 2026 13:44:55 -0800 (PST)
-Received: from jernej-laptop (77-38-7-250.dynamic.telemach.net. [77.38.7.250])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4abbd84e661sm40403963f8f.18.2026.11.26.13.44.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 13:44:54 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>
-Cc: mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	robh@kernel.org,
-	jernej.skrabec@gmail.com,
-	p.zabel@pengutronix.de,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	Andre Przywara <andre.przywara@arm.com>,
-	dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 11/11] arm64: dts: allwinner: h616: Enable HDMI on several boards
-Date: Thu, 26 Nov 2026 22:44:33 +0100
-Message-ID: <20261126214433.3562326-12-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261126214433.3562326-1-jernej.skrabec@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SIR/jHlR
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 167741F00893;
+	Thu, 26 Nov 2026 22:00:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795730423;
+	bh=7c7/oytUm/cTA9mvt2dZkojdQh//AqC3WyEoCbnB0JA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=SIR/jHlReC/pQgdPSDammzaAJpgLf7Q/QkY3zzhbV8Yw7EsfRq4MFshU2i5A/BFlT
+	 z7pWcmD97ZBj0iIkgbWQwItx67vdPv5hwifdh4giJ4q82NWz8BDsJpRzfqHrz0j8SK
+	 ZpWJu4DLC/AOMagP8tyOMkc+TAQlh2ZG43W7YCRYVbenYMGlpJTNuu0ysr7DdfYFzy
+	 7LhRD1QZkgyQO6h1s2pjguSP10cOGrUxNbOmOdWkfeyDOM30wMn6BIn26KeXt5aDqC
+	 /IggTJlhfNn5GYjlvzmQs5T73vq4VrK8dpBH2/9p4ztJ3RobEgai7U95wfzbUiaeve
+	 jZuJJ2/IAhlcg==
+Message-ID: <sashiko-outbox-236290@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 10/11] arm64: dts: allwinner: h616: Add display pipeline
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Jernej Skrabec" <jernej.skrabec@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261126214433.3562326-11-jernej.skrabec@gmail.com>
 References: <20261126214433.3562326-1-jernej.skrabec@gmail.com>
+ <20261126214433.3562326-11-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 26 Nov 2026 22:00:22 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -114,359 +59,179 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Now that H616 display pipeline is added, enable HDMI on several boards.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue to consider:
+- [Medium] arm64: dts: allwinner: h616: tcon_top graph overflows
+  sun4i_drv_probe() kfifo
+--
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- .../dts/allwinner/sun50i-h313-tanix-tx1.dts   | 30 +++++++++++++++++++
- .../allwinner/sun50i-h616-orangepi-zero.dtsi  | 25 ++++++++++++++++
- .../allwinner/sun50i-h616-orangepi-zero2.dts  |  5 ++++
- .../dts/allwinner/sun50i-h616-x96-mate.dts    | 30 +++++++++++++++++++
- .../allwinner/sun50i-h618-orangepi-zero3.dts  |  5 ++++
- .../sun50i-h618-transpeed-8k618-t.dts         | 30 +++++++++++++++++++
- .../sun50i-h618-yuzukihd-chameleon.dts        | 30 +++++++++++++++++++
- 7 files changed, 155 insertions(+)
+commit 01e1e3e0b1574bffa9c9d00380c059ba10691ddb
+Author: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts b/arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts
-index 7906b79c0389..c5226a427eaa 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h313-tanix-tx1.dts
-@@ -26,6 +26,17 @@ chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	connector {
-+		compatible = "hdmi-connector";
-+		type = "a";
-+
-+		port {
-+			hdmi_con_in: endpoint {
-+				remote-endpoint = <&hdmi_out_con>;
-+			};
-+		};
-+	};
-+
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
-@@ -75,6 +86,10 @@ &cpu0 {
- 	cpu-supply = <&reg_dcdc2>;
- };
- 
-+&de {
-+	status = "okay";
-+};
-+
- &ehci0 {
- 	status = "okay";
- };
-@@ -84,6 +99,17 @@ &gpu {
- 	status = "okay";
- };
- 
-+&hdmi {
-+	hvcc-supply = <&reg_aldo1>;
-+	status = "okay";
-+};
-+
-+&hdmi_out {
-+	hdmi_out_con: endpoint {
-+		remote-endpoint = <&hdmi_con_in>;
-+	};
-+};
-+
- &ir {
- 	status = "okay";
- };
-@@ -178,6 +204,10 @@ reg_dcdc3: dcdc3 {
- 	};
- };
- 
-+&tcon_tv0 {
-+	status = "okay";
-+};
-+
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_ph_pins>;
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
-index 0d3e761f6466..51c8ebdbdc88 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero.dtsi
-@@ -22,6 +22,17 @@ chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	connector {
-+		compatible = "hdmi-connector";
-+		type = "d";
-+
-+		port {
-+			hdmi_con_in: endpoint {
-+				remote-endpoint = <&hdmi_out_con>;
-+			};
-+		};
-+	};
-+
- 	leds {
- 		compatible = "gpio-leds";
- 
-@@ -64,6 +75,10 @@ &codec {
- 	status = "okay";
- };
- 
-+&de {
-+	status = "okay";
-+};
-+
- &ehci1 {
- 	status = "okay";
- };
-@@ -81,6 +96,12 @@ &gpu {
- 	status = "okay";
- };
- 
-+&hdmi_out {
-+	hdmi_out_con: endpoint {
-+		remote-endpoint = <&hdmi_con_in>;
-+	};
-+};
-+
- &mdio0 {
- 	ext_rgmii_phy: ethernet-phy@1 {
- 		compatible = "ethernet-phy-ieee802.3-c22";
-@@ -113,6 +134,10 @@ flash@0 {
- 	};
- };
- 
-+&tcon_tv0 {
-+	status = "okay";
-+};
-+
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_ph_pins>;
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-index 90c25e12e189..0f25b043e020 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-@@ -28,6 +28,11 @@ &gpu {
- 	mali-supply = <&reg_dcdcc>;
- };
- 
-+&hdmi {
-+	hvcc-supply = <&reg_bldo1>;
-+	status = "okay";
-+};
-+
- &mmc0 {
- 	vmmc-supply = <&reg_dcdce>;
- };
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-index 085f3e4e8eaa..568de6f57015 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-@@ -23,6 +23,17 @@ chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	connector {
-+		compatible = "hdmi-connector";
-+		type = "a";
-+
-+		port {
-+			hdmi_con_in: endpoint {
-+				remote-endpoint = <&hdmi_out_con>;
-+			};
-+		};
-+	};
-+
- 	reg_vcc5v: vcc5v {
- 		/* board wide 5V supply directly from the DC input */
- 		compatible = "regulator-fixed";
-@@ -42,6 +53,10 @@ &cpu0 {
- 	cpu-supply = <&reg_dcdca>;
- };
- 
-+&de {
-+	status = "okay";
-+};
-+
- &ehci0 {
- 	status = "okay";
- };
-@@ -55,6 +70,17 @@ &gpu {
- 	status = "okay";
- };
- 
-+&hdmi {
-+	hvcc-supply = <&reg_bldo1>;
-+	status = "okay";
-+};
-+
-+&hdmi_out {
-+	hdmi_out_con: endpoint {
-+		remote-endpoint = <&hdmi_con_in>;
-+	};
-+};
-+
- &ir {
- 	status = "okay";
- };
-@@ -202,6 +228,10 @@ sw {
- 	};
- };
- 
-+&tcon_tv0 {
-+	status = "okay";
-+};
-+
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_ph_pins>;
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-index c51d4d9120de..4a1754eeb0b6 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-orangepi-zero3.dts
-@@ -31,6 +31,11 @@ &gpu {
- 	mali-supply = <&reg_dcdc1>;
- };
- 
-+&hdmi {
-+	hvcc-supply = <&reg_aldo1>;
-+	status = "okay";
-+};
-+
- &mmc0 {
- 	/*
- 	 * The schematic shows the card detect pin wired up to PF6, via an
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-index efe0faa252f5..2f09a5cabed5 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-transpeed-8k618-t.dts
-@@ -24,6 +24,17 @@ chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	connector {
-+		compatible = "hdmi-connector";
-+		type = "a";
-+
-+		port {
-+			hdmi_con_in: endpoint {
-+				remote-endpoint = <&hdmi_out_con>;
-+			};
-+		};
-+	};
-+
- 	reg_vcc5v: vcc5v {
- 		/* board wide 5V supply directly from the DC input */
- 		compatible = "regulator-fixed";
-@@ -61,6 +72,10 @@ &cpu0 {
- 	cpu-supply = <&reg_dcdc2>;
- };
- 
-+&de {
-+	status = "okay";
-+};
-+
- &ehci0 {
- 	status = "okay";
- };
-@@ -74,6 +89,17 @@ &gpu {
- 	status = "okay";
- };
- 
-+&hdmi {
-+	hvcc-supply = <&reg_aldo1>;
-+	status = "okay";
-+};
-+
-+&hdmi_out {
-+	hdmi_out_con: endpoint {
-+		remote-endpoint = <&hdmi_con_in>;
-+	};
-+};
-+
- &ir {
- 	status = "okay";
- };
-@@ -177,6 +203,10 @@ &pio {
- 	vcc-pi-supply = <&reg_dldo1>;
- };
- 
-+&tcon_tv0 {
-+	status = "okay";
-+};
-+
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_ph_pins>;
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dts b/arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dts
-index 9e275f0217ec..11b087dad0c1 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h618-yuzukihd-chameleon.dts
-@@ -24,6 +24,17 @@ chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	connector {
-+		compatible = "hdmi-connector";
-+		type = "a";
-+
-+		port {
-+			hdmi_con_in: endpoint {
-+				remote-endpoint = <&hdmi_out_con>;
-+			};
-+		};
-+	};
-+
- 	reg_vcc5v: vcc5v {
- 		/* board wide 5V supply directly from the USB-C socket */
- 		compatible = "regulator-fixed";
-@@ -52,6 +63,10 @@ &cpu0 {
- 	cpu-supply = <&reg_dcdc2>;
- };
- 
-+&de {
-+	status = "okay";
-+};
-+
- &ehci0 {
- 	status = "okay";
- };
-@@ -73,6 +88,17 @@ &gpu {
- 	status = "okay";
- };
- 
-+&hdmi {
-+	hvcc-supply = <&reg_aldo1>;
-+	status = "okay";
-+};
-+
-+&hdmi_out {
-+	hdmi_out_con: endpoint {
-+		remote-endpoint = <&hdmi_con_in>;
-+	};
-+};
-+
- &mmc0 {
- 	bus-width = <4>;
- 	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
-@@ -187,6 +213,10 @@ reg_dcdc3: dcdc3 {
- 	};
- };
- 
-+&tcon_tv0 {
-+	status = "okay";
-+};
-+
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_ph_pins>;
--- 
-2.43.0
+arm64: dts: allwinner: h616: Add display pipeline
 
+This commit adds the devicetree nodes for the Allwinner H616 display
+engine 3.3 pipeline, including two mixers, TCON TOP, four TCONs, and HDMI.
+
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/=
+boot/dts/allwinner/sun50i-h616.dtsi
+> index 93c3b8279241f..d7ed84d3c1217 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+[ ... ]
+> @@ -978,6 +1065,339 @@ ohci3: usb@5311400 {
+[ ... ]
+> +		tcon_top: tcon-top@6510000 {
+> +			compatible =3D "allwinner,sun50i-h616-tcon-top";
+> +			reg =3D <0x06510000 0x1000>;
+> +			clocks =3D <&ccu CLK_BUS_TCON_TOP>,
+> +				 <&ccu CLK_TCON_TV0>,
+> +				 <&ccu CLK_TVE0>,
+> +				 <&ccu CLK_TCON_TV1>;
+> +			clock-names =3D "bus",
+> +				      "tcon-tv0",
+> +				      "tve0",
+> +				      "tcon-tv1";
+> +			clock-output-names =3D "tcon-top-tv0",
+> +					     "tcon-top-tv1";
+> +			resets =3D <&ccu RST_BUS_TCON_TOP>;
+> +			#clock-cells =3D <1>;
+> +
+> +			ports {
+> +				#address-cells =3D <1>;
+> +				#size-cells =3D <0>;
+> +
+> +				tcon_top_mixer0_in: port@0 {
+> +					#address-cells =3D <1>;
+> +					#size-cells =3D <0>;
+> +					reg =3D <0>;
+> +
+> +					tcon_top_mixer0_in_mixer0: endpoint@0 {
+> +						reg =3D <0>;
+> +						remote-endpoint =3D <&mixer0_out_tcon_top_mixer0>;
+> +					};
+> +				};
+> +
+> +				tcon_top_mixer0_out: port@1 {
+> +					#address-cells =3D <1>;
+> +					#size-cells =3D <0>;
+> +					reg =3D <1>;
+> +
+> +					tcon_top_mixer0_out_tcon_lcd0: endpoint@0 {
+> +						reg =3D <0>;
+> +						remote-endpoint =3D <&tcon_lcd0_in_tcon_top_mixer0>;
+> +					};
+> +
+> +					tcon_top_mixer0_out_tcon_lcd1: endpoint@1 {
+> +						reg =3D <1>;
+> +						remote-endpoint =3D <&tcon_lcd1_in_tcon_top_mixer0>;
+> +					};
+> +
+> +					tcon_top_mixer0_out_tcon_tv0: endpoint@2 {
+> +						reg =3D <2>;
+> +						remote-endpoint =3D <&tcon_tv0_in_tcon_top_mixer0>;
+> +					};
+> +
+> +					tcon_top_mixer0_out_tcon_tv1: endpoint@3 {
+> +						reg =3D <3>;
+> +						remote-endpoint =3D <&tcon_tv1_in_tcon_top_mixer0>;
+> +					};
+> +				};
+> +
+> +				tcon_top_mixer1_in: port@2 {
+> +					#address-cells =3D <1>;
+> +					#size-cells =3D <0>;
+> +					reg =3D <2>;
+> +
+> +					tcon_top_mixer1_in_mixer1: endpoint@1 {
+> +						reg =3D <1>;
+> +						remote-endpoint =3D <&mixer1_out_tcon_top_mixer1>;
+> +					};
+> +				};
+> +
+> +				tcon_top_mixer1_out: port@3 {
+> +					#address-cells =3D <1>;
+> +					#size-cells =3D <0>;
+> +					reg =3D <3>;
+> +
+> +					tcon_top_mixer1_out_tcon_lcd0: endpoint@0 {
+> +						reg =3D <0>;
+> +						remote-endpoint =3D <&tcon_lcd0_in_tcon_top_mixer1>;
+> +					};
+> +
+> +					tcon_top_mixer1_out_tcon_lcd1: endpoint@1 {
+> +						reg =3D <1>;
+> +						remote-endpoint =3D <&tcon_lcd1_in_tcon_top_mixer1>;
+> +					};
+> +
+> +					tcon_top_mixer1_out_tcon_tv0: endpoint@2 {
+> +						reg =3D <2>;
+> +						remote-endpoint =3D <&tcon_tv0_in_tcon_top_mixer1>;
+> +					};
+> +
+> +					tcon_top_mixer1_out_tcon_tv1: endpoint@3 {
+> +						reg =3D <3>;
+> +						remote-endpoint =3D <&tcon_tv1_in_tcon_top_mixer1>;
+> +					};
+> +				};
+> +
+> +				tcon_top_hdmi_in: port@4 {
+> +					#address-cells =3D <1>;
+> +					#size-cells =3D <0>;
+> +					reg =3D <4>;
+> +
+> +					tcon_top_hdmi_in_tcon_tv0: endpoint@0 {
+> +						reg =3D <0>;
+> +						remote-endpoint =3D <&tcon_tv0_out_tcon_top>;
+> +					};
+> +
+> +					tcon_top_hdmi_in_tcon_tv1: endpoint@1 {
+> +						reg =3D <1>;
+> +						remote-endpoint =3D <&tcon_tv1_out_tcon_top>;
+> +					};
+> +				};
+> +
+> +				tcon_top_hdmi_out: port@5 {
+> +					reg =3D <5>;
+> +
+> +					tcon_top_hdmi_out_hdmi: endpoint {
+> +						remote-endpoint =3D <&hdmi_in_tcon_top>;
+> +					};
+> +				};
+> +			};
+> +		};
+
+[Severity: Medium]
+Does this tcon_top graph overflow the 16-entry endpoint_list FIFO in
+sun4i_drv_probe() and leak device_node references?
+
+When sun4i_drv_probe() traverses mixer0 and mixer1, both push tcon_top
+into list.fifo.  tcon_top has 9 connected output endpoints across port@1
+(4), port@3 (4), and port@5 (1), and sun4i_drv_traverse_endpoints() queues
+every remote node regardless of whether the target device is disabled:
+
+drivers/gpu/drm/sun4i/sun4i_drv.c:
+struct endpoint_list {
+	DECLARE_KFIFO(fifo, struct device_node *, 16);
+};
+
+drivers/gpu/drm/sun4i/sun4i_drv.c:sun4i_drv_traverse_endpoints() {
+    ...
+	for_each_available_child_of_node(port, ep) {
+		remote =3D of_graph_get_remote_port_parent(ep);
+    ...
+		kfifo_put(&list->fifo, remote);
+	}
+}
+
+Popping the first tcon_top entry pushes 9 remote nodes while the second
+tcon_top entry is still queued (10 entries in list.fifo).  Popping the
+second tcon_top entry then attempts to push 9 more remote nodes (18 in
+total), so the final two kfifo_put() calls for tcon_tv1 and hdmi fail on a
+full 16-entry FIFO, dropping the queue insertions and leaking the two
+remote device_node references from of_graph_get_remote_port_parent().
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261126214433.3562=
+326-1-jernej.skrabec@gmail.com?part=3D10
