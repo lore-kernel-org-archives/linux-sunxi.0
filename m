@@ -1,56 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795730423;
-	b=RkR33kfgcR1LOAMmhMbNzhKPHzvqLLN63PTI1Lp+okSviWXesZTHTbcW8FrimQlp90PM
-	 rSvclHJStCf8aoYm/ldkqrWm8qRwfC3pnMLT29o+BHTrvXZmiV28HUq6Isa4JqsOWihMj
-	 RVZcDHVc9d12Sdu+zBzuPg8qNAtIhZeZF96m7/ZjRq0+GO6EwnVoCogHtg2VR1FS6jFwB
-	 1ZEw0iZxrmlvcOoT0wsGryeYADB5VygYwhopo4RvZ4qYX41wb0RnNnxQ6kwIf2ziU44QH
-	 4o5kkzq2ol+G1RQvMY7V13C3Bptu22drc7u2/4xJ7VaiReRoFmam5NIRDo9WdNQM7Sw==
+	t=1795731997;
+	b=GTn3gA6H/YvxK0dgB4PxAyT15U4QdG5uOseYSELSzbgLN2CftthdbKjBNUn5Eoz+28iF
+	 DBFRSOs/i3ARf7cdto22vP35Kbw7xao+554eGFLh4Zo116aIPftvsmQCOykD+AH3CbkZD
+	 /zjzUX0WTdSZtI5fXdCdLEvuYEL3STDenmH+LzHzg0g3G0GTSYM1bXY3Jqx1wyooWSsln
+	 vMz1Jy4TKu1XQpMNFvbIui7ZxH9OyINntNgUenbXQQlsOLdbgagb3txk7jJyY1eR3zeBE
+	 Tv0TpedfVigkDpIVpfwLbb89lWltorI5t08HQQJwshdt9EpmB5YJdR20yRtp/ziF2sQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795730423;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=7c7/oytUm/cTA9mvt2dZkojdQh//AqC3WyEoCbnB0JA=;
-	b=En3wBKYHP6gArx/3Dkz0t/eUdjsFB4TVY4gqOA8gMorPNkio6Tmle9UN1yr6eOeLNcf9
-	 brvTS3BKx2WW+nFSfDcA2qL6HI90w6H4J5FaPnE/ICHwouco5SN/VZIk9NA1tcQTnKQFK
-	 cwz/S3i+kpsyVeffn4NHAHEEFtfFZYOSP3iNJaAbp08ncUqTN6MhqPYXiGAlcZq1rl6gu
-	 emz2eiqek3evAn6C69GmvUT7fAkKjF4QIlWbN01+JP6FL3of3uoBgr+ovqT8xwPjEnaiQ
-	 FwHG6i0Uj7gu/X2hfKDXb1SX3dpyzaU1TuzdZRAfFeTKOijNVayTyZ1lk86CuFWYiPg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795731997;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:Autocrypt:
+	 Content-Type:User-Agent:MIME-Version;
+	bh=DXV3jwg1vEpIFRKy3B1iiTGO2c9okEZN1fkPq1gh+eA=;
+	b=JB0KYB5nNmEXeNYFpDlA+IsilZ4e/+Z5jt2fj+NPNa6MC8yGd4H/iWZRIZhvtoyO/hFd
+	 1ErPauqsUtM9Oye1yt/fxDYe7N9fdW+iKAz9WnAv7y4JC/Sval+Ihk2+hOBnUzaIqHu6Z
+	 sz9UT0NklGVdJ7dSejU8dc/F99+VwMi9pgpTR24/vh5UxE+lXoOOZ+z1Cyyrfeo4bUZN+
+	 HXhIa8X2n0XC5ECz4Ua3LwdupWwtoQjyZTZuPf0U9yaLjGpofukoG0ssbg7+8NOt753Bv
+	 NoohmfSH+nUQizFyEtbm3jdUt3LzJr2zb2QLohdpfi7ZANsTV4nxZrgSvnwDeD0cT3Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="SIR/jHlR";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=ndufresne.ca;
+	spf=pass smtp.mailfrom=ndufresne.ca;
+	dkim=pass header.d=ndufresne-ca.20260707.gappssmtp.com header.i=@ndufresne-ca.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=JuQI3au4;
+	arc=none smtp.remote-ip=209.85.222.171
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0FD606A323;
-	Thu, 26 Nov 2026 22:00:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C229606A31C
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 22:26:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C229606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SIR/jHlR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 167741F00893;
-	Thu, 26 Nov 2026 22:00:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795730423;
-	bh=7c7/oytUm/cTA9mvt2dZkojdQh//AqC3WyEoCbnB0JA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=SIR/jHlReC/pQgdPSDammzaAJpgLf7Q/QkY3zzhbV8Yw7EsfRq4MFshU2i5A/BFlT
-	 z7pWcmD97ZBj0iIkgbWQwItx67vdPv5hwifdh4giJ4q82NWz8BDsJpRzfqHrz0j8SK
-	 ZpWJu4DLC/AOMagP8tyOMkc+TAQlh2ZG43W7YCRYVbenYMGlpJTNuu0ysr7DdfYFzy
-	 7LhRD1QZkgyQO6h1s2pjguSP10cOGrUxNbOmOdWkfeyDOM30wMn6BIn26KeXt5aDqC
-	 /IggTJlhfNn5GYjlvzmQs5T73vq4VrK8dpBH2/9p4ztJ3RobEgai7U95wfzbUiaeve
-	 jZuJJ2/IAhlcg==
-Message-ID: <sashiko-outbox-236290@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 10/11] arm64: dts: allwinner: h616: Add display pipeline
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jernej Skrabec" <jernej.skrabec@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261126214433.3562326-11-jernej.skrabec@gmail.com>
-References: <20261126214433.3562326-1-jernej.skrabec@gmail.com>
- <20261126214433.3562326-11-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 26 Nov 2026 22:00:22 +0000
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20260707.gappssmtp.com header.i=@ndufresne-ca.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=JuQI3au4
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-9496577d4c4so821631485a.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 14:26:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20260707.gappssmtp.com; s=20260707; t=1795731996; x=1796336796; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-type:autocrypt:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=DXV3jwg1vEpIFRKy3B1iiTGO2c9okEZN1fkPq1gh+eA=;
+        b=JuQI3au4tGtAiYu15ctx75XrPIezHxnpyVz1a2KyYLqDehAWDBOHEKBRBJxABbLMDJ
+         Mnl6ZufPPSLYNtxOrG07VDS5w4bxRS6/pizRnHKr0VsLw2uAe2To/gL0fiJOtvEPFF9F
+         OOfeqerjxseLGqni6byiqY9R7tYlI7fj9QzJfVbbbpZXNB3Ln1yFL9y9C9nxA5xN8mXS
+         2uCQNwBBBDTXgvsktY5ZC7UOHXXFv6ueh12bpvUBisoVUN+JmwYqwa6otLhfJp2mp6Ki
+         KNMkmfq/HE2o8uH5RKepH0RTrkLJ4OJNLpAo1PEGitUNUG0wKWRAzINTZrDmnSAA8wl7
+         0aJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795731996; x=1796336796;
+        h=mime-version:user-agent:content-type:autocrypt:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DXV3jwg1vEpIFRKy3B1iiTGO2c9okEZN1fkPq1gh+eA=;
+        b=XQ+VINR2xkGzYSGyTZErhAHDMJCbpIvUGqZJfK6chT4gY/rQG7c+iIa5Og86cbbBZZ
+         Ynfs1PZOy0FpWplDdG2/RYkK16Yhd1oRdVcryXEsks+4RGP3u5OLCbz1PLVPx91jiK0+
+         cFtTZj2cuWSHTEmwONZ6GbsCmwCGq8Jk78keNlcwscIxtb/WB9hmIxoOuJ8TEhFpJjN+
+         Vzzyg8ZFlxD230KcTRQBxu994cACM8J8H+sp19hxQS8+3PAwcEdNXfhCQQ31k4y+zjvO
+         GKV6FvvDFNWSDIusMOSCotlvCMb3A8EDGp5pPm+di2bX7sfXMhUOVsI/qvwkGcmdMwKa
+         djPQ==
+X-Forwarded-Encrypted: i=1; AL+hErGG0piKWbFxZywkK7eHeDRYuACrdzReNZhQ21hTLkK3da+F1W9G01Sg3rvjzsGjcY1L+EtqZC0VgLEiLg==@lists.linux.dev
+X-Gm-Message-State: APuU4Z/pwpnBr8MJMN9czHeAL0+JSvhW17f+UV0vpe2S0gwPJ27/uS2S
+	vmMAxw1NMxikZgAVhDjk5iHTij2JDOZeo+ZhZMZfXiSt7bLHvP17vyURs0RB3vwWQz8=
+X-Gm-Gg: AZFdTZcWMZkTwfzVlgU4J8cYF19YppPescJR5p5T17cvMHPoJr/krX0Oerz/vi3N1CF
+	m/CHO/iBc3/tPhGephnHbivtp8Nygwd1YPh1SfalRY+ntBDbUKkWi1McPgX4o445LHy9+cnJ837
+	747XdWVG05HRDal7/KKcisOM8j1odfiAHdgZcin5Gh/S3O5mu11j2ne8WzfvkdbwrHRgddyaQvn
+	j/9YUbv8Y+zJ+hNo3KnLR+BLAq7OCeBtu2cEx8PhS78KeSDeS5ksM7x8K+ke/jRgEq1Op3hGgkE
+	vXUsOZspjLHNTIDQuipsVk1wuoPgdD8LEZC4VowaMoJxVV3zGl/uUVEkVcx3Ru7pz+1PnkxY4aG
+	17UMJB0jhbUsGbmy/HIXMO2FDADxYzmAW5q+McYEgbEp5ymt9cJIOX516cXMZk0gvdf+KzAJsqX
+	eb9wHwCEJW7QU4khHUW1QW2MNWLvOiB6tOv70/RmRK9rZt0MLnMslaDtS5321nLl9qvdFr9IBG5
+	WEdZXuDKNFRUVsmu4PzTTUSPhRaezPajbdMb5AJgnjuOXTysoSNSKzASeS4Z6lOk7s58xN8OaiG
+	ntg7Kppy6r/qzZ345qx8X3gmDmL2YP20TvfqADdWEwMZWKkTUxGBBtfm
+X-Received: by 2002:a05:620a:372b:b0:949:70c5:c0ce with SMTP id af79cd13be357-949b35ac8e0mr4145462985a.19.1795731996315;
+        Thu, 26 Nov 2026 14:26:36 -0800 (PST)
+Received: from ?IPv6:2606:6d00:11:8ec9::c41? ([2606:6d00:11:8ec9::c41])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb34ac11sm1681287985a.14.2026.11.26.14.26.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Nov 2026 14:26:35 -0800 (PST)
+Message-ID: <f41c7d6471f41d7fcc2109e14289e47091610822.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: sun8i-di: Don't sleep while waiting for
+ coefficient access
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, Mauro Carvalho Chehab
+	 <mchehab@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Samuel Holland
+	 <samuel@sholland.org>, Hans Verkuil <hverkuil@kernel.org>, Maxime Ripard
+	 <mripard@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Thu, 26 Nov 2026 17:26:34 -0500
+In-Reply-To: <20261104185930.885203-1-jernej.skrabec@gmail.com>
+References: <20261104185930.885203-1-jernej.skrabec@gmail.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-i1ae5NoATxMPm6Cs3hN+"
+User-Agent: Evolution 3.62.1 (3.62.1-1.fc45) 
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,179 +116,59 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [Medium] arm64: dts: allwinner: h616: tcon_top graph overflows
-  sun4i_drv_probe() kfifo
---
+--=-i1ae5NoATxMPm6Cs3hN+
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-commit 01e1e3e0b1574bffa9c9d00380c059ba10691ddb
-Author: Jernej Skrabec <jernej.skrabec@gmail.com>
+Le mercredi 04 novembre 2026 =C3=A0 19:59 +0100, Jernej Skrabec a =C3=A9cri=
+t=C2=A0:
+> deinterlace_irq() calls deinterlace_device_run() to start processing
+> the second field, so it runs in hard interrupt context. However,
+> deinterlace_device_run() waits for coefficient access with
+> readl_poll_timeout(), which may sleep.
+>=20
+> Use readl_poll_timeout_atomic() instead.
+>=20
+> Fixes: a4260ea49547 ("media: sun4i: Add H3 deinterlace driver")
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-arm64: dts: allwinner: h616: Add display pipeline
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-This commit adds the devicetree nodes for the Allwinner H616 display
-engine 3.3 pipeline, including two mixers, TCON TOP, four TCONs, and HDMI.
+> ---
+>  drivers/media/platform/sunxi/sun8i-di/sun8i-di.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c b/drivers/m=
+edia/platform/sunxi/sun8i-di/sun8i-di.c
+> index 65bc426e5aac..bb90e0efa4d1 100644
+> --- a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+> +++ b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+> @@ -163,8 +163,8 @@ static void deinterlace_device_run(void *priv)
+>  =09/* neutral filter coefficients */
+>  =09deinterlace_set_bits(dev, DEINTERLACE_FRM_CTRL,
+>  =09=09=09     DEINTERLACE_FRM_CTRL_COEF_ACCESS);
+> -=09readl_poll_timeout(dev->base + DEINTERLACE_STATUS, val,
+> -=09=09=09   val & DEINTERLACE_STATUS_COEF_STATUS, 2, 40);
+> +=09readl_poll_timeout_atomic(dev->base + DEINTERLACE_STATUS, val,
+> +=09=09=09=09  val & DEINTERLACE_STATUS_COEF_STATUS, 2, 40);
+> =20
+>  =09for (i =3D 0; i < 32; i++) {
+>  =09=09deinterlace_write(dev, DEINTERLACE_CH0_HORZ_COEF0 + i * 4,
+>=20
+> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun50i-h616.dtsi
-> index 93c3b8279241f..d7ed84d3c1217 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-[ ... ]
-> @@ -978,6 +1065,339 @@ ohci3: usb@5311400 {
-[ ... ]
-> +		tcon_top: tcon-top@6510000 {
-> +			compatible =3D "allwinner,sun50i-h616-tcon-top";
-> +			reg =3D <0x06510000 0x1000>;
-> +			clocks =3D <&ccu CLK_BUS_TCON_TOP>,
-> +				 <&ccu CLK_TCON_TV0>,
-> +				 <&ccu CLK_TVE0>,
-> +				 <&ccu CLK_TCON_TV1>;
-> +			clock-names =3D "bus",
-> +				      "tcon-tv0",
-> +				      "tve0",
-> +				      "tcon-tv1";
-> +			clock-output-names =3D "tcon-top-tv0",
-> +					     "tcon-top-tv1";
-> +			resets =3D <&ccu RST_BUS_TCON_TOP>;
-> +			#clock-cells =3D <1>;
-> +
-> +			ports {
-> +				#address-cells =3D <1>;
-> +				#size-cells =3D <0>;
-> +
-> +				tcon_top_mixer0_in: port@0 {
-> +					#address-cells =3D <1>;
-> +					#size-cells =3D <0>;
-> +					reg =3D <0>;
-> +
-> +					tcon_top_mixer0_in_mixer0: endpoint@0 {
-> +						reg =3D <0>;
-> +						remote-endpoint =3D <&mixer0_out_tcon_top_mixer0>;
-> +					};
-> +				};
-> +
-> +				tcon_top_mixer0_out: port@1 {
-> +					#address-cells =3D <1>;
-> +					#size-cells =3D <0>;
-> +					reg =3D <1>;
-> +
-> +					tcon_top_mixer0_out_tcon_lcd0: endpoint@0 {
-> +						reg =3D <0>;
-> +						remote-endpoint =3D <&tcon_lcd0_in_tcon_top_mixer0>;
-> +					};
-> +
-> +					tcon_top_mixer0_out_tcon_lcd1: endpoint@1 {
-> +						reg =3D <1>;
-> +						remote-endpoint =3D <&tcon_lcd1_in_tcon_top_mixer0>;
-> +					};
-> +
-> +					tcon_top_mixer0_out_tcon_tv0: endpoint@2 {
-> +						reg =3D <2>;
-> +						remote-endpoint =3D <&tcon_tv0_in_tcon_top_mixer0>;
-> +					};
-> +
-> +					tcon_top_mixer0_out_tcon_tv1: endpoint@3 {
-> +						reg =3D <3>;
-> +						remote-endpoint =3D <&tcon_tv1_in_tcon_top_mixer0>;
-> +					};
-> +				};
-> +
-> +				tcon_top_mixer1_in: port@2 {
-> +					#address-cells =3D <1>;
-> +					#size-cells =3D <0>;
-> +					reg =3D <2>;
-> +
-> +					tcon_top_mixer1_in_mixer1: endpoint@1 {
-> +						reg =3D <1>;
-> +						remote-endpoint =3D <&mixer1_out_tcon_top_mixer1>;
-> +					};
-> +				};
-> +
-> +				tcon_top_mixer1_out: port@3 {
-> +					#address-cells =3D <1>;
-> +					#size-cells =3D <0>;
-> +					reg =3D <3>;
-> +
-> +					tcon_top_mixer1_out_tcon_lcd0: endpoint@0 {
-> +						reg =3D <0>;
-> +						remote-endpoint =3D <&tcon_lcd0_in_tcon_top_mixer1>;
-> +					};
-> +
-> +					tcon_top_mixer1_out_tcon_lcd1: endpoint@1 {
-> +						reg =3D <1>;
-> +						remote-endpoint =3D <&tcon_lcd1_in_tcon_top_mixer1>;
-> +					};
-> +
-> +					tcon_top_mixer1_out_tcon_tv0: endpoint@2 {
-> +						reg =3D <2>;
-> +						remote-endpoint =3D <&tcon_tv0_in_tcon_top_mixer1>;
-> +					};
-> +
-> +					tcon_top_mixer1_out_tcon_tv1: endpoint@3 {
-> +						reg =3D <3>;
-> +						remote-endpoint =3D <&tcon_tv1_in_tcon_top_mixer1>;
-> +					};
-> +				};
-> +
-> +				tcon_top_hdmi_in: port@4 {
-> +					#address-cells =3D <1>;
-> +					#size-cells =3D <0>;
-> +					reg =3D <4>;
-> +
-> +					tcon_top_hdmi_in_tcon_tv0: endpoint@0 {
-> +						reg =3D <0>;
-> +						remote-endpoint =3D <&tcon_tv0_out_tcon_top>;
-> +					};
-> +
-> +					tcon_top_hdmi_in_tcon_tv1: endpoint@1 {
-> +						reg =3D <1>;
-> +						remote-endpoint =3D <&tcon_tv1_out_tcon_top>;
-> +					};
-> +				};
-> +
-> +				tcon_top_hdmi_out: port@5 {
-> +					reg =3D <5>;
-> +
-> +					tcon_top_hdmi_out_hdmi: endpoint {
-> +						remote-endpoint =3D <&hdmi_in_tcon_top>;
-> +					};
-> +				};
-> +			};
-> +		};
+--=-i1ae5NoATxMPm6Cs3hN+
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-[Severity: Medium]
-Does this tcon_top graph overflow the 16-entry endpoint_list FIFO in
-sun4i_drv_probe() and leak device_node references?
+-----BEGIN PGP SIGNATURE-----
 
-When sun4i_drv_probe() traverses mixer0 and mixer1, both push tcon_top
-into list.fifo.  tcon_top has 9 connected output endpoints across port@1
-(4), port@3 (4), and port@5 (1), and sun4i_drv_traverse_endpoints() queues
-every remote node regardless of whether the target device is disabled:
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCawiyGgAKCRDZQZRRKWBy
+9MOtAP4lcK/xSN3c+U7uRq10fy5MnpVhec9Sqx0NG67DpPGZAgEA8d3GOhpIEGXC
+xicNBf+fQ7gEyX7c665ziueulfyRVAg=
+=8HHY
+-----END PGP SIGNATURE-----
 
-drivers/gpu/drm/sun4i/sun4i_drv.c:
-struct endpoint_list {
-	DECLARE_KFIFO(fifo, struct device_node *, 16);
-};
-
-drivers/gpu/drm/sun4i/sun4i_drv.c:sun4i_drv_traverse_endpoints() {
-    ...
-	for_each_available_child_of_node(port, ep) {
-		remote =3D of_graph_get_remote_port_parent(ep);
-    ...
-		kfifo_put(&list->fifo, remote);
-	}
-}
-
-Popping the first tcon_top entry pushes 9 remote nodes while the second
-tcon_top entry is still queued (10 entries in list.fifo).  Popping the
-second tcon_top entry then attempts to push 9 more remote nodes (18 in
-total), so the final two kfifo_put() calls for tcon_tv1 and hdmi fail on a
-full 16-entry FIFO, dropping the queue insertions and leaking the two
-remote device_node references from of_graph_get_remote_port_parent().
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261126214433.3562=
-326-1-jernej.skrabec@gmail.com?part=3D10
+--=-i1ae5NoATxMPm6Cs3hN+--
