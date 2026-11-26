@@ -1,89 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795725235;
-	b=UIMFlxWZF3aJMDWB+2UcoUaTv95X2SypoL8zAPqx8wGca090Mb5nTVaLId2B2hviSAWC
-	 8YHRtOiflTNCAcj5mEDVujPysWJHPWAovLGRNBTCcjJtcMG4Uanez0Foslyy1Gn6+54Sh
-	 1I8AYg3NW/kZtec5Yiiez85VgxFOPWTvbSfdLLnpIV8IBRd8TeM86SW6FglxLi61K44y5
-	 H1meitllqvgBPITGybGu6Rrpt9EUM9jl7/kZytzvzRZitM/5SO06Ivod8DE55HiXPEx1o
-	 2TlUyjB0Q8F44Enu2jDsq+6LtE+/rllGyye5pv+Z4lhi55wEgYV7Wdb6EQ6QTj2cvrQ==
+	t=1795725242;
+	b=T2+1n7RrLkXyFeNJtPzLQi80ArfhHerQbIyYo4iREO0dbY4s1xc9cbM+BemJ//BEgFYW
+	 UN938+xqvu3SdlSKiklFDZft/ONUlZ0kr+kzxAwJvONsRJha42zpsc9XyIJ6nFp6X5DOE
+	 0pn85PXIwYtSUD3yw+CwjhZcYUOdnlQ9Ow2IW9T1MqEvblsPHtnZisRpibSc407BFH8F0
+	 /ufhpjsLj/yh0xUxOHAFPtkBzYXnvRVqeqJ0u5DbkTdjmlgwmji4DCHdj2Qn5hOKVa4kY
+	 QvVzw0pt7M6UgJWbUQLQB1wCVvEHXYttdHKfyZcjlmiVYuI6FzezTxoXSCX0Qwlmn5A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795725235;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795725242;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 Content-Type:MIME-Version:Content-Transfer-Encoding;
-	bh=r1XVIRh3fQHS2h4Sz3Sym6iq1PD22XfOzca3/RkWwfE=;
-	b=tiLF2B7Ch5P53H4LHUYFlwr+NUtBaRlNeYPnEpwwtx2Xfm3wF+PFczoUaUWumH3jDJ7D
-	 a73Kj1k2lQOGtJYPn1wke5n9XaaP/kzN6bbp1HksQzAQg7vnZOjdk9UxxUDKFXs4b47hL
-	 DQR/NaSZILuG5ucn+IDXQH86X03YXxVQYiyAvmTbR+AzaYfC99VN2vytz9otupiKZq04J
-	 1BhIZmG1+1goVsfgT73QimdvhCpc9z/yYpTI2Dd5Ur9i9IM7JvP/BsfGA3G923HO8k9f4
-	 0TYXIo9rGV/iTLNoShbnh0f4Dub+T7YfcFoJKQuhTMnX9Orkk9Ihv2zMMYzaBxvchew==
+	bh=sbsvamPXVVsk6WUGKrA0iCW9sEFQvSqMVX1Sf+ynGWM=;
+	b=TqTOmbrNQQ/3RRLbvIGhhaWlPflY39jf+LmfXuKZRgGaDbXjuqmXbFDfItF6jy5A80P5
+	 yg1fFG7bvN+peRrLgg1OPUPbwsIUvnXATZoR7Iam3AY9zqUv3JAI5BTPurc5XxCD2jxI6
+	 O/ssU+BHECjX2RncopatV0UEy32F9P90ZCq3P63V+vOFODry89nBnF0kZAAzkJw4eCIaS
+	 yuwRVIBlXd0QwLbQ1Jso0Y2Geha1bSuJ/HUnHv98deNo5CO5PGWk8xTdhW9I6lR5uJOOb
+	 znjLDDCud8OycdIzZo1bX+xkOFd4B6rgolwiFreh6BWdG4RG0UoCs7SWRqOaDLyt92A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uv2twGs7;
-	arc=none smtp.remote-ip=209.85.167.177
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RcuTK2K0;
+	arc=none smtp.remote-ip=209.85.210.46
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D84A606A333
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 20:33:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5D84A606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E50606A326
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 20:34:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46E50606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uv2twGs7
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-57728d859e9so3110444b6e.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 12:33:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=RcuTK2K0
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-847ac7ccd85so4171981a34.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 12:34:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795725234; x=1796330034; darn=lists.linux.dev;
+        d=gmail.com; s=20260707; t=1795725241; x=1796330041; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:content-type:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=r1XVIRh3fQHS2h4Sz3Sym6iq1PD22XfOzca3/RkWwfE=;
-        b=uv2twGs7VCPsFQ0G72W//nw1gvKXcNoSRE4Ie0ctFMEU7+/DJPYNfnZ1Dp3oWbdhYZ
-         YLlBuLNJVLlmDkFGM/XK8+iMtLT644ISns62DatEdR8ukTeEqayiRegRaHfPZ/vMW35c
-         bwIaSANsvmoFhmHktubE+wSykQeYMt4GrkGK1kr/rgz8Cra/+Ryu3r7QBXpsOQdERuvB
-         1V2XNuVKgxRCMRfs2SOCLmY/DCjDjrjy7thCi9EDvdBXKfbdZw1BRT1t2/oxkP0SIQWl
-         ibXr4ye0MAu1DvlDBNo4r1J4wLVe0GaTZ5+ylM28+7xJgh2reuh4YfM7B81hc5CfPr5E
-         5w/g==
+        bh=sbsvamPXVVsk6WUGKrA0iCW9sEFQvSqMVX1Sf+ynGWM=;
+        b=RcuTK2K0ABY57PllZsKphdj9P/Iuw11Ccw6ycW7V1w5/9twuDRg6g4LL7g2SZf0dYg
+         STQQ2KkJ6smwXUvzCPcDV1PGH2lC3RepK/lBAac8450YFIps7QyOs0j6pf+Rs0TkMrzX
+         QfqqJRR41rWZjD1GUkEuMQdo1/9EHWuWCa9h0bO6LkP1weT4140cnjvxsBCdj3TQm4A8
+         SHBmzoiHgjNdj9T3bFcHXdDaRQsjKgwSc0qzT0Qx8b0LIH/fSjW2KmHuUnzpPZhBqqlE
+         0JVzAq9gY/MGbudqTM4AHvmo+BW+zXagu4EkhDG54laWWwOWZ+sTqjBVrMMRNnHoeHzr
+         ZDIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795725234; x=1796330034;
+        d=1e100.net; s=20260707; t=1795725241; x=1796330041;
         h=content-transfer-encoding:mime-version:content-type:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=r1XVIRh3fQHS2h4Sz3Sym6iq1PD22XfOzca3/RkWwfE=;
-        b=zvsGyAfqgNeUhiXp9o3XGxcj6j3RSIkMDG26nfAM4zN4qJdpQ2g+nqQf0pFo47mxMX
-         ds2B559YZnz6tjzch4CwUA2KttDNe+GnfyDsdNcwacIFoAKMyLB8AZ52QsbCWkMw20j5
-         eQ1DSYVc0t+HBMm1fdlA/NmsfLdjqDoYUPLQSQUXLZBkFuwO4rGXW0AiCOSOw8ACwlL5
-         I7dUnYjOufyRrTThm7RlMcTizefb6NloT0RtjBEPYxRN63VhzpRaUu0LkTkztPauW3WO
-         IPKfdG6xt0AHrLSH1XfClCz79yVgOtP14Tbgs/DXPjcKbIpXoZvjLTj8kknNXJSR2qMD
-         JdlQ==
-X-Forwarded-Encrypted: i=1; AL+hErEVAh3BfSGjiyTZ9G65p4OlGHPq2ogcGL+QVM0NicccCh+YWWcRqQtkUbGi4/kLE9q+/pKhXRXVI0dxHg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z9PoQE7qBqvPtxIhtoFqr26CyC5wswhK8+q9ebonv3RIQLyJsjI
-	3/cBNw5co2HWDUr6VUT8Lv0l3ePqdCLsA+INElgNe/M14t6Op3MEcE5i
-X-Gm-Gg: AZFdTZeyEtERo3V9+YlTeNDvHo7udphVe+1/ffDFHKCJrlz7TL7O9DkXMBq7BgviFVO
-	wtj502TeqklR9ANJMbMpK/ltaZev/o2s+V9iKNLqPFdmazYkOp2NTuaKCKJzIVP1v1wpEX+gNs7
-	F2qxTb6WO7Ls6Ea5DYm16JeUexX3w6JHuFUGYmNAWgTDzkvB3kJAyJWsJ0FTXUXCn6NyQcGr8Sj
-	lFoQz7kzCh6270dFodsDMgT3enEFUeW/9KnSs/nMdWOF3lfjgz8Baoy1StHtKKq61nwfnVNjrOa
-	SY91O5JvTarHSuq28HsFsPy+CkPUXDUIMH29vsD/o+5QnIu9aGUWWsONG/oXv9jgqcIm25E3yic
-	BNsvyE0pG6MqMJdrufaDRIDp040y4wYQaPfnMh3U1QVLX1NcbuoGtFcRrKckx3GQ8oT3SNBzrg0
-	Ep9i5eLVZMIoMzii0zg1yHU7xmfmBcbXDYtjPhpHwNkfpt8Cu5HeB5mrPWJxpZmXex5NRdYEQfr
-	fmkSWuMEjNvoZYzGMJw3u0D7DZHLpHa5rJPT26GSVARjm7yejDa2YTuphKQ7H2EgjTJRB6Oeoo/
-	PTAHrAaiXk8f3j/cEHVEbfCiTduvGOkoNuwy/+HGj4hZ2ndN5k4xA9ZDGZCoKJXaaloaTshs+QF
-	dkwWWSVY=
-X-Received: by 2002:a05:6808:4fd4:b0:55c:859:adc with SMTP id 5614622812f47-57a0c5bfaaamr27052957b6e.55.1795725234464;
-        Thu, 26 Nov 2026 12:33:54 -0800 (PST)
+        bh=sbsvamPXVVsk6WUGKrA0iCW9sEFQvSqMVX1Sf+ynGWM=;
+        b=04TQffLYxkDVVnK5MMYV5TIbxLufHvGndquZCqzNZkAbS3ligOlLULJTBMqTKNnnJi
+         oqygxRrZxIJPWdxUBSDh972BTZZ4vQj97ZMk5NR6eEPwvHEEgcLincOrtDLLbbl3Vvgk
+         jAQJskWQOzzcUJdi0KkaALd7oKy/c+nL2H20QhBAMQpbULG+zOmL8GljhhF6GF+VG2uy
+         SqwtQVL9qWUMmUihwrX700hSJvOD6T+fEuycQAs2mdkfQnzzjvutagE4Vm0UgvLCQfg8
+         IB8Kw3PpCPm2VSbUsYW+aWutwiFqLrG2ALAN+2kQ5YWloqIFnSDOk4/K1WbEyc2yoATW
+         EIFg==
+X-Forwarded-Encrypted: i=1; AL+hErGVgQoeBBdEl9RyAH8wF9nC4eJNe194LENM/mtSsxndInEkzh6RzE2DOeds6Z4v8FHJjqJJr2xQOYS+mw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9NgWbLeeZ7/Tj3PPIjffrcgGqJqu+ytMEExBEH1i0CLP3LM2/y
+	En2Zx7rZbiThxSm31TihUFlylpTE15iF/UJuYrDSFdOE4uqFTWbNMMdZ
+X-Gm-Gg: AZFdTZfg9BHm3zYK21bRxgboYrSxiUxjf5ZT0bqtOXqYjbmpj1ArQMoaGkmkxStcs64
+	qaLmOWb89WoRLCgnnPLlL/mpP3xFNLpgHS79fNjy3T58TVYFk5/VvdOI+irWSVEMR+VefhffAIk
+	x6Us6tW/j4iKZtRhhlsgYHypCrSYxdU0krUsLQSYIyvaFA9BuuwxL1Tkev5wz1xUCX5snRnn/IF
+	4+RGdjwUndDGMxF298Zu+6avcQhwXKxkQ47csOaSpydOmTcuh199tP+sgEZkK3o40qSNoDuAvTy
+	byoAD9cp0URP4rGMLz5A2EBgytOVoXRQxQ1jxxJBy1s38oyUt0cn5hT6tA/i7MBFWmw5/Ts4wfT
+	yfP+3COY33d5sv6dfjXvj7Es+MVtVHtT+hwzDhh/ZrKbrvZGvo0qzK7y3cfxMDcZfRxzT4ROrHQ
+	Sy0nzKwKvYxyUXo2tcCXY4V0Kv4L9q4yds+jZelda5G5aOo8FJNlEpHsHCTt2v9gWqJXcdl7vVe
+	F2Er82YWzgZbuzH9D8BxERUmfYAnr7MSEDm9oMNEQ5R1gfpE132qacnxIrHx0lmT2sIgV7Do3w0
+	98nF/EBQp3VR57i7u6NKZzlzffKSH655VwXW6QcPCujlII6c/qn1sm/+xMJ53oW1zyWTatmwgbf
+	g+X2xJfA=
+X-Received: by 2002:a05:6830:438f:b0:862:aa2b:eae4 with SMTP id 46e09a7af769-863159e9bd9mr23567439a34.24.1795725241022;
+        Thu, 26 Nov 2026 12:34:01 -0800 (PST)
 Received: from AMD.home.internal (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-57a31929223sm17049002b6e.1.2026.11.26.12.33.52
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-8631692f049sm16133926a34.25.2026.11.26.12.33.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 12:33:54 -0800 (PST)
+        Thu, 26 Nov 2026 12:34:00 -0800 (PST)
 From: Enzo Adriano <enzo.adriano.code@gmail.com>
-To: andre.przywara@arm.com,
-	wens@kernel.org
-Cc: robh@kernel.org,
+To: wens@kernel.org
+Cc: andre.przywara@arm.com,
+	robh@kernel.org,
 	krzk+dt@kernel.org,
 	conor+dt@kernel.org,
 	jernej.skrabec@gmail.com,
@@ -100,12 +100,12 @@ Cc: robh@kernel.org,
 	Alexander Sverdlin <alex@sverdlin.org>,
 	Jun Yan <jerrysteve1101@gmail.com>,
 	Lukas Schmid <lukas.schmid@netcube.li>
-Subject: Re: [PATCH v5 2/3] arm64: dts: allwinner: add A733 SoC description
-Date: Thu, 26 Nov 2026 15:33:52 -0500
-Message-ID: <20261125-a733-02-soc@gmail.com>
+Subject: Re: [PATCH v5 3/3] arm64: dts: allwinner: add Radxa Cubie A7S board
+Date: Thu, 26 Nov 2026 15:33:58 -0500
+Message-ID: <20261125-a733-03-board@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <0e94af87-71d1-4a5c-a2bb-218a2306db27@arm.com>
-References: <20261121-a733-cubie-a7s-dt-v5-0@gmail.com> <20261121-a733-cubie-a7s-dt-v5-2@gmail.com> <CAGb2v64c5oirvfq7R3a1CWQCydfOOipcRD7dhSFAb=zczRdTHw@mail.gmail.com> <0e94af87-71d1-4a5c-a2bb-218a2306db27@arm.com>
+In-Reply-To: <CAGb2v64p4GvDMDKzDLfedDQCexD+=gu3+YxMAt=ARj4bZxR_eA@mail.gmail.com>
+References: <20261121-a733-cubie-a7s-dt-v5-0@gmail.com> <20261121-a733-cubie-a7s-dt-v5-3@gmail.com> <CAGb2v64p4GvDMDKzDLfedDQCexD+=gu3+YxMAt=ARj4bZxR_eA@mail.gmail.com>
 Content-Type: text/plain; charset="us-ascii"
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -118,36 +118,49 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-> > This should be evident from the schematic itself (the pins are used for
-> > I2C). And then the datasheet would tell you which mux value it is.
+> "PS" is a separate output from the PMIC's "PS" pins. It is fed from
+> the "DCIN" pins and has some internal resistance and a zener diode (if
+> the block diagram is to be believed) for some poor regulation. In
+> practice I would expect at least a little bit of voltage drop here.
 
-A7S schematic sheets 7 and 16 show PG8/PG9 going to the EEPROM.
-A733 Datasheet section 4.2.6, table 4-36 gives function 6 for TWI0
-SCK/SDA. The v6 commit message cites both. In v6 the I2C0 group has
-/omit-if-no-ref/ and the RTC clock include follows the A733 clock headers.
+Sheet 4 shows VCC5V0_SYS feeding DCIN. PS feeds the buck inputs and
+UP11. I've described the two nets separately and used LDO2V5-INPUT for
+the downstream rail. I've also renamed the oscillator, reordered the
+regulators and removed cap-sdio-irq and the blank lines before status.
 
-> > Someone please test the PMU.
+> > +       cd-gpios = <&pio 5 6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+> Please actually test this.
 
-On the A7S with v4 I pinned perf to each of CPUs 0-7. Cycles and
-instructions counted on all eight. Sampling cycles at period 100000
-delivered 193 or 194 samples per CPU, all on the requested CPU. Its
-PPI 7 interrupt count increased by exactly the number of samples.
-The two PMU nodes and their interrupt partitions are unchanged through v6.
-Norman also verified PMU counting and overflow interrupts on all eight
-CPUs on his A7S with v5 [3].
-Vinicius also reports PMU counting and overflow interrupts on both
-core types on his A7Z v1.11 [1].
+On a Cubie A7S with the posted v5 DTB and Vinicius's EINT-mux fix,
+MMC0 reported four-bit SD high-speed at 50 MHz and 3.3 V. One read of
+the first 16 MiB matched the vendor kernel's SHA-256. The mismatch on
+the earlier 4 MiB read at offset 16 MiB is still unexplained. The
+EINT-mux fix is now in pinctrl fixes as a256b8c8083e [1].
 
-> So I wonder if you could take just that binding patch already, to not
-> block progress here?
+On his A7S with v5, Norman verified that PF6 reports the card present,
+MMC write/readback matches, EEPROM reads work, both LEDs switch visibly,
+and warm reboot and power-off work [3]. The v6 cover lists A7S card
+hotplug, EEPROM writes and write protection, and 1.8 V SD signalling as
+untested. The v6 DTBs have yet to run on hardware.
 
-The binding is Vinicius's v2 3/4 [2]. It adds the A733 compatible with
-the DW APB UART fallback and has Conor's ack. Taking it separately
-would cover the DT dependency. My console tests also used Vinicius's
-driver changes.
+> > +                       reg_dcdc9: dcdc9 {
+> Missing voltage range.
 
-[1] https://lore.kernel.org/r/20261125124139.23869-1-vinicius.eduardo.pedrosa@gmail.com
-[2] https://lore.kernel.org/r/09f3a181436e6f19317224e583c2fdaa787797d7.1792439398.git.vinicius.eduardo.pedrosa@gmail.com
+DCDC9 reads back 1.240 V on A7S. Vinicius cites a 1.2 V ELDOIN minimum
+from the AXP318W datasheet draft [2]. I've used 1.240 V for both bounds.
+
+> > +                       reg_eldo1: eldo1 {
+> Missing voltage range.
+
+For ELDO1, schematic sheets 4-5 label LPDDR5 VDD2L as 0.9 V. The
+regulator reports 1.075 V after firmware DRAM training on the A7S.
+Do you have a validated VDD2L range for this memory, or would you
+prefer to preserve the firmware setting until the range is confirmed?
+
+I'll wait for the AXP318W series before asking you to take the board.
+
+[1] https://lore.kernel.org/r/CAD++jL=xA7eZUeb30xOnCZ8uRy0UE7q8h=8AA4p-tmiBf3Sb9g@mail.gmail.com
+[2] https://lore.kernel.org/r/nh-1384c024-38de-4962-9d4f-a0bfb55471a6@google.com
 [3] https://lore.kernel.org/r/CqGMQaDysL6l016qtEM8oOEnYUMKACgmwLUbb0wruVAzPcwiqrz00WCOhTrhkVEaZt1YB3xfucXdEc-ZFi-sCPgn69RNqtW0v4Gn_HjQZXs=@proton.me
 
 Thanks,
