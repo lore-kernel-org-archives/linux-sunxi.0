@@ -1,49 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.120
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795799468;
-	b=n0CUkvnUpoX3ip0P5gT9n0vkBTHIA6UOOrcvtu7IGULMQzmUKHq9ocSeDO4H6qFzd1d/
-	 PGVYvHX1cLqf1QjvYs2TabPWM6+fo6MvizZy2x7wWnR7adOPHXwhmax/Cp0GTRimu00oe
-	 /vqqxc648WgHUy9Mr9px11fAeM9d/X1vXlW+/ihsNXZ1/JMI2mgkVbKyZah1vkTmorU/Y
-	 Y1EhCS39JygugvJYkgKS/5VjGPve27rriuhEbHOHnnrlSiX2QAxAuqsDyyc8Z2+sxvWmW
-	 z+NKCslHdGNGfujz6FqHGbHfgn+TnAmZ2/K6VJfCA4a4yAxUL29sYR3vE6qv+NtJ/7A==
+	t=1795802089;
+	b=Rcv9WJAFvUDy+ScTe5Z1RP2hmvJZ4iMEorciqZaeau5xGmWIcy+YFfQ5RZj9drphhMBY
+	 Q0ckyJL/ZPElJpsq7JfjG0Q8mfIWXnnUxeoSM/P7fTuiX9AvMVEG+iGlT+wrlVbTawack
+	 fTmsp/0MKzxyrGb8avgWODUy3vP0fXzWtx7hnlEWg2qSUPpZBGKVM2rzMZYou9DuxPvE4
+	 1XTts5kT96t9V2c4oPNQ50PKEzpGINr7j13xIxY0QdGfXI41/tQceMczUGcITgJSLjOSe
+	 fMew0DKxAssL45DcBrPnrb0JNKSuCtRdSRRKYZKIIt5CAuqW4IFfmfRATop2XUz7vVA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795799468;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=istvK8Vo0dRH+5Ab3OL0OyFKa13o+bNLAyZJ8VHCKOU=;
-	b=NWmswoZPLJ4zzVFV6h9x95TAtRfNwJcpxiCHqFYJyEqOG/vVesMSdDIkm/LC8NVihA3Q
-	 NPIw8amluvYqPJjye0SoXGmNufDvSnTNAZ+QPKtsg+v/ba+eGnoN5FYe48wA8su3uUcbO
-	 1aQpr6ns0Wb+ZZLXSKPbKt1q4MAj5cKSApdjumwUjpqBHnOTkWuo/4Z7OVWNwScvGSDu4
-	 V/FSbvzctFhlwibwTVvJ9Jf6MrZFLMEZC54Uo530t1BjdT8FJiGWcTQpMNsz44g4Kn6AS
-	 dzHxXuUP6/GuxNjnz4cFaPbpIIlgUnUyi6rc1mk8cAYTpctOT4WkfazNrTiQTRxr7Fg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795802089;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=MBpzvZy2ZJyn1GNW1kPyufscZwT3WxGJxcs/46l1sms=;
+	b=3DtNkUaXHYNxL7fOTAyH/DE94zMMK3YP1puquUNGMIRp2mn/rnHQ1XYwa7aYAk0qIFN6
+	 Z+0bi5f8g9y/Qp1YbR2IGUWZlKqwvCvTK6nE6T+bViW5uv1GzWj3+JyrmWXiTbwNm2+/j
+	 h2t06Y2+D7d0mtvTAFDx/8DDs+84r/JuKAorJWe0Bc7KYI70ISBVBvI9AbF27aVjWt8UU
+	 6x1GNA27FjxBSQQKr0USPO7pcE8cbtDmtQLAbhX0XtqO47XYZxra2+GVcpeONlsNzoK5u
+	 9lpKoNSwTQ0NlUIuu2vux3hFqFnIhXgXV4jmmyesCCgU3GRDxafFUPyuJ3B7OKrRolA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=larR9y8f;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B2C8606A31F
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 17:11:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B2C8606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=proton.me;
+	spf=pass smtp.mailfrom=proton.me;
+	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=WV9URbfw;
+	arc=none smtp.remote-ip=79.135.106.120
+Received: from mail-106120.protonmail.ch (mail-106120.protonmail.ch [79.135.106.120])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A98606A31F
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 17:54:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43A98606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=larR9y8f
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BAFB81575;
-	Fri, 27 Nov 2026 09:11:04 -0800 (PST)
-Received: from [10.33.50.35] (e142021.arm.com [10.33.50.35])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 420CB3F632;
-	Fri, 27 Nov 2026 09:11:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795799467; bh=FCVTxmg2sdNe51AfMa4AF6QW/CSqjRWXIVeiCqPpDFA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=larR9y8fPCMYOCR0QN4mHid/9x1bOSkf3g8gr9pqbONVSj3e673DCXSSg/l2cnTvN
-	 JaxYZpMAYZrMUW/1vbOiD2LDb/qn+eJDY2NNo3KV4x5DjPuj/bs1vq1gNUQLsJRjpi
-	 Fc574CcHhAAl0stGrYBgNePEgsCr94bmezg9WkeY=
-Message-ID: <1eb33e7a-38ba-43c1-bf8d-477d75071e7a@arm.com>
-Date: Fri, 27 Nov 2026 17:11:03 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=WV9URbfw
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail2; t=1795802084; x=1796061284;
+	bh=MBpzvZy2ZJyn1GNW1kPyufscZwT3WxGJxcs/46l1sms=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=WV9URbfwJWMvgppCmeG6dN9HfAo+Ub5JejJNz1mG5l2s1pHBb6LLnUTPg91VaoXxa
+	 AeqhPesz+uhW3OQr16xDEpUWGBK7xxCLx7jRe+KJuwQ4jkMoZAU9Z0j4hkxew5lZ4G
+	 XcOgLet77UWkXaBlgg0YplyjpEky6wY0jTt/a2Lr4k16Q3Gd1MO12yrxi+zbeEaOPP
+	 I53M8ClJVixa4hSKKagtCloAK/kauHedhsO2bgbaY/uh8LmQmSFB++1oWti6PEQpue
+	 oARtboOlsJFB8JGPu6koj8BbMtoSQenWlVSOTTeXy86qzXKXmSdA/Y+AYkQFx9TZDY
+	 4bNHSFUGl40WQ==
+Date: Fri, 27 Nov 2026 17:54:35 +0000
+To: Andre Przywara <andre.przywara@arm.com>
+From: Norman Herms <dockseed@proton.me>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, =?utf-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, wens@kernel.org, samuel@sholland.org, Enzo Adriano <enzo.adriano.code@gmail.com>, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Junhui Liu <junhui.liu@pigmoral.tech>, Pablo Mazzini <pmazzini@gmail.com>, Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>, Alexander Sverdlin <alex@sverdlin.org>, Jun Yan <jerrysteve1101@gmail.com>, Lukas Schmid <lukas.schmid@netcube.li>, Cristian Filipescu <filipescu.cristian@gmail.com>
+Subject: Re: [PATCH v6 2/5] arm64: dts: allwinner: add A733 SoC description
+Message-ID: <0ZiLi25XUh_mAaMCw_YhXS3YA3FIj89dJfHVYgxGcBS3a5biGYvczbtTd9O3zus2A5Q1HQMkCaU7I9UU6Y50VGIZ_ltPsKx-7lHvtFtYcVQ=@proton.me>
+In-Reply-To: <682cee16-d56c-436a-8661-0cf511fa2e78@arm.com>
+References: <20261126-a733-cubie-a7s-dt-v6-0@gmail.com> <20261126-a733-cubie-a7s-dt-v6-2@gmail.com> <p3YaXlLJTguQBGnWyMpb1w@gmail.com> <1jld6eldic.fsf@starbuckisacylon.baylibre.com> <wzwsbUKM-fEhYpTIhswvHly5oyuMCPDOExJEWjbSf-OS3Lrwx2H_l9CUfuMITJUK5CyEz4pNojUFRzjDDczUQmX_LmSWwF7DVSceD34XeHY=@proton.me> <682cee16-d56c-436a-8661-0cf511fa2e78@arm.com>
+Feedback-ID: 144388465:user:proton
+X-Pm-Message-ID: e8432731c81dec984c084befc90a1a96ab850531
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -53,68 +64,78 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v3 3/3] arm64: dts: allwinner: a523: drop the PA
- GPIO interrupt
-To: Pablo Mazzini <pmazzini@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20261124215048.42074-1-pmazzini@gmail.com>
- <20261124215048.42074-4-pmazzini@gmail.com>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20261124215048.42074-4-pmazzini@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Andre,
 
-On 11/24/26 22:50, Pablo Mazzini wrote:
-> The PA IRQ bank is not implemented, and the driver now numbers the IRQ
-> banks from PB. Drop its interrupt.
+> What do you mean by that? The proper solution is to *create* a new
+> regulator driver, either embedded in the pinctrl driver (make the
+> pinctrl export a regulator device), or as a separate driver, using some
+> pinctrl provided regmap.
+[...]
+> Are you using a different approach?
 
-"the driver" probably refers to the Linux driver, but DTs live in a 
-different world, and are independent from any driver implementations, so 
-this is not a good argument.
-The real reason is that the binding changed, to only count implemented 
-banks, even though this is not explicitly stated there.
+Yes, a different one: I only meant that there is no PMIC regulator
+whose voltage could be changed, the switch is inside the pin
+controller. We went with pinctrl states, and sunxi-mmc selects them in
+its voltage switch when there is no vqmmc. It works, but a regulator
+mux exported by the pin controller, with vqmmc pointing at it, looks
+cleaner to me and needs no change in sunxi-mmc. We are happy to test
+that.
 
-> This reverts commit 6b81aa0c8a4f ("arm64: dts: allwinner: a523: Add
-> missing GPIO interrupt").
+> Do you mean you use vmmc-supply to point to some 1.8V regulator?
 
-I think that deserves a fixes tag. Backports are somewhat questionable 
-for DT patches, but it helps for U-Boot, which would import tagged DT 
-changes only.
+No, vmmc is SWOUT2 at 3.3 V. Without vqmmc, sunxi_mmc_volt_switch()
+returns -EINVAL for 1.8 V, so the card stays at 3.3 V without UHS.
 
-> Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
+> Is that a timing issue, maybe? Maybe the sampling happens only so often,
+> and you just happen to miss the change, occasionally?
 
-The change itself is fine:
+We cannot rule that out. We read the detector at every SD interrupt
+while PF ran at 1.8 V: in the adaptive mode it said "not 1.8 V" at 2
+of 90 and 6 of 83 reads, and with the mode set by hand at 1 of 99 and
+3 of 103, where the card stayed clean. Right after a switch it already
+reported 1.8 V on the first read in our trace, so it does not look
+like a slow detector. The USB3 combo PHY points the same way, as it
+shares CLDO5 on this board: with the PHY running the failures go
+away, and in older traces the detector said 3.3 V in the first 25 ms
+at 1.8 V at 2 of 76 reads with the PHY off, but at 0 of 1137 with it
+running. Those two traces also differ in kernel and DT, though, and a
+run comparing both in the same boot never happened.
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+> Just to clarify: "0 of 40" means *0 fails* here, so it works?
 
-Cheers,
-Andre
+Yes, 0 failures in 40 rebinds.
 
-> ---
->   arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi | 3 +--
->   1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> index 85ef492ffeae..fc4d714a96ea 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun55i-a523.dtsi
-> @@ -129,8 +129,7 @@ gpu: gpu@1800000 {
->   		pio: pinctrl@2000000 {
->   			compatible = "allwinner,sun55i-a523-pinctrl";
->   			reg = <0x2000000 0x800>;
-> -			interrupts = <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
-> -				     <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>,
-> +			interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>,
->   				     <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>,
->   				     <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>,
->   				     <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>,
+> Do you mean your patch just badly hacks those two bits to do what you
+> want, by treating PortF separately, but it's not something that looks
+> nice and upstreamable?
+
+Yes, it is a special case for bank PF in the pinctrl driver. With a
+regulator mux, its set_voltage would be the natural place for the
+same order.
+
+> So according to the A7A schematics VCC18-PF is a separate power supply
+> pin on the SoC, and it's supplied by CLDO5.
+
+Same on the A7S. There CLDO5 also feeds VCC-PC (the eMMC VCCQ) and the
+combo PHY's analog supply, and v6 already references it as
+vcc-pc-supply.
+
+> But this is a firmware problem, then? As 0b10 is documented as 3.3V,
+> which is wrong if you use a 1.8V eMMC. So doesn't the new pinctrl fix
+> patch overwrite this with "auto" (0b01)?
+
+Yes, it is a firmware problem, and yes: with the pinctrl patch the
+register reads 0x05555555 under v6, so PC is in auto. Our boot chain
+writes auto too; we set PC to 10 by hand at runtime to see what
+happens. My point was only that 10 on PC does not behave as the
+adaptive mode that the manual text gives for C/E/K. Whether U-Boot
+fails with it too, we have not tested.
+
+Built and measured by AI agents (Claude) on my boards.
+
+Thanks,
+Norman
 
