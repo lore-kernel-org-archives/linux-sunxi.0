@@ -1,60 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=119.15.109.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795766822;
-	b=2X45dH+1lBK+qefBuVO8jPwdMLd3dcgmEceouOu2in+K4AZS2O3MvSzLdV1K8CQRuUKy
-	 uzgqPv1+LRDlk0zp+kUhkYOzuO57ohZky+2cvWknwAkbQzNsKryrocI0jNjeXfq54B+FO
-	 Yn/RrRyXRkXzbABtDFE4ecpIZrfAJvCsVysocK0rU19z8STnGKMwCqfQvv5rf9M3ASAJU
-	 0Uv8KRHr0VYfixMcf6BF9DNYCBsa4Vd2Npdze8t+rZIT5qv1BYA3Yrso2j0MqRyMSZufO
-	 Rhmj51RGtEnQEHT+2LNezHsm2evWky/ZGbEfY7W+6r+Cz/i0Ytkw5oSalrgr/XOfBFQ==
+	t=1795766831;
+	b=WC/paDiWRE6j33IvYr25GZ+Wx/TpSDXqdrk9XOWSX4NgXMTamWLMaF+H4waqvh9B4rbt
+	 jHvk6YCM0tSFR9/uRHG1bgCFu7nS+z3+TSQ5lXQKZpTEPsdclVJYEpk3BzkLuO03/ITL5
+	 r7+zKnp5wRK8HKtKqckUJtJJv6xUpPX6spk8VqQyDk3J6tM1DkHWga7KnXu6dWi2jjbse
+	 02GTqcL6qSudmtRkttJ61KieEJEXZrPj0MVX8EhK9BfZ+g0u4IIGM36d4a4luniRhkRFr
+	 RXC6qproo2ziT0LGq1w3ixcdE47vfw5KEL/FOW0dQdLXjeOD0nPQd9zhXOWxpS6g5Lw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795766822;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795766831;
 	h=DMARC-Filter:Received:DKIM-Signature:X-GPT-Reason:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=5+4WWMGxQZEZwgmCm5Go6TCy3m3YHuZQuM4Z32rUfXE=;
-	b=5Mf0AkvL+GKamA2itoubmcj2eMJHJtJuskz1aYSPoXtk2gM2JYgm5axMCM3JMtzuGV9M
-	 50PcB9g4gICEPr0iXZTnXUcxiESqibNl7sULtgmbjv4d+ayhMPWzr9SzHPhoeERdrZMfL
-	 7gU0aUbxWFXyu/0hcryGKy4B/DoBT4IY/qZwMQCNjlLmvhbd9QSjNKNE+0n58LTCzFEft
-	 RkbuMrKTXcqYJL8HqrEz49V1yPiq57ZP/MNqcvVOyQgd/FjDdo/jk6+A7317BBUp/Jv2v
-	 SeG+YtHVtiLzOTkTJqQ/xCTJecoI1KkUQ3sHiDe7/W7LtkhXp//GUytwNwcNJZNbKlw==
+	bh=7/ihj9ZaLmQ6are+i9ZnLsHqIUJCuh85LNDTNIUPYnE=;
+	b=FaQkwPWNAQRKPyDgDm5IvfrzaWS6I6OvEnHZj9v6OUFz4UgD4PsPsbDOecFPnoZ/fUVl
+	 PdWl4ruoxg35Sx7qQjCUJgCFpKd1p/I7/1AxGGiyWcwvrk9ejHHp0hWF0HotfO+qEP++J
+	 VCfRfbm/Y/iTDzzgI8b/jefZIrZUEfh2G1Vzx8oiIKAI8REFt5pMd7LewfuwSMWwmrShd
+	 R1f/5ZcAAQgM7KhDxS83Bp+sK1jlbeXIAE6/iMkr2YpYrOEoUhCCWDTIkm8y+Uc2OR7VE
+	 kXjJKwYjtfgkKQKsIXzUu1XznvVPuHHUKfXIDTPJL4Q8L8AZP4tF3pSHh6Cwhifds5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=d-silva.org;
 	spf=pass smtp.mailfrom=d-silva.org;
-	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=ODRjKCOG;
+	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=G1bBQy+r;
 	arc=none smtp.remote-ip=119.15.109.137
 Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69E1B606A31C
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 08:07:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69E1B606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A68606A321
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 08:07:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60A68606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=ODRjKCOG
+	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=G1bBQy+r
 Received: from Hawking.lan (hawking.lan [10.0.1.4])
-	by www.nmnhosting.com (Postfix) with ESMTP id 909534C979;
-	Fri, 27 Nov 2026 19:06:55 +1100 (AEDT)
+	by www.nmnhosting.com (Postfix) with ESMTP id 16CCD4C97D;
+	Fri, 27 Nov 2026 19:07:01 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
-	t=1795766815;
+	t=1795766821;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=5+4WWMGxQZEZwgmCm5Go6TCy3m3YHuZQuM4Z32rUfXE=;
-	b=ODRjKCOG8mpFQk6IQDfrwcfRKrp4wvILiOuH4J9F74evzSwb5hfcIz4XfvDBq6m9YbdYa5
-	a+80zMmC1UlgjtpoLfYwCU8xOsXBiB13CIUHlwHPvDofuIM0mjWdbm0V3/RaXwDFN/C8oZ
-	hl+D4QbmkvxduyDrWzPDiSbGU8IdIsJVEXfLw7c568UaGVI2431JtpAIo+wsFtpRiWumzQ
-	yyaE+GXf3XAuRx7OlkkIYVgpq+bP1ShPfQ5Vx9x6VZ1cWEBJYzJS9tMwmWI6tDERyifZDK
-	Bn3ZPZFI1LR3AdQQr9A5y5h0XDxgzrkupigLw1O+dE+2NOdz2JMnE6eZgRJ5gw==
-X-GPT-Reason: This is a legitimate personal/professional communication.
-	The content is a technical patch submission (Linux kernel style)
-	for a display driver, which aligns perfectly with the personal
-	mailbox (alastair@d-silva.org) and the sender's identity
-	(alastair@d-silva.org). There are no phishing indicators, no urgent
-	scare tactics, and the message lacks any marketing or malicious
-	links.
+	bh=7/ihj9ZaLmQ6are+i9ZnLsHqIUJCuh85LNDTNIUPYnE=;
+	b=G1bBQy+rEdSQei71uD9/p/Nl4cDoRP9BFcZcbHbJ70isNLRQhlnxoALZSabSBHgmCYXGDI
+	6fKYMTuFTsNxJGmN1xsl/ReJ+KQibYO43Yh8oCHsTjAXmp3SorNzfluhSYwH50AJDE3zVf
+	Q05ozVOG2dzYk6+HjjMcuOkt5674HBEetOAuqtT6NMqrs2UWlXjuPC8jmKkmaSWORyf3sL
+	jwkEERLnjQi3iHJ2gkiktJkfuwMcQKuJ2wr+2++k1ROz7zUKiZOYwlgglsNUvr1u+LOWSx
+	tQ4PaUXyCa7qLbbiEJhEdFDV1ToMuPQ1ydNSXg4Ndvre8MDZ2VZzBafYgMnN3A==
+X-GPT-Reason: legitimate; the email is a technical patch submission
+	("arm64: dts: allwinner") which matches the technical nature of
+	the mailbox (alastair@d-silva.org); the From domain (d-silva.org)
+	matches the recipient domain, indicating a personal/professional
+	correspondence; and there are no phishing indicators, urgency, or
+	suspicious links.
 From: Alastair D'Silva <alastair@d-silva.org>
 To: Hans de Goede <hansg@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -69,9 +68,9 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	Alastair D'Silva <alastair@d-silva.org>
-Subject: [PATCH 1/3] dt-bindings: display: simple-framebuffer: Add Allwinner DE3.5 HDMI pipeline
-Date: Fri, 27 Nov 2026 19:06:47 +1100
-Message-ID: <20261127080649.1982883-2-alastair@d-silva.org>
+Subject: [PATCH 2/3] arm64: dts: allwinner: sun60i-a733: Add PCK-600 power domain controller
+Date: Fri, 27 Nov 2026 19:06:48 +1100
+Message-ID: <20261127080649.1982883-3-alastair@d-silva.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261127080649.1982883-1-alastair@d-silva.org>
 References: <20261127080649.1982883-1-alastair@d-silva.org>
@@ -86,25 +85,39 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the de0-tcon-tv0-hdmi pipeline for Allwinner A733 DE3.5 HDMI output.
+Add the PCK-600 power domain controller node to sun60i-a733.dtsi.
 
 Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
 ---
- .../devicetree/bindings/display/simple-framebuffer.yaml          | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-index c627ec088434..350cb075f055 100644
---- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-+++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
-@@ -131,6 +131,7 @@ properties:
-   allwinner,pipeline:
-     description: Pipeline used by the framebuffer on Allwinner SoCs
-     enum:
-+      - de0-tcon-tv0-hdmi
-       - de_be0-lcd0
-       - de_be0-lcd0-hdmi
-       - de_be0-lcd0-tve0
+diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
+index e062b08006da..509d0cfea160 100644
+--- a/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
+@@ -4,6 +4,7 @@
+ #include <dt-bindings/clock/allwinner,sun60i-a733-r-ccu.h>
+ #include <dt-bindings/clock/sun6i-rtc.h>
+ #include <dt-bindings/interrupt-controller/arm-gic.h>
++#include <dt-bindings/power/allwinner,sun60i-a733-pck-600.h>
+ #include <dt-bindings/reset/allwinner,sun60i-a733-ccu.h>
+ #include <dt-bindings/reset/allwinner,sun60i-a733-r-ccu.h>
+ 
+@@ -595,6 +596,13 @@ r_i2c1_pl_pins: r-i2c1-pl-pins {
+ 			};
+ 		};
+ 
++		pck600: power-controller@7060000 {
++			compatible = "allwinner,sun60i-a733-pck-600";
++			reg = <0x07060000 0x10000>;
++			clocks = <&r_ccu CLK_BUS_R_PPU>;
++			#power-domain-cells = <1>;
++		};
++
+ 		r_uart0: serial@7080000 {
+ 			compatible = "allwinner,sun60i-a733-uart",
+ 				     "snps,dw-apb-uart";
 -- 
 2.53.0
 
