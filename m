@@ -1,62 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=119.15.109.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795764779;
-	b=rWml3+N5nCiu2fKK0XQCAePVHqoVAgImUF+i0Ov7YAHH67hnExOI2NvP6t6YYhCdv3Nb
-	 cMa1Yi1i0Y/wPgF0qCYNVtaEXYBTO0mfHPEW1nrgpEpt1lR8XedPB6uS5loTfJg7sl604
-	 MkyWT1XcfG1LBZHR44z1sYCjSNfOp3GmytDQqkJnVZ5y4sDzzU4gkqB8qk6PN8aN1lu6t
-	 /Hw8dFOjPlZ/xmRr5trU3rZEd+8JfuZd9zt3i4KTFIEtUP75xdWFMtroM0r/iH3k3MjY+
-	 fhBP/IMo9O03br1ZSw4tTJFoWKwjRi/6JLJEZOMaVvn2CfrRh1jq6L8EwIy/KhthfzQ==
+	t=1795764785;
+	b=Bs32PoV54FTA26sXYSI/T8ZP2blRDqhyGu29KwttdpAqTa6+khKzsgt0C+XcHOBNwukP
+	 5laECh37mJfUtu84TL0yFXSmSpxKUXxombMssGv4jmpB1huAeoKemI2kQN+4epgYa3FXX
+	 laF7mQM8yVhh1bVDCpWAK5O71yqS93Tn7uA94V6xyhLL2ydIi1F3aldSJ1ukt1/9CDzPm
+	 CYo0w4IXFC2NB6R4b4ZCKFcDu0ckoBpAq9VOCna/8qO304llI5Y+NlieYGvWkau4DJT5B
+	 XjqUZMK+y1Z1XucJTlrn2QYvXXcdB+j4S26Dt3N9Go1RUOZkM8AnusjVcdze/J1UDsQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795764779;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795764785;
 	h=DMARC-Filter:Received:DKIM-Signature:X-GPT-Reason:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=rtQftuGGUMT19UNCIFYfUEwNelYK4ghR4wjdso4iJDk=;
-	b=SNoZOW1ncAPx0pcP7LPDqM3tG86LaeFuifsmYpJqoU8hXhqEwMpATrsyPIp0kFPoawHF
-	 tHeatgwmFxnGUR12vLI5OkL+uPGbbfw5oq/clo1Lw9tiBfD57FU4n32MxZTk8tJWk5dQ4
-	 xODh0o8uYMo1+8pcqU/QQOW2XXM3uSv1mi5Z4hFs7NBGmomrB46Cr2R3THXKqlO3tKkox
-	 RHWpiKMx4ajIvYQaLp1y+Vjob4+sTIKvZeBTbeVd5MNgZzzvdwo2kCgPtOSpPn5u3YwiC
-	 KjlmxXYOrMzJNPoX0UovwflCvZ/KCNqyt5hCwyUcIeaLmIqnE2cVnfw1bYk8kqbQmvw==
+	bh=sUGpOschMgKcNOmhpOl6DU1Uf2oJ2iJXfUMTPyLb7GY=;
+	b=YM6hcMacEp1m3yBDToK6gjaDCemeFNYToePP5A6lEyTyCCrLH7vQxpnWuik7UPpeAL0T
+	 T3GSUp3GtBydUfzhI8aEANTzcrLLLWhEX54aiiWsu7lYSaFmrm7qnI4gDS0xWAOsLWMHJ
+	 50MUKnukFJvQapmU8mogDRLppS+pvwqTA6RQUMv9RFxZxdtn2v9QG2yL1IQ3S+xQ+IQmN
+	 VPl5RQBSSJTbSB7WkhF+0IIFCZU4M6jo3M8qKptBbGyWHmfdKk+zHR0mXQzef5DrNJgEn
+	 TAZ/cP9QPPY67BGooNXi2O0nIYzGL895wv7kTo0mqxld2e0C010vLj/D6bFflqLqcxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=d-silva.org;
 	spf=pass smtp.mailfrom=d-silva.org;
-	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=YgP9nS5X;
+	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=BjMGwce9;
 	arc=none smtp.remote-ip=119.15.109.137
 Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 563D1606A321
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 07:32:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 563D1606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF6C606A334
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 07:33:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9EF6C606A334
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=YgP9nS5X
+	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=BjMGwce9
 Received: from Hawking.lan (hawking.lan [10.0.1.4])
-	by www.nmnhosting.com (Postfix) with ESMTP id DE58E4C96A;
-	Fri, 27 Nov 2026 18:32:47 +1100 (AEDT)
+	by www.nmnhosting.com (Postfix) with ESMTP id BEEB44C966;
+	Fri, 27 Nov 2026 18:32:56 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
-	t=1795764767;
+	t=1795764776;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=rtQftuGGUMT19UNCIFYfUEwNelYK4ghR4wjdso4iJDk=;
-	b=YgP9nS5Xw2PLHP/1izDsqXbid+9uysE2KYSPPCwxLYOfFIZXZ3sEr5M9HunbX/Gcl3D990
-	MktbtxR4YPUzx4/0yN3PcCxVi+RWcVrM59W0Ig5OaFMnnI3PrVRxF7L3/XeEqMJQvxWOgt
-	aOWHVFDeENodVrsJelo87a3Cg4Iqf9LgKY723oCDDiP4MTVZTuHbtPSBOi6SLGN6GkZB8W
-	kKJbHGrc1Tt3NiZSaSdLWcQlCL0zItyFuTNi3t9FsET4itG/B12LUo0iQhQek9RtYgbKGo
-	2IXpb/ZvTmHnlysg22dBES3EIAf+LCxOCc2GyyfcbJstbSg8DuDzXo5ijoiSEw==
-X-GPT-Reason: legitimate_personal; The email is a technical patch
-	submission (Linux kernel style) from a known personal mailbox
-	(alastair@d-silva.org) to another mailbox within the same domain
-	(celia@d-silva.org, sagan@d-silva.org, or alastair@d-silva.org)
-	or a related role. The content is strictly technical code documentation
-	regarding "dt-bindings: phy" and "combophy0 USB 3.0 support" with
-	no marketing, phishing, or urgency tactics. The From domain matches
-	the sender's identity and the subject line aligns perfectly with
-	a professional/personal development workflow.
+	bh=sUGpOschMgKcNOmhpOl6DU1Uf2oJ2iJXfUMTPyLb7GY=;
+	b=BjMGwce9c3BvKfzqymvhn5IZjfMvWIs0nrdnoDN0PEwrDh+iYxBSnqSygFsj5ZBs/RnyjA
+	PimBAaSzQCc5mM9+Rp68anzdoDnw2QdRLR/+5MRfT9uAAgupa3jEzdB3416o6od4fPiLB6
+	ESwvZPemGUx/21TwGIRwJpCGCBkNeVflB/ZPYCBS0noKJvWwtB3mNi/Xypp7TXbNYl36Vj
+	Bkg72jrbW7pN3IkIY3Ibm0i3C+goi2tzP7Qs4ATSmhsGfu4CM7pfQfFI+RfXClylLlpd3G
+	yHdSfO8ORCmUbxiRE0FOztwpb3Uy95VAQptJKGPkDDUFDzM5z9cUH1cq9Fcyqg==
+X-GPT-Reason: This is a legitimate technical communication. The
+	email is classified as personal/professional correspondence because
+	the sender (alastair@d-silva.org) perfectly matches the intended
+	recipient mailbox (alastair@d-silva.org). The content describes
+	a technical patch for "dt-bindings: clock," which is consistent
+	with a developer workflow, and there are no phishing indicators,
+	urgent scare tactics, or suspicious links.
 From: Alastair D'Silva <alastair@d-silva.org>
 To: Vinod Koul <vkoul@kernel.org>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
@@ -80,9 +78,9 @@ Cc: linux-phy@lists.infradead.org,
 	linux-clk@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Alastair D'Silva <alastair@d-silva.org>
-Subject: [PATCH 02/11] dt-bindings: phy: allwinner,sun60i-a733-combophy: Add combophy0 USB 3.0 support
-Date: Fri, 27 Nov 2026 18:32:22 +1100
-Message-ID: <20261127073231.1776847-3-alastair@d-silva.org>
+Subject: [PATCH 03/11] dt-bindings: clock: sun60i-a733: Add USB2 bus and sys clock IDs
+Date: Fri, 27 Nov 2026 18:32:23 +1100
+Message-ID: <20261127073231.1776847-4-alastair@d-silva.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261127073231.1776847-1-alastair@d-silva.org>
 References: <20261127073231.1776847-1-alastair@d-silva.org>
@@ -97,41 +95,25 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the combophy0 compatible string and clarify #phy-cells usage.
+Define CLK_BUS_USB2 and CLK_USB2_SYS for the A733 CCU.
 
 Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
 ---
- .../bindings/phy/allwinner,sun60i-a733-combophy.yaml         | 5 +++++
- 1 file changed, 5 insertions(+)
+ include/dt-bindings/clock/allwinner,sun60i-a733-ccu.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun60i-a733-combophy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun60i-a733-combophy.yaml
-index 5182884109f9..58e7a3348bd4 100644
---- a/Documentation/devicetree/bindings/phy/allwinner,sun60i-a733-combophy.yaml
-+++ b/Documentation/devicetree/bindings/phy/allwinner,sun60i-a733-combophy.yaml
-@@ -12,6 +12,7 @@ maintainers:
- properties:
-   compatible:
-     enum:
-+      - allwinner,sun60i-a733-combophy0
-       - allwinner,sun60i-a733-combophy1
+diff --git a/include/dt-bindings/clock/allwinner,sun60i-a733-ccu.h b/include/dt-bindings/clock/allwinner,sun60i-a733-ccu.h
+index 81924cba58ec..1e751cfd75e3 100644
+--- a/include/dt-bindings/clock/allwinner,sun60i-a733-ccu.h
++++ b/include/dt-bindings/clock/allwinner,sun60i-a733-ccu.h
+@@ -287,5 +287,7 @@
+ #define CLK_FANOUT1		274
+ #define CLK_FANOUT2		275
+ #define CLK_FANOUT3		276
++#define CLK_BUS_USB2		277
++#define CLK_USB2_SYS		278
  
-   reg:
-@@ -39,6 +40,9 @@ properties:
- 
-   "#phy-cells":
-     const: 1
-+    description: |
-+      PHY type from <dt-bindings/phy/phy.h> (e.g. PHY_TYPE_USB3 for
-+      combophy0, PHY_TYPE_PCIE for combophy1).
- 
-   allwinner,serdes-syscon:
-     $ref: /schemas/types.yaml#/definitions/phandle
-@@ -79,4 +83,5 @@ examples:
-         power-domains = <&pck600 PD_PCIE>;
-         #phy-cells = <1>;
-         allwinner,serdes-syscon = <&serdes_syscon>;
-+        phy-supply = <&reg_serdes1v8>;
-     };
+ #endif /* _DT_BINDINGS_CLK_ALLWINNER_SUN60I_A733_CCU_H_ */
 -- 
 2.53.0
 
