@@ -1,95 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=119.15.109.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795776734;
-	b=iRv7uL6e+ra6+OiOSbp/NnmzvvJ/9JubNGKIRr+AENRZiqoXTQAXgJ6VoxRyxQptYrHW
-	 mmVQIV+yNRyr3zpmXFOBLi6l04n7eIW4yLw5i5tJYImZ6vnC3ay0uqkfSP4+Uvgoro+La
-	 uBjn8q80sBBstOn5SW7BzZYJLDx2jL7Thtqi4kDJivV99C25YxEmPWy8GvGiKmJjG8TMM
-	 RgAs7Sgkeq2HSRIqqFA8FF7w+qzIl2g4vCzcuxNTw1u35U2IBu6O0WksGsmjF2iynwBih
-	 VL/Hf8wVZUJEDiPFQyfKnS+byQ77Ly+j+JE/1OxNb0QHp6LghiO36kYHM3w71Z9+kFQ==
+	t=1795777045;
+	b=zsmCxK1CTzt1cD/7Kgln43+RWQT5NoAepuOBI0u7Xx1FWL5l+PIHxmTTFVXPR0ou5Pdp
+	 eRiA4n4XCrFsuLBs26kW5WIboY7QUXB0/LGBKikBJlnUI8o1/aDvAPtW7WR7ffL7jCmIs
+	 fKerAmCPPzprdglCJNIHBXOFyO779cuELmSC+apSVGR4SML8gYdnIdy7WslBwpWFpA+Xa
+	 sPNBBzuEQmbrBOJBOG2vtg5/+qgIufwSscpGB0oSBZEdVgBdx9c2Vg99JUxqfg6hURdhT
+	 bk0lYGcpf29roowX3cAtc/rKfMilUweW/UrpOBZQWWe+E5eHCWXchhpcs6Q3yRGrBcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795776734;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Autocrypt:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=U5UWhZwhfOwBecIRseR9hgdutFja5ObnqmEgqdaERIc=;
-	b=nx6T9LWR68/MfJdu8MhXM4xeqnyPX0sRmBLBa5gD4j2o8e1L2F3bwe/LzYTu4oi0yiP9
-	 IMaao0YVFRgNeGtb+rlzXhDrpjfhZMPKSEACKOxKfpcEy9xFDieShkrCsb5dg6vE+Ka2R
-	 mUUJbYUACHql7WxJJjeDdtObKFYPfeEzab0TXOsvEliI0/aCkkYqJdanA9FOP2lCH1a5j
-	 638zYgotvUCXP6yilBxNe8KK/jhiPak8XJ9Y8SP9GepD01yYubHV+GdtDg5RG7qpWblPf
-	 KYiYhB7I0EbfJgaA8bZf2vKURaFPhfy+yVHESJhTDBZC4wZMZI0hWwqe5UjTsiUAShg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795777045;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=Xx1Jv0J1bDZQpWVoeU6QkZxWXumP+4homny7f0vYJN8=;
+	b=Mg3Rq6psI8mbOV7MAxRsflK84FuU2qR7e5xAZ+cWCju1bcOvujVjGi/OWO/BcCXOyi+S
+	 R59o+3uvTM7lBqaaAeOWfEyCcvTpYWeB27o62/P4mKc9aYwhWIUTMzn8POwjg5WoySyeW
+	 JSgSnRQ1wBYhypPI2XBbDbsE6JlS09E8nY1wcxbZRAvSf7KgAa6DGV6n0eW+XJ+3QYwo7
+	 KmDV40cctmBoDNvQAwI+jhsk4he4tJE1xFVsGEK8DJoZWCGdBeZB30tnT8ymahst61iZR
+	 y8ckDCX6gbJDi7ysQMC0H0zcaMnL7MtNuT23noXs0VV84nTMKMRDM6RmEhLhhq8eXHw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=d-silva.org;
-	spf=pass smtp.mailfrom=d-silva.org;
-	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=MqoaPRnM;
-	arc=none smtp.remote-ip=119.15.109.137
-Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37815606A323
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 10:52:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37815606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=B25sau8T;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F08D8606A31C
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 10:57:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F08D8606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=MqoaPRnM
-Received: from hawking.lan (ntp.lan [10.0.1.1])
-	by www.nmnhosting.com (Postfix) with ESMTPSA id 7BF464C990;
-	Fri, 27 Nov 2026 21:52:09 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
-	t=1795776729;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=U5UWhZwhfOwBecIRseR9hgdutFja5ObnqmEgqdaERIc=;
-	b=MqoaPRnM0yPfNaJQzZcIEVJ57++JGsBpflZQeYs69AEZ8X427aH6Vw99pK9B0Y7axwNhxr
-	rZDRbeRXw9Ue3Rsj4JwHC8nQ5njYKENG8LK4+Jik1KfutRKPKEgg0LoNDFmOEKvttuTGQj
-	NC4g7QRorkjUoAkOVwPw6fnvfnl33EwGJudSb+IpFH8nB5QzR66WswHQqGympHi/kGBa3f
-	Jx9HDq97s8kztWD6BSPlR8zkOTK9JMlSwMHcgee6yo0dQfqlRWA7vPhSDmMfTx2eVldyI1
-	tR0U9ElwLqvQz9j9SPthD4pTFNSTOvkTu3ICgNCwRcdLj3dX82qw7lP0xQ9edA==
-Message-ID: <de646ea81e92792caf6644716ac91399a8b6b677.camel@d-silva.org>
-Subject: Re: [PATCH 0/3] arm64: dts: allwinner: sun60i-a733: Add simplefb
- HDMI support
-From: Alastair D'Silva <alastair@d-silva.org>
-To: Andre Przywara <andre.przywara@arm.com>, Hans de Goede
- <hansg@kernel.org>,  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,  Chen-Yu Tsai
- <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland	 <samuel@sholland.org>
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Date: Fri, 27 Nov 2026 21:52:09 +1100
-In-Reply-To: <d4a41c5cfb33d6d39f0ba927541beca1175ad001.camel@d-silva.org>
-References: <20261127080649.1982883-1-alastair@d-silva.org>
-		 <18637573-d20f-4a58-9e63-6bf71b015cef@arm.com>
-	 <d4a41c5cfb33d6d39f0ba927541beca1175ad001.camel@d-silva.org>
-Autocrypt: addr=alastair@d-silva.org; prefer-encrypt=mutual;
- keydata=mQINBGactvoBEADBFM2HqfQUUM4j40ZQPyYzmnM8S6zrycO0ipDDPMs7nZMzyzGzOdqfS
- VB/tuYvZOOKVWzJuWJ5aT/YyHx54r3L+D5hTkEG0sXPVJky3yTS9sbHEMSLBHb8TVVuhPVPuieV4g
- Nkqg5POMTidk8xAw50WpV++tUlewXVSciehnuCQPXhXMP7FcCh4uO8LdN7E8m7ir1LafKTFfoWPah
- KVT8NGG9r+ucrFcN5F+VnHxTDaI68yRPkNdtUWmp22wIX1KwDCtKFrndYO4p5Hv2hlDKomsuIIHHn
- muQGRwuh0xpf0nVJNF8ETZHMzxQLfo3e/HvxBFOTkwY9w7CuuQFZchbhS0I3PfmGT0+jiNcdfqjDC
- fPPB5uhy+DkR6wO72vuwFYUrpU2mdliDSdKEtWBHulnXMJjpBOXetfIwhI8G2dTVg59lN5i9DvJZc
- 7y1Sp+qfZQ4P9qpYZyQEKR4GNDOdnm6F2LW2cZkcyAU/Ii765zdDMTQMIzZNSxT/FcDd0K1voTNRl
- QHbQw+kmIMhzSv2JefcC9oNbE0XYzcBDNP5T3O/4itOQ90GCKQEPAbIPeBjlQif7kkyvo/H6yv4s9
- duuK7zbJD9AID/+KGLkpU3p68VDB/C2ZSb9rQz3p1CJNSfsX/CPk7sPqA7RKZ4a2B0hSJ2pJCncNZ
- KXtMlkkm/FmewARAQABtCdBbGFzdGFpciBEJ1NpbHZhIDxhbGFzdGFpckBkLXNpbHZhLm9yZz6JAl
- EEEwEKADsWIQTQGemDFwqYyU/dBWv75AdnjVo60gUCZpy2+gIbAwULCQgHAgIiAgYVCgkICwIEFgI
- DAQIeBwIXgAAKCRD75AdnjVo60qHZEACJnLfpS71Hk8bX0CLCNJ5wgqdZD3pBHEdbv9Ux9kRlZp4a
- ZFwlg9ltwBjl2dZP3PLtD9xQdsdYKVippKd5a7ZZC2y81oDaHjeC9LnPYn8+ce3mGE/+gRyoNfToY
- N06DeUNJKSlZ9t11UIqZCgfp12u16/Yrigy8C4ihEeHXlLhNX6JkeJR5gsHXJnC7vSuMZY+Qz2R72
- ZidWg+cd2WDMGop5sbTvc+55q94A7vTMlWzaix5HdbEUA3sd2U0dMBju5QodRGGhDQMcCu64TydRD
- MtMzzOk9ThJ036ze3HASWGOppyQmaw58k+XNzbHlr9Sc1LsFUNF7zpWXac2rzlywbyRAdFIT/TC76
- hy9zOkwIo2nwA/tdIwLx1j0UZPpAMQmcDUvJqZh6sE+fv6HN0yMPr+sSYJmriMt8Z6leCEHQXOHVI
- SI5z5FvV3coMmHYRq6aXpfs/8SLiYgkV3B0HE/E18Y3j1OkeLYoqIH1VfzQZeCSL/S77NYvk60/MV
- 1HFSyqLdUR3uWZI4uZzoEcMoB0GX33uCTp2Ntc00+wSntwekCUQLCMLUb7dZrbpVuobHoWWtkiD2I
- uE5kAiaVwwwzM0BUwiM6VzVoKbeECz93rdsNtwoDqM0NtzoISC46H/BKVQ9mRNXDO4ThEBpJ4H2Tn
- mPNRYYcR0u2mNy1EJII04w==
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=B25sau8T
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 113372F;
+	Fri, 27 Nov 2026 02:57:20 -0800 (PST)
+Received: from [10.33.50.35] (e142021.arm.com [10.33.50.35])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BD2AC3F86C;
+	Fri, 27 Nov 2026 02:57:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795777042; bh=tI/WuxzQHxbeBxg0ET/wSwRkMo9dWBTAelQ6L/tkO0w=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=B25sau8T3KTWvItqVLYxp2RC03ZVEdbWyH2MkDzRUOwL8iEOzA/2/szKI8T2Qprfd
+	 h3ydqMKrxtJOWqAT2aGr0TfpGKtfA+aov42u1vZKGbr9qedYIqIEJGcOHMe4lweHCQ
+	 92rX7V3jq+WkTaWtSYyrHCAP3UW8GslYwmn/6M4w=
+Message-ID: <9ab5f851-1b56-49ed-bfdd-46abdbdda1c0@arm.com>
+Date: Fri, 27 Nov 2026 10:57:16 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -99,25 +53,126 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/5] arm64: dts: allwinner: add A733 SoC description
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, wens@kernel.org,
+ samuel@sholland.org, Enzo Adriano <enzo.adriano.code@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Junhui Liu <junhui.liu@pigmoral.tech>,
+ Jerome Brunet <jbrunet@baylibre.com>, Pablo Mazzini <pmazzini@gmail.com>,
+ Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
+ Alexander Sverdlin <alex@sverdlin.org>, Jun Yan <jerrysteve1101@gmail.com>,
+ Lukas Schmid <lukas.schmid@netcube.li>,
+ Cristian Filipescu <filipescu.cristian@gmail.com>,
+ Norman Herms <dockseed@proton.me>
+References: <20261126-a733-cubie-a7s-dt-v6-0@gmail.com>
+ <20261126-a733-cubie-a7s-dt-v6-2@gmail.com>
+ <p3YaXlLJTguQBGnWyMpb1w@gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <p3YaXlLJTguQBGnWyMpb1w@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2026-11-27 at 21:20 +1100, Alastair D'Silva wrote:
->=20
-> On Fri, 2026-11-27 at 10:03 +0000, Andre Przywara wrote:
-> > Hi,
-> >=20
-> > On 11/27/26 09:06, Alastair D'Silva wrote:
-> > > This series adds boot-time simplefb HDMI support for Allwinner A733
-> > > (sun60i-a733). U-Boot enables DE3.5, TCON_TV0, and DW-HDMI2.0 and
-> >=20
-> > Where does it do that and which U-Boot version does?
-> >=20
+Hi Jernej,
 
-Oh, I forgot to answer this, this was going to be a follow-up on the
-opi4pro series to U-Boot, once the base implementation was accepted.
+On 11/27/26 05:29, Jernej Škrabec wrote:
+> Dne četrtek, 26. november 2026 ob 21:35:40 Srednjeevropski standardni čas je Enzo Adriano napisal(a):
+>> The Allwinner A733 combines six Cortex-A55 and two Cortex-A76 cores.
+>> Add the common device tree for the first Cubie A7A, A7S and A7Z board
+>> DTS files. Describe the CPUs, PSCI, architectural timers, GIC, RTC,
+>> main and always-on clock/reset and pin controllers, UART, I2C and
+>> MMC. The preceding revision booted on the A7S and A7Z.
+>>
+>> The A7S schematic, sheets 7 and 16, shows the EEPROM wired to I2C0
+>> on PG8/PG9. Use mux 6 as documented in the A733 Datasheet v1.00,
+>> section 4.2.6, table 4-36. The A7A schematic shows the external RTC
+>> on S_TWI1. Add its R-I2C1 pin group on PL12/PL13, mux 3.
+>>
+>> The GIC maintenance PPI 9 and ARMv8.2 EL2 virtual-timer PPI 12 follow
+>> the A733 User Manual v1.00, section 12.2.3. The GICD/GICR/ITS windows
+>> and noncoherent attributes follow Andre Przywara's A733 reference
+>> and the A523 precedent. The CPUX interconnect diagram in section
+>> 5.1.2 supports the noncoherency inference. Leave the ITS disabled
+>> pending clock/reset and MSI integration.
+>>
+>> Describe the single DynamIQ unit and shared L3 shown in section
+>> 5.1.2, figure 5-1. Partition PPI 7 (section 12.2.3, table 12-1)
+>> between the Cortex-A55 and Cortex-A76 PMUs so each probes its own
+>> core type. Defer capacity-dmips-mhz until it is measured on A733.
+>>
+>> Link: https://gist.githubusercontent.com/apritzel/60fd7379b9560a15b8b352986b69d39f/raw/efd9cdf8f26ba5b0c7e138f093af44a1cf322469/sun60i-a733.dts
+>> Link: https://lore.kernel.org/r/20261126172253.1097838-2-andre.przywara@arm.com
+>> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+>> Tested-by: Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com> # Radxa Cubie A7Z V1.11
+>> Tested-by: Norman Herms <dockseed@proton.me> # Radxa Cubie A7S (A733)
+>> Co-developed-by: Andre Przywara <andre.przywara@arm.com>
+>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+>> Signed-off-by: Enzo Adriano <enzo.adriano.code@gmail.com>
+>> ---
+>> Changes since v5:
+>> - Mark the I2C0 PG8/PG9 group /omit-if-no-ref/, as requested. This
+>>    satisfies Andre's review condition.
+>> - Move the RTC clock include after the A733 clock headers and cite
+>>    the A733 datasheet and A7S schematic for the I2C0 pins.
+>> - Fold in Andre's R-I2C1 pin group for A7A. A7S and A7Z leave
+>>    it unused. A7S still references the I2C0 group.
+>> - Vinicius tested the v5 DTSI with his A7Z v1.11 board DT. Norman
+>>    tested the v5 series on A7S. Their tags here cover the SoC DTSI.
+>>
+>>   .../arm64/boot/dts/allwinner/sun60i-a733.dtsi | 671 ++++++++++++++++++
+>>   1 file changed, 671 insertions(+)
+>>   create mode 100644 arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
+>>
+>> diff --git a/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
+>> new file mode 100644
+>> index 000000000000..e062b08006da
+>> --- /dev/null
+>> +++ b/arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi
+>> @@ -0,0 +1,671 @@
 
-It's on my Github, but I haven't posted it to the list yet.
+[ ... ]
+
+>> +
+>> +		mmc0: mmc@4020000 {
+>> +			compatible = "allwinner,sun60i-a733-mmc",
+>> +				     "allwinner,sun20i-d1-mmc";
+> 
+> That's not really the case, is it? A733 emmc has support for voltage switching,
+> so regulator should be added here for voltage switching.
+
+But it's still compatible to the D1 MMC controller, isn't it? As in: a 
+driver capable of supporting the D1 MMC IP can also drive the A733 MMC. 
+I think the voltage regulator is a separate problem: it's external to 
+the MMC IP. The vqmmc supply property is documented and usable, and the 
+availability of the regulator it points to is a separate issue.
+The same as the H616 and A523 have the voltage switch already, but are 
+still compatible to the A100 and D1, respectively.
+
+> I suggest that you drop this node until proper adjustment is made.
+
+Do you have any code for the voltage switch already? Your comment in the 
+UHS-1 prep series suggests so? Any chance you can post that separately, 
+to get any DT compatibility problems out of the way early?
 
 Cheers,
+Andre
 
---=20
-Alastair D'Silva
+> Best regards,
+> Jernej
+> 
+>> +			reg = <0x04020000 0x1000>;
+>> +			interrupts = <GIC_SPI 161 IRQ_TYPE_LEVEL_HIGH 0>;
+>> +			clocks = <&ccu CLK_BUS_MMC0>, <&ccu CLK_MMC0>;
+>> +			clock-names = "ahb", "mmc";
+>> +			resets = <&ccu RST_BUS_MMC0>;
+>> +			reset-names = "ahb";
+>> +			pinctrl-names = "default";
+>> +			pinctrl-0 = <&mmc0_pins>;
+>> +			#address-cells = <1>;
+>> +			#size-cells = <0>;
+>> +			status = "disabled";
+>> +		};
+>> +
