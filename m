@@ -1,59 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=119.15.109.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795774112;
-	b=5WIHcpg79a9nDt/YTsN1I4fg4KS2znUGLESEtfdJOPlleRKRkpDmHdGTAmwLs45Sjwhl
-	 uqK9OIFGIhSEN0fq2Pmxww7c5pmrvrLkZN4X+3uRf5ALR6ZcNRLnRM1XQUjGcuns+UOBV
-	 uxOmkt+i3yiFYWAX3QOnFU805XRjPnTKPpegZ+yLY+8/9QVe/6TZOCUi/Az+5CbwgUW8l
-	 UxgfHY++WJQPFnNtqnOn42PEWEVxL0K2Sb4Qf/rDDTKAm59N4h5nKQqCGOmEmU2NTPCkv
-	 U7DL7V3fxg3nIt3vFHqHg0Y/+5sXgY0rmgrliC5+Q8mGbczyVdaLkrUm1i/YdWBh5xw==
+	t=1795774118;
+	b=2OQcYNNjmXNqn2pIUJMjhGon4BRMbAZfnRKmNLgOSoR9uKl8Uk6Z56+WV7F2dzQv20wv
+	 Z1/KjRxNiNy8mODyX1vn7x/pmR2zFxXUV/ZqqheT8TcA1lxa1nInEwTsOP57FlKn6y7+N
+	 BlTMJ7aJDjK9u1pM0fMEePe1XvLq0Tz1ExjnzPPUKudMitl4p5+HAF21TVXo6yAM5t7iH
+	 523f6zqUYVzT85OkcasC8jiZAd5+fhhhtu6eLi9lOozPXUU2+DJLkvGQPwTr7le65NnnA
+	 0eSjGmQC6lFQ6zKRp17VaiQiM7HAXM8qL7WFlB2ATIT9QRSnk+U9qdvUYXUaz7PJ9Zg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795774112;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795774118;
 	h=DMARC-Filter:Received:DKIM-Signature:X-GPT-Reason:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=IHS463L7ZJsnVGIh6FhisLGYwFc0FaaTOlQZxZ0FPkQ=;
-	b=t/4AJTDrz7J2tUQ3hgXaEdnwCdj/dtB18e6t0LCserwvwzDyCzcStDpbKkAPvEzQ945K
-	 KSORCKCe54nVdIy447DtUwAolVXNfDic64DkPZxKN8nhYgOMy7SzCWJoF/BJ/L1mwGP8j
-	 v40rzXma00cZLZPNRxwtjmLP1Fcmoph/83iUW/RxA9DAluJB9DeGGa2xh8+qYVQLE5iTe
-	 Rs/VTCxbWvlVQ3N46+44rN4Ijt6kCdAyLMHtGAnd//1amWNy7lRQSJcq38HvAh2rETD4E
-	 6BoBaXGzLZYYxWZyUpKjeldlBcyWWYD9OrIZ1UufseWcfPt+F9ahOV6nITy3m1kQCNw==
+	bh=4IV3yRHhQQZGklGZH5PN/o6RqZMOoboQKYnTyajhFCc=;
+	b=bxA7FOa0JkN7imAIgwC2f0HxFsW2l8AzUrDbxGdScqMEC/mqecrfwsyyHe7hpWt6hqFK
+	 0/zrVhZtkhXd3OSmGaAtLwNtMS9Afqut6o+4hQDvtTwyuy1zZzqy59MBTU2IgWhizmmUR
+	 62FXyV/EbaUCdDn8YJCHjO+/NOgEQe1NIZ5tEHGKvgxfiQkF2LaDPUS5avp4Xq32GahTJ
+	 t1LhjVMG1boyaE16W41/pI38ccYg/017wlmnzAFZjjWah0KHjjJyETFksQMnYzdzD6OC9
+	 Oa04kAoNEOidxSspDAzP7Z4xz13rroPHDWqQ3ThTmoIa38NAHHf1k4LTad/x8bvPF+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=d-silva.org;
 	spf=pass smtp.mailfrom=d-silva.org;
-	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=R2lKm9Fv;
+	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=a2sR3URN;
 	arc=none smtp.remote-ip=119.15.109.137
 Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A6B606A31C
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 10:08:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1A6B606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F85606A32C
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 10:08:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9F85606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=R2lKm9Fv
+	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=a2sR3URN
 Received: from Hawking.lan (hawking.lan [10.0.1.4])
-	by www.nmnhosting.com (Postfix) with ESMTP id 3BDAD4C97E;
-	Fri, 27 Nov 2026 21:08:21 +1100 (AEDT)
+	by www.nmnhosting.com (Postfix) with ESMTP id 2E3E04C989;
+	Fri, 27 Nov 2026 21:08:30 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
-	t=1795774101;
+	t=1795774110;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=IHS463L7ZJsnVGIh6FhisLGYwFc0FaaTOlQZxZ0FPkQ=;
-	b=R2lKm9Fv8PkvQg/ewGSztcOiQI4UZXZPmUC2YKQC6ywQMibApGivH/O45zacrC+KseXJsG
-	P1NeO1jojdgD7mBvcl1ehd2PXosZciZzG/A29LMG2E4panA+OXsK6ZJQc5+vvWldQ36D1i
-	gwPBBMtm3TRJRlETPaVY6RREKzgrT0La8VAsHnreLAGUik07+Tv8Kx2L4lSlXelrSRkgfo
-	+CeU+RzTmfwCyAxD0eNtLXflcKRJa/yFU4hJNPdRkBy5PltCKJKLGFsC13Yt2nIYv0wHyj
-	vQTDUnvuGPVWrRj3nPJkchLlVKYxVzuoPhu46KeyiasDvpK1KnWRGNKTRcSfbQ==
-X-GPT-Reason: legitimate; the message is a technical software patch
-	(Linux kernel style) that directly aligns with the personal/professional
-	mailbox of the sender (alastair@d-silva.org); the From domain matches
-	the recipient's domain, indicating a known entity; there are no
-	phishing indicators, no URLs, and the content is strictly technical
-	rather than marketing or scam-related.
+	bh=4IV3yRHhQQZGklGZH5PN/o6RqZMOoboQKYnTyajhFCc=;
+	b=a2sR3URNNvwmqriKJQLlHQsXDuT/MNX4DpVkNpGoiJp6Hr2aKNmtCz0hVJbcUkMSbwuhkv
+	r7k849qq2iVbWCiWjKT4+ai2IKp2P3Ltf1wu86KzsZ+1cJq9BUthaiqgErQzFdpw4aBxk0
+	MezMGMJYpOTbXbe96qpzdTTfHT1quXR6+SIjpqyvJefGLk8Is/UhJb5By36C2iVfkTbYw4
+	7X8wQtWrEoq1F49cBI6zwfcJNTKEYXB/zyPzpz6hdZiA71KYgp20qu0dYsaUm6wCgy3SNT
+	SJZAcZGswnTQTroGbFq9UCBKqF9NbTYaJp5dh8wniNpz2e7lIxJPeINr+qs73Q==
+X-GPT-Reason: legitimate_personal_technical_communication. The
+	content is a technical kernel patch description related to hardware
+	clock gating, which perfectly aligns with the sender's identity
+	(Alastair D'Silva) and the recipient's domain (d-silva.org). No
+	indicators of spam, phishing, or marketing were found, as the From/Return-Path
+	domains match, no URLs are present, and the subject line follows
+	standard open-source development practices.
 From: Alastair D'Silva <alastair@d-silva.org>
 To: Vinod Koul <vkoul@kernel.org>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
@@ -79,9 +80,9 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 	linux-clk@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Alastair D'Silva <alastair@d-silva.org>
-Subject: [PATCH 2/6] dt-bindings: usb: generic-{ehci,ohci}: Add Allwinner A733
-Date: Fri, 27 Nov 2026 21:08:04 +1100
-Message-ID: <20261127100808.2292229-3-alastair@d-silva.org>
+Subject: [PATCH 3/6] clk: sunxi-ng: a733: Mark mbus-msi-lite2 clock as critical
+Date: Fri, 27 Nov 2026 21:08:05 +1100
+Message-ID: <20261127100808.2292229-4-alastair@d-silva.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261127100808.2292229-1-alastair@d-silva.org>
 References: <20261127100808.2292229-1-alastair@d-silva.org>
@@ -96,38 +97,33 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the Allwinner A733 (sun60i-a733) EHCI and OHCI compatible strings.
+The mbus-msi-lite2 clock gates the shared MSI-Lite2 DMA fabric used by the
+USB controllers. Without CLK_IS_CRITICAL, clk_disable_unused() gates it off
+and breaks USB 2.0 host DMA transfers.
 
+Mark mbus-msi-lite2 as CLK_IS_CRITICAL, matching mbus-store in this driver.
+
+Fixes: ed757071ac3d ("clk: sunxi-ng: a733: Add bus clock gates")
 Signed-off-by: Alastair D'Silva <alastair@d-silva.org>
 ---
- Documentation/devicetree/bindings/usb/generic-ehci.yaml | 1 +
- Documentation/devicetree/bindings/usb/generic-ohci.yaml | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/clk/sunxi-ng/ccu-sun60i-a733.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/usb/generic-ehci.yaml b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-index 908b02d9175e..a63dc0eea80f 100644
---- a/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-+++ b/Documentation/devicetree/bindings/usb/generic-ehci.yaml
-@@ -21,6 +21,7 @@ properties:
-               - allwinner,sun50i-h616-ehci
-               - allwinner,sun55i-a523-ehci
-               - allwinner,sun5i-a13-ehci
-+              - allwinner,sun60i-a733-ehci
-               - allwinner,sun6i-a31-ehci
-               - allwinner,sun7i-a20-ehci
-               - allwinner,sun8i-a23-ehci
-diff --git a/Documentation/devicetree/bindings/usb/generic-ohci.yaml b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-index 7a8c3c231815..565f41eb33f7 100644
---- a/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-+++ b/Documentation/devicetree/bindings/usb/generic-ohci.yaml
-@@ -21,6 +21,7 @@ properties:
-               - allwinner,sun50i-h616-ohci
-               - allwinner,sun55i-a523-ohci
-               - allwinner,sun5i-a13-ohci
-+              - allwinner,sun60i-a733-ohci
-               - allwinner,sun6i-a31-ohci
-               - allwinner,sun7i-a20-ohci
-               - allwinner,sun8i-a23-ohci
+diff --git a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+index 958a2a2bcf76..fb4ca4ef3992 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
++++ b/drivers/clk/sunxi-ng/ccu-sun60i-a733.c
+@@ -605,8 +605,9 @@ static SUNXI_CCU_GATE_HWS(mbus_store_clk, "mbus-store", mbus_hws,
+ 			  0x5e0, BIT(30), CLK_IS_CRITICAL);
+ static const struct clk_hw *mbus_store_hws[] = { &mbus_store_clk.common.hw };
+ 
++/* Keep enabled for the MSI-Lite2 DMA fabric shared by USB controllers. */
+ static SUNXI_CCU_GATE_HWS(mbus_msi_lite2_clk, "mbus-msi-lite2", mbus_hws,
+-			  0x5e0, BIT(31), 0);
++			  0x5e0, BIT(31), CLK_IS_CRITICAL);
+ 
+ static SUNXI_CCU_GATE_HWS(mbus_dma0_clk, "mbus-dma0", mbus_hws,
+ 			  0x5e4, BIT(0), 0);
 -- 
 2.53.0
 
