@@ -1,114 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795802856;
-	b=2YlodqLihhz4PhUKgPi02CSnprlQSofsaAnT4GWuRyM5b8iazDy1zxa3a9Zdvb/6F6BY
-	 VDnwc78ngwUC7XLHONEtzKlKnF29wrMJ0HW5wUW91o7ITdzQf6joSHY/Y4gV9Ogm2zGdb
-	 Wck1hPbk4h6iRXu7GNGI042KChrg/gbEFRI1/kDWz3GKdrWjogMDIIYho0blDg7vMJokB
-	 insDfkjJQWqc+u3LbX01gso7rMfTZXvYmWB9VZ6g4a7LDf/6yktkwX94Wx09aLA013Bri
-	 XB/DMBIWl43uzDOhvJ++VswzLvvMKiCH5Tjyp4OmDBlkGBO7vFvQlcDSoYvdirRrwBA==
+	t=1795804616;
+	b=YBaXwpv1nONC8ejwUEccWvWIaDjdj5o7YcCYP15jmqUXSh8rfJ7RA0tOYVSPFPaImJWq
+	 CsiUMulaLLluk0riLh80FWkFn2tZqpXfS+IKQMaP/f3Pps19rCaQpKBhVdzjMt2Jx94p5
+	 mryukwEywQaThPQRA29BQRJaPG5eQ0nxM2gZwWpanL4N6qvzTFX86Awev8bubOfroctGX
+	 QBdtmKWzlNRdmqiwmXhKrP+SXmttkhZL4uTH4y9WRtxyW/MGYlCrXo5UsFsDNkHDoiO7f
+	 c/85/8HQTNcmZXYf7WRZzkjLUd8FNTzSWp+ZuIaXoz6nTDY+we6oYjb00Jz9MWT7LpQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795802856;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 Content-Type:MIME-Version:Content-Transfer-Encoding;
-	bh=C+jIPjNvYn3h9h+TJTZMShL4W1q3aCeTVBe375LBwnw=;
-	b=f8a4hNxZRqzcQ0bTQeoknfTYyOXgJGcG3DnYc+P7MmdXiAKlj449F094GZixCRQl8iBZ
-	 yyDyki9hrALUYbXtcbhjoAZTyrfaSAhIDDO7zPZJR44ZAEcjzCTQMrrAMcfyW9PcN14RZ
-	 8cL6yU3rLFnEoW8YOdxjiwsUqvW7uWr6nFXwdrQ+bvQ1YucmtLZXJzucwPiJ7+7MsN2vn
-	 MwgvjaKIzbTMs4Pd0SQrkidgq1dt12B8Xn+E7/ba88mxwf8PQVFUvKWFv880gxN+d1VZ7
-	 nOzLs8MKyhcvkuWFM0cwbsPrz5ToD0OKeAVjhtUjZSwbJ+rA2JWY9ruIrSa9j/chDPg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795804616;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=G8NnEquHh6JPrt5WKM/35q0o6NTyLXSxP+cYgYnFdys=;
+	b=cRFIhj9XE1rPRh0OHIP+syhzbUoqmLK4mVe/VMJW2XtRTyIR0LF16mnqWFNdLcg2IY5l
+	 tWa8EF5YvYckZ2a20qzT/hTQPVXl01HKDaqkoQ+TzPZRHUN9BdjwJL7B6hs574ZYxoESk
+	 RcRN44VQWWpuDfXShkyABKglgCaBurACqD90+j/1b4Kpk1nGtTFMhXU12aC3olXgp9TRM
+	 ZyEV6iwn+4UXq88hGFm/FlLbc8bhnl9EU9x9MThmdVbL8gCcJOJWLtoxX+N2kgcDXIcGg
+	 wcT85Mga5wobJpf5sKvKf+uHMqbStYY9ddBrgV+cUHnefK1dDNJBc1nbopGyjPapjmQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Oyc6SUYD;
-	arc=none smtp.remote-ip=209.85.161.43
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96F9606A333
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 18:07:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D96F9606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=b43+c8Cg;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B300606A32A
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 18:36:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B300606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Oyc6SUYD
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-71b945cc4a6so710025eaf.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 10:07:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795802855; x=1796407655; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=C+jIPjNvYn3h9h+TJTZMShL4W1q3aCeTVBe375LBwnw=;
-        b=Oyc6SUYD8or4cCqzSxUSVT1Mv5zREafclm/OGzntoruxPx2tsAx50uU0kUhTX/bklQ
-         IC7IGQtiRQ27zSWUl4kQSSLStcIYweMZT4V4nzv+aWtJxkALvP7D7SsBluElpniZZtDH
-         ga/QlrOvcUMYolF7vgXewV5Ac4D04uqWclG85Vgmg5YkObAWCJqBta958hbbszS126PL
-         UO1O9ovLq+6QVfcAIdw0+yRWu9d49pf8Jf4qMBu7NN+KT6RjBC5Z0gS+2lDWVOgzyhUV
-         06aoacGgMOsOGAjB/3t0L/DvKkOnTQZmimVtSlAjfOPRDTZ2I1v19mLNLiftGP7UOzgF
-         tT4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795802855; x=1796407655;
-        h=content-transfer-encoding:mime-version:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=C+jIPjNvYn3h9h+TJTZMShL4W1q3aCeTVBe375LBwnw=;
-        b=zbWt2K802rvTV5VRBcidgNnfSpmNRA09kyEgVLFq+tZNjiOs0BXmwG4aZ6GM2dMBq/
-         Uv2JXLr8QOd6+FyzVBHKv02HCkzBFLNRlLYrzxo2V5KWNCqKJTz/p8rWfwR3LnwDqF15
-         rh1JqZBvbQZP2aVQuA5zbQUppNfkp5nusVoTR+HihWlyui14YzHkoI6hV8VbJIiYNP7n
-         fh8+JQwainiL/DJY58CrpFpXpmfP2Rv8/kEX4EaG/JyvAZnAt8sMKIzBdhdG9AzW9z3T
-         n2/8Eb9U1SWfkysmjWXfhzUCHLCTaN4HRNWUxfScRZA0ed8pcUSD8SgVyeQBPIHYeJUs
-         9ehQ==
-X-Forwarded-Encrypted: i=1; AL+hErHrLEgIqMiX7o0SeUZ9QuukyMgtXWry19fgmOfGi86+4ONs4q+9ONDaDqXy0pACYPDETAcqVqrxwYV6jg==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/zL6BZPwqymbfm2+UD8RkE0kBvMWBUvcE4/WUHqJZOPbAcIZnY
-	QIrSTIhHio7TNbENaXLt82AdEI1xZUAWZVFbbo576c5Pt2mENR9kQ+mg
-X-Gm-Gg: AZFdTZcZeVQW9I1VzXL1sp4LfUnDlAZeVJ4ZM/Crv7PszVyEpgC8mv41mV0v1fuN4Wk
-	47ejAY5DhxdLT5IJAa67EwudnUNG9FgK7A8RyP858WojECvxAJBEoAa4Ir9sSM+fFSi95BLJzhn
-	lTv9zzXtFINlaOXt//fOgJuoryFsRpWf1I1yK6zdgLD1H1hYymlINhELpsbooRhhxM8XURFysT1
-	wUcfAXHIBrlc9NiAipmY9SCNaYWPc0L5Vr+YhlaSJ/QiRp52IO1Diyjeet7gTwziRX3NkOpMb0B
-	thct+r+w+d7w3uI7ym1YYXir3Pd1MsJZIqPzqMF0g9ozm6IqzJdWbNIM0aldS9g5VgQVWfnk/pc
-	Bce1VLbGT7JfUCej7E6C1eClfEbXVBsDgXLm239UF76ZJ/loPTcufW0zepBjqX7MQ6t6JpP4e55
-	SjVmH+XhPoUB6B5HYvxY/kaum/9Ck9QCrX6iKZdzHFTgKkQ31rwuiih6t68caUgVt0V6bCo/Q+B
-	BEyWr+KPjOjvCHrK3U8WJbUKHGxZRszu3pKa85cClj977T45MeA6IGHjO6hwrX94ROSCzjvNePb
-	eZY2AfpzcrZ1182NcIjbGKl8NPzuLF40ztPnIS1q0s18INS0V9r25S8/9G8Scin7gJ116jyy6qN
-	eA91Hetg88eHnTrzzr2ANptnQUM0=
-X-Received: by 2002:a05:6820:3410:20b0:717:da:ba40 with SMTP id 006d021491bc7-71b394956cdmr13815414eaf.26.1795802854800;
-        Fri, 27 Nov 2026 10:07:34 -0800 (PST)
-Received: from AMD.home.internal (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-71b38015c46sm16618767eaf.4.2026.11.27.10.07.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 10:07:34 -0800 (PST)
-From: Enzo Adriano <enzo.adriano.code@gmail.com>
-To: dockseed@proton.me
-Cc: andre.przywara@arm.com,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	Maxime Ripard <mripard@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Junhui Liu <junhui.liu@pigmoral.tech>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Pablo Mazzini <pmazzini@gmail.com>,
-	Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
-	Alexander Sverdlin <alex@sverdlin.org>,
-	Jun Yan <jerrysteve1101@gmail.com>,
-	Lukas Schmid <lukas.schmid@netcube.li>,
-	Cristian Filipescu <filipescu.cristian@gmail.com>
-Subject: Re: [PATCH v6 3/5] arm64: dts: allwinner: add Radxa Cubie A7S board
-Date: Fri, 27 Nov 2026 13:07:32 -0500
-Message-ID: <20261127-a733-dt-v6-05-reply@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <z51JFKDjnRGxR5v8f-2sigY7Ih39S9_hQJF-C7-0jwRzGvAZcyniqmAsBFOyj_Vci0JDoXGMbuWcop6uSGRMUon5bqjJFMIjMk9jN8TbaLU=@proton.me>
-References: <20261126-a733-cubie-a7s-dt-v6-0@gmail.com> <20261126-a733-cubie-a7s-dt-v6-3@gmail.com> <z51JFKDjnRGxR5v8f-2sigY7Ih39S9_hQJF-C7-0jwRzGvAZcyniqmAsBFOyj_Vci0JDoXGMbuWcop6uSGRMUon5bqjJFMIjMk9jN8TbaLU=@proton.me>
-Content-Type: text/plain; charset="us-ascii"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=b43+c8Cg
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C5EAC1575;
+	Fri, 27 Nov 2026 10:36:52 -0800 (PST)
+Received: from [10.33.50.35] (e142021.arm.com [10.33.50.35])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A6D623F86C;
+	Fri, 27 Nov 2026 10:36:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795804615; bh=6ifu5kHm5pa1d98fpL6HG21zQD2uf+dZa/ElH6oL+Po=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=b43+c8Cg4WzasHC2UHK7/jdi18rQBwVZBc/LIiJEKn5ZFBSfL2YVSHmum9dYopHpX
+	 8OWP0Rbke/ucNh6SaIdyrIob3sYstfEZM9D3p0mCkQ6rySMpwS42Nm/47wYzESNUpd
+	 ZwDmP+375fMIpueHrm7xRx9WdUlVnu4x5+fy59Hs=
+Message-ID: <5cde8317-61c0-4405-915f-44fcc3c54389@arm.com>
+Date: Fri, 27 Nov 2026 18:36:49 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -118,31 +53,67 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 5/5] arm64: dts: allwinner: add Radxa Cubie A7A board
+To: Enzo Adriano <enzo.adriano.code@gmail.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, wens@kernel.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Junhui Liu <junhui.liu@pigmoral.tech>,
+ Pablo Mazzini <pmazzini@gmail.com>,
+ Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
+ Alexander Sverdlin <alex@sverdlin.org>, Jun Yan <jerrysteve1101@gmail.com>,
+ Lukas Schmid <lukas.schmid@netcube.li>,
+ Cristian Filipescu <filipescu.cristian@gmail.com>,
+ Norman Herms <dockseed@proton.me>
+References: <20261126-a733-cubie-a7s-dt-v6-0@gmail.com>
+ <20261126-a733-cubie-a7s-dt-v6-5@gmail.com>
+ <1jik1ild9n.fsf@starbuckisacylon.baylibre.com>
+ <4c9ea902-24fd-4065-82b7-41d6df43b082@arm.com>
+ <20261127-a733-dt-v6-04-reply@gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20261127-a733-dt-v6-04-reply@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> The cover lists CPU/cache topology as untested: all eight CPUs are in
-> one cluster, as described. Patch 2/5 mentions the shared L3, but the
-> DTSI has no cache nodes, so the kernel falls back to reporting L2 as
-> shared by all eight CPUs as well (index2 shared_cpu_list 0-7).
+Hi Enzo,
 
-Right. v7 rewords 2/5 so it no longer claims the shared L3 is
-described.
+thanks for taking care and making the changes!
 
-> The EEPROM probes as writable. It holds Radxa's factory data, and
-> our own DT reads the MAC address from it at 0x9e, so read-only might be
-> worth considering.
+On 11/27/26 19:07, Enzo Adriano wrote:
+>> Ah, indeed, good catch.
+> 
+> Thanks. v7 uses <&reg_bldo1> for vcc-pk-supply, with a note in the
+> patch.
 
-Agreed, v7 marks it read-only.
+Yes, thanks.
 
-> Card hotplug, listed as untested in the cover, works with Vinicius'
-> "do not switch the mux to read IRQ lines" fix (a256b8c8083e) on top:
-> pulling the card gives "card removed" and reinserting it gives "new
-> high speed SDXC card". Without that fix the PF6 level follows the card,
-> but the card detect interrupt never fires, so the A7S needs it for
-> hotplug.
+> On a different point: shall v7 rename osc32k-clk to clock-osc32k, as on
+> the A7S and A7Z? The schema still accepts the old name (deprecated), and
+> CHECK_DTBS is clean.
 
-v7's cover letter names Vinicius' "pinctrl: sunxi: a733: do not switch
-the mux to read IRQ lines" as needed for card-detect interrupts on the
-A7S.
+Yes, it would be great if you could change that, too.
 
-Enzo
+> Also, is no-1-8-v on &mmc0 fine with you? It ties to Jernej's question
+> on 2/5 [1] and your reply [2].
+
+With no vqmmc, and vmmc pointing to a 3.3V regulator, I think it doesn't 
+matter, no one would negotiate 1.8V anyway. And we didn't use that 
+property before. I am not even sure it is correct for the A733, since 
+the host controller DOES support 1.8V, it's just not "wired up" yet.
+So unless someone screams, please leave it out (and feel free to do the 
+same on the A7S). Eventually we will need to drop that property anyway.
+
+Cheers,
+Andre
+
+> 
+> [1] https://lore.kernel.org/r/p3YaXlLJTguQBGnWyMpb1w@gmail.com
+> [2]
+> https://lore.kernel.org/r/9ab5f851-1b56-49ed-bfdd-46abdbdda1c0@arm.com
+> 
+> Enzo
+
