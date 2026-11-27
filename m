@@ -1,60 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=79.135.106.120
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795802089;
-	b=Rcv9WJAFvUDy+ScTe5Z1RP2hmvJZ4iMEorciqZaeau5xGmWIcy+YFfQ5RZj9drphhMBY
-	 Q0ckyJL/ZPElJpsq7JfjG0Q8mfIWXnnUxeoSM/P7fTuiX9AvMVEG+iGlT+wrlVbTawack
-	 fTmsp/0MKzxyrGb8avgWODUy3vP0fXzWtx7hnlEWg2qSUPpZBGKVM2rzMZYou9DuxPvE4
-	 1XTts5kT96t9V2c4oPNQ50PKEzpGINr7j13xIxY0QdGfXI41/tQceMczUGcITgJSLjOSe
-	 fMew0DKxAssL45DcBrPnrb0JNKSuCtRdSRRKYZKIIt5CAuqW4IFfmfRATop2XUz7vVA==
+	t=1795802814;
+	b=DMxKBrFAE8E7ao/ll8Jw937aKhMrASO1rNy80e39cwqkOf38go6JHsskUG/eaoH5KfIH
+	 sp23WDa/bgiuRP+g+xTGTe98ALKXrHiXaAjtiDWH/aGSVw74kTA5y5AUE44ZNVzp3DBX8
+	 Lo4B2oy4jzJSUiseB067cu0/dpEVfWbmse69h5RtCEh9k3c91QiQY4OxrpR4ezZlCRFdh
+	 63HqcZk71JFHbQE8525Y7jsFOLCiio7J1I2CuERDGDMj49cvEnfOD2CqXugHaweHKum3z
+	 Gx8w02ZuoexXb4VMMoHfx/h/ZKYR2pXNk7mNny4yOqRIuSH2tDghGC/fTlMrThwzagQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795802089;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=MBpzvZy2ZJyn1GNW1kPyufscZwT3WxGJxcs/46l1sms=;
-	b=3DtNkUaXHYNxL7fOTAyH/DE94zMMK3YP1puquUNGMIRp2mn/rnHQ1XYwa7aYAk0qIFN6
-	 Z+0bi5f8g9y/Qp1YbR2IGUWZlKqwvCvTK6nE6T+bViW5uv1GzWj3+JyrmWXiTbwNm2+/j
-	 h2t06Y2+D7d0mtvTAFDx/8DDs+84r/JuKAorJWe0Bc7KYI70ISBVBvI9AbF27aVjWt8UU
-	 6x1GNA27FjxBSQQKr0USPO7pcE8cbtDmtQLAbhX0XtqO47XYZxra2+GVcpeONlsNzoK5u
-	 9lpKoNSwTQ0NlUIuu2vux3hFqFnIhXgXV4jmmyesCCgU3GRDxafFUPyuJ3B7OKrRolA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795802814;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 Content-Type:MIME-Version:Content-Transfer-Encoding;
+	bh=JMhmizF9rm/NvUf9wXz1bzC79f1tk9PLdnrYZqqxQsQ=;
+	b=WMzvmfGXqNpzDHoWDyzcZCzLlatVlXhSOGdmZ3S6FsXasBBKw3ze5ADnpS35cBk1iD9v
+	 HKq3mFuByHH6KyWjGdu7MQQwVf85kh5kvAqzFhrG9KwapVv/IVJ+Eyn+yWhXASQfpTAXB
+	 LHMVGWu0uF8Wjbdo0m0u5laGrk8xhb/kQwwIzlJj4u7cUtD0Ur+viJGXDA6M4Jxv0T24h
+	 ASSxyo5NdJAoN1hPcJ7bVFfPRz50W4uxY3rp99bPBZuzaRqLZZc/AIqiBPqlB8FEXww+C
+	 FB7la/y32Fmq/Xe15SDQlkfFxQxp8c/9ihqGPqIg9UwDw0Pu7v+2wNao8+MZnwA5nnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=proton.me;
-	spf=pass smtp.mailfrom=proton.me;
-	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=WV9URbfw;
-	arc=none smtp.remote-ip=79.135.106.120
-Received: from mail-106120.protonmail.ch (mail-106120.protonmail.ch [79.135.106.120])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QAx1hgED;
+	arc=none smtp.remote-ip=209.85.161.42
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A98606A31F
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 17:54:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43A98606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CDEE606A31F
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 18:06:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8CDEE606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=protonmail2 header.b=WV9URbfw
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail2; t=1795802084; x=1796061284;
-	bh=MBpzvZy2ZJyn1GNW1kPyufscZwT3WxGJxcs/46l1sms=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=WV9URbfwJWMvgppCmeG6dN9HfAo+Ub5JejJNz1mG5l2s1pHBb6LLnUTPg91VaoXxa
-	 AeqhPesz+uhW3OQr16xDEpUWGBK7xxCLx7jRe+KJuwQ4jkMoZAU9Z0j4hkxew5lZ4G
-	 XcOgLet77UWkXaBlgg0YplyjpEky6wY0jTt/a2Lr4k16Q3Gd1MO12yrxi+zbeEaOPP
-	 I53M8ClJVixa4hSKKagtCloAK/kauHedhsO2bgbaY/uh8LmQmSFB++1oWti6PEQpue
-	 oARtboOlsJFB8JGPu6koj8BbMtoSQenWlVSOTTeXy86qzXKXmSdA/Y+AYkQFx9TZDY
-	 4bNHSFUGl40WQ==
-Date: Fri, 27 Nov 2026 17:54:35 +0000
-To: Andre Przywara <andre.przywara@arm.com>
-From: Norman Herms <dockseed@proton.me>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, =?utf-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, wens@kernel.org, samuel@sholland.org, Enzo Adriano <enzo.adriano.code@gmail.com>, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Junhui Liu <junhui.liu@pigmoral.tech>, Pablo Mazzini <pmazzini@gmail.com>, Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>, Alexander Sverdlin <alex@sverdlin.org>, Jun Yan <jerrysteve1101@gmail.com>, Lukas Schmid <lukas.schmid@netcube.li>, Cristian Filipescu <filipescu.cristian@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QAx1hgED
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-6b1afdf5196so3238133eaf.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 10:06:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795802813; x=1796407613; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=JMhmizF9rm/NvUf9wXz1bzC79f1tk9PLdnrYZqqxQsQ=;
+        b=QAx1hgEDu9bb9NwakkV3Wc4JRnjT/RtuvERZaLnUt4ANN4mFGx392+XDKBs9h0TH4h
+         PU+3HNrrze977bg+tOaCtFGRKRl8qGSBZzfAQsQCakbDlQQy69DoNLySlERAAH98yzbZ
+         pyFeWrsyRIPWVswi0J3d0tF39XRTARrIuOY8qOKJmhZw2I2/l0+HVY7UVc5kFgjiyqbr
+         pGwAB8th+++E3xfZQYmcC6/HhcWimeEjksjAZibA/jYkpY7mGxlJWdeLZiKwmf/rfC80
+         1vz8+uvweg+R2/jilie8HdK1lM9oO0XJUxx/L7ci9O9rduQw/bTCQJ1dIie07lVAJA/w
+         yqfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795802813; x=1796407613;
+        h=content-transfer-encoding:mime-version:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JMhmizF9rm/NvUf9wXz1bzC79f1tk9PLdnrYZqqxQsQ=;
+        b=gVqUfnxlz7aOrLPPqMA+jBWik175PVEtcbZVpRaW49rKYzB4oqh337aAuRD0cwFmE+
+         WqCF/3zW3YRUaWIYxVshWaUFUjXZdgORhsncCLcMdEOnf2q84RqebGhzzUdFe3nJHq72
+         cG8FFs1FgbmT5I30lwaIBcPOS1Gux0C3aWlx4D6r3buLtVLOiVKklWS5za0FTps7b/8q
+         u/c1TNVH/bLjjGQskaOBzFEKvdJ4R1usZOgQjOjLMjO1GKu5k6zMNQ/t1XOTAancCTyc
+         FiQdAc2MDJiijaI40muy3QJHUAbsJM7AnjKnyeDp1REhWPbXUNbK/AMvka4pp3nEgBjm
+         nrrA==
+X-Forwarded-Encrypted: i=1; AL+hErEvNj+BzaI6h8utK6LYZu2HoqSp+JLluaRe1obWCL+Uwvw09vWUxfANVnk3/uGppg3pC6TvAl10AUaWbw==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9eCw+rq5Ci+S5x7t1n6BQOxIlHFG5qZN6f7mvoeBHPnmtrHELn
+	3AR1p0xYuOlRMuvZwz7qM6h6aeZANsmZV5riYlLfTwQB0p92BkjY/kOn
+X-Gm-Gg: AZFdTZegsLIlMVtIvM9wOxuJ0UDXNBDDp3NhPWwFuRfUOgC9la00f8bUd7w67qTbWI8
+	tuyF7Zy3vrqJVDWSWkmlC6fo6bhGQxd9o7kDS50C0LGpVE9wF5NwPuE1fXUR1RK/X1byDzJbeKs
+	dzqSC8d+dSO12yOI9jWwW3dPJynjaeKkQsl+HgiknHC30JPqga6X5YzMVOHk7yfvfE922z7Xta7
+	TtgJ8T6Y14IFfLoXsDDP2Q6yBL+v0PWXvLxEZyo1jkwcrceGTvEnibfFSlNgmHuk/8UthlMGCHr
+	Vek5PHCh+7nPKVs1nOa/KW5wGWsXj6U/ZQVzSKX4Dv7ur/5vqJHSsXYlQS1+GNDUJT75UpZvzhS
+	m5uJsI8V+WctH3NzQgJn/oQTp3CvW1jaTTYFGLOLNeD8N7oZ0rpn5O0ewI7r8nY6PCi1qtvdT+s
+	edaVspxDx6Su/TsQMQIPexEi2/zlyIYwsn5Ohztm9pDHfhc+NxkAZ1xtB0shEigYBtYlrRazkxF
+	qV/kUBbnCipYBbxRav7Pk+gKpeEnn4WKA0P7BSwdzUUiM8R0t6+hNQACIyDsCautig3svY/AmCJ
+	ortqS/yO8qjVDMMTjwJ1ATvKGKAw9mprVJCmMHBqGJkqFO2eqBG6nxckXV9ncLPZGICcz6Gdecf
+	qNeYM/Q==
+X-Received: by 2002:a05:6820:a74d:10b0:708:c97f:5541 with SMTP id 006d021491bc7-71b394868bbmr14209997eaf.37.1795802813364;
+        Fri, 27 Nov 2026 10:06:53 -0800 (PST)
+Received: from AMD.home.internal (dhcp-9-244-8-156.gobrightspeed.net. [9.244.8.156])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-863168f6d33sm17220715a34.18.2026.11.27.10.06.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Nov 2026 10:06:52 -0800 (PST)
+From: Enzo Adriano <enzo.adriano.code@gmail.com>
+To: andre.przywara@arm.com
+Cc: jernej.skrabec@gmail.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	wens@kernel.org,
+	samuel@sholland.org,
+	Maxime Ripard <mripard@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Junhui Liu <junhui.liu@pigmoral.tech>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Pablo Mazzini <pmazzini@gmail.com>,
+	Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
+	Alexander Sverdlin <alex@sverdlin.org>,
+	Jun Yan <jerrysteve1101@gmail.com>,
+	Lukas Schmid <lukas.schmid@netcube.li>,
+	Cristian Filipescu <filipescu.cristian@gmail.com>,
+	Norman Herms <dockseed@proton.me>
 Subject: Re: [PATCH v6 2/5] arm64: dts: allwinner: add A733 SoC description
-Message-ID: <0ZiLi25XUh_mAaMCw_YhXS3YA3FIj89dJfHVYgxGcBS3a5biGYvczbtTd9O3zus2A5Q1HQMkCaU7I9UU6Y50VGIZ_ltPsKx-7lHvtFtYcVQ=@proton.me>
-In-Reply-To: <682cee16-d56c-436a-8661-0cf511fa2e78@arm.com>
-References: <20261126-a733-cubie-a7s-dt-v6-0@gmail.com> <20261126-a733-cubie-a7s-dt-v6-2@gmail.com> <p3YaXlLJTguQBGnWyMpb1w@gmail.com> <1jld6eldic.fsf@starbuckisacylon.baylibre.com> <wzwsbUKM-fEhYpTIhswvHly5oyuMCPDOExJEWjbSf-OS3Lrwx2H_l9CUfuMITJUK5CyEz4pNojUFRzjDDczUQmX_LmSWwF7DVSceD34XeHY=@proton.me> <682cee16-d56c-436a-8661-0cf511fa2e78@arm.com>
-Feedback-ID: 144388465:user:proton
-X-Pm-Message-ID: e8432731c81dec984c084befc90a1a96ab850531
+Date: Fri, 27 Nov 2026 13:06:50 -0500
+Message-ID: <20261127-a733-dt-v6-01-reply@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <9ab5f851-1b56-49ed-bfdd-46abdbdda1c0@arm.com>
+References: <20261126-a733-cubie-a7s-dt-v6-0@gmail.com> <20261126-a733-cubie-a7s-dt-v6-2@gmail.com> <p3YaXlLJTguQBGnWyMpb1w@gmail.com> <9ab5f851-1b56-49ed-bfdd-46abdbdda1c0@arm.com>
+Content-Type: text/plain; charset="us-ascii"
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -64,78 +118,32 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Andre,
+> But it's still compatible to the D1 MMC controller, isn't it? As in: a
+> driver capable of supporting the D1 MMC IP can also drive the A733 MMC.
+> I think the voltage regulator is a separate problem: it's external to
+> the MMC IP. The vqmmc supply property is documented and usable, and the
+> availability of the regulator it points to is a separate issue.
+> The same as the H616 and A523 have the voltage switch already, but are
+> still compatible to the A100 and D1, respectively.
 
-> What do you mean by that? The proper solution is to *create* a new
-> regulator driver, either embedded in the pinctrl driver (make the
-> pinctrl export a regulator device), or as a separate driver, using some
-> pinctrl provided regmap.
-[...]
-> Are you using a different approach?
+Agreed, and the manual backs it. The A733 User Manual v1.00, section
+11.3.1, lists SDR 200 MHz at 1.8 V IO for SMHC0, but the SMHC register
+list has no voltage control. The Port F pad voltage is chosen in the
+GPIO block: GPIO_POW_VAL_SET_CTL at 0x0200_0070, bit 0
+VCC_PF_PWR_VOL_SEL (0 = 1.8 V, 1 = 3.3 V, reset 1), section 18.14.6.3.
+So vqmmc for mmc0 would be a regulator provided from the pinctrl side.
 
-Yes, a different one: I only meant that there is no PMIC regulator
-whose voltage could be changed, the switch is inside the pin
-controller. We went with pinctrl states, and sunxi-mmc selects them in
-its voltage switch when there is no vqmmc. It works, but a regulator
-mux exported by the pin controller, with vqmmc pointing at it, looks
-cleaner to me and needs no change in sunxi-mmc. We are happy to test
-that.
+On the A7S (schematic v1.10, sheets 4 and 7) both Port F supplies are
+fixed rails: VCC-IO, 3.3 V from SWOUT2, and VCC18-PF, 1.8 V from CLDO5.
+There is nothing to point vqmmc at today.
 
-> Do you mean you use vmmc-supply to point to some 1.8V regulator?
+Unless Jernej still prefers dropping the node, v7 keeps mmc0 with the D1
+fallback and no-1-8-v on all three boards. The Port F switch can follow
+when it exists.
 
-No, vmmc is SWOUT2 at 3.3 V. Without vqmmc, sunxi_mmc_volt_switch()
-returns -EINVAL for 1.8 V, so the card stays at 3.3 V without UHS.
+Jernej, if your "emmc" meant SMHC2, I can also drop the unused mmc2
+node; no board enables it.
 
-> Is that a timing issue, maybe? Maybe the sampling happens only so often,
-> and you just happen to miss the change, occasionally?
-
-We cannot rule that out. We read the detector at every SD interrupt
-while PF ran at 1.8 V: in the adaptive mode it said "not 1.8 V" at 2
-of 90 and 6 of 83 reads, and with the mode set by hand at 1 of 99 and
-3 of 103, where the card stayed clean. Right after a switch it already
-reported 1.8 V on the first read in our trace, so it does not look
-like a slow detector. The USB3 combo PHY points the same way, as it
-shares CLDO5 on this board: with the PHY running the failures go
-away, and in older traces the detector said 3.3 V in the first 25 ms
-at 1.8 V at 2 of 76 reads with the PHY off, but at 0 of 1137 with it
-running. Those two traces also differ in kernel and DT, though, and a
-run comparing both in the same boot never happened.
-
-> Just to clarify: "0 of 40" means *0 fails* here, so it works?
-
-Yes, 0 failures in 40 rebinds.
-
-> Do you mean your patch just badly hacks those two bits to do what you
-> want, by treating PortF separately, but it's not something that looks
-> nice and upstreamable?
-
-Yes, it is a special case for bank PF in the pinctrl driver. With a
-regulator mux, its set_voltage would be the natural place for the
-same order.
-
-> So according to the A7A schematics VCC18-PF is a separate power supply
-> pin on the SoC, and it's supplied by CLDO5.
-
-Same on the A7S. There CLDO5 also feeds VCC-PC (the eMMC VCCQ) and the
-combo PHY's analog supply, and v6 already references it as
-vcc-pc-supply.
-
-> But this is a firmware problem, then? As 0b10 is documented as 3.3V,
-> which is wrong if you use a 1.8V eMMC. So doesn't the new pinctrl fix
-> patch overwrite this with "auto" (0b01)?
-
-Yes, it is a firmware problem, and yes: with the pinctrl patch the
-register reads 0x05555555 under v6, so PC is in auto. Our boot chain
-writes auto too; we set PC to 10 by hand at runtime to see what
-happens. My point was only that 10 on PC does not behave as the
-adaptive mode that the manual text gives for C/E/K. Whether U-Boot
-fails with it too, we have not tested.
-
-Built and measured by AI agents (Claude) on my boards.
-
-Thanks,
-Norman
-
+Enzo
