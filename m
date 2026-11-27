@@ -1,101 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795779223;
-	b=leIcx6G/5ScD43SIx5p+gT6rzC/tfSkKwpKR6uj9MpAJz/HOJrVB8SIUNFTAqSilF2GI
-	 ccv9wUUBNfgjB2dXbcBg7GbwZ4dUSLNBqiGm0Hi3ZerHydpfT4WihfXDz0DYjqCWG0afZ
-	 Wb8bRc35FyGVxxLEZCutdv0xSlgQ2AHgNhZBOCIuLBCqCFzGdz+jW1+1jpco+pZ0+uFuv
-	 8+nZOuOmC+jZPh5YDuKMkjf3QD3B4PjCvLhhRSbSiGcm2XFICJqthz9S9/hiwPgpXsekx
-	 bOhgsg/M9QzWW4r2s1blQ+m/g7mDISedmpln232ZoGFU/zATaYoIGklqhEFQ29LwgGA==
+	t=1795780149;
+	b=2KexrwLoHfANwENEjtvcYfLO8/yIojc9+PHWJpBjZkkMojQ1Kf95ivSFUY+joe1R6o28
+	 /aWpT0PM7TaSQGyudEz82JR3GgBwAYYBcpv9GWPD2+RgED4IDoiNK0qxJn/3p2fYkHmBI
+	 Q7o2vVyq40SsdnBjIekmg3DSRywVgZXw4qiGs3zJk2hMjFJ1Wvx+MnxJ75ai+K4D3ZO7D
+	 9q4Va7nV3fZyK/4le9lP4ghLEudG+ky8yKTYjc/1qEBbyHTup2ynv4Wh90n99m8TV5AZB
+	 E8W/CyHs6zSvVkpMWhVl6A6LJLezDhDFl08vTyBbEvPdFhkAf0H8dcA6fxevJLxWPdw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795779223;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type;
-	bh=f+1+dbtX6l3rqjCgf2Tlk45TD2XZkk3YG5+pouqrQ/M=;
-	b=beo7Z4mdzuqetqMQ2HI60+xX4fkd0/3AqcnH1Mye2+U3A2/3F6WX00faAnjLVouQcCeE
-	 yV9Vg3+QQGRSpWLiN3Pu9yu40ox9/4TuwPA6JKUQhH9Fx+VBA5w3te2IaoB1eob6xp9ow
-	 lva6eEFfXJ3V0Kddk8krUXdN9/SN/hysmZPuEWgzRNgfSOTiQi0nmnIgvwitAHxfqzNzc
-	 QDUfFsBK45GZpWsUH0zQOku81GIOKNQLnUTnoGQxUD9xf6lEPb12Fw0gs0dEvwst1RJdc
-	 vAaIGcmUDzEB2m1I1hiH8pt9skxrfEU/NgqR4awoKofhhyxbr0e7j6qPVav1K4iF30g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795780149;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=LHjds6ciTHOu6s5j7BpqtZ+KJ92VAdObR2G5YzE16cg=;
+	b=3QCncQ5yAy0dVIRRmT8FMm2XT0hFODrjrylsJTuqn0i9oVVaTYF0yxfqTxfGb8e7ZyPO
+	 WJ6MhfDUXAchaZEfZ+9KO6zNZJlorFI0VZKAlrusE0D6//3zxvNv/9VJhOVDLA+VqSuqT
+	 m8sMaE0rxqnTnPwa4rWyJZ51TZAU16+0CpAmPWTJjLD72aEJKCzIBEmplNgj12Rnv9Lk1
+	 tt6PsP94gBtlEHLEBZ5hcHgsp28SX+v9TAdPvtmUONpZghzAXuE+yAE8Wb89e+XLrt+Sm
+	 Y9iWBEzD+hvrWzZ/Gp4K6NDcO9npAh31UmaGHAZxYl8B1DJZmfi4H0xABtBf4ILMpyA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=Kr6gOS+7;
-	arc=none smtp.remote-ip=209.85.218.43
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PvWbOBlM;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24BBB606A31F
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 11:33:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24BBB606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1C2606A333;
+	Fri, 27 Nov 2026 11:49:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1F1C2606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=Kr6gOS+7
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c516a192844so856766866b.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 03:33:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1795779221; x=1796384021; darn=lists.linux.dev;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=f+1+dbtX6l3rqjCgf2Tlk45TD2XZkk3YG5+pouqrQ/M=;
-        b=Kr6gOS+7YZP+ffMIuupCDbPr27rSB8w+Z3BIllm6aDo6T7vtgGOfkZBL1ARvTv0473
-         GOEZJsLFBCVResfiJuZZUzCRV+/kf0UfImt/aeJj+nSu1ASaGfxVuktcwUEZ8ZB+7noQ
-         LUk2fHZFc71zOyBNHg1G/MWIt5mjo0W9ub/R4I+1V/+wz+amNtzkzh/Inls50DM6CXWa
-         XN/kqeTaMfwLJI5uvr/7sfb4TVjC9WJHQuk/60+N8yRjmOqC7qq37qZIvVKpE2uLekwP
-         ZCU5wbfdrVHG21w4rL6kucch0F67+XqQqFgsun0HTdZgAAHzvwM9FkrG9UcXTUKHD4Dc
-         4aUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795779221; x=1796384021;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=f+1+dbtX6l3rqjCgf2Tlk45TD2XZkk3YG5+pouqrQ/M=;
-        b=OT4bp4PcMzD5rsNJ3pVVA08+UmHiLUU2vs0imCg6U+ekAq23MF3XZaQNGQFWTMvyvq
-         43tILc8dm/CQrF2m34L2e6onsCO51nT04cnMf3gqwGAQxq+oVFhWYrWKVSDNsNhfhYLe
-         p57xaB5s6wDPNMoqCN3oosG29DBuriKnuyk03Pv7N6VVzwXpa+n5pVhL6N/RtEaJW4Bc
-         r81Wjcn89p+49NwPtqXSza9bA4AUL8v9FwHNhgyMXgNb+jWI14HRkXUEh4V07TDtTart
-         +ebqd1ewWa376xtl8zirMQ519JViSkiBRt/m0iqtkXNVIQ/ZqoW1ZzSaYalJ0wbGhtSE
-         xHyQ==
-X-Forwarded-Encrypted: i=1; AL+hErEJfw9uK2002MlamqddY4n+iP2Oaq4YIBoWvSZIZZTSr5eh2HJhyU/T2ZcvQAz4crGBIIv/N2V/h8wMIw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/5ds7CAeqtn452uN9D+WuzBTfVd/51LUgxi99o0R3SrJLYrq68
-	2oYo1uh9alqc38lVdWGzq8zh+T+Ixn6fIi+OSwlpkL1cvJHNVfhca3QS3aTvYJibf+Y=
-X-Gm-Gg: AZFdTZejQ97Pnm36gNA/PXzLgIS+fa+uBFZLMOqTqqt3sP4isTKFaJ6EQ2cZVyO6piF
-	fj/ch5SzBUa57IHH3fWezDn+n9rwTZ2v+PRuqDlfBHJwdfp/y6olMKdE2KepAu7KQeXHdlD43Cr
-	4v0J2JM66vQMfb0CZv543aOD5KYcpsuYKcglxEuOqKesNxbrjtLnD27YDqG4/lQwGZMhgDO76MP
-	T9dZiUW3vRCL+x2Pe71rDAxqcvX4uCIxO2AAUrALbzLe5ppdltljn7/Vf5j9BTQr2OnOkMNQaEx
-	ce90KrH0VpvhAY4+rhbDwFJ7UK9aX0lmU0JU5b/eS5V0jmsp0KjRejkAYRzhn6zNYow3/CnMWqI
-	c3LRbdtb+aOth51ZXJxuB9pvRpW2mJIc05FPpTF3xnKjVLXLR5CKJAPf070961BVD3KRFmUPq+h
-	qXyyjf7qKNmdWKKTbFnRcuyYgqpaKWwd+dTw2S+CcaUucIoeMjwXZDNcr9P/kc18yW150B5gAYc
-	00AYwew1fQ1rd51XxesAKC1Ej1TAY4A5r8Lhi52EQ5UePiNEAHnhDk0l02UcEG9qEnYtXpLYbGJ
-	Xtw5hjnJoxoqdSbkGSfN7DzZs7q36fm5L09yzK2sZlGYFqvykWPwL/kPZbIFrKq3R8vVkw==
-X-Received: by 2002:a17:907:8e88:b0:c40:80eb:c543 with SMTP id a640c23a62f3a-c513a4347famr2083302266b.4.1795779221611;
-        Fri, 27 Nov 2026 03:33:41 -0800 (PST)
-Received: from localhost (82-67-6-57.subs.proxad.net. [82.67.6.57])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c513b01e242sm830289666b.82.2026.11.27.03.33.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 03:33:41 -0800 (PST)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Enzo Adriano <enzo.adriano.code@gmail.com>, andre.przywara@arm.com,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, wens@kernel.org,
- jernej.skrabec@gmail.com, samuel@sholland.org
-Cc: Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Junhui Liu <junhui.liu@pigmoral.tech>, Pablo
- Mazzini <pmazzini@gmail.com>, Vinicius Pedrosa
- <vinicius.eduardo.pedrosa@gmail.com>, Alexander Sverdlin
- <alex@sverdlin.org>, Jun Yan <jerrysteve1101@gmail.com>, Lukas Schmid
- <lukas.schmid@netcube.li>, Cristian Filipescu
- <filipescu.cristian@gmail.com>, Norman Herms <dockseed@proton.me>
-Subject: Re: [PATCH v6 5/5] arm64: dts: allwinner: add Radxa Cubie A7A board
-In-Reply-To: <20261126-a733-cubie-a7s-dt-v6-5@gmail.com>
-References: <20261126-a733-cubie-a7s-dt-v6-0@gmail.com>
- <20261126-a733-cubie-a7s-dt-v6-5@gmail.com>
-Date: Fri, 27 Nov 2026 12:33:40 +0100
-Message-ID: <1jik1ild9n.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PvWbOBlM
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1795780148; x=1827316148;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XzHVhYO5Bak9DTZPT1IGDE74DbrcFKazihZbhV2Hdag=;
+  b=PvWbOBlMAtdbir9JQui5Ffqc3wg7js0d46d3JoU/FZzOqG/QRHXj+vTo
+   5b0u+cNoGnwxZeJrvw1WTgQnmStjniVBZG+17E1BmoNi3AsyQFuAMmchO
+   jzTeUEsjhwtAXO0U4348OEwYuhPFZcln8xyt9xqNZAdp4sE4mfY/WzzaA
+   QhvNzHdsZ+aP4XuiOYONkyMT+cQ61RGR10SGd/JiEFnbqVyM84MJvcY+l
+   C3vCSvLmqZyKJSTG/lgC41Ja2XpaXWNqY+2GIWFXptbsWbYFSZnZ5tCBN
+   dufo9cY8rMfgxHQhydX+WmKL9ToS9XjZNZUDpKC+TJsnD9UC5lkrgbUjA
+   A==;
+X-CSE-ConnectionGUID: RdbjzHRaTY++k9BdHTdu3g==
+X-CSE-MsgGUID: QYHQ/XNIS4KeKWseYFKrqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11979"; a="4689338"
+X-IronPort-AV: E=Sophos;i="6.27,236,1787036400"; 
+   d="scan'208";a="4689338"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 03:49:08 -0800
+X-CSE-ConnectionGUID: JYW6xWC5QziaeZB7uvjkeA==
+X-CSE-MsgGUID: XbTyXrfQSQWOGM+FJxjZKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,236,1787036400"; 
+   d="scan'208";a="12292067"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.115])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2026 03:49:05 -0800
+Date: Fri, 27 Nov 2026 13:49:02 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Romain TISSERAND <romain.tisserand@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, sashiko-reviews@lists.linux.dev
+Subject: Re: [PATCH 0/4] iio: adc: Add the Miyoo A30 and PocketGo S30 analog
+ stick MCUs
+Message-ID: <awluLgvMt9BN1Aj8@ashevche-desk.local>
+References: <20261127012612.1589039-1-romain.tisserand@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -105,27 +85,65 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261127012612.1589039-1-romain.tisserand@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On jeu. 26 nov. 2026 at 15:36, Enzo Adriano <enzo.adriano.code@gmail.com> wrote:
+On Fri, Nov 27, 2026 at 02:26:08AM +0100, Romain TISSERAND wrote:
+> The Miyoo A30 and the PocketGo S30 are two Allwinner A33 handhelds
+> whose analog stick is read by a small microcontroller: the MCU samples
+> the stick potentiometers and hands the raw 8-bit readings to the SoC,
+> on a UART (A30, a stream of frames at 9600 baud) or over I2C (S30, a
+> four-byte read with complements). Neither MCU takes commands.
 
-> +
-> +&pio {
-> +	vcc-pb-supply = <&reg_swout2>;	// via VCC-IO
-> +	vcc-pc-supply = <&reg_cldo5>;
-> +	vcc-pd-supply = <&reg_swout1>;
-> +	vcc-pe-supply = <&reg_bldo1>;
-> +	vcc-pf-supply = <&reg_swout2>;	// via VCC-IO
-> +	vcc-pg-supply = <&reg_aldo1>;
-> +	vcc-ph-supply = <&reg_swout2>;	// via VCC-IO
-> +	vcc-pj-supply = <&reg_swout1>;
-> +	vcc-pk-supply = <&reg_aldo1>;
+Why a brand new driver for each of the cases?
 
-K is bldo1 according to the schematics
+> Both drivers expose the readings as raw IIO channels for the existing
+> adc-joystick driver. The A30 MCU pushes its frames on its own, so its
+> driver also feeds a software IIO buffer and adc-joystick takes the stick
+> from it without polling. The S30 MCU only answers when read and has no
+> data-ready line, so adc-joystick polls it, as on the Anbernic RGxx3
+> boards where the stick is behind a SARADC. There is no scale: the
+> readings are raw ADC codes of the MCU.
 
-> +};
-> +
-> +&r_i2c0 {
+> Patches 1 and 2 add the A30 binding and driver, patches 3 and 4 the S30
+> ones. Both use the existing "miyoo" vendor prefix (the PocketGo S30 is
+> a Miyoo/Bittboy product). The board devicetrees will be sent to the
+> sunxi tree.
+> 
+> Testing: each patch built with W=1 for arm (multi_v7_defconfig, both
+> drivers =y and =m) and arm64 (defconfig, =m), no warnings;
+> dt_binding_check clean for both bindings; the board devicetrees pass
+> dtbs_check with these bindings.
+> 
+> On a PocketGo S30 on 7.3.1: about one single read in four fails an exact
+> complement check (the value and its complement differ by a count or two
+> at rest, up to about thirty while the stick moves fast); with the +-2
+> tolerance and up to three tries, polling as adc-joystick does (two reads
+> every 10 ms), no read failed over 2 x 6000 reads at rest and moving, and
+> under 2% needed a second try (exact check: about 4% failed). The in-tree
+> adc-joystick driver on the S30 channels reported 365 and 374 events over
+> 15 s of full circles, 42..231 and 24..246.
+> 
+> On a Miyoo A30 on 7.3.1: rest 136/123; reading the channels from sysfs,
+> full circles 22..248 (X) and 11..221 (Y). The in-tree adc-joystick
+> driver, without poll-interval, takes the stick from the IIO buffer: 826
+> and 852 events over 15 s of full circles (the MCU sends about 67 frames
+> a second), 37..246 and 11..220.
+> 
+> Retested with this version on the A30 (7.3.1): with only one channel
+> enabled in the buffer, each channel gives its own axis (stick held
+> right: ch0 alone 141..242, ch1 alone 116..119); three unbind/bind rounds
+> with adc-joystick bound: no warning, the readings and the adc-joystick
+> device come back; at rest 139/118, +-1 over 50 sysfs reads.
+> On the S30 (7.3.1): at rest 152/126, no failed read; adc-joystick 1213
+> events over 15 s of full circles; three unbind/bind rounds: no warning,
+> readings and adc-joystick back.
 
 -- 
-Jerome
+With Best Regards,
+Andy Shevchenko
+
+
