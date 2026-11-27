@@ -1,49 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=119.15.109.137
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795774365;
-	b=L5kHO5D4l/xArynRw+AohhIxtT+q8pImw8C+81DnzRnoohsXVbvg/ITdmVMztHhIREwW
-	 5dt62tekO01wIwnvWjE/CL001WGLLvkwgZ/zGiuVK6WJxU2FvwuSA8CepaC/FfGKIAbIw
-	 SyiP0cCt/nVkNLro5T9TmpBLWTjRlNO/XY1UVQ9Jpqq7axFJHamVslk4VnMkOvKTXBnEy
-	 /pm0pMZUy9UaRnXqFAgvFWhOXLYUhIWqdG1s+q8tWfUj1fCuyloaGxgx2bkZ1UEjJQ4uN
-	 7S3exr694JqJO0x2ZpXY8TcLrbia5fwJ/HmPnQEUOmpjwzUvYzpf2BCK1Y1OkYGKgGw==
+	t=1795774808;
+	b=ZTWjHyJgoFqZBLPX+VgI2O0j4H4PNOp7uiP4ZdO/SMaSoNFMesbEzujG4yfuVre3gZV8
+	 Am0AJWHWqzLT8ArW36TtU6sjYBNfgmfCC13os8/7SjuKSVldQH3sQOtDlVY538vO0M6k/
+	 2+U0y7M5Mly+17KFiqGCGgCAca1dMNCkZfSAx+GTjjiChdTRIQoLoZ3rTN4lr9nQaGcRK
+	 Ei4f21+9vQVocRw8I7MCT2TCekTmlLqDIBgr2Tr60X93P9eTKmOWrgxDtkm/RywWCPYZy
+	 32RZIhF73MPb1rCv860oUh4Lzn73RW9X2ELmZSQLN6JdkxBP7NS+RO85Xsw61xAloJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795774365;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=v1/2YqpCnIwSCbwLLDUxkqgFBM6zZChxPmbs8wgtA+k=;
-	b=XuiddDUhiFOVRHhfjgS20FC/0Qx4S2ZnXdzDP9qux73ioPxTmnzqWsYRMzBYQQADE2MP
-	 M9cTdHCEHAaK11VdM3dJLIkf7gz5jdZps5JuSMWsD2VRP74MKEsXJliFcKNEzqSxbm/jd
-	 nn5hKI2RMc7Jd3tHqSTU9I7kMepyw1gVuIyfpMjTzIifA/y2e19npu0QBoguMM06+9AjW
-	 KUG5bO3D2LmVV5sXbCoyZxBFoZOSKOhIJD94E89699JpLHbHDOxA/8pzlOY9CVZMnsLhd
-	 MJQCBEXGhcO79i2+ruDUuX+N17Hp5+zYpk7eyKTgn7hEczMdUP0S3Jl2FjO1MQPBRww==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795774808;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Autocrypt:Content-Type:
+	 Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=S4bRI/HlfaIFeVBcrXtuaps8yKtfTuJ9r+oTx9rX7+c=;
+	b=CFHVpUhaoC6A0DP0YDKgikIH98IipdbPMAR2d6qIGrasmZDn+omewgQlD18A7FHOh6QP
+	 MJrOG/dFUbisliwbwmOH58iYWpKHDNitmo4IxHnIkbEoPP4uj+eezHz25x9k7ECNJzz+U
+	 BDCKpsBnLKq5BON+1yIgymf0Y2RLHD6yiNsUPICo/Un2Sfk6cM4ffcJmDbjbWVg9dIw11
+	 PrfBSqewDk88Q2DwXwXo0bE5vP9/Fmjo0wYcGgH7Xq/J/JGWaNQXG2Dx6OOJ/nMDZ5TBa
+	 JHNTUc8MJY6oPGLHAVMan56iVw4Sk+QsKLc6Bdm/UmLNoav96gfGJrHltMrVDDKiZTA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=fBSmtxPJ;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB52F606A31C
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 10:12:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EB52F606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=d-silva.org;
+	spf=pass smtp.mailfrom=d-silva.org;
+	dkim=pass header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=frqg7u12;
+	arc=none smtp.remote-ip=119.15.109.137
+Received: from www.nmnhosting.com (watt.d-silva.org [119.15.109.137])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5777F606A334
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 10:20:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5777F606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=d-silva.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d-silva.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=fBSmtxPJ
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 383C81758;
-	Fri, 27 Nov 2026 02:12:35 -0800 (PST)
-Received: from [10.33.50.35] (e142021.arm.com [10.33.50.35])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0B6FB3F86C;
-	Fri, 27 Nov 2026 02:12:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795774358; bh=c0/6aFDfGtHa/8JQkzEFzcPkvj+Wr26/24s6cKwSZCQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fBSmtxPJFJbeboQw9s+OXlHilp+OaovcEU5LIl1/Cw+DtoGBkQnd0nqKd7/SaZl1y
-	 j1hOmIWQGJa+hcR/AtcXt6RKNRg0+L+9h6G2E4MG2+42VOynwL/NvBRH8/hUCqDnrS
-	 a/yTDaH5tcedXgKOZyL4ilJHfyP8zJUH1/TpaZRc=
-Message-ID: <194329c7-45d0-4493-af07-f972694c075e@arm.com>
-Date: Fri, 27 Nov 2026 10:12:32 +0000
+	dkim=pass (2048-bit key) header.d=d-silva.org header.i=@d-silva.org header.a=rsa-sha256 header.s=2025a header.b=frqg7u12
+Received: from hawking.lan (ntp.lan [10.0.1.1])
+	by www.nmnhosting.com (Postfix) with ESMTPSA id 81CA04C98B;
+	Fri, 27 Nov 2026 21:20:02 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=d-silva.org; s=2025a;
+	t=1795774802;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=S4bRI/HlfaIFeVBcrXtuaps8yKtfTuJ9r+oTx9rX7+c=;
+	b=frqg7u12UiCu3yQn8J4hgJpeBpHnc53t8X+L4mwl6fHURENZfSMgHu1IW7o5JroQ0hmdZd
+	Q6k0MAQrAbufNql1iTN0jToGJcLfoa0375w4GoG0ATC/pnEYwNnL4PYJPKw69gBxo3SwHo
+	cvH/QrMBgevZzgTov/Eg479W57ewjt+aPmqli15Au7+lMtvXkv9Q/SV/nkjUrM2fhaV0Qy
+	IHge2OjJLy8/yRga0ljp/enQjvIWhUP1V5JYCi8joXVfENvF0EYCPQIvMVWxpa35CM61yD
+	0JK74iDTsfYyUVUa99rlVa0XIIj+TRHWXlaAY2tbmNENi0Qi5T1ANJeK5yc6jw==
+Message-ID: <d4a41c5cfb33d6d39f0ba927541beca1175ad001.camel@d-silva.org>
+Subject: Re: [PATCH 0/3] arm64: dts: allwinner: sun60i-a733: Add simplefb
+ HDMI support
+From: Alastair D'Silva <alastair@d-silva.org>
+To: Andre Przywara <andre.przywara@arm.com>, Hans de Goede
+ <hansg@kernel.org>,  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,  Chen-Yu Tsai
+ <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland	 <samuel@sholland.org>
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
+Date: Fri, 27 Nov 2026 21:20:02 +1100
+In-Reply-To: <18637573-d20f-4a58-9e63-6bf71b015cef@arm.com>
+References: <20261127080649.1982883-1-alastair@d-silva.org>
+	 <18637573-d20f-4a58-9e63-6bf71b015cef@arm.com>
+Autocrypt: addr=alastair@d-silva.org; prefer-encrypt=mutual;
+ keydata=mQINBGactvoBEADBFM2HqfQUUM4j40ZQPyYzmnM8S6zrycO0ipDDPMs7nZMzyzGzOdqfS
+ VB/tuYvZOOKVWzJuWJ5aT/YyHx54r3L+D5hTkEG0sXPVJky3yTS9sbHEMSLBHb8TVVuhPVPuieV4g
+ Nkqg5POMTidk8xAw50WpV++tUlewXVSciehnuCQPXhXMP7FcCh4uO8LdN7E8m7ir1LafKTFfoWPah
+ KVT8NGG9r+ucrFcN5F+VnHxTDaI68yRPkNdtUWmp22wIX1KwDCtKFrndYO4p5Hv2hlDKomsuIIHHn
+ muQGRwuh0xpf0nVJNF8ETZHMzxQLfo3e/HvxBFOTkwY9w7CuuQFZchbhS0I3PfmGT0+jiNcdfqjDC
+ fPPB5uhy+DkR6wO72vuwFYUrpU2mdliDSdKEtWBHulnXMJjpBOXetfIwhI8G2dTVg59lN5i9DvJZc
+ 7y1Sp+qfZQ4P9qpYZyQEKR4GNDOdnm6F2LW2cZkcyAU/Ii765zdDMTQMIzZNSxT/FcDd0K1voTNRl
+ QHbQw+kmIMhzSv2JefcC9oNbE0XYzcBDNP5T3O/4itOQ90GCKQEPAbIPeBjlQif7kkyvo/H6yv4s9
+ duuK7zbJD9AID/+KGLkpU3p68VDB/C2ZSb9rQz3p1CJNSfsX/CPk7sPqA7RKZ4a2B0hSJ2pJCncNZ
+ KXtMlkkm/FmewARAQABtCdBbGFzdGFpciBEJ1NpbHZhIDxhbGFzdGFpckBkLXNpbHZhLm9yZz6JAl
+ EEEwEKADsWIQTQGemDFwqYyU/dBWv75AdnjVo60gUCZpy2+gIbAwULCQgHAgIiAgYVCgkICwIEFgI
+ DAQIeBwIXgAAKCRD75AdnjVo60qHZEACJnLfpS71Hk8bX0CLCNJ5wgqdZD3pBHEdbv9Ux9kRlZp4a
+ ZFwlg9ltwBjl2dZP3PLtD9xQdsdYKVippKd5a7ZZC2y81oDaHjeC9LnPYn8+ce3mGE/+gRyoNfToY
+ N06DeUNJKSlZ9t11UIqZCgfp12u16/Yrigy8C4ihEeHXlLhNX6JkeJR5gsHXJnC7vSuMZY+Qz2R72
+ ZidWg+cd2WDMGop5sbTvc+55q94A7vTMlWzaix5HdbEUA3sd2U0dMBju5QodRGGhDQMcCu64TydRD
+ MtMzzOk9ThJ036ze3HASWGOppyQmaw58k+XNzbHlr9Sc1LsFUNF7zpWXac2rzlywbyRAdFIT/TC76
+ hy9zOkwIo2nwA/tdIwLx1j0UZPpAMQmcDUvJqZh6sE+fv6HN0yMPr+sSYJmriMt8Z6leCEHQXOHVI
+ SI5z5FvV3coMmHYRq6aXpfs/8SLiYgkV3B0HE/E18Y3j1OkeLYoqIH1VfzQZeCSL/S77NYvk60/MV
+ 1HFSyqLdUR3uWZI4uZzoEcMoB0GX33uCTp2Ntc00+wSntwekCUQLCMLUb7dZrbpVuobHoWWtkiD2I
+ uE5kAiaVwwwzM0BUwiM6VzVoKbeECz93rdsNtwoDqM0NtzoISC46H/BKVQ9mRNXDO4ThEBpJ4H2Tn
+ mPNRYYcR0u2mNy1EJII04w==
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -53,68 +98,37 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] hwrng: sun55i-ce: Add Allwinner A733 CE v5 TRNG
- support
-To: Alastair D'Silva <alastair@d-silva.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S . Miller" <davem@davemloft.net>, Olivia Mackall
- <olivia@selenic.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20261125210532.695823-1-alastair@d-silva.org>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20261125210532.695823-1-alastair@d-silva.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Hi,
 
-On 11/25/26 22:05, Alastair D'Silva wrote:
-> This series adds True Random Number Generator (TRNG) support for the
-> Allwinner Crypto Engine v5 on A523 and A733 SoCs, and enables it on the
+On Fri, 2026-11-27 at 10:03 +0000, Andre Przywara wrote:
+> Hi,
+>=20
+> On 11/27/26 09:06, Alastair D'Silva wrote:
+> > This series adds boot-time simplefb HDMI support for Allwinner A733
+> > (sun60i-a733). U-Boot enables DE3.5, TCON_TV0, and DW-HDMI2.0 and
+>=20
+> Where does it do that and which U-Boot version does?
+> I don't think we really want simplefb in the mainline DTs any more,=20
+> unless there is a big blocker or delay for proper Linux DE support (like=
+=20
+> there was back in the A64 days).
+> In Jernej's HDMI series he hints about A733 support being pretty=20
+> straight-forward with the reworked H616 DE code, so chances are we see=
+=20
+> proper DE3.5 support in DRM rather sooner than later.
+>=20
+> Cheers,
+> Andre
+>=20
 
-so while I agree that the TRNG part is probably the most practical 
-functionality of the crypto engine IP, the encryption/decryption parts 
-are still there, and we have a driver for the older IP. And because the 
-functionality shares all of the registers and probably most of the 
-descriptor generating code, and Linux is really after code sharing, I 
-think we want the driver to live in drivers/crypto, next to the existing 
-sun8i-ce code, if not becoming part of it.
+I think the blocker was firmware for DE for this SoC - it can be ripped out
+of the Orange Pi OS blobs, but that won't be acceptable for linux-firmware.
 
-Cheers,
-Andre
-> Xunlong OrangePi 4 Pro.
-> 
-> Dependencies:
-> Patches 3 and 4 depend on the OrangePi 4 Pro bringup series:
->    [PATCH 0/3] arm64: dts: allwinner: Add Xunlong OrangePi 4 Pro support
->    Message-ID: <20261125124407.4098345-1-alastair@d-silva.org>
-> 
-> Tested on Xunlong OrangePi 4 Pro (/dev/hwrng).
-> 
-> Alastair D'Silva (4):
->    dt-bindings: crypto: Add Allwinner A523/A733 Crypto Engine
->    hwrng: sun55i-ce - Add Allwinner CE v5 TRNG driver
->    arm64: dts: allwinner: sun60i-a733: Add Crypto Engine node
->    arm64: dts: allwinner: sun60i-a733-orangepi-4-pro: Enable Crypto
->      Engine
-> 
->   .../crypto/allwinner,sun55i-a523-crypto.yaml  |  68 ++++
->   MAINTAINERS                                   |   7 +
->   .../allwinner/sun60i-a733-orangepi-4-pro.dts  |   4 +
->   .../arm64/boot/dts/allwinner/sun60i-a733.dtsi |  12 +
->   drivers/char/hw_random/Kconfig                |  13 +
->   drivers/char/hw_random/Makefile               |   1 +
->   drivers/char/hw_random/sun55i-ce-trng.c       | 377 ++++++++++++++++++
->   7 files changed, 482 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/crypto/allwinner,sun55i-a523-crypto.yaml
->   create mode 100644 drivers/char/hw_random/sun55i-ce-trng.c
-> 
+I'm currently reverse engineering the GPU firmware blob, it's not very larg=
+e,
+and is a well understood instruction set (MIPs) so that may be a path forwa=
+rd
+without the vendor contributing the blob to linux-firmware themselves.
 
+--=20
+Alastair D'Silva
