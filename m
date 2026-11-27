@@ -1,83 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795742786;
-	b=H7HX0d5l6GQynaj66Z9l/r/nklDVQ7t8eCIQrEsIBh2vaKEob77J3HATmtp1Jc8aLYtn
-	 n9Rc45mTdBNn2GtP0r/4M2nw7DsSXMzJQexi8IKKplHZIzrcWP0EAQpk5rnI18Soz2Uhk
-	 jybMEsxxY+zqgjaGSdEkKFxrS2VabFvQm0MuAX7bzp3qWT5G3DLsbyoFfb/H0rDSTB5wD
-	 M7IE2hesdR2BwRtmbcPqYJv73tl5fyehtle5C2u09WVrm0z8hXPW+8hdr8EDPxyjYu8pd
-	 NnCgkxPhuwEYWg/JKAF3hEKhM8wwh0TPgZCu5uelyDCorYzsGcwbro8dl+R0lWXGDbA==
+	t=1795742794;
+	b=X7b0SLnlDNp1Ub8omNFChUgDG1kqyN9gUKWvLqymqWfShomrV7mnEvU/T67SuaJ0H9BQ
+	 i6HaK7CYdXa90zmAuUEdyzQ3dtV5fspBQb0zY02zp/M0Jfk+m95FJ7x0r6dqCJ+kV9bHv
+	 9jQ8TM8Xtr/HYcA1p3bK8QSw+Av3EMDxUt8KdchvQEnxuRKUQ9vdZpS/axwmVNrulYWBK
+	 jOu/X8/Wm4yZYoD7XvfmeEcaXKhd/NvTKWarr2C2cz6/GnozH62kve1+y6bOX2ub+2IHH
+	 rHfmXFY3ukVfZn7eTzQBNyWiCbRWlQGcz0Ao8NaigGZEMEpDmy58Sw0W+3f8OQ3SHEA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795742786;
+	a=rsa-sha256; c=relaxed/relaxed; t=1795742794;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ZT5vY911PY+oPZWxUSYR9KkzLhjAtMnoOlULn7xIyWk=;
-	b=YOtJvRMXj+uGt2x/+lOZLMQL76LDhaFWCxeYdsMPeYycOo3mr7Mbfvo4PBjbr5KWeqYg
-	 kTgB2QOQHkRGP/M6IGDt9Q8qQ1Mk53svqM/29i6m49G7Eh75Ki57FR2I/OlZbWnpNg+t6
-	 QHySFiI3Kcvhxs79an08mjFFGFQaE2FiWNLdg47I7ubb/FLSlmBW6owWI3ng8U4F6Pkxb
-	 mgT/4prm/JFWBeMFhOQsbt+patIQ/bMXNW72s17S0rZ2cpeTOU/nh96i19rIl+P4P9jKf
-	 cLxEkOt86NvaCUkchQmu8WF1wGolLVdMgjcjDM/CdK7Rg/kSoI/hRNR9fwEmA6IfvBQ==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=4ZwWBrnn96TFtHdsd5bNIm5u9QIUQi8JSQL+RPU0pxg=;
+	b=mavl4x0uwVuHpC5EqTTzMEV36eJ/8KQoX4HEuk8d9uTaxowkQqNEFBWxtAjSWOwjoEOB
+	 xtTfxQkY99lk7s22VKxuTJxf2GL4trZvTU94JQu5Ie1AxW+U75c32DiFRoaw1mMzJ3jxL
+	 tFKwpfqAr9ALbswLJsraugtCsTbHYwdDybiU74mjaYHxGrDTlQEW/rtb17CqTfO+jV+k0
+	 KPc//lgp0izP/ERpUMWfda0RtzW6vSaNBQ0I7lZpBf0zL19JO58hrCQsp/4ob+SGQe2Xz
+	 g1/PYa2lrz/hRcOC3xGwmQBTqhhHSeRfnYgnogUK/AZvsu1XaqnDUgCZNN/c8koNXLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XJALXOUo;
-	arc=none smtp.remote-ip=209.85.210.173
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="F/32XpNJ";
+	arc=none smtp.remote-ip=209.85.215.181
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E593C606A324
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 01:26:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E593C606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A17606A31E
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 01:26:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 68A17606A31E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XJALXOUo
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8b904d10882so3152757b3a.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 17:26:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=F/32XpNJ
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-ccca948203aso5334135a12.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 26 Nov 2026 17:26:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795742785; x=1796347585; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZT5vY911PY+oPZWxUSYR9KkzLhjAtMnoOlULn7xIyWk=;
-        b=XJALXOUo6sxqAH5qlD+BePlrk38RJEBIz3q5rmoHNzZQvbOzL2zvzv0fcU04kMbb6w
-         EIqy77qdDuiSjXFWt6nXBcs26keA4rD56f+zUVHt2shkZZFfXqFajpZ1KJrXMYC3GFjp
-         MjYpjK7wPOv6a6NdwHXdJYt8F+2oe+kmX3nriYnlIYOZUyJzpj6N6BxS705uJPrVa3w1
-         yDsgp1At5dbMBeykEzbi/8yLGTarsM0U1d/rGSKNgrcayUIOvCnqsYAplVrsPByaHSTp
-         +/pKPBhhmCy2XOCgAq4LmYFeWfHQw0UYdw/Qt2PQMj7Y8buiOl5fRsql34ectaVRyT7z
-         d1Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795742785; x=1796347585;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1795742793; x=1796347593; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ZT5vY911PY+oPZWxUSYR9KkzLhjAtMnoOlULn7xIyWk=;
-        b=WCqBqltfuX9gL5in1TpyJKTU+cMkRG2j3mLaZtafFRX4JPWCeCbQKPaFLPX4K8O3bD
-         9Eb/HJLvY1Q7psaPM2Lh3i/7qe50k3mh/UTOqmgUqETsyt+UmsjMgyohjJpovX+noarh
-         3sVh3JqBsVvTbaWZK6uvuYqyiLAAm8Panh/55vU2EjF+bHjWPX5eslrVKMoD86u3ewgP
-         cmBw9uzfjJAfWW/DhHCXni6bT1stPqioOCXqiKD0nflTUOUku0TkCmbvk6NHCFl4z0nP
-         Ey8mYVJWvJb4vQDBi9AsflxK6LJnMtEP/ZYsNEzYDDENrmNVqbz7Wf5VwQeDS3J111mC
-         FTpA==
-X-Forwarded-Encrypted: i=1; AL+hErHq9sIKRysQnryA18IvAoKcIcA02i/VXN9D5c0HXJgXW6QyAchCPm5avprkNY0MNrYBNNTh6CtKTE13Dw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8xJl/SN0/Npu8F8HSGYebRtOzTnl9t0XYCK2RrfSlqaElriGgJ
-	5fB4AoxXrsveje05NSy/N+S0xX/hHGwG4zVPGfwJD3hQoI2wp9eZHsTS
-X-Gm-Gg: AZFdTZfkvyPptYqRD6/Z4/yZmi4vhoOktpJ3Cc0Sk7ioLCqwKPra9NaKdK8fMvZwaFK
-	v93CCyCrj5czue4NzF30PqXewDzCgZB8MbUGadyqjQMPdduozDByeE0Ln2YeBn9OZmXZD+G7YHw
-	9WJJ+hVruk7KSjhf9+EvQEUTl8+jCpSnLzaCJARSNPuSeU+09baCxkAy+saIqHVwYv72p1Wv4wE
-	8+dmAiSkpKzxpk1QOqXhQtjDMifqLrA6b+FQ+Pa1dON8zpm/OazcreAhkr8eWzpQ4UIYtQpT2HM
-	uIirhSvH9EcQh2w0QobdNc79IrR+0nToI1hsRQlk4siVyJFSKJE0hyPdUUudWFVpB+0jlzlhW5S
-	1AuniijlE6nwRPyH9Qfs4r1eP8wQqLO23sxQ3moaitqtYrz9AiXuQdGub90wIc40gOhnZljtlPm
-	BdZRW6tZP8KPR12wE/8YcEMfRh5dlIFVAacQjI+aofxCVKSkgFpUmA7urJpFdhatGztmW3xgCM+
-	HPVDzHCPZUb01sCl391doXgyS7Dm8J45HU4I0ssKmT1nydL600PwOf4xTN00jReRdEGynDFmPXv
-	9eEM4wYFVWBqsY/Kx9ZvxPgCszW7kUIhUPcMS4YWmtIkzRzQ9AOUL9poz+a+2H8P/vmrCvBho3k
-	Tj+oc+HtprJImzdXt1XEZwSn7cs8LsXaFekS1svbaX2xkJw==
-X-Received: by 2002:a17:90b:4a47:b0:3b3:fc1f:a5c4 with SMTP id 98e67ed59e1d1-3b41c8dc821mr22091582a91.20.1795742785083;
-        Thu, 26 Nov 2026 17:26:25 -0800 (PST)
+        bh=4ZwWBrnn96TFtHdsd5bNIm5u9QIUQi8JSQL+RPU0pxg=;
+        b=F/32XpNJVVGZkfa68cpDs3aPvoVBGVkMc3QHDXVvnzQSZ/d1x7JQa6GK8HcyyzoQvP
+         WbPgmPd82Zth8PTjBI8chLDJoJEe+MsoiBGIuvmtQGWi5Uk+TTk6ZQH5iJdFjIp2QD8F
+         UQZM7xU/4I2A3PoRzuDkcAnbxDqMxf2wcq6schRXjc2WjZtM444Z5OTJQZrb3E4UtEdy
+         6cbWoEysc+G3t/AGPv6CRtCwm9SEgriagdHCe8t1pz9DYsq/2wIqn6GkKBKRYE+CtGZz
+         n2w9c2SImleqOhxBC9TdqAJObWcANDKdga+C7BZpPSkfFT+tISoNqaDOcdgiSK4a/PGa
+         P+Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795742793; x=1796347593;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4ZwWBrnn96TFtHdsd5bNIm5u9QIUQi8JSQL+RPU0pxg=;
+        b=0/2HMmakeWMkLzqHNarvkR8U38wcQL4afZRkrr8rvLd44GLObho7tpv+3WC00qCdst
+         T92WSL5lsG/iCrLwo0yrC554NcQCB2ITKh1svwwNvbtjsyJyO7wAZqseU9yZJOFXuIZo
+         mUN+eoCqlxfH8uvGlB29oHw5AHsrZEB7889NM0pdDmx5ec7NcUdxC9CUF8Zzjwvj6vnE
+         mCa/hU7R1PkV4xE/+ZMF407RoM7XynDNYefQ83gBHJPPxu51lV+HUFvOGFX3TooAoCw+
+         v67w4cGe2XbNgYGpmXF4f+Kq5GRNTuoaU4H7XIpZ5elbzmEzg/d4NGJ+GdqHkZTbbDvM
+         75mA==
+X-Forwarded-Encrypted: i=1; AL+hErEtMdz9/bd6eJfoXUq6fs0mROfAYVwyoFIfsMHkMUEwrOFvcuoUebUnpOo1ZJFo2xg7SeOcn2OfcTmJ+Q==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9W+aNhV3zRvhipQcOkvJUmh/v18e22bwbbgjy35pWjshEpLoaf
+	PhjKfhZ46s9tYBLTVjEzrbxSuhY/CWXK+w7neN4dk/bowWltcG04B90p
+X-Gm-Gg: AZFdTZc5NF6ci7T+ruiT+hIUnifekFu4x56250xuvjOFi+NloL6iJqWqRxYxzMy0FhH
+	ZctaWgOzZOfHbqiOPBzEZmCDWzf2nRBl6kzv7SnJ9MwhqUY2aSayeTX1kDkiR3JkgvmltTCXkwA
+	qOojtpgTiA6cD5Xs05Qcy2dc0xxEu9OifyiXcUKoc0ZAakm8CMLBlrDJ+fp+0XdlCDNGkhs2bji
+	tQN+3gVH7ErULaxjUQFPG9OfdBJMYqPJQqzTlRbflEw2Cq8/y8I3Xe2o/WINPFlNdRHAVOblObv
+	Pm0X//r0S5gmtjPfs0oflnkaQMjPxIKEhDufZLJug5u18oLQ95t134QI4Cj4Sxlj+OHW0hPtMXU
+	ejPXfpYERi2FH0HVfq/Z19+bgaD3MXoIat22ZKDxX9XWv+ocOI+irPVU0cTPwpduvrssi9Qpuhm
+	0KqAG9+AD6kICjO2dEf22HxO7vlloLP31MiQfxZnakNRPNLOF4WIIhzp7+FS14k6iPnvgGwBV0A
+	Zk4QNnLJpPL5t9KDOEnDAovNQfMjGDa0fnhP/s7HAqfwfav0661D+dDVW64rYQIf6Y/4irtO/BX
+	oM59VewAsb8tSW+ChQ48P82Peoec3MuzLrNV95uN2eQOkvVikyBcyaBiHu4limvTBv22YbW8s/E
+	Vqem22turhtOGr806I6JAf1R7DD36cYoBIst9JXkRynPQJQ==
+X-Received: by 2002:a17:90b:2f8f:b0:3b0:ad59:7199 with SMTP id 98e67ed59e1d1-3b41c942629mr20023312a91.32.1795742792547;
+        Thu, 26 Nov 2026 17:26:32 -0800 (PST)
 Received: from romain-ThinkPad-P14s-Gen-5-AMD.tail433d9c.ts.net ([2001:861:39c2:e340:1432:1241:93b7:7b4b])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41ad0b2c4sm35042866a91.4.2026.11.26.17.26.17
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41ad0b2c4sm35042866a91.4.2026.11.26.17.26.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 17:26:24 -0800 (PST)
+        Thu, 26 Nov 2026 17:26:32 -0800 (PST)
 From: Romain TISSERAND <romain.tisserand@gmail.com>
 To: Jonathan Cameron <jic23@kernel.org>
 Cc: David Lechner <dlechner@baylibre.com>,
@@ -91,10 +92,12 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	sashiko-reviews@lists.linux.dev
-Subject: [PATCH 0/4] iio: adc: Add the Miyoo A30 and PocketGo S30 analog stick MCUs
-Date: Fri, 27 Nov 2026 02:26:08 +0100
-Message-ID: <20261127012612.1589039-1-romain.tisserand@gmail.com>
+Subject: [PATCH 1/4] dt-bindings: iio: adc: Add the Miyoo A30 analog stick MCU
+Date: Fri, 27 Nov 2026 02:26:09 +0100
+Message-ID: <20261127012612.1589039-2-romain.tisserand@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261127012612.1589039-1-romain.tisserand@gmail.com>
+References: <20261127012612.1589039-1-romain.tisserand@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -106,81 +109,65 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Miyoo A30 and the PocketGo S30 are two Allwinner A33 handhelds
-whose analog stick is read by a small microcontroller: the MCU samples
-the stick potentiometers and hands the raw 8-bit readings to the SoC,
-on a UART (A30, a stream of frames at 9600 baud) or over I2C (S30, a
-four-byte read with complements). Neither MCU takes commands.
+The Miyoo A30 handheld (Allwinner A33) reads its analog stick through a
+microcontroller that samples the two stick potentiometers and streams
+the raw 8-bit readings on a UART. Describe it as a serial device with two
+IIO channels, X and Y, for adc-joystick.
 
-Both drivers expose the readings as raw IIO channels for the existing
-adc-joystick driver. The A30 MCU pushes its frames on its own, so its
-driver also feeds a software IIO buffer and adc-joystick takes the stick
-from it without polling. The S30 MCU only answers when read and has no
-data-ready line, so adc-joystick polls it, as on the Anbernic RGxx3
-boards where the stick is behind a SARADC. There is no scale: the
-readings are raw ADC codes of the MCU.
-
-Patches 1 and 2 add the A30 binding and driver, patches 3 and 4 the S30
-ones. Both use the existing "miyoo" vendor prefix (the PocketGo S30 is
-a Miyoo/Bittboy product). The board devicetrees will be sent to the
-sunxi tree.
-
-Testing: each patch built with W=1 for arm (multi_v7_defconfig, both
-drivers =y and =m) and arm64 (defconfig, =m), no warnings;
-dt_binding_check clean for both bindings; the board devicetrees pass
-dtbs_check with these bindings.
-
-On a PocketGo S30 on 7.3.1: about one single read in four fails an exact
-complement check (the value and its complement differ by a count or two
-at rest, up to about thirty while the stick moves fast); with the +-2
-tolerance and up to three tries, polling as adc-joystick does (two reads
-every 10 ms), no read failed over 2 x 6000 reads at rest and moving, and
-under 2% needed a second try (exact check: about 4% failed). The in-tree
-adc-joystick driver on the S30 channels reported 365 and 374 events over
-15 s of full circles, 42..231 and 24..246.
-
-On a Miyoo A30 on 7.3.1: rest 136/123; reading the channels from sysfs,
-full circles 22..248 (X) and 11..221 (Y). The in-tree adc-joystick
-driver, without poll-interval, takes the stick from the IIO buffer: 826
-and 852 events over 15 s of full circles (the MCU sends about 67 frames
-a second), 37..246 and 11..220.
-
-Retested with this version on the A30 (7.3.1): with only one channel
-enabled in the buffer, each channel gives its own axis (stick held
-right: ch0 alone 141..242, ch1 alone 116..119); three unbind/bind rounds
-with adc-joystick bound: no warning, the readings and the adc-joystick
-device come back; at rest 139/118, +-1 over 50 sysfs reads.
-On the S30 (7.3.1): at rest 152/126, no failed read; adc-joystick 1213
-events over 15 s of full circles; three unbind/bind rounds: no warning,
-readings and adc-joystick back.
-
-Tool disclosure: this series was prepared with Claude Opus 5.5
-(Anthropic) as a coding assistant, in an interactive session: it
-captured the MCU protocols on the devices, wrote the drivers, the
-bindings and the messages. I reviewed and understand it, and tested it
-as described.
-
-Romain TISSERAND (4):
-  dt-bindings: iio: adc: Add the Miyoo A30 analog stick MCU
-  iio: adc: Add the Miyoo A30 analog stick MCU
-  dt-bindings: iio: adc: Add the PocketGo S30 analog stick MCU
-  iio: adc: Add the PocketGo S30 analog stick MCU
-
- .../bindings/iio/adc/miyoo,a30-stick.yaml     |  42 ++++
- .../iio/adc/miyoo,pocketgo-s30-stick.yaml     |  48 +++++
- MAINTAINERS                                   |  14 ++
- drivers/iio/adc/Kconfig                       |  24 +++
- drivers/iio/adc/Makefile                      |   2 +
- drivers/iio/adc/miyoo-a30-stick.c             | 204 ++++++++++++++++++
- drivers/iio/adc/pocketgo-s30-stick.c          | 149 +++++++++++++
- 7 files changed, 483 insertions(+)
+Signed-off-by: Romain TISSERAND <romain.tisserand@gmail.com>
+---
+ .../bindings/iio/adc/miyoo,a30-stick.yaml     | 42 +++++++++++++++++++
+ 1 file changed, 42 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/iio/adc/miyoo,a30-stick.yaml
- create mode 100644 Documentation/devicetree/bindings/iio/adc/miyoo,pocketgo-s30-stick.yaml
- create mode 100644 drivers/iio/adc/miyoo-a30-stick.c
- create mode 100644 drivers/iio/adc/pocketgo-s30-stick.c
 
-
-base-commit: 92c9d64c0cf749c8369403a32630562f0e855a6c
+diff --git a/Documentation/devicetree/bindings/iio/adc/miyoo,a30-stick.yaml b/Documentation/devicetree/bindings/iio/adc/miyoo,a30-stick.yaml
+new file mode 100644
+index 000000000000..6c0e997d4ff0
+--- /dev/null
++++ b/Documentation/devicetree/bindings/iio/adc/miyoo,a30-stick.yaml
+@@ -0,0 +1,42 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/iio/adc/miyoo,a30-stick.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Miyoo A30 analog stick MCU
++
++maintainers:
++  - Romain TISSERAND <romain.tisserand@gmail.com>
++
++description:
++  The Miyoo A30 handheld reads its analog stick through a microcontroller
++  that samples the stick potentiometers and streams the raw readings on a
++  UART at 9600 baud. It provides two channels, X (0) and Y (1).
++
++allOf:
++  - $ref: /schemas/serial/serial-peripheral-props.yaml#
++
++properties:
++  compatible:
++    const: miyoo,a30-stick
++
++  "#io-channel-cells":
++    const: 1
++
++  vdd-supply: true
++
++required:
++  - compatible
++  - "#io-channel-cells"
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    serial {
++        adc {
++            compatible = "miyoo,a30-stick";
++            #io-channel-cells = <1>;
++        };
++    };
 -- 
 2.43.0
 
