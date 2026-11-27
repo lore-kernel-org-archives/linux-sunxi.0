@@ -1,55 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795791029;
-	b=yzWnwXhUdVfMvuscVnXsUOfhy9ZZfBknKtRvzrHwrnE32GplHTyan4qspCl7wW0XEVN+
-	 0YnKXDOATyEpOtoEwwEdqEtbMDDAQHDrQyBlWblJGu9/R0AeEXCC3t9Zzrix0wEekGc5A
-	 DQRhk3aCBoUoqCixUR751FUUA/fDyGshm2Fz79vJH3LfUs8yJY5Q1mVCenCTL00gCscAZ
-	 xvFEPP6e7EPGmigNXniY5ng1vLiiA/WPA9rfrJKioEWFjQPRrZRmyGaZ3MvT+e/KZcvfm
-	 oG27H6M9o0pDzYMj9hIpzGpTu5ErtlTequQ+M6z/z4UGqaTLV+VX5JsBUuUG14w5Ukg==
+	t=1795791715;
+	b=zPAErwevJHWidWoVvkGSJ1zg38nefk2vy5ZkqTiI9WXP3yMCS83vrfDLXWTKq9GSvEjB
+	 otkXJGOPhzzOHzB1NSBhgfSdcK6ZuJEj5rLj15CrqabDKHhlCHesZm7XHEJCyDUGxAjt1
+	 KQgd+hrh1CWNDNSFZ2z5lx5GCay1v4tlAzTxyvJbQawweVS0IVupRQo/W4KOGzL5NKOaF
+	 sJpZhO/Swn0WuaF4CvJhnP7P2hpbUebBXNj2jp6yZ9wPldLjkzsRRGayeZkC2pqqpPzfY
+	 f9U9IFCdhTpoLLksMYrItv6JiBgWVIfagSo1y0vufl/YaeOWoI/hYV+d/T/czu61A/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795791029;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=3jNoWnulbrsDpVqqs904fRidVqIbZWsGQHKPgCx74o0=;
-	b=nGAzhuac58gmmKjxKMWF5C4IaHa+QQavbpvTRaAJjoGBpj61jwhmTNoFsYf9bLFb+b1j
-	 fcpREttMaU+XIPmcYmkukwZF3zQlv3L/JYgTFj3HF6nozBh0ENMNXybTF1DcCWC7oRJ55
-	 N1VN7kdfeG87MhyVab1bHHhFxiu1NnY8VI0eQvTHqFjKtlth7yvHDGjHd2SGThLdwd/MA
-	 T6FHx09vybhxYrTHVCnr95n93jOdUMRrjaG+BP/p2MqT/7C0V4RpLX45nuf+sl/vsAaoo
-	 oCdp/i9aOPO2ANDW8U+UoeraBv+kfMTTaz+YCHnGN0rdlSTtGsG63Do4uRZ4kalbHPg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795791715;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=VpcqBZLqN/HeuRlLjFgGKqVL/4WFgrZfbDvk+IxriQ0=;
+	b=ltYUEZ3FXBSnybRSztZ3zwJJt2racSEEkmJzAtJqSvsAWddEtnSV+RInnWTeu3LJxwk4
+	 Cjgb0P5N87UGkjEyxiK/BR2L8GbDuDKtgFTMxYNCMeqSKU6pxr9oGHCdjy3J7k8Md1omW
+	 dVw07Dkzm4ul22iWBtqW7Vnf/mD3cLK9lhaDXBR1FBGuZyxEMgKMa1Zvq13Z2jqXpfS6J
+	 0QQYJwcEd/JiNqTnis3rqg/JEOWC8I7k41AwhijseWiF2nUqinK7TpWjwWt+t9jJzq5zG
+	 wafDQ4PeoB0/GhmS4ThTur2vF3sz0znVT+t+ZnMKBxtDYf4yikeXlj2wDYjN2qU/quw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=asvmTp1e;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8EBB606A31C
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 14:50:29 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=afDIj2Rv;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78420606A323
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 15:01:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 78420606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=asvmTp1e
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 722311F000C1
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 14:50:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795791029;
-	bh=3jNoWnulbrsDpVqqs904fRidVqIbZWsGQHKPgCx74o0=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=asvmTp1eHdvI/IZXhgvTmgWBGVGWINsxFfv71+oro5tsHYG9zv/HhjEIicEE+VfXz
-	 wWDsg9tMFeXqveIKChi3wbKSCL9rVkS5a39EVtZBJu9VHHItnWI9nS1Kp/fAIUDRFl
-	 sr2H4J+FeZKJNkfqnwwjRzgmyEUkPEFqwkS2AyozNYOD3Bb52EWAxnjQ9mH0q+H1lb
-	 5YFqJLdstQJvsMU+PE4CPe+sP/2cqiTGkMSLJjoQqi8788H/LPlMeLXZpJvFd/aRDb
-	 AvzT05/HWtdV6qQ6ZN0pvu90wxtShu3uUc0nri5ZkNZ/iRrbwi8w6QjSrWwYMuu+Xp
-	 yWndXD6iO/xaw==
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5c31cdbeec9so2967045e87.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 06:50:29 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErEC0ISrbGsacjKtJmvZz7k1SU0EvQtjUitRw/KqZ20HNxpGwmJzaApsgoLLFlepC6lKpZ1syqBFBlGiqw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z8MXsCfJThZ1yi7Ez3DSG+8y4m/UxkDRUsngQNyHSBIfcX5itO7
-	ePFOwSWUuugp9HBs+TRKXDcSkSbOpLWs8J4s3FxwaPH+2IYLx+1Egl0lg5tXAS3DxjRVwiyY6MS
-	9+0+RHo8nN+36Fmf5KTDhCo/NHLGWOck=
-X-Received: by 2002:a05:6512:2353:b0:5bf:c3e2:41c1 with SMTP id
- 2adb3069b0e04-5c1bc809895mr7113918e87.44.1795791027796; Fri, 27 Nov 2026
- 06:50:27 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=afDIj2Rv
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EE051169E;
+	Fri, 27 Nov 2026 07:01:50 -0800 (PST)
+Received: from [10.33.50.35] (e142021.arm.com [10.33.50.35])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 379C23F86C;
+	Fri, 27 Nov 2026 07:01:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795791713; bh=GBuVEdT6Zk0TtC4GdX7BeaJsy82EnhV3Za6uLt8WTuk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=afDIj2Rv/AZ2ZhaedD+aQ7/sM6pMctKhmHlqaThdPXbkWWLZ4rcX8AcTCYZk6jJXG
+	 HGrxsvcAwyS8kWygKXkQ3GHFJl9XcSI9+TEGxkyufaA5nodgFsxPh6y3xsf6KQ9SC9
+	 yhvFJbx2UnmuEj5FjgywnCf1EwU86QSEsgs2Jwlc=
+Message-ID: <49872d49-ddcb-4cd9-b4a5-ae6ab95e115f@arm.com>
+Date: Fri, 27 Nov 2026 15:01:49 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -59,63 +53,97 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-References: <20261127080649.1982883-1-alastair@d-silva.org>
- <18637573-d20f-4a58-9e63-6bf71b015cef@arm.com> <d4a41c5cfb33d6d39f0ba927541beca1175ad001.camel@d-silva.org>
-In-Reply-To: <d4a41c5cfb33d6d39f0ba927541beca1175ad001.camel@d-silva.org>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Fri, 27 Nov 2026 22:50:15 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65KRdVqauuJ0F-fb3Fvtx5HJqv-fUTaFJS+xEsQ+Wb78w@mail.gmail.com>
-X-Gm-Features: Aa3M54oOaQujivp7_3Q1utEL14RKW5So41dM2VxpASzKJxC7DwsjG9miI_JHOKg
-Message-ID: <CAGb2v65KRdVqauuJ0F-fb3Fvtx5HJqv-fUTaFJS+xEsQ+Wb78w@mail.gmail.com>
-Subject: Re: [PATCH 0/3] arm64: dts: allwinner: sun60i-a733: Add simplefb HDMI support
-To: "Alastair D'Silva" <alastair@d-silva.org>
-Cc: Andre Przywara <andre.przywara@arm.com>, Hans de Goede <hansg@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v3 2/3] dt-bindings: pinctrl: sun55i-a523: one
+ interrupt per implemented bank
+To: Pablo Mazzini <pmazzini@gmail.com>, Linus Walleij <linusw@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20261124215048.42074-1-pmazzini@gmail.com>
+ <20261124215048.42074-3-pmazzini@gmail.com>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20261124215048.42074-3-pmazzini@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 27, 2026 at 9:58=E2=80=AFPM Alastair D'Silva <alastair@d-silva.=
-org> wrote:
->
->
-> On Fri, 2026-11-27 at 10:03 +0000, Andre Przywara wrote:
-> > Hi,
-> >
-> > On 11/27/26 09:06, Alastair D'Silva wrote:
-> > > This series adds boot-time simplefb HDMI support for Allwinner A733
-> > > (sun60i-a733). U-Boot enables DE3.5, TCON_TV0, and DW-HDMI2.0 and
-> >
-> > Where does it do that and which U-Boot version does?
-> > I don't think we really want simplefb in the mainline DTs any more,
-> > unless there is a big blocker or delay for proper Linux DE support (lik=
-e
-> > there was back in the A64 days).
-> > In Jernej's HDMI series he hints about A733 support being pretty
-> > straight-forward with the reworked H616 DE code, so chances are we see
-> > proper DE3.5 support in DRM rather sooner than later.
-> >
-> > Cheers,
-> > Andre
-> >
->
-> I think the blocker was firmware for DE for this SoC - it can be ripped o=
-ut
-> of the Orange Pi OS blobs, but that won't be acceptable for linux-firmwar=
-e.
->
-> I'm currently reverse engineering the GPU firmware blob, it's not very la=
-rge,
-> and is a well understood instruction set (MIPs) so that may be a path for=
-ward
-> without the vendor contributing the blob to linux-firmware themselves.
+Hi,
 
-GPU and DE are completely separate blocks. You don't need the GPU to have
-display.
+On 11/24/26 22:50, Pablo Mazzini wrote:
+> The A523 and A733 have no PA pins, the A523's PA IRQ bank is not
+> implemented, and the driver no longer counts it. Go back to one
 
-And slow down. You sent out dozens of patches at -rc5 (closing in on -rc6).
-Realistically none of them will make it.
+                    ^^^^^^^^^^
+
+Just for the records: some Linux driver implementation is not relevant 
+for a binding. This (or rather the changed, but undocumented semantic on 
+how to count the IRQs) is a breaking change, unfortunately (and it's me 
+to blame), but I think it's the more sustainable solution than the 
+existing one. And since this is a revert, it's somewhat confined, and we 
+can backport the Linux changes to mitigate the problems. The A523 IRQs 
+were broken from the beginning, and my original change just somewhat 
+papered over the problem.
+
+> interrupt, and one debounce period, per implemented bank: 10 for both.
+> 
+> This reverts commit 11f25ac56372 ("dt-bindings: pinctrl: sun55i-a523:
+> increase IRQ banks number").
+> 
+
+I wonder if we should have a Fixes: tag here? Pointing to the revert? 
+It's somewhat debatable if that makes sense for a binding patch, though.
+
+
+The actual change is fine:
+
+> Signed-off-by: Pablo Mazzini <pmazzini@gmail.com>
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+>   .../bindings/pinctrl/allwinner,sun55i-a523-pinctrl.yaml   | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/pinctrl/allwinner,sun55i-a523-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
+> index d7d0ba32ced4..c04b04acf6e4 100644
+> --- a/Documentation/devicetree/bindings/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
+> +++ b/Documentation/devicetree/bindings/pinctrl/allwinner,sun55i-a523-pinctrl.yaml
+> @@ -36,7 +36,7 @@ properties:
+>   
+>     interrupts:
+>       minItems: 2
+> -    maxItems: 11
+> +    maxItems: 10
+>       description:
+>         One interrupt per external interrupt bank supported on the
+>         controller, sorted by bank number ascending order.
+> @@ -63,7 +63,7 @@ properties:
+>         bank found in the controller
+>       $ref: /schemas/types.yaml#/definitions/uint32-array
+>       minItems: 2
+> -    maxItems: 11
+> +    maxItems: 10
+>   
+>   patternProperties:
+>     # It's pretty scary, but the basic idea is that:
+> @@ -133,8 +133,8 @@ allOf:
+>       then:
+>         properties:
+>           interrupts:
+> -          minItems: 11
+> -          maxItems: 11
+> +          minItems: 10
+> +          maxItems: 10
+>   
+>     - if:
+>         properties:
+
