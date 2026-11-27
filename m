@@ -1,49 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795804616;
-	b=YBaXwpv1nONC8ejwUEccWvWIaDjdj5o7YcCYP15jmqUXSh8rfJ7RA0tOYVSPFPaImJWq
-	 CsiUMulaLLluk0riLh80FWkFn2tZqpXfS+IKQMaP/f3Pps19rCaQpKBhVdzjMt2Jx94p5
-	 mryukwEywQaThPQRA29BQRJaPG5eQ0nxM2gZwWpanL4N6qvzTFX86Awev8bubOfroctGX
-	 QBdtmKWzlNRdmqiwmXhKrP+SXmttkhZL4uTH4y9WRtxyW/MGYlCrXo5UsFsDNkHDoiO7f
-	 c/85/8HQTNcmZXYf7WRZzkjLUd8FNTzSWp+ZuIaXoz6nTDY+we6oYjb00Jz9MWT7LpQ==
+	t=1795810621;
+	b=U3NgwJZWB+YF+wZ5DpqIGzvp6WouO3KkbEvrB4Zk5T2+yiSj3x1TWWdJ4gj9Xs64FOyh
+	 YUsu3sF3iU7cSK+wbu0iDqE7g+oo26uoUJnW6bz/68apdDkujsOF5MW8sglvQdUc71Cry
+	 HvAbY5e48XTX5ff7yrVo5NK9hncbF0nYh4g8T9TSvl7IWOLZDQD44Dp7HD0cjq60/th8s
+	 elBvSC+nKp6dGBqRlxMUqHg7XJRIJ9mISu4EY3FT/uoIMw3wGOcyN/VTIuLE0YqogD4Zv
+	 I5mwxv2R/tQY+zF95G8lJtkNKBztD13lQLtBlCJRFockKjfFoZ3X/uSehGKBmdHow5Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795804616;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=G8NnEquHh6JPrt5WKM/35q0o6NTyLXSxP+cYgYnFdys=;
-	b=cRFIhj9XE1rPRh0OHIP+syhzbUoqmLK4mVe/VMJW2XtRTyIR0LF16mnqWFNdLcg2IY5l
-	 tWa8EF5YvYckZ2a20qzT/hTQPVXl01HKDaqkoQ+TzPZRHUN9BdjwJL7B6hs574ZYxoESk
-	 RcRN44VQWWpuDfXShkyABKglgCaBurACqD90+j/1b4Kpk1nGtTFMhXU12aC3olXgp9TRM
-	 ZyEV6iwn+4UXq88hGFm/FlLbc8bhnl9EU9x9MThmdVbL8gCcJOJWLtoxX+N2kgcDXIcGg
-	 wcT85Mga5wobJpf5sKvKf+uHMqbStYY9ddBrgV+cUHnefK1dDNJBc1nbopGyjPapjmQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795810621;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type;
+	bh=EO5k6n/37i6TdunZgGiZGXGdx4jOGbhNEYDu4cn2rWw=;
+	b=eKVuOUpksUPdN3HCnxD/xCWGXbTaO7Vo5yFkkDAhRC9qEofjSFNoggXVTEk5mT3IzUlH
+	 kgHiqmr4irIW24fyKf2dSYskiS3KiY03FzGSn/zdfps9dL5XMrhGjiYN1zEVZ7IGYq5J7
+	 mNSZ8SrC9FT0eUTKJ8UbYhc0APgzbU/lz6UQPnSWt2Wf1QfyPIq/ZoMzo24kd5SoEFpQD
+	 UahWouHJnQvSM4wibsPBLcZAb4QXWjUVbQZPlQnj7I0ztumQPP5yoFROSKAQEAcrejl1y
+	 w5k/zLhDYxeQkxG7/haS4XpwaHvy3i5K8prkgrAbaYiokuMYjsDbC1WvPJOhM4PsBOA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=b43+c8Cg;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B300606A32A
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 18:36:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B300606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AqPBi8jq;
+	arc=none smtp.remote-ip=209.85.128.49
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0E4606A32E
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 20:17:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C0E4606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=b43+c8Cg
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C5EAC1575;
-	Fri, 27 Nov 2026 10:36:52 -0800 (PST)
-Received: from [10.33.50.35] (e142021.arm.com [10.33.50.35])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A6D623F86C;
-	Fri, 27 Nov 2026 10:36:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795804615; bh=6ifu5kHm5pa1d98fpL6HG21zQD2uf+dZa/ElH6oL+Po=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=b43+c8Cg4WzasHC2UHK7/jdi18rQBwVZBc/LIiJEKn5ZFBSfL2YVSHmum9dYopHpX
-	 8OWP0Rbke/ucNh6SaIdyrIob3sYstfEZM9D3p0mCkQ6rySMpwS42Nm/47wYzESNUpd
-	 ZwDmP+375fMIpueHrm7xRx9WdUlVnu4x5+fy59Hs=
-Message-ID: <5cde8317-61c0-4405-915f-44fcc3c54389@arm.com>
-Date: Fri, 27 Nov 2026 18:36:49 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AqPBi8jq
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49d05d51553so59600995e9.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 12:17:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795810619; x=1796415419; darn=lists.linux.dev;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=EO5k6n/37i6TdunZgGiZGXGdx4jOGbhNEYDu4cn2rWw=;
+        b=AqPBi8jqckktklsSLzlz+N4Pnn5DIDQaiuCIxuinu0VXPhMRw97+STLBcjCE0rU4hR
+         4DdocqXzNcnqqSVLKumiWRQFJxgJ/uygX+Mqc/oKeVYQeIDcjbTa5LuAUo7ou/OAmpDl
+         bnRb06jGThmIhQMsvpItVIxlZTg/lw5UAEbH9aCB7LpawtUkCrdhw5osPm+afYHqt6a9
+         MEHWNSdqT8Ki/Z4KWTbK1qhJgmJuqX7WMtjrfYiFvVclGFsriHoz5kVkH/gHiAIgUeDY
+         NPW8DIsfwFtR8c949rbfFBwuhzf3Bq3oJHdN9GLiFVh69kM9QQoACv9jg/Fr9fwNBf+Q
+         Gj8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795810619; x=1796415419;
+        h=content-type:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EO5k6n/37i6TdunZgGiZGXGdx4jOGbhNEYDu4cn2rWw=;
+        b=jR447GH7jDnwH6JpKfr3s0jLrxR9gja4Zxs6/Osw70T3ZjGkc/t0f35pqeqP32y1is
+         kASQLX3Rp3wYtHP+GJyGNVxV2VrE7u8vFmzx/qjGsu2bze+/KKYH1XGGgcuFoF++F4e8
+         jpW/VZQpmeeNnFYN155lAjOp+iEN+YI60RiWpgd6zD/bZGGpTAtI+AInxMXAPXHX5nJn
+         0iiRn8X/W+4ioMtAz+JTAWgoAOsZpdP+8w1vP+7XwaLSWQquW2ZIJlfcrkLOrnSaF67d
+         bObL+Q7BD1grXd9ftFfI81NBSwO+Bgr5Aojs0BP92zyYSDtsJs7HJUWF/6HSKHBJd+/s
+         kkHQ==
+X-Forwarded-Encrypted: i=1; AL+hErHBAMtWx1tjKJ2RNUtZocZ5lbq3a6CZzHI3fKfo3V9OeRbIi1jbUY4x4q3hdpOIlITxuBq0Eji4RlgAJA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z9jTq5djdDwux6SI1lVmlDDZQcb4uqowO5cMM3L4WaFaJb8rPIn
+	o5Bv9+Inwlry3Qr6uVdHh/S4QKy/54Hal+6NZFwOdheGq/zMn+7kELFG
+X-Gm-Gg: AZFdTZfzQkotJdov+Pa3HpX17kOJANqIK06CvSC1Gxy2QY0R9Ftl0KpV2Gapvuyb/cO
+	j1Bkxy5kI+9rTjIJO80aa6zoJ/4BDjY0IR/ouqOJ0w7Q+cOBff0SDp0NXnPbe7XFiozsTDHBYfL
+	9jB/KHUQx9UD2AEY2ioZcCm9X5KMaidRHbTv6yjLD2idssQyTReshAo3r2zVHpeYJDmOxqdl+y3
+	/NAHGNNnH1GhHDxoYc25EMb/BoQ/+/K1dBl8M7O5WRnO/q/qXROKzHvCd1VpPfvlkluWbyk+2OA
+	4ehxAAXQaBBq6DrPZWGtWr3VUeFvJwM5lUgGMQ5MesKM0Au6jkY9yOXQA7qN5qg4jsKpkSAKDT9
+	Pxx311zSSwPA2dDrfRYwrh36I8kZ2uo0Jaf/f8yXD6XvNdMktegNki4UYISwX1gWiHrk/RwuX6c
+	WQMo8YbOeGc/RfZcIgH5vMG/nNIy9DyP55WNaiZVzbz3w+OWEgaN9hN4IVVZ7qlHQ1s3DPnoF4S
+	b/dDJTAOGWG++jyYxmvDJCYli6PTzX0DR9Ffg6h2dRD832vGpaTXCAThWoN7f6iZDYWOWUFCzVy
+	VMu7vhKxs+6gilqwlJ5zxtzpSEBDxC01U4MAzKRpprbWBx9rioNV9g2/UsLxrKJQfz15uGZ57v/
+	0D550bTGhUaAYKHQrr1yZNp32bqGPRaTOkeWArRmBRsKat6tr1ynO2FWhJunQTMNeqnlKjW+zv9
+	ioVKQ41dLLtDDx1SQFA/GB9TgEUdBsUToGPcLwVJ4h0k1aQvpZwmdXBcbntDrA0/RuDSnD9+jII
+	eWXoT26VAO74cUOytlXz3RuPw==
+X-Received: by 2002:a05:600c:1d09:b0:4bb:73d5:ab33 with SMTP id 5b1f17b1804b1-4bb88816acemr564296155e9.22.1795810619117;
+        Fri, 27 Nov 2026 12:16:59 -0800 (PST)
+Received: from jernej-laptop.localnet ([2a00:ee2:6a02:9300:bb69:6bcf:1b11:e85b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8538b09bsm1298123635e9.4.2026.11.27.12.16.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Nov 2026 12:16:58 -0800 (PST)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>, Hans de Goede <hansg@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, Alastair D'Silva <alastair@d-silva.org>
+Subject:
+ Re: [PATCH 0/3] arm64: dts: allwinner: sun60i-a733: Add simplefb HDMI support
+Date: Fri, 27 Nov 2026 21:16:57 +0100
+Message-ID: <QITIdKDQRWGwlU1DQqnbAg@gmail.com>
+In-Reply-To: <d4a41c5cfb33d6d39f0ba927541beca1175ad001.camel@d-silva.org>
+References:
+ <20261127080649.1982883-1-alastair@d-silva.org>
+ <18637573-d20f-4a58-9e63-6bf71b015cef@arm.com>
+ <d4a41c5cfb33d6d39f0ba927541beca1175ad001.camel@d-silva.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -53,67 +108,53 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 5/5] arm64: dts: allwinner: add Radxa Cubie A7A board
-To: Enzo Adriano <enzo.adriano.code@gmail.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, wens@kernel.org,
- jernej.skrabec@gmail.com, samuel@sholland.org,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Junhui Liu <junhui.liu@pigmoral.tech>,
- Pablo Mazzini <pmazzini@gmail.com>,
- Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
- Alexander Sverdlin <alex@sverdlin.org>, Jun Yan <jerrysteve1101@gmail.com>,
- Lukas Schmid <lukas.schmid@netcube.li>,
- Cristian Filipescu <filipescu.cristian@gmail.com>,
- Norman Herms <dockseed@proton.me>
-References: <20261126-a733-cubie-a7s-dt-v6-0@gmail.com>
- <20261126-a733-cubie-a7s-dt-v6-5@gmail.com>
- <1jik1ild9n.fsf@starbuckisacylon.baylibre.com>
- <4c9ea902-24fd-4065-82b7-41d6df43b082@arm.com>
- <20261127-a733-dt-v6-04-reply@gmail.com>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <20261127-a733-dt-v6-04-reply@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Hi Enzo,
+Dne petek, 27. november 2026 ob 11:20:02 Srednjeevropski standardni =C4=8Da=
+s je Alastair D'Silva napisal(a):
+>=20
+> On Fri, 2026-11-27 at 10:03 +0000, Andre Przywara wrote:
+> > Hi,
+> >=20
+> > On 11/27/26 09:06, Alastair D'Silva wrote:
+> > > This series adds boot-time simplefb HDMI support for Allwinner A733
+> > > (sun60i-a733). U-Boot enables DE3.5, TCON_TV0, and DW-HDMI2.0 and
+> >=20
+> > Where does it do that and which U-Boot version does?
+> > I don't think we really want simplefb in the mainline DTs any more,=20
+> > unless there is a big blocker or delay for proper Linux DE support (lik=
+e=20
+> > there was back in the A64 days).
+> > In Jernej's HDMI series he hints about A733 support being pretty=20
+> > straight-forward with the reworked H616 DE code, so chances are we see=
+=20
+> > proper DE3.5 support in DRM rather sooner than later.
+> >=20
+> > Cheers,
+> > Andre
+> >=20
+>=20
+> I think the blocker was firmware for DE for this SoC - it can be ripped o=
+ut
+> of the Orange Pi OS blobs, but that won't be acceptable for linux-firmwar=
+e.
+>=20
+> I'm currently reverse engineering the GPU firmware blob, it's not very la=
+rge,
+> and is a well understood instruction set (MIPs) so that may be a path for=
+ward
+> without the vendor contributing the blob to linux-firmware themselves.
 
-thanks for taking care and making the changes!
+What is this GPU firmware blob? If you mean for Imagination GPU, that
+blob is already in linux-firmware. But then, this has nothing to do with
+actual display output. Display Engine 3.5 doesn't need any firmware...
 
-On 11/27/26 19:07, Enzo Adriano wrote:
->> Ah, indeed, good catch.
-> 
-> Thanks. v7 uses <&reg_bldo1> for vcc-pk-supply, with a note in the
-> patch.
+I'm with Andre here. simplefb isn't needed. For anything more fancy,
+Maxime is working on DRM readout series, which should allow seamless
+takeover of display devices from bootloaders, like U-Boot.
 
-Yes, thanks.
+Best regards,
+Jernej
 
-> On a different point: shall v7 rename osc32k-clk to clock-osc32k, as on
-> the A7S and A7Z? The schema still accepts the old name (deprecated), and
-> CHECK_DTBS is clean.
-
-Yes, it would be great if you could change that, too.
-
-> Also, is no-1-8-v on &mmc0 fine with you? It ties to Jernej's question
-> on 2/5 [1] and your reply [2].
-
-With no vqmmc, and vmmc pointing to a 3.3V regulator, I think it doesn't 
-matter, no one would negotiate 1.8V anyway. And we didn't use that 
-property before. I am not even sure it is correct for the A733, since 
-the host controller DOES support 1.8V, it's just not "wired up" yet.
-So unless someone screams, please leave it out (and feel free to do the 
-same on the A7S). Eventually we will need to drop that property anyway.
-
-Cheers,
-Andre
-
-> 
-> [1] https://lore.kernel.org/r/p3YaXlLJTguQBGnWyMpb1w@gmail.com
-> [2]
-> https://lore.kernel.org/r/9ab5f851-1b56-49ed-bfdd-46abdbdda1c0@arm.com
-> 
-> Enzo
 
