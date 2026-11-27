@@ -1,107 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795773280;
-	b=W1HVA5nxZWZS7QKOHaWcsHo8aAGk81rrhVM+VktO9/5suAyq7U/cC/R6COrv+RR2s4Be
-	 VcWz6JAAHIdys5q8olUp4dwhLt2j3sHb/ovLmuEcDZtK4cbSdrwgcRoPSnFPEAnsIbMGI
-	 pIvYZ8MSonBzsNhQ9fRdfXOCbniSlz/nD4cb6RVzK17t5HgQANLzbY9kGd5BGTc6EQtYo
-	 svEuMQtANf/x6CLbTwSYL6UQ2v7HibEjmBjzCfDURwyXM860kuiwt/ZTmWqKfoiLoXXpT
-	 J9Ru1SOht7vs9AIGRHXayfrC71uvM+uisSD17OGbn0B5mRzi2q9Yisl58dGKyYSJDRw==
+	t=1795773386;
+	b=jXuQDeExH/3kSWcysXf7QkYilK5d7VOrOUHALPcitM0KlK2/pgTDwcgLqdLY5F/XDr7U
+	 6F0IHv8THtguKu4WOFQXBE5odR+raaL6VAIERgUEEcQcu5NbUaQMQPMENFjL0KLpbDdip
+	 15SpmC7zbwoRe4mp4EZeY74HtGCVr/hkACfAesIc//yF56IFee/LdxICMV0YYLuNPNqwR
+	 keaU1Mc3GHmyJA6DdHfJ+KyCjJomr4bMlpaez0D5KA8T2le1DVtL0/hRzZYDKsKCEABjU
+	 ZbL+wk957P13TjILiyRXFhueh8iY5F3C1bZmb3D+aF95uAjpKdcSbrLQE5MepMU9YlQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795773280;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type;
-	bh=oJiHhRhtTGk9PbbV01vyfsi+daGewTNyYI/p6gVR8Vc=;
-	b=PphcPKc1c1FABEEhsKgjuWndIR/DBe8vmbepsiKQOJrIPuS5NnZxHCdHUs1hfpl0Afm0
-	 L6RMml1zGzgJLQBKboB6WAgjjj+e/TQ5kq4ZMiaka3FHY5+O+ACFrAYrEyv0CbXN58gTj
-	 ZAX7XRMlNAnDzo39FT1eM0akYtBtPBfzzKkDIf+2PcrSLTWPQFIWnlwulQavK7+o9wLQy
-	 0eq8+VN/MhxlIR5qwWQ7p0qBUlE2Utvmo2Eirh3KBBWUccQLpaLnLVtveU0FWwIVK5yF7
-	 9g8kXGrKeMrIh3mXUHhTUiJHTK9DLWgaKrF+eNhRElTOWRHGhHAsDfiboCMAhcEONLQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795773386;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=cghKiIhIs3WHdTzauouM7yuuYOP4RHk/lDCEL2J3FDw=;
+	b=rFOSzE8IvSWdudp+LbCfS62J1REoEFb+/vgBPOJYwuLW8pjFJrze9gboB7u4m6UVQ+KY
+	 OE+DHuFhrbsz9VVe7b1HGJfJoliZLW/SiBxJlqMJ8YTP7o9jlEkaaYwTp4DC9bowsZs/X
+	 x5JyYwsyXyY0TTPF5p2qgS2zP3Zyw1n+eP3PBr8iDgukcH7UrfPA0Dm2VmRk3Z30Ce++D
+	 0wWog0u1NAl1aTb6CaWMs+Jh1HpC1JL5gb3UO6W0DRnlKwjXZFM7QGdhZ3g+vDHev8Ro2
+	 sVCqDEFXNuAvsGXKOM5QJYJqEsUkvDD3QsOV2sUDTNXdL4y9yOC6VuO2mdF8isnd/Ng==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=J15VvAFF;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3FC606A33F
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 09:54:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A3FC606A33F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=O5pnT0OT;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3306606A321
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 09:56:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3306606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=J15VvAFF
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4bb666304fdso77446215e9.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 01:54:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1795773278; x=1796378078; darn=lists.linux.dev;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oJiHhRhtTGk9PbbV01vyfsi+daGewTNyYI/p6gVR8Vc=;
-        b=J15VvAFF8YH5m1JY/59/3VPyaQdTF2j7WJz2Oq0T8K+1Ps+eTJe6g28kYuheqdYbgK
-         0pOwlSJjct5g6/FzRBf01hLRxlpJymk/yMH8G9OAZez2vHe8F8eXMwd4EuvF5LDO+pSi
-         Ib1vScXLv5aZg8PXJDP5WDmJ4E0j9ibcrqe+ugh+l3LLWWBEbPkj+mMhjpQB6TpaGz3L
-         Mjd0mlQPSPdV4gY/eFZscaJpHEiqlO7gbdt6MyccMO7ZcYQxKmqRpbkP/Sj+M2LiSEYs
-         p16Pn2hFfI8bHklxtJytXMJMrBm13wLmm52zkoysExqCy/3AGjAwrfg6xBA23sSMZ/cl
-         kXRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795773278; x=1796378078;
-        h=content-type:mime-version:message-id:date:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=oJiHhRhtTGk9PbbV01vyfsi+daGewTNyYI/p6gVR8Vc=;
-        b=Zp8XlR9e7kAG0Hch0Acj4T//vFa7Hvv9sh0N8xqNQrKKE/kKatqHd/RrM5L3n2t5Rm
-         xUeZM3CQXAdjvA8+ISXdC/m4NHLzrbD2NB5hACVe4cI1cLqpsG3UcuHQ8n8mNwXUY92F
-         E3LSZy7v0oSzln7r7Qfr2BoRGd10O0AmaSRFiJ22jsera9LIyJH/BhQ1mo/Uagd3uRQL
-         +dgJMREzC6SYLo57iSpdgiGTQYL4MZuyI+mqL2RmLWvamSww8g/QpuKLVKJc8AC0hmTF
-         TwvjXXIa0YIOpeZRZujsQzk56wUhx9UQfTdNNthWu/e0jcBmyOjKZJgM1S3BPQLOJRL9
-         g3Cg==
-X-Forwarded-Encrypted: i=1; AL+hErHywo7G5hF35sjwhznr4r+HfpWG0Y0uwWLjkLGz3eaIyCwdv9GWsflmgR4nuaYd5IEqtDFVxTYYrNFIJw==@lists.linux.dev
-X-Gm-Message-State: APuU4Z/N2JejzxDDihHeW6pihIVh6zNc2FG6Df16VSssB1E3+0FaAoTV
-	a8NFMtRTKC+n7xUJ6wz2G0NSLIItfzmnxHojUtkvQgiUd+nykrR5DlLXZ2kadX2xC6Q=
-X-Gm-Gg: AZFdTZdHw8PKmGoAa5uFKr21oYHymhDR9b8XObCngBnCixyP9mki9O7QrQ7h6v1qBGa
-	qY71hHVJT23DppYYyC+m6KLt5S6Z7wurUab/fEgu/2fMWDVvCrNMIkKW1/d99BGTHJPWaoCUCWT
-	jYt4WFjEIo4DdW/ZltkR8sBggO6Sb0p5MjU2Yz9IQmHruc7pzUbOkK/HV+9a+sXf7Js+otq2ksG
-	JY8KxusyDIy6EgF7pvJbLzAArVD7n5UZQIqE984eB4mqgISP5cnekaW97j8Nuvg54CjRiK+H6bC
-	yx5vrIvJzttHYeok0eLj0v0Zvy507RTgDnwLgV1QPT/ro6OgH1sbnhHHwXWHm+1JA4WLJ6gbL5h
-	ebtM4y0q2Q/8xguFWS/wPM6oAi3/49zlbcmPMzmsjJK3M/2RUMi0inAAJMPL4Fpt2w516BQxDHd
-	jDXPNDKbGyDl2+iR81bhMW9TL5pfagWXlSBxgffzPpBRzM8VSy/0iyOn0z/J5aCXTdJG1fidvgY
-	Kh+vVApzuNMPLagJZjUWkXmBHoXpcZgdXeCtLzATwAhYwtwJa1nLFA27OnuUCr/7ZneOhqhvkoQ
-	bfAfVybSIo6eEaxj8K/FE6omKQMhMaAhLYs7O7338tcHFFZd
-X-Received: by 2002:a05:600c:3547:b0:4a1:c27d:e1a8 with SMTP id 5b1f17b1804b1-4bb8880b88fmr473789905e9.10.1795773278505;
-        Fri, 27 Nov 2026 01:54:38 -0800 (PST)
-Received: from localhost (82-67-6-57.subs.proxad.net. [82.67.6.57])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853a1e8bsm560118415e9.9.2026.11.27.01.54.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 01:54:38 -0800 (PST)
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Alastair D'Silva <alastair@d-silva.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Richard
- Cochran <richardcochran@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>, Andre Przywara
- <andre.przywara@arm.com>, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Alastair
- D'Silva <alastair@d-silva.org>
-Subject: Re: [PATCH net-next v3 5/5] net: stmmac: sun55i: Add support for
- Allwinner A733 GMAC210
-In-Reply-To: <20261126064345.2569445-1-alastair@d-silva.org>
-References: <20260923-allwinner-a733-gmac-support-v3-0-15735155a789@baylibre.com>
- <20260923-allwinner-a733-gmac-support-v3-5-15735155a789@baylibre.com>
- <20261126064345.2569445-1-alastair@d-silva.org>
-Date: Fri, 27 Nov 2026 10:54:37 +0100
-Message-ID: <1jik1iwqea.fsf@starbuckisacylon.baylibre.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=O5pnT0OT
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 529671758;
+	Fri, 27 Nov 2026 01:56:22 -0800 (PST)
+Received: from [10.33.50.35] (e142021.arm.com [10.33.50.35])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1B3533F959;
+	Fri, 27 Nov 2026 01:56:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795773385; bh=P0Ygt22URPNRtmd0Nyy4UP8exHQvtkyPWnL1LCnEUKg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=O5pnT0OT1erQHzgvnkdXZbX3pSxTodazlHC5PpMaAS69pDc30zEVloGcAS0ARILJE
+	 EJ6elfFV7fPP+4Awmwe6erpmecbzlXZ/vZqUhbdC3Pc9n0pw5NMV6sMqnNPiuuI3BS
+	 U8uhoq+9hJd2gDbpHsVet5b0Cplqq3HA/0ZfQOvs=
+Message-ID: <114b03ba-914f-4494-be12-d967be62da00@arm.com>
+Date: Fri, 27 Nov 2026 09:56:18 +0000
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -111,48 +53,140 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/11] arm64: dts: allwinner: Add Allwinner A733 USB 3.0
+ support
+To: Alastair D'Silva <alastair@d-silva.org>, Vinod Koul <vkoul@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>,
+ Jerome Brunet <jbrunet+clk@baylibre.com>,
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ Mathias Nyman <mathias.nyman@intel.com>
+Cc: linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-usb@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261127073231.1776847-1-alastair@d-silva.org>
+Content-Language: en-GB
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20261127073231.1776847-1-alastair@d-silva.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On jeu. 26 nov. 2026 at 17:43, Alastair D'Silva <alastair@d-silva.org> wrote:
+Hi Alastair,
 
-> Hi Jerome,
->
-> While testing A733 GMAC210 on the Orange Pi 4 Pro (YT8531 PHY), we hit
-> two hardware differences that also affect this series:
->
-> 1. External vs. internal RGMII TX clock (SYSCON_ETCS_EXT_GMII):
->    Unlike the Cubie A7A, the Orange Pi 4 Pro wires the PHY's 125 MHz
->    CLK_OUT back to the MAC and stalls on 1 Gbps TX with
->    SYSCON_ETCS_INT_GMII (0x2). It requires SYSCON_ETCS_EXT_GMII (0x1),
->    matching Allwinner's "aw,rgmii-clk-ext" BSP property. A733 GMAC210
->    will need a DT/clock way to select EXT_GMII vs. INT_GMII so both
->    boards work.
->
-> 2. RX clock inversion (BIT(4), ERXIE in glue offset 0x00):
->    With BIT(4) = 0, Orange Pi 4 Pro required ~3.8-4.1 ns of total RX
->    delay (matching what you saw on Cubie A7A with 1800 ps MAC delay on
->    top of 2 ns PHY delay). Testing with BIT(4) = 1 (ERXIE) confirmed
->    it inverts RXC by ~4 ns (180 degrees at 125 MHz), centering RX at
->    0 ps MAC/PHY RX delay. Andrew Lunn requested fixing this clock
->    inversion rather than compensating with ~2-4 ns rx-internal-delay-ps.
->
-> I plan to rebase the Orange Pi 4 Pro Ethernet support on top of this
-> series and address these in follow-on patches unless you intend to
-> roll them into a v4.
+On 11/27/26 08:32, Alastair D'Silva wrote:
+> This series adds USB 3.0 host support for the Allwinner A733 SoC and
+> enables it on the Xunlong OrangePi 4 Pro.
 
-Hi,
+I think you should step on the brake for a bit, sending out (AI 
+generated?) patches like crazy is not going to make you friends with the 
+maintainers and reviewers. At the moment we are trying to get the basic 
+A733 DT merged (for v7.5), so anything non-essential has to wait. And 
+the list of out-of-tree dependencies below already shows that this is a 
+bit early.
 
-I'll resend the series soon. I don't think there was a major change
-request on it. The way forward on the delay matter was not
-entirely clear to me to be honest but I know a similar discussion was
-happening on an Amlogic series. I need to check this pan out.
+So I'd say wait for v7.5-rc1, which is probably going to happen in early 
+January, then you have a much saner base, and we have more time for 
+reviewing more fancy features.
 
-I'd suggest you build your changes on top this. I can't test your property
-changes without the board so it is better if it comes from you.
+Oh, and also: please try to look beyond your particular board. It's not 
+just the OrangePi 4A that is out there, we have other well documented 
+boards as well. Peeking at their schematics should make it easy to add 
+the respective USB nodes to their DT.
+The OPi 4A is benefiting from work of other people as well, so it would 
+be nice to do the same for other boards. It's fine if you can't test it 
+there, just mention that and others can test. That has also the 
+practical benefit of keeping the dependencies together.
 
->
-> Thanks,
-> Alastair
+Look at Jernej's H616 HDMI series[1], for instance, he just enables a 
+bunch of boards in the final patch.
 
--- 
-Jerome
+Cheers,
+Andre
+
+[1]
+https://lore.kernel.org/linux-sunxi/20261126214433.3562326-1-jernej.skrabec@gmail.com/T/#m8df03e7de13c7152685c921605b000e0a7236bc5
+
+> It adds the USB 2.0 UTMI PHY driver, USB 3.0 mode for ComboPHY0, USB2
+> CCU gates, DWC3 glue support, an xHCI W1C port change quirk, and DT
+> nodes.
+> 
+> Verified on the Xunlong OrangePi 4 Pro with a SuperSpeed (5000M) USB
+> 3.0 flash drive.
+> 
+> Prerequisite series:
+> - arm64: dts: allwinner: Add Xunlong OrangePi 4 Pro support (v2):
+>    https://lore.kernel.org/r/20261127065343.1449675-1-alastair@d-silva.org
+> - Add Allwinner A733 (sun60i) PCIe and Combo PHY support:
+>    https://lore.kernel.org/r/20261125062948.1234677-1-alastair@d-silva.org
+> - Allwinner A733 PCK-600 power domain fix and DT node (included in
+>    prerequisite-patch-id below).
+> 
+> Alastair D'Silva (11):
+>    dt-bindings: phy: allwinner,sun60i-a733-u2phy: Add Allwinner A733 USB 2.0 PHY
+>    dt-bindings: phy: allwinner,sun60i-a733-combophy: Add combophy0 USB 3.0 support
+>    dt-bindings: clock: sun60i-a733: Add USB2 bus and sys clock IDs
+>    clk: sunxi-ng: sun60i-a733: Add USB2 bus and sys clocks
+>    dt-bindings: usb: allwinner,sun60i-a733-dwc3: Add Allwinner A733 DWC3
+>    phy: allwinner: Add Allwinner A733 USB 2.0 PHY driver
+>    phy: allwinner: sun60i-combophy: Add USB 3.0 PHY mode support
+>    usb: dwc3: Add Allwinner A733 DWC3 support
+>    usb: host: xhci: Add W1C port change quirk for Allwinner A733
+>    arm64: dts: allwinner: sun60i-a733: Add USB 3.0 controller and PHYs
+>    arm64: dts: allwinner: sun60i-a733-orangepi-4-pro: Enable USB 3.0
+> 
+>   .../phy/allwinner,sun60i-a733-combophy.yaml        |   5 +
+>   .../bindings/phy/allwinner,sun60i-a733-u2phy.yaml  |  58 +++
+>   .../bindings/usb/allwinner,sun60i-a733-dwc3.yaml   | 103 ++++
+>   .../dts/allwinner/sun60i-a733-orangepi-4-pro.dts   |  31 ++
+>   arch/arm64/boot/dts/allwinner/sun60i-a733.dtsi     |  61 +++
+>   drivers/clk/sunxi-ng/ccu-sun60i-a733.c             |  10 +-
+>   drivers/phy/allwinner/Kconfig                      |  17 +-
+>   drivers/phy/allwinner/Makefile                     |   1 +
+>   drivers/phy/allwinner/phy-sun60i-combophy.c        | 573 ++++++++++++++++++++-
+>   drivers/phy/allwinner/phy-sun60i-u2phy.c           | 233 +++++++++
+>   drivers/usb/dwc3/core.c                            |  18 +-
+>   drivers/usb/dwc3/core.h                            |   8 +
+>   drivers/usb/dwc3/dwc3-generic-plat.c               |  15 +-
+>   drivers/usb/dwc3/glue.h                            |   6 +
+>   drivers/usb/dwc3/host.c                            |  10 +
+>   drivers/usb/host/xhci-hub.c                        |  53 +-
+>   drivers/usb/host/xhci-plat.c                       |   3 +
+>   drivers/usb/host/xhci.h                            |   2 +
+>   .../dt-bindings/clock/allwinner,sun60i-a733-ccu.h  |   2 +
+>   19 files changed, 1177 insertions(+), 32 deletions(-)
+> 
+> base-commit: 9437046953b2fb3bf55b36582450ea0267df82a7
+> prerequisite-patch-id: 19691099774bd3dc41f56585c03ddefb7bdc6f9c
+> prerequisite-patch-id: 85db03df3394cdcb2780a0da122a74b2c1fe220d
+> prerequisite-patch-id: a3e883da50bf03e8f522444def66fec7f996ffbe
+> prerequisite-patch-id: c6889699a6dc13c336ce4cf4659e21b551e9a9fc
+> prerequisite-patch-id: ef2f0344452092edb2221b93c44a3e82cb896a2d
+> prerequisite-patch-id: c598480f753e36b7f6230129b864c559b9f185d5
+> prerequisite-patch-id: f86b468a896a40f132adfcba885700327dff1bc5
+> prerequisite-patch-id: 079d60101e1b9e5425458060314bde3e9cc2fe4c
+> prerequisite-patch-id: 090c5ff78d4e2150804aa8d294581cd338b1e971
+> prerequisite-patch-id: af0aebcae7c38d58354925119c412178b5821b5e
+> prerequisite-patch-id: beb8a098ba14724e316ff243bdf8e00e729243c1
+> prerequisite-patch-id: 63342c5ec38e8eb9e55c8c74d3c5a81a630d5f69
+> prerequisite-patch-id: 1dc8d70f80674c98b2b15d09556dd27f643b20da
+> prerequisite-patch-id: 4555860586ef50f27bf787a23f6ba693e9c3b0d6
+> prerequisite-patch-id: 0279f281cd59cf54bceee39b0fa4d0b6a7b87c48
+> prerequisite-patch-id: 14424bd8324b6cae2b8c4d6840df0db626d1385f
+> prerequisite-patch-id: 7b42728bc8271e5dfd57fffec47a7f5745eff357
+> prerequisite-patch-id: 74f5c7d066477024a374a789b3180e841398fb07
+> prerequisite-patch-id: 309a5a3ca5b216915907263dea7024263abf1d1c
+> prerequisite-patch-id: 55e543b9854c7ae2fa86969233d05ccadd3792e9
+> prerequisite-patch-id: cfcad85224e288ec2168e7f245b4a1c63e9a34a7
+> prerequisite-patch-id: 18dadb9c1e41141d015422b658b7dd0d153b7d69
+> prerequisite-patch-id: 47a863f533ee9ae1589e25618f27a7282a0f8d37
+> prerequisite-patch-id: 54181ce00a78f9f69031d3964f14bf800dd98e0f
+> prerequisite-patch-id: 5a6d6dac4f6b42edf911fbca2078508e977bdce9
+> prerequisite-patch-id: e919d9591e97e3b69fa86625a868583ee74d16db
+
