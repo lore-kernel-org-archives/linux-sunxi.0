@@ -1,49 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.122
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795797035;
-	b=pzJvumJIu82OOABLOCFOCrrVUQfd6+DmTmgAmiqLHHxkFJBOkkM90kNiBpyTACSg8hVB
-	 mteoarXjKzVF5DLklcSZ0XcxuNnO+TJFSolcxBzSLJ/vNt1ytiPG4ALvdOnyQgVMlaa1V
-	 6RaOE+B3tavUB3isVha45CYQDL9av6AChAKrgjxSV820D0molj3QdEksIIpjGV4fs9A+F
-	 O6r4WaMHJ3shxN2tDirsHMX3KybfXx4B+OEfOzpXlgt+zn263MkAhZo3QiRxsdgXlyhvt
-	 ib7nTnhmlTIDO69MdMDvneZKMrsWBcdcUPHVzpiUyLMzSCfIAkhnrGNEqzhZq1NjCMg==
+	t=1795797482;
+	b=xlhpypzvj81X1qyLlBKc9sOw5ry4FL6M3n26Fg/BDM1hV98qGO/fGHcV5Fn9KK5OwlMn
+	 CTMCsZZa/tWeYf+9juegCTHHWir97vfnYqBP8lmF6bjd0oUNca+ytbjbOmSc5hpw9dFbK
+	 tXvFL6rfNUm4acsVT/T2HJ2aQIH+z+1sziVuqdlRH2S+lsu6EIQIQ41svP8rh5kgzzt2H
+	 MlFtqpazsYt+RZmaJbJGHPWXebj9CbU+hk99c28Ydtj4JzEN6z1tba0TlPkAw5dDJ392l
+	 IjuJra/cTFmtpYYHmTrnlOzN/jj3gCt8W5jmIPNgk48Efgup3kx93T8QBcD/qH/MUQA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795797035;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=54NOpbOtuKLqL2nKVOoPWau8pDlerFu1Y4blbqD/sNI=;
-	b=Yw/xB9nctMfKKqku2ELD740IHiNNjlvLYdLdyfiE8MmcgtNg/E3epRhJGfyQDfPgk8we
-	 EA/WKYjC0U9KPO5c1TyNqC6s8it24HywAFEz05gfPnY0kPd6FCJqmCOsYlGYO77z10UpU
-	 SP4P9e4zj0jCenwLoAY+lNsRudV1nWBrEnopIO7l43LblWrcwW7E4iMF94vR8nlUENtL1
-	 6wE27g5wndWPiuj4J2xLxxs2WkAfaTd/VTKGs8fg7cdC3TDmQnxFsteoIbiXj2WiWiKRU
-	 lsqw+3tHEHibf3sVqC2iy+lMT6aLNr1M9NCWVZfVXim9F7cln/pr+/2nm2i0cfudCcg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795797482;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=gqmpaC4EUz+q95HvmLKRF+xoM4Pr8ZBA71cC5oMY0vk=;
+	b=Xe+P2m7O0mJ8VXGxxbg1XCiHq3srgs99myIkN4pvPpiP/xAgBJAlyc+gQKqIL9gRokKk
+	 vhSamfe36bfXvBvf+noLlVS89F1SHL2PHKouB+DcnACztRw+gLl+6azHUH9czPIAyxvJV
+	 gTUrlYbiejdkcDa1Io121CYDVPRq+zEP6aopanr9bxOTzp2H4Uu1GmPbdttVl8/4hgdlm
+	 MClksnPENaQCYBRrCtVCuBKoS5Z5ra1mDtwQk7K+CcySmAWw+ohe4xFh++IE4dZ300AWG
+	 VfCO6X3zU8dDf4z8/ViO0x/XC1XN0q8V0LVsnk/seGnlLiy1asl9veQmHUEcGG2rezg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=AMyJGtPh;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4D60606A31E
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 16:30:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4D60606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=proton.me;
+	spf=pass smtp.mailfrom=proton.me;
+	dkim=pass header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=7zhuwiohx5cyjemmgpyv5v53uu.protonmail2 header.b=eDSlzccN;
+	arc=none smtp.remote-ip=109.224.244.122
+Received: from mail-244122.protonmail.ch (mail-244122.protonmail.ch [109.224.244.122])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364EB606A31E
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 16:38:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 364EB606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=AMyJGtPh
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 627D71570;
-	Fri, 27 Nov 2026 08:30:31 -0800 (PST)
-Received: from [10.33.50.35] (e142021.arm.com [10.33.50.35])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4AE823F86F;
-	Fri, 27 Nov 2026 08:30:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795797034; bh=b33/9jIn33AHiLVOktQcqCtJ8czOf9Xr7CxwoHhocU8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=AMyJGtPhp4st87WhHQjG9x2Xm7CAavKQX7s8SJQATPgdBrrVhcClJ0J2GhoBiahLO
-	 YvNt3wdAsddMsQHGJy9k1qlZDj30gapE55u/Ux9lTxZIdoAVJDljuAI3+ZIP8fg7o4
-	 7ubxHpqKGnQP7cEVxWdQ48ojV+YXZX7+soqu8Li8=
-Message-ID: <fcdd57ea-8f03-45ce-886e-f0efb6f23d3a@arm.com>
-Date: Fri, 27 Nov 2026 16:30:29 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=proton.me header.i=@proton.me header.a=rsa-sha256 header.s=7zhuwiohx5cyjemmgpyv5v53uu.protonmail2 header.b=eDSlzccN
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=7zhuwiohx5cyjemmgpyv5v53uu.protonmail2; t=1795797468;
+	x=1796056668; bh=gqmpaC4EUz+q95HvmLKRF+xoM4Pr8ZBA71cC5oMY0vk=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=eDSlzccNYIAYp+647rmUKFukjdnvnWZ9/IT8hNCeyVhANm1/5RXCdZqGAefPxsHtr
+	 lrOov7pMR3NAa/prrPcqbXlEsQCwBwD1PTHtCIDEtVvqPZEr0uZtxd4kYckNj7ikmG
+	 3MzaHeQ8Rq07oQvVmnxvhMmvAAAGlNGS8h8F17TQVk/pfiQhSGqrMSfOW4P6IFa9TJ
+	 2DbpglbqTdazDQB9yR2SLv9CY5GiJkkbbakKPgpPgUrxU8UJgQ6VDIZNqQRF+Uimok
+	 0G43uZ26I06hf4jbjIFfAEYjr93j1efER4K65c5WbdAQKk+YIhn8re1KoWxQ0MUcZr
+	 uxdXXMPECgj6w==
+Date: Fri, 27 Nov 2026 16:37:44 +0000
+To: Jerome Brunet <jbrunet@baylibre.com>
+From: Norman Herms <dockseed@proton.me>
+Cc: =?utf-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, andre.przywara@arm.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, wens@kernel.org, samuel@sholland.org, Enzo Adriano <enzo.adriano.code@gmail.com>, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Junhui Liu <junhui.liu@pigmoral.tech>, Pablo Mazzini <pmazzini@gmail.com>, Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>, Alexander Sverdlin <alex@sverdlin.org>, Jun Yan <jerrysteve1101@gmail.com>, Lukas Schmid <lukas.schmid@netcube.li>, Cristian Filipescu <filipescu.cristian@gmail.com>
+Subject: Re: [PATCH v6 2/5] arm64: dts: allwinner: add A733 SoC description
+Message-ID: <wzwsbUKM-fEhYpTIhswvHly5oyuMCPDOExJEWjbSf-OS3Lrwx2H_l9CUfuMITJUK5CyEz4pNojUFRzjDDczUQmX_LmSWwF7DVSceD34XeHY=@proton.me>
+In-Reply-To: <1jld6eldic.fsf@starbuckisacylon.baylibre.com>
+References: <20261126-a733-cubie-a7s-dt-v6-0@gmail.com> <20261126-a733-cubie-a7s-dt-v6-2@gmail.com> <p3YaXlLJTguQBGnWyMpb1w@gmail.com> <1jld6eldic.fsf@starbuckisacylon.baylibre.com>
+Feedback-ID: 144388465:user:proton
+X-Pm-Message-ID: 87fbfe36e01c8768225a4b0044555248b653f3dd
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -53,75 +64,48 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/5] arm64: dts: allwinner: add Radxa Cubie A7S board
-To: Norman Herms <dockseed@proton.me>
-Cc: Enzo Adriano <enzo.adriano.code@gmail.com>, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, wens@kernel.org,
- jernej.skrabec@gmail.com, samuel@sholland.org,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Junhui Liu <junhui.liu@pigmoral.tech>,
- Jerome Brunet <jbrunet@baylibre.com>, Pablo Mazzini <pmazzini@gmail.com>,
- Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
- Alexander Sverdlin <alex@sverdlin.org>, Jun Yan <jerrysteve1101@gmail.com>,
- Lukas Schmid <lukas.schmid@netcube.li>,
- Cristian Filipescu <filipescu.cristian@gmail.com>
-References: <20261126-a733-cubie-a7s-dt-v6-0@gmail.com>
- <20261126-a733-cubie-a7s-dt-v6-3@gmail.com>
- <0a7f4a31-81ac-44ee-8cd2-7b5526af7442@arm.com>
- <IUp5Ow8SUNdgtour7we7BN_rry0fuoBNw-ucfXERukfbwTWvoWo5QjYLXAzxftTjGnsuhCCnwvxZ5fBpL6pFPL62oTr2hZddgE6XmrQ76o0=@proton.me>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <IUp5Ow8SUNdgtour7we7BN_rry0fuoBNw-ucfXERukfbwTWvoWo5QjYLXAzxftTjGnsuhCCnwvxZ5fBpL6pFPL62oTr2hZddgE6XmrQ76o0=@proton.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Norman,
+Hi Jerome,
 
-(please try to reply in-line, with the question quoted, to make it 
-easier for other people to follow the thread)
+On the PF voltage selector: we have been running UHS-I on the Cubie
+A7S for a while in our own trees (6.18 and mainline based). Here is
+what we ran into, in case it helps whoever models it.
 
-On 11/27/26 17:17, Norman Herms wrote:
-> Hi Andre,
-> 
-> On the ELDO1 question: the AXP318W datasheet (V1.0, Chinese, table
-> 6-3) gives ELDO1 a default of 0.9 V and leaves it off at power-up, as it
-> does DCDC6 and DCDC7. So 1.075 V is not the PMIC default.
+- The switch: on this board bank PF takes its supply from VCC-IO
+  (3.3 V) or from CLDO5 (1.8 V), selected by GPIO_POW_VAL_SET_CTL
+  bit 0 (1 =3D 3.3 V). There is no external regulator to switch, so
+  vqmmc does not fit, and sunxi-mmc without vqmmc returns -EINVAL for
+  1.8 V. We use two pinctrl states, "sdmmc-3v3" and "sdmmc-1v8" as on
+  Tegra, whose pin groups carry power-source.
 
-Ah, thanks!
-> On the A7S we boot our own chain (U-Boot SPL calling the vendor DRAM
-> init, TF-A, U-Boot), and none of the open parts writes ELDO1. That
-> leaves the vendor DRAM init, which switches it on. Its value follows
-> VDD2H on the 25 mV grid: with DCDC7 at 1080 mV we read ELDO1 at
-> 1075 mV, and with Radxa's own boot0 at 1120 mV we read 1100 mV.
+- The withstand mode: with PF in the adaptive mode of
+  GPIO_POW_MOD_SEL (01, which is what the pinctrl automatic voltage
+  detection patch sets), the pads follow the SoC's own supply
+  detector, and on our board that detector now and then reports
+  3.3 V while PF runs at 1.8 V. With one card, 14 of 40 SD rebinds at
+  SDR104 failed: the CMD6 status read gets a data CRC error and the
+  card falls back to high speed; once the card was lost ("error -5
+  whilst initialising SD card"). Setting the PF mode by hand together
+  with the switch gave 0 of 40: 10 (3.3 V) before switching to 3.3 V,
+  and 11 (1.8 V) after switching to 1.8 V, once GPIO_POW_VAL reports
+  PF at 1.8 V. Our final patch does that and also gave 0 of 40.
+  Oddly, the fault also goes away while the USB3 combo PHY runs; on
+  this board CLDO5 supplies its analog part too. Another card passed
+  40 of 40 even in the adaptive mode.
 
-That's good info, thanks!
+- The eMMC on bank PC needs no switching, CLDO5 is fixed at 1.8 V.
+  But if the boot chain leaves the PC field at its reset value 10 (the
+  register resets to 0x022aaaa0), HS400 enhanced strobe fails with
+  "mmc_select_hs400es failed, error -110". So on PC, 10 behaves as the
+  3.3 V mode, as in the register table, not as the adaptive mode the
+  text of 18.14.4.6 gives for C/E/K. 01 and the fixed 1.8 V mode (11)
+  both work.
 
-> We have also tried VDD2L at 0.9 V on the A7S. Lowering ELDO1 from
-> Linux changes the voltage after the DRAM training ran at 1.075 V,
-> which can lead to errors.
+We can test patches for this on the A7S, SD and eMMC.
 
-Yeah, I was concerned about this as well. LPDDR5 DRAM init/training 
-seems to be a lot more sensitive than <=LPDDR4 (it even requires 
-occasional retraining at runtime?), so changing voltages after the fact 
-sounds dangerous.
+Built and measured by AI agents (Claude) on my boards.
 
-> So we keep the value the DRAM init leaves,
-> even though it does not match the schematic, as the v6 node without
-> voltage bounds does. The vendor DRAM init sets all the DRAM rails
-> itself, so a clean 0.9 V would have to come from there.
-
-OK, that's something we probably can do with the in-flight Open Source 
-DRAM init driver then, which is (in parts at least) already on the list.
-
-Regardless I wouldn't want to leave it completely unbound, but instead 
-provide some limits. I guess for VDD2L, potentially the same as VDD2H, 
-it should be 0.87V - 1.12V, which seem to be limits Google turns up for 
-those LPDDR5 specified values.
-
-I will adjust the DT for the A7A.
-
-Cheers,
-Andre
-
+Thanks,
+Norman
