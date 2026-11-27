@@ -1,49 +1,216 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795780589;
-	b=ZFNlvS6HCQ6Zt7TeRJdjvBg6zG0gME07VL0Tr42Rmnfhhezhgj97X44O5UiRxFbKZ6im
-	 UBiPSXgFV43Gj3xlMFv/Zu6Z7LU4F+5BOyaaIJYelCoThCSG2CLS2eoE/FSo/oIYaO64Q
-	 Qw3dS1W5kwGEznkRgfUOxIhQUDRFFUThOPR+cGyqkYJ9Jg24BHmATMbEA8ykew9QyS+iW
-	 DnAV3iE22ie/b4XES/4pKKc//+sCyFdEUuygsSeucxwp+/nKrV2InNxR3MpKSvbrI50MK
-	 HJA0cvLuhaa1gkKAzyMkU8ntuVH+5qlCRaGibYdZkwqT4wttrHmOdHw29NfujWAVlew==
+	t=1795786644;
+	b=YPJbMJRuGMpoVTr06He3AMk+IAZpV3VWhJ7X9yvrbMOMmKaOCPhjhHPu50OQcxUN/2Kk
+	 g7UcxpEhJRZUeen1pdRlYLN8ZVlHtKDpN1gK26eEK4dD4n0CXSWOFgcl87xi99cbyhpZA
+	 XOwXdkHO5bpqhUqOL8AozwN7ENiH27LoJr0PrzkZpwxh6tsMHuqRI1KteVtRGNC2ma4/1
+	 is24zax8AUgARgpW1lcE677yT9DoHgu79FTa2p1ZSaX0wGineLasEyX8sH7o5OFSMOED2
+	 OmmcWUh1ktlDsyizlU/JWTYpwHKd0HEWPeTnDlXfvmMqLiy43N1jL7v+fy8UQqYm0AQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795780589;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=A68Fc43o/OGN2y9oSPSSDZxzULRR2g11UStqF9f/CJs=;
-	b=p0+mnsCnr/AugXXxUnpSnRz/b7+x2l1dwDm3cY4kQt0k5DX8hRROOYhKXmfSkVAaEn4L
-	 hAl7wra/A9e33wtCUyp1HIOUrGNEOIsTJkJVE87RbHMxlSascuiaoIN11JNLadeS/b8wv
-	 Dt1VKQVjv8stOCwE/vhhkpbKwbHWn4AwBDJA44bJzkeWfOI0cobaj8h5Mv/9DVHOCVUAs
-	 lqxY/VMv6pJZrkwWKDzyaJxZgnQzTvFhQzb0FRscG6jWtbe3qk3hsapSyB0SzIWyOU4qB
-	 OCOnm9n6ttVftWHvX8EZrNv2iAprHLuY6T5ZtAwTaQUjYnYFHDdItQk52qzq31Y/MdA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795786644;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Subject:From:To:Cc:
+	 In-Reply-To:References:Autocrypt:Content-Type:
+	 Content-Transfer-Encoding:Date:MIME-Version:User-Agent:X-TM-AS-GCONF:
+	 X-Proofpoint-Reinject:X-Authority-Analysis:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=W0ycu4cYzKGqn0c93rRpVecOeZUokR6AV8zaxl2sFK0=;
+	b=kJkROm0JlPgU3l0YtkJ0kP8iJlabs8ARXK8caSusZ05N6WN5Kf5lV7lvLAtsJbxse9NN
+	 FJmQkjkQ+evcC87WNi+otecrV+O92/YoNczSM6EGFa6yi2Og4A7LDPynVZmSBvD8HpYZ+
+	 Wg42plobZGmfRgQUtc6RgnF9Fq0Bp5zUpJNSevlpEDg0B7Wgw4HFq8ZqBsrGTKGEGM64i
+	 LpwU/+FhlYOCAT7aahdsAkmWV9CeahfAGLzMxterY3ZSjAx2J7QNeWOkcPZzuT5O7mbUB
+	 huLnXyzwAdJPlGmUUnUi4fWzSjccvKwdjcVwYwY6ssLNQnxVnpAo2B2nyUugrCOoxhQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=POp6Ljo8;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D70ED606A31F
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Nov 2026 11:56:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D70ED606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=IcF1LWaT;
+	arc=none smtp.remote-ip=148.163.156.1
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10A6606A327;
+	Fri, 27 Nov 2026 13:37:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C10A6606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=POp6Ljo8
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CFFF11756;
-	Fri, 27 Nov 2026 03:56:24 -0800 (PST)
-Received: from [10.33.50.35] (e142021.arm.com [10.33.50.35])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E4B3E3F632;
-	Fri, 27 Nov 2026 03:56:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795780587; bh=Xs58qPOPag1jyxHKAgsrv/b8NJwtq1sPSFPfFX2lDeY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=POp6Ljo8RAhx+OMn/hFpNNbPk3PjT0+ggeTztYGji34/ryVbRZarbEUAynH4+1G5R
-	 a3rST72HMFa6ZQoEjqX3b3RSyAJ9sglyMEukcjkb0cPfanDrQ6r+OfC1DSNKcVuM1q
-	 LDh6iqHLnvTvqCha5r0wgUazDC8WjUxYsCCz3jrs=
-Message-ID: <4c9ea902-24fd-4065-82b7-41d6df43b082@arm.com>
-Date: Fri, 27 Nov 2026 11:56:22 +0000
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=IcF1LWaT
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ARD4asG1532003;
+	Fri, 27 Nov 2026 13:36:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=W0ycu4
+	cYzKGqn0c93rRpVecOeZUokR6AV8zaxl2sFK0=; b=IcF1LWaTOaG9LA9h7P09Lv
+	kdlL8vKhHQVosijwofd7C9GKlRlzCvdnd8Zf2wpxOeto77UO5nC13CfhQ7yVRNGf
+	899Fz904lhT93SU/37+JAztYjYoB2mSTptcTWNnnGaqWQc7HC2+eIvM9WGp7qtD8
+	daJwQEyG3WSUbWyOn/PmPN3Svn7ER3ATiPSE6iTiyxKrm3HhXzV4/0YwrFDznSXL
+	Qs7DWGN/jtPkKcmjqNsPmKSlJuy3Aizd5REV2isIxirc7vkuGqiNKtVBkh7u7bzS
+	p97HkAIfBFJ+WQavyLqtbots+wnwtfYksjgiiFHFs4gJQFEAK6HaW/W/aiy3+keg
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4j34g3p14a-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 27 Nov 2026 13:36:28 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6ARCnF903918244;
+	Fri, 27 Nov 2026 13:36:27 GMT
+Received: from smtprelay05.wdc07v.mail.ibm.com ([172.16.1.72])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4j6x3h29e0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 27 Nov 2026 13:36:27 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (smtpav04.wdc07v.mail.ibm.com [10.39.53.231])
+	by smtprelay05.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6ARDaQRI25821798
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 27 Nov 2026 13:36:26 GMT
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F094F58050;
+	Fri, 27 Nov 2026 13:36:25 +0000 (GMT)
+Received: from smtpav04.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0FA7058066;
+	Fri, 27 Nov 2026 13:36:16 +0000 (GMT)
+Received: from [9.68.2.134] (unknown [9.68.2.134])
+	by smtpav04.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 27 Nov 2026 13:36:15 +0000 (GMT)
+Message-ID: <1fa553f872490a64b05b8e8bf8027009dc76748b.camel@linux.ibm.com>
+Subject: Re: [PATCH slab/for-next v2 09/14] iommu: specify SLAB_MAY_ACCOUNT
+ for slab-backed page table caches
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+To: "Harry Yoo (Meta)" <harry@kernel.org>,
+        Vlastimil Babka
+ <vbabka@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Suren
+ Baghdasaryan <surenb@google.com>,
+        Johannes Weiner	 <hannes@cmpxchg.org>,
+        Michal Hocko <mhocko@kernel.org>,
+        Shakeel Butt	 <shakeel.butt@linux.dev>,
+        Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
+        David
+ Rientjes <rientjes@google.com>,
+        Muchun Song <muchun.song@linux.dev>, Hao Ge
+ <hao.ge@linux.dev>,
+        Pedro Falcato <pfalcato@suse.de>, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, kernel-team@meta.com,
+        "Liam R. Howlett"	
+ <liam@infradead.org>,
+        Alice Ryhl <aliceryhl@google.com>,
+        Andrew Ballance	
+ <andrewjballance@gmail.com>,
+        Matthew Wilcox <willy@infradead.org>, linux-fsdevel@vger.kernel.org,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner	 <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+        "David S.
+ Miller"	 <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Sebastian
+ Andrzej Siewior <bigeasy@linutronix.de>,
+        Jiayuan Chen
+ <jiayuan.chen@linux.dev>, netdev@vger.kernel.org,
+        Kees Cook
+ <kees@kernel.org>, David Hildenbrand <david@kernel.org>,
+        Lorenzo Stoakes
+ <ljs@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon
+ <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Madhavan
+ Srinivasan	 <maddy@linux.ibm.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin	 <npiggin@gmail.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Joerg Roedel (AMD)"	 <joro@8bytes.org>,
+        Amir Goldstein
+ <amir73il@gmail.com>,
+        Casey Schaufler	 <casey@schaufler-ca.com>,
+        Paul Moore
+ <paul@paul-moore.com>, James Morris	 <jmorris@namei.org>,
+        "Serge E. Hallyn"
+ <serge@hallyn.com>,
+        linux-security-module@vger.kernel.org,
+        Richard
+ Weinberger <richard@nod.at>,
+        Anton Ivanov
+ <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg
+ <johannes@sipsolutions.net>,
+        Eric Dumazet	 <edumazet@kernel.org>,
+        Matthew
+ Rosato <mjrosato@linux.ibm.com>,
+        Gerald Schaefer	
+ <gerald.schaefer@linux.ibm.com>,
+        Chen-Yu Tsai <wens@kernel.org>,
+        Jernej
+ Skrabec	 <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>,
+        linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+        linux-s390@vger.kernel.org, linux-sunxi@lists.linux.dev
+In-Reply-To: <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-9-7c680f02a734@kernel.org>
+References: 
+	<20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-0-7c680f02a734@kernel.org>
+	 <20261125-memalloc-prof-dont-waste-slabobj-ext-metadata-v2-9-7c680f02a734@kernel.org>
+Autocrypt: addr=schnelle@linux.ibm.com; prefer-encrypt=mutual;
+ keydata=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
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 27 Nov 2026 14:35:15 +0100
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -53,58 +220,95 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 5/5] arm64: dts: allwinner: add Radxa Cubie A7A board
-To: Jerome Brunet <jbrunet@baylibre.com>,
- Enzo Adriano <enzo.adriano.code@gmail.com>, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, wens@kernel.org,
- jernej.skrabec@gmail.com, samuel@sholland.org
-Cc: Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Junhui Liu <junhui.liu@pigmoral.tech>,
- Pablo Mazzini <pmazzini@gmail.com>,
- Vinicius Pedrosa <vinicius.eduardo.pedrosa@gmail.com>,
- Alexander Sverdlin <alex@sverdlin.org>, Jun Yan <jerrysteve1101@gmail.com>,
- Lukas Schmid <lukas.schmid@netcube.li>,
- Cristian Filipescu <filipescu.cristian@gmail.com>,
- Norman Herms <dockseed@proton.me>
-References: <20261126-a733-cubie-a7s-dt-v6-0@gmail.com>
- <20261126-a733-cubie-a7s-dt-v6-5@gmail.com>
- <1jik1ild9n.fsf@starbuckisacylon.baylibre.com>
-Content-Language: en-GB
-From: Andre Przywara <andre.przywara@arm.com>
-In-Reply-To: <1jik1ild9n.fsf@starbuckisacylon.baylibre.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Evolution 3.60.2 (3.60.2-3.fc44) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=SoQFe/O0 c=1 sm=1 tr=0 ts=6b09875d cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=VwQbUJbxAAAA:8
+ a=7CQSdrXTAAAA:8 a=tA7aZXjiAAAA:8 a=VnNF1IyMAAAA:8 a=pGLkceISAAAA:8
+ a=FlkJ-zHRAAAA:8 a=JfrnYn6hAAAA:8 a=gLrx2xznCN6jzSyFt2sA:9 a=QEXdDO2ut3YA:10
+ a=a-qgeE7W1pNrGK8U0ZQC:22 a=kIIFJ0VLUOy1gFZzwZHL:22 a=rcJ5IfC3ewqtVv14NVGK:22
+ a=1CNFftbPRP8L7MoqJWF3:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI3MDA1NCBTYWx0ZWRfX67QnvSunKV71
+ HB50qh7Ykm+xBP7O1hPayJ9xJlIB9YuBfUaWIXyZ8MBQSYmLH0jy3N+oZJxIJ7NKMS8vDZFS/f2
+ 8x1ix6c3/k2uDhUtm2HwCx0pT0xxSfo=
+X-Proofpoint-ORIG-GUID: Y-EQYadcU72fzorIXub_FEkv7kODNBsV
+X-Proofpoint-GUID: eJVHf5ftAeJ4mOGEdO3BAQgbTamhdWOD
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI3MDA1NCBTYWx0ZWRfX0x0ZwkM3MvdM
+ QooPeztCuxAGIjMooY+m0bM+78gLqn1X9Qk1UYIHG4SRUy1EU9nmjZiySkhV3lh+esJ9jT1+F6z
+ f0hJjn1FYsqmXqikMtyadukjxA8yzMLpmAtmQ00kDn899IwvXFaorruIWUUTq9EcT7RkEvMN8cW
+ djBveOvdXltHIy5F4KoMBBV+/CV+cqY7/iQ2ML0luo348cteHbXdc/6IPkXH7yyyLmM1r5cluLR
+ nG+g4QvRqBgYlC1gKyrIE8Jnt5aG0YWQb9m+tjDF6DRwB/m0WdU0D0XX0JcQjDatsVzGrq4Us8a
+ h4/hYzoAwxprzkwn3vdPXghgLPyRvq1bQZloZhXIMUffjL3sj/JWm/TwluErDWG43YnSp27MxRB
+ oCaqVX4VAtsm+dRa06Bo+wNoxzuYFlWUP5pjqN9Ped6w2N4lm92lbf/760WtHM4D/k6XEJjbRuL
+ bNvG9yhzuyHdmZlfO/Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-27_02,2026-11-27_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 spamscore=0 bulkscore=0 adultscore=0
+ lowpriorityscore=0 clxscore=1011 malwarescore=0 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611270054
 
-Hi Jerome,
+On Wed, 2026-11-25 at 21:37 +0000, Harry Yoo (Meta) wrote:
+> vfio, iommufd and vhost-vdpa call iommu_map() with GFP_KERNEL_ACCOUNT
+> and the gfp is passed down to the drivers' page table allocations.
+> Specify SLAB_MAY_ACCOUNT when the object may be charged to a memcg.
+> __GFP_ACCOUNT without SLAB_MAY_ACCOUNT will not be allowed.
+>=20
+> Paths:
+>   VFIO_IOMMU_MAP_DMA -> iommu_map(GFP_KERNEL_ACCOUNT)
+>     -> s390_iommu_map_pages() -> dma_walk_cpu_trans()
+>     -> kmem_cache_alloc(dma_{region,page}_table_cache)
+>   iommu_map(GFP_KERNEL_ACCOUNT) -> arm_v7s_map_pages()
+>     -> __arm_v7s_alloc_table() -> kmem_cache_zalloc(data->l2_tables)
+>   iommu_map(GFP_KERNEL_ACCOUNT) -> sun50i_iommu_map()
+>     -> sun50i_dte_get_page_table() -> kmem_cache_zalloc(iommu->pt_pool)
+>=20
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: "Joerg Roedel (AMD)" <joro@8bytes.org>
+> Cc: Niklas Schnelle <schnelle@linux.ibm.com>
+> Cc: Matthew Rosato <mjrosato@linux.ibm.com>
+> Cc: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
+> Cc: Chen-Yu Tsai <wens@kernel.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Samuel Holland <samuel@sholland.org>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: iommu@lists.linux.dev
+> Cc: linux-s390@vger.kernel.org
+> Cc: linux-sunxi@lists.linux.dev
+> Signed-off-by: Harry Yoo (Meta) <harry@kernel.org>
+> ---
+>  drivers/iommu/io-pgtable-arm-v7s.c | 2 +-
+>  drivers/iommu/s390-iommu.c         | 4 ++--
+>  drivers/iommu/sun50i-iommu.c       | 3 ++-
+>  3 files changed, 5 insertions(+), 4 deletions(-)
+--- snip ---
+> index a280ad4f63b7..467b97ec18dc 100644
+> --- a/drivers/iommu/s390-iommu.c
+> +++ b/drivers/iommu/s390-iommu.c
+> @@ -198,14 +198,14 @@ static int __init dma_alloc_cpu_table_caches(void)
+>  	dma_region_table_cache =3D kmem_cache_create("PCI_DMA_region_tables",
+>  						   ZPCI_TABLE_SIZE,
+>  						   ZPCI_TABLE_ALIGN,
+> -						   0, NULL);
+> +						   SLAB_MAY_ACCOUNT, NULL);
+>  	if (!dma_region_table_cache)
+>  		return -ENOMEM;
+> =20
+>  	dma_page_table_cache =3D kmem_cache_create("PCI_DMA_page_tables",
+>  						 ZPCI_PT_SIZE,
+>  						 ZPCI_PT_ALIGN,
+> -						 0, NULL);
+> +						 SLAB_MAY_ACCOUNT, NULL);
+>  	if (!dma_page_table_cache) {
+>  		kmem_cache_destroy(dma_region_table_cache);
+>  		return -ENOMEM;
 
-On 11/27/26 12:33, Jerome Brunet wrote:
-> On jeu. 26 nov. 2026 at 15:36, Enzo Adriano <enzo.adriano.code@gmail.com> wrote:
-> 
->> +
->> +&pio {
->> +	vcc-pb-supply = <&reg_swout2>;	// via VCC-IO
->> +	vcc-pc-supply = <&reg_cldo5>;
->> +	vcc-pd-supply = <&reg_swout1>;
->> +	vcc-pe-supply = <&reg_bldo1>;
->> +	vcc-pf-supply = <&reg_swout2>;	// via VCC-IO
->> +	vcc-pg-supply = <&reg_aldo1>;
->> +	vcc-ph-supply = <&reg_swout2>;	// via VCC-IO
->> +	vcc-pj-supply = <&reg_swout1>;
->> +	vcc-pk-supply = <&reg_aldo1>;
-> 
-> K is bldo1 according to the schematics
+Looks good and the explanation makes sense to me. Thanks.
 
-Ah, indeed, good catch. The schematic is somewhat confusing in parts 
-(VCC-PG for instance), but indeed the VCC-PK label is actually VCC-PK.
-
-Thanks,
-Andre.
-
-> 
->> +};
->> +
->> +&r_i2c0 {
-> 
-
+Reviewed-by: Niklas Schnelle <schnelle@linux.ibm.com> # s390-iommu
