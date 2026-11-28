@@ -1,57 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=101.71.155.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795859271;
-	b=lGxHL8Drqc4569oW8jbxcAsFxKIt9COcoJnR65yGyVA1HmYsutGciBGQS3gZJd4vmjOj
-	 4PeSAs9umxvAK61UGcYPyNhwJPjH2zf3WuZBsbOkTrL4JaRYsLkTUhvnUr+zgbd3hlcr9
-	 7MqelLcrMhZNK5sBLl2UOKJZhGSKDoCImiEzdmQg1rWx/jtxYoSFNFsBuYx+TPmM44HAv
-	 hNDGuwQALHSHYaoluRw08hQ2o14iX84uy/2v61MGQlDu9gELlB0huVOSg0yk+y1L+P+W9
-	 0s5nett/bz2Cp06jYmOgFTw3qrd+zGpvPnkltOlFWjhjeT5fJ489MUg0C4YiryA4zlA==
+	t=1795863748;
+	b=tqZOwNcwXwoE0x+ZT01xVp3BQNLMOHvW3YcfvJDU+1pm0dWqkFFXQmZn04zaXh8RKs7m
+	 f6MTnL0EJtihANMha/JZ3OhtEMtR+anbs77y/I/aSioTHOIrIUqSC/VNZryS4sR3hesQC
+	 TDM2dAyMr53axeAlDQpXBEKuElQ49W+OqpOJZZgWZv8rGLwOgvo8fGa4Q+msVWlOIUyTO
+	 yr2HfYUjnd8dy9KSYhj13OfWoT8rHYst9HRdw1PODCiMXgwWYJjX1Ca64qWuP7I67SqDc
+	 nWr4K/COMNhiSaIJo1qH78g7z5ru99AccdROp71+3d6UTWkcyxeMJMaJOxzReVzGL6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795859271;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=q7m1BrGqcVsyqEMkHgTOA6NvKiiV3L3rDthAqaoJKKs=;
-	b=1eN6xAAI165j+sawxpL4faWrghjtkWeP89Bh33dCBB6SrZNrMMpqSiP+Ruf+7sytmgD9
-	 wAElbvhM/U+MMpX38QGrsCsOIvLjl/Vcs4gRzLFXrMCmZwoEjZRLosw173p9RWWFzzLpC
-	 r9q2xuU+/vQbs0Lw4Ivao7p4G94MyPJX268MUVjretz0DZ05VMseK+WBBoMnH1jSWC89Y
-	 t+xpS1U+v5KeSzg9XIGnM6ccpgjyxoDO1EUHZxRmajThcK8aM4E3mhCSwF7bD5te49SJ5
-	 aj7Y2xJIgBRzFGaN3rl/M92grEDh7WlT0/N4mvkSZrIoyLminzzQr3farCJDi0NeMqg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795863748;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:X-HM-Tid:X-HM-MType:
+	 X-HM-Spam-Status:DKIM-Signature;
+	bh=d4dDXttwlGHeRb7uEb4nDp+OKjr4bIrP/DgYATn9WDE=;
+	b=gERtacOQJvg2/0geyD2NGkfwr9gAi4EC0dRh/BIRmoM1Xc612dF6G2eWxirGL/0Whpg+
+	 5SNT4VURqevNwen3+ganOtLcN5yrOHyigpXv4luo49MEbXkMSxqJ2JD8B5QwRdaWbkerd
+	 jxTVbNo2iTPwPQOWMiN5fbiFi3qodO4PK1vV/z30j2Tkv3/dvjvMwTyOevHrlNdZ2WSnZ
+	 oG/ET3yd8DCYjZSwGbhADfuXgVADXW6IdPzcfntSV6GJ+wPfvUvSps9HQx4iEkZxMQyl/
+	 rci9z/ZZRGAO6wfICJVQJQS8hJkzitio1U7iou5DxerEPFR+SmodkYIaSL5djxHWfUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UT9JSWp6;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=mail.sdu.edu.cn;
+	spf=pass smtp.mailfrom=mail.sdu.edu.cn;
+	dkim=pass header.d=mail.sdu.edu.cn header.i=@mail.sdu.edu.cn header.a=rsa-sha256 header.s=default header.b="e/YDwsZ7";
+	arc=none smtp.remote-ip=101.71.155.101
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E137B606A31F;
-	Sat, 28 Nov 2026 09:47:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93BE606A323
+	for <linux-sunxi@lists.linux.dev>; Sat, 28 Nov 2026 11:02:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E93BE606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.sdu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.sdu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UT9JSWp6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB201F00898;
-	Sat, 28 Nov 2026 09:47:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795859270;
-	bh=q7m1BrGqcVsyqEMkHgTOA6NvKiiV3L3rDthAqaoJKKs=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UT9JSWp6k/U9D9DvMm/WHxU29Sa8BuUCaIPnEjCKPVH4GpUfBdvLJ7T2jvKnYIDtG
-	 68Sudn5nRdM/qzT0XCWyqAkHG2Q1gUcbivePnXtjhSueLkNKUzJqrS216fpyyv/4Si
-	 8Iad3q8GA+JZSLqtuZBZflPcRNtAnXXVAFDURymBQQX+Cs4A1VBQZKyvSNOXHAsevH
-	 2B6OyOCmImf0/K/Aalde9PQ/y70uQvGs5Z7xw/4afNK48JF2BoyY1sxGOOI2N5mXnL
-	 hYEuOIPY6eaETlDcVrqBdrNs+pLUMsyKpv1/1i3oT4SdGX4QElNvFD3yNks+VTpTb+
-	 Kyk/SJsDn5JdA==
-Message-ID: <sashiko-outbox-238604@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 3/3] clk: sunxi: Fix potential use-after-free of APB0
- provider data
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Guangshuo Li" <liguangshuo@mail.sdu.edu.cn>
-Cc: linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20261128-f81b700d6c-u17-3@mail.sdu.edu.cn>
-References: <20261128-f81b700d6c-u17-0@mail.sdu.edu.cn>
- <20261128-f81b700d6c-u17-3@mail.sdu.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 28 Nov 2026 09:47:49 +0000
+	dkim=pass (1024-bit key) header.d=mail.sdu.edu.cn header.i=@mail.sdu.edu.cn header.a=rsa-sha256 header.s=default header.b=e/YDwsZ7
+Received: from user.localdomain (unknown [223.80.110.101])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 5656652a8;
+	Sat, 28 Nov 2026 19:02:23 +0800 (GMT+08:00)
+From: Tian Xuechen <202300460064@mail.sdu.edu.cn>
+To: ulfh@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org
+Cc: linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	liguangshuo@mail.sdu.edu.cn
+Subject: [PATCH] pmdomain: sunxi: Unregister D1 PPU domains on driver removal
+Date: Sat, 28 Nov 2026 19:02:22 +0800
+Message-Id: <20261128110222.875356-1-202300460064@mail.sdu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -60,62 +57,82 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0aa221d20bc903a2kunme53ad92e3cbc59
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZQ0xOVkwaSU1PTElOHkxOGVYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUhVQ0tVSkpLVUpLSllXWRYaDxIVHRRZQVlLVUtVS1VLWQ
+	Y+
+DKIM-Signature: a=rsa-sha256;
+	b=e/YDwsZ7WDymsmTSH2Qcs6s1zuicC05BI3FDN8QvlURXCtUACudjai744dRShqDhOu+FBBkkMfzVo0zpDL+qxih9QaIOtGwBOrSpDkojYdu0n+YnKYliTdgpxRtQSmM206N6moYsFwK5SgVua3C8OL3NJ14btuOLwhwazxmbCYo=; s=default; c=relaxed/relaxed; d=mail.sdu.edu.cn; v=1;
+	bh=d4dDXttwlGHeRb7uEb4nDp+OKjr4bIrP/DgYATn9WDE=;
+	h=date:mime-version:subject:message-id:from;
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue to consider:
-- [High] clk: sunxi: unmapped MMIO use-after-free in
-  sun6i_a31_apb0_gates_clk_remove()
---
+From: Tian Xuechen <202300460064@mail.sdu.edu.cn>
 
-commit dc78e25adc6746add0b39ad7479959e1a2f6206a
-Author: Guangshuo Li <liguangshuo@mail.sdu.edu.cn>
+The D1 PPU driver leaves its provider and power domains registered on
+module unload. Delete the provider and remove each domain that was
+initialized. Also unwind these domains if provider registration fails.
 
-clk: sunxi: Fix potential use-after-free of APB0 provider data
+This issue was found by our static analysis tool under development.
 
-This commit adds a remove callback to sun6i_a31_apb0_gates_clk_driver to
-delete the OF clock provider before devres frees the managed onecell data.
+Fixes: 0e30ca5ab0a8 ("soc: sunxi: Add Allwinner D1 PPU driver")
+Signed-off-by: Tian Xuechen <202300460064@mail.sdu.edu.cn>
+---
+ drivers/pmdomain/sunxi/sun20i-ppu.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
-> diff --git a/drivers/clk/sunxi/clk-sun6i-apb0-gates.c b/drivers/clk/sunxi=
-/clk-sun6i-apb0-gates.c
-> index a10ebd1998fbf..9d1fef8c520e9 100644
-> --- a/drivers/clk/sunxi/clk-sun6i-apb0-gates.c
-> +++ b/drivers/clk/sunxi/clk-sun6i-apb0-gates.c
-> @@ -87,11 +87,17 @@ static int sun6i_a31_apb0_gates_clk_probe(struct plat=
-form_device *pdev)
->  	return of_clk_add_provider(np, of_clk_src_onecell_get, clk_data);
->  }
-> =20
-> +static void sun6i_a31_apb0_gates_clk_remove(struct platform_device *pdev)
-> +{
-> +	of_clk_del_provider(pdev->dev.of_node);
-> +}
-> +
->  static struct platform_driver sun6i_a31_apb0_gates_clk_driver =3D {
->  	.driver =3D {
->  		.name =3D "sun6i-a31-apb0-gates-clk",
->  		.of_match_table =3D sun6i_a31_apb0_gates_clk_dt_ids,
->  	},
->  	.probe =3D sun6i_a31_apb0_gates_clk_probe,
-> +	.remove =3D sun6i_a31_apb0_gates_clk_remove,
->  };
->  builtin_platform_driver(sun6i_a31_apb0_gates_clk_driver);
+diff --git a/drivers/pmdomain/sunxi/sun20i-ppu.c b/drivers/pmdomain/sunxi/sun20i-ppu.c
+index 6af1dcad4a76..7a539e09f614 100644
+--- a/drivers/pmdomain/sunxi/sun20i-ppu.c
++++ b/drivers/pmdomain/sunxi/sun20i-ppu.c
+@@ -99,6 +99,19 @@ static int sun20i_ppu_pd_power_off(struct generic_pm_domain *genpd)
+ 	return sun20i_ppu_pd_set_power(pd, false);
+ }
+ 
++static void sun20i_ppu_remove_domains(struct genpd_onecell_data *ppu)
++{
++	for (unsigned int i = 0; i < ppu->num_domains; i++)
++		if (ppu->domains[i])
++			pm_genpd_remove(ppu->domains[i]);
++}
++
++static void sun20i_ppu_remove(struct platform_device *pdev)
++{
++	of_genpd_del_provider(pdev->dev.of_node);
++	sun20i_ppu_remove_domains(platform_get_drvdata(pdev));
++}
++
+ static int sun20i_ppu_probe(struct platform_device *pdev)
+ {
+ 	const struct sun20i_ppu_desc *desc;
+@@ -164,10 +177,12 @@ static int sun20i_ppu_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	ret = of_genpd_add_provider_onecell(dev->of_node, ppu);
+-	if (ret)
++	if (ret) {
+ 		dev_warn(dev, "Failed to add provider: %d\n", ret);
++		sun20i_ppu_remove_domains(ppu);
++	}
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static const char *const sun20i_d1_ppu_pd_names[] = {
+@@ -224,6 +239,7 @@ MODULE_DEVICE_TABLE(of, sun20i_ppu_of_match);
+ 
+ static struct platform_driver sun20i_ppu_driver = {
+ 	.probe	= sun20i_ppu_probe,
++	.remove	= sun20i_ppu_remove,
+ 	.driver	= {
+ 		.name			= "sun20i-ppu",
+ 		.of_match_table		= sun20i_ppu_of_match,
 
-[Severity: High]
-Does sun6i_a31_apb0_gates_clk_remove() leave the gate clocks registered
-after reg is unmapped?
+base-commit: 4dce97c6c265544342e716e62fd24bbb232590c5
+-- 
+2.43.0
 
-sun6i_a31_apb0_gates_clk_probe() maps reg with
-devm_platform_ioremap_resource() and registers each gate clock with the
-unmanaged clk_register_gate().  When the driver is unbound, devres unmaps
-reg right after sun6i_a31_apb0_gates_clk_remove() returns, leaving the
-registered struct clk_gate objects pointing at an unmapped MMIO address.
-Any later access to those clocks (such as clk_enable() or reading
-/sys/kernel/debug/clk/clk_summary) will fault on gate->reg, and rebinding
-the driver will fail with -EEXIST.
-
-Registering the gates with devm_clk_hw_register_gate() (or unregistering
-them in remove) would release them before reg is unmapped.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261128-f81b700d6c=
--u17-0@mail.sdu.edu.cn?part=3D3
