@@ -1,60 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1795833217;
-	b=azErF5lOTHA+T3Fk7IyiQwVve4sg+herAIU9dYGxy3z8NOy5EFcSdA8GK4DpAFzytO7i
-	 Ivvz6QVZsf2Os1VHKhDqOKhouwifgGsXCMNssqFZK9r2VZ8TwCXTdHWuZPbLxTsJbDCYi
-	 2wgAUvKx+NSTjkXQY/WRq953ujsEsPY+wZWR8Zg6voCCtoJWFR7cvrBljacaG8hdfOWD4
-	 zD0hRxVW92joaBrK+iLjhvNzv0XSif8CubV+i10xYY+kOYxtqbzaQeqs4+Yxsb0rZkSFJ
-	 Bp2iMQr+2sPNkf2qDX390o+rywh892k7HzVmwol2L2hI+cX5gKMlf92kf0MvOWxPazg==
+	t=1795852940;
+	b=Egi/yawIJ4e9cIlkEtw1eBtGkMJcCuMdLwAMaairVfjdnvixDuwNi59txzUqudIB871e
+	 nqdMUCR7yaZLbUp94VqssH/33wh489vZAfnNaXnncG6dv2jw+YC5VI/41VytVE7f4nhQJ
+	 tbWMVH1KAwJT81z8K8CCDo7DIj7YzjkcY6fTyVsPIfwvhUIujAQKv8QpjbLusP9oFk5/y
+	 o+LKqnoF5e4K96lvaiOjXtL+7YexeOHhYk+VX/mthTxS6DyxLHzD52pAxzbHlQLr6XVnA
+	 cFNRmhfLUBF4JeyMANSUzHOfzQT/pEGnnqJ/iQKiH9ZjV3gzzCmvBOmiomxpiMosGng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1795833217;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=8auMlamrtMjVlgacbgikZGn2a5GvMMBHqeONTcWM4EA=;
-	b=Zff7/6YDzlxOoBeA+5MV5tneWlamuJVriyNcDj6/1zmk32Fi19eEs8i2GwgF1t1dX8Bx
-	 7rvpiHqiiiBuT9qlL/o1XqClsFd/t+aPDuNxvwNcXejYU8s7acX88Z3oSnowgWRUAZQXX
-	 xuDscgFkHlBEX6JPwLTS334WRE/wAisK+cARaW2ZnthZvfYRLkLGJvCDPEvWYpeerlQUP
-	 08n9M4NOMOi2jwWPeMUj5KPXxGOhi9O6+ihtPWLYXGYUCQcj1TlelKc5YQFNihh3PEboB
-	 44UHY4CnGWSR09drlyxY7ouKrDgNu5l6HcyRfyxEHq6rk0v8q3Pbr4n8pzyy4RC0rXA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1795852940;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=uvYCv8hY4UfHhfetpozuse+xYZWS5m8FKY73N24xD70=;
+	b=ISRWc6k8GBvNM+SqKgb4pvQuHbO52JZbghiXpKLyGYriE65mAahXaSIepKRhtWWnahpv
+	 MESMNeVDGK7TMqzmj/S/QC8xxvke0YUB/pO2R1qB1BNPPwxydTbc1Xslb38UHL2U5cfnb
+	 Sy5bFQCsizx6J0vvf4M1QJWyah4jJqAS5qyWVsZKtT5vfj7EjaYr/4SoeHSRxMRY15dTO
+	 NZWM0q28uqTL4KK5o8xW34oRrvbO/ySgf1fM0XGsdLMznO1pJO5+WX296OpWxw4vYW3ul
+	 CemLCsMkAbu0dEwBTTfnc+rBO6XqXf22goHtT5GPbSEsRco9hdZ3S02JCUvL3aRBhPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UuT+PvST;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=gCaO3NpC;
+	arc=none smtp.remote-ip=209.85.128.52
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EDC606A31F;
-	Sat, 28 Nov 2026 02:33:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54747606A323
+	for <linux-sunxi@lists.linux.dev>; Sat, 28 Nov 2026 08:02:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54747606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UuT+PvST
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BAAA1F000C1;
-	Sat, 28 Nov 2026 02:33:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795833216;
-	bh=8auMlamrtMjVlgacbgikZGn2a5GvMMBHqeONTcWM4EA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=UuT+PvSTJfBSMzu9xcK6TkXcffGKa3KQ03B5tBdBQbv7TxalXTg1Ulg1AF64uboFW
-	 3NeEfl+LBegM3ykALxhzunPVaA0zZlxEz5+s0uCNKGE2UrZXXM9ocAQsI7e7Z/AD+O
-	 5CjGHImmKcw9Z5FLzXMwk+TWYs8W+8qH5xKZM+ReosVhZNdaeqEB4LWPigUKzBxC0U
-	 Y1iizpkVsCDzhh9n6cc4eKHF4eXnGjyFoc9NOXKq3UEFckOQlVZwKyseZ1K5SSp8Hc
-	 QdcSGpguCdOgtxleT0pxOEjTlTA4tYxAPhj05T74Eo9ZlmYe21WJOdn87RqKBtv6HH
-	 uyjxrhim5TTjQ==
-Date: Sat, 28 Nov 2026 02:33:33 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Romain TISSERAND <romain.tisserand@gmail.com>
-Cc: David Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, sashiko-reviews@lists.linux.dev
-Subject: Re: [PATCH 4/4] iio: adc: Add the PocketGo S30 analog stick MCU
-Message-ID: <20261128023333.5873929d@jic23-hlaptop>
-In-Reply-To: <20261127012612.1589039-5-romain.tisserand@gmail.com>
-References: <20261127012612.1589039-1-romain.tisserand@gmail.com>
-	<20261127012612.1589039-5-romain.tisserand@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=gCaO3NpC
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4bb666304fdso85154935e9.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 28 Nov 2026 00:02:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1795852939; x=1796457739; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=uvYCv8hY4UfHhfetpozuse+xYZWS5m8FKY73N24xD70=;
+        b=gCaO3NpCpspsL9MqmoXkgMA9rupUDwsy3U2JV8tTJFhBkxCTLgO5V/jnYxnrSHd6yR
+         dJG9cfeRzhkvvx0/LiKFidQRitL1Ij+DjR1r8zZIy+eT02V43akAGC5p+URWPlzEzIvy
+         0p0Y4QQA7G14S18uVOvgTni/XGLna4zfHuGSWf2h+5FwZT/+g4/ayn8Qx/jkxuQlUNqP
+         fmJwiq7jLVCj3uY6cv/syccXkqvRxYnlIuDAnmqnyx8gw83kHkWWwzPQTVPHcgBOP32n
+         B3zk54vNJWmwmeFg2GCl9e5aMIXU7T9sy9aNgZGvq+ow02/7LY1NKn7LTHCsFU5szizW
+         NsPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795852939; x=1796457739;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uvYCv8hY4UfHhfetpozuse+xYZWS5m8FKY73N24xD70=;
+        b=zZ6Rb3RH5eJN0ERAtXtxOnf+0P3zIFddZYRDVaeduzuG4s1i//z90+dpkd82YTVDUK
+         t9vCBoW9hLc4T+93LV/b+iLs+bnE9c4IeN8eQWSW3FrWtltF8XZwYpDH0CWgZQ4u5GW9
+         /XXx+LIGSKinzwW6Wr/HmROR07zb9YC5zS9Ke7E3BNF3Om8IyoKakVZarrFiUtq6Hy36
+         16NIPbEemW+Kx9p2vGfGmkjxxi2m7vi2feFzttLjtZBfasH1bNKsZLrJazM1tuWk3qXd
+         ggcb6WflE5+rJ9PlOuwpdFPbhWuv/+aI8dqPIPAQNcFcqrukMqr6RCq1q8btrB1N0iG/
+         0hJg==
+X-Forwarded-Encrypted: i=1; AL+hErHoNabBrdK5+HY01Mp7H1uu8mODh8hopm8C+LP2+ivg4DB/FncSSbxr+2nqFWloeZQZsk568n98CoYdkA==@lists.linux.dev
+X-Gm-Message-State: APuU4Z8GYG803ONeZByiNAiU9kNEO5kwqjuZAbIZlo7ToDIo3uht96pk
+	2m8ET3PG3o8Es54/oLRaipB/01hND8JiTidrAmsOkLXpCquVAH7cQPrLdv2RxzjLQ3Y=
+X-Gm-Gg: AZFdTZefxXBf9CFxfPBTjhOTx71+PuJ+ncbZqCc6nAbVKEPczX1LrP7RvB+YbzTsJVU
+	4A1QlNDXgEcnEZZobgunekZf2GqQceaxWufPLKO8tZ2nNQ+IqGNv71E0eoSdaq9U8PK+iTMQ4BP
+	GjrzRg1gogK1ZWgPZ4fDkZtBMwwePkELFhO7xy1gX0+k7HTxBiOaHHKKLzn4Z7BBWOAs0zjh3X1
+	kZxdNQl2Ups2fddaCnVWIw9yeIz5NXjNjAxaF6OJedxUHTBsFEOU0PKvvqnns2o9hu7cHeODfXy
+	usdrWAVaj8aGizb9HGi1O3wbDbUSwk+BjFQHnhlTg58dzNcnPKpyA8CnkuRYvKe4nTJsuBNjgn5
+	eekFqrAIhQlXOdT4GKKLK9c1rc1x27qmpdqeAuEOUoHYSuGICf1CWV45Kb5tDdBLVgUHrlsyDRK
+	9rA4ioQ5JrkH+cdnoKfiQllV4oJq92Cc0AqaOU7zLU983v3AUcfdUa/IOY35nj/RIiFDMcEnCQG
+	gSOseQwf3ONS+OW9YOFsiKw9plbLKYyn0XxzYohrLM2E2R8qFF/mWxuH0IbNOn0FrZ12MPLGNTf
+	t+74RSWOhZHOAEThAqvG67SDOokf72wEgVL7Hn9jDhpSuQBb7jv8LOBTYYIBvEE6erp1ZCJrEow
+	=
+X-Received: by 2002:a05:600c:5303:b0:4ba:4928:8aec with SMTP id 5b1f17b1804b1-4bb88807d7cmr505581765e9.9.1795852938637;
+        Sat, 28 Nov 2026 00:02:18 -0800 (PST)
+Received: from localhost (ip-005-146-085-079.um05.pools.vodafone-ip.de. [5.146.85.79])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4ab69bf680fsm59330195f8f.14.2026.11.28.00.02.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Nov 2026 00:02:17 -0800 (PST)
+Date: Sat, 28 Nov 2026 09:02:17 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Alastair D'Silva <alastair@d-silva.org>
+Cc: Vinod Koul <vkoul@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
+	Jerome Brunet <jbrunet+clk@baylibre.com>, Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+	Mathias Nyman <mathias.nyman@intel.com>, linux-phy@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 06/11] phy: allwinner: Add Allwinner A733 USB 2.0 PHY
+ driver
+Message-ID: <awqKD6EufgpjsjP8@monoceros>
+References: <20261127073231.1776847-1-alastair@d-silva.org>
+ <20261127073231.1776847-7-alastair@d-silva.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Post: <mailto:linux-sunxi@lists.linux.dev>
@@ -64,150 +107,46 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 List-Owner: <mailto:linux-sunxi+owner@lists.linux.dev>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-
-On Fri, 27 Nov 2026 02:26:12 +0100
-Romain TISSERAND <romain.tisserand@gmail.com> wrote:
-
-> The PocketGo S30 handheld (Allwinner A33) reads its analog stick through
-> a microcontroller at address 0x60 on i2c0. A four-byte read returns the
-> two raw 8-bit potentiometer readings, each followed by its complement:
-> 
->   <a> <~a> <b> <~b>
-> 
-> The value and its complement appear to come from consecutive samples:
-> they differ by a count or two at rest and by more while the stick moves
-> fast. With an exact check, about one read in four is rejected, and
-> about 4% still fail after three tries when polled as adc-joystick does.
-> The stock driver uses an exact check and silently drops such frames.
-> Accept a difference of up to 2 instead and read again, up to three
-> times, beyond it or on a bus error (the MCU occasionally NACKs its
-> address): over 2 x 6000 reads at rest and moving, none failed and under
-> 2% needed a second try.
-> 
-> Add an I2C driver that exposes the two readings as raw IIO channels, so
-> that adc-joystick can read the stick in polled mode. Each channel read
-> fetches a fresh frame.
-> 
-> Signed-off-by: Romain TISSERAND <romain.tisserand@gmail.com>
-Hi Romain,
-
-A few minor things inline.
-
-Thanks,
-
-Jonathan
-
-> diff --git a/drivers/iio/adc/pocketgo-s30-stick.c b/drivers/iio/adc/pocketgo-s30-stick.c
-> new file mode 100644
-> index 000000000000..09a60cb307d9
-> --- /dev/null
-> +++ b/drivers/iio/adc/pocketgo-s30-stick.c
-> @@ -0,0 +1,149 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * PocketGo S30 analog stick MCU
-> + *
-> + * The MCU samples the two stick potentiometers and answers an I2C read of
-> + * four bytes with the raw 8-bit readings, each followed by its complement:
-> + *
-> + *   <a> <~a> <b> <~b>
-> + *
-> + * The value and its complement appear to come from consecutive samples:
-> + * they differ by a count or two at rest, and by more while the stick moves
-> + * fast, so an exact check would drop about one read in four. Accept a
-> + * difference of up to S30_STICK_TOLERANCE and read again beyond it. The
-> + * readings are exposed as two IIO channels, for adc-joystick.
-> + */
-
-I'd guess this is swapping ends of the pot to detect shorts or broken connections?
-That has to be on consecutive samples.
-
-> +
-> +#define S30_STICK_RETRIES	3
-> +/* largest accepted difference between a reading and its complement */
-> +#define S30_STICK_TOLERANCE	2
-> +
-> +/* signed distance of a + b from 0xff, -255..255 */
-> +static int s30_stick_mismatch(u8 a, u8 b)
-> +{
-> +	return a + b - 0xff;
-> +}
-> +
-> +static int s30_stick_read(struct i2c_client *client, u8 *val)
-> +{
-> +	u8 buf[4];
-> +	int i, ret = -EIO;
-> +
-> +	for (i = 0; i < S30_STICK_RETRIES; i++) {
-
-	for (unsigned int i = 0; ...)
-
-> +		ret = i2c_master_recv(client, buf, sizeof(buf));
-> +		if (ret != sizeof(buf)) {
-> +			if (ret >= 0)
-> +				ret = -EIO;
-> +			continue;
-
-Does this actually happen?   It is fairly unusual for a recv to
-fail. 
-
-> +		}
-> +
-> +		if (abs(s30_stick_mismatch(buf[0], buf[1])) > S30_STICK_TOLERANCE ||
-> +		    abs(s30_stick_mismatch(buf[2], buf[3])) > S30_STICK_TOLERANCE) {
-> +			ret = -EIO;
-> +			continue;
-> +		}
-> +
-> +		val[0] = buf[0];
-> +		val[1] = buf[2];
-> +		return 0;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int s30_stick_read_raw(struct iio_dev *indio_dev,
-> +			      struct iio_chan_spec const *chan, int *val,
-> +			      int *val2, long mask)
-> +{
-> +	struct i2c_client *client = iio_device_get_drvdata(indio_dev);
-
-Prefer that the client is embedded in the iio_priv().  That is a lot
-more flexible than using the iio_device drvdata.
-Currently you have set the size of that to 0.  Instead provide
-a structure for any state you need for the driver.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6xgu3d2pgo3fouvi"
+Content-Disposition: inline
+In-Reply-To: <20261127073231.1776847-7-alastair@d-silva.org>
 
 
-> +	u8 v[2];
-> +	int ret;
-> +
-> +	if (mask != IIO_CHAN_INFO_RAW)
-> +		return -EINVAL;
-> +
-> +	ret = s30_stick_read(client, v);
-> +	if (ret)
-> +		return ret;
-> +
-> +	*val = v[chan->channel];
-> +	return IIO_VAL_INT;
-> +}
+--6xgu3d2pgo3fouvi
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH 06/11] phy: allwinner: Add Allwinner A733 USB 2.0 PHY
+ driver
+MIME-Version: 1.0
 
-> +
-> +static const struct of_device_id s30_stick_of_match[] = {
-> +	{ .compatible = "miyoo,pocketgo-s30-stick" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, s30_stick_of_match);
-> +
-> +static const struct i2c_device_id s30_stick_id[] = {
-> +	{ "pocketgo-s30-stick" },
+On Fri, Nov 27, 2026 at 06:32:26PM +1100, Alastair D'Silva wrote:
+> +#include <linux/mod_devicetable.h>
+> [...]
+> +#include <linux/platform_device.h>
 
-Sashiko got this.  Named initializers for these structures.
-There is some rework going on that will shortly require them.
+<linux/platform_device.h> provides of_device_id already without the
+unneeded build dependencies that <linux/mod_devicetable.h> comes with.
+So please drop <linux/mod_devicetable.h>.
 
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, s30_stick_id);
+There is no need to Cc: me for the next revisions of your series.
+
+Best regards
+Uwe
+
+--6xgu3d2pgo3fouvi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmsKioUACgkQj4D7WH0S
+/k7jYAf/QI/UwQ7qh2BbAqLJFatOOEv5i4Gi+vBVMqy7v16wMvrk3u7U4/ECqS/O
+C2/R+NZfyAK6CTe/5t37K/v9LeyvsEN4IbMSK3b5rwXFErl5KgfUZIBdgbD/1BJJ
+UP2X0g6ABsQZ5fNkNJXk8nerljU4Pxf7OUuWsz42+HHHKiq9AcZwAZgrS/TttgCN
+xeKamMt2XFYPMdjOhAhO57r/l3qPChmlWbT2bDdzM4i9nTyLBXrDRghnJWItoaN4
+puwi4x03yymrmDrp7IH2TYfNTOy/Lcc0OcjvpqxxhIG18CeOOMBMdMXQofE0HdQ6
+Htyr2kbi6xiqECUEVFTnuPE7uy+hvw==
+=iKhd
+-----END PGP SIGNATURE-----
+
+--6xgu3d2pgo3fouvi--
